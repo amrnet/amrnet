@@ -1,51 +1,67 @@
-import ObjectsToCsv from "objects-to-csv";
-import fs from "fs";
-import path from "path";
-import { dirname } from "path";
-import chokidar from "chokidar";
-import { fileURLToPath } from "url";
+import ObjectsToCsv from 'objects-to-csv';
+import fs from 'fs';
+import path from 'path';
+import { dirname } from 'path';
+import chokidar from 'chokidar';
+import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const path_clean = path.join(__dirname, "../assets/webscrap/clean/clean.csv");
-const path_clean_all = path.join(
+const path_clean_st = path.join(
   __dirname,
-  "../assets/webscrap/clean/cleanAll.csv"
+  '../assets/webscrap/clean/styphi/clean_st.csv'
 );
-var path_clean_db;
+const path_clean_all_kp = path.join(
+  __dirname,
+  '../assets/webscrap/clean/klebpneumo/cleanAll_kp.csv'
+);
+const path_clean_all_st = path.join(
+  __dirname,
+  '../assets/webscrap/clean/styphi/cleanAll_st.csv'
+);
+var path_clean_db_st;
 const watcher = chokidar.watch(
-  path.join(__dirname, "../assets/webscrap/clean/"),
+  path.join(__dirname, '../assets/webscrap/clean/styphi/'),
   { ignored: /^\./, persistent: true }
 );
 
 watcher
-  .on("add", function () {
-    fs.readdir("./assets/webscrap/clean/", function (error, files) {
-      if (files.indexOf("clean_db.csv") != -1) {
-        path_clean_db = path.join(
+  .on('add', function () {
+    fs.readdir('./assets/webscrap/clean/styphi/', function (error, files) {
+      if (files.indexOf('cleanDB_st.csv') != -1) {
+        path_clean_db_st = path.join(
           __dirname,
-          "../assets/webscrap/clean/clean_db.csv"
+          '../assets/webscrap/clean/styphi/cleanDB_st.csv'
         );
       } else {
-        path_clean_db = undefined;
+        path_clean_db_st = undefined;
       }
     });
   })
-  .on("unlink", function () {
-    fs.readdir("./assets/webscrap/clean/", function (error, files) {
-      if (files.indexOf("clean_db.csv") != -1) {
-        path_clean_db = path.join(
+  .on('unlink', function () {
+    fs.readdir('./assets/webscrap/clean/styphi/', function (error, files) {
+      if (files.indexOf('cleanDB_st.csv') != -1) {
+        path_clean_db_st = path.join(
           __dirname,
-          "../assets/webscrap/clean/clean_db.csv"
+          '../assets/webscrap/clean/styphi/cleanDB_st.csv'
         );
       } else {
-        path_clean_db = undefined;
+        path_clean_db_st = undefined;
       }
     });
   });
 
 async function CreateFile(data, name) {
   const csv_writer = new ObjectsToCsv(data);
-  const save_path = path.join(__dirname, `../assets/webscrap/clean/${name}`);
+  const save_path = path.join(
+    __dirname,
+    `../assets/webscrap/clean/styphi/${name}`
+  );
   await csv_writer.toDisk(save_path);
 }
 
-export { CreateFile, path_clean_db, path_clean, path_clean_all };
+export {
+  CreateFile,
+  path_clean_db_st,
+  path_clean_st,
+  path_clean_all_st,
+  path_clean_all_kp
+};
