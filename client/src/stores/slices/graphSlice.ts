@@ -1,0 +1,126 @@
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
+interface CollapsesModel {
+  determinants: boolean;
+  distribution: boolean;
+  drugResistance: boolean;
+  frequencies: boolean;
+  trendsKP: boolean
+}
+interface GraphState {
+  countriesForFilter: Array<string>;
+  distributionGraphView: string;
+  genotypesYearData: Array<any>;
+  drugsYearData: Array<any>;
+  genotypesAndDrugsYearData: Array<any>;
+  collapses: CollapsesModel;
+  drugResistanceGraphView: Array<string>,
+  frequenciesGraphView: string;
+  frequenciesGraphSelectedGenotypes: Array<string>;
+  genotypesDrugsData: Array<any>;
+  genotypesDrugClassesData: Array<any>;
+  determinantsGraphView: string;
+  determinantsGraphDrugClass: string;
+  trendsKPGraphDrugClass: string;
+  trendsKPGraphView: string;
+}
+
+const initialState: GraphState = {
+  collapses: {
+    determinants: false,
+    distribution: false,
+    drugResistance: false,
+    frequencies: false,
+    trendsKP: false
+  },
+  countriesForFilter: [],
+  genotypesYearData: [],
+  drugsYearData: [],
+  genotypesDrugsData: [],
+  genotypesDrugClassesData: [],
+  genotypesAndDrugsYearData: [],
+  distributionGraphView: 'number',
+  drugResistanceGraphView: [],
+  frequenciesGraphView: 'percentage',
+  frequenciesGraphSelectedGenotypes: [],
+  determinantsGraphView: 'percentage',
+  determinantsGraphDrugClass: '',
+  trendsKPGraphDrugClass: '',
+  trendsKPGraphView: 'number'
+};
+
+export const graphSlice = createSlice({
+  name: 'graph',
+  initialState,
+  reducers: {
+    setCollapse: (state, action: PayloadAction<any>) => {
+      state.collapses[action.payload.key as keyof CollapsesModel] = action.payload.value;
+    },
+    setCollapses: (state, action: PayloadAction<CollapsesModel>) => {
+      state.collapses = action.payload;
+    },
+    setCountriesForFilter: (state, action: PayloadAction<Array<string>>) => {
+      state.countriesForFilter = action.payload;
+    },
+    setGenotypesYearData: (state, action: PayloadAction<Array<any>>) => {
+      state.genotypesYearData = action.payload;
+    },
+    setDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
+      state.drugsYearData = action.payload;
+    },
+    setDistributionGraphView: (state, action: PayloadAction<string>) => {
+      state.distributionGraphView = action.payload;
+    },
+    setDrugResistanceGraphView: (state, action: PayloadAction<Array<string>>) => {
+      state.drugResistanceGraphView = action.payload;
+    },
+    setFrequenciesGraphView: (state, action: PayloadAction<string>) => {
+      state.frequenciesGraphView = action.payload;
+    },
+    setFrequenciesGraphSelectedGenotypes: (state, action: PayloadAction<Array<string>>) => {
+      state.frequenciesGraphSelectedGenotypes = action.payload;
+    },
+    setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
+      state.genotypesDrugsData = action.payload;
+    },
+    setDeterminantsGraphView: (state, action: PayloadAction<string>) => {
+      state.determinantsGraphView = action.payload;
+    },
+    setDeterminantsGraphDrugClass: (state, action: PayloadAction<string>) => {
+      state.determinantsGraphDrugClass = action.payload;
+    },
+    setGenotypesDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
+      state.genotypesDrugClassesData = action.payload;
+    },
+    setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
+      state.genotypesAndDrugsYearData = action.payload;
+    },
+    setTrendsKPGraphDrugClass: (state, action: PayloadAction<string>) => {
+      state.trendsKPGraphDrugClass = action.payload;
+    },
+    setTrendsKPGraphView: (state, action: PayloadAction<string>) => {
+      state.trendsKPGraphView = action.payload;
+    },
+  }
+});
+
+export const {
+  setCountriesForFilter,
+  setDistributionGraphView,
+  setGenotypesYearData,
+  setDrugsYearData,
+  setCollapse,
+  setDrugResistanceGraphView,
+  setCollapses,
+  setFrequenciesGraphView,
+  setFrequenciesGraphSelectedGenotypes,
+  setGenotypesDrugsData,
+  setDeterminantsGraphView,
+  setDeterminantsGraphDrugClass,
+  setGenotypesDrugClassesData,
+  setGenotypesAndDrugsYearData,
+  setTrendsKPGraphDrugClass,
+  setTrendsKPGraphView
+} = graphSlice.actions;
+
+export default graphSlice.reducer;

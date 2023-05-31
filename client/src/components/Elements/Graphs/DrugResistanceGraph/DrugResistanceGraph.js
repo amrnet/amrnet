@@ -1,0 +1,293 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { useStyles } from './DrugResistanceGraphMUI';
+import {
+  Brush,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Tooltip as ChartTooltip,
+  LineChart,
+  Line,
+  Label
+} from 'recharts';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
+import { drugsST, drugsKP } from '../../../../util/drugs';
+import { useEffect, useState } from 'react';
+import { hoverColor } from '../../../../util/colorHelper';
+import { getColorForDrug } from '../graphColorHelper';
+import { InfoOutlined } from '@mui/icons-material';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+
+export const DrugResistanceGraph = () => {
+  const classes = useStyles();
+  const [currentTooltip, setCurrentTooltip] = useState(null);
+  const [plotChart, setPlotChart] = useState(() => {});
+
+  const dispatch = useAppDispatch();
+  const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
+  const drugsYearData = useAppSelector((state) => state.graph.drugsYearData);
+  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
+  const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
+  const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
+  const organism = useAppSelector((state) => state.dashboard.organism);
+
+  useEffect(() => {
+    setCurrentTooltip(null);
+  }, [drugsYearData]);
+
+  function getData() {
+    const exclusions = ['name', 'count'];
+    let drugDataPercentage = structuredClone(drugsYearData);
+    drugDataPercentage = drugDataPercentage.map((item) => {
+      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
+
+      keys.forEach((key) => {
+        item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
+      });
+
+      return item;
+    });
+
+    return drugDataPercentage;
+  }
+
+  function getDrugs() {
+    if (organism === 'none') {
+      return [];
+    }
+    if (organism === 'typhi') {
+      return drugsST;
+    }
+    return drugsKP;
+  }
+
+  function handleChangeDrugsView({ event = null, all = false }) {
+    let newValues = [];
+
+    if (all) {
+      if (drugResistanceGraphView.length === getDrugs().length) {
+        newValues = [];
+      } else {
+        newValues = getDrugs().slice();
+      }
+    } else {
+      const {
+        target: { value }
+      } = event;
+      newValues = value;
+    }
+
+    if (newValues.length === 0) {
+      setCurrentTooltip(null);
+    }
+
+    newValues.sort((a, b) => a.localeCompare(b));
+    dispatch(setDrugResistanceGraphView(newValues));
+  }
+
+  function handleClickChart(event) {
+    const data = drugsYearData.find((item) => item.name === event?.activeLabel);
+
+    if (data && drugResistanceGraphView.length > 0) {
+      const currentData = structuredClone(data);
+
+      const value = {
+        name: currentData.name,
+        count: currentData.count,
+        drugs: []
+      };
+
+      delete currentData.name;
+      delete currentData.count;
+
+      Object.keys(currentData).forEach((key) => {
+        const count = currentData[key];
+
+        if (count === 0) {
+          return;
+        }
+
+        value.drugs.push({
+          label: key,
+          count,
+          percentage: Number(((count / value.count) * 100).toFixed(2)),
+          fill: event.activePayload.find((x) => x.name === key).stroke
+        });
+        value.drugs.sort((a, b) => b.count - a.count);
+      });
+
+      setCurrentTooltip(value);
+    }
+  }
+
+  useEffect(() => {
+    if (canGetData) {
+      const doc = document.getElementById('DRT');
+      const lines = doc.getElementsByClassName('recharts-line');
+
+      for (let index = 0; index < lines.length; index++) {
+        const hasValue = drugResistanceGraphView.some((value) => getDrugs().indexOf(value) === index);
+        lines[index].style.display = hasValue ? 'block' : 'none';
+      }
+
+      setPlotChart(() => {
+        return (
+          <ResponsiveContainer width="100%">
+            <LineChart data={getData()} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                tickCount={20}
+                allowDecimals={false}
+                padding={{ left: 20, right: 20 }}
+                dataKey="name"
+                domain={['dataMin', 'dataMax']}
+                interval={'preserveStartEnd'}
+                tick={{ fontSize: 14 }}
+              />
+              <YAxis tickCount={6} padding={{ top: 20, bottom: 20 }} allowDecimals={false}>
+                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
+                  Resistant (%)
+                </Label>
+              </YAxis>
+              {drugsYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
+
+              {organism !== 'none' && (
+                <Legend
+                  content={(props) => {
+                    const { payload } = props;
+                    return (
+                      <div className={classes.legendWrapper}>
+                        {payload.map((entry, index) => {
+                          const { dataKey, color } = entry;
+                          return (
+                            <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
+                              <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                              <Typography variant="caption">{dataKey}</Typography>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  }}
+                />
+              )}
+
+              <ChartTooltip
+                cursor={{ fill: hoverColor }}
+                content={({ payload, active, label }) => {
+                  if (payload !== null && active) {
+                    return <div className={classes.chartTooltipLabel}>{label}</div>;
+                  }
+                  return null;
+                }}
+              />
+
+              {getDrugs().map((option, index) => (
+                <Line
+                  key={`drug-resistance-bar-${index}`}
+                  dataKey={option}
+                  strokeWidth={2}
+                  stroke={getColorForDrug(option)}
+                  connectNulls
+                  type="monotone"
+                  activeDot={timeInitial === timeFinal ? true : false}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        );
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drugsYearData, drugResistanceGraphView]);
+
+  return (
+    <CardContent className={classes.drugResistanceGraph}>
+      <div className={classes.selectWrapper}>
+        <div className={classes.labelWrapper}>
+          <Typography variant="caption">Drugs view</Typography>
+          <Tooltip
+            title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
+            placement="top"
+          >
+            <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+          </Tooltip>
+        </div>
+        <Select
+          multiple
+          value={drugResistanceGraphView}
+          onChange={(event) => handleChangeDrugsView({ event })}
+          displayEmpty
+          disabled={organism === 'none'}
+          endAdornment={
+            <Button
+              variant="outlined"
+              className={classes.selectButton}
+              onClick={() => handleChangeDrugsView({ all: true })}
+              disabled={organism === 'none'}
+              color={drugResistanceGraphView.length === getDrugs().length ? 'error' : 'primary'}
+            >
+              {drugResistanceGraphView.length === getDrugs().length ? 'Clear All' : 'Select All'}
+            </Button>
+          }
+          inputProps={{ className: classes.selectInput }}
+          MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
+          renderValue={(selected) => <div>{`${selected.length} of ${getDrugs().length} selected`}</div>}
+        >
+          {getDrugs().map((drug, index) => (
+            <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
+              <Checkbox checked={drugResistanceGraphView.indexOf(drug) > -1} />
+              <ListItemText primary={drug} />
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
+      <div className={classes.graphWrapper}>
+        <div className={classes.graph} id="DRT">
+          {plotChart}
+        </div>
+        <div className={classes.tooltipWrapper}>
+          {currentTooltip ? (
+            <div className={classes.tooltip}>
+              <div className={classes.tooltipTitle}>
+                <Typography variant="h5" fontWeight="600">
+                  {currentTooltip.name}
+                </Typography>
+                <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+              </div>
+              <div className={classes.tooltipContent}>
+                {currentTooltip.drugs.map((item, index) => {
+                  return (
+                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                      <Box
+                        className={classes.tooltipItemBox}
+                        style={{
+                          backgroundColor: item.fill
+                        }}
+                      />
+                      <div className={classes.tooltipItemStats}>
+                        <Typography variant="body2" fontWeight="500">
+                          {item.label}
+                        </Typography>
+                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                        <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div className={classes.noYearSelected}>
+              {drugResistanceGraphView.length === 0 ? 'No drug selected' : 'No year selected'}{' '}
+            </div>
+          )}
+        </div>
+      </div>
+    </CardContent>
+  );
+};
