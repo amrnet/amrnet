@@ -147,7 +147,11 @@ export const TrendsKPGraph = () => {
                 allowDecimals={false}
                 padding={{ left: 20, right: 20 }}
                 dataKey="name"
-                domain={['dataMin', 'dataMax']}
+                domain={
+                  (genotypesAndDrugsYearData[trendsKPGraphDrugClass] ?? []).length > 0
+                    ? ['dataMin', 'dataMax']
+                    : undefined
+                }
                 interval={'preserveStartEnd'}
                 tick={{ fontSize: 14 }}
               />

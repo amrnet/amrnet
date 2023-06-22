@@ -144,7 +144,7 @@ export const DrugResistanceGraph = () => {
                 allowDecimals={false}
                 padding={{ left: 20, right: 20 }}
                 dataKey="name"
-                domain={['dataMin', 'dataMax']}
+                domain={drugsYearData.length > 0 ? ['dataMin', 'dataMax'] : undefined}
                 interval={'preserveStartEnd'}
                 tick={{ fontSize: 14 }}
               />

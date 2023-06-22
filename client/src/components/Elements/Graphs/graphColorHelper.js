@@ -11,18 +11,18 @@ export const getColorForDrug = (drug) => {
       return 'rgb(144,211,199)';
 
     case 'Chloramphenicol':
-    case 'Cephalosporins (3rd gen.)':
+    case '3rd gen cephalosporins (3GCs)':
       return 'rgb(249,129,117)';
 
     case 'Co-trimoxazole':
-    case 'Cephalosporins (3rd gen.) + β-lactamase inhibitors':
+    case '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors':
       return 'rgb(252,180,105)';
 
     case 'ESBL':
     case 'Colistin':
       return '#DB90F0';
 
-    case 'Fluoroquinolones (CipI)':
+    // case 'Fluoroquinolones (CipI)':
     case 'Fosfomycin':
       return '#98fb98';
 
@@ -48,7 +48,7 @@ export const getColorForDrug = (drug) => {
     case 'Trimethoprim':
       return 'rgb(102,102,255)';
 
-    case 'Penicillins + β-lactamase inhibitors':
+    case 'β-lactamase inhibitors':
       return '#F3AAB9';
 
     case 'Phenicols':
@@ -61,3 +61,9 @@ export const getColorForDrug = (drug) => {
       return '#F5F4F6';
   }
 };
+
+export const colorsForKODiversityGraph = [
+  { name: 'MDR', color: 'rgb(187, 54, 60)' },
+  { name: 'Hv', color: 'rgb(24, 85, 183)' },
+  { name: 'unassigned', color: lightGrey }
+];

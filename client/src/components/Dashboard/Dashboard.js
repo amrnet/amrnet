@@ -27,18 +27,36 @@ import { setDataset, setMapData, setMapView, setPosition } from '../../stores/sl
 import { Graphs } from '../Elements/Graphs';
 import {
   setCollapses,
+  setConvergenceColourPallete,
+  setConvergenceColourVariable,
+  setConvergenceData,
+  setConvergenceGroupVariable,
   setCountriesForFilter,
   setDeterminantsGraphDrugClass,
+  setDeterminantsGraphView,
+  setDistributionGraphView,
   setDrugResistanceGraphView,
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
+  setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
   setGenotypesDrugsData,
   setGenotypesYearData,
-  setTrendsKPGraphDrugClass
+  setKODiversityData,
+  setKODiversityGraphView,
+  setTrendsKPGraphDrugClass,
+  setTrendsKPGraphView
 } from '../../stores/slices/graphSlice.ts';
-import { filterData, getYearsData, getMapData, getGenotypesData, getCountryDisplayName } from './filters';
+import {
+  filterData,
+  getYearsData,
+  getMapData,
+  getGenotypesData,
+  getCountryDisplayName,
+  getKODiversityData,
+  getConvergenceData
+} from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
@@ -46,6 +64,8 @@ import { drugsST, drugsKP } from '../../util/drugs';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
+  const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('COUNTRY_ONLY');
+  const [currentConvergenceColourVariable, setCurrentConvergenceColourVariable] = useState('DATE');
 
   const dispatch = useAppDispatch();
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
@@ -57,6 +77,8 @@ export const DashboardPage = () => {
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
   const yearsForFilter = useAppSelector((state) => state.dashboard.years);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
+  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
 
   // This function is only called once, after the csv is read. It gets all the static and dynamic data
   // that came from the csv file and sets all the data the organism needs to show
@@ -88,7 +110,7 @@ export const DashboardPage = () => {
 
     dispatch(setMapData(getMapData({ data: responseData, countries, organism })));
 
-    const genotypesData = getGenotypesData({ data: responseData, genotypes, actualCountry, organism });
+    const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
@@ -96,7 +118,6 @@ export const DashboardPage = () => {
     const yearsData = getYearsData({
       data: responseData,
       years,
-      actualCountry,
       organism,
       getUniqueGenotypes: true
     });
@@ -104,6 +125,17 @@ export const DashboardPage = () => {
     if (organism === 'klebe') {
       dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+
+      const KODiversityData = getKODiversityData({ data: responseData });
+      dispatch(setKODiversityData(KODiversityData));
+
+      const convergenceData = getConvergenceData({
+        data: responseData,
+        groupVariable: convergenceGroupVariable,
+        colourVariable: convergenceColourVariable
+      });
+      dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+      dispatch(setConvergenceData(convergenceData.data));
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
@@ -134,6 +166,12 @@ export const DashboardPage = () => {
             dispatch(setDrugResistanceGraphView(drugsKP));
             dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
             dispatch(setTrendsKPGraphDrugClass('Carbapenems'));
+            dispatch(setKODiversityGraphView('K_locus'));
+            dispatch(setTrendsKPGraphView('number'));
+            dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
+            dispatch(setConvergenceColourVariable('DATE'));
+            setCurrentConvergenceGroupVariable('COUNTRY_ONLY');
+            setCurrentConvergenceColourVariable('DATE');
             break;
           default:
             break;
@@ -157,7 +195,9 @@ export const DashboardPage = () => {
           distribution: false,
           drugResistance: false,
           frequencies: false,
-          trendsKP: false
+          trendsKP: false,
+          KODiversity: false,
+          convergence: false
         })
       );
       setData([]);
@@ -171,9 +211,16 @@ export const DashboardPage = () => {
       dispatch(setDrugsYearData([]));
       dispatch(setGenotypesDrugsData([]));
       dispatch(setGenotypesDrugClassesData([]));
+      dispatch(setGenotypesAndDrugsYearData([]));
+      dispatch(setKODiversityData([]));
+      dispatch(setConvergenceData([]));
       dispatch(setDeterminantsGraphDrugClass(''));
       dispatch(setTrendsKPGraphDrugClass(''));
       dispatch(setMapView(''));
+      dispatch(setFrequenciesGraphView('percentage'));
+      dispatch(setDeterminantsGraphView('percentage'));
+      dispatch(setDistributionGraphView('number'));
+      dispatch(setConvergenceColourPallete({}));
 
       switch (organism) {
         case 'typhi':
@@ -195,33 +242,73 @@ export const DashboardPage = () => {
       console.log('update data', dataset, actualTimeInitial, actualTimeFinal, actualCountry);
 
       const filters = filterData({ data, dataset, actualTimeInitial, actualTimeFinal, organism, actualCountry });
-      dispatch(setActualGenomes(filters.genomesCount));
-      dispatch(setActualGenotypes(filters.genotypesCount));
-      dispatch(setListPMID(filters.listPMID));
+      const filteredData = filters.data.filter(
+        (x) => actualCountry === 'All' || getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry
+      );
 
-      dispatch(setMapData(getMapData({ data: filters.data, countries: countriesForFilter, organism })));
+      if (
+        convergenceGroupVariable !== currentConvergenceGroupVariable ||
+        convergenceColourVariable !== currentConvergenceColourVariable
+      ) {
+        console.log('update variables', convergenceGroupVariable, convergenceColourVariable);
+        setCurrentConvergenceGroupVariable(convergenceGroupVariable);
+        setCurrentConvergenceColourVariable(convergenceColourVariable);
 
-      const genotypesData = getGenotypesData({
-        data: filters.data,
-        genotypes: genotypesForFilter,
-        actualCountry,
-        organism
-      });
-      dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
-      dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
-      dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
+        const convergenceData = getConvergenceData({
+          data: filteredData,
+          groupVariable: convergenceGroupVariable,
+          colourVariable: convergenceColourVariable
+        });
+        dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+        dispatch(setConvergenceData(convergenceData.data));
+      } else {
+        dispatch(setActualGenomes(filters.genomesCount));
+        dispatch(setActualGenotypes(filters.genotypesCount));
+        dispatch(setListPMID(filters.listPMID));
 
-      const yearsData = getYearsData({
-        data: filters.data,
-        years: yearsForFilter,
-        actualCountry,
-        organism
-      });
-      dispatch(setGenotypesYearData(yearsData.genotypesData));
-      dispatch(setDrugsYearData(yearsData.drugsData));
-      dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
+        dispatch(setMapData(getMapData({ data: filters.data, countries: countriesForFilter, organism })));
+
+        const genotypesData = getGenotypesData({
+          data: filteredData,
+          genotypes: genotypesForFilter,
+          organism
+        });
+        dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
+        dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+        dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
+
+        const yearsData = getYearsData({
+          data: filteredData,
+          years: yearsForFilter,
+          organism
+        });
+        dispatch(setGenotypesYearData(yearsData.genotypesData));
+        dispatch(setDrugsYearData(yearsData.drugsData));
+        dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
+
+        if (organism === 'klebe') {
+          const KODiversityData = getKODiversityData({ data: filteredData });
+          dispatch(setKODiversityData(KODiversityData));
+
+          const convergenceData = getConvergenceData({
+            data: filteredData,
+            groupVariable: convergenceGroupVariable,
+            colourVariable: convergenceColourVariable
+          });
+          dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+          dispatch(setConvergenceData(convergenceData.data));
+        }
+      }
     }
-  }, [canGetData, dataset, actualTimeInitial, actualTimeFinal, actualCountry]);
+  }, [
+    canGetData,
+    dataset,
+    actualTimeInitial,
+    actualTimeFinal,
+    actualCountry,
+    convergenceGroupVariable,
+    convergenceColourVariable
+  ]);
 
   return (
     <MainLayout isHomePage>

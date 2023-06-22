@@ -6,7 +6,7 @@ export const drugRulesST = [
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
   { key: 'Co-trimoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'ESBL', columnID: 'ESBL_category', values: ['ESBL'] },
-  { key: 'Fluoroquinolones (CipNS)', columnID: 'cip_pred_pheno', values: ['CipR', 'CipI'] },
+  { key: 'Fluoroquinolones (CipNS)', columnID: 'cip_pred_pheno', values: ['CipNS'] },
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Susceptible', columnID: 'amr_category', values: ['No AMR detected'] },
   { key: 'Tetracyclines', columnID: 'tetracycline_category', values: ['TetR'] },
@@ -18,13 +18,13 @@ export const drugRulesST = [
 export const drugRulesKP = [
   { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
   { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
-  { key: 'Cephalosporins (3rd gen.)', columnIDs: ['Bla_ESBL_acquired'] },
-  { key: 'Cephalosporins (3rd gen.) + β-lactamase inhibitors', columnIDs: ['Bla_ESBL_inhR_acquired'] },
+  { key: '3rd gen cephalosporins (3GCs)', columnIDs: ['Bla_ESBL_acquired'] },
+  { key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors', columnIDs: ['Bla_ESBL_inhR_acquired'] },
   { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
   { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
   { key: 'Penicillins', columnIDs: ['Bla_chr'] },
-  { key: 'Penicillins + β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired', 'Bla_chr'] },
+  { key: 'β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired'] },
   { key: 'Phenicols', columnIDs: ['Phe_acquired'] },
   { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
   { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
@@ -425,22 +425,22 @@ export const drugClassesRulesST = {
     },
 
     {
-      name: '2_QRDR (CipI)',
+      name: '2_QRDR (CipNS)',
       susceptible: false,
       rules: [{ columnID: 'dcs_mechanisms', value: '2_QRDR' }]
     },
     {
-      name: '1_QRDR (CipI)',
+      name: '1_QRDR (CipNS)',
       susceptible: false,
       rules: [{ columnID: 'dcs_mechanisms', value: '1_QRDR' }]
     },
     {
-      name: '0_QRDR + qnrS (CipI)',
+      name: '0_QRDR + qnrS (CipR)',
       susceptible: false,
       rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrS' }]
     },
     {
-      name: '0_QRDR + qnrB (CipI)',
+      name: '0_QRDR + qnrB (CipR)',
       susceptible: false,
       rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrB' }]
     },
