@@ -1,13 +1,66 @@
 import { MainLayout } from '../Layout';
 import { useStyles } from './ContactMUI';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { Button, Card, CardContent } from '@mui/material';
+import { API_ENDPOINT } from '../../constants';
+import { Card, CardContent } from '@mui/material';
 import { Footer } from '../Elements/Footer';
+import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
+import { useState } from 'react';
+import axios from 'axios';
+
+const defaultValues = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  message: ''
+};
+
+const email = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
 
 export const ContactPage = () => {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+
+  const [formValues, setFormValues] = useState(defaultValues);
+
+  const [formErrors, setFormErrors] = useState({});
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const sendEmail = async () => {
+    const errors = {};
+    const required = 'This field is required.';
+
+    Object.keys(defaultValues).forEach((key) => {
+      if (!formValues[key]) {
+        errors[key] = required;
+      }
+    });
+
+    if (!!formValues.email && !email.test(formValues.email)) {
+      errors.email = 'This field is invalid.';
+    }
+
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length === 0) {
+      try {
+        setLoading(true);
+
+        await axios.post(`${API_ENDPOINT}email`, formValues);
+        window.alert('Message successfully sent!');
+      } catch (error) {
+        window.alert('Error while sending message. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <MainLayout>
@@ -22,6 +75,9 @@ export const ContactPage = () => {
               fullWidth
               autoComplete="given-name"
               variant="standard"
+              error={!!formErrors.firstName}
+              helperText={formErrors.firstName}
+              onChange={handleChange}
             />
             <TextField
               required
@@ -31,64 +87,37 @@ export const ContactPage = () => {
               fullWidth
               autoComplete="family-name"
               variant="standard"
+              error={!!formErrors.lastName}
+              helperText={formErrors.lastName}
+              onChange={handleChange}
             />
           </div>
           <TextField
             required
-            id="address1"
-            name="address1"
-            label="Address line 1"
+            id="email"
+            name="email"
+            label="Email address"
             fullWidth
-            autoComplete="shipping address-line1"
+            autoComplete="username@domain.com"
             variant="standard"
+            error={!!formErrors.email}
+            helperText={formErrors.email}
+            onChange={handleChange}
           />
           <TextField
-            id="address2"
-            name="address2"
-            label="Address line 2"
+            id="message"
+            name="message"
+            label="Add a message"
             fullWidth
-            autoComplete="shipping address-line2"
+            autoComplete="Add a message here"
             variant="standard"
+            error={!!formErrors.message}
+            helperText={formErrors.message}
+            onChange={handleChange}
           />
-          <div className={classes.row}>
-            <TextField
-              required
-              id="city"
-              name="city"
-              label="City"
-              fullWidth
-              autoComplete="shipping address-level2"
-              variant="standard"
-            />
-            <TextField id="state" name="state" label="State/Province/Region" fullWidth variant="standard" />
-          </div>
-          <div className={classes.row}>
-            <TextField
-              required
-              id="zip"
-              name="zip"
-              label="Zip / Postal code"
-              fullWidth
-              autoComplete="shipping postal-code"
-              variant="standard"
-            />
-            <TextField
-              required
-              id="country"
-              name="country"
-              label="Country"
-              fullWidth
-              autoComplete="shipping country"
-              variant="standard"
-            />
-          </div>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-            label="Use this address for payment details"
-          />
-          <Button className={classes.submitButton} variant="contained">
-            submit
-          </Button>
+          <LoadingButton className={classes.submitButton} variant="contained" loading={loading} onClick={sendEmail}>
+            Submit
+          </LoadingButton>
         </CardContent>
       </Card>
       <Footer />

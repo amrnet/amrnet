@@ -99,9 +99,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     position: 'absolute'
   },
-  otherPage: {
-    height: '-webkit-fill-available'
-  }
+  otherPage: {}
 }));
 
 export { useStyles };

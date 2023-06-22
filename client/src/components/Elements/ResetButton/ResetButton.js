@@ -7,11 +7,15 @@ import { setDataset, setMapView, setPosition } from '../../../stores/slices/mapS
 import { setActualCountry } from '../../../stores/slices/dashboardSlice';
 import {
   setCollapses,
+  setConvergenceColourPallete,
+  setConvergenceColourVariable,
+  setConvergenceGroupVariable,
   setDeterminantsGraphDrugClass,
   setDeterminantsGraphView,
   setDistributionGraphView,
   setDrugResistanceGraphView,
   setFrequenciesGraphView,
+  setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView
 } from '../../../stores/slices/graphSlice';
@@ -34,7 +38,9 @@ export const ResetButton = () => {
         distribution: false,
         drugResistance: false,
         frequencies: false,
-        trendsKP: false
+        trendsKP: false,
+        KODiversity: false,
+        convergence: false
       })
     );
 
@@ -53,12 +59,16 @@ export const ResetButton = () => {
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
       dispatch(setTrendsKPGraphDrugClass('Carbapenems'));
+      dispatch(setTrendsKPGraphView('number'));
+      dispatch(setKODiversityGraphView('K_locus'));
+      dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
+      dispatch(setConvergenceColourVariable('DATE'));
+      dispatch(setConvergenceColourPallete({}));
     }
 
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
-    dispatch(setTrendsKPGraphView('number'));
     dispatch(setCanGetData(true));
   }
 

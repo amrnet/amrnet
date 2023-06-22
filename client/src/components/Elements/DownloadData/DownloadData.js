@@ -21,9 +21,10 @@ import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses } from '../../../stores/slices/graphSlice';
 import { drugsKP, drugsST } from '../../../util/drugs';
-import { getColorForDrug } from '../Graphs/graphColorHelper';
+import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import { colorForDrugClassesKP, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
 import { getKlebsiellaTexts, getSalmonellaTexts } from '../../../util/reportInfoTexts';
+import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 const columnsToRemove = [
   'azith_pred_pheno',
@@ -88,8 +89,12 @@ export const DownloadData = () => {
   const dataset = useAppSelector((state) => state.map.dataset);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
   const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
+  const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
+  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
+  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
 
   async function handleClickDownloadDatabase() {
     setLoadingCSV(true);
@@ -180,8 +185,10 @@ export const DownloadData = () => {
     rectY,
     isGenotype = false,
     isDrug = false,
+    isVariable = false,
     xSpace,
-    twoPages = false
+    twoPages = false,
+    factorMultiply = 3
   }) {
     let firstLegendData = legendData.slice();
     let secondLegendData = [];
@@ -190,8 +197,8 @@ export const DownloadData = () => {
     let secondLegendFactor;
 
     if (twoPages) {
-      firstLegendData = legendData.slice(0, 27 * 3);
-      secondLegendData = legendData.slice(27 * 3);
+      firstLegendData = legendData.slice(0, 27 * factorMultiply);
+      secondLegendData = legendData.slice(27 * factorMultiply);
       secondLegendFactor = factor - 27;
       firstLegendFactor = 27;
     }
@@ -200,7 +207,15 @@ export const DownloadData = () => {
       const yFactor = (i % firstLegendFactor) * 10;
       const xFactor = Math.floor(i / firstLegendFactor) * xSpace;
 
-      document.setFillColor(isGenotype ? getGenotypeColor(legend) : isDrug ? getColorForDrug(legend) : legend.color);
+      document.setFillColor(
+        isGenotype
+          ? getGenotypeColor(legend)
+          : isDrug
+          ? getColorForDrug(legend)
+          : isVariable
+          ? convergenceColourPallete[legend]
+          : legend.color
+      );
       document.circle(50 + xFactor, rectY + 10 + yFactor, 2.5, 'F');
 
       if (id === 'CERDT' && i < 2) {
@@ -211,7 +226,7 @@ export const DownloadData = () => {
         }
       }
       document.text(
-        isGenotype || isDrug ? legend.replaceAll('β', 'B') : legend.name,
+        isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : legend.name,
         56 + xFactor,
         rectY + 12 + yFactor
       );
@@ -224,9 +239,21 @@ export const DownloadData = () => {
         const yFactor = (i % secondLegendFactor) * 10;
         const xFactor = Math.floor(i / secondLegendFactor) * xSpace;
 
-        document.setFillColor(isGenotype ? getGenotypeColor(legend) : isDrug ? getColorForDrug(legend) : legend.color);
+        document.setFillColor(
+          isGenotype
+            ? getGenotypeColor(legend)
+            : isDrug
+            ? getColorForDrug(legend)
+            : isVariable
+            ? convergenceColourPallete[legend]
+            : legend.color
+        );
         document.circle(50 + xFactor, 24 + yFactor, 2.5, 'F');
-        document.text(isGenotype || isDrug ? legend.replaceAll('β', 'B') : legend.name, 56 + xFactor, 26 + yFactor);
+        document.text(
+          isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : legend.name,
+          56 + xFactor,
+          26 + yFactor
+        );
       });
     }
   }
@@ -239,7 +266,9 @@ export const DownloadData = () => {
         distribution: true,
         drugResistance: true,
         frequencies: true,
-        trendsKP: true
+        trendsKP: true,
+        KODiversity: true,
+        convergence: true
       })
     );
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
@@ -374,13 +403,33 @@ export const DownloadData = () => {
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilter.length / 6);
 
+      const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
+      const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
+
       for (let index = 0; index < cards.length; index++) {
         doc.addPage();
         drawFooter({ document: doc, pageHeight, pageWidth, date });
 
-        const title = `${cards[index].title}${cards[index].id === 'RDWG' ? `: ${determinantsGraphDrugClass}` : ''}${
-          cards[index].id === 'CERDT' ? `: ${trendsKPGraphDrugClass}` : ''
-        }`;
+        let title = `${cards[index].title}`;
+        switch (cards[index].id) {
+          case 'RDWG':
+            title += `: ${determinantsGraphDrugClass}`;
+            break;
+          case 'CERDT':
+            title += `: ${trendsKPGraphDrugClass}`;
+            break;
+          case 'KO':
+            title += `: ${KODiversityGraphView}`;
+            break;
+          case 'CVM':
+            const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
+            const colour = variablesOptions.find((option) => option.value === convergenceColourVariable).label;
+            title += `: ${group} x ${colour}`;
+            break;
+          default:
+            break;
+        }
+
         doc.setFontSize(12).setFont(undefined, 'bold');
         doc.text(title, 16, 24);
         doc.setFont(undefined, 'normal');
@@ -463,6 +512,33 @@ export const DownloadData = () => {
           });
 
           drawFooter({ document: doc, pageHeight, pageWidth, date });
+        } else if (cards[index].id === 'KO') {
+          drawLegend({
+            document: doc,
+            legendData: colorsForKODiversityGraph,
+            factor: 1,
+            rectY,
+            xSpace: 50
+          });
+        } else if (cards[index].id === 'CVM') {
+          const isTwoPages = ['Bla_Carb_acquired', 'Bla_ESBL_acquired', 'Yersiniabactin'].includes(
+            convergenceColourVariable
+          );
+
+          drawLegend({
+            document: doc,
+            legendData: Object.keys(convergenceColourPallete),
+            factor: variablesFactor,
+            rectY,
+            xSpace: isYersiniabactin ? 190 : 127,
+            isVariable: true,
+            factorMultiply: isYersiniabactin ? 2 : 3,
+            twoPages: isTwoPages
+          });
+
+          if (isTwoPages) {
+            drawFooter({ document: doc, pageHeight, pageWidth, date });
+          }
         }
       }
 
