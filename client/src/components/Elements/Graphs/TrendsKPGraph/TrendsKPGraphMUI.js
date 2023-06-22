@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     columnGap: '8px',
-    width: '46%'
+    gridColumn: 'span 6'
   },
   tooltipItemBox: {
     height: '18px',
@@ -138,7 +138,8 @@ const useStyles = makeStyles((theme) => ({
   },
   tooltipContent: {
     padding: '16px !important',
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(12, 1fr)',
     flexWrap: 'wrap',
     gap: '16px',
     overflowY: 'auto'

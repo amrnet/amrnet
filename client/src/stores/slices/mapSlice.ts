@@ -25,7 +25,6 @@ interface StatsModel {
   AzithR: ItemsModel;
   Susceptible: ItemsModel;
   CipR: ItemsModel;
-  CipI: ItemsModel;
   CipNS: ItemsModel;
 }
 

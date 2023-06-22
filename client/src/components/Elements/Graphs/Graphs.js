@@ -24,11 +24,14 @@ import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
 import { drugsST, drugsKP } from '../../../util/drugs';
-import { getColorForDrug } from './graphColorHelper';
+import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import { colorForDrugClassesKP, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
 import { TrendsKPGraph } from './TrendsKPGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
+import { KODiversityGraph } from './KODiversityGraph';
+import { ConvergenceGraph } from './ConvergenceGraph';
+import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -51,9 +54,13 @@ export const Graphs = () => {
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
   const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
+  const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
+  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
+  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -80,20 +87,27 @@ export const Graphs = () => {
     yPosition,
     isGenotype = false,
     isDrug = false,
+    isVariable = false,
     xSpace
   }) {
     legendData.forEach((legend, i) => {
       const yFactor = (i % factor) * 24;
       const xFactor = Math.floor(i / factor) * xSpace;
 
-      context.fillStyle = isGenotype ? getGenotypeColor(legend) : isDrug ? getColorForDrug(legend) : legend.color;
+      context.fillStyle = isGenotype
+        ? getGenotypeColor(legend)
+        : isDrug
+        ? getColorForDrug(legend)
+        : isVariable
+        ? convergenceColourPallete[legend]
+        : legend.color;
       context.beginPath();
       context.arc(102 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
       context.fillStyle = 'black';
       context.fillText(
-        isGenotype || isDrug ? legend : legend.name,
+        isGenotype || isDrug || isVariable ? legend : legend.name,
         111 + xFactor,
         yPosition + 4 - mobileFactor + yFactor
       );
@@ -118,7 +132,8 @@ export const Graphs = () => {
       let heightFactor = 0,
         drugClassesBars,
         drugClassesFactor,
-        genotypesFactor;
+        genotypesFactor,
+        variablesFactor;
 
       if (['RFWG', 'DRT'].includes(card.id)) {
         heightFactor = 250;
@@ -135,6 +150,10 @@ export const Graphs = () => {
       if (card.id === 'CERDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
+      }
+      if (card.id === 'CVM') {
+        variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
+        heightFactor += variablesFactor * 22;
       }
 
       canvas.width = 922;
@@ -166,6 +185,12 @@ export const Graphs = () => {
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 176);
       if (card.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
       if (card.id === 'CERDT') ctx.fillText(`Drug Class: ${trendsKPGraphDrugClass}`, canvas.width / 2, 198);
+      if (card.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
+      if (card.id === 'CVM') {
+        const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
+        const colour = variablesOptions.find((option) => option.value === convergenceColourVariable).label;
+        ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
+      }
 
       ctx.fillStyle = 'white';
       ctx.textAlign = 'start';
@@ -232,6 +257,29 @@ export const Graphs = () => {
           yPosition: 1330,
           isGenotype: true,
           xSpace: 87
+        });
+      } else if (card.id === 'KO') {
+        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+
+        drawLegend({
+          legendData: colorsForKODiversityGraph,
+          context: ctx,
+          factor: 5,
+          mobileFactor,
+          yPosition: 670,
+          xSpace: 330
+        });
+      } else if (card.id === 'CVM') {
+        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+
+        drawLegend({
+          legendData: Object.keys(convergenceColourPallete),
+          context: ctx,
+          factor: variablesFactor,
+          mobileFactor,
+          yPosition: 670,
+          xSpace: 270,
+          isVariable: true
         });
       }
 
@@ -305,6 +353,8 @@ export const Graphs = () => {
               {card.collapse === 'determinants' && <DeterminantsGraph />}
               {card.collapse === 'distribution' && <DistributionGraph />}
               {card.collapse === 'trendsKP' && <TrendsKPGraph />}
+              {card.collapse === 'KODiversity' && <KODiversityGraph />}
+              {card.collapse === 'convergence' && <ConvergenceGraph />}
             </Collapse>
           </Card>
         );

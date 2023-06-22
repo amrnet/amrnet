@@ -1,35 +1,45 @@
-import { AppBar, IconButton, Toolbar, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import { AppBar, IconButton, Toolbar, Tooltip } from '@mui/material';
 import { useStyles } from './FooterMUI';
 import { GitHub } from '@mui/icons-material';
+import LSHTMLogoImg from '../../../assets/img/LSHTMLogo2020.jpg';
+import WellcomeTrustLogoImg from '../../../assets/img/Wellcome_Trust_logo.png';
 
 export const Footer = () => {
   const classes = useStyles();
-  const matches = useMediaQuery('(max-width:700px)');
 
   function handleClickGithub() {
     window.open('https://github.com/amrnet', '_blank');
   }
 
+  function handleClickLSHTM() {
+    window.open('https://www.lshtm.ac.uk', '_blank');
+  }
+
+  function handleClickWT() {
+    window.open('http://wellcome.org', '_blank');
+  }
+
   return (
     <AppBar position="static" className={classes.appBar}>
-      <Toolbar className={`${classes.toolbar} ${matches ? classes.bp700 : ''}`}>
+      <Toolbar className={classes.toolbar}>
         <div className={classes.logosWrapper}>
           <img
-            src="https://upload.wikimedia.org/wikipedia/en/6/6f/LSHTMLogo2020.svg"
-            alt="LSHTM"
+            className={classes.logo}
+            onClick={handleClickLSHTM}
+            src={LSHTMLogoImg}
+            alt="LSHTM Logo"
             loading="lazy"
             height={60}
           />
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/5/58/Wellcome_Trust_logo.svg"
-            alt="Wellcome Trust"
+            className={classes.logo}
+            onClick={handleClickWT}
+            src={WellcomeTrustLogoImg}
+            alt="Wellcome Trust Logo"
             loading="lazy"
             height={60}
           />
         </div>
-        <Typography className={classes.information} variant="h6">
-          open source code project
-        </Typography>
         <div className={classes.socialsWrapper}>
           <Tooltip title="Github" placement="top">
             <IconButton onClick={handleClickGithub}>
