@@ -1,0 +1,240 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { useStyles } from './ConvergenceGraphMUI';
+import {
+  CartesianGrid,
+  Label,
+  Legend,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Tooltip as ChartTooltip,
+  ScatterChart,
+  Scatter,
+  ZAxis,
+  Cell
+} from 'recharts';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setConvergenceColourVariable, setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
+import { useEffect, useState } from 'react';
+import { hoverColor } from '../../../../util/colorHelper';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
+
+export const ConvergenceGraph = () => {
+  const classes = useStyles();
+  const [currentTooltip, setCurrentTooltip] = useState(null);
+  const [plotChart, setPlotChart] = useState(() => {});
+
+  const dispatch = useAppDispatch();
+  const organism = useAppSelector((state) => state.dashboard.organism);
+  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
+  const convergenceData = useAppSelector((state) => state.graph.convergenceData);
+  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
+  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
+
+  useEffect(() => {
+    setCurrentTooltip(null);
+  }, [convergenceData]);
+
+  function handleChangeGroupVariable(event) {
+    setCurrentTooltip(null);
+    dispatch(setConvergenceGroupVariable(event.target.value));
+  }
+
+  function handleChangeColourVariable(event) {
+    setCurrentTooltip(null);
+    dispatch(setConvergenceColourVariable(event.target.value));
+  }
+
+  function handleClickChart(name, color) {
+    const data = convergenceData.find((item) => item.name === name);
+
+    if (data) {
+      const currentData = structuredClone(data);
+      setCurrentTooltip({ ...currentData, color });
+    }
+  }
+
+  useEffect(() => {
+    if (canGetData) {
+      setPlotChart(() => {
+        return (
+          <ResponsiveContainer width="100%">
+            <ScatterChart cursor={isTouchDevice() ? 'default' : 'pointer'}>
+              <CartesianGrid strokeDasharray="3 3" />
+              {/* <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} /> */}
+              <XAxis
+                dataKey="x"
+                allowDecimals={false}
+                type="number"
+                interval="preserveStartEnd"
+                tick={{ fontSize: 14 }}
+                tickCount={10}
+                domain={[0, 5]}
+                padding={{ left: 20, right: 20 }}
+              >
+                <Label position="bottom" className={classes.graphLabel}>
+                  Mean virulence score
+                </Label>
+              </XAxis>
+              <YAxis
+                type="number"
+                dataKey="y"
+                allowDataOverflow={true}
+                domain={[0, 3]}
+                padding={{ top: 20, bottom: 20 }}
+              >
+                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
+                  Mean resistance score
+                </Label>
+              </YAxis>
+              <ZAxis type="number" dataKey="z" range={[50, 1000]} />
+
+              <Legend
+                content={() => {
+                  return (
+                    <div className={classes.legendWrapper}>
+                      {Object.keys(convergenceColourPallete).map((key, index) => {
+                        return (
+                          <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
+                            <Box
+                              className={classes.colorCircle}
+                              style={{ backgroundColor: convergenceColourPallete[key] }}
+                            />
+                            <Typography variant="caption">{key}</Typography>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                }}
+              />
+
+              <ChartTooltip
+                cursor={{ fill: hoverColor }}
+                content={({ payload, active }) => {
+                  if (payload !== null && active) {
+                    return <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>;
+                  }
+                  return null;
+                }}
+              />
+
+              <Scatter name="combinations" data={convergenceData}>
+                {convergenceData.map((option, index) => (
+                  <Cell
+                    name={option.name}
+                    onClick={() => handleClickChart(option.name, convergenceColourPallete[option.colorLabel])}
+                    key={`combination-cell-${index}`}
+                    fill={convergenceColourPallete[option.colorLabel]}
+                  />
+                ))}
+              </Scatter>
+            </ScatterChart>
+          </ResponsiveContainer>
+        );
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [convergenceData]);
+
+  return (
+    <CardContent className={classes.convergenceGraph}>
+      <div className={classes.selectsWrapper}>
+        <div className={classes.selectWrapper}>
+          <Typography variant="caption">Group variable</Typography>
+          <Select
+            value={convergenceGroupVariable}
+            onChange={handleChangeGroupVariable}
+            inputProps={{ className: classes.selectInput }}
+            MenuProps={{ classes: { list: classes.selectMenu } }}
+            disabled={organism === 'none'}
+          >
+            {variablesOptions.map((option, index) => {
+              return (
+                <MenuItem key={index + 'convergence-group-variable'} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </div>
+        <div className={classes.selectWrapper}>
+          <Typography variant="caption">Colour variable</Typography>
+          <Select
+            value={convergenceColourVariable}
+            onChange={handleChangeColourVariable}
+            inputProps={{ className: classes.selectInput }}
+            MenuProps={{ classes: { list: classes.selectMenu } }}
+            disabled={organism === 'none'}
+          >
+            {variablesOptions.map((option, index) => {
+              return (
+                <MenuItem key={index + 'convergence-colour-variable'} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </div>
+      </div>
+      <div className={classes.graphWrapper}>
+        <div className={classes.graph} id="CVM">
+          {plotChart}
+        </div>
+        <div className={classes.tooltipWrapper}>
+          {currentTooltip ? (
+            <div className={classes.tooltip}>
+              <div className={classes.tooltipTitle}>
+                <Typography variant="h5" fontWeight="600">
+                  {currentTooltip.name}
+                </Typography>
+                <Typography noWrap variant="subtitle1" minWidth="90px" textAlign="end">
+                  {'N = ' + currentTooltip.z}
+                </Typography>
+              </div>
+              <div className={classes.tooltipContent}>
+                <div className={classes.tooltipItemWrapper}>
+                  <Box
+                    className={classes.tooltipItemBox}
+                    style={{
+                      backgroundColor: currentTooltip.color
+                    }}
+                  />
+                  <div className={classes.tooltipItemStats}>
+                    <Typography variant="body2" fontWeight="500">
+                      Mean virulence score
+                    </Typography>
+                    <Typography variant="caption" noWrap>
+                      {currentTooltip.x}
+                    </Typography>
+                  </div>
+                </div>
+                <div className={classes.tooltipItemWrapper}>
+                  <Box
+                    className={classes.tooltipItemBox}
+                    style={{
+                      backgroundColor: currentTooltip.color
+                    }}
+                  />
+                  <div className={classes.tooltipItemStats}>
+                    <Typography variant="body2" fontWeight="500">
+                      Mean resistance score
+                    </Typography>
+                    <Typography variant="caption" noWrap>
+                      {currentTooltip.y}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className={classes.noBubbleSelected}>No bubble selected</div>
+          )}
+        </div>
+      </div>
+    </CardContent>
+  );
+};

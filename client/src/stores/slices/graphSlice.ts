@@ -5,7 +5,9 @@ interface CollapsesModel {
   distribution: boolean;
   drugResistance: boolean;
   frequencies: boolean;
-  trendsKP: boolean
+  trendsKP: boolean;
+  KODiversity: boolean;
+  convergence: boolean;
 }
 interface GraphState {
   countriesForFilter: Array<string>;
@@ -23,6 +25,12 @@ interface GraphState {
   determinantsGraphDrugClass: string;
   trendsKPGraphDrugClass: string;
   trendsKPGraphView: string;
+  KODiversityData: Array<any>;
+  KODiversityGraphView: string;
+  convergenceData: Array<any>;
+  convergenceGroupVariable: string;
+  convergenceColourVariable: string
+  convergenceColourPallete: Object
 }
 
 const initialState: GraphState = {
@@ -31,7 +39,9 @@ const initialState: GraphState = {
     distribution: false,
     drugResistance: false,
     frequencies: false,
-    trendsKP: false
+    trendsKP: false,
+    KODiversity: false,
+    convergence: false,
   },
   countriesForFilter: [],
   genotypesYearData: [],
@@ -46,7 +56,13 @@ const initialState: GraphState = {
   determinantsGraphView: 'percentage',
   determinantsGraphDrugClass: '',
   trendsKPGraphDrugClass: '',
-  trendsKPGraphView: 'number'
+  trendsKPGraphView: 'number',
+  KODiversityData: [],
+  KODiversityGraphView: 'K_locus',
+  convergenceData: [],
+  convergenceGroupVariable: 'COUNTRY_ONLY',
+  convergenceColourVariable: 'DATE',
+  convergenceColourPallete: {}
 };
 
 export const graphSlice = createSlice({
@@ -101,6 +117,24 @@ export const graphSlice = createSlice({
     setTrendsKPGraphView: (state, action: PayloadAction<string>) => {
       state.trendsKPGraphView = action.payload;
     },
+    setKODiversityData: (state, action: PayloadAction<Array<any>>) => {
+      state.KODiversityData = action.payload;
+    },
+    setKODiversityGraphView: (state, action: PayloadAction<string>) => {
+      state.KODiversityGraphView = action.payload;
+    },
+    setConvergenceData: (state, action: PayloadAction<Array<any>>) => {
+      state.convergenceData = action.payload;
+    },
+    setConvergenceGroupVariable: (state, action: PayloadAction<string>) => {
+      state.convergenceGroupVariable = action.payload;
+    },
+    setConvergenceColourVariable: (state, action: PayloadAction<string>) => {
+      state.convergenceColourVariable = action.payload;
+    },
+    setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
+      state.convergenceColourPallete = action.payload;
+    },
   }
 });
 
@@ -120,7 +154,13 @@ export const {
   setGenotypesDrugClassesData,
   setGenotypesAndDrugsYearData,
   setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView
+  setTrendsKPGraphView,
+  setKODiversityData,
+  setKODiversityGraphView,
+  setConvergenceData,
+  setConvergenceGroupVariable,
+  setConvergenceColourVariable,
+  setConvergenceColourPallete
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

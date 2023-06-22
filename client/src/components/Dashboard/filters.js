@@ -24,7 +24,7 @@ export function filterData({ data, dataset, actualTimeInitial, actualTimeFinal, 
   let listPMID = [];
 
   if (actualCountry !== 'All') {
-    const countryData = newData.filter((x) => x.COUNTRY_ONLY === actualCountry);
+    const countryData = newData.filter((x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry);
     genomesCount = countryData.length;
     listPMID = [...new Set(countryData.map((x) => x.PMID))];
 
@@ -137,12 +137,7 @@ export function getMapData({ data, countries, organism }) {
       stats.AzithR = getMapStatsData({ countryData, columnKey: 'azith_pred_pheno', statsKey: 'AzithR' });
       stats.Susceptible = getMapStatsData({ countryData, columnKey: 'amr_category', statsKey: 'No AMR detected' });
       stats.CipR = getMapStatsData({ countryData, columnKey: 'cip_pred_pheno', statsKey: 'CipR' });
-      stats.CipI = getMapStatsData({ countryData, columnKey: 'cip_pred_pheno', statsKey: 'CipI' });
-      stats.CipNS = {
-        items: [],
-        count: stats.CipI.count + stats.CipR.count,
-        percentage: Number((((stats.CipI.count + stats.CipR.count) / countryData.length) * 100).toFixed(2))
-      };
+      stats.CipNS = getMapStatsData({ countryData, columnKey: 'cip_pred_pheno', statsKey: 'CipNS' });
     } else {
       stats.Susceptible = getMapStatsData({ countryData, columnKey: 'num_resistance_classes', statsKey: '0' });
       stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
@@ -161,7 +156,7 @@ export function getMapData({ data, countries, organism }) {
 
 // Get data for distribution and drug resistance graphs and, if the organism is klebsiella, the list of unique genotypes
 // for the pallete and legend of the distribution graph
-export function getYearsData({ data, years, actualCountry, organism, getUniqueGenotypes = false }) {
+export function getYearsData({ data, years, organism, getUniqueGenotypes = false }) {
   const drugsData = [];
   const genotypesAndDrugsData = {};
   let uniqueGenotypes = [];
@@ -175,9 +170,7 @@ export function getYearsData({ data, years, actualCountry, organism, getUniqueGe
   }
 
   const genotypesData = years.map((year) => {
-    const yearData = data.filter(
-      (x) => x.DATE === year && (actualCountry === 'All' || x.COUNTRY_ONLY === actualCountry)
-    );
+    const yearData = data.filter((x) => x.DATE === year);
     const response = {
       name: year.toString(),
       count: yearData.length
@@ -203,7 +196,7 @@ export function getYearsData({ data, years, actualCountry, organism, getUniqueGe
             drugStats[rule.key] = drugData.length;
 
             if (rule.key === 'Fluoroquinolones (CipNS)') {
-              drugStats['Fluoroquinolones (CipR)'] = drugData.filter((x) => x[rule.columnID] === 'CipR').length;
+              drugStats['Fluoroquinolones (CipR)'] = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
             }
           });
         } else {
@@ -283,7 +276,7 @@ export function getYearsData({ data, years, actualCountry, organism, getUniqueGe
 }
 
 // Get data for frequencies and determinants graphs
-export function getGenotypesData({ data, genotypes, actualCountry, organism }) {
+export function getGenotypesData({ data, genotypes, organism }) {
   const genotypesDrugClassesData = {};
 
   if (organism === 'typhi') {
@@ -299,9 +292,7 @@ export function getGenotypesData({ data, genotypes, actualCountry, organism }) {
   }
 
   const genotypesDrugsData = genotypes.map((genotype) => {
-    const genotypeData = data.filter(
-      (x) => x.GENOTYPE === genotype && (actualCountry === 'All' || x.COUNTRY_ONLY === actualCountry)
-    );
+    const genotypeData = data.filter((x) => x.GENOTYPE === genotype);
 
     const response = {
       name: genotype,
@@ -321,7 +312,7 @@ export function getGenotypesData({ data, genotypes, actualCountry, organism }) {
         response[rule.key] = drugData.length;
 
         if (rule.key === 'Fluoroquinolones (CipNS)') {
-          response['Fluoroquinolones (CipR)'] = drugData.filter((x) => x[rule.columnID] === 'CipR').length;
+          response['Fluoroquinolones (CipR)'] = genotypeData.filter((x) => x[rule.columnID] === 'CipR').length;
         }
 
         if (rule.key !== 'Susceptible') {
@@ -368,6 +359,108 @@ export function getGenotypesData({ data, genotypes, actualCountry, organism }) {
   });
 
   return { genotypesDrugsData, genotypesDrugClassesData };
+}
+
+const KO_MDR = ['ST258', 'ST307', 'ST340', 'ST512', 'ST11', 'ST15'];
+const KO_HV = ['ST23', 'ST86', 'ST65', 'ST25'];
+
+export function getKODiversityData({ data }) {
+  const KODiversityData = {
+    K_locus: [],
+    O_locus: []
+  };
+
+  Object.keys(KODiversityData).forEach((key) => {
+    const values = [...new Set(data.map((x) => x[key]))];
+
+    const keyData = values.map((value) => {
+      const diversityData = data.filter((x) => x[key] === value);
+      const MDR = diversityData.filter((x) => KO_MDR.includes(x.GENOTYPE));
+      const Hv = diversityData.filter((x) => KO_HV.includes(x.GENOTYPE));
+
+      return {
+        name: value,
+        count: diversityData.length,
+        MDR: MDR.length,
+        Hv: Hv.length,
+        unassigned: diversityData.length - MDR.length - Hv.length
+      };
+    });
+
+    KODiversityData[key] = keyData.filter((x) => !x.name.includes('unknown'));
+    const unknownData = keyData.filter((x) => x.name.includes('unknown'));
+
+    KODiversityData[key].push({
+      name: 'unknown',
+      count: unknownData.reduce((total, obj) => obj.count + total, 0),
+      MDR: unknownData.reduce((total, obj) => obj.MDR + total, 0),
+      Hv: unknownData.reduce((total, obj) => obj.Hv + total, 0),
+      unassigned: unknownData.reduce((total, obj) => obj.unassigned + total, 0)
+    });
+
+    KODiversityData[key].sort((a, b) => b.count - a.count);
+    KODiversityData[key] = KODiversityData[key].slice(0, 20);
+  });
+
+  return KODiversityData;
+}
+
+function getVariableValue(dataItem, variable) {
+  if (variable === 'COUNTRY_ONLY') {
+    return getCountryDisplayName(dataItem[variable]);
+  }
+
+  return dataItem[variable];
+}
+
+export function getConvergenceData({ data, groupVariable, colourVariable }) {
+  const convergenceData = [];
+  let variablesCombinations = [];
+  let colourVariables = [];
+
+  if (groupVariable === colourVariable) {
+    variablesCombinations = [...new Set(data.map((x) => getVariableValue(x, colourVariable)))];
+    colourVariables = variablesCombinations;
+  } else {
+    variablesCombinations = [
+      ...new Set(data.map((x) => `${getVariableValue(x, groupVariable)} - ${getVariableValue(x, colourVariable)}`))
+    ];
+    colourVariables = [...new Set(data.map((x) => getVariableValue(x, colourVariable)))];
+  }
+
+  variablesCombinations.forEach((combination) => {
+    let combinedData = [];
+
+    if (groupVariable === colourVariable) {
+      combinedData = data.filter((x) => getVariableValue(x, groupVariable) === combination);
+    } else {
+      const variables = combination.split(' - ');
+      combinedData = data.filter(
+        (x) =>
+          getVariableValue(x, groupVariable) === variables[0] && getVariableValue(x, colourVariable) === variables[1]
+      );
+    }
+
+    const count = combinedData.length;
+
+    const splitCombination = combination.split(' - ');
+    const colorLabel = splitCombination.length > 1 ? splitCombination[1] : combination;
+    convergenceData.push({
+      name: combination,
+      colorLabel,
+      z: count,
+      x: combinedData.reduce((total, obj) => Number(obj.virulence_score) + total, 0) / count,
+      y: combinedData.reduce((total, obj) => Number(obj.resistance_score) + total, 0) / count
+    });
+  });
+
+  if (colourVariable === 'YEAR') {
+    colourVariables.sort((a, b) => b - a);
+  } else {
+    colourVariables.sort((a, b) => a.localeCompare(b));
+  }
+
+  return { data: convergenceData, colourVariables };
 }
 
 // Check if a gene has a susceptible character for klebesiella drug rules for determinants graph
