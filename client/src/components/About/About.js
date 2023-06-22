@@ -11,7 +11,7 @@ export const AboutPage = () => {
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
           <Typography variant="body1" className={classes.paragraph}>
-            AMRnet will be a data - visualisation dashboard that makes genome-derived antimicrobial resistance(AMR) data
+            AMRnet is a data visualisation dashboard that makes genome-derived antimicrobial resistance(AMR) data
             accessible to a wide range of stakeholders including policy makers.
           </Typography>
 
@@ -22,12 +22,19 @@ export const AboutPage = () => {
           </Typography>
 
           <Typography variant="body1" className={classes.paragraph}>
-            The concept is based on the TyphiNET dashboard, which serves data on the typhoid fever pathogen
-            <i>Salmonella Typhi</i>.
+            The concept is based on the{' '}
+            <a href="https://github.com/zadyson/TyphiNET" target="_blank" rel="noreferrer">
+              TyphiNET dashboard
+            </a>
+            , which serves data on the typhoid fever pathogen <i>Salmonella Typhi</i>.
           </Typography>
 
           <Typography variant="body1" className={classes.paragraph}>
-            Find out more about the project.
+            Find out more about the project{' '}
+            <a href="https://www.lshtm.ac.uk/amrnet" target="_blank" rel="noreferrer">
+              here
+            </a>
+            .
           </Typography>
         </CardContent>
       </Card>
