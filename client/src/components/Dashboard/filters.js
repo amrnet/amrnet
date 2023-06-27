@@ -382,13 +382,30 @@ export function getKODiversityData({ data }) {
       const diversityData = data.filter((x) => x[key] === value);
       const MDR = diversityData.filter((x) => KO_MDR.includes(x.GENOTYPE));
       const Hv = diversityData.filter((x) => KO_HV.includes(x.GENOTYPE));
+      const Carbapenems = diversityData.filter((x) => x.Bla_Carb_acquired !== '-');
+      const ESBL = diversityData.filter((x) => x.Bla_ESBL_acquired !== '-');
+      const aerobactin = diversityData.filter((x) => x.Aerobactin !== '-');
+      const rmpADC = diversityData.filter((x) => !['-', '-,-,-'].includes(x.RmpADC));
+      const neither = diversityData.filter(
+        (x) =>
+          !KO_MDR.includes(x.GENOTYPE) &&
+          !KO_HV.includes(x.GENOTYPE) &&
+          x.Bla_Carb_acquired === '-' &&
+          x.Bla_ESBL_acquired === '-' &&
+          x.Aerobactin === '-' &&
+          ['-', '-,-,-'].includes(x.RmpADC)
+      );
 
       return {
         name: value,
         count: diversityData.length,
         MDR: MDR.length,
         Hv: Hv.length,
-        unassigned: diversityData.length - MDR.length - Hv.length
+        Carbapenems: Carbapenems.length,
+        ESBL: ESBL.length,
+        'Aerobactin(iuc)': aerobactin.length,
+        rmpADC: rmpADC.length,
+        neither: neither.length
       };
     });
 
@@ -400,7 +417,11 @@ export function getKODiversityData({ data }) {
       count: unknownData.reduce((total, obj) => obj.count + total, 0),
       MDR: unknownData.reduce((total, obj) => obj.MDR + total, 0),
       Hv: unknownData.reduce((total, obj) => obj.Hv + total, 0),
-      unassigned: unknownData.reduce((total, obj) => obj.unassigned + total, 0)
+      Carbapenems: unknownData.reduce((total, obj) => obj.Carbapenems + total, 0),
+      ESBL: unknownData.reduce((total, obj) => obj.ESBL + total, 0),
+      'Aerobactin(iuc)': unknownData.reduce((total, obj) => obj['Aerobactin(iuc)'] + total, 0),
+      rmpADC: unknownData.reduce((total, obj) => obj.rmpADC + total, 0),
+      neither: unknownData.reduce((total, obj) => obj.neither + total, 0)
     });
 
     KODiversityData[key].sort((a, b) => b.count - a.count);

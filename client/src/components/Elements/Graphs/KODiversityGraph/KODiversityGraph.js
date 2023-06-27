@@ -93,7 +93,7 @@ export const KODiversityGraph = () => {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
-              <YAxis allowDataOverflow={true} allowDecimals={false}>
+              <YAxis allowDataOverflow={true} allowDecimals={false} fontSize="14px">
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Number of genomes
                 </Label>

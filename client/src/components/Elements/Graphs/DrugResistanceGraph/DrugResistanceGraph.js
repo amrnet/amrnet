@@ -66,6 +66,7 @@ export const DrugResistanceGraph = () => {
   }
 
   function handleChangeDrugsView({ event = null, all = false }) {
+    setCurrentTooltip(null);
     let newValues = [];
     const drugs = getDrugs();
 
@@ -80,10 +81,6 @@ export const DrugResistanceGraph = () => {
         target: { value }
       } = event;
       newValues = value;
-    }
-
-    if (newValues.length === 0) {
-      setCurrentTooltip(null);
     }
 
     newValues.sort((a, b) => a.localeCompare(b));
@@ -106,8 +103,11 @@ export const DrugResistanceGraph = () => {
       delete currentData.count;
 
       Object.keys(currentData).forEach((key) => {
-        const count = currentData[key];
+        if (!drugResistanceGraphView.includes(key)) {
+          return;
+        }
 
+        const count = currentData[key];
         if (count === 0) {
           return;
         }
