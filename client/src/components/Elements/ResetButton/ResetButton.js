@@ -19,7 +19,7 @@ import {
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView
 } from '../../../stores/slices/graphSlice';
-import { drugsST, drugsKP } from '../../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../../util/drugs';
 
 export const ResetButton = () => {
   const classes = useStyles();
@@ -52,8 +52,8 @@ export const ResetButton = () => {
 
     if (organism === 'typhi') {
       dispatch(setMapView('CipNS'));
-      dispatch(setDrugResistanceGraphView(drugsST));
-      dispatch(setDeterminantsGraphDrugClass('Fluoroquinolones (CipNS)'));
+      dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
+      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
     } else {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(drugsKP));
