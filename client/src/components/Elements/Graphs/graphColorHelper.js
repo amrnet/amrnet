@@ -11,9 +11,9 @@ export const getColorForDrug = (drug) => {
       return 'rgb(144,211,199)';
 
     case 'Chloramphenicol':
-    case 'Cephalosporins (3rd gen.)':
+    case '3rd gen cephalosporins (3GCs)':
       return 'rgb(249,129,117)';
-
+      
     // case 'Co-trimoxazole':
     case 'Trimethoprim-sulfamethoxazole':
     case 'Cephalosporins (3rd gen.) + β-lactamase inhibitors':
@@ -52,7 +52,7 @@ export const getColorForDrug = (drug) => {
     case 'Trimethoprim':
       return 'rgb(102,102,255)';
 
-    case 'Penicillins + β-lactamase inhibitors':
+    case 'β-lactamase inhibitors':
       return '#F3AAB9';
 
     case 'Phenicols':
