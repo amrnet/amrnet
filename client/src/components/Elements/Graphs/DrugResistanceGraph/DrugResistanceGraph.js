@@ -15,7 +15,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import { drugsST, drugsKP } from '../../../../util/drugs';
+import { drugsKP, drugsForDrugResistanceGraphST } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -60,19 +60,20 @@ export const DrugResistanceGraph = () => {
       return [];
     }
     if (organism === 'typhi') {
-      return drugsST;
+      return drugsForDrugResistanceGraphST;
     }
     return drugsKP;
   }
 
   function handleChangeDrugsView({ event = null, all = false }) {
     let newValues = [];
+    const drugs = getDrugs();
 
     if (all) {
-      if (drugResistanceGraphView.length === getDrugs().length) {
+      if (drugResistanceGraphView.length === drugs.length) {
         newValues = [];
       } else {
-        newValues = getDrugs().slice();
+        newValues = drugs.slice();
       }
     } else {
       const {
