@@ -1,4 +1,4 @@
-import { drugRulesKP } from '../../util/drugClassesRules';
+import { drugRulesForDrugResistanceGraphST, drugRulesKP } from '../../util/drugClassesRules';
 import { drugClassesRulesST, drugClassesRulesKP, drugRulesST } from '../../util/drugClassesRules';
 
 // This filter is called after either dataset, initialYear, finalYear or country changes and if reset button is pressed.
@@ -195,9 +195,15 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             const drugData = yearData.filter((x) => rule.values.includes(x[rule.columnID]));
             drugStats[rule.key] = drugData.length;
 
-            if (rule.key === 'Fluoroquinolones (CipNS)') {
-              drugStats['Fluoroquinolones (CipR)'] = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
+            if (rule.key === 'Ciprofloxacin NS') {
+              drugStats['Ciprofloxacin R'] = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
+
             }
+          });
+
+          drugRulesForDrugResistanceGraphST.forEach((rule) => {
+            const drugData = yearData.filter((x) => rule.values.includes(x[rule.columnID]));
+            drugStats[rule.key] = drugData.length;
           });
         } else {
           // For drugsData
@@ -311,8 +317,8 @@ export function getGenotypesData({ data, genotypes, organism }) {
         const drugData = genotypeData.filter((x) => rule.values.includes(x[rule.columnID]));
         response[rule.key] = drugData.length;
 
-        if (rule.key === 'Fluoroquinolones (CipNS)') {
-          response['Fluoroquinolones (CipR)'] = genotypeData.filter((x) => x[rule.columnID] === 'CipR').length;
+        if (rule.key === 'Ciprofloxacin NS') {
+          response['Ciprofloxacin R'] = genotypeData.filter((x) => x[rule.columnID] === 'CipR').length;
         }
 
         if (rule.key !== 'Susceptible') {
@@ -449,8 +455,8 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
       name: combination,
       colorLabel,
       z: count,
-      x: combinedData.reduce((total, obj) => Number(obj.virulence_score) + total, 0) / count,
-      y: combinedData.reduce((total, obj) => Number(obj.resistance_score) + total, 0) / count
+      x: (combinedData.reduce((total, obj) => Number(obj.virulence_score) + total, 0) / count).toFixed(2),
+      y: (combinedData.reduce((total, obj) => Number(obj.resistance_score) + total, 0) / count).toFixed(2)
     });
   });
 

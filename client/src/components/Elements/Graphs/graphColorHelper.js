@@ -13,12 +13,14 @@ export const getColorForDrug = (drug) => {
     case 'Chloramphenicol':
     case '3rd gen cephalosporins (3GCs)':
       return 'rgb(249,129,117)';
-
-    case 'Co-trimoxazole':
-    case '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors':
+      
+    // case 'Co-trimoxazole':
+    case 'Trimethoprim-sulfamethoxazole':
+    case 'Cephalosporins (3rd gen.) + β-lactamase inhibitors':
       return 'rgb(252,180,105)';
 
-    case 'ESBL':
+    // case 'ESBL':
+    case 'Ceftriaxone':
     case 'Colistin':
       return '#DB90F0';
 
@@ -26,11 +28,13 @@ export const getColorForDrug = (drug) => {
     case 'Fosfomycin':
       return '#98fb98';
 
-    case 'Fluoroquinolones (CipNS)':
+    // case 'Fluoroquinolones (CipNS)':
+    case 'Ciprofloxacin NS':
     case 'Penicillins':
       return 'rgb(255,236,120)';
 
-    case 'Fluoroquinolones (CipR)':
+    // case 'Fluoroquinolones (CipR)':
+    case 'Ciprofloxacin R':
     case 'Fluoroquinolones':
       return '#9e9ac8';
 
@@ -56,6 +60,12 @@ export const getColorForDrug = (drug) => {
 
     case 'Tigecycline':
       return '#54C2FF';
+
+    case 'XDR':
+      return '#000';
+
+    case 'MDR':
+      return '#B80F0F';
 
     default:
       return '#F5F4F6';
