@@ -60,7 +60,7 @@ import {
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
-import { drugsST, drugsKP } from '../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../util/drugs';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
@@ -158,8 +158,8 @@ export const DashboardPage = () => {
         switch (organism) {
           case 'typhi':
             dispatch(setMapView('CipNS'));
-            dispatch(setDrugResistanceGraphView(drugsST));
-            dispatch(setDeterminantsGraphDrugClass('Fluoroquinolones (CipNS)'));
+            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
+            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
             break;
           case 'klebe':
             dispatch(setMapView('No. Samples'));
