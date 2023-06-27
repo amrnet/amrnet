@@ -4,13 +4,21 @@ export const drugRulesST = [
   { key: 'Ampicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
-  { key: 'Co-trimoxazole', columnID: 'co_trim', values: ['1'] },
-  { key: 'ESBL', columnID: 'ESBL_category', values: ['ESBL'] },
-  { key: 'Fluoroquinolones (CipNS)', columnID: 'cip_pred_pheno', values: ['CipNS'] },
+  // { key: 'Co-trimoxazole', columnID: 'co_trim', values: ['1'] },
+  { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
+  // { key: 'ESBL', columnID: 'ESBL_category', values: ['ESBL'] },
+  { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
+  // { key: 'Fluoroquinolones (CipNS)', columnID: 'cip_pred_pheno', values: ['CipR', 'CipI'] },
+  { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Susceptible', columnID: 'amr_category', values: ['No AMR detected'] },
   { key: 'Tetracyclines', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] }
+];
+
+export const drugRulesForDrugResistanceGraphST = [
+  { key: 'MDR', columnID: 'MDR', values: ['MDR'] },
+  { key: 'XDR', columnID: 'XDR', values: ['XDR'] }
 ];
 
 // Drug rules for Klebsiella, where the column has to be any value other than '-' to validate the rule. For frequencies
@@ -114,7 +122,8 @@ export const drugClassesRulesST = {
       rules: [{ columnID: 'chloramphenicol_category', value: 'ChlS' }]
     }
   ],
-  'Co-trimoxazole': [
+  // 'Co-trimoxazole': [
+  'Trimethoprim-sulfamethoxazole': [
     {
       name: 'dfrA7 + dfrA14 + sul1 + sul2',
       susceptible: false,
@@ -348,7 +357,8 @@ export const drugClassesRulesST = {
       rules: [{ columnID: 'co_trim', value: '0' }]
     }
   ],
-  ESBL: [
+  // ESBL: [
+  Ceftriaxone: [
     {
       name: 'blaCTX-M-15',
       susceptible: false,
@@ -387,7 +397,8 @@ export const drugClassesRulesST = {
       rules: [{ columnID: 'ESBL_category', value: 'Non-ESBL' }]
     }
   ],
-  'Fluoroquinolones (CipNS)': [
+  // 'Fluoroquinolones (CipNS)': [
+  'Ciprofloxacin NS': [
     {
       name: '3_QRDR + qnrS (CipR)',
       susceptible: false,
