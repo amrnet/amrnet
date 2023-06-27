@@ -203,7 +203,8 @@ export const colorForDrugClassesST = {
     { name: 'acrB_R717Q + acrB_R717L', color: '#fd8d3c' },
     { name: 'None', color: '#B9B9B9' }
   ],
-  'Fluoroquinolones (CipNS)': [
+  // 'Fluoroquinolones (CipNS)': [
+  'Ciprofloxacin NS': [
     { name: '0_QRDR + qnrB (CipR)', color: '#0066cc' },
     { name: '0_QRDR + qnrS (CipR)', color: '#009999' },
     { name: '1_QRDR (CipNS)', color: '#ffcc00' },
@@ -251,14 +252,22 @@ export const colorForDrugClassesST = {
     { name: 'tetA(D)', color: '#FCB469' },
     { name: 'None', color: '#B9B9B9' }
   ],
-  ESBL: [
+  // ESBL: [
+  //   { name: 'blaCTX-M-15', color: '#6baed6' },
+  //   { name: 'blaCTX-M-55', color: '#FBCFE5' },
+  //   { name: 'blaOXA-7', color: '#9e9ac8' },
+  //   { name: 'blaSHV-12', color: '#addd8e' },
+  //   { name: 'None', color: '#B9B9B9' }
+  // ],
+  Ceftriaxone: [
     { name: 'blaCTX-M-15', color: '#6baed6' },
     { name: 'blaCTX-M-55', color: '#FBCFE5' },
     { name: 'blaOXA-7', color: '#9e9ac8' },
     { name: 'blaSHV-12', color: '#addd8e' },
     { name: 'None', color: '#B9B9B9' }
   ],
-  'Co-trimoxazole': [
+  // 'Co-trimoxazole': [
+  'Trimethoprim-sulfamethoxazole': [
     { name: 'dfrA1 + sul1', color: '#ffeda0' },
     { name: 'dfrA1 + sul2', color: '#a50f15' },
     { name: 'dfrA1 + sul1 + sul2', color: '#fcc5c0' },
