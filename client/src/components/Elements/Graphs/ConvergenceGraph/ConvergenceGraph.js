@@ -15,7 +15,7 @@ import {
   Cell
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setConvergenceColourVariable, setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
+import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -31,7 +31,7 @@ export const ConvergenceGraph = () => {
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const convergenceData = useAppSelector((state) => state.graph.convergenceData);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
-  const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
+  // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
 
   useEffect(() => {
@@ -43,17 +43,17 @@ export const ConvergenceGraph = () => {
     dispatch(setConvergenceGroupVariable(event.target.value));
   }
 
-  function handleChangeColourVariable(event) {
-    setCurrentTooltip(null);
-    dispatch(setConvergenceColourVariable(event.target.value));
-  }
+  // function handleChangeColourVariable(event) {
+  //   setCurrentTooltip(null);
+  //   dispatch(setConvergenceColourVariable(event.target.value));
+  // }
 
-  function handleClickChart(name, color) {
+  function handleClickChart(name) {
     const data = convergenceData.find((item) => item.name === name);
 
     if (data) {
       const currentData = structuredClone(data);
-      setCurrentTooltip({ ...currentData, color });
+      setCurrentTooltip({ ...currentData });
     }
   }
 
@@ -126,7 +126,7 @@ export const ConvergenceGraph = () => {
                 {convergenceData.map((option, index) => (
                   <Cell
                     name={option.name}
-                    onClick={() => handleClickChart(option.name, convergenceColourPallete[option.colorLabel])}
+                    onClick={() => handleClickChart(option.name)}
                     key={`combination-cell-${index}`}
                     fill={convergenceColourPallete[option.colorLabel]}
                   />
@@ -161,7 +161,7 @@ export const ConvergenceGraph = () => {
             })}
           </Select>
         </div>
-        <div className={classes.selectWrapper}>
+        {/* <div className={classes.selectWrapper}>
           <Typography variant="caption">Colour variable</Typography>
           <Select
             value={convergenceColourVariable}
@@ -178,7 +178,7 @@ export const ConvergenceGraph = () => {
               );
             })}
           </Select>
-        </div>
+        </div> */}
       </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="CVM">
@@ -191,16 +191,15 @@ export const ConvergenceGraph = () => {
                 <Typography variant="h5" fontWeight="600">
                   {currentTooltip.name}
                 </Typography>
-                <Typography noWrap variant="subtitle1" minWidth="90px" textAlign="end">
-                  {'N = ' + currentTooltip.z}
-                </Typography>
+                {/* <Typography noWrap variant="subtitle1" minWidth="90px" textAlign="end"> */}
+                <Typography variant="subtitle1">{'N = ' + currentTooltip.z}</Typography>
               </div>
               <div className={classes.tooltipContent}>
                 <div className={classes.tooltipItemWrapper}>
                   <Box
                     className={classes.tooltipItemBox}
                     style={{
-                      backgroundColor: currentTooltip.color
+                      backgroundColor: 'rgb(24, 85, 183)'
                     }}
                   />
                   <div className={classes.tooltipItemStats}>
@@ -216,7 +215,7 @@ export const ConvergenceGraph = () => {
                   <Box
                     className={classes.tooltipItemBox}
                     style={{
-                      backgroundColor: currentTooltip.color
+                      backgroundColor: 'rgb(187, 54, 60)'
                     }}
                   />
                   <div className={classes.tooltipItemStats}>
