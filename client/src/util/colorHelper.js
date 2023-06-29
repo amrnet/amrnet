@@ -206,7 +206,6 @@ export const colorForDrugClassesST = {
   
   // 'Fluoroquinolones (CipNS)': [
   'Ciprofloxacin NS': [
-
     { name: '0_QRDR + qnrB (CipNS)', color: '#0066cc' },
     { name: '0_QRDR + qnrS (CipNS)', color: '#009999' },
     { name: '1_QRDR (CipNS)', color: '#ffcc00' },
