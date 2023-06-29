@@ -16,7 +16,7 @@ export const getColorForDrug = (drug) => {
       
     // case 'Co-trimoxazole':
     case 'Trimethoprim-sulfamethoxazole':
-    case 'Cephalosporins (3rd gen.) + β-lactamase inhibitors':
+    case '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors':
       return 'rgb(252,180,105)';
 
     // case 'ESBL':
@@ -75,5 +75,9 @@ export const getColorForDrug = (drug) => {
 export const colorsForKODiversityGraph = [
   { name: 'MDR', color: 'rgb(187, 54, 60)' },
   { name: 'Hv', color: 'rgb(24, 85, 183)' },
-  { name: 'unassigned', color: lightGrey }
+  { name: 'Carbapenems', color: 'rgb(144,211,199)' },
+  { name: 'ESBL', color: '#DB90F0' },
+  { name: 'Aerobactin(iuc)', color: 'rgb(180,221,112)' },
+  { name: 'rmpADC', color: 'rgb(252,180,105)' },
+  { name: 'neither', color: lightGrey }
 ];

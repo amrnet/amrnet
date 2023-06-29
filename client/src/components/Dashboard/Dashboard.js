@@ -132,7 +132,8 @@ export const DashboardPage = () => {
       const convergenceData = getConvergenceData({
         data: responseData,
         groupVariable: convergenceGroupVariable,
-        colourVariable: convergenceColourVariable
+        // colourVariable: convergenceColourVariable,
+        colourVariable: convergenceGroupVariable
       });
       dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
       dispatch(setConvergenceData(convergenceData.data));
@@ -257,7 +258,8 @@ export const DashboardPage = () => {
         const convergenceData = getConvergenceData({
           data: filteredData,
           groupVariable: convergenceGroupVariable,
-          colourVariable: convergenceColourVariable
+          // colourVariable: convergenceColourVariable,
+          colourVariable: convergenceGroupVariable
         });
         dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
         dispatch(setConvergenceData(convergenceData.data));
@@ -293,7 +295,8 @@ export const DashboardPage = () => {
           const convergenceData = getConvergenceData({
             data: filteredData,
             groupVariable: convergenceGroupVariable,
-            colourVariable: convergenceColourVariable
+            // colourVariable: convergenceColourVariable,
+            colourVariable: convergenceGroupVariable
           });
           dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
           dispatch(setConvergenceData(convergenceData.data));
