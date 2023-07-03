@@ -49,7 +49,7 @@ export const DistributionGraph = () => {
       // console.log("genotypesYearDataNumber:", genotypesYearData);
       genotypesYearData.forEach(cur => {
         Object.keys(cur).forEach(it => {
-          if (it !== "name" && it !== "count") {
+          if (it !== "name" && it !== "count" && it !== "Unused") {
             if (mp.has(it)) {
               mp.set(it, mp.get(it) + cur[it]);
             } else {
@@ -63,12 +63,12 @@ export const DistributionGraph = () => {
       // Sort the array based on keys
       mapArray.sort((a, b) => b[1] - a[1]);
       const slicedArray = mapArray.slice(0, genotypesForFilter.length).map(([key, value]) => key);
-      slicedArray.push('Unused');
+      // slicedArray.push('Unused');
       setTopXGenotypes(slicedArray);
   },[genotypesForFilter, genotypesYearData]);
 
   function getData(){
-    const exclusions = ['name', 'count'];
+    const exclusions = ['name', 'count', 'Unused'];
     if (distributionGraphView === 'number') {
         return genotypesYearData;
     }
