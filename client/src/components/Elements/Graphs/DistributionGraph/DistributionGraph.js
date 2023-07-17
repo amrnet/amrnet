@@ -35,6 +35,7 @@ export const DistributionGraph = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
+  const [topXGenotypes, setTopXGenotypes] = useState([]);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -43,25 +44,50 @@ export const DistributionGraph = () => {
   function getDomain() {
     return distributionGraphView === 'number' ? undefined : [0, 100];
   }
+  useEffect(() =>{
+      let mp = new Map();
+      // console.log("genotypesYearDataNumber:", genotypesYearData);
+      genotypesYearData.forEach(cur => {
+        Object.keys(cur).forEach(it => {
+          if (it !== "name" && it !== "count" && it !== "Unused") {
+            if (mp.has(it)) {
+              mp.set(it, mp.get(it) + cur[it]);
+            } else {
+              mp.set(it, cur[it]);
+            }
+          }
+        })
+      })
 
-  function getData() {
+      const mapArray = Array.from(mp);
+      // Sort the array based on keys
+      mapArray.sort((a, b) => b[1] - a[1]);
+      const slicedArray = mapArray.slice(0, genotypesForFilter.length).map(([key, value]) => key);
+      // slicedArray.push('Unused');
+      setTopXGenotypes(slicedArray);
+  },[genotypesForFilter, genotypesYearData]);
+
+  function getData(){
+    const exclusions = ['name', 'count', 'Unused'];
     if (distributionGraphView === 'number') {
-      return genotypesYearData;
+        return genotypesYearData;
     }
-
-    const exclusions = ['name', 'count'];
     let genotypeDataPercentage = structuredClone(genotypesYearData);
-    genotypeDataPercentage = genotypeDataPercentage.map((item) => {
-      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
-
+    return genotypeDataPercentage.map((item) => {
+        for (const key in item) {      
+          if (!topXGenotypes.includes(key) && !exclusions.includes(key) ) { 
+            item.count = item.count - item[key];
+            delete item[key];
+          }
+        }
+      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));      
       keys.forEach((key) => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
-
+      const UnusedPercentage = 100 - keys.reduce((sum, key) => sum + item[key], 0);
+          item.Unused = Number(UnusedPercentage.toFixed(2));
       return item;
     });
-
-    return genotypeDataPercentage;
   }
 
   function getGenotypeColor(genotype) {
@@ -153,7 +179,7 @@ export const DistributionGraph = () => {
                 }}
               />
 
-              {genotypesForFilter.map((option, index) => (
+              {topXGenotypes.map((option, index) => (
                 <Bar
                   key={`distribution-bar-${index}`}
                   dataKey={option}
@@ -168,7 +194,7 @@ export const DistributionGraph = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, distributionGraphView]);
+  }, [genotypesYearData, distributionGraphView,topXGenotypes]);
 
   return (
     <CardContent className={classes.distributionGraph}>
