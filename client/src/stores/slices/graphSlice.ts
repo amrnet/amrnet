@@ -29,8 +29,9 @@ interface GraphState {
   KODiversityGraphView: string;
   convergenceData: Array<any>;
   convergenceGroupVariable: string;
-  convergenceColourVariable: string
-  convergenceColourPallete: Object
+  convergenceColourVariable: string;
+  convergenceColourPallete: Object;
+  genotypesForFilterLength: number;
 }
 
 const initialState: GraphState = {
@@ -62,7 +63,8 @@ const initialState: GraphState = {
   convergenceData: [],
   convergenceGroupVariable: 'COUNTRY_ONLY',
   convergenceColourVariable: 'DATE',
-  convergenceColourPallete: {}
+  convergenceColourPallete: {},
+  genotypesForFilterLength:20,
 };
 
 export const graphSlice = createSlice({
@@ -135,6 +137,9 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
+     setgenotypesForFilterLength: (state, action: PayloadAction<number>) => {
+      state.genotypesForFilterLength = action.payload;
+    },
   }
 });
 
@@ -160,7 +165,8 @@ export const {
   setConvergenceData,
   setConvergenceGroupVariable,
   setConvergenceColourVariable,
-  setConvergenceColourPallete
+  setConvergenceColourPallete,
+  setgenotypesForFilterLength,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
