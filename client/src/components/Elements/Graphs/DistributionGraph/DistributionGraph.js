@@ -13,10 +13,11 @@ import {
   Label
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDistributionGraphView } from '../../../../stores/slices/graphSlice';
+import { setDistributionGraphView, setgenotypesForFilterLength} from '../../../../stores/slices/graphSlice';
 import { getColorForGenotype, hoverColor } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
+import {SliderSizes} from '../../Slider';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -35,7 +36,11 @@ export const DistributionGraph = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
+  const genotypesForFilterLength = useAppSelector((state) => state.graph.genotypesForFilterLength);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
+  const [restXGenotypes, setRestXGenotypes] = useState([]);
+
+  // console.log("genotypesForFilterLength:", genotypesForFilterLength);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -62,13 +67,18 @@ export const DistributionGraph = () => {
       const mapArray = Array.from(mp);
       // Sort the array based on keys
       mapArray.sort((a, b) => b[1] - a[1]);
-      const slicedArray = mapArray.slice(0, genotypesForFilter.length).map(([key, value]) => key);
+      // console.log("genotypesForFilterLength:", genotypesForFilterLength);
+      const slicedArray = mapArray.slice(0, genotypesForFilterLength).map(([key, value]) => key);
+      // const otherArray = mapArray.slice(10, genotypesForFilterLength).map(([key, value]) => key);
+      // console.log("otherArray", otherArray.length);
       // slicedArray.push('Unused');
       setTopXGenotypes(slicedArray);
-  },[genotypesForFilter, genotypesYearData]);
+      // setRestXGenotypes(otherArray);
+  },[genotypesForFilter, genotypesYearData, genotypesForFilterLength]);
 
   function getData(){
-    const exclusions = ['name', 'count', 'Unused'];
+    
+    const exclusions = ['name', 'count'];
     if (distributionGraphView === 'number') {
         return genotypesYearData;
     }
@@ -79,13 +89,18 @@ export const DistributionGraph = () => {
             item.count = item.count - item[key];
             delete item[key];
           }
+          // if (!restXGenotypes.includes(key) && !exclusions.includes(key) ) { 
+          //   item.count = item.count - item[key];
+          //   delete item[key];
+          // }
         }
-      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));      
+      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));    
+      // console.log("keys: ",keys);  
       keys.forEach((key) => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
-      const UnusedPercentage = 100 - keys.reduce((sum, key) => sum + item[key], 0);
-          item.Unused = Number(UnusedPercentage.toFixed(2));
+      // const UnusedPercentage = 100 - keys.reduce((sum, key) => sum + item[key], 0);
+      //     item.Unused = Number(UnusedPercentage.toFixed(2));
       return item;
     });
   }
@@ -116,6 +131,7 @@ export const DistributionGraph = () => {
       value.genotypes = Object.keys(currentData).map((key) => {
         const count = currentData[key];
         const activePayload = event.activePayload.find((x) => x.name === key);
+        // console.log("activePayload: ", event);
 
         return {
           label: key,
@@ -149,7 +165,6 @@ export const DistributionGraph = () => {
                 </Label>
               </YAxis>
               {genotypesYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
-
               <Legend
                 content={(props) => {
                   const { payload } = props;
@@ -216,6 +231,7 @@ export const DistributionGraph = () => {
           })}
         </Select>
       </div>
+      <SliderSizes/>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="GD">
           {plotChart}
