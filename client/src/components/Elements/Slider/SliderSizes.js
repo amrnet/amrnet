@@ -16,18 +16,19 @@ export const SliderSizes = () => {
   };
 
   return (
-    <Box width='100%'>
-      <Slider
-        value={genotypesForFilterLength}
-        onChange={handleDefaultSliderChange}
-        aria-label="Default"
-        valueLabelDisplay="auto"
-        min={1}
-        max={genotypesForFilter.length}
-      />
-
-      {/* Display the values of the sliders */}
-      <p>Selected Slider Value: {genotypesForFilterLength}</p>
-    </Box>
+    <div style={{ margin: '0px 10px' }}>
+      <Box >
+        <Slider
+          value={genotypesForFilterLength}
+          onChange={handleDefaultSliderChange}
+          aria-label="Default"
+          valueLabelDisplay="auto"
+          min={1}
+          max={genotypesForFilter.length}
+        />
+        {/* Display the values of the sliders */}
+        <p>Selected Slider Value: {genotypesForFilterLength}</p>
+      </Box>
+    </div>
   );
 }

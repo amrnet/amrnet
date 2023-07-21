@@ -38,9 +38,6 @@ export const DistributionGraph = () => {
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const genotypesForFilterLength = useAppSelector((state) => state.graph.genotypesForFilterLength);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
-  const [restXGenotypes, setRestXGenotypes] = useState([]);
-
-  // console.log("genotypesForFilterLength:", genotypesForFilterLength);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -51,7 +48,6 @@ export const DistributionGraph = () => {
   }
   useEffect(() =>{
       let mp = new Map();
-      // console.log("genotypesYearDataNumber:", genotypesYearData);
       genotypesYearData.forEach(cur => {
         Object.keys(cur).forEach(it => {
           if (it !== "name" && it !== "count" && it !== "Unused") {
@@ -67,13 +63,9 @@ export const DistributionGraph = () => {
       const mapArray = Array.from(mp);
       // Sort the array based on keys
       mapArray.sort((a, b) => b[1] - a[1]);
-      // console.log("genotypesForFilterLength:", genotypesForFilterLength);
       const slicedArray = mapArray.slice(0, genotypesForFilterLength).map(([key, value]) => key);
-      // const otherArray = mapArray.slice(10, genotypesForFilterLength).map(([key, value]) => key);
-      // console.log("otherArray", otherArray.length);
-      // slicedArray.push('Unused');
       setTopXGenotypes(slicedArray);
-      // setRestXGenotypes(otherArray);
+    
   },[genotypesForFilter, genotypesYearData, genotypesForFilterLength]);
 
   function getData(){
@@ -88,21 +80,16 @@ export const DistributionGraph = () => {
           if (!topXGenotypes.includes(key) && !exclusions.includes(key) ) { 
             item.count = item.count - item[key];
             delete item[key];
-          }
-          // if (!restXGenotypes.includes(key) && !exclusions.includes(key) ) { 
-          //   item.count = item.count - item[key];
-          //   delete item[key];
-          // }
+          }  
         }
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));    
-      // console.log("keys: ",keys);  
+
       keys.forEach((key) => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
-      // const UnusedPercentage = 100 - keys.reduce((sum, key) => sum + item[key], 0);
-      //     item.Unused = Number(UnusedPercentage.toFixed(2));
-      return item;
+       return item;
     });
+    
   }
 
   function getGenotypeColor(genotype) {
@@ -131,8 +118,6 @@ export const DistributionGraph = () => {
       value.genotypes = Object.keys(currentData).map((key) => {
         const count = currentData[key];
         const activePayload = event.activePayload.find((x) => x.name === key);
-        // console.log("activePayload: ", event);
-
         return {
           label: key,
           count,
@@ -140,8 +125,25 @@ export const DistributionGraph = () => {
           color: activePayload?.fill
         };
       });
+      let count = 0, percentage = 0;
       value.genotypes.sort((a, b) => b.label.localeCompare(a.label));
-
+      value.genotypes.map((item, index) =>{
+         if(topXGenotypes.includes(item.label) )
+            console.log("value.genotypes.item", item);
+        else{
+            count += item.count;
+            percentage += item.percentage;
+        }
+      })
+      value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label));
+      if (count !== 0 && percentage !== 0) {
+        value.genotypes.push({
+          label: 'Other',
+          count: count,
+          percentage: percentage.toFixed(2),
+          color: '#969696' 
+        });
+      }
       setCurrentTooltip(value);
     }
   }
@@ -203,6 +205,7 @@ export const DistributionGraph = () => {
                   fill={getGenotypeColor(option)}
                 />
               ))}
+              
             </BarChart>
           </ResponsiveContainer>
         );
@@ -231,45 +234,47 @@ export const DistributionGraph = () => {
           })}
         </Select>
       </div>
-      <SliderSizes/>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="GD">
           {plotChart}
         </div>
-        <div className={classes.tooltipWrapper}>
-          {currentTooltip ? (
-            <div className={classes.tooltip}>
-              <div className={classes.tooltipTitle}>
-                <Typography variant="h5" fontWeight="600">
-                  {currentTooltip.name}
-                </Typography>
-                <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
-              </div>
-              <div className={classes.tooltipContent}>
-                {currentTooltip.genotypes.map((item, index) => {
-                  return (
-                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                      <Box
-                        className={classes.tooltipItemBox}
-                        style={{
-                          backgroundColor: item.color
-                        }}
-                      />
-                      <div className={classes.tooltipItemStats}>
-                        <Typography variant="body2" fontWeight="500">
-                          {item.label}
-                        </Typography>
-                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                        <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+        <div className={classes.sliderCont} >
+          <SliderSizes sx={{margin: '0px 10px 0px 10px'}}/>
+          <div className={classes.tooltipWrapper}>
+            {currentTooltip ? (
+              <div className={classes.tooltip}>
+                <div className={classes.tooltipTitle}>
+                  <Typography variant="h5" fontWeight="600">
+                    {currentTooltip.name}
+                  </Typography>
+                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                </div>
+                <div className={classes.tooltipContent}>
+                  {currentTooltip.genotypes.map((item, index) => {
+                    return (
+                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                        <Box
+                          className={classes.tooltipItemBox}
+                          style={{
+                            backgroundColor: item.color
+                          }}
+                        />
+                        <div className={classes.tooltipItemStats}>
+                          <Typography variant="body2" fontWeight="500">
+                            {item.label}
+                          </Typography>
+                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className={classes.noYearSelected}>No year selected</div>
-          )}
+            ) : (
+              <div className={classes.noYearSelected2}>No year selected</div>
+            )}
+          </div>
         </div>
       </div>
     </CardContent>
