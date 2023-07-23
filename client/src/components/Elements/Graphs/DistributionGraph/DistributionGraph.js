@@ -63,17 +63,31 @@ export const DistributionGraph = () => {
       const mapArray = Array.from(mp);
       // Sort the array based on keys
       mapArray.sort((a, b) => b[1] - a[1]);
+
       const slicedArray = mapArray.slice(0, genotypesForFilterLength).map(([key, value]) => key);
       setTopXGenotypes(slicedArray);
     
   },[genotypesForFilter, genotypesYearData, genotypesForFilterLength]);
 
   function getData(){
-    
     const exclusions = ['name', 'count'];
+
     if (distributionGraphView === 'number') {
-        return genotypesYearData;
+      let newArray = []; // Create an empty array to store the new items
+      
+      newArray = genotypesYearData.map((item) => {
+        let count = 0;
+        for (const key in item) {     
+          if (!topXGenotypes.includes(key) && !exclusions.includes(key)) { 
+            count += item[key];
+          }  
+        }
+        const newItem = { ...item, Other: count };
+        return newItem;
+      });
+      return newArray;
     }
+
     let genotypeDataPercentage = structuredClone(genotypesYearData);
     return genotypeDataPercentage.map((item) => {
         for (const key in item) {      
@@ -89,7 +103,6 @@ export const DistributionGraph = () => {
       });
        return item;
     });
-    
   }
 
   function getGenotypeColor(genotype) {
@@ -135,6 +148,7 @@ export const DistributionGraph = () => {
             percentage += item.percentage;
         }
       })
+        
       value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label));
       if (count !== 0 && percentage !== 0) {
         value.genotypes.push({
@@ -144,9 +158,14 @@ export const DistributionGraph = () => {
           color: '#969696' 
         });
       }
+      console.log("value: ", value);
       setCurrentTooltip(value);
     }
   }
+
+  console.log("getData()", getData());
+
+  {topXGenotypes.map((option, index) => (console.log("option", option)))}
 
   useEffect(() => {
     if (canGetData) {
@@ -205,7 +224,12 @@ export const DistributionGraph = () => {
                   fill={getGenotypeColor(option)}
                 />
               ))}
-              
+              <Bar
+                  dataKey={"Other"}
+                  stackId={0}
+                  fill={'#969696'}
+                />
+                
             </BarChart>
           </ResponsiveContainer>
         );
