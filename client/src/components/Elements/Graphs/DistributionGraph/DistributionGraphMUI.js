@@ -110,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     '@media (max-width: 1000px)': {
       width: '100%',
+      height:'100%',
       overflowY: 'hidden',
       overflowX: 'hidden',
     }
