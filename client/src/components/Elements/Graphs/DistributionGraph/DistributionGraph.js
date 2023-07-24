@@ -158,14 +158,9 @@ export const DistributionGraph = () => {
           color: '#969696' 
         });
       }
-      console.log("value: ", value);
       setCurrentTooltip(value);
     }
   }
-
-  console.log("getData()", getData());
-
-  {topXGenotypes.map((option, index) => (console.log("option", option)))}
 
   useEffect(() => {
     if (canGetData) {
