@@ -13,7 +13,7 @@ import {
   Label
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDistributionGraphView, setgenotypesForFilterLength} from '../../../../stores/slices/graphSlice';
+import { setDistributionGraphView, setGenotypesForFilterLength} from '../../../../stores/slices/graphSlice';
 import { getColorForGenotype, hoverColor } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -66,8 +66,15 @@ export const DistributionGraph = () => {
 
       const slicedArray = mapArray.slice(0, genotypesForFilterLength).map(([key, value]) => key);
       setTopXGenotypes(slicedArray);
-    
   },[genotypesForFilter, genotypesYearData, genotypesForFilterLength]);
+  // useEffect(() =>{
+  //    if(genotypesForFilter.length<20){     
+  //     console.log("genotypesForFilter", genotypesForFilter.length);
+  //     dispatch(setGenotypesForFilterLength(genotypesForFilter.length));
+  //   }else{
+  //     dispatch(setGenotypesForFilterLength(20));
+  //   }
+  // },[]);
 
   function getData(){
     const exclusions = ['name', 'count'];
