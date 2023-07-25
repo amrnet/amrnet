@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { setgenotypesForFilterLength } from '../../../stores/slices/graphSlice';
+import { setGenotypesForFilterLength } from '../../../stores/slices/graphSlice';
 
 export const SliderSizes = () => {
   // const [defaultSliderValue, setDefaultSliderValue] = useState(50);
@@ -12,14 +12,14 @@ export const SliderSizes = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   const handleDefaultSliderChange = (event, newValue) => {
-    dispatch(setgenotypesForFilterLength(newValue));
+    dispatch(setGenotypesForFilterLength(newValue));
   };
 
   return (
     <div style={{ margin: '0px 10px' }}>
       <Box >
         <Slider
-          value={genotypesForFilterLength}
+          value={genotypesForFilter.length >= genotypesForFilterLength ? genotypesForFilterLength :  genotypesForFilter.length }
           onChange={handleDefaultSliderChange}
           aria-label="Default"
           valueLabelDisplay="auto"
@@ -27,7 +27,7 @@ export const SliderSizes = () => {
           max={genotypesForFilter.length}
         />
         {/* Display the values of the sliders */}
-        <p>Selected Slider Value: {genotypesForFilterLength}</p>
+        <p>Selected Slider Value: {genotypesForFilter.length >= genotypesForFilterLength ? genotypesForFilterLength :  genotypesForFilter.length}</p>
       </Box>
     </div>
   );
