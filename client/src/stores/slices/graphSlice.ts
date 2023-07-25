@@ -137,7 +137,7 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
-     setgenotypesForFilterLength: (state, action: PayloadAction<number>) => {
+     setGenotypesForFilterLength: (state, action: PayloadAction<number>) => {
       state.genotypesForFilterLength = action.payload;
     },
   }
@@ -166,7 +166,7 @@ export const {
   setConvergenceGroupVariable,
   setConvergenceColourVariable,
   setConvergenceColourPallete,
-  setgenotypesForFilterLength,
+  setGenotypesForFilterLength,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
