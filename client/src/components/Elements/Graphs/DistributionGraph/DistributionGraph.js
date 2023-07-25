@@ -67,14 +67,6 @@ export const DistributionGraph = () => {
       const slicedArray = mapArray.slice(0, genotypesForFilterLength).map(([key, value]) => key);
       setTopXGenotypes(slicedArray);
   },[genotypesForFilter, genotypesYearData, genotypesForFilterLength]);
-  // useEffect(() =>{
-  //    if(genotypesForFilter.length<20){     
-  //     console.log("genotypesForFilter", genotypesForFilter.length);
-  //     dispatch(setGenotypesForFilterLength(genotypesForFilter.length));
-  //   }else{
-  //     dispatch(setGenotypesForFilterLength(20));
-  //   }
-  // },[]);
 
   function getData(){
     const exclusions = ['name', 'count'];

@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setGenotypesForFilterLength } from '../../../stores/slices/graphSlice';
 
 export const SliderSizes = () => {
-  // const [defaultSliderValue, setDefaultSliderValue] = useState(50);
 
   const dispatch = useAppDispatch();
   const genotypesForFilterLength = useAppSelector((state) => state.graph.genotypesForFilterLength);
