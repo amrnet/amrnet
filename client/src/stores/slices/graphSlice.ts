@@ -32,6 +32,7 @@ interface GraphState {
   convergenceColourVariable: string;
   convergenceColourPallete: Object;
   genotypesForFilterLength: number;
+  currentTooltipBool: boolean;
 }
 
 const initialState: GraphState = {
@@ -65,6 +66,7 @@ const initialState: GraphState = {
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
   genotypesForFilterLength:20,
+  currentTooltipBool:false,
 };
 
 export const graphSlice = createSlice({
@@ -140,6 +142,9 @@ export const graphSlice = createSlice({
      setGenotypesForFilterLength: (state, action: PayloadAction<number>) => {
       state.genotypesForFilterLength = action.payload;
     },
+    setCurrentTooltipBool: (state, action: PayloadAction<boolean>) => {
+      state.currentTooltipBool = action.payload;
+    },
   }
 });
 
@@ -167,6 +172,7 @@ export const {
   setConvergenceColourVariable,
   setConvergenceColourPallete,
   setGenotypesForFilterLength,
+  setCurrentTooltipBool,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

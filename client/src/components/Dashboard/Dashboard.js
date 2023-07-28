@@ -46,7 +46,8 @@ import {
   setKODiversityData,
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView
+  setTrendsKPGraphView,
+  setGenotypesForFilterLength
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -222,6 +223,7 @@ export const DashboardPage = () => {
       dispatch(setDeterminantsGraphView('percentage'));
       dispatch(setDistributionGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
+      dispatch(setGenotypesForFilterLength(20));
 
       switch (organism) {
         case 'typhi':
