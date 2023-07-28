@@ -23,7 +23,7 @@ export const SliderSizes = () => {
           aria-label="Default"
           valueLabelDisplay="auto"
           min={1}
-          max={genotypesForFilter.length}
+          max={133}
         />
         {/* Display the values of the sliders */}
         <p>Selected Slider Value: {genotypesForFilter.length >= genotypesForFilterLength ? genotypesForFilterLength :  genotypesForFilter.length}</p>
