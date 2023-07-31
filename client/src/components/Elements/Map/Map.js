@@ -39,7 +39,8 @@ export const Map = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
   function getGenotypeColor(genotype) {
     return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
@@ -50,7 +51,7 @@ export const Map = () => {
       dispatch(setActualCountry(countryData.name));
     }
   }
-
+console.log(" ifCustom ", ifCustom);
   function handleOnMouseLeave() {
     dispatch(setTooltipContent(null));
   }
@@ -286,7 +287,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              <TopRightControls2/>
+              {ifCustom ? <TopRightControls2/> : null}
             </>
           )}
           <BottomLeftControls />
@@ -296,7 +297,7 @@ export const Map = () => {
           <div className={classes.topControls}>
             <TopRightControls />
             <TopLeftControls />
-            <TopRightControls2/>
+            {ifCustom ? <TopRightControls2/> : null}
           </div>
         )}
         <ReactTooltip>

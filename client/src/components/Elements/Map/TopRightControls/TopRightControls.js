@@ -2,7 +2,7 @@ import { InfoOutlined } from '@mui/icons-material';
 import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import { useStyles } from './TopRightControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setMapView } from '../../../../stores/slices/mapSlice.ts';
+import { setMapView, setIfCustom} from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
@@ -25,6 +25,10 @@ export const TopRightControls = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   function handleChangeMapView(event) {
+    if(event.target.value === 'Select custom Genotype')
+      dispatch(setIfCustom(true));
+    else
+      dispatch(setIfCustom(false));
     dispatch(setMapView(event.target.value));
   }
 
@@ -52,8 +56,6 @@ export const TopRightControls = () => {
         return noSamplesSteps;
       case 'Dominant Genotype':
         return getDominantGenotypeSteps();
-      case 'Select custom Genotype':
-        return getDominantGenotypeSteps();
       default:
         return generalSteps;
     }
@@ -69,8 +71,6 @@ export const TopRightControls = () => {
         return samplesColorScale(aux[index]);
       }
       case 'Dominant Genotype':
-        return getGenotypeColor(step);
-      case 'Select custom Genotype':
         return getGenotypeColor(step);
       default:
         return redColorScale(step);
