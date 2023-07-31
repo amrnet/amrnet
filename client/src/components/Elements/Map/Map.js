@@ -12,6 +12,7 @@ import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.
 import { TopRightControls } from './TopRightControls';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice.ts';
 import { TopLeftControls } from './TopLeftControls';
+import { TopRightControls2 } from './TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
 
 const statKey = {
@@ -38,6 +39,7 @@ export const Map = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
+   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
 
   function getGenotypeColor(genotype) {
     return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
@@ -76,7 +78,7 @@ export const Map = () => {
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
                     CipNS: `${countryStats.CipNS.percentage}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`
+                    Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : {
                     Samples: countryData.count,
@@ -93,6 +95,22 @@ export const Map = () => {
             tooltip.content[genotype.name] = genotype.count;
           });
           break;
+        case 'Select custom Genotype':
+            let genotypes2 = [];
+            for (const item of countryStats.GENOTYPE.items) {
+              if (frequenciesGraphSelectedGenotypes.includes(item.name)) {
+                genotypes2.push(item);
+              }
+            }
+            if (genotypes2.length > 0) {
+              let sumCount = 0;
+              for (const genotype of genotypes2) {
+                tooltip.content[genotype.name] = genotype.count;
+                sumCount += genotype.count;
+              }
+              tooltip.content['SumCount'] = sumCount;
+            }
+            break;
         case 'H58 / Non-H58':
         case 'MDR':
         case 'Sensitive to all drugs':
@@ -122,7 +140,7 @@ export const Map = () => {
   }
 
   function showPercentage() {
-    return !['Dominant Genotype', 'No. Samples'].includes(mapView);
+    return !['Dominant Genotype','Select custom Genotype','No. Samples'].includes(mapView);
   }
 
   return (
@@ -180,6 +198,18 @@ export const Map = () => {
                         case 'Dominant Genotype':
                           const genotypes = countryStats.GENOTYPE.items;
                           fillColor = getGenotypeColor(genotypes[0].name);
+                          break;
+                        case 'Select custom Genotype':
+                          let genotypes2 = undefined;
+                          for (const item of countryStats.GENOTYPE.items) {
+                            if (frequenciesGraphSelectedGenotypes.includes(item.name)) {
+                              genotypes2 = item;
+                            }
+                          }
+                          
+                          if(genotypes2 != undefined){
+                            fillColor = getGenotypeColor(genotypes2.name);
+                          }
                           break;
                         case 'Sensitive to all drugs':
                         case 'H58 / Non-H58':
@@ -256,6 +286,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
+              <TopRightControls2/>
             </>
           )}
           <BottomLeftControls />
@@ -265,6 +296,7 @@ export const Map = () => {
           <div className={classes.topControls}>
             <TopRightControls />
             <TopLeftControls />
+            <TopRightControls2/>
           </div>
         )}
         <ReactTooltip>
