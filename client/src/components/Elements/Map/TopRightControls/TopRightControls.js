@@ -52,6 +52,8 @@ export const TopRightControls = () => {
         return noSamplesSteps;
       case 'Dominant Genotype':
         return getDominantGenotypeSteps();
+      case 'Select custom Genotype':
+        return getDominantGenotypeSteps();
       default:
         return generalSteps;
     }
@@ -67,6 +69,8 @@ export const TopRightControls = () => {
         return samplesColorScale(aux[index]);
       }
       case 'Dominant Genotype':
+        return getGenotypeColor(step);
+      case 'Select custom Genotype':
         return getGenotypeColor(step);
       default:
         return redColorScale(step);
