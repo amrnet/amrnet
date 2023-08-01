@@ -11,7 +11,7 @@ import { mapLegends } from '../../../../util/mapLegends';
 const generalSteps = ['1 - 2%', '3 - 10%', '11 - 50%', '51 - 100%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
-const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb'];
+const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Select custom Genotype'];
 
 export const TopRightControls = () => {
   const classes = useStyles();
