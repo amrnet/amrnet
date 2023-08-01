@@ -323,8 +323,9 @@ console.log(" ifCustom ", ifCustom);
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            <TopLeftControls />
             {ifCustom ? <TopRightControls2/> : null}
+            <TopLeftControls />
+            
           </div>
         )}
         <ReactTooltip>
