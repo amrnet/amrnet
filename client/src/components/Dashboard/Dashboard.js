@@ -44,6 +44,7 @@ import {
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
   setGenotypesDrugsData,
+  setGenotypesDrugsData2,
   setGenotypesYearData,
   setKODiversityData,
   setKODiversityGraphView,
@@ -114,6 +115,7 @@ export const DashboardPage = () => {
 
     const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
+    dispatch(setGenotypesDrugsData2(genotypesData.genotypesDrugsData));
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
@@ -145,7 +147,7 @@ export const DashboardPage = () => {
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-
+    console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
     return responseData;
   }
 
@@ -245,7 +247,7 @@ export const DashboardPage = () => {
   // It filters accordingly to the filters give. Is also called when the reset button is pressed.
   useEffect(() => {
     if (data.length > 0 && canGetData) {
-      console.log('update data', dataset, actualTimeInitial, actualTimeFinal, actualCountry);
+      // console.log('update data', dataset, actualTimeInitial, actualTimeFinal, actualCountry);
 
       const filters = filterData({ data, dataset, actualTimeInitial, actualTimeFinal, organism, actualCountry });
       const filteredData = filters.data.filter(
@@ -256,7 +258,7 @@ export const DashboardPage = () => {
         convergenceGroupVariable !== currentConvergenceGroupVariable ||
         convergenceColourVariable !== currentConvergenceColourVariable
       ) {
-        console.log('update variables', convergenceGroupVariable, convergenceColourVariable);
+        // console.log('update variables', convergenceGroupVariable, convergenceColourVariable);
         setCurrentConvergenceGroupVariable(convergenceGroupVariable);
         setCurrentConvergenceColourVariable(convergenceColourVariable);
 
@@ -325,7 +327,7 @@ export const DashboardPage = () => {
       <Graphs />
       <DownloadData />
       <Footer />
-      <ResetButton />
+      <ResetButton data={data} />
     </MainLayout>
   );
 };
