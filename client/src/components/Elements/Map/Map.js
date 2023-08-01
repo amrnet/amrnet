@@ -52,7 +52,7 @@ export const Map = () => {
       dispatch(setActualCountry(countryData.name));
     }
   }
-console.log(" ifCustom ", ifCustom);
+// console.log(" ifCustom ", ifCustom);
   function handleOnMouseLeave() {
     dispatch(setTooltipContent(null));
   }
@@ -72,7 +72,7 @@ console.log(" ifCustom ", ifCustom);
             content:
               organism === 'typhi'
                 ? {
-                    Samples: countryData.count,
+                    // Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     H58: `${countryStats.H58.percentage}%`,
                     MDR: `${countryStats.MDR.percentage}%`,
@@ -83,7 +83,7 @@ console.log(" ifCustom ", ifCustom);
                     Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : {
-                    Samples: countryData.count,
+                    // Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
                     Carb: `${countryStats.Carb.percentage}%`,
@@ -109,7 +109,7 @@ console.log(" ifCustom ", ifCustom);
                   genotypes2.push(genotype);}
                 percentCounter += genotype.count;
             });
-            console.log("total genotype for %",percentCounter )
+            // console.log("total genotype for %",percentCounter )
             if (genotypes2.length > 0) {
               let sumCount = 0;
               for (const genotype of genotypes2) {

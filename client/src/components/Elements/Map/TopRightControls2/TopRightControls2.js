@@ -11,14 +11,14 @@ export const TopRightControls2 = () => {
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
+  const genotypesDrugsData2 = useAppSelector((state) => state.graph.genotypesDrugsData2);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   useEffect(() => {
     setCurrentTooltip(null);
-    console.log("customDropdownMapView", customDropdownMapView);
-  }, [genotypesDrugsData, customDropdownMapView]);
+    // console.log("customDropdownMapView", customDropdownMapView);
+  }, [genotypesDrugsData2, customDropdownMapView]);
 
   function getSelectGenotypeLabel(genotype) {
     const percentage = Number(((genotype.resistantCount / genotype.totalCount) * 100).toFixed(2));
@@ -27,18 +27,13 @@ export const TopRightControls2 = () => {
   }
   
   function getDataForGenotypeSelect() {
-    // if (organism === 'typhi') {
-    //   return genotypesDrugsData;
-    // } else {
-    //   return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, genotypesForFilter.length)));
-    // }
-    return genotypesDrugsData;
+    return genotypesDrugsData2;
   }
 
   function getData() {
-    console.log("genotypesDrugsData", genotypesDrugsData);
-    const data = genotypesDrugsData.filter((genotype) => customDropdownMapView.includes(genotype.name));
-    console.log("data", data);
+    // console.log("genotypesDrugsData", genotypesDrugsData);
+    const data = genotypesDrugsData2.filter((genotype) => customDropdownMapView.includes(genotype.name));
+    // console.log("data", data);
     return data;
   }
   function handleChangeSelectedGenotypes({ event = null, all = false }) {
