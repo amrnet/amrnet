@@ -40,6 +40,7 @@ export const Map = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
   function getGenotypeColor(genotype) {
@@ -98,12 +99,12 @@ console.log(" ifCustom ", ifCustom);
           break;
         case 'Select custom Genotype':
           const countryData = mapData.find((item) => item.name === geo.properties.NAME);
-          console.log("frequenciesGraphSelectedGenotypes",frequenciesGraphSelectedGenotypes )
+          // console.log("customDropdownMapView",customDropdownMapView )
             let percentCounter = 0;        
             const genotypes1 = countryStats.GENOTYPE.items;
             let genotypes2 = [];
             genotypes1.forEach((genotype) => {
-               if (frequenciesGraphSelectedGenotypes.includes(genotype.name)){
+               if (customDropdownMapView.includes(genotype.name)){
                 tooltip.content[genotype.name] = genotype.count;
                   genotypes2.push(genotype);}
                 percentCounter += genotype.count;
@@ -185,7 +186,7 @@ console.log(" ifCustom ", ifCustom);
               <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
               <Geographies geography={geography}>
                 {({ geographies }) => {
-                  console.log("coundry data changed");
+                  // console.log("coundry data changed");
                   return geographies.map((geo) => {
                     const countryData = mapData.find((item) => item.name === geo.properties.NAME);
                     const countryStats = countryData?.stats;
@@ -214,7 +215,7 @@ console.log(" ifCustom ", ifCustom);
                           // console.log("gencountryDataotypes1",countryData);
                           let genotypes2 = [];
                           genotypes1.forEach((genotype) => {
-                            if (frequenciesGraphSelectedGenotypes.includes(genotype.name))
+                            if (customDropdownMapView.includes(genotype.name))
                                 genotypes2.push(genotype);
                               percentCounter += genotype.count;
                           });
@@ -237,8 +238,6 @@ console.log(" ifCustom ", ifCustom);
                             fillColor = darkGrey;
                             smallerThan20 = true;
                           }
-                          // console.log("frequenciesGraphSelectedGenotypes:", frequenciesGraphSelectedGenotypes);
-
                           break;
                         case 'Sensitive to all drugs':
                         case 'H58 / Non-H58':

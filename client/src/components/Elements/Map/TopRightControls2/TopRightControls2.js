@@ -2,7 +2,7 @@
 import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setFrequenciesGraphSelectedGenotypes } from '../../../../stores/slices/graphSlice';
+import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
 import { useStyles } from './TopRightControls2MUI';
 
 
@@ -12,13 +12,13 @@ export const TopRightControls2 = () => {
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
-  const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   useEffect(() => {
     setCurrentTooltip(null);
-    console.log("frequenciesGraphSelectedGenotypes", frequenciesGraphSelectedGenotypes);
-  }, [genotypesDrugsData, frequenciesGraphSelectedGenotypes]);
+    console.log("customDropdownMapView", customDropdownMapView);
+  }, [genotypesDrugsData, customDropdownMapView]);
 
   function getSelectGenotypeLabel(genotype) {
     const percentage = Number(((genotype.resistantCount / genotype.totalCount) * 100).toFixed(2));
@@ -27,25 +27,23 @@ export const TopRightControls2 = () => {
   }
   
   function getDataForGenotypeSelect() {
-    if (organism === 'typhi') {
-      // console.log("genotypesDrugsData:", genotypesDrugsData);
-      return genotypesDrugsData;
-    } else {
-      // console.log("genotypesDrugsData:", genotypesForFilter);
-      return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, genotypesForFilter.length)));
-    }
-    // return genotypesDrugsData;
+    // if (organism === 'typhi') {
+    //   return genotypesDrugsData;
+    // } else {
+    //   return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, genotypesForFilter.length)));
+    // }
+    return genotypesDrugsData;
   }
 
   function getData() {
     console.log("genotypesDrugsData", genotypesDrugsData);
-    const data = genotypesDrugsData.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
+    const data = genotypesDrugsData.filter((genotype) => customDropdownMapView.includes(genotype.name));
     console.log("data", data);
     return data;
   }
   function handleChangeSelectedGenotypes({ event = null, all = false }) {
     if (all) {
-      dispatch(setFrequenciesGraphSelectedGenotypes([]));
+      dispatch(setCustomDropdownMapView([]));
       setCurrentTooltip(null);
       return;
     }
@@ -58,7 +56,7 @@ export const TopRightControls2 = () => {
     if (value.length === 0) {
       setCurrentTooltip(null);
     }
-    dispatch(setFrequenciesGraphSelectedGenotypes(value));
+    dispatch(setCustomDropdownMapView(value));
   }
 
   return (
@@ -67,7 +65,7 @@ export const TopRightControls2 = () => {
         <CardContent className={classes.frequenciesGraph}>
             <Select
               multiple
-              value={frequenciesGraphSelectedGenotypes}
+              value={customDropdownMapView}
               onChange={(event) => handleChangeSelectedGenotypes({ event })}
               displayEmpty
               disabled={organism === 'none'}
@@ -76,7 +74,7 @@ export const TopRightControls2 = () => {
                   variant="outlined"
                   className={classes.genotypesSelectButton}
                   onClick={() => handleChangeSelectedGenotypes({ all: true })}
-                  disabled={organism === 'none' || frequenciesGraphSelectedGenotypes.length === 0}
+                  disabled={organism === 'none' || customDropdownMapView.length === 0}
                   color="error"
                 >
                   Clear All
@@ -90,7 +88,7 @@ export const TopRightControls2 = () => {
             >
               {getDataForGenotypeSelect().map((genotype, index) => (
                 <MenuItem key={`frequencies-option-${index}`} value={genotype.name}>
-                  <Checkbox checked={frequenciesGraphSelectedGenotypes.indexOf(genotype.name) > -1} />
+                  <Checkbox checked={customDropdownMapView.indexOf(genotype.name) > -1} />
                   <ListItemText primary={getSelectGenotypeLabel(genotype)} />
                 </MenuItem>
               ))}

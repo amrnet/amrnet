@@ -3,7 +3,7 @@ import { useStyles } from './ResetButtonMUI';
 import { Fab, Tooltip, useMediaQuery } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setActualTimeFinal, setActualTimeInitial, setCanGetData } from '../../../stores/slices/dashboardSlice';
-import { setDataset, setMapView, setPosition } from '../../../stores/slices/mapSlice';
+import { setDataset, setMapView, setPosition, setIfCustom } from '../../../stores/slices/mapSlice';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice';
 import {
   setCollapses,
@@ -70,6 +70,8 @@ export const ResetButton = () => {
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
     dispatch(setCanGetData(true));
+    dispatch(setIfCustom(false));
+    // dispatch(setFrequenciesGraphSelectedGenotypes([]));
   }
 
   return (

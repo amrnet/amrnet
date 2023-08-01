@@ -21,9 +21,10 @@ import {
   setTimeInitial,
   setTotalGenomes,
   setTotalGenotypes,
-  setYears
+  setYears,
+
 } from '../../stores/slices/dashboardSlice.ts';
-import { setDataset, setMapData, setMapView, setPosition } from '../../stores/slices/mapSlice.ts';
+import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
 import {
   setCollapses,
@@ -38,6 +39,7 @@ import {
   setDrugResistanceGraphView,
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
+  setCustomDropdownMapView,
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
@@ -113,6 +115,7 @@ export const DashboardPage = () => {
     const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+    dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
 
     const yearsData = getYearsData({
@@ -222,6 +225,8 @@ export const DashboardPage = () => {
       dispatch(setDeterminantsGraphView('percentage'));
       dispatch(setDistributionGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
+      dispatch(setIfCustom(false));
+      
 
       switch (organism) {
         case 'typhi':
