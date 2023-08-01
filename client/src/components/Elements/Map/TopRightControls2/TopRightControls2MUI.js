@@ -8,12 +8,18 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     right: 0,
     marginTop: '200px',
-    width:'30%',
-    justifyContent:'left',
-
-    '&$bp700': {
-      position: 'relative'
+    width:'25%',
+    '@media (max-width: 1000px)': {
+      width:'40%',
+    },
+    '@media (max-width: 700px)': {
+      position: 'relative',
+      marginTop: '0px',
+      width:'100%',
     }
+    // '&$bp700': {
+    //   position: 'relative'
+    // }
   },
   card: { borderRadius: '6px !important' },
   cardContent: {
@@ -24,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
   frequenciesGraph: {
     display: 'flex',
     flexDirection: 'column',
-    borderTop: '1px solid rgba(0, 0, 0, 0.12)'
+    borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    textAlign: 'justify',
   },
   selectsWrapper: {
     display: 'flex',
