@@ -26,7 +26,10 @@ export const SliderSizes = () => {
           max={genotypesForFilter.length <= 133 ? genotypesForFilter.length : 133 }
         />
         {/* Display the values of the sliders */}
-        <p>Selected Slider Value: {genotypesForFilter.length >= genotypesForFilterLength ? genotypesForFilterLength :  genotypesForFilter.length}</p>
+        <div style= {{display:'flex'}}>
+        <p>Number of genotypes to colour individually:</p>
+        <p>{genotypesForFilter.length >= genotypesForFilterLength ? genotypesForFilterLength :  genotypesForFilter.length}</p>
+        </div>
       </Box>
     </div>
   );
