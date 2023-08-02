@@ -70,28 +70,31 @@ export const DistributionGraph = () => {
 
   function getData(){
     const exclusions = ['name', 'count'];
+        console.log("genotypesYearData", genotypesYearData);
+    
+    let newArray = [];
+    newArray = genotypesYearData.map((item) => {
+      let count = 0;
+      for (const key in item) {     
+        if (!topXGenotypes.includes(key) && !exclusions.includes(key)) { 
+          count += item[key];
+        }  
+      }
+      const newItem = { ...item, Other: count };
+      return newItem;
+    });
+     console.log("newArray", newArray);
 
     if (distributionGraphView === 'number') {
-      let newArray = []; // Create an empty array to store the new items
-      
-      newArray = genotypesYearData.map((item) => {
-        let count = 0;
-        for (const key in item) {     
-          if (!topXGenotypes.includes(key) && !exclusions.includes(key)) { 
-            count += item[key];
-          }  
-        }
-        const newItem = { ...item, Other: count };
-        return newItem;
-      });
-      return newArray;
+    return newArray;
     }
 
     let genotypeDataPercentage = structuredClone(genotypesYearData);
-    return genotypeDataPercentage.map((item) => {
+    return newArray.map((item) => {
         for (const key in item) {      
-          if (!topXGenotypes.includes(key) && !exclusions.includes(key) ) { 
-            item.count = item.count - item[key];
+          if (!topXGenotypes.includes(key) && !exclusions.includes(key) && key != 'Other' ) { 
+            console.log("item[key]", item[key]);
+            // item.count = item.count - item[key];
             delete item[key];
           }  
         }
@@ -100,6 +103,7 @@ export const DistributionGraph = () => {
       keys.forEach((key) => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
+      console.log("item", item);
        return item;
     });
   }
