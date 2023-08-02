@@ -13,8 +13,9 @@ import {
   Label
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setColorPallete } from '../../../../stores/slices/dashboardSlice';
 import { setDistributionGraphView, setGenotypesForFilterLength} from '../../../../stores/slices/graphSlice';
-import { getColorForGenotype, hoverColor } from '../../../../util/colorHelper';
+import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import {SliderSizes} from '../../Slider';
@@ -66,6 +67,7 @@ export const DistributionGraph = () => {
 
       const slicedArray = mapArray.slice(0, genotypesForFilterLength).map(([key, value]) => key);
       setTopXGenotypes(slicedArray);
+      dispatch(setColorPallete(generatePalleteForGenotypes(slicedArray)));
   },[genotypesForFilter, genotypesYearData, genotypesForFilterLength]);
 
   function getData(){
@@ -89,7 +91,7 @@ export const DistributionGraph = () => {
     return newArray;
     }
 
-    let genotypeDataPercentage = structuredClone(genotypesYearData);
+    // let genotypeDataPercentage = structuredClone(genotypesYearData);
     return newArray.map((item) => {
         for (const key in item) {      
           if (!topXGenotypes.includes(key) && !exclusions.includes(key) && key != 'Other' ) { 
@@ -158,7 +160,7 @@ export const DistributionGraph = () => {
           label: 'Other',
           count: count,
           percentage: percentage.toFixed(2),
-          color: '#969696' 
+          color: '#E5E4E2' 
         });
       }
       setCurrentTooltip(value);
@@ -225,7 +227,7 @@ export const DistributionGraph = () => {
               <Bar
                   dataKey={"Other"}
                   stackId={0}
-                  fill={'#969696'}
+                  fill={'#E5E4E2'}
                 />
                 
             </BarChart>
@@ -294,7 +296,7 @@ export const DistributionGraph = () => {
                 </div>
               </div>
             ) : (
-              <div className={classes.noYearSelected2}>No year selected</div>
+              <div className={classes.noYearSelected2}>Click on a year to see detail</div>
             )}
           </div>
         </div>
