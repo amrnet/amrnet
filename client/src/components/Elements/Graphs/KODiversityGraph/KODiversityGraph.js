@@ -205,7 +205,7 @@ export const KODiversityGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noYearSelected}>No item selected</div>
+            <div className={classes.noYearSelected}>Click on a item to see the details</div>
           )}
         </div>
       </div>

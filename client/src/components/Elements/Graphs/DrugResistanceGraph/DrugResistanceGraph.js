@@ -284,7 +284,7 @@ export const DrugResistanceGraph = () => {
             </div>
           ) : (
             <div className={classes.noYearSelected}>
-              {drugResistanceGraphView.length === 0 ? 'No drug selected' : 'No year selected'}{' '}
+              {drugResistanceGraphView.length === 0 ? 'Select a drug to see detail' : 'Click on a year to see detail'}{' '}
             </div>
           )}
         </div>

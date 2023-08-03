@@ -274,7 +274,7 @@ export const DeterminantsGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noGenotypeSelected}>No genotype selected</div>
+            <div className={classes.noGenotypeSelected}>Click on a genotype to see detail</div>
           )}
         </div>
       </div>
