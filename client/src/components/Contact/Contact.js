@@ -15,14 +15,14 @@ const defaultValues = {
   message: ''
 };
 
+const requiredValues = ['firstName', 'lastName', 'email'];
+
 const email = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
 
 export const ContactPage = () => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-
   const [formValues, setFormValues] = useState(defaultValues);
-
   const [formErrors, setFormErrors] = useState({});
 
   const handleChange = (e) => {
@@ -36,7 +36,7 @@ export const ContactPage = () => {
     const errors = {};
     const required = 'This field is required.';
 
-    Object.keys(defaultValues).forEach((key) => {
+    requiredValues.forEach((key) => {
       if (!formValues[key]) {
         errors[key] = required;
       }
@@ -53,6 +53,7 @@ export const ContactPage = () => {
         setLoading(true);
 
         await axios.post(`${API_ENDPOINT}email`, formValues);
+        setFormValues(defaultValues);
         window.alert('Message successfully sent!');
       } catch (error) {
         window.alert('Error while sending message. Please try again.');
@@ -73,8 +74,8 @@ export const ContactPage = () => {
               name="firstName"
               label="First name"
               fullWidth
-              autoComplete="given-name"
               variant="standard"
+              value={formValues.firstName}
               error={!!formErrors.firstName}
               helperText={formErrors.firstName}
               onChange={handleChange}
@@ -85,8 +86,8 @@ export const ContactPage = () => {
               name="lastName"
               label="Last name"
               fullWidth
-              autoComplete="family-name"
               variant="standard"
+              value={formValues.lastName}
               error={!!formErrors.lastName}
               helperText={formErrors.lastName}
               onChange={handleChange}
@@ -98,8 +99,9 @@ export const ContactPage = () => {
             name="email"
             label="Email address"
             fullWidth
-            autoComplete="username@domain.com"
+            type="email"
             variant="standard"
+            value={formValues.email}
             error={!!formErrors.email}
             helperText={formErrors.email}
             onChange={handleChange}
@@ -109,10 +111,8 @@ export const ContactPage = () => {
             name="message"
             label="Add a message"
             fullWidth
-            autoComplete="Add a message here"
             variant="standard"
-            error={!!formErrors.message}
-            helperText={formErrors.message}
+            value={formValues.message}
             onChange={handleChange}
           />
           <LoadingButton className={classes.submitButton} variant="contained" loading={loading} onClick={sendEmail}>
