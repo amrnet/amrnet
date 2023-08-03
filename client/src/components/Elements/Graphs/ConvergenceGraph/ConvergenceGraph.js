@@ -230,7 +230,7 @@ export const ConvergenceGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noBubbleSelected}>No bubble selected</div>
+            <div className={classes.noBubbleSelected}>Click on a bubble to see the details</div>
           )}
         </div>
       </div>
