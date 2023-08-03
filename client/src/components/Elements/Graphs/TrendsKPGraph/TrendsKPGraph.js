@@ -326,7 +326,7 @@ export const TrendsKPGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noYearSelected}>No year selected</div>
+            <div className={classes.noYearSelected}>Click on a year to see detail</div>
           )}
         </div>
       </div>
