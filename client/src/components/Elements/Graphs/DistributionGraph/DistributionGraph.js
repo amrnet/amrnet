@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setColorPallete } from '../../../../stores/slices/dashboardSlice';
-import { setDistributionGraphView, setGenotypesForFilterLength, setTopXGenotypes} from '../../../../stores/slices/graphSlice';
+import { setDistributionGraphView, setCurrentSliderValue, setTopXGenotypes} from '../../../../stores/slices/graphSlice';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -37,10 +37,10 @@ export const DistributionGraph = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const genotypesForFilterLength = useAppSelector((state) => state.graph.genotypesForFilterLength);
+  const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
+  const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
-
   useEffect(() => {
     setCurrentTooltip(null);
   }, [genotypesYearData]);
@@ -66,11 +66,11 @@ export const DistributionGraph = () => {
       const mapArray = Array.from(mp);//[key, total_count], eg: ['4.3.1.1', 1995]
       // Sort the array based on keys
       mapArray.sort((a, b) => b[1] - a[1]);
-
-      const slicedArray = mapArray.slice(0, genotypesForFilterLength).map(([key, value]) => key);
+      const colorArray = mapArray.slice(0, maxSliderValue).map(([key, value]) => key);
+      const slicedArray = mapArray.slice(0, currentSliderValue).map(([key, value]) => key);
       setTopXGenotypes(slicedArray);
-      dispatch(setColorPallete(generatePalleteForGenotypes(slicedArray)));
-  },[genotypesForFilter, genotypesYearData, genotypesForFilterLength]);
+      dispatch(setColorPallete(generatePalleteForGenotypes(colorArray)));
+  },[genotypesForFilter, genotypesYearData, currentSliderValue]);
 
   let newArray = []; //TODO: can be a global value in redux
   let newArrayPercentage = []; //TODO: can be a global value in redux
@@ -101,6 +101,7 @@ export const DistributionGraph = () => {
   }
 
   function getGenotypeColor(genotype) {
+    console.log("genotype", genotype);
     return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
@@ -108,6 +109,7 @@ export const DistributionGraph = () => {
     dispatch(setDistributionGraphView(event.target.value));
   }
   function handleClickChart(event){
+    console.log("event", event);
       setCurrentEventSelected(event);
       const data = newArray.find((item) => item.name === event?.activeLabel);
         if (data) {
@@ -123,26 +125,28 @@ export const DistributionGraph = () => {
           delete currentData.count;
           
           value.genotypes = Object.keys(currentData).map((key) => {
+            console.log("key", key);
             const count = currentData[key];
             const activePayload = event.activePayload.find((x) => x.name === key);
+            // console.log("activePayload", activePayload);
             return {
               label: key,
               count,
               percentage: Number(((count / value.count) * 100).toFixed(2)),
-              color: activePayload?.fill
+              color: getGenotypeColor(key)
             };
           });
-          console.log("value.genotypes", value.genotypes, topXGenotypes);
+          // console.log("value.genotypes", value.genotypes);
           value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === "Other");
-          console.log("value", value);
+          // console.log("value", value);
           setCurrentTooltip(value);
         }
   }
   // console.log("currentTooltip", currentTooltip);
   useEffect(()=>{
-    console.log("genotypesForFilterLength", genotypesForFilterLength);
+    console.log("currentSliderValue", currentSliderValue);
     handleClickChart(currentEventSelected);
-  },[genotypesForFilterLength, topXGenotypes]);
+  },[currentSliderValue, topXGenotypes]);
   
 
   useEffect(() => {
@@ -205,7 +209,7 @@ export const DistributionGraph = () => {
               <Bar
                   dataKey={"Other"}
                   stackId={0}
-                  fill={'#E5E4E2'}
+                  fill={getGenotypeColor("Other")}
                />                 
             </BarChart>
           </ResponsiveContainer>
@@ -213,7 +217,7 @@ export const DistributionGraph = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, distributionGraphView,topXGenotypes, genotypesForFilterLength]);
+  }, [genotypesYearData, distributionGraphView,topXGenotypes, currentSliderValue]);
 
   return (
     <CardContent className={classes.distributionGraph}>
