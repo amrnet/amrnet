@@ -18,7 +18,7 @@ import {
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
-  setGenotypesForFilterLength
+  setCurrentSliderValue
 } from '../../../stores/slices/graphSlice';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../../util/drugs';
 
@@ -71,7 +71,7 @@ export const ResetButton = () => {
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
     dispatch(setCanGetData(true));
-    dispatch(setGenotypesForFilterLength(20));
+    dispatch(setCurrentSliderValue(20));
     // dispatch(setGenotypesForFilter(true))
   }
 

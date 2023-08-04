@@ -31,8 +31,9 @@ interface GraphState {
   convergenceGroupVariable: string;
   convergenceColourVariable: string;
   convergenceColourPallete: Object;
-  genotypesForFilterLength: number;
+  currentSliderValue: number;
   currentTooltipBool: boolean;
+  maxSliderValue:number;
 }
 
 const initialState: GraphState = {
@@ -65,8 +66,9 @@ const initialState: GraphState = {
   convergenceGroupVariable: 'COUNTRY_ONLY',
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
-  genotypesForFilterLength:20,
+  currentSliderValue:20,
   currentTooltipBool:false,
+  maxSliderValue:0,
 };
 
 export const graphSlice = createSlice({
@@ -139,11 +141,14 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
-     setGenotypesForFilterLength: (state, action: PayloadAction<number>) => {
-      state.genotypesForFilterLength = action.payload;
+     setCurrentSliderValue: (state, action: PayloadAction<number>) => {
+      state.currentSliderValue = action.payload;
     },
     setCurrentTooltipBool: (state, action: PayloadAction<boolean>) => {
       state.currentTooltipBool = action.payload;
+    },
+    setMaxSliderValue: (state, action: PayloadAction<number>) => {
+      state.maxSliderValue = action.payload;
     },
   }
 });
@@ -171,8 +176,9 @@ export const {
   setConvergenceGroupVariable,
   setConvergenceColourVariable,
   setConvergenceColourPallete,
-  setGenotypesForFilterLength,
+  setCurrentSliderValue,
   setCurrentTooltipBool,
+  setMaxSliderValue,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

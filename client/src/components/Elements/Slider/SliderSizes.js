@@ -1,34 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { setGenotypesForFilterLength } from '../../../stores/slices/graphSlice';
+import { setCurrentSliderValue,setMaxSliderValue } from '../../../stores/slices/graphSlice';
 
 export const SliderSizes = () => {
 
   const dispatch = useAppDispatch();
-  const genotypesForFilterLength = useAppSelector((state) => state.graph.genotypesForFilterLength);
+  const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
-
+  const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
   const handleDefaultSliderChange = (event, newValue) => {
-    dispatch(setGenotypesForFilterLength(newValue));
+    dispatch(setCurrentSliderValue(newValue));
   };
+
+  useEffect(()=>{
+    const max = genotypesForFilter.length <= 133 ? genotypesForFilter.length : 133;
+    dispatch(setMaxSliderValue(max));
+  });
 
   return (
     <div style={{ margin: '0px 10px' }}>
       <Box >
         <Slider
-          value={genotypesForFilter.length >= genotypesForFilterLength ? genotypesForFilterLength :  genotypesForFilter.length }
+          value={currentSliderValue }
           onChange={handleDefaultSliderChange}
           aria-label="Default"
           valueLabelDisplay="auto"
           min={1}
-          max={genotypesForFilter.length <= 133 ? genotypesForFilter.length : 133 }
+          max={maxSliderValue}
         />
         {/* Display the values of the sliders */}
         <div style= {{display:'flex'}}>
         <p>Number of genotypes to colour individually:</p>
-        <p>{genotypesForFilter.length >= genotypesForFilterLength ? genotypesForFilterLength :  genotypesForFilter.length}</p>
+        <p>{currentSliderValue}</p>
         </div>
       </Box>
     </div>
