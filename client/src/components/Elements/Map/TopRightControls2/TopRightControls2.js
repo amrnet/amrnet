@@ -21,9 +21,10 @@ export const TopRightControls2 = () => {
   }, [genotypesDrugsData2, customDropdownMapView]);
 
   function getSelectGenotypeLabel(genotype) {
-    const percentage = Number(((genotype.resistantCount / genotype.totalCount) * 100).toFixed(2));
+    console.log("genotype2",genotype.Susceptible );
+    const percentage = Number(((genotype.Susceptible / genotype.totalCount) * 100).toFixed(2));
 
-    return `${genotype.name} (total N=${genotype.totalCount}, ${percentage}% resistant)`;
+    return `${genotype.name} (total N=${genotype.totalCount}, ${percentage}% Susceptible)`;
   }
   
   function getDataForGenotypeSelect() {
