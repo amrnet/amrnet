@@ -31,12 +31,6 @@ export const TopRightControls2 = () => {
     return genotypesDrugsData2;
   }
 
-  function getData() {
-    // console.log("genotypesDrugsData", genotypesDrugsData);
-    const data = genotypesDrugsData2.filter((genotype) => customDropdownMapView.includes(genotype.name));
-    // console.log("data", data);
-    return data;
-  }
   function handleChangeSelectedGenotypes({ event = null, all = false }) {
     if (all) {
       dispatch(setCustomDropdownMapView([]));
@@ -48,6 +42,9 @@ export const TopRightControls2 = () => {
       target: { value }
     } = event;
 
+    if (customDropdownMapView.length === 10 && value.length > 10) {
+      return;
+    }
 
     if (value.length === 0) {
       setCurrentTooltip(null);
