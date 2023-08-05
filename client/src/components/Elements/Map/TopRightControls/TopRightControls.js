@@ -5,12 +5,13 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setMapView, setIfCustom} from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
-import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
 
 const generalSteps = ['1 - 2%', '3 - 10%', '11 - 50%', '51 - 100%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
+const gradientStyle = ['1%', '25%', '50%', '75%','100%'];
 const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Select custom Genotype'];
 
 export const TopRightControls = () => {
@@ -56,6 +57,8 @@ export const TopRightControls = () => {
         return noSamplesSteps;
       case 'Dominant Genotype':
         return getDominantGenotypeSteps();
+      case 'Select custom Genotype':
+        return gradientStyle;
       default:
         return generalSteps;
     }
@@ -72,6 +75,9 @@ export const TopRightControls = () => {
       }
       case 'Dominant Genotype':
         return getGenotypeColor(step);
+      case 'Select custom Genotype':
+        const aux2 = ['1', '25', '50', '75','100'];
+        return redColorScale2(aux2[index]);
       default:
         return redColorScale(step);
     }
