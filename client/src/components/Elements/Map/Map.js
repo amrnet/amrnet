@@ -4,7 +4,7 @@ import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup
 import { useStyles } from './MapMUI';
 import geography from '../../../assets/world-50m.json';
 import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
-import { redColorScale, samplesColorScale, sensitiveColorScale } from './mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from './mapColorHelper';
 import ReactTooltip from 'react-tooltip';
 import { BottomLeftControls } from './BottomLeftControls';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -230,7 +230,7 @@ export const Map = () => {
                           if(countryData.count>=20 && genotypes2.length > 0 ){
                             // console.log("count %",count );
                             if(genotypes2 != undefined){
-                              fillColor = redColorScale(((sumCount/percentCounter)*100).toFixed(2));
+                              fillColor = redColorScale2(((sumCount/percentCounter)*100).toFixed(2));
                             }
                           }
                           else if (countryData.count>=20) {
