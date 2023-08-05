@@ -56,7 +56,6 @@ export const Map = () => {
   function handleOnMouseLeave() {
     dispatch(setTooltipContent(null));
   }
-
   function handleOnMouseEnter({ geo, countryStats, countryData, smallerThan20 = false, showTooltip = false }) {
     const { NAME } = geo.properties;
     const tooltip = {
@@ -72,7 +71,7 @@ export const Map = () => {
             content:
               organism === 'typhi'
                 ? {
-                    // Samples: countryData.count,
+                    Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     H58: `${countryStats.H58.percentage}%`,
                     MDR: `${countryStats.MDR.percentage}%`,
@@ -83,7 +82,7 @@ export const Map = () => {
                     Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : {
-                    // Samples: countryData.count,
+                    Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
                     Carb: `${countryStats.Carb.percentage}%`,
@@ -98,7 +97,7 @@ export const Map = () => {
           });
           break;
         case 'Select custom Genotype':
-          const countryData = mapData.find((item) => item.name === geo.properties.NAME);
+          // const countryData = mapData.find((item) => item.name === geo.properties.NAME);
           // console.log("customDropdownMapView",customDropdownMapView )
             let percentCounter = 0;        
             const genotypes1 = countryStats.GENOTYPE.items;
