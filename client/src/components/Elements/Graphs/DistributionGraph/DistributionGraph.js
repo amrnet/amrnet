@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setColorPallete } from '../../../../stores/slices/dashboardSlice';
-import { setDistributionGraphView, setCurrentSliderValue, setTopXGenotypes} from '../../../../stores/slices/graphSlice';
+import { setDistributionGraphView, setCurrentSliderValue, setTopXGenotypes, setResetBool} from '../../../../stores/slices/graphSlice';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -40,10 +40,12 @@ export const DistributionGraph = () => {
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
   const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
-  const currentTooltipBool = useAppSelector((state) => state.graph.currentTooltipBool);
+  const resetBool = useAppSelector((state) => state.graph.resetBool);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
+  
   useEffect(() => {
+    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesYearData]);
 
@@ -145,16 +147,19 @@ export const DistributionGraph = () => {
           // console.log("value.genotypes", value.genotypes);
           value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === "Other");
           console.log("value", value);
-          if(value.name != undefined)
-            setCurrentTooltip(value);
+          setCurrentTooltip(value);
+          dispatch(setResetBool(false));
         }
   }
   // console.log("currentTooltip", currentTooltip);
   useEffect(()=>{
-    console.log("currentSliderValue", currentSliderValue);
-    handleClickChart(currentEventSelected);
-  },[currentSliderValue, ]);
-  
+    if(!resetBool)
+      handleClickChart(currentEventSelected);
+    else{
+      setCurrentTooltip(null);
+      dispatch(setResetBool(true));
+  }
+  },[topXGenotypes]);
 
   useEffect(() => {
     if (canGetData) {
