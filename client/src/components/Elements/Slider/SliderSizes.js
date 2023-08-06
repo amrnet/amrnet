@@ -10,8 +10,11 @@ export const SliderSizes = () => {
   const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
+  // const [currentSliderValue, setCurrentSliderValue] = useState(20);
+
   const handleDefaultSliderChange = (event, newValue) => {
     dispatch(setCurrentSliderValue(newValue));
+    // callBackValue(newValue);
   };
 
   useEffect(()=>{
