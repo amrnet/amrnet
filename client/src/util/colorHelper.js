@@ -203,7 +203,6 @@ export const colorForDrugClassesST = {
     { name: 'acrB_R717Q + acrB_R717L', color: '#fd8d3c' },
     { name: 'None', color: '#B9B9B9' }
   ],
-  
   // 'Fluoroquinolones (CipNS)': [
   'Ciprofloxacin NS': [
     { name: '0_QRDR + qnrB (CipNS)', color: '#0066cc' },
