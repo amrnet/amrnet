@@ -14,7 +14,7 @@ import {
   Brush
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDeterminantsGraphDrugClass, setDeterminantsGraphView } from '../../../../stores/slices/graphSlice';
+import { setDeterminantsGraphDrugClass, setDeterminantsGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
 import { drugClassesST, drugClassesKP } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { colorForDrugClassesKP, colorForDrugClassesST, hoverColor } from '../../../../util/colorHelper';
@@ -36,8 +36,10 @@ export const DeterminantsGraph = () => {
   const genotypesDrugClassesData = useAppSelector((state) => state.graph.genotypesDrugClassesData);
   const determinantsGraphView = useAppSelector((state) => state.graph.determinantsGraphView);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
+  const resetBool = useAppSelector((state) => state.graph.resetBool);
 
   useEffect(() => {
+    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesDrugClassesData]);
 
@@ -127,8 +129,16 @@ export const DeterminantsGraph = () => {
       });
 
       setCurrentTooltip(value);
+      dispatch(setResetBool(false));
     }
   }
+
+  useEffect(()=>{
+    if(resetBool){
+      setCurrentTooltip(null);
+      dispatch(setResetBool(true));
+    }
+  });
 
   useEffect(() => {
     if (canGetData) {
