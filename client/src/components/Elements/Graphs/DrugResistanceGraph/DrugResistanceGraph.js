@@ -14,7 +14,7 @@ import {
   Label
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
+import { setDrugResistanceGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
 import { drugsKP, drugsForDrugResistanceGraphST } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
@@ -34,8 +34,10 @@ export const DrugResistanceGraph = () => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
+  const resetBool = useAppSelector((state) => state.graph.resetBool);
 
   useEffect(() => {
+    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [drugsYearData]);
 
@@ -122,8 +124,16 @@ export const DrugResistanceGraph = () => {
       });
 
       setCurrentTooltip(value);
+      dispatch(setResetBool(false));
     }
   }
+
+  useEffect(()=>{
+    if(resetBool){
+      setCurrentTooltip(null);
+      dispatch(setResetBool(true));
+    }
+  });
 
   useEffect(() => {
     if (canGetData) {
