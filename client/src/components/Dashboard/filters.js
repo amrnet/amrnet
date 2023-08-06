@@ -197,7 +197,6 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
             if (rule.key === 'Ciprofloxacin NS') {
               drugStats['Ciprofloxacin R'] = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
-
             }
           });
 
