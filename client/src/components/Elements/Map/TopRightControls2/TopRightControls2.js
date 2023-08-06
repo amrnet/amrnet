@@ -62,7 +62,7 @@ export const TopRightControls2 = () => {
  }
 
 const filteredData = getDataForGenotypeSelect().filter((genotype) =>
-  genotype.name.includes(searchValue2)
+  genotype.name.startsWith(searchValue2)
 );
 
 
