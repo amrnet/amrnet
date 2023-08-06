@@ -28,6 +28,7 @@ const dataViewOptions = [
 export const DistributionGraph = () => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
+  // const [currentSliderValue, setCurrentSliderValue] = useState(20);
   const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
@@ -39,6 +40,7 @@ export const DistributionGraph = () => {
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
   const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
+  const currentTooltipBool = useAppSelector((state) => state.graph.currentTooltipBool);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
   useEffect(() => {
@@ -48,6 +50,10 @@ export const DistributionGraph = () => {
   function getDomain() {
     return distributionGraphView === 'number' ? undefined : [0, 100];
   }
+  
+//  const updateSlider = (value) =>{
+//   setCurrentSliderValue(value);
+//  };
 
   useEffect(() =>{
       let mp = new Map(); //mp = total count of a genotype in database(including all years)
@@ -138,15 +144,16 @@ export const DistributionGraph = () => {
           });
           // console.log("value.genotypes", value.genotypes);
           value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === "Other");
-          // console.log("value", value);
-          setCurrentTooltip(value);
+          console.log("value", value);
+          if(value.name != undefined)
+            setCurrentTooltip(value);
         }
   }
   // console.log("currentTooltip", currentTooltip);
   useEffect(()=>{
     console.log("currentSliderValue", currentSliderValue);
     handleClickChart(currentEventSelected);
-  },[currentSliderValue, topXGenotypes]);
+  },[currentSliderValue, ]);
   
 
   useEffect(() => {
@@ -244,7 +251,8 @@ export const DistributionGraph = () => {
           {plotChart}
         </div>
         <div className={classes.sliderCont} >
-          <SliderSizes sx={{margin: '0px 10px 0px 10px'}}/>
+          {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
+           <SliderSizes sx={{margin: '0px 10px 0px 10px'}}/>
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
