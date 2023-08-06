@@ -32,7 +32,7 @@ interface GraphState {
   convergenceColourVariable: string;
   convergenceColourPallete: Object;
   currentSliderValue: number;
-  currentTooltipBool: boolean;
+  resetBool: boolean;
   maxSliderValue:number;
 }
 
@@ -67,7 +67,7 @@ const initialState: GraphState = {
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
   currentSliderValue:20,
-  currentTooltipBool:false,
+  resetBool: false,
   maxSliderValue:0,
 };
 
@@ -144,8 +144,8 @@ export const graphSlice = createSlice({
      setCurrentSliderValue: (state, action: PayloadAction<number>) => {
       state.currentSliderValue = action.payload;
     },
-    setCurrentTooltipBool: (state, action: PayloadAction<boolean>) => {
-      state.currentTooltipBool = action.payload;
+    setResetBool: (state, action: PayloadAction<boolean>) => {
+      state.resetBool = action.payload;
     },
     setMaxSliderValue: (state, action: PayloadAction<number>) => {
       state.maxSliderValue = action.payload;
@@ -177,7 +177,7 @@ export const {
   setConvergenceColourVariable,
   setConvergenceColourPallete,
   setCurrentSliderValue,
-  setCurrentTooltipBool,
+  setResetBool,
   setMaxSliderValue,
 } = graphSlice.actions;
 
