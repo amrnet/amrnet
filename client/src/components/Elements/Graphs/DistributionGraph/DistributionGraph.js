@@ -52,6 +52,7 @@ export const DistributionGraph = () => {
   function getDomain() {
     return distributionGraphView === 'number' ? undefined : [0, 100];
   }
+
   
 //  const updateSlider = (value) =>{
 //   setCurrentSliderValue(value);
@@ -106,6 +107,7 @@ export const DistributionGraph = () => {
     if (distributionGraphView === 'number')
       return newArray;
     return newArrayPercentage;
+
   }
 
   function getGenotypeColor(genotype) {
@@ -209,7 +211,7 @@ export const DistributionGraph = () => {
                 }}
               />
 
-              {topXGenotypes.map((option, index) => (
+              {genotypesForFilter.map((option, index) => (
                 <Bar
                   key={`distribution-bar-${index}`}
                   dataKey={option}
@@ -229,7 +231,9 @@ export const DistributionGraph = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [genotypesYearData, distributionGraphView,topXGenotypes, currentSliderValue]);
+
 
   return (
     <CardContent className={classes.distributionGraph}>

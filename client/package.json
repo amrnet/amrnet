@@ -16,7 +16,6 @@
         "axios": "^0.21.0",
         "d3-scale": "^3.2.3",
         "downloadjs": "^1.4.7",
-        "iwanthue": "^2.0.0",
         "moment": "^2.29.1",
         "rainbowvis.js": "^1.1.1",
         "react": "^17.0.1",
