@@ -65,7 +65,7 @@ const filteredData = getDataForGenotypeSelect().filter((genotype) =>
   genotype.name.startsWith(searchValue2)
 );
 
-
+console.log("customDropdownMapView", customDropdownMapView.length);
  console.log("searchValue2", searchValue2);
   return (
     <div className={`${classes.topRightControls}`}>
@@ -78,6 +78,7 @@ const filteredData = getDataForGenotypeSelect().filter((genotype) =>
               value={customDropdownMapView}
               onChange={(event) => handleChangeSelectedGenotypes({ event })}
               disabled={organism === 'none'}
+              displayEmpty
               onClose={(e) => setSearchValue2("")}
               endAdornment={
                 <Button
