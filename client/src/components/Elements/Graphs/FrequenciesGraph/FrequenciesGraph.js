@@ -254,8 +254,11 @@ export const FrequenciesGraph = () => {
             inputProps={{ className: classes.genotypesSelectInput }}
             MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
             renderValue={(selected) => (
-              <div>{`${selected.length} of ${getDataForGenotypeSelect().length} selected`}</div>
-            )}
+                selected.length === 1 ? (
+                  <div>{selected}</div>
+                ) : (
+                  <div>{`${selected.length} genotypes`}</div>
+                ))}
           >
             {getDataForGenotypeSelect().map((genotype, index) => (
               <MenuItem key={`frequencies-option-${index}`} value={genotype.name}>
