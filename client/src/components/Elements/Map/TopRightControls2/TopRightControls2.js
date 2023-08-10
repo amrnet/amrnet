@@ -56,13 +56,14 @@ export const TopRightControls2 = () => {
     }
     dispatch(setCustomDropdownMapView(value));
   }
+
  function setSearchValue(event){
   event.preventDefault()
   setSearchValue2(event.target.value)
  }
 
 const filteredData = getDataForGenotypeSelect().filter((genotype) =>
-  genotype.name.startsWith(searchValue2)
+  genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase())
 );
 
 console.log("customDropdownMapView", customDropdownMapView.length);
