@@ -12,7 +12,7 @@ const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
-const ExcludedView = ['Select custom Genotype'];
+const ExcludedView = ['Genotype prevalence'];
 const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Genotype prevalence'];
 
 export const TopRightControls = () => {
@@ -78,9 +78,9 @@ export const TopRightControls = () => {
         return getGenotypeColor(step);
       //case 'Genotype prevalence':
         // return redColorScale2(step);
-      case 'Genotype prevalence':
-        const aux2 = ['1', '25', '50', '75','100'];
-        return redColorScale2(aux2[index]);
+      // case 'Genotype prevalence':
+      //   const aux2 = ['1', '25', '50', '75','100'];
+      //   return redColorScale2(aux2[index]);
       default:
         const aux3 = ['1', '3', '11', '51'];
         return redColorScale(aux3[index]);
