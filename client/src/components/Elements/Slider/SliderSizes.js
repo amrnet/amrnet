@@ -3,9 +3,10 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCurrentSliderValue,setMaxSliderValue } from '../../../stores/slices/graphSlice';
+import { useStyles } from './SliderMUI';
 
 export const SliderSizes = () => {
-
+  const classes = useStyles();
   const dispatch = useAppDispatch();
   const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
@@ -23,8 +24,13 @@ export const SliderSizes = () => {
   });
 
   return (
-    <div style={{ margin: '0px 10px' }}>
+    <div className={classes.sliderSize}>
       <Box >
+        {/* Display the values of the sliders */}
+        <div className={classes.sliderLabel}>
+        <p>Individual genotypes to colour:</p>
+        <p>{currentSliderValue}</p>
+        </div>
         <Slider
           value={currentSliderValue }
           onChange={handleDefaultSliderChange}
@@ -33,11 +39,6 @@ export const SliderSizes = () => {
           min={1}
           max={maxSliderValue}
         />
-        {/* Display the values of the sliders */}
-        <div style= {{display:'flex'}}>
-        <p>Number of genotypes to colour individually:</p>
-        <p>{currentSliderValue}</p>
-        </div>
       </Box>
     </div>
   );
