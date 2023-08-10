@@ -89,13 +89,13 @@ console.log("customDropdownMapView", customDropdownMapView.length);
                   disabled={organism === 'none' || customDropdownMapView.length === 0}
                   color="error"
                 >
-                  Clear All
+                  CLEAR
                 </Button>
               }
               // inputProps={{ className: classes.genotypesSelectInput }}
               // MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
               renderValue={(selected) => (
-                <div>{`${selected.length} of ${getDataForGenotypeSelect().length} selected`}</div>
+                <div>{`${selected.length} genotypes`}</div>
               )}
             >
               <TextField 
