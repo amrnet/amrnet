@@ -96,7 +96,7 @@ export const Map = () => {
             tooltip.content[genotype.name] = genotype.count;
           });
           break;
-        case 'Select custom Genotype':
+        case 'Genotype prevalence':
           // const countryData = mapData.find((item) => item.name === geo.properties.NAME);
           // console.log("customDropdownMapView",customDropdownMapView )
             let percentCounter = 0;        
@@ -148,7 +148,7 @@ export const Map = () => {
   }
 
   function showPercentage() {
-    return !['Dominant Genotype','Select custom Genotype','No. Samples'].includes(mapView);
+    return !['Dominant Genotype','Genotype prevalence','No. Samples'].includes(mapView);
   }
 
   return (
@@ -208,7 +208,7 @@ export const Map = () => {
                           const genotypes = countryStats.GENOTYPE.items;
                           fillColor = getGenotypeColor(genotypes[0].name);
                           break;
-                        case 'Select custom Genotype':
+                        case 'Genotype prevalence':
                           let percentCounter = 0;        
                           const genotypes1 = countryStats.GENOTYPE.items;
                           // console.log("gencountryDataotypes1",countryData);

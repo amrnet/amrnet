@@ -12,7 +12,7 @@ const generalSteps = ['1 - 2%', '3 - 10%', '11 - 50%', '51 - 100%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['1%', '25%', '50%', '75%','100%'];
-const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Select custom Genotype'];
+const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Genotype prevalence'];
 
 export const TopRightControls = () => {
   const classes = useStyles();
@@ -26,7 +26,7 @@ export const TopRightControls = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   function handleChangeMapView(event) {
-    if(event.target.value === 'Select custom Genotype')
+    if(event.target.value === 'Genotype prevalence')
       dispatch(setIfCustom(true));
     else
       dispatch(setIfCustom(false));
@@ -57,7 +57,7 @@ export const TopRightControls = () => {
         return noSamplesSteps;
       case 'Dominant Genotype':
         return getDominantGenotypeSteps();
-      case 'Select custom Genotype':
+      case 'Genotype prevalence':
         return gradientStyle;
       default:
         return generalSteps;
@@ -75,7 +75,7 @@ export const TopRightControls = () => {
       }
       case 'Dominant Genotype':
         return getGenotypeColor(step);
-      case 'Select custom Genotype':
+      case 'Genotype prevalence':
         const aux2 = ['1', '25', '50', '75','100'];
         return redColorScale2(aux2[index]);
       default:
