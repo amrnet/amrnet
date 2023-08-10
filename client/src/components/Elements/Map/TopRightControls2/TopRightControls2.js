@@ -95,8 +95,12 @@ console.log("customDropdownMapView", customDropdownMapView.length);
               // inputProps={{ className: classes.genotypesSelectInput }}
               // MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
               renderValue={(selected) => (
-                <div>{`${selected.length} genotypes`}</div>
-              )}
+                selected.length === 1 ? (
+                  <div>{selected}</div>
+                ) : (
+                  <div>{`${selected.length} genotypes`}</div>
+                ))
+              }
             >
               <TextField 
                 size="small"
