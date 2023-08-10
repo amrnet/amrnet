@@ -78,7 +78,7 @@ export const ResetButton = (props) => {
     dispatch(setIfCustom(false));
 
     const genotypesData = getGenotypesData({ data: props.data, genotypes, organism });
-    dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+    dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     // dispatch(setFrequenciesGraphSelectedGenotypes([]));
   }
 
