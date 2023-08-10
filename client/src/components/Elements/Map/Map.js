@@ -97,24 +97,25 @@ export const Map = () => {
           });
           break;
         case 'Genotype prevalence':
-          // const countryData = mapData.find((item) => item.name === geo.properties.NAME);
-          // console.log("customDropdownMapView",customDropdownMapView )
             let percentCounter = 0;        
             const genotypes1 = countryStats.GENOTYPE.items;
             let genotypes2 = [];
             genotypes1.forEach((genotype) => {
                if (customDropdownMapView.includes(genotype.name)){
-                tooltip.content[genotype.name] = genotype.count;
+                // tooltip.content[genotype.name] = `${genotype.count} `;
                   genotypes2.push(genotype);}
                 percentCounter += genotype.count;
             });
-            // console.log("total genotype for %",percentCounter )
+            genotypes1.forEach((genotype) => {
+               if (customDropdownMapView.includes(genotype.name))
+                tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count/percentCounter)*100).toFixed(2)} %)`;
+            });
             if (genotypes2.length > 0) {
               let sumCount = 0;
               for (const genotype of genotypes2) {
                 sumCount += genotype.count;
               }
-              if(countryData.count>=20 && genotypes2.length > 0 )
+              if(countryData.count>=20 && genotypes2.length > 1 )
                 tooltip.content['Total Genotypes'] = `${sumCount} (${((sumCount/percentCounter)*100).toFixed(2)} %)`;
 
             }
