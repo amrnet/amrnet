@@ -88,7 +88,7 @@ console.log("customDropdownMapView", customDropdownMapView.length);
                   disabled={organism === 'none' || customDropdownMapView.length === 0}
                   color="error"
                 >
-                  Clear All
+                  CLEAR
                 </Button>
               }
               // inputProps={{ className: classes.genotypesSelectInput }}
