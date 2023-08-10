@@ -86,11 +86,11 @@ export const FrequenciesGraph = () => {
   }
 
   function getDataForGenotypeSelect() {
-    if (organism === 'typhi') {
+    // if (organism === 'typhi') {
       return genotypesDrugsData;
-    } else {
-      return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, 20)));
-    }
+    // } else {
+    //   return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, 20)));
+    // }
   }
 
   function handleClickChart(event) {
