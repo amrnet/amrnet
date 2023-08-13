@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select , InputAdornment} from '@mui/material';
+import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment} from '@mui/material';
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
@@ -72,9 +72,12 @@ console.log("customDropdownMapView", customDropdownMapView.length);
     <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.frequenciesGraph}>
+          <div className={classes.label}>
+            <Typography variant="caption">Select genotype/s</Typography>
+          </div>
             <Select
               multiple
-              labelId="search-select-label"
+              // labelId="search-select-label"
               id="search-select"
               value={customDropdownMapView}
               onChange={(event) => handleChangeSelectedGenotypes({ event })}
@@ -92,8 +95,8 @@ console.log("customDropdownMapView", customDropdownMapView.length);
                   CLEAR
                 </Button>
               }
-              // inputProps={{ className: classes.genotypesSelectInput }}
-              // MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
+              inputProps={{ className: classes.genotypesSelectInput }}
+              MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
               renderValue={(selected) => (
                 selected.length === 1 ? (
                   <div>{selected}</div>
@@ -120,9 +123,9 @@ console.log("customDropdownMapView", customDropdownMapView.length);
                 onKeyDown={(e) => e.stopPropagation()}
               />
               {filteredData.map((genotype, index) => (
-                <MenuItem key={`frequencies-option-${index}`} value={genotype.name} >
-                  <Checkbox checked={customDropdownMapView.indexOf(genotype.name) > -1} />
-                  <ListItemText primary={getSelectGenotypeLabel(genotype)} />
+                <MenuItem key={`frequencies-option-${index}`} value={genotype.name} className={classes.dropdown}>
+                  <Checkbox sx={{padding: '0px', marginRight:'5px'}} checked={customDropdownMapView.indexOf(genotype.name) > -1} />
+                  <ListItemText primary={getSelectGenotypeLabel(genotype)}   />
                 </MenuItem>
               ))}
             </Select>
