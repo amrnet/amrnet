@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, Card, InputAdornment } from '@mui/material';
 import { useStyles } from './FrequenciesGraphMUI';
 import { InfoOutlined } from '@mui/icons-material';
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from '@mui/material/TextField';
 import {
   Bar,
   BarChart,
@@ -31,6 +33,7 @@ export const FrequenciesGraph = () => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
+  const [searchValue2, setSearchValue2] = useState("")
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
@@ -164,6 +167,15 @@ export const FrequenciesGraph = () => {
     dispatch(setFrequenciesGraphSelectedGenotypes(value));
   }
 
+  function setSearchValue(event){
+    event.preventDefault()
+    setSearchValue2(event.target.value)
+  }
+
+  const filteredData = getDataForGenotypeSelect().filter((genotype) =>
+    genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase())
+  );
+
   useEffect(() => {
     if (canGetData) {
       setPlotChart(() => {
@@ -250,6 +262,7 @@ export const FrequenciesGraph = () => {
             onChange={(event) => handleChangeSelectedGenotypes({ event })}
             displayEmpty
             disabled={organism === 'none'}
+            onClose={(e) => setSearchValue2("")}
             endAdornment={
               <Button
                 variant="outlined"
@@ -270,12 +283,29 @@ export const FrequenciesGraph = () => {
                   <div>{`${selected.length} genotypes`}</div>
                 ))}
           >
-            {getDataForGenotypeSelect().map((genotype, index) => (
-              <MenuItem key={`frequencies-option-${index}`} value={genotype.name}>
-                <Checkbox checked={frequenciesGraphSelectedGenotypes.indexOf(genotype.name) > -1} />
-                <ListItemText primary={getSelectGenotypeLabel(genotype)} />
-              </MenuItem>
-            ))}
+            <TextField 
+                size="small"
+                autoFocus
+                placeholder="Type to search..."
+                label="Search genotype" 
+                variant="standard" 
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  )
+                }}
+                sx={{ width:'98%', margin:'0% 1%'}}
+                onChange={e => setSearchValue(e)}
+                onKeyDown={(e) => e.stopPropagation()}
+              />
+            {filteredData.map((genotype, index) => (
+                <MenuItem key={`frequencies-option-${index}`} value={genotype.name} className={classes.dropdown}>
+                  <Checkbox sx={{padding: '0px', marginRight:'5px'}} checked={frequenciesGraphSelectedGenotypes.indexOf(genotype.name) > -1} />
+                  <ListItemText primary={getSelectGenotypeLabel(genotype)}   />
+                </MenuItem>
+              ))}
           </Select>
         </div>
       </div>
