@@ -15,7 +15,7 @@ import {
   Brush
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView } from '../../../../stores/slices/graphSlice';
+import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView, setResetBool} from '../../../../stores/slices/graphSlice';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -38,8 +38,10 @@ export const FrequenciesGraph = () => {
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const frequenciesGraphView = useAppSelector((state) => state.graph.frequenciesGraphView);
   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  const resetBool = useAppSelector((state) => state.graph.resetBool);
 
   useEffect(() => {
+    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesDrugsData]);
 
@@ -126,8 +128,16 @@ export const FrequenciesGraph = () => {
       });
 
       setCurrentTooltip(value);
+      dispatch(setResetBool(false));
     }
   }
+
+  useEffect(()=>{
+    if(resetBool){
+      setCurrentTooltip(null);
+      dispatch(setResetBool(true));
+    }
+  });
 
   function handleChangeDataView(event) {
     dispatch(setFrequenciesGraphView(event.target.value));
@@ -305,7 +315,7 @@ export const FrequenciesGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noGenotypeSelected}>No genotype selected</div>
+            <div className={classes.noGenotypeSelected}>Click on a genotype to see detail</div>
           )}
         </div>
       </div>

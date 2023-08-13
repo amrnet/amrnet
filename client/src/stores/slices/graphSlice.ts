@@ -31,8 +31,11 @@ interface GraphState {
   KODiversityGraphView: string;
   convergenceData: Array<any>;
   convergenceGroupVariable: string;
-  convergenceColourVariable: string
-  convergenceColourPallete: Object
+  convergenceColourVariable: string;
+  convergenceColourPallete: Object;
+  currentSliderValue: number;
+  resetBool: boolean;
+  maxSliderValue:number;
 }
 
 const initialState: GraphState = {
@@ -66,7 +69,10 @@ const initialState: GraphState = {
   convergenceData: [],
   convergenceGroupVariable: 'COUNTRY_ONLY',
   convergenceColourVariable: 'DATE',
-  convergenceColourPallete: {}
+  convergenceColourPallete: {},
+  currentSliderValue:20,
+  resetBool: false,
+  maxSliderValue:0,
 };
 
 export const graphSlice = createSlice({
@@ -145,6 +151,15 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
+     setCurrentSliderValue: (state, action: PayloadAction<number>) => {
+      state.currentSliderValue = action.payload;
+    },
+    setResetBool: (state, action: PayloadAction<boolean>) => {
+      state.resetBool = action.payload;
+    },
+    setMaxSliderValue: (state, action: PayloadAction<number>) => {
+      state.maxSliderValue = action.payload;
+    },
   }
 });
 
@@ -172,7 +187,10 @@ export const {
   setConvergenceData,
   setConvergenceGroupVariable,
   setConvergenceColourVariable,
-  setConvergenceColourPallete
+  setConvergenceColourPallete,
+  setCurrentSliderValue,
+  setResetBool,
+  setMaxSliderValue,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
