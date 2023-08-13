@@ -82,7 +82,7 @@ export const TopRightControls = () => {
       //   const aux2 = ['1', '25', '50', '75','100'];
       //   return redColorScale2(aux2[index]);
       default:
-        const aux3 = ['1', '3', '11', '51'];
+        const aux3 = ['0.01', '2.01', '10.01', '50.01'];
         return redColorScale(aux3[index]);
     }
   }
