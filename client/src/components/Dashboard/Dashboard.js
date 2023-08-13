@@ -49,7 +49,8 @@ import {
   setKODiversityData,
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView
+  setTrendsKPGraphView,
+  setCurrentSliderValue
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -128,7 +129,8 @@ export const DashboardPage = () => {
     });
 
     if (organism === 'klebe') {
-      dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
+      console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
+      // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
 
       const KODiversityData = getKODiversityData({ data: responseData });
@@ -229,6 +231,7 @@ export const DashboardPage = () => {
       dispatch(setConvergenceColourPallete({}));
       dispatch(setIfCustom(false));
       
+      dispatch(setCurrentSliderValue(20));
 
       switch (organism) {
         case 'typhi':
