@@ -211,7 +211,7 @@ export const DistributionGraph = () => {
                 }}
               />
 
-              {genotypesForFilter.map((option, index) => (
+              {topXGenotypes.map((option, index) => (
                 <Bar
                   key={`distribution-bar-${index}`}
                   dataKey={option}
