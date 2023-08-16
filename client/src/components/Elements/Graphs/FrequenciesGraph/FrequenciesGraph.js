@@ -276,12 +276,7 @@ export const FrequenciesGraph = () => {
             }
             inputProps={{ className: classes.genotypesSelectInput }}
             MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
-            renderValue={(selected) => (
-                selected.length === 1 ? (
-                  <div>{selected}</div>
-                ) : (
-                  <div>{`${selected.length} genotypes`}</div>
-                ))}
+            renderValue={(selected) => (<div>{`Select genotypes (currently showing ${selected.length} )`}</div>)}
           >
             <TextField 
                 size="small"
