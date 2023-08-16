@@ -21,6 +21,7 @@ import {
   setCustomDropdownMapView,
   setCurrentSliderValue,
   setResetBool,
+  setFrequenciesGraphSelectedGenotypes,
 } from '../../../stores/slices/graphSlice';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../../util/drugs';
 import {
@@ -81,7 +82,7 @@ export const ResetButton = (props) => {
 
     const genotypesData = getGenotypesData({ data: props.data, genotypes, organism });
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-    // dispatch(setFrequenciesGraphSelectedGenotypes([]));
+    dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
     dispatch(setCurrentSliderValue(20));
     dispatch(setResetBool(true));
     // dispatch(setGenotypesForFilter(true))
