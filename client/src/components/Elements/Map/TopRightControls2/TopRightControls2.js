@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment} from '@mui/material';
+import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment, IconButton} from '@mui/material';
 import SearchIcon from "@mui/icons-material/Search";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
@@ -85,23 +86,25 @@ console.log("customDropdownMapView", customDropdownMapView.length);
               displayEmpty
               onClose={(e) => setSearchValue2("")}
               endAdornment={
-                <Button
+                <IconButton
+                  size='small'
                   variant="outlined"
                   className={classes.genotypesSelectButton}
                   onClick={() => handleChangeSelectedGenotypes({ all: true })}
                   disabled={organism === 'none' || customDropdownMapView.length === 0}
                   color="error"
+                  // startIcon={<DeleteIcon />}
                 >
-                  CLEAR
-                </Button>
+                  {/* CLEAR */}<DeleteIcon fontSize='small'/>
+                </IconButton>
               }
               inputProps={{ className: classes.genotypesSelectInput }}
               MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
               renderValue={(selected) => (
                 selected.length === 1 ? (
-                  <div>{selected}</div>
+                  <Typography variant="caption">{selected}</Typography>
                 ) : (
-                  <div>{`${selected.length} genotypes`}</div>
+                  <Typography variant="caption">{`${selected.length} genotypes`}</Typography>
                 ))
               }
             >
