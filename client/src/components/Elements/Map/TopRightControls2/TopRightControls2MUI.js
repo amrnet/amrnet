@@ -1,10 +1,55 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
+  topRightControls: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    marginTop: '200px',
+    // width:'25%',
+    '@media (max-width: 1000px)': {
+      // width: 
+    },
+    '@media (max-width: 700px)': {
+      position: 'relative',
+      marginTop: '0px',
+      width:'100%',
+    },
+    // '&$bp700': {
+    //   position: 'relative'
+    // }
+    
+  },
+
+  dropdown:{
+    '& .MuiTypography-root': {
+      fontSize: '14px',
+      height:'20px',
+      padding:'0px'
+      // width:'20px',
+    }
+  },
+  checkbox:{
+    '& .MuiCheckbox-root': {
+      backgroundColor:'blue',
+      color:'red',
+      padding:'0px'
+      // width:'20px',
+    }
+  },
+  card: { borderRadius: '6px !important' },
+  cardContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    rowGap: '4px'
+  },
   frequenciesGraph: {
     display: 'flex',
     flexDirection: 'column',
-    borderTop: '1px solid rgba(0, 0, 0, 0.12)'
+    borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    textAlign: 'justify',
   },
   selectsWrapper: {
     display: 'flex',
@@ -25,6 +70,12 @@ const useStyles = makeStyles((theme) => ({
   labelTooltipIcon: {
     cursor: 'pointer'
   },
+   label: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: '8px'
+  },
   dataViewSelectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
@@ -38,12 +89,12 @@ const useStyles = makeStyles((theme) => ({
   genotypesSelectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
-    padding: '8px 32px 8px 8px !important',
+    padding: '8px 125px 8px 15px !important',
     marginRight: '-80px !important'
   },
   genotypesSelectButton: {
     height: '20px',
-    fontSize: '10px !important',
+    fontSize: '8px !important',
     padding: '3px 5px !important',
     whiteSpace: 'nowrap',
     position: 'absolute',
@@ -173,7 +224,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%'
-  },
+  }
 }));
 
 export { useStyles };
