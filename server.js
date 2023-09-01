@@ -1,5 +1,5 @@
-import connectDB from './config/db.js';
-import connectDB2 from './config/db2.js';
+// import connectDB from './config/db.js';
+import connectDB from './config/db2.js';
 import generateFile from './routes/api/generate_file.js';
 import api from './routes/api/api.js';
 import comb from './routes/api/comb.js';
