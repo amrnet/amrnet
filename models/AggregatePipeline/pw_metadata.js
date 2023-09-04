@@ -1,5 +1,10 @@
 const metadata = [
   {
+    NAME: {
+      $trim: { input: { $toString: "$NAME" } },
+    },
+  },
+  {
     $addFields: {
       ACCESSION: "$NAME",
     },
