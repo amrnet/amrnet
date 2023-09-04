@@ -1,4 +1,11 @@
 const genes = [
+   {
+    $addFields: {
+      NAME: {
+        $trim: { input: { $toString: "$NAME" } },
+      },
+    },
+  },
   {
     $addFields: {
       num_amr_genes: {
