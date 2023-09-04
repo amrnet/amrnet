@@ -1,7 +1,9 @@
 const metadata = [
   {
-    NAME: {
-      $trim: { input: { $toString: "$NAME" } },
+    $addFields: {
+      NAME: {
+        $trim: { input: { $toString: "$NAME" } },
+      },
     },
   },
   {

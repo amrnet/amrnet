@@ -1,4 +1,11 @@
 const stats = [
+   {
+    $addFields: {
+      NAME: {
+        $trim: { input: { $toString: "$NAME" } },
+      },
+    },
+  },
   {
     $project:
       /**
