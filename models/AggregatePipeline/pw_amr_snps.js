@@ -1,4 +1,11 @@
 const snps = [
+   {
+    $addFields: {
+      NAME: {
+        $trim: { input: { $toString: "$NAME" } },
+      },
+    },
+  },
   {
     $addFields: {
       num_qrdr: {

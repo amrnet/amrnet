@@ -1,4 +1,11 @@
 const typing = [
+   {
+    $addFields: {
+      NAME: {
+        $trim: { input: { $toString: "$NAME" } },
+      },
+    },
+  },
   {
     $addFields: {
       GENOTYPE: {

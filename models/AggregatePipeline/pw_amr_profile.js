@@ -1,4 +1,11 @@
 const pw_profile = [
+   {
+    $addFields: {
+      NAME: {
+        $trim: { input: { $toString: "$NAME" } },
+      },
+    },
+  },
   {
     $project: {
       NAME: 1,
