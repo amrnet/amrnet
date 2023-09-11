@@ -1,8 +1,8 @@
 const stats = [
-   {
+  {
     $addFields: {
       NAME: {
-        $trim: { input: { $toString: "$NAME" } },
+        $toString: "$NAME",
       },
     },
   },
