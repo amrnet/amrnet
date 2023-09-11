@@ -51,7 +51,7 @@ const columnsToRemove = [
   'Matching Hashes',
   'p-Value',
   'Mash Distance',
-  'cip',
+  'cip_pred_pheno',
   'dcs_category',
   'amr_category',
   'num_qrdr',
@@ -70,7 +70,10 @@ const columnsToRemove = [
   'COUNTRY OF ORIGIN',
   'AGE',
   'TRAVEL COUNTRY',
-  'TRAVEL ASSOCIATED'
+  'TRAVEL ASSOCIATED',
+  'parE_D420N',
+  'parE_L416F',
+  '_id',
 ];
 
 export const DownloadData = () => {
@@ -105,6 +108,7 @@ export const DownloadData = () => {
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
       .then((res) => {
+        console.log("response",res);
         let indexes = [];
         let csv = res.data.split('\n');
         let lines = [];
@@ -113,12 +117,6 @@ export const DownloadData = () => {
           let line = csv[index].split(',');
           lines.push(line);
         }
-
-        // lines[0].forEach((curr, index) => {
-        //   if (curr === 'cip_pred_pheno') {
-        //     lines[0][index] = 'Cip';
-        //   }
-        // });
         
         for (let index = 0; index < columnsToRemove.length; index++) {
           let currentIndex = lines[0].indexOf(columnsToRemove[index]);
@@ -152,8 +150,7 @@ export const DownloadData = () => {
           }
           newCSV += aux;
         }
-
-        download(newCSV, 'Database.csv');
+         download(newCSV, 'Database.csv');
       })
       .finally(() => {
         setLoadingCSV(false);
