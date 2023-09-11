@@ -5,6 +5,11 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as Tools from '../../services/services.js';
+import {client} from '../../config/db2.js'
+import {createObjectCsvWriter as createCsvWriter} from 'csv-writer';
+import DownloadCSV from "../../models/AggregatePipeline/DownloadCSV.js";
+import download from 'downloadjs';
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
 
@@ -579,18 +584,70 @@ router.get('/create', function (req, res) {
 // Download clean as spreadsheet
 router.post('/download', function (req, res, next) {
   const organism = req.body.organism;
+  const db = client.db('amr_t');
+  const collection = db.collection('combine7');
 
-  let path_file = '';
+  // Perform the aggregation and find all documents
+  collection.aggregate(DownloadCSV).toArray((err, data) => {
+    if (err) {
+      console.error('Error querying MongoDB:', err);
+      client.close();
+      return;
+    }
 
-  if (organism === 'typhi') {
-    path_file = Tools.path_clean_all_st;
-  } else {
-    path_file = Tools.path_clean_all_kp;
-  }
+    // Check if there is at least one document
+    if (data.length > 0) {
+      // Use the keys of the first document as headers
+      const header = Object.keys(data[0]);
+      const headerList = [...header];
 
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.download(path_file);
+      // Use map to transform the headerList into the desired header object
+      const headerL = headerList.map(fieldName => ({ id: fieldName, title: fieldName }));
+
+      const csvWriter = createCsvWriter({
+        path: Tools.path_clean_all_st, // Specify the CSV file path where you want to save the data
+        header: headerL, // Use the dynamically generated header
+      });
+
+      csvWriter.writeRecords(data)
+        .then(() => {
+          console.log('CSV file created successfully!');
+          // Now, set the path_file based on the organism
+          let path_file = '';
+          if (organism === 'typhi') {
+            path_file = Tools.path_clean_all_st;
+          } else {
+            path_file = Tools.path_clean_all_kp;
+          }
+
+          // Set appropriate headers for the file download
+          res.setHeader('Content-Disposition', `attachment; filename=${path.basename(path_file)}`);
+          res.setHeader('Content-Type', 'text/csv');
+          res.setHeader('Access-Control-Allow-Origin', '*');
+
+          // Trigger the file download
+          res.sendFile(path_file, {}, (sendErr) => {
+            if (sendErr) {
+              console.error('Error sending file:', sendErr);
+            }
+          });
+
+          // Close the MongoDB connection after sending the file
+          client.close();
+        })
+        .catch((csvError) => {
+          console.error('Error writing CSV:', csvError);
+          client.close();
+        });
+    }
+  });
 });
+
+
+
+
+
+
 
 // Get data for admin page: changes and current data
 router.get('/databaseLog', function (req, res, next) {
