@@ -1,14 +1,22 @@
 const Sprediction = [
   {
     $addFields:
+      /**
+       * newField: The new field name.
+       * expression: The new field expression.
+       */
       {
         NAME: "$Genome Name",
       },
   },
   {
-    $addFields:{
+    $addFields: {
       NAME: {
-        $trim: { input: { $toString: "$NAME" } },
+        $trim: {
+          input: {
+            $toString: "$NAME",
+          },
+        },
       },
     },
   },
