@@ -2,17 +2,23 @@ const metadata = [
   {
     $addFields: {
       NAME: {
-        $trim: { input: { $toString: "$NAME" } },
+        $trim: {
+          input: {
+            $toString: "$NAME",
+          },
+        },
       },
-    },
-  },
-  {
-    $addFields: {
       ACCESSION: "$NAME",
     },
   },
+  // {
+  //   $addFields: {
+  //     ACCESSION: "$NAME",
+  //   },
+  // }
   {
     $addFields: {
+      ACCESSION: "$NAME",
       STRAIN: {
         $cond: {
           if: {
@@ -267,6 +273,9 @@ const metadata = [
           else: "$DATE",
         },
       },
+      // DATE: {
+      //   $toString: "$DATE",
+      // },
     },
   },
   {

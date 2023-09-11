@@ -1,8 +1,12 @@
 const pw_profile = [
-   {
+  {
     $addFields: {
       NAME: {
-        $trim: { input: { $toString: "$NAME" } },
+        $trim: {
+          input: {
+            $toString: "$NAME",
+          },
+        },
       },
     },
   },

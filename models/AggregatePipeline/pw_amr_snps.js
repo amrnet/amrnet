@@ -1,13 +1,16 @@
 const snps = [
-   {
-    $addFields: {
-      NAME: {
-        $trim: { input: { $toString: "$NAME" } },
-      },
-    },
-  },
+  // {
+  //   $addFields: {
+  //     NAME: {
+  //       $toString: "$NAME",
+  //     },
+  //   },
+  // }
   {
     $addFields: {
+      NAME: {
+        $toString: "$NAME",
+      },
       num_qrdr: {
         $sum: [
           "$gyrA_S83F",
@@ -24,13 +27,14 @@ const snps = [
           "$parC_E84K",
         ],
       },
-    },
-  },
-  {
-    $addFields: {
       num_acrb: "$acrB_R717Q",
     },
   },
+  // {
+  //   $addFields: {
+  //     num_acrb: "$acrB_R717Q",
+  //   },
+  // }
   {
     $addFields: {
       dcs_mechanisms: {

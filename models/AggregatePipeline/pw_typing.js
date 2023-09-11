@@ -1,20 +1,9 @@
 const typing = [
-   {
-    $addFields: {
-      NAME: {
-        $trim: { input: { $toString: "$NAME" } },
-      },
-    },
-  },
   {
     $addFields: {
       GENOTYPE: {
         $toString: "$GENOTYPHI GENOTYPE",
       },
-    },
-  },
-  {
-    $addFields: {
       h58_genotypes: {
         $cond: {
           if: {
@@ -43,6 +32,9 @@ const typing = [
   },
   {
     $addFields: {
+      NAME: {
+        $toString: "$NAME",
+      },
       GENOTYPE_SIMPLE: {
         $cond: {
           if: {
@@ -52,10 +44,6 @@ const typing = [
           else: "H58",
         },
       },
-    },
-  },
-  {
-    $addFields: {
       GENOTYPE: {
         $cond: {
           if: {
@@ -75,10 +63,6 @@ const typing = [
           else: "$GENOTYPE",
         },
       },
-    },
-  },
-  {
-    $addFields: {
       "GENOTYPHI SNPs CALLED": {
         $cond: {
           if: {
@@ -98,19 +82,6 @@ const typing = [
           else: "$GENOTYPHI SNPs CALLED",
         },
       },
-      // "Inc Types": {
-      //   $cond: {
-      //     if: {
-      //       $in: ["$Inc Types", ["", "NA"]],
-      //     },
-      //     then: "-",
-      //     else: "$Inc Types",
-      //   },
-      // },
-    },
-  },
-  {
-    $addFields: {
       "Inc Types": {
         $ifNull: ["$Inc Types", "-"],
       },
