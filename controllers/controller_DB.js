@@ -9,45 +9,45 @@ import LZString from 'lz-string';
 const router = express.Router();
 
 // Downloads data from MongoDB and creates the cleanDB_st file
-router.get('/download', (req, res) => {
-  CombinedModel.find().then(async (comb) => {
-    let send_comb = [];
-    for (let data of comb) {
-      let aux_data = JSON.parse(JSON.stringify(data));
-      delete aux_data['_id'];
-      delete aux_data['__v'];
-      send_comb.push(aux_data);
-    }
+// router.get('/download', (req, res) => {
+//   CombinedModel.find().then(async (comb) => {
+//     let send_comb = [];
+//     for (let data of comb) {
+//       let aux_data = JSON.parse(JSON.stringify(data));
+//       delete aux_data['_id'];
+//       delete aux_data['__v'];
+//       send_comb.push(aux_data);
+//     }
 
-    await Tools.CreateFile(send_comb, 'cleanDB_st');
-    return res.json(send_comb);
-  });
-});
+//     await Tools.CreateFile(send_comb, 'cleanDB_st');
+//     return res.json(send_comb);
+//   });
+// });
 
 // Uploads clean file to MongoDB
-router.get('/upload', (req, res) => {
-  let data_to_send = [];
-  fs.createReadStream(Tools.path_clean_st, { start: 0 })
-    .pipe(csv())
-    .on('data', (data) => {
-      data_to_send.push(data);
-    })
-    .on('end', () => {
-      CombinedModel.countDocuments(function (err, count) {
-        if (err) {
-          return res.json({ Status: `Error! ${err}` });
-        }
-        if (count > 0) {
-          CombinedModel.collection.drop();
-        }
-        CombinedModel.insertMany(data_to_send, (error) => {
-          if (error) return res.json({ Status: `Error! ${error}` });
-          console.log('Success ! Combined data sent to MongoDB!');
-        });
-      });
-      res.json({ Status: 'Sent!' });
-    });
-});
+// router.get('/upload', (req, res) => {
+//   let data_to_send = [];
+//   fs.createReadStream(Tools.path_clean_st, { start: 0 })
+//     .pipe(csv())
+//     .on('data', (data) => {
+//       data_to_send.push(data);
+//     })
+//     .on('end', () => {
+//       CombinedModel.countDocuments(function (err, count) {
+//         if (err) {
+//           return res.json({ Status: `Error! ${err}` });
+//         }
+//         if (count > 0) {
+//           CombinedModel.collection.drop();
+//         }
+//         CombinedModel.insertMany(data_to_send, (error) => {
+//           if (error) return res.json({ Status: `Error! ${error}` });
+//           console.log('Success ! Combined data sent to MongoDB!');
+//         });
+//       });
+//       res.json({ Status: 'Sent!' });
+//     });
+// });
 
 // Upload data from admin page to MongoDB
 router.post('/upload/admin', (req, res) => {
