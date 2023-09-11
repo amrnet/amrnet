@@ -631,13 +631,9 @@ router.post('/download', function (req, res, next) {
               console.error('Error sending file:', sendErr);
             }
           });
-
-          // Close the MongoDB connection after sending the file
-          client.close();
         })
         .catch((csvError) => {
           console.error('Error writing CSV:', csvError);
-          client.close();
         });
     }
   });
