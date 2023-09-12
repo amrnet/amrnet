@@ -16,7 +16,7 @@ export const samplesColorScale = (domain) => {
 };
 
 export const redColorScale = (percentage) => {
-  const p = parseInt(percentage);
+  const p = percentage;
   if(p > 50){
     return '#A20F17';
   }else if (p > 10 && p <= 50) {
