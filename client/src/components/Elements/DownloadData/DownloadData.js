@@ -51,7 +51,7 @@ const columnsToRemove = [
   'Matching Hashes',
   'p-Value',
   'Mash Distance',
-  'cip',
+  'cip_pred_pheno',
   'dcs_category',
   'amr_category',
   'num_qrdr',
@@ -66,11 +66,7 @@ const columnsToRemove = [
   'sul_any',
   'co_trim',
   'GENOTYPE_SIMPLE',
-  'h58_genotypes',
-  'COUNTRY OF ORIGIN',
-  'AGE',
-  'TRAVEL COUNTRY',
-  'TRAVEL ASSOCIATED'
+  'h58_genotypes'
 ];
 
 export const DownloadData = () => {
@@ -114,12 +110,6 @@ export const DownloadData = () => {
           lines.push(line);
         }
 
-        // lines[0].forEach((curr, index) => {
-        //   if (curr === 'cip_pred_pheno') {
-        //     lines[0][index] = 'Cip';
-        //   }
-        // });
-        
         for (let index = 0; index < columnsToRemove.length; index++) {
           let currentIndex = lines[0].indexOf(columnsToRemove[index]);
           indexes.push(currentIndex);

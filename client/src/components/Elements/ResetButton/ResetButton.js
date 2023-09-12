@@ -3,7 +3,7 @@ import { useStyles } from './ResetButtonMUI';
 import { Fab, Tooltip, useMediaQuery } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setActualTimeFinal, setActualTimeInitial, setCanGetData } from '../../../stores/slices/dashboardSlice';
-import { setDataset, setMapView, setPosition, setIfCustom } from '../../../stores/slices/mapSlice';
+import { setDataset, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice';
 import {
   setCollapses,
@@ -17,18 +17,11 @@ import {
   setFrequenciesGraphView,
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView,
-  setCustomDropdownMapView,
-  setCurrentSliderValue,
-  setResetBool,
-  setFrequenciesGraphSelectedGenotypes,
+  setTrendsKPGraphView
 } from '../../../stores/slices/graphSlice';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../../util/drugs';
-import {
-  getGenotypesData
-} from '../../Dashboard/filters';
 
-export const ResetButton = (props) => {
+export const ResetButton = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width: 500px)');
 
@@ -36,7 +29,6 @@ export const ResetButton = (props) => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const genotypes = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   function handleClick() {
     dispatch(setCanGetData(false));
@@ -78,14 +70,6 @@ export const ResetButton = (props) => {
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
     dispatch(setCanGetData(true));
-    dispatch(setIfCustom(false));
-
-    const genotypesData = getGenotypesData({ data: props.data, genotypes, organism });
-    dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-    dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
-    dispatch(setCurrentSliderValue(20));
-    dispatch(setResetBool(true));
-    // dispatch(setGenotypesForFilter(true))
   }
 
   return (
