@@ -21,10 +21,9 @@ import {
   setTimeInitial,
   setTotalGenomes,
   setTotalGenotypes,
-  setYears,
-
+  setYears
 } from '../../stores/slices/dashboardSlice.ts';
-import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
+import { setDataset, setMapData, setMapView, setPosition } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
 import {
   setCollapses,
@@ -39,18 +38,15 @@ import {
   setDrugResistanceGraphView,
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
-  setCustomDropdownMapView,
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
   setGenotypesDrugsData,
-  setGenotypesDrugsData2,
   setGenotypesYearData,
   setKODiversityData,
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView,
-  setCurrentSliderValue
+  setTrendsKPGraphView
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -116,9 +112,7 @@ export const DashboardPage = () => {
 
     const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
-    dispatch(setGenotypesDrugsData2(genotypesData.genotypesDrugsData));
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
-    dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
 
     const yearsData = getYearsData({
@@ -129,8 +123,7 @@ export const DashboardPage = () => {
     });
 
     if (organism === 'klebe') {
-      console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
-      // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
+      dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
 
       const KODiversityData = getKODiversityData({ data: responseData });
@@ -149,7 +142,7 @@ export const DashboardPage = () => {
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-    console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
+
     return responseData;
   }
 
@@ -229,9 +222,6 @@ export const DashboardPage = () => {
       dispatch(setDeterminantsGraphView('percentage'));
       dispatch(setDistributionGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
-      dispatch(setIfCustom(false));
-      
-      dispatch(setCurrentSliderValue(20));
 
       switch (organism) {
         case 'typhi':
@@ -250,7 +240,7 @@ export const DashboardPage = () => {
   // It filters accordingly to the filters give. Is also called when the reset button is pressed.
   useEffect(() => {
     if (data.length > 0 && canGetData) {
-      // console.log('update data', dataset, actualTimeInitial, actualTimeFinal, actualCountry);
+      console.log('update data', dataset, actualTimeInitial, actualTimeFinal, actualCountry);
 
       const filters = filterData({ data, dataset, actualTimeInitial, actualTimeFinal, organism, actualCountry });
       const filteredData = filters.data.filter(
@@ -261,7 +251,7 @@ export const DashboardPage = () => {
         convergenceGroupVariable !== currentConvergenceGroupVariable ||
         convergenceColourVariable !== currentConvergenceColourVariable
       ) {
-        // console.log('update variables', convergenceGroupVariable, convergenceColourVariable);
+        console.log('update variables', convergenceGroupVariable, convergenceColourVariable);
         setCurrentConvergenceGroupVariable(convergenceGroupVariable);
         setCurrentConvergenceColourVariable(convergenceColourVariable);
 
@@ -330,7 +320,7 @@ export const DashboardPage = () => {
       <Graphs />
       <DownloadData />
       <Footer />
-      <ResetButton data={data} />
+      <ResetButton />
     </MainLayout>
   );
 };

@@ -18,7 +18,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { colorForDrugClassesKP, hoverColor } from '../../../../util/colorHelper';
-import { setTrendsKPGraphDrugClass, setTrendsKPGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
+import { setTrendsKPGraphDrugClass, setTrendsKPGraphView } from '../../../../stores/slices/graphSlice';
 import { drugClassesKP } from '../../../../util/drugs';
 
 const dataViewOptions = [
@@ -42,10 +42,8 @@ export const TrendsKPGraph = () => {
   const genotypesAndDrugsYearData = useAppSelector((state) => state.graph.genotypesAndDrugsYearData);
   const trendsKPGraphView = useAppSelector((state) => state.graph.trendsKPGraphView);
   const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
-  const resetBool = useAppSelector((state) => state.graph.resetBool);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesAndDrugsYearData]);
 
@@ -134,16 +132,9 @@ export const TrendsKPGraph = () => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
     }
   }
 
-  useEffect(()=>{
-    if(resetBool){
-      setCurrentTooltip(null);
-      dispatch(setResetBool(true));
-    }
-  });
   useEffect(() => {
     if (canGetData) {
       setPlotChart(() => {
@@ -335,7 +326,7 @@ export const TrendsKPGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noYearSelected}>Click on a year to see detail</div>
+            <div className={classes.noYearSelected}>No year selected</div>
           )}
         </div>
       </div>

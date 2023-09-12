@@ -19,9 +19,7 @@ interface GraphState {
   drugResistanceGraphView: Array<string>,
   frequenciesGraphView: string;
   frequenciesGraphSelectedGenotypes: Array<string>;
-  customDropdownMapView: Array<string>;
   genotypesDrugsData: Array<any>;
-  genotypesDrugsData2: Array<any>;
   genotypesDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
@@ -31,11 +29,8 @@ interface GraphState {
   KODiversityGraphView: string;
   convergenceData: Array<any>;
   convergenceGroupVariable: string;
-  convergenceColourVariable: string;
-  convergenceColourPallete: Object;
-  currentSliderValue: number;
-  resetBool: boolean;
-  maxSliderValue:number;
+  convergenceColourVariable: string
+  convergenceColourPallete: Object
 }
 
 const initialState: GraphState = {
@@ -52,14 +47,12 @@ const initialState: GraphState = {
   genotypesYearData: [],
   drugsYearData: [],
   genotypesDrugsData: [],
-  genotypesDrugsData2: [],
   genotypesDrugClassesData: [],
   genotypesAndDrugsYearData: [],
   distributionGraphView: 'number',
   drugResistanceGraphView: [],
   frequenciesGraphView: 'percentage',
   frequenciesGraphSelectedGenotypes: [],
-  customDropdownMapView: [],
   determinantsGraphView: 'percentage',
   determinantsGraphDrugClass: '',
   trendsKPGraphDrugClass: '',
@@ -69,10 +62,7 @@ const initialState: GraphState = {
   convergenceData: [],
   convergenceGroupVariable: 'COUNTRY_ONLY',
   convergenceColourVariable: 'DATE',
-  convergenceColourPallete: {},
-  currentSliderValue:20,
-  resetBool: false,
-  maxSliderValue:0,
+  convergenceColourPallete: {}
 };
 
 export const graphSlice = createSlice({
@@ -106,14 +96,8 @@ export const graphSlice = createSlice({
     setFrequenciesGraphSelectedGenotypes: (state, action: PayloadAction<Array<string>>) => {
       state.frequenciesGraphSelectedGenotypes = action.payload;
     },
-    setCustomDropdownMapView: (state, action: PayloadAction<Array<string>>) => {
-      state.customDropdownMapView = action.payload;
-    },
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugsData = action.payload;
-    },
-    setGenotypesDrugsData2: (state, action: PayloadAction<Array<any>>) => {
-      state.genotypesDrugsData2 = action.payload;
     },
     setDeterminantsGraphView: (state, action: PayloadAction<string>) => {
       state.determinantsGraphView = action.payload;
@@ -151,15 +135,6 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
-     setCurrentSliderValue: (state, action: PayloadAction<number>) => {
-      state.currentSliderValue = action.payload;
-    },
-    setResetBool: (state, action: PayloadAction<boolean>) => {
-      state.resetBool = action.payload;
-    },
-    setMaxSliderValue: (state, action: PayloadAction<number>) => {
-      state.maxSliderValue = action.payload;
-    },
   }
 });
 
@@ -173,9 +148,7 @@ export const {
   setCollapses,
   setFrequenciesGraphView,
   setFrequenciesGraphSelectedGenotypes,
-  setCustomDropdownMapView,
   setGenotypesDrugsData,
-  setGenotypesDrugsData2,
   setDeterminantsGraphView,
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,
@@ -187,10 +160,7 @@ export const {
   setConvergenceData,
   setConvergenceGroupVariable,
   setConvergenceColourVariable,
-  setConvergenceColourPallete,
-  setCurrentSliderValue,
-  setResetBool,
-  setMaxSliderValue,
+  setConvergenceColourPallete
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
