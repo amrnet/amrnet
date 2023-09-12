@@ -116,7 +116,7 @@ export const Map = () => {
                 sumCount += genotype.count;
               }
               if(countryData.count>=20 && genotypes2.length > 1 )
-                tooltip.content['Total Genotypes'] = `${sumCount} (${((sumCount/percentCounter)*100).toFixed(2)} %)`;
+                tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount/percentCounter)*100).toFixed(2)} %)`;
 
             }
             break;
