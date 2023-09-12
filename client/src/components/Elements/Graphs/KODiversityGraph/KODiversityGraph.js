@@ -13,7 +13,7 @@ import {
   Label
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setKODiversityGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
+import { setKODiversityGraphView } from '../../../../stores/slices/graphSlice';
 import { hoverColor } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -34,10 +34,8 @@ export const KODiversityGraph = () => {
   const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const resetBool = useAppSelector((state) => state.graph.resetBool);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [KODiversityData]);
 
@@ -79,17 +77,8 @@ export const KODiversityGraph = () => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
-
     }
   }
-
-  useEffect(()=>{
-    if(resetBool){
-      setCurrentTooltip(null);
-      dispatch(setResetBool(true));
-    }
-  });
 
   useEffect(() => {
     if (canGetData) {
@@ -216,7 +205,7 @@ export const KODiversityGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noYearSelected}>Click on a item to see the details</div>
+            <div className={classes.noYearSelected}>No item selected</div>
           )}
         </div>
       </div>
