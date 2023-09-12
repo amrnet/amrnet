@@ -130,21 +130,30 @@ export const getColorForGenotype = (genotype) => {
 };
 
 // Generate color pallete for Klebsiella genotypes
-let iwanthue = require('iwanthue');
 export const generatePalleteForGenotypes = (genotypes) => {
-  console.log("genotypes.length", genotypes.length);
   if (genotypes.length === 0) {
     return {};
   }
-  const colors = iwanthue(genotypes.length,{
-    clustering: 'force-vector',
-    seed: 'all',
-    quality: 100
-  });
+
+  var Rainbow = require('rainbowvis.js');
+  const rainbow = new Rainbow();
+  rainbow.setNumberRange(0, genotypes.length);
+  rainbow.setSpectrum(
+    '#67001f',
+    '#b2182b',
+    '#d6604d',
+    '#f4a582',
+    '#fddbc7',
+    '#d1e5f0',
+    '#92c5de',
+    '#4393c3',
+    '#2166ac',
+    '#053061'
+  );
 
   const pallete = {};
   genotypes.forEach((x, i) => {
-    pallete[x] = `${colors[i]}`;
+    pallete[x] = `#${rainbow.colourAt(i)}`;
   });
 
   return pallete;

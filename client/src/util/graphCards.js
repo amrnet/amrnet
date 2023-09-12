@@ -12,7 +12,7 @@ export const graphCards = [
   {
     collapse: 'frequencies',
     title: 'Resistance frequencies within genotypes',
-    description: ['Select Genotypes (up to 7)'],
+    description: ['Top Genotypes (up to 7)'],
     icon: <BarChart color="primary" />,
     id: 'RFWG',
     organisms: ['typhi', 'klebe']
