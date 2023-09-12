@@ -9,6 +9,7 @@ export const mapLegends = [
   { value: 'Carb', label: 'Carbapenems', organisms: ['klebe'] },
   { value: 'Sensitive to all drugs', label: 'Sensitive to all drugs', organisms: ['typhi', 'klebe', 'gono', 'pneumo'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: ['typhi', 'klebe', 'gono', 'pneumo'] },
+  { value: 'Genotype prevalence', label: 'Genotype prevalence', organisms: ['typhi', 'klebe', 'gono', 'pneumo'] },
   { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['typhi'] },
   { value: 'No. Samples', label: 'No. Samples', organisms: ['typhi', 'klebe', 'gono', 'pneumo'] }
 ];

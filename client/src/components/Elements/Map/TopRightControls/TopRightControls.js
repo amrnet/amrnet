@@ -2,16 +2,18 @@ import { InfoOutlined } from '@mui/icons-material';
 import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import { useStyles } from './TopRightControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setMapView } from '../../../../stores/slices/mapSlice.ts';
+import { setMapView, setIfCustom} from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
-import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
 
-const generalSteps = ['1 - 2%', '3 - 10%', '11 - 50%', '51 - 100%'];
+const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
-const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb'];
+const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
+const ExcludedView = ['Genotype prevalence'];
+const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Genotype prevalence'];
 
 export const TopRightControls = () => {
   const classes = useStyles();
@@ -25,6 +27,10 @@ export const TopRightControls = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   function handleChangeMapView(event) {
+    if(event.target.value === 'Genotype prevalence')
+      dispatch(setIfCustom(true));
+    else
+      dispatch(setIfCustom(false));
     dispatch(setMapView(event.target.value));
   }
 
@@ -52,6 +58,8 @@ export const TopRightControls = () => {
         return noSamplesSteps;
       case 'Dominant Genotype':
         return getDominantGenotypeSteps();
+      case 'Genotype prevalence':
+        return gradientStyle;
       default:
         return generalSteps;
     }
@@ -68,8 +76,14 @@ export const TopRightControls = () => {
       }
       case 'Dominant Genotype':
         return getGenotypeColor(step);
+      //case 'Genotype prevalence':
+        // return redColorScale2(step);
+      // case 'Genotype prevalence':
+      //   const aux2 = ['1', '25', '50', '75','100'];
+      //   return redColorScale2(aux2[index]);
       default:
-        return redColorScale(step);
+        const aux3 = ['0.01', '2.01', '10.01', '50.01'];
+        return redColorScale(aux3[index]);
     }
   }
 
@@ -119,14 +133,41 @@ export const TopRightControls = () => {
                   <span className={classes.legendText}>0%</span>
                 </div>
               )}
-              {getSteps().map((step, index) => {
+              {/* {getSteps().map((step, index) => {
                 return (
                   <div key={`step-${index}`} className={classes.legend}>
                     <Box className={classes.legendColorBox} style={{ backgroundColor: getStepBoxColor(step, index) }} />
                     <span className={classes.legendText}>{step}</span>
                   </div>
                 );
-              })}
+              })} */}
+              {ExcludedView.includes(mapView) ?(
+                <div key={`step-1`} className={classes.legend}>
+                  <Box
+                    className={classes.legendColorBox}
+                    style={{
+                      height: '50px',
+                      marginTop:'2px',
+                      backgroundImage: "linear-gradient( #FAAD8F, #FA694A, #DD2C24, #A20F17)"
+                    }}
+                  />
+                  <span className={classes.legendText}>
+                    <div style={{textAlign:'left', height: '50px'}}>
+                      <div>1%</div>
+                      <br/>
+                      <br/>
+                      <div>100%</div>
+                    </div>
+                  </span>
+                </div>
+              ) : (
+                getSteps().map((step, index) => (
+                  <div key={`step-${index}`} className={classes.legend}>
+                    <Box className={classes.legendColorBox} style={{ backgroundColor: getStepBoxColor(step, index) }} />
+                    <span className={classes.legendText}>{step}</span>
+                  </div>
+                ))
+              ) }
             </div>
           )}
         </CardContent>
