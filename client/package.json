@@ -44,13 +44,12 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
-        "eslintConfig": {
+    "eslintConfig": {
         "extends": [
             "react-app",
             "react-app/jest"
         ]
     },
-
     "browserslist": {
         "production": [
             ">0.2%",
@@ -65,6 +64,7 @@
     },
     "devDependencies": {
         "@types/react-simple-maps": "^3.0.0",
+        "eslint-config-react-app": "^7.0.1",
         "react-error-overlay": "^6.0.9",
         "typescript": "^5.0.4"
     }
