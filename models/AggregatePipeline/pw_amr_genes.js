@@ -405,7 +405,7 @@ const genes = [
   },
   {
     $merge: {
-      into: "genes",
+      into: "genescollection",
     },
   },
 ];

@@ -28,7 +28,7 @@ const pw_profile = [
   },
   {
     $merge: {
-      into: "profile",
+      into: "profilecollection",
     },
   },
 ];
