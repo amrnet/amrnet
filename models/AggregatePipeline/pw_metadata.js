@@ -741,7 +741,7 @@ const metadata = [
   },
   {
     $merge: {
-      into: "metadata",
+      into: "metadatacollection",
     },
   },
 ];

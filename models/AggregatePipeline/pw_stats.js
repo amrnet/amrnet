@@ -26,7 +26,7 @@ const stats = [
   },
   {
     $merge: {
-      into: "stats",
+      into: "statscollection",
     },
   },
 ];
