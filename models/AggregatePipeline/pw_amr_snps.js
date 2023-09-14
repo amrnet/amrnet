@@ -293,7 +293,7 @@ const snps = [
   },
   {
     $merge: {
-      into: "snps",
+      into: "snpscollection",
     },
   },
 ];

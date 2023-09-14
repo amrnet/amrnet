@@ -296,7 +296,7 @@ const Sprediction = [
   },
   {
     $merge: {
-      into: "prediction",
+      into: "predictioncollection",
     },
   },
 ];

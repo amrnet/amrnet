@@ -107,7 +107,7 @@ const typing = [
   },
   {
     $merge: {
-      into: "typing",
+      into: "typingcollection",
     },
   },
 ];
