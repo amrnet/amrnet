@@ -8,7 +8,7 @@ import {client} from '../../config/db2.js'
 // Get all data from the clean or cleanDB_st file inside assets
 router.get('/getDataFromCSV', async function (req, res, next) {
   try {
-        const result = await client.db("amr_t").collection("combine7").find({ 'Exclude': 'Include' }).toArray();;
+        const result = await client.db("salmotyphi").collection("combine7").find({ 'Exclude': 'Include' }).toArray();;
         console.log(result.length);
         return res.json(result);
     } catch (error) {

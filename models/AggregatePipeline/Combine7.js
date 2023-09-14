@@ -1,7 +1,7 @@
 const combine7 = [
   {
     $lookup: {
-      from: "genes",
+      from: "genescollection",
       localField: "NAME",
       foreignField: "NAME",
       as: "pw_amr-genes",
@@ -9,7 +9,7 @@ const combine7 = [
   },
   {
     $lookup: {
-      from: "prediction",
+      from: "predictioncollection",
       localField: "NAME",
       foreignField: "NAME",
       as: "pw_species-prediction",
@@ -17,7 +17,7 @@ const combine7 = [
   },
   {
     $lookup: {
-      from: "snps",
+      from: "snpscollection",
       localField: "NAME",
       foreignField: "NAME",
       as: "pw_amr-snps",
@@ -25,7 +25,7 @@ const combine7 = [
   },
   {
     $lookup: {
-      from: "metadata",
+      from: "metadatacollection",
       localField: "NAME",
       foreignField: "NAME",
       as: "pw_metadata",
@@ -33,7 +33,7 @@ const combine7 = [
   },
   {
     $lookup: {
-      from: "stats",
+      from: "statscollection",
       localField: "NAME",
       foreignField: "NAME",
       as: "pw_stats",
@@ -41,7 +41,7 @@ const combine7 = [
   },
   {
     $lookup: {
-      from: "typing",
+      from: "typingcollection",
       localField: "NAME",
       foreignField: "NAME",
       as: "pw_typing",
@@ -279,51 +279,6 @@ const combine7 = [
       },
     },
   },
-  // {
-  //   $addFields: {
-  //     cip_pred_pheno: {
-  //       $cond: {
-  //         if: {
-  //           $and: [
-  //             {
-  //               $eq: ["$num_qrdr", 0],
-  //             },
-  //             {
-  //               $or: [
-  //                 {
-  //                   $eq: ["$qnrS", 1],
-  //                 },
-  //                 {
-  //                   $eq: ["$qnrB", 1],
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //         },
-  //         then: "CipNS",
-  //         else: {
-  //           $cond: {
-  //             if: {
-  //               $eq: ["$num_qrdr", 0],
-  //             },
-  //             then: "CipS",
-  //             else: {
-  //               else: {
-  //                 $cond: {
-  //                   if: {
-  //                     $eq: ["$num_qrdr", 1],
-  //                   },
-  //                   then: "CipNS",
-  //                   else: "CipR",
-  //                 },
-  //               },
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // }
   {
     $addFields: {
       dcs_mechanisms: {
@@ -845,17 +800,6 @@ const combine7 = [
       },
     },
   },
-  // {
-  //   $set: {
-  //     newArrayField: {
-  //       $concatArrays: [
-  //         ["$amr_category"],
-  // Add the value of field1 to the array
-  //         ["$cip_pheno_qrdr_gene"], // Add the value of field2 to the array
-  //       ],
-  //     },
-  //   },
-  // },
   {
     $project: {
       "pw_amr-genes": 0,
