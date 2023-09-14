@@ -584,7 +584,7 @@ const router = express.Router();
 // Download clean as spreadsheet
 router.post('/download', function (req, res, next) {
   const organism = req.body.organism;
-  const db = client.db('amr_t');
+  const db = client.db('salmotyphi');
   const collection = db.collection('combine7');
 
   // Perform the aggregation and find all documents
