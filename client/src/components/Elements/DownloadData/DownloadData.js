@@ -20,7 +20,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses } from '../../../stores/slices/graphSlice';
-import { drugsKP, drugsST } from '../../../util/drugs';
+import { drugsKP, drugsST, drugsForDrugResistanceGraphST } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import { colorForDrugClassesKP, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
 import { getKlebsiellaTexts, getSalmonellaTexts } from '../../../util/reportInfoTexts';
@@ -468,16 +468,26 @@ export const DownloadData = () => {
         doc.rect(0, rectY, pageWidth, 200, 'F');
 
         doc.setFontSize(9);
-        if (['RFWG', 'DRT'].includes(cards[index].id)) {
+        if (graphCards[index].id === 'RFWG') {
           drawLegend({
             document: doc,
             legendData: legendDrugs,
-            factor: 8,
+            factor: 4,
             rectY,
-            xSpace: 190,
+            xSpace: 100,
             isDrug: true
           });
-        } else if (cards[index].id === 'RDWG') {
+        }else if (graphCards[index].id === 'DRT') {
+          drawLegend({
+            document: doc,
+            legendData: drugsForDrugResistanceGraphST,
+            factor: 4,
+            rectY,
+            xSpace: 100,
+            isDrug: true
+          });
+        } else if (graphCards[index].id === 'RDWG') {
+
           drawLegend({
             document: doc,
             legendData: drugClassesBars,
