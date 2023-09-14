@@ -1,8 +1,9 @@
-import express from 'express';
 import pkg from 'mongodb';
 const { MongoClient } = pkg;
-// const URI = process.env.MONGO_URI;
-const URI = "mongodb+srv://amrnet:yNFTMCqUw3iuCbKk@clusteramr.vmqh0b2.mongodb.net/amrnet_proto?retryWrites=true&w=majority";
+import dotenv from 'dotenv';
+
+dotenv.config();
+let URI = process.env.MONGO_URI;
 export const client = new MongoClient(URI)
 
 // Connection to MongoDB
