@@ -39,6 +39,7 @@ export const KODiversityGraph = () => {
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [KODiversityData]);
 
   function handleChangeDataView(event) {
@@ -85,12 +86,13 @@ export const KODiversityGraph = () => {
   }
 
   useEffect(()=>{
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     if(resetBool){
       setCurrentTooltip(null);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       dispatch(setResetBool(true));
     }
   });
-
   useEffect(() => {
     if (canGetData) {
       setPlotChart(() => {
