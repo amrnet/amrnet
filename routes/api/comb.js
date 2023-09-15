@@ -18,7 +18,7 @@ router.get('/data', async (req, res) => {
         // await client.db("salmotyphi").collection("pw_stats").aggregate(stats).toArray();
         // await client.db("salmotyphi").collection("pw_species-prediction").aggregate(prediction).toArray();
         // await client.db("salmotyphi").collection("pw_metadata").aggregate(metadata).toArray();
-        // await client.db("salmotyphi").collection("pw_amr_snps").aggregate(snps).toArray();
+        // await client.db("salmotyphi").collection("pw_amr-snps").aggregate(snps).toArray();
         // await client.db("salmotyphi").collection("pw_amr-profile").aggregate(pw_profile).toArray();
         // await client.db("salmotyphi").collection("pw_amr-genes").aggregate(genes).toArray();
         const result = await client.db("salmotyphi").collection("profilecollection").aggregate(combine7).toArray();
