@@ -13,7 +13,7 @@ import {
   setActualGenotypes,
   setActualTimeFinal,
   setActualTimeInitial,
-  setColorPallete,
+  // setColorPallete,
   setGenotypesForFilter,
   setListPMID,
   setLoadingData,

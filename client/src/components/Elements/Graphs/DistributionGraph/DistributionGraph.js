@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setColorPallete } from '../../../../stores/slices/dashboardSlice';
-import { setDistributionGraphView, setCurrentSliderValue, setTopXGenotypes, setResetBool} from '../../../../stores/slices/graphSlice';
+import { setDistributionGraphView, setResetBool} from '../../../../stores/slices/graphSlice';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -47,8 +47,9 @@ export const DistributionGraph = () => {
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesYearData]);
-
+  
   function getDomain() {
     return distributionGraphView === 'number' ? undefined : [0, 100];
   }
@@ -79,6 +80,7 @@ export const DistributionGraph = () => {
       const slicedArray = mapArray.slice(0, currentSliderValue).map(([key, value]) => key);
       setTopXGenotypes(slicedArray);
       dispatch(setColorPallete(generatePalleteForGenotypes(colorArray)));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   },[genotypesForFilter, genotypesYearData, currentSliderValue]);
 
   let newArray = []; //TODO: can be a global value in redux
@@ -137,7 +139,7 @@ export const DistributionGraph = () => {
           value.genotypes = Object.keys(currentData).map((key) => {
             console.log("key", key);
             const count = currentData[key];
-            const activePayload = event.activePayload.find((x) => x.name === key);
+            // const activePayload = event.activePayload.find((x) => x.name === key);
             // console.log("activePayload", activePayload);
             return {
               label: key,
@@ -161,6 +163,7 @@ export const DistributionGraph = () => {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[topXGenotypes]);
 
   useEffect(() => {
@@ -230,8 +233,7 @@ export const DistributionGraph = () => {
         );
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesYearData, distributionGraphView,topXGenotypes, currentSliderValue]);
 
 
