@@ -214,28 +214,34 @@ const combine7 = [
   },
   {
     $addFields: {
+      num_qrdr: {
+        $ifNull: ["$num_qrdr", ""],
+      },
+    },
+  },
+  {
+    $addFields: {
       cip_pred_pheno: {
         $cond: {
           if: {
-            $or: [
-              {
-                $eq: ["$qnrS", 1],
-              },
-              {
-                $eq: ["$qnrB", 1],
-              },
-            ],
+            $ne: ["$cip_pheno_qrdr_gene", ""],
           },
-          then: "CipR",
-          else: {
+          then: {
             $cond: {
               if: {
-                $or: [
+                $and: [
                   {
-                    $eq: ["$num_qrdr", 1],
+                    $eq: ["$num_qrdr", 0],
                   },
                   {
-                    $eq: ["$num_qrdr", 2],
+                    $or: [
+                      {
+                        $eq: ["$qnrS", 1],
+                      },
+                      {
+                        $eq: ["$qnrB", 1],
+                      },
+                    ],
                   },
                 ],
               },
@@ -243,22 +249,23 @@ const combine7 = [
               else: {
                 $cond: {
                   if: {
-                    $eq: ["$num_qrdr", 3],
+                    $eq: ["$num_qrdr", 0],
                   },
-                  then: "CipR",
+                  then: "CipS",
                   else: {
                     $cond: {
                       if: {
-                        $eq: ["$num_qrdr", 0],
+                        $eq: ["$num_qrdr", 1],
                       },
-                      then: "CipS",
-                      else: "cip_pred_pheno",
+                      then: "CipNS",
+                      else: "CipR",
                     },
                   },
                 },
               },
             },
           },
+          else: "$cip_pred_pheno",
         },
       },
     },
