@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, Card, InputAdornment } from '@mui/material';
+import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment } from '@mui/material';
 import { useStyles } from './FrequenciesGraphMUI';
 import { InfoOutlined } from '@mui/icons-material';
 import SearchIcon from "@mui/icons-material/Search";
