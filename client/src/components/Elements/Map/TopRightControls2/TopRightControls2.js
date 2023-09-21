@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment, IconButton} from '@mui/material';
 import SearchIcon from "@mui/icons-material/Search";
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
 import { useStyles } from './TopRightControls2MUI';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import { InfoOutlined } from '@mui/icons-material';
 
 
 export const TopRightControls2 = () => {
@@ -18,7 +17,6 @@ export const TopRightControls2 = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const genotypesDrugsData2 = useAppSelector((state) => state.graph.genotypesDrugsData2);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
-  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -74,7 +72,13 @@ console.log("customDropdownMapView", customDropdownMapView.length);
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.frequenciesGraph}>
           <div className={classes.label}>
-            <Typography variant="caption">Select genotype/s</Typography>
+            <Typography variant="caption">Select genotype</Typography>
+            <Tooltip
+              title="Select up to 10 Genotypes"
+              placement="top"
+            >
+              <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+            </Tooltip>
           </div>
             <Select
               multiple
