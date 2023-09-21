@@ -86,17 +86,16 @@ console.log("customDropdownMapView", customDropdownMapView.length);
               displayEmpty
               onClose={(e) => setSearchValue2("")}
               endAdornment={
-                <IconButton
-                  size='small'
-                  variant="outlined"
-                  className={classes.genotypesSelectButton}
-                  onClick={() => handleChangeSelectedGenotypes({ all: true })}
-                  disabled={organism === 'none' || customDropdownMapView.length === 0}
-                  color="error"
-                  // startIcon={<DeleteIcon />}
-                >
-                  {/* CLEAR */}<DeleteIcon fontSize='small'/>
-                </IconButton>
+                <Button
+                size="small"
+                variant="outlined"
+                className={classes.genotypesSelectButton}
+                onClick={() => handleChangeSelectedGenotypes({ all: true })}
+                disabled={customDropdownMapView.length === 0}
+                color="error"
+              >
+                Clear
+              </Button>
               }
               inputProps={{ className: classes.genotypesSelectInput }}
               MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
@@ -119,6 +118,22 @@ console.log("customDropdownMapView", customDropdownMapView.length);
                     <InputAdornment position="start">
                       <SearchIcon />
                     </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        className={classes.genotypesSelectButton}
+                        onClick={(e) => {
+                          handleChangeSelectedGenotypes({ all: true });
+                        }}
+                        disabled={customDropdownMapView.length === 0}
+                        color="error"
+                      >
+                        Clear
+                      </Button>
+                    </InputAdornment>
                   )
                 }}
                 sx={{ width:'90%', margin:'0% 5%'}}
@@ -127,7 +142,7 @@ console.log("customDropdownMapView", customDropdownMapView.length);
               />
               {filteredData.map((genotype, index) => (
                 <MenuItem key={`frequencies-option-${index}`} value={genotype.name} className={classes.dropdown}>
-                  <Checkbox sx={{padding: '0px', marginRight:'5px'}} checked={customDropdownMapView.indexOf(genotype.name) > -1} />
+                  <Checkbox disableRipple sx={{padding: '0px', marginRight:'5px'}} checked={customDropdownMapView.indexOf(genotype.name) > -1} />
                   <ListItemText primary={getSelectGenotypeLabel(genotype)}   />
                 </MenuItem>
               ))}
