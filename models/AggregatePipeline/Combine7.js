@@ -776,7 +776,7 @@ const combine7 = [
       },
     },
   },
-  {
+ {
     $addFields: {
       Exclude: {
         $cond: {
@@ -798,6 +798,15 @@ const combine7 = [
                     "Non Targeted [Other]",
                   ],
                 ],
+              },
+              {
+                $ne: ["$SYMPTOM STATUS","Asymptomatic Carrier"],
+              },
+              {
+                $ne: ["$SOURCE", "Environment"],
+              },
+              {
+                $ne: ["$SOURCE", "Gallbladder"],
               },
             ],
           },
