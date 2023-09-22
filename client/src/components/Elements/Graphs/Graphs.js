@@ -197,20 +197,20 @@ export const Graphs = () => {
       ctx.font = '12px Montserrat';
 
       const mobileFactor = matches500 ? 100 : 0;
-      if (card.id === 'RFGW') {
+      if ('RFWG'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         const legendDrugs = organism === 'typhi' ? drugsST : drugsKP;
 
         drawLegend({
           legendData: legendDrugs,
           context: ctx,
-          factor: 4,
+          factor: (legendDrugs.length>12 ? 8 : 4),
           mobileFactor,
           yPosition: 670,
-          xSpace: 200,
+          xSpace: (legendDrugs.length>12 ? 400 : 200),
           isDrug: true
         });
-      } else if (card.id === 'DRT') {
+      } else if ('DRT'.includes(card.id)) {
           ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
           drawLegend({
             legendData: drugsForDrugResistanceGraphST,

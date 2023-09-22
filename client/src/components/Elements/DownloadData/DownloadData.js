@@ -481,9 +481,9 @@ export const DownloadData = () => {
           drawLegend({
             document: doc,
             legendData: legendDrugs,
-            factor: 4,
+            factor: (legendDrugs.length>12 ? 8 : 4),
             rectY,
-            xSpace: 100,
+            xSpace: (legendDrugs.length>12 ? 200 : 100),
             isDrug: true
           });
         }else if (graphCards[index].id === 'DRT') {
