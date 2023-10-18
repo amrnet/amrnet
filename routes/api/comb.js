@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 import fs from 'fs';
 import {client} from '../../config/db2.js'
+import {exec} from "child_process"
 import mergest from "../../models/Agg2/mergest.js";
 import mergekleb from "../../models/Agg2/mergekleb.js";
 
@@ -19,14 +20,15 @@ router.get('/data', async (req, res) => {
 
 });
 
-
+const folderPath = `/Users/vandanasharma/Desktop/DATABASE_COMPARE_DATA/untitled folder/short`;
 router.get('/import', async (req, res) => {
     const  jsonFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.json'));
 
     for (const jsonFile of jsonFiles) {
         
       const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport  --db='test' --collection='${collectionName}' --file='${folderPath}/${jsonFile}' --jsonArray`
+      const command = `mongoimport --db 'test2' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${folderPath}/${jsonFile}' --jsonArray`
+
 
         exec(command, (error, stdout, stderr) => {
             if (error) {
