@@ -27,7 +27,7 @@ export const TopRightControls2 = () => {
     // console.log("genotype2",genotype.Susceptible );
     const percentage = Number(((genotype.Susceptible / genotype.totalCount) * 100).toFixed(2));
 
-    return `${genotype.name} (total N=${genotype.totalCount}, ${percentage}% Susceptible)`;
+    return `${genotype.name} (total N=${genotype.totalCount===0 ? 0:`${genotype.totalCount}, ${percentage}% Susceptible`})`;
   }
   
   function getDataForGenotypeSelect() {
