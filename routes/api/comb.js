@@ -10,8 +10,8 @@ import mergekleb from "../../models/Agg2/mergekleb.js";
 router.get('/data', async (req, res) => {
 
     try {
-        await client.db("test").collection("pw_amr-profile").aggregate(mergest).toArray();
-        const result = await client.db("test").collection("pw_kleborate").aggregate(mergekleb).toArray();
+        await client.db("salmotyphi").collection("pw_amr-profile").aggregate(mergest).toArray();
+        const result = await client.db("salmotyphi").collection("pw_kleborate").aggregate(mergekleb).toArray();
         return res.json(result);
     } catch (error) {
         console.error(error);
@@ -27,7 +27,7 @@ router.get('/import', async (req, res) => {
     for (const jsonFile of jsonFiles) {
         
       const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --db 'test' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${folderPath}/${jsonFile}' --jsonArray`
+      const command = `mongoimport --db 'salmotyphi' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${folderPath}/${jsonFile}' --jsonArray`
 
 
         exec(command, (error, stdout, stderr) => {
