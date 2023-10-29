@@ -27,7 +27,7 @@ router.get('/import', async (req, res) => {
     for (const jsonFile of jsonFiles) {
         
       const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --db 'test2' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${folderPath}/${jsonFile}' --jsonArray`
+      const command = `mongoimport --db 'test' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${folderPath}/${jsonFile}' --jsonArray`
 
 
         exec(command, (error, stdout, stderr) => {
