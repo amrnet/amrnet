@@ -47,6 +47,16 @@ const mergekleb = [
   },
   {
     $addFields: {
+      GENOTYPE: {
+        $toString: "$GENOTYPE",
+      },
+      DATE: {
+          $toString: "$DATE",
+      },
+    },
+  },
+  {
+    $addFields: {
       K_locus_identity: {
         $arrayElemAt: ["$KStringParts", 0],
       },
@@ -72,6 +82,98 @@ const mergekleb = [
           },
           100,
         ],
+      },
+    },
+  },
+  {
+    $addFields:{
+      DATE: {
+        $cond: {
+          if: {
+            $in: [
+              "$DATE",
+              [
+                null,
+                "NA",
+                "Not Provided",
+                "",
+                "-",
+                undefined,
+              ],
+            ],
+          },
+          then: "-",
+          else: "$DATE",
+        },
+      },
+    }
+  },
+  {
+    $addFields:{
+      COUNTRY_ONLY: {
+        $cond: {
+          if: {
+            $in: [
+              "$COUNTRY_ONLY",
+              [
+                null,
+                "NA",
+                "Not Provided",
+                "",
+                "-",
+                undefined,
+              ],
+            ],
+          },
+          then: "-",
+          else: "$COUNTRY_ONLY",
+        },
+      },
+    }
+  },
+  {
+    $addFields: {
+      Exclude: {
+        $cond: {
+          if: {
+            $and: [
+              {
+                $ne: ["$GENOTYPE", "NA"],
+              },
+              {
+                $ne: ["$COUNTRY_ONLY", "-"],
+              },
+              {
+                $ne: ["$DATE", "-"],
+              },
+              {
+                $ne: ["$COUNTRY_ONLY", "-"],
+              },
+              {
+                $in: [
+                  "$PURPOSE OF SAMPLING",
+                  [
+                    "Non Targeted [Surveillance Study]",
+                    "Non Targeted [Routine diagnostics]",
+                    "Non Targeted [Reference lab]",
+                    "Non Targeted [Other]",
+                  ],
+                ],
+              },
+              {
+                $ne: ["$SYMPTOM STATUS","Asymptomatic Carrier"],
+              },
+              {
+                $ne: ["$SOURCE", "Environment"],
+              },
+              {
+                $ne: ["$SOURCE", "Gallbladder"],
+              },
+            ],
+          },
+          then: "Include",
+          else: "Exclude",
+        },
       },
     },
   },
