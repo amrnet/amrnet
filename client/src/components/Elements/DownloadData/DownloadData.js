@@ -336,7 +336,7 @@ export const DownloadData = () => {
           )}.`,
           16,
           317,
-          { align: 'justify', maxWidth: pageWidth - 36 }
+          { align: 'left', maxWidth: pageWidth - 36 }
         );
       }
 
