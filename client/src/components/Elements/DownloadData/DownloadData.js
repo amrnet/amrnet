@@ -331,7 +331,7 @@ export const DownloadData = () => {
 
       if (actualCountry !== 'All') {
         doc.text(
-          `Studies contributing genomes representing infections originating from ${actualCountry} have the following PubMed IDs (PMIDs): ${listPIMD.join(
+          `Studies contributing genomes representing infections originating from ${actualCountry} have the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${listPIMD.join(
             ', '
           )}.`,
           16,
