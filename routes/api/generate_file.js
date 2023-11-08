@@ -6,10 +6,13 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as Tools from '../../services/services.js';
 import {client} from '../../config/db2.js'
-import {createObjectCsvWriter as createCsvWriter} from 'csv-writer';
+import pkg from 'csv-writer';
 import DownloadCSV from "../../models/AggregatePipeline/DownloadCSV.js";
 import download from 'downloadjs';
+import combine7 from '../../models/AggregatePipeline/Combine7.js';
+// import { createObjectCsvStringifier  from 'csv-writer';
 
+const {createObjectCsvStringifier: createCsvStringifier} = pkg;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
 
@@ -585,7 +588,13 @@ router.get('/create', function (req, res) {
 router.post('/download', function (req, res, next) {
   const organism = req.body.organism;
   const db = client.db('salmotyphi');
-  const collection = db.collection('combine7');
+  let collection;
+
+  if (organism === 'typhi') {
+    collection = db.collection('mergest');
+  } else {
+    collection = db.collection('mergekleb');
+  }
 
   // Perform the aggregation and find all documents
   collection.aggregate(DownloadCSV).toArray((err, data) => {
@@ -604,37 +613,21 @@ router.post('/download', function (req, res, next) {
       // Use map to transform the headerList into the desired header object
       const headerL = headerList.map(fieldName => ({ id: fieldName, title: fieldName }));
 
-      const csvWriter = createCsvWriter({
-        path: Tools.path_clean_all_st, // Specify the CSV file path where you want to save the data
-        header: headerL, // Use the dynamically generated header
+      // Create a CSV stringifier
+      const csvStringifier = createCsvStringifier({
+        header: headerL
       });
 
-      csvWriter.writeRecords(data)
-        .then(() => {
-          console.log('CSV file created successfully!');
-          // Now, set the path_file based on the organism
-          let path_file = '';
-          if (organism === 'typhi') {
-            path_file = Tools.path_clean_all_st;
-          } else {
-            path_file = Tools.path_clean_all_kp;
-          }
+      // Convert the data to a CSV string
+      const csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(data);
 
           // Set appropriate headers for the file download
           res.setHeader('Content-Disposition', `attachment; filename=${path.basename(path_file)}`);
           res.setHeader('Content-Type', 'text/csv');
           res.setHeader('Access-Control-Allow-Origin', '*');
 
-          // Trigger the file download
-          res.sendFile(path_file, {}, (sendErr) => {
-            if (sendErr) {
-              console.error('Error sending file:', sendErr);
-            }
-          });
-        })
-        .catch((csvError) => {
-          console.error('Error writing CSV:', csvError);
-        });
+      // Send the CSV data as a response
+      res.send(csvString);
     }
   });
 });
