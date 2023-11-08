@@ -47,9 +47,9 @@ export const Map = () => {
     return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
-  function handleOnClick(countryData) {
-    if (countryData !== undefined) {
-      dispatch(setActualCountry(countryData.name));
+  function handleOnClick(NAME) {
+    if (NAME !== undefined) {
+      dispatch(setActualCountry(NAME));
     }
   }
 // console.log(" ifCustom ", ifCustom);
@@ -308,7 +308,7 @@ export const Map = () => {
                         geography={geo}
                         cursor="pointer"
                         fill={fillColor}
-                        onClick={() => handleOnClick(countryData)}
+                        onClick={() => handleOnClick(geo.properties.NAME)}
                         onMouseLeave={handleOnMouseLeave}
                         onMouseEnter={() =>
                           handleOnMouseEnter({

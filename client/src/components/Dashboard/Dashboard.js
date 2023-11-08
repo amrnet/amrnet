@@ -65,6 +65,7 @@ import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../util/drugs';
+import countries from '../../util/countries';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
@@ -98,7 +99,7 @@ export const DashboardPage = () => {
     }
 
     const years = [...new Set(responseData.map((x) => x.DATE))];
-    const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
+    // const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
     const PMID = [...new Set(responseData.map((x) => x.PMID))];
 
     years.sort();
