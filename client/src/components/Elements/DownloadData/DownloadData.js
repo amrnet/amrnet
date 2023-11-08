@@ -85,6 +85,7 @@ export const DownloadData = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const listPIMD = useAppSelector((state) => state.dashboard.listPMID);
+  const PMID = useAppSelector((state) => state.dashboard.PMID);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
@@ -328,17 +329,18 @@ export const DownloadData = () => {
         euFlag.src = EUFlagImg;
         doc.addImage(euFlag, 'JPG', 208, 290, 12, 8);
       }
+       let list = PMID.filter((value)=> value !== "-")
 
-      if (actualCountry !== 'All') {
+      if (actualCountry !== 'All') 
+        list = listPIMD.filter((value)=> value !== "-")
         doc.text(
-          `Studies contributing genomes representing infections originating from ${actualCountry} have the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${listPIMD.join(
+          `Studies contributing genomes representing infections originating from ${actualCountry} have the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(
             ', '
           )}.`,
           16,
-          317,
+          337,
           { align: 'left', maxWidth: pageWidth - 36 }
         );
-      }
 
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 

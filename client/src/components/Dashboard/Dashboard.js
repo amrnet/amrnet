@@ -22,7 +22,7 @@ import {
   setTotalGenomes,
   setTotalGenotypes,
   setYears,
-
+  setPMID
 } from '../../stores/slices/dashboardSlice.ts';
 import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
@@ -50,7 +50,7 @@ import {
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
-  setCurrentSliderValue
+  setCurrentSliderValue,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -99,6 +99,7 @@ export const DashboardPage = () => {
 
     const years = [...new Set(responseData.map((x) => x.DATE))];
     const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
+    const PMID = [...new Set(responseData.map((x) => x.PMID))];
 
     years.sort();
     countries.sort();
@@ -111,6 +112,7 @@ export const DashboardPage = () => {
     dispatch(setTimeFinal(years[years.length - 1]));
     dispatch(setActualTimeFinal(years[years.length - 1]));
     dispatch(setCountriesForFilter(countries));
+    dispatch(setPMID(PMID));
 
     dispatch(setMapData(getMapData({ data: responseData, countries, organism })));
 
@@ -277,6 +279,7 @@ export const DashboardPage = () => {
         dispatch(setActualGenomes(filters.genomesCount));
         dispatch(setActualGenotypes(filters.genotypesCount));
         dispatch(setListPMID(filters.listPMID));
+        
 
         dispatch(setMapData(getMapData({ data: filters.data, countries: countriesForFilter, organism })));
 
