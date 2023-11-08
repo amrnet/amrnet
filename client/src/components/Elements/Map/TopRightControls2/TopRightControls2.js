@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment, IconButton} from '@mui/material';
+import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment} from '@mui/material';
 import SearchIcon from "@mui/icons-material/Search";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
 import { useStyles } from './TopRightControls2MUI';
@@ -11,30 +11,24 @@ import { InfoOutlined } from '@mui/icons-material';
 
 export const TopRightControls2 = () => {
   const classes = useStyles();
-  const [currentTooltip, setCurrentTooltip] = useState(null);
+  const [, setCurrentTooltip] = useState(null);
   const [searchValue2, setSearchValue2] = useState("")
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const genotypesDrugsData2 = useAppSelector((state) => state.graph.genotypesDrugsData2);
+  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
 
-  useEffect(() => {
-    setCurrentTooltip(null);
-    // console.log("customDropdownMapView", customDropdownMapView);
-  }, [genotypesDrugsData2, customDropdownMapView]);
+  // useEffect(() => {
+  //   setCurrentTooltip(null);
+  // }, [genotypesDrugsData, customDropdownMapView]);
 
   function getSelectGenotypeLabel(genotype) {
-    // console.log("genotype2",genotype.Susceptible );
     const percentage = Number(((genotype.Susceptible / genotype.totalCount) * 100).toFixed(2));
 
     return `${genotype.name} (total N=${genotype.totalCount===0 ? 0:`${genotype.totalCount}, ${percentage}% Susceptible`})`;
   }
   
-  function getDataForGenotypeSelect() {
-    // console.log("getDataForGenotypeSelect",genotypesDrugsData2);
-    return genotypesDrugsData2;
-  }
-
+console.log("customDropdownMapView",customDropdownMapView);
   function handleChangeSelectedGenotypes({ event = null, all = false }) {
     if (all) {
       dispatch(setCustomDropdownMapView([]));
@@ -61,12 +55,11 @@ export const TopRightControls2 = () => {
   setSearchValue2(event.target.value)
  }
 
-const filteredData = getDataForGenotypeSelect().filter((genotype) =>
-  genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase())
-);
+const filteredData = genotypesDrugsData
+    .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
+    .filter(x => x.totalCount >= 20)
+  ;
 
-console.log("customDropdownMapView", customDropdownMapView.length);
- console.log("searchValue2", searchValue2);
   return (
     <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
@@ -89,18 +82,18 @@ console.log("customDropdownMapView", customDropdownMapView.length);
               disabled={organism === 'none'}
               displayEmpty
               onClose={(e) => setSearchValue2("")}
-              endAdornment={
-                <Button
-                size="small"
-                variant="outlined"
-                className={classes.genotypesSelectButton}
-                onClick={() => handleChangeSelectedGenotypes({ all: true })}
-                disabled={customDropdownMapView.length === 0}
-                color="error"
-              >
-                Clear
-              </Button>
-              }
+              // endAdornment={
+              //   <Button
+              //   size="small"
+              //   variant="outlined"
+              //   className={classes.genotypesSelectButton}
+              //   onClick={() => handleChangeSelectedGenotypes({ all: true })}
+              //   disabled={customDropdownMapView.length === 0}
+              //   color="error"
+              // >
+              //   Clear
+              // </Button>
+              // }
               inputProps={{ className: classes.genotypesSelectInput }}
               MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
               renderValue={(selected) => (
@@ -144,12 +137,12 @@ console.log("customDropdownMapView", customDropdownMapView.length);
                 onChange={e => setSearchValue(e)}
                 onKeyDown={(e) => e.stopPropagation()}
               />
-              {filteredData.map((genotype, index) => (
+              {filteredData.map((genotype, index) => 
                 <MenuItem key={`frequencies-option-${index}`} value={genotype.name} className={classes.dropdown}>
                   <Checkbox disableRipple sx={{padding: '0px', marginRight:'5px'}} checked={customDropdownMapView.indexOf(genotype.name) > -1} />
                   <ListItemText primary={getSelectGenotypeLabel(genotype)}   />
                 </MenuItem>
-              ))}
+              )}
             </Select>
         </CardContent>
      </Card>
