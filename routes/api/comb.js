@@ -20,7 +20,7 @@ router.get('/data', async (req, res) => {
 
 });
 
-const folderPath = `/Users/vandanasharma/Desktop/DATABASE_COMPARE_DATA/untitled folder/short`;
+const folderPath = `/Users/vandanasharma/Desktop/DATABASE_COMPARE_DATA/all_jsons`;
 router.get('/import', async (req, res) => {
     const  jsonFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.json'));
 
