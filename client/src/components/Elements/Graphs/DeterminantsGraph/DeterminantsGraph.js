@@ -62,6 +62,12 @@ export const DeterminantsGraph = () => {
         return colorForDrugClassesKP[determinantsGraphDrugClass];
     }
   }
+  let data = 0;
+  useEffect(()=>{
+    if(genotypesDrugClassesData[determinantsGraphDrugClass] !== undefined){
+      data = genotypesDrugClassesData[determinantsGraphDrugClass].filter((x)=>x.totalCount>0).length;
+    }
+  },[genotypesDrugClassesData, determinantsGraphDrugClass])
 
   function getDomain() {
     return determinantsGraphView === 'number' ? undefined : [0, 100];
@@ -182,7 +188,7 @@ export const DeterminantsGraph = () => {
               />
 
               <ChartTooltip
-                cursor={{ fill: hoverColor }}
+                cursor={data > 0 ? { fill: hoverColor }:false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
                     return <div className={classes.chartTooltipLabel}>{label}</div>;
