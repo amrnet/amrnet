@@ -455,6 +455,11 @@ export const drugClassesRulesST = {
       rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrB' }]
     },
     {
+      name: '0_QRDR + qnrS + qnrD (CipNS)',
+      susceptible: false,
+      rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrS + qnrD' }]
+    },
+    {
       name: 'None',
       susceptible: true,
       rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR' }]
