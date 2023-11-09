@@ -69,12 +69,12 @@ export const DeterminantsGraph = () => {
 
   function getData() {
     if (determinantsGraphView === 'number') {
-      return genotypesDrugClassesData[determinantsGraphDrugClass];
+      return genotypesDrugClassesData[determinantsGraphDrugClass].filter((x)=>x.totalCount>0);
     }
 
     const exclusions = ['name', 'totalCount', 'resistantCount'];
     let genotypeDrugClassesDataPercentage = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
-    genotypeDrugClassesDataPercentage = genotypeDrugClassesDataPercentage.map((item) => {
+    genotypeDrugClassesDataPercentage = genotypeDrugClassesDataPercentage.filter((x)=>x.totalCount>0).map((item) => {
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
 
       keys.forEach((key) => {
