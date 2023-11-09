@@ -623,7 +623,7 @@ router.post('/download', function (req, res, next) {
       const csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(data);
 
           // Set appropriate headers for the file download
-          res.setHeader('Content-Disposition', `attachment; filename=${path.basename(path_file)}`);
+          res.setHeader('Content-Disposition', `attachment; filename=${path.basename(organism)}`);
           res.setHeader('Content-Type', 'text/csv');
           res.setHeader('Access-Control-Allow-Origin', '*');
 
