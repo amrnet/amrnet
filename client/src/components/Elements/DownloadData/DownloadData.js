@@ -28,7 +28,7 @@ import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 const columnsToRemove = [
   'azith_pred_pheno',
-  'ACCESSION',
+  'PROJECT ACCESSION',
   'COUNTRY_ONLY',
   'REGION_IN_COUNTRY',
   'LOCATION',
