@@ -13,6 +13,7 @@ export const getColorForGenotype = (genotype) => {
     case '0.1.2':
     case '0.1.3':
       return '#808080';
+    case '1':
     case '1.1':
     case '1.1.1':
     case '1.1.2':
