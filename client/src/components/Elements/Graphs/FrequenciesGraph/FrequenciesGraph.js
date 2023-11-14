@@ -42,10 +42,11 @@ export const FrequenciesGraph = () => {
   const frequenciesGraphView = useAppSelector((state) => state.graph.frequenciesGraphView);
   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
-
+  let data = genotypesDrugsData;
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
+      dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
   }, [genotypesDrugsData]);
 
   function getSelectGenotypeLabel(genotype) {
@@ -69,7 +70,8 @@ export const FrequenciesGraph = () => {
   }
 
   function getData() {
-    const data = genotypesDrugsData.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
+    data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
+    console.log("getData",data)
 
     if (frequenciesGraphView === 'number') {
       return data;
@@ -167,12 +169,12 @@ export const FrequenciesGraph = () => {
     dispatch(setFrequenciesGraphSelectedGenotypes(value));
   }
 
-  function setSearchValue(event){
+    function setSearchValue(event){
     event.preventDefault()
     setSearchValue2(event.target.value)
   }
 
-  const filteredData = getDataForGenotypeSelect().filter((genotype) =>
+  const filteredData = data.filter((genotype) =>
     genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase())
   );
 
@@ -211,7 +213,7 @@ export const FrequenciesGraph = () => {
               />
 
               <ChartTooltip
-                cursor={{ fill: hoverColor }}
+                cursor={frequenciesGraphSelectedGenotypes!=0?{ fill: hoverColor }:false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
                     return <div className={classes.chartTooltipLabel}>{label}</div>;
@@ -257,23 +259,22 @@ export const FrequenciesGraph = () => {
             })}
           </Select>
           <Select
+            className={classes.select}
             multiple
             value={frequenciesGraphSelectedGenotypes}
             onChange={(event) => handleChangeSelectedGenotypes({ event })}
             displayEmpty
-            disabled={organism === 'none'}
-            onClose={(e) => setSearchValue2("")}
-            endAdornment={
-              <Button
-                variant="outlined"
-                className={classes.genotypesSelectButton}
-                onClick={() => handleChangeSelectedGenotypes({ all: true })}
-                disabled={organism === 'none' || frequenciesGraphSelectedGenotypes.length === 0}
-                color="error"
-              >
-                CLEAR
-              </Button>
-            }
+            // endAdornment={
+            //   <Button
+            //     variant="outlined"
+            //     className={classes.genotypesSelectButton}
+            //     onClick={() => handleChangeSelectedGenotypes({ all: true })}
+            //     disabled={frequenciesGraphSelectedGenotypes.length === 0}
+            //     color="error"
+            //   >
+            //     Clear All
+            //   </Button>
+            // }
             inputProps={{ className: classes.genotypesSelectInput }}
             MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
             renderValue={(selected) => (<div>{`Select genotypes (currently showing ${selected.length} )`}</div>)}
@@ -289,6 +290,19 @@ export const FrequenciesGraph = () => {
                     <InputAdornment position="start">
                       <SearchIcon />
                     </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Button
+                        variant="outlined"
+                        className={classes.genotypesSelectButton}
+                        onClick={() => handleChangeSelectedGenotypes({ all: true })}
+                        disabled={frequenciesGraphSelectedGenotypes.length === 0}
+                        color="error"
+                      >
+                        Clear All
+                      </Button>
+                    </InputAdornment>
                   )
                 }}
                 sx={{ width:'98%', margin:'0% 1%'}}
@@ -296,11 +310,11 @@ export const FrequenciesGraph = () => {
                 onKeyDown={(e) => e.stopPropagation()}
               />
             {filteredData.map((genotype, index) => (
-                <MenuItem key={`frequencies-option-${index}`} value={genotype.name} className={classes.dropdown}>
-                  <Checkbox sx={{padding: '0px', marginRight:'5px'}} checked={frequenciesGraphSelectedGenotypes.indexOf(genotype.name) > -1} />
-                  <ListItemText primary={getSelectGenotypeLabel(genotype)}   />
-                </MenuItem>
-              ))}
+              <MenuItem key={`frequencies-option-${index}`} value={genotype.name}>
+                <Checkbox checked={frequenciesGraphSelectedGenotypes.indexOf(genotype.name) > -1} />
+                <ListItemText primary={getSelectGenotypeLabel(genotype)} />
+              </MenuItem>
+            ))}
           </Select>
         </div>
       </div>
