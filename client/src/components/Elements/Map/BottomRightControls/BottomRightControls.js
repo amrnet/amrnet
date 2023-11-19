@@ -47,7 +47,7 @@ export const BottomRightControls = () => {
         const cHeight = 1800;
         const textHeight = 250;
         const legendHeight = 350;
-
+        
         canvas.width = cWidth;
         canvas.height = cHeight + textHeight + legendHeight;
 
@@ -57,7 +57,22 @@ export const BottomRightControls = () => {
         ctx.font = 'bolder 50px Montserrat';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
-        ctx.fillText(`Global Overview of ${globalOverviewLabel.fullLabel}`, canvas.width / 2, 80);
+        // Draw the entire text with the original font style
+        ctx.fillText("Global Overview of ", canvas.width*0.44 , 80);
+
+        // Set the font style for "Salmonella" to italic
+        ctx.font = 'italic bold 50px Montserrat';
+        ctx.fillText(globalOverviewLabel.italicLabel, canvas.width * 0.55, 80);
+
+        // Revert to the original font style for the remaining text
+        ctx.font = 'bolder 50px Montserrat';
+        if (organism === 'typhi') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.615, 80);
+        } else if (organism === 'klebe') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+        }
+        
+
         ctx.font = '35px Montserrat';
         ctx.textAlign = 'center';
 
