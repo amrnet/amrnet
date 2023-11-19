@@ -299,18 +299,32 @@ export const DownloadData = () => {
       const logoWidth = 80;
       doc.addImage(logo, 'PNG', 16, 16, logoWidth, 41);
 
+
+      let texts;
+      let firstName, secondName, secondword;
+      if (organism === 'typhi') {
+        texts = getSalmonellaTexts(date);
+        firstName = "Salmonella";
+        secondName = "Typhi";
+        secondword = 315;
+      } else if (organism === 'klebe') {
+        texts = getKlebsiellaTexts();
+        firstName = "Klebsiella";
+        secondName = "pneumoniae";
+        secondword = 330;
+      }
+
       // Title and Date
       doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text(`AMRnet Report - ${globalOverviewLabel.fullLabel}`, pageWidth / 2, 34, { align: 'center' });
+      doc.text("Global Overview of", 177, 24, { align: 'center' });
+      doc.setFont(undefined, "bolditalic");
+      doc.text(firstName, 264, 24, { align: 'center' });
+      doc.setFont(undefined, "bold");
+      doc.text(secondName, secondword, 24, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(date, pageWidth / 2, 48, { align: 'center' });
 
-      let texts;
-      if (organism === 'typhi') {
-        texts = getSalmonellaTexts(date);
-      } else if (organism === 'klebe') {
-        texts = getKlebsiellaTexts();
-      }
+      
 
       // Info
       doc.text(texts[0], 16, 85, { align: 'justify', maxWidth: pageWidth - 36 });
@@ -349,7 +363,11 @@ export const DownloadData = () => {
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text(`Global Overview of ${globalOverviewLabel.fullLabel}`, pageWidth / 2, 24, { align: 'center' });
+      doc.text("Global Overview of", 177, 24, { align: 'center' });
+      doc.setFont(undefined, "bolditalic");
+      doc.text(firstName, 264, 24, { align: 'center' });
+      doc.setFont(undefined, "bold");
+      doc.text(secondName, secondword, 24, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 40, { align: 'center' });
       doc.text(`Country: ${actualCountry}`, pageWidth / 2, 52, { align: 'center' });
@@ -471,7 +489,7 @@ export const DownloadData = () => {
         if (graphImg.width <= 741) {
           doc.addImage(graphImg, 'PNG', 16, 110);
         } else {
-          doc.addImage(graphImg, 'PNG', 16, 110, pageWidth - 32, 271);
+          doc.addImage(graphImg, 'PNG', 16, 110, pageWidth - 80, 271);
         }
 
         doc.setFillColor(255, 255, 255);
