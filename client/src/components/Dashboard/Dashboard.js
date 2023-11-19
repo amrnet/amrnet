@@ -103,7 +103,7 @@ export const DashboardPage = () => {
     const PMID = [...new Set(responseData.map((x) => x.PMID))];
 
     years.sort();
-    countries.sort();
+    // countries.sort();
 
     dispatch(setTotalGenotypes(genotypes.length));
     dispatch(setActualGenotypes(genotypes.length));
