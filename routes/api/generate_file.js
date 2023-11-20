@@ -588,7 +588,6 @@ router.get('/create', function (req, res) {
 // Download clean as spreadsheet
 router.post('/download', function (req, res, next) {
   const organism = req.body.organism;
-  console.log("org", organism);
   const db = client.db('salmotyphi');
   let collection, localFilePath;
 
@@ -662,18 +661,17 @@ router.post('/download', function (req, res, next) {
 //Generate clean_all_st and clean_all_kp
 router.get('/generate/:organism', function (req, res, next) {
 
- console.log("org", req.params.organism);
- 
   const organism = req.params.organism;
-  const db = client.db('salmotyphi');
-  let collection, localFilePath;
+  let collection, localFilePath, fileName;
 
   if (organism === 'typhi') {
-    collection = db.collection('mergest');
+    collection = client.db('salmotyphi').collection('mergest');
     localFilePath = Tools.path_clean_all_st;
+    fileName = 'cleanAll_st.csv';
   } else {
-    collection = db.collection('mergekleb');
+    collection = client.db('salmotyphi').collection('mergekleb');
     localFilePath = Tools.path_clean_all_kp;
+    fileName = 'cleanAll_kp.csv';
   }
 
   collection.find().forEach(function(doc) {
@@ -708,11 +706,7 @@ router.get('/generate/:organism', function (req, res, next) {
       delete aux_data['__v'];
       send_comb.push(aux_data);
     }
- console.log("org", organism);
-    if (organism === 'typhi') 
-    await Tools.CreateFile(send_comb, 'cleanAll_st.csv');
-    else 
-    await Tools.CreateFile(send_comb, 'cleanAll_kp.csv');
+      await Tools.CreateFile(send_comb, fileName);
   
     return res.json(send_comb);
   });
