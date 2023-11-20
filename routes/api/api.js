@@ -3,12 +3,12 @@ const router = express.Router();
 import csv from 'csv-parser';
 import fs from 'fs';
 import * as Tools from '../../services/services.js';
-import {client} from '../../config/db2.js'
+import {client} from '../../config/db2.js';
 
-// Get all data from the clean or cleanDB_st file inside assets
+// Get all data from the clean file inside assets
 router.get('/getDataFromCSV', async function (req, res, next) {
   try {
-        const result = await client.db("salmotyphi").collection("mergest").find({ 'Exclude': 'Include' }).toArray();;
+        const result = await client.db("salmotyphi").collection("clean_merged_st").find({ 'Exclude': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
@@ -32,7 +32,7 @@ router.get('/getDataFromCSV', async function (req, res, next) {
 
 router.get('/getDataFromCSVKlebe', async function (req, res, next) {
   try {
-        const result = await client.db("salmotyphi").collection("mergekleb").find({ 'Exclude': 'Include' }).toArray();;
+        const result = await client.db("klebpneumo").collection("clean_merged_kleb").find({ 'Exclude': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
