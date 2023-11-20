@@ -588,23 +588,45 @@ router.get('/create', function (req, res) {
 // Download clean as spreadsheet
 router.post('/download', function (req, res, next) {
   const organism = req.body.organism;
+  console.log("org", organism);
   const db = client.db('salmotyphi');
-  let collection;
+  let collection, localFilePath;
 
   if (organism === 'typhi') {
     collection = db.collection('mergest');
+    localFilePath = Tools.path_clean_all_st;
   } else {
     collection = db.collection('mergekleb');
+    localFilePath = Tools.path_clean_all_kp;
   }
 
-  // Perform the aggregation and find all documents
-  collection.aggregate(DownloadCSV).toArray((err, data) => {
+  collection.find().forEach(function(doc) {
+    var CipNS, CipR;
+    if(doc.cip_pred_pheno === 'CipNS'){
+      CipNS = '1';
+      CipR = '1';
+    }else if(doc.cip_pred_pheno === 'CipR'){
+      CipNS = '0';
+      CipR = '1';
+    }else{
+      CipNS = '0';
+      CipR = '0';
+    }
+    collection.updateOne(
+      { "_id": doc._id },
+      { $set: { "CipNS": CipNS, "CipR": CipR } }
+    );
+  });
+
+  // find all documents to download
+  collection.find().toArray((err, data) => {
     if (err) {
       console.error('Error querying MongoDB:', err);
       client.close();
       return;
     }
-
+    console.log("data.length",data.length);
+    let csvString;
     // Check if there is at least one document
     if (data.length > 0) {
       // Use the keys of the first document as headers
@@ -613,27 +635,88 @@ router.post('/download', function (req, res, next) {
 
       // Use map to transform the headerList into the desired header object
       const headerL = headerList.map(fieldName => ({ id: fieldName, title: fieldName }));
-
       // Create a CSV stringifier
       const csvStringifier = createCsvStringifier({
         header: headerL
       });
 
       // Convert the data to a CSV string
-      const csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(data);
-
+      csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(data);
+    }else{
+        if (fs.existsSync(localFilePath)) {
+          // Read the file content
+          csvString = fs.readFileSync(localFilePath, 'utf8');
+        }
+      }
           // Set appropriate headers for the file download
           res.setHeader('Content-Disposition', `attachment; filename=${path.basename(organism)}`);
           res.setHeader('Content-Type', 'text/csv');
           res.setHeader('Access-Control-Allow-Origin', '*');
 
       // Send the CSV data as a response
-      res.send(csvString);
-    }
+        res.send(csvString);
+    
   });
 });
 
+//Generate clean_all_st and clean_all_kp
+router.get('/generate/:organism', function (req, res, next) {
 
+ console.log("org", req.params.organism);
+ 
+  const organism = req.params.organism;
+  const db = client.db('salmotyphi');
+  let collection, localFilePath;
+
+  if (organism === 'typhi') {
+    collection = db.collection('mergest');
+    localFilePath = Tools.path_clean_all_st;
+  } else {
+    collection = db.collection('mergekleb');
+    localFilePath = Tools.path_clean_all_kp;
+  }
+
+  collection.find().forEach(function(doc) {
+    var CipNS, CipR;
+    if(doc.cip_pred_pheno === 'CipNS'){
+      CipNS = '1';
+      CipR = '1';
+    }else if(doc.cip_pred_pheno === 'CipR'){
+      CipNS = '0';
+      CipR = '1';
+    }else{
+      CipNS = '0';
+      CipR = '0';
+    }
+    collection.updateOne(
+      { "_id": doc._id },
+      { $set: { "CipNS": CipNS, "CipR": CipR } }
+    );
+  });
+
+  collection.find().toArray(async function (err, comb) {
+    if (err) {
+      console.error('Error querying MongoDB:', err);
+      client.close();
+      return res.status(500).send('Internal Server Error');
+    }
+
+    let send_comb = [];
+    for (let data of comb) {
+      let aux_data = JSON.parse(JSON.stringify(data));
+      delete aux_data['_id'];
+      delete aux_data['__v'];
+      send_comb.push(aux_data);
+    }
+ console.log("org", organism);
+    if (organism === 'typhi') 
+    await Tools.CreateFile(send_comb, 'cleanAll_st.csv');
+    else 
+    await Tools.CreateFile(send_comb, 'cleanAll_kp.csv');
+  
+    return res.json(send_comb);
+  });
+});
 
 
 
