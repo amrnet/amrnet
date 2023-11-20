@@ -12,7 +12,7 @@ import download from 'downloadjs';
 import combine7 from '../../models/AggregatePipeline/Combine7.js';
 // import { createObjectCsvStringifier as createCsvStringifier } from 'csv-writer';
 
-
+const { createObjectCsvWriter: createCsvWriter } = pkg;
 const {createObjectCsvStringifier: createCsvStringifier} = pkg;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
@@ -588,13 +588,14 @@ router.get('/create', function (req, res) {
 // Download clean as spreadsheet
 router.post('/download', function (req, res, next) {
   const organism = req.body.organism;
-  const db = client.db('salmotyphi');
-  let collection, localFilePath;
+  let collection, localFilePath, db;
 
   if (organism === 'typhi') {
+    db = client.db('salmotyphi');
     collection = db.collection('mergest');
     localFilePath = Tools.path_clean_all_st;
   } else {
+    db = client.db('klebpneumo');
     collection = db.collection('mergekleb');
     localFilePath = Tools.path_clean_all_kp;
   }
@@ -669,7 +670,7 @@ router.get('/generate/:organism', function (req, res, next) {
     localFilePath = Tools.path_clean_all_st;
     fileName = 'cleanAll_st.csv';
   } else {
-    collection = client.db('salmotyphi').collection('mergekleb');
+    collection = client.db('klebpneumo').collection('mergekleb');
     localFilePath = Tools.path_clean_all_kp;
     fileName = 'cleanAll_kp.csv';
   }
@@ -710,6 +711,39 @@ router.get('/generate/:organism', function (req, res, next) {
   
     return res.json(send_comb);
   });
+});
+
+////Generate clean_st and clean_kp file in database////
+router.get('/clean/:organism', async function (req, res, next) {
+  const organism = req.params.organism;
+  let folderName, ext, database;
+  if(organism === 'typhi'){
+    folderName = 'styphi';
+    ext = 'st';
+    database = 'salmotyphi';
+  }else{
+    folderName = 'klebpneumo';
+    ext = 'kp';
+    database = 'klebpneumo';
+  }
+  try {
+    const queryResult = await client.db(`${database}`).collection("clean_merged_st").find({ 'Exclude': 'Include' }).toArray();
+
+    if (queryResult.length > 0) {
+      const csvWriter = createCsvWriter({
+        path: `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/${folderName}/clean_${ext}.csv`,
+        header: Object.keys(queryResult[0]).map(field => ({ id: field, title: field }))
+      });
+
+      await csvWriter.writeRecords(queryResult);
+      console.log('CSV file successfully created.');
+    } else {
+      console.log('No data to export.');
+    }
+    return queryResult;
+  } catch (error) {
+    console.error('Error processing MongoDB query:', error);
+  } 
 });
 
 
