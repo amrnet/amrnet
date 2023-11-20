@@ -218,36 +218,5 @@ router.get('/import/kleb', async (req, res) => {
     }
 });
 
-// function importData(folderPath, dbName) {
-//   const orgfolderPath = `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/databaseFiles/${folderPath}`;
 
-//   const jsonFiles = fs.readdirSync(orgfolderPath).filter(file => file.endsWith('.json'));
-
-//   for (const jsonFile of jsonFiles) {
-//     const collectionName = jsonFile.replace('.json', '');
-//     const command = `mongoimport --db '${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${jsonFile}' --jsonArray`;
-
-//     exec(command, (error, stdout, stderr) => {
-//       if (error) {
-//         console.log(`error: ${error.message}`);
-//         return;
-//       }
-//       if (stderr) {
-//         console.log(`stderr: ${stderr}`);
-//         return;
-//       }
-//       console.log(`stdout: ${stdout}`);
-//     });
-//   }
-// }
-
-// router.get('/import/styphi', async (req, res) => {
-//   importData('styphi', 'salmotyphi');
-//   res.send('Importing data for styphi...');
-// });
-
-// router.get('/import/kleb', async (req, res) => {
-//   importData('kleb', 'klebpnneumo');
-//   res.send('Importing data for kleb...');
-// });
 export default router;
