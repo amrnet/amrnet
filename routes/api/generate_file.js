@@ -7,10 +7,6 @@ import { fileURLToPath } from 'url';
 import * as Tools from '../../services/services.js';
 import {client} from '../../config/db2.js'
 import pkg from 'csv-writer';
-import DownloadCSV from "../../models/AggregatePipeline/DownloadCSV.js";
-import download from 'downloadjs';
-import combine7 from '../../models/AggregatePipeline/Combine7.js';
-// import { createObjectCsvStringifier as createCsvStringifier } from 'csv-writer';
 
 const { createObjectCsvWriter: createCsvWriter } = pkg;
 const {createObjectCsvStringifier: createCsvStringifier} = pkg;
@@ -727,7 +723,7 @@ router.get('/clean/:organism', async function (req, res, next) {
     database = 'klebpneumo';
   }
   try {
-    const queryResult = await client.db(`${database}`).collection("clean_merged_st").find({ 'Exclude': 'Include' }).toArray();
+    const queryResult = await client.db(`${database}`).collection("clean_merge_st").find({ 'Exclude': 'Include' }).toArray();
 
     if (queryResult.length > 0) {
       const csvWriter = createCsvWriter({
