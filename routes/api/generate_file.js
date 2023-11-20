@@ -588,11 +588,11 @@ router.post('/download', function (req, res, next) {
 
   if (organism === 'typhi') {
     db = client.db('salmotyphi');
-    collection = db.collection('mergest');
+    collection = db.collection('clean_merge_st');
     localFilePath = Tools.path_clean_all_st;
   } else {
     db = client.db('klebpneumo');
-    collection = db.collection('mergekleb');
+    collection = db.collection('clean_merge_kleb');
     localFilePath = Tools.path_clean_all_kp;
   }
 
@@ -662,11 +662,11 @@ router.get('/generate/:organism', function (req, res, next) {
   let collection, localFilePath, fileName;
 
   if (organism === 'typhi') {
-    collection = client.db('salmotyphi').collection('mergest');
+    collection = client.db('salmotyphi').collection('clean_merge_st');
     localFilePath = Tools.path_clean_all_st;
     fileName = 'cleanAll_st.csv';
   } else {
-    collection = client.db('klebpneumo').collection('mergekleb');
+    collection = client.db('klebpneumo').collection('clean_merge_kleb');
     localFilePath = Tools.path_clean_all_kp;
     fileName = 'cleanAll_kp.csv';
   }
