@@ -13,8 +13,8 @@ router.get('/typhidata', async (req, res) => {
     console.log("i m in");
 
     try {
-        await client.db("salmotyphi").collection("pw_amr-profile").aggregate(merge_rawdata_st).toArray();
-        const result = await client.db("salmotyphi").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
+        await client.db("salmotyphi2").collection("pw_amr-profile").aggregate(merge_rawdata_st).toArray();
+        const result = await client.db("salmotyphi2").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
         return res.json(result);
     } catch (error) {
         console.error(error);
@@ -25,8 +25,8 @@ router.get('/typhidata', async (req, res) => {
 router.get('/klebdata', async (req, res) => {
 
     try {
-        await client.db("klebpnneumo").collection("pw_kleborate").aggregate(merge_rawdata_kleb).toArray();
-        const result = await client.db("klebpnneumo").collection("merge_rawdata_kleb").aggregate(clean_merge_kleb).toArray();
+        await client.db("klebpnneumo2").collection("pw_kleborate").aggregate(merge_rawdata_kleb).toArray();
+        const result = await client.db("klebpnneumo2").collection("merge_rawdata_kleb").aggregate(clean_merge_kleb).toArray();
         return res.json(result);
     } catch (error) {
         console.error(error);
