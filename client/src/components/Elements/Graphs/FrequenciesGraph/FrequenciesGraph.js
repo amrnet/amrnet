@@ -1,9 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-<<<<<<< HEAD
 import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment } from '@mui/material';
-=======
-import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
->>>>>>> main
 import { useStyles } from './FrequenciesGraphMUI';
 import { InfoOutlined } from '@mui/icons-material';
 import {
