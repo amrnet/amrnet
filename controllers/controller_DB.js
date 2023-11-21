@@ -172,7 +172,7 @@ router.post('/deleteChange', (req, res) => {
 });
 
 //Import raw json data into mongoDB
-const TyphifolderPath = `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/databaseFiles/styphi`;
+const TyphifolderPath = `../assets/webscrap/clean/styphi`;
 router.get('/import/styphi', async (req, res) => {
     const  jsonFiles = fs.readdirSync(TyphifolderPath).filter(file => file.endsWith('.json'));
     try{
@@ -197,7 +197,7 @@ router.get('/import/styphi', async (req, res) => {
 });
 
 
-const KlebfolderPath = `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/databaseFiles/kleb`;
+const KlebfolderPath = `../assets/webscrap/clean/kleb`;
 router.get('/import/kleb', async (req, res) => {
     const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
     try{
