@@ -584,15 +584,13 @@ const router = express.Router();
 // Download clean as spreadsheet
 router.post('/download', function (req, res, next) {
   const organism = req.body.organism;
-  let collection, localFilePath, db;
+  let collection, localFilePath;
 
   if (organism === 'typhi') {
-    db = client.db('salmotyphi');
-    collection = db.collection('clean_merge_st');
+    collection = client.db('salmotyphi2').collection('clean_merge_st');
     localFilePath = Tools.path_clean_all_st;
   } else {
-    db = client.db('klebpneumo');
-    collection = db.collection('clean_merge_kleb');
+    collection = client.db('klebpnneumo2').collection('clean_merge_kleb');
     localFilePath = Tools.path_clean_all_kp;
   }
 
@@ -656,18 +654,22 @@ router.post('/download', function (req, res, next) {
 });
 
 //Generate clean_all_st and clean_all_kp
-router.get('/generate/:organism', function (req, res, next) {
+router.get('/generate/:organism', async function (req, res, next) {
 
   const organism = req.params.organism;
-  let collection, localFilePath, fileName;
+  let collection, folderName, fileName, ext,collection_ext ;
 
   if (organism === 'typhi') {
-    collection = client.db('salmotyphi').collection('clean_merge_st');
-    localFilePath = Tools.path_clean_all_st;
+    collection = client.db('salmotyphi2').collection('clean_merge_st');
+    folderName = 'styphi';
+    ext = 'st';
+    collection_ext = 'st';
     fileName = 'cleanAll_st.csv';
   } else {
-    collection = client.db('klebpneumo').collection('clean_merge_kleb');
-    localFilePath = Tools.path_clean_all_kp;
+    collection = client.db('klebpnneumo2').collection('clean_merge_kleb');
+    folderName = 'klebpneumo';
+    ext = 'kp';
+    collection_ext = 'kleb';
     fileName = 'cleanAll_kp.csv';
   }
 
@@ -688,43 +690,50 @@ router.get('/generate/:organism', function (req, res, next) {
       { $set: { "CipNS": CipNS, "CipR": CipR } }
     );
   });
+  try{
+      const queryResult = await collection.find().toArray();
+      if (queryResult.length > 0) {
+        // Remove the '_id' field from each document
+        const sanitizedData = queryResult.map(doc => {
+          const { _id,__v, ...rest } = doc;
+          return rest;
+        });
 
-  collection.find().toArray(async function (err, comb) {
-    if (err) {
-      console.error('Error querying MongoDB:', err);
-      client.close();
-      return res.status(500).send('Internal Server Error');
-    }
+        const csvWriter = createCsvWriter({
+          path: `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/${folderName}/cleanAll_${ext}.csv`,
+          header: Object.keys(sanitizedData[0]).map(field => ({ id: field, title: field })),
+        });
 
-    let send_comb = [];
-    for (let data of comb) {
-      let aux_data = JSON.parse(JSON.stringify(data));
-      delete aux_data['_id'];
-      delete aux_data['__v'];
-      send_comb.push(aux_data);
-    }
-      await Tools.CreateFile(send_comb, fileName);
-  
-    return res.json(send_comb);
-  });
+        await csvWriter.writeRecords(sanitizedData);
+        console.log('CSV file successfully created.');
+      }else {
+        console.log('No data to export.');
+      }
+      return queryResult;
+    } catch (error) {
+      console.error('Error processing MongoDB query:', error);
+  } 
+
 });
 
 ////Generate clean_st and clean_kp file in database////
 router.get('/clean/:organism', async function (req, res, next) {
   const organism = req.params.organism;
-  let folderName, ext, database;
+  let folderName, ext, database, collection_ext;
   if(organism === 'typhi'){
     folderName = 'styphi';
     ext = 'st';
-    database = 'salmotyphi';
+    collection_ext = 'st';
+    database = 'salmotyphi2';
   }else{
     folderName = 'klebpneumo';
     ext = 'kp';
-    database = 'klebpneumo';
+    collection_ext = 'kleb';
+    database = 'klebpnneumo2';
   }
   try {
-    const queryResult = await client.db(`${database}`).collection("clean_merge_st").find({ 'Exclude': 'Include' }).toArray();
-
+    const queryResult = await client.db(`${database}`).collection(`clean_merge_${collection_ext}`).find({ 'Exclude': 'Include' }).toArray();
+    console.log("queryResult", queryResult.length);
     if (queryResult.length > 0) {
       const csvWriter = createCsvWriter({
         path: `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/${folderName}/clean_${ext}.csv`,

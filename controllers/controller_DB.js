@@ -176,7 +176,7 @@ router.get('/import/styphi', async (req, res) => {
     for (const jsonFile of jsonFiles) {
         
       const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --db 'salmotyphi' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${TyphifolderPath}/${jsonFile}' --jsonArray`
+      const command = `mongoimport --db 'salmotyphi2' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${TyphifolderPath}/${jsonFile}' --jsonArray`
 
 
         exec(command, (error, stdout, stderr) => {
@@ -200,7 +200,7 @@ router.get('/import/kleb', async (req, res) => {
     for (const jsonFile of jsonFiles) {
         
       const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --db 'klebpnneumo' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+      const command = `mongoimport --db 'klebpnneumo2' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
 
 
         exec(command, (error, stdout, stderr) => {
