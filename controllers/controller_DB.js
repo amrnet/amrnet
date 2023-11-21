@@ -2,11 +2,14 @@ import CombinedModel from '../models/combined.js';
 import * as Tools from '../services/services.js';
 import express from 'express';
 import csv from 'csv-parser';
-import {exec} from "child_process"
+import { promisify } from 'util';
+import { exec as execCallback } from 'child_process';
+// import {exec} from "child_process"
 import fs from 'fs';
 import { detailedDiff } from 'deep-object-diff';
 import LZString from 'lz-string';
 
+const exec = promisify(execCallback);
 const router = express.Router();
 
 // Downloads data from MongoDB and creates the cleanDB_st file
@@ -172,49 +175,49 @@ router.post('/deleteChange', (req, res) => {
 const TyphifolderPath = `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/databaseFiles/styphi`;
 router.get('/import/styphi', async (req, res) => {
     const  jsonFiles = fs.readdirSync(TyphifolderPath).filter(file => file.endsWith('.json'));
+    try{
+          const importPromises = [];
+          for (const jsonFile of jsonFiles) {
+              
+            const collectionName = jsonFile.replace('.json', '');
+            const command = `mongoimport --db 'salmotyphi2' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${TyphifolderPath}/${jsonFile}' --jsonArray`
+              const importPromise = exec(command);
+              importPromises.push(importPromise);
+              console.log(`jsonFile: ${jsonFile}`);
 
-    for (const jsonFile of jsonFiles) {
-        
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --db 'salmotyphi2' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${TyphifolderPath}/${jsonFile}' --jsonArray`
+          }
+            await Promise.all(importPromises);
 
-
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                console.log(`error: ${error.message}`);
-                return;
-            }
-            if (stderr) {
-                console.log(`stderr: ${stderr}`);
-                return;
-            }
-            console.log(`stdout: ${stdout}`);
-        });
-
-    }
+            console.log(`All data imported successfully`);
+            return res.status(200).send('All data imported successfully');
+        } catch (error) {
+            console.error('Error importing data:', error);
+            return res.status(500).send('Internal Server Error');
+        }
 });
+
+
 const KlebfolderPath = `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/databaseFiles/kleb`;
 router.get('/import/kleb', async (req, res) => {
     const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+    try{
+      const importPromises = [];
+      for (const jsonFile of jsonFiles) {
+          
+        const collectionName = jsonFile.replace('.json', '');
+        const command = `mongoimport --db 'klebpnneumo2' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+          const importPromise = exec(command);
+          importPromises.push(importPromise);
+          console.log(`jsonFile: ${jsonFile}`);
 
-    for (const jsonFile of jsonFiles) {
-        
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --db 'klebpnneumo2' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+      }
+        await Promise.all(importPromises);
 
-
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                console.log(`error: ${error.message}`);
-                return;
-            }
-            if (stderr) {
-                console.log(`stderr: ${stderr}`);
-                return;
-            }
-            console.log(`stdout: ${stdout}`);
-        });
-
+        console.log(`All data imported successfully`);
+        return res.status(200).send('All data imported successfully');
+    } catch (error) {
+        console.error('Error importing data:', error);
+        return res.status(500).send('Internal Server Error');
     }
 });
 

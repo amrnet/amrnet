@@ -709,7 +709,7 @@ router.get('/generate/:organism', async function (req, res, next) {
       }else {
         console.log('No data to export.');
       }
-      return queryResult;
+      return res.status(200).send(queryResult);
     } catch (error) {
       console.error('Error processing MongoDB query:', error);
   } 
@@ -745,7 +745,7 @@ router.get('/clean/:organism', async function (req, res, next) {
     } else {
       console.log('No data to export.');
     }
-    return queryResult;
+    return res.status(200).send(queryResult);
   } catch (error) {
     console.error('Error processing MongoDB query:', error);
   } 
