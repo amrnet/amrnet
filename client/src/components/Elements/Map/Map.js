@@ -38,12 +38,9 @@ export const Map = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-<<<<<<< HEAD
   // const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const ifCustom = useAppSelector((state) => state.map.ifCustom);
-=======
->>>>>>> main
 
   function getGenotypeColor(genotype) {
     return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
@@ -187,7 +184,6 @@ export const Map = () => {
                           const genotypes = countryStats.GENOTYPE.items;
                           fillColor = getGenotypeColor(genotypes[0].name);
                           break;
-<<<<<<< HEAD
                         case 'Genotype prevalence':
                           let percentCounter = 0;        
                           const genotypes1 = countryStats.GENOTYPE.items;
@@ -210,7 +206,7 @@ export const Map = () => {
                           if(countryData.count>=20 && genotypes2.length > 0 ){
                             // console.log("count %",count );
                             if(genotypes2 !== undefined){
-                              fillColor = redColorScale2(((sumCount/percentCounter)*100).toFixed(2));
+                              fillColor = redColorScale(((sumCount/percentCounter)*100).toFixed(2));
                             }
                           }
                           else if (countryData.count>=20) {
@@ -218,8 +214,6 @@ export const Map = () => {
                             smallerThan20 = true;
                           }
                           break;
-=======
->>>>>>> main
                         case 'Sensitive to all drugs':
                         case 'H58 / Non-H58':
                         case 'MDR':
