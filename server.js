@@ -1,6 +1,6 @@
 // import connectDB from './config/db.js';
 import connectDB from './config/db2.js';
-import generateFile from './routes/api/generate_file.js';
+import generateFile from './routes/api/generateDataAPIsFile.js';
 import api from './routes/api/api.js';
 import combine_files from './routes/api/combine_files.js';
 import mongo_controller from './controllers/controller_DB.js';
