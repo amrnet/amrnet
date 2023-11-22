@@ -235,10 +235,10 @@ export const DashboardPage = () => {
 
       switch (organism) {
         case 'typhi':
-          getData('getDataFromCSV');
+          getData('getDataForTyphi');
           break;
         case 'klebe':
-          getData('getDataFromCSVKlebe');
+          getData('getDataForKleb');
           break;
         default:
           break;
