@@ -112,36 +112,13 @@ const clean_merge_kleb = [
             if: {
                 $and: [
                 {
-                    $ne: ["$GENOTYPE", "NA"],
-                },
-                {
                     $ne: ["$COUNTRY_ONLY", "-"],
                 },
                 {
                     $ne: ["$DATE", "-"],
                 },
                 {
-                    $ne: ["$COUNTRY_ONLY", "-"],
-                },
-                {
-                    $in: [
-                    "$PURPOSE OF SAMPLING",
-                    [
-                        "Non Targeted [Surveillance Study]",
-                        "Non Targeted [Routine diagnostics]",
-                        "Non Targeted [Reference lab]",
-                        "Non Targeted [Other]",
-                    ],
-                    ],
-                },
-                {
-                    $ne: ["$SYMPTOM STATUS","Asymptomatic Carrier"],
-                },
-                {
-                    $ne: ["$SOURCE", "Environment"],
-                },
-                {
-                    $ne: ["$SOURCE", "Gallbladder"],
+                    $eq: ["$species","Klebsiella pneumoniae"],
                 },
                 ],
             },
