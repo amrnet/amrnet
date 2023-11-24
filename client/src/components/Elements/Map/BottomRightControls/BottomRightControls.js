@@ -22,6 +22,7 @@ export const BottomRightControls = () => {
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
+  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
 
   async function handleClick() {
     setLoading(true);
@@ -46,7 +47,7 @@ export const BottomRightControls = () => {
         const cHeight = 1800;
         const textHeight = 250;
         const legendHeight = 350;
-
+        
         canvas.width = cWidth;
         canvas.height = cHeight + textHeight + legendHeight;
 
@@ -56,7 +57,22 @@ export const BottomRightControls = () => {
         ctx.font = 'bolder 50px Montserrat';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
-        ctx.fillText(`Global Overview of ${globalOverviewLabel.fullLabel}`, canvas.width / 2, 80);
+        // Draw the entire text with the original font style
+        ctx.fillText("Global Overview of ", canvas.width*0.44 , 80);
+
+        // Set the font style for "Salmonella" to italic
+        ctx.font = 'italic bold 50px Montserrat';
+        ctx.fillText(globalOverviewLabel.italicLabel, canvas.width * 0.55, 80);
+
+        // Revert to the original font style for the remaining text
+        ctx.font = 'bolder 50px Montserrat';
+        if (organism === 'typhi') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.615, 80);
+        } else if (organism === 'klebe') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+        }
+        
+
         ctx.font = '35px Montserrat';
         ctx.textAlign = 'center';
 
@@ -65,8 +81,15 @@ export const BottomRightControls = () => {
         ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 190);
         ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 240);
-
-        ctx.drawImage(mapImg, 0, textHeight, canvas.width, cHeight);
+        if(mapView === 'Genotype prevalence'){
+          if (customDropdownMapView.length === 1) {
+            ctx.fillText('Selected Genotypes: ' + customDropdownMapView, canvas.width / 2, 290);
+          } else if (customDropdownMapView.length > 1) {
+            const genotypesText = customDropdownMapView.join(', ');
+            ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
+        ctx.drawImage(mapImg, 0, textHeight+50, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
         const legendImgPromise = imgOnLoadPromise(legendImg);
@@ -83,11 +106,14 @@ export const BottomRightControls = () => {
           case 'Sensitive to all drugs':
             legendImg.src = 'legends/MapView_Sensitive.png';
             break;
+          case 'Genotype prevalence':
+            legendImg.src = 'legends/MapView_prevalence.png';
+            break;
           default:
             legendImg.src = 'legends/MapView_Others.png';
             break;
         }
-
+        if (mapView === 'Dominant Genotype') {
         await legendImgPromise;
         ctx.drawImage(
           legendImg,
@@ -96,6 +122,16 @@ export const BottomRightControls = () => {
           legendWidth,
           legendHeight
         );
+      } else {
+        await legendImgPromise;
+        ctx.drawImage(
+          legendImg,
+          canvas.width - (canvas.width / 6),
+          0,
+          legendWidth,
+          legendHeight
+        );
+      }
 
         const typhinetLogo = document.createElement('img');
         const typhinetLogoPromise = imgOnLoadPromise(typhinetLogo);
