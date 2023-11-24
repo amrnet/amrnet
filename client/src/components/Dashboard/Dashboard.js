@@ -21,9 +21,10 @@ import {
   setTimeInitial,
   setTotalGenomes,
   setTotalGenotypes,
-  setYears
+  setYears,
+  setPMID
 } from '../../stores/slices/dashboardSlice.ts';
-import { setDataset, setMapData, setMapView, setPosition } from '../../stores/slices/mapSlice.ts';
+import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
 import {
   setCollapses,
@@ -38,16 +39,18 @@ import {
   setDrugResistanceGraphView,
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
+  setCustomDropdownMapView,
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
   setGenotypesDrugsData,
+  setGenotypesDrugsData2,
   setGenotypesYearData,
   setKODiversityData,
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
-  setCurrentSliderValue
+  setCurrentSliderValue,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -62,6 +65,7 @@ import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../util/drugs';
+import countries from '../../util/countries';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
@@ -95,10 +99,11 @@ export const DashboardPage = () => {
     }
 
     const years = [...new Set(responseData.map((x) => x.DATE))];
-    const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
+    // const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
+    const PMID = [...new Set(responseData.map((x) => x.PMID))];
 
     years.sort();
-    countries.sort();
+    // countries.sort();
 
     dispatch(setTotalGenotypes(genotypes.length));
     dispatch(setActualGenotypes(genotypes.length));
@@ -108,12 +113,16 @@ export const DashboardPage = () => {
     dispatch(setTimeFinal(years[years.length - 1]));
     dispatch(setActualTimeFinal(years[years.length - 1]));
     dispatch(setCountriesForFilter(countries));
+    dispatch(setPMID(PMID));
 
     dispatch(setMapData(getMapData({ data: responseData, countries, organism })));
 
     const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
+    const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
+    dispatch(setGenotypesDrugsData2(genotypesData.genotypesDrugsData));
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+    dispatch(setCustomDropdownMapView(genotypeDataGreaterThanZero.filter(x => x.totalCount >= 20).slice(0, 1).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
 
     const yearsData = getYearsData({
@@ -144,7 +153,7 @@ export const DashboardPage = () => {
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-
+    console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
     return responseData;
   }
 
@@ -224,6 +233,8 @@ export const DashboardPage = () => {
       dispatch(setDeterminantsGraphView('percentage'));
       dispatch(setDistributionGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
+      dispatch(setIfCustom(false));
+      
       dispatch(setCurrentSliderValue(20));
 
       switch (organism) {
@@ -243,7 +254,7 @@ export const DashboardPage = () => {
   // It filters accordingly to the filters give. Is also called when the reset button is pressed.
   useEffect(() => {
     if (data.length > 0 && canGetData) {
-      console.log('update data', dataset, actualTimeInitial, actualTimeFinal, actualCountry);
+      // console.log('update data', dataset, actualTimeInitial, actualTimeFinal, actualCountry);
 
       const filters = filterData({ data, dataset, actualTimeInitial, actualTimeFinal, organism, actualCountry });
       const filteredData = filters.data.filter(
@@ -254,7 +265,7 @@ export const DashboardPage = () => {
         convergenceGroupVariable !== currentConvergenceGroupVariable ||
         convergenceColourVariable !== currentConvergenceColourVariable
       ) {
-        console.log('update variables', convergenceGroupVariable, convergenceColourVariable);
+        // console.log('update variables', convergenceGroupVariable, convergenceColourVariable);
         setCurrentConvergenceGroupVariable(convergenceGroupVariable);
         setCurrentConvergenceColourVariable(convergenceColourVariable);
 
@@ -270,6 +281,7 @@ export const DashboardPage = () => {
         dispatch(setActualGenomes(filters.genomesCount));
         dispatch(setActualGenotypes(filters.genotypesCount));
         dispatch(setListPMID(filters.listPMID));
+        
 
         dispatch(setMapData(getMapData({ data: filters.data, countries: countriesForFilter, organism })));
 
@@ -278,9 +290,12 @@ export const DashboardPage = () => {
           genotypes: genotypesForFilter,
           organism
         });
-        dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
+        const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
+        dispatch(setGenotypesDrugsData(genotypeDataGreaterThanZero));
         dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
         dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
+        dispatch(setCustomDropdownMapView(genotypeDataGreaterThanZero.filter(x => x.totalCount >= 20).slice(0, 1).map((x) => x.name)));
+
 
         const yearsData = getYearsData({
           data: filteredData,
@@ -323,7 +338,7 @@ export const DashboardPage = () => {
       <Graphs />
       <DownloadData />
       <Footer />
-      <ResetButton />
+      <ResetButton data={data} />
     </MainLayout>
   );
 };
