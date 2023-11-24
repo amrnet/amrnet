@@ -46,9 +46,9 @@ export const Map = () => {
     return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
-  function handleOnClick(countryData) {
-    if (countryData !== undefined) {
-      dispatch(setActualCountry(countryData.name));
+  function handleOnClick(NAME) {
+    if (NAME !== undefined) {
+      dispatch(setActualCountry(NAME));
     }
   }
 
@@ -67,6 +67,7 @@ export const Map = () => {
     if (countryData !== undefined) {
       switch (mapView) {
         case 'No. Samples':
+          const combinedPercentage = ((countryStats[statKey["CipR"]].percentage || 0) + (countryStats[statKey["CipNS"]].percentage || 0));
           Object.assign(tooltip, {
             content:
               organism === 'typhi'
@@ -78,7 +79,8 @@ export const Map = () => {
                     XDR: `${countryStats.XDR.percentage}%`,
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
-                    CipNS: `${countryStats.CipNS.percentage}%`,
+                    // CipNS: `${countryStats.CipNS.percentage}%`,
+                    CipNS: `${combinedPercentage.toFixed(2)}%`,
                     Susceptible: `${countryStats.Susceptible.percentage}%`
                   }
                 : {
@@ -102,13 +104,23 @@ export const Map = () => {
         case 'XDR':
         case 'AzithR':
         case 'CipR':
-        case 'CipNS':
         case 'ESBL':
         case 'Carb':
           if (showTooltip) {
             tooltip.content[statKey[mapView]] = {
               count: countryStats[statKey[mapView]].count,
               percentage: `${countryStats[statKey[mapView]].percentage}%`
+            };
+          }
+          break;
+        case 'CipNS':
+          if (showTooltip) {
+            const combinedCount = (countryStats[statKey["CipR"]].count || 0) + (countryStats[statKey["CipNS"]].count || 0);
+            const combinedPercentage = (
+              (countryStats[statKey["CipR"]].percentage || 0) + (countryStats[statKey["CipNS"]].percentage || 0));
+            tooltip.content['CipNS'] = {
+              count: combinedCount,
+              percentage: `${combinedPercentage.toFixed(2)}%`
             };
           }
           break;
@@ -220,7 +232,6 @@ export const Map = () => {
                         case 'XDR':
                         case 'AzithR':
                         case 'CipR':
-                        case 'CipNS':
                         case 'ESBL':
                         case 'Carb':
                           count = countryStats[statKey[mapView]]?.count;
@@ -240,6 +251,29 @@ export const Map = () => {
                             smallerThan20 = true;
                           }
                           break;
+                        case 'CipNS':
+                          let countCipR = countryStats[statKey["CipR"]]?.count;
+                          let countCipNS = countryStats[statKey["CipNS"]]?.count;
+                          count = countCipR + countCipNS;
+                          // count = countryStats[statKey[mapView]]?.count;
+                          let per = countryStats[statKey["CipNS"]].percentage + countryStats[statKey["CipR"]].percentage;
+                          console.log("per", countryStats[statKey["CipNS"]], per)
+                          if (countryData.count >= 20 && count > 0) {
+                            if (mapView === 'Susceptible to all drugs') {
+                              fillColor = sensitiveColorScale(per);
+                            } else {
+                              fillColor = redColorScale(per);
+                            }
+                            showTooltip = true;
+                          } else if (countryData.count >= 20) {
+                            if (mapView === 'Susceptible to all drugs') {
+                              fillColor = zeroPercentColor;
+                            } else {
+                              fillColor = darkGrey;
+                            }
+                            smallerThan20 = true;
+                          }
+                          break;
                         default:
                           break;
                       }
@@ -251,7 +285,7 @@ export const Map = () => {
                         geography={geo}
                         cursor="pointer"
                         fill={fillColor}
-                        onClick={() => handleOnClick(countryData)}
+                        onClick={() => handleOnClick(geo.properties.NAME)}
                         onMouseLeave={handleOnMouseLeave}
                         onMouseEnter={() =>
                           handleOnMouseEnter({
