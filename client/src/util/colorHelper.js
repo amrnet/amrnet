@@ -13,7 +13,6 @@ export const getColorForGenotype = (genotype) => {
     case '0.1.2':
     case '0.1.3':
       return '#808080';
-    case '1':
     case '1.1':
     case '1.1.1':
     case '1.1.2':
@@ -131,30 +130,21 @@ export const getColorForGenotype = (genotype) => {
 };
 
 // Generate color pallete for Klebsiella genotypes
+let iwanthue = require('iwanthue');
 export const generatePalleteForGenotypes = (genotypes) => {
+  console.log("genotypes.length", genotypes.length);
   if (genotypes.length === 0) {
     return {};
   }
-
-  var Rainbow = require('rainbowvis.js');
-  const rainbow = new Rainbow();
-  rainbow.setNumberRange(0, genotypes.length);
-  rainbow.setSpectrum(
-    '#67001f',
-    '#b2182b',
-    '#d6604d',
-    '#f4a582',
-    '#fddbc7',
-    '#d1e5f0',
-    '#92c5de',
-    '#4393c3',
-    '#2166ac',
-    '#053061'
-  );
+  const colors = iwanthue(genotypes.length,{
+    clustering: 'force-vector',
+    seed: 'all',
+    quality: 100
+  });
 
   const pallete = {};
   genotypes.forEach((x, i) => {
-    pallete[x] = `#${rainbow.colourAt(i)}`;
+    pallete[x] = `${colors[i]}`;
   });
 
   return pallete;
@@ -208,7 +198,6 @@ export const colorForDrugClassesST = {
   'Ciprofloxacin NS': [
     { name: '0_QRDR + qnrB (CipNS)', color: '#0066cc' },
     { name: '0_QRDR + qnrS (CipNS)', color: '#009999' },
-    { name: '0_QRDR + qnrS + qnrD (CipNS)', color: '#a8ddb5' },
     { name: '1_QRDR (CipNS)', color: '#ffcc00' },
     { name: '1_QRDR + qnrB (CipNS)', color: '#993399' },
     { name: '1_QRDR + qnrS (CipNS)', color: '#660066' },
@@ -218,7 +207,7 @@ export const colorForDrugClassesST = {
     { name: '3_QRDR (CipR)', color: '#cc0000' },
     { name: '3_QRDR + qnrB (CipR)', color: '#660000' },
     { name: '3_QRDR + qnrS (CipR)', color: 'black' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None (CipS)', color: '#B9B9B9' }
   ],
   Chloramphenicol: [
     { name: 'catA1', color: '#9e9ac8' },
