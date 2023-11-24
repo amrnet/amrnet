@@ -14,7 +14,7 @@ import {
   Brush
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDeterminantsGraphDrugClass, setDeterminantsGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
+import { setDeterminantsGraphDrugClass, setDeterminantsGraphView } from '../../../../stores/slices/graphSlice';
 import { drugClassesST, drugClassesKP } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { colorForDrugClassesKP, colorForDrugClassesST, hoverColor } from '../../../../util/colorHelper';
@@ -36,10 +36,8 @@ export const DeterminantsGraph = () => {
   const genotypesDrugClassesData = useAppSelector((state) => state.graph.genotypesDrugClassesData);
   const determinantsGraphView = useAppSelector((state) => state.graph.determinantsGraphView);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
-  const resetBool = useAppSelector((state) => state.graph.resetBool);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesDrugClassesData]);
 
@@ -62,6 +60,12 @@ export const DeterminantsGraph = () => {
         return colorForDrugClassesKP[determinantsGraphDrugClass];
     }
   }
+  let data = 0;
+  useEffect(()=>{
+    if(genotypesDrugClassesData[determinantsGraphDrugClass] !== undefined){
+      data = genotypesDrugClassesData[determinantsGraphDrugClass].filter((x)=>x.totalCount>0).length;
+    }
+  },[genotypesDrugClassesData, determinantsGraphDrugClass])
 
   function getDomain() {
     return determinantsGraphView === 'number' ? undefined : [0, 100];
@@ -69,12 +73,12 @@ export const DeterminantsGraph = () => {
 
   function getData() {
     if (determinantsGraphView === 'number') {
-      return genotypesDrugClassesData[determinantsGraphDrugClass];
+      return genotypesDrugClassesData[determinantsGraphDrugClass].filter((x)=>x.totalCount>0);
     }
 
     const exclusions = ['name', 'totalCount', 'resistantCount'];
     let genotypeDrugClassesDataPercentage = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
-    genotypeDrugClassesDataPercentage = genotypeDrugClassesDataPercentage.map((item) => {
+    genotypeDrugClassesDataPercentage = genotypeDrugClassesDataPercentage.filter((x)=>x.totalCount>0).map((item) => {
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
 
       keys.forEach((key) => {
@@ -129,16 +133,8 @@ export const DeterminantsGraph = () => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
     }
   }
-
-  useEffect(()=>{
-    if(resetBool){
-      setCurrentTooltip(null);
-      dispatch(setResetBool(true));
-    }
-  });
 
   useEffect(() => {
     if (canGetData) {
@@ -182,7 +178,7 @@ export const DeterminantsGraph = () => {
               />
 
               <ChartTooltip
-                cursor={{ fill: hoverColor }}
+                cursor={data > 0 ? { fill: hoverColor }:false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
                     return <div className={classes.chartTooltipLabel}>{label}</div>;
@@ -284,7 +280,7 @@ export const DeterminantsGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noGenotypeSelected}>Click on a genotype to see detail</div>
+            <div className={classes.noGenotypeSelected}>No genotype selected</div>
           )}
         </div>
       </div>
