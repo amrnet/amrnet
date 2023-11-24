@@ -332,6 +332,8 @@ router.get('/create', async function (req, res) {
                 obj_parser['dcs_mechanisms'] = `_QRDR + qnrB`;
               } else if (data['qnrD'] == '1') {
                 obj_parser['dcs_mechanisms'] = `_QRDR + qnrD`;
+              } else if (data['qnrD'] == '1') {
+                obj_parser['dcs_mechanisms'] = `_QRDR + qnrD`;
               } else {
                 obj_parser['dcs_mechanisms'] = `_QRDR`;
               }
@@ -465,6 +467,7 @@ router.get('/create', async function (req, res) {
             } else if (
               MDR == 'MDR' &&
               dcs_category == 'DCS' &&
+
 
               (cip_pred_pheno == 'CipNS' || cip_pred_pheno == 'CipR') &&
               // (cip_pheno_qrdr_gene == 'CipNS000' ||
