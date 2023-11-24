@@ -23,7 +23,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP } from '../../../util/drugs';
+import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import { colorForDrugClassesKP, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
 import { TrendsKPGraph } from './TrendsKPGraph';
@@ -173,7 +173,7 @@ export const Graphs = () => {
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
-      ctx.fillText(card.title, canvas.width / 2, 50);
+      ctx.fillText(card.title, canvas.width / 2 ,50);
 
       ctx.font = '12px Montserrat';
       ctx.fillText(card.description.join(' / '), canvas.width / 2, 72);
@@ -197,19 +197,30 @@ export const Graphs = () => {
       ctx.font = '12px Montserrat';
 
       const mobileFactor = matches500 ? 100 : 0;
-      if (['RFWG', 'DRT'].includes(card.id)) {
+      if ('RFWG'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         const legendDrugs = organism === 'typhi' ? drugsST : drugsKP;
 
         drawLegend({
           legendData: legendDrugs,
           context: ctx,
-          factor: 5,
+          factor: (legendDrugs.length>12 ? 8 : 4),
           mobileFactor,
           yPosition: 670,
-          xSpace: 330,
+          xSpace: (legendDrugs.length>12 ? 400 : 200),
           isDrug: true
         });
+      } else if ('DRT'.includes(card.id)) {
+          ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+          drawLegend({
+            legendData: drugsForDrugResistanceGraphST,
+            context: ctx,
+            factor: 4,
+            mobileFactor,
+            yPosition: 670,
+            xSpace: 200,
+            isDrug: true
+          });
       } else if (card.id === 'RDWG') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
