@@ -23,7 +23,8 @@ interface DashboardState {
   years: Array<number>;
   genotypesForFilter: Array<string>;
   colorPallete: Object;
-  listPMID: Array<string>
+  listPMID: Array<string>;
+  PMID: Array<string>
 }
 
 const initialState: DashboardState = {
@@ -43,7 +44,8 @@ const initialState: DashboardState = {
   years: [],
   genotypesForFilter: [],
   colorPallete: {},
-  listPMID: []
+  listPMID: [],
+  PMID: []
 };
 
 export const dashboardSlice = createSlice({
@@ -101,6 +103,9 @@ export const dashboardSlice = createSlice({
     setListPMID: (state, action: PayloadAction<Array<string>>) => {
       state.listPMID = action.payload;
     },
+    setPMID: (state, action: PayloadAction<Array<string>>) => {
+      state.PMID = action.payload;
+    },
   }
 });
 
@@ -121,7 +126,8 @@ export const {
   setYears,
   setGenotypesForFilter,
   setColorPallete,
-  setListPMID
+  setListPMID,
+  setPMID
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;
