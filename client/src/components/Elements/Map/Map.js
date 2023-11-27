@@ -39,7 +39,7 @@ export const Map = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  // const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
@@ -240,7 +240,7 @@ export const Map = () => {
                           }
                           if(countryData.count>=20 && genotypes2.length > 0 ){
                             // console.log("count %",count );
-                            if(genotypes2 != undefined){
+                            if(genotypes2 !== undefined){
                               fillColor = redColorScale2(((sumCount/percentCounter)*100).toFixed(2));
                             }
                           }
@@ -280,7 +280,7 @@ export const Map = () => {
                           count = countCipR + countCipNS;
                           // count = countryStats[statKey[mapView]]?.count;
                           let per = countryStats[statKey["CipNS"]].percentage + countryStats[statKey["CipR"]].percentage;
-                          console.log("per", countryStats[statKey["CipNS"]], per)
+                          // console.log("per", countryStats[statKey["CipNS"]], per)
                           if (countryData.count >= 20 && count > 0) {
                             if (mapView === 'Susceptible to all drugs') {
                               fillColor = sensitiveColorScale(per);

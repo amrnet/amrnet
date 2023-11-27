@@ -28,7 +28,7 @@ export const TopRightControls2 = () => {
     return `${genotype.name} (total N=${genotype.totalCount===0 ? 0:`${genotype.totalCount}, ${percentage}% Susceptible`})`;
   }
   
-console.log("customDropdownMapView",customDropdownMapView);
+// console.log("customDropdownMapView",customDropdownMapView);
   function handleChangeSelectedGenotypes({ event = null, all = false }) {
     if (all) {
       dispatch(setCustomDropdownMapView([]));

@@ -17,6 +17,7 @@
         "chroma-js": "^2.4.2",
         "d3-scale": "^3.2.3",
         "downloadjs": "^1.4.7",
+        "prop-types": "^15.8.1",
         "iwanthue": "^2.0.0",
         "moment": "^2.29.1",
         "next": "^12.3.0",
