@@ -10,6 +10,7 @@
 ![Open Issues](https://img.shields.io/github/issues-raw/amrnet/amrnet)
 ![Repo Size](https://img.shields.io/github/repo-size/amrnet/amrnet)
 
+
 ## Table of Contents
 
 - [Description](#Description)
@@ -64,5 +65,3 @@ yarn start: prod
 ```
 
 ## Funding & acknowledgements
-
-
