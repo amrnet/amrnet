@@ -82,7 +82,7 @@ export const DownloadData = () => {
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const listPIMD = useAppSelector((state) => state.dashboard.listPMID);
   const PMID = useAppSelector((state) => state.dashboard.PMID);
-  const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
+  // const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);

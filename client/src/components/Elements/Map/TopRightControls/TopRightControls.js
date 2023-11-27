@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setMapView, setIfCustom} from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
-import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from '../mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
