@@ -39,7 +39,7 @@ export const KODiversityGraph = () => {
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
-  }, [KODiversityData]);
+  }, [KODiversityData, dispatch]);
 
   function handleChangeDataView(event) {
     setCurrentTooltip(null);

@@ -13,7 +13,7 @@ import {
   setActualGenotypes,
   setActualTimeFinal,
   setActualTimeInitial,
-  setColorPallete,
+  // setColorPallete,
   setGenotypesForFilter,
   setListPMID,
   setLoadingData,
@@ -134,7 +134,7 @@ export const DashboardPage = () => {
     });
 
     if (organism === 'klebe') {
-      console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
+      // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
 
@@ -154,7 +154,7 @@ export const DashboardPage = () => {
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-    console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
+    // console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
     return responseData;
   }
 
@@ -201,7 +201,7 @@ export const DashboardPage = () => {
   // call the function to read the specific organism csv
   useEffect(() => {
     if (organism !== 'none') {
-      console.log('change organism');
+      // console.log('change organism');
       dispatch(
         setCollapses({
           determinants: false,
