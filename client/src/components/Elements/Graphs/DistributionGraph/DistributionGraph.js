@@ -138,7 +138,6 @@ export const DistributionGraph = () => {
             console.log("key", key);
             const count = currentData[key];
             const activePayload = event.activePayload.find((x) => x.name === key);
-            // console.log("activePayload", activePayload);
             return {
               label: key,
               count,
@@ -202,7 +201,7 @@ export const DistributionGraph = () => {
               />
 
               <ChartTooltip
-                cursor={{ fill: hoverColor }}
+                cursor={genotypesYearData!=0?{ fill: hoverColor }:false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
                     return <div className={classes.chartTooltipLabel}>{label}</div>;
