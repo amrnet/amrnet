@@ -17,19 +17,19 @@ export const menuItems = [
     label: 'User Guide',
     icon: <MenuBook />
   },
-  {
-    key: 'database',
-    label: 'Database',
-    icon: <Storage />
-  },
-  {
-    key: 'documentation',
-    label: 'Documentation',
-    icon: <Description />
-  },
-  {
-    key: 'contact',
-    label: 'Contact',
-    icon: <Person />
-  }
+  // {
+  //   key: 'database',
+  //   label: 'Database',
+  //   icon: <Storage />
+  // },
+  // {
+  //   key: 'documentation',
+  //   label: 'Documentation',
+  //   icon: <Description />
+  // },
+  // {
+  //   key: 'contact',
+  //   label: 'Contact',
+  //   icon: <Person />
+  // }
 ];
