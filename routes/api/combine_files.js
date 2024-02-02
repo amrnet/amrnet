@@ -13,8 +13,10 @@ router.get('/typhidata', async (req, res) => {
     console.log("i m in");
 
     try {
+        await client.db("salmotyphi2").collection("merge_rawdata_st").drop();
         await client.db("salmotyphi2").collection("pw_amr-profile").aggregate(merge_rawdata_st).toArray();
-        const result = await client.db("salmotyphi2").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
+       
+        // const result = await client.db("salmotyphi2").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
         return res.json(result);
     } catch (error) {
         console.error(error);
