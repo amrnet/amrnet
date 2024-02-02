@@ -1,6 +1,7 @@
 // import connectDB from './config/db.js';
 import connectDB from './config/db2.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
+import generateFileClean from './routes/api/generateDataClean.js';
 import api from './routes/api/api.js';
 import combine_files from './routes/api/combine_files.js';
 import mongo_controller from './controllers/controller_DB.js';
@@ -42,6 +43,7 @@ app.use(cookieParser());
 app.use('/api/filters', api);
 app.use('/api/email', emailRouter);
 app.use('/api/file', generateFile);
+app.use('/api/data', generateFileClean);
 app.use('/api/combine', combine_files);
 app.use('/api/mongo', mongo_controller);
 app.use(express.static(path.join(__dirname, './client', 'build')));

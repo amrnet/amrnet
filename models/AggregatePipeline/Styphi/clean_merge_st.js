@@ -960,15 +960,15 @@ const clean_merge_st = [
           else: {
             $cond: {
               if: {
-                $eq: ["$num_qrdr", 1],
+                $eq: ["$num_qrdr", 3],
               },
-              then: "CipNS",
+              then: "CipR",
               else: {
                 $cond: {
                   if: {
-                    $in: ["$num_qrdr", [2, 3]],
+                    $in: ["$num_qrdr", [2, 1]],
                   },
-                  then: "CipR",
+                  then: "CipNS",
                   else: "$cip_pred_pheno", // Adjust as needed for other cases or provide a default value
                 },
               },
@@ -1209,6 +1209,9 @@ const clean_merge_st = [
                 $eq: ["$blaSHV-12", 1],
               },
               {
+                $eq: ["$blaCTX-M-12", 1],
+              },
+              {
                 $eq: ["$blaCTX-M-55", 1],
               },
             ],
@@ -1333,19 +1336,19 @@ const clean_merge_st = [
               {
                 $eq: [
                   "$cip_pheno_qrdr_gene",
-                  "CipS10",
+                  "CipS101",
                 ],
               },
               {
                 $eq: [
                   "$cip_pheno_qrdr_gene",
-                  "CipS11",
+                  "CipS110",
                 ],
               },
               {
                 $eq: [
                   "$cip_pheno_qrdr_gene",
-                  "CipS01",
+                  "CipS010",
                 ],
               },
             ],
@@ -1358,19 +1361,19 @@ const clean_merge_st = [
                   {
                     $eq: [
                       "$cip_pheno_qrdr_gene",
-                      "CipNS10",
+                      "CipNS100",
                     ],
                   },
                   {
                     $eq: [
                       "$cip_pheno_qrdr_gene",
-                      "CipNS11",
+                      "CipNS110",
                     ],
                   },
                   {
                     $eq: [
                       "$cip_pheno_qrdr_gene",
-                      "CipNS01",
+                      "CipNS010",
                     ],
                   },
                 ],
@@ -1476,6 +1479,17 @@ const clean_merge_st = [
                 ],
               },
               then: "_QRDR + qnrS + qnrB",
+              if: {
+                $and: [
+                  {
+                    $eq: ["$qnrS", 1],
+                  },
+                  {
+                    $eq: ["$qnrD", 1],
+                  },
+                ],
+              },
+              then: "_QRDR + qnrS + qnrD",
               else: {
                 $cond: {
                   if: {
@@ -1488,7 +1502,15 @@ const clean_merge_st = [
                         $eq: ["$qnrB", 1],
                       },
                       then: "_QRDR + qnrB",
-                      else: "_QRDR",
+                      else: {
+                        $cond: {
+                          if: {
+                            $eq: ["$qnrD", 1],
+                          },
+                          then: "_QRDR + qnrD",
+                          else: "_QRDR",
+                        },
+                      },
                     },
                   },
                 },
@@ -1516,6 +1538,24 @@ const clean_merge_st = [
                 ],
               },
               else: {
+                $and: [
+                  {
+                    $eq: ["$qnrS", 1],
+                  },
+                  {
+                    $eq: ["$qnrD", 1],
+                  },
+                ],
+              },
+              then: {
+                $concat: [
+                  {
+                    $toString: "$dcs_mechanisms",
+                  },
+                  "_QRDR + qnrS + qnrD",
+                ],
+              },
+              else: {
                 $cond: {
                   if: {
                     $eq: ["$qnrS", 1],
@@ -1530,28 +1570,44 @@ const clean_merge_st = [
                     ],
                   },
                   else: {
-                    $cond: {
-                      if: {
-                        $eq: ["$qnrB", 1],
-                      },
-                      then: {
-                        $concat: [
-                          {
-                            $toString:
-                              "$dcs_mechanisms",
+                      $cond: {
+                        if: {
+                          $eq: ["$qnrB", 1],
+                        },
+                        then: {
+                          $concat: [
+                            {
+                              $toString:
+                                "$dcs_mechanisms",
+                            },
+                            "_QRDR + qnrB",
+                          ],
+                        },
+                        else: {
+                          $cond: {
+                            if: {
+                              $eq: ["$qnrD", 1],
+                            },
+                            then: {
+                              $concat: [
+                                {
+                                  $toString:
+                                    "$dcs_mechanisms",
+                                },
+                                "_QRDR + qnrD",
+                              ],
+                            },
+                            else: {
+                              $concat: [
+                                {
+                                  $toString:
+                                    "$dcs_mechanisms",
+                                },
+                                "_QRDR",
+                              ],
+                            },
                           },
-                          "_QRDR + qnrB",
-                        ],
-                      },
-                      else: {
-                        $concat: [
-                          {
-                            $toString:
-                              "$dcs_mechanisms",
-                          },
-                          "_QRDR",
-                        ],
-                      },
+                        },
                     },
                   },
                 },
