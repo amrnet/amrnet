@@ -3,7 +3,7 @@ import {client} from '../../config/db2.js'
 
 const router = express.Router();
 
-router.post('/newdoc', function (req, res, next) {
+router.post('/newdoctyphi', function (req, res, next) {
   const organism = req.body.organism;
   let collection,collection2, localFilePath;
   // collection = client.db('salmotyphi2').collection('clean_merge_st');///Orignal with db "salmotyphi"
@@ -14,7 +14,7 @@ router.post('/newdoc', function (req, res, next) {
   collection2.find().forEach(function(doc) {
     const empty = ['NA', 'Not Provided', '', '-', undefined];
     var h58_genotype, GENOTYPE_SIMPLE, curate, name_, travel, sul_any, dfra_any, co_trim, tetracycline_category, mdr, xdr, esbl, chlCat, dcsCategory, dcsMechanisms, dView,  amrCategory;
-    var date, cip, azith, cipqrdr;
+    var date, cip, azith, cipqrdr, cipns, cipr;
     const h58_genotypes = [
               '4.3.1',
               '4.3.1.1',
@@ -383,6 +383,15 @@ router.post('/newdoc', function (req, res, next) {
         }
     }
 
+    if(cip == "CipNS"){
+        cipns = 1;
+        cipr = 0;
+    }else if(cip == "CipR"){
+        cipns = 1;
+        cipr = 1;
+    }
+
+
 
 
     var travelLocation = (empty.indexOf(doc["TRAVEL COUNTRY"]) !== -1) ? "-" : doc["TRAVEL COUNTRY"];
@@ -464,6 +473,8 @@ router.post('/newdoc', function (req, res, next) {
                 "dcs_mechanisms2": dcsMechanisms,
                 "amr_category": amrCategory,
                 "cip_pred_pheno": cip,
+                "CipNS": cipns,
+                "CipR":cipr,
                 "azith_pred_pheno":azith,
                 "cip_pheno_qrdr_gene":cipqrdr,
 
@@ -510,7 +521,66 @@ router.post('/newdoc', function (req, res, next) {
                 "ACCURACY": accuracy,
                 "LATITUDE": latitude,
                 "LONGITUDE": longitude,
-                "Dashboard View": dView}
+                "dashboard view": dView}
+      }
+    );
+  });
+});
+
+
+router.post('/newdockleb', function (req, res, next) {
+  const organism = req.body.organism;
+  let collection,collection2, localFilePath;
+  // collection = client.db('salmotyphi2').collection('clean_merge_st');///Orignal with db "salmotyphi"
+
+  collection2 = client.db('klebpnneumo2').collection('merge_rawdata_kleb');
+  console.log("I am trying to update a collection: merge_rawdata_kleb, with new query method (w/o aggregare functions)");
+    
+  var dView, kLocus, oLocus, location;
+  collection2.find().forEach(function(doc) {
+    const empty = ['NA', 'Not Provided', '', '-', undefined];
+
+    var date = (empty.indexOf(doc["year"]) !== -1) ? "-" : doc["year"];
+    
+    var countryOnly = (empty.indexOf(doc["Country"]) !== -1) ? "-" : doc["Country"];
+
+    var latitude = (empty.indexOf(doc["latitude"]) !== -1) ? "-" : doc["latitude"];
+
+    var longitude = (empty.indexOf(doc["longitude"]) !== -1) ? "-" : doc["longitude"];
+    
+    if(date != "-" && countryOnly != "-"  && doc["species"] != "Klebsiella pneumoniae"){
+            dView = "Include";
+    }else{
+            dView = "Exclude";
+    }
+
+    if(empty.indexOf(doc["K_locus_identity"]) !== -1){
+            kLocus = "-";
+        }else{
+            kLocus = (doc["K_locus_identity"].toString()).replace("%", "").trim();
+    }
+    kLocus = (parseFloat(kLocus)/100).toFixed(4);
+
+    if(empty.indexOf(doc["O_locus_identity"]) !== -1){
+            oLocus = "-";
+        }else{
+            oLocus = (doc["O_locus_identity"].toString()).replace("%", "").trim();
+    }
+    oLocus = (parseFloat(oLocus)/100).toFixed(4);
+
+    collection2.updateOne(
+      { "_id": doc._id },
+      { $set: { "NAME": doc["name"].toString(),
+                "DATE": date.toString(),
+                "GENOTYPE":doc["ST"],
+                "COUNTRY_ONLY": countryOnly,
+                "LATITUDE": latitude,
+                "LONGITUDE": longitude,
+                "LOCATION": doc["City"] && doc["City"]["region"] !== undefined ? doc["City"]["region"] : "-",
+                "K_locus_identity": kLocus,
+                "K_locus_identity": kLocus,
+                "O_locus_identity": oLocus,
+                "dashboard view": dView}
       }
     );
   });
