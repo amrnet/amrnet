@@ -27,8 +27,9 @@ router.get('/typhidata', async (req, res) => {
 router.get('/klebdata', async (req, res) => {
 
     try {
+        await client.db("salmotyphi2").collection("merge_rawdata_kleb").drop();
         await client.db("klebpnneumo2").collection("pw_kleborate").aggregate(merge_rawdata_kleb).toArray();
-        const result = await client.db("klebpnneumo2").collection("merge_rawdata_kleb").aggregate(clean_merge_kleb).toArray();
+        // const result = await client.db("klebpnneumo2").collection("merge_rawdata_kleb").aggregate(clean_merge_kleb).toArray();
         return res.json(result);
     } catch (error) {
         console.error(error);
