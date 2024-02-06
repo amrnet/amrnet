@@ -200,6 +200,7 @@ export const DownloadData = () => {
     isVariable = false,
     xSpace,
     twoPages = false,
+    threePages = false,
     factorMultiply = 3
   }) {
     let firstLegendData = legendData.slice();
@@ -209,10 +210,16 @@ export const DownloadData = () => {
     let secondLegendFactor;
 
     if (twoPages) {
-      firstLegendData = legendData.slice(0, 27 * factorMultiply);
-      secondLegendData = legendData.slice(27 * factorMultiply);
-      secondLegendFactor = factor - 27;
-      firstLegendFactor = 27;
+      firstLegendData = legendData.slice(0, 26 * factorMultiply);
+      secondLegendData = legendData.slice(26 * factorMultiply);
+      secondLegendFactor = factor - 26;
+      firstLegendFactor = 26;
+    }
+    if (threePages) {
+      firstLegendData = legendData.slice(0, 50 * factorMultiply);
+      secondLegendData = legendData.slice(50 * factorMultiply);
+      secondLegendFactor = factor - 50;
+      firstLegendFactor = 50;
     }
 
     firstLegendData.forEach((legend, i) => {
@@ -244,7 +251,7 @@ export const DownloadData = () => {
       );
     });
 
-    if (twoPages) {
+    if (twoPages || threePages ) {
       document.addPage();
 
       secondLegendData.forEach((legend, i) => {
@@ -536,7 +543,8 @@ export const DownloadData = () => {
             factor: genotypesFactor,
             rectY,
             xSpace: 65,
-            isGenotype: true
+            isGenotype: true,
+            // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CERDT') {
           const legendGenotypes = genotypesForFilter.map((genotype) => {
@@ -552,24 +560,27 @@ export const DownloadData = () => {
             xSpace: 127,
             twoPages: true
           });
+          drawFooter({ document: doc, pageHeight, pageWidth, date });
 
           drawLegend({
             id: 'CERDT',
             document: doc,
             legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
             factor: Math.ceil(genotypesForFilter.length / 3),
-            rectY: 6 * 13,
-            xSpace: 127
+            rectY: 6 * 14,
+            xSpace: 127,
+            threePages: true,
           });
-
+          
           drawFooter({ document: doc, pageHeight, pageWidth, date });
         } else if (cards[index].id === 'KO') {
           drawLegend({
             document: doc,
             legendData: colorsForKODiversityGraph,
-            factor: 1,
+            factor: Math.ceil(colorsForKODiversityGraph.length / 4),
             rectY,
-            xSpace: 50
+            xSpace: 90,
+            // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CVM') {
           const isTwoPages = ['Bla_Carb_acquired', 'Bla_ESBL_acquired', 'Yersiniabactin'].includes(
@@ -584,10 +595,10 @@ export const DownloadData = () => {
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
-            twoPages: isTwoPages
+            twoPages: isKlebe
           });
 
-          if (isTwoPages) {
+          if (isKlebe) {
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         }
