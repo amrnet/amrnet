@@ -493,7 +493,7 @@ export const DownloadData = () => {
         }
 
         doc.setFillColor(255, 255, 255);
-        const rectY = matches500 ? 300 : 320;
+        const rectY = matches500 ? 300 : 340;
         doc.rect(0, rectY, pageWidth, 200, 'F');
 
         doc.setFontSize(9);
