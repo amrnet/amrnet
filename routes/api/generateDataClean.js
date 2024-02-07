@@ -103,7 +103,7 @@ router.post('/newdoctyphi', function (req, res, next) {
         }
     }
 
-    console.log("num_qrdr", num_qrdr);
+    // console.log("num_qrdr", num_qrdr);
 
     const num_amr_genes_sum = [
           "ampC",
