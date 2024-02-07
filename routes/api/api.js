@@ -8,7 +8,7 @@ import {client} from '../../config/db2.js';
 // Get all data from the clean file inside assets
 router.get('/getDataForTyphi', async function (req, res, next) {
   try {
-        const result = await client.db("salmotyphi2").collection("clean_merge_st").find({ 'Exclude': 'Include' }).toArray();;
+        const result = await client.db("salmotyphi").collection("merge_rawdata_st").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
@@ -32,7 +32,7 @@ router.get('/getDataForTyphi', async function (req, res, next) {
 
 router.get('/getDataForKleb', async function (req, res, next) {
   try {
-        const result = await client.db("klebpnneumo2").collection("clean_merge_kleb").find({ 'Exclude': 'Include' }).toArray();;
+        const result = await client.db("klebpnneumo").collection("merge_rawdata_kleb").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];

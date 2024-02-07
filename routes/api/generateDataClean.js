@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/newdoctyphi', function (req, res, next) {
   const organism = req.body.organism;
   let collection,collection2, localFilePath;
-  // collection = client.db('salmotyphi2').collection('clean_merge_st');///Orignal with db "salmotyphi"
+  // collection = client.db('salmotyphi').collection('clean_merge_st');///Orignal with db "salmotyphi"
 
   collection2 = client.db('salmotyphi').collection('merge_rawdata_st');
   console.log("I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)");
@@ -44,7 +44,7 @@ router.post('/newdoctyphi', function (req, res, next) {
               '10209_5_36_LaoUI2001_2002',
               '10209_5_60_LaoUI3396_2003'
             ];
-    var curate = (curate_223.indexOf(doc["NAME"]) !== -1) ? "2.2.3" : doc["GENOTYPHI GENOTYPE"];
+    var curate = ((curate_223.indexOf(doc["NAME"]) !== -1) ? "2.2.3" : doc["GENOTYPHI GENOTYPE"]).toString();
 
     const name = [
                 "9953_5_76_LaoLNT1480_2010",
@@ -541,9 +541,9 @@ router.post('/newdoctyphi', function (req, res, next) {
 router.post('/newdockleb', function (req, res, next) {
   const organism = req.body.organism;
   let collection,collection2, localFilePath;
-  // collection = client.db('salmotyphi2').collection('clean_merge_st');///Orignal with db "salmotyphi"
+  // collection = client.db('salmotyphi').collection('clean_merge_st');///Orignal with db "salmotyphi"
 
-  collection2 = client.db('klebpnneumo2').collection('merge_rawdata_kleb');
+  collection2 = client.db('klebpnneumo').collection('merge_rawdata_kleb');
   console.log("I am trying to update a collection: merge_rawdata_kleb, with new query method (w/o aggregare functions)");
     
   var dView, kLocus, oLocus, location;
@@ -558,7 +558,7 @@ router.post('/newdockleb', function (req, res, next) {
 
     var longitude = (empty.indexOf(doc["longitude"]) !== -1) ? "-" : doc["longitude"];
     
-    if(date != "-" && countryOnly != "-"  && doc["species"] != "Klebsiella pneumoniae"){
+    if(date != "-" && countryOnly != "-"  && doc["species"] == "Klebsiella pneumoniae"){
             dView = "Include";
     }else{
             dView = "Exclude";
@@ -581,8 +581,8 @@ router.post('/newdockleb', function (req, res, next) {
     collection2.updateOne(
       { "_id": doc._id },
       { $set: { "NAME": doc["name"].toString(),
-                "DATE": date.toString(),
-                "GENOTYPE":doc["ST"],
+                "DATE": date,
+                "GENOTYPE":doc["ST"].toString(),
                 "COUNTRY_ONLY": countryOnly,
                 "LATITUDE": latitude,
                 "LONGITUDE": longitude,
