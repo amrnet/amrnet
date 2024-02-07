@@ -196,8 +196,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             drugStats[rule.key] = drugData.length;
 
             if (rule.key === 'Ciprofloxacin NS') {
-              drugStats['Ciprofloxacin R'] = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
+            //drugStats['Ciprofloxacin R'] = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
               drugStats['Ciprofloxacin NS'] = drugStats['Ciprofloxacin NS'] + drugStats['Ciprofloxacin R'];
+
             }
           });
 
@@ -245,7 +246,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       const sortedStats = Object.fromEntries(
         Object.entries(stats)
           .sort(([, a], [, b]) => b - a)
-          // .slice(0, 20)
+          .slice(0, 20)
       );
       uniqueGenotypes = uniqueGenotypes.concat(Object.keys(sortedStats));
 

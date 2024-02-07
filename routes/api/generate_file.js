@@ -110,14 +110,14 @@ router.get('/create', async function (req, res) {
     'gyrA_D87Y',
     'gyrB_S464F',
     'gyrB_S464Y',
-    'gyrB_Q465R',
-    'gyrB_Q465L',
+    // 'gyrB_Q465R',
+    // 'gyrB_Q465L',
     'parC_S80I',
     'parC_S80R',
     'parC_E84G',
     'parC_E84K',
-    'parE_D420N',
-    'parE_L416F',
+    // 'parE_D420N',
+    // 'parE_L416F',
     'acrB_R717Q',
     'acrB_R717L'
   ];
@@ -332,6 +332,8 @@ router.get('/create', async function (req, res) {
                 obj_parser['dcs_mechanisms'] = `_QRDR + qnrB`;
               } else if (data['qnrD'] == '1') {
                 obj_parser['dcs_mechanisms'] = `_QRDR + qnrD`;
+              } else if (data['qnrD'] == '1') {
+                obj_parser['dcs_mechanisms'] = `_QRDR + qnrD`;
               } else {
                 obj_parser['dcs_mechanisms'] = `_QRDR`;
               }
@@ -369,14 +371,14 @@ router.get('/create', async function (req, res) {
               'gyrA_D87Y',
               'gyrB_S464F',
               'gyrB_S464Y',
-              'gyrB_Q465R',
-              'gyrB_Q465L',
+              // 'gyrB_Q465R',
+              // 'gyrB_Q465L',
               'parC_S80I',
               'parC_S80R',
               'parC_E84G',
               'parC_E84K',
-              'parE_D420N',
-              'parE_L416F'
+              // 'parE_D420N',
+              // 'parE_L416F'
             ];
             obj_parser['num_qrdr'] = 0;
             for (let qrdr of list_qrdr) {
@@ -423,7 +425,6 @@ router.get('/create', async function (req, res) {
             } else {
               obj_parser['cip_pheno_qrdr_gene'] = obj_parser['cip_pred_pheno'].toString();
             }
-
             obj_parser['dcs_category'] = obj_parser['cip_pred_pheno'];
             if (obj_parser['cip_pred_pheno'] == 'CipNS') {
               obj_parser['dcs_category'] = 'DCS';
@@ -466,6 +467,7 @@ router.get('/create', async function (req, res) {
             } else if (
               MDR == 'MDR' &&
               dcs_category == 'DCS' &&
+
 
               (cip_pred_pheno == 'CipNS' || cip_pred_pheno == 'CipR') &&
               // (cip_pheno_qrdr_gene == 'CipNS000' ||
@@ -568,6 +570,10 @@ router.get('/create', async function (req, res) {
               data_to_write[d]['cip_pred_pheno'] = 'CipR';
             } else if (data_to_write[d]['num_qrdr'] === 1) {
               data_to_write[d]['cip_pred_pheno'] = 'CipNS';
+            } else if (data_to_write[d]['num_qrdr'] === 2 && (data_to_write[d]['qnrS'] === '1' || data_to_write[d]['qnrB'] === '1' || data_to_write[d]['qnrD'] === '1')){
+              data_to_write[d]['cip_pred_pheno'] = 'CipR';
+            } else if (data_to_write[d]['num_qrdr'] === 2) {
+              data_to_write[d]['cip_pred_pheno'] = 'CipNS';
             } else {
               data_to_write[d]['cip_pred_pheno'] = 'CipR';
             }
@@ -609,9 +615,13 @@ router.get('/create', async function (req, res) {
 });
 
 // Download clean as spreadsheet
+// function to handle downloading file
 router.post('/download', function (req, res, next) {
+  
+// get organism from request body
   const organism = req.body.organism;
 
+// determine file path based on organism
   let path_file = '';
 
   if (organism === 'typhi') {
@@ -620,15 +630,21 @@ router.post('/download', function (req, res, next) {
     path_file = Tools.path_clean_all_kp;
   }
 
+// set CORS header for download
   res.setHeader('Access-Control-Allow-Origin', '*');
+// send file as response
   res.download(path_file);
 });
 
 // Get data for admin page: changes and current data
 router.get('/databaseLog', function (req, res, next) {
+// Define file path
   const path = './assets/database/previousDatabases.txt';
+// Read text file contents  
   const text = fs.readFileSync(path, 'utf-8');
+// Parse text file into JSON
   const aux = JSON.parse(text);
+// Send JSON as response
   return res.json(aux);
 });
 

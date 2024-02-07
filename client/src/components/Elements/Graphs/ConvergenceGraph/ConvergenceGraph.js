@@ -15,7 +15,7 @@ import {
   Cell
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable, setResetBool } from '../../../../stores/slices/graphSlice';
+import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -33,9 +33,8 @@ export const ConvergenceGraph = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
-  const resetBool = useAppSelector((state) => state.graph.resetBool);
+
   useEffect(() => {
-    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [convergenceData]);
 
@@ -48,19 +47,13 @@ export const ConvergenceGraph = () => {
   //   setCurrentTooltip(null);
   //   dispatch(setConvergenceColourVariable(event.target.value));
   // }
-useEffect(()=>{
-    if(resetBool){
-      setCurrentTooltip(null);
-      dispatch(setResetBool(true));
-    }
-  });
+
   function handleClickChart(name) {
     const data = convergenceData.find((item) => item.name === name);
 
     if (data) {
       const currentData = structuredClone(data);
       setCurrentTooltip({ ...currentData });
-      dispatch(setResetBool(false));
     }
   }
 
@@ -237,7 +230,7 @@ useEffect(()=>{
               </div>
             </div>
           ) : (
-            <div className={classes.noBubbleSelected}>Click on a bubble to see the details</div>
+            <div className={classes.noBubbleSelected}>No bubble selected</div>
           )}
         </div>
       </div>

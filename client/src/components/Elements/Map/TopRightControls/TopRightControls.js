@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setMapView, setIfCustom} from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
-import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from '../mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
@@ -76,11 +76,6 @@ export const TopRightControls = () => {
       }
       case 'Dominant Genotype':
         return getGenotypeColor(step);
-      //case 'Genotype prevalence':
-        // return redColorScale2(step);
-      // case 'Genotype prevalence':
-      //   const aux2 = ['1', '25', '50', '75','100'];
-      //   return redColorScale2(aux2[index]);
       default:
         const aux3 = ['0.01', '2.01', '10.01', '50.01'];
         return redColorScale(aux3[index]);
