@@ -8,7 +8,7 @@ router.post('/newdoctyphi', function (req, res, next) {
   let collection,collection2, localFilePath;
   // collection = client.db('salmotyphi2').collection('clean_merge_st');///Orignal with db "salmotyphi"
 
-  collection2 = client.db('salmotyphi22').collection('merge_rawdata_st');
+  collection2 = client.db('salmotyphi').collection('merge_rawdata_st');
   console.log("I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)");
     
   collection2.find().forEach(function(doc) {
