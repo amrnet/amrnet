@@ -173,7 +173,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%'
-  },
+  }
 }));
 
 export { useStyles };

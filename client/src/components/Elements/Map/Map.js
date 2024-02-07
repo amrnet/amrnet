@@ -12,7 +12,7 @@ import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.
 import { TopRightControls } from './TopRightControls';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice.ts';
 import { TopLeftControls } from './TopLeftControls';
-import { TopRightControls2 } from './TopRightControls2';
+import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
 
 const statKey = {
@@ -39,7 +39,7 @@ export const Map = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  // const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
@@ -47,9 +47,9 @@ export const Map = () => {
     return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
-  function handleOnClick(NAME) {
-    if (NAME !== undefined) {
-      dispatch(setActualCountry(NAME));
+  function handleOnClick(countryData) {
+    if (countryData !== undefined) {
+      dispatch(setActualCountry(countryData.name));
     }
   }
 // console.log(" ifCustom ", ifCustom);
@@ -67,6 +67,7 @@ export const Map = () => {
     if (countryData !== undefined) {
       switch (mapView) {
         case 'No. Samples':
+          const combinedPercentage = ((countryStats[statKey["CipR"]].percentage || 0) + (countryStats[statKey["CipNS"]].percentage || 0));
           Object.assign(tooltip, {
             content:
               organism === 'typhi'
@@ -78,7 +79,7 @@ export const Map = () => {
                     XDR: `${countryStats.XDR.percentage}%`,
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
-                    CipNS: `${countryStats.CipNS.percentage}%`,
+                    CipNS: `${combinedPercentage.toFixed(2)}%`,
                     Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : {
@@ -196,7 +197,6 @@ export const Map = () => {
               <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
               <Geographies geography={geography}>
                 {({ geographies }) => {
-                  // console.log("coundry data changed");
                   return geographies.map((geo) => {
                     const countryData = mapData.find((item) => item.name === geo.properties.NAME);
                     const countryStats = countryData?.stats;
@@ -240,7 +240,7 @@ export const Map = () => {
                           }
                           if(countryData.count>=20 && genotypes2.length > 0 ){
                             // console.log("count %",count );
-                            if(genotypes2 != undefined){
+                            if(genotypes2 !== undefined){
                               fillColor = redColorScale2(((sumCount/percentCounter)*100).toFixed(2));
                             }
                           }
@@ -280,7 +280,7 @@ export const Map = () => {
                           count = countCipR + countCipNS;
                           // count = countryStats[statKey[mapView]]?.count;
                           let per = countryStats[statKey["CipNS"]].percentage + countryStats[statKey["CipR"]].percentage;
-                          console.log("per", countryStats[statKey["CipNS"]], per)
+                          // console.log("per", countryStats[statKey["CipNS"]], per)
                           if (countryData.count >= 20 && count > 0) {
                             if (mapView === 'Susceptible to all drugs') {
                               fillColor = sensitiveColorScale(per);
@@ -308,7 +308,7 @@ export const Map = () => {
                         geography={geo}
                         cursor="pointer"
                         fill={fillColor}
-                        onClick={() => handleOnClick(geo.properties.NAME)}
+                        onClick={() => handleOnClick(countryData)}
                         onMouseLeave={handleOnMouseLeave}
                         onMouseEnter={() =>
                           handleOnMouseEnter({
@@ -357,7 +357,6 @@ export const Map = () => {
             <TopRightControls />
             {ifCustom ? <TopRightControls2/> : null}
             <TopLeftControls />
-            
           </div>
         )}
         <ReactTooltip>
