@@ -19,7 +19,7 @@ router.get('/download', (req, res) => {
       send_comb.push(aux_data);
     }
 
-    await Tools.CreateFile(send_comb, 'cleanDB_st');
+    await Tools.CreateFile(send_comb, 'cleanDB_st.csv');
     return res.json(send_comb);
   });
 });
