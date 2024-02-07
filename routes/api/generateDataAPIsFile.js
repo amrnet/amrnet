@@ -587,10 +587,10 @@ router.post('/download', function (req, res, next) {
   let collection, localFilePath;
 
   if (organism === 'typhi') {
-    collection = client.db('salmotyphi2').collection('clean_merge_st');
+    collection = client.db('salmotyphi').collection('clean_merge_st');
     localFilePath = Tools.path_clean_all_st;
   } else {
-    collection = client.db('klebpnneumo2').collection('clean_merge_kleb');
+    collection = client.db('klebpnneumo').collection('clean_merge_kleb');
     localFilePath = Tools.path_clean_all_kp;
   }
 
@@ -660,13 +660,13 @@ router.get('/generate/:organism', async function (req, res, next) {
   let collection, folderName, fileName, ext,collection_ext ;
 
   if (organism === 'typhi') {
-    collection = client.db('salmotyphi2').collection('clean_merge_st');
+    collection = client.db('salmotyphi').collection('clean_merge_st');
     folderName = 'styphi';
     ext = 'st';
     collection_ext = 'st';
     fileName = 'cleanAll_st.csv';
   } else {
-    collection = client.db('klebpnneumo2').collection('clean_merge_kleb');
+    collection = client.db('klebpnneumo').collection('clean_merge_kleb');
     folderName = 'klebpneumo';
     ext = 'kp';
     collection_ext = 'kleb';
@@ -724,12 +724,12 @@ router.get('/clean/:organism', async function (req, res, next) {
     folderName = 'styphi';
     ext = 'st';
     collection_ext = 'st';
-    database = 'salmotyphi2';
+    database = 'salmotyphi';
   }else{
     folderName = 'klebpneumo';
     ext = 'kp';
     collection_ext = 'kleb';
-    database = 'klebpnneumo2';
+    database = 'klebpnneumo';
   }
   try {
     const queryResult = await client.db(`${database}`).collection(`clean_merge_${collection_ext}`).find({ 'Exclude': 'Include' }).toArray();
