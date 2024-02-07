@@ -8,7 +8,7 @@ router.post('/newdoctyphi', function (req, res, next) {
   let collection,collection2, localFilePath;
   // collection = client.db('salmotyphi2').collection('clean_merge_st');///Orignal with db "salmotyphi"
 
-  collection2 = client.db('salmotyphi2').collection('merge_rawdata_st');
+  collection2 = client.db('salmotyphi22').collection('merge_rawdata_st');
   console.log("I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)");
     
   collection2.find().forEach(function(doc) {
@@ -91,9 +91,19 @@ router.post('/newdoctyphi', function (req, res, next) {
           "parC_S80I",
           "parC_E84G",
           "parC_E84K",
+          "parC_S80R"
         ];
     var num_qrdr=0;
-    gyrSum.forEach(value=>{ num_qrdr += doc[value]; });
+    // gyrSum.forEach(value=>{ 
+    //     num_qrdr += doc[value]; 
+    // });
+    for (let value of gyrSum) {
+        if (doc[value] == '1') {
+            num_qrdr++;
+        }
+    }
+
+    console.log("num_qrdr", num_qrdr);
 
     const num_amr_genes_sum = [
           "ampC",
@@ -144,7 +154,7 @@ router.post('/newdoctyphi', function (req, res, next) {
         dfra_any = '0';
     }
 
-    if(doc["sul_any"]=='1' && doc["dfra_any"]=='1'){
+    if(sul_any =='1' && dfra_any=='1'){
         co_trim = '1';
     }else{
         co_trim = '0';
@@ -161,7 +171,6 @@ router.post('/newdoctyphi', function (req, res, next) {
     }else{
         mdr = "-";
     }
-    console.log("MDR : ", mdr);
 
     if(mdr=="MDR" && doc["blaCTX-M-15_23"]=='1' && doc["qnrS"]=='1'){
         xdr = "XDR";
@@ -250,7 +259,7 @@ router.post('/newdoctyphi', function (req, res, next) {
     // }
     
     if(cipqrdr != undefined){
-        let cip_ = cip.toString() + cipqrdr.toString();
+        let cip_ = cip + cipqrdr;
         cipqrdr = cip_;
         if(cip_=="CipS101" || cip_=="CipS110" || cip_=="CipS010"){
             cip = "CipNS";
@@ -437,7 +446,7 @@ router.post('/newdoctyphi', function (req, res, next) {
     var latitude = (empty.indexOf(doc["LATITUDE"]) !== -1) ? "-" : doc["LATITUDE"];
     var longitude = (empty.indexOf(doc["LONGITUDE"]) !== -1) ? "-" : doc["LONGITUDE"];
 
-    if(doc["DATE"] != "-" && doc["COUNTRY_ONLY"] != "-" && 
+    if(date != "-" && countryOnly != "-" && 
         (doc["PURPOSE OF SAMPLING"] == "Non Targeted [Surveillance Study]" ||
         doc["PURPOSE OF SAMPLING"] == "Non Targeted [Routine diagnostics]" ||
         doc["PURPOSE OF SAMPLING"] == "Non Targeted [Reference lab]" ||
@@ -523,16 +532,9 @@ router.post('/newdoctyphi', function (req, res, next) {
                 "LONGITUDE": longitude,
                 "dashboard view": dView}
       },
-      function (err, result) {
-        if (err) {
-          console.log("Error updating document: ", err);
-          return res.status(500).json({ error: "Internal server error" });
-        }
-        console.log("Document updated successfully");
-        return res.status(200).json({ message: "Typhi Collection updated successfully" });
-      }
     );
   });
+  res.status(200).json({ message: "Typhi Collection update initiated successfully" });
 });
 
 
@@ -590,16 +592,9 @@ router.post('/newdockleb', function (req, res, next) {
                 "O_locus_identity": oLocus,
                 "dashboard view": dView}
       },
-      function (err, result) {
-        if (err) {
-          console.log("Error updating document: ", err);
-          return res.status(500).json({ error: "Internal server error" });
-        }
-        console.log("Document updated successfully");
-        return res.status(200).json({ message: "Kleb Collection updated successfully" });
-      }
     );
   });
+  res.status(200).json({ message: "Kleb Collection update initiated successfully" });
 });
 
 export default router;
