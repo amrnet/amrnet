@@ -11,10 +11,14 @@ import LZString from 'lz-string';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
+let URI = process.env.MONGO_URI;
+
 
 
 const exec = promisify(execCallback);
 const router = express.Router();
+
+
 
 // Downloads data from MongoDB and creates the cleanDB_st file
 // router.get('/download', (req, res) => {
@@ -181,15 +185,19 @@ router.post('/deleteChange', (req, res) => {
 const TyphifolderPath = path.join(__dirname, '../assets/webscrap/clean/styphi');
 router.get('/import/styphi', async (req, res) => {
     const  jsonFiles = fs.readdirSync(TyphifolderPath).filter(file => file.endsWith('.json'));
+ 
+    const dbName = 'salmotyphi';
+
     try{
           const importPromises = [];
           for (const jsonFile of jsonFiles) {
               
             const collectionName = jsonFile.replace('.json', '');
-            const command = `mongoimport --db 'salmotyphi' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${TyphifolderPath}/${jsonFile}' --jsonArray`
-              const importPromise = exec(command);
-              importPromises.push(importPromise);
-              console.log(`jsonFile: ${jsonFile}`);
+            const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${TyphifolderPath}/${jsonFile}' --jsonArray`
+              
+            const importPromise = exec(command);
+            importPromises.push(importPromise);
+            console.log(`jsonFile: ${jsonFile}`);
 
           }
             await Promise.all(importPromises);
@@ -206,12 +214,14 @@ router.get('/import/styphi', async (req, res) => {
 const KlebfolderPath = path.join(__dirname, '../assets/webscrap/clean/klebpneumo');
 router.get('/import/kleb', async (req, res) => {
     const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+
+    const dbName = 'klebpnneumo';
     try{
       const importPromises = [];
       for (const jsonFile of jsonFiles) {
           
         const collectionName = jsonFile.replace('.json', '');
-        const command = `mongoimport --db 'klebpnneumo' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
           const importPromise = exec(command);
           importPromises.push(importPromise);
           console.log(`jsonFile: ${jsonFile}`);
