@@ -522,6 +522,14 @@ router.post('/newdoctyphi', function (req, res, next) {
                 "LATITUDE": latitude,
                 "LONGITUDE": longitude,
                 "dashboard view": dView}
+      },
+      function (err, result) {
+        if (err) {
+          console.log("Error updating document: ", err);
+          return res.status(500).json({ error: "Internal server error" });
+        }
+        console.log("Document updated successfully");
+        return res.status(200).json({ message: "Typhi Collection updated successfully" });
       }
     );
   });
@@ -581,6 +589,14 @@ router.post('/newdockleb', function (req, res, next) {
                 "K_locus_identity": kLocus,
                 "O_locus_identity": oLocus,
                 "dashboard view": dView}
+      },
+      function (err, result) {
+        if (err) {
+          console.log("Error updating document: ", err);
+          return res.status(500).json({ error: "Internal server error" });
+        }
+        console.log("Document updated successfully");
+        return res.status(200).json({ message: "Kleb Collection updated successfully" });
       }
     );
   });
