@@ -43,8 +43,6 @@ export const redColorScale2 = (percentage) => {
   return color;
 };
 
-
-
 export const sensitiveColorScale = (percentage) => {
   const p = parseFloat(percentage);
   if (p > 90) {

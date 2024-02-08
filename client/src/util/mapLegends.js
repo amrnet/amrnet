@@ -3,7 +3,7 @@ export const mapLegends = [
   { value: 'MDR', label: 'Multidrug resistant (MDR)', organisms: ['typhi'] },
   { value: 'XDR', label: 'Extensively drug resistant (XDR)', organisms: ['typhi'] },
   { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['typhi'] },
-  { value: 'CipNS', label: 'Ciprofloxacin nonsusceptible (CipNS)', organisms: ['typhi'] },
+  { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['typhi'] },
   { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['typhi'] },
   { value: 'ESBL', label: 'ESBL', organisms: ['klebe'] },
   { value: 'Carb', label: 'Carbapenems', organisms: ['klebe'] },
