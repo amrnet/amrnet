@@ -496,7 +496,7 @@ export const DownloadData = () => {
         }
 
         doc.setFillColor(255, 255, 255);
-        const rectY = matches500 ? 300 : 340;
+        const rectY = matches500 ? 300 : 320;
         doc.rect(0, rectY, pageWidth, 200, 'F');
 
         doc.setFontSize(9);
@@ -565,7 +565,7 @@ export const DownloadData = () => {
             factor: Math.ceil(genotypesForFilter.length / 3),
             rectY: 6 * 14,
             xSpace: 127,
-            threePages: true,
+            threePages: false,
           });
           
           drawFooter({ document: doc, pageHeight, pageWidth, date });
