@@ -13,7 +13,7 @@ import {
   setActualGenotypes,
   setActualTimeFinal,
   setActualTimeInitial,
-  setColorPallete,
+  // setColorPallete,
   setGenotypesForFilter,
   setListPMID,
   setLoadingData,
@@ -22,7 +22,7 @@ import {
   setTotalGenomes,
   setTotalGenotypes,
   setYears,
-
+  setPMID
 } from '../../stores/slices/dashboardSlice.ts';
 import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
@@ -65,6 +65,7 @@ import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../util/drugs';
+// import countries from '../../util/countries';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
@@ -99,6 +100,7 @@ export const DashboardPage = () => {
 
     const years = [...new Set(responseData.map((x) => x.DATE))];
     const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
+    const PMID = [...new Set(responseData.map((x) => x.PMID))];
 
     years.sort();
     countries.sort();
@@ -111,13 +113,16 @@ export const DashboardPage = () => {
     dispatch(setTimeFinal(years[years.length - 1]));
     dispatch(setActualTimeFinal(years[years.length - 1]));
     dispatch(setCountriesForFilter(countries));
+    dispatch(setPMID(PMID));
 
     dispatch(setMapData(getMapData({ data: responseData, countries, organism })));
 
     const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
+    // const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
     dispatch(setGenotypesDrugsData2(genotypesData.genotypesDrugsData));
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+    // dispatch(setCustomDropdownMapView(genotypeDataGreaterThanZero.filter(x => x.totalCount >= 20).slice(0, 1).map((x) => x.name)));
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
 
@@ -129,7 +134,7 @@ export const DashboardPage = () => {
     });
 
     if (organism === 'klebe') {
-      console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
+      // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
 
@@ -149,7 +154,7 @@ export const DashboardPage = () => {
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-    console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
+    // console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
     return responseData;
   }
 
@@ -196,7 +201,7 @@ export const DashboardPage = () => {
   // call the function to read the specific organism csv
   useEffect(() => {
     if (organism !== 'none') {
-      console.log('change organism');
+      // console.log('change organism');
       dispatch(
         setCollapses({
           determinants: false,
@@ -277,6 +282,7 @@ export const DashboardPage = () => {
         dispatch(setActualGenomes(filters.genomesCount));
         dispatch(setActualGenotypes(filters.genotypesCount));
         dispatch(setListPMID(filters.listPMID));
+        
 
         dispatch(setMapData(getMapData({ data: filters.data, countries: countriesForFilter, organism })));
 
@@ -286,8 +292,12 @@ export const DashboardPage = () => {
           organism
         });
         dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
+        // const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
+        // dispatch(setGenotypesDrugsData(genotypeDataGreaterThanZero));
         dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
         dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
+        // dispatch(setCustomDropdownMapView(genotypeDataGreaterThanZero.filter(x => x.totalCount >= 20).slice(0, 1).map((x) => x.name)));
+        // dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
 
         const yearsData = getYearsData({
           data: filteredData,
