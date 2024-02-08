@@ -12,7 +12,7 @@ router.post('/newdoctyphi', function (req, res, next) {
   console.log("I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)");
     
   collection2.find().forEach(function(doc) {
-    const empty = ['NA', 'Not Provided', '', '-', undefined];
+    const empty = ['NA', 'Not Provided', '', '-', undefined, null];
     var h58_genotype, GENOTYPE_SIMPLE, curate, name_, travel, sul_any, dfra_any, co_trim, tetracycline_category, mdr, xdr, esbl, chlCat, dcsCategory, dcsMechanisms, dView,  amrCategory;
     var date, cip, azith, cipqrdr, cipns, cipr;
     const h58_genotypes = [
@@ -391,7 +391,8 @@ router.post('/newdoctyphi', function (req, res, next) {
             amrCategory = 'No AMR detected';
         }
     }
-
+    cipns = 0;
+    cipr = 0;
     if(cip == "CipNS"){
         cipns = 1;
         cipr = 0;

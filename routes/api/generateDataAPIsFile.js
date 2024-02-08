@@ -8,6 +8,7 @@ import * as Tools from '../../services/services.js';
 import {client} from '../../config/db2.js'
 import pkg from 'csv-writer';
 
+
 const { createObjectCsvWriter: createCsvWriter } = pkg;
 const {createObjectCsvStringifier: createCsvStringifier} = pkg;
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -587,30 +588,30 @@ router.post('/download', function (req, res, next) {
   let collection, localFilePath;
 
   if (organism === 'typhi') {
-    collection = client.db('salmotyphi').collection('clean_merge_st');
+    collection = client.db('salmotyphi').collection('merge_rawdata_st');
     localFilePath = Tools.path_clean_all_st;
   } else {
-    collection = client.db('klebpnneumo').collection('clean_merge_kleb');
+    collection = client.db('klebpnneumo').collection('merge_rawdata_st');
     localFilePath = Tools.path_clean_all_kp;
   }
 
-  collection.find().forEach(function(doc) {
-    var CipNS, CipR;
-    if(doc.cip_pred_pheno === 'CipNS'){
-      CipNS = '1';
-      CipR = '1';
-    }else if(doc.cip_pred_pheno === 'CipR'){
-      CipNS = '0';
-      CipR = '1';
-    }else{
-      CipNS = '0';
-      CipR = '0';
-    }
-    collection.updateOne(
-      { "_id": doc._id },
-      { $set: { "CipNS": CipNS, "CipR": CipR } }
-    );
-  });
+  // collection.find().forEach(function(doc) {
+  //   var CipNS, CipR;
+  //   if(doc.cip_pred_pheno === 'CipNS'){
+  //     CipNS = '1';
+  //     CipR = '1';
+  //   }else if(doc.cip_pred_pheno === 'CipR'){
+  //     CipNS = '0';
+  //     CipR = '1';
+  //   }else{
+  //     CipNS = '0';
+  //     CipR = '0';
+  //   }
+  //   collection.updateOne(
+  //     { "_id": doc._id },
+  //     { $set: { "CipNS": CipNS, "CipR": CipR } }
+  //   );
+  // });
 
   // find all documents to download
   collection.find().toArray((err, data) => {
@@ -660,36 +661,36 @@ router.get('/generate/:organism', async function (req, res, next) {
   let collection, folderName, fileName, ext,collection_ext ;
 
   if (organism === 'typhi') {
-    collection = client.db('salmotyphi').collection('clean_merge_st');
+    collection = client.db('salmotyphi').collection('merge_rawdata_st');
     folderName = 'styphi';
     ext = 'st';
     collection_ext = 'st';
     fileName = 'cleanAll_st.csv';
   } else {
-    collection = client.db('klebpnneumo').collection('clean_merge_kleb');
+    collection = client.db('klebpnneumo').collection('merge_rawdata_kleb');
     folderName = 'klebpneumo';
     ext = 'kp';
     collection_ext = 'kleb';
     fileName = 'cleanAll_kp.csv';
   }
 
-  collection.find().forEach(function(doc) {
-    var CipNS, CipR;
-    if(doc.cip_pred_pheno === 'CipNS'){
-      CipNS = '1';
-      CipR = '1';
-    }else if(doc.cip_pred_pheno === 'CipR'){
-      CipNS = '0';
-      CipR = '1';
-    }else{
-      CipNS = '0';
-      CipR = '0';
-    }
-    collection.updateOne(
-      { "_id": doc._id },
-      { $set: { "CipNS": CipNS, "CipR": CipR } }
-    );
-  });
+  // collection.find().forEach(function(doc) {
+  //   var CipNS, CipR;
+  //   if(doc.cip_pred_pheno === 'CipNS'){
+  //     CipNS = '1';
+  //     CipR = '1';
+  //   }else if(doc.cip_pred_pheno === 'CipR'){
+  //     CipNS = '0';
+  //     CipR = '1';
+  //   }else{
+  //     CipNS = '0';
+  //     CipR = '0';
+  //   }
+  //   collection.updateOne(
+  //     { "_id": doc._id },
+  //     { $set: { "CipNS": CipNS, "CipR": CipR } }
+  //   );
+  // });
   try{
       const queryResult = await collection.find().toArray();
       if (queryResult.length > 0) {
@@ -732,11 +733,11 @@ router.get('/clean/:organism', async function (req, res, next) {
     database = 'klebpnneumo';
   }
   try {
-    const queryResult = await client.db(`${database}`).collection(`clean_merge_${collection_ext}`).find({ 'Exclude': 'Include' }).toArray();
+    const queryResult = await client.db(`${database}`).collection(`merge_rawdata_${collection_ext}`).find({ 'dashboard view': 'Include' }).toArray();
     console.log("queryResult", queryResult.length);
     if (queryResult.length > 0) {
       const csvWriter = createCsvWriter({
-        path: `/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/${folderName}/clean_${ext}.csv`,
+        path: path.join(__dirname, `../../assets/webscrap/clean/${folderName}/clean_${ext}.csv`),
         header: Object.keys(queryResult[0]).map(field => ({ id: field, title: field }))
       });
 
