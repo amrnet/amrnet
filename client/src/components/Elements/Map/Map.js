@@ -12,7 +12,7 @@ import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.
 import { TopRightControls } from './TopRightControls';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice.ts';
 import { TopLeftControls } from './TopLeftControls';
-import { TopRightControls2 } from './TopRightControls2';
+import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
 
 const statKey = {
@@ -39,7 +39,7 @@ export const Map = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  // const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
@@ -67,6 +67,7 @@ export const Map = () => {
     if (countryData !== undefined) {
       switch (mapView) {
         case 'No. Samples':
+          const combinedPercentage = ((countryStats[statKey["CipR"]].percentage || 0) + (countryStats[statKey["CipNS"]].percentage || 0));
           Object.assign(tooltip, {
             content:
               organism === 'typhi'
@@ -78,7 +79,7 @@ export const Map = () => {
                     XDR: `${countryStats.XDR.percentage}%`,
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
-                    CipNS: `${countryStats.CipNS.percentage}%`,
+                    CipNS: `${combinedPercentage.toFixed(2)}%`,
                     Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : {
@@ -126,13 +127,23 @@ export const Map = () => {
         case 'XDR':
         case 'AzithR':
         case 'CipR':
-        case 'CipNS':
         case 'ESBL':
         case 'Carb':
           if (showTooltip) {
             tooltip.content[statKey[mapView]] = {
               count: countryStats[statKey[mapView]].count,
               percentage: `${countryStats[statKey[mapView]].percentage}%`
+            };
+          }
+          break;
+        case 'CipNS':
+          if (showTooltip) {
+            const combinedCount = (countryStats[statKey["CipR"]].count || 0) + (countryStats[statKey["CipNS"]].count || 0);
+            const combinedPercentage = (
+              (countryStats[statKey["CipR"]].percentage || 0) + (countryStats[statKey["CipNS"]].percentage || 0));
+            tooltip.content['CipNS'] = {
+              count: combinedCount,
+              percentage: `${combinedPercentage.toFixed(2)}%`
             };
           }
           break;
@@ -186,7 +197,6 @@ export const Map = () => {
               <Graticule stroke="#E4E5E6" strokeWidth={0.5} />
               <Geographies geography={geography}>
                 {({ geographies }) => {
-                  // console.log("coundry data changed");
                   return geographies.map((geo) => {
                     const countryData = mapData.find((item) => item.name === geo.properties.NAME);
                     const countryStats = countryData?.stats;
@@ -230,7 +240,7 @@ export const Map = () => {
                           }
                           if(countryData.count>=20 && genotypes2.length > 0 ){
                             // console.log("count %",count );
-                            if(genotypes2 != undefined){
+                            if(genotypes2 !== undefined){
                               fillColor = redColorScale2(((sumCount/percentCounter)*100).toFixed(2));
                             }
                           }
@@ -245,7 +255,6 @@ export const Map = () => {
                         case 'XDR':
                         case 'AzithR':
                         case 'CipR':
-                        case 'CipNS':
                         case 'ESBL':
                         case 'Carb':
                           count = countryStats[statKey[mapView]]?.count;
@@ -258,6 +267,29 @@ export const Map = () => {
                             showTooltip = true;
                           } else if (countryData.count >= 20) {
                             if (mapView === 'Sensitive to all drugs') {
+                              fillColor = zeroPercentColor;
+                            } else {
+                              fillColor = darkGrey;
+                            }
+                            smallerThan20 = true;
+                          }
+                          break;
+                        case 'CipNS':
+                          let countCipR = countryStats[statKey["CipR"]]?.count;
+                          let countCipNS = countryStats[statKey["CipNS"]]?.count;
+                          count = countCipR + countCipNS;
+                          // count = countryStats[statKey[mapView]]?.count;
+                          let per = countryStats[statKey["CipNS"]].percentage + countryStats[statKey["CipR"]].percentage;
+                          // console.log("per", countryStats[statKey["CipNS"]], per)
+                          if (countryData.count >= 20 && count > 0) {
+                            if (mapView === 'Susceptible to all drugs') {
+                              fillColor = sensitiveColorScale(per);
+                            } else {
+                              fillColor = redColorScale(per);
+                            }
+                            showTooltip = true;
+                          } else if (countryData.count >= 20) {
+                            if (mapView === 'Susceptible to all drugs') {
                               fillColor = zeroPercentColor;
                             } else {
                               fillColor = darkGrey;
@@ -325,7 +357,6 @@ export const Map = () => {
             <TopRightControls />
             {ifCustom ? <TopRightControls2/> : null}
             <TopLeftControls />
-            
           </div>
         )}
         <ReactTooltip>

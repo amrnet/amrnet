@@ -12,13 +12,13 @@ import {
   Tooltip as ChartTooltip,
   Label
 } from 'recharts';
-import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
 import { setColorPallete } from '../../../../stores/slices/dashboardSlice';
-import { setDistributionGraphView, setCurrentSliderValue, setTopXGenotypes, setResetBool} from '../../../../stores/slices/graphSlice';
+import { setDistributionGraphView, setResetBool} from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import {SliderSizes} from '../../Slider';
+import { SliderSizes } from '../../Slider/SliderSizes';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -43,7 +43,7 @@ export const DistributionGraph = () => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
-  
+
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
@@ -53,14 +53,12 @@ export const DistributionGraph = () => {
     return distributionGraphView === 'number' ? undefined : [0, 100];
   }
 
-  
 //  const updateSlider = (value) =>{
 //   setCurrentSliderValue(value);
 //  };
 
   useEffect(() =>{
       let mp = new Map(); //mp = total count of a genotype in database(including all years)
-      
       genotypesYearData.forEach(cur => {
         Object.keys(cur).forEach(it => {
           if (it !== "name" && it !== "count") {
@@ -111,7 +109,7 @@ export const DistributionGraph = () => {
   }
 
   function getGenotypeColor(genotype) {
-    console.log("genotype", genotype);
+    // console.log("genotype", genotype);
     return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
@@ -119,7 +117,7 @@ export const DistributionGraph = () => {
     dispatch(setDistributionGraphView(event.target.value));
   }
   function handleClickChart(event){
-    console.log("event", event);
+    // console.log("event", event);
       setCurrentEventSelected(event);
       const data = newArray.find((item) => item.name === event?.activeLabel);
         if (data) {
@@ -135,9 +133,9 @@ export const DistributionGraph = () => {
           delete currentData.count;
           
           value.genotypes = Object.keys(currentData).map((key) => {
-            console.log("key", key);
+            // console.log("key", key);
             const count = currentData[key];
-            const activePayload = event.activePayload.find((x) => x.name === key);
+            // const activePayload = event.activePayload.find((x) => x.name === key);
             // console.log("activePayload", activePayload);
             return {
               label: key,
@@ -148,7 +146,7 @@ export const DistributionGraph = () => {
           });
           // console.log("value.genotypes", value.genotypes);
           value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === "Other");
-          console.log("value", value);
+          // console.log("value", value);
           setCurrentTooltip(value);
           dispatch(setResetBool(false));
         }
