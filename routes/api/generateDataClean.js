@@ -64,7 +64,7 @@ router.post('/newdoctyphi', function (req, res, next) {
     }else{
         date = (doc["DATE"].toString()).trim();
         if(date.length > 4){
-            date = date.substring(date.length - 5);
+            date = date.substring(date.length - 4);
         }
     }
     
