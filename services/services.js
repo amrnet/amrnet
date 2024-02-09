@@ -9,6 +9,10 @@ const path_clean_st = path.join(
   __dirname,
   '../assets/webscrap/clean/styphi/clean_st.csv'
 );
+const path_clean_kp = path.join(
+  __dirname,
+  '../assets/webscrap/clean/klebpneumo/clean_kp.csv'
+);
 const path_clean_all_kp = path.join(
   __dirname,
   '../assets/webscrap/clean/klebpneumo/cleanAll_kp.csv'
@@ -62,6 +66,7 @@ export {
   CreateFile,
   path_clean_db_st,
   path_clean_st,
+  path_clean_kp,
   path_clean_all_st,
   path_clean_all_kp
 };
