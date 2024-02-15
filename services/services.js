@@ -11,11 +11,11 @@ const path_clean_st = path.join(
 );
 const path_clean_kp = path.join(
   __dirname,
-  '../assets/webscrap/clean/klebpneumo/clean_kp.csv'
+  '../assets/webscrap/clean/kpneumo/clean_kp.csv'
 );
 const path_clean_all_kp = path.join(
   __dirname,
-  '../assets/webscrap/clean/klebpneumo/cleanAll_kp.csv'
+  '../assets/webscrap/clean/kpneumo/cleanAll_kp.csv'
 );
 const path_clean_all_st = path.join(
   __dirname,
