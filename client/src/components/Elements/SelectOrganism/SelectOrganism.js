@@ -14,27 +14,17 @@ const organisms = [
     label: 'Klebsiella pneumoniae',
     value: 'klebe',
     abbr: 'K. pneumoniae'
-  },
-  {
-    label: 'Neisseria gonorrhoeae',
-    value: 'ngono',
-    abbr: 'N. gonorrhoeae'
-  },
-  {
-    label: 'Escherichia coli',
-    value: 'ecoli',
-    abbr: 'E. coli'
-  },
-  {
-    label: 'Shigella spp',
-    value: 'shige',
-    abbr: 'Shigella'
-  },
-  {
-    label: 'Salmonella spp',
-    value: 'salmonella',
-    abbr: 'Salmonella'
   }
+  // {
+  //   label: 'Neisseria gonorrhoeae',
+  //   value: 'gono',
+  //   abbr: 'N. gonorrhoeae'
+  // }
+  // {
+  //   label: 'Streptococcus pneumoniae',
+  //   value: 'pneumo',
+  //   abbr: 'S. pneumoniae'
+  // }
 ];
 
 export const SelectOrganism = () => {
@@ -108,9 +98,9 @@ export const SelectOrganism = () => {
             {matches1050 ? item.abbr : item.label}
           </MenuItem>
         ))}
-        {/* <MenuItem value="ngono" disabled>
+        <MenuItem value="gono" disabled>
           {matches1050 ? 'N. gonorrhoeae' : 'Neisseria gonorrhoeae'}
-        </MenuItem> */}
+        </MenuItem>
       </Select>
       {!matches650 && (
         <IconButton color="inherit" onClick={handleNextAgent} disabled={loadingData}>

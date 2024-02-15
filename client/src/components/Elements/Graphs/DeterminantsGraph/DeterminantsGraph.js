@@ -15,9 +15,9 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDeterminantsGraphDrugClass, setDeterminantsGraphView } from '../../../../stores/slices/graphSlice';
-import { drugClassesST, drugClassesKP, drugClassesNG, drugClassesSH, drugClassesSA, drugClassesEC} from '../../../../util/drugs';
+import { drugClassesST, drugClassesKP } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
-import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, colorForDrugClassesSA, colorForDrugClassesSH, colorForDrugClassesEC, hoverColor } from '../../../../util/colorHelper';
+import { colorForDrugClassesKP, colorForDrugClassesST, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 
 const dataViewOptions = [
@@ -47,14 +47,6 @@ export const DeterminantsGraph = () => {
         return drugClassesST;
       case 'klebe':
         return drugClassesKP;
-      case 'ngono':
-        return drugClassesNG;
-      case 'ecoli':
-        return drugClassesEC;
-      case 'shige':
-        return drugClassesSH;
-      case 'salmonella':
-        return drugClassesSA;
       default:
         return [];
     }
