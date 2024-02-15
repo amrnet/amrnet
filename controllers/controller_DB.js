@@ -1,10 +1,8 @@
-import CombinedModel from '../models/combined.js';
-import * as Tools from '../services/services.js';
+// import CombinedModel from '../models/combined.js';
 import express from 'express';
 import csv from 'csv-parser';
 import { promisify } from 'util';
 import { exec as execCallback } from 'child_process';
-// import {exec} from "child_process"
 import fs from 'fs';
 import { detailedDiff } from 'deep-object-diff';
 import LZString from 'lz-string';
@@ -17,49 +15,6 @@ let URI = process.env.MONGO_URI;
 
 const exec = promisify(execCallback);
 const router = express.Router();
-
-
-
-// Downloads data from MongoDB and creates the cleanDB_st file
-// router.get('/download', (req, res) => {
-//   CombinedModel.find().then(async (comb) => {
-//     let send_comb = [];
-//     for (let data of comb) {
-//       let aux_data = JSON.parse(JSON.stringify(data));
-//       delete aux_data['_id'];
-//       delete aux_data['__v'];
-//       send_comb.push(aux_data);
-//     }
-
-//     await Tools.CreateFile(send_comb, 'cleanDB_st');
-//     return res.json(send_comb);
-//   });
-// });
-
-// Uploads clean file to MongoDB
-// router.get('/upload', (req, res) => {
-//   let data_to_send = [];
-//   fs.createReadStream(Tools.path_clean_st, { start: 0 })
-//     .pipe(csv())
-//     .on('data', (data) => {
-//       data_to_send.push(data);
-//     })
-//     .on('end', () => {
-//       CombinedModel.countDocuments(function (err, count) {
-//         if (err) {
-//           return res.json({ Status: `Error! ${err}` });
-//         }
-//         if (count > 0) {
-//           CombinedModel.collection.drop();
-//         }
-//         CombinedModel.insertMany(data_to_send, (error) => {
-//           if (error) return res.json({ Status: `Error! ${error}` });
-//           console.log('Success ! Combined data sent to MongoDB!');
-//         });
-//       });
-//       res.json({ Status: 'Sent!' });
-//     });
-// });
 
 // Upload data from admin page to MongoDB
 router.post('/upload/admin', (req, res) => {
@@ -180,13 +135,12 @@ router.post('/deleteChange', (req, res) => {
 });
 
 //Import raw json data into mongoDB
-// const TyphifolderPath =`/Users/vandanasharma/LSHTM/New_AMR/Amrnet-/amrnetold/assets/webscrap/clean/styphi`;
 
 const TyphifolderPath = path.join(__dirname, '../assets/webscrap/clean/styphi');
 router.get('/import/styphi', async (req, res) => {
     const  jsonFiles = fs.readdirSync(TyphifolderPath).filter(file => file.endsWith('.json'));
  
-    const dbName = 'salmotyphi';
+    const dbName = 'styphi';
 
     try{
           const importPromises = [];
@@ -210,12 +164,11 @@ router.get('/import/styphi', async (req, res) => {
         }
 });
 
-
-const KlebfolderPath = path.join(__dirname, '../assets/webscrap/clean/klebpneumo');
+const KlebfolderPath = path.join(__dirname, '../assets/webscrap/clean/kpneumo');
 router.get('/import/kleb', async (req, res) => {
     const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
 
-    const dbName = 'klebpnneumo';
+    const dbName = 'kpneumo';
     try{
       const importPromises = [];
       for (const jsonFile of jsonFiles) {
@@ -237,5 +190,108 @@ router.get('/import/kleb', async (req, res) => {
     }
 });
 
+const NgonofolderPath = path.join(__dirname, '../assets/webscrap/clean/ngono');
+router.get('/import/ngono', async (req, res) => {
+    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+
+    const dbName = 'ngono';
+    try{
+      const importPromises = [];
+      for (const jsonFile of jsonFiles) {
+          
+        const collectionName = jsonFile.replace('.json', '');
+        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+          const importPromise = exec(command);
+          importPromises.push(importPromise);
+          console.log(`jsonFile: ${jsonFile}`);
+
+      }
+        await Promise.all(importPromises);
+
+        console.log(`All data imported successfully`);
+        return res.status(200).send('All data imported successfully');
+    } catch (error) {
+        console.error('Error importing data:', error);
+        return res.status(500).send('Internal Server Error');
+    }
+});
+
+const EcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/ecoli');
+router.get('/import/ecoli', async (req, res) => {
+    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+
+    const dbName = 'ecoli';
+    try{
+      const importPromises = [];
+      for (const jsonFile of jsonFiles) {
+          
+        const collectionName = jsonFile.replace('.json', '');
+        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+          const importPromise = exec(command);
+          importPromises.push(importPromise);
+          console.log(`jsonFile: ${jsonFile}`);
+
+      }
+        await Promise.all(importPromises);
+
+        console.log(`All data imported successfully`);
+        return res.status(200).send('All data imported successfully');
+    } catch (error) {
+        console.error('Error importing data:', error);
+        return res.status(500).send('Internal Server Error');
+    }
+});
+
+const ShigefolderPath = path.join(__dirname, '../assets/webscrap/clean/shige');
+router.get('/import/shige', async (req, res) => {
+    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+
+    const dbName = 'shige';
+    try{
+      const importPromises = [];
+      for (const jsonFile of jsonFiles) {
+          
+        const collectionName = jsonFile.replace('.json', '');
+        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+          const importPromise = exec(command);
+          importPromises.push(importPromise);
+          console.log(`jsonFile: ${jsonFile}`);
+
+      }
+        await Promise.all(importPromises);
+
+        console.log(`All data imported successfully`);
+        return res.status(200).send('All data imported successfully');
+    } catch (error) {
+        console.error('Error importing data:', error);
+        return res.status(500).send('Internal Server Error');
+    }
+});
+
+const SalmonellafolderPath = path.join(__dirname, '../assets/webscrap/clean/salmonella');
+router.get('/import/salmonella', async (req, res) => {
+  const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+
+  const dbName = 'salmonella';
+  try{
+    const importPromises = [];
+    for (const jsonFile of jsonFiles) {
+        
+      const collectionName = jsonFile.replace('.json', '');
+      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+        const importPromise = exec(command);
+        importPromises.push(importPromise);
+        console.log(`jsonFile: ${jsonFile}`);
+
+    }
+      await Promise.all(importPromises);
+
+      console.log(`All data imported successfully`);
+      return res.status(200).send('All data imported successfully');
+  } catch (error) {
+      console.error('Error importing data:', error);
+      return res.status(500).send('Internal Server Error');
+  }
+});
 
 export default router;

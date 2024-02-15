@@ -51,6 +51,7 @@
         "iwanthue": "^2.0.0",
         "jsonwebtoken": "^9.0.2",
         "jspdf": "^2.3.1",
+        "kill-port-process": "^3.2.1",
         "material-dashboard": "^2.1.0",
         "mongodb": "^3.6.9",
         "mongoose": "^5.13.1",
