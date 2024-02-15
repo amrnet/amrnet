@@ -32,6 +32,14 @@ const merge_rawdata_st = [
         as: "pw_metadata",
       },
     },
+    // {
+    //   $lookup: {
+    //     from: "pw_stats",
+    //     localField: "NAME",
+    //     foreignField: "NAME",
+    //     as: "pw_stats",
+    //   },
+    // },
     {
       $lookup: {
         from: "pw_typing",

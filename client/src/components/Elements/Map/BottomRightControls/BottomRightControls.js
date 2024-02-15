@@ -68,18 +68,9 @@ export const BottomRightControls = () => {
         ctx.font = 'bolder 50px Montserrat';
         if (organism === 'typhi') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.615, 80);
-        }else if (organism === 'klebe') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
-        }else if (organism === 'ngono') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
-        }else if (organism === 'ecoli') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
-        }else if (organism === 'shige') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
-        }else {
+        } else if (organism === 'klebe') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
         }
-  
         
 
         ctx.font = '35px Montserrat';

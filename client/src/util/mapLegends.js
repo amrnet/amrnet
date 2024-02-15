@@ -5,11 +5,11 @@ export const mapLegends = [
   { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['typhi'] },
   { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['typhi'] },
   { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['typhi'] },
-  { value: 'ESBL', label: 'ESBL', organisms: ['typhi', 'klebe']},
+  { value: 'ESBL', label: 'ESBL', organisms: ['klebe'] },
   { value: 'Carb', label: 'Carbapenems', organisms: ['klebe'] },
-  { value: 'Sensitive to all drugs', label: 'Sensitive to all drugs', organisms: ['typhi', 'klebe', 'ngono', 'ecoli', 'shige', 'salmonella'] },
-  { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
-  { value: 'Genotype prevalence', label: 'Genotype prevalence', organisms: ['typhi', 'klebe', 'ngono', 'ecoli', 'shige', 'salmonella'] },
+  { value: 'Sensitive to all drugs', label: 'Sensitive to all drugs', organisms: ['typhi', 'klebe', 'gono', 'pneumo'] },
+  { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: ['typhi', 'klebe', 'gono', 'pneumo'] },
+  { value: 'Genotype prevalence', label: 'Genotype prevalence', organisms: ['typhi', 'klebe', 'gono', 'pneumo'] },
   { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['typhi'] },
-  { value: 'No. Samples', label: 'No. Samples', organisms: ['typhi', 'klebe', 'ngono', 'ecoli', 'shige', 'salmonella'] }
+  { value: 'No. Samples', label: 'No. Samples', organisms: ['typhi', 'klebe', 'gono', 'pneumo'] }
 ];
