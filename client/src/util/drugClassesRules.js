@@ -40,75 +40,7 @@ export const drugRulesKP = [
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] }
 ];
 
-export const drugRulesNG = [
-  { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
-  { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs)', columnIDs: ['Bla_ESBL_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors', columnIDs: ['Bla_ESBL_inhR_acquired'] },
-  { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
-  { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
-  { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
-  { key: 'Penicillins', columnIDs: ['Bla_chr'] },
-  { key: 'β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired'] },
-  { key: 'Phenicols', columnIDs: ['Phe_acquired'] },
-  { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
-  { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
-  { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
-  { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] }
-];
-
-export const drugRulesSA = [
-  { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
-  { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs)', columnIDs: ['Bla_ESBL_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors', columnIDs: ['Bla_ESBL_inhR_acquired'] },
-  { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
-  { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
-  { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
-  { key: 'Penicillins', columnIDs: ['Bla_chr'] },
-  { key: 'β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired'] },
-  { key: 'Phenicols', columnIDs: ['Phe_acquired'] },
-  { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
-  { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
-  { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
-  { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] }
-];
-
-export const drugRulesSH = [
-  { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
-  { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs)', columnIDs: ['Bla_ESBL_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors', columnIDs: ['Bla_ESBL_inhR_acquired'] },
-  { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
-  { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
-  { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
-  { key: 'Penicillins', columnIDs: ['Bla_chr'] },
-  { key: 'β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired'] },
-  { key: 'Phenicols', columnIDs: ['Phe_acquired'] },
-  { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
-  { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
-  { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
-  { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] }
-];
-
-export const drugRulesEC = [
-  { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
-  { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs)', columnIDs: ['Bla_ESBL_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors', columnIDs: ['Bla_ESBL_inhR_acquired'] },
-  { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
-  { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
-  { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
-  { key: 'Penicillins', columnIDs: ['Bla_chr'] },
-  { key: 'β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired'] },
-  { key: 'Phenicols', columnIDs: ['Phe_acquired'] },
-  { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
-  { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
-  { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
-  { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] }
-];
-
-// Salmonella Typhi drug classes rules for determinants graph
+// Salmonella drug classes rules for determinants graph
 export const drugClassesRulesST = {
   Ampicillin: [
     {
@@ -696,27 +628,4 @@ export const drugClassesRulesST = {
 export const drugClassesRulesKP = {
   Carbapenems: 'Bla_Carb_acquired',
   ESBL: 'Bla_ESBL_acquired'
-};
-
-// Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesEC = {
-  A: 'Bla_Carb_acquired',
-  B: 'Bla_ESBL_acquired'
-};
-
-// Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesSH = {
-  C: 'Bla_Carb_acquired',
-  D: 'Bla_ESBL_acquired'
-};
-
-// Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesNG = {
-  E: 'Bla_Carb_acquired',
-  F: 'Bla_ESBL_acquired'
-};
-// Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesSA = {
-  G: 'Bla_Carb_acquired',
-  H: 'Bla_ESBL_acquired'
 };

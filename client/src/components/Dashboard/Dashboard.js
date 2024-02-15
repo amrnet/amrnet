@@ -186,26 +186,6 @@ export const DashboardPage = () => {
             setCurrentConvergenceGroupVariable('COUNTRY_ONLY');
             setCurrentConvergenceColourVariable('DATE');
             break;
-          case 'ngono':
-            dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
-            break;
-          case 'ecoli':
-            dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
-            break;
-          case 'shige':
-            dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
-            break;
-          case 'salmonella':
-            dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
-            break;
           default:
             break;
         }
@@ -220,7 +200,7 @@ export const DashboardPage = () => {
   // This useEffect is called everytime the organism changes, it resets all data and filters and
   // call the function to read the specific organism csv
   useEffect(() => {
-    if (organism !== 'none' || 'ngono' || 'shige' || 'salmonella' || 'ecoli') {
+    if (organism !== 'none') {
       // console.log('change organism');
       dispatch(
         setCollapses({
@@ -264,22 +244,6 @@ export const DashboardPage = () => {
           break;
         case 'klebe':
           getData('getDataForKleb');
-          break;
-        case 'ngono':
-          getData('getDataForTyphi');
-          // getData('getDataForNgono');
-          break;
-        case 'ecoli':
-          getData('getDataForTyphi');
-          // getData('getDataForEcoli');
-          break;
-        case 'shige':
-          getData('getDataForTyphi');
-          // getData('getDataForShige');
-          break;
-        case 'salmonella':
-          
-          // getData('getDataForSalmonella');
           break;
         default:
           break;
@@ -345,19 +309,6 @@ export const DashboardPage = () => {
         dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
 
         if (organism === 'klebe') {
-          const KODiversityData = getKODiversityData({ data: filteredData });
-          dispatch(setKODiversityData(KODiversityData));
-
-          const convergenceData = getConvergenceData({
-            data: filteredData,
-            groupVariable: convergenceGroupVariable,
-            // colourVariable: convergenceColourVariable,
-            colourVariable: convergenceGroupVariable
-          });
-          dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
-          dispatch(setConvergenceData(convergenceData.data));
-        }
-        if (organism === 'ngono') {
           const KODiversityData = getKODiversityData({ data: filteredData });
           dispatch(setKODiversityData(KODiversityData));
 
