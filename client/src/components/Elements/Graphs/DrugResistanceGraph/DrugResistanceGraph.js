@@ -164,10 +164,26 @@ export const DrugResistanceGraph = () => {
                       <div className={classes.legendWrapper}>
                         {payload.map((entry, index) => {
                           const { dataKey, color } = entry;
+                          let dataKeyElement;
+                            if (dataKey === "XDR") {
+                                dataKeyElement = (
+                                  <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
+                                    <span>XDR</span>
+                                    </Tooltip>
+                                );
+                            } else if(dataKey === "MDR"){
+                                dataKeyElement = (
+                                  <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
+                                    <span>MDR</span>
+                                    </Tooltip>
+                                );
+                            }else{
+                                dataKeyElement = dataKey;
+                            }
                           return (
                             <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
                               <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
-                              <Typography variant="caption">{dataKey}</Typography>
+                              <Typography variant="caption">{dataKeyElement}</Typography>
                             </div>
                           );
                         })}
