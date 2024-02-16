@@ -132,6 +132,7 @@ export function getMapData({ data, countries, organism }) {
 
     if (organism === 'typhi') {
       stats.H58 = getMapStatsData({ countryData, columnKey: 'GENOTYPE_SIMPLE', statsKey: 'H58' });
+      stats.Ceftriaxone = getMapStatsData({ countryData, columnKey: 'ESBL_category', statsKey: 'ESBL' });
       stats.MDR = getMapStatsData({ countryData, columnKey: 'MDR', statsKey: 'MDR' });
       stats.XDR = getMapStatsData({ countryData, columnKey: 'XDR', statsKey: 'XDR' });
       stats.AzithR = getMapStatsData({ countryData, columnKey: 'azith_pred_pheno', statsKey: 'AzithR' });

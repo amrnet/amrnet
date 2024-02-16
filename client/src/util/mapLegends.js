@@ -5,7 +5,7 @@ export const mapLegends = [
   { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['typhi'] },
   { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['typhi'] },
   { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['typhi'] },
-  { value: 'ESBL', label: 'ESBL', organisms: ['typhi', 'klebe']},
+  { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: ['typhi', 'klebe']},
   { value: 'Carb', label: 'Carbapenems', organisms: ['klebe'] },
   { value: 'Sensitive to all drugs', label: 'Sensitive to all drugs', organisms: ['typhi', 'klebe', 'ngono', 'ecoli', 'shige', 'salmonella'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },

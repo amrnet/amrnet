@@ -23,7 +23,7 @@ const statKey = {
   CipNS: 'CipNS',
   CipR: 'CipR',
   'Sensitive to all drugs': 'Susceptible',
-  ESBL: 'ESBL',
+  ESBL_category: 'Ceftriaxone',
   Carb: 'Carb'
 };
 
@@ -87,7 +87,7 @@ export const Map = () => {
                 : {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
-                    ESBL: `${countryStats.ESBL.percentage}%`,
+                    Ceftriaxone: `${countryStats.ESBL.percentage}%`,
                     Carb: `${countryStats.Carb.percentage}%`,
                     Susceptible: `${countryStats.Susceptible.percentage}%`
                   }
@@ -129,7 +129,7 @@ export const Map = () => {
         case 'XDR':
         case 'AzithR':
         case 'CipR':
-        case 'ESBL':
+        case 'ESBL_category':
         case 'Carb':
           if (showTooltip) {
             tooltip.content[statKey[mapView]] = {
@@ -257,7 +257,7 @@ export const Map = () => {
                         case 'XDR':
                         case 'AzithR':
                         case 'CipR':
-                        case 'ESBL':
+                        case 'ESBL_category':
                         case 'Carb':
                           count = countryStats[statKey[mapView]]?.count;
                           if (countryData.count >= 20 && count > 0) {
