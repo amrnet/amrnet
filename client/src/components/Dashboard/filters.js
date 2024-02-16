@@ -250,11 +250,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       );
       uniqueGenotypes = uniqueGenotypes.concat(Object.keys(sortedStats));
 
-      return {
-        ...response,
-        ...sortedStats
-      };
-    }
+        return {
+          ...response,
+          ...sortedStats
+        };
+      }
 
     return {
       ...response,
