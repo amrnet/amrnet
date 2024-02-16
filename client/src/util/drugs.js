@@ -1,6 +1,6 @@
 // List of Salmonella drugs
 export const drugsST = [
-  'Ampicillin',
+  'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
   // 'Co-trimoxazole',
@@ -51,7 +51,7 @@ export const drugsKP = [
 
 // List of Salmonella Typhi drug classes
 export const drugClassesST = [
-  'Ampicillin',
+  'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
   // 'Co-trimoxazole',
@@ -67,7 +67,7 @@ export const drugClassesST = [
 
 // List of E. coli drug classes
 export const drugClassesEC = [
-  'Ampicillin',
+  'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
   // 'Co-trimoxazole',
@@ -83,7 +83,7 @@ export const drugClassesEC = [
 
 // List of Salmonella spp drug classes
 export const drugClassesSA = [
-  'Ampicillin',
+  'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
   // 'Co-trimoxazole',
@@ -99,7 +99,7 @@ export const drugClassesSA = [
 
 // List of Shigella drug classes
 export const drugClassesSH = [
-  'Ampicillin',
+  'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
   // 'Co-trimoxazole',
@@ -115,7 +115,7 @@ export const drugClassesSH = [
 
 // List of N. gono drug classes
 export const drugClassesNG = [
-  'Ampicillin',
+  'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
   // 'Co-trimoxazole',
