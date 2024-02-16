@@ -117,9 +117,9 @@ export const DrugResistanceGraph = () => {
         }
 
         const count = currentData[key];
-        if (count === 0) {
-          return;
-        }
+        // if (count === 0) {
+        //   return;
+        // }
 
         value.drugs.push({
           label: key,
