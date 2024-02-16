@@ -64,6 +64,15 @@ export const DrugResistanceGraph = () => {
     }
     return drugsKP;
   }
+  function getDrugsForLegends() {
+    if (organism === 'none') {
+      return [];
+    }
+    if (organism === 'typhi') {
+      return drugResistanceGraphView;
+    }
+    return drugsKP;
+  }
 
   function handleChangeDrugsView({ event = null, all = false }) {
     setCurrentTooltip(null);
@@ -131,8 +140,9 @@ export const DrugResistanceGraph = () => {
       const lines = doc.getElementsByClassName('recharts-line');
 
       for (let index = 0; index < lines.length; index++) {
-        const hasValue = drugResistanceGraphView.some((value) => getDrugs().indexOf(value) === index);
-        lines[index].style.display = hasValue ? 'block' : 'none';
+          const drug = drugResistanceGraphView[index];
+          const hasValue = getDrugs().includes(drug);
+          lines[index].style.display = hasValue ? 'block' : 'none';
       }
 
       setPlotChart(() => {
@@ -203,7 +213,7 @@ export const DrugResistanceGraph = () => {
                 }}
               />
 
-              {getDrugs().map((option, index) => (
+              {getDrugsForLegends().map((option, index) => (
                 <Line
                   key={`drug-resistance-bar-${index}`}
                   dataKey={option}
