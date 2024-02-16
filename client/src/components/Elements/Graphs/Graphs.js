@@ -61,6 +61,7 @@ export const Graphs = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
+  const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -117,6 +118,12 @@ export const Graphs = () => {
   async function handleClickDownload(event, card) {
     event.stopPropagation();
     handleLoading(card.collapse, true);
+    if(card.id==='DRT' && drugResistanceGraphView.length === 0){
+      handleLoading(card.id, false);
+      return(
+        alert("No drugs/classes selected to download")
+      )
+    }
 
     try {
       const canvas = document.createElement('canvas');
