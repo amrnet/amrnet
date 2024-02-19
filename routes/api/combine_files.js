@@ -81,13 +81,13 @@ router.get('/shigedata', async (req, res) => {
     }
 
 });
-router.get('/salmonelladata', async (req, res) => {
+router.get('/sentericadata', async (req, res) => {
     console.log("i m in");
 
     try {
-        await client.db("salmonella").collection("merge_rawdata_sa").drop();
+        await client.db("senterica").collection("merge_rawdata_se").drop();
         //No aggregate needs (Note: flag to check)
-        // const result = await client.db("salmonella").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
+        // const result = await client.db("senterica").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
         return res.status(200).send('All data merged successfully');
     } catch (error) {
         console.error(error);

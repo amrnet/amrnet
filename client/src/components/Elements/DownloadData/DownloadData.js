@@ -164,12 +164,12 @@ export const DownloadData = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDrugClassesBars() {
     switch (organism) {
-      case 'typhi':
+      case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
       default:
         return colorForDrugClassesKP[determinantsGraphDrugClass];
@@ -342,7 +342,7 @@ export const DownloadData = () => {
       doc.text(texts[5], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
       doc.text(texts[6], 16, 277, { align: 'justify', maxWidth: pageWidth - 36 });
 
-      if (organism === 'typhi') {
+      if (organism === 'styphi') {
         const euFlag = new Image();
         euFlag.src = EUFlagImg;
         doc.addImage(euFlag, 'JPG', 208, 290, 12, 8);
@@ -383,7 +383,7 @@ export const DownloadData = () => {
       doc.setFont(undefined, 'normal');
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       doc.text(`Map View: ${actualMapView}`, 16, 108);
-      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'typhi' ? ' (local + travel)' : ''}`, 16, 120);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 120);
       if(mapView === 'Genotype prevalence'){
         if (customDropdownMapView.length === 1) {
             doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
@@ -420,7 +420,7 @@ export const DownloadData = () => {
 
       switch (mapView) {
         case 'Dominant Genotype':
-          legendWidth = organism === 'typhi' ? 414.21 : 394.28;
+          legendWidth = organism === 'styphi' ? 414.21 : 394.28;
           mapLegend.src = `legends/MapView_DominantGenotype_${organism}.png`;
           break;
         case 'No. Samples':
@@ -484,7 +484,7 @@ export const DownloadData = () => {
         doc.text(`Total: ${actualGenomes} genomes`, 16, 54);
         doc.text(`Country: ${actualCountry}`, 16, 66);
         doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 78);
-        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'typhi' ? ' (local + travel)' : ''}`, 16, 90);
+        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 90);
 
         const graphImg = document.createElement('img');
         const graphImgPromise = imgOnLoadPromise(graphImg);
@@ -638,7 +638,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism === 'none' || 'ngono'}
+        disabled={organism === 'none'}
       >
         Download PDF
       </LoadingButton>

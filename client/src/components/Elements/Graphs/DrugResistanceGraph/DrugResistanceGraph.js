@@ -59,7 +59,7 @@ export const DrugResistanceGraph = () => {
     if (organism === 'none') {
       return [];
     }
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       return drugsForDrugResistanceGraphST;
     }
     return drugsKP;

@@ -39,11 +39,11 @@ export const TopRightControls = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDominantGenotypeSteps(genotype) {
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       return genotypes;
     } else {
       return genotypesForFilter;

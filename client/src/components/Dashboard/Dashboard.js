@@ -93,7 +93,7 @@ export const DashboardPage = () => {
     dispatch(setActualGenomes(responseData.length));
 
     const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
     }
@@ -201,7 +201,7 @@ export const DashboardPage = () => {
             dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
             dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
             break;
-          case 'salmonella':
+          case 'senterica':
             dispatch(setMapView('No. Samples'));
             dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
             dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
@@ -220,7 +220,7 @@ export const DashboardPage = () => {
   // This useEffect is called everytime the organism changes, it resets all data and filters and
   // call the function to read the specific organism csv
   useEffect(() => {
-    if (organism !== 'none' || 'ngono' || 'shige' || 'salmonella' || 'ecoli') {
+    if (organism !== 'none') {
       // console.log('change organism');
       dispatch(
         setCollapses({
@@ -353,19 +353,19 @@ export const DashboardPage = () => {
           dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
           dispatch(setConvergenceData(convergenceData.data));
         }
-        if (organism === 'ngono') {
-          const KODiversityData = getKODiversityData({ data: filteredData });
-          dispatch(setKODiversityData(KODiversityData));
+        // if (organism === 'ngono') {
+        //   const KODiversityData = getKODiversityData({ data: filteredData });
+        //   dispatch(setKODiversityData(KODiversityData));
 
-          const convergenceData = getConvergenceData({
-            data: filteredData,
-            groupVariable: convergenceGroupVariable,
-            // colourVariable: convergenceColourVariable,
-            colourVariable: convergenceGroupVariable
-          });
-          dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
-          dispatch(setConvergenceData(convergenceData.data));
-        }
+        //   const convergenceData = getConvergenceData({
+        //     data: filteredData,
+        //     groupVariable: convergenceGroupVariable,
+        //     // colourVariable: convergenceColourVariable,
+        //     colourVariable: convergenceGroupVariable
+        //   });
+        //   dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+        //   dispatch(setConvergenceData(convergenceData.data));
+        // }
       }
     }
   }, [

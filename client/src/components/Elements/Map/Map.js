@@ -44,7 +44,7 @@ export const Map = () => {
   const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleOnClick(countryData) {
@@ -68,11 +68,11 @@ export const Map = () => {
       switch (mapView) {
         case 'No. Samples':
           let combinedPercentage;
-          if(organism === 'typhi')
+          if(organism === 'styphi')
             combinedPercentage = ((countryStats[statKey["CipR"]].percentage || 0) + (countryStats[statKey["CipNS"]].percentage || 0));
           Object.assign(tooltip, {
             content:
-              organism === 'typhi'
+              organism === 'styphi'
                 ? {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,

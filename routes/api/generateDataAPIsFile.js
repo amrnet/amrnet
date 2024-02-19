@@ -19,7 +19,7 @@ router.post('/download', function (req, res, next) {
   const organism = req.body.organism;
   let collection, localFilePath;
 
-  if (organism === 'typhi') {
+  if (organism === 'styphi') {
     collection = client.db('styphi').collection('merge_rawdata_st');
     localFilePath = Tools.path_clean_all_st;
   } else if (organism === 'kpneumo'){
@@ -35,7 +35,7 @@ router.post('/download', function (req, res, next) {
     collection = client.db('shige').collection('merge_rawdata_sh');
     localFilePath = Tools.path_clean_all_sh;
   } else {
-    collection = client.db('salmonella').collection('merge_rawdata_sa');
+    collection = client.db('senterica').collection('merge_rawdata_se');
     localFilePath = Tools.path_clean_all_sa;
   }
 

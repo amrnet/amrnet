@@ -1,5 +1,5 @@
-import { drugRulesForDrugResistanceGraphST, drugRulesKP } from '../../util/drugClassesRules';
-import { drugClassesRulesST, drugClassesRulesKP, drugRulesST, drugClassesRulesEC, drugRulesEC, drugClassesRulesSA, drugRulesSA, drugClassesRulesNG, drugRulesNG, drugClassesRulesSH, drugRulesSH } from '../../util/drugClassesRules';
+import { drugRulesForDrugResistanceGraphST, drugRulesST, drugRulesKP, drugRulesNG, drugRulesEC, drugRulesSH, drugRulesSE } from '../../util/drugClassesRules';
+import { drugClassesRulesST, drugClassesRulesKP, drugClassesRulesNG, drugClassesRulesEC, drugClassesRulesSH, drugClassesRulesSE } from '../../util/drugClassesRules';
 
 // This filter is called after either dataset, initialYear, finalYear or country changes and if reset button is pressed.
 // And it returns the data filtered by the variables said before, also the list of unique genotypes, count of genotypes
@@ -13,7 +13,7 @@ export function filterData({ data, dataset, actualTimeInitial, actualTimeFinal, 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x));
   const genotypes = [...new Set(newData.map((x) => x.GENOTYPE))];
 
-  if (organism === 'typhi') {
+  if (organism === 'styphi') {
     genotypes.sort((a, b) => a.localeCompare(b));
   } else {
     genotypes.sort((a, b) => a - b);
@@ -130,7 +130,7 @@ export function getMapData({ data, countries, organism }) {
     });
     stats.GENOTYPE.items.sort((a, b) => (a.count <= b.count ? 1 : -1));
 
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       stats.H58 = getMapStatsData({ countryData, columnKey: 'GENOTYPE_SIMPLE', statsKey: 'H58' });
       stats.MDR = getMapStatsData({ countryData, columnKey: 'MDR', statsKey: 'MDR' });
       stats.XDR = getMapStatsData({ countryData, columnKey: 'XDR', statsKey: 'XDR' });
@@ -206,7 +206,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       if (yearData.length >= 10) {
         const drugStats = {};
 
-        if (organism === 'typhi') {
+        if (organism === 'styphi') {
           drugRulesST.forEach((rule) => {
             const drugData = yearData.filter((x) => rule.values.includes(x[rule.columnID]));
             drugStats[rule.key] = drugData.length;
@@ -302,28 +302,28 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 export function getGenotypesData({ data, genotypes, organism }) {
   const genotypesDrugClassesData = {};
 
-  if (organism === 'typhi') {
+  if (organism === 'styphi') {
     drugRulesST.forEach((drug) => {
       if (drug.key !== 'Susceptible') {
         genotypesDrugClassesData[drug.key] = [];
       }
     });
-  }else if (organism === 'ngono'){
-    Object.keys(drugClassesRulesNG).forEach((key) => {
-      genotypesDrugClassesData[key] = [];
-    });
-  }else if (organism === 'ecoli'){
-    Object.keys(drugClassesRulesEC).forEach((key) => {
-      genotypesDrugClassesData[key] = [];
-    });
-  }else if (organism === 'shige'){
-    Object.keys(drugClassesRulesSH).forEach((key) => {
-      genotypesDrugClassesData[key] = [];
-    });
-  }else if (organism === 'salmonella'){
-    Object.keys(drugClassesRulesSA).forEach((key) => {
-      genotypesDrugClassesData[key] = [];
-    });
+  // }else if (organism === 'ngono'){
+  //   Object.keys(drugClassesRulesNG).forEach((key) => {
+  //     genotypesDrugClassesData[key] = [];
+  //   });
+  // }else if (organism === 'ecoli'){
+  //   Object.keys(drugClassesRulesEC).forEach((key) => {
+  //     genotypesDrugClassesData[key] = [];
+  //   });
+  // }else if (organism === 'shige'){
+  //   Object.keys(drugClassesRulesSH).forEach((key) => {
+  //     genotypesDrugClassesData[key] = [];
+  //   });
+  // }else if (organism === 'senterica'){
+  //   Object.keys(drugClassesRulesSE).forEach((key) => {
+  //     genotypesDrugClassesData[key] = [];
+  //   });
   }else {
     Object.keys(drugClassesRulesKP).forEach((key) => {
       genotypesDrugClassesData[key] = [];
@@ -345,7 +345,7 @@ export function getGenotypesData({ data, genotypes, organism }) {
       resistantCount: 0
     };
 
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       drugRulesST.forEach((rule) => {
         const drugData = genotypeData.filter((x) => rule.values.includes(x[rule.columnID]));
         response[rule.key] = drugData.length;

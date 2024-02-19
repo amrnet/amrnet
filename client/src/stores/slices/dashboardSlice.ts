@@ -30,7 +30,7 @@ interface DashboardState {
 const initialState: DashboardState = {
   canGetData: true,
   globalOverviewLabel: { italicLabel: 'Salmonella', label: 'Typhi', fullLabel: 'Salmonella Typhi' },
-  organism: 'typhi',
+  organism: 'styphi',
   loadingData: false,
   actualCountry: 'All',
   totalGenotypes: 0,
