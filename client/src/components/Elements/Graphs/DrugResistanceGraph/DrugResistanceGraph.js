@@ -68,10 +68,10 @@ export const DrugResistanceGraph = () => {
     if (organism === 'none') {
       return [];
     }
-    if (organism === 'typhi') {
+    // if (organism === 'typhi') {
       return drugResistanceGraphView;
-    }
-    return drugsKP;
+    // }
+    // return drugsKP;
   }
 
   function handleChangeDrugsView({ event = null, all = false }) {
