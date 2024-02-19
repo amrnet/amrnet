@@ -67,12 +67,12 @@ export const Graphs = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDrugClassesBars() {
     switch (organism) {
-      case 'typhi':
+      case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
       default:
         return colorForDrugClassesKP[determinantsGraphDrugClass];
@@ -199,7 +199,7 @@ export const Graphs = () => {
       const mobileFactor = matches500 ? 100 : 0;
       if ('RFWG'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        const legendDrugs = organism === 'typhi' ? drugsST : drugsKP;
+        const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
 
         drawLegend({
           legendData: legendDrugs,

@@ -192,7 +192,7 @@ router.get('/import/kpneumo', async (req, res) => {
 
 const NgonofolderPath = path.join(__dirname, '../assets/webscrap/clean/ngono');
 router.get('/import/ngono', async (req, res) => {
-    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+    const  jsonFiles = fs.readdirSync(NgonofolderPath).filter(file => file.endsWith('.json'));
 
     const dbName = 'ngono';
     try{
@@ -218,7 +218,7 @@ router.get('/import/ngono', async (req, res) => {
 
 const EcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/ecoli');
 router.get('/import/ecoli', async (req, res) => {
-    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+    const  jsonFiles = fs.readdirSync(EcolifolderPath).filter(file => file.endsWith('.json'));
 
     const dbName = 'ecoli';
     try{
@@ -244,7 +244,7 @@ router.get('/import/ecoli', async (req, res) => {
 
 const ShigefolderPath = path.join(__dirname, '../assets/webscrap/clean/shige');
 router.get('/import/shige', async (req, res) => {
-    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+    const  jsonFiles = fs.readdirSync(ShigefolderPath).filter(file => file.endsWith('.json'));
 
     const dbName = 'shige';
     try{
@@ -270,7 +270,7 @@ router.get('/import/shige', async (req, res) => {
 
 const SentericafolderPath = path.join(__dirname, '../assets/webscrap/clean/senterica');
 router.get('/import/senterica', async (req, res) => {
-  const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+  const  jsonFiles = fs.readdirSync(SentericafolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'senterica';
   try{

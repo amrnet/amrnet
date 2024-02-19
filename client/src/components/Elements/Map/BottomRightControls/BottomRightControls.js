@@ -106,7 +106,7 @@ export const BottomRightControls = () => {
 
         switch (mapView) {
           case 'Dominant Genotype':
-            legendWidth = organism === 'typhi' ? 3085 : 2937;
+            legendWidth = organism === 'styphi' ? 3085 : 2937;
             legendImg.src = `legends/MapView_DominantGenotype_${organism}.png`;
             break;
           case 'No. Samples':

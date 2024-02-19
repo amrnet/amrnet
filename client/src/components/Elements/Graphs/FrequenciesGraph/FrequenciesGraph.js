@@ -62,7 +62,7 @@ export const FrequenciesGraph = () => {
     if (organism === 'none') {
       return [];
     }
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       return drugsST;
     }
     return drugsKP;
@@ -92,7 +92,7 @@ export const FrequenciesGraph = () => {
   }
 
   // function getDataForGenotypeSelect() {
-  //   // if (organism === 'typhi') {
+  //   // if (organism === 'styphi') {
   //     return genotypesDrugsData;
   //   // } else {
   //   //   return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, 20)));
