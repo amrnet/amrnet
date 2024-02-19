@@ -530,8 +530,8 @@ router.post('/newdockleb', function (req, res, next) {
   let collection,collection2, localFilePath;
 
 
-  collection2 = client.db('kpneumo').collection('merge_rawdata_kleb');
-  console.log("I am trying to update a collection: merge_rawdata_kleb, with new query method (w/o aggregare functions)");
+  collection2 = client.db('kpneumo').collection('merge_rawdata_kp');
+  console.log("I am trying to update a collection: merge_rawdata_kp, with new query method (w/o aggregare functions)");
     
   var dView, kLocus, oLocus, location;
   collection2.find().forEach(function(doc) {

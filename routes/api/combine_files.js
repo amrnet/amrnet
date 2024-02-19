@@ -4,7 +4,7 @@ import fs from 'fs';
 import {client} from '../../config/db2.js'
 import {exec} from "child_process"
 import merge_rawdata_st from "../../models/AggregatePipeline/Styphi/merge_rawdata_st.js";
-import merge_rawdata_kleb from "../../models/AggregatePipeline/Kpneumo/merge_rawdata_kleb.js";
+import merge_rawdata_kp from "../../models/AggregatePipeline/Kpneumo/merge_rawdata_kp.js";
 // import merge_rawdata_ngono from "../../models/AggregatePipeline/ngono/merge_rawdata_ngono.js";
 
 
@@ -25,8 +25,8 @@ router.get('/typhidata', async (req, res) => {
 router.get('/klebdata', async (req, res) => {
 
     try {
-        await client.db("kpneumo").collection("merge_rawdata_kleb").drop();
-        await client.db("kpneumo").collection("pw_kleborate").aggregate(merge_rawdata_kleb).toArray();
+        await client.db("kpneumo").collection("merge_rawdata_kp").drop();
+        await client.db("kpneumo").collection("pw_kleborate").aggregate(merge_rawdata_kp).toArray();
        
         return res.status(200).send('All data merged successfully');
     } catch (error) {

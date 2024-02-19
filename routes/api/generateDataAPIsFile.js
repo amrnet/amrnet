@@ -88,42 +88,42 @@ router.get('/generate/:organism', async function (req, res, next) {
   const organism = req.params.organism;
   let collection, folderName, fileName, ext,collection_ext ;
 
-  if (organism === 'typhi') {
+  if (organism === 'styphi') {
     collection = client.db('styphi').collection('merge_rawdata_st');
     folderName = 'styphi';
     ext = 'st';
     collection_ext = 'st';
     fileName = 'cleanAll_st.csv';
   }else if (organism === 'kpneumo') {
-    collection = client.db('kpneumo').collection('merge_rawdata_kleb');
+    collection = client.db('kpneumo').collection('merge_rawdata_kp');
     folderName = 'kpneumo';
     ext = 'kp';
-    collection_ext = 'kleb';
+    collection_ext = 'kp';
     fileName = 'cleanAll_kp.csv';
   }else if (organism === 'ngono') {
-    collection = client.db('ngono').collection('merge_rawdata_ngono');
+    collection = client.db('ngono').collection('merge_rawdata_ng');
     folderName = 'ngono';
     ext = 'ng';
-    collection_ext = 'ngono';
+    collection_ext = 'ng';
     fileName = 'cleanAll_ng.csv';
   }else if (organism === 'ecoli') {
-    collection = client.db('ecoli').collection('merge_rawdata_ecoli');
+    collection = client.db('ecoli').collection('merge_rawdata_ec');
     folderName = 'ecoli';
     ext = 'ec';
-    collection_ext = 'ecoli';
+    collection_ext = 'ec';
     fileName = 'cleanAll_ec.csv';
   }else if (organism === 'shige') {
     collection = client.db('shige').collection('merge_rawdata_shige');
     folderName = 'shige';
     ext = 'sh';
-    collection_ext = 'shige';
+    collection_ext = 'sh';
     fileName = 'cleanAll_sh.csv';
   } else {
-  collection = client.db('salmonella').collection('merge_rawdata_sa');
-  folderName = 'salmonella';
-  ext = 'sa';
-  collection_ext = 'sa';
-  fileName = 'cleanAll_sa.csv';
+  collection = client.db('senterica').collection('merge_rawdata_se');
+  folderName = 'senterica';
+  ext = 'se';
+  collection_ext = 'se';
+  fileName = 'cleanAll_se.csv';
   }
 
   try{
@@ -156,7 +156,7 @@ router.get('/generate/:organism', async function (req, res, next) {
 router.get('/clean/:organism', async function (req, res, next) {
   const organism = req.params.organism;
   let folderName, ext, database, collection_ext;
-  if(organism === 'typhi'){
+  if(organism === 'styphi'){
     folderName = 'styphi';
     ext = 'st';
     collection_ext = 'st';
@@ -164,28 +164,28 @@ router.get('/clean/:organism', async function (req, res, next) {
   }else if (organism === 'kpneumo'){
     folderName = 'kpneumo';
     ext = 'kp';
-    collection_ext = 'kleb';
+    collection_ext = 'kp';
     database = 'kpneumo';
   }else if (organism === 'ngono'){
     folderName = 'ngono';
     ext = 'ng';
-    collection_ext = 'ngono';
+    collection_ext = 'ng';
     database = 'ngono';
   }else if (organism === 'ecoli'){
     folderName = 'ecoli';
     ext = 'ec';
-    collection_ext = 'ecoli';
+    collection_ext = 'ec';
     database = 'ecoli';
   }else if (organism === 'shige'){
     folderName = 'shige';
     ext = 'sh';
-    collection_ext = 'shige';
+    collection_ext = 'sh';
     database = 'shige';
   }else{
-    folderName = 'salmonella';
+    folderName = 'senterica';
     ext = 'sa';
-    collection_ext = 'salmonella';
-    database = 'salmonella';
+    collection_ext = 'senterica';
+    database = 'senterica';
   }
   
   try {

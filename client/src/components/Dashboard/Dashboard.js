@@ -133,7 +133,7 @@ export const DashboardPage = () => {
       getUniqueGenotypes: true
     });
 
-    if (organism === 'klebe') {
+    if (organism === 'kpneumo') {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
@@ -169,12 +169,12 @@ export const DashboardPage = () => {
         dispatch(setDataset('All'));
 
         switch (organism) {
-          case 'typhi':
+          case 'styphi':
             dispatch(setMapView('CipNS'));
             dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
             dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
             break;
-          case 'klebe':
+          case 'kpneumo':
             dispatch(setMapView('No. Samples'));
             dispatch(setDrugResistanceGraphView(drugsKP));
             dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
@@ -259,27 +259,23 @@ export const DashboardPage = () => {
       dispatch(setCurrentSliderValue(20));
 
       switch (organism) {
-        case 'typhi':
-          getData('getDataForTyphi');
+        case 'styphi':
+          getData('getDataForSTyphi');
           break;
-        case 'klebe':
-          getData('getDataForKleb');
+        case 'kpneumo':
+          getData('getDataForKpneumo');
           break;
         case 'ngono':
-          getData('getDataForTyphi');
-          // getData('getDataForNgono');
+          getData('getDataForNgono');
           break;
         case 'ecoli':
-          getData('getDataForTyphi');
-          // getData('getDataForEcoli');
+          getData('getDataForEcoli');
           break;
         case 'shige':
-          getData('getDataForTyphi');
-          // getData('getDataForShige');
+          getData('getDataForShige');
           break;
-        case 'salmonella':
-          
-          // getData('getDataForSalmonella');
+        case 'senterica':
+          getData('getDataForSenterica');
           break;
         default:
           break;
@@ -344,7 +340,7 @@ export const DashboardPage = () => {
         dispatch(setDrugsYearData(yearsData.drugsData));
         dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
 
-        if (organism === 'klebe') {
+        if (organism === 'kpneumo') {
           const KODiversityData = getKODiversityData({ data: filteredData });
           dispatch(setKODiversityData(KODiversityData));
 

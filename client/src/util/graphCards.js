@@ -7,7 +7,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['typhi', 'klebe']
+    organisms: ['styphi', 'kpneumo']
   },
   {
     collapse: 'frequencies',
@@ -15,7 +15,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 7)'],
     icon: <BarChart color="primary" />,
     id: 'RFWG',
-    organisms: ['typhi', 'klebe']
+    organisms: ['styphi', 'kpneumo']
   },
   {
     collapse: 'determinants',
@@ -23,7 +23,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
-    organisms: ['typhi', 'klebe']
+    organisms: ['styphi', 'kpneumo']
   },
   {
     collapse: 'distribution',
@@ -31,7 +31,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['typhi', 'klebe']
+    organisms: ['styphi', 'kpneumo']
   },
   {
     collapse: 'trendsKP',
@@ -39,7 +39,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
     id: 'CERDT',
-    organisms: ['klebe']
+    organisms: ['kpneumo']
   },
   {
     collapse: 'KODiversity',
@@ -47,7 +47,7 @@ export const graphCards = [
     description: ['Top K/O (up to 20)'],
     icon: <StackedBarChart color="primary" />,
     id: 'KO',
-    organisms: ['klebe']
+    organisms: ['kpneumo']
   },
   {
     collapse: 'convergence',
@@ -55,6 +55,6 @@ export const graphCards = [
     description: [''],
     icon: <BubbleChart color="primary" />,
     id: 'CVM',
-    organisms: ['klebe']
+    organisms: ['kpneumo']
   }
 ];

@@ -66,9 +66,9 @@ export const BottomRightControls = () => {
 
         // Revert to the original font style for the remaining text
         ctx.font = 'bolder 50px Montserrat';
-        if (organism === 'typhi') {
+        if (organism === 'styphi') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.615, 80);
-        }else if (organism === 'klebe') {
+        }else if (organism === 'kpneumo') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
         }else if (organism === 'ngono') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
