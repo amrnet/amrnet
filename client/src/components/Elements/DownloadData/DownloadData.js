@@ -638,7 +638,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism === 'none'}
+        disabled={organism === 'none' || 'ngono'}
       >
         Download PDF
       </LoadingButton>
