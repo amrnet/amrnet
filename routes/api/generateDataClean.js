@@ -6,9 +6,8 @@ const router = express.Router();
 router.post('/newdoctyphi', function (req, res, next) {
   const organism = req.body.organism;
   let collection,collection2, localFilePath;
-  // collection = client.db('salmotyphi').collection('clean_merge_st');///Orignal with db "salmotyphi"
 
-  collection2 = client.db('salmotyphi').collection('merge_rawdata_st');
+  collection2 = client.db('styphi').collection('merge_rawdata_st');
   console.log("I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)");
     
   collection2.find().forEach(function(doc) {
@@ -252,12 +251,6 @@ router.post('/newdoctyphi', function (req, res, next) {
         cipqrdr = (cipqrdr+doc["qnrS"].toString()+doc["qnrB"].toString()+doc["qnrD"].toString());
     }   
     
-    // if(cipqrdr==""){
-    //     cipqrdr = (cip).toString();
-    // }else{
-    //     cipqrdr = (cip+cipqrdr).toString();
-    // }
-    
     if(cipqrdr != undefined){
         let cip_ = cip + cipqrdr;
         cipqrdr = cip_;
@@ -268,13 +261,7 @@ router.post('/newdoctyphi', function (req, res, next) {
         }
     }else{
         cipqrdr = cip.toString();
-    }
-
-    // if(cipqrdr == undefined){
-    //     cipqrdr = (doc["qnrS"].toString()+doc["qnrB"].toString()+doc["qnrD"].toString());
-    // }else{
-    //     cipqrdr = (cipqrdr+doc["qnrS"].toString()+doc["qnrB"].toString()+doc["qnrD"].toString());
-    // }   
+    }   
 
     if(num_qrdr=== 0 && (doc["qnrS"]===1 || doc["qnrB"]===1  || doc["qnrD"]===1 )){
         cip = "CipNS";
@@ -421,7 +408,6 @@ router.post('/newdoctyphi', function (req, res, next) {
     var tetAC = (empty.indexOf(doc["tetA(C)"]) !== -1) ? "-" : doc["tetA(C)"];
     var tetAD = (empty.indexOf(doc["tetA(D)"]) !== -1) ? "-" : doc["tetA(D)"];
     var ereA = (empty.indexOf(doc["ereA"]) !== -1) ? "-" : doc["ereA"];
-    
     var accession = (empty.indexOf(doc["ACCESSION"]) !== -1) ? "-" : doc["ACCESSION"];
     var strain = (empty.indexOf(doc["STRAIN"]) !== -1) ? "-" : doc["STRAIN"];
     var contact = (empty.indexOf(doc["CONTACT"]) !== -1) ? "-" : doc["CONTACT"];
@@ -542,9 +528,9 @@ router.post('/newdoctyphi', function (req, res, next) {
 router.post('/newdockleb', function (req, res, next) {
   const organism = req.body.organism;
   let collection,collection2, localFilePath;
-  // collection = client.db('salmotyphi').collection('clean_merge_st');///Orignal with db "salmotyphi"
 
-  collection2 = client.db('klebpnneumo').collection('merge_rawdata_kleb');
+
+  collection2 = client.db('kpneumo').collection('merge_rawdata_kleb');
   console.log("I am trying to update a collection: merge_rawdata_kleb, with new query method (w/o aggregare functions)");
     
   var dView, kLocus, oLocus, location;
