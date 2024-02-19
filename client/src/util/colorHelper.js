@@ -500,3 +500,75 @@ export const darkGrey = '#727272';
 export const zeroPercentColor = '#A20F17';
 export const zeroCountColor = '#F5F4F6';
 export const hoverColor = '#D2F1F6';
+
+// Colors for E. coli drug classes genes
+export const colorForDrugClassesEC = {
+  A: [
+    { name: 'BEL-1', color: '#543005' },
+  ],
+  B: [
+    { name: 'CTX-M-33', color: '#D1E5F0' },
+    { name: 'GES-13', color: '#FDDBC7' },
+
+  ]
+};
+// Colors for Salmonella drug classes genes
+export const colorForDrugClassesSA = {
+  C: [
+    { name: 'BEL-1', color: '#543005' },
+    { name: 'CMY-30', color: '#8c510a' },
+    { name: 'CMY-42', color: '#f8961e' },
+    { name: 'CTX-M-1', color: '#f9844a' },
+    { name: 'CTX-M-115', color: '#f9c74f' },
+    { name: 'VEB-9', color: '#054e20' }
+  ],
+  D: [
+    { name: 'CTX-M-33', color: '#D1E5F0' },
+    { name: 'GES-13', color: '#FDDBC7' },
+    { name: 'GES-24', color: '#E7D4E8' },
+    { name: 'IMP-1', color: '#F6E8C3' },
+    { name: 'VIM-33', color: '#67001F' },
+    { name: 'VIM-4', color: '#4A0082' },
+    { name: 'VIM-5', color: '#40004B' }
+  ]
+};
+// Colors for N. gono drug classes genes
+export const colorForDrugClassesNG = {
+  E: [
+    { name: 'BEL-1', color: '#543005' },
+    { name: 'CMY-30', color: '#8c510a' },
+    { name: 'CMY-42', color: '#f8961e' },
+    { name: 'CTX-M-1', color: '#f9844a' },
+    { name: 'CTX-M-115', color: '#f9c74f' },
+    { name: 'VEB-9', color: '#054e20' }
+  ],
+  F: [
+    { name: 'CTX-M-33', color: '#D1E5F0' },
+    { name: 'GES-13', color: '#FDDBC7' },
+    { name: 'GES-24', color: '#E7D4E8' },
+    { name: 'IMP-1', color: '#F6E8C3' },
+    { name: 'VIM-33', color: '#67001F' },
+    { name: 'VIM-4', color: '#4A0082' },
+    { name: 'VIM-5', color: '#40004B' }
+  ]
+};
+// Colors for Shigella drug classes genes
+export const colorForDrugClassesSH = {
+  G: [
+    { name: 'BEL-1', color: '#543005' },
+    { name: 'CMY-30', color: '#8c510a' },
+    { name: 'CMY-42', color: '#f8961e' },
+    { name: 'CTX-M-1', color: '#f9844a' },
+    { name: 'CTX-M-115', color: '#f9c74f' },
+    { name: 'VEB-9', color: '#054e20' }
+  ],
+  H: [
+    { name: 'CTX-M-33', color: '#D1E5F0' },
+    { name: 'GES-13', color: '#FDDBC7' },
+    { name: 'GES-24', color: '#E7D4E8' },
+    { name: 'IMP-1', color: '#F6E8C3' },
+    { name: 'VIM-33', color: '#67001F' },
+    { name: 'VIM-4', color: '#4A0082' },
+    { name: 'VIM-5', color: '#40004B' }
+  ]
+};
