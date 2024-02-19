@@ -6,7 +6,7 @@ import * as Tools from '../../services/services.js';
 import {client} from '../../config/db2.js';
 
 // Get all data from the clean file inside assets
-router.get('/getDataForTyphi', async function (req, res, next) {
+router.get('/getDataForSTyphi', async function (req, res, next) {
   try {
         const result = await client.db("styphi").collection("merge_rawdata_st").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
@@ -30,9 +30,9 @@ router.get('/getDataForTyphi', async function (req, res, next) {
     }
 });
 
-router.get('/getDataForKleb', async function (req, res, next) {
+router.get('/getDataForKpneumo', async function (req, res, next) {
   try {
-        const result = await client.db("kpneumo").collection("merge_rawdata_kleb").find({ 'dashboard view': 'Include' }).toArray();;
+        const result = await client.db("kpneumo").collection("merge_rawdata_kp").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
@@ -128,7 +128,7 @@ router.get('/getDataForShige', async function (req, res, next) {
 
 router.get('/getDataForSalmonella', async function (req, res, next) {
   try {
-        const result = await client.db("salmonella").collection("merge_rawdata_sa").find({ 'dashboard view': 'Include' }).toArray();;
+        const result = await client.db("salmonella").collection("merge_rawdata_se").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
