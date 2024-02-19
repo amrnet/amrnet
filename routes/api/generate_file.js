@@ -624,7 +624,7 @@ router.post('/download', function (req, res, next) {
 // determine file path based on organism
   let path_file = '';
 
-  if (organism === 'typhi') {
+  if (organism === 'styphi') {
     path_file = Tools.path_clean_all_st;
   } else {
     path_file = Tools.path_clean_all_kp;

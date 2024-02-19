@@ -126,9 +126,9 @@ router.get('/getDataForShige', async function (req, res, next) {
     }
 });
 
-router.get('/getDataForSalmonella', async function (req, res, next) {
+router.get('/getDataForSenterica', async function (req, res, next) {
   try {
-        const result = await client.db("salmonella").collection("merge_rawdata_se").find({ 'dashboard view': 'Include' }).toArray();;
+        const result = await client.db("senterica").collection("merge_rawdata_se").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];

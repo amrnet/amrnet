@@ -62,7 +62,7 @@ export const DeterminantsGraph = () => {
 
   function getDrugClassesBars() {
     switch (organism) {
-      case 'typhi':
+      case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
       default:
         return colorForDrugClassesKP[determinantsGraphDrugClass];

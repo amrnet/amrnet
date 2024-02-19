@@ -50,7 +50,7 @@ export const ResetButton = () => {
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
     dispatch(setActualCountry('All'));
 
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       dispatch(setMapView('CipNS'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
