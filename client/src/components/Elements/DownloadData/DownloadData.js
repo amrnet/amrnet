@@ -306,12 +306,12 @@ export const DownloadData = () => {
 
       let texts;
       let firstName, secondName, secondword;
-      if (organism === 'typhi') {
+      if (organism === 'styphi') {
         texts = getSalmonellaTexts(date);
         firstName = "Salmonella";
         secondName = "Typhi";
         secondword = 315;
-      } else if (organism === 'klebe') {
+      } else if (organism === 'kpneumo') {
         texts = getKlebsiellaTexts();
         firstName = "Klebsiella";
         secondName = "pneumoniae";
@@ -440,10 +440,10 @@ export const DownloadData = () => {
       }
 
       // Graphs
-      const isKlebe = organism === 'klebe';
+      const isKlebe = organism === 'kpneumo';
 
       const cards = getOrganismCards();
-      const legendDrugs = organism === 'typhi' ? drugsST : drugsKP;
+      const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
       const drugClassesBars = getDrugClassesBars();
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilter.length / 6);

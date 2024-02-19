@@ -138,7 +138,7 @@ export function getMapData({ data, countries, organism }) {
       stats.Susceptible = getMapStatsData({ countryData, columnKey: 'amr_category', statsKey: 'No AMR detected' });
       stats.CipR = getMapStatsData({ countryData, columnKey: 'cip_pred_pheno', statsKey: 'CipR' });
       stats.CipNS = getMapStatsData({ countryData, columnKey: 'cip_pred_pheno', statsKey: 'CipNS' });
-    } else if (organism === 'klebe'){
+    } else if (organism === 'kpneumo'){
       stats.Susceptible = getMapStatsData({ countryData, columnKey: 'num_resistance_classes', statsKey: '0' });
       stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
@@ -178,7 +178,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   let uniqueGenotypes = [];
   const genotypesAndDrugsDataUniqueGenotypes = {};
 
-  if (organism === 'klebe') {
+  if (organism === 'kpneumo') {
     Object.keys(drugClassesRulesKP).forEach((key) => {
       genotypesAndDrugsData[key] = [];
       genotypesAndDrugsDataUniqueGenotypes[key] = [];
@@ -258,7 +258,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       }
     }
 
-    if (organism === 'klebe' && getUniqueGenotypes) {
+    if (organism === 'kpneumo' && getUniqueGenotypes) {
       const sortedStats = Object.fromEntries(
         Object.entries(stats)
           .sort(([, a], [, b]) => b - a)
