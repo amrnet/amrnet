@@ -15,7 +15,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDeterminantsGraphDrugClass, setDeterminantsGraphView } from '../../../../stores/slices/graphSlice';
-import { drugClassesST, drugClassesKP, drugClassesNG, drugClassesSH, drugClassesSA, drugClassesEC} from '../../../../util/drugs';
+import { drugClassesST, drugClassesKP, drugClassesNG, drugClassesSH, drugClassesSA, drugClassesEC, drugsNG} from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, colorForDrugClassesSA, colorForDrugClassesSH, colorForDrugClassesEC, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -48,7 +48,7 @@ export const DeterminantsGraph = () => {
       case 'kpneumo':
         return drugClassesKP;
       case 'ngono':
-        return drugClassesNG;
+        return drugsNG;
       case 'ecoli':
         return drugClassesEC;
       case 'shige':
@@ -216,7 +216,7 @@ export const DeterminantsGraph = () => {
     <CardContent className={classes.determinantsGraph}>
       <div className={classes.selectsWrapper}>
         <div className={classes.selectWrapper}>
-          <Typography variant="caption">Select drug class</Typography>
+          <Typography variant="caption">Select drug/class</Typography>
           <Select
             value={determinantsGraphDrugClass}
             onChange={handleChangeDrugClass}

@@ -64,7 +64,7 @@ import {
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG, drugsEC, drugsSH, drugsSE } from '../../util/drugs';
 // import countries from '../../util/countries';
 
 export const DashboardPage = () => {
@@ -207,15 +207,19 @@ export const DashboardPage = () => {
             break;
           case 'ngono':
             dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsNG));
             break;
           case 'ecoli':
             dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsEC));
             break;
           case 'shige':
             dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsSH));
             break;
           case 'senterica':
             dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsSE));
             break;
           default:
             break;
