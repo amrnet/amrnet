@@ -682,7 +682,7 @@ export const DownloadData = () => {
         Download PDF
       </LoadingButton>
       <Button className={classes.button} variant="contained" onClick={handleClickDatabasePage} startIcon={<Storage />}>
-        See Database Page
+        See Database info
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
