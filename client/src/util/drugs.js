@@ -114,19 +114,23 @@ export const drugClassesSH = [
 ];
 
 // List of N. gono drug classes
-export const drugClassesNG = [
+export const drugsNG = [
   // 'Ampicillin',
-  // 'Azithromycin',
+  'Azithromycin',
   // 'Chloramphenicol',
-  // // 'Co-trimoxazole',
+  // 'Co-trimoxazole',
   // 'Trimethoprim-sulfamethoxazole',
-  // // 'ESBL',
-  // 'Ceftriaxone',
-  // // 'Fluoroquinolones (CipNS)',
+  // 'ESBL',
+  'Ceftriaxone',
+  // 'Fluoroquinolones (CipNS)',
+  'Ciprofloxacin',
   // 'Ciprofloxacin NS',
-  // 'Sulphonamides',
-  // 'Tetracyclines',
-  // 'Trimethoprim'
+  'Sulphonamides',
+  'Tetracyclines',
+  // 'Trimethoprim',
+  'Cefixime',
+  'Penicillin',
+  'Spectinomycin'
 ];
 
 // List of Klebsiella drug classes
