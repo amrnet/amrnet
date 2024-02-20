@@ -56,7 +56,7 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
 
 router.get('/getDataForNgono', async function (req, res, next) {
   try {
-        const result = await client.db("ngono").collection("merge_rawdata_ng").find({ 'dashboard view': 'Include' }).toArray();;
+        const result = await client.db("ngono1").collection("merge_rawdata_ng").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
