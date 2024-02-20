@@ -216,7 +216,7 @@ export const DeterminantsGraph = () => {
     <CardContent className={classes.determinantsGraph}>
       <div className={classes.selectsWrapper}>
         <div className={classes.selectWrapper}>
-          <Typography variant="caption">Select drug class</Typography>
+          <Typography variant="caption">Select drug/class</Typography>
           <Select
             value={determinantsGraphDrugClass}
             onChange={handleChangeDrugClass}
