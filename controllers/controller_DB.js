@@ -1,4 +1,4 @@
-// import CombinedModel from '../models/combined.js';
+import CombinedModel from '../models/combined.js';
 import express from 'express';
 import csv from 'csv-parser';
 import { promisify } from 'util';
@@ -136,9 +136,9 @@ router.post('/deleteChange', (req, res) => {
 
 //Import raw json data into mongoDB
 
-const TyphifolderPath = path.join(__dirname, '../assets/webscrap/clean/styphi');
+const STyphifolderPath = path.join(__dirname, '../assets/webscrap/clean/styphi');
 router.get('/import/styphi', async (req, res) => {
-    const  jsonFiles = fs.readdirSync(TyphifolderPath).filter(file => file.endsWith('.json'));
+    const  jsonFiles = fs.readdirSync(STyphifolderPath).filter(file => file.endsWith('.json'));
  
     const dbName = 'styphi';
 
@@ -147,7 +147,7 @@ router.get('/import/styphi', async (req, res) => {
           for (const jsonFile of jsonFiles) {
               
             const collectionName = jsonFile.replace('.json', '');
-            const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${TyphifolderPath}/${jsonFile}' --jsonArray`
+            const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${STyphifolderPath}/${jsonFile}' --jsonArray`
               
             const importPromise = exec(command);
             importPromises.push(importPromise);
@@ -165,7 +165,7 @@ router.get('/import/styphi', async (req, res) => {
 });
 
 const KlebfolderPath = path.join(__dirname, '../assets/webscrap/clean/kpneumo');
-router.get('/import/kleb', async (req, res) => {
+router.get('/import/kpneumo', async (req, res) => {
     const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
 
     const dbName = 'kpneumo';
@@ -192,7 +192,7 @@ router.get('/import/kleb', async (req, res) => {
 
 const NgonofolderPath = path.join(__dirname, '../assets/webscrap/clean/ngono');
 router.get('/import/ngono', async (req, res) => {
-    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+    const  jsonFiles = fs.readdirSync(NgonofolderPath).filter(file => file.endsWith('.json'));
 
     const dbName = 'ngono';
     try{
@@ -200,7 +200,7 @@ router.get('/import/ngono', async (req, res) => {
       for (const jsonFile of jsonFiles) {
           
         const collectionName = jsonFile.replace('.json', '');
-        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${NgonofolderPath}/${jsonFile}' --jsonArray`
           const importPromise = exec(command);
           importPromises.push(importPromise);
           console.log(`jsonFile: ${jsonFile}`);
@@ -218,7 +218,7 @@ router.get('/import/ngono', async (req, res) => {
 
 const EcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/ecoli');
 router.get('/import/ecoli', async (req, res) => {
-    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+    const  jsonFiles = fs.readdirSync(EcolifolderPath).filter(file => file.endsWith('.json'));
 
     const dbName = 'ecoli';
     try{
@@ -226,7 +226,7 @@ router.get('/import/ecoli', async (req, res) => {
       for (const jsonFile of jsonFiles) {
           
         const collectionName = jsonFile.replace('.json', '');
-        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${EcolifolderPath}/${jsonFile}' --jsonArray`
           const importPromise = exec(command);
           importPromises.push(importPromise);
           console.log(`jsonFile: ${jsonFile}`);
@@ -244,7 +244,7 @@ router.get('/import/ecoli', async (req, res) => {
 
 const ShigefolderPath = path.join(__dirname, '../assets/webscrap/clean/shige');
 router.get('/import/shige', async (req, res) => {
-    const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+    const  jsonFiles = fs.readdirSync(ShigefolderPath).filter(file => file.endsWith('.json'));
 
     const dbName = 'shige';
     try{
@@ -252,7 +252,7 @@ router.get('/import/shige', async (req, res) => {
       for (const jsonFile of jsonFiles) {
           
         const collectionName = jsonFile.replace('.json', '');
-        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+        const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${ShigefolderPath}/${jsonFile}' --jsonArray`
           const importPromise = exec(command);
           importPromises.push(importPromise);
           console.log(`jsonFile: ${jsonFile}`);
@@ -268,17 +268,17 @@ router.get('/import/shige', async (req, res) => {
     }
 });
 
-const SalmonellafolderPath = path.join(__dirname, '../assets/webscrap/clean/salmonella');
-router.get('/import/salmonella', async (req, res) => {
-  const  jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
+const SentericafolderPath = path.join(__dirname, '../assets/webscrap/clean/senterica');
+router.get('/import/senterica', async (req, res) => {
+  const  jsonFiles = fs.readdirSync(SentericafolderPath).filter(file => file.endsWith('.json'));
 
-  const dbName = 'salmonella';
+  const dbName = 'senterica';
   try{
     const importPromises = [];
     for (const jsonFile of jsonFiles) {
         
       const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`
+      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${SentericafolderPath}/${jsonFile}' --jsonArray`
         const importPromise = exec(command);
         importPromises.push(importPromise);
         console.log(`jsonFile: ${jsonFile}`);

@@ -7,12 +7,12 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 const organisms = [
   {
     label: 'Salmonella Typhi',
-    value: 'typhi',
+    value: 'styphi',
     abbr: 'S. Typhi'
   },
   {
     label: 'Klebsiella pneumoniae',
-    value: 'klebe',
+    value: 'kpneumo',
     abbr: 'K. pneumoniae'
   },
   {
@@ -31,9 +31,9 @@ const organisms = [
     abbr: 'Shigella'
   },
   {
-    label: 'Salmonella spp',
-    value: 'salmonella',
-    abbr: 'Salmonella'
+    label: 'Salmonella enterica',
+    value: 'senterica',
+    abbr: 'Salmonella enterica'
   }
 ];
 
@@ -108,9 +108,9 @@ export const SelectOrganism = () => {
             {matches1050 ? item.abbr : item.label}
           </MenuItem>
         ))}
-        {/* <MenuItem value="ngono" disabled>
+        <MenuItem value="ngono" disabled>
           {matches1050 ? 'N. gonorrhoeae' : 'Neisseria gonorrhoeae'}
-        </MenuItem> */}
+        </MenuItem>
       </Select>
       {!matches650 && (
         <IconButton color="inherit" onClick={handleNextAgent} disabled={loadingData}>

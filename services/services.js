@@ -13,6 +13,22 @@ const path_clean_kp = path.join(
   __dirname,
   '../assets/webscrap/clean/kpneumo/clean_kp.csv'
 );
+const path_clean_ng = path.join(
+  __dirname,
+  '../assets/webscrap/clean/ngono/clean_ng.csv'
+);
+const path_clean_ec = path.join(
+  __dirname,
+  '../assets/webscrap/clean/ecoli/clean_ec.csv'
+);
+const path_clean_sh = path.join(
+  __dirname,
+  '../assets/webscrap/clean/shige/clean_sh.csv'
+);
+const path_clean_se = path.join(
+  __dirname,
+  '../assets/webscrap/clean/senterica/clean_se.csv'
+);
 const path_clean_all_kp = path.join(
   __dirname,
   '../assets/webscrap/clean/kpneumo/cleanAll_kp.csv'
@@ -20,6 +36,22 @@ const path_clean_all_kp = path.join(
 const path_clean_all_st = path.join(
   __dirname,
   '../assets/webscrap/clean/styphi/cleanAll_st.csv'
+);
+const path_clean_all_ng = path.join(
+  __dirname,
+  '../assets/webscrap/clean/ngono/cleanAll_ng.csv'
+);
+const path_clean_all_ec = path.join(
+  __dirname,
+  '../assets/webscrap/clean/ecoli/cleanAll_ec.csv'
+);
+const path_clean_all_sh = path.join(
+  __dirname,
+  '../assets/webscrap/clean/shige/cleanAll_sh.csv'
+);
+const path_clean_all_se = path.join(
+  __dirname,
+  '../assets/webscrap/clean/senterica/cleanAll_se.csv'
 );
 var path_clean_db_st;
 const watcher = chokidar.watch(
@@ -67,6 +99,14 @@ export {
   path_clean_db_st,
   path_clean_st,
   path_clean_kp,
+  path_clean_ng,
+  path_clean_ec,
+  path_clean_sh,
+  path_clean_se,
   path_clean_all_st,
-  path_clean_all_kp
+  path_clean_all_kp,
+  path_clean_all_ec,
+  path_clean_all_ng,
+  path_clean_all_sh,
+  path_clean_all_se
 };

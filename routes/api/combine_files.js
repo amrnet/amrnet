@@ -4,8 +4,8 @@ import fs from 'fs';
 import {client} from '../../config/db2.js'
 import {exec} from "child_process"
 import merge_rawdata_st from "../../models/AggregatePipeline/Styphi/merge_rawdata_st.js";
-import merge_rawdata_kleb from "../../models/AggregatePipeline/Kpneumo/merge_rawdata_kleb.js";
-// import merge_rawdata_ngono from "../../models/AggregatePipeline/ngono/merge_rawdata_ngono.js";
+import merge_rawdata_kp from "../../models/AggregatePipeline/Kpneumo/merge_rawdata_kp.js";
+// import merge_rawdata_ng from "../../models/AggregatePipeline/ngono/merge_rawdata_ng.js";
 
 
 router.get('/typhidata', async (req, res) => {
@@ -25,8 +25,8 @@ router.get('/typhidata', async (req, res) => {
 router.get('/klebdata', async (req, res) => {
 
     try {
-        await client.db("kpneumo").collection("merge_rawdata_kleb").drop();
-        await client.db("kpneumo").collection("pw_kleborate").aggregate(merge_rawdata_kleb).toArray();
+        await client.db("kpneumo").collection("merge_rawdata_kp").drop();
+        await client.db("kpneumo").collection("pw_kleborate").aggregate(merge_rawdata_kp).toArray();
        
         return res.status(200).send('All data merged successfully');
     } catch (error) {
@@ -35,13 +35,13 @@ router.get('/klebdata', async (req, res) => {
     }
 
 });
-
+//TODO: the rules need to be change for one file 
 router.get('/ngonodata', async (req, res) => {
     console.log("i m in");
 
     try {
         await client.db("ngono").collection("merge_rawdata_ng").drop();
-        await client.db("ngono").collection("pw_amr-profile").aggregate(merge_rawdata_ng).toArray();
+        // await client.db("ngono").collection("pw_amr-profile").aggregate(merge_rawdata_ng).toArray();
        
         return res.status(200).send('All data merged successfully');
     } catch (error) {
@@ -50,7 +50,7 @@ router.get('/ngonodata', async (req, res) => {
     }
 
 });
-
+//TODO: the rules need to be change for one file 
 router.get('/ecolidata', async (req, res) => {
     console.log("i m in");
 
@@ -66,7 +66,7 @@ router.get('/ecolidata', async (req, res) => {
     }
 
 });
-
+//TODO: the rules need to be change for one file 
 router.get('/shigedata', async (req, res) => {
     console.log("i m in");
 
@@ -81,13 +81,14 @@ router.get('/shigedata', async (req, res) => {
     }
 
 });
-router.get('/salmonelladata', async (req, res) => {
+//TODO: the rules need to be change for one file 
+router.get('/sentericadata', async (req, res) => {
     console.log("i m in");
 
     try {
-        await client.db("salmonella").collection("merge_rawdata_sa").drop();
+        await client.db("senterica").collection("merge_rawdata_se").drop();
         //No aggregate needs (Note: flag to check)
-        // const result = await client.db("salmonella").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
+        // const result = await client.db("senterica").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
         return res.status(200).send('All data merged successfully');
     } catch (error) {
         console.error(error);

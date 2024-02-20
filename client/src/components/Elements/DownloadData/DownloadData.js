@@ -165,12 +165,12 @@ export const DownloadData = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDrugClassesBars() {
     switch (organism) {
-      case 'typhi':
+      case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
       default:
         return colorForDrugClassesKP[determinantsGraphDrugClass];
@@ -307,12 +307,12 @@ export const DownloadData = () => {
 
       let texts;
       let firstName, secondName, secondword;
-      if (organism === 'typhi') {
+      if (organism === 'styphi') {
         texts = getSalmonellaTexts(date);
         firstName = "Salmonella";
         secondName = "Typhi";
         secondword = 315;
-      } else if (organism === 'klebe') {
+      } else if (organism === 'kpneumo') {
         texts = getKlebsiellaTexts();
         firstName = "Klebsiella";
         secondName = "pneumoniae";
@@ -380,7 +380,7 @@ export const DownloadData = () => {
       doc.setFont(undefined, 'normal');
       doc.text(texts[16], 16, pageHeight-50, { align: 'left', maxWidth: pageWidth - 36 });
 
-      if (organism === 'typhi') {
+      if (organism === 'styphi') {
         const euFlag = new Image();
         euFlag.src = EUFlagImg;
         doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
@@ -410,7 +410,7 @@ export const DownloadData = () => {
       doc.setFont(undefined, 'normal');
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       doc.text(`Map View: ${actualMapView}`, 16, 108);
-      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'typhi' ? ' (local + travel)' : ''}`, 16, 120);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 120);
       if(mapView === 'Genotype prevalence'){
         if (customDropdownMapView.length === 1) {
             doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
@@ -447,7 +447,7 @@ export const DownloadData = () => {
 
       switch (mapView) {
         case 'Dominant Genotype':
-          legendWidth = organism === 'typhi' ? 414.21 : 394.28;
+          legendWidth = organism === 'styphi' ? 414.21 : 394.28;
           mapLegend.src = `legends/MapView_DominantGenotype_${organism}.png`;
           break;
         case 'No. Samples':
@@ -467,10 +467,10 @@ export const DownloadData = () => {
       }
 
       // Graphs
-      const isKlebe = organism === 'klebe';
+      const isKlebe = organism === 'kpneumo';
 
       const cards = getOrganismCards();
-      const legendDrugs = organism === 'typhi' ? drugsST : drugsKP;
+      const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
       const drugClassesBars = getDrugClassesBars();
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilter.length / 6);
@@ -514,7 +514,7 @@ export const DownloadData = () => {
         doc.text(`Total: ${actualGenomes} genomes`, 16, 54);
         doc.text(`Country: ${actualCountry}`, 16, 66);
         doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 78);
-        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'typhi' ? ' (local + travel)' : ''}`, 16, 90);
+        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 90);
 
         const graphImg = document.createElement('img');
         const graphImgPromise = imgOnLoadPromise(graphImg);

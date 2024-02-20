@@ -43,9 +43,9 @@ export const DeterminantsGraph = () => {
 
   function getDrugClasses() {
     switch (organism) {
-      case 'typhi':
+      case 'styphi':
         return drugClassesST;
-      case 'klebe':
+      case 'kpneumo':
         return drugClassesKP;
       case 'ngono':
         return drugClassesNG;
@@ -53,7 +53,7 @@ export const DeterminantsGraph = () => {
         return drugClassesEC;
       case 'shige':
         return drugClassesSH;
-      case 'salmonella':
+      case 'senterica':
         return drugClassesSA;
       default:
         return [];
@@ -62,7 +62,7 @@ export const DeterminantsGraph = () => {
 
   function getDrugClassesBars() {
     switch (organism) {
-      case 'typhi':
+      case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
       default:
         return colorForDrugClassesKP[determinantsGraphDrugClass];

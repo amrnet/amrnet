@@ -110,7 +110,7 @@ export const DistributionGraph = () => {
 
   function getGenotypeColor(genotype) {
     // console.log("genotype", genotype);
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleChangeDataView(event) {

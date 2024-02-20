@@ -67,66 +67,66 @@ export const drugClassesST = [
 
 // List of E. coli drug classes
 export const drugClassesEC = [
-  'Ampicillin/Amoxicillin',
-  'Azithromycin',
-  'Chloramphenicol',
-  // 'Co-trimoxazole',
-  'Trimethoprim-sulfamethoxazole',
-  // 'ESBL',
-  'Ceftriaxone',
-  // 'Fluoroquinolones (CipNS)',
-  'Ciprofloxacin NS',
-  'Sulphonamides',
-  'Tetracyclines',
-  'Trimethoprim'
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
 ];
 
 // List of Salmonella spp drug classes
 export const drugClassesSA = [
-  'Ampicillin/Amoxicillin',
-  'Azithromycin',
-  'Chloramphenicol',
-  // 'Co-trimoxazole',
-  'Trimethoprim-sulfamethoxazole',
-  // 'ESBL',
-  'Ceftriaxone',
-  // 'Fluoroquinolones (CipNS)',
-  'Ciprofloxacin NS',
-  'Sulphonamides',
-  'Tetracyclines',
-  'Trimethoprim'
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
 ];
 
 // List of Shigella drug classes
 export const drugClassesSH = [
-  'Ampicillin/Amoxicillin',
-  'Azithromycin',
-  'Chloramphenicol',
-  // 'Co-trimoxazole',
-  'Trimethoprim-sulfamethoxazole',
-  // 'ESBL',
-  'Ceftriaxone',
-  // 'Fluoroquinolones (CipNS)',
-  'Ciprofloxacin NS',
-  'Sulphonamides',
-  'Tetracyclines',
-  'Trimethoprim'
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
 ];
 
 // List of N. gono drug classes
 export const drugClassesNG = [
-  'Ampicillin/Amoxicillin',
-  'Azithromycin',
-  'Chloramphenicol',
-  // 'Co-trimoxazole',
-  'Trimethoprim-sulfamethoxazole',
-  // 'ESBL',
-  'Ceftriaxone',
-  // 'Fluoroquinolones (CipNS)',
-  'Ciprofloxacin NS',
-  'Sulphonamides',
-  'Tetracyclines',
-  'Trimethoprim'
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
 ];
 
 // List of Klebsiella drug classes
