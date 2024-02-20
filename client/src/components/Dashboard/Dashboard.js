@@ -150,6 +150,25 @@ export const DashboardPage = () => {
       dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
       dispatch(setConvergenceData(convergenceData.data));
     }
+   
+    if (organism === 'ngono') {
+      // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
+      // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
+      const years = [...new Set(responseData.map((x) => x.DATE))];
+      const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.country)))];
+
+      years.sort();
+      countries.sort();
+
+      dispatch(setTotalGenotypes(genotypes.length));
+      dispatch(setActualGenotypes(genotypes.length));
+      dispatch(setYears(years));
+      dispatch(setTimeInitial(years[0]));
+      dispatch(setActualTimeInitial(years[0]));
+      dispatch(setTimeFinal(years[years.length - 1]));
+      dispatch(setActualTimeFinal(years[years.length - 1]));
+      dispatch(setCountriesForFilter(countries));
+    }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
@@ -188,23 +207,15 @@ export const DashboardPage = () => {
             break;
           case 'ngono':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
             break;
           case 'ecoli':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
             break;
           case 'shige':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
             break;
           case 'senterica':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-            dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
             break;
           default:
             break;
