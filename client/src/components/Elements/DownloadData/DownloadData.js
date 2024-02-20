@@ -302,7 +302,7 @@ export const DownloadData = () => {
       const logo = new Image();
       logo.src = LogoImg;
       const logoWidth = 80;
-      doc.addImage(logo, 'PNG', 16, 16, logoWidth, 41);
+      doc.addImage(logo, 'PNG', 16, 16, logoWidth, 41, undefined, 'FAST');
 
 
       let texts;
@@ -448,7 +448,7 @@ export const DownloadData = () => {
         ctx.drawImage(mapImg, 0, 0, canvas.width, canvas.height);
 
         const img = canvas.toDataURL('image/png');
-        doc.addImage(img, 'PNG', 0, mapY, pageWidth, 223);
+        doc.addImage(img, 'PNG', 0, mapY, pageWidth, 223, undefined, 'FAST');
       });
 
       const mapLegend = new Image();
@@ -470,9 +470,9 @@ export const DownloadData = () => {
           break;
       }
       if (mapView === 'Dominant Genotype') {
-        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, 351, legendWidth, 47);
+        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, 351, legendWidth, 47, undefined, 'FAST');
       } else {
-        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5 , 85, legendWidth, 47);
+        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5 , 85, legendWidth, 47, undefined, 'FAST');
       }
 
       // Graphs
@@ -530,9 +530,9 @@ export const DownloadData = () => {
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
         await graphImgPromise;
         if (graphImg.width <= 741) {
-          doc.addImage(graphImg, 'PNG', 16, 110);
+          doc.addImage(graphImg, 'PNG', 16, 110, undefined, undefined,undefined, 'FAST');
         } else {
-          doc.addImage(graphImg, 'PNG', 16, 110, pageWidth - 80, 271);
+          doc.addImage(graphImg, 'PNG', 16, 110, pageWidth - 80, 271, undefined, 'FAST');
         }
 
         doc.setFillColor(255, 255, 255);
@@ -679,7 +679,7 @@ export const DownloadData = () => {
         loadingPosition="start"
         disabled={organism === 'none'}
       >
-        Download PDF
+        Download PDF(2MB)
       </LoadingButton>
       <Button className={classes.button} variant="contained" onClick={handleClickDatabasePage} startIcon={<Storage />}>
         See Database info
