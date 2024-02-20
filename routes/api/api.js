@@ -8,7 +8,7 @@ import {client} from '../../config/db2.js';
 // Get all data from the clean file inside assets
 router.get('/getDataForSTyphi', async function (req, res, next) {
   try {
-        const result = await client.db("styphi").collection("merge_rawdata_st").find({ 'dashboard view': 'Include' }).toArray();;
+        const result = await client.db("styphi1").collection("merge_rawdata_st").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
@@ -60,7 +60,7 @@ router.get('/getDataForNgono', async function (req, res, next) {
         console.log(result.length);
         if(result.length < 1){
           let results = [];
-          let read_file = Tools.path_clean_st;
+          let read_file = Tools.path_clean_ng;
           fs.createReadStream(read_file)
             .on('error', (_) => {
               return res.json([]);
@@ -80,11 +80,11 @@ router.get('/getDataForNgono', async function (req, res, next) {
 
 router.get('/getDataForEcoli', async function (req, res, next) {
   try {
-        const result = await client.db("ecoli").collection("merge_rawdata_ec").find({ 'dashboard view': 'Include' }).toArray();;
+        const result = await client.db("ecoli1").collection("merge_rawdata_ec").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
-          let read_file = Tools.path_clean_st;
+          let read_file = Tools.path_clean_ec;
           fs.createReadStream(read_file)
             .on('error', (_) => {
               return res.json([]);
@@ -108,7 +108,7 @@ router.get('/getDataForShige', async function (req, res, next) {
         console.log(result.length);
         if(result.length < 1){
           let results = [];
-          let read_file = Tools.path_clean_st;
+          let read_file = Tools.path_clean_sh;
           fs.createReadStream(read_file)
             .on('error', (_) => {
               return res.json([]);
@@ -128,11 +128,11 @@ router.get('/getDataForShige', async function (req, res, next) {
 
 router.get('/getDataForSenterica', async function (req, res, next) {
   try {
-        const result = await client.db("senterica").collection("merge_rawdata_se").find({ 'dashboard view': 'Include' }).toArray();;
+        const result = await client.db("senterica1").collection("merge_rawdata_se").find({ 'dashboard view': 'Include' }).toArray();;
         console.log(result.length);
         if(result.length < 1){
           let results = [];
-          let read_file = Tools.path_clean_st;
+          let read_file = Tools.path_clean_se;
           fs.createReadStream(read_file)
             .on('error', (_) => {
               return res.json([]);

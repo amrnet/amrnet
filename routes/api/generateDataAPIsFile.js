@@ -113,7 +113,7 @@ router.get('/generate/:organism', async function (req, res, next) {
     collection_ext = 'ec';
     fileName = 'cleanAll_ec.csv';
   }else if (organism === 'shige') {
-    collection = client.db('shige').collection('merge_rawdata_shige');
+    collection = client.db('shige').collection('merge_rawdata_sh');
     folderName = 'shige';
     ext = 'sh';
     collection_ext = 'sh';
@@ -183,8 +183,8 @@ router.get('/clean/:organism', async function (req, res, next) {
     database = 'shige';
   }else{
     folderName = 'senterica';
-    ext = 'sa';
-    collection_ext = 'senterica';
+    ext = 'se';
+    collection_ext = 'se';
     database = 'senterica';
   }
   
