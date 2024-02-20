@@ -644,8 +644,8 @@ export const DownloadData = () => {
   }
 
   function handleClickDatabasePage() {
-    dispatch(setPage('database'));
-    navigate('/database');
+    dispatch(setPage('user-guide'));
+    navigate('/user-guide');
   }
 
   return (
