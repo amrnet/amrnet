@@ -11,5 +11,6 @@ export const mapLegends = [
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   { value: 'Genotype prevalence', label: 'Genotype prevalence', organisms: ['typhi', 'klebe', 'ngono', 'ecoli', 'shige', 'salmonella'] },
   { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['typhi'] },
-  { value: 'No. Samples', label: 'No. Samples', organisms: ['typhi', 'klebe', 'ngono', 'ecoli', 'shige', 'salmonella'] }
+  { value: 'No. Samples', label: 'No. Samples', organisms: ['typhi', 'klebe', 'ngono', 'ecoli', 'shige', 'salmonella'] },
+  { value: 'Resistance prevalence', label: 'Resistance prevalence', organisms: ['typhi', 'klebe', 'ngono', 'ecoli', 'shige', 'salmonella'] },
 ];
