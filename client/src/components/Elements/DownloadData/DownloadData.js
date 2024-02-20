@@ -548,7 +548,7 @@ export const DownloadData = () => {
         }else if (graphCards[index].id === 'DRT') {
           drawLegend({
             document: doc,
-            legendData: drugsForDrugResistanceGraphST,
+            legendData: drugResistanceGraphView,
             factor: 8,
             rectY,
             xSpace: 200,

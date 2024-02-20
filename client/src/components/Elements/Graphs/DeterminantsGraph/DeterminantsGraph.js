@@ -15,7 +15,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDeterminantsGraphDrugClass, setDeterminantsGraphView } from '../../../../stores/slices/graphSlice';
-import { drugClassesST, drugClassesKP, drugClassesNG, drugClassesSH, drugClassesSA, drugClassesEC, drugsNG} from '../../../../util/drugs';
+import { drugClassesST, drugClassesKP, drugClassesNG, drugClassesSH, drugClassesSA, drugClassesEC, drugsNG, drugsEC, drugsSE, drugsSH} from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, colorForDrugClassesSA, colorForDrugClassesSH, colorForDrugClassesEC, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -50,11 +50,11 @@ export const DeterminantsGraph = () => {
       case 'ngono':
         return drugsNG;
       case 'ecoli':
-        return drugClassesEC;
+        return drugsEC;
       case 'shige':
-        return drugClassesSH;
+        return drugsSH;
       case 'senterica':
-        return drugClassesSA;
+        return drugsSE;
       default:
         return [];
     }

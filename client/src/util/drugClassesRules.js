@@ -1,7 +1,7 @@
 // Drug rules for Salmonella, where the column has to have one of the values to validate the rule. For frequencies and
 // drug resistance graphs
 export const drugRulesST = [
-  { key: 'Ampicillin', columnID: 'blaTEM-1D', values: ['1'] },
+  { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
   // { key: 'Co-trimoxazole', columnID: 'co_trim', values: ['1'] },
@@ -75,7 +75,7 @@ export const drugRulesEC = [
 
 // Salmonella Typhi drug classes rules for determinants graph
 export const drugClassesRulesST = {
-  Ampicillin: [
+  "Ampicillin/Amoxicillin": [
     {
       name: 'blaTEM-1D',
       susceptible: false,

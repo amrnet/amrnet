@@ -508,6 +508,7 @@ router.post('/newdoctyphi', function (req, res, next) {
                 "COUNTRY ISOLATED": countryIsolated,
                 "PMID": pmid,
                 "TRAVEL ASSOCIATED": travelAssociated,
+                "blaTEM-1D":doc["blaTEM-1D"].toString(),
                 
                 "COUNTRY_ONLY": countryOnly,
                 "REGION_IN_COUNTRY": regionInCounty,
