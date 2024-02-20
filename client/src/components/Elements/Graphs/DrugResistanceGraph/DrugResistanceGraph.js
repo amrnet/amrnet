@@ -288,6 +288,22 @@ export const DrugResistanceGraph = () => {
               </div>
               <div className={classes.tooltipContent}>
                 {currentTooltip.drugs.map((item, index) => {
+                  let itemLabel;
+                  if (item.label === 'XDR') {
+                      itemLabel = (
+                        <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
+                          <span>XDR</span>
+                          </Tooltip>
+                      );
+                  } else if(item.label === 'MDR'){
+                      itemLabel = (
+                        <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
+                          <span>MDR</span>
+                          </Tooltip>
+                      );
+                  }else{
+                      itemLabel = item.label;
+                  }
                   return (
                     <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
                       <Box
@@ -298,7 +314,7 @@ export const DrugResistanceGraph = () => {
                       />
                       <div className={classes.tooltipItemStats}>
                         <Typography variant="body2" fontWeight="500">
-                          {item.label}
+                          {itemLabel}
                         </Typography>
                         <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
                         <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
