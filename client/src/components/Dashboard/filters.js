@@ -41,6 +41,7 @@ export function filterData({ data, dataset, actualTimeInitial, actualTimeFinal, 
   };
 }
 
+//TODO: change for the mongo
 // Adjust the country names to its correct name
 export function getCountryDisplayName(country) {
   switch (country) {
