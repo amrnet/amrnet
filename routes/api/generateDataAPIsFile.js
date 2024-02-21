@@ -36,7 +36,7 @@ router.post('/download', function (req, res, next) {
     localFilePath = Tools.path_clean_all_sh;
   } else {
     collection = client.db('senterica').collection('merge_rawdata_se');
-    localFilePath = Tools.path_clean_all_sa;
+    localFilePath = Tools.path_clean_all_se;
   }
 
 
