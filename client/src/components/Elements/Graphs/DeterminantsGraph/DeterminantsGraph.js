@@ -44,6 +44,7 @@ export const DeterminantsGraph = () => {
   
 
   useEffect(() => {
+    dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesDrugClassesData]);
 
@@ -195,6 +196,7 @@ export const DeterminantsGraph = () => {
       });
 
       setCurrentTooltip(value);
+      dispatch(setResetBool(false));
     }
   }
 

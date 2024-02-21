@@ -50,7 +50,8 @@ import {
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
-  setCurrentSliderValue
+  setCurrentSliderValue,
+  setCurrentSliderValueRD
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -268,6 +269,7 @@ export const DashboardPage = () => {
       dispatch(setIfCustom(false));
       
       dispatch(setCurrentSliderValue(20));
+      dispatch(setCurrentSliderValueRD(5));
 
       switch (organism) {
         case 'styphi':
