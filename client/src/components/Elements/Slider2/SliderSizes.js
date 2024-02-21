@@ -32,15 +32,15 @@ export const SliderSizes = () => {
         {/* Display the values of the sliders */}
         <div className={classes.sliderLabel}>
         <p>Individual :</p>
-        <p>{currentSliderValueRD}</p>
+        <p>{currentSliderValueRD>sliderList?sliderList-1:currentSliderValueRD}</p>
         </div>
         <Slider
-          value={currentSliderValueRD }
+          value={currentSliderValueRD>sliderList?sliderList-1:currentSliderValueRD}
           onChange={handleDefaultSliderChange}
           aria-label="Default"
           valueLabelDisplay="auto"
           min={1}
-          max={sliderList}
+          max={sliderList-1}
         />
       </Box>
     </div>
