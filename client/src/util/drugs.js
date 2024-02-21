@@ -129,18 +129,15 @@ export const drugsSE = [
 
 // List of Salmonella spp drug classes
 export const drugClassesSA = [
-  // 'Ampicillin',
-  // 'Azithromycin',
-  // 'Chloramphenicol',
-  // // 'Co-trimoxazole',
-  // 'Trimethoprim-sulfamethoxazole',
-  // // 'ESBL',
-  // 'Ceftriaxone',
-  // // 'Fluoroquinolones (CipNS)',
-  // 'Ciprofloxacin NS',
-  // 'Sulphonamides',
-  // 'Tetracyclines',
-  // 'Trimethoprim'
+  'Ampicillin',
+  'Azithromycin',
+  'Chloramphenicol',
+  'Trimethoprim-sulfamethoxazole',
+  'Ceftriaxone',
+  'Ciprofloxacin NS',
+  'Sulphonamides',
+  'Tetracyclines',
+  'Trimethoprim'
 ];
 
 // List of Shigella drug classes
@@ -161,19 +158,11 @@ export const drugClassesSH = [
 
 // List of N. gono drug classes
 export const drugsNG = [
-  // 'Ampicillin',
   'Azithromycin',
-  // 'Chloramphenicol',
-  // 'Co-trimoxazole',
-  // 'Trimethoprim-sulfamethoxazole',
-  // 'ESBL',
   'Ceftriaxone',
-  // 'Fluoroquinolones (CipNS)',
   'Ciprofloxacin',
-  // 'Ciprofloxacin NS',
   'Sulphonamides',
   'Tetracyclines',
-  // 'Trimethoprim',
   'Cefixime',
   'Penicillin',
   'Spectinomycin'
