@@ -4,11 +4,8 @@ export const drugRulesST = [
   { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
-  // { key: 'Co-trimoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
-  // { key: 'ESBL', columnID: 'ESBL_category', values: ['ESBL'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  // { key: 'Fluoroquinolones (CipNS)', columnID: 'cip_pred_pheno', values: ['CipR', 'CipI'] },
   { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Susceptible', columnID: 'amr_category', values: ['No AMR detected'] },
@@ -41,28 +38,10 @@ export const drugRulesKP = [
 ];
 
 export const drugRulesNG = [
-  { key: 'Azithromycin', columnID: 'Azithromycin', values: ['1'] },
-  { key: 'Ceftriaxone', columnID: 'Ceftriaxone', values: ['1'] },
-  { key: 'Ciprofloxacin', columnID: 'Ciprofloxacin', values: ['1'] },
-  { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
-  { key: 'Susceptible', columnID: 'num_resistance', values: ['0'] },
-  { key: 'Tetracyclines', columnID: 'Tetracyclines', values: ['1'] },
-  { key: 'Cefixime', columnID: 'Cefixime', values: ['1'] },
-  { key: 'Penicillin', columnID: 'Penicillin', values: ['1'] },
-  { key: 'Spectinomycin', columnID: 'Spectinomycin', values: ['1'] }
 ];
 
 export const drugRulesSE = [
-  { key: 'Ampicillin', columnID: 'Ampicillin', values: ['1'] },
-  { key: 'Azithromycin', columnID: 'Azithromycin', values: ['AzithR'] },
-  { key: 'Chloramphenicol', columnID: 'Chloramphenicol', values: ['ChlR'] },
-  { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
-  { key: 'Ceftriaxone', columnID: 'Chloramphenicol', values: ['ESBL'] },
-  { key: 'Ciprofloxacin NS', columnID: 'Ciprofloxacin', values: ['CipNS'] },
-  { key: 'Sulphonamides', columnID: 'Sulphonamides', values: ['1'] },
-  { key: 'Susceptible', columnID: 'Susceptible', values: ['0'] },
-  { key: 'Tetracyclines', columnID: 'Tetracyclines', values: ['TetR'] },
-  { key: 'Trimethoprim', columnID: 'Trimethoprim', values: ['1'] }
+
 ];
 
 export const drugRulesSH = [
