@@ -75,7 +75,7 @@ export const DeterminantsGraph = () => {
       break;
       default:
         if(colorForDrugClassesKP[determinantsGraphDrugClass] !== undefined)
-        return colorForDrugClassesKP[determinantsGraphDrugClass];
+        return colorForDrugClassesKP[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");;
     }
   }
 
@@ -163,7 +163,20 @@ export const DeterminantsGraph = () => {
 
   function handleClickChart(event) {
     setCurrentEventSelected(event);
-    const data = newArray.find((item) => item.name === event?.activeLabel);
+  }
+
+  function getColorForDrug(drug){
+    const colorForDrugClasses = organism === 'styphi'?colorForDrugClassesST:colorForDrugClassesKP;
+    const drugClassColors = colorForDrugClasses[determinantsGraphDrugClass];
+    // Find the color for the specific drug from the drug class colors
+    const drugColorObject = drugClassColors.find(item => drug.includes(item.name));
+    const drugColor = drugColorObject ? drugColorObject.color : '#DCDCDC'; // If drugColorObject exists, extract color, otherwise set to empty string
+    return drugColor;
+  }
+
+  useEffect(()=>{
+    
+    const data = newArray.find((item) => item.name === currentEventSelected?.activeLabel);
 
     if (data) {
       const currentData = structuredClone(data);
@@ -188,9 +201,8 @@ export const DeterminantsGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: event.activePayload.find((x) => x.name === key)?.color
+          color: getColorForDrug(key)
         });
-
         // value.drugClasses = value.drugClasses.sort((a, b) => a.label.localeCompare(b.label));
         value.drugClasses = value.drugClasses.sort((a, b) => a.label.localeCompare(b.label)).filter((item) => topXGenotypes.includes(item.label) || item.label === "Other");
       });
@@ -198,7 +210,7 @@ export const DeterminantsGraph = () => {
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
     }
-  }
+  },[topXGenotypes, currentEventSelected.activeLabel, currentSliderValueRD]);
 
   useEffect(()=>{
     if(!resetBool)
@@ -207,7 +219,7 @@ export const DeterminantsGraph = () => {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
   }
-  },[topXGenotypes]);
+  },[topXGenotypes,currentSliderValueRD]);
 
   useEffect(() => {
     if (canGetData) {
