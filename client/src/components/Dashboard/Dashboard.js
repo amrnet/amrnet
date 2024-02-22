@@ -154,8 +154,8 @@ export const DashboardPage = () => {
     if (organism === 'ngono') {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
-      const years = [...new Set(responseData.map((x) => x.DATE))];
-      const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.country)))];
+      const years = [...new Set(responseData.map((x) => (x.DATE).toString()))];
+      const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
 
       years.sort();
       countries.sort();
