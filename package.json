@@ -70,6 +70,7 @@
         "web-vitals": "^2.1.0"
     },
     "devDependencies": {
+        "@babel/core": "^7.23.9",
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "browser-sync": "^2.23.7",
         "concurrently": "^6.2.0",
