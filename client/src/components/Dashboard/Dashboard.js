@@ -92,8 +92,9 @@ export const DashboardPage = () => {
     const responseData = response.data;
     dispatch(setTotalGenomes(responseData.length));
     dispatch(setActualGenomes(responseData.length));
+    responseData.map((x) => (console.log("responseData", x.GENOTYPE )))
 
-    const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
+    const genotypes = [...new Set(responseData.map((x) => (x.GENOTYPE).toString()))];
     if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
