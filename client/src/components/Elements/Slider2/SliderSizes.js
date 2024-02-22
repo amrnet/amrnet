@@ -31,7 +31,7 @@ export const SliderSizes = () => {
       <Box >
         {/* Display the values of the sliders */}
         <div className={classes.sliderLabel}>
-        <p>Individual :</p>
+        <p>Individual resistance determinants:</p>
         <p>{currentSliderValueRD>sliderList?sliderList-1:currentSliderValueRD}</p>
         </div>
         <Slider
