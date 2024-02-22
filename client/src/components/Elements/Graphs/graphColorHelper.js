@@ -26,16 +26,19 @@ export const getColorForDrug = (drug) => {
 
     // case 'Fluoroquinolones (CipI)':
     case 'Fosfomycin':
+    case 'Cefixime':
       return '#98fb98';
 
     // case 'Fluoroquinolones (CipNS)':
     case 'Ciprofloxacin NS':
+    case 'Ciprofloxacin':
     case 'Penicillins':
       return 'rgb(255,236,120)';
 
     // case 'Fluoroquinolones (CipR)':
     case 'Ciprofloxacin R':
     case 'Fluoroquinolones':
+    case 'Penicillin':
       return '#9e9ac8';
 
     case 'Sulphonamides':
@@ -50,6 +53,7 @@ export const getColorForDrug = (drug) => {
       return 'rgb(251,207,229)';
 
     case 'Trimethoprim':
+    case 'Spectinomycin':
       return 'rgb(102,102,255)';
 
     case 'β-lactamase inhibitors':
