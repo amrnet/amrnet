@@ -128,7 +128,7 @@ export const drugsSE = [
 ];
 
 // List of Salmonella spp drug classes
-export const drugClassesSA = [
+export const drugClassesSE = [
   'Ampicillin',
   'Azithromycin',
   'Chloramphenicol',
@@ -165,6 +165,7 @@ export const drugsNG = [
   'Tetracyclines',
   'Cefixime',
   'Penicillin',
+  'Susceptible',
   'Spectinomycin'
 ];
 
