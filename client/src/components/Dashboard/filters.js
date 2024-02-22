@@ -11,7 +11,7 @@ export function filterData({ data, dataset, actualTimeInitial, actualTimeFinal, 
   };
 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x));
-  const genotypes = [...new Set(newData.map((x) => x.GENOTYPE))];
+  const genotypes = [...new Set(newData.map((x) => (x.GENOTYPE).toString()))];
 
   if (organism === 'styphi') {
     genotypes.sort((a, b) => a.localeCompare(b));
@@ -28,7 +28,7 @@ export function filterData({ data, dataset, actualTimeInitial, actualTimeFinal, 
     genomesCount = countryData.length;
     listPMID = [...new Set(countryData.map((x) => x.PMID))];
 
-    const countryGenotypes = [...new Set(countryData.map((x) => x.GENOTYPE))];
+    const countryGenotypes = [...new Set(countryData.map((x) => (x.GENOTYPE).toString()))];
     genotypesCount = countryGenotypes.length;
   }
 
@@ -121,12 +121,12 @@ export function getMapData({ data, countries, organism }) {
       return {};
     }
 
-    const genotypes = [...new Set(countryData.map((x) => x.GENOTYPE))];
+    const genotypes = [...new Set(countryData.map((x) => (x.GENOTYPE).toString()))];
     stats.GENOTYPE.count = genotypes.length;
     stats.GENOTYPE.items = genotypes.map((genotype) => {
       return {
         name: genotype,
-        count: countryData.filter((x) => x.GENOTYPE === genotype).length
+        count: countryData.filter((x) => (x.GENOTYPE).toString() === genotype).length
       };
     });
     stats.GENOTYPE.items.sort((a, b) => (a.count <= b.count ? 1 : -1));
@@ -148,11 +148,11 @@ export function getMapData({ data, countries, organism }) {
       // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
     }else if (organism === 'ecoli'){
-      stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
+      // stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
       // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
     }else if (organism === 'shige'){
-      stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
+      // stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
       // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
     }else{

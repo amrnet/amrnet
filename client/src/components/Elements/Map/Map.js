@@ -88,9 +88,9 @@ export const Map = () => {
                 : {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
-                    ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carb: `${countryStats.Carb.percentage}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`
+                    // ESBL: `${countryStats.ESBL.percentage}%`,
+                    // Carb: `${countryStats.Carb.percentage}%`,
+                    // Susceptible: `${countryStats.Susceptible.percentage}%`
                   }
           });
           break;
