@@ -38,6 +38,14 @@ export const drugRulesKP = [
 ];
 
 export const drugRulesNG = [
+  { key: 'Azithromycin', columnIDs: ['Azithromycin'], values: ['1'] },
+  { key: 'Ceftriaxone', columnIDs: ['Ceftriaxone'], values: ['1'] },
+  { key: 'Ciprofloxacin', columnIDs: ['Ciprofloxacin'], values: ['1'] },
+  { key: 'Sulphonamides', columnIDs: ['Sulphonamides'], values: ['1'] },
+  { key: 'Tetracyclines', columnIDs: ['Tetracyclines'], values: ['1'] },
+  { key: 'Cefixime', columnIDs: ['Penicillin'], values: ['1'] },
+  { key: 'Penicillin', columnIDs: ['Penicillin'], values: ['1'] },
+  { key: 'Spectinomycin', columnIDs: ['Spectinomycin'], values: ['1'] }
 ];
 
 export const drugRulesSE = [
@@ -653,9 +661,16 @@ export const drugClassesRulesSH = {
 };
 
 // Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesNG = {
-
-};
+export const drugClassesRulesNG = [
+  { key: 'Azithromycin', columnID: 'Azithromycin', values: ['1'] },
+  { key: 'Ceftriaxone', columnID: 'Ceftriaxone', value: ['1'] },
+  { key: 'Ciprofloxacin', columnID: 'Ciprofloxacin', value: ['1'] },
+  { key: 'Sulphonamides', columnID: 'Sulphonamides', value: ['1'] },
+  { key: 'Tetracyclines', columnID: 'Tetracyclines', value: ['1'] },
+  { key: 'Cefixime', columnID: 'Cefixime', value: ['1'] },
+  { key: 'Penicillin', columnID: 'Penicillin', value: ['1'] },
+  { key: 'Spectinomycin', columnID: 'Spectinomycin', value: ['1'] },
+];
 // Klebsiella drug classes rules for determinants graph
 export const drugClassesRulesSE = {
 

@@ -33,7 +33,7 @@ const organisms = [
   {
     label: 'Salmonella enterica',
     value: 'senterica',
-    abbr: 'Salmonella enterica'
+    abbr: 'S. enterica'
   }
 ];
 
@@ -108,9 +108,9 @@ export const SelectOrganism = () => {
             {matches1050 ? item.abbr : item.label}
           </MenuItem>
         ))}
-        <MenuItem value="ngono" disabled>
+        {/* <MenuItem value="ngono" disabled>
           {matches1050 ? 'N. gonorrhoeae' : 'Neisseria gonorrhoeae'}
-        </MenuItem>
+        </MenuItem> */}
       </Select>
       {!matches650 && (
         <IconButton color="inherit" onClick={handleNextAgent} disabled={loadingData}>
