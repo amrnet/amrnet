@@ -38,14 +38,14 @@ export const drugRulesKP = [
 ];
 
 export const drugRulesNG = [
-  { key: 'Azithromycin', columnIDs: ['Azithromycin'], values: ['1'] },
-  { key: 'Ceftriaxone', columnIDs: ['Ceftriaxone'], values: ['1'] },
-  { key: 'Ciprofloxacin', columnIDs: ['Ciprofloxacin'], values: ['1'] },
-  { key: 'Sulphonamides', columnIDs: ['Sulphonamides'], values: ['1'] },
-  { key: 'Tetracyclines', columnIDs: ['Tetracyclines'], values: ['1'] },
-  { key: 'Cefixime', columnIDs: ['Penicillin'], values: ['1'] },
-  { key: 'Penicillin', columnIDs: ['Penicillin'], values: ['1'] },
-  { key: 'Spectinomycin', columnIDs: ['Spectinomycin'], values: ['1'] }
+  { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
+  { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
+  { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
+  { key: 'Sulphonamides', columnID: ['Sulphonamides'], values: ['1'] },
+  { key: 'Tetracyclines', columnID: ['Tetracyclines'], values: ['1'] },
+  { key: 'Cefixime', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
 ];
 
 export const drugRulesSE = [
@@ -666,7 +666,8 @@ export const drugClassesRulesNG =
   Azithromycin: 'Azithromycin',
   Ceftriaxone: 'Ceftriaxone',
   Ciprofloxacin: 'Ciprofloxacin',
-  Ceftriaxone: 'Ceftriaxone',
+  Cefixime: 'Cefixime',
+  Sulfonamides: 'Sulfonamides',
   Tetracyclines: 'Tetracyclines',
   Penicillin: 'Penicillin',
   Spectinomycin: 'Spectinomycin'
