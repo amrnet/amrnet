@@ -677,7 +677,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism === 'none'}
+        disabled={organism !== 'styphi' && organism !== 'kpneumo'}
       >
         Download PDF(2MB)
       </LoadingButton>
