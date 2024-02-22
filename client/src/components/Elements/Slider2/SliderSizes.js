@@ -21,21 +21,23 @@ export const SliderSizes = () => {
     // callBackValue(newValue);
   };
 
+    let slidervalue =  currentSliderValueRD<sliderList?currentSliderValueRD:sliderList-1;
+
   useEffect(()=>{
-    const max = sliderList;
-    // dispatch(setMaxSliderValueRD(sliderList.length));
-  });
-// console.log("maxSliderValueRD", sliderList)
+    dispatch(setCurrentSliderValueRD(slidervalue));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[currentSliderValueRD, sliderList]);
+console.log("sliderList", sliderList)
   return (
     <div className={classes.sliderSize}>
       <Box >
         {/* Display the values of the sliders */}
         <div className={classes.sliderLabel}>
         <p>Individual resistance determinants:</p>
-        <p>{currentSliderValueRD>sliderList?sliderList-1:currentSliderValueRD}</p>
+        <p>{slidervalue}</p>
         </div>
         <Slider
-          value={currentSliderValueRD>sliderList?sliderList-1:currentSliderValueRD}
+          value={slidervalue}
           onChange={handleDefaultSliderChange}
           aria-label="Default"
           valueLabelDisplay="auto"
