@@ -190,7 +190,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   }
 
   const genotypesData = years.map((year) => {
-    const yearData = data.filter((x) => (x.DATE).toString() === year);
+    const yearData = data.filter((x) => (x.DATE).toString() === (year).toString());
     const response = {
       name: year.toString(),
       count: yearData.length
@@ -470,7 +470,7 @@ export function getGenotypesData({ data, genotypes, organism }) {
     return response;
   });
 
-  genotypesDrugsData.sort((a, b) => b.resistantCount - a.resistantCount);
+  genotypesDrugsData.sort((a, b) => b.totalCount - a.totalCount);
   Object.keys(genotypesDrugClassesData).forEach((key) => {
     genotypesDrugClassesData[key].sort((a, b) => b.resistantCount - a.resistantCount);
     genotypesDrugClassesData[key] = genotypesDrugClassesData[key].slice(0, 10);
