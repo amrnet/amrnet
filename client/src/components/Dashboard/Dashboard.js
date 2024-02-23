@@ -65,7 +65,7 @@ import {
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG } from '../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG, drugsEC, drugsSH, drugsSE } from '../../util/drugs';
 // import countries from '../../util/countries';
 
 export const DashboardPage = () => {
@@ -156,8 +156,8 @@ export const DashboardPage = () => {
     if (organism === 'ngono') {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
-      const years = [...new Set(responseData.map((x) => x.DATE))];
-      const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.country)))];
+      const years = [...new Set(responseData.map((x) => (x.DATE).toString()))];
+      const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
 
       years.sort();
       countries.sort();
@@ -213,12 +213,15 @@ export const DashboardPage = () => {
             break;
           case 'ecoli':
             dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsEC));
             break;
           case 'shige':
             dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsSH));
             break;
           case 'senterica':
             dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsSE));
             break;
           default:
             break;

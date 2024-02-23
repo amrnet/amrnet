@@ -8,7 +8,7 @@ export const mapLegends = [
   { value: 'ESBL', label: 'ESBL', organisms: ['kpneumo']},
   { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: ['styphi']},
   { value: 'Carb', label: 'Carbapenems', organisms: ['kpneumo'] },
-  { value: 'Sensitive to all drugs', label: 'Sensitive to all drugs', organisms: ['styphi', 'kpneumo', 'ngono'] },
+  { value: 'Sensitive to all drugs', label: 'Sensitive to all drugs', organisms: ['styphi', 'kpneumo', 'ngono', ] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   { value: 'Genotype prevalence', label: 'Genotype prevalence', organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica'] },
   { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['styphi'] },

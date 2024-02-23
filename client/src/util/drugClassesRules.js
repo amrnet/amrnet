@@ -4,11 +4,8 @@ export const drugRulesST = [
   { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
-  // { key: 'Co-trimoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
-  // { key: 'ESBL', columnID: 'ESBL_category', values: ['ESBL'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  // { key: 'Fluoroquinolones (CipNS)', columnID: 'cip_pred_pheno', values: ['CipR', 'CipI'] },
   { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Susceptible', columnID: 'amr_category', values: ['No AMR detected'] },
@@ -41,7 +38,14 @@ export const drugRulesKP = [
 ];
 
 export const drugRulesNG = [
-
+  { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
+  { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
+  { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
+  { key: 'Sulphonamides', columnID: ['Sulphonamides'], values: ['1'] },
+  { key: 'Tetracyclines', columnID: ['Tetracyclines'], values: ['1'] },
+  { key: 'Cefixime', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
 ];
 
 export const drugRulesSE = [
@@ -657,9 +661,27 @@ export const drugClassesRulesSH = {
 };
 
 // Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesNG = {
-
+export const drugClassesRulesNG = 
+{
+  Azithromycin: 'Azithromycin',
+  Ceftriaxone: 'Ceftriaxone',
+  Ciprofloxacin: 'Ciprofloxacin',
+  Cefixime: 'Cefixime',
+  Sulfonamides: 'Sulfonamides',
+  Tetracyclines: 'Tetracyclines',
+  Penicillin: 'Penicillin',
+  Spectinomycin: 'Spectinomycin'
 };
+// [
+//   { key: 'Azithromycin', columnID: 'Azithromycin', values: ['1'] },
+//   { key: 'Ceftriaxone', columnID: 'Ceftriaxone', value: ['1'] },
+//   { key: 'Ciprofloxacin', columnID: 'Ciprofloxacin', value: ['1'] },
+//   { key: 'Sulphonamides', columnID: 'Sulphonamides', value: ['1'] },
+//   { key: 'Tetracyclines', columnID: 'Tetracyclines', value: ['1'] },
+//   { key: 'Cefixime', columnID: 'Cefixime', value: ['1'] },
+//   { key: 'Penicillin', columnID: 'Penicillin', value: ['1'] },
+//   { key: 'Spectinomycin', columnID: 'Spectinomycin', value: ['1'] },
+// ];
 // Klebsiella drug classes rules for determinants graph
 export const drugClassesRulesSE = {
 

@@ -23,9 +23,9 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsST, drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
-import { colorForDrugClassesKP, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
+import { colorForDrugClassesKP, colorForDrugClassesNG, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
 import { TrendsKPGraph } from './TrendsKPGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
@@ -62,7 +62,6 @@ export const Graphs = () => {
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
-
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
   }
@@ -75,6 +74,10 @@ export const Graphs = () => {
     switch (organism) {
       case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
+      case 'kpneumo':
+        return colorForDrugClassesKP[determinantsGraphDrugClass];
+      case 'ngono':
+        return colorForDrugClassesNG[determinantsGraphDrugClass];
       default:
         return colorForDrugClassesKP[determinantsGraphDrugClass];
     }
@@ -124,7 +127,6 @@ export const Graphs = () => {
         alert("No drugs/classes selected to download")
       )
     }
-
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');

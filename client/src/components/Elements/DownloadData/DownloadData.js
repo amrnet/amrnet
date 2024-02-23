@@ -348,7 +348,7 @@ export const DownloadData = () => {
             pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
           }
         doc.text(dynamicText,16, 185,{ align: 'left', maxWidth: pageWidth - 36 });
-
+        
         // Info
         
         doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });

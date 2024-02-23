@@ -11,7 +11,7 @@ export function filterData({ data, dataset, actualTimeInitial, actualTimeFinal, 
   };
 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x));
-  const genotypes = [...new Set(newData.map((x) => x.GENOTYPE))];
+  const genotypes = [...new Set(newData.map((x) => (x.GENOTYPE).toString()))];
 
   if (organism === 'styphi') {
     genotypes.sort((a, b) => a.localeCompare(b));
@@ -28,7 +28,7 @@ export function filterData({ data, dataset, actualTimeInitial, actualTimeFinal, 
     genomesCount = countryData.length;
     listPMID = [...new Set(countryData.map((x) => x.PMID))];
 
-    const countryGenotypes = [...new Set(countryData.map((x) => x.GENOTYPE))];
+    const countryGenotypes = [...new Set(countryData.map((x) => (x.GENOTYPE).toString()))];
     genotypesCount = countryGenotypes.length;
   }
 
@@ -121,12 +121,12 @@ export function getMapData({ data, countries, organism }) {
       return {};
     }
 
-    const genotypes = [...new Set(countryData.map((x) => x.GENOTYPE))];
+    const genotypes = [...new Set(countryData.map((x) => (x.GENOTYPE).toString()))];
     stats.GENOTYPE.count = genotypes.length;
     stats.GENOTYPE.items = genotypes.map((genotype) => {
       return {
         name: genotype,
-        count: countryData.filter((x) => x.GENOTYPE === genotype).length
+        count: countryData.filter((x) => (x.GENOTYPE).toString() === genotype).length
       };
     });
     stats.GENOTYPE.items.sort((a, b) => (a.count <= b.count ? 1 : -1));
@@ -192,7 +192,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   const genotypesData = years.map((year) => {
     const yearData = data.filter((x) => (x.DATE).toString() === year);
     const response = {
-      name: year,
+      name: year.toString(),
       count: yearData.length
     };
     let stats = {};
@@ -201,7 +201,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       const genotypes = [...new Set(yearData.map((x) => (x.GENOTYPE).toString()))];
 
       stats = genotypes.reduce((accumulator, currentValue) => {
-        const count = yearData.filter((x) => x.GENOTYPE === currentValue).length;
+        const count = yearData.filter((x) => (x.GENOTYPE).toString() === currentValue).length;
         accumulator[currentValue] = count;
 
         return accumulator;
@@ -259,7 +259,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         }else if (organism === 'ngono') {
           // For drugsData
           drugRulesNG.forEach((rule) => {
-            const drugData = yearData.filter((x) => rule.columnIDs.some((columnID) => x[columnID] !== '-'));
+            const drugData = yearData.filter((x) => rule.values.includes(x[rule.columnID]));
             drugStats[rule.key] = drugData.length;
           });
 
@@ -374,7 +374,7 @@ export function getGenotypesData({ data, genotypes, organism }) {
       }
     });
   }else if (organism === 'ngono'){
-    Object.keys(drugClassesRulesNG).forEach((key) => {
+    Object.keys(drugRulesNG).forEach((key) => {
       genotypesDrugClassesData[key] = [];
     });
   }else if (organism === 'ecoli'){
@@ -396,7 +396,7 @@ export function getGenotypesData({ data, genotypes, organism }) {
   }
 
   const genotypesDrugsData = genotypes.map((genotype) => {
-    const genotypeData = data.filter((x) => x.GENOTYPE === genotype);
+    const genotypeData = data.filter((x) => (x.GENOTYPE).toString() === genotype);
 
     const response = {
       name: genotype,
@@ -438,7 +438,7 @@ export function getGenotypesData({ data, genotypes, organism }) {
           genotypesDrugClassesData[rule.key].push(drugClass);
         }
       });
-    } else if (organism === 'kpneumo')  {
+    } else if (organism === 'kpneumo'){
       drugRulesKP.forEach((rule) => {
         const drugData = genotypeData.filter((x) => rule.columnIDs.some((columnID) => x[columnID] !== '-'));
         response[rule.key] = drugData.length;
@@ -453,14 +453,14 @@ export function getGenotypesData({ data, genotypes, organism }) {
       });
     } else if (organism === 'ngono'){
        drugRulesNG.forEach((rule) => {
-        const drugData = genotypeData.filter((x) => rule.columnIDs.some((columnID) => x[columnID] !== '-'));
-        response[rule.key] = drugData.length;
+       const drugData = genotypeData.filter((x) => rule.values.some((columnID) => x[columnID] !== '-'));
+       response[rule.key] = drugData.length;
       });
 
       const susceptible = genotypeData.filter((x) => x.nonsus === '0');
       response['Susceptible'] = susceptible.length;
 
-      Object.keys(drugClassesRulesNG).forEach((key) => {
+      Object.keys(drugRulesNG).forEach((key) => {
         const drugClass = { ...drugClassResponse, ...getNGDrugClassData({ drugKey: key, dataToFilter: genotypeData }) };
         genotypesDrugClassesData[key].push(drugClass);
       });
@@ -493,16 +493,16 @@ export function getKODiversityData({ data }) {
 
     const keyData = values.map((value) => {
       const diversityData = data.filter((x) => x[key] === value);
-      const MDR = diversityData.filter((x) => KO_MDR.includes(x.GENOTYPE));
-      const Hv = diversityData.filter((x) => KO_HV.includes(x.GENOTYPE));
+      const MDR = diversityData.filter((x) => KO_MDR.includes((x.GENOTYPE).toString()));
+      const Hv = diversityData.filter((x) => KO_HV.includes((x.GENOTYPE).toString()));
       const Carbapenems = diversityData.filter((x) => x.Bla_Carb_acquired !== '-');
       const ESBL = diversityData.filter((x) => x.Bla_ESBL_acquired !== '-');
       const aerobactin = diversityData.filter((x) => x.Aerobactin !== '-');
       const rmpADC = diversityData.filter((x) => !['-', '-,-,-'].includes(x.RmpADC));
       const neither = diversityData.filter(
         (x) =>
-          !KO_MDR.includes(x.GENOTYPE) &&
-          !KO_HV.includes(x.GENOTYPE) &&
+          !KO_MDR.includes((x.GENOTYPE).toString()) &&
+          !KO_HV.includes((x.GENOTYPE).toString()) &&
           x.Bla_Carb_acquired === '-' &&
           x.Bla_ESBL_acquired === '-' &&
           x.Aerobactin === '-' &&
@@ -653,37 +653,37 @@ function getKPDrugClassData({ drugKey, dataToFilter }) {
 
 function getNGDrugClassData({ drugKey, dataToFilter }) {
   const drugClass = {};
-  const columnID = drugClassesRulesNG[drugKey];
+  const columnID = drugRulesNG[drugKey];
 
   const resistantData = dataToFilter.filter((x) => {
     if (x[columnID] === '-') {
       return false;
     }
 
-    const genes = x[columnID].split(';');
+    // const genes = x[columnID];
 
-    if (genes.every((g) => isSusceptible(g))) {
-      return false;
-    }
+    // if (genes.every((g) => isSusceptible(g))) {
+    //   return false;
+    // }
 
-    if (genes.length === 1) {
-      if (genes[0] in drugClass) {
-        drugClass[genes[0]] += 1;
-      } else {
-        drugClass[genes[0]] = 1;
-      }
-    } else {
-      const resistantGenes = genes.filter((g) => !isSusceptible(g));
-      resistantGenes.sort((a, b) => a.localeCompare(b));
+    // if (genes.length === 1) {
+    //   if (genes[0] in drugClass) {
+    //     drugClass[genes[0]] += 1;
+    //   } else {
+    //     drugClass[genes[0]] = 1;
+    //   }
+    // } else {
+    //   const resistantGenes = genes.filter((g) => !isSusceptible(g));
+    //   resistantGenes.sort((a, b) => a.localeCompare(b));
 
-      const name = resistantGenes.join(';').replaceAll(';', ' + ');
+    //   const name = resistantGenes.join(';').replaceAll(';', ' + ');
 
-      if (name in drugClass) {
-        drugClass[name] += 1;
-      } else {
-        drugClass[name] = 1;
-      }
-    }
+    //   if (name in drugClass) {
+    //     drugClass[name] += 1;
+    //   } else {
+    //     drugClass[name] = 1;
+    //   }
+    // }
 
     return true;
   });
