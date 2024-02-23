@@ -52,7 +52,7 @@ export const drugRulesNG = [
   { key: 'Azithromycin', columnIDs: ['Azithromycin'] },
   { key: 'Ceftriaxone', columnIDs: ['Ceftriaxone'] },
   { key: 'Ciprofloxacin', columnIDs: ['Ciprofloxacin'] },
-  { key: 'Sulphonamides', columnIDs: ['Sulphonamides'] },
+  { key: 'Sulfonamides', columnIDs: ['Sulfonamides'] },
   { key: 'Tetracyclines', columnIDs: ['Tetracyclines'] },
   { key: 'Cefixime', columnIDs: ['Penicillin'] },
   { key: 'Penicillin', columnIDs: ['Penicillin'] },
