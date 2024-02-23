@@ -19,7 +19,7 @@ import { drugClassesST, drugClassesKP, drugsNG, drugClassesSH, drugClassesSA, dr
 import { useEffect, useState } from 'react';
 import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, colorForDrugClassesSA, colorForDrugClassesSH, colorForDrugClassesEC, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { SliderSizes } from '../../Slider2/SliderSizes';
+import { SliderSizes } from '../../Slider/SliderSizes';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number', graphLabel: 'Number of occurrences' },
