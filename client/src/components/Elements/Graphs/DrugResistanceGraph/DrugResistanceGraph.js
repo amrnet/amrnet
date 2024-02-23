@@ -86,6 +86,17 @@ export const DrugResistanceGraph = () => {
       return drugResistanceGraphView;
     // }
     // return drugsKP;
+
+  }
+  function getDrugsForLegends() {
+    if (organism === 'none') {
+      return [];
+    }
+    // if (organism === 'typhi') {
+      return drugResistanceGraphView;
+    // }
+    // return drugsKP;
+
   }
 
   function handleChangeDrugsView({ event = null, all = false }) {
@@ -154,7 +165,7 @@ export const DrugResistanceGraph = () => {
       const lines = doc.getElementsByClassName('recharts-line');
 
       for (let index = 0; index < lines.length; index++) {
-        const drug = drugResistanceGraphView[index];
+          const drug = drugResistanceGraphView[index];
           const hasValue = getDrugs().includes(drug);
           lines[index].style.display = hasValue ? 'block' : 'none';
       }
@@ -189,21 +200,21 @@ export const DrugResistanceGraph = () => {
                         {payload.map((entry, index) => {
                           const { dataKey, color } = entry;
                           let dataKeyElement;
-                          if (dataKey === "XDR") {
-                              dataKeyElement = (
-                                <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
-                                  <span>XDR</span>
-                                  </Tooltip>
-                              );
-                          } else if (dataKey === "MDR"){
-                              dataKeyElement = (
-                                <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
-                                  <span>MDR</span>
-                                  </Tooltip>
-                              );
-                          }else{
-                              dataKeyElement = dataKey;
-                          } 
+                            if (dataKey === "XDR") {
+                                dataKeyElement = (
+                                  <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
+                                    <span>XDR</span>
+                                    </Tooltip>
+                                );
+                            } else if(dataKey === "MDR"){
+                                dataKeyElement = (
+                                  <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
+                                    <span>MDR</span>
+                                    </Tooltip>
+                                );
+                            }else{
+                                dataKeyElement = dataKey;
+                            }
                           return (
                             <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
                               <Box className={classes.colorCircle} style={{ backgroundColor: color }} />

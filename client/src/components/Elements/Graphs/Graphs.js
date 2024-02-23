@@ -62,7 +62,7 @@ export const Graphs = () => {
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
-  
+
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
   }

@@ -57,6 +57,7 @@ export const drugRulesNG = [
   { key: 'Cefixime', columnIDs: ['Penicillin'] },
   { key: 'Penicillin', columnIDs: ['Penicillin'] },
   { key: 'Spectinomycin', columnIDs: ['Spectinomycin'] }
+
 ];
 
 export const drugRulesSE = [

@@ -336,12 +336,15 @@ export const DownloadData = () => {
         if (actualCountry === 'All'){
           pmidSpace = 0;
           dynamicText = `TyphiNET presents data aggregated from >100 studies. Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
-        } else {
+
+        }else{
           list = listPIMD.filter((value)=> value !== "-")
           dynamicText = `TyphiNET presents data aggregated from >100 studies. Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
           const textWidth = doc.getTextWidth(dynamicText);
+
           const widthRanges = [815, 1200, 1600, 2000, 2400];
-          const pmidSpaces = [-50, -40, -30, -20, -10, 0];          
+          const pmidSpaces = [-50, -40, -30, -20, -10, 0];
+
 
             // Find the appropriate pmidSpace based on textWidth
             pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
@@ -392,9 +395,9 @@ export const DownloadData = () => {
         doc.text(texts[4], 16, 175, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[5], 16, 195, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[6], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
-      }      
-
-      
+      }
+       
+  
         drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       // Map
@@ -487,6 +490,9 @@ export const DownloadData = () => {
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
 
       for (let index = 0; index < cards.length; index++) {
+        if (graphCards[index].id === 'DRT' && drugResistanceGraphView.length === 0 ){
+            continue;
+        }
         doc.addPage();
         drawFooter({ document: doc, pageHeight, pageWidth, date });
 
@@ -673,9 +679,9 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism === 'none'}
+        disabled={organism !== 'styphi' && organism !== 'kpneumo'}
       >
-        Download PDF
+        Download PDF(2MB)
       </LoadingButton>
       <Button className={classes.button} variant="contained" onClick={handleClickDatabasePage} startIcon={<Storage />}>
         See Database info

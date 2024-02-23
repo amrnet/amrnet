@@ -50,7 +50,8 @@ import {
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
-  setCurrentSliderValue
+  setCurrentSliderValue,
+  setCurrentSliderValueRD
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -91,6 +92,7 @@ export const DashboardPage = () => {
     const responseData = response.data;
     dispatch(setTotalGenomes(responseData.length));
     dispatch(setActualGenomes(responseData.length));
+    responseData.map((x) => (console.log("responseData", x.GENOTYPE )))
 
     const genotypes = [...new Set(responseData.map((x) => (x.GENOTYPE).toString()))];
     if (organism === 'styphi') {
@@ -272,6 +274,7 @@ export const DashboardPage = () => {
       dispatch(setIfCustom(false));
       
       dispatch(setCurrentSliderValue(20));
+      dispatch(setCurrentSliderValueRD(5));
 
       switch (organism) {
         case 'styphi':
