@@ -110,6 +110,7 @@ export const TopRightControls = () => {
           >
             {getMapLegends().map((legend, index) => {
               let legendLabel;
+
                 if (legend.label === 'Extensively drug resistant (XDR)') {
                     legendLabel = (
                       <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">

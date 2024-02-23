@@ -336,6 +336,7 @@ export const DownloadData = () => {
         if (actualCountry === 'All'){
           pmidSpace = 0;
           dynamicText = `TyphiNET presents data aggregated from >100 studies. Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+
         }else{
           list = listPIMD.filter((value)=> value !== "-")
           dynamicText = `TyphiNET presents data aggregated from >100 studies. Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
@@ -343,6 +344,7 @@ export const DownloadData = () => {
 
           const widthRanges = [815, 1200, 1600, 2000, 2400];
           const pmidSpaces = [-50, -40, -30, -20, -10, 0];
+
 
             // Find the appropriate pmidSpace based on textWidth
             pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
@@ -395,8 +397,8 @@ export const DownloadData = () => {
         doc.text(texts[6], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
       }
        
-
-      drawFooter({ document: doc, pageHeight, pageWidth, date });
+  
+        drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       // Map
       doc.addPage();

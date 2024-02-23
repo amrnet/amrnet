@@ -86,6 +86,7 @@ export const DrugResistanceGraph = () => {
       return drugResistanceGraphView;
     // }
     // return drugsKP;
+
   }
   function getDrugsForLegends() {
     if (organism === 'none') {
@@ -95,6 +96,7 @@ export const DrugResistanceGraph = () => {
       return drugResistanceGraphView;
     // }
     // return drugsKP;
+
   }
 
   function handleChangeDrugsView({ event = null, all = false }) {

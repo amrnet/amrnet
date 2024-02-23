@@ -158,21 +158,14 @@ export const drugClassesSH = [
 
 // List of N. gono drug classes
 export const drugsNG = [
-  // 'Ampicillin',
   'Azithromycin',
-  // 'Chloramphenicol',
-  // 'Co-trimoxazole',
-  // 'Trimethoprim-sulfamethoxazole',
-  // 'ESBL',
   'Ceftriaxone',
-  // 'Fluoroquinolones (CipNS)',
   'Ciprofloxacin',
-  // 'Ciprofloxacin NS',
   'Sulphonamides',
   'Tetracyclines',
-  // 'Trimethoprim',
   'Cefixime',
   'Penicillin',
+  'Susceptible',
   'Spectinomycin'
 ];
 

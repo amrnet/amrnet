@@ -136,7 +136,7 @@ export const DashboardPage = () => {
     });
 
     if (organism === 'kpneumo') {
-      // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
+      //console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
 
@@ -175,7 +175,7 @@ export const DashboardPage = () => {
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-    // console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
+    console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
     return responseData;
   }
 
