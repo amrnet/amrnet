@@ -14,7 +14,7 @@ import {
   Brush
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDeterminantsGraphDrugClass, setDeterminantsGraphView, setResetBool, setSliderList } from '../../../../stores/slices/graphSlice';
+import { setDeterminantsGraphDrugClass, setDeterminantsGraphView, setResetBool, setSliderList, setMaxSliderValueRD } from '../../../../stores/slices/graphSlice';
 import { drugClassesST, drugClassesKP, drugsNG, drugClassesSH, drugClassesSA, drugClassesEC} from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, colorForDrugClassesSA, colorForDrugClassesSH, colorForDrugClassesEC, hoverColor } from '../../../../util/colorHelper';
@@ -82,7 +82,7 @@ export const DeterminantsGraph = () => {
   let data = 0;
     useEffect(()=>{
       if(genotypesDrugClassesData[determinantsGraphDrugClass] !== undefined){
-        data = genotypesDrugClassesData[determinantsGraphDrugClass].filter((x)=>x.totalCount>0).length;
+        data = genotypesDrugClassesData[determinantsGraphDrugClass].filter((x)=>x).length;
       }
     },[genotypesDrugClassesData, determinantsGraphDrugClass])
 
@@ -109,8 +109,9 @@ export const DeterminantsGraph = () => {
       mapArray.sort((a, b) => b[1] - a[1]);
       const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
       setTopXGenotypes(slicedArray);
-      // console.log("topXGenotypes",slicedArray )
-  },[determinantsGraphDrugClass, currentSliderValueRD]);
+      console.log("setMaxSliderValueRD",mapArray.length )
+      dispatch(setMaxSliderValueRD(mapArray.length));
+  },[determinantsGraphDrugClass, currentSliderValueRD,]);
 
 
   
@@ -133,7 +134,7 @@ export const DeterminantsGraph = () => {
   useEffect(()=>{
       const exclusions = ['name', 'totalCount', 'resistantCount'];
     
-    genotypeDrugClassesDataPercentage = genotypeDrugClassesDataPercentage.filter((x)=>x.totalCount>0).map((item) => {
+    genotypeDrugClassesDataPercentage = genotypeDrugClassesDataPercentage.filter((x)=>x).map((item) => {
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
       dispatch(setSliderList(keys.length));
 
@@ -379,3 +380,4 @@ export const DeterminantsGraph = () => {
     </CardContent>
   );
 };
+
