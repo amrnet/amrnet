@@ -1,6 +1,6 @@
 // List of Salmonella drugs
 export const drugsST = [
-  'Ampicillin',
+  'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
   // 'Co-trimoxazole',
@@ -49,9 +49,9 @@ export const drugsKP = [
   'Trimethoprim'
 ];
 
-// List of Salmonella drug classes
+// List of Salmonella Typhi drug classes
 export const drugClassesST = [
-  'Ampicillin',
+  'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
   // 'Co-trimoxazole',
@@ -63,6 +63,110 @@ export const drugClassesST = [
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim'
+];
+
+// List of E. coli drug classes
+export const drugClassesEC = [
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
+];
+
+// List of E. coli drug classes
+export const drugsEC = [
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
+];
+
+export const drugsSH = [
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
+];
+
+export const drugsSE = [
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
+];
+
+// List of Salmonella spp drug classes
+export const drugClassesSE = [
+  'Ampicillin',
+  'Azithromycin',
+  'Chloramphenicol',
+  'Trimethoprim-sulfamethoxazole',
+  'Ceftriaxone',
+  'Ciprofloxacin NS',
+  'Sulphonamides',
+  'Tetracyclines',
+  'Trimethoprim'
+];
+
+// List of Shigella drug classes
+export const drugClassesSH = [
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // // 'Co-trimoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
+  // // 'ESBL',
+  // 'Ceftriaxone',
+  // // 'Fluoroquinolones (CipNS)',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
+];
+
+// List of N. gono drug classes
+export const drugsNG = [
+  'Azithromycin',
+  'Ceftriaxone',
+  'Ciprofloxacin',
+  'Sulfonamides',
+  'Tetracycline',
+  'Cefixime',
+  'Penicillin',
+  'Susceptible',
+  'Spectinomycin'
 ];
 
 // List of Klebsiella drug classes

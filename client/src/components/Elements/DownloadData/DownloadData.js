@@ -66,7 +66,14 @@ const columnsToRemove = [
   'sul_any',
   'co_trim',
   'GENOTYPE_SIMPLE',
-  'h58_genotypes'
+  'h58_genotypes',
+  'COUNTRY OF ORIGIN',
+  'AGE',
+  'TRAVEL COUNTRY',
+  'TRAVEL ASSOCIATED',
+  'parE_D420N',
+  'parE_L416F',
+  '_id',
 ];
 
 export const DownloadData = () => {
@@ -82,7 +89,7 @@ export const DownloadData = () => {
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const listPIMD = useAppSelector((state) => state.dashboard.listPMID);
   const PMID = useAppSelector((state) => state.dashboard.PMID);
-  const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
+  // const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
@@ -97,12 +104,14 @@ export const DownloadData = () => {
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
+  const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
 
   async function handleClickDownloadDatabase() {
     setLoadingCSV(true);
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
       .then((res) => {
+        console.log("response",res);
         let indexes = [];
         let csv = res.data.split('\n');
         let lines = [];
@@ -111,12 +120,6 @@ export const DownloadData = () => {
           let line = csv[index].split(',');
           lines.push(line);
         }
-
-        // lines[0].forEach((curr, index) => {
-        //   if (curr === 'cip_pred_pheno') {
-        //     lines[0][index] = 'cip_pred_pheno';
-        //   }
-        // });
         
         for (let index = 0; index < columnsToRemove.length; index++) {
           let currentIndex = lines[0].indexOf(columnsToRemove[index]);
@@ -150,8 +153,7 @@ export const DownloadData = () => {
           }
           newCSV += aux;
         }
-
-        download(newCSV, 'Database.csv');
+         download(newCSV, 'Database.csv');
       })
       .finally(() => {
         setLoadingCSV(false);
@@ -163,12 +165,12 @@ export const DownloadData = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDrugClassesBars() {
     switch (organism) {
-      case 'typhi':
+      case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
       default:
         return colorForDrugClassesKP[determinantsGraphDrugClass];
@@ -196,6 +198,7 @@ export const DownloadData = () => {
     isVariable = false,
     xSpace,
     twoPages = false,
+    threePages = false,
     factorMultiply = 3
   }) {
     let firstLegendData = legendData.slice();
@@ -205,10 +208,16 @@ export const DownloadData = () => {
     let secondLegendFactor;
 
     if (twoPages) {
-      firstLegendData = legendData.slice(0, 27 * factorMultiply);
-      secondLegendData = legendData.slice(27 * factorMultiply);
-      secondLegendFactor = factor - 27;
-      firstLegendFactor = 27;
+      firstLegendData = legendData.slice(0, 26 * factorMultiply);
+      secondLegendData = legendData.slice(26 * factorMultiply);
+      secondLegendFactor = factor - 26;
+      firstLegendFactor = 26;
+    }
+    if (threePages) {
+      firstLegendData = legendData.slice(0, 50 * factorMultiply);
+      secondLegendData = legendData.slice(50 * factorMultiply);
+      secondLegendFactor = factor - 50;
+      firstLegendFactor = 50;
     }
 
     firstLegendData.forEach((legend, i) => {
@@ -240,7 +249,7 @@ export const DownloadData = () => {
       );
     });
 
-    if (twoPages) {
+    if (twoPages || threePages ) {
       document.addPage();
 
       secondLegendData.forEach((legend, i) => {
@@ -293,17 +302,18 @@ export const DownloadData = () => {
       const logo = new Image();
       logo.src = LogoImg;
       const logoWidth = 80;
-      doc.addImage(logo, 'PNG', 16, 16, logoWidth, 41);
+      doc.addImage(logo, 'PNG', 16, 16, logoWidth, 41, undefined, 'FAST');
 
 
       let texts;
       let firstName, secondName, secondword;
-      if (organism === 'typhi') {
+      if (organism === 'styphi') {
         texts = getSalmonellaTexts(date);
         firstName = "Salmonella";
         secondName = "Typhi";
         secondword = 315;
-      } else if (organism === 'klebe') {
+      } else if (organism === 'kpneumo') {
+        console.log("organism", organism)
         texts = getKlebsiellaTexts();
         firstName = "Klebsiella";
         secondName = "pneumoniae";
@@ -320,39 +330,73 @@ export const DownloadData = () => {
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(date, pageWidth / 2, 48, { align: 'center' });
 
-      
+      if (organism === 'styphi') {
+        let list = PMID.filter((value)=> value !== "-")
+        let pmidSpace, dynamicText;
+        if (actualCountry === 'All'){
+          pmidSpace = 0;
+          dynamicText = `TyphiNET presents data aggregated from >100 studies. Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+        }else{
+          list = listPIMD.filter((value)=> value !== "-")
+          dynamicText = `TyphiNET presents data aggregated from >100 studies. Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+          const textWidth = doc.getTextWidth(dynamicText);
+          
+          const widthRanges = [815, 1200, 1600, 2000, 2400];
+          const pmidSpaces = [-50, -40, -30, -20, -10, 0];          
 
-      // Info
-      doc.text(texts[0], 16, 85, { align: 'justify', maxWidth: pageWidth - 36 });
-      doc.text(texts[1], 16, 125, { align: 'justify', maxWidth: pageWidth - 36 });
-      doc.text(texts[2], 16, 153, {
-        align: 'justify',
-        maxWidth: pageWidth - 36
-      });
-      doc.text(texts[3], 16, 169, { align: 'justify', maxWidth: pageWidth - 36 });
-      doc.text(texts[4], 16, 197, { align: 'justify', maxWidth: pageWidth - 36 });
-      doc.text(texts[5], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
-      doc.text(texts[6], 16, 277, { align: 'justify', maxWidth: pageWidth - 36 });
-
-      if (organism === 'typhi') {
+            // Find the appropriate pmidSpace based on textWidth
+            pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
+          }
+        doc.text(dynamicText,16, 185,{ align: 'left', maxWidth: pageWidth - 36 });
+        
+        // Info
+        
+        doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[1], 16, 135, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 16, 155, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[3], 16, 265+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[4], 16, 305+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[5], 16, 325+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 355+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 385+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[8], 16, 415+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[9], 16, 435+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 16, 465+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 485+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text("qnr", 16, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[12], 32, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text("gyrA/parC/gyrB", 122, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[13], 185, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFontSize(10).setFont(undefined, 'bold');
+        doc.text(texts[15], 16, pageHeight-60, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[16], 16, pageHeight-50, { align: 'left', maxWidth: pageWidth - 36 });
         const euFlag = new Image();
         euFlag.src = EUFlagImg;
-        doc.addImage(euFlag, 'JPG', 208, 290, 12, 8);
-      }
-       let list = PMID.filter((value)=> value !== "-")
+        doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
+      }else{
+        doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[1], 16, 125, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[2], 16, 145, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[3], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 175, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+      }      
 
-      if (actualCountry !== 'All') 
-        list = listPIMD.filter((value)=> value !== "-")
-        doc.text(
-          `Studies contributing genomes representing infections originating from ${actualCountry} have the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(
-            ', '
-          )}.`,
-          16,
-          337,
-          { align: 'left', maxWidth: pageWidth - 36 }
-        );
-
-      drawFooter({ document: doc, pageHeight, pageWidth, date });
+      
+        drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       // Map
       doc.addPage();
@@ -375,7 +419,7 @@ export const DownloadData = () => {
       doc.setFont(undefined, 'normal');
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       doc.text(`Map View: ${actualMapView}`, 16, 108);
-      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'typhi' ? ' (local + travel)' : ''}`, 16, 120);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 120);
       if(mapView === 'Genotype prevalence'){
         if (customDropdownMapView.length === 1) {
             doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
@@ -386,7 +430,7 @@ export const DownloadData = () => {
       }
       let mapY = 160 + (customDropdownMapView.length*9);
       await svgAsPngUri(document.getElementById('global-overview-map'), {
-        scale: 4,
+        // scale: 4,
         backgroundColor: 'white',
         width: 1200,
         left: -200
@@ -404,7 +448,7 @@ export const DownloadData = () => {
         ctx.drawImage(mapImg, 0, 0, canvas.width, canvas.height);
 
         const img = canvas.toDataURL('image/png');
-        doc.addImage(img, 'PNG', 0, mapY, pageWidth, 223);
+        doc.addImage(img, 'PNG', 0, mapY, pageWidth, 223, undefined, 'FAST');
       });
 
       const mapLegend = new Image();
@@ -412,7 +456,7 @@ export const DownloadData = () => {
 
       switch (mapView) {
         case 'Dominant Genotype':
-          legendWidth = organism === 'typhi' ? 414.21 : 394.28;
+          legendWidth = organism === 'styphi' ? 414.21 : 394.28;
           mapLegend.src = `legends/MapView_DominantGenotype_${organism}.png`;
           break;
         case 'No. Samples':
@@ -426,16 +470,16 @@ export const DownloadData = () => {
           break;
       }
       if (mapView === 'Dominant Genotype') {
-        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, 351, legendWidth, 47);
+        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, 351, legendWidth, 47, undefined, 'FAST');
       } else {
-        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5 , 85, legendWidth, 47);
+        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5 , 85, legendWidth, 47, undefined, 'FAST');
       }
 
       // Graphs
-      const isKlebe = organism === 'klebe';
+      const isKlebe = organism === 'kpneumo';
 
       const cards = getOrganismCards();
-      const legendDrugs = organism === 'typhi' ? drugsST : drugsKP;
+      const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
       const drugClassesBars = getDrugClassesBars();
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilter.length / 6);
@@ -444,6 +488,9 @@ export const DownloadData = () => {
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
 
       for (let index = 0; index < cards.length; index++) {
+        if (graphCards[index].id === 'DRT' && drugResistanceGraphView.length === 0 ){
+          continue;
+        }
         doc.addPage();
         drawFooter({ document: doc, pageHeight, pageWidth, date });
 
@@ -476,16 +523,16 @@ export const DownloadData = () => {
         doc.text(`Total: ${actualGenomes} genomes`, 16, 54);
         doc.text(`Country: ${actualCountry}`, 16, 66);
         doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 78);
-        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'typhi' ? ' (local + travel)' : ''}`, 16, 90);
+        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 90);
 
         const graphImg = document.createElement('img');
         const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
         await graphImgPromise;
         if (graphImg.width <= 741) {
-          doc.addImage(graphImg, 'PNG', 16, 110);
+          doc.addImage(graphImg, 'PNG', 16, 110, undefined, undefined,undefined, 'FAST');
         } else {
-          doc.addImage(graphImg, 'PNG', 16, 110, pageWidth - 80, 271);
+          doc.addImage(graphImg, 'PNG', 16, 110, pageWidth - 80, 271, undefined, 'FAST');
         }
 
         doc.setFillColor(255, 255, 255);
@@ -505,10 +552,10 @@ export const DownloadData = () => {
         }else if (graphCards[index].id === 'DRT') {
           drawLegend({
             document: doc,
-            legendData: drugsForDrugResistanceGraphST,
-            factor: 4,
+            legendData: drugResistanceGraphView,
+            factor: 8,
             rectY,
-            xSpace: 100,
+            xSpace: 200,
             isDrug: true
           });
         } else if (graphCards[index].id === 'RDWG') {
@@ -532,7 +579,8 @@ export const DownloadData = () => {
             factor: genotypesFactor,
             rectY,
             xSpace: 65,
-            isGenotype: true
+            isGenotype: true,
+            // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CERDT') {
           const legendGenotypes = genotypesForFilter.map((genotype) => {
@@ -548,24 +596,27 @@ export const DownloadData = () => {
             xSpace: 127,
             twoPages: true
           });
+          drawFooter({ document: doc, pageHeight, pageWidth, date });
 
           drawLegend({
             id: 'CERDT',
             document: doc,
             legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
             factor: Math.ceil(genotypesForFilter.length / 3),
-            rectY: 6 * 13,
-            xSpace: 127
+            rectY: 6 * 14,
+            xSpace: 127,
+            threePages: false,
           });
-
+          
           drawFooter({ document: doc, pageHeight, pageWidth, date });
         } else if (cards[index].id === 'KO') {
           drawLegend({
             document: doc,
             legendData: colorsForKODiversityGraph,
-            factor: 1,
+            factor: Math.ceil(colorsForKODiversityGraph.length / 4),
             rectY,
-            xSpace: 50
+            xSpace: 90,
+            // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CVM') {
           const isTwoPages = ['Bla_Carb_acquired', 'Bla_ESBL_acquired', 'Yersiniabactin'].includes(
@@ -580,10 +631,10 @@ export const DownloadData = () => {
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
-            twoPages: isTwoPages
+            twoPages: isKlebe
           });
 
-          if (isTwoPages) {
+          if (isKlebe) {
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         }
@@ -602,8 +653,8 @@ export const DownloadData = () => {
   }
 
   function handleClickDatabasePage() {
-    dispatch(setPage('database'));
-    navigate('/database');
+    dispatch(setPage('user-guide'));
+    navigate('/user-guide');
   }
 
   return (
@@ -626,12 +677,12 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism === 'none'}
+        disabled={organism !== 'styphi' && organism !== 'kpneumo'}
       >
         Download PDF
       </LoadingButton>
       <Button className={classes.button} variant="contained" onClick={handleClickDatabasePage} startIcon={<Storage />}>
-        See Database Page
+        See Database info
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>

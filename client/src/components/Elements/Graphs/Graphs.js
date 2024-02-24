@@ -23,9 +23,9 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsST, drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
-import { colorForDrugClassesKP, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
+import { colorForDrugClassesKP, colorForDrugClassesNG, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
 import { TrendsKPGraph } from './TrendsKPGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
@@ -61,19 +61,24 @@ export const Graphs = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
-
+  const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
+  
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDrugClassesBars() {
     switch (organism) {
-      case 'typhi':
+      case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
+      case 'kpneumo':
+        return colorForDrugClassesKP[determinantsGraphDrugClass];
+      case 'ngono':
+        return colorForDrugClassesNG[determinantsGraphDrugClass];
       default:
         return colorForDrugClassesKP[determinantsGraphDrugClass];
     }
@@ -117,7 +122,12 @@ export const Graphs = () => {
   async function handleClickDownload(event, card) {
     event.stopPropagation();
     handleLoading(card.collapse, true);
-
+    if(card.id==='DRT' && drugResistanceGraphView.length === 0){
+      handleLoading(card.id, false);
+      return(
+        alert("No drugs/classes selected to download")
+      )
+    }
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
@@ -199,7 +209,7 @@ export const Graphs = () => {
       const mobileFactor = matches500 ? 100 : 0;
       if ('RFWG'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        const legendDrugs = organism === 'typhi' ? drugsST : drugsKP;
+        const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
 
         drawLegend({
           legendData: legendDrugs,

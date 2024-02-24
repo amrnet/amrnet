@@ -1,14 +1,11 @@
 // Drug rules for Salmonella, where the column has to have one of the values to validate the rule. For frequencies and
 // drug resistance graphs
 export const drugRulesST = [
-  { key: 'Ampicillin', columnID: 'blaTEM-1D', values: ['1'] },
+  { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
-  // { key: 'Co-trimoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
-  // { key: 'ESBL', columnID: 'ESBL_category', values: ['ESBL'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  // { key: 'Fluoroquinolones (CipNS)', columnID: 'cip_pred_pheno', values: ['CipR', 'CipI'] },
   { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Susceptible', columnID: 'amr_category', values: ['No AMR detected'] },
@@ -40,9 +37,44 @@ export const drugRulesKP = [
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] }
 ];
 
-// Salmonella drug classes rules for determinants graph
+export const drugRulesNG = [
+  { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
+  { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
+  { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
+  { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
+  { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
+  { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
+  { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Susceptible', columnID: ['nonsus'], values: ['1'] },
+  { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
+];
+
+// export const drugRulesNG = [
+//   { key: 'Azithromycin', columnIDs: ['Azithromycin'] },
+//   { key: 'Ceftriaxone', columnIDs: ['Ceftriaxone'] },
+//   { key: 'Ciprofloxacin', columnIDs: ['Ciprofloxacin'] },
+//   { key: 'Sulfonamides', columnIDs: ['Sulfonamides'] },
+//   { key: 'Tetracyclines', columnIDs: ['Tetracycline'] },
+//   { key: 'Cefixime', columnIDs: ['Penicillin'] },
+//   { key: 'Penicillin', columnIDs: ['Penicillin'] },
+//   { key: 'Spectinomycin', columnIDs: ['Spectinomycin'] }
+// ];
+
+export const drugRulesSE = [
+
+];
+
+export const drugRulesSH = [
+
+];
+
+export const drugRulesEC = [
+
+];
+
+// Salmonella Typhi drug classes rules for determinants graph
 export const drugClassesRulesST = {
-  Ampicillin: [
+  "Ampicillin/Amoxicillin": [
     {
       name: 'blaTEM-1D',
       susceptible: false,
@@ -628,4 +660,221 @@ export const drugClassesRulesST = {
 export const drugClassesRulesKP = {
   Carbapenems: 'Bla_Carb_acquired',
   ESBL: 'Bla_ESBL_acquired'
+};
+
+// Klebsiella drug classes rules for determinants graph
+export const drugClassesRulesEC = {
+
+};
+
+// Klebsiella drug classes rules for determinants graph
+export const drugClassesRulesSH = {
+
+};
+
+// Klebsiella drug classes rules for determinants graph
+export const drugClassesRulesNG = 
+{
+  Azithromycin: 'Azithromycin', 
+  Ceftriaxone: 'Ceftriaxone',
+  Ciprofloxacin: 'Ciprofloxacin',
+  Sulfonamides: 'Sulfonamides',
+  Tetracycline: 'Tetracycline',
+  Cefixime: 'Cefixime',
+  Penicillin: 'Penicillin',
+  Susceptible: 'Susceptible',
+  Spectinomycin: 'Spectinomycin'
+  // Penicillin: [
+  //   {
+  //     name: 'blaTEM-1D',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'blaTEM-1D', value: '1' }]
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'blaTEM-1D', value: '0' }]
+  //   }
+  // ],
+  // Azithromycin: [
+  //   {
+  //     name: 'acrB_R717Q',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'azith_pred_pheno', value: 'AzithR' },
+  //       { columnID: 'acrB_R717Q', value: '1' },
+  //       { columnID: 'acrB_R717L', value: '0' }
+  //     ]
+  //   },
+  //   {
+  //     name: 'acrB_R717L',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'azith_pred_pheno', value: 'AzithR' },
+  //       { columnID: 'acrB_R717L', value: '1' },
+  //       { columnID: 'acrB_R717Q', value: '0' }
+  //     ]
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'azith_pred_pheno', value: 'AzithS' }]
+  //   }
+  // ],
+  // Cefixime: [
+  //   {
+  //     name: 'catA1 + cmlA',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'chloramphenicol_category', value: 'ChlR' },
+  //       { columnID: 'catA1', value: '1' },
+  //       { columnID: 'cmlA', value: '1' }
+  //     ]
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'chloramphenicol_category', value: 'ChlS' }]
+  //   }
+  // ],
+  //   Ceftriaxone: [
+  //   {
+  //     name: 'blaCTX-M-15',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'ESBL_category', value: 'ESBL' },
+  //       { columnID: 'blaCTX-M-15_23', value: '1' }
+  //     ]
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'ESBL_category', value: 'Non-ESBL' }]
+  //   }
+  // ],
+  // 'Ciprofloxacin': [
+  //   {
+  //     name: '3_QRDR + qnrS (CipR)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '3_QRDR + qnrS' }]
+  //   },
+  //   {
+  //     name: '3_QRDR + qnrB (CipR)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '3_QRDR + qnrB' }]
+  //   },
+  //   {
+  //     name: '3_QRDR (CipR)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '3_QRDR' }]
+  //   },
+  //   {
+  //     name: '2_QRDR + qnrS (CipR)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '2_QRDR + qnrS' }]
+  //   },
+  //   {
+  //     name: '2_QRDR + qnrB (CipR)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '2_QRDR + qnrB' }]
+  //   },
+  //   {
+  //     name: '2_QRDR (CipR)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '2_QRDR' }]
+  //   },
+  //   {
+  //     name: '1_QRDR + qnrS (CipNS)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '1_QRDR + qnrS' }]
+  //   },
+  //   {
+  //     name: '1_QRDR + qnrB (CipNS)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '1_QRDR + qnrB' }]
+  //   },
+  //   {
+  //     name: '1_QRDR (CipNS)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '1_QRDR' }]
+  //   },
+  //   {
+  //     name: '0_QRDR + qnrS (CipNS)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrS' }]
+  //   },
+  //   {
+  //     name: '0_QRDR + qnrB (CipNS)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrB' }]
+  //   },
+  //   {
+  //     name: '0_QRDR + qnrS + qnrD (CipNS)',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrS + qnrD' }]
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR' }]
+  //   }
+  // ],
+  // Sulfonamides: [
+  //   {
+  //     name: 'sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'sul_any', value: '1' },
+  //     ]
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'sul_any', value: '0' }]
+  //   }
+  // ],
+  // Tetracycline: [
+  //   {
+  //     name: 'tetM',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'tetM', value: '1' }
+  //     ]
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'nonsus', value: '0' }]
+  //   }
+  // ],
+  // Spectinomycin: [
+  //   {
+  //     name: 'dfrA7',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'dfra_any', value: '1' },
+  //       { columnID: 'dfrA7', value: '1' },
+  //       { columnID: 'dfrA14', value: '0' }
+  //     ]
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'dfra_any', value: '0' }]
+  //   }
+  // ]
+};
+// [
+//   { key: 'Azithromycin', columnID: 'Azithromycin', values: ['1'] },
+//   { key: 'Ceftriaxone', columnID: 'Ceftriaxone', value: ['1'] },
+//   { key: 'Ciprofloxacin', columnID: 'Ciprofloxacin', value: ['1'] },
+//   { key: 'Sulphonamides', columnID: 'Sulphonamides', value: ['1'] },
+//   { key: 'Tetracyclines', columnID: 'Tetracyclines', value: ['1'] },
+//   { key: 'Cefixime', columnID: 'Cefixime', value: ['1'] },
+//   { key: 'Penicillin', columnID: 'Penicillin', value: ['1'] },
+//   { key: 'Spectinomycin', columnID: 'Spectinomycin', value: ['1'] },
+// ];
+// Klebsiella drug classes rules for determinants graph
+export const drugClassesRulesSE = {
+
 };

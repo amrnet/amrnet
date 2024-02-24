@@ -36,6 +36,18 @@ export const AboutPage = () => {
             </a>
             .
           </Typography>
+
+          <Typography variant="body1" className={classes.paragraph}>
+            Link to {' '}
+            <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
+              AMRnet
+            </a>
+            .
+          </Typography>
+          <Typography variant="body1" >
+            <p>Contact us via email: <a href="mailto:amrnet@gmail.com ">amrnet@gmail.com </a></p>
+            .
+          </Typography>
         </CardContent>
       </Card>
       <Footer />

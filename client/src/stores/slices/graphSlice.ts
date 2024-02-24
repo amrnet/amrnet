@@ -36,6 +36,9 @@ interface GraphState {
   currentSliderValue: number;
   resetBool: boolean;
   maxSliderValue:number;
+  currentSliderValueRD: number;
+  maxSliderValueRD:number;
+  sliderList:number;
 }
 
 const initialState: GraphState = {
@@ -73,6 +76,9 @@ const initialState: GraphState = {
   currentSliderValue:20,
   resetBool: false,
   maxSliderValue:0,
+  currentSliderValueRD:5,
+  maxSliderValueRD:0,
+  sliderList:0,
 };
 
 export const graphSlice = createSlice({
@@ -160,6 +166,15 @@ export const graphSlice = createSlice({
     setMaxSliderValue: (state, action: PayloadAction<number>) => {
       state.maxSliderValue = action.payload;
     },
+    setCurrentSliderValueRD: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueRD = action.payload;
+    },
+    setMaxSliderValueRD: (state, action: PayloadAction<number>) => {
+      state.maxSliderValueRD = action.payload;
+    },
+    setSliderList: (state, action: PayloadAction<number>) => {
+      state.sliderList = action.payload;
+    },
   }
 });
 
@@ -191,6 +206,9 @@ export const {
   setCurrentSliderValue,
   setResetBool,
   setMaxSliderValue,
+  setCurrentSliderValueRD,
+  setMaxSliderValueRD,
+  setSliderList
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

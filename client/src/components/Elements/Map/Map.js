@@ -24,6 +24,7 @@ const statKey = {
   CipR: 'CipR',
   'Sensitive to all drugs': 'Susceptible',
   ESBL: 'ESBL',
+  ESBL_category: 'Ceftriaxone',
   Carb: 'Carb'
 };
 
@@ -39,12 +40,12 @@ export const Map = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
+  // const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleOnClick(countryData) {
@@ -67,10 +68,12 @@ export const Map = () => {
     if (countryData !== undefined) {
       switch (mapView) {
         case 'No. Samples':
-          const combinedPercentage = ((countryStats[statKey["CipR"]].percentage || 0) + (countryStats[statKey["CipNS"]].percentage || 0));
+          let combinedPercentage;
+          if(organism === 'styphi')
+            combinedPercentage = ((countryStats[statKey["CipR"]].percentage || 0) + (countryStats[statKey["CipNS"]].percentage || 0));
           Object.assign(tooltip, {
             content:
-              organism === 'typhi'
+              organism === 'styphi'
                 ? {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
@@ -85,9 +88,9 @@ export const Map = () => {
                 : {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
-                    ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carb: `${countryStats.Carb.percentage}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`
+                    // ESBL: `${countryStats.ESBL.percentage}%`,
+                    // Carb: `${countryStats.Carb.percentage}%`,
+                    // Susceptible: `${countryStats.Susceptible.percentage}%`
                   }
           });
           break;
@@ -128,6 +131,7 @@ export const Map = () => {
         case 'AzithR':
         case 'CipR':
         case 'ESBL':
+        case 'ESBL_category':
         case 'Carb':
           if (showTooltip) {
             tooltip.content[statKey[mapView]] = {
@@ -240,7 +244,7 @@ export const Map = () => {
                           }
                           if(countryData.count>=20 && genotypes2.length > 0 ){
                             // console.log("count %",count );
-                            if(genotypes2 != undefined){
+                            if(genotypes2 !== undefined){
                               fillColor = redColorScale2(((sumCount/percentCounter)*100).toFixed(2));
                             }
                           }
@@ -255,6 +259,7 @@ export const Map = () => {
                         case 'XDR':
                         case 'AzithR':
                         case 'CipR':
+                        case 'ESBL_category':
                         case 'ESBL':
                         case 'Carb':
                           count = countryStats[statKey[mapView]]?.count;
@@ -280,7 +285,7 @@ export const Map = () => {
                           count = countCipR + countCipNS;
                           // count = countryStats[statKey[mapView]]?.count;
                           let per = countryStats[statKey["CipNS"]].percentage + countryStats[statKey["CipR"]].percentage;
-                          console.log("per", countryStats[statKey["CipNS"]], per)
+                          // console.log("per", countryStats[statKey["CipNS"]], per)
                           if (countryData.count >= 20 && count > 0) {
                             if (mapView === 'Susceptible to all drugs') {
                               fillColor = sensitiveColorScale(per);

@@ -12,13 +12,13 @@ import {
   Tooltip as ChartTooltip,
   Label
 } from 'recharts';
-import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
 import { setColorPallete } from '../../../../stores/slices/dashboardSlice';
-import { setDistributionGraphView, setCurrentSliderValue, setTopXGenotypes, setResetBool} from '../../../../stores/slices/graphSlice';
+import { setDistributionGraphView, setResetBool} from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import {SliderSizes} from '../../Slider/SliderSizes';
+import { SliderSizes } from '../../Slider/SliderSizes';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -109,15 +109,15 @@ export const DistributionGraph = () => {
   }
 
   function getGenotypeColor(genotype) {
-    console.log("genotype", genotype);
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    // console.log("genotype", genotype);
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleChangeDataView(event) {
     dispatch(setDistributionGraphView(event.target.value));
   }
   function handleClickChart(event){
-    console.log("event", event);
+    // console.log("event", event);
       setCurrentEventSelected(event);
       const data = newArray.find((item) => item.name === event?.activeLabel);
         if (data) {
@@ -133,9 +133,9 @@ export const DistributionGraph = () => {
           delete currentData.count;
           
           value.genotypes = Object.keys(currentData).map((key) => {
-            console.log("key", key);
+            // console.log("key", key);
             const count = currentData[key];
-            const activePayload = event.activePayload.find((x) => x.name === key);
+            // const activePayload = event.activePayload.find((x) => x.name === key);
             // console.log("activePayload", activePayload);
             return {
               label: key,
@@ -146,7 +146,7 @@ export const DistributionGraph = () => {
           });
           // console.log("value.genotypes", value.genotypes);
           value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === "Other");
-          console.log("value", value);
+          // console.log("value", value);
           setCurrentTooltip(value);
           dispatch(setResetBool(false));
         }
@@ -200,7 +200,7 @@ export const DistributionGraph = () => {
               />
 
               <ChartTooltip
-                cursor={{ fill: hoverColor }}
+                cursor={genotypesYearData!=0?{ fill: hoverColor }:false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
                     return <div className={classes.chartTooltipLabel}>{label}</div>;
@@ -259,7 +259,7 @@ export const DistributionGraph = () => {
         </div>
         <div className={classes.sliderCont} >
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
-           <SliderSizes sx={{margin: '0px 10px 0px 10px'}}/>
+          <SliderSizes value={"GD"} sx={{margin: '0px 10px 0px 10px'}}/>
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>

@@ -7,24 +7,34 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 const organisms = [
   {
     label: 'Salmonella Typhi',
-    value: 'typhi',
+    value: 'styphi',
     abbr: 'S. Typhi'
   },
   {
     label: 'Klebsiella pneumoniae',
-    value: 'klebe',
+    value: 'kpneumo',
     abbr: 'K. pneumoniae'
+  },
+  {
+    label: 'Neisseria gonorrhoeae',
+    value: 'ngono',
+    abbr: 'N. gonorrhoeae'
+  },
+  {
+    label: 'Escherichia coli',
+    value: 'ecoli',
+    abbr: 'E. coli'
+  },
+  {
+    label: 'Shigella',
+    value: 'shige',
+    abbr: 'Shigella'
+  },
+  {
+    label: 'Salmonella enterica',
+    value: 'senterica',
+    abbr: 'S. enterica'
   }
-  // {
-  //   label: 'Neisseria gonorrhoeae',
-  //   value: 'gono',
-  //   abbr: 'N. gonorrhoeae'
-  // }
-  // {
-  //   label: 'Streptococcus pneumoniae',
-  //   value: 'pneumo',
-  //   abbr: 'S. pneumoniae'
-  // }
 ];
 
 export const SelectOrganism = () => {
@@ -98,9 +108,9 @@ export const SelectOrganism = () => {
             {matches1050 ? item.abbr : item.label}
           </MenuItem>
         ))}
-        <MenuItem value="gono" disabled>
+        {/* <MenuItem value="ngono" disabled>
           {matches1050 ? 'N. gonorrhoeae' : 'Neisseria gonorrhoeae'}
-        </MenuItem>
+        </MenuItem> */}
       </Select>
       {!matches650 && (
         <IconButton color="inherit" onClick={handleNextAgent} disabled={loadingData}>

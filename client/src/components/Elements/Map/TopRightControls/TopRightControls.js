@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setMapView, setIfCustom} from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
-import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from '../mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
@@ -39,11 +39,11 @@ export const TopRightControls = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDominantGenotypeSteps(genotype) {
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       return genotypes;
     } else {
       return genotypesForFilter;
@@ -109,9 +109,25 @@ export const TopRightControls = () => {
             disabled={organism === 'none'}
           >
             {getMapLegends().map((legend, index) => {
+              let legendLabel;
+              if (legend.label === 'Extensively drug resistant (XDR)') {
+                  legendLabel = (
+                    <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
+                      <span>Extensively drug resistant (XDR)</span>
+                      </Tooltip>
+                  );
+              } else if(legend.label === 'Multidrug resistant (MDR)'){
+                  legendLabel = (
+                    <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
+                      <span>Multidrug resistant (MDR)</span>
+                      </Tooltip>
+                  );
+              }else{
+                  legendLabel = legend.label;
+              }
               return (
                 <MenuItem key={index + 'mapview'} value={legend.value}>
-                  {legend.label}
+                  {legendLabel}
                 </MenuItem>
               );
             })}
