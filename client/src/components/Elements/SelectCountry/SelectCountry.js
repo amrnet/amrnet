@@ -21,7 +21,7 @@ export const SelectCountry = () => {
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
         <Typography variant="h5" fontWeight={700}>
-          {`Now showing: ${
+          {`Detailed plots for selected: ${
             organism === 'none'
               ? ''
               : `${dataset} data from ${actualCountry === 'All' ? 'all countries' : actualCountry} from ${
