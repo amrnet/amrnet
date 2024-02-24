@@ -50,7 +50,8 @@ import {
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
-  setCurrentSliderValue
+  setCurrentSliderValue,
+  setCurrentSliderValueRD
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -91,8 +92,9 @@ export const DashboardPage = () => {
     const responseData = response.data;
     dispatch(setTotalGenomes(responseData.length));
     dispatch(setActualGenomes(responseData.length));
+    responseData.map((x) => (console.log("responseData", x.GENOTYPE )))
 
-    const genotypes = [...new Set(responseData.map((x) => (x.GENOTYPE).toString()))];
+    const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
     if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
@@ -154,7 +156,8 @@ export const DashboardPage = () => {
     if (organism === 'ngono') {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
-      const years = [...new Set(responseData.map((x) => (x.DATE).toString()))];
+      // dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+      const years = [...new Set(responseData.map((x) => x.DATE))];
       const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
 
       years.sort();
@@ -173,7 +176,7 @@ export const DashboardPage = () => {
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-    console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
+    // console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
     return responseData;
   }
 
@@ -272,7 +275,8 @@ export const DashboardPage = () => {
       dispatch(setIfCustom(false));
       
       dispatch(setCurrentSliderValue(20));
-
+      dispatch(setCurrentSliderValueRD(5));
+      
       switch (organism) {
         case 'styphi':
           getData('getDataForSTyphi');
