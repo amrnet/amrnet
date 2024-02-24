@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, Card, InputAdornment } from '@mui/material';
+import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment } from '@mui/material';
 import { useStyles } from './FrequenciesGraphMUI';
 import { InfoOutlined } from '@mui/icons-material';
 import SearchIcon from "@mui/icons-material/Search";
@@ -21,7 +20,7 @@ import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView, setReset
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP } from '../../../../util/drugs';
+import { drugsST, drugsKP, drugsNG, drugsEC } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 
 const dataViewOptions = [
@@ -63,15 +62,20 @@ export const FrequenciesGraph = () => {
     if (organism === 'none') {
       return [];
     }
-    if (organism === 'typhi') {
+    else if (organism === 'styphi') {
       return drugsST;
     }
-    return drugsKP;
+    else if (organism === 'kpneumo') {
+      return drugsKP;
+    }
+    else if (organism === 'ngono') {
+      return drugsNG;
+    }
   }
 
   function getData() {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
-    console.log("getData",data)
+    // console.log("getData",data)
 
     if (frequenciesGraphView === 'number') {
       return data;
@@ -92,13 +96,13 @@ export const FrequenciesGraph = () => {
     return genotypeDataPercentage;
   }
 
-  function getDataForGenotypeSelect() {
-    // if (organism === 'typhi') {
-      return genotypesDrugsData;
-    // } else {
-    //   return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, 20)));
-    // }
-  }
+  // function getDataForGenotypeSelect() {
+  //   // if (organism === 'styphi') {
+  //     return genotypesDrugsData;
+  //   // } else {
+  //   //   return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, 20)));
+  //   // }
+  // }
 
   function handleClickChart(event) {
     const data = genotypesDrugsData.find((item) => item.name === event?.activeLabel);
@@ -213,7 +217,7 @@ export const FrequenciesGraph = () => {
               />
 
               <ChartTooltip
-                cursor={frequenciesGraphSelectedGenotypes!=0?{ fill: hoverColor }:false}
+                cursor={frequenciesGraphSelectedGenotypes !== 0?{ fill: hoverColor }:false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
                     return <div className={classes.chartTooltipLabel}>{label}</div>;

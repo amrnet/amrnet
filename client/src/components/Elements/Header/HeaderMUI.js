@@ -4,7 +4,15 @@ const useStyles = makeStyles((theme) => ({
   headerWrapper: {
     position: 'fixed',
     top: 0,
-    width: '-webkit-fill-available',
+    // width: '100%', // Default width
+    '@supports (-webkit-appearance:none)': {
+    // Safari and Chrome
+      width: '-webkit-fill-available',
+    },
+    '@supports (-moz-appearance:none)': {
+    // Firefox
+      width: '-moz-available',
+    },
     display: 'flex',
     alignItems: 'center',
     zIndex: 2,

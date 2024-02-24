@@ -16,8 +16,8 @@ interface DashboardState {
   totalGenotypes: number;
   actualGenomes: number;
   actualGenotypes: number;
-  timeInitial: number;
-  timeFinal: number;
+  timeInitial: number | string;
+  timeFinal: number | string;
   actualTimeInitial: number | string;
   actualTimeFinal: number | string;
   years: Array<number>;
@@ -30,7 +30,7 @@ interface DashboardState {
 const initialState: DashboardState = {
   canGetData: true,
   globalOverviewLabel: { italicLabel: 'Salmonella', label: 'Typhi', fullLabel: 'Salmonella Typhi' },
-  organism: 'typhi',
+  organism: 'styphi',
   loadingData: false,
   actualCountry: 'All',
   totalGenotypes: 0,

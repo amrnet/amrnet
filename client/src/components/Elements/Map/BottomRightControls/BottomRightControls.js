@@ -30,7 +30,7 @@ export const BottomRightControls = () => {
 
     try {
       await svgAsPngUri(document.getElementById('global-overview-map'), {
-        scale: 4,
+        // scale: 4,
         backgroundColor: 'white',
         width: 1200,
         left: -200
@@ -66,11 +66,20 @@ export const BottomRightControls = () => {
 
         // Revert to the original font style for the remaining text
         ctx.font = 'bolder 50px Montserrat';
-        if (organism === 'typhi') {
+        if (organism === 'styphi') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.615, 80);
-        } else if (organism === 'klebe') {
+        }else if (organism === 'kpneumo') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+        }else if (organism === 'ngono') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+        }else if (organism === 'ecoli') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+        }else if (organism === 'shige') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+        }else {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
         }
+  
         
 
         ctx.font = '35px Montserrat';
@@ -97,7 +106,7 @@ export const BottomRightControls = () => {
 
         switch (mapView) {
           case 'Dominant Genotype':
-            legendWidth = organism === 'typhi' ? 3085 : 2937;
+            legendWidth = organism === 'styphi' ? 3085 : 2937;
             legendImg.src = `legends/MapView_DominantGenotype_${organism}.png`;
             break;
           case 'No. Samples':
