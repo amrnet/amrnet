@@ -20,7 +20,7 @@ import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView, setReset
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP } from '../../../../util/drugs';
+import { drugsST, drugsKP, drugsNG, drugsEC } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 
 const dataViewOptions = [
@@ -62,10 +62,15 @@ export const FrequenciesGraph = () => {
     if (organism === 'none') {
       return [];
     }
-    if (organism === 'styphi') {
+    else if (organism === 'styphi') {
       return drugsST;
     }
-    return drugsKP;
+    else if (organism === 'kpneumo') {
+      return drugsKP;
+    }
+    else if (organism === 'ngono') {
+      return drugsNG;
+    }
   }
 
   function getData() {

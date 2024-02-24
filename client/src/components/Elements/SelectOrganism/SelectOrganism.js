@@ -26,7 +26,7 @@ const organisms = [
     abbr: 'E. coli'
   },
   {
-    label: 'Shigella spp',
+    label: 'Shigella',
     value: 'shige',
     abbr: 'Shigella'
   },

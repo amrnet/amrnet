@@ -259,7 +259,7 @@ export const DistributionGraph = () => {
         </div>
         <div className={classes.sliderCont} >
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
-           <SliderSizes sx={{margin: '0px 10px 0px 10px'}}/>
+          <SliderSizes value={"GD"} sx={{margin: '0px 10px 0px 10px'}}/>
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
