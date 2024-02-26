@@ -14,4 +14,5 @@ export const mapLegends = [
   { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['styphi'] },
   { value: 'No. Samples', label: 'No. Samples', organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica'] },
   { value: 'Resistance prevalence', label: 'Resistance prevalence', organisms: [] },
+  { value: 'NG-MAST TYPE prevalence', label: 'NG-MAST TYPE prevalence', organisms: ['ngono'] },
 ];
