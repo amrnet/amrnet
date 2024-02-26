@@ -100,6 +100,7 @@ export const Map = () => {
             tooltip.content[genotype.name] = genotype.count;
           });
           break;
+        case 'NG-MAST TYPE prevalence':
         case 'Genotype prevalence':
             let percentCounter = 0;        
             const genotypes1 = countryStats.GENOTYPE.items;
@@ -164,7 +165,7 @@ export const Map = () => {
   }
 
   function showPercentage() {
-    return !['Dominant Genotype','Genotype prevalence','No. Samples'].includes(mapView);
+    return !['Dominant Genotype','Genotype prevalence','No. Samples', 'NG-MAST TYPE prevalence'].includes(mapView);
   }
 
   return (
@@ -231,6 +232,7 @@ export const Map = () => {
                           const genotypes = countryStats.GENOTYPE.items;
                           fillColor = getGenotypeColor(genotypes[0].name);
                           break;
+                        case 'NG-MAST TYPE prevalence':
                         case 'Genotype prevalence':
                           let percentCounter = 0;        
                           const genotypes1 = countryStats.GENOTYPE.items;
