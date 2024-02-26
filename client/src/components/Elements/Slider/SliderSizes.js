@@ -20,7 +20,7 @@ export const SliderSizes = (props) => {
   const [sliderValueMax, setSliderValueMax] = useState();
 
   const handleDefaultSliderChange = (event, newValue) => {
-    dispatch(setCurrentSliderValue(newValue));
+    // dispatch(setCurrentSliderValue(newValue));
     // callBackValue(newValue);
     if(props.value === "GD"){
       dispatch(setCurrentSliderValue(newValue));
