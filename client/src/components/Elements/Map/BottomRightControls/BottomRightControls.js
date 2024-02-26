@@ -98,6 +98,14 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 290);
           }
         }
+        if(mapView === 'NG-MAST TYPE prevalence'){
+          if (customDropdownMapView.length === 1) {
+            ctx.fillText('Selected NG-MAST TYPE: ' + customDropdownMapView, canvas.width / 2, 290);
+          } else if (customDropdownMapView.length > 1) {
+            const genotypesText = customDropdownMapView.join(', ');
+            ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
         ctx.drawImage(mapImg, 0, textHeight+50, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
@@ -115,6 +123,7 @@ export const BottomRightControls = () => {
           case 'Sensitive to all drugs':
             legendImg.src = 'legends/MapView_Sensitive.png';
             break;
+          case 'NG-MAST TYPE prevalence':
           case 'Genotype prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
