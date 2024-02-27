@@ -9,13 +9,13 @@ import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
 
 
-export const NG_MAST = () => {
+export const Ngmast = () => {
   const classes = useStyles();
   const [, setCurrentTooltip] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const genotypesDrugsData2 = useAppSelector((state) => state.graph.genotypesDrugsData2);
+  const NGMAST = useAppSelector((state) => state.graph.NGMAST);
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
@@ -38,18 +38,18 @@ export const NG_MAST = () => {
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
 }
-
-// const filteredData = genotypesDrugsData2
-//     .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
-//     // .filter(x => x.totalCount >= 20)
-//   ;
+console.log("NGMAST", NGMAST)
+const filteredData = NGMAST
+    .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
+    // .filter(x => x.totalCount >= 20)
+  ;
 
   return (
     <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.frequenciesGraph}>
           <div className={classes.label}>
-            <Typography variant="caption">Select genotype</Typography>
+            <Typography variant="caption">Select NGMAST</Typography>
             <Tooltip
               title="Select up to 10 Genotypes"
               placement="top"
@@ -63,7 +63,7 @@ export const NG_MAST = () => {
             multiple
             limitTags={1}
             id="tags-standard"
-            options={genotypesDrugsData2.map((data) => data.name) }
+            options={filteredData.map((data) => data.name) }
             freeSolo={customDropdownMapView.length >= 10 ? false : true}
             getOptionDisabled={(options) => (customDropdownMapView.length >= 10 ? true : false)}
             value={selectedValues}

@@ -51,7 +51,8 @@ import {
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
   setCurrentSliderValue,
-  setCurrentSliderValueRD
+  setCurrentSliderValueRD,
+  setNgmast
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -92,12 +93,14 @@ export const DashboardPage = () => {
     const responseData = response.data;
     dispatch(setTotalGenomes(responseData.length));
     dispatch(setActualGenomes(responseData.length));
-    responseData.map((x) => (console.log("responseData", x.GENOTYPE )))
-
+    // responseData.map(x => console.log("responseData", x['NG-MAST TYPE']));
+    let ngmast;
     const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
     if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
+    }if(organism === 'ngono'){
+      // ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
     }
 
     const years = [...new Set(responseData.map((x) => x.DATE))];
@@ -119,7 +122,7 @@ export const DashboardPage = () => {
 
     dispatch(setMapData(getMapData({ data: responseData, countries, organism })));
 
-    const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
+    const genotypesData = getGenotypesData({ data: responseData, genotypes, organism, ngmast });
     // const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
     dispatch(setGenotypesDrugsData2(genotypesData.genotypesDrugsData));
@@ -157,6 +160,7 @@ export const DashboardPage = () => {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       // dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+      // const NGMAST = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
       const years = [...new Set(responseData.map((x) => x.DATE))];
       const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
 
@@ -171,6 +175,8 @@ export const DashboardPage = () => {
       dispatch(setTimeFinal(years[years.length - 1]));
       dispatch(setActualTimeFinal(years[years.length - 1]));
       dispatch(setCountriesForFilter(countries));
+      // console.log("NG-MAST TYPE", responseData['name'],responseData['NG-MAST TYPE']);
+      dispatch(setNgmast(genotypesData.genotypesDrugsData));
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
@@ -273,6 +279,7 @@ export const DashboardPage = () => {
       dispatch(setDistributionGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setIfCustom(false));
+      dispatch(setNgmast([]));
       
       dispatch(setCurrentSliderValue(20));
       dispatch(setCurrentSliderValueRD(5));

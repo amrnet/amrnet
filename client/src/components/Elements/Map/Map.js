@@ -14,6 +14,7 @@ import { setActualCountry } from '../../../stores/slices/dashboardSlice.ts';
 import { TopLeftControls } from './TopLeftControls';
 import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
+import { Ngmast } from './Ng_mast/Ngmast';
 
 const statKey = {
   MDR: 'MDR',
@@ -101,6 +102,7 @@ export const Map = () => {
           });
           break;
         case 'NG-MAST TYPE prevalence':
+          break;
         case 'Genotype prevalence':
             let percentCounter = 0;        
             const genotypes1 = countryStats.GENOTYPE.items;
@@ -233,6 +235,7 @@ export const Map = () => {
                           fillColor = getGenotypeColor(genotypes[0].name);
                           break;
                         case 'NG-MAST TYPE prevalence':
+                          break;
                         case 'Genotype prevalence':
                           let percentCounter = 0;        
                           const genotypes1 = countryStats.GENOTYPE.items;
@@ -361,7 +364,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {ifCustom ? <TopRightControls2/> : null}
+              {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST TYPE prevalence' ? <Ngmast /> : null)}
             </>
           )}
           <BottomLeftControls />
@@ -370,7 +373,7 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {ifCustom ? <TopRightControls2/> : null}
+            {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST TYPE prevalence' ? <Ngmast /> : null)}
             <TopLeftControls />
           </div>
         )}
@@ -412,3 +415,4 @@ export const Map = () => {
     </Card>
   );
 };
+
