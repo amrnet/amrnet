@@ -39,6 +39,7 @@ interface GraphState {
   currentSliderValueRD: number;
   maxSliderValueRD:number;
   sliderList:number;
+  NGMAST: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -79,6 +80,7 @@ const initialState: GraphState = {
   currentSliderValueRD:5,
   maxSliderValueRD:0,
   sliderList:0,
+  NGMAST:[],
 };
 
 export const graphSlice = createSlice({
@@ -175,6 +177,9 @@ export const graphSlice = createSlice({
     setSliderList: (state, action: PayloadAction<number>) => {
       state.sliderList = action.payload;
     },
+    setNgmast: (state, action: PayloadAction<Array<any>>) => {
+      state.NGMAST = action.payload;
+    },
   }
 });
 
@@ -208,7 +213,8 @@ export const {
   setMaxSliderValue,
   setCurrentSliderValueRD,
   setMaxSliderValueRD,
-  setSliderList
+  setSliderList,
+  setNgmast
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
