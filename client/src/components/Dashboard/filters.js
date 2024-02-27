@@ -1,5 +1,5 @@
-import { drugRulesForDrugResistanceGraphST, drugRulesST, drugRulesKP, drugRulesNG, drugRulesEC, drugRulesSH, drugRulesSE } from '../../util/drugClassesRules';
-import { drugClassesRulesST, drugClassesRulesKP, drugClassesRulesNG, drugClassesRulesEC, drugClassesRulesSH, drugClassesRulesSE } from '../../util/drugClassesRules';
+import { drugRulesForDrugResistanceGraphST, drugRulesST, drugRulesKP, drugRulesNG, drugRulesEC, drugRulesDEC, drugRulesSH, drugRulesSE, drugRulesSEINTS } from '../../util/drugClassesRules';
+import { drugClassesRulesST, drugClassesRulesKP, drugClassesRulesNG, drugClassesRulesEC, drugClassesRulesDEC, drugClassesRulesSH, drugClassesRulesSE, drugClassesRulesSEINTS } from '../../util/drugClassesRules';
 
 // This filter is called after either dataset, initialYear, finalYear or country changes and if reset button is pressed.
 // And it returns the data filtered by the variables said before, also the list of unique genotypes, count of genotypes
@@ -144,14 +144,22 @@ export function getMapData({ data, countries, organism }) {
       //stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
       // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
+    }else if(organism === 'sentericaints'){
+      //stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
+      // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
+      // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
     }else if (organism === 'ngono'){
       stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
       stats.CipR = getMapStatsData({ countryData, columnKey: 'Ciprofloxacin', statsKey: '1' });
       stats.Ceftriaxone = getMapStatsData({ countryData, columnKey: 'Ceftriaxone', statsKey: '1' });
-      stats.AzithR = getMapStatsData({ countryData, columnKey: 'tetM', statsKey: '1' });
+      stats.AzithR = getMapStatsData({ countryData, columnKey: 'Azithromycin', statsKey: '1' });
       // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
     }else if (organism === 'ecoli'){
+      // stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
+      // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
+      // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
+    }else if (organism === 'decoli'){
       // stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
       // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
@@ -389,12 +397,20 @@ export function getGenotypesData({ data, genotypes, organism }) {
     Object.keys(drugClassesRulesEC).forEach((key) => {
       genotypesDrugClassesData[key] = [];
     });
+  }else if (organism === 'decoli'){
+    Object.keys(drugClassesRulesDEC).forEach((key) => {
+      genotypesDrugClassesData[key] = [];
+    });
   }else if (organism === 'shige'){
     Object.keys(drugClassesRulesSH).forEach((key) => {
       genotypesDrugClassesData[key] = [];
     });
   }else if (organism === 'senterica'){
     Object.keys(drugClassesRulesSE).forEach((key) => {
+      genotypesDrugClassesData[key] = [];
+    });
+  }else if (organism === 'sentericaints'){
+    Object.keys(drugClassesRulesSEINTS).forEach((key) => {
       genotypesDrugClassesData[key] = [];
     });
   }else {
