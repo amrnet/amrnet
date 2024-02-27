@@ -26,14 +26,14 @@ const organisms = [
     abbr: 'E. coli'
   },
   {
-    label: 'Diarrhoeagenic E. coli',
+    label: 'Diarrhoeagenic E.coli',
     value: 'decoli',
-    abbr: 'Diarrhoeagenic E. coli'
+    abbr: 'Dia. E.coli'
   },
   {
-    label: 'Shigella + EIEC',
+    label: 'Shigella+EIEC',
     value: 'shige',
-    abbr: 'Shigella + EIEC'
+    abbr: 'Shigella+EIEC'
   },
   {
     label: 'Invasive Non-Typhoidal Salmonella',

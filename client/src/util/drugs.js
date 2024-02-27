@@ -174,28 +174,28 @@ export const drugsSEINTS = [
 
 // List of Salmonella spp drug classes
 export const drugClassesSE = [
-  'Ampicillin',
-  'Azithromycin',
-  'Chloramphenicol',
-  'Trimethoprim-sulfamethoxazole',
-  'Ceftriaxone',
-  'Ciprofloxacin NS',
-  'Sulphonamides',
-  'Tetracyclines',
-  'Trimethoprim'
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // 'Trimethoprim-sulfamethoxazole',
+  // 'Ceftriaxone',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
 ];
 
 // List of Salmonella spp drug classes
 export const drugClassesSEINTS = [
-  'Ampicillin',
-  'Azithromycin',
-  'Chloramphenicol',
-  'Trimethoprim-sulfamethoxazole',
-  'Ceftriaxone',
-  'Ciprofloxacin NS',
-  'Sulphonamides',
-  'Tetracyclines',
-  'Trimethoprim'
+  // 'Ampicillin',
+  // 'Azithromycin',
+  // 'Chloramphenicol',
+  // 'Trimethoprim-sulfamethoxazole',
+  // 'Ceftriaxone',
+  // 'Ciprofloxacin NS',
+  // 'Sulphonamides',
+  // 'Tetracyclines',
+  // 'Trimethoprim'
 ];
 
 // List of Shigella drug classes
@@ -226,6 +226,8 @@ export const drugsNG = [
   'Susceptible',
   'Spectinomycin'
 ];
+// List of Klebsiella drug classes
+export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
 
 // List of Klebsiella drug classes
 export const drugClassesKP = ['Carbapenems', 'ESBL'];
