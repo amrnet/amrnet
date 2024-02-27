@@ -61,7 +61,8 @@ import {
   getGenotypesData,
   getCountryDisplayName,
   getKODiversityData,
-  getConvergenceData
+  getConvergenceData,
+  getNgmastData
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
@@ -100,7 +101,7 @@ export const DashboardPage = () => {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
     }if(organism === 'ngono'){
-      // ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
+      ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
     }
 
     const years = [...new Set(responseData.map((x) => x.DATE))];
@@ -122,7 +123,8 @@ export const DashboardPage = () => {
 
     dispatch(setMapData(getMapData({ data: responseData, countries, organism })));
 
-    const genotypesData = getGenotypesData({ data: responseData, genotypes, organism, ngmast });
+    const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
+    const ngmastData = getNgmastData({ data: responseData, ngmast, organism });
     // const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
     dispatch(setGenotypesDrugsData2(genotypesData.genotypesDrugsData));
@@ -160,10 +162,8 @@ export const DashboardPage = () => {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       // dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
-      // const NGMAST = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
       const years = [...new Set(responseData.map((x) => x.DATE))];
       const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
-
       years.sort();
       countries.sort();
 
@@ -176,7 +176,7 @@ export const DashboardPage = () => {
       dispatch(setActualTimeFinal(years[years.length - 1]));
       dispatch(setCountriesForFilter(countries));
       // console.log("NG-MAST TYPE", responseData['name'],responseData['NG-MAST TYPE']);
-      dispatch(setNgmast(genotypesData.genotypesDrugsData));
+      dispatch(setNgmast(ngmastData.ngmastDrugData));
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));

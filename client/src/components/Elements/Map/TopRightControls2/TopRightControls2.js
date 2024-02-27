@@ -41,8 +41,7 @@ export const TopRightControls2 = () => {
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
 }
-
-const filteredData = genotypesDrugsData2
+  const filteredData = genotypesDrugsData2
     .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
     // .filter(x => x.totalCount >= 20)
   ;
