@@ -112,6 +112,16 @@ export function getMapData({ data, countries, organism }) {
       GENOTYPE: {
         items: [],
         count: 0
+      },
+      NGMAST: {
+        items: [],
+        count: 0
+      }
+    };
+    const statsNG = {
+      NGMAST: {
+        items: [],
+        count: 0
       }
     };
 
@@ -122,6 +132,7 @@ export function getMapData({ data, countries, organism }) {
     }
 
     const genotypes = [...new Set(countryData.map((x) => x.GENOTYPE))];
+    
     stats.GENOTYPE.count = genotypes.length;
     stats.GENOTYPE.items = genotypes.map((genotype) => {
       return {
@@ -129,6 +140,7 @@ export function getMapData({ data, countries, organism }) {
         count: countryData.filter((x) => x.GENOTYPE === genotype).length
       };
     });
+    // console.log("countryData", stats.GENOTYPE.items)
     stats.GENOTYPE.items.sort((a, b) => (a.count <= b.count ? 1 : -1));
 
     if (organism === 'styphi') {
@@ -149,6 +161,18 @@ export function getMapData({ data, countries, organism }) {
       stats.CipR = getMapStatsData({ countryData, columnKey: 'Ciprofloxacin', statsKey: '1' });
       stats.Ceftriaxone = getMapStatsData({ countryData, columnKey: 'Ceftriaxone', statsKey: '1' });
       stats.AzithR = getMapStatsData({ countryData, columnKey: 'tetM', statsKey: '1' });
+      const ngmast = [...new Set(countryData.map((x) => x['NG-MAST TYPE']))];
+      
+      stats.NGMAST.count = ngmast.length;
+      // console.log("countryData", statsNG.NGMAST.count)
+      stats.NGMAST.items = ngmast.map((mast) => {
+        return {
+          name: mast,
+          count: countryData.filter((x) => x['NG-MAST TYPE'] === mast).length
+        };
+      });
+      // console.log("countryData", statsNG.NGMAST.items)
+      stats.NGMAST.items.sort((a, b) => (a.count <= b.count ? 1 : -1));
       // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
     }else if (organism === 'ecoli'){
