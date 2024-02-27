@@ -513,6 +513,28 @@ export const colorForDrugClassesEC = {
 
   ]
 };
+// Colors for E. coli drug classes genes
+export const colorForDrugClassesDEC = {
+  A: [
+    { name: 'BEL-1', color: '#543005' },
+  ],
+  B: [
+    { name: 'CTX-M-33', color: '#D1E5F0' },
+    { name: 'GES-13', color: '#FDDBC7' },
+
+  ]
+};
+// Colors for E. coli drug classes genes
+export const colorForDrugClassesSEINTS = {
+  A: [
+    { name: 'BEL-1', color: '#543005' },
+  ],
+  B: [
+    { name: 'CTX-M-33', color: '#D1E5F0' },
+    { name: 'GES-13', color: '#FDDBC7' },
+
+  ]
+};
 // Colors for Salmonella drug classes genes
 export const colorForDrugClassesSE = {
   C: [
