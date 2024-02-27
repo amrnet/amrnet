@@ -10,6 +10,7 @@ import { InfoOutlined } from '@mui/icons-material';
 
 
 export const TopRightControls2 = () => {
+
   const classes = useStyles();
   const [, setCurrentTooltip] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
@@ -19,6 +20,8 @@ export const TopRightControls2 = () => {
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
+
+    console.log("i m 2", genotypesDrugsData2)
   const handleAutocompleteChange = (event, newValue) => {
    
     if (customDropdownMapView.length === 10 && newValue.length > 10) {
