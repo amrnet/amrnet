@@ -504,94 +504,93 @@ export const hoverColor = '#D2F1F6';
 
 // Colors for E. coli drug classes genes
 export const colorForDrugClassesEC = {
-  A: [
-    { name: 'BEL-1', color: '#543005' },
-  ],
-  B: [
-    { name: 'CTX-M-33', color: '#D1E5F0' },
-    { name: 'GES-13', color: '#FDDBC7' },
+  // A: [
+  //   { name: 'BEL-1', color: '#543005' },
+  // ],
+  // B: [
+  //   { name: 'CTX-M-33', color: '#D1E5F0' },
+  //   { name: 'GES-13', color: '#FDDBC7' },
 
-  ]
+  // ]
 };
 // Colors for E. coli drug classes genes
 export const colorForDrugClassesDEC = {
-  A: [
-    { name: 'BEL-1', color: '#543005' },
-  ],
-  B: [
-    { name: 'CTX-M-33', color: '#D1E5F0' },
-    { name: 'GES-13', color: '#FDDBC7' },
+  // A: [
+  //   { name: 'BEL-1', color: '#543005' },
+  // ],
+  // B: [
+  //   { name: 'CTX-M-33', color: '#D1E5F0' },
+  //   { name: 'GES-13', color: '#FDDBC7' },
 
-  ]
+  // ]
 };
 // Colors for E. coli drug classes genes
 export const colorForDrugClassesSEINTS = {
-  A: [
-    { name: 'BEL-1', color: '#543005' },
-  ],
-  B: [
-    { name: 'CTX-M-33', color: '#D1E5F0' },
-    { name: 'GES-13', color: '#FDDBC7' },
+  // A: [
+  //   { name: 'BEL-1', color: '#543005' },
+  // ],
+  // B: [
+  //   { name: 'CTX-M-33', color: '#D1E5F0' },
+  //   { name: 'GES-13', color: '#FDDBC7' },
 
-  ]
+  // ]
 };
 // Colors for Salmonella drug classes genes
 export const colorForDrugClassesSE = {
-  C: [
-    { name: 'BEL-1', color: '#543005' },
-    { name: 'CMY-30', color: '#8c510a' },
-    { name: 'CMY-42', color: '#f8961e' },
-    { name: 'CTX-M-1', color: '#f9844a' },
-    { name: 'CTX-M-115', color: '#f9c74f' },
-    { name: 'VEB-9', color: '#054e20' }
-  ],
-  D: [
-    { name: 'CTX-M-33', color: '#D1E5F0' },
-    { name: 'GES-13', color: '#FDDBC7' },
-    { name: 'GES-24', color: '#E7D4E8' },
-    { name: 'IMP-1', color: '#F6E8C3' },
-    { name: 'VIM-33', color: '#67001F' },
-    { name: 'VIM-4', color: '#4A0082' },
-    { name: 'VIM-5', color: '#40004B' }
-  ]
+  // C: [
+  //   { name: 'BEL-1', color: '#543005' },
+  //   { name: 'CMY-30', color: '#8c510a' },
+  //   { name: 'CMY-42', color: '#f8961e' },
+  //   { name: 'CTX-M-1', color: '#f9844a' },
+  //   { name: 'CTX-M-115', color: '#f9c74f' },
+  //   { name: 'VEB-9', color: '#054e20' }
+  // ],
+  // D: [
+  //   { name: 'CTX-M-33', color: '#D1E5F0' },
+  //   { name: 'GES-13', color: '#FDDBC7' },
+  //   { name: 'GES-24', color: '#E7D4E8' },
+  //   { name: 'IMP-1', color: '#F6E8C3' },
+  //   { name: 'VIM-33', color: '#67001F' },
+  //   { name: 'VIM-4', color: '#4A0082' },
+  //   { name: 'VIM-5', color: '#40004B' }
+  // ]
 };
 // Colors for N. gono drug classes genes
 export const colorForDrugClassesNG = {
-  E: [
-    { name: 'BEL-1', color: '#543005' },
-    { name: 'CMY-30', color: '#8c510a' },
-    { name: 'CMY-42', color: '#f8961e' },
-    { name: 'CTX-M-1', color: '#f9844a' },
-    { name: 'CTX-M-115', color: '#f9c74f' },
-    { name: 'VEB-9', color: '#054e20' }
+  Ceftriaxone: [
+    { name: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', color: '#f9c74f' }
   ],
-  F: [
-    { name: 'CTX-M-33', color: '#D1E5F0' },
-    { name: 'GES-13', color: '#FDDBC7' },
-    { name: 'GES-24', color: '#E7D4E8' },
-    { name: 'IMP-1', color: '#F6E8C3' },
-    { name: 'VIM-33', color: '#67001F' },
-    { name: 'VIM-4', color: '#4A0082' },
-    { name: 'VIM-5', color: '#40004B' }
+  Azithromycin: [
+    { name: 'AzithR-23S_rDNA_a2045g+mtrR_promoter_a-57del', color: '#D1E5F0' },
+    { name: 'AzithR-23S_rDNA_a2045g+mtrR_G45D', color: '#FDDBC7' },
+    { name: 'AzithR-mtrR_G45D+mtrC_disrupted+-23S_rDNA_a2045g', color: '#E7D4E8' },
+    { name: 'AzithR_23S_rDNA_c2597t+mtrR_promoter_a-57del', color: '#F6E8C3' },
+    { name: 'AzithR_23S_rDNA_c2597t+mtrR_A39T', color: '#67001F' },
+    { name: 'AzithR_23S_rDNA_c2597t+mtrR_G45D', color: '#4A0082' },
+    { name: 'AzithR_23S_rDNA_c2597t', color: '#40004B' },
+    { name: 'AzithR_23S_rDNA_c2597t+mtrR_disrupted', color: '#054e20' },
+    { name: 'AzithR_mtrC_disrupted+mtrD_mosaic_2', color: '#f9c74f' },
+    { name: 'VIM-AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', color: '#f9844a' },
+    { name: 'AzithR_mtrR_promoter_mosaic_2', color: '#543005' },
   ]
 };
 // Colors for Shigella drug classes genes
 export const colorForDrugClassesSH = {
-  G: [
-    { name: 'BEL-1', color: '#543005' },
-    { name: 'CMY-30', color: '#8c510a' },
-    { name: 'CMY-42', color: '#f8961e' },
-    { name: 'CTX-M-1', color: '#f9844a' },
-    { name: 'CTX-M-115', color: '#f9c74f' },
-    { name: 'VEB-9', color: '#054e20' }
-  ],
-  H: [
-    { name: 'CTX-M-33', color: '#D1E5F0' },
-    { name: 'GES-13', color: '#FDDBC7' },
-    { name: 'GES-24', color: '#E7D4E8' },
-    { name: 'IMP-1', color: '#F6E8C3' },
-    { name: 'VIM-33', color: '#67001F' },
-    { name: 'VIM-4', color: '#4A0082' },
-    { name: 'VIM-5', color: '#40004B' }
-  ]
+  // G: [
+  //   { name: 'BEL-1', color: '#543005' },
+  //   { name: 'CMY-30', color: '#8c510a' },
+  //   { name: 'CMY-42', color: '#f8961e' },
+  //   { name: 'CTX-M-1', color: '#f9844a' },
+  //   { name: 'CTX-M-115', color: '#f9c74f' },
+  //   { name: 'VEB-9', color: '#054e20' }
+  // ],
+  // H: [
+  //   { name: 'CTX-M-33', color: '#D1E5F0' },
+  //   { name: 'GES-13', color: '#FDDBC7' },
+  //   { name: 'GES-24', color: '#E7D4E8' },
+  //   { name: 'IMP-1', color: '#F6E8C3' },
+  //   { name: 'VIM-33', color: '#67001F' },
+  //   { name: 'VIM-4', color: '#4A0082' },
+  //   { name: 'VIM-5', color: '#40004B' }
+  // ]
 };
