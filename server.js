@@ -22,7 +22,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(bodyParser.json({ limit: '500kb' }));
+app.use(bodyParser.json({ limit: '30mb' }));
 
 const PORT = process.env.PORT || 8080;
 
