@@ -49,16 +49,6 @@ export const drugRulesNG = [
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
 ];
 
-// export const drugRulesNG = [
-//   { key: 'Azithromycin', columnIDs: ['Azithromycin'] },
-//   { key: 'Ceftriaxone', columnIDs: ['Ceftriaxone'] },
-//   { key: 'Ciprofloxacin', columnIDs: ['Ciprofloxacin'] },
-//   { key: 'Sulfonamides', columnIDs: ['Sulfonamides'] },
-//   { key: 'Tetracyclines', columnIDs: ['Tetracycline'] },
-//   { key: 'Cefixime', columnIDs: ['Penicillin'] },
-//   { key: 'Penicillin', columnIDs: ['Penicillin'] },
-//   { key: 'Spectinomycin', columnIDs: ['Spectinomycin'] }
-// ];
 
 export const drugRulesDEC = [
  
@@ -73,15 +63,7 @@ export const drugClassesRulesSEINTS = [
 ];
 
 export const drugRulesSEINTS = [
-  // { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
-  // { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
-  // { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
-  // { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
-  // { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
-  // { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
-  // { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
-  // { key: 'Susceptible', columnID: ['nonsus'], values: ['1'] },
-  // { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
+
 ];
 
 export const drugRulesSE = [
@@ -696,19 +678,91 @@ export const drugClassesRulesSH = {
 
 };
 
-// Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesNG = 
-{
-  Azithromycin: 'Azithromycin', 
-  Ceftriaxone: 'Ceftriaxone',
-  Ciprofloxacin: 'Ciprofloxacin',
-  Sulfonamides: 'Sulfonamides',
-  Tetracycline: 'Tetracycline',
-  Cefixime: 'Cefixime',
-  Penicillin: 'Penicillin',
-  Susceptible: 'Susceptible',
-  Spectinomycin: 'Spectinomycin'
-
+export const drugClassesRulesNG = {
+  "Azithromycin": [
+    {
+      name: "23S_rDNA_a2045g + mtrR_promoter_a-57del",
+      susceptible: false,
+      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_promoter_a-57del', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_a2045g + mtrR_G45D',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_G45D', value: '1' }]
+    },
+    {
+      name: 'mtrR_G45D + mtrC_disrupted + 23S_rDNA_a2045g',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR-mtrR_G45D+mtrC_disrupted+-23S_rDNA_a2045g', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t + mtrR_promoter_a-57del',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_promoter_a-57del', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t + mtrR_A39T',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_A39T', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t + mtrR_G45D',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_G45D', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t + mtrR_disrupted',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_disrupted', value: '1' }]
+    },
+    {
+      name: 'mtrC_disrupted + mtrD_mosaic_2',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_mtrC_disrupted+mtrD_mosaic_2', value: '1' }]
+    },
+    {
+      name: 'mtrR_promoter_mosaic_2 + mtrD_mosaic_2',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', value: '1' }]
+    },
+    {
+      name: 'mtrR_promoter_mosaic_2',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_mtrR_promoter_mosaic_2', value: '1' }]
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_promoter_a-57del', value: '0' },
+              { columnID: 'AzithR-23S_rDNA_a2045g+mtrR_G45D', value: '1' },
+              { columnID: 'AzithR-mtrR_G45D+mtrC_disrupted+-23S_rDNA_a2045g', value: '1' },
+              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_promoter_a-57del', value: '0' },
+              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_A39T', value: '0' },
+              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_G45D', value: '0' },
+              { columnID: 'AzithR_23S_rDNA_c2597t', value: '0' },
+              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_disrupted', value: '0' },
+              { columnID: 'AzithR_mtrC_disrupted+mtrD_mosaic_2', value: '0' },
+              { columnID: 'AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', value: '0' },
+              { columnID: 'AzithR_mtrR_promoter_mosaic_2', value: '0' }]
+    }
+  ],
+  "Ceftriaxone": [
+    {
+      name: 'penA_A501V + penA_G542S + penA_ins346D',
+      susceptible: false,
+      rules: [{ columnID: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [{ columnID: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', value: '0' }]
+    }
+    ]
 };
 
 export const drugClassesRulesSE = {

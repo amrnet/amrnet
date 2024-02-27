@@ -15,7 +15,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDeterminantsGraphDrugClass, setDeterminantsGraphView, setResetBool, setSliderList, setMaxSliderValueRD  } from '../../../../stores/slices/graphSlice';
-import { drugClassesST, drugClassesKP, drugsNG, drugsEC, drugsDEC, drugsSE, drugsSEINTS, drugsSH} from '../../../../util/drugs';
+import { drugClassesST, drugClassesKP, drugClassesNG, drugsNG, drugsEC, drugsDEC, drugsSE, drugsSEINTS, drugsSH} from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, colorForDrugClassesSE, colorForDrugClassesSEINTS, colorForDrugClassesSH, colorForDrugClassesEC, colorForDrugClassesDEC, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -54,7 +54,7 @@ export const DeterminantsGraph = () => {
       case 'kpneumo':
         return drugClassesKP;
       case 'ngono':
-        return drugsNG;
+        return drugClassesNG;
       case 'ecoli':
         return drugsEC;
       case 'decoli':
@@ -195,7 +195,7 @@ export const DeterminantsGraph = () => {
   function handleClickChart(event) {
     setCurrentEventSelected(event);
   }
-
+  //TODO: Check this fuction to work for all organisms
   function getColorForDrug(drug){
     const colorForDrugClasses = organism === 'styphi'?colorForDrugClassesST:colorForDrugClassesKP;
     const drugClassColors = colorForDrugClasses[determinantsGraphDrugClass];
