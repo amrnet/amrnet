@@ -23,7 +23,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
-    organisms: ['styphi', 'kpneumo']
+    organisms: ['styphi', 'kpneumo', 'ngono']
   },
   {
     collapse: 'distribution',
