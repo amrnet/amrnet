@@ -40,6 +40,7 @@ import {
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
   setCustomDropdownMapView,
+  setCustomDropdownMapViewNG,
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
@@ -52,7 +53,8 @@ import {
   setTrendsKPGraphView,
   setCurrentSliderValue,
   setCurrentSliderValueRD,
-  setNgmast
+  setNgmast,
+  setNgmastDrugsData
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -176,7 +178,8 @@ export const DashboardPage = () => {
       dispatch(setActualTimeFinal(years[years.length - 1]));
       dispatch(setCountriesForFilter(countries));
       // console.log("NG-MAST TYPE", responseData['name'],responseData['NG-MAST TYPE']);
-      dispatch(setNgmast(ngmastData.ngmastDrugData));
+      dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
+      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
