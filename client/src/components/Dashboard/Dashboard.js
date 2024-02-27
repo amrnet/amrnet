@@ -211,6 +211,7 @@ export const DashboardPage = () => {
           case 'ngono':
             dispatch(setMapView('No. Samples'));
             dispatch(setDrugResistanceGraphView(drugsNG));
+            dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
             break;
           case 'ecoli':
             dispatch(setMapView('No. Samples'));

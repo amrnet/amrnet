@@ -80,7 +80,7 @@ export const Graphs = () => {
       case 'ngono':
         return colorForDrugClassesNG[determinantsGraphDrugClass];
       default:
-        return colorForDrugClassesKP[determinantsGraphDrugClass];
+        return colorForDrugClassesST[determinantsGraphDrugClass];
     }
   }
 
