@@ -3,7 +3,7 @@ import { Button, Card, CardContent, Checkbox, ListItemText, MenuItem, Select, To
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
+import { setCustomDropdownMapViewNG } from '../../../../stores/slices/graphSlice';
 import { useStyles } from './NgmastMUI';
 import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
@@ -16,33 +16,34 @@ export const Ngmast = () => {
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
   const NGMAST = useAppSelector((state) => state.graph.NGMAST);
-  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
-  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
-  const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
+  const ngmastDrugData = useAppSelector((state) => state.graph.ngmastDrugsData);
+  const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
+  const [selectedValues, setSelectedValues] = useState([customDropdownMapViewNG[0]]);
+  console.log("customDropdownMapViewNG",customDropdownMapViewNG)
   const handleAutocompleteChange = (event, newValue) => {
-   
-    if (customDropdownMapView.length === 10 && newValue.length > 10) {
+    
+    if (customDropdownMapViewNG.length === 10 && newValue.length > 10) {
       return;
     }
-    dispatch(setCustomDropdownMapView(newValue));
+    dispatch(setCustomDropdownMapViewNG(newValue));
     setSelectedValues(newValue);
   };
 
  useEffect(()=>{
-  dispatch(setCustomDropdownMapView(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-  },[genotypesDrugsData ])
+  dispatch(setCustomDropdownMapViewNG(ngmastDrugData.slice(0, 1).map((x) => x.name)));
+  },[ngmastDrugData ])
 
   function getSelectGenotypeLabel(genotype) {
-    const matchingGenotype = genotypesDrugsData.find(g => g.name === genotype);
+    const matchingGenotype = ngmastDrugData.find(g => g.name === genotype);
     const totalCount = matchingGenotype?.totalCount ?? 0;
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
 }
-const filteredData = NGMAST
+const filteredData = ngmastDrugData
     .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
     // .filter(x => x.totalCount >= 20)
   ;
-
+  console.log("filteredDataNG",filteredData)
   return (
     <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
@@ -63,8 +64,8 @@ const filteredData = NGMAST
             limitTags={1}
             id="tags-standard"
             options={filteredData.map((data) => data.name) }
-            freeSolo={customDropdownMapView.length >= 10 ? false : true}
-            getOptionDisabled={(options) => (customDropdownMapView.length >= 10 ? true : false)}
+            freeSolo={customDropdownMapViewNG.length >= 10 ? false : true}
+            getOptionDisabled={(options) => (customDropdownMapViewNG.length >= 10 ? true : false)}
             value={selectedValues}
             disableCloseOnSelect
             onChange={handleAutocompleteChange}
@@ -74,7 +75,7 @@ const filteredData = NGMAST
                 value={option}
                 sx={{ justifyContent: "space-between"}}
                 {...props}
-              ><Checkbox checked={customDropdownMapView.indexOf(option) > -1} />
+              ><Checkbox checked={customDropdownMapViewNG.indexOf(option) > -1} />
                 <ListItemText primary={getSelectGenotypeLabel(option)} />
               </MenuItem>
             )}
@@ -82,7 +83,7 @@ const filteredData = NGMAST
               <TextField
                 {...params}
                 variant="outlined"
-                placeholder={customDropdownMapView.length>0?"Type to search...":"0 genotype selected"}
+                placeholder={customDropdownMapViewNG.length>0?"Type to search...":"0 genotype selected"}
               />
             )}
           />
