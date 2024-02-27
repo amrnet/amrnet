@@ -558,7 +558,8 @@ export const colorForDrugClassesSE = {
 // Colors for N. gono drug classes genes
 export const colorForDrugClassesNG = {
   Ceftriaxone: [
-    { name: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', color: '#f9c74f' }
+    { name: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', color: '#f9c74f' },
+    { name: 'None', color: '#B9B9B9' }
   ],
   Azithromycin: [
     { name: 'AzithR-23S_rDNA_a2045g+mtrR_promoter_a-57del', color: '#D1E5F0' },
@@ -570,8 +571,9 @@ export const colorForDrugClassesNG = {
     { name: 'AzithR_23S_rDNA_c2597t', color: '#40004B' },
     { name: 'AzithR_23S_rDNA_c2597t+mtrR_disrupted', color: '#054e20' },
     { name: 'AzithR_mtrC_disrupted+mtrD_mosaic_2', color: '#f9c74f' },
-    { name: 'VIM-AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', color: '#f9844a' },
+    { name: 'AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', color: '#f9844a' },
     { name: 'AzithR_mtrR_promoter_mosaic_2', color: '#543005' },
+    { name: 'None', color: '#B9B9B9' }
   ]
 };
 // Colors for Shigella drug classes genes
