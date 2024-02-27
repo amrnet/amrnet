@@ -43,6 +43,7 @@ export const Map = () => {
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   // const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
+  const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
   function getGenotypeColor(genotype) {
@@ -102,6 +103,29 @@ export const Map = () => {
           });
           break;
         case 'NG-MAST TYPE prevalence':
+            let percentCounterNG = 0;        
+            const genotypesNG = countryStats.NGMAST.items;
+            let genotypesNG2 = [];
+            genotypesNG.forEach((genotype) => {
+               if (customDropdownMapViewNG.includes(genotype.name)){
+                // tooltip.content[genotype.name] = `${genotype.count} `;
+                  genotypesNG2.push(genotype);}
+                percentCounterNG += genotype.count;
+            });
+            genotypesNG.forEach((genotype) => {
+              console.log("genotype", genotype, genotype.name,customDropdownMapViewNG)
+               if (customDropdownMapViewNG.includes(genotype.name))
+                tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count/percentCounterNG)*100).toFixed(2)} %)`;
+            });
+            if (genotypesNG2.length > 0) {
+              let sumCount = 0;
+              for (const genotype of genotypesNG2) {
+                sumCount += genotype.count;
+              }
+              if(countryData.count>=20 && genotypesNG2.length > 1 )
+                tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount/percentCounterNG)*100).toFixed(2)} %)`;
+
+            }
           break;
         case 'Genotype prevalence':
             let percentCounter = 0;        
@@ -114,6 +138,7 @@ export const Map = () => {
                 percentCounter += genotype.count;
             });
             genotypes1.forEach((genotype) => {
+              console.log("genotype", genotype, genotype.name)
                if (customDropdownMapView.includes(genotype.name))
                 tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count/percentCounter)*100).toFixed(2)} %)`;
             });
@@ -241,7 +266,7 @@ export const Map = () => {
                           // console.log("gencountryDataotypes1",countryData);
                           let genotypesNG2 = [];
                           genotypesNG.forEach((genotype) => {
-                            if (customDropdownMapView.includes(genotype.name))
+                            if (customDropdownMapViewNG.includes(genotype.name))
                                 genotypesNG2.push(genotype);
                               percentCounterNG += genotype.count;
                           });

@@ -22,6 +22,7 @@ export const TopRightControls2 = () => {
   const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
 
     console.log("i m 2", genotypesDrugsData2)
+    console.log("customDropdownMapView",customDropdownMapView)
   const handleAutocompleteChange = (event, newValue) => {
    
     if (customDropdownMapView.length === 10 && newValue.length > 10) {
@@ -45,6 +46,7 @@ export const TopRightControls2 = () => {
     .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
     // .filter(x => x.totalCount >= 20)
   ;
+    console.log("filteredData",filteredData)
 
   return (
     <div className={`${classes.topRightControls}`}>
