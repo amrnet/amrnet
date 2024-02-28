@@ -64,15 +64,25 @@ export function getKlebsiellaTexts() {
 
 export function getNgonoTexts() {
   return [
-    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque',
-    'Aliquam laoreet, dolor eu convallis fringilla, velit dolor efficitur dui, eu fermentum tortor leo non justo. Suspendisse potenti.',
-    'Nam accumsan pulvinar arcu, sit amet lobortis felis bibendum quis.',
-    'Donec eu urna nunc. Quisque dapibus purus quis elit convallis tincidunt. Donec scelerisque neque a leo tincidunt, a placerat quam convallis.',
-    'Donec dictum et odio ac convallis. Duis non lectus in lectus auctor fringilla. Etiam eros orci, ultrices id pellentesque et, volutpat et orci.',
-    'Suspendisse potenti. Nullam vitae mi orci. Duis auctor purus rhoncus sapien posuere, vel malesuada sem convallis. Mauris euismod accumsan lectus vel dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce venenatis, ipsum in blandit tempor, dui turpis luctus risus.',
-    'Quisque in lacinia enim, vel rutrum felis. Donec venenatis pulvinar vestibulum. Fusce pretium condimentum dolor in gravida. Morbi sollicitudin mollis tellus vel laoreet. Vivamus iaculis leo non diam tincidunt rutrum. Etiam id neque.'
+    'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation',
+      `Source Data`,
+      `AMRnet displays information on antimicrobial resistance (AMR) and genotype (sequence type) for the bacterial pathogen Neisseria gonorrhoeae, derived from public genome data.`,
+      `The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). These include EuroGASP 2013 & 2018, and several national surveillance studies.`,
+      `Neisseria gonorrhoeae data in AMRnet are sourced from Pathogenwatch (https://pathogen.watch), which calls AMR and lineage genotypes (MLST, NG-MAST) from genomes assembled from public data (see https://doi.org/10.1186/s13073-021-00858-2). See below for details of how the genotyping is undertaken.`,
+      `Individual genome information, including AMR, MLST and NG-MAST calls, sequence data accession numbers, and source information (PubMedID for citation) can be downloaded as a spreadsheet from the AMRnet dashboard (https://www.amrnet.org).`,
+      `AMRnet’s Neisseria gonorrhoeae database was last updated on January 24th 2024`,
+      `Variable definitions`,  
+      `Genotype - Users can choose from (i) sequence types (STs) assigned using the 7-locus MLST scheme for Neisseria, defined by Bennett et al (2007), BMC Biology (https://doi.org/10.1186/1741-7007-5-35); or (ii) STs assigned using the 2-locus N. gonorrhoeae multi-antigen sequence typing (NG-MAST) scheme, defined by Martin et al (2004), J Infect Dis  (https://doi.org/10.1086/383047). Both schemes are hosted by PubMLST (https://pubmlst.org/neisseria/).`,
+      `Antimicrobial resistance determinants - These are identified by Pathogenwatch using an inhouse dictionary developed and maintained in consultation with an expert advisory group, as described by Sánchez-Busó et al (2021), Genome Medicine (https://doi.org/10.1186/s13073-021-00858-2).`,
+      `AMR determinants within genotypes - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of Sánchez-Busó et al (2021), Genome Medicine (https://doi.org/10.1186/s13073-021-00858-2).`,
+      'Abbreviations',
+      `1. MDR, multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])`,
+      `2. XDR, extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])`,
+      `Note these definitions are based on those defined in the European CDC Response Plan, modified to use the specific representatives of category I and II antibiotic classes that we have available in the dashboard. `, 
+      `(https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf)`,
   ];
 }
+
 
 export function getEcoliTexts() {
   return [
