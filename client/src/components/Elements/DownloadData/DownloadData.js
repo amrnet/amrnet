@@ -106,6 +106,7 @@ export const DownloadData = () => {
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
   const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
+  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
 
   async function handleClickDownloadDatabase() {
     setLoadingCSV(true);
@@ -491,8 +492,8 @@ export const DownloadData = () => {
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
 
       for (let index = 0; index < cards.length; index++) {
-        console.log("graph card",graphCards[index].id, captureDRT )
-        if (graphCards[index].id === 'DRT' && (drugResistanceGraphView.length === 0 || captureDRT === false )){
+        if ((graphCards[index].id === 'DRT' && (drugResistanceGraphView.length === 0 || captureDRT === false ))||
+        (graphCards[index].id === 'RFWG' && captureRFWG === false )){
           continue;
         }
         doc.addPage();
