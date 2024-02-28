@@ -63,6 +63,7 @@ export const Graphs = () => {
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
   const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
+  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
   
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -126,6 +127,11 @@ export const Graphs = () => {
     if ((card.id === 'DRT' && drugResistanceGraphView.length === 0) || (card.id === 'DRT' && captureDRT === false)) {
         handleLoading(card.id, false);
         alert("No drugs/classes selected to download or no data to download");
+        return;
+    }
+    if ((card.id === 'RFWG' && captureRFWG === false)) {
+        handleLoading(card.id, false);
+        alert("No genotype selected to download or no data to download");
         return;
     }
 
