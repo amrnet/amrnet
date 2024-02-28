@@ -385,15 +385,90 @@ export const DownloadData = () => {
         const euFlag = new Image();
         euFlag.src = EUFlagImg;
         doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
-      }else{
+      }else if (organism === 'kpneumo') {
+        // let list = PMID.filter((value)=> value !== "-")
+        // let pmidSpace, dynamicText;
+        // if (actualCountry === 'All'){
+        //   pmidSpace = 0;
+        //   dynamicText = `TyphiNET presents data aggregated from >100 studies. Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+        // }else{
+        //   list = listPIMD.filter((value)=> value !== "-")
+        //   dynamicText = `TyphiNET presents data aggregated from >100 studies. Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+        //   const textWidth = doc.getTextWidth(dynamicText);
+          
+        //   const widthRanges = [815, 1200, 1600, 2000, 2400];
+        //   const pmidSpaces = [-50, -40, -30, -20, -10, 0];          
+
+        //     // Find the appropriate pmidSpace based on textWidth
+        //     pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
+        //   }
+        // doc.text(dynamicText,16, 585,{ align: 'left', maxWidth: pageWidth - 36 });
+        
+        // Info
+        let newLine = 10;
+        let kleb = 92;
         doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[1], 16, 125, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[2], 16, 145, { align: 'left', maxWidth: pageWidth - 36});
-        doc.text(texts[3], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[4], 16, 175, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[5], 16, 195, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[6], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
-      }      
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[1], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 16, 115, { align: 'left', maxWidth: pageWidth - 36});
+        doc.setFont(undefined, "italic");
+        doc.text(texts[3], 155, 125, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[4], 247, 125, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[5], 16, 145, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[6], 108, 145, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold').setTextColor(255,0,0);
+        doc.text(texts[8], 16, 185, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[9], 16, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[10], 35, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[11], 35+kleb, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 205, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 225, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[16], 240, 235, { align: 'left', maxWidth: pageWidth - 36 });
+         doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 332, 235, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[18], 16, 245, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[19], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[20], 200, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[21], 16, 285, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setTextColor(0,0,0)
+        doc.text(texts[22], 16, 305, { align: 'left', maxWidth: pageWidth - 36 });
+
+        doc.text(texts[23], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[24], 60, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[25], 60+kleb, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[26], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[27], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[28], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[29], 16+kleb, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[30], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[31], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[32], 16, 455, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[33], 16, 465, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[34], 16, 475, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[35], 16, 485, { align: 'left', maxWidth: pageWidth - 36 });
+        // const euFlag = new Image();
+        // euFlag.src = EUFlagImg;
+        // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
+      } 
 
       
         drawFooter({ document: doc, pageHeight, pageWidth, date });
