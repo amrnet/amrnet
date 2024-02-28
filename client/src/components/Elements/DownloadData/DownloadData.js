@@ -342,7 +342,7 @@ export const DownloadData = () => {
 
       // Title and Date
       doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text("Global Overview of", 177, 24, { align: 'center' });
+      doc.text("AMRnet Report for", 177, 24, { align: 'center' });
       doc.setFont(undefined, "bolditalic");
       doc.text(firstName, 264, 24, { align: 'center' });
       doc.setFont(undefined, "bold");
@@ -450,7 +450,7 @@ export const DownloadData = () => {
         doc.setFont(undefined, "italic");
         doc.text(texts[19], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[20], 200, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[20], 198, 275, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[21], 16, 285, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setTextColor(0,0,0)
         doc.text(texts[22], 16, 305, { align: 'left', maxWidth: pageWidth - 36 });
