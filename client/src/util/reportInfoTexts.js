@@ -55,6 +55,17 @@ export function getEcoliTexts() {
     'Quisque in lacinia enim, vel rutrum felis. Donec venenatis pulvinar vestibulum. Fusce pretium condimentum dolor in gravida. Morbi sollicitudin mollis tellus vel laoreet. Vivamus iaculis leo non diam tincidunt rutrum. Etiam id neque.'
   ];
 }
+export function getDEcoliTexts() {
+  return [
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque',
+    'Aliquam laoreet, dolor eu convallis fringilla, velit dolor efficitur dui, eu fermentum tortor leo non justo. Suspendisse potenti.',
+    'Nam accumsan pulvinar arcu, sit amet lobortis felis bibendum quis.',
+    'Donec eu urna nunc. Quisque dapibus purus quis elit convallis tincidunt. Donec scelerisque neque a leo tincidunt, a placerat quam convallis.',
+    'Donec dictum et odio ac convallis. Duis non lectus in lectus auctor fringilla. Etiam eros orci, ultrices id pellentesque et, volutpat et orci.',
+    'Suspendisse potenti. Nullam vitae mi orci. Duis auctor purus rhoncus sapien posuere, vel malesuada sem convallis. Mauris euismod accumsan lectus vel dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce venenatis, ipsum in blandit tempor, dui turpis luctus risus.',
+    'Quisque in lacinia enim, vel rutrum felis. Donec venenatis pulvinar vestibulum. Fusce pretium condimentum dolor in gravida. Morbi sollicitudin mollis tellus vel laoreet. Vivamus iaculis leo non diam tincidunt rutrum. Etiam id neque.'
+  ];
+}
 
 export function getShigeTexts() {
   return [
@@ -69,6 +80,17 @@ export function getShigeTexts() {
 }
 
 export function getSentericaTexts() {
+  return [
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque',
+    'Aliquam laoreet, dolor eu convallis fringilla, velit dolor efficitur dui, eu fermentum tortor leo non justo. Suspendisse potenti.',
+    'Nam accumsan pulvinar arcu, sit amet lobortis felis bibendum quis.',
+    'Donec eu urna nunc. Quisque dapibus purus quis elit convallis tincidunt. Donec scelerisque neque a leo tincidunt, a placerat quam convallis.',
+    'Donec dictum et odio ac convallis. Duis non lectus in lectus auctor fringilla. Etiam eros orci, ultrices id pellentesque et, volutpat et orci.',
+    'Suspendisse potenti. Nullam vitae mi orci. Duis auctor purus rhoncus sapien posuere, vel malesuada sem convallis. Mauris euismod accumsan lectus vel dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce venenatis, ipsum in blandit tempor, dui turpis luctus risus.',
+    'Quisque in lacinia enim, vel rutrum felis. Donec venenatis pulvinar vestibulum. Fusce pretium condimentum dolor in gravida. Morbi sollicitudin mollis tellus vel laoreet. Vivamus iaculis leo non diam tincidunt rutrum. Etiam id neque.'
+  ];
+}
+export function getSentericaintsTexts() {
   return [
     'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque',
     'Aliquam laoreet, dolor eu convallis fringilla, velit dolor efficitur dui, eu fermentum tortor leo non justo. Suspendisse potenti.',

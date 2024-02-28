@@ -66,6 +66,21 @@ router.get('/ecolidata', async (req, res) => {
     }
 
 });
+router.get('/decolidata', async (req, res) => {
+    console.log("i m in");
+
+    try {
+        await client.db("decoli").collection("merge_rawdata_dec").drop();
+        //No aggregate needs (Note: flag to check)
+        // await client.db("ecoli2").collection("pw_amr-profile").aggregate(merge_rawdata_ec).toArray();
+       
+        return res.status(200).send('All data merged successfully');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+});
 //TODO: the rules need to be change for one file 
 router.get('/shigedata', async (req, res) => {
     console.log("i m in");
@@ -87,6 +102,20 @@ router.get('/sentericadata', async (req, res) => {
 
     try {
         await client.db("senterica").collection("merge_rawdata_se").drop();
+        //No aggregate needs (Note: flag to check)
+        // const result = await client.db("senterica").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
+        return res.status(200).send('All data merged successfully');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+});
+router.get('/sentericaintsdata', async (req, res) => {
+    console.log("i m in");
+
+    try {
+        await client.db("sentericaints").collection("merge_rawdata_seints").drop();
         //No aggregate needs (Note: flag to check)
         // const result = await client.db("senterica").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
         return res.status(200).send('All data merged successfully');
