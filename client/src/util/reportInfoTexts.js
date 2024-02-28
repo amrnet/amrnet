@@ -1,6 +1,6 @@
 export function getSalmonellaTexts(date) {
   return [
-    `This report was generated at ${date}, using TyphiNET (https://www.typhi.net), a data visualisation platform that draws genome-derived data on antimicrobial resistance and genotypes from Typhi Pathogenwatch (https://pathogen.watch), curated by the Global Typhoid Genomics Consortium (https://www.typhoidgenomics.org).`,
+    `This report was generated using TyphiNET (https://www.typhi.net), a data visualisation platform that draws genome-derived data on antimicrobial resistance and genotypes from Typhi Pathogenwatch (https://pathogen.watch), curated by the Global Typhoid Genomics Consortium (https://www.typhoidgenomics.org).`,
       `Source Data`,
       `TyphiNET data were last updated on January 24th 2024. For code and further details please see: (https://github.com/typhoidgenomics/TyphiNET).`,
       `Individual genome information, including derived genotype and AMR calls, sequence data accession numbers, and source information (PubMedID for citation) can be downloaded as a spreadsheet from the TyphiNET website (https://www.typhi.net).`,
