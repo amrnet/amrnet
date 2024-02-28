@@ -423,7 +423,7 @@ export const DownloadData = () => {
       if(mapView === 'Genotype prevalence'){
         if (customDropdownMapView.length === 1) {
           doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
-        } else if(mapView === 'NG-MAST TYPE prevalence'){
+        } else if(mapView === 'NG-MAST prevalence'){
           doc.text('Selected NG-MAST TYPE: ' + customDropdownMapView, 16, 140);
         }else if (customDropdownMapView.length > 1) {
             const genotypesText = customDropdownMapView.join('\n');

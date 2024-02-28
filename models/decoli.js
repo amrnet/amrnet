@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 // MongoDB scheme
-const salmonellaSchema = new Schema({
+const decoliSchema = new Schema({
   NAME: {
     type: String
   },
@@ -350,6 +350,6 @@ const salmonellaSchema = new Schema({
   }
 });
 
-const salmonellaModel = mongoose.model('salmonellaModel', salmonellaSchema);
+const decoliModel = mongoose.model('decoliModel', decoliSchema);
 
-export default salmonellaModel;
+export default decoliModel;
