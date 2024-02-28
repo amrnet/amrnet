@@ -36,7 +36,6 @@ export const DrugResistanceGraph = () => {
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-  const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -49,10 +48,6 @@ export const DrugResistanceGraph = () => {
         dispatch(setCaptureDRT(true));
     }
 }, [drugsYearData]);
-
-useEffect(() => {
-    console.log("captureDRT:", captureDRT);
-}, [captureDRT]);
 
   function getData() {
     const exclusions = ['name', 'count'];
