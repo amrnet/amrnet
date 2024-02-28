@@ -99,7 +99,7 @@ export const Map = () => {
                     // Ceftriaxone1: `${countryStats.Ceftriaxone.percentage}%`,
                     // ESBL: `${countryStats.ESBL.percentage}%`,
                     // Carb: `${countryStats.Carb.percentage}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`
+                    // Susceptible: `${countryStats.Susceptible.percentage}%`
                   }
           });
           break;
@@ -213,11 +213,20 @@ export const Map = () => {
           {organism === 'none' ? (
             ''
           ) : (
-            <span>
+            <><span>
               of <i>
       {globalOverviewLabel.italicLabel}</i>
       {globalOverviewLabel.label}
             </span>
+            {organism === "kpneumo"?
+            <Tooltip title="This data is pulled from Pathogenwatch and represents unfiltered data deposited in NCBI/ENA, therefore reflects a strong bias towards sequencing of resistant strains. This will change in future updates." placement="bottom">
+              <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+            </Tooltip>:
+            organism === "shige" || organism === "ecoli" ||organism === "senterica" ||organism ==='decoli' ||organism ==='sentericaints'?
+            <Tooltip title="This data is pulled from Enterobase and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains. This will change in future updates." placement="bottom">
+              <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+            </Tooltip>:null}
+            </>
           )}
         </Typography>
         {organism === "kpneumo"?
