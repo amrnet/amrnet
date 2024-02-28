@@ -43,13 +43,23 @@ export const FrequenciesGraph = () => {
   const frequenciesGraphView = useAppSelector((state) => state.graph.frequenciesGraphView);
   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
+  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
+
   let data = genotypesDrugsData;
 
   useEffect(() => {
-    if (frequenciesGraphSelectedGenotypes.length <= 0 ) {
+    data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
+    console.log("getData",data)
+    let cnt = 0;
+    data.map((item) => {
+      cnt += item.totalCount;
+    });
+    if (frequenciesGraphSelectedGenotypes.length <= 0 || cnt === 0) {
         dispatch(setCaptureRFWG(false));
+        console.log("setCaptureRFWG", frequenciesGraphSelectedGenotypes.length,captureRFWG, false)
     } else {
         dispatch(setCaptureRFWG(true));
+        console.log("setCaptureRFWG", frequenciesGraphSelectedGenotypes.length,captureRFWG, true)
     }
 }, [frequenciesGraphSelectedGenotypes]);
 
@@ -87,13 +97,13 @@ export const FrequenciesGraph = () => {
   function getData() {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
     console.log("getData",data)
-    let cnt = 0;
-    data.map((item) => {
-      cnt += item.totalCount;
-    });
-    if(cnt === 0){
-      dispatch(setCaptureRFWG(false));
-    }
+    // let cnt = 0;
+    // data.map((item) => {
+    //   cnt += item.totalCount;
+    // });
+    // if(cnt === 0){
+    //   dispatch(setCaptureRFWG(false));
+    // }
 
 
     if (frequenciesGraphView === 'number') {
