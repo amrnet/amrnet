@@ -62,6 +62,7 @@ export const Graphs = () => {
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
+  const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
   
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -122,12 +123,12 @@ export const Graphs = () => {
   async function handleClickDownload(event, card) {
     event.stopPropagation();
     handleLoading(card.collapse, true);
-    if(card.id==='DRT' && drugResistanceGraphView.length === 0){
-      handleLoading(card.id, false);
-      return(
-        alert("No drugs/classes selected to download")
-      )
+    if ((card.id === 'DRT' && drugResistanceGraphView.length === 0) || (card.id === 'DRT' && captureDRT === false)) {
+        handleLoading(card.id, false);
+        alert("No drugs/classes selected to download or no data to download");
+        return;
     }
+
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
