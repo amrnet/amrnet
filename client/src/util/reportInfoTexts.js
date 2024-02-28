@@ -22,15 +22,45 @@ export function getSalmonellaTexts(date) {
 
 export function getKlebsiellaTexts() {
   return [
-    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque',
-    'Aliquam laoreet, dolor eu convallis fringilla, velit dolor efficitur dui, eu fermentum tortor leo non justo. Suspendisse potenti.',
-    'Nam accumsan pulvinar arcu, sit amet lobortis felis bibendum quis.',
-    'Donec eu urna nunc. Quisque dapibus purus quis elit convallis tincidunt. Donec scelerisque neque a leo tincidunt, a placerat quam convallis.',
-    'Donec dictum et odio ac convallis. Duis non lectus in lectus auctor fringilla. Etiam eros orci, ultrices id pellentesque et, volutpat et orci.',
-    'Suspendisse potenti. Nullam vitae mi orci. Duis auctor purus rhoncus sapien posuere, vel malesuada sem convallis. Mauris euismod accumsan lectus vel dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Fusce venenatis, ipsum in blandit tempor, dui turpis luctus risus.',
-    'Quisque in lacinia enim, vel rutrum felis. Donec venenatis pulvinar vestibulum. Fusce pretium condimentum dolor in gravida. Morbi sollicitudin mollis tellus vel laoreet. Vivamus iaculis leo non diam tincidunt rutrum. Etiam id neque.'
+    'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation',
+    'Source Data',
+    'AMRnet displays information on antimicrobial resistance (AMR) and multi-locus sequence types (MLST) for the bacterial pathogen ',
+    'Klebsiella pneumoniae',
+    ', derived from public genome data.',
+    'Klebsiella pneumoniae',
+    ' data in AMRnet are sourced from Pathogenwatch (https://pathogen.watch), ',
+    'which calls AMR and genotypes (MLST) from genomes assembled from public data (see https://doi.org/10.1093/cid/ciab784). See below for details of how the genotyping is undertaken.',
+    'WARNING:',
+    'The ',
+    'Klebsiella pneumoniae',
+    ' data used in AMRnet are not yet curated for purpose-of-sampling, ',
+    'and therefore reflect the biases of global sequencing efforts which have been largely directed at ',
+    'sequencing ESBL and carbapenemase-producing strains or hypervirulent strains in order to understand',
+    'their emergence and spread, and to investigate outbreaks in hospitals. The KlebNET consortium is',
+    'undertaking efforts to curate the public genome data for ',
+    'Klebsiella pneumoniae',
+    ' , which will ultimately ',
+    'allow AMRnet to identify genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations) suitable to calculate national annual AMR prevalence estimates and trends (as we do currently for ',
+    'Salmonella Typhi and Neisseria gonorrhoeae',
+    '). However until then, please be careful when interpreting',
+    'the data in the dashboard.',
+    'Individual genome information, including MLST and AMR calls, and sequence data accession numbers, can be downloaded as a spreadsheet from the AMRnet dashboard (https://www.amrnet.org).',
+    'AMRnet’s ',
+    'Klebsiella pneumoniae',
+    ' database was last updated on January 24th 2024.',
+    'Variable definitions',  
+    'Genotype - Pathogenwatch assigns sequence types (STs) using the 7-locus MLST scheme for ',
+    'Klebsiella pneumoniae,',
+    'defined by Diancourt et al (2005), J Clin Microbiol',
+    '(https://doi.org/10.1128/jcm.43.8.4178-4182.2005) and maintained by Institut Pasteur (https://bigsdb.pasteur.fr/klebsiella/)',
+    `Antimicrobial resistance determinants are identified by Pathogenwatch using Kleborate v2, developed and maintained by the Holt lab (https://github.com/klebgenomics/Kleborate) and described in Lam et al (2021), Nature Communications (https://doi.org/10.1038/s41467-021-24448-3).`,
+    'Abbreviations',
+    'ESBL (extended-spectrum beta-lactamase)',
+    'MLST (multi-locus sequence type)',
+    'ST (sequence type)',
   ];
 }
+
 
 export function getNgonoTexts() {
   return [
