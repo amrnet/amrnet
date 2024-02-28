@@ -21,6 +21,10 @@ const path_clean_ec = path.join(
   __dirname,
   '../assets/webscrap/clean/ecoli/clean_ec.csv'
 );
+const path_clean_dec = path.join(
+  __dirname,
+  '../assets/webscrap/clean/decoli/clean_dec.csv'
+);
 const path_clean_sh = path.join(
   __dirname,
   '../assets/webscrap/clean/shige/clean_sh.csv'
@@ -28,6 +32,10 @@ const path_clean_sh = path.join(
 const path_clean_se = path.join(
   __dirname,
   '../assets/webscrap/clean/senterica/clean_se.csv'
+);
+const path_clean_seints = path.join(
+  __dirname,
+  '../assets/webscrap/clean/sentericaints/clean_seints.csv'
 );
 const path_clean_all_kp = path.join(
   __dirname,
@@ -52,6 +60,14 @@ const path_clean_all_sh = path.join(
 const path_clean_all_se = path.join(
   __dirname,
   '../assets/webscrap/clean/senterica/cleanAll_se.csv'
+);
+const path_clean_all_decoli = path.join(
+  __dirname,
+  '../assets/webscrap/clean/decoli/cleanAll_decoli.csv'
+);
+const path_clean_all_seints = path.join(
+  __dirname,
+  '../assets/webscrap/clean/sentericaints/cleanAll_seints.csv'
 );
 var path_clean_db_st;
 const watcher = chokidar.watch(

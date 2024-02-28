@@ -31,8 +31,14 @@ router.post('/download', function (req, res, next) {
   } else if (organism === 'ecoli'){
     collection = client.db('ecoli').collection('merge_rawdata_ec');
     localFilePath = Tools.path_clean_all_ec;
+  } else if (organism === 'decoli'){
+    collection = client.db('decoli').collection('merge_rawdata_dec');
+    localFilePath = Tools.path_clean_all_ec;
   } else if (organism === 'shige'){
     collection = client.db('shige').collection('merge_rawdata_sh');
+    localFilePath = Tools.path_clean_all_sh;
+  } else if (organism === 'sentericaints'){
+    collection = client.db('sentericaints').collection('merge_rawdata_seints');
     localFilePath = Tools.path_clean_all_sh;
   } else {
     collection = client.db('senterica').collection('merge_rawdata_se');
@@ -112,12 +118,24 @@ router.get('/generate/:organism', async function (req, res, next) {
     ext = 'ec';
     collection_ext = 'ec';
     fileName = 'cleanAll_ec.csv';
+  }else if (organism === 'decoli') {
+    collection = client.db('decoli').collection('merge_rawdata_dec');
+    folderName = 'decoli';
+    ext = 'dec';
+    collection_ext = 'dec';
+    fileName = 'cleanAll_dec.csv';
   }else if (organism === 'shige') {
     collection = client.db('shige').collection('merge_rawdata_sh');
     folderName = 'shige';
     ext = 'sh';
     collection_ext = 'sh';
     fileName = 'cleanAll_sh.csv';
+  }else if (organism === 'sentericaints') {
+    collection = client.db('sentericaints').collection('merge_rawdata_seints');
+    folderName = 'sentericaints';
+    ext = 'seints';
+    collection_ext = 'seints';
+    fileName = 'cleanAll_seints.csv';
   } else {
   collection = client.db('senterica').collection('merge_rawdata_se');
   folderName = 'senterica';
@@ -176,11 +194,21 @@ router.get('/clean/:organism', async function (req, res, next) {
     ext = 'ec';
     collection_ext = 'ec';
     database = 'ecoli';
+  }else if (organism === 'decoli'){
+    folderName = 'decoli';
+    ext = 'dec';
+    collection_ext = 'dec';
+    database = 'decoli';
   }else if (organism === 'shige'){
     folderName = 'shige';
     ext = 'sh';
     collection_ext = 'sh';
     database = 'shige';
+  }else if (organism === 'sentericaints'){
+    folderName = 'sentericaints';
+    ext = 'seints';
+    collection_ext = 'seints';
+    database = 'sentericaints';
   }else{
     folderName = 'senterica';
     ext = 'se';
