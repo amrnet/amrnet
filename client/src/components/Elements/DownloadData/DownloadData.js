@@ -20,10 +20,10 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses } from '../../../stores/slices/graphSlice';
-import { drugsKP, drugsST, drugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsKP, drugsST,drugsNG, drugsForDrugResistanceGraphST } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
-import { colorForDrugClassesKP, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
-import { getKlebsiellaTexts, getSalmonellaTexts } from '../../../util/reportInfoTexts';
+import { colorForDrugClassesKP,colorForDrugClassesNG, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
+import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 const columnsToRemove = [
@@ -172,8 +172,10 @@ export const DownloadData = () => {
     switch (organism) {
       case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
-      default:
+      case 'kpneumo':
         return colorForDrugClassesKP[determinantsGraphDrugClass];
+      default:
+        return colorForDrugClassesNG[determinantsGraphDrugClass];
     }
   }
 
@@ -186,6 +188,13 @@ export const DownloadData = () => {
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
     document.text(`Source: amr.net [${date}]`, pageWidth / 2, pageHeight - 10, { align: 'center' });
   }
+
+  // function drawHeader({ document, pageWidth}) {
+  //   document.setFontSize(10);
+  //   document.line(0, 26, pageWidth, 26);
+  //   document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 160, 20, { align: 'center', maxWidth: pageWidth - 36  });
+  //   document.setFontSize(12);
+  // }
 
   function drawLegend({
     id = null,
@@ -318,6 +327,12 @@ export const DownloadData = () => {
         firstName = "Klebsiella";
         secondName = "pneumoniae";
         secondword = 330;
+      }else if (organism === 'ngono') {
+        console.log("organism", organism)
+        texts = getNgonoTexts();
+        firstName = "Neisseria";
+        secondName = "gonorrhoeae";
+        secondword = 330;
       }
 
       // Title and Date
@@ -329,6 +344,7 @@ export const DownloadData = () => {
       doc.text(secondName, secondword, 24, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(date, pageWidth / 2, 48, { align: 'center' });
+      // drawHeader({ document: doc, pageWidth});
 
       if (organism === 'styphi') {
         let list = PMID.filter((value)=> value !== "-")
@@ -468,6 +484,33 @@ export const DownloadData = () => {
         // const euFlag = new Image();
         // euFlag.src = EUFlagImg;
         // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
+      }else if (organism === 'ngono') {
+        let kleb = 92;
+        doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[1], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 16, 115, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[3], 16, 145, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 185, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+        
+        doc.text(texts[6], 16, 265, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+      
+        doc.text(texts[7], 16, 285, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[8], 16, 305, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 16, 405, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[11], 16, 445, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[12], 16, 465, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 16, 505, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 535, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 16, 575, { align: 'left', maxWidth: pageWidth - 36 });
+
       } 
 
       
@@ -554,7 +597,7 @@ export const DownloadData = () => {
       const isKlebe = organism === 'kpneumo';
 
       const cards = getOrganismCards();
-      const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
+      const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP :drugsNG;
       const drugClassesBars = getDrugClassesBars();
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilter.length / 6);
@@ -752,7 +795,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism !== 'styphi' && organism !== 'kpneumo'}
+        disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
       >
         Download PDF
       </LoadingButton>
