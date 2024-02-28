@@ -65,7 +65,7 @@ import {
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG, drugsEC, drugsSH, drugsSE } from '../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG, drugsEC, drugsDEC, drugsSH, drugsSE, drugsSEINTS } from '../../util/drugs';
 // import countries from '../../util/countries';
 
 export const DashboardPage = () => {
@@ -211,8 +211,13 @@ export const DashboardPage = () => {
           case 'ngono':
             dispatch(setMapView('No. Samples'));
             dispatch(setDrugResistanceGraphView(drugsNG));
+            dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
             break;
           case 'ecoli':
+            dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsEC));
+            break;
+          case 'decoli':
             dispatch(setMapView('No. Samples'));
             dispatch(setDrugResistanceGraphView(drugsEC));
             break;
@@ -221,6 +226,10 @@ export const DashboardPage = () => {
             dispatch(setDrugResistanceGraphView(drugsSH));
             break;
           case 'senterica':
+            dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsSE));
+            break;
+          case 'sentericaints':
             dispatch(setMapView('No. Samples'));
             dispatch(setDrugResistanceGraphView(drugsSE));
             break;
@@ -290,11 +299,17 @@ export const DashboardPage = () => {
         case 'ecoli':
           getData('getDataForEcoli');
           break;
+        case 'decoli':
+            getData('getDataForDEcoli');
+          break;
         case 'shige':
           getData('getDataForShige');
           break;
         case 'senterica':
           getData('getDataForSenterica');
+          break;
+        case 'sentericaints':
+          getData('getDataForSentericaints');
           break;
         default:
           break;

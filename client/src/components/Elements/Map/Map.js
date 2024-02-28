@@ -25,7 +25,10 @@ const statKey = {
   CipR: 'CipR',
   'Sensitive to all drugs': 'Susceptible',
   ESBL: 'ESBL',
+  Ciprofloxacin: 'Ciprofloxacin',
   ESBL_category: 'Ceftriaxone',
+  Azithromycin: 'Azithromycin',
+  Ceftriaxone: 'Ceftriaxone1',
   Carb: 'Carb'
 };
 
@@ -89,9 +92,12 @@ export const Map = () => {
                 : {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
+                    // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
+                    // Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
+                    // Ceftriaxone1: `${countryStats.Ceftriaxone.percentage}%`,
                     // ESBL: `${countryStats.ESBL.percentage}%`,
                     // Carb: `${countryStats.Carb.percentage}%`,
-                    // Susceptible: `${countryStats.Susceptible.percentage}%`
+                    Susceptible: `${countryStats.Susceptible.percentage}%`
                   }
           });
           break;
@@ -130,6 +136,9 @@ export const Map = () => {
         case 'Sensitive to all drugs':
         case 'XDR':
         case 'AzithR':
+        case 'Azithromycin':
+        case 'Ciprofloxacin':
+        case 'Ceftriaxone':
         case 'CipR':
         case 'ESBL':
         case 'ESBL_category':
@@ -268,8 +277,11 @@ export const Map = () => {
                         case 'MDR':
                         case 'XDR':
                         case 'AzithR':
+                        case 'Azithromycin':
+                        case 'Ciprofloxacin': 
                         case 'CipR':
                         case 'ESBL_category':
+                        case 'Ceftriaxone':
                         case 'ESBL':
                         case 'Carb':
                           count = countryStats[statKey[mapView]]?.count;
