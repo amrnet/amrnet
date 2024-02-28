@@ -25,7 +25,10 @@ const statKey = {
   CipR: 'CipR',
   'Sensitive to all drugs': 'Susceptible',
   ESBL: 'ESBL',
+  Ciprofloxacin: 'Ciprofloxacin',
   ESBL_category: 'Ceftriaxone',
+  Azithromycin: 'Azithromycin',
+  Ceftriaxone: 'Ceftriaxone1',
   Carb: 'Carb'
 };
 
@@ -90,9 +93,12 @@ export const Map = () => {
                 : {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
+                    // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
+                    // Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
+                    // Ceftriaxone1: `${countryStats.Ceftriaxone.percentage}%`,
                     // ESBL: `${countryStats.ESBL.percentage}%`,
                     // Carb: `${countryStats.Carb.percentage}%`,
-                    // Susceptible: `${countryStats.Susceptible.percentage}%`
+                    Susceptible: `${countryStats.Susceptible.percentage}%`
                   }
           });
           break;
@@ -102,7 +108,7 @@ export const Map = () => {
             tooltip.content[genotype.name] = genotype.count;
           });
           break;
-        case 'NG-MAST TYPE prevalence':
+        case 'NG-MAST prevalence':
             let percentCounterNG = 0;        
             const genotypesNG = countryStats.NGMAST.items;
             let genotypesNG2 = [];
@@ -157,6 +163,9 @@ export const Map = () => {
         case 'Sensitive to all drugs':
         case 'XDR':
         case 'AzithR':
+        case 'Azithromycin':
+        case 'Ciprofloxacin':
+        case 'Ceftriaxone':
         case 'CipR':
         case 'ESBL':
         case 'ESBL_category':
@@ -192,7 +201,7 @@ export const Map = () => {
   }
 
   function showPercentage() {
-    return !['Dominant Genotype','Genotype prevalence','No. Samples', 'NG-MAST TYPE prevalence'].includes(mapView);
+    return !['Dominant Genotype','Genotype prevalence','No. Samples', 'NG-MAST prevalence'].includes(mapView);
   }
 
   return (
@@ -260,7 +269,7 @@ export const Map = () => {
                           const genotypes = countryStats.GENOTYPE.items;
                           fillColor = getGenotypeColor(genotypes[0].name);
                           break;
-                        case 'NG-MAST TYPE prevalence':
+                        case 'NG-MAST prevalence':
                           let percentCounterNG = 0;        
                           const genotypesNG = countryStats.NGMAST.items;
                           // console.log("gencountryDataotypes1",countryData);
@@ -325,8 +334,11 @@ export const Map = () => {
                         case 'MDR':
                         case 'XDR':
                         case 'AzithR':
+                        case 'Azithromycin':
+                        case 'Ciprofloxacin': 
                         case 'CipR':
                         case 'ESBL_category':
+                        case 'Ceftriaxone':
                         case 'ESBL':
                         case 'Carb':
                           count = countryStats[statKey[mapView]]?.count;
@@ -418,7 +430,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST TYPE prevalence' ? <Ngmast /> : null)}
+              {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
             </>
           )}
           <BottomLeftControls />
@@ -427,7 +439,7 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST TYPE prevalence' ? <Ngmast /> : null)}
+            {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
             <TopLeftControls />
           </div>
         )}
