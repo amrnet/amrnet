@@ -356,10 +356,10 @@ export const DownloadData = () => {
         let pmidSpace, dynamicText;
         if (actualCountry === 'All'){
           pmidSpace = 0;
-          dynamicText = `TyphiNET presents data aggregated from >100 studies. Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
         }else{
           list = listPIMD.filter((value)=> value !== "-")
-          dynamicText = `TyphiNET presents data aggregated from >100 studies. Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+          dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
           const textWidth = doc.getTextWidth(dynamicText);
           
           const widthRanges = [815, 1200, 1600, 2000, 2400];
