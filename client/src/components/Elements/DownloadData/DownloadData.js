@@ -733,7 +733,7 @@ export const DownloadData = () => {
         }
       }
 
-      doc.save('AMRnet - Report.pdf');
+      doc.save(`AMRnet ${firstName} ${secondName} Report.pdf`);
     } catch (error) {
       setShowAlert(true);
     } finally {
