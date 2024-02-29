@@ -346,7 +346,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       drugsData.push({ ...response, ...drugStats });
       }
     }
-    if (organism === 'kpneumo' && getUniqueGenotypes) {
+    if ((organism === 'kpneumo' && getUniqueGenotypes) || (organism === 'ngono' && getUniqueGenotypes)) {
       const sortedStats = Object.fromEntries(
         Object.entries(stats)
           .sort(([, a], [, b]) => b - a)
