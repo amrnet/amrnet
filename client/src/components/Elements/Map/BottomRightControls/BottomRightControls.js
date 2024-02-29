@@ -73,8 +73,12 @@ export const BottomRightControls = () => {
         }else if (organism === 'ngono') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
         }else if (organism === 'ecoli') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.65, 80);
+        }else if (organism === 'decoli') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 80);
         }else if (organism === 'shige') {
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 80);
+        }else if (organism === 'sentericaints') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
         }else {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
@@ -98,6 +102,14 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 290);
           }
         }
+        if(mapView === 'NG-MAST prevalence'){
+          if (customDropdownMapView.length === 1) {
+            ctx.fillText('Selected NG-MAST TYPE: ' + customDropdownMapView, canvas.width / 2, 290);
+          } else if (customDropdownMapView.length > 1) {
+            const genotypesText = customDropdownMapView.join(', ');
+            ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
         ctx.drawImage(mapImg, 0, textHeight+50, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
@@ -115,6 +127,7 @@ export const BottomRightControls = () => {
           case 'Sensitive to all drugs':
             legendImg.src = 'legends/MapView_Sensitive.png';
             break;
+          case 'NG-MAST prevalence':
           case 'Genotype prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
@@ -149,7 +162,7 @@ export const BottomRightControls = () => {
         ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
 
         const base64 = canvas.toDataURL();
-        await download(base64, 'TyphiNET - Global Overview Salmonella Typhi.png');
+        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.label}.png`);
       });
     } catch (error) {
       setShowAlert(true);
