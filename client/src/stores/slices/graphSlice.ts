@@ -20,6 +20,7 @@ interface GraphState {
   frequenciesGraphView: string;
   frequenciesGraphSelectedGenotypes: Array<string>;
   customDropdownMapView: Array<string>;
+  customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
   genotypesDrugsData2: Array<any>;
   genotypesDrugClassesData: Array<any>;
@@ -36,6 +37,11 @@ interface GraphState {
   currentSliderValue: number;
   resetBool: boolean;
   maxSliderValue:number;
+  currentSliderValueRD: number;
+  maxSliderValueRD:number;
+  sliderList:number;
+  NGMAST: Array<any>;
+  ngmastDrugsData: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -61,6 +67,7 @@ const initialState: GraphState = {
   frequenciesGraphSelectedGenotypes: [],
   customDropdownMapView: [],
   determinantsGraphView: 'percentage',
+  customDropdownMapViewNG: [],
   determinantsGraphDrugClass: '',
   trendsKPGraphDrugClass: '',
   trendsKPGraphView: 'number',
@@ -73,6 +80,11 @@ const initialState: GraphState = {
   currentSliderValue:20,
   resetBool: false,
   maxSliderValue:0,
+  currentSliderValueRD:5,
+  maxSliderValueRD:0,
+  sliderList:0,
+  NGMAST:[],
+  ngmastDrugsData: [],
 };
 
 export const graphSlice = createSlice({
@@ -108,6 +120,9 @@ export const graphSlice = createSlice({
     },
     setCustomDropdownMapView: (state, action: PayloadAction<Array<string>>) => {
       state.customDropdownMapView = action.payload;
+    },
+    setCustomDropdownMapViewNG: (state, action: PayloadAction<Array<string>>) => {
+      state.customDropdownMapViewNG = action.payload;
     },
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugsData = action.payload;
@@ -160,6 +175,21 @@ export const graphSlice = createSlice({
     setMaxSliderValue: (state, action: PayloadAction<number>) => {
       state.maxSliderValue = action.payload;
     },
+    setCurrentSliderValueRD: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueRD = action.payload;
+    },
+    setMaxSliderValueRD: (state, action: PayloadAction<number>) => {
+      state.maxSliderValueRD = action.payload;
+    },
+    setSliderList: (state, action: PayloadAction<number>) => {
+      state.sliderList = action.payload;
+    },
+    setNgmast: (state, action: PayloadAction<Array<any>>) => {
+      state.NGMAST = action.payload;
+    },
+    setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
+      state.ngmastDrugsData = action.payload;
+    },
   }
 });
 
@@ -174,6 +204,7 @@ export const {
   setFrequenciesGraphView,
   setFrequenciesGraphSelectedGenotypes,
   setCustomDropdownMapView,
+  setCustomDropdownMapViewNG,
   setGenotypesDrugsData,
   setGenotypesDrugsData2,
   setDeterminantsGraphView,
@@ -191,6 +222,11 @@ export const {
   setCurrentSliderValue,
   setResetBool,
   setMaxSliderValue,
+  setCurrentSliderValueRD,
+  setMaxSliderValueRD,
+  setSliderList,
+  setNgmast,
+  setNgmastDrugsData
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

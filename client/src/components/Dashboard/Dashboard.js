@@ -40,6 +40,7 @@ import {
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
   setCustomDropdownMapView,
+  setCustomDropdownMapViewNG,
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
@@ -50,7 +51,10 @@ import {
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
-  setCurrentSliderValue
+  setCurrentSliderValue,
+  setCurrentSliderValueRD,
+  setNgmast,
+  setNgmastDrugsData
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -59,12 +63,13 @@ import {
   getGenotypesData,
   getCountryDisplayName,
   getKODiversityData,
-  getConvergenceData
+  getConvergenceData,
+  getNgmastData
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG, drugsEC, drugsDEC, drugsSH, drugsSE, drugsSEINTS } from '../../util/drugs';
 // import countries from '../../util/countries';
 
 export const DashboardPage = () => {
@@ -91,12 +96,17 @@ export const DashboardPage = () => {
     const responseData = response.data;
     dispatch(setTotalGenomes(responseData.length));
     dispatch(setActualGenomes(responseData.length));
-
+    // responseData.map((x) => (console.log("responseData", x.GENOTYPE )))
+    let ngmast;
     const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
-    if (organism === 'typhi') {
+    ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
+    // // if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
-    }
+    
+    if (organism === 'ngono'){
+      ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
+    // }
 
     const years = [...new Set(responseData.map((x) => x.DATE))];
     const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
@@ -118,6 +128,8 @@ export const DashboardPage = () => {
     dispatch(setMapData(getMapData({ data: responseData, countries, organism })));
 
     const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
+    const ngmastData = getNgmastData({ data: responseData, ngmast, organism });
+    dispatch(setNgmast(ngmast));
     // const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
     dispatch(setGenotypesDrugsData2(genotypesData.genotypesDrugsData));
@@ -125,6 +137,8 @@ export const DashboardPage = () => {
     // dispatch(setCustomDropdownMapView(genotypeDataGreaterThanZero.filter(x => x.totalCount >= 20).slice(0, 1).map((x) => x.name)));
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
+    dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
+      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
 
     const yearsData = getYearsData({
       data: responseData,
@@ -133,8 +147,8 @@ export const DashboardPage = () => {
       getUniqueGenotypes: true
     });
 
-    if (organism === 'klebe') {
-      // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
+    if (organism === 'kpneumo') {
+      //console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
 
@@ -149,6 +163,28 @@ export const DashboardPage = () => {
       });
       dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
       dispatch(setConvergenceData(convergenceData.data));
+    }
+   
+    if (organism === 'ngono') {
+      // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
+      // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
+      dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+      const years = [...new Set(responseData.map((x) => x.DATE))];
+      const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
+
+      years.sort();
+      countries.sort();
+
+      dispatch(setTotalGenotypes(genotypes.length));
+      dispatch(setActualGenotypes(genotypes.length));
+      dispatch(setYears(years));
+      dispatch(setTimeInitial(years[0]));
+      dispatch(setActualTimeInitial(years[0]));
+      dispatch(setTimeFinal(years[years.length - 1]));
+      dispatch(setActualTimeFinal(years[years.length - 1]));
+      dispatch(setCountriesForFilter(countries));
+      console.log("NGMAST",)
+      
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
@@ -169,12 +205,12 @@ export const DashboardPage = () => {
         dispatch(setDataset('All'));
 
         switch (organism) {
-          case 'typhi':
+          case 'styphi':
             dispatch(setMapView('CipNS'));
             dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
             dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
             break;
-          case 'klebe':
+          case 'kpneumo':
             dispatch(setMapView('No. Samples'));
             dispatch(setDrugResistanceGraphView(drugsKP));
             dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
@@ -185,6 +221,31 @@ export const DashboardPage = () => {
             dispatch(setConvergenceColourVariable('DATE'));
             setCurrentConvergenceGroupVariable('COUNTRY_ONLY');
             setCurrentConvergenceColourVariable('DATE');
+            break;
+          case 'ngono':
+            dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsNG));
+            dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
+            break;
+          case 'ecoli':
+            dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsEC));
+            break;
+          case 'decoli':
+            dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsEC));
+            break;
+          case 'shige':
+            dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsSH));
+            break;
+          case 'senterica':
+            dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsSE));
+            break;
+          case 'sentericaints':
+            dispatch(setMapView('No. Samples'));
+            dispatch(setDrugResistanceGraphView(drugsSE));
             break;
           default:
             break;
@@ -235,15 +296,35 @@ export const DashboardPage = () => {
       dispatch(setDistributionGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setIfCustom(false));
+      dispatch(setNgmast([]));
       
       dispatch(setCurrentSliderValue(20));
-
+      dispatch(setCurrentSliderValueRD(5));
+      
       switch (organism) {
-        case 'typhi':
-          getData('getDataFromCSV');
+        case 'styphi':
+          getData('getDataForSTyphi');
           break;
-        case 'klebe':
-          getData('getDataFromCSVKlebe');
+        case 'kpneumo':
+          getData('getDataForKpneumo');
+          break;
+        case 'ngono':
+          getData('getDataForNgono');
+          break;
+        case 'ecoli':
+          getData('getDataForEcoli');
+          break;
+        case 'decoli':
+            getData('getDataForDEcoli');
+          break;
+        case 'shige':
+          getData('getDataForShige');
+          break;
+        case 'senterica':
+          getData('getDataForSenterica');
+          break;
+        case 'sentericaints':
+          getData('getDataForSentericaints');
           break;
         default:
           break;
@@ -308,7 +389,7 @@ export const DashboardPage = () => {
         dispatch(setDrugsYearData(yearsData.drugsData));
         dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
 
-        if (organism === 'klebe') {
+        if (organism === 'kpneumo') {
           const KODiversityData = getKODiversityData({ data: filteredData });
           dispatch(setKODiversityData(KODiversityData));
 
@@ -321,6 +402,19 @@ export const DashboardPage = () => {
           dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
           dispatch(setConvergenceData(convergenceData.data));
         }
+        // if (organism === 'ngono') {
+        //   const KODiversityData = getKODiversityData({ data: filteredData });
+        //   dispatch(setKODiversityData(KODiversityData));
+
+        //   const convergenceData = getConvergenceData({
+        //     data: filteredData,
+        //     groupVariable: convergenceGroupVariable,
+        //     // colourVariable: convergenceColourVariable,
+        //     colourVariable: convergenceGroupVariable
+        //   });
+        //   dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+        //   dispatch(setConvergenceData(convergenceData.data));
+        // }
       }
     }
   }, [

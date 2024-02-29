@@ -26,6 +26,7 @@ interface StatsModel {
   Susceptible: ItemsModel;
   CipR: ItemsModel;
   CipNS: ItemsModel;
+  NGMAST:ItemsModel;
 }
 
 interface MapDataModel {

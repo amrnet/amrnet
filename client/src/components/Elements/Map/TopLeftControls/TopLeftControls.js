@@ -42,7 +42,7 @@ export const TopLeftControls = () => {
   }
 
   function isDisabled() {
-    return organism !== 'typhi';
+    return organism !== 'styphi';
   }
 
   return (

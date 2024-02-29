@@ -19,6 +19,8 @@ import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '..
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
+import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -43,6 +45,22 @@ export const DistributionGraph = () => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
+  const captureGD = useAppSelector((state) => state.dashboard.captureGD);
+
+
+  useEffect(() => {
+    let cnt = 0;
+      newArray.map((item)=>{
+          cnt += item.count;
+      });    
+        
+      if (cnt <= 0 ) {
+          dispatch(setCaptureGD(false));
+      } else {
+          dispatch(setCaptureGD(true));
+      }
+  }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
+
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -56,7 +74,7 @@ export const DistributionGraph = () => {
 //  const updateSlider = (value) =>{
 //   setCurrentSliderValue(value);
 //  };
-
+console.log("genotypesYearData", genotypesYearData)
   useEffect(() =>{
       let mp = new Map(); //mp = total count of a genotype in database(including all years)
       genotypesYearData.forEach(cur => {
@@ -110,7 +128,7 @@ export const DistributionGraph = () => {
 
   function getGenotypeColor(genotype) {
     // console.log("genotype", genotype);
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleChangeDataView(event) {
@@ -259,7 +277,7 @@ export const DistributionGraph = () => {
         </div>
         <div className={classes.sliderCont} >
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
-           <SliderSizes sx={{margin: '0px 10px 0px 10px'}}/>
+          <SliderSizes value={"GD"} sx={{margin: '0px 10px 0px 10px'}}/>
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
