@@ -21,6 +21,7 @@ import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
 import { InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
 export const DrugResistanceGraph = () => {
   const classes = useStyles();
@@ -34,10 +35,19 @@ export const DrugResistanceGraph = () => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
   useEffect(() => {
     setCurrentTooltip(null);
   }, [drugsYearData]);
+
+  useEffect(() => {
+    if (drugsYearData.length <= 0) {
+        dispatch(setCaptureDRT(false));
+    } else {
+        dispatch(setCaptureDRT(true));
+    }
+}, [drugsYearData]);
 
   function getData() {
     const exclusions = ['name', 'count'];
@@ -48,7 +58,8 @@ export const DrugResistanceGraph = () => {
       keys.forEach((key) => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
-
+      // if(item.length<0)
+        // console.log("setCaptureDRT", item.count);
       return item;
     });
 
@@ -119,16 +130,17 @@ export const DrugResistanceGraph = () => {
       } = event;
       newValues = value;
     }
-
     newValues.sort((a, b) => a.localeCompare(b));
     dispatch(setDrugResistanceGraphView(newValues));
   }
+
 
   function handleClickChart(event) {
     const data = drugsYearData.find((item) => item.name === event?.activeLabel);
 
     if (data && drugResistanceGraphView.length > 0) {
       const currentData = structuredClone(data);
+
 
       const value = {
         name: currentData.name,
