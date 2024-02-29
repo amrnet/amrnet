@@ -215,28 +215,12 @@ export const Map = () => {
           ) : (
             <><span>
               of <i>
-      {globalOverviewLabel.italicLabel}</i>
-      {globalOverviewLabel.label}
+      {globalOverviewLabel.italicLabel} </i>
+      <i>{globalOverviewLabel.label}</i>
             </span>
-            {organism === "kpneumo"?
-            <Tooltip title="This data is pulled from Pathogenwatch and represents unfiltered data deposited in NCBI/ENA, therefore reflects a strong bias towards sequencing of resistant strains. This will change in future updates." placement="bottom">
-              <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-            </Tooltip>:
-            organism === "shige" || organism === "ecoli" ||organism === "senterica" ||organism ==='decoli' ||organism ==='sentericaints'?
-            <Tooltip title="This data is pulled from Enterobase and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains. This will change in future updates." placement="bottom">
-              <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-            </Tooltip>:null}
             </>
           )}
         </Typography>
-        {organism === "kpneumo"?
-        <Typography gutterBottom variant="body2" fontWeight={'small'}>
-          NOTE this data is pulled from Pathogenwatch and represents unfiltered data deposited in NCBI/ENA, therefore reflects a strong bias towards sequencing of resistant strains. This will change in future updates.
-        </Typography>:
-        organism === "shige" || organism === "ecoli" ||organism === "senterica"?
-        <Typography gutterBottom variant="body2" fontWeight={'small'}>
-          NOTE this data is pulled from Enterobase and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains. This will change in future updates.
-        </Typography>:null}
         <div className={classes.mapWrapper}>
           <ComposableMap
             className={classes.composableMap}
