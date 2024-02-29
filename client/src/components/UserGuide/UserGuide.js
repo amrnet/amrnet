@@ -66,42 +66,47 @@ export const UserGuidePage = () => {
             Variable definitions
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <li>
-              Genotypes: <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
-              GenoTyphi
-            </a> scheme, see <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
-              Dyson & Holt, 2021.
-            </a>
-            </li>
-            <li>
-              AMR determinants are described in the  <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-              Typhi Pathogenwatch paper.
-            </a>
-            </li>
-            <li>
-              Travel-associated cases are attributed to the country of travel, not the country of isolation, see <a href="https://doi.org/10.1371/journal.pntd.0007620" target="_blank" rel="noreferrer">
-              Ingle et al, 2019
-            </a>.
-            </li>
+            <ul>
+              <li>
+                Genotypes: <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
+                GenoTyphi
+              </a> scheme, see <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
+                Dyson & Holt, 2021.
+              </a>
+              </li>
+              <li>
+                AMR determinants are described in the  <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+                Typhi Pathogenwatch paper.
+              </a>
+              </li>
+              <li>
+                Travel-associated cases are attributed to the country of travel, not the country of isolation, see <a href="https://doi.org/10.1371/journal.pntd.0007620" target="_blank" rel="noreferrer">
+                Ingle et al, 2019
+              </a>.
+              </li>
+            </ul>
           </Typography>
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <li>
-              MDR: multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)
-            </li>
-            <li>
-              XDR: extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)
-            </li>
-            <li>
-              Ciprofloxacin NS: ciprofloxacin non-susceptible (MIC =0.06 mg/L, due to presence of one or more qnr genes or mutations in gyrA/parC/gyrB)
-            </li>
-            <li>
-              Ciprofloxacin R: ciprofloxacin resistant (MIC =0.5 mg/L, due to presence of multiple mutations and/or genes)
-            </li>
+            <ul>
+              <li>
+                MDR: multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)
+              </li>
+              <li>
+                XDR: extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)
+              </li>
+              <li>
+                Ciprofloxacin NS: ciprofloxacin non-susceptible (MIC &ge;0.06 mg/L, due to presence of one or more qnr genes or mutations in gyrA/parC/gyrB)
+              </li>
+              <li>
+                Ciprofloxacin R: ciprofloxacin resistant (MIC &ge;0.5 mg/L, due to presence of multiple mutations and/or genes)
+              </li>
+            </ul>
           </Typography>
+
           <br/>
           <Typography variant="h6" className={classes.paragraph}>
             Klebsiella pneumoniae
@@ -113,7 +118,7 @@ export const UserGuidePage = () => {
               Kleborate
             </a>) and genotypes (<a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
               MLST
-            </a>) from genomes assembled from public data. Last update: XX.
+            </a>) from genomes assembled from public data. Last update: January 24th 2024.
           </Typography>
           <br/>
 
@@ -129,32 +134,36 @@ export const UserGuidePage = () => {
             Variable definitions
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <li>
-              Genotypes: <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
-                  7-locus MLST scheme            
-                </a> for Klebsiella pneumoniae, maintained by <a href="https://bigsdb.pasteur.fr/klebsiella/" target="_blank" rel="noreferrer">
-              Institut Pasteur.
-            </a>
-            </li>
-            <li>
-              AMR determinants are called using <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
-              Kleborate v2
-            </a>, described <a href="https://doi.org/10.1038/s41467-021-24448-3" target="_blank" rel="noreferrer">
-              here
-            </a>.
-            </li>
+            <ul>
+              <li>
+                Genotypes: <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
+                    7-locus MLST scheme            
+                  </a> for Klebsiella pneumoniae, maintained by <a href="https://bigsdb.pasteur.fr/klebsiella/" target="_blank" rel="noreferrer">
+                Institut Pasteur.
+              </a>
+              </li>
+              <li>
+                AMR determinants are called using <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
+                Kleborate v2
+              </a>, described <a href="https://doi.org/10.1038/s41467-021-24448-3" target="_blank" rel="noreferrer">
+                here
+              </a>.
+              </li>
+            </ul>
           </Typography>
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <li>
-              ESBL: extended-spectrum beta-lactamase
-            </li>
-            <li>
-              ST: sequence type
-            </li>
+            <ul>
+              <li>
+                ESBL: extended-spectrum beta-lactamase
+              </li>
+              <li>
+                ST: sequence type
+              </li>
+            </ul>
             <br/>
           </Typography>
           <Typography variant="h6" className={classes.paragraph}>
@@ -173,7 +182,7 @@ export const UserGuidePage = () => {
               2013
             </a> & <a href="https://doi.org/10.1016/s2666-5247(22)00044-1" target="_blank" rel="noreferrer">
               2018
-            </a>, and several national surveillance studies. Last update: XX.
+            </a>, and several national surveillance studies. Last update: January 24th 2024.
           </Typography>
           
           <br/>
@@ -182,27 +191,29 @@ export const UserGuidePage = () => {
             Variable definitions
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <li>
-              Genotypes: sequence types from the <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
-              7-locus MLST scheme            
-              </a> for Neisseria, or 2-locus N. gonorrhoeae multi-antigen sequence typing (<a href="https://doi.org/10.1086/383047" target="_blank" rel="noreferrer">
-              NG-MAST
-            </a>) scheme, both hosted by <a href="https://pubmlst.org/neisseria/" target="_blank" rel="noreferrer">
-              PubMLST
-            </a>.
-            </li>
-            <li>
-              AMR determinants are identified by <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-              Pathogenwatch
-            </a> using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
-              here
-            </a>.
-            </li>
-            <li>
-              AMR determinants within genotypes - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
-              Sánchez-Busó et al (2021)
-            </a>.
-            </li>
+            <ul>
+              <li>
+                Genotypes: sequence types from the <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
+                7-locus MLST scheme            
+                </a> for Neisseria, or 2-locus N. gonorrhoeae multi-antigen sequence typing (<a href="https://doi.org/10.1086/383047" target="_blank" rel="noreferrer">
+                NG-MAST
+              </a>) scheme, both hosted by <a href="https://pubmlst.org/neisseria/" target="_blank" rel="noreferrer">
+                PubMLST
+              </a>.
+              </li>
+              <li>
+                AMR determinants are identified by <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+                Pathogenwatch
+              </a> using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
+                here
+              </a>.
+              </li>
+              <li>
+                AMR determinants within genotypes - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
+                Sánchez-Busó et al (2021)
+              </a>.
+              </li>
+            </ul>
           </Typography>
 
           
@@ -211,12 +222,14 @@ export const UserGuidePage = () => {
             Abbreviations
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <li>
-              MDR: multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
-            </li>
-            <li>
-              XDR: extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
-            </li>
+            <ul>
+              <li>
+                MDR: multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
+              </li>
+              <li>
+                XDR: extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
+              </li>
+            </ul>
           </Typography>
           <br/>
           <Typography variant="body2" className={classes.paragraph}>
