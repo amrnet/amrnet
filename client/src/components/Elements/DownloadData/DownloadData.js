@@ -20,10 +20,10 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses } from '../../../stores/slices/graphSlice';
-import { drugsKP, drugsST, drugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsKP, drugsST,drugsNG, drugsForDrugResistanceGraphST } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
-import { colorForDrugClassesKP, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
-import { getKlebsiellaTexts, getSalmonellaTexts } from '../../../util/reportInfoTexts';
+import { colorForDrugClassesKP,colorForDrugClassesNG, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
+import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 const columnsToRemove = [
@@ -105,6 +105,10 @@ export const DownloadData = () => {
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
+  const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
+  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
+  const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
+  const captureGD = useAppSelector((state) => state.dashboard.captureGD);
 
   async function handleClickDownloadDatabase() {
     setLoadingCSV(true);
@@ -172,8 +176,10 @@ export const DownloadData = () => {
     switch (organism) {
       case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
-      default:
+      case 'kpneumo':
         return colorForDrugClassesKP[determinantsGraphDrugClass];
+      default:
+        return colorForDrugClassesNG[determinantsGraphDrugClass];
     }
   }
 
@@ -186,6 +192,13 @@ export const DownloadData = () => {
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
     document.text(`Source: amr.net [${date}]`, pageWidth / 2, pageHeight - 10, { align: 'center' });
   }
+
+  // function drawHeader({ document, pageWidth}) {
+  //   document.setFontSize(10);
+  //   document.line(0, 26, pageWidth, 26);
+  //   document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 160, 20, { align: 'center', maxWidth: pageWidth - 36  });
+  //   document.setFontSize(12);
+  // }
 
   function drawLegend({
     id = null,
@@ -318,6 +331,12 @@ export const DownloadData = () => {
         firstName = "Klebsiella";
         secondName = "pneumoniae";
         secondword = 330;
+      }else if (organism === 'ngono') {
+        console.log("organism", organism)
+        texts = getNgonoTexts();
+        firstName = "Neisseria";
+        secondName = "gonorrhoeae";
+        secondword = 330;
       }
 
       // Title and Date
@@ -329,6 +348,7 @@ export const DownloadData = () => {
       doc.text(secondName, secondword, 24, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(date, pageWidth / 2, 48, { align: 'center' });
+      // drawHeader({ document: doc, pageWidth});
 
       if (organism === 'styphi') {
         let list = PMID.filter((value)=> value !== "-")
@@ -385,14 +405,120 @@ export const DownloadData = () => {
         const euFlag = new Image();
         euFlag.src = EUFlagImg;
         doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
+      }else if (organism === 'kpneumo') {
+        // let list = PMID.filter((value)=> value !== "-")
+        // let pmidSpace, dynamicText;
+        // if (actualCountry === 'All'){
+        //   pmidSpace = 0;
+        //   dynamicText = `TyphiNET presents data aggregated from >100 studies. Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+        // }else{
+        //   list = listPIMD.filter((value)=> value !== "-")
+        //   dynamicText = `TyphiNET presents data aggregated from >100 studies. Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+        //   const textWidth = doc.getTextWidth(dynamicText);
+
+        //   const widthRanges = [815, 1200, 1600, 2000, 2400];
+        //   const pmidSpaces = [-50, -40, -30, -20, -10, 0];          
+
+        //     // Find the appropriate pmidSpace based on textWidth
+        //     pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
+        //   }
+        // doc.text(dynamicText,16, 585,{ align: 'left', maxWidth: pageWidth - 36 });
+
+        // Info
+        let newLine = 10;
+        let kleb = 92;
       }else{
         doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[1], 16, 125, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[2], 16, 145, { align: 'left', maxWidth: pageWidth - 36});
-        doc.text(texts[3], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[4], 16, 175, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[5], 16, 195, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[6], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+
+         doc.setFont(undefined, 'bold');
+        doc.text(texts[1], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 16, 115, { align: 'left', maxWidth: pageWidth - 36});
+        doc.setFont(undefined, "italic");
+        doc.text(texts[3], 155, 125, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[4], 247, 125, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[5], 16, 145, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[6], 108, 145, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold').setTextColor(255,0,0);
+        doc.text(texts[8], 16, 185, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[9], 16, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[10], 35, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[11], 35, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 205, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 225, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[16], 240, 235, { align: 'left', maxWidth: pageWidth - 36 });
+         doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 332, 235, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[18], 16, 245, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[19], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[20], 200, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[21], 16, 285, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setTextColor(0,0,0)
+        doc.text(texts[22], 16, 305, { align: 'left', maxWidth: pageWidth - 36 });
+
+        doc.text(texts[23], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[24], 60, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[25], 60, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[26], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[27], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[28], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[29], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[30], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[31], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[32], 16, 455, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[33], 16, 465, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[34], 16, 475, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[35], 16, 485, { align: 'left', maxWidth: pageWidth - 36 });
+        // const euFlag = new Image();
+        // euFlag.src = EUFlagImg;
+        // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
+      }else if (organism === 'ngono') {
+        let kleb = 92;
+        doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[1], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 16, 115, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[3], 16, 145, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 185, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+        
+        doc.text(texts[6], 16, 265, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+      
+        doc.text(texts[7], 16, 285, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[8], 16, 305, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 16, 405, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[11], 16, 445, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[12], 16, 465, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 16, 505, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 535, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 16, 575, { align: 'left', maxWidth: pageWidth - 36 });
+
+      } 
       }      
 
       
@@ -422,8 +548,10 @@ export const DownloadData = () => {
       doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 120);
       if(mapView === 'Genotype prevalence'){
         if (customDropdownMapView.length === 1) {
-            doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
-        } else if (customDropdownMapView.length > 1) {
+          doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
+        } else if(mapView === 'NG-MAST prevalence'){
+          doc.text('Selected NG-MAST TYPE: ' + customDropdownMapView, 16, 140);
+        }else if (customDropdownMapView.length > 1) {
             const genotypesText = customDropdownMapView.join('\n');
             doc.text('Selected Genotypes: \n' + genotypesText, 16, 140);
         }
@@ -479,7 +607,7 @@ export const DownloadData = () => {
       const isKlebe = organism === 'kpneumo';
 
       const cards = getOrganismCards();
-      const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
+      const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP :drugsNG;
       const drugClassesBars = getDrugClassesBars();
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilter.length / 6);
@@ -488,7 +616,10 @@ export const DownloadData = () => {
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
 
       for (let index = 0; index < cards.length; index++) {
-        if (graphCards[index].id === 'DRT' && drugResistanceGraphView.length === 0 ){
+        if ((graphCards[index].id === 'DRT' && (drugResistanceGraphView.length === 0 || captureDRT === false ))||
+        (graphCards[index].id === 'RFWG' && captureRFWG === false )||
+        (graphCards[index].id === 'RDWG' && captureRDWG === false ) ||
+        (graphCards[index].id === 'GD' && captureGD === false )){
           continue;
         }
         doc.addPage();
@@ -677,7 +808,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism !== 'styphi' && organism !== 'kpneumo'}
+        disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
       >
         Download PDF
       </LoadingButton>
