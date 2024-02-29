@@ -193,12 +193,12 @@ export const DownloadData = () => {
     document.text(`Source: amr.net [${date}]`, pageWidth / 2, pageHeight - 10, { align: 'center' });
   }
 
-  // function drawHeader({ document, pageWidth}) {
-  //   document.setFontSize(10);
-  //   document.line(0, 26, pageWidth, 26);
-  //   document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 160, 20, { align: 'center', maxWidth: pageWidth - 36  });
-  //   document.setFontSize(12);
-  // }
+  function drawHeader({ document, pageWidth}) {
+    document.setFontSize(8);
+    document.line(0, 26, pageWidth, 26);
+    document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 16, 10, { align: 'left', maxWidth: pageWidth - 16  });
+    document.setFontSize(12);
+  }
 
   function drawLegend({
     id = null,
@@ -315,7 +315,7 @@ export const DownloadData = () => {
       const logo = new Image();
       logo.src = LogoImg;
       const logoWidth = 80;
-      doc.addImage(logo, 'PNG', 16, 16, logoWidth, 41, undefined, 'FAST');
+      doc.addImage(logo, 'PNG', 16, 36, logoWidth, 41, undefined, 'FAST');
 
 
       let texts;
@@ -340,15 +340,16 @@ export const DownloadData = () => {
       }
 
       // Title and Date
+      drawHeader({ document: doc, pageWidth});
       doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text("AMRnet Report for", 177, 24, { align: 'center' });
+      doc.text("AMRnet Report for", 177, 44, { align: 'center' });
       doc.setFont(undefined, "bolditalic");
-      doc.text(firstName, 264, 24, { align: 'center' });
+      doc.text(firstName, 264, 44, { align: 'center' });
       doc.setFont(undefined, "bold");
-      doc.text(secondName, secondword, 24, { align: 'center' });
+      doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
-      doc.text(date, pageWidth / 2, 48, { align: 'center' });
-      // drawHeader({ document: doc, pageWidth});
+      doc.text(date, pageWidth / 2, 68, { align: 'center' });
+      
 
       if (organism === 'styphi') {
         let list = PMID.filter((value)=> value !== "-")
@@ -367,37 +368,37 @@ export const DownloadData = () => {
             // Find the appropriate pmidSpace based on textWidth
             pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
           }
-        doc.text(dynamicText,16, 185,{ align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(dynamicText,16, 205,{ align: 'left', maxWidth: pageWidth - 36 });
         
         // Info
         
-        doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[0], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[1], 16, 135, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[1], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[2], 16, 155, { align: 'left', maxWidth: pageWidth - 36});
-        doc.text(texts[3], 16, 265+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[2], 16, 175, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[3], 16, 285+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[4], 16, 305+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 325+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[5], 16, 325+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[6], 16, 355+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[7], 16, 385+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 345+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 375+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 405+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[8], 16, 415+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 16, 435+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[9], 16, 435+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[10], 16, 465+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[11], 16, 485+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 455+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 16, 485+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 505+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text("qnr", 16, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text("qnr", 16, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[12], 32, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 32, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text("gyrA/parC/gyrB", 122, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text("gyrA/parC/gyrB", 122, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[13], 185, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[14], 16, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 185, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 535+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFontSize(10).setFont(undefined, 'bold');
         doc.text(texts[15], 16, pageHeight-60, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
