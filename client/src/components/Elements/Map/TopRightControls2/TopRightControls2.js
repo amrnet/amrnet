@@ -7,6 +7,7 @@ import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
 import { useStyles } from './TopRightControls2MUI';
 import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
+import { setMapView } from '../../../../stores/slices/mapSlice';
 
 
 export const TopRightControls2 = () => {
@@ -20,6 +21,7 @@ export const TopRightControls2 = () => {
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
+  const mapView = useAppSelector((state) => state.map.mapView);
 
     console.log("i m 2", genotypesDrugsData2)
     console.log("customDropdownMapView",customDropdownMapView)
@@ -41,7 +43,12 @@ export const TopRightControls2 = () => {
     const totalCount = matchingGenotype?.totalCount ?? 0;
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
-}
+  }
+  function getHeading (){
+    if(mapView === 'Lineage prevalence')
+      return "Select lineage"
+    return "Select genotype"
+  }
   const filteredData = genotypesDrugsData2
     .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
     // .filter(x => x.totalCount >= 20)
@@ -53,7 +60,7 @@ export const TopRightControls2 = () => {
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.frequenciesGraph}>
           <div className={classes.label}>
-            <Typography variant="caption">Select genotype</Typography>
+            <Typography variant="caption">{getHeading()}</Typography>
             <Tooltip
               title="Select up to 10 Genotypes"
               placement="top"
