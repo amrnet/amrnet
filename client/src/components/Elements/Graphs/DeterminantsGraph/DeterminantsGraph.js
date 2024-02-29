@@ -20,6 +20,8 @@ import { useEffect, useState } from 'react';
 import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, colorForDrugClassesSE, colorForDrugClassesSEINTS, colorForDrugClassesSH, colorForDrugClassesEC, colorForDrugClassesDEC, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
+import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number', graphLabel: 'Number of occurrences' },
@@ -42,6 +44,19 @@ export const DeterminantsGraph = () => {
   const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
 
+
+  useEffect(() => {
+    let cnt = 0;
+      newArray.map((item)=>{
+          cnt += item.totalCount;
+      });    
+        
+      if (cnt <= 0 ) {
+          dispatch(setCaptureRDWG(false));
+      } else {
+          dispatch(setCaptureRDWG(true));
+      }
+  }, [genotypesDrugClassesData, determinantsGraphDrugClass]);
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
@@ -147,7 +162,11 @@ export const DeterminantsGraph = () => {
   
   let newArray = []; //TODO: can be a global value in redux
   const exclusions = ['name', 'count', 'totalCount', 'resistantCount'];
+
   newArray = determinantsGraphDrugClassData.map((item) => {
+
+    
+
     let count = 0;
     for (const key in item) {    
 
@@ -158,7 +177,17 @@ export const DeterminantsGraph = () => {
     const newItem = { ...item, Other: count };
     return newItem; //return item of genotypesYearData with additional filed 'Other' to newArray
   });
-
+  // let cnt = 0;
+  //     newArray.map((item) => {
+  //       cnt += item.totalCount;
+  //     });
+  //   if (cnt <= 0 ) {
+  //       dispatch(setCaptureRDWG(false));
+  //       console.log("determinantsGraphDrugClassData", cnt,newArray, false)
+  //   } else {
+  //       dispatch(setCaptureRDWG(true));
+  //       console.log("determinantsGraphDrugClassData", cnt,newArray, true)
+  //   }
   let genotypeDrugClassesDataPercentage = structuredClone(newArray);
   useEffect(()=>{
       const exclusions = ['name', 'totalCount', 'resistantCount'];
