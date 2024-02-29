@@ -98,7 +98,7 @@ export const Map = () => {
                     // Ceftriaxone1: `${countryStats.Ceftriaxone.percentage}%`,
                     // ESBL: `${countryStats.ESBL.percentage}%`,
                     // Carb: `${countryStats.Carb.percentage}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`
+                    // Susceptible: `${countryStats.Susceptible.percentage}%`
                   }
           });
           break;
