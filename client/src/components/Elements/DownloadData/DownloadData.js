@@ -190,7 +190,7 @@ export const DownloadData = () => {
   function drawFooter({ document, pageHeight, pageWidth, date }) {
     document.setFontSize(10);
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
-    document.text(`Source: amr.net [${date}]`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+    document.text(`Source: amr.net`, 16, pageHeight - 10, { align: 'left' });
   }
 
   function drawHeader({ document, pageWidth}) {
@@ -212,7 +212,7 @@ export const DownloadData = () => {
     xSpace,
     twoPages = false,
     threePages = false,
-    factorMultiply = 3
+    factorMultiply = organism === 'ngono'?6:3,
   }) {
     let firstLegendData = legendData.slice();
     let secondLegendData = [];
@@ -278,11 +278,11 @@ export const DownloadData = () => {
             ? convergenceColourPallete[legend]
             : legend.color
         );
-        document.circle(50 + xFactor, 24 + yFactor, 2.5, 'F');
+        document.circle(50 + xFactor, 34 + yFactor, 2.5, 'F');
         document.text(
           isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : legend.name,
           56 + xFactor,
-          26 + yFactor
+          36 + yFactor
         );
       });
     }
@@ -524,37 +524,38 @@ export const DownloadData = () => {
 
       // Map
       doc.addPage();
+      drawHeader({ document: doc, pageWidth});
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text("Global Overview of", 177, 24, { align: 'center' });
+      doc.text("Global Overview of", 177, 44, { align: 'center' });
       doc.setFont(undefined, "bolditalic");
-      doc.text(firstName, 264, 24, { align: 'center' });
+      doc.text(firstName, 264, 44, { align: 'center' });
       doc.setFont(undefined, "bold");
-      doc.text(secondName, secondword, 24, { align: 'center' });
+      doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
-      doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 40, { align: 'center' });
-      doc.text(`Country: ${actualCountry}`, pageWidth / 2, 52, { align: 'center' });
-      doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, pageWidth / 2, 64, { align: 'center' });
-      doc.line(16, 76, pageWidth - 16, 76);
+      doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 60, { align: 'center' });
+      doc.text(`Country: ${actualCountry}`, pageWidth / 2, 72, { align: 'center' });
+      doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, pageWidth / 2, 84, { align: 'center' });
+      doc.line(16, 96, pageWidth - 16, 96);
 
       doc.setFont(undefined, 'bold');
-      doc.text('Map', 16, 96);
+      doc.text('Map', 16, 116);
       doc.setFont(undefined, 'normal');
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
-      doc.text(`Map View: ${actualMapView}`, 16, 108);
-      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 120);
+      doc.text(`Map View: ${actualMapView}`, 16, 128);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
       if(mapView === 'Genotype prevalence'){
         if (customDropdownMapView.length === 1) {
-          doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
+          doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 160);
         } else if(mapView === 'NG-MAST prevalence'){
-          doc.text('Selected NG-MAST TYPE: ' + customDropdownMapView, 16, 140);
+          doc.text('Selected NG-MAST TYPE: ' + customDropdownMapView, 16, 160);
         }else if (customDropdownMapView.length > 1) {
             const genotypesText = customDropdownMapView.join('\n');
-            doc.text('Selected Genotypes: \n' + genotypesText, 16, 140);
+            doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
         }
       }
-      let mapY = 160 + (customDropdownMapView.length*9);
+      let mapY = 180 + (customDropdownMapView.length*9);
       await svgAsPngUri(document.getElementById('global-overview-map'), {
         // scale: 4,
         backgroundColor: 'white',
@@ -596,13 +597,14 @@ export const DownloadData = () => {
           break;
       }
       if (mapView === 'Dominant Genotype') {
-        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, 351, legendWidth, 47, undefined, 'FAST');
+        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, 371, legendWidth, 47, undefined, 'FAST');
       } else {
-        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5 , 85, legendWidth, 47, undefined, 'FAST');
+        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5 , 105, legendWidth, 47, undefined, 'FAST');
       }
 
       // Graphs
       const isKlebe = organism === 'kpneumo';
+      const isNgono = organism === 'ngono';
 
       const cards = getOrganismCards();
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP :drugsNG;
@@ -621,6 +623,7 @@ export const DownloadData = () => {
           continue;
         }
         doc.addPage();
+        drawHeader({ document: doc, pageWidth});
         drawFooter({ document: doc, pageHeight, pageWidth, date });
 
         let title = `${cards[index].title}`;
@@ -644,28 +647,28 @@ export const DownloadData = () => {
         }
 
         doc.setFontSize(12).setFont(undefined, 'bold');
-        doc.text(title, 16, 24);
+        doc.text(title, 16, 44);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 36);
+        doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 56);
         doc.setFontSize(12);
-        doc.text(`Total: ${actualGenomes} genomes`, 16, 54);
-        doc.text(`Country: ${actualCountry}`, 16, 66);
-        doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 78);
-        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 90);
+        doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        doc.text(`Country: ${actualCountry}`, 16, 86);
+        doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 110);
 
         const graphImg = document.createElement('img');
         const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
         await graphImgPromise;
         if (graphImg.width <= 741) {
-          doc.addImage(graphImg, 'PNG', 16, 110, undefined, undefined,undefined, 'FAST');
+          doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined,undefined, 'FAST');
         } else {
-          doc.addImage(graphImg, 'PNG', 16, 110, pageWidth - 80, 271, undefined, 'FAST');
+          doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
 
         doc.setFillColor(255, 255, 255);
-        const rectY = matches500 ? 300 : 320;
+        const rectY = matches500 ? 320 : 340;
         doc.rect(0, rectY, pageWidth, 200, 'F');
 
         doc.setFontSize(9);
@@ -699,6 +702,7 @@ export const DownloadData = () => {
           });
 
           if (isKlebe) {
+            drawHeader({ document: doc, pageWidth});
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         } else if (cards[index].id === 'GD') {
@@ -709,8 +713,12 @@ export const DownloadData = () => {
             rectY,
             xSpace: 65,
             isGenotype: true,
-            // twoPages: isKlebe
+            twoPages: isNgono
           });
+          if (isKlebe ) {
+            drawHeader({ document: doc, pageWidth});
+            drawFooter({ document: doc, pageHeight, pageWidth, date });
+          }
         } else if (cards[index].id === 'CERDT') {
           const legendGenotypes = genotypesForFilter.map((genotype) => {
             return { name: genotype, color: getGenotypeColor(genotype) };
@@ -725,6 +733,7 @@ export const DownloadData = () => {
             xSpace: 127,
             twoPages: true
           });
+          drawHeader({ document: doc, pageWidth});
           drawFooter({ document: doc, pageHeight, pageWidth, date });
 
           drawLegend({
@@ -736,7 +745,7 @@ export const DownloadData = () => {
             xSpace: 127,
             threePages: false,
           });
-          
+          drawHeader({ document: doc, pageWidth});
           drawFooter({ document: doc, pageHeight, pageWidth, date });
         } else if (cards[index].id === 'KO') {
           drawLegend({
@@ -764,6 +773,7 @@ export const DownloadData = () => {
           });
 
           if (isKlebe) {
+            drawHeader({ document: doc, pageWidth});
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         }
