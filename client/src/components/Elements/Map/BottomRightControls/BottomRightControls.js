@@ -162,7 +162,7 @@ export const BottomRightControls = () => {
         ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
 
         const base64 = canvas.toDataURL();
-        await download(base64, 'TyphiNET - Global Overview Salmonella Typhi.png');
+        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.label}.png`);
       });
     } catch (error) {
       setShowAlert(true);
