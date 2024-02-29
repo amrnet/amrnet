@@ -95,10 +95,10 @@ export const DashboardPage = () => {
     responseData.map((x) => (console.log("responseData", x.GENOTYPE )))
 
     const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
-    if (organism === 'styphi') {
+    // if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
-    }
+    // }
 
     const years = [...new Set(responseData.map((x) => x.DATE))];
     const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
@@ -156,7 +156,7 @@ export const DashboardPage = () => {
     if (organism === 'ngono') {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
-      // dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+      dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
       const years = [...new Set(responseData.map((x) => x.DATE))];
       const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
 
