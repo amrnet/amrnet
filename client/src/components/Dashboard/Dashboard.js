@@ -100,10 +100,10 @@ export const DashboardPage = () => {
     let ngmast;
     const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
     ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
-    if (organism === 'styphi') {
+    // if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
-    }if(organism === 'ngono'){
+    if(organism === 'ngono'){
       ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
     }
 
