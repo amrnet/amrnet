@@ -19,6 +19,8 @@ import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '..
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
+import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -43,6 +45,22 @@ export const DistributionGraph = () => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
+  const captureGD = useAppSelector((state) => state.dashboard.captureGD);
+
+
+  useEffect(() => {
+    let cnt = 0;
+      newArray.map((item)=>{
+          cnt += item.count;
+      });    
+        
+      if (cnt <= 0 ) {
+          dispatch(setCaptureGD(false));
+      } else {
+          dispatch(setCaptureGD(true));
+      }
+  }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
+
 
   useEffect(() => {
     dispatch(setResetBool(true));
