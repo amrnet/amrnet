@@ -15,6 +15,8 @@ export const SliderSizes = (props) => {
   // const [currentSliderValue, setCurrentSliderValue] = useState(20);
   const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
+  const organism = useAppSelector((state) => state.dashboard.organism);
+
 
   const [heading, setHeading] = useState('');
   const [sliderValueMax, setSliderValueMax] = useState();
@@ -28,11 +30,12 @@ export const SliderSizes = (props) => {
       dispatch(setCurrentSliderValueRD(newValue));
     }
   };
+  const geno = organism ==='shige'?"lineage":"genotype";
 
   useEffect(()=>{
     if(props.value === "GD"){
       setSliderValueMax(maxSliderValue);
-      setHeading("Individual genotypes to colour:");
+      setHeading(`Individual ${geno} to colour:`);
     }else{
       setSliderValueMax(maxSliderValueRD);
       setHeading("Individual resistance determinants:");
