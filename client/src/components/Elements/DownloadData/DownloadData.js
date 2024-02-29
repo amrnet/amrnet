@@ -107,6 +107,8 @@ export const DownloadData = () => {
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
   const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
+  const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
+  const captureGD = useAppSelector((state) => state.dashboard.captureGD);
 
   async function handleClickDownloadDatabase() {
     setLoadingCSV(true);
@@ -615,7 +617,9 @@ export const DownloadData = () => {
 
       for (let index = 0; index < cards.length; index++) {
         if ((graphCards[index].id === 'DRT' && (drugResistanceGraphView.length === 0 || captureDRT === false ))||
-        (graphCards[index].id === 'RFWG' && captureRFWG === false )){
+        (graphCards[index].id === 'RFWG' && captureRFWG === false )||
+        (graphCards[index].id === 'RDWG' && captureRDWG === false ) ||
+        (graphCards[index].id === 'GD' && captureGD === false )){
           continue;
         }
         doc.addPage();
