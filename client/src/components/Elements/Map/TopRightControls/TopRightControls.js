@@ -93,7 +93,7 @@ export const TopRightControls = () => {
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.label}>
-            <Typography variant="caption">Select map view</Typography>
+            <Typography variant="caption">Colour country by</Typography>
             <Tooltip
               title="Percentage frequency data is shown only for countries with
           N≥20 genomes"
