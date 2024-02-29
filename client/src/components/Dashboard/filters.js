@@ -552,7 +552,7 @@ export function getNgmastData({ data, ngmast, organism }) {
       return response;
     });
   
-    ngmastDrugData.sort((a, b) => b.resistantCount - a.resistantCount);
+    ngmastDrugData.sort((a, b) => b.totalCount - a.totalCount);
     Object.keys(ngmastDrugClassesData).forEach((key) => {
       ngmastDrugClassesData[key].sort((a, b) => b.resistantCount - a.resistantCount);
       ngmastDrugClassesData[key] = ngmastDrugClassesData[key].slice(0, 10);
