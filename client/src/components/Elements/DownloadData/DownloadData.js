@@ -331,6 +331,7 @@ export const DownloadData = () => {
         firstName = "Klebsiella";
         secondName = "pneumoniae";
         secondword = 330;
+
       } else if (organism === 'ngono') {
         console.log("organism", organism)
         texts = getNgonoTexts();
@@ -432,14 +433,18 @@ export const DownloadData = () => {
         doc.setFont(undefined, "italic");
         doc.text(texts[10], 35, 195, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
+
         doc.text(texts[11], 35+kleb, 195, { align: 'left', maxWidth: pageWidth - 36 });
+
         doc.text(texts[12], 16, 205, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[13], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[14], 16, 225, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[15], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
         doc.text(texts[16], 240, 235, { align: 'left', maxWidth: pageWidth - 36 });
+
         doc.setFont(undefined, 'normal');
+
         doc.text(texts[17], 332, 235, { align: 'left', maxWidth: pageWidth - 36});
         doc.text(texts[18], 16, 245, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
@@ -454,13 +459,17 @@ export const DownloadData = () => {
         doc.setFont(undefined, "italic");
         doc.text(texts[24], 60, 335, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
+
         doc.text(texts[25], 60+kleb, 335, { align: 'left', maxWidth: pageWidth - 36 });
+
         doc.setFont(undefined, 'bold');
         doc.text(texts[26], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
         doc.text(texts[27], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[28], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+
         doc.text(texts[29], 16+kleb, 375, { align: 'left', maxWidth: pageWidth - 36 });
+
         doc.text(texts[30], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[31], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
@@ -473,6 +482,7 @@ export const DownloadData = () => {
         // euFlag.src = EUFlagImg;
         // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
       }else if (organism === 'ngono') {
+
       }
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
