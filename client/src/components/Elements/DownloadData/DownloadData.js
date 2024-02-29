@@ -105,6 +105,10 @@ export const DownloadData = () => {
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
+  const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
+  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
+  const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
+  const captureGD = useAppSelector((state) => state.dashboard.captureGD);
 
   async function handleClickDownloadDatabase() {
     setLoadingCSV(true);
@@ -540,8 +544,10 @@ export const DownloadData = () => {
       doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 120);
       if(mapView === 'Genotype prevalence'){
         if (customDropdownMapView.length === 1) {
-            doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
-        } else if (customDropdownMapView.length > 1) {
+          doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
+        } else if(mapView === 'NG-MAST prevalence'){
+          doc.text('Selected NG-MAST TYPE: ' + customDropdownMapView, 16, 140);
+        }else if (customDropdownMapView.length > 1) {
             const genotypesText = customDropdownMapView.join('\n');
             doc.text('Selected Genotypes: \n' + genotypesText, 16, 140);
         }
@@ -606,7 +612,10 @@ export const DownloadData = () => {
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
 
       for (let index = 0; index < cards.length; index++) {
-        if (graphCards[index].id === 'DRT' && drugResistanceGraphView.length === 0 ){
+        if ((graphCards[index].id === 'DRT' && (drugResistanceGraphView.length === 0 || captureDRT === false ))||
+        (graphCards[index].id === 'RFWG' && captureRFWG === false )||
+        (graphCards[index].id === 'RDWG' && captureRDWG === false ) ||
+        (graphCards[index].id === 'GD' && captureGD === false )){
           continue;
         }
         doc.addPage();
