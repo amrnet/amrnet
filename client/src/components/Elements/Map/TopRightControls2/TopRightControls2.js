@@ -8,8 +8,8 @@ import { useStyles } from './TopRightControls2MUI';
 import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
 
-
 export const TopRightControls2 = () => {
+  
   const classes = useStyles();
   const [, setCurrentTooltip] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
@@ -19,6 +19,8 @@ export const TopRightControls2 = () => {
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
+  console.log("i m 2", genotypesDrugsData2)
+  console.log("customDropdownMapView",customDropdownMapView)
   const handleAutocompleteChange = (event, newValue) => {
    
     if (customDropdownMapView.length === 10 && newValue.length > 10) {
@@ -38,12 +40,11 @@ export const TopRightControls2 = () => {
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
 }
-
-const filteredData = genotypesDrugsData2
+    const filteredData = genotypesDrugsData2
     .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
     // .filter(x => x.totalCount >= 20)
   ;
-
+    console.log("filteredData",filteredData)
   return (
     <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
