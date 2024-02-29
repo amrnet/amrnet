@@ -99,6 +99,7 @@ export const DashboardPage = () => {
     // responseData.map(x => console.log("responseData", x['NG-MAST TYPE']));
     let ngmast;
     const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
+    ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
     if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
@@ -127,6 +128,7 @@ export const DashboardPage = () => {
 
     const genotypesData = getGenotypesData({ data: responseData, genotypes, organism });
     const ngmastData = getNgmastData({ data: responseData, ngmast, organism });
+    dispatch(setNgmast(ngmast));
     // const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
     dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
     dispatch(setGenotypesDrugsData2(genotypesData.genotypesDrugsData));
@@ -134,6 +136,8 @@ export const DashboardPage = () => {
     // dispatch(setCustomDropdownMapView(genotypeDataGreaterThanZero.filter(x => x.totalCount >= 20).slice(0, 1).map((x) => x.name)));
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
+    dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
+      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
 
     const yearsData = getYearsData({
       data: responseData,
@@ -177,9 +181,8 @@ export const DashboardPage = () => {
       dispatch(setTimeFinal(years[years.length - 1]));
       dispatch(setActualTimeFinal(years[years.length - 1]));
       dispatch(setCountriesForFilter(countries));
-      // console.log("NG-MAST TYPE", responseData['name'],responseData['NG-MAST TYPE']);
-      dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
-      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
+      console.log("NGMAST",)
+      
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
