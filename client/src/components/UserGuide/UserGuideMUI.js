@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paragraph: {
     textAlign: 'justify'
+  },
+  paragraphBold: {
+    fontWeight: 'bold'
   }
 }));
 

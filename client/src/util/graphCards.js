@@ -7,7 +7,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'kpneumo', 'ngono']
+    organisms: ['styphi', 'ngono']
   },
   {
     collapse: 'frequencies',
@@ -23,7 +23,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
-    organisms: ['styphi', 'kpneumo']
+    organisms: ['styphi', 'kpneumo', 'ngono']
   },
   {
     collapse: 'distribution',
@@ -31,7 +31,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica']
+    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints']
   },
   {
     collapse: 'trendsKP',
