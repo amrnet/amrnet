@@ -135,6 +135,7 @@ export const Map = () => {
             }
           break;
         case 'Genotype prevalence':
+        case 'Lineage prevalence':
             let percentCounter = 0;        
             const genotypes1 = countryStats.GENOTYPE.items;
             let genotypes2 = [];
@@ -202,7 +203,7 @@ export const Map = () => {
   }
 
   function showPercentage() {
-    return !['Dominant Genotype','Genotype prevalence','No. Samples', 'NG-MAST prevalence'].includes(mapView);
+    return !['Dominant Genotype','Genotype prevalence','No. Samples', 'NG-MAST prevalence', 'Lineage prevalence'].includes(mapView);
   }
 
   return (
@@ -302,6 +303,7 @@ export const Map = () => {
                           }
                           break;
                         case 'Genotype prevalence':
+                        case 'Lineage prevalence':
                           let percentCounter = 0;        
                           const genotypes1 = countryStats.GENOTYPE.items;
                           // console.log("gencountryDataotypes1",countryData);
@@ -432,7 +434,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
+              {(ifCustom && mapView === 'Genotype prevalence')|| (ifCustom && mapView === 'Lineage prevalence')? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
             </>
           )}
           <BottomLeftControls />
@@ -441,7 +443,7 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
+            {(ifCustom && mapView === 'Genotype prevalence')|| (ifCustom && mapView === 'Lineage prevalence') ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
             <TopLeftControls />
           </div>
         )}
