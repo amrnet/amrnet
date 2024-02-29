@@ -500,8 +500,8 @@ export function getGenotypesData({ data, genotypes, organism }) {
     response.resistantCount = response.totalCount - response['Susceptible'];
     return response;
   });
-
-  genotypesDrugsData.sort((a, b) => b.resistantCount - a.resistantCount);
+  
+  genotypesDrugsData.sort((a, b) => b.totalCount - a.totalCount);
   Object.keys(genotypesDrugClassesData).forEach((key) => {
     genotypesDrugClassesData[key].sort((a, b) => b.resistantCount - a.resistantCount);
     genotypesDrugClassesData[key] = genotypesDrugClassesData[key].slice(0, 10);
