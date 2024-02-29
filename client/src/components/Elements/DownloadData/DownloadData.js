@@ -424,7 +424,7 @@ export const DownloadData = () => {
         doc.setFont(undefined, 'normal');
         doc.text(texts[6], 108, 165, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[7], 16, 175, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'bold').setTextColor(255,0,0);
+        doc.setFont(undefined, 'bold').setTextColor(108, 57, 184);
         doc.text(texts[8], 16, 205, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
         doc.text(texts[9], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
