@@ -10,53 +10,45 @@ export const UserGuidePage = () => {
     <MainLayout>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          {/* <Typography variant="body1" className={classes.paragraph}>
-            Under development, please see the TyphiNET{' '}
-            <a href="https://github.com/zadyson/TyphiNET/wiki" target="_blank" rel="noreferrer">
-              wiki
-            </a>{' '}
-            for details.
-          </Typography> */}
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="h5" className={classes.paragraph}>
             Dashboard overview
           </Typography>
           <br/>
-          <Typography variant="body1" className={classes.paragraph}>
-            <b>Header:</b> Use the menu to <b>select a species or pathogen group</b> to display. Each pathogen has its own dashboard configuration that is customised to show genotypes, resistances and other relevant parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected dashboard. 
+          <Typography variant="body2" className={classes.paragraph}>
+            <span className={classes.paragraphBold}>Header:</span> Use the menu to <span className={classes.paragraphBold}>select a species or pathogen group</span> to display. Each pathogen has its own dashboard configuration that is customised to show genotypes, resistances and other relevant parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected dashboard. 
           </Typography>
           <br/>
-          <Typography variant="body1" className={classes.paragraph}>
-            <b>Map:</b> Use the menu on the right to <b>select a variable to display per-country summary data</b> on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the <b>filters on the left</b> to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed, otherwise it will be coloured grey to indicate insufficient data. 
+          <Typography variant="body2" className={classes.paragraph}>
+            <span className={classes.paragraphBold}>Map:</span> Use the menu on the right to <span className={classes.paragraphBold}>select a variable to display per-country summary data</span> on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the <span className={classes.paragraphBold}>filters on the left</span> to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed, otherwise it will be coloured grey to indicate insufficient data. 
           </Typography>
           <br/>
-          <Typography variant="body1" className={classes.paragraph}>
-            Filters set in this panel apply not only to the map, but to all plots on the page. <b>Clicking on a country in the map</b> also functions as a filter, so that subsequent plots reflect data for the selected country only.
+          <Typography variant="body2" className={classes.paragraph}>
+            Filters set in this panel apply not only to the map, but to all plots on the page. <span className={classes.paragraphBold}>Clicking on a country in the map</span> also functions as a filter, so that subsequent plots reflect data for the selected country only.
           </Typography>
           <br/>
-          <Typography variant="body1" className={classes.paragraph}>
-            <b>Detailed plots:</b> These are intended to show country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters. The heading below the map summarizes the current filter set applied to all plots, and provides another opportunity to select a focus country. Below this are a series of tabs, one per available plot. <b>Click a tab title to open/close the plotting area</b>. The specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below).
+          <Typography variant="body2" className={classes.paragraph}>
+            <span className={classes.paragraphBold}>Detailed plots:</span> These are intended to show country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters. The heading below the map summarizes the current filter set applied to all plots, and provides another opportunity to select a focus country. Below this are a series of tabs, one per available plot. <span className={classes.paragraphBold}>Click a tab title to open/close the plotting area</span>. The specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below).
           </Typography>
-          <Typography variant="body1" className={classes.paragraph}>
-            All plots are interactive; use the menus at the top to <b>select variables to display</b>, and whether to show <b>counts or percentages.</b>
+          <Typography variant="body2" className={classes.paragraph}>
+            All plots are interactive; use the menus at the top to <span className={classes.paragraphBold}>select variables to display</span>, and whether to show <span className={classes.paragraphBold}>counts or percentages.</span>
           </Typography>
           <br/>
-          <Typography variant="body1" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             Each plot has a dynamic legend to the right; click on an x-axis value to display counts and percentages of secondary variables calculated amongst genomes matching that x-axis value. For example, most pathogens will have a ‘Resistance frequencies within genotypes’ plot; click a genotype to display counts and percentages of resistance estimated for each drug.
           </Typography>
           <br/>
-          <Typography variant="body1" className={classes.paragraph}>
-            <b>Downloads:</b> At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’).
+          <Typography variant="body2" className={classes.paragraph}>
+            <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’).
           </Typography>
           <br/>
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="h5" className={classes.paragraph}>
             Individual pathogen details
           </Typography>
           <br/>
           <Typography variant="h6" className={classes.paragraph}>
-            <b>Salmonella Typhi</b>
+            Salmonella Typhi
           </Typography>
-          <br/>
-          <Typography variant="body1" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             Salmonella Typhi data in AMRnet are drawn from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>, which calls AMR and <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
@@ -70,10 +62,10 @@ export const UserGuidePage = () => {
             </a>. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: XX.
           </Typography>
           <br/>
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             <li>
               Genotypes: <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
               GenoTyphi
@@ -93,10 +85,10 @@ export const UserGuidePage = () => {
             </li>
           </Typography>
           <br/>
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             <li>
               MDR: multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)
             </li>
@@ -114,7 +106,7 @@ export const UserGuidePage = () => {
           <Typography variant="h6" className={classes.paragraph}>
             Klebsiella pneumoniae
           </Typography>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             Klebsiella pneumoniae data are sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>, which calls AMR (using <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
@@ -124,22 +116,19 @@ export const UserGuidePage = () => {
             </a>) from genomes assembled from public data. Last update: XX.
           </Typography>
           <br/>
-          <br/>
 
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="subtitle2" className={classes.paragraph}>
             WARNING:
           </Typography>
-          <br/>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             The Klebsiella pneumoniae data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which have been largely directed at sequencing ESBL and carbapenemase-producing strains or hypervirulent strains. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
           </Typography>
           <br/>
-          <br/>
 
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             <li>
               Genotypes: <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
                   7-locus MLST scheme            
@@ -156,10 +145,10 @@ export const UserGuidePage = () => {
             </li>
           </Typography>
           <br/>
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             <li>
               ESBL: extended-spectrum beta-lactamase
             </li>
@@ -171,8 +160,7 @@ export const UserGuidePage = () => {
           <Typography variant="h6" className={classes.paragraph}>
             Neisseria gonorrhoeae 
           </Typography>
-          <br/>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             Neisseria gonorrhoeae data are sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>, which calls AMR and lineage <a href="https://pubmlst.org/neisseria/" target="_blank" rel="noreferrer">
@@ -187,13 +175,13 @@ export const UserGuidePage = () => {
               2018
             </a>, and several national surveillance studies. Last update: XX.
           </Typography>
-          <br/>
+          
           <br/>
 
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             <li>
               Genotypes: sequence types from the <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
               7-locus MLST scheme            
@@ -216,23 +204,13 @@ export const UserGuidePage = () => {
             </a>.
             </li>
           </Typography>
+
+          
           <br/>
-          <Typography variant="h6" className={classes.paragraph}>
+          <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <Typography variant="body" className={classes.paragraph}>
-            <li>
-              ESBL: extended-spectrum beta-lactamase
-            </li>
-            <li>
-              ST: sequence type
-            </li>
-          </Typography>
-          <br/>
-          <Typography variant="h6" className={classes.paragraph}>
-            Abbreviations
-          </Typography>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             <li>
               MDR: multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
             </li>
@@ -241,7 +219,7 @@ export const UserGuidePage = () => {
             </li>
           </Typography>
           <br/>
-          <Typography variant="body" className={classes.paragraph}>
+          <Typography variant="body2" className={classes.paragraph}>
             Note these definitions are based on those defined in the <a href="https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf" target="_blank" rel="noreferrer">
               European CDC Response Plan
             </a>, modified to use the specific representatives of category I and II antibiotic classes that are available in the dashboard.
