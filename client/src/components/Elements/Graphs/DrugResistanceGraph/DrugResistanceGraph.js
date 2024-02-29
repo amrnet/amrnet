@@ -15,12 +15,13 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsForDrugResistanceGraphST } from '../../../../util/drugs';
+import { drugsKP, drugsForDrugResistanceGraphST, drugsNG, drugsEC, drugsDEC, drugsSH, drugsSE, drugsSEINTS } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
 import { InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
 export const DrugResistanceGraph = () => {
   const classes = useStyles();
@@ -34,10 +35,19 @@ export const DrugResistanceGraph = () => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
   useEffect(() => {
     setCurrentTooltip(null);
   }, [drugsYearData]);
+
+  useEffect(() => {
+    if (drugsYearData.length <= 0) {
+        dispatch(setCaptureDRT(false));
+    } else {
+        dispatch(setCaptureDRT(true));
+    }
+}, [drugsYearData]);
 
   function getData() {
     const exclusions = ['name', 'count'];
@@ -48,7 +58,8 @@ export const DrugResistanceGraph = () => {
       keys.forEach((key) => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
-
+      // if(item.length<0)
+        // console.log("setCaptureDRT", item.count);
       return item;
     });
 
@@ -59,12 +70,49 @@ export const DrugResistanceGraph = () => {
     if (organism === 'none') {
       return [];
     }
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       return drugsForDrugResistanceGraphST;
     }
-    return drugsKP;
+    if (organism === 'kpneumo') {
+      return drugsKP;
+    }
+    if (organism === 'ngono') {
+      return drugsNG;
+      }
+    if (organism === 'ecoli') {
+      return drugsEC;
+      }
+    if (organism === 'decoli') {
+      return drugsDEC;
+      }
+    if (organism === 'shige') {
+      return drugsSH;
+      }
+    if (organism === 'senterica') {
+      return drugsSE;
+      }
+    if (organism === 'sentericaints') {
+      return drugsSEINTS;
+      }
   }
-
+  function getDrugsForLegends() {
+    if (organism === 'none') {
+      return [];
+    }
+    // if (organism === 'typhi') {
+      return drugResistanceGraphView;
+    // }
+    // return drugsKP;
+  }
+  function getDrugsForLegends() {
+    if (organism === 'none') {
+      return [];
+    }
+    // if (organism === 'typhi') {
+      return drugResistanceGraphView;
+    // }
+    // return drugsKP;
+  }
   function handleChangeDrugsView({ event = null, all = false }) {
     setCurrentTooltip(null);
     let newValues = [];
@@ -82,16 +130,17 @@ export const DrugResistanceGraph = () => {
       } = event;
       newValues = value;
     }
-
     newValues.sort((a, b) => a.localeCompare(b));
     dispatch(setDrugResistanceGraphView(newValues));
   }
+
 
   function handleClickChart(event) {
     const data = drugsYearData.find((item) => item.name === event?.activeLabel);
 
     if (data && drugResistanceGraphView.length > 0) {
       const currentData = structuredClone(data);
+
 
       const value = {
         name: currentData.name,
@@ -108,9 +157,9 @@ export const DrugResistanceGraph = () => {
         }
 
         const count = currentData[key];
-        if (count === 0) {
-          return;
-        }
+        // if (count === 0) {
+        //   return;
+        // }
 
         value.drugs.push({
           label: key,
@@ -131,8 +180,9 @@ export const DrugResistanceGraph = () => {
       const lines = doc.getElementsByClassName('recharts-line');
 
       for (let index = 0; index < lines.length; index++) {
-        const hasValue = drugResistanceGraphView.some((value) => getDrugs().indexOf(value) === index);
-        lines[index].style.display = hasValue ? 'block' : 'none';
+          const drug = drugResistanceGraphView[index];
+          const hasValue = getDrugs().includes(drug);
+          lines[index].style.display = hasValue ? 'block' : 'none';
       }
 
       setPlotChart(() => {
@@ -164,10 +214,26 @@ export const DrugResistanceGraph = () => {
                       <div className={classes.legendWrapper}>
                         {payload.map((entry, index) => {
                           const { dataKey, color } = entry;
+                          let dataKeyElement;
+                          if (dataKey === "XDR") {
+                            dataKeyElement = (
+                              <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
+                                <span>XDR</span>
+                                </Tooltip>
+                            );
+                        } else if(dataKey === "MDR"){
+                            dataKeyElement = (
+                              <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
+                                <span>MDR</span>
+                                </Tooltip>
+                            );
+                        }else{
+                            dataKeyElement = dataKey;
+                        }
                           return (
                             <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
                               <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
-                              <Typography variant="caption">{dataKey}</Typography>
+                              <Typography variant="caption">{dataKeyElement}</Typography>
                             </div>
                           );
                         })}
@@ -187,7 +253,7 @@ export const DrugResistanceGraph = () => {
                 }}
               />
 
-              {getDrugs().map((option, index) => (
+              {getDrugsForLegends().map((option, index) => (
                 <Line
                   key={`drug-resistance-bar-${index}`}
                   dataKey={option}
@@ -210,7 +276,7 @@ export const DrugResistanceGraph = () => {
     <CardContent className={classes.drugResistanceGraph}>
       <div className={classes.selectWrapper}>
         <div className={classes.labelWrapper}>
-          <Typography variant="caption">Drugs view</Typography>
+          <Typography variant="caption">Select drugs/classes to display</Typography>
           <Tooltip
             title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
             placement="top"
@@ -262,6 +328,22 @@ export const DrugResistanceGraph = () => {
               </div>
               <div className={classes.tooltipContent}>
                 {currentTooltip.drugs.map((item, index) => {
+                  let itemLabel;
+                  if (item.label === 'XDR') {
+                      itemLabel = (
+                        <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
+                          <span>XDR</span>
+                          </Tooltip>
+                      );
+                  } else if(item.label === 'MDR'){
+                      itemLabel = (
+                        <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
+                          <span>MDR</span>
+                          </Tooltip>
+                      );
+                  }else{
+                      itemLabel = item.label;
+                  }
                   return (
                     <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
                       <Box
@@ -272,7 +354,7 @@ export const DrugResistanceGraph = () => {
                       />
                       <div className={classes.tooltipItemStats}>
                         <Typography variant="body2" fontWeight="500">
-                          {item.label}
+                          {itemLabel}
                         </Typography>
                         <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
                         <Typography fontSize="10px">{`${item.percentage}%`}</Typography>

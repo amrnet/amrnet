@@ -1,14 +1,11 @@
 // Drug rules for Salmonella, where the column has to have one of the values to validate the rule. For frequencies and
 // drug resistance graphs
 export const drugRulesST = [
-  { key: 'Ampicillin', columnID: 'blaTEM-1D', values: ['1'] },
+  { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
-  // { key: 'Co-trimoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
-  // { key: 'ESBL', columnID: 'ESBL_category', values: ['ESBL'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  // { key: 'Fluoroquinolones (CipNS)', columnID: 'cip_pred_pheno', values: ['CipR', 'CipI'] },
   { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Susceptible', columnID: 'amr_category', values: ['No AMR detected'] },
@@ -40,9 +37,50 @@ export const drugRulesKP = [
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] }
 ];
 
-// Salmonella drug classes rules for determinants graph
+export const drugRulesNG = [
+  { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
+  { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
+  { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
+  { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
+  { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
+  { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
+  { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Susceptible', columnID: ['nonsus'], values: ['1'] },
+  { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
+];
+
+
+export const drugRulesDEC = [
+ 
+];
+
+export const drugClassesRulesDEC = [
+  
+];
+
+export const drugClassesRulesSEINTS = [
+ 
+];
+
+export const drugRulesSEINTS = [
+
+];
+
+export const drugRulesSE = [
+
+];
+
+export const drugRulesSH = [
+
+];
+
+export const drugRulesEC = [
+
+];
+
+// Salmonella Typhi drug classes rules for determinants graph
 export const drugClassesRulesST = {
-  Ampicillin: [
+  "Ampicillin/Amoxicillin": [
     {
       name: 'blaTEM-1D',
       susceptible: false,
@@ -628,4 +666,105 @@ export const drugClassesRulesST = {
 export const drugClassesRulesKP = {
   Carbapenems: 'Bla_Carb_acquired',
   ESBL: 'Bla_ESBL_acquired'
+};
+
+// Klebsiella drug classes rules for determinants graph
+export const drugClassesRulesEC = {
+
+};
+
+// Klebsiella drug classes rules for determinants graph
+export const drugClassesRulesSH = {
+
+};
+
+export const drugClassesRulesNG = {
+  "Azithromycin": [
+    {
+      name: "23S_rDNA_a2045g + mtrR_promoter_a-57del",
+      susceptible: false,
+      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_promoter_a-57del', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_a2045g + mtrR_G45D',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_G45D', value: '1' }]
+    },
+    {
+      name: 'mtrR_G45D + mtrC_disrupted + 23S_rDNA_a2045g',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR-mtrR_G45D+mtrC_disrupted+-23S_rDNA_a2045g', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t + mtrR_promoter_a-57del',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_promoter_a-57del', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t + mtrR_A39T',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_A39T', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t + mtrR_G45D',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_G45D', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t', value: '1' }]
+    },
+    {
+      name: '23S_rDNA_c2597t + mtrR_disrupted',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_disrupted', value: '1' }]
+    },
+    {
+      name: 'mtrC_disrupted + mtrD_mosaic_2',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_mtrC_disrupted+mtrD_mosaic_2', value: '1' }]
+    },
+    {
+      name: 'mtrR_promoter_mosaic_2 + mtrD_mosaic_2',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', value: '1' }]
+    },
+    {
+      name: 'mtrR_promoter_mosaic_2',
+      susceptible: false,
+      rules: [{ columnID: 'AzithR_mtrR_promoter_mosaic_2', value: '1' }]
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_promoter_a-57del', value: '0' },
+              { columnID: 'AzithR-23S_rDNA_a2045g+mtrR_G45D', value: '1' },
+              { columnID: 'AzithR-mtrR_G45D+mtrC_disrupted+-23S_rDNA_a2045g', value: '1' },
+              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_promoter_a-57del', value: '0' },
+              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_A39T', value: '0' },
+              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_G45D', value: '0' },
+              { columnID: 'AzithR_23S_rDNA_c2597t', value: '0' },
+              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_disrupted', value: '0' },
+              { columnID: 'AzithR_mtrC_disrupted+mtrD_mosaic_2', value: '0' },
+              { columnID: 'AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', value: '0' },
+              { columnID: 'AzithR_mtrR_promoter_mosaic_2', value: '0' }]
+    }
+  ],
+  "Ceftriaxone": [
+    {
+      name: 'penA_A501V + penA_G542S + penA_ins346D',
+      susceptible: false,
+      rules: [{ columnID: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [{ columnID: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', value: '0' }]
+    }
+    ]
+};
+
+export const drugClassesRulesSE = {
+
 };

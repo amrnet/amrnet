@@ -20,8 +20,10 @@ import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView, setReset
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP } from '../../../../util/drugs';
+import { drugsST, drugsKP, drugsNG, drugsEC } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -41,7 +43,26 @@ export const FrequenciesGraph = () => {
   const frequenciesGraphView = useAppSelector((state) => state.graph.frequenciesGraphView);
   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
+  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
+
   let data = genotypesDrugsData;
+
+  useEffect(() => {
+    data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
+    console.log("getData",data)
+    let cnt = 0;
+    data.map((item) => {
+      cnt += item.totalCount;
+    });
+    if (frequenciesGraphSelectedGenotypes.length <= 0 || cnt === 0) {
+        dispatch(setCaptureRFWG(false));
+        console.log("setCaptureRFWG", frequenciesGraphSelectedGenotypes.length,captureRFWG, false)
+    } else {
+        dispatch(setCaptureRFWG(true));
+        console.log("setCaptureRFWG", frequenciesGraphSelectedGenotypes.length,captureRFWG, true)
+    }
+}, [frequenciesGraphSelectedGenotypes]);
+
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
@@ -62,15 +83,28 @@ export const FrequenciesGraph = () => {
     if (organism === 'none') {
       return [];
     }
-    if (organism === 'typhi') {
+    else if (organism === 'styphi') {
       return drugsST;
     }
-    return drugsKP;
+    else if (organism === 'kpneumo') {
+      return drugsKP;
+    }
+    else if (organism === 'ngono') {
+      return drugsNG;
+    }
   }
 
   function getData() {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
-    // console.log("getData",data)
+    console.log("getData",data)
+    // let cnt = 0;
+    // data.map((item) => {
+    //   cnt += item.totalCount;
+    // });
+    // if(cnt === 0){
+    //   dispatch(setCaptureRFWG(false));
+    // }
+
 
     if (frequenciesGraphView === 'number') {
       return data;
@@ -92,7 +126,7 @@ export const FrequenciesGraph = () => {
   }
 
   // function getDataForGenotypeSelect() {
-  //   // if (organism === 'typhi') {
+  //   // if (organism === 'styphi') {
   //     return genotypesDrugsData;
   //   // } else {
   //   //   return JSON.parse(JSON.stringify(genotypesDrugsData.slice(0, 20)));

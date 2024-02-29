@@ -12,8 +12,8 @@ const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
-const ExcludedView = ['Genotype prevalence'];
-const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Genotype prevalence'];
+const ExcludedView = ['Genotype prevalence', 'NG-MAST prevalence'];
+const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Genotype prevalence', 'NG-MAST prevalence'];
 
 export const TopRightControls = () => {
   const classes = useStyles();
@@ -27,7 +27,7 @@ export const TopRightControls = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   function handleChangeMapView(event) {
-    if(event.target.value === 'Genotype prevalence')
+    if(event.target.value === 'Genotype prevalence' || event.target.value === 'NG-MAST prevalence')
       dispatch(setIfCustom(true));
     else
       dispatch(setIfCustom(false));
@@ -39,11 +39,11 @@ export const TopRightControls = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'typhi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDominantGenotypeSteps(genotype) {
-    if (organism === 'typhi') {
+    if (organism === 'styphi') {
       return genotypes;
     } else {
       return genotypesForFilter;
@@ -58,6 +58,7 @@ export const TopRightControls = () => {
         return noSamplesSteps;
       case 'Dominant Genotype':
         return getDominantGenotypeSteps();
+      case 'NG-MAST prevalence':
       case 'Genotype prevalence':
         return gradientStyle;
       default:
@@ -109,9 +110,25 @@ export const TopRightControls = () => {
             disabled={organism === 'none'}
           >
             {getMapLegends().map((legend, index) => {
+              let legendLabel;
+              if (legend.label === 'Extensively drug resistant (XDR)') {
+                  legendLabel = (
+                    <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
+                      <span>Extensively drug resistant (XDR)</span>
+                      </Tooltip>
+                  );
+              } else if(legend.label === 'Multidrug resistant (MDR)'){
+                  legendLabel = (
+                    <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
+                      <span>Multidrug resistant (MDR)</span>
+                      </Tooltip>
+                  );
+              }else{
+                  legendLabel = legend.label;
+              }
               return (
                 <MenuItem key={index + 'mapview'} value={legend.value}>
-                  {legend.label}
+                  {legendLabel}
                 </MenuItem>
               );
             })}
