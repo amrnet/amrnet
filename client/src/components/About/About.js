@@ -2,6 +2,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { MainLayout } from '../Layout';
 import { useStyles } from './AboutMUI';
 import { Footer } from '../Elements/Footer';
+import { Team } from './Team';
 
 export const AboutPage = () => {
   const classes = useStyles();
@@ -19,11 +20,12 @@ export const AboutPage = () => {
               TyphiNET
             </a> dashboard which uses data curated by the <a href="http://typhoidgenomics.org" target="_blank" rel="noreferrer">
               Global Typhoid Genomics Consortium
-            </a> (to improve data quality and identify which datasets are suitable for inclusion) and analysed in Pathogenwatch (to call AMR determinants and lineages from sequence data). More organisms will be added throughout 2024-25, using data sourced from analysis platforms such as <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
-              <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
+            </a> (to improve data quality and identify which datasets are suitable for inclusion) and analysed in <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
-            </a>
-            </a>, <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+            </a> (to call AMR determinants and lineages from sequence data). More organisms will be added throughout 2024-25, using data sourced from analysis platforms such as <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
+              Pathogenwatch
+            </a>, 
+            <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
               Enterobase
             </a>, and potentially others.
           </Typography>
@@ -47,6 +49,7 @@ export const AboutPage = () => {
           </Typography>
         </CardContent>
       </Card>
+      <Team/>
       <Footer />
     </MainLayout>
   );
