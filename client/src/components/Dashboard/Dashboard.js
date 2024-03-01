@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { MainLayout } from '../Layout';
+import { Note } from '../Elements/Note';
 import { Map } from '../Elements/Map';
 import { Footer } from '../Elements/Footer';
 import { API_ENDPOINT } from '../../constants';
@@ -427,6 +428,7 @@ export const DashboardPage = () => {
 
   return (
     <MainLayout isHomePage>
+      <Note/>
       <Map />
       <SelectCountry />
       <Graphs />
