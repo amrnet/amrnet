@@ -8,7 +8,6 @@ import { useStyles } from './TopRightControls2MUI';
 import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
 
-
 export const TopRightControls2 = () => {
 
   const classes = useStyles();
@@ -47,7 +46,6 @@ export const TopRightControls2 = () => {
     // .filter(x => x.totalCount >= 20)
   ;
     console.log("filteredData",filteredData)
-
   return (
     <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
