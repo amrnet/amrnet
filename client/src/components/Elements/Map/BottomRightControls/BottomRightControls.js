@@ -110,6 +110,14 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
           }
         }
+        if(mapView === 'Lineage prevalence'){
+          if (customDropdownMapView.length === 1) {
+            ctx.fillText('Selected Lineage: ' + customDropdownMapView, canvas.width / 2, 290);
+          } else if (customDropdownMapView.length > 1) {
+            const genotypesText = customDropdownMapView.join(', ');
+            ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
         ctx.drawImage(mapImg, 0, textHeight+50, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
@@ -129,6 +137,7 @@ export const BottomRightControls = () => {
             break;
           case 'NG-MAST prevalence':
           case 'Genotype prevalence':
+          case 'Lineage prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
           default:

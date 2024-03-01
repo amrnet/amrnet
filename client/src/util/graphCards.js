@@ -31,7 +31,15 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints']
+    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'senterica', 'decoli', 'sentericaints']
+  },
+  {
+    collapse: 'distribution',
+    title: 'Lineage prevalence',
+    description: [''],
+    icon: <StackedBarChart color="primary" />,
+    id: 'GD',
+    organisms: ['shige']
   },
   {
     collapse: 'trendsKP',
