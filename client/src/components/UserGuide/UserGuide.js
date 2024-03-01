@@ -2,6 +2,8 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { MainLayout } from '../Layout';
 import { useStyles } from './UserGuideMUI';
 import { Footer } from '../Elements/Footer';
+import Divider from '@mui/material/Divider';
+
 
 export const UserGuidePage = () => {
   const classes = useStyles();
@@ -10,7 +12,7 @@ export const UserGuidePage = () => {
     <MainLayout>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <Typography variant="h5" className={classes.paragraph}>
+          <Typography variant="h4" className={classes.paragraph}>
             Dashboard overview
           </Typography>
           <br/>
@@ -41,7 +43,9 @@ export const UserGuidePage = () => {
             <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’).
           </Typography>
           <br/>
-          <Typography variant="h5" className={classes.paragraph}>
+          <Divider sx={{ borderBottomWidth: 3 }}/>
+          <br/>
+          <Typography variant="h4" className={classes.paragraph}>
             Individual pathogen details
           </Typography>
           <br/>
@@ -106,7 +110,8 @@ export const UserGuidePage = () => {
               </li>
             </ul>
           </Typography>
-
+          <br/>
+          <Divider />
           <br/>
           <Typography variant="h6" className={classes.paragraph}>
             Klebsiella pneumoniae
@@ -164,8 +169,10 @@ export const UserGuidePage = () => {
                 ST: sequence type
               </li>
             </ul>
-            <br/>
           </Typography>
+          <br/>
+          <Divider />
+          <br/>
           <Typography variant="h6" className={classes.paragraph}>
             Neisseria gonorrhoeae 
           </Typography>
@@ -231,6 +238,8 @@ export const UserGuidePage = () => {
               </li>
             </ul>
           </Typography>
+          <br/>
+          <Divider sx={{ borderBottomWidth: 3 }}/>
           <br/>
           <Typography variant="body2" className={classes.paragraph}>
             Note these definitions are based on those defined in the <a href="https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf" target="_blank" rel="noreferrer">
