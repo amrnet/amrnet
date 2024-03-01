@@ -7,6 +7,10 @@ import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
 import { useStyles } from './TopRightControls2MUI';
 import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
+import { Collapse } from '@mui/material';
+import Switch from "@mui/material/Switch";
+import Box from "@mui/material/Box";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export const TopRightControls2 = () => {
 
@@ -19,6 +23,7 @@ export const TopRightControls2 = () => {
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
+  const [open, setOpen] = useState(true);
 
     console.log("i m 2", genotypesDrugsData2)
     console.log("customDropdownMapView",customDropdownMapView)
@@ -31,6 +36,10 @@ export const TopRightControls2 = () => {
     setSelectedValues(newValue);
   };
 
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
+
  useEffect(()=>{
   dispatch(setCustomDropdownMapView(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
   },[genotypesDrugsData ])
@@ -41,15 +50,16 @@ export const TopRightControls2 = () => {
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
 }
+ 
   const filteredData = genotypesDrugsData2
     .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
     // .filter(x => x.totalCount >= 20)
   ;
     console.log("filteredData",filteredData)
-  return (
-    <div className={`${classes.topRightControls}`}>
+   const icon = (
+    // <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
-        <CardContent className={classes.frequenciesGraph}>
+        <CardContent  className={classes.frequenciesGraph}>
           <div className={classes.label}>
             <Typography variant="caption">Select genotype</Typography>
             <Tooltip
@@ -92,6 +102,15 @@ export const TopRightControls2 = () => {
           </FormControl>
         </CardContent>
      </Card>
-    </div>
+    // </div>
+  )
+  return (
+    <Box className={`${classes.topRightControls}`}>
+      <FormControlLabel
+      control={<Switch checked={open} onChange={handleClick} />}
+      label={open?"Click to close selector":"Click to open selector"}
+    />
+      <Collapse  in={open}>{icon}</Collapse>
+    </Box>
   );
 };

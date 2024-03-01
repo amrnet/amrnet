@@ -2,7 +2,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   topRightControls: {
-    display: 'flex',
+    textAlign:"end",
     flexDirection: 'column',
     position: 'absolute',
     top: 0,
