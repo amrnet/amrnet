@@ -510,7 +510,6 @@ export function getGenotypesData({ data, genotypes, organism }) {
   });
   return { genotypesDrugsData, genotypesDrugClassesData };
 }
-
 // Get data for NG_MAST MapView
 export function getNgmastData({ data, ngmast, organism }) {
   const ngmastDrugClassesData = {};
@@ -536,14 +535,14 @@ export function getNgmastData({ data, ngmast, organism }) {
       };
 
       drugRulesNG.forEach((rule) => {
-        
+
         const drugData = ngmastData.filter((x) => rule.values.includes(x[rule.columnID]));
           response[rule.key] = drugData.length;
       });
 
       const susceptible = ngmastData.filter((x) => x.nonsus === '0');
       response['Susceptible'] = susceptible.length;
-      
+
       Object.keys(drugClassesRulesNG).forEach((key) => {
         const drugClass = { ...drugClassResponse,  };
         ngmastDrugClassesData[key].push(drugClass);
@@ -551,7 +550,7 @@ export function getNgmastData({ data, ngmast, organism }) {
       response.resistantCount = response.totalCount - response['Susceptible'];
       return response;
     });
-  
+
     ngmastDrugData.sort((a, b) => b.totalCount - a.totalCount);
     Object.keys(ngmastDrugClassesData).forEach((key) => {
       ngmastDrugClassesData[key].sort((a, b) => b.resistantCount - a.resistantCount);
@@ -774,6 +773,7 @@ function getNGDrugClassData({ drugKey, dataToFilter }) {
   drugClass.resistantCount = resistantData.length;
   console.log("drugClass", drugClass)
   return drugClass;
+  console.log("drugClass", drugClass)
 }
 function getSHDrugClassData({ drugKey, dataToFilter }) {
   const drugClass = {};

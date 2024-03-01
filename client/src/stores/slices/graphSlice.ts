@@ -68,6 +68,7 @@ const initialState: GraphState = {
   customDropdownMapView: [],
   customDropdownMapViewNG: [],
   determinantsGraphView: 'percentage',
+  customDropdownMapViewNG: [],
   determinantsGraphDrugClass: '',
   trendsKPGraphDrugClass: '',
   trendsKPGraphView: 'number',

@@ -19,7 +19,7 @@
 
 ## Description
 
-## Installation (for software development purposes only, please visit http://amr.net for all other purposes)
+## Installation (for software development purposes only)
 
 #### 1. Install <a href="https://git-scm.com/">GIT</a>, <a href="https://www.npmjs.com/get-npm">NPM</a> and <a href="https://www.mongodb.com/try/download/community?tck=docs_server">MongoDB</a>
 
