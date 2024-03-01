@@ -7,6 +7,10 @@ import { setCustomDropdownMapViewNG } from '../../../../stores/slices/graphSlice
 import { useStyles } from './NgmastMUI';
 import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
+import { Collapse } from '@mui/material';
+import Switch from "@mui/material/Switch";
+import Box from "@mui/material/Box";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 
 export const Ngmast = () => {
@@ -19,6 +23,8 @@ export const Ngmast = () => {
   const ngmastDrugData = useAppSelector((state) => state.graph.ngmastDrugsData);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapViewNG[0]]);
+  const [open, setOpen] = useState(true);
+
   console.log("customDropdownMapViewNG",customDropdownMapViewNG)
   const handleAutocompleteChange = (event, newValue) => {
     
@@ -27,6 +33,10 @@ export const Ngmast = () => {
     }
     dispatch(setCustomDropdownMapViewNG(newValue));
     setSelectedValues(newValue);
+  };
+
+  const handleClick = () => {
+    setOpen((prev) => !prev);
   };
 
  useEffect(()=>{
@@ -44,12 +54,12 @@ const filteredData = ngmastDrugData
     // .filter(x => x.totalCount >= 20)
   ;
   console.log("filteredDataNG",filteredData)
-  return (
-    <div className={`${classes.topRightControls}`}>
+  const icon = (
+    // <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
-        <CardContent className={classes.frequenciesGraph}>
+        <CardContent  className={classes.frequenciesGraph}>
           <div className={classes.label}>
-            <Typography variant="caption">Select NGMAST</Typography>
+            <Typography variant="caption">Select genotype</Typography>
             <Tooltip
               title="Select up to 10 Genotypes"
               placement="top"
@@ -90,6 +100,15 @@ const filteredData = ngmastDrugData
           </FormControl>
         </CardContent>
      </Card>
-    </div>
+    // </div>
+  )
+  return (
+    <Box className={`${classes.topRightControls}`}>
+      <FormControlLabel
+      control={<Switch checked={open} onChange={handleClick} />}
+      label={open?"Click to close selector":"Click to open selector"}
+    />
+      <Collapse  in={open}>{icon}</Collapse>
+    </Box>
   );
 };
