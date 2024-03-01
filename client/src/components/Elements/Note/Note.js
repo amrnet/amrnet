@@ -16,14 +16,14 @@ export const Note = () => {
 
   const textNote = () => {
     if(organism === "styphi"){
-      return (<div >Typhi data are curated by the <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
+      return (<span >Typhi data are curated by the <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
               Global Typhoid Genomics Consortium </a> and analysed using <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
-            </a></div>)
+            </a></span>)
     }else if(organism === "ngono"){
-      return (<div>NOTE: N. gonorrhoeae data represent national and regional surveillance projects, sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+      return (<span>NOTE: N. gonorrhoeae data represent national and regional surveillance projects, sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
-            </a></div>)
+            </a></span>)
     }
     return "This data is pulled from Enterobase and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains. This will change in future updates."
   }
