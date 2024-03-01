@@ -69,7 +69,7 @@ export const UserGuidePage = () => {
           <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <Typography variant="body2" className={classes.paragraph}>
+          <div variant="body2" className={classes.paragraph}>
             <ul>
               <li>
                 Genotypes: <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
@@ -89,12 +89,12 @@ export const UserGuidePage = () => {
               </a>.
               </li>
             </ul>
-          </Typography>
+          </div>
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <Typography variant="body2" className={classes.paragraph}>
+          <div variant="body2" className={classes.paragraph}>
             <ul>
               <li>
                 MDR: multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)
@@ -109,7 +109,7 @@ export const UserGuidePage = () => {
                 Ciprofloxacin R: ciprofloxacin resistant (MIC &ge;0.5 mg/L, due to presence of multiple mutations and/or genes)
               </li>
             </ul>
-          </Typography>
+          </div>
           <br/>
           <Divider />
           <br/>
@@ -138,7 +138,7 @@ export const UserGuidePage = () => {
           <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <Typography variant="body2" className={classes.paragraph}>
+          <div variant="body2" className={classes.paragraph}>
             <ul>
               <li>
                 Genotypes: <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
@@ -155,12 +155,12 @@ export const UserGuidePage = () => {
               </a>.
               </li>
             </ul>
-          </Typography>
+          </div>
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <Typography variant="body2" className={classes.paragraph}>
+          <div variant="body2" className={classes.paragraph}>
             <ul>
               <li>
                 ESBL: extended-spectrum beta-lactamase
@@ -169,7 +169,7 @@ export const UserGuidePage = () => {
                 ST: sequence type
               </li>
             </ul>
-          </Typography>
+          </div>
           <br/>
           <Divider />
           <br/>
@@ -197,7 +197,7 @@ export const UserGuidePage = () => {
           <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <Typography variant="body2" className={classes.paragraph}>
+          <div variant="body2" className={classes.paragraph}>
             <ul>
               <li>
                 Genotypes: sequence types from the <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
@@ -221,14 +221,14 @@ export const UserGuidePage = () => {
               </a>.
               </li>
             </ul>
-          </Typography>
+          </div>
 
           
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <Typography variant="body2" className={classes.paragraph}>
+          <div variant="body2" className={classes.paragraph}>
             <ul>
               <li>
                 MDR: multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
@@ -237,7 +237,7 @@ export const UserGuidePage = () => {
                 XDR: extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
               </li>
             </ul>
-          </Typography>
+          </div>
           <br/>
           <Divider sx={{ borderBottomWidth: 3 }}/>
           <br/>
