@@ -8,7 +8,7 @@ import {
   Snackbar,
   Tooltip,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from '@mui/material';
 import { useStyles } from './GraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -26,11 +26,11 @@ import download from 'downloadjs';
 import { drugsST, drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import { colorForDrugClassesKP, colorForDrugClassesNG, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
-import { TrendsKPGraph } from './TrendsKPGraph';
+import { TrendsKPGraph }   from './TrendsKPGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
-import { graphCards } from '../../../util/graphCards';
-import { KODiversityGraph } from './KODiversityGraph';
-import { ConvergenceGraph } from './ConvergenceGraph';
+import { graphCards }  from '../../../util/graphCards';
+import { KODiversityGraph }  from './KODiversityGraph';
+import { ConvergenceGraph }   from './ConvergenceGraph';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 export const Graphs = () => {
@@ -110,10 +110,8 @@ export const Graphs = () => {
         : isVariable
         ? convergenceColourPallete[legend]
         : legend.color;
-      context.beginPath();
       context.arc(102 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
-      context.closePath();
       context.fillStyle = 'black';
       context.fillText(
         isGenotype || isDrug || isVariable ? legend : legend.name,
@@ -152,6 +150,7 @@ export const Graphs = () => {
       const graphImgPromise = imgOnLoadPromise(graphImg);
 
       graphImg.src = await domtoimage.toPng(graph, { quality: 0.1, bgcolor: 'white' });
+      
       await graphImgPromise;
 
       let heightFactor = 0,
@@ -159,29 +158,25 @@ export const Graphs = () => {
         drugClassesFactor,
         genotypesFactor,
         variablesFactor;
-
+        
       if (['RFWG', 'DRT'].includes(card.id)) {
         heightFactor = 250;
-      }
-      if (['RDWG', 'CERDT'].includes(card.id)) {
+      } else if (['RDWG', 'CERDT'].includes(card.id)) {
         drugClassesBars = getDrugClassesBars();
         drugClassesFactor = Math.ceil(drugClassesBars.length / 4);
         heightFactor += drugClassesFactor * 22;
-      }
-      if (card.id === 'GD') {
+      } else if (card.id === 'GD') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22;
-      }
-      if (card.id === 'CERDT') {
+      } else if (card.id === 'CERDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
-      }
-      if (card.id === 'CVM') {
+      } else if (card.id === 'CVM') {
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
 
-      canvas.width = 922;
+     canvas.width = 922;
       canvas.height = graphImg.height + 220 + heightFactor;
 
       ctx.fillStyle = 'white';
@@ -321,6 +316,7 @@ export const Graphs = () => {
 
       const base64 = canvas.toDataURL();
       await download(base64, `AMRnet - ${globalOverviewLabel.fullLabel} - ${card.title}.png`);
+    
     } catch {
       setShowAlert(true);
     } finally {

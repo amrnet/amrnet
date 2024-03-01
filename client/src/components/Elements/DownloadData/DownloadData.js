@@ -200,6 +200,13 @@ export const DownloadData = () => {
     document.setFontSize(12);
   }
 
+  // function drawHeader({ document, pageWidth}) {
+  //   document.setFontSize(10);
+  //   document.line(0, 26, pageWidth, 26);
+  //   document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 160, 20, { align: 'center', maxWidth: pageWidth - 36  });
+  //   document.setFontSize(12);
+  // }
+
   function drawLegend({
     id = null,
     legendData,
@@ -536,9 +543,7 @@ export const DownloadData = () => {
         doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[25], 16, 86, { align: 'left', maxWidth: pageWidth - 36 });
       } 
-
-      
-        drawFooter({ document: doc, pageHeight, pageWidth, date });
+      drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       // Map
       doc.addPage();
