@@ -724,7 +724,7 @@ export const DownloadData = () => {
             twoPages: isKlebe
           });
 
-          if (isKlebe) {
+          if (isKlebe || isNgono) {
             drawHeader({ document: doc, pageWidth});
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
@@ -738,7 +738,7 @@ export const DownloadData = () => {
             isGenotype: true,
             twoPages: isNgono
           });
-          if (isKlebe ) {
+          if (isKlebe || isNgono) {
             drawHeader({ document: doc, pageWidth});
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
