@@ -190,7 +190,7 @@ export const DownloadData = () => {
   function drawFooter({ document, pageHeight, pageWidth, date }) {
     document.setFontSize(10);
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
-    document.text(`Source: amr.net`, 16, pageHeight - 10, { align: 'left' });
+    document.text(`Source: amr.org`, 16, pageHeight - 10, { align: 'left' });
   }
 
   function drawHeader({ document, pageWidth}) {
