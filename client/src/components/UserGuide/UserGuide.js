@@ -237,7 +237,17 @@ export const UserGuidePage = () => {
             <i>Shigella</i> + EIEC 
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <i>Shigella</i> and enteroinvasive <i>E. coli</i> (EIEC) data in AMRnet are drawn from Enterobase, which calls AMR genotypes using NCBI’s AMRFinderPlus and assigns lineages using cgMLST and hierarchical clustering. Last update: January 24th 2024.
+            <i>Shigella</i> and enteroinvasive <i>E. coli</i> (EIEC) data in AMRnet are drawn from <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                Enterobase
+              </a>
+              </a>, which calls AMR genotypes using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">
+                AMRFinderPlus
+              </a> and assigns lineages using <a href="https://doi.org/10.1101/gr.251678.119" target="_blank" rel="noreferrer">
+                cgMLST
+              </a> and <a href="https://doi.org/10.1093/bioinformatics/btab234" target="_blank" rel="noreferrer">
+                hierarchical clustering
+              </a>. Last update: January 24th 2024.
           </Typography>
           
           <br/>
@@ -253,10 +263,26 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
               <li>
-                <span className={classes.paragraphBold}>Lineages:</span> The logic used by Enterobase to classify genomes as Shigella or EIEC are detailed here. Shigella sonnei are monophyletic and labelled as lineage ‘S. sonnei’. For other Shigella, lineages are labeled by the species followed by the HC400 (HierCC) cluster ID (as this nomenclature has been shown to mirror the paraphyletic lineage structure of Shigella). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).
+                <span className={classes.paragraphBold}>Lineages:</span> The logic used by <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                Enterobase
+              </a>
+              </a> to classify genomes as Shigella or EIEC are detailed <a href="https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella" target="_blank" rel="noreferrer">
+                here
+              </a>. Shigella sonnei are monophyletic and labelled as lineage ‘S. sonnei’. For other Shigella, lineages are labeled by the species followed by the HC400 (<a href="https://enterobase.readthedocs.io/en/latest/features/clustering.html" target="_blank" rel="noreferrer">
+                HierCC
+              </a>) cluster ID (as this nomenclature has been <a href="https://doi.org/10.1038/s41467-022-28121-1" target="_blank" rel="noreferrer">
+                shown
+              </a> to mirror the paraphyletic lineage structure of Shigella). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).
               </li>
               <li>
-                <span className={classes.paragraphBold}>AMR determinants:</span> Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in refgenes.
+                <span className={classes.paragraphBold}>AMR determinants:</span> <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                Enterobase
+              </a> identifies AMR determinants using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">
+                AMRFinderPlus
+              </a>. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in <a href="https://doi.org/10.1099/mgen.0.000832" target="_blank" rel="noreferrer">
+                refgenes
+              </a>.
               </li>
           </Typography>
           
@@ -268,7 +294,19 @@ export const UserGuidePage = () => {
             Diarrheagenic<i> E. coli</i>
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Diarrheagenic <i>E. coli</i> data in AMRnet are drawn from Enterobase, which calls AMR genotypes using NCBI’s AMRFinderPlus and assigns lineages using MLST, cgMLST and hierarchical clustering. The logic used by Enterobase to classify <i>E. coli</i> genomes to pathotypes is shown here. Pathotypes included in the diarrheagenic <i>E. coli</i> dashboard are:
+            Diarrheagenic <i>E. coli</i> data in AMRnet are drawn from <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                Enterobase
+              </a>, which calls AMR genotypes using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">
+                AMRFinderPlus
+              </a> and assigns lineages using MLST, <a href="https://doi.org/10.1101/gr.251678.119" target="_blank" rel="noreferrer">
+                cgMLST
+              </a> and <a href="https://doi.org/10.1093/bioinformatics/btab234" target="_blank" rel="noreferrer">
+                hierarchical clustering
+              </a>. The logic used by <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                Enterobase
+              </a> to classify <i>E. coli</i> genomes to pathotypes is shown <a href="https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar" target="_blank" rel="noreferrer">
+                here
+              </a>. Pathotypes included in the diarrheagenic <i>E. coli</i> dashboard are:
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
               <li>Shiga toxin-producing <i>E. coli</i> (STEC)</li>
@@ -298,7 +336,13 @@ export const UserGuidePage = () => {
                 <span className={classes.paragraphBold}>Lineages:</span> Lineages are labeled by the pathovar followed by the (7-locus) ST.
               </li>
               <li>
-                <span className={classes.paragraphBold}>AMR determinants:</span> Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in refgenes.
+                <span className={classes.paragraphBold}>AMR determinants:</span> <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                Enterobase
+              </a> identifies AMR determinants using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">
+                AMRFinderPlus
+              </a>. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in <a href="https://doi.org/10.1099/mgen.0.000832" target="_blank" rel="noreferrer">
+                refgenes
+              </a>.
               </li>
           </Typography>
           
@@ -309,7 +353,19 @@ export const UserGuidePage = () => {
             Invasive Non-Typhoidal <i>Salmonella</i>
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Invasive non-typhoidal Salmonella (iNTS) data in AMRnet are drawn from Enterobase, which calls AMR genotypes using NCBI’s AMRFinderPlus, assigns lineages using MLST, cgMLST and hierarchical clustering, and assigns serotypes using SISTR. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for &gt;90% of iNTS), and identifies lineages thereof using MLST. Last update: January 24th 2024.
+            Invasive non-typhoidal Salmonella (iNTS) data in AMRnet are drawn from <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                Enterobase
+              </a>, which calls AMR genotypes using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">
+                AMRFinderPlus
+              </a>, assigns lineages using MLST, <a href="https://doi.org/10.1101/gr.251678.119" target="_blank" rel="noreferrer">
+                cgMLST
+              </a> and <a href="https://doi.org/10.1093/bioinformatics/btab234" target="_blank" rel="noreferrer">
+                hierarchical clustering
+              </a>, and assigns serotypes using <a href="https://doi.org/10.1371/journal.pone.0147101" target="_blank" rel="noreferrer">
+                SISTR
+              </a>. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target="_blank" rel="noreferrer">
+                &gt;90% of iNTS
+              </a>), and identifies lineages thereof using MLST. Last update: January 24th 2024.
           </Typography>
           
           <br/>
@@ -328,7 +384,13 @@ export const UserGuidePage = () => {
                 <span className={classes.paragraphBold}>Lineages:</span> Lineages are labeled by the serotype followed by the (7-locus) ST.
               </li>
               <li>
-                <span className={classes.paragraphBold}>AMR determinants:</span> Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in refgenes.
+                <span className={classes.paragraphBold}>AMR determinants:</span> <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+                Enterobase
+              </a> identifies AMR determinants using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">
+                AMRFinderPlus
+              </a>. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in <a href="https://doi.org/10.1099/mgen.0.000832" target="_blank" rel="noreferrer">
+                refgenes
+              </a>.
               </li>
           </Typography>
           
