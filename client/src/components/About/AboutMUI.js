@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   teamPost:{
     textAlign:"center",
-    color:"blue",
+    // color:"blue",
     // fontSize:"10px"
   }
 }));

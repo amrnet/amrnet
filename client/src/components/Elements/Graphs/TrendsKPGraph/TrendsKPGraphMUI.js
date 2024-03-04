@@ -42,13 +42,14 @@ const useStyles = makeStyles((theme) => ({
     width: '70%',
 
     '@media (max-width: 1000px)': {
-      width: '100%'
-    },
-
-    '@media (max-width: 500px)': {
       width: '100%',
       height: '460px'
-    }
+    },
+
+    // '@media (max-width: 500px)': {
+    //   width: '100%',
+    //   height: '460px'
+    // }
   },
   graphLabel: {
     textAnchor: 'middle'
