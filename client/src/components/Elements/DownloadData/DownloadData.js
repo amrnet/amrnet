@@ -79,7 +79,7 @@ const columnsToRemove = [
 export const DownloadData = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const matches500 = useMediaQuery('(max-width:500px)');
+  const matches1000 = useMediaQuery('(max-width:1000px)');
   const [loadingCSV, setLoadingCSV] = useState(false);
   const [loadingPDF, setLoadingPDF] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -691,7 +691,7 @@ export const DownloadData = () => {
         }
 
         doc.setFillColor(255, 255, 255);
-        const rectY = matches500 ? 320 : 340;
+        const rectY = matches1000 ? 320 : 340;
         doc.rect(0, rectY, pageWidth, 200, 'F');
 
         doc.setFontSize(9);
