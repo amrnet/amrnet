@@ -109,7 +109,7 @@ export const Map = () => {
             tooltip.content[genotype.name] = genotype.count;
           });
           break;
-          case 'NG-MAST prevalence':
+        case 'NG-MAST prevalence':
             let percentCounterNG = 0;        
             const genotypesNG = countryStats.NGMAST.items;
             let genotypesNG2 = [];
@@ -135,6 +135,7 @@ export const Map = () => {
             }
           break;
         case 'Genotype prevalence':
+        case 'Lineage prevalence':
             let percentCounter = 0;        
             const genotypes1 = countryStats.GENOTYPE.items;
             let genotypes2 = [];
@@ -202,7 +203,7 @@ export const Map = () => {
   }
 
   function showPercentage() {
-    return !['Dominant Genotype','Genotype prevalence','No. Samples'].includes(mapView);
+    return !['Dominant Genotype','Genotype prevalence','No. Samples', 'NG-MAST prevalence', 'Lineage prevalence'].includes(mapView);
   }
 
   return (
@@ -213,11 +214,18 @@ export const Map = () => {
           {organism === 'none' ? (
             ''
           ) : (
-            <><span>
-              of <i>
-      {globalOverviewLabel.italicLabel} </i>
-      <i>{globalOverviewLabel.label}</i>
-            </span>
+            <>
+            {organism === "ngono" || organism === "ecoli" ||organism === "senterica" ||organism ==='kpneumo'?
+            <span>
+              of <i>{globalOverviewLabel.italicLabel} {globalOverviewLabel.label} </i>
+            </span>:
+            organism === "decoli" || organism === "sentericaints"?
+            <span>
+              of {globalOverviewLabel.italicLabel} <i>{globalOverviewLabel.label} </i>
+            </span>:
+            <span>
+              of <i>{globalOverviewLabel.italicLabel}</i> {globalOverviewLabel.label} 
+            </span>}
             </>
           )}
         </Typography>
@@ -262,37 +270,41 @@ export const Map = () => {
                           }
                           break;
                         case 'Dominant Genotype':
-                          case 'NG-MAST prevalence':
-                            let percentCounterNG = 0;        
-                            const genotypesNG = countryStats.NGMAST.items;
-                            // console.log("gencountryDataotypes1",countryData);
-                            let genotypesNG2 = [];
-                            genotypesNG.forEach((genotype) => {
-                              if (customDropdownMapViewNG.includes(genotype.name))
-                                  genotypesNG2.push(genotype);
-                                percentCounterNG += genotype.count;
-                            });
-                            // console.log("genotypes2",genotypes2.length );
-  
-                            let sumCountNG = 0;
-  
-                            if (genotypesNG2.length > 0 ) {
-                              for (const genotype of genotypesNG2) {
-                                sumCountNG += genotype.count;
-                              }
+                          const genotypes = countryStats.GENOTYPE.items;
+                          fillColor = getGenotypeColor(genotypes[0].name);
+                          break;
+                        case 'NG-MAST prevalence':
+                          let percentCounterNG = 0;        
+                          const genotypesNG = countryStats.NGMAST.items;
+                          // console.log("gencountryDataotypes1",countryData);
+                          let genotypesNG2 = [];
+                          genotypesNG.forEach((genotype) => {
+                            if (customDropdownMapViewNG.includes(genotype.name))
+                                genotypesNG2.push(genotype);
+                              percentCounterNG += genotype.count;
+                          });
+                          // console.log("genotypes2",genotypes2.length );
+                
+                          let sumCountNG = 0;
+
+                          if (genotypesNG2.length > 0 ) {
+                            for (const genotype of genotypesNG2) {
+                              sumCountNG += genotype.count;
                             }
-                            if(countryData.count>=20 && genotypesNG2.length > 0 ){
-                              // console.log("count %",count );
-                              if(genotypesNG2 !== undefined){
-                                fillColor = redColorScale2(((sumCountNG/percentCounterNG)*100).toFixed(2));
-                              }
+                          }
+                          if(countryData.count>=20 && genotypesNG2.length > 0 ){
+                            // console.log("count %",count );
+                            if(genotypesNG2 !== undefined){
+                              fillColor = redColorScale2(((sumCountNG/percentCounterNG)*100).toFixed(2));
                             }
-                            else if (countryData.count>=20) {
-                              fillColor = darkGrey;
-                              smallerThan20 = true;
-                            }
-                            break;
+                          }
+                          else if (countryData.count>=20) {
+                            fillColor = darkGrey;
+                            smallerThan20 = true;
+                          }
+                          break;
                         case 'Genotype prevalence':
+                        case 'Lineage prevalence':
                           let percentCounter = 0;        
                           const genotypes1 = countryStats.GENOTYPE.items;
                           // console.log("gencountryDataotypes1",countryData);
@@ -423,7 +435,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
+              {(ifCustom && mapView === 'Genotype prevalence')|| (ifCustom && mapView === 'Lineage prevalence')? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
             </>
           )}
           <BottomLeftControls />
@@ -432,7 +444,7 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
+            {(ifCustom && mapView === 'Genotype prevalence')|| (ifCustom && mapView === 'Lineage prevalence') ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
             <TopLeftControls />
           </div>
         )}
@@ -474,3 +486,4 @@ export const Map = () => {
     </Card>
   );
 };
+
