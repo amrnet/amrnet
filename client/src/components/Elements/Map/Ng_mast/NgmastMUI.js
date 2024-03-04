@@ -26,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
     // }
     
   },
+ font: {
+    // '&.MuiFormControlLabel-root': {
+    //   // borderRadius: '16px',
+    // },
+    fontSize:'small !important',
+    marginRight:'0px !important'
+  },
 
   dropdown:{
     '& .MuiTypography-root': {
