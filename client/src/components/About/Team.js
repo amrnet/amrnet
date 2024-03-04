@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useStyles } from './AboutMUI';
 import Carousel from "react-simply-carousel";
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography,Box } from '@mui/material';
 import { TeamCards } from "./TeamCard";
 
 
@@ -45,9 +45,32 @@ export const Team = () => {
             >
                 {TeamCards.map((member, index)=>{
                     return(
-                    <div className={classes.teamMember} key={`team-card-${index}`}>
-                        {member.Name}
-                    </div>)
+                    <Typography className={classes.teamMember} key={`team-card-${index}`}>
+                        <Box component="section"
+                            height={70}
+                            width={64}
+                            // my={4}
+                            display="flex"
+                            alignItems="center"
+                            gap={4}
+                            p={1}
+                            sx={{ border: '2px solid purple' , margin:'auto'}}>
+                            <img
+                                srcSet={`${member.img}?w=70&h=64&fit=crop&auto=format&dpr=1 1x`}
+                                src={`${member.img}?w=70&h=64&fit=crop&auto=format`}
+                                alt={member.title}
+                                loading="lazy"
+                            />
+                        </Box>
+                        
+                        <Typography sx={{marginTop:"10px" }}>
+                            {member.Name}
+                        </Typography>
+                        <Typography sx={{fontSize:"10px" }}className={classes.teamPost}>
+                            {member.Post}
+                        </Typography>
+                    </Typography>)
+                    
                 })}
             </Carousel>
         </CardContent>
