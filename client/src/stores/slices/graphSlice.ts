@@ -66,6 +66,7 @@ const initialState: GraphState = {
   frequenciesGraphView: 'percentage',
   frequenciesGraphSelectedGenotypes: [],
   customDropdownMapView: [],
+  customDropdownMapViewNG: [],
   determinantsGraphView: 'percentage',
   customDropdownMapViewNG: [],
   determinantsGraphDrugClass: '',

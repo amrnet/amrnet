@@ -110,8 +110,10 @@ export const Graphs = () => {
         : isVariable
         ? convergenceColourPallete[legend]
         : legend.color;
+      context.beginPath();
       context.arc(102 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
+      context.closePath();
       context.fillStyle = 'black';
       context.fillText(
         isGenotype || isDrug || isVariable ? legend : legend.name,
