@@ -431,7 +431,11 @@ export const DownloadData = () => {
         doc.setFont(undefined, 'normal');
         doc.text(texts[6], 108, 175, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[7], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'bold').setTextColor(108, 57, 184);
+        
+        // Add a yellow background
+        doc.setFillColor(255,253,175); // Yellow color
+        doc.rect(10, 200, pageWidth-20, 120, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
         doc.text(texts[8], 16, 215, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
         doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
