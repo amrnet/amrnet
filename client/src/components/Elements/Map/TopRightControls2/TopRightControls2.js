@@ -7,9 +7,15 @@ import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
 import { useStyles } from './TopRightControls2MUI';
 import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
+import { Collapse } from '@mui/material';
+import Switch from "@mui/material/Switch";
+import Box from "@mui/material/Box";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { setMapView } from '../../../../stores/slices/mapSlice';
+
 
 export const TopRightControls2 = () => {
-  
+
   const classes = useStyles();
   const [, setCurrentTooltip] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
@@ -19,8 +25,11 @@ export const TopRightControls2 = () => {
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
-  console.log("i m 2", genotypesDrugsData2)
-  console.log("customDropdownMapView",customDropdownMapView)
+  const [open, setOpen] = useState(true);
+  const mapView = useAppSelector((state) => state.map.mapView);
+
+    console.log("i m 2", genotypesDrugsData2)
+    console.log("customDropdownMapView",customDropdownMapView)
   const handleAutocompleteChange = (event, newValue) => {
    
     if (customDropdownMapView.length === 10 && newValue.length > 10) {
@@ -28,6 +37,10 @@ export const TopRightControls2 = () => {
     }
     dispatch(setCustomDropdownMapView(newValue));
     setSelectedValues(newValue);
+  };
+
+  const handleClick = () => {
+    setOpen((prev) => !prev);
   };
 
  useEffect(()=>{
@@ -39,18 +52,23 @@ export const TopRightControls2 = () => {
     const totalCount = matchingGenotype?.totalCount ?? 0;
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
-}
-    const filteredData = genotypesDrugsData2
+  }
+  function getHeading (){
+    if(mapView === 'Lineage prevalence')
+      return "Select lineage"
+    return "Select genotype"
+  }
+  const filteredData = genotypesDrugsData2
     .filter((genotype) => genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()))
     // .filter(x => x.totalCount >= 20)
   ;
     console.log("filteredData",filteredData)
-  return (
-    <div className={`${classes.topRightControls}`}>
+   const icon = (
+    // <div className={`${classes.topRightControls}`}>
       <Card elevation={3} className={classes.card}>
-        <CardContent className={classes.frequenciesGraph}>
+        <CardContent  className={classes.frequenciesGraph}>
           <div className={classes.label}>
-            <Typography variant="caption">Select genotype</Typography>
+            <Typography variant="caption">{getHeading()}</Typography>
             <Tooltip
               title="Select up to 10 Genotypes"
               placement="top"
@@ -84,13 +102,25 @@ export const TopRightControls2 = () => {
               <TextField
                 {...params}
                 variant="outlined"
-                placeholder={customDropdownMapView.length>0?"Type to search...":"0 genotype selected"}
+                placeholder={customDropdownMapView.length>0?"Type to search...":
+                organism==="shige"? "0 lineage selected":"0 genotype selected"}
               />
             )}
           />
           </FormControl>
         </CardContent>
      </Card>
-    </div>
+    // </div>
+  )
+  return (
+    <Box className={`${classes.topRightControls}`}>
+      <FormControlLabel className={classes.font}
+      control={<Switch checked={open} onChange={handleClick} />}
+      label={organism==="shige"? 
+        open?<Typography className={classes.font}>Close lineage selector</Typography>:<Typography className={classes.font}>Open lineage selector</Typography>
+      :open?<Typography className={classes.font} >Close genotype selector</Typography>:<Typography className={classes.font}>Open genotype selector</Typography>} 
+      />
+      <Collapse  in={open}>{icon}</Collapse>
+    </Box>
   );
 };

@@ -2,7 +2,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   topRightControls: {
-    display: 'flex',
+    textAlign:"end",
     flexDirection: 'column',
     position: 'absolute',
     top: 0,
@@ -24,7 +24,14 @@ const useStyles = makeStyles((theme) => ({
     // '&$bp700': {
     //   position: 'relative'
     // }
-
+    
+  },
+ font: {
+    // '&.MuiFormControlLabel-root': {
+    //   // borderRadius: '16px',
+    // },
+    fontSize:'small !important',
+    marginRight:'0px !important'
   },
 
   dropdown:{

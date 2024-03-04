@@ -132,6 +132,7 @@ export function getMapData({ data, countries, organism }) {
     }
 
     const genotypes = [...new Set(countryData.map((x) => x.GENOTYPE))];
+    
     stats.GENOTYPE.count = genotypes.length;
     stats.GENOTYPE.items = genotypes.map((genotype) => {
       return {
@@ -159,7 +160,7 @@ export function getMapData({ data, countries, organism }) {
       stats.Ceftriaxone1 = getMapStatsData({ countryData, columnKey: 'Ceftriaxone', statsKey: '1' });
       stats.Azithromycin = getMapStatsData({ countryData, columnKey: 'Azithromycin', statsKey: '1' });
       const ngmast = [...new Set(countryData.map((x) => x['NG-MAST TYPE']))];
-
+      
       stats.NGMAST.count = ngmast.length;
       // console.log("countryData", statsNG.NGMAST.count)
       stats.NGMAST.items = ngmast.map((mast) => {
@@ -214,6 +215,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
   const genotypesData = years.map((year) => {
     const yearData = data.filter((x) => (x.DATE).toString() === year.toString());
+    
     const response = {
       name: year,
       count: yearData.length
@@ -506,7 +508,6 @@ export function getGenotypesData({ data, genotypes, organism }) {
     genotypesDrugClassesData[key].sort((a, b) => b.resistantCount - a.resistantCount);
     genotypesDrugClassesData[key] = genotypesDrugClassesData[key].slice(0, 10);
   });
-
   return { genotypesDrugsData, genotypesDrugClassesData };
 }
 // Get data for NG_MAST MapView
@@ -770,7 +771,7 @@ function getNGDrugClassData({ drugKey, dataToFilter }) {
 
   drugClass['None'] = dataToFilter.length - resistantData.length;
   drugClass.resistantCount = resistantData.length;
-
+  console.log("drugClass", drugClass)
   return drugClass;
   console.log("drugClass", drugClass)
 }
