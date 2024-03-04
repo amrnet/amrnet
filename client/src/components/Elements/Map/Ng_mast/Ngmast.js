@@ -104,10 +104,9 @@ const filteredData = ngmastDrugData
   )
   return (
     <Box className={`${classes.topRightControls}`}>
-      <FormControlLabel
+      <FormControlLabel className={classes.font}
       control={<Switch checked={open} onChange={handleClick} />}
-      label={open?"Click to close selector":"Click to open selector"}
-    />
+      label={open?<Typography className={classes.font} >Close genotype selector</Typography>:<Typography className={classes.font}>Open genotype selector</Typography>} />
       <Collapse  in={open}>{icon}</Collapse>
     </Box>
   );

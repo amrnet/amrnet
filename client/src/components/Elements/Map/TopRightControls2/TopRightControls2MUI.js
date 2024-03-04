@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     width:'450px',
     maxHeight:'300px',
     alignItems:"normal",
+
     // overflowY: 'auto',
     // width:'25%',
     '@media (max-width: 1000px)': {
@@ -26,6 +27,13 @@ const useStyles = makeStyles((theme) => ({
     //   position: 'relative'
     // }
     
+  },
+  font: {
+    // '&.MuiFormControlLabel-root': {
+    //   // borderRadius: '16px',
+    // },
+    fontSize:'small !important',
+    marginRight:'0px !important'
   },
 
   dropdown:{

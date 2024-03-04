@@ -102,7 +102,8 @@ export const TopRightControls2 = () => {
               <TextField
                 {...params}
                 variant="outlined"
-                placeholder={customDropdownMapView.length>0?"Type to search...":"0 genotype selected"}
+                placeholder={customDropdownMapView.length>0?"Type to search...":
+                organism==="shige"? "0 lineage selected":"0 genotype selected"}
               />
             )}
           />
@@ -113,10 +114,12 @@ export const TopRightControls2 = () => {
   )
   return (
     <Box className={`${classes.topRightControls}`}>
-      <FormControlLabel
+      <FormControlLabel className={classes.font}
       control={<Switch checked={open} onChange={handleClick} />}
-      label={open?"Click to close selector":"Click to open selector"}
-    />
+      label={organism==="shige"? 
+        open?<Typography className={classes.font}>Close lineage selector</Typography>:<Typography className={classes.font}>Open lineage selector</Typography>
+      :open?<Typography className={classes.font} >Close genotype selector</Typography>:<Typography className={classes.font}>Open genotype selector</Typography>} 
+      />
       <Collapse  in={open}>{icon}</Collapse>
     </Box>
   );

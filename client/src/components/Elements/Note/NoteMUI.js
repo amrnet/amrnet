@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   beta:{
     // width:"30px !important",
     height:"40px",
-    backgroundColor: "#99FF33 !important",
+    backgroundColor: "#ADDD8E !important",
     '@media (max-width: 500px)': {
       width:"100% !important",
     }

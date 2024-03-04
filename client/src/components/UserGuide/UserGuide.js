@@ -40,7 +40,7 @@ export const UserGuidePage = () => {
           </Typography>
           <br/>
           <Typography variant="body2" className={classes.paragraph}>
-            <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’).
+            <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the inTypographyidual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’).
           </Typography>
           <br/>
           <Divider sx={{ borderBottomWidth: 3 }}/>
@@ -50,14 +50,14 @@ export const UserGuidePage = () => {
           </Typography>
           <br/>
           <Typography variant="h6" className={classes.paragraph}>
-            Salmonella Typhi
+            <i>Salmonella</i> Typhi
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Salmonella Typhi data in AMRnet are drawn from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <i>Salmonella</i> Typhi data in AMRnet are drawn from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>, which calls AMR and <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
               GenoTyphi
-            </a> genotypes from genome assemblies. The Salmonella Typhi data in <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            </a> genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a> are curated by the <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
               Global Typhoid Genomics Consortium
@@ -69,8 +69,7 @@ export const UserGuidePage = () => {
           <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <div variant="body2" className={classes.paragraph}>
-            <ul>
+          <Typography variant="body2" className={classes.paragraph}>
               <li>
                 Genotypes: <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
                 GenoTyphi
@@ -88,36 +87,33 @@ export const UserGuidePage = () => {
                 Ingle et al, 2019
               </a>.
               </li>
-            </ul>
-          </div>
+          </Typography>
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <div variant="body2" className={classes.paragraph}>
-            <ul>
+          <Typography variant="body2" className={classes.paragraph}>
               <li>
-                MDR: multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)
+                <span className={classes.paragraphBold}>MDR:</span> multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)
               </li>
               <li>
-                XDR: extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)
+                <span className={classes.paragraphBold}>XDR:</span> extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)
               </li>
               <li>
-                Ciprofloxacin NS: ciprofloxacin non-susceptible (MIC &ge;0.06 mg/L, due to presence of one or more qnr genes or mutations in gyrA/parC/gyrB)
+                <span className={classes.paragraphBold}>Ciprofloxacin NS:</span> ciprofloxacin non-susceptible (MIC &ge;0.06 mg/L, due to presence of one or more qnr genes or mutations in gyrA/parC/gyrB)
               </li>
               <li>
-                Ciprofloxacin R: ciprofloxacin resistant (MIC &ge;0.5 mg/L, due to presence of multiple mutations and/or genes)
+                <span className={classes.paragraphBold}>Ciprofloxacin R:</span> ciprofloxacin resistant (MIC &ge;0.5 mg/L, due to presence of multiple mutations and/or genes)
               </li>
-            </ul>
-          </div>
+          </Typography>
           <br/>
           <Divider />
           <br/>
           <Typography variant="h6" className={classes.paragraph}>
-            Klebsiella pneumoniae
+            <i>Klebsiella pneumoniae</i>
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Klebsiella pneumoniae data are sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <i>Klebsiella pneumoniae</i> data are sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>, which calls AMR (using <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
               Kleborate
@@ -131,19 +127,18 @@ export const UserGuidePage = () => {
             WARNING:
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            The Klebsiella pneumoniae data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which have been largely directed at sequencing ESBL and carbapenemase-producing strains or hypervirulent strains. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
+            The <i>Klebsiella pneumoniae</i> data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which have been largely directed at sequencing ESBL and carbapenemase-producing strains or hypervirulent strains. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
           </Typography>
           <br/>
 
           <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <div variant="body2" className={classes.paragraph}>
-            <ul>
+          <Typography variant="body2" className={classes.paragraph}>
               <li>
-                Genotypes: <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>Genotypes:</span> <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
                     7-locus MLST scheme            
-                  </a> for Klebsiella pneumoniae, maintained by <a href="https://bigsdb.pasteur.fr/klebsiella/" target="_blank" rel="noreferrer">
+                  </a> for <i>Klebsiella pneumoniae</i>, maintained by <a href="https://bigsdb.pasteur.fr/klebsiella/" target="_blank" rel="noreferrer">
                 Institut Pasteur.
               </a>
               </li>
@@ -154,30 +149,27 @@ export const UserGuidePage = () => {
                 here
               </a>.
               </li>
-            </ul>
-          </div>
+          </Typography>
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <div variant="body2" className={classes.paragraph}>
-            <ul>
+          <Typography variant="body2" className={classes.paragraph}>
               <li>
-                ESBL: extended-spectrum beta-lactamase
+                <span className={classes.paragraphBold}>ESBL:</span> extended-spectrum beta-lactamase
               </li>
               <li>
-                ST: sequence type
+                <span className={classes.paragraphBold}>ST:</span> sequence type
               </li>
-            </ul>
-          </div>
+          </Typography>
           <br/>
           <Divider />
           <br/>
           <Typography variant="h6" className={classes.paragraph}>
-            Neisseria gonorrhoeae 
+            <i>Neisseria gonorrhoeae</i>
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Neisseria gonorrhoeae data are sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <i>Neisseria gonorrhoeae</i> data are sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>, which calls AMR and lineage <a href="https://pubmlst.org/neisseria/" target="_blank" rel="noreferrer">
               genotypes
@@ -197,10 +189,9 @@ export const UserGuidePage = () => {
           <Typography variant="subtitle2" className={classes.paragraph}>
             Variable definitions
           </Typography>
-          <div variant="body2" className={classes.paragraph}>
-            <ul>
+          <Typography variant="body2" className={classes.paragraph}>
               <li>
-                Genotypes: sequence types from the <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>Genotypes:</span> sequence types from the <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
                 7-locus MLST scheme            
                 </a> for Neisseria, or 2-locus N. gonorrhoeae multi-antigen sequence typing (<a href="https://doi.org/10.1086/383047" target="_blank" rel="noreferrer">
                 NG-MAST
@@ -220,24 +211,127 @@ export const UserGuidePage = () => {
                 Sánchez-Busó et al (2021)
               </a>.
               </li>
-            </ul>
-          </div>
+              <li>
+                Susceptible to cat I/II drugs - No determinants found for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category II).
+              </li>
+          </Typography>
 
           
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
             Abbreviations
           </Typography>
-          <div variant="body2" className={classes.paragraph}>
-            <ul>
+          <Typography variant="body2" className={classes.paragraph}>
               <li>
-                MDR: multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
+                <span className={classes.paragraphBold}>MDR:</span> multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
               </li>
               <li>
-                XDR: extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
+                <span className={classes.paragraphBold}>XDR:</span> extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
               </li>
-            </ul>
-          </div>
+          </Typography>
+          <br/>
+          <Divider sx={{ borderBottomWidth: 3 }}/>
+          <br/>
+
+          <Typography variant="h6" className={classes.paragraph}>
+            <i>Shigella</i> + EIEC 
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+            <i>Shigella</i> and enteroinvasive <i>E. coli</i> (EIEC) data in AMRnet are drawn from Enterobase, which calls AMR genotypes using NCBI’s AMRFinderPlus and assigns lineages using cgMLST and hierarchical clustering. Last update: January 24th 2024.
+          </Typography>
+          
+          <br/>
+          <Typography variant="subtitle2" className={classes.paragraph}>
+            WARNING:
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+            The <i>Shigella</i> + EIEC data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
+          </Typography>
+          <br/>
+          <Typography variant="subtitle2" className={classes.paragraph}>
+            Variable definitions
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+              <li>
+                <span className={classes.paragraphBold}>Lineages:</span> The logic used by Enterobase to classify genomes as Shigella or EIEC are detailed here. Shigella sonnei are monophyletic and labelled as lineage ‘S. sonnei’. For other Shigella, lineages are labeled by the species followed by the HC400 (HierCC) cluster ID (as this nomenclature has been shown to mirror the paraphyletic lineage structure of Shigella). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).
+              </li>
+              <li>
+                <span className={classes.paragraphBold}>AMR determinants:</span> Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in refgenes.
+              </li>
+          </Typography>
+          
+          <br/>
+          <Divider />
+          <br/>
+
+          <Typography variant="h6" className={classes.paragraph}>
+            Diarrheagenic<i> E. coli</i>
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+            Diarrheagenic <i>E. coli</i> data in AMRnet are drawn from Enterobase, which calls AMR genotypes using NCBI’s AMRFinderPlus and assigns lineages using MLST, cgMLST and hierarchical clustering. The logic used by Enterobase to classify <i>E. coli</i> genomes to pathotypes is shown here. Pathotypes included in the diarrheagenic <i>E. coli</i> dashboard are:
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+              <li>Shiga toxin-producing <i>E. coli</i> (STEC)</li>
+              <li>Enterohemorrhagic <i>E. coli</i> (EHEC)</li>
+              <li>Enterotoxigenic <i>E. coli</i> (ETEC)</li>
+              <li>Enteropathogenic <i>E. coli</i> (EPEC)</li>
+              <li>Enteroinvasive <i>E. coli</i> (EIEC)</li>
+          </Typography>
+          <br/>
+          <Typography variant="body2" className={classes.paragraph}>
+            Last update: January 24th 2024
+          </Typography>
+          
+          <br/>
+          <Typography variant="subtitle2" className={classes.paragraph}>
+            WARNING:
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+            The <i>E. coli</i> data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
+          </Typography>
+          <br/>
+          <Typography variant="subtitle2" className={classes.paragraph}>
+            Variable definitions
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+              <li>
+                <span className={classes.paragraphBold}>Lineages:</span> Lineages are labeled by the pathovar followed by the (7-locus) ST.
+              </li>
+              <li>
+                <span className={classes.paragraphBold}>AMR determinants:</span> Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in refgenes.
+              </li>
+          </Typography>
+          
+          <br/>
+          <Divider/>
+          <br/>
+          <Typography variant="h6" className={classes.paragraph}>
+            Invasive Non-Typhoidal <i>Salmonella</i>
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+            Invasive non-typhoidal Salmonella (iNTS) data in AMRnet are drawn from Enterobase, which calls AMR genotypes using NCBI’s AMRFinderPlus, assigns lineages using MLST, cgMLST and hierarchical clustering, and assigns serotypes using SISTR. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for &gt;90% of iNTS), and identifies lineages thereof using MLST. Last update: January 24th 2024.
+          </Typography>
+          
+          <br/>
+          <Typography variant="subtitle2" className={classes.paragraph}>
+            WARNING:
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+            The iNTS data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
+          </Typography>
+          <br/>
+          <Typography variant="subtitle2" className={classes.paragraph}>
+            Variable definitions
+          </Typography>
+          <Typography variant="body2" className={classes.paragraph}>
+              <li>
+                <span className={classes.paragraphBold}>Lineages:</span> Lineages are labeled by the serotype followed by the (7-locus) ST.
+              </li>
+              <li>
+                <span className={classes.paragraphBold}>AMR determinants:</span> Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in refgenes.
+              </li>
+          </Typography>
+          
           <br/>
           <Divider sx={{ borderBottomWidth: 3 }}/>
           <br/>
