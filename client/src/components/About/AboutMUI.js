@@ -19,10 +19,17 @@ const useStyles = makeStyles((theme) => ({
   teamMember:{
     width: 270, 
     height: 200, 
-    border:"2px solid gray", 
+    // border:"2px solid purple", 
     borderRadius:"5px",
     padding:"20px",
-    margin:"20px !important"
+    margin:"20px !important",
+    backgroundColor:"#FCF5FA",
+    textAlign:"center",
+  },
+  teamPost:{
+    textAlign:"center",
+    color:"blue",
+    // fontSize:"10px"
   }
 }));
 
