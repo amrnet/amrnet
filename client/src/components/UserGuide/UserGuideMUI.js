@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px 2%'
   },
   paragraph: {
-    textAlign: 'justify'
+    textAlign: 'justify',
+    fontSize:'10px'
   },
   paragraphBold: {
     fontWeight: '550'
