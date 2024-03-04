@@ -35,7 +35,8 @@ import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 export const Graphs = () => {
   const classes = useStyles();
-  const matches500 = useMediaQuery('(max-width:500px)');
+  const matches1000 = useMediaQuery('(max-width:1000px)');
+   const matches750 = useMediaQuery('(max-width:750px)');
   const [showAlert, setShowAlert] = useState(false);
   const [chartLoadings, setCharLoadings] = useState({
     frequencies: false,
@@ -218,7 +219,7 @@ export const Graphs = () => {
       ctx.textAlign = 'start';
       ctx.font = '12px Montserrat';
 
-      const mobileFactor = matches500 ? 100 : 0;
+      const mobileFactor = matches1000 ? 100 : 0;
       if ('RFWG'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
