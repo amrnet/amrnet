@@ -79,7 +79,7 @@ export const BottomRightControls = () => {
         }else if (organism === 'shige') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 80);
         }else if (organism === 'sentericaints') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 90);
         }else {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
         }
