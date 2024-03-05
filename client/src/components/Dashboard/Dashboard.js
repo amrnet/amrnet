@@ -150,7 +150,7 @@ export const DashboardPage = () => {
     if (organism === 'kpneumo') {
       //console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
-      dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+      // dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
 
       const KODiversityData = getKODiversityData({ data: responseData });
       dispatch(setKODiversityData(KODiversityData));
@@ -168,7 +168,7 @@ export const DashboardPage = () => {
     if (organism === 'ngono') {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
-      dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+      // dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
       const years = [...new Set(responseData.map((x) => x.DATE))];
       const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
       years.sort();
@@ -184,6 +184,9 @@ export const DashboardPage = () => {
       dispatch(setCountriesForFilter(countries));
       console.log("NGMAST",)
       
+    }
+    if(organism !== "styphi"){
+      dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
