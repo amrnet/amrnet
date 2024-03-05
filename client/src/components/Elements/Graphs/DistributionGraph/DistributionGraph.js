@@ -74,7 +74,7 @@ export const DistributionGraph = () => {
 //  const updateSlider = (value) =>{
 //   setCurrentSliderValue(value);
 //  };
-console.log("genotypesYearData", genotypesYearData)
+
   useEffect(() =>{
       let mp = new Map(); //mp = total count of a genotype in database(including all years)
       genotypesYearData.forEach(cur => {

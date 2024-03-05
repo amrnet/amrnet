@@ -22,15 +22,15 @@ export const SelectCountry = () => {
       <CardContent className={classes.cardContent}>
         <Typography variant="h5" fontWeight={700}>
           {`Detailed plots for selected: ${
-            organism === 'none'
-              ? ''
-              : `${dataset} data from ${actualCountry === 'All' ? 'all countries' : actualCountry} from ${
-                  actualTimeInitial || 'year'
-                } to ${actualTimeFinal || 'year'}`
+            organism === 'styphi'
+              ? `${dataset} data from ${actualCountry === 'All' ? 'all countries' : actualCountry} from ${
+                actualTimeInitial
+              } to ${actualTimeFinal}`
+              : `data from ${actualCountry === 'All' ? 'all countries' : actualCountry}`
           }`}
         </Typography>
         <Typography variant="subtitle1" fontWeight={500}>
-          Select country (or click map)
+        Select or click on a focus country to view details in the plots below
         </Typography>
         <Select
           variant="standard"

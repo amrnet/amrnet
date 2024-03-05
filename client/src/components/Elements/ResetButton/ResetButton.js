@@ -24,7 +24,7 @@ import {
   setNgmastDrugsData,
   setCustomDropdownMapViewNG
 } from '../../../stores/slices/graphSlice';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
 import {
   getGenotypesData,
   getNgmastData
@@ -75,13 +75,8 @@ export const ResetButton = (props) => {
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
     } else if(organism === 'ngono'){
       dispatch(setMapView('No. Samples'));
-      dispatch(setDrugResistanceGraphView(drugsKP));
-      dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsKPGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsKPGraphView('number'));
-      dispatch(setKODiversityGraphView('K_locus'));
-      dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
-      dispatch(setConvergenceColourVariable('DATE'));
+      dispatch(setDrugResistanceGraphView(drugsNG));
+      dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));

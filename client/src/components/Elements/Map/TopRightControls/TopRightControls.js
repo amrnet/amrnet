@@ -12,8 +12,8 @@ const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
-const ExcludedView = ['Genotype prevalence', 'NG-MAST prevalence'];
-const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Genotype prevalence', 'NG-MAST prevalence'];
+const ExcludedView = ['Genotype prevalence', 'NG-MAST prevalence', 'Lineage prevalence'];
+const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Genotype prevalence', 'NG-MAST prevalence', 'Lineage prevalence'];
 
 export const TopRightControls = () => {
   const classes = useStyles();
@@ -27,7 +27,7 @@ export const TopRightControls = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   function handleChangeMapView(event) {
-    if(event.target.value === 'Genotype prevalence' || event.target.value === 'NG-MAST prevalence')
+    if(event.target.value === 'Genotype prevalence' || event.target.value === 'NG-MAST prevalence' || event.target.value === 'Lineage prevalence')
       dispatch(setIfCustom(true));
     else
       dispatch(setIfCustom(false));
@@ -60,6 +60,7 @@ export const TopRightControls = () => {
         return getDominantGenotypeSteps();
       case 'NG-MAST prevalence':
       case 'Genotype prevalence':
+      case 'Lineage prevalence':
         return gradientStyle;
       default:
         return generalSteps;
@@ -92,7 +93,7 @@ export const TopRightControls = () => {
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.label}>
-            <Typography variant="caption">Select map view</Typography>
+            <Typography variant="caption">Colour country by</Typography>
             <Tooltip
               title="Percentage frequency data is shown only for countries with
           N≥20 genomes"

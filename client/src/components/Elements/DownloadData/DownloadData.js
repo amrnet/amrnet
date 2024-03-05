@@ -190,7 +190,14 @@ export const DownloadData = () => {
   function drawFooter({ document, pageHeight, pageWidth, date }) {
     document.setFontSize(10);
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
-    document.text(`Source: amr.net [${date}]`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+    document.text(`Source: amrnet.org`, 16, pageHeight - 10, { align: 'left' });
+  }
+
+  function drawHeader({ document, pageWidth}) {
+    document.setFontSize(8);
+    document.line(0, 26, pageWidth, 26);
+    document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 16, 10, { align: 'left', maxWidth: pageWidth - 16  });
+    document.setFontSize(12);
   }
 
   // function drawHeader({ document, pageWidth}) {
@@ -212,7 +219,7 @@ export const DownloadData = () => {
     xSpace,
     twoPages = false,
     threePages = false,
-    factorMultiply = 3
+    factorMultiply = organism === 'ngono'?6:3,
   }) {
     let firstLegendData = legendData.slice();
     let secondLegendData = [];
@@ -278,11 +285,11 @@ export const DownloadData = () => {
             ? convergenceColourPallete[legend]
             : legend.color
         );
-        document.circle(50 + xFactor, 24 + yFactor, 2.5, 'F');
+        document.circle(50 + xFactor, 34 + yFactor, 2.5, 'F');
         document.text(
           isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : legend.name,
           56 + xFactor,
-          26 + yFactor
+          36 + yFactor
         );
       });
     }
@@ -315,7 +322,7 @@ export const DownloadData = () => {
       const logo = new Image();
       logo.src = LogoImg;
       const logoWidth = 80;
-      doc.addImage(logo, 'PNG', 16, 16, logoWidth, 41, undefined, 'FAST');
+      doc.addImage(logo, 'PNG', 16, 36, logoWidth, 41, undefined, 'FAST');
 
 
       let texts;
@@ -331,8 +338,7 @@ export const DownloadData = () => {
         firstName = "Klebsiella";
         secondName = "pneumoniae";
         secondword = 330;
-
-      } else if (organism === 'ngono') {
+      }else if (organism === 'ngono') {
         console.log("organism", organism)
         texts = getNgonoTexts();
         firstName = "Neisseria";
@@ -341,25 +347,26 @@ export const DownloadData = () => {
       }
 
       // Title and Date
+      drawHeader({ document: doc, pageWidth});
       doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text("Global Overview of", 177, 24, { align: 'center' });
+      doc.text("AMRnet Report for", 177, 44, { align: 'center' });
       doc.setFont(undefined, "bolditalic");
-      doc.text(firstName, 264, 24, { align: 'center' });
+      doc.text(firstName, 264, 44, { align: 'center' });
       doc.setFont(undefined, "bold");
-      doc.text(secondName, secondword, 24, { align: 'center' });
+      doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
-      doc.text(date, pageWidth / 2, 48, { align: 'center' });
-      // drawHeader({ document: doc, pageWidth});
+      doc.text(date, pageWidth / 2, 68, { align: 'center' });
+      
 
       if (organism === 'styphi') {
         let list = PMID.filter((value)=> value !== "-")
         let pmidSpace, dynamicText;
         if (actualCountry === 'All'){
           pmidSpace = 0;
-          dynamicText = `TyphiNET presents data aggregated from >100 studies. Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
         }else{
           list = listPIMD.filter((value)=> value !== "-")
-          dynamicText = `TyphiNET presents data aggregated from >100 studies. Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
+          dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(', ')}.`
           const textWidth = doc.getTextWidth(dynamicText);
           
           const widthRanges = [815, 1200, 1600, 2000, 2400];
@@ -368,37 +375,37 @@ export const DownloadData = () => {
             // Find the appropriate pmidSpace based on textWidth
             pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
           }
-        doc.text(dynamicText,16, 185,{ align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(dynamicText,16, 205,{ align: 'left', maxWidth: pageWidth - 36 });
         
         // Info
         
-        doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[0], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[1], 16, 135, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[1], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[2], 16, 155, { align: 'left', maxWidth: pageWidth - 36});
-        doc.text(texts[3], 16, 265+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[2], 16, 175, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[3], 16, 285+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[4], 16, 305+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 325+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[5], 16, 325+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[6], 16, 355+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[7], 16, 385+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 345+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 375+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 405+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[8], 16, 415+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 16, 435+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[9], 16, 435+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[10], 16, 465+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[11], 16, 485+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 455+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 16, 485+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 505+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text("qnr", 16, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text("qnr", 16, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[12], 32, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 32, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text("gyrA/parC/gyrB", 122, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text("gyrA/parC/gyrB", 122, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[13], 185, 495+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[14], 16, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 185, 515+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 535+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFontSize(10).setFont(undefined, 'bold');
         doc.text(texts[15], 16, pageHeight-60, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
@@ -407,118 +414,171 @@ export const DownloadData = () => {
         euFlag.src = EUFlagImg;
         doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
       }else if (organism === 'kpneumo') {
-
         // Info
         let newLine = 10;
         let kleb = 92;
-
-        doc.text(texts[0], 16, 85, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[1], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[1], 16, 125, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[2], 16, 115, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[2], 16, 145, { align: 'justify', maxWidth: pageWidth - 36});
         doc.setFont(undefined, "italic");
-        doc.text(texts[3], 155, 125, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[3], 155, 155, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[4], 247, 125, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 247, 155, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text(texts[5], 16, 145, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 175, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[6], 108, 145, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[7], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'bold').setTextColor(255,0,0);
-        doc.text(texts[8], 16, 185, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 108, 175, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold').setTextColor(108, 57, 184);
+        doc.text(texts[8], 16, 215, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[9], 16, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text(texts[10], 35, 195, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 35, 225, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-
-        doc.text(texts[11], 35+kleb, 195, { align: 'left', maxWidth: pageWidth - 36 });
-
-        doc.text(texts[12], 16, 205, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[13], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[14], 16, 225, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[15], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 35+kleb, 225, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 235, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.text(texts[13], 16, 235, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.text(texts[14], 16, 245, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.text(texts[15], 16, 255, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text(texts[16], 240, 235, { align: 'left', maxWidth: pageWidth - 36 });
-
-        doc.setFont(undefined, 'normal');
-
-        doc.text(texts[17], 332, 235, { align: 'left', maxWidth: pageWidth - 36});
-        doc.text(texts[18], 16, 245, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 240, 265, { align: 'justify', maxWidth: pageWidth - 36 });
+         doc.setFont(undefined, 'normal');
+        doc.text(texts[14], 332, 265, { align: 'justify', maxWidth: pageWidth - 36});
+        doc.text(texts[15], 16, 275, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text(texts[19], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[16], 16, 305, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[20], 200, 275, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[21], 16, 285, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[17], 198, 305, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[18], 16, 315, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setTextColor(0,0,0)
-        doc.text(texts[22], 16, 305, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[19], 16, 335, { align: 'justify', maxWidth: pageWidth - 36 });
 
-        doc.text(texts[23], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[20], 16, 365, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
-        doc.text(texts[24], 60, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[21], 60, 365, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-
-        doc.text(texts[25], 60+kleb, 335, { align: 'left', maxWidth: pageWidth - 36 });
-
+        doc.text(texts[22], 60+kleb, 365, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[26], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[23], 16, 385, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[27], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[28], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
-
-        doc.text(texts[29], 16+kleb, 375, { align: 'left', maxWidth: pageWidth - 36 });
-
-        doc.text(texts[30], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[31], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[24], 16, 395, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[25], 16, 405, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[26], 16+kleb, 405, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[27], 16, 415, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[28], 16, 445, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[32], 16, 455, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[29], 16, 485, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[33], 16, 465, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[34], 16, 475, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[35], 16, 485, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[30], 16, 495, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[31], 16, 505, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[32], 16, 515, { align: 'justify', maxWidth: pageWidth - 36 });
         // const euFlag = new Image();
         // euFlag.src = EUFlagImg;
         // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
       }else if (organism === 'ngono') {
+        let list = PMID.filter((value)=> value !== "-")
+        let pmidSpace, dynamicText;
+        if (actualCountry === 'All'){
+          pmidSpace = 0;
+          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs):Data are drawn from studies with ${list.join(', ')}.`
+        }else{
+          list = listPIMD.filter((value)=> value !== "-")
+          dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(', ')}.`
+        }
+        const textWidth = doc.getTextWidth(dynamicText);
+        const widthRanges = [410, 820, 1230, 1640, 2050, 2460, 2870];
+        const pmidSpaces = [10, 20, 30, 40, 50, 60, 70, 80];          
 
-      }
+        // Find the appropriate pmidSpace based on textWidth
+        pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
+
+        doc.text(dynamicText,16, 255,{ align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[0], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[1], 16, 125, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 16, 145, { align: 'left', maxWidth: pageWidth - 36});
+        doc.text(texts[3], 16, 175, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[4], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[5], 112, 215, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 225, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'bold');
+      
+        doc.text(texts[7], 16, 275+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[8], 16, 315+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[9], 56, 315+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[10], 150, 315+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[11], 16, 335+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[12], 16, 355+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[13], 32, 365+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 74, 365+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 16, 375+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, "italic");
+        doc.text(texts[16], 170, 375+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 240, 375+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[18], 16, 385+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[19], 16, 415+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[20], 16, 445+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold')
+        doc.text(texts[21], 16, 485+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[22], 16, 505+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[23], 16, 545+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        
+        drawFooter({ document: doc, pageHeight, pageWidth, date });
+        doc.addPage();
+        drawHeader({ document: doc, pageWidth});
+        doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[25], 16, 86, { align: 'left', maxWidth: pageWidth - 36 });
+      } 
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       // Map
       doc.addPage();
+      drawHeader({ document: doc, pageWidth});
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text("Global Overview of", 177, 24, { align: 'center' });
+      doc.text("Global Overview of", 177, 44, { align: 'center' });
       doc.setFont(undefined, "bolditalic");
-      doc.text(firstName, 264, 24, { align: 'center' });
+      doc.text(firstName, 264, 44, { align: 'center' });
       doc.setFont(undefined, "bold");
-      doc.text(secondName, secondword, 24, { align: 'center' });
+      doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
-      doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 40, { align: 'center' });
-      doc.text(`Country: ${actualCountry}`, pageWidth / 2, 52, { align: 'center' });
-      doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, pageWidth / 2, 64, { align: 'center' });
-      doc.line(16, 76, pageWidth - 16, 76);
+      doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 60, { align: 'center' });
+      doc.text(`Country: ${actualCountry}`, pageWidth / 2, 72, { align: 'center' });
+      doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, pageWidth / 2, 84, { align: 'center' });
+      doc.line(16, 96, pageWidth - 16, 96);
 
       doc.setFont(undefined, 'bold');
-      doc.text('Map', 16, 96);
+      doc.text('Map', 16, 116);
       doc.setFont(undefined, 'normal');
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
-      doc.text(`Map View: ${actualMapView}`, 16, 108);
-      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 120);
+      doc.text(`Map View: ${actualMapView}`, 16, 128);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
       if(mapView === 'Genotype prevalence'){
         if (customDropdownMapView.length === 1) {
-          doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 140);
+          doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 160);
         } else if(mapView === 'NG-MAST prevalence'){
-          doc.text('Selected NG-MAST TYPE: ' + customDropdownMapView, 16, 140);
+          doc.text('Selected NG-MAST TYPE: ' + customDropdownMapView, 16, 160);
         }else if (customDropdownMapView.length > 1) {
             const genotypesText = customDropdownMapView.join('\n');
-            doc.text('Selected Genotypes: \n' + genotypesText, 16, 140);
+            doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
         }
       }
-      let mapY = 160 + (customDropdownMapView.length*9);
+      let mapY = 180 + (customDropdownMapView.length*9);
       await svgAsPngUri(document.getElementById('global-overview-map'), {
         // scale: 4,
         backgroundColor: 'white',
@@ -560,13 +620,14 @@ export const DownloadData = () => {
           break;
       }
       if (mapView === 'Dominant Genotype') {
-        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, 351, legendWidth, 47, undefined, 'FAST');
+        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, 371, legendWidth, 47, undefined, 'FAST');
       } else {
-        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5 , 85, legendWidth, 47, undefined, 'FAST');
+        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5 , 105, legendWidth, 47, undefined, 'FAST');
       }
 
       // Graphs
       const isKlebe = organism === 'kpneumo';
+      const isNgono = organism === 'ngono';
 
       const cards = getOrganismCards();
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP :drugsNG;
@@ -585,6 +646,7 @@ export const DownloadData = () => {
           continue;
         }
         doc.addPage();
+        drawHeader({ document: doc, pageWidth});
         drawFooter({ document: doc, pageHeight, pageWidth, date });
 
         let title = `${cards[index].title}`;
@@ -608,28 +670,28 @@ export const DownloadData = () => {
         }
 
         doc.setFontSize(12).setFont(undefined, 'bold');
-        doc.text(title, 16, 24);
+        doc.text(title, 16, 44);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 36);
+        doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 56);
         doc.setFontSize(12);
-        doc.text(`Total: ${actualGenomes} genomes`, 16, 54);
-        doc.text(`Country: ${actualCountry}`, 16, 66);
-        doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 78);
-        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 90);
+        doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        doc.text(`Country: ${actualCountry}`, 16, 86);
+        doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 110);
 
         const graphImg = document.createElement('img');
         const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
         await graphImgPromise;
         if (graphImg.width <= 741) {
-          doc.addImage(graphImg, 'PNG', 16, 110, undefined, undefined,undefined, 'FAST');
+          doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined,undefined, 'FAST');
         } else {
-          doc.addImage(graphImg, 'PNG', 16, 110, pageWidth - 80, 271, undefined, 'FAST');
+          doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
 
         doc.setFillColor(255, 255, 255);
-        const rectY = matches500 ? 300 : 320;
+        const rectY = matches500 ? 320 : 340;
         doc.rect(0, rectY, pageWidth, 200, 'F');
 
         doc.setFontSize(9);
@@ -662,7 +724,8 @@ export const DownloadData = () => {
             twoPages: isKlebe
           });
 
-          if (isKlebe) {
+          if (isKlebe || isNgono) {
+            drawHeader({ document: doc, pageWidth});
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         } else if (cards[index].id === 'GD') {
@@ -673,8 +736,12 @@ export const DownloadData = () => {
             rectY,
             xSpace: 65,
             isGenotype: true,
-            // twoPages: isKlebe
+            twoPages: isNgono
           });
+          if (isKlebe || isNgono) {
+            drawHeader({ document: doc, pageWidth});
+            drawFooter({ document: doc, pageHeight, pageWidth, date });
+          }
         } else if (cards[index].id === 'CERDT') {
           const legendGenotypes = genotypesForFilter.map((genotype) => {
             return { name: genotype, color: getGenotypeColor(genotype) };
@@ -689,6 +756,7 @@ export const DownloadData = () => {
             xSpace: 127,
             twoPages: true
           });
+          drawHeader({ document: doc, pageWidth});
           drawFooter({ document: doc, pageHeight, pageWidth, date });
 
           drawLegend({
@@ -700,7 +768,7 @@ export const DownloadData = () => {
             xSpace: 127,
             threePages: false,
           });
-          
+          drawHeader({ document: doc, pageWidth});
           drawFooter({ document: doc, pageHeight, pageWidth, date });
         } else if (cards[index].id === 'KO') {
           drawLegend({
@@ -728,12 +796,13 @@ export const DownloadData = () => {
           });
 
           if (isKlebe) {
+            drawHeader({ document: doc, pageWidth});
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         }
       }
 
-      doc.save('AMRnet - Report.pdf');
+      doc.save(`AMRnet ${firstName} ${secondName} Report.pdf`);
     } catch (error) {
       setShowAlert(true);
     } finally {
