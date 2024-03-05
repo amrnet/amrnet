@@ -643,10 +643,10 @@ export const DownloadData = () => {
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
 
       for (let index = 0; index < cards.length; index++) {
-        if ((graphCards[index].id === 'DRT' && (drugResistanceGraphView.length === 0 || captureDRT === false ))||
-        (graphCards[index].id === 'RFWG' && captureRFWG === false )||
-        (graphCards[index].id === 'RDWG' && captureRDWG === false ) ||
-        (graphCards[index].id === 'GD' && captureGD === false )){
+        if ((cards[index].id === 'DRT' && (drugResistanceGraphView.length === 0 || captureDRT === false ))||
+        (cards[index].id === 'RFWG' && captureRFWG === false )||
+        (cards[index].id === 'RDWG' && captureRDWG === false ) ||
+        (cards[index].id === 'GD' && captureGD === false )){
           continue;
         }
         doc.addPage();
@@ -699,7 +699,7 @@ export const DownloadData = () => {
         doc.rect(0, rectY, pageWidth, 200, 'F');
 
         doc.setFontSize(9);
-        if (graphCards[index].id === 'RFWG') {
+        if (cards[index].id === 'RFWG') {
           drawLegend({
             document: doc,
             legendData: legendDrugs,
@@ -708,7 +708,7 @@ export const DownloadData = () => {
             xSpace: (legendDrugs.length>12 ? 200 : 100),
             isDrug: true
           });
-        }else if (graphCards[index].id === 'DRT') {
+        }else if (cards[index].id === 'DRT') {
           drawLegend({
             document: doc,
             legendData: drugResistanceGraphView,
@@ -717,7 +717,7 @@ export const DownloadData = () => {
             xSpace: 200,
             isDrug: true
           });
-        } else if (graphCards[index].id === 'RDWG') {
+        } else if (cards[index].id === 'RDWG') {
 
           drawLegend({
             document: doc,
