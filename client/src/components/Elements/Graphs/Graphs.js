@@ -112,13 +112,13 @@ export const Graphs = () => {
         ? convergenceColourPallete[legend]
         : legend.color;
       context.beginPath();
-      context.arc(102 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
+      context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
       context.fillStyle = 'black';
       context.fillText(
         isGenotype || isDrug || isVariable ? legend : legend.name,
-        111 + xFactor,
+        61 + xFactor,
         yPosition + 4 - mobileFactor + yFactor
       );
     });
@@ -142,7 +142,18 @@ export const Graphs = () => {
         alert("No data to download");
         return;
     }
-    
+
+    let orgBasedColumns, orgBasedSpace;
+    if(organism === 'styphi' || organism === 'kpneumo' || organism === 'sentericaints' || organism === 'senterica'){
+      orgBasedColumns= 9;
+      orgBasedSpace = 87;
+    }else if (organism === 'shige'){
+      orgBasedColumns= 5;
+      orgBasedSpace = 180;
+    }else{
+      orgBasedColumns= 6;
+      orgBasedSpace = 140;
+    }
 
     try {
       const canvas = document.createElement('canvas');
@@ -161,7 +172,9 @@ export const Graphs = () => {
         drugClassesFactor,
         genotypesFactor,
         variablesFactor;
-        
+
+
+      
       if (['RFWG', 'DRT'].includes(card.id)) {
         heightFactor = 250;
       } else if (['RDWG', 'CERDT'].includes(card.id)) {
@@ -169,7 +182,7 @@ export const Graphs = () => {
         drugClassesFactor = Math.ceil(drugClassesBars.length / 4);
         heightFactor += drugClassesFactor * 22;
       } else if (card.id === 'GD') {
-        genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
+        genotypesFactor = Math.ceil(genotypesForFilter.length / orgBasedColumns);
         heightFactor += genotypesFactor * 22;
       } else if (card.id === 'CERDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
@@ -265,7 +278,7 @@ export const Graphs = () => {
           mobileFactor,
           yPosition: 670,
           isGenotype: true,
-          xSpace: 87
+          xSpace: orgBasedSpace,
         });
       } else if (card.id === 'CERDT') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
