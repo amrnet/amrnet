@@ -79,7 +79,7 @@ export const BottomRightControls = () => {
         }else if (organism === 'shige') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 80);
         }else if (organism === 'sentericaints') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 90);
         }else {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
         }
@@ -110,6 +110,14 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
           }
         }
+        if(mapView === 'Lineage prevalence'){
+          if (customDropdownMapView.length === 1) {
+            ctx.fillText('Selected Lineage: ' + customDropdownMapView, canvas.width / 2, 290);
+          } else if (customDropdownMapView.length > 1) {
+            const genotypesText = customDropdownMapView.join(', ');
+            ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
         ctx.drawImage(mapImg, 0, textHeight+50, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
@@ -129,6 +137,7 @@ export const BottomRightControls = () => {
             break;
           case 'NG-MAST prevalence':
           case 'Genotype prevalence':
+          case 'Lineage prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
           default:
