@@ -313,42 +313,44 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             genotypesAndDrugsData[key].push(item);
           });
       
-  }else if (organism === 'shige') {
-    // For drugsData
-    drugRulesSH.forEach((rule) => {
-      const drugData = yearData.filter((x) => rule.columnIDs.some((columnID) => x[columnID] !== '-'));
-      drugStats[rule.key] = drugData.length;
-    });
+        }else if (organism === 'shige') {
+          // For drugsData
+          drugRulesSH.forEach((rule) => {
+            const drugData = yearData.filter((x) => rule.columnIDs.some((columnID) => x[columnID] !== '-'));
+            drugStats[rule.key] = drugData.length;
+          });
 
-    // const susceptible = yearData.filter((x) => x.nonsus === '0');
-    // drugStats['Susceptible'] = susceptible.length;
+          // const susceptible = yearData.filter((x) => x.nonsus === '0');
+          // drugStats['Susceptible'] = susceptible.length;
 
-    // For genotypesAndDrugsData
-        Object.keys(drugClassesRulesSH).forEach((key) => {
-          const filteredGenotypes = Object.fromEntries(
-            Object.entries(stats)
-              .sort(([, a], [, b]) => b - a)
-              .slice(0, 10)
-          );
+          // For genotypesAndDrugsData
+              Object.keys(drugClassesRulesSH).forEach((key) => {
+                const filteredGenotypes = Object.fromEntries(
+                  Object.entries(stats)
+                    .sort(([, a], [, b]) => b - a)
+                    .slice(0, 10)
+                );
 
-          genotypesAndDrugsDataUniqueGenotypes[key].push.apply(
-            genotypesAndDrugsDataUniqueGenotypes[key],
-            Object.keys(filteredGenotypes)
-          );
+                genotypesAndDrugsDataUniqueGenotypes[key].push.apply(
+                  genotypesAndDrugsDataUniqueGenotypes[key],
+                  Object.keys(filteredGenotypes)
+                );
 
-          const drugClass = getSHDrugClassData({ drugKey: key, dataToFilter: yearData });
+                const drugClass = getSHDrugClassData({ drugKey: key, dataToFilter: yearData });
 
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: response.count };
-          delete item.count;
+                const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: response.count };
+                delete item.count;
 
-          genotypesAndDrugsData[key].push(item);
-        });
-      }
+                genotypesAndDrugsData[key].push(item);
+              });
+        }
 
       drugsData.push({ ...response, ...drugStats });
       }
     }
-    if ((organism === 'kpneumo' && getUniqueGenotypes) || (organism === 'ngono' && getUniqueGenotypes)) {
+    // if ((organism === 'kpneumo' && getUniqueGenotypes) || (organism === 'ngono' && getUniqueGenotypes) || (organism === 'ecoli' && getUniqueGenotypes)) {
+      if (getUniqueGenotypes) {
+
       const sortedStats = Object.fromEntries(
         Object.entries(stats)
           .sort(([, a], [, b]) => b - a)
