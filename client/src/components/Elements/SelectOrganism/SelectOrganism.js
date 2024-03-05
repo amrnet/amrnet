@@ -20,31 +20,31 @@ const organisms = [
     value: 'ngono',
     abbr: 'N. gonorrhoeae'
   },
+  // {
+  //   label: 'Escherichia coli',
+  //   value: 'ecoli',
+  //   abbr: 'E. coli'
+  // },
   {
-    label: 'Escherichia coli',
-    value: 'ecoli',
-    abbr: 'E. coli'
-  },
-  {
-    label: 'Diarrhoeagenic E.coli',
+    label: 'Diarrheagenic E. coli',
     value: 'decoli',
-    abbr: 'Dia. E.coli'
+    abbr: 'DEC'
   },
   {
-    label: 'Shigella+EIEC',
+    label: 'Shigella + EIEC',
     value: 'shige',
     abbr: 'Shigella+EIEC'
   },
   {
-    label: 'Invasive Non-Typhoidal Salmonella',
+    label: 'invasive non-typhoidal Salmonella',
     value: 'sentericaints',
-    abbr: 'INTS'
-  },
-  {
-    label: 'Salmonella enterica',
-    value: 'senterica',
-    abbr: 'S. enterica'
+    abbr: 'iNTS'
   }
+  // {
+  //   label: 'Salmonella enterica',
+  //   value: 'senterica',
+  //   abbr: 'S. enterica'
+  // }
 ];
 
 export const SelectOrganism = () => {

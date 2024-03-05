@@ -31,7 +31,16 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints']
+    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'senterica', 'decoli', 'sentericaints']
+  },
+  {
+    //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
+    collapse: 'distribution',
+    title: 'Lineage prevalence',
+    description: [''],
+    icon: <StackedBarChart color="primary" />,
+    id: 'GD',
+    organisms: ['shige']
   },
   {
     collapse: 'trendsKP',

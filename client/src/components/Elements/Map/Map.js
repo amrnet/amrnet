@@ -29,7 +29,8 @@ const statKey = {
   Ciprofloxacin: 'Ciprofloxacin',
   ESBL_category: 'Ceftriaxone',
   Azithromycin: 'Azithromycin',
-  Ceftriaxone: 'Ceftriaxone1',
+  //TODO check this variable
+  Ceftriaxone: 'Ceftriaxone',
   Carb: 'Carb'
 };
 
@@ -96,7 +97,7 @@ export const Map = () => {
                     Genotypes: countryStats.GENOTYPE.count,
                     // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
                     // Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
-                    // Ceftriaxone1: `${countryStats.Ceftriaxone.percentage}%`,
+                    // CeftriaxoneNG: `${countryStats.Ceftriaxone.percentage}%`,
                     // ESBL: `${countryStats.ESBL.percentage}%`,
                     // Carb: `${countryStats.Carb.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`
@@ -109,7 +110,7 @@ export const Map = () => {
             tooltip.content[genotype.name] = genotype.count;
           });
           break;
-          case 'NG-MAST prevalence':
+        case 'NG-MAST prevalence':
             let percentCounterNG = 0;        
             const genotypesNG = countryStats.NGMAST.items;
             let genotypesNG2 = [];
@@ -135,6 +136,7 @@ export const Map = () => {
             }
           break;
         case 'Genotype prevalence':
+        case 'Lineage prevalence':
             let percentCounter = 0;        
             const genotypes1 = countryStats.GENOTYPE.items;
             let genotypes2 = [];
@@ -202,7 +204,7 @@ export const Map = () => {
   }
 
   function showPercentage() {
-    return !['Dominant Genotype','Genotype prevalence','No. Samples'].includes(mapView);
+    return !['Dominant Genotype','Genotype prevalence','No. Samples', 'NG-MAST prevalence', 'Lineage prevalence'].includes(mapView);
   }
 
   return (
@@ -213,30 +215,21 @@ export const Map = () => {
           {organism === 'none' ? (
             ''
           ) : (
-            <><span>
-              of <i>
-      {globalOverviewLabel.italicLabel}</i>
-      {globalOverviewLabel.label}
-            </span>
-            {organism === "kpneumo"?
-            <Tooltip title="This data is pulled from Pathogenwatch and represents unfiltered data deposited in NCBI/ENA, therefore reflects a strong bias towards sequencing of resistant strains. This will change in future updates." placement="bottom">
-              <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-            </Tooltip>:
-            organism === "shige" || organism === "ecoli" ||organism === "senterica" ||organism ==='decoli' ||organism ==='sentericaints'?
-            <Tooltip title="This data is pulled from Enterobase and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains. This will change in future updates." placement="bottom">
-              <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-            </Tooltip>:null}
+            <>
+            {organism === "ngono" || organism === "ecoli" ||organism === "senterica" ||organism ==='kpneumo'?
+            <span>
+              of <i>{globalOverviewLabel.italicLabel} {globalOverviewLabel.label} </i>
+            </span>:
+            organism === "decoli" || organism === "sentericaints"?
+            <span>
+              of {globalOverviewLabel.italicLabel} <i>{globalOverviewLabel.label} </i>
+            </span>:
+            <span>
+              of <i>{globalOverviewLabel.italicLabel}</i> {globalOverviewLabel.label} 
+            </span>}
             </>
           )}
         </Typography>
-        {organism === "kpneumo"?
-        <Typography gutterBottom variant="body2" fontWeight={'small'}>
-          NOTE this data is pulled from Pathogenwatch and represents unfiltered data deposited in NCBI/ENA, therefore reflects a strong bias towards sequencing of resistant strains. This will change in future updates.
-        </Typography>:
-        organism === "shige" || organism === "ecoli" ||organism === "senterica"?
-        <Typography gutterBottom variant="body2" fontWeight={'small'}>
-          NOTE this data is pulled from Enterobase and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains. This will change in future updates.
-        </Typography>:null}
         <div className={classes.mapWrapper}>
           <ComposableMap
             className={classes.composableMap}
@@ -278,37 +271,41 @@ export const Map = () => {
                           }
                           break;
                         case 'Dominant Genotype':
-                          case 'NG-MAST prevalence':
-                            let percentCounterNG = 0;        
-                            const genotypesNG = countryStats.NGMAST.items;
-                            // console.log("gencountryDataotypes1",countryData);
-                            let genotypesNG2 = [];
-                            genotypesNG.forEach((genotype) => {
-                              if (customDropdownMapViewNG.includes(genotype.name))
-                                  genotypesNG2.push(genotype);
-                                percentCounterNG += genotype.count;
-                            });
-                            // console.log("genotypes2",genotypes2.length );
-  
-                            let sumCountNG = 0;
-  
-                            if (genotypesNG2.length > 0 ) {
-                              for (const genotype of genotypesNG2) {
-                                sumCountNG += genotype.count;
-                              }
+                          const genotypes = countryStats.GENOTYPE.items;
+                          fillColor = getGenotypeColor(genotypes[0].name);
+                          break;
+                        case 'NG-MAST prevalence':
+                          let percentCounterNG = 0;        
+                          const genotypesNG = countryStats.NGMAST.items;
+                          // console.log("gencountryDataotypes1",countryData);
+                          let genotypesNG2 = [];
+                          genotypesNG.forEach((genotype) => {
+                            if (customDropdownMapViewNG.includes(genotype.name))
+                                genotypesNG2.push(genotype);
+                              percentCounterNG += genotype.count;
+                          });
+                          // console.log("genotypes2",genotypes2.length );
+                
+                          let sumCountNG = 0;
+
+                          if (genotypesNG2.length > 0 ) {
+                            for (const genotype of genotypesNG2) {
+                              sumCountNG += genotype.count;
                             }
-                            if(countryData.count>=20 && genotypesNG2.length > 0 ){
-                              // console.log("count %",count );
-                              if(genotypesNG2 !== undefined){
-                                fillColor = redColorScale2(((sumCountNG/percentCounterNG)*100).toFixed(2));
-                              }
+                          }
+                          if(countryData.count>=20 && genotypesNG2.length > 0 ){
+                            // console.log("count %",count );
+                            if(genotypesNG2 !== undefined){
+                              fillColor = redColorScale2(((sumCountNG/percentCounterNG)*100).toFixed(2));
                             }
-                            else if (countryData.count>=20) {
-                              fillColor = darkGrey;
-                              smallerThan20 = true;
-                            }
-                            break;
+                          }
+                          else if (countryData.count>=20) {
+                            fillColor = darkGrey;
+                            smallerThan20 = true;
+                          }
+                          break;
                         case 'Genotype prevalence':
+                        case 'Lineage prevalence':
                           let percentCounter = 0;        
                           const genotypes1 = countryStats.GENOTYPE.items;
                           // console.log("gencountryDataotypes1",countryData);
@@ -439,7 +436,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
+              {(ifCustom && mapView === 'Genotype prevalence')|| (ifCustom && mapView === 'Lineage prevalence')? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
             </>
           )}
           <BottomLeftControls />
@@ -448,7 +445,7 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {ifCustom && mapView === 'Genotype prevalence' ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
+            {(ifCustom && mapView === 'Genotype prevalence')|| (ifCustom && mapView === 'Lineage prevalence') ? <TopRightControls2 /> : (ifCustom && mapView === 'NG-MAST prevalence' ? <Ngmast /> : null)}
             <TopLeftControls />
           </div>
         )}
@@ -490,3 +487,4 @@ export const Map = () => {
     </Card>
   );
 };
+
