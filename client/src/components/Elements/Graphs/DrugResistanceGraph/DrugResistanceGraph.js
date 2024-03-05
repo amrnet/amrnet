@@ -15,7 +15,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsForDrugResistanceGraphST, drugsNG, drugsEC, drugsDEC, drugsSH, drugsSE, drugsSEINTS } from '../../../../util/drugs';
+import { drugsKP, drugsForDrugResistanceGraphST, drugsNG1 } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -77,22 +77,7 @@ export const DrugResistanceGraph = () => {
       return drugsKP;
     }
     if (organism === 'ngono') {
-      return drugsNG;
-      }
-    if (organism === 'ecoli') {
-      return drugsEC;
-      }
-    if (organism === 'decoli') {
-      return drugsDEC;
-      }
-    if (organism === 'shige') {
-      return drugsSH;
-      }
-    if (organism === 'senterica') {
-      return drugsSE;
-      }
-    if (organism === 'sentericaints') {
-      return drugsSEINTS;
+      return drugsNG1;
       }
   }
   function getDrugsForLegends() {
@@ -104,15 +89,18 @@ export const DrugResistanceGraph = () => {
     // }
     // return drugsKP;
   }
-  function getDrugsForLegends() {
-    if (organism === 'none') {
-      return [];
-    }
-    // if (organism === 'typhi') {
-      return drugResistanceGraphView;
-    // }
-    // return drugsKP;
-  }
+
+  //TODO: check the comment above code duplicate 
+  
+  // function getDrugsForLegends() {
+  //   if (organism === 'none') {
+  //     return [];
+  //   }
+  //   // if (organism === 'typhi') {
+  //     return drugResistanceGraphView;
+  //   // }
+  //   // return drugsKP;
+  // }
   function handleChangeDrugsView({ event = null, all = false }) {
     setCurrentTooltip(null);
     let newValues = [];
