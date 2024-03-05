@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { MainLayout } from '../Layout';
+import { Note } from '../Elements/Note';
 import { Map } from '../Elements/Map';
 import { Footer } from '../Elements/Footer';
 import { API_ENDPOINT } from '../../constants';
@@ -69,7 +70,7 @@ import {
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG, drugsEC, drugsDEC, drugsSH, drugsSE, drugsSEINTS } from '../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG, drugsNG1 } from '../../util/drugs';
 // import countries from '../../util/countries';
 
 export const DashboardPage = () => {
@@ -96,15 +97,14 @@ export const DashboardPage = () => {
     const responseData = response.data;
     dispatch(setTotalGenomes(responseData.length));
     dispatch(setActualGenomes(responseData.length));
-    // responseData.map((x) => (console.log("responseData", x.GENOTYPE )))
+    // responseData.map(x => console.log("responseData", x['NG-MAST TYPE']));
     let ngmast;
     const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
     ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
-    if (organism === 'styphi') {
+    // if (organism === 'styphi') {
       genotypes.sort((a, b) => a.localeCompare(b));
       dispatch(setGenotypesForFilter(genotypes));
-    
-    }if (organism === 'ngono'){
+    if(organism === 'ngono'){
       ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
     }
 
@@ -167,11 +167,10 @@ export const DashboardPage = () => {
    
     if (organism === 'ngono') {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
-      // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
+      //dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
       const years = [...new Set(responseData.map((x) => x.DATE))];
       const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
-
       years.sort();
       countries.sort();
 
@@ -183,7 +182,7 @@ export const DashboardPage = () => {
       dispatch(setTimeFinal(years[years.length - 1]));
       dispatch(setActualTimeFinal(years[years.length - 1]));
       dispatch(setCountriesForFilter(countries));
-      console.log("NGMAST",)
+      // console.log("NGMAST",)
       
     }
 
@@ -229,23 +228,18 @@ export const DashboardPage = () => {
             break;
           case 'ecoli':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(drugsEC));
             break;
           case 'decoli':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(drugsEC));
             break;
           case 'shige':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(drugsSH));
             break;
           case 'senterica':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(drugsSE));
             break;
           case 'sentericaints':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(drugsSE));
             break;
           default:
             break;
@@ -429,6 +423,7 @@ export const DashboardPage = () => {
 
   return (
     <MainLayout isHomePage>
+      <Note/>
       <Map />
       <SelectCountry />
       <Graphs />
