@@ -1,4 +1,4 @@
-import { drugRulesForDrugResistanceGraphST, drugRulesST, drugRulesKP, drugRulesNG, drugRulesEC, drugRulesDEC, drugRulesSH, drugRulesSE, drugRulesSEINTS } from '../../util/drugClassesRules';
+import { drugRulesForDrugResistanceGraphST, drugRulesForDrugResistanceGraphNG, drugRulesST, drugRulesKP, drugRulesNG, drugRulesEC, drugRulesDEC, drugRulesSH, drugRulesSE, drugRulesSEINTS } from '../../util/drugClassesRules';
 import { drugClassesRulesST, drugClassesRulesKP, drugClassesRulesNG, drugClassesRulesEC, drugClassesRulesDEC, drugClassesRulesSH, drugClassesRulesSE, drugClassesRulesSEINTS } from '../../util/drugClassesRules';
 
 // This filter is called after either dataset, initialYear, finalYear or country changes and if reset button is pressed.
@@ -155,10 +155,12 @@ export function getMapData({ data, countries, organism }) {
     }else if(organism === 'senterica'){
     }else if(organism === 'sentericaints'){
     }else if (organism === 'ngono'){
-      stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '0' });
+      stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '1' });
       stats.Ciprofloxacin = getMapStatsData({ countryData, columnKey: 'Ciprofloxacin', statsKey: '1' });
-      stats.Ceftriaxone1 = getMapStatsData({ countryData, columnKey: 'Ceftriaxone', statsKey: '1' });
+      stats.Ceftriaxone = getMapStatsData({ countryData, columnKey: 'Ceftriaxone', statsKey: '1' });
       stats.Azithromycin = getMapStatsData({ countryData, columnKey: 'Azithromycin', statsKey: '1' });
+      stats.MDR = getMapStatsData({ countryData, columnKey: 'MDR', statsKey: '1' });
+      stats.XDR = getMapStatsData({ countryData, columnKey: 'XDR', statsKey: '1' });
       const ngmast = [...new Set(countryData.map((x) => x['NG-MAST TYPE']))];
       
       stats.NGMAST.count = ngmast.length;
@@ -288,9 +290,12 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             const drugData = yearData.filter((x) => rule.values.includes(x[rule.columnID]));
             drugStats[rule.key] = drugData.length;
           });
-
-          const susceptible = yearData.filter((x) => x.nonsus === '0');
-          drugStats['Susceptible'] = susceptible.length;
+          drugRulesForDrugResistanceGraphNG.forEach((rule) => {
+            const drugData = yearData.filter((x) => rule.values.includes(x[rule.columnID]));
+            drugStats[rule.key] = drugData.length;
+          });
+          // const susceptible = yearData.filter((x) => x.nonsus === '0');
+          // drugStats['Susceptible'] = susceptible.length;
 
           // For genotypesAndDrugsData
           Object.keys(drugClassesRulesNG).forEach((key) => {
@@ -313,36 +318,36 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             genotypesAndDrugsData[key].push(item);
           });
       
-  }else if (organism === 'shige') {
-    // For drugsData
-    drugRulesSH.forEach((rule) => {
-      const drugData = yearData.filter((x) => rule.columnIDs.some((columnID) => x[columnID] !== '-'));
-      drugStats[rule.key] = drugData.length;
-    });
+  // } else if (organism === 'shige') {
+  //   // For drugsData
+  //   drugRulesSH.forEach((rule) => {
+  //     const drugData = yearData.filter((x) => rule.columnIDs.some((columnID) => x[columnID] !== '-'));
+  //     drugStats[rule.key] = drugData.length;
+  //   });
 
-    // const susceptible = yearData.filter((x) => x.nonsus === '0');
-    // drugStats['Susceptible'] = susceptible.length;
+  //   // const susceptible = yearData.filter((x) => x.nonsus === '0');
+  //   // drugStats['Susceptible'] = susceptible.length;
 
-    // For genotypesAndDrugsData
-        Object.keys(drugClassesRulesSH).forEach((key) => {
-          const filteredGenotypes = Object.fromEntries(
-            Object.entries(stats)
-              .sort(([, a], [, b]) => b - a)
-              .slice(0, 10)
-          );
+  //   // For genotypesAndDrugsData
+  //       Object.keys(drugClassesRulesSH).forEach((key) => {
+  //         const filteredGenotypes = Object.fromEntries(
+  //           Object.entries(stats)
+  //             .sort(([, a], [, b]) => b - a)
+  //             .slice(0, 10)
+  //         );
 
-          genotypesAndDrugsDataUniqueGenotypes[key].push.apply(
-            genotypesAndDrugsDataUniqueGenotypes[key],
-            Object.keys(filteredGenotypes)
-          );
+  //         genotypesAndDrugsDataUniqueGenotypes[key].push.apply(
+  //           genotypesAndDrugsDataUniqueGenotypes[key],
+  //           Object.keys(filteredGenotypes)
+  //         );
 
-          const drugClass = getSHDrugClassData({ drugKey: key, dataToFilter: yearData });
+  //         // const drugClass = getSHDrugClassData({ drugKey: key, dataToFilter: yearData });
 
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: response.count };
-          delete item.count;
+  //         const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: response.count };
+  //         delete item.count;
 
-          genotypesAndDrugsData[key].push(item);
-        });
+  //         genotypesAndDrugsData[key].push(item);
+  //       });
       }
 
       drugsData.push({ ...response, ...drugStats });
@@ -399,8 +404,10 @@ export function getGenotypesData({ data, genotypes, organism }) {
       }
     });
   }else if (organism === 'ngono'){
-    Object.keys(drugClassesRulesNG).forEach((key) => {
-      genotypesDrugClassesData[key] = [];
+    drugRulesNG.forEach((drug) => {
+      if (drug.key !== 'Susceptible') {
+        genotypesDrugClassesData[drug.key] = [];
+      }
     });
   }else if (organism === 'ecoli'){
     Object.keys(drugClassesRulesEC).forEach((key) => {
@@ -773,47 +780,46 @@ function getNGDrugClassData({ drugKey, dataToFilter }) {
   drugClass.resistantCount = resistantData.length;
   console.log("drugClass", drugClass)
   return drugClass;
-  console.log("drugClass", drugClass)
 }
-function getSHDrugClassData({ drugKey, dataToFilter }) {
-  const drugClass = {};
-  const columnID = drugClassesRulesSH[drugKey];
+// function getSHDrugClassData({ drugKey, dataToFilter }) {
+//   const drugClass = {};
+//   const columnID = drugClassesRulesSH[drugKey];
 
-  const resistantData = dataToFilter.filter((x) => {
-    if (x[columnID] === '-') {
-      return false;
-    }
+//   const resistantData = dataToFilter.filter((x) => {
+//     if (x[columnID] === '-') {
+//       return false;
+//     }
 
-    const genes = x[columnID].split(';');
+//     const genes = x[columnID].split(';');
 
-    if (genes.every((g) => isSusceptible(g))) {
-      return false;
-    }
+//     if (genes.every((g) => isSusceptible(g))) {
+//       return false;
+//     }
 
-    if (genes.length === 1) {
-      if (genes[0] in drugClass) {
-        drugClass[genes[0]] += 1;
-      } else {
-        drugClass[genes[0]] = 1;
-      }
-    } else {
-      const resistantGenes = genes.filter((g) => !isSusceptible(g));
-      resistantGenes.sort((a, b) => a.localeCompare(b));
+//     if (genes.length === 1) {
+//       if (genes[0] in drugClass) {
+//         drugClass[genes[0]] += 1;
+//       } else {
+//         drugClass[genes[0]] = 1;
+//       }
+//     } else {
+//       const resistantGenes = genes.filter((g) => !isSusceptible(g));
+//       resistantGenes.sort((a, b) => a.localeCompare(b));
 
-      const name = resistantGenes.join(';').replaceAll(';', ' + ');
+//       const name = resistantGenes.join(';').replaceAll(';', ' + ');
 
-      if (name in drugClass) {
-        drugClass[name] += 1;
-      } else {
-        drugClass[name] = 1;
-      }
-    }
+//       if (name in drugClass) {
+//         drugClass[name] += 1;
+//       } else {
+//         drugClass[name] = 1;
+//       }
+//     }
 
-    return true;
-  });
-  drugClass['None'] = dataToFilter.length - resistantData.length;
-  drugClass.resistantCount = resistantData.length;
+//     return true;
+//   });
+//   drugClass['None'] = dataToFilter.length - resistantData.length;
+//   drugClass.resistantCount = resistantData.length;
 
-  return drugClass;
+//   return drugClass;
 
-}
+// }

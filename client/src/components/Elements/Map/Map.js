@@ -29,7 +29,8 @@ const statKey = {
   Ciprofloxacin: 'Ciprofloxacin',
   ESBL_category: 'Ceftriaxone',
   Azithromycin: 'Azithromycin',
-  Ceftriaxone: 'Ceftriaxone1',
+  //TODO check this variable
+  Ceftriaxone: 'Ceftriaxone',
   Carb: 'Carb'
 };
 
@@ -96,7 +97,7 @@ export const Map = () => {
                     Genotypes: countryStats.GENOTYPE.count,
                     // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
                     // Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
-                    // Ceftriaxone1: `${countryStats.Ceftriaxone.percentage}%`,
+                    // CeftriaxoneNG: `${countryStats.Ceftriaxone.percentage}%`,
                     // ESBL: `${countryStats.ESBL.percentage}%`,
                     // Carb: `${countryStats.Carb.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`

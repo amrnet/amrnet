@@ -12,10 +12,15 @@ export const drugRulesST = [
   { key: 'Tetracyclines', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] }
 ];
+ 
+export const drugRulesForDrugResistanceGraphNG = [
+  { key: 'MDR', columnID: 'MDR', values: ['1'] },
+  { key: 'XDR', columnID: 'XDR', values: ['1'] }
+];
 
 export const drugRulesForDrugResistanceGraphST = [
   { key: 'MDR', columnID: 'MDR', values: ['MDR'] },
-  { key: 'XDR', columnID: 'XDR', values: ['XDR'] }
+  { key: 'XDR', columnID: 'XDR', values: ['XDR'] },
 ];
 
 // Drug rules for Klebsiella, where the column has to be any value other than '-' to validate the rule. For frequencies
@@ -45,7 +50,7 @@ export const drugRulesNG = [
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Susceptible', columnID: ['nonsus'], values: ['1'] },
+  { key: 'Susceptible', columnID: ['nonsus'], values: ['0'] },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
 ];
 
@@ -681,86 +686,110 @@ export const drugClassesRulesSH = {
 export const drugClassesRulesNG = {
   "Azithromycin": [
     {
-      name: "23S_rDNA_a2045g + mtrR_promoter_a-57del",
+      name: "AzithR1",
       susceptible: false,
-      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_promoter_a-57del', value: '1' }]
+      rules: [
+        { columnID: 'AzithR1', value: '1' }
+      ]
     },
     {
-      name: '23S_rDNA_a2045g + mtrR_G45D',
+      name: 'AzithR2',
       susceptible: false,
-      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_G45D', value: '1' }]
+      rules: [
+        { columnID: 'AzithR3', value: '1' }
+      ]
     },
     {
-      name: 'mtrR_G45D + mtrC_disrupted + 23S_rDNA_a2045g',
+      name: 'AzithR3',
       susceptible: false,
-      rules: [{ columnID: 'AzithR-mtrR_G45D+mtrC_disrupted+-23S_rDNA_a2045g', value: '1' }]
+      rules: [
+        { columnID: 'AzithR3', value: '1' }
+      ]
     },
     {
-      name: '23S_rDNA_c2597t + mtrR_promoter_a-57del',
+      name: 'AzithR4',
       susceptible: false,
-      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_promoter_a-57del', value: '1' }]
+      rules: [
+        { columnID: 'AzithR4', value: '1' }
+      ]
     },
     {
-      name: '23S_rDNA_c2597t + mtrR_A39T',
+      name: 'AzithR5',
       susceptible: false,
-      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_A39T', value: '1' }]
+      rules: [
+        { columnID: 'AzithR5', value: '1' }
+      ]
     },
     {
-      name: '23S_rDNA_c2597t + mtrR_G45D',
+      name: 'AzithR6',
       susceptible: false,
-      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_G45D', value: '1' }]
+      rules: [
+        { columnID: 'AzithR6', value: '1' }
+      ]
     },
     {
-      name: '23S_rDNA_c2597t',
+      name: 'AzithR7',
       susceptible: false,
-      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t', value: '1' }]
+      rules: [
+        { columnID: 'AzithR7', value: '1' }
+      ]
     },
     {
-      name: '23S_rDNA_c2597t + mtrR_disrupted',
+      name: 'AzithR8',
       susceptible: false,
-      rules: [{ columnID: 'AzithR_23S_rDNA_c2597t+mtrR_disrupted', value: '1' }]
+      rules: [
+        { columnID: 'AzithR8', value: '1' }
+    ]
     },
     {
-      name: 'mtrC_disrupted + mtrD_mosaic_2',
+      name: 'AzithR9',
       susceptible: false,
-      rules: [{ columnID: 'AzithR_mtrC_disrupted+mtrD_mosaic_2', value: '1' }]
+      rules: [
+        { columnID: 'AzithR9', value: '1' }
+      ]
     },
     {
-      name: 'mtrR_promoter_mosaic_2 + mtrD_mosaic_2',
+      name: 'AzithR10',
       susceptible: false,
-      rules: [{ columnID: 'AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', value: '1' }]
+      rules: [{ columnID: 'AzithR10', value: '1' }]
     },
     {
-      name: 'mtrR_promoter_mosaic_2',
+      name: 'AzithR11',
       susceptible: false,
-      rules: [{ columnID: 'AzithR_mtrR_promoter_mosaic_2', value: '1' }]
+      rules: [
+        { columnID: 'AzithR11', value: '1' }
+      ]
     },
     {
       name: 'None',
       susceptible: true,
-      rules: [{ columnID: 'AzithR-23S_rDNA_a2045g+mtrR_promoter_a-57del', value: '0' },
-              { columnID: 'AzithR-23S_rDNA_a2045g+mtrR_G45D', value: '1' },
-              { columnID: 'AzithR-mtrR_G45D+mtrC_disrupted+-23S_rDNA_a2045g', value: '1' },
-              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_promoter_a-57del', value: '0' },
-              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_A39T', value: '0' },
-              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_G45D', value: '0' },
-              { columnID: 'AzithR_23S_rDNA_c2597t', value: '0' },
-              { columnID: 'AzithR_23S_rDNA_c2597t+mtrR_disrupted', value: '0' },
-              { columnID: 'AzithR_mtrC_disrupted+mtrD_mosaic_2', value: '0' },
-              { columnID: 'AzithR_mtrR_promoter_mosaic_2+mtrD_mosaic_2', value: '0' },
-              { columnID: 'AzithR_mtrR_promoter_mosaic_2', value: '0' }]
+      rules: [
+        { columnID: 'AzithR1', value: '0' },
+        { columnID: 'AzithR2', value: '0' },
+        { columnID: 'AzithR3', value: '0' },
+        { columnID: 'AzithR4', value: '0' },
+        { columnID: 'AzithR5', value: '0' },
+        { columnID: 'AzithR6', value: '0' },
+        { columnID: 'AzithR7', value: '0' },
+        { columnID: 'AzithR8', value: '0' },
+        { columnID: 'AzithR9', value: '0' },
+        { columnID: 'AzithR10', value: '0' },
+        { columnID: 'AzithR11', value: '0' }
+      ]
     }
   ],
   "Ceftriaxone": [
     {
-      name: 'penA_A501V + penA_G542S + penA_ins346D',
+      name: 'CefR1',
       susceptible: false,
-      rules: [{ columnID: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', value: '1' }],
+      rules: [
+        { columnID: 'CefR1', value: '1' }
+      ],
     },
     {
       name: 'None',
       susceptible: true,
-      rules: [{ columnID: 'CeftriaxoneR-penA_A501V+penA_G542S+penA_ins346D', value: '0' }]
+      rules: [{ columnID: 'CefR1', value: '0' }]
     }
     ]
 };

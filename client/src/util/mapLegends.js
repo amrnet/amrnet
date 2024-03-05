@@ -1,7 +1,7 @@
 // List of legends for the map and in which organisms they appear
 export const mapLegends = [
-  { value: 'MDR', label: 'Multidrug resistant (MDR)', organisms: ['styphi'] },
-  { value: 'XDR', label: 'Extensively drug resistant (XDR)', organisms: ['styphi'] },
+  { value: 'MDR', label: 'Multidrug resistant (MDR)', organisms: ['styphi', 'ngono'] },
+  { value: 'XDR', label: 'Extensively drug resistant (XDR)', organisms: ['styphi', 'ngono'] },
   { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['styphi'] },
   { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['styphi'] },
   { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['styphi'] },
@@ -16,7 +16,7 @@ export const mapLegends = [
   { value: 'Genotype prevalence', label: 'Genotype prevalence', organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli','decoli', 'senterica', 'sentericaints'] },
   { value: 'Lineage prevalence', label: 'Lineage prevalence', organisms: ['shige',] },
   { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['styphi'] },
-  { value: 'No. Samples', label: 'No. Samples', organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli','sentericaints'] },
   { value: 'Resistance prevalence', label: 'Resistance prevalence', organisms: [] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
+  { value: 'No. Samples', label: 'No. Samples', organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli','sentericaints'] },
 ];
