@@ -29,7 +29,7 @@ export const AboutPage = () => {
           </Typography>
           <br/>
           <Typography variant="body1" className={classes.paragraph}>
-            A major barrier to using public data for surveillance is the need for careful data curation, to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with other organism communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (<a href="mailto:amrnet@gmail.com ">amrnet@gmail.com </a>)
+            A major barrier to using public data for surveillance is the need for careful data curation, to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with other organism communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (<a href="mailto:amrnetdashboard@gmail.com">amrnetdashboard@gmail.com</a>)
           </Typography>
           <br/>
           <Typography variant="body1" className={classes.paragraph}>
@@ -41,7 +41,7 @@ export const AboutPage = () => {
           <Typography variant="body1" className={classes.paragraph}>
             The dashboard code is open access and available in <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
               GitHub
-            </a>. Issues and feature requests can be posted <a href="https://github.com/amrnet/amrnet/issuest" target="_blank" rel="noreferrer">
+            </a>. Issues and feature requests can be posted <a href="https://github.com/amrnet/amrnet/issues" target="_blank" rel="noreferrer">
               here
             </a>. An API is coming soon!
           </Typography>
