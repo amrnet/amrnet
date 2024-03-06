@@ -21,7 +21,7 @@ export const mapLegends = [
     label: 'Ciprofloxacin resistant (CipR)',
     organisms: ['styphi']
   },
-  { value: 'ESBL', label: 'ESBL', organisms: ['kpneumo'] },
+  { value: 'ESBL', label: 'ESBL prevalence', organisms: ['kpneumo'] },
   {
     value: 'ESBL_category',
     label: 'Ceftriaxone resistant',
@@ -42,7 +42,7 @@ export const mapLegends = [
     label: 'Ciprofloxacin resistant',
     organisms: ['ngono']
   },
-  { value: 'Carb', label: 'Carbapenems', organisms: ['kpneumo'] },
+  { value: 'Carb', label: 'Carbapenemase prevalence', organisms: ['kpneumo'] },
   {
     value: 'Sensitive to all drugs',
     label: 'Sensitive to all drugs',
