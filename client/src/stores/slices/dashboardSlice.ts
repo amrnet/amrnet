@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface GlobalOverviewModel {
-  italicLabel: string;
-  label: string;
+  label0: string;
+  label1: string;
+  label2: string;
   fullLabel: string
 }
 
@@ -33,7 +34,7 @@ interface DashboardState {
 
 const initialState: DashboardState = {
   canGetData: true,
-  globalOverviewLabel: { italicLabel: 'Salmonella', label: 'Typhi', fullLabel: 'Salmonella Typhi' },
+  globalOverviewLabel: { label0: 'Salmonella', label1: 'Typhi', label2: '', fullLabel: 'Salmonella Typhi' },
   organism: 'styphi',
   loadingData: false,
   actualCountry: 'All',
