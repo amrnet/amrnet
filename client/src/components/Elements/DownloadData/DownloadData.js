@@ -503,7 +503,7 @@ export const DownloadData = () => {
         // Find the appropriate pmidSpace based on textWidth
         pmidSpace = pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
 
-        doc.text(dynamicText,16, 255,{ align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(dynamicText,16, 265,{ align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[0], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
         doc.text(texts[1], 16, 125, { align: 'left', maxWidth: pageWidth - 36 });
@@ -530,6 +530,7 @@ export const DownloadData = () => {
         doc.text(texts[12], 16, 355+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
         doc.text(texts[13], 32, 365+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
         doc.text(texts[14], 74, 365+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[15], 16, 375+pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, "italic");
@@ -824,7 +825,7 @@ export const DownloadData = () => {
 
   function handleClickDatabasePage() {
     dispatch(setPage('user-guide'));
-    navigate('/user-guide');
+    window.open('#/user-guide', '_blank');
   }
 
   return (
