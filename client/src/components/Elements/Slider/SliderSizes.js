@@ -42,7 +42,8 @@ export const SliderSizes = (props) => {
       dispatch(setCurrentSliderValueRD(newValue));
     }
   };
-  const geno = organism === 'shige' ? 'lineage' : 'genotype';
+
+  const geno = organism ==='shige'?"lineages":"genotype";
 
   useEffect(() => {
     if (props.value === 'GD') {
