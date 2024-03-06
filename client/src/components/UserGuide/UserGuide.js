@@ -31,8 +31,9 @@ export const UserGuidePage = () => {
           <Typography variant="body2" className={classes.paragraph}>
             <span className={classes.paragraphBold}>Detailed plots:</span> These are intended to show country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters. The heading below the map summarizes the current filter set applied to all plots, and provides another opportunity to select a focus country. Below this are a series of tabs, one per available plot. <span className={classes.paragraphBold}>Click a tab title to open/close the plotting area</span>. The specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below).
           </Typography>
+          <br/>
           <Typography variant="body2" className={classes.paragraph}>
-            All plots are interactive; use the menus at the top to <span className={classes.paragraphBold}>select variables to display</span>, and whether to show <span className={classes.paragraphBold}>counts or percentages.</span>
+            All plots are interactive; use the menus at the top to <span className={classes.paragraphBold}>select variables to display</span>, and whether to show <span className={classes.paragraphBold}>counts or percentages</span>.
           </Typography>
           <br/>
           <Typography variant="body2" className={classes.paragraph}>
@@ -40,7 +41,7 @@ export const UserGuidePage = () => {
           </Typography>
           <br/>
           <Typography variant="body2" className={classes.paragraph}>
-            <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the inTypographyidual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’).
+            <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’). Please note PDF reports are not yet available for all organisms, they will be added in future updates.
           </Typography>
           <br/>
           <Divider sx={{ borderBottomWidth: 3 }}/>
@@ -53,17 +54,15 @@ export const UserGuidePage = () => {
             <i>Salmonella</i> Typhi
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <i>Salmonella</i> Typhi data in AMRnet are drawn from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <i>Salmonella</i> Typhi data in AMRnet are drawn from <a href="http://Pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>, which calls AMR and <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
               GenoTyphi
-            </a> genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-              Pathogenwatch
-            </a> are curated by the <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
+            </a> genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in Pathogenwatch are curated by the <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
               Global Typhoid Genomics Consortium
             </a>, as described <a href="https://doi.org/10.7554/eLife.85867" target="_blank" rel="noreferrer">
               here
-            </a>. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: XX.
+            </a>. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
           </Typography>
           <br/>
           <Typography variant="subtitle2" className={classes.paragraph}>
@@ -74,15 +73,15 @@ export const UserGuidePage = () => {
                 <span className={classes.paragraphBold}>Genotypes:</span> <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
                 GenoTyphi
               </a> scheme, see <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
-                Dyson & Holt, 2021.
-              </a>
+                Dyson & Holt, 2021
+              </a>.
               </li>
               <li>
                 <span className={classes.paragraphBold}>AMR determinants</span> are described in the  <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-                Typhi Pathogenwatch paper.
-              </a> and the <a href="https://elifesciences.org/articles/85867" target="_blank" rel="noreferrer">
-                Consortium paper.
-              </a>
+                Typhi Pathogenwatch paper
+              </a>. and the <a href="https://elifesciences.org/articles/85867" target="_blank" rel="noreferrer">
+                Consortium paper
+              </a>.
               </li>
               <li>
                 <span className={classes.paragraphBold}>Travel-associated cases</span> are attributed to the country of travel, not the country of isolation, see <a href="https://doi.org/10.1371/journal.pntd.0007620" target="_blank" rel="noreferrer">
@@ -115,13 +114,13 @@ export const UserGuidePage = () => {
             <i>Klebsiella pneumoniae</i>
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <i>Klebsiella pneumoniae</i> data are sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <i>Klebsiella pneumoniae</i> data are sourced from <a href="https://pathogen.watch/" target="_blank" rel="noreferrer">
               Pathogenwatch
-            </a>, which calls AMR (using <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
+            </a>, which calls AMR (using <a href="https://doi.org/10.1038/s41467-021-24448-3" target="_blank" rel="noreferrer">
               Kleborate
             </a>) and genotypes (<a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
               MLST
-            </a>) from genomes assembled from public data. Last update: January 24th 2024.
+            </a>) from genomes assembled from public data. Last update: 24 January 2024.
           </Typography>
           <br/>
 
@@ -141,14 +140,14 @@ export const UserGuidePage = () => {
                 <span className={classes.paragraphBold}>Genotypes:</span> <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
                     7-locus MLST scheme            
                   </a> for <i>Klebsiella pneumoniae</i>, maintained by <a href="https://bigsdb.pasteur.fr/klebsiella/" target="_blank" rel="noreferrer">
-                Institut Pasteur.
-              </a>
+                Institut Pasteur
+              </a>.
               </li>
               <li>
                 <span className={classes.paragraphBold}>AMR determinants</span> are called using <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
                 Kleborate v2
               </a>, described <a href="https://doi.org/10.1038/s41467-021-24448-3" target="_blank" rel="noreferrer">
-                here
+                Lam et al, 2021
               </a>.
               </li>
           </Typography>
@@ -171,7 +170,7 @@ export const UserGuidePage = () => {
             <i>Neisseria gonorrhoeae</i>
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            <i>Neisseria gonorrhoeae</i> data are sourced from <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <i>Neisseria gonorrhoeae</i> data are sourced from <a href="https://pathogen.watch/" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>, which calls AMR and lineage <a href="https://pubmlst.org/neisseria/" target="_blank" rel="noreferrer">
               genotypes
@@ -183,7 +182,7 @@ export const UserGuidePage = () => {
               2013
             </a> & <a href="https://doi.org/10.1016/s2666-5247(22)00044-1" target="_blank" rel="noreferrer">
               2018
-            </a>, and several national surveillance studies. Last update: January 24th 2024.
+            </a>, and several national surveillance studies. Last update: 24 January 2024.
           </Typography>
           
           <br/>
@@ -202,14 +201,12 @@ export const UserGuidePage = () => {
               </a>.
               </li>
               <li>
-                <span className={classes.paragraphBold}>AMR determinants</span> are identified by <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-                Pathogenwatch
-              </a> using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
-                here
+                <span className={classes.paragraphBold}>AMR determinants</span> are identified by Pathogenwatch using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
+                Sánchez-Busó et al (2021)
               </a>.
               </li>
               <li>
-                <span className={classes.paragraphBold}>AMR determinants</span> within genotypes - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>AMR determinants within genotypes</span> - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
                 Sánchez-Busó et al (2021)
               </a>.
               </li>
@@ -256,7 +253,7 @@ export const UserGuidePage = () => {
                 cgMLST
               </a> and <a href="https://doi.org/10.1093/bioinformatics/btab234" target="_blank" rel="noreferrer">
                 hierarchical clustering
-              </a>. Last update: January 24th 2024.
+              </a>. Last update: 24 January 2024.
           </Typography>
           
           <br/>
@@ -326,7 +323,7 @@ export const UserGuidePage = () => {
           </Typography>
           <br/>
           <Typography variant="body2" className={classes.paragraph}>
-            Last update: January 24th 2024
+            Last update: 24 January 2024
           </Typography>
           
           <br/>
@@ -374,7 +371,7 @@ export const UserGuidePage = () => {
                 SISTR
               </a>. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target="_blank" rel="noreferrer">
                 &gt;90% of iNTS
-              </a>), and identifies lineages thereof using MLST. Last update: January 24th 2024.
+              </a>), and identifies lineages thereof using MLST. Last update: 24 January 2024.
           </Typography>
           
           <br/>
