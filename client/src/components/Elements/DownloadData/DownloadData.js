@@ -196,7 +196,8 @@ export const DownloadData = () => {
   function drawHeader({ document, pageWidth}) {
     document.setFontSize(8);
     document.line(0, 26, pageWidth, 26);
-    document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 16, 10, { align: 'left', maxWidth: pageWidth - 16  });
+    if(organism !== "styphi" && organism !== "ngono")
+      document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 16, 10, { align: 'left', maxWidth: pageWidth - 16  });
     document.setFontSize(12);
   }
 
@@ -490,7 +491,7 @@ export const DownloadData = () => {
         let pmidSpace, dynamicText;
         if (actualCountry === 'All'){
           pmidSpace = 0;
-          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs):Data are drawn from studies with ${list.join(', ')}.`
+          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(', ')}.`
         }else{
           list = listPIMD.filter((value)=> value !== "-")
           dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(', ')}.`
