@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
 import { menuItems } from '../../../util/menuItems';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const Header = ({ showSelect }) => {
   const classes = useStyles();
@@ -48,7 +49,10 @@ export const Header = ({ showSelect }) => {
                 <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
                   <Menu sx={{ fontSize: '1.7rem' }} />
                 </IconButton>
-                <img src={LogoImg} alt="AMRnet" className={classes.logo} />
+                <Link to="/">
+                  <img src={LogoImg} alt="AMRnet" className={classes.logo} />
+                </Link>
+
               </div>
               {showSelect && <SelectOrganism />}
             </div>
