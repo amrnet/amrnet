@@ -16,7 +16,7 @@ interface GraphState {
   drugsYearData: Array<any>;
   genotypesAndDrugsYearData: Array<any>;
   collapses: CollapsesModel;
-  drugResistanceGraphView: Array<string>,
+  drugResistanceGraphView: Array<string>;
   frequenciesGraphView: string;
   frequenciesGraphSelectedGenotypes: Array<string>;
   customDropdownMapView: Array<string>;
@@ -36,10 +36,10 @@ interface GraphState {
   convergenceColourPallete: Object;
   currentSliderValue: number;
   resetBool: boolean;
-  maxSliderValue:number;
+  maxSliderValue: number;
   currentSliderValueRD: number;
-  maxSliderValueRD:number;
-  sliderList:number;
+  maxSliderValueRD: number;
+  sliderList: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
 }
@@ -52,7 +52,7 @@ const initialState: GraphState = {
     frequencies: false,
     trendsKP: false,
     KODiversity: false,
-    convergence: false,
+    convergence: false
   },
   countriesForFilter: [],
   genotypesYearData: [],
@@ -68,7 +68,6 @@ const initialState: GraphState = {
   customDropdownMapView: [],
   customDropdownMapViewNG: [],
   determinantsGraphView: 'percentage',
-  customDropdownMapViewNG: [],
   determinantsGraphDrugClass: '',
   trendsKPGraphDrugClass: '',
   trendsKPGraphView: 'number',
@@ -78,14 +77,14 @@ const initialState: GraphState = {
   convergenceGroupVariable: 'COUNTRY_ONLY',
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
-  currentSliderValue:20,
+  currentSliderValue: 20,
   resetBool: false,
-  maxSliderValue:0,
-  currentSliderValueRD:5,
-  maxSliderValueRD:0,
-  sliderList:0,
-  NGMAST:[],
-  ngmastDrugsData: [],
+  maxSliderValue: 0,
+  currentSliderValueRD: 5,
+  maxSliderValueRD: 0,
+  sliderList: 0,
+  NGMAST: [],
+  ngmastDrugsData: []
 };
 
 export const graphSlice = createSlice({
@@ -93,7 +92,8 @@ export const graphSlice = createSlice({
   initialState,
   reducers: {
     setCollapse: (state, action: PayloadAction<any>) => {
-      state.collapses[action.payload.key as keyof CollapsesModel] = action.payload.value;
+      state.collapses[action.payload.key as keyof CollapsesModel] =
+        action.payload.value;
     },
     setCollapses: (state, action: PayloadAction<CollapsesModel>) => {
       state.collapses = action.payload;
@@ -110,19 +110,28 @@ export const graphSlice = createSlice({
     setDistributionGraphView: (state, action: PayloadAction<string>) => {
       state.distributionGraphView = action.payload;
     },
-    setDrugResistanceGraphView: (state, action: PayloadAction<Array<string>>) => {
+    setDrugResistanceGraphView: (
+      state,
+      action: PayloadAction<Array<string>>
+    ) => {
       state.drugResistanceGraphView = action.payload;
     },
     setFrequenciesGraphView: (state, action: PayloadAction<string>) => {
       state.frequenciesGraphView = action.payload;
     },
-    setFrequenciesGraphSelectedGenotypes: (state, action: PayloadAction<Array<string>>) => {
+    setFrequenciesGraphSelectedGenotypes: (
+      state,
+      action: PayloadAction<Array<string>>
+    ) => {
       state.frequenciesGraphSelectedGenotypes = action.payload;
     },
     setCustomDropdownMapView: (state, action: PayloadAction<Array<string>>) => {
       state.customDropdownMapView = action.payload;
     },
-    setCustomDropdownMapViewNG: (state, action: PayloadAction<Array<string>>) => {
+    setCustomDropdownMapViewNG: (
+      state,
+      action: PayloadAction<Array<string>>
+    ) => {
       state.customDropdownMapViewNG = action.payload;
     },
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
@@ -140,7 +149,10 @@ export const graphSlice = createSlice({
     setGenotypesDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugClassesData = action.payload;
     },
-    setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
+    setGenotypesAndDrugsYearData: (
+      state,
+      action: PayloadAction<Array<any>>
+    ) => {
       state.genotypesAndDrugsYearData = action.payload;
     },
     setTrendsKPGraphDrugClass: (state, action: PayloadAction<string>) => {
@@ -167,7 +179,7 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
-     setCurrentSliderValue: (state, action: PayloadAction<number>) => {
+    setCurrentSliderValue: (state, action: PayloadAction<number>) => {
       state.currentSliderValue = action.payload;
     },
     setResetBool: (state, action: PayloadAction<boolean>) => {
@@ -190,7 +202,7 @@ export const graphSlice = createSlice({
     },
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
-    },
+    }
   }
 });
 

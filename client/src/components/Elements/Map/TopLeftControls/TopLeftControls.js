@@ -12,7 +12,10 @@ import {
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDataset } from '../../../../stores/slices/mapSlice.ts';
-import { setActualTimeFinal, setActualTimeInitial } from '../../../../stores/slices/dashboardSlice';
+import {
+  setActualTimeFinal,
+  setActualTimeInitial
+} from '../../../../stores/slices/dashboardSlice';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -22,8 +25,12 @@ export const TopLeftControls = () => {
 
   const dispatch = useAppDispatch();
   const dataset = useAppSelector((state) => state.map.dataset);
-  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
-  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
+  const actualTimeInitial = useAppSelector(
+    (state) => state.dashboard.actualTimeInitial
+  );
+  const actualTimeFinal = useAppSelector(
+    (state) => state.dashboard.actualTimeFinal
+  );
   const years = useAppSelector((state) => state.dashboard.years);
   const organism = useAppSelector((state) => state.dashboard.organism);
 
@@ -46,24 +53,36 @@ export const TopLeftControls = () => {
   }
 
   return (
-    <div className={`${classes.topLeftControls} ${matches ? classes.bp700 : ''}`}>
+    <div
+      className={`${classes.topLeftControls} ${matches ? classes.bp700 : ''}`}
+    >
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <Typography variant="h6">Filters</Typography>
-          {organism!=="styphi" ?null:
-          <div className={classes.datasetWrapper}>
-            <Typography gutterBottom variant="caption">
-              Select dataset
-            </Typography>
-            <ToggleButtonGroup value={dataset} exclusive size="small" onChange={handleChange} disabled={isDisabled()}>
-              {datasetOptions.map((option, index) => (
-                <ToggleButton key={`dataset-${index}`} value={option} color="primary">
-                  {option}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-          </div>
-          }
+          {organism !== 'styphi' ? null : (
+            <div className={classes.datasetWrapper}>
+              <Typography gutterBottom variant="caption">
+                Select dataset
+              </Typography>
+              <ToggleButtonGroup
+                value={dataset}
+                exclusive
+                size="small"
+                onChange={handleChange}
+                disabled={isDisabled()}
+              >
+                {datasetOptions.map((option, index) => (
+                  <ToggleButton
+                    key={`dataset-${index}`}
+                    value={option}
+                    color="primary"
+                  >
+                    {option}
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </div>
+          )}
           <div className={classes.yearsWrapper}>
             <div className={classes.yearWrapper}>
               <Typography gutterBottom variant="caption">
@@ -72,7 +91,12 @@ export const TopLeftControls = () => {
               <Select
                 variant="standard"
                 inputProps={{ className: classes.selectInput }}
-                MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
+                MenuProps={{
+                  classes: {
+                    paper: classes.menuPaper,
+                    list: classes.selectMenu
+                  }
+                }}
                 value={actualTimeInitial}
                 onChange={handleChangeInitial}
                 fullWidth
@@ -97,7 +121,12 @@ export const TopLeftControls = () => {
               <Select
                 variant="standard"
                 inputProps={{ className: classes.selectInput }}
-                MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
+                MenuProps={{
+                  classes: {
+                    paper: classes.menuPaper,
+                    list: classes.selectMenu
+                  }
+                }}
                 value={actualTimeFinal}
                 onChange={handleChangeFinal}
                 fullWidth

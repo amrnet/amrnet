@@ -13,7 +13,10 @@ import {
   Label
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setKODiversityGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
+import {
+  setKODiversityGraphView,
+  setResetBool
+} from '../../../../stores/slices/graphSlice';
 import { hoverColor } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -30,8 +33,12 @@ export const KODiversityGraph = () => {
   const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
-  const KODiversityData = useAppSelector((state) => state.graph.KODiversityData);
-  const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
+  const KODiversityData = useAppSelector(
+    (state) => state.graph.KODiversityData
+  );
+  const KODiversityGraphView = useAppSelector(
+    (state) => state.graph.KODiversityGraphView
+  );
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
@@ -47,7 +54,9 @@ export const KODiversityGraph = () => {
   }
 
   function handleClickChart(event) {
-    const data = KODiversityData[KODiversityGraphView].find((item) => item.name === event?.activeLabel);
+    const data = KODiversityData[KODiversityGraphView].find(
+      (item) => item.name === event?.activeLabel
+    );
 
     if (data) {
       const currentData = structuredClone(data);
@@ -80,12 +89,11 @@ export const KODiversityGraph = () => {
 
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
-
     }
   }
 
-  useEffect(()=>{
-    if(resetBool){
+  useEffect(() => {
+    if (resetBool) {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
     }
@@ -103,15 +111,31 @@ export const KODiversityGraph = () => {
               maxBarSize={70}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
-              <YAxis allowDataOverflow={true} allowDecimals={false} fontSize="14px">
-                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
+              <XAxis
+                dataKey="name"
+                interval="preserveStartEnd"
+                tick={{ fontSize: 14 }}
+              />
+              <YAxis
+                allowDataOverflow={true}
+                allowDecimals={false}
+                fontSize="14px"
+              >
+                <Label
+                  angle={-90}
+                  position="insideLeft"
+                  className={classes.graphLabel}
+                >
                   Number of genomes
                 </Label>
               </YAxis>
 
               {(KODiversityData[KODiversityGraphView] ?? []).length > 0 && (
-                <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />
+                <Brush
+                  dataKey="name"
+                  height={20}
+                  stroke={'rgb(31, 187, 211)'}
+                />
               )}
 
               <Legend
@@ -122,8 +146,14 @@ export const KODiversityGraph = () => {
                       {payload.map((entry, index) => {
                         const { dataKey, color } = entry;
                         return (
-                          <div key={`KODiversity-legend-${index}`} className={classes.legendItemWrapper}>
-                            <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                          <div
+                            key={`KODiversity-legend-${index}`}
+                            className={classes.legendItemWrapper}
+                          >
+                            <Box
+                              className={classes.colorCircle}
+                              style={{ backgroundColor: color }}
+                            />
                             <Typography variant="caption">{dataKey}</Typography>
                           </div>
                         );
@@ -137,7 +167,9 @@ export const KODiversityGraph = () => {
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
-                    return <div className={classes.chartTooltipLabel}>{label}</div>;
+                    return (
+                      <div className={classes.chartTooltipLabel}>{label}</div>
+                    );
                   }
                   return null;
                 }}
@@ -173,7 +205,10 @@ export const KODiversityGraph = () => {
         >
           {dataViewOptions.map((option, index) => {
             return (
-              <MenuItem key={index + 'KODiversity-dataview'} value={option.value}>
+              <MenuItem
+                key={index + 'KODiversity-dataview'}
+                value={option.value}
+              >
                 {option.label}
               </MenuItem>
             );
@@ -191,12 +226,17 @@ export const KODiversityGraph = () => {
                 <Typography variant="h5" fontWeight="600">
                   {currentTooltip.name}
                 </Typography>
-                <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                <Typography variant="subtitle1">
+                  {'N = ' + currentTooltip.count}
+                </Typography>
               </div>
               <div className={classes.tooltipContent}>
                 {currentTooltip.diversity.map((item, index) => {
                   return (
-                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                    <div
+                      key={`tooltip-content-${index}`}
+                      className={classes.tooltipItemWrapper}
+                    >
                       <Box
                         className={classes.tooltipItemBox}
                         style={{
@@ -207,7 +247,10 @@ export const KODiversityGraph = () => {
                         <Typography variant="body2" fontWeight="500">
                           {item.label}
                         </Typography>
-                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                        <Typography
+                          variant="caption"
+                          noWrap
+                        >{`N = ${item.count}`}</Typography>
                         <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
                       </div>
                     </div>
@@ -216,7 +259,9 @@ export const KODiversityGraph = () => {
               </div>
             </div>
           ) : (
-            <div className={classes.noYearSelected}>Click on a item to see the details</div>
+            <div className={classes.noYearSelected}>
+              Click on a item to see the details
+            </div>
           )}
         </div>
       </div>

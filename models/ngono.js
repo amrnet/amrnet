@@ -216,7 +216,7 @@ const ngonoSchema = new Schema({
   'blaOXA-7': {
     type: String
   },
-  'blaOXA134_2': {
+  blaOXA134_2: {
     type: String
   },
   'blaSHV-12': {

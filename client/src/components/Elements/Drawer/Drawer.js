@@ -1,5 +1,13 @@
 import { useStyles } from './DrawerMUI';
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  SwipeableDrawer
+} from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { setOpenDrawer, setPage } from '../../../stores/slices/appSlice.ts';
@@ -25,7 +33,11 @@ export const Drawer = () => {
   });
 
   function handleToggleDrawer(event, value) {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
 
@@ -67,7 +79,11 @@ export const Drawer = () => {
                 className={`${page === item.key ? classes.activeItem : ''}`}
                 onClick={() => handleUpdatePage(item)}
               >
-                <ListItemIcon className={page === item.key ? classes.activeItemIcon : ''}>{item.icon}</ListItemIcon>
+                <ListItemIcon
+                  className={page === item.key ? classes.activeItemIcon : ''}
+                >
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.label} />
               </ListItemButton>
             </ListItem>

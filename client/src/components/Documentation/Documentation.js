@@ -12,7 +12,11 @@ export const DocumentationPage = () => {
         <CardContent className={classes.cardContent}>
           <Typography variant="body1" className={classes.paragraph}>
             Under development, please see the TyphiNET{' '}
-            <a href="https://github.com/zadyson/TyphiNET/wiki" target="_blank" rel="noreferrer">
+            <a
+              href="https://github.com/zadyson/TyphiNET/wiki"
+              target="_blank"
+              rel="noreferrer"
+            >
               wiki
             </a>{' '}
             for details.
