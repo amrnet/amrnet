@@ -40,13 +40,14 @@ const useStyles = makeStyles((theme) => ({
     width: '70%',
 
     '@media (max-width: 1000px)': {
-      width: '100%'
-    },
-
-    '@media (max-width: 500px)': {
       width: '100%',
       height: '460px'
-    }
+    },
+
+    // '@media (max-width: 500px)': {
+    //   width: '100%',
+    //   height: '460px'
+    // }
   },
   graphLabel: {
     textAnchor: 'middle'
@@ -82,18 +83,19 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 1000px)': {
       width: '100%',
       height: '250px',
-      overflowY: 'hidden'
+      overflowY: 'hidden',
     }
   },
-  sliderCont: {
+  sliderCont:{
     width: '30%',
     overflowY: 'auto',
     overflowX: 'hidden',
     '@media (max-width: 1000px)': {
       width: '100%',
       overflowY: 'hidden',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
     }
+    
   },
   noYearSelected: {
     display: 'flex',
@@ -105,13 +107,13 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '450px',
     display: 'flex',
-    overflowY: 'auto',
+    overflowY:'auto',
     flexDirection: 'column',
     '@media (max-width: 1000px)': {
       width: '100%',
-      height: '100%',
+      height:'100%',
       overflowY: 'hidden',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
     }
   },
   noYearSelected2: {
@@ -120,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '450px',
     '@media (max-width: 1000px)': {
-      height: '100%'
+      height: '100%',
     }
   },
   tooltipTitle: {
