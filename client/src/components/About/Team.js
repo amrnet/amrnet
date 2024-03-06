@@ -13,7 +13,7 @@ export const Team = () => {
   return (
     <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-            <Typography variant="h6" className={classes.teamHeading}>AMRnet Team</Typography>
+            <Typography variant="h6" className={classes.teamHeading}>Team</Typography>
             <Carousel
                 activeSlideIndex={activeSlideIndex}
                 onRequestChange={setActiveSlideIndex}
