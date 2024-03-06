@@ -1,4 +1,11 @@
-import { AppBar, Collapse, IconButton, Toolbar, Typography, useMediaQuery } from '@mui/material';
+import {
+  AppBar,
+  Collapse,
+  IconButton,
+  Toolbar,
+  Typography,
+  useMediaQuery
+} from '@mui/material';
 import { useStyles } from './HeaderMUI';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { ExpandLess, ExpandMore, Menu } from '@mui/icons-material';
@@ -26,7 +33,11 @@ export const Header = ({ showSelect }) => {
   }
 
   function handleToggleDrawer(event, value) {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
 
@@ -40,12 +51,22 @@ export const Header = ({ showSelect }) => {
   return (
     <div className={classes.headerWrapper}>
       <div className={classes.headerBox}></div>
-      <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
-        <Toolbar className={`${classes.toolbar} ${page === 'home' ? '' : classes.otherPage}`}>
+      <AppBar
+        position="relative"
+        sx={{ maxWidth: '1280px' }}
+        className={classes.appBar}
+      >
+        <Toolbar
+          className={`${classes.toolbar} ${page === 'home' ? '' : classes.otherPage}`}
+        >
           <div className={classes.toolbarWrapper}>
             <div className={classes.leftWrapper}>
               <div className={classes.drawerTitleWrapper}>
-                <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  onClick={(event) => handleToggleDrawer(event, true)}
+                >
                   <Menu sx={{ fontSize: '1.7rem' }} />
                 </IconButton>
                 <img src={LogoImg} alt="AMRnet" className={classes.logo} />
@@ -53,7 +74,11 @@ export const Header = ({ showSelect }) => {
               {showSelect && <SelectOrganism />}
             </div>
             {!showSelect && (
-              <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
+              <Typography
+                className={classes.title}
+                variant={matches500 ? 'h6' : 'h5'}
+                fontWeight={500}
+              >
                 {getPageTitle()}
               </Typography>
             )}
@@ -68,7 +93,12 @@ export const Header = ({ showSelect }) => {
                 <InformationCards />
               ))}
           </div>
-          <Collapse className={classes.infoCollapse} in={infoCollapse} timeout="auto" unmountOnExit>
+          <Collapse
+            className={classes.infoCollapse}
+            in={infoCollapse}
+            timeout="auto"
+            unmountOnExit
+          >
             <InformationCards />
           </Collapse>
         </Toolbar>

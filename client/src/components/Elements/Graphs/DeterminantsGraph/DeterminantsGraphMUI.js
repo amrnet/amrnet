@@ -91,28 +91,27 @@ const useStyles = makeStyles((theme) => ({
       height: '250px'
     }
   },
-  sliderCont:{
+  sliderCont: {
     width: '30%',
     overflowY: 'auto',
     overflowX: 'hidden',
     '@media (max-width: 1000px)': {
       width: '100%',
       overflowY: 'hidden',
-      overflowX: 'hidden',
+      overflowX: 'hidden'
     }
-    
   },
   tooltip: {
     width: '100%',
     height: '450px',
     display: 'flex',
-    overflowY:'auto',
+    overflowY: 'auto',
     flexDirection: 'column',
     '@media (max-width: 1000px)': {
       width: '100%',
-      height:'100%',
+      height: '100%',
       overflowY: 'hidden',
-      overflowX: 'hidden',
+      overflowX: 'hidden'
     }
   },
   tooltipTitle: {
@@ -157,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '450px',
     '@media (max-width: 1000px)': {
-      height: '100%',
+      height: '100%'
     }
   }
 }));

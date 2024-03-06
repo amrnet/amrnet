@@ -72,7 +72,10 @@ const path_clean_all_seints = path.join(
 var path_clean_db_st;
 const watcher = chokidar.watch(
   path.join(__dirname, '../assets/webscrap/clean/styphi/'),
-  { ignored: /^\./, persistent: true }
+  {
+    ignored: /^\./,
+    persistent: true
+  }
 );
 
 watcher
