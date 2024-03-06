@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment } from '@mui/material';
 import { useStyles } from './FrequenciesGraphMUI';
 import { InfoOutlined } from '@mui/icons-material';
@@ -20,7 +21,7 @@ import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView, setReset
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP, drugsNG, drugsEC } from '../../../../util/drugs';
+import { drugsST, drugsKP, drugsNG, drugsNG1, drugsEC } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
@@ -90,7 +91,7 @@ export const FrequenciesGraph = () => {
       return drugsKP;
     }
     else if (organism === 'ngono') {
-      return drugsNG;
+      return drugsNG1;
     }
   }
 

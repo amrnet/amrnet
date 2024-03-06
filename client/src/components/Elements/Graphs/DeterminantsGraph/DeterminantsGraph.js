@@ -15,9 +15,9 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDeterminantsGraphDrugClass, setDeterminantsGraphView, setResetBool, setSliderList, setMaxSliderValueRD  } from '../../../../stores/slices/graphSlice';
-import { drugClassesST, drugClassesKP, drugClassesNG, drugsNG, drugsEC, drugsDEC, drugsSE, drugsSEINTS, drugsSH} from '../../../../util/drugs';
+import { drugClassesST, drugClassesKP, drugClassesNG, drugsNG } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
-import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, colorForDrugClassesSE, colorForDrugClassesSEINTS, colorForDrugClassesSH, colorForDrugClassesEC, colorForDrugClassesDEC, hoverColor } from '../../../../util/colorHelper';
+import { colorForDrugClassesKP, colorForDrugClassesST, colorForDrugClassesNG, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
 import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
@@ -70,16 +70,6 @@ export const DeterminantsGraph = () => {
         return drugClassesKP;
       case 'ngono':
         return drugClassesNG;
-      case 'ecoli':
-        return drugsEC;
-      case 'decoli':
-        return drugsDEC;
-      case 'shige':
-        return drugsSH;
-      case 'senterica':
-        return drugsSE;
-      case 'sentericaINTS':
-        return drugsSEINTS;
       default:
         return [];
     }
@@ -93,33 +83,14 @@ export const DeterminantsGraph = () => {
       break;
       case 'kpneumo':
         if(colorForDrugClassesKP[determinantsGraphDrugClass] !== undefined)
-        return colorForDrugClassesKP[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");;
+        return colorForDrugClassesKP[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");
       break;
       case 'ngono':
         if(colorForDrugClassesNG[determinantsGraphDrugClass] !== undefined)
-        return colorForDrugClassesNG[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");;
+        return colorForDrugClassesNG[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");
       break;
-      case 'ecoli':
-        if(colorForDrugClassesEC[determinantsGraphDrugClass] !== undefined)
-        return colorForDrugClassesEC[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");;
-      break;
-      case 'decoli':
-        if(colorForDrugClassesDEC[determinantsGraphDrugClass] !== undefined)
-        return colorForDrugClassesDEC[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");;
-      break;
-      case 'shige':
-        if(colorForDrugClassesSH[determinantsGraphDrugClass] !== undefined)
-        return colorForDrugClassesSH[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");;
-      break;
-      case 'senterica':
-        if(colorForDrugClassesSE[determinantsGraphDrugClass] !== undefined)
-        return colorForDrugClassesSE[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");;
-      break;
-      case 'sentericaints':
-        if(colorForDrugClassesSEINTS[determinantsGraphDrugClass] !== undefined)
-        return colorForDrugClassesSEINTS[determinantsGraphDrugClass].filter((item) => topXGenotypes.includes(item.name) || item.label === "Other" || item.label === "None");;
-      break;
-        default:
+      default:
+        return [];
     }
   }
   let data = 0;
@@ -161,7 +132,7 @@ export const DeterminantsGraph = () => {
   
   
   let newArray = []; //TODO: can be a global value in redux
-  const exclusions = ['name', 'count', 'totalCount', 'resistantCount'];
+  const exclusions = ['name', 'totalCount', 'resistantCount'];
 
   newArray = determinantsGraphDrugClassData.map((item) => {
 
@@ -190,6 +161,7 @@ export const DeterminantsGraph = () => {
   //   }
   let genotypeDrugClassesDataPercentage = structuredClone(newArray);
   useEffect(()=>{
+    //TODO change the exclusions
       const exclusions = ['name', 'totalCount', 'resistantCount'];
     
     genotypeDrugClassesDataPercentage = genotypeDrugClassesDataPercentage.filter((x)=>x).map((item) => {
@@ -226,7 +198,11 @@ export const DeterminantsGraph = () => {
   }
   //TODO: Check this fuction to work for all organisms
   function getColorForDrug(drug){
-    const colorForDrugClasses = organism === 'styphi'?colorForDrugClassesST:colorForDrugClassesKP;
+    const colorForDrugClasses = organism === 'styphi'
+    ? colorForDrugClassesST
+    : organism === 'kpneumo'
+    ? colorForDrugClassesKP
+    : colorForDrugClassesNG
     const drugClassColors = colorForDrugClasses[determinantsGraphDrugClass];
     // Find the color for the specific drug from the drug class colors
     const drugColorObject = drugClassColors.find(item => drug.includes(item.name));
