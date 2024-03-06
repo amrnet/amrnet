@@ -12,7 +12,7 @@ export const TeamCards = [
   },
   {
     Name: 'Louise Cerdeira',
-    Post: "RESEARCH SOFTWARE ENGINEER / RESEARCH SOFTWARE ENGINEER / MICROBIAL GENOMICS",
+    Post: "RESEARCH SOFTWARE ENGINEER / MICROBIAL GENOMICS",
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/profile_photo_listing/public/profile_image/5718.jpg?itok=YUZpAXGM',
   },
   {
