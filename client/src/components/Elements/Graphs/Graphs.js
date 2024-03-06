@@ -8,7 +8,7 @@ import {
   Snackbar,
   Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from '@mui/material';
 import { useStyles } from './GraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -23,14 +23,24 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
+import {
+  drugsST,
+  drugsKP,
+  drugsForDrugResistanceGraphST,
+  drugsNG
+} from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
-import { colorForDrugClassesKP, colorForDrugClassesNG, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
-import { TrendsKPGraph }   from './TrendsKPGraph';
+import {
+  colorForDrugClassesKP,
+  colorForDrugClassesNG,
+  colorForDrugClassesST,
+  getColorForGenotype
+} from '../../../util/colorHelper';
+import { TrendsKPGraph } from './TrendsKPGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
-import { graphCards }  from '../../../util/graphCards';
-import { KODiversityGraph }  from './KODiversityGraph';
-import { ConvergenceGraph }   from './ConvergenceGraph';
+import { graphCards } from '../../../util/graphCards';
+import { KODiversityGraph } from './KODiversityGraph';
+import { ConvergenceGraph } from './ConvergenceGraph';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 export const Graphs = () => {
@@ -49,30 +59,56 @@ export const Graphs = () => {
   const collapses = useAppSelector((state) => state.graph.collapses);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const dataset = useAppSelector((state) => state.map.dataset);
-  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
-  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
-  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-  const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
-  const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
-  const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
-  const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
-  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
+  const actualTimeInitial = useAppSelector(
+    (state) => state.dashboard.actualTimeInitial
+  );
+  const actualTimeFinal = useAppSelector(
+    (state) => state.dashboard.actualTimeFinal
+  );
+  const actualCountry = useAppSelector(
+    (state) => state.dashboard.actualCountry
+  );
+  const determinantsGraphDrugClass = useAppSelector(
+    (state) => state.graph.determinantsGraphDrugClass
+  );
+  const trendsKPGraphDrugClass = useAppSelector(
+    (state) => state.graph.trendsKPGraphDrugClass
+  );
+  const KODiversityGraphView = useAppSelector(
+    (state) => state.graph.KODiversityGraphView
+  );
+  const globalOverviewLabel = useAppSelector(
+    (state) => state.dashboard.globalOverviewLabel
+  );
+  const genotypesForFilter = useAppSelector(
+    (state) => state.dashboard.genotypesForFilter
+  );
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
-  const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
-  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
-  const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
+  const convergenceGroupVariable = useAppSelector(
+    (state) => state.graph.convergenceGroupVariable
+  );
+  const convergenceColourVariable = useAppSelector(
+    (state) => state.graph.convergenceColourVariable
+  );
+  const convergenceColourPallete = useAppSelector(
+    (state) => state.graph.convergenceColourPallete
+  );
+  const drugResistanceGraphView = useAppSelector(
+    (state) => state.graph.drugResistanceGraphView
+  );
   const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
-  
+
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi'
+      ? getColorForGenotype(genotype)
+      : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDrugClassesBars() {
@@ -84,7 +120,7 @@ export const Graphs = () => {
       case 'ngono':
         return colorForDrugClassesNG[determinantsGraphDrugClass];
       default:
-        return []
+        return [];
     }
   }
 
@@ -106,12 +142,18 @@ export const Graphs = () => {
       context.fillStyle = isGenotype
         ? getGenotypeColor(legend)
         : isDrug
-        ? getColorForDrug(legend)
-        : isVariable
-        ? convergenceColourPallete[legend]
-        : legend.color;
+          ? getColorForDrug(legend)
+          : isVariable
+            ? convergenceColourPallete[legend]
+            : legend.color;
       context.beginPath();
-      context.arc(102 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
+      context.arc(
+        102 + xFactor,
+        yPosition - mobileFactor + yFactor,
+        5,
+        0,
+        2 * Math.PI
+      );
       context.fill();
       context.closePath();
       context.fillStyle = 'black';
@@ -126,22 +168,27 @@ export const Graphs = () => {
   async function handleClickDownload(event, card) {
     event.stopPropagation();
     handleLoading(card.collapse, true);
-    if ((card.id === 'DRT' && drugResistanceGraphView.length === 0) || (card.id === 'DRT' && captureDRT === false)) {
-        handleLoading(card.id, false);
-        alert("No drugs/classes selected to download or no data to download");
-        return;
+    if (
+      (card.id === 'DRT' && drugResistanceGraphView.length === 0) ||
+      (card.id === 'DRT' && captureDRT === false)
+    ) {
+      handleLoading(card.id, false);
+      alert('No drugs/classes selected to download or no data to download');
+      return;
     }
-    if ((card.id === 'RFWG' && captureRFWG === false)) {
-        handleLoading(card.id, false);
-        alert("No genotype selected to download or no data to download");
-        return;
+    if (card.id === 'RFWG' && captureRFWG === false) {
+      handleLoading(card.id, false);
+      alert('No genotype selected to download or no data to download');
+      return;
     }
-    if ((card.id === 'RDWG' && captureRDWG === false) || (card.id === 'GD' && captureGD === false)) {
-        handleLoading(card.id, false);
-        alert("No data to download");
-        return;
+    if (
+      (card.id === 'RDWG' && captureRDWG === false) ||
+      (card.id === 'GD' && captureGD === false)
+    ) {
+      handleLoading(card.id, false);
+      alert('No data to download');
+      return;
     }
-    
 
     try {
       const canvas = document.createElement('canvas');
@@ -151,8 +198,11 @@ export const Graphs = () => {
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
 
-      graphImg.src = await domtoimage.toPng(graph, { quality: 0.1, bgcolor: 'white' });
-      
+      graphImg.src = await domtoimage.toPng(graph, {
+        quality: 0.1,
+        bgcolor: 'white'
+      });
+
       await graphImgPromise;
 
       let heightFactor = 0,
@@ -160,7 +210,7 @@ export const Graphs = () => {
         drugClassesFactor,
         genotypesFactor,
         variablesFactor;
-        
+
       if (['RFWG', 'DRT'].includes(card.id)) {
         heightFactor = 250;
       } else if (['RDWG', 'CERDT'].includes(card.id)) {
@@ -174,11 +224,13 @@ export const Graphs = () => {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
       } else if (card.id === 'CVM') {
-        variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
+        variablesFactor = Math.ceil(
+          Object.keys(convergenceColourPallete).length / 3
+        );
         heightFactor += variablesFactor * 22;
       }
 
-     canvas.width = 922;
+      canvas.width = 922;
       canvas.height = graphImg.height + 220 + heightFactor;
 
       ctx.fillStyle = 'white';
@@ -195,23 +247,54 @@ export const Graphs = () => {
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
-      ctx.fillText(card.title, canvas.width / 2 ,50);
+      ctx.fillText(card.title, canvas.width / 2, 50);
 
       ctx.font = '12px Montserrat';
       ctx.fillText(card.description.join(' / '), canvas.width / 2, 72);
 
       ctx.font = '14px Montserrat';
-      ctx.fillText(`Organism: ${globalOverviewLabel.fullLabel}`, canvas.width / 2, 110);
+      ctx.fillText(
+        `Organism: ${globalOverviewLabel.fullLabel}`,
+        canvas.width / 2,
+        110
+      );
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
-      ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+      ctx.fillText(
+        `Time period: ${actualTimeInitial} to ${actualTimeFinal}`,
+        canvas.width / 2,
+        154
+      );
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 176);
-      if (card.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
-      if (card.id === 'CERDT') ctx.fillText(`Drug Class: ${trendsKPGraphDrugClass}`, canvas.width / 2, 198);
-      if (card.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
+      if (card.id === 'RDWG')
+        ctx.fillText(
+          `Drug Class: ${determinantsGraphDrugClass}`,
+          canvas.width / 2,
+          198
+        );
+      if (card.id === 'CERDT')
+        ctx.fillText(
+          `Drug Class: ${trendsKPGraphDrugClass}`,
+          canvas.width / 2,
+          198
+        );
+      if (card.id === 'KO')
+        ctx.fillText(
+          `Data view: ${KODiversityGraphView}`,
+          canvas.width / 2,
+          198
+        );
       if (card.id === 'CVM') {
-        const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
-        const colour = variablesOptions.find((option) => option.value === convergenceColourVariable).label;
-        ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
+        const group = variablesOptions.find(
+          (option) => option.value === convergenceGroupVariable
+        ).label;
+        const colour = variablesOptions.find(
+          (option) => option.value === convergenceColourVariable
+        ).label;
+        ctx.fillText(
+          `Group variable: ${group} / Colour variable: ${colour}`,
+          canvas.width / 2,
+          198
+        );
       }
 
       ctx.fillStyle = 'white';
@@ -226,23 +309,23 @@ export const Graphs = () => {
         drawLegend({
           legendData: legendDrugs,
           context: ctx,
-          factor: (legendDrugs.length>12 ? 8 : 4),
+          factor: legendDrugs.length > 12 ? 8 : 4,
           mobileFactor,
           yPosition: 670,
-          xSpace: (legendDrugs.length>12 ? 400 : 200),
+          xSpace: legendDrugs.length > 12 ? 400 : 200,
           isDrug: true
         });
       } else if ('DRT'.includes(card.id)) {
-          ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-          drawLegend({
-            legendData: drugsForDrugResistanceGraphST,
-            context: ctx,
-            factor: 4,
-            mobileFactor,
-            yPosition: 670,
-            xSpace: 200,
-            isDrug: true
-          });
+        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        drawLegend({
+          legendData: drugsForDrugResistanceGraphST,
+          context: ctx,
+          factor: 4,
+          mobileFactor,
+          yPosition: 670,
+          xSpace: 200,
+          isDrug: true
+        });
       } else if (card.id === 'RDWG') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
@@ -317,8 +400,10 @@ export const Graphs = () => {
       }
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.fullLabel} - ${card.title}.png`);
-    
+      await download(
+        base64,
+        `AMRnet - ${globalOverviewLabel.fullLabel} - ${card.title}.png`
+      );
     } catch {
       setShowAlert(true);
     } finally {
@@ -371,14 +456,22 @@ export const Graphs = () => {
                       <IconButton
                         color="primary"
                         onClick={(event) => handleClickDownload(event, card)}
-                        disabled={organism === 'none' || chartLoadings[card.collapse]}
+                        disabled={
+                          organism === 'none' || chartLoadings[card.collapse]
+                        }
                       >
-                        {chartLoadings[card.collapse] ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                        {chartLoadings[card.collapse] ? (
+                          <CircularProgress color="primary" size={24} />
+                        ) : (
+                          <CameraAlt />
+                        )}
                       </IconButton>
                     </span>
                   </Tooltip>
                 )}
-                <IconButton>{collapses[card.collapse] ? <ExpandLess /> : <ExpandMore />}</IconButton>
+                <IconButton>
+                  {collapses[card.collapse] ? <ExpandLess /> : <ExpandMore />}
+                </IconButton>
               </div>
             </CardActions>
             <Collapse in={collapses[card.collapse]} timeout="auto">
@@ -393,8 +486,16 @@ export const Graphs = () => {
           </Card>
         );
       })}
-      <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={5000}
+        onClose={handleCloseAlert}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
           Something went wrong with the download, please try again later.
         </Alert>
       </Snackbar>

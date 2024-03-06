@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     '&.MuiCard-root': {
       borderRadius: '16px'
-    },
+    }
     // minHeight: '500px'
   },
   cardContent: {
@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
   teamHeading: {
     textAlign: 'center'
   },
-  teamMember:{
-    width: 270, 
-    height: 200, 
-    border:"2px solid gray", 
-    borderRadius:"5px",
-    padding:"20px",
-    margin:"20px !important"
+  teamMember: {
+    width: 270,
+    height: 200,
+    border: '2px solid gray',
+    borderRadius: '5px',
+    padding: '20px',
+    margin: '20px !important'
   }
 }));
 

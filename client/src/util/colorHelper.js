@@ -136,7 +136,7 @@ export const generatePalleteForGenotypes = (genotypes) => {
   if (genotypes.length === 0) {
     return {};
   }
-  const colors = iwanthue(genotypes.length,{
+  const colors = iwanthue(genotypes.length, {
     clustering: 'force-vector',
     seed: 'all',
     quality: 100
@@ -217,7 +217,7 @@ export const colorForDrugClassesST = {
     { name: 'cmlA', color: '#addd8e' },
     { name: 'None', color: '#B9B9B9' }
   ],
-  "Ampicillin/Amoxicillin": [
+  'Ampicillin/Amoxicillin': [
     { name: 'blaTEM-1D', color: '#addd8e' },
     { name: 'None', color: '#B9B9B9' }
   ],
