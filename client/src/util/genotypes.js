@@ -1,6 +1,5 @@
 // List of Salmonella genotypes
 export const genotypes = [
-
   '0',
   '0.0.1',
   '0.0.2',

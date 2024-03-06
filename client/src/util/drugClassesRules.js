@@ -3,7 +3,11 @@
 export const drugRulesST = [
   { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
-  { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
+  {
+    key: 'Chloramphenicol',
+    columnID: 'chloramphenicol_category',
+    values: ['ChlR']
+  },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
   { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
@@ -12,15 +16,30 @@ export const drugRulesST = [
   { key: 'Tetracyclines', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] }
 ];
- 
+
+// export const drugRulesForDrugResistanceGraphNG = [
+//   { key: 'MDR', columnID: 'MDR', values: ['1'] },
+//   { key: 'XDR', columnID: 'XDR', values: ['1'] }
+// ];
+
 export const drugRulesForDrugResistanceGraphNG = [
-  { key: 'MDR', columnID: 'MDR', values: ['1'] },
-  { key: 'XDR', columnID: 'XDR', values: ['1'] }
+
+{ key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
+{ key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
+{ key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
+{ key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
+{ key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
+{ key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
+{ key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
+{ key: 'Susceptible', columnID: ['nonsus'], values: ['1'] },
+{ key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
+{ key: 'MDR', columnID: 'MDR', values: ['1'] },
+{ key: 'XDR', columnID: 'XDR', values: ['1'] }
 ];
 
 export const drugRulesForDrugResistanceGraphST = [
   { key: 'MDR', columnID: 'MDR', values: ['MDR'] },
-  { key: 'XDR', columnID: 'XDR', values: ['XDR'] },
+  { key: 'XDR', columnID: 'XDR', values: ['XDR'] }
 ];
 
 // Drug rules for Klebsiella, where the column has to be any value other than '-' to validate the rule. For frequencies
@@ -29,7 +48,10 @@ export const drugRulesKP = [
   { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
   { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
   { key: '3rd gen cephalosporins (3GCs)', columnIDs: ['Bla_ESBL_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors', columnIDs: ['Bla_ESBL_inhR_acquired'] },
+  {
+    key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
+    columnIDs: ['Bla_ESBL_inhR_acquired']
+  },
   { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
   { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
@@ -50,42 +72,28 @@ export const drugRulesNG = [
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Susceptible', columnID: ['nonsus'], values: ['0'] },
+  { key: 'Susceptible', columnID: ['nonsus'], values: ['1'] },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
 ];
 
 
-export const drugRulesDEC = [
- 
-];
+export const drugRulesDEC = [];
 
-export const drugClassesRulesDEC = [
-  
-];
+export const drugClassesRulesDEC = [];
 
-export const drugClassesRulesSEINTS = [
- 
-];
+export const drugClassesRulesSEINTS = [];
 
-export const drugRulesSEINTS = [
+export const drugRulesSEINTS = [];
 
-];
+export const drugRulesSE = [];
 
-export const drugRulesSE = [
+export const drugRulesSH = [];
 
-];
-
-export const drugRulesSH = [
-
-];
-
-export const drugRulesEC = [
-
-];
+export const drugRulesEC = [];
 
 // Salmonella Typhi drug classes rules for determinants graph
 export const drugClassesRulesST = {
-  "Ampicillin/Amoxicillin": [
+  'Ampicillin/Amoxicillin': [
     {
       name: 'blaTEM-1D',
       susceptible: false,
@@ -674,79 +682,57 @@ export const drugClassesRulesKP = {
 };
 
 // Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesEC = {
-
-};
+export const drugClassesRulesEC = {};
 
 // Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesSH = {
-
-};
+export const drugClassesRulesSH = {};
 
 export const drugClassesRulesNG = {
-  "Azithromycin": [
+  Azithromycin: [
     {
-      name: "AzithR1",
+      name: 'AzithR1',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR1', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR1', value: '1' }]
     },
     {
       name: 'AzithR2',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR3', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR3', value: '1' }]
     },
     {
       name: 'AzithR3',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR3', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR3', value: '1' }]
     },
     {
       name: 'AzithR4',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR4', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR4', value: '1' }]
     },
     {
       name: 'AzithR5',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR5', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR5', value: '1' }]
     },
     {
       name: 'AzithR6',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR6', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR6', value: '1' }]
     },
     {
       name: 'AzithR7',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR7', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR7', value: '1' }]
     },
     {
       name: 'AzithR8',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR8', value: '1' }
-    ]
+      rules: [{ columnID: 'AzithR8', value: '1' }]
     },
     {
       name: 'AzithR9',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR9', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR9', value: '1' }]
     },
     {
       name: 'AzithR10',
@@ -756,9 +742,7 @@ export const drugClassesRulesNG = {
     {
       name: 'AzithR11',
       susceptible: false,
-      rules: [
-        { columnID: 'AzithR11', value: '1' }
-      ]
+      rules: [{ columnID: 'AzithR11', value: '1' }]
     },
     {
       name: 'None',
@@ -778,22 +762,18 @@ export const drugClassesRulesNG = {
       ]
     }
   ],
-  "Ceftriaxone": [
+  Ceftriaxone: [
     {
       name: 'CefR1',
       susceptible: false,
-      rules: [
-        { columnID: 'CefR1', value: '1' }
-      ],
+      rules: [{ columnID: 'CefR1', value: '1' }]
     },
     {
       name: 'None',
       susceptible: true,
       rules: [{ columnID: 'CefR1', value: '0' }]
     }
-    ]
+  ]
 };
 
-export const drugClassesRulesSE = {
-
-};
+export const drugClassesRulesSE = {};

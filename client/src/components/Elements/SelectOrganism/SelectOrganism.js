@@ -1,7 +1,10 @@
 import { IconButton, MenuItem, Select, useMediaQuery } from '@mui/material';
 import { useStyles } from './SelectOrganismMUI';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import { setGlobalOverviewLabel, setOrganism } from '../../../stores/slices/dashboardSlice.ts';
+import {
+  setGlobalOverviewLabel,
+  setOrganism
+} from '../../../stores/slices/dashboardSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 
 const organisms = [
@@ -66,7 +69,9 @@ export const SelectOrganism = () => {
     const index = organisms.findIndex((org) => org.value === organism);
     if (index !== -1) {
       const isFirstIndex = index === 0;
-      const newValue = isFirstIndex ? organisms[organisms.length - 1].value : organisms[index - 1].value;
+      const newValue = isFirstIndex
+        ? organisms[organisms.length - 1].value
+        : organisms[index - 1].value;
       dispatch(setOrganism(newValue));
       handleGlobalOverviewLabel(newValue);
     }
@@ -76,7 +81,9 @@ export const SelectOrganism = () => {
     const index = organisms.findIndex((org) => org.value === organism);
     if (index !== -1) {
       const isLastIndex = organisms.length - 1 === index;
-      const newValue = isLastIndex ? organisms[0].value : organisms[index + 1].value;
+      const newValue = isLastIndex
+        ? organisms[0].value
+        : organisms[index + 1].value;
       dispatch(setOrganism(newValue));
       handleGlobalOverviewLabel(newValue);
     }
@@ -97,7 +104,11 @@ export const SelectOrganism = () => {
   return (
     <div className={classes.organismSelectWrapper}>
       {!matches650 && (
-        <IconButton color="inherit" onClick={handlePreviousAgent} disabled={loadingData}>
+        <IconButton
+          color="inherit"
+          onClick={handlePreviousAgent}
+          disabled={loadingData}
+        >
           <KeyboardArrowLeft />
         </IconButton>
       )}
@@ -123,7 +134,11 @@ export const SelectOrganism = () => {
         </MenuItem> */}
       </Select>
       {!matches650 && (
-        <IconButton color="inherit" onClick={handleNextAgent} disabled={loadingData}>
+        <IconButton
+          color="inherit"
+          onClick={handleNextAgent}
+          disabled={loadingData}
+        >
           <KeyboardArrowRight />
         </IconButton>
       )}

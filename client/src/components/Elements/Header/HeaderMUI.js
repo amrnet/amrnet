@@ -6,12 +6,12 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     // width: '100%', // Default width
     '@supports (-webkit-appearance:none)': {
-    // Safari and Chrome
-      width: '-webkit-fill-available',
+      // Safari and Chrome
+      width: '-webkit-fill-available'
     },
     '@supports (-moz-appearance:none)': {
-    // Firefox
-      width: '-moz-available',
+      // Firefox
+      width: '-moz-available'
     },
     display: 'flex',
     alignItems: 'center',
