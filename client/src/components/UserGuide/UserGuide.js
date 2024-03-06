@@ -77,8 +77,8 @@ export const UserGuidePage = () => {
               </a>.
               </li>
               <li>
-                <span className={classes.paragraphBold}>AMR determinants</span> are described in the  <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-                Typhi Pathogenwatch paper
+                <span className={classes.paragraphBold}>AMR determinants</span> are described in the Typhi Pathogenwatch <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+                paper
               </a>. and the <a href="https://elifesciences.org/articles/85867" target="_blank" rel="noreferrer">
                 Consortium paper
               </a>.
