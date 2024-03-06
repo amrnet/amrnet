@@ -41,7 +41,9 @@ export const drugsNG1 = [
   'Cefixime',
   'Penicillin',
   'Susceptible',
-  'Spectinomycin'
+  'Spectinomycin',
+  'MDR',
+  'XDR'
 ];
 
 // List of N. gono drug classes
@@ -96,6 +98,7 @@ export const drugClassesST = [
 
 // List of Klebsiella drug classes
 export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
+
 
 // List of Klebsiella drug classes
 export const drugClassesKP = ['Carbapenems', 'ESBL'];

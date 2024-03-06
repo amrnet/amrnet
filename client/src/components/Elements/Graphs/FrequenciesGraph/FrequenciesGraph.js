@@ -40,7 +40,6 @@ import {
   drugsST,
   drugsKP,
   drugsNG,
-  drugsNG1,
   drugsEC
 } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -141,7 +140,7 @@ export const FrequenciesGraph = () => {
     } else if (organism === 'kpneumo') {
       return drugsKP;
     } else if (organism === 'ngono') {
-      return drugsNG1;
+      return drugsNG;
     }
   }
 
