@@ -58,8 +58,14 @@ export const TopRightControls2 = () => {
       return (<Tooltip title="pathovar and 7-locus MLST" placement="top">
                 <span>Select Lineage</span>
               </Tooltip>)
+    else if(organism === 'kpneumo')
+      return (<Tooltip title="7-locus MLST" placement="top">
+                <span>Select Lineage</span>
+              </Tooltip>)
     else if (organism === "shige")
-      return "Select Lineage"
+      return (<Tooltip title="species + HC400 cluster" placement="top">
+                <span>Select Lineage</span>
+              </Tooltip>)
     return "Select genotype"
   }
   const filteredData = genotypesDrugsData2
