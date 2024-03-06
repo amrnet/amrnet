@@ -2,51 +2,50 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   topRightControls: {
-    textAlign:"end",
+    textAlign: 'end',
     flexDirection: 'column',
     position: 'absolute',
     top: 0,
     right: 0,
     marginTop: '200px',
-    width:'450px',
-    maxHeight:'300px',
-    alignItems:"normal",
+    width: '450px',
+    maxHeight: '300px',
+    alignItems: 'normal',
     // overflowY: 'auto',
     // width:'25%',
     '@media (max-width: 1000px)': {
-      // width: 
+      // width:
     },
     '@media (max-width: 700px)': {
       position: 'relative',
       marginTop: '0px',
-      width:'100%',
-    },
+      width: '100%'
+    }
     // '&$bp700': {
     //   position: 'relative'
     // }
-    
   },
- font: {
+  font: {
     // '&.MuiFormControlLabel-root': {
     //   // borderRadius: '16px',
     // },
-    fontSize:'small !important',
-    marginRight:'0px !important'
+    fontSize: 'small !important',
+    marginRight: '0px !important'
   },
 
-  dropdown:{
+  dropdown: {
     '& .MuiTypography-root': {
       fontSize: '14px',
-      height:'20px',
-      padding:'0px'
+      height: '20px',
+      padding: '0px'
       // width:'20px',
     }
   },
-  checkbox:{
+  checkbox: {
     '& .MuiCheckbox-root': {
-      backgroundColor:'blue',
-      color:'red',
-      padding:'0px'
+      backgroundColor: 'blue',
+      color: 'red',
+      padding: '0px'
       // width:'20px',
     }
   },
@@ -60,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-    textAlign: 'justify',
+    textAlign: 'justify'
   },
   selectsWrapper: {
     display: 'flex',
@@ -81,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   labelTooltipIcon: {
     cursor: 'pointer'
   },
-   label: {
+  label: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',

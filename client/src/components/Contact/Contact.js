@@ -115,7 +115,12 @@ export const ContactPage = () => {
             value={formValues.message}
             onChange={handleChange}
           />
-          <LoadingButton className={classes.submitButton} variant="contained" loading={loading} onClick={sendEmail}>
+          <LoadingButton
+            className={classes.submitButton}
+            variant="contained"
+            loading={loading}
+            onClick={sendEmail}
+          >
             Submit
           </LoadingButton>
         </CardContent>

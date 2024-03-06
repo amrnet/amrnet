@@ -1,4 +1,11 @@
-import { Description, Home, Info, MenuBook, Person, Storage } from '@mui/icons-material';
+import {
+  Description,
+  Home,
+  Info,
+  MenuBook,
+  Person,
+  Storage
+} from '@mui/icons-material';
 
 // List of drawer menu items
 export const menuItems = [
@@ -16,7 +23,7 @@ export const menuItems = [
     key: 'user-guide',
     label: 'User Guide',
     icon: <MenuBook />
-  },
+  }
   // {
   //   key: 'database',
   //   label: 'Database',

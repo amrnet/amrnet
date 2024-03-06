@@ -216,7 +216,7 @@ const sentericaintsSchema = new Schema({
   'blaOXA-7': {
     type: String
   },
-  'blaOXA134_2': {
+  blaOXA134_2: {
     type: String
   },
   'blaSHV-12': {
@@ -350,6 +350,9 @@ const sentericaintsSchema = new Schema({
   }
 });
 
-const sentericaintsModel = mongoose.model('sentericaintsModel', sentericaintsSchema);
+const sentericaintsModel = mongoose.model(
+  'sentericaintsModel',
+  sentericaintsSchema
+);
 
 export default sentericaintsModel;

@@ -1,6 +1,6 @@
-
 export const TeamCards = [
   {
+
     Name: 'Kat Holt',
     Post: "PROFESSOR OF MICROBIAL SYSTEMS GENOMICS / AMRNET PRINCIPAL INVESTIGATOR",
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/profile_photo_listing/public/profile_image/3496.jpg?itok=jsLaBdBY',
@@ -31,4 +31,5 @@ export const TeamCards = [
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/profile_photo_listing/public/profile_image/5776.jpg?itok=TVA_pOqx',
   },
   
+
 ];

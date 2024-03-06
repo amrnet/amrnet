@@ -17,7 +17,9 @@ export const drugsST = [
   'Trimethoprim'
 ].sort((a, b) => a.localeCompare(b));
 
-export const drugsForDrugResistanceGraphST = [...drugsST, 'XDR', 'MDR'].sort((a, b) => a.localeCompare(b));
+export const drugsForDrugResistanceGraphST = [...drugsST, 'XDR', 'MDR'].sort(
+  (a, b) => a.localeCompare(b)
+);
 
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
@@ -39,7 +41,9 @@ export const drugsNG1 = [
   'Cefixime',
   'Penicillin',
   'Susceptible',
-  'Spectinomycin'
+  'Spectinomycin',
+  'MDR',
+  'XDR'
 ];
 
 // List of N. gono drug classes
@@ -94,6 +98,7 @@ export const drugClassesST = [
 
 // List of Klebsiella drug classes
 export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
+
 
 // List of Klebsiella drug classes
 export const drugClassesKP = ['Carbapenems', 'ESBL'];

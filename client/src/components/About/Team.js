@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { useStyles } from './AboutMUI';
 import Carousel from "react-simply-carousel";
 import { Card, CardContent, Typography,Box } from '@mui/material';
 import { TeamCards } from "./TeamCard";
 
 
+
 export const Team = () => {
-    const classes = useStyles();
-    const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-    
+  const classes = useStyles();
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   return (
     <Card className={classes.card}>
@@ -74,6 +74,7 @@ export const Team = () => {
                 })}
             </Carousel>
         </CardContent>
+
     </Card>
   );
-}
+};

@@ -190,8 +190,14 @@ export const AdminPage = () => {
   // Beautify text for changes
   function betterChanges(changes) {
     const aux = JSON.parse(JSON.stringify(changes));
-    const added = Object.keys(aux.added).length > 0 ? Object.keys(aux.added).join(', ') + '.' : '';
-    const deleted = Object.keys(aux.deleted).length > 0 ? Object.keys(aux.deleted).join(', ') + '.' : '';
+    const added =
+      Object.keys(aux.added).length > 0
+        ? Object.keys(aux.added).join(', ') + '.'
+        : '';
+    const deleted =
+      Object.keys(aux.deleted).length > 0
+        ? Object.keys(aux.deleted).join(', ') + '.'
+        : '';
     let updated = '';
 
     if (Object.keys(aux.updated).length > 0) {
@@ -199,7 +205,9 @@ export const AdminPage = () => {
         const updates = Object.entries(x[1]);
         const changes = updates.map((y, i) => {
           const point = i === updates.length - 1 ? '.' : '';
-          return y[0] + ' (new: ' + y[1].new + ', old: ' + y[1].old + ')' + point;
+          return (
+            y[0] + ' (new: ' + y[1].new + ', old: ' + y[1].old + ')' + point
+          );
         });
         return x[0] + ': ' + changes.join(', ');
       });
@@ -306,7 +314,10 @@ export const AdminPage = () => {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
     }
 
     setSelected(newSelected);
@@ -427,7 +438,9 @@ export const AdminPage = () => {
                 setResultMessage('Upload and download completed!');
               })
               .catch(() => {
-                setResultMessage('Something went wrong with the download, please try again later!');
+                setResultMessage(
+                  'Something went wrong with the download, please try again later!'
+                );
               })
               .finally(() => {
                 setStartProgress(false);
@@ -441,7 +454,9 @@ export const AdminPage = () => {
           setStartProgress(false);
           setLoading(false);
           setOpen4(false);
-          setResultMessage('Something went wrong with the upload, please try again later!');
+          setResultMessage(
+            'Something went wrong with the upload, please try again later!'
+          );
           setOpen5(true);
         });
     }
@@ -452,7 +467,9 @@ export const AdminPage = () => {
     let aux = [];
     for (let index = 0; index < changeData.length - 1; index++) {
       const date = new Date(changeData[index].updatedAt);
-      aux.push(createData(index + 1, date.toLocaleString(), changeData[index].changes));
+      aux.push(
+        createData(index + 1, date.toLocaleString(), changeData[index].changes)
+      );
     }
     setRows(aux);
   }
@@ -521,10 +538,17 @@ export const AdminPage = () => {
       aux = aux.filter((x) => {
         let pass = true;
         Object.keys(x).forEach((y) => {
-          if (!exceptions.includes(y) && filters[y] !== '' && x[y] !== filters[y]) {
+          if (
+            !exceptions.includes(y) &&
+            filters[y] !== '' &&
+            x[y] !== filters[y]
+          ) {
             pass = false;
           }
-          if (search !== '' && !Object.values(x).join(' ').toLowerCase().includes(s)) {
+          if (
+            search !== '' &&
+            !Object.values(x).join(' ').toLowerCase().includes(s)
+          ) {
             pass = false;
           }
         });
@@ -617,7 +641,15 @@ export const AdminPage = () => {
 
   // Component table header
   function EnhancedTableHead(props) {
-    const { classes, order, orderBy, onRequestSort, onSelectAllClick, numSelected, rowCount } = props;
+    const {
+      classes,
+      order,
+      orderBy,
+      onRequestSort,
+      onSelectAllClick,
+      numSelected,
+      rowCount
+    } = props;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -717,18 +749,34 @@ export const AdminPage = () => {
 
     return (
       <Box sx={{ flexShrink: 0, ml: 2.5 }} className={classes.box}>
-        <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label="first page">
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="first page"
+        >
           {theme.direction === 'rtl' ? <LastPage /> : <FirstPage />}
         </IconButton>
-        <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        <IconButton
+          onClick={handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="previous page"
+        >
+          {theme.direction === 'rtl' ? (
+            <KeyboardArrowRight />
+          ) : (
+            <KeyboardArrowLeft />
+          )}
         </IconButton>
         <IconButton
           onClick={handleNextButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="next page"
         >
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+          {theme.direction === 'rtl' ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
         </IconButton>
         <IconButton
           onClick={handleLastPageButtonClick}
@@ -771,7 +819,8 @@ export const AdminPage = () => {
             <Tooltip
               title={
                 <div className="tooltipTitle">
-                  Changes are only saved by pressing the <b className="boldTooltipText">SUBMIT CHANGES</b> button
+                  Changes are only saved by pressing the{' '}
+                  <b className="boldTooltipText">SUBMIT CHANGES</b> button
                 </div>
               }
               placement="left"
@@ -800,13 +849,19 @@ export const AdminPage = () => {
                 <StyledHeaderCell>ID</StyledHeaderCell>
                 <StyledHeaderCell>Date</StyledHeaderCell>
                 <StyledHeaderCell align="left">Changes</StyledHeaderCell>
-                <StyledHeaderCell className={classes.actionsHeaderCell} align="left">
+                <StyledHeaderCell
+                  className={classes.actionsHeaderCell}
+                  align="left"
+                >
                   Actions
                 </StyledHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow key={'00changes'} className={currentData === 0 ? classes.cellON : classes.off}>
+              <TableRow
+                key={'00changes'}
+                className={currentData === 0 ? classes.cellON : classes.off}
+              >
                 <TableCell align="left">{0}</TableCell>
                 <TableCell align="left"></TableCell>
                 <TableCell align="left" width="70%">
@@ -826,7 +881,12 @@ export const AdminPage = () => {
                 </TableCell>
               </TableRow>
               {rows.map((row, r) => (
-                <TableRow key={row.id + 'changes'} className={row.id === currentData ? classes.cellON : classes.off}>
+                <TableRow
+                  key={row.id + 'changes'}
+                  className={
+                    row.id === currentData ? classes.cellON : classes.off
+                  }
+                >
                   <TableCell align="left">{row.id}</TableCell>
                   <TableCell align="left">{row.date}</TableCell>
                   <TableCell align="left" width="70%">
@@ -936,19 +996,31 @@ export const AdminPage = () => {
                         }}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox color="primary" checked={isItemSelected} onClick={() => handleClick(row.NAME)} />
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            onClick={() => handleClick(row.NAME)}
+                          />
                         </TableCell>
                         {Object.values(row).map((cell) => (
-                          <TableCell key={Math.random() + 'cell'} align="center">
+                          <TableCell
+                            key={Math.random() + 'cell'}
+                            align="center"
+                          >
                             {cell}
                           </TableCell>
                         ))}
-                        <TableCell align="center" className={classes.stickyCell}>
+                        <TableCell
+                          align="center"
+                          className={classes.stickyCell}
+                        >
                           <div className="tableActions">
                             <IconButton
                               aria-label="edit"
                               size="small"
-                              onClick={() => handleEdit(JSON.parse(JSON.stringify(row)))}
+                              onClick={() =>
+                                handleEdit(JSON.parse(JSON.stringify(row)))
+                              }
                             >
                               {/* <FontAwesomeIcon
                                 icon={faEdit}
@@ -959,7 +1031,9 @@ export const AdminPage = () => {
                             <IconButton
                               aria-label="delete"
                               size="small"
-                              onClick={() => handleDelete(JSON.parse(JSON.stringify(row)))}
+                              onClick={() =>
+                                handleDelete(JSON.parse(JSON.stringify(row)))
+                              }
                             >
                               {/* <FontAwesomeIcon
                                 icon={faTrashAlt}
@@ -1072,7 +1146,13 @@ export const AdminPage = () => {
         <DialogContent className={classes.dialog}>
           {data.length > 0 &&
             Object.keys(data[0]).map((item) => (
-              <TextField key={item + 'input2'} id={item} className={classes.input2} label={item} variant="outlined" />
+              <TextField
+                key={item + 'input2'}
+                id={item}
+                className={classes.input2}
+                label={item}
+                variant="outlined"
+              />
             ))}
         </DialogContent>
         <DialogActions>
@@ -1092,7 +1172,8 @@ export const AdminPage = () => {
         <DialogTitle id="alert-dialog-title">{'Submit data'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Would you like to submit changes to the database and download the new version to AMRnet ?
+            Would you like to submit changes to the database and download the
+            new version to AMRnet ?
           </DialogContentText>
           {loading && (
             <div className="spinner">
@@ -1101,7 +1182,9 @@ export const AdminPage = () => {
           )}
         </DialogContent>
         <DialogActions>
-          {!startProgress && <Button onClick={() => setOpen4(false)}>Cancel</Button>}
+          {!startProgress && (
+            <Button onClick={() => setOpen4(false)}>Cancel</Button>
+          )}
           {!startProgress && (
             <Button onClick={() => uploadChanges()} autoFocus>
               Ok
@@ -1118,7 +1201,9 @@ export const AdminPage = () => {
       >
         <DialogTitle id="alert-dialog-title">{'Result'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{resultMessage}</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            {resultMessage}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen5(false)} autoFocus>
@@ -1156,7 +1241,8 @@ export const AdminPage = () => {
         <DialogTitle id="alert-dialog-title">{'Look for changes'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Look for changes in the database? If there are, your current changes in the table below will be reseted.
+            Look for changes in the database? If there are, your current changes
+            in the table below will be reseted.
           </DialogContentText>
           {loading && (
             <div className="spinner">
@@ -1165,7 +1251,9 @@ export const AdminPage = () => {
           )}
         </DialogContent>
         <DialogActions>
-          {!startProgress && <Button onClick={() => setOpen7(false)}>Cancel</Button>}
+          {!startProgress && (
+            <Button onClick={() => setOpen7(false)}>Cancel</Button>
+          )}
           {!startProgress && (
             <Button
               onClick={() => {

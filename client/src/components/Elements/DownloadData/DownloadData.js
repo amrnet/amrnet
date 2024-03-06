@@ -96,7 +96,7 @@ export const DownloadData = () => {
   const mapView = useAppSelector((state) => state.map.mapView);
   const dataset = useAppSelector((state) => state.map.dataset);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
-  const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
+  const trendsKPGraphDrugClass = useAppSelector((state) = state.graph.trendsKPGraphDrugClass);
   const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
