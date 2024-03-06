@@ -124,6 +124,12 @@ export const TopRightControls = () => {
                       <span>Multidrug resistant (MDR)</span>
                       </Tooltip>
                   );
+              }else if (legend.label === 'Lineage prevalence') {
+                  legendLabel = (
+                    <Tooltip title="Lineage prevalence" placement="top">
+                      <span>Lineage prevalence</span>
+                      </Tooltip>
+                  );
               }else{
                   legendLabel = legend.label;
               }

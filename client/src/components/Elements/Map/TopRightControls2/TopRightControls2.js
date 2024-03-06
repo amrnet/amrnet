@@ -55,7 +55,7 @@ export const TopRightControls2 = () => {
   }
   function getHeading (){
     if(mapView === 'Lineage prevalence')
-      return "Select lineage"
+      return "Select lineage - labelled as Species (HC400 cluster) or EIEC (ST)"
     return "Select genotype"
   }
   const filteredData = genotypesDrugsData2

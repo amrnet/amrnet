@@ -71,19 +71,21 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
               <li>
-                Genotypes: <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>Genotypes:</span> <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
                 GenoTyphi
               </a> scheme, see <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
                 Dyson & Holt, 2021.
               </a>
               </li>
               <li>
-                AMR determinants are described in the  <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>AMR determinants</span> are described in the  <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
                 Typhi Pathogenwatch paper.
+              </a> and the <a href="https://elifesciences.org/articles/85867" target="_blank" rel="noreferrer">
+                Consortium paper.
               </a>
               </li>
               <li>
-                Travel-associated cases are attributed to the country of travel, not the country of isolation, see <a href="https://doi.org/10.1371/journal.pntd.0007620" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>Travel-associated cases</span> are attributed to the country of travel, not the country of isolation, see <a href="https://doi.org/10.1371/journal.pntd.0007620" target="_blank" rel="noreferrer">
                 Ingle et al, 2019
               </a>.
               </li>
@@ -143,7 +145,7 @@ export const UserGuidePage = () => {
               </a>
               </li>
               <li>
-                AMR determinants are called using <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>AMR determinants</span> are called using <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
                 Kleborate v2
               </a>, described <a href="https://doi.org/10.1038/s41467-021-24448-3" target="_blank" rel="noreferrer">
                 here
@@ -200,19 +202,19 @@ export const UserGuidePage = () => {
               </a>.
               </li>
               <li>
-                AMR determinants are identified by <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>AMR determinants</span> are identified by <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
                 Pathogenwatch
               </a> using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
                 here
               </a>.
               </li>
               <li>
-                AMR determinants within genotypes - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
+                <span className={classes.paragraphBold}>AMR determinants</span> within genotypes - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
                 Sánchez-Busó et al (2021)
               </a>.
               </li>
               <li>
-                Susceptible to cat I/II drugs - No determinants found for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category II).
+                <span className={classes.paragraphBold}>Susceptible to cat I/II drugs</span> - No determinants found for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category II).
               </li>
           </Typography>
 
@@ -228,6 +230,13 @@ export const UserGuidePage = () => {
               <li>
                 <span className={classes.paragraphBold}>XDR:</span> extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
               </li>
+          </Typography>
+          
+          <br/>
+          <Typography variant="body2" className={classes.paragraph}>
+            <span className={classes.paragraphBold}>NOTE:</span> These definitions are based on those defined in the <a href="https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf" target="_blank" rel="noreferrer">
+              European CDC Response Plan
+            </a>, modified to use the specific representatives of category I and II antibiotic classes that are available in the dashboard.
           </Typography>
           <br/>
           <Divider sx={{ borderBottomWidth: 3 }}/>
@@ -394,14 +403,10 @@ export const UserGuidePage = () => {
               </li>
           </Typography>
           
-          <br/>
-          <Divider sx={{ borderBottomWidth: 3 }}/>
-          <br/>
-          <Typography variant="body2" className={classes.paragraph}>
-            Note these definitions are based on those defined in the <a href="https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf" target="_blank" rel="noreferrer">
-              European CDC Response Plan
-            </a>, modified to use the specific representatives of category I and II antibiotic classes that are available in the dashboard.
-          </Typography>
+          {/* <br/> */}
+          {/* <Divider sx={{ borderBottomWidth: 3 }}/> */}
+          {/* <br/> */}
+          
         </CardContent>
       </Card>
       <Footer />
