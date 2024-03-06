@@ -9,7 +9,7 @@ export const menuItems = [
   },
   {
     key: 'about',
-    label: 'About',
+    label: 'About AMRnet',
     icon: <Info />
   },
   {
