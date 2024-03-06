@@ -1,6 +1,4 @@
-![AMRnet_Logo](assets/img/logo-prod.png)
-
-# AMRnet prototype web dashboard
+# <img src='assets/img/logo-prod.png' width="150" height="90">    
 
 ![Code Count](https://img.shields.io/github/languages/count/amrnet/amrnet)
 ![Main Code Base](https://img.shields.io/github/languages/top/amrnet/amrnet)
