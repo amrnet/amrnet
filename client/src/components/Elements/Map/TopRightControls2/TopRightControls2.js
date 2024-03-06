@@ -54,8 +54,12 @@ export const TopRightControls2 = () => {
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
   }
   function getHeading (){
-    if(mapView === 'Lineage prevalence')
-      return "Select lineage - labelled as Species (HC400 cluster) or EIEC (ST)"
+    if(organism === 'decoli')
+      return (<Tooltip title="pathovar and 7-locus MLST" placement="top">
+                <span>Select Lineage</span>
+              </Tooltip>)
+    else if (organism === "shige")
+      return "Select Lineage"
     return "Select genotype"
   }
   const filteredData = genotypesDrugsData2
@@ -103,7 +107,7 @@ export const TopRightControls2 = () => {
                 {...params}
                 variant="outlined"
                 placeholder={customDropdownMapView.length>0?"Type to search...":
-                organism==="shige"? "0 lineage selected":"0 genotype selected"}
+                organism==="shige" || organism === 'decoli'? "0 lineage selected":"0 genotype selected"}
               />
             )}
           />
@@ -116,7 +120,7 @@ export const TopRightControls2 = () => {
     <Box className={`${classes.topRightControls}`}>
       <FormControlLabel className={classes.font}
       control={<Switch checked={open} onChange={handleClick} />}
-      label={organism==="shige"? 
+      label={organism === "shige" || organism === 'decoli'? 
         open?<Typography className={classes.font}>Close lineage selector</Typography>:<Typography className={classes.font}>Open lineage selector</Typography>
       :open?<Typography className={classes.font} >Close genotype selector</Typography>:<Typography className={classes.font}>Open genotype selector</Typography>} 
       />
