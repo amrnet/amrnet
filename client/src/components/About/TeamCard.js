@@ -1,28 +1,20 @@
-
 export const TeamCards = [
   {
-    Name: 'Kat Holt',
-    
+    Name: 'Kat Holt'
   },
   {
-    Name: 'Louise Cerdeira',
-    
+    Name: 'Louise Cerdeira'
   },
   {
-    Name: 'Zoe Dyson',
-    
+    Name: 'Zoe Dyson'
   },
   {
-    Name: 'Megan Carey',
-    
+    Name: 'Megan Carey'
   },
   {
-    Name: 'Vandana Sharma',
-    
+    Name: 'Vandana Sharma'
   },
   {
-    Name: 'Mary Maranga',
-   
-  },
-  
+    Name: 'Mary Maranga'
+  }
 ];
