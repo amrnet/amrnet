@@ -352,7 +352,10 @@ export const DownloadData = () => {
       doc.text("AMRnet Report for", 177, 44, { align: 'center' });
       doc.setFont(undefined, "bolditalic");
       doc.text(firstName, 264, 44, { align: 'center' });
-      doc.setFont(undefined, "bold");
+      if(organism === 'kpneumo' || organism === 'ngono')
+        doc.setFont(undefined, "bolditalic");
+      else
+        doc.setFont(undefined, "bold");
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(date, pageWidth / 2, 68, { align: 'center' });

@@ -218,14 +218,18 @@ export const Map = () => {
             <>
             {organism === "ngono" || organism === "ecoli" ||organism === "senterica" ||organism ==='kpneumo'?
             <span>
-              of <i>{globalOverviewLabel.italicLabel} {globalOverviewLabel.label} </i>
+              of <i>{globalOverviewLabel.label0} {globalOverviewLabel.label1} {globalOverviewLabel.label2}</i>
             </span>:
-            organism === "decoli" || organism === "sentericaints"?
+            organism === "decoli"?
             <span>
-              of {globalOverviewLabel.italicLabel} <i>{globalOverviewLabel.label} </i>
+              of {globalOverviewLabel.label0} <i>{globalOverviewLabel.label1} {globalOverviewLabel.label2}</i>
+            </span>:
+            organism === "sentericaints"?
+            <span>
+              of {globalOverviewLabel.label0} {globalOverviewLabel.label1} <i>{globalOverviewLabel.label2}</i>
             </span>:
             <span>
-              of <i>{globalOverviewLabel.italicLabel}</i> {globalOverviewLabel.label} 
+              of <i>{globalOverviewLabel.label0}</i> {globalOverviewLabel.label1} {globalOverviewLabel.label2} 
             </span>}
             </>
           )}
