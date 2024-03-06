@@ -8,24 +8,40 @@ export const InformationCards = () => {
   const matches650 = useMediaQuery('(max-width: 650px)');
 
   const totalGenomes = useAppSelector((state) => state.dashboard.totalGenomes);
-  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
-  const totalGenotypes = useAppSelector((state) => state.dashboard.totalGenotypes);
-  const actualGenotypes = useAppSelector((state) => state.dashboard.actualGenotypes);
+  const actualGenomes = useAppSelector(
+    (state) => state.dashboard.actualGenomes
+  );
+  const totalGenotypes = useAppSelector(
+    (state) => state.dashboard.totalGenotypes
+  );
+  const actualGenotypes = useAppSelector(
+    (state) => state.dashboard.actualGenotypes
+  );
 
   return (
     <div className={classes.cardsWrapper}>
       <div className={classes.card}>
         <div className={classes.cardContent}>
-          <Typography variant={matches650 ? 'body2' : 'body1'} component="div" className={classes.title}>
+          <Typography
+            variant={matches650 ? 'body2' : 'body1'}
+            component="div"
+            className={classes.title}
+          >
             {`Total Genomes${matches1000 ? ':' : ''}`}
           </Typography>
-          <Typography variant={matches650 ? 'h6' : 'h5'} sx={{ fontWeight: '500' }}>
+          <Typography
+            variant={matches650 ? 'h6' : 'h5'}
+            sx={{ fontWeight: '500' }}
+          >
             {totalGenomes === actualGenomes ? (
               <>{totalGenomes}</>
             ) : (
               <span className={classes.actualAndTotalValues}>
                 {actualGenomes}
-                <Typography variant={matches650 ? 'body2' : 'body1'} sx={{ fontWeight: '500' }}>
+                <Typography
+                  variant={matches650 ? 'body2' : 'body1'}
+                  sx={{ fontWeight: '500' }}
+                >
                   /{totalGenomes}
                 </Typography>
               </span>
@@ -36,16 +52,26 @@ export const InformationCards = () => {
       {!matches650 && <Divider orientation="vertical" flexItem />}
       <div className={classes.card}>
         <div className={classes.cardContent}>
-          <Typography variant={matches650 ? 'body2' : 'body1'} component="div" className={classes.title}>
+          <Typography
+            variant={matches650 ? 'body2' : 'body1'}
+            component="div"
+            className={classes.title}
+          >
             {`Total Genotypes${matches1000 ? ':' : ''}`}
           </Typography>
-          <Typography variant={matches650 ? 'h6' : 'h5'} sx={{ fontWeight: '500' }}>
+          <Typography
+            variant={matches650 ? 'h6' : 'h5'}
+            sx={{ fontWeight: '500' }}
+          >
             {totalGenotypes === actualGenotypes ? (
               <>{totalGenotypes}</>
             ) : (
               <span className={classes.actualAndTotalValues}>
                 {actualGenotypes}
-                <Typography variant={matches650 ? 'body2' : 'body1'} sx={{ fontWeight: '500' }}>
+                <Typography
+                  variant={matches650 ? 'body2' : 'body1'}
+                  sx={{ fontWeight: '500' }}
+                >
                   /{totalGenotypes}
                 </Typography>
               </span>
