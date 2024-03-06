@@ -1,10 +1,4 @@
-import {
-  BarChart,
-  BubbleChart,
-  MultilineChart,
-  StackedBarChart,
-  Timeline
-} from '@mui/icons-material';
+import { BarChart, BubbleChart, MultilineChart, StackedBarChart, Timeline } from '@mui/icons-material';
 
 export const graphCards = [
   {
@@ -37,15 +31,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: [
-      'styphi',
-      'kpneumo',
-      'ngono',
-      'ecoli',
-      'senterica',
-      'decoli',
-      'sentericaints'
-    ]
+    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'senterica', 'sentericaints']
   },
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
@@ -54,15 +40,12 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['shige']
+    organisms: ['shige', 'decoli']
   },
   {
     collapse: 'trendsKP',
     title: 'Carbapenems and ESBL resistant determinant trends',
-    description: [
-      'Top Genotypes (up to 10)',
-      'Data are plotted for years with N ≥ 10 genomes'
-    ],
+    description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
     id: 'CERDT',
     organisms: ['']
