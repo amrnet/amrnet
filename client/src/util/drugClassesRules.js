@@ -17,9 +17,24 @@ export const drugRulesST = [
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] }
 ];
 
+// export const drugRulesForDrugResistanceGraphNG = [
+//   { key: 'MDR', columnID: 'MDR', values: ['1'] },
+//   { key: 'XDR', columnID: 'XDR', values: ['1'] }
+// ];
+
 export const drugRulesForDrugResistanceGraphNG = [
-  { key: 'MDR', columnID: 'MDR', values: ['1'] },
-  { key: 'XDR', columnID: 'XDR', values: ['1'] }
+
+{ key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
+{ key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
+{ key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
+{ key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
+{ key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
+{ key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
+{ key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
+{ key: 'Susceptible', columnID: ['nonsus'], values: ['1'] },
+{ key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
+{ key: 'MDR', columnID: 'MDR', values: ['1'] },
+{ key: 'XDR', columnID: 'XDR', values: ['1'] }
 ];
 
 export const drugRulesForDrugResistanceGraphST = [
@@ -57,9 +72,10 @@ export const drugRulesNG = [
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Susceptible', columnID: ['nonsus'], values: ['0'] },
+  { key: 'Susceptible', columnID: ['nonsus'], values: ['1'] },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] }
 ];
+
 
 export const drugRulesDEC = [];
 
