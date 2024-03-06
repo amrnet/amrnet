@@ -61,27 +61,54 @@ export const BottomRightControls = () => {
         ctx.fillText("Global Overview of ", canvas.width*0.44 , 80);
 
         // Set the font style for "Salmonella" to italic
-        ctx.font = 'italic bold 50px Montserrat';
-        ctx.fillText(globalOverviewLabel.italicLabel, canvas.width * 0.55, 80);
+        // ctx.font = 'italic bold 50px Montserrat';
+        // ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
 
         // Revert to the original font style for the remaining text
-        ctx.font = 'bolder 50px Montserrat';
+        // ctx.font = 'bolder 50px Montserrat';
         if (organism === 'styphi') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.615, 80);
+          ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.font = 'bolder 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.615, 80);
         }else if (organism === 'kpneumo') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+          ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          // ctx.font = 'bolder 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
         }else if (organism === 'ngono') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+          ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          // ctx.font = 'bolder 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
         }else if (organism === 'ecoli') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.65, 80);
+          ctx.font = 'bolder 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.65, 80);
         }else if (organism === 'decoli') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 80);
+          ctx.font = 'bolder 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.565, 80);
+          ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.63, 80);
+          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.65, 80);
         }else if (organism === 'shige') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 80);
+          ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.545, 80);
+          ctx.font = 'bolder 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.585, 80);
+          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.61, 80);
         }else if (organism === 'sentericaints') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.70, 90);
+          ctx.font = 'bolder 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.545, 80);
+          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.635, 80);
+          ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.735, 80);
         }else {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
+          ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.font = 'bolder 50px Montserrat';
+          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
         }
   
         
@@ -171,7 +198,7 @@ export const BottomRightControls = () => {
         ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
 
         const base64 = canvas.toDataURL();
-        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.label}.png`);
+        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.fullLabel}.png`);
       });
     } catch (error) {
       setShowAlert(true);
