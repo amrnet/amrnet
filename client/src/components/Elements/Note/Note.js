@@ -27,9 +27,10 @@ export const Note = () => {
     }else if(organism === "kpneumo"){
       return (<span>This data is pulled from  <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
-            </a> and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains. This will change in future updates.</span>)
-    }else
-      return "This data is pulled from Enterobase and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates."
+            </a> and represents unfiltered data deposited in NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates.</span>)
+    }else{
+      return (<span>This data is pulled from <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">Enterobase</a> and represents unfiltered data deposited in <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">Enterobase</a>/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates. AMR data is not yet available but is coming soon.</span>)
+    }
   }
 
   return (
