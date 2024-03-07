@@ -10,32 +10,20 @@ import {
   XAxis,
   YAxis,
   Tooltip as ChartTooltip,
-  Label
+  Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
 import { setColorPallete } from '../../../../stores/slices/dashboardSlice';
-import {
-  setDistributionGraphView,
-  setResetBool
-} from '../../../../stores/slices/graphSlice.ts';
-import {
-  getColorForGenotype,
-  hoverColor,
-  generatePalleteForGenotypes
-} from '../../../../util/colorHelper';
+import { setDistributionGraphView, setResetBool } from '../../../../stores/slices/graphSlice.ts';
+import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
-import {
-  setCaptureDRT,
-  setCaptureRFWG,
-  setCaptureRDWG,
-  setCaptureGD
-} from '../../../../stores/slices/dashboardSlice';
+import { setCaptureDRT, setCaptureRFWG, setCaptureRDWG, setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
-  { label: 'Percentage per year', value: 'percentage' }
+  { label: 'Percentage per year', value: 'percentage' },
 ];
 
 export const DistributionGraph = () => {
@@ -45,21 +33,13 @@ export const DistributionGraph = () => {
   const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
-  const distributionGraphView = useAppSelector(
-    (state) => state.graph.distributionGraphView
-  );
-  const genotypesYearData = useAppSelector(
-    (state) => state.graph.genotypesYearData
-  );
-  const genotypesForFilter = useAppSelector(
-    (state) => state.dashboard.genotypesForFilter
-  );
+  const distributionGraphView = useAppSelector((state) => state.graph.distributionGraphView);
+  const genotypesYearData = useAppSelector((state) => state.graph.genotypesYearData);
+  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const currentSliderValue = useAppSelector(
-    (state) => state.graph.currentSliderValue
-  );
+  const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
   const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
@@ -108,12 +88,8 @@ export const DistributionGraph = () => {
     const mapArray = Array.from(mp); //[key, total_count], eg: ['4.3.1.1', 1995]
     // Sort the array based on keys
     mapArray.sort((a, b) => b[1] - a[1]);
-    const colorArray = mapArray
-      .slice(0, maxSliderValue)
-      .map(([key, value]) => key);
-    const slicedArray = mapArray
-      .slice(0, currentSliderValue)
-      .map(([key, value]) => key);
+    const colorArray = mapArray.slice(0, maxSliderValue).map(([key, value]) => key);
+    const slicedArray = mapArray.slice(0, currentSliderValue).map(([key, value]) => key);
     setTopXGenotypes(slicedArray);
     dispatch(setColorPallete(generatePalleteForGenotypes(colorArray)));
   }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
@@ -147,9 +123,7 @@ export const DistributionGraph = () => {
 
   function getGenotypeColor(genotype) {
     // console.log("genotype", genotype);
-    return organism === 'styphi'
-      ? getColorForGenotype(genotype)
-      : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleChangeDataView(event) {
@@ -165,7 +139,7 @@ export const DistributionGraph = () => {
       const value = {
         name: currentData.name,
         count: currentData.count,
-        genotypes: []
+        genotypes: [],
       };
 
       delete currentData.name;
@@ -180,13 +154,11 @@ export const DistributionGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: getGenotypeColor(key)
+          color: getGenotypeColor(key),
         };
       });
       // console.log("value.genotypes", value.genotypes);
-      value.genotypes = value.genotypes.filter(
-        (item) => topXGenotypes.includes(item.label) || item.label === 'Other'
-      );
+      value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === 'Other');
       // console.log("value", value);
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
@@ -213,35 +185,13 @@ export const DistributionGraph = () => {
               maxBarSize={70}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="name"
-                interval="preserveStartEnd"
-                tick={{ fontSize: 14 }}
-              />
-              <YAxis
-                domain={getDomain()}
-                allowDataOverflow={true}
-                allowDecimals={false}
-              >
-                <Label
-                  angle={-90}
-                  position="insideLeft"
-                  className={classes.graphLabel}
-                >
-                  {
-                    dataViewOptions.find(
-                      (option) => option.value === distributionGraphView
-                    ).label
-                  }
+              <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
+              <YAxis domain={getDomain()} allowDataOverflow={true} allowDecimals={false}>
+                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
+                  {dataViewOptions.find((option) => option.value === distributionGraphView).label}
                 </Label>
               </YAxis>
-              {genotypesYearData.length > 0 && (
-                <Brush
-                  dataKey="name"
-                  height={20}
-                  stroke={'rgb(31, 187, 211)'}
-                />
-              )}
+              {genotypesYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
               <Legend
                 content={(props) => {
                   const { payload } = props;
@@ -250,14 +200,8 @@ export const DistributionGraph = () => {
                       {payload.map((entry, index) => {
                         const { dataKey, color } = entry;
                         return (
-                          <div
-                            key={`distribution-legend-${index}`}
-                            className={classes.legendItemWrapper}
-                          >
-                            <Box
-                              className={classes.colorCircle}
-                              style={{ backgroundColor: color }}
-                            />
+                          <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>
+                            <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
                             <Typography variant="caption">{dataKey}</Typography>
                           </div>
                         );
@@ -271,9 +215,7 @@ export const DistributionGraph = () => {
                 cursor={genotypesYearData != 0 ? { fill: hoverColor } : false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
-                    return (
-                      <div className={classes.chartTooltipLabel}>{label}</div>
-                    );
+                    return <div className={classes.chartTooltipLabel}>{label}</div>;
                   }
                   return null;
                 }}
@@ -288,23 +230,14 @@ export const DistributionGraph = () => {
                   fill={getGenotypeColor(option)}
                 />
               ))}
-              <Bar
-                dataKey={'Other'}
-                stackId={0}
-                fill={getGenotypeColor('Other')}
-              />
+              <Bar dataKey={'Other'} stackId={0} fill={getGenotypeColor('Other')} />
             </BarChart>
           </ResponsiveContainer>
         );
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    genotypesYearData,
-    distributionGraphView,
-    topXGenotypes,
-    currentSliderValue
-  ]);
+  }, [genotypesYearData, distributionGraphView, topXGenotypes, currentSliderValue]);
 
   return (
     <CardContent className={classes.distributionGraph}>
@@ -319,10 +252,7 @@ export const DistributionGraph = () => {
         >
           {dataViewOptions.map((option, index) => {
             return (
-              <MenuItem
-                key={index + 'distribution-dataview'}
-                value={option.value}
-              >
+              <MenuItem key={index + 'distribution-dataview'} value={option.value}>
                 {option.label}
               </MenuItem>
             );
@@ -343,31 +273,23 @@ export const DistributionGraph = () => {
                   <Typography variant="h5" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
-                  <Typography variant="subtitle1">
-                    {'N = ' + currentTooltip.count}
-                  </Typography>
+                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
                 </div>
                 <div className={classes.tooltipContent}>
                   {currentTooltip.genotypes.map((item, index) => {
                     return (
-                      <div
-                        key={`tooltip-content-${index}`}
-                        className={classes.tooltipItemWrapper}
-                      >
+                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
                         <Box
                           className={classes.tooltipItemBox}
                           style={{
-                            backgroundColor: item.color
+                            backgroundColor: item.color,
                           }}
                         />
                         <div className={classes.tooltipItemStats}>
                           <Typography variant="body2" fontWeight="500">
                             {item.label}
                           </Typography>
-                          <Typography
-                            variant="caption"
-                            noWrap
-                          >{`N = ${item.count}`}</Typography>
+                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
                           <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
                         </div>
                       </div>
@@ -376,9 +298,7 @@ export const DistributionGraph = () => {
                 </div>
               </div>
             ) : (
-              <div className={classes.noYearSelected2}>
-                Click on a year to see detail
-              </div>
+              <div className={classes.noYearSelected2}>Click on a year to see detail</div>
             )}
           </div>
         </div>

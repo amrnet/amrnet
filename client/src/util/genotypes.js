@@ -87,5 +87,5 @@ export const genotypes = [
   '4.3.1.2.1',
   '4.3.1.2.1.1',
   '4.3.1.3',
-  '4.3.1.3.Bdq'
+  '4.3.1.3.Bdq',
 ].sort((a, b) => a.localeCompare(b));

@@ -9,12 +9,11 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'auto',
 
     '& .MuiAppBar-root': {
-      boxShadow:
-        '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)'
-    }
+      boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+    },
   },
   childrenWrapper: {
-    width: '100%'
+    width: '100%',
   },
   children: {
     padding: '128px 16px 16px',
@@ -29,12 +28,12 @@ const useStyles = makeStyles((theme) => ({
       padding: '158px 16px 16px',
 
       '&$otherPage': {
-        padding: '108px 16px 16px'
-      }
+        padding: '108px 16px 16px',
+      },
     },
 
     '@media (max-width: 650px)': {
-      padding: '108px 16px 16px'
+      padding: '108px 16px 16px',
     },
 
     '@media (max-width: 500px)': {
@@ -42,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
       rowGap: '8px',
 
       '&$otherPage': {
-        padding: '88px 8px 8px'
-      }
-    }
+        padding: '88px 8px 8px',
+      },
+    },
   },
   loading: {
     position: 'absolute',
@@ -56,14 +55,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.2)',
-    zIndex: 9999
+    zIndex: 9999,
   },
   logo: {
     height: '100px',
     alignSelf: 'center',
-    paddingLeft: '20px'
+    paddingLeft: '20px',
   },
-  otherPage: {}
+  otherPage: {},
 }));
 
 export { useStyles };

@@ -8,9 +8,7 @@ router.post('/newdoctyphi', function (req, res, next) {
   let collection, collection2, localFilePath;
 
   collection2 = client.db('styphi').collection('merge_rawdata_st');
-  console.log(
-    'I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)'
-  );
+  console.log('I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)');
 
   collection2.find().forEach(function (doc) {
     const empty = ['NA', 'Not Provided', '', '-', undefined, null];
@@ -43,7 +41,7 @@ router.post('/newdoctyphi', function (req, res, next) {
       '4.3.1.1.EA1',
       '4.3.1.2.EA2',
       '4.3.1.2.EA3',
-      '4.3.1.3.Bdq'
+      '4.3.1.3.Bdq',
     ];
     if (h58_genotypes.indexOf(doc['GENOTYPHI GENOTYPE']) != -1) {
       h58_genotype = doc['GENOTYPHI GENOTYPE'];
@@ -59,13 +57,9 @@ router.post('/newdoctyphi', function (req, res, next) {
       '10060_6_20_LaoUI10788_2007',
       '10060_6_30_LaoUI14598_2009',
       '10209_5_36_LaoUI2001_2002',
-      '10209_5_60_LaoUI3396_2003'
+      '10209_5_60_LaoUI3396_2003',
     ];
-    var curate = (
-      curate_223.indexOf(doc['NAME']) !== -1
-        ? '2.2.3'
-        : doc['GENOTYPHI GENOTYPE']
-    ).toString();
+    var curate = (curate_223.indexOf(doc['NAME']) !== -1 ? '2.2.3' : doc['GENOTYPHI GENOTYPE']).toString();
 
     const name = [
       '9953_5_76_LaoLNT1480_2010',
@@ -73,10 +67,9 @@ router.post('/newdoctyphi', function (req, res, next) {
       '10060_6_20_LaoUI10788_2007',
       '10060_6_30_LaoUI14598_2009',
       '10209_5_36_LaoUI2001_2002',
-      '10209_5_60_LaoUI3396_2003'
+      '10209_5_60_LaoUI3396_2003',
     ];
-    var name_ =
-      name.indexOf(doc['NAME']) !== -1 ? '2.2.3' : doc['GENOTYPHI SNPs CALLED'];
+    var name_ = name.indexOf(doc['NAME']) !== -1 ? '2.2.3' : doc['GENOTYPHI SNPs CALLED'];
 
     // var date = (empty.indexOf(doc["DATE"]) !== -1) ? "-" : doc["DATE"].toString();
 
@@ -112,7 +105,7 @@ router.post('/newdoctyphi', function (req, res, next) {
       'parC_S80I',
       'parC_E84G',
       'parC_E84K',
-      'parC_S80R'
+      'parC_S80R',
     ];
     var num_qrdr = 0;
     // gyrSum.forEach(value=>{
@@ -154,7 +147,7 @@ router.post('/newdoctyphi', function (req, res, next) {
       'tetA(B)',
       'tetA(C)',
       'tetA(D)',
-      'ereA'
+      'ereA',
     ];
     var num_amr_genes = 0;
     for (let column of num_amr_genes_sum) {
@@ -189,12 +182,7 @@ router.post('/newdoctyphi', function (req, res, next) {
       co_trim = '0';
     }
     // console.log("sul_any,dfra_any, co_trim : ", sul_any,dfra_any, co_trim);
-    if (
-      doc['tetA(A)'] == '1' ||
-      doc['tetA(B)'] == '1' ||
-      doc['tetA(C)'] == '1' ||
-      doc['tetA(D)'] == '1'
-    ) {
+    if (doc['tetA(A)'] == '1' || doc['tetA(B)'] == '1' || doc['tetA(C)'] == '1' || doc['tetA(D)'] == '1') {
       tetracycline_category = 'TetR';
     } else {
       tetracycline_category = 'TetS';
@@ -284,16 +272,9 @@ router.post('/newdoctyphi', function (req, res, next) {
     }
 
     if (cipqrdr == undefined) {
-      cipqrdr =
-        doc['qnrS'].toString() +
-        doc['qnrB'].toString() +
-        doc['qnrD'].toString();
+      cipqrdr = doc['qnrS'].toString() + doc['qnrB'].toString() + doc['qnrD'].toString();
     } else {
-      cipqrdr =
-        cipqrdr +
-        doc['qnrS'].toString() +
-        doc['qnrB'].toString() +
-        doc['qnrD'].toString();
+      cipqrdr = cipqrdr + doc['qnrS'].toString() + doc['qnrB'].toString() + doc['qnrD'].toString();
     }
 
     if (cipqrdr != undefined) {
@@ -301,35 +282,22 @@ router.post('/newdoctyphi', function (req, res, next) {
       cipqrdr = cip_;
       if (cip_ == 'CipS101' || cip_ == 'CipS110' || cip_ == 'CipS010') {
         cip = 'CipNS';
-      } else if (
-        cip_ == 'CipNS100' ||
-        cip_ == 'CipNS110' ||
-        cip_ == 'CipNS010'
-      ) {
+      } else if (cip_ == 'CipNS100' || cip_ == 'CipNS110' || cip_ == 'CipNS010') {
         cip = 'CipR';
       }
     } else {
       cipqrdr = cip.toString();
     }
 
-    if (
-      num_qrdr === 0 &&
-      (doc['qnrS'] === 1 || doc['qnrB'] === 1 || doc['qnrD'] === 1)
-    ) {
+    if (num_qrdr === 0 && (doc['qnrS'] === 1 || doc['qnrB'] === 1 || doc['qnrD'] === 1)) {
       cip = 'CipNS';
     } else if (num_qrdr === 0) {
       cip = 'CipS';
-    } else if (
-      num_qrdr === 1 &&
-      (doc['qnrS'] === 1 || doc['qnrB'] === 1 || doc['qnrD'] === 1)
-    ) {
+    } else if (num_qrdr === 1 && (doc['qnrS'] === 1 || doc['qnrB'] === 1 || doc['qnrD'] === 1)) {
       cip = 'CipR';
     } else if (num_qrdr === 1) {
       cip = 'CipNS';
-    } else if (
-      num_qrdr === 2 &&
-      (doc['qnrS'] === 1 || doc['qnrB'] === 1 || doc['qnrD'] === 1)
-    ) {
+    } else if (num_qrdr === 2 && (doc['qnrS'] === 1 || doc['qnrB'] === 1 || doc['qnrD'] === 1)) {
       cip = 'CipR';
     } else if (num_qrdr === 2) {
       cip = 'CipNS';
@@ -383,11 +351,8 @@ router.post('/newdoctyphi', function (req, res, next) {
         amrCategory = 'MDR_DCS';
       } else if (
         dcs_category == 'DCS' &&
-        (cip_pred_pheno == 'CipR' ||
-          cip_pred_pheno == 'CipS' ||
-          cip_pred_pheno == 'CipNS') &&
-        (cip_pheno_qrdr_gene == 'CipNS000' ||
-          cip_pheno_qrdr_gene == 'CipR000') &&
+        (cip_pred_pheno == 'CipR' || cip_pred_pheno == 'CipS' || cip_pred_pheno == 'CipNS') &&
+        (cip_pheno_qrdr_gene == 'CipNS000' || cip_pheno_qrdr_gene == 'CipR000') &&
         azith_pred_pheno == 'AzithR'
       ) {
         amrCategory = 'AzithR_DCS';
@@ -450,90 +415,47 @@ router.post('/newdoctyphi', function (req, res, next) {
       cipr = 1;
     }
 
-    var travelLocation =
-      empty.indexOf(doc['TRAVEL COUNTRY']) !== -1 ? '-' : doc['TRAVEL COUNTRY'];
-    var incTypes =
-      empty.indexOf(doc['Inc Types']) !== -1 ? '-' : doc['Inc Types'];
+    var travelLocation = empty.indexOf(doc['TRAVEL COUNTRY']) !== -1 ? '-' : doc['TRAVEL COUNTRY'];
+    var incTypes = empty.indexOf(doc['Inc Types']) !== -1 ? '-' : doc['Inc Types'];
     var pValue = empty.indexOf(doc['p-Value']) !== -1 ? '-' : doc['p-Value'];
-    var mashDistance =
-      empty.indexOf(doc['Mash Distance']) !== -1 ? '-' : doc['Mash Distance'];
-    var organismID =
-      empty.indexOf(doc['Organism ID']) !== -1 ? '-' : doc['Organism ID'];
-    var speciesName =
-      empty.indexOf(doc['Species Name']) !== -1 ? '-' : doc['Species Name'];
-    var speciesID =
-      empty.indexOf(doc['Species ID']) !== -1 ? '-' : doc['Species ID'];
+    var mashDistance = empty.indexOf(doc['Mash Distance']) !== -1 ? '-' : doc['Mash Distance'];
+    var organismID = empty.indexOf(doc['Organism ID']) !== -1 ? '-' : doc['Organism ID'];
+    var speciesName = empty.indexOf(doc['Species Name']) !== -1 ? '-' : doc['Species Name'];
+    var speciesID = empty.indexOf(doc['Species ID']) !== -1 ? '-' : doc['Species ID'];
     var genusID = empty.indexOf(doc['Genus ID']) !== -1 ? '-' : doc['Genus ID'];
-    var genusName =
-      empty.indexOf(doc['Genus Name']) !== -1 ? '-' : doc['Genus Name'];
-    var referenceID =
-      empty.indexOf(doc['Reference ID']) !== -1 ? '-' : doc['Reference ID'];
-    var matchingHashes =
-      empty.indexOf(doc['Matching Hashes']) !== -1
-        ? '-'
-        : doc['Matching Hashes'];
-    var organismName =
-      empty.indexOf(doc['Organism Name']) !== -1 ? '-' : doc['Organism Name'];
+    var genusName = empty.indexOf(doc['Genus Name']) !== -1 ? '-' : doc['Genus Name'];
+    var referenceID = empty.indexOf(doc['Reference ID']) !== -1 ? '-' : doc['Reference ID'];
+    var matchingHashes = empty.indexOf(doc['Matching Hashes']) !== -1 ? '-' : doc['Matching Hashes'];
+    var organismName = empty.indexOf(doc['Organism Name']) !== -1 ? '-' : doc['Organism Name'];
     var version = empty.indexOf(doc['Version']) !== -1 ? '-' : doc['Version'];
-    var genomeID =
-      empty.indexOf(doc['Genome ID']) !== -1 ? '-' : doc['Genome ID'];
+    var genomeID = empty.indexOf(doc['Genome ID']) !== -1 ? '-' : doc['Genome ID'];
     var tetAC = empty.indexOf(doc['tetA(C)']) !== -1 ? '-' : doc['tetA(C)'];
     var tetAD = empty.indexOf(doc['tetA(D)']) !== -1 ? '-' : doc['tetA(D)'];
     var ereA = empty.indexOf(doc['ereA']) !== -1 ? '-' : doc['ereA'];
-    var accession =
-      empty.indexOf(doc['ACCESSION']) !== -1 ? '-' : doc['ACCESSION'];
+    var accession = empty.indexOf(doc['ACCESSION']) !== -1 ? '-' : doc['ACCESSION'];
     var strain = empty.indexOf(doc['STRAIN']) !== -1 ? '-' : doc['STRAIN'];
     var contact = empty.indexOf(doc['CONTACT']) !== -1 ? '-' : doc['CONTACT'];
     var tgcID = empty.indexOf(doc['TGC ID']) !== -1 ? '-' : doc['TGC ID'];
     var age = empty.indexOf(doc['AGE']) !== -1 ? '-' : doc['AGE'];
-    var pourposeOfSampling =
-      empty.indexOf(doc['PURPOSE OF SAMPLING']) !== -1
-        ? '-'
-        : doc['PURPOSE OF SAMPLING'];
+    var pourposeOfSampling = empty.indexOf(doc['PURPOSE OF SAMPLING']) !== -1 ? '-' : doc['PURPOSE OF SAMPLING'];
     var source = empty.indexOf(doc['SOURCE']) !== -1 ? '-' : doc['SOURCE'];
-    var symptomStatus =
-      empty.indexOf(doc['SYMPTOM STATUS']) !== -1 ? '-' : doc['SYMPTOM STATUS'];
-    var location =
-      empty.indexOf(doc['LOCATION']) !== -1 ? '-' : doc['LOCATION'];
-    var biosample =
-      empty.indexOf(doc['BIOSAMPLE']) !== -1 ? '-' : doc['BIOSAMPLE'];
-    var projectAccession =
-      empty.indexOf(doc['PROJECT ACCESSION']) !== -1
-        ? '-'
-        : doc['PROJECT ACCESSION'];
+    var symptomStatus = empty.indexOf(doc['SYMPTOM STATUS']) !== -1 ? '-' : doc['SYMPTOM STATUS'];
+    var location = empty.indexOf(doc['LOCATION']) !== -1 ? '-' : doc['LOCATION'];
+    var biosample = empty.indexOf(doc['BIOSAMPLE']) !== -1 ? '-' : doc['BIOSAMPLE'];
+    var projectAccession = empty.indexOf(doc['PROJECT ACCESSION']) !== -1 ? '-' : doc['PROJECT ACCESSION'];
     var lab = empty.indexOf(doc['LAB']) !== -1 ? '-' : doc['LAB'];
-    var countryIsolated =
-      empty.indexOf(doc['COUNTRY ISOLATED']) !== -1
-        ? '-'
-        : doc['COUNTRY ISOLATED'];
+    var countryIsolated = empty.indexOf(doc['COUNTRY ISOLATED']) !== -1 ? '-' : doc['COUNTRY ISOLATED'];
     var pmid = empty.indexOf(doc['PMID']) !== -1 ? '-' : doc['PMID'];
-    var travelAssociated =
-      empty.indexOf(doc['TRAVEL ASSOCIATED']) !== -1
-        ? '-'
-        : doc['TRAVEL ASSOCIATED'];
+    var travelAssociated = empty.indexOf(doc['TRAVEL ASSOCIATED']) !== -1 ? '-' : doc['TRAVEL ASSOCIATED'];
 
-    var countryOnly =
-      empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1
-        ? '-'
-        : doc['COUNTRY OF ORIGIN'];
-    var regionInCounty =
-      empty.indexOf(doc['LOCATION']) !== -1 ? '-' : doc['LOCATION'];
-    var countyOrigin =
-      empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1
-        ? '-'
-        : doc['COUNTRY OF ORIGIN'];
-    var travelCountry =
-      empty.indexOf(doc['TRAVEL COUNTRY']) !== -1 ? '-' : doc['TRAVEL COUNTRY'];
-    var countyOfOrigin =
-      empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1
-        ? '-'
-        : doc['COUNTRY OF ORIGIN'];
-    var accuracy =
-      empty.indexOf(doc['ACCURACY']) !== -1 ? '-' : doc['ACCURACY'];
-    var latitude =
-      empty.indexOf(doc['LATITUDE']) !== -1 ? '-' : doc['LATITUDE'];
-    var longitude =
-      empty.indexOf(doc['LONGITUDE']) !== -1 ? '-' : doc['LONGITUDE'];
+    var countryOnly = empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
+    var regionInCounty = empty.indexOf(doc['LOCATION']) !== -1 ? '-' : doc['LOCATION'];
+    var countyOrigin = empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
+    var travelCountry = empty.indexOf(doc['TRAVEL COUNTRY']) !== -1 ? '-' : doc['TRAVEL COUNTRY'];
+    var countyOfOrigin = empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
+    var accuracy = empty.indexOf(doc['ACCURACY']) !== -1 ? '-' : doc['ACCURACY'];
+    var latitude = empty.indexOf(doc['LATITUDE']) !== -1 ? '-' : doc['LATITUDE'];
+    var longitude = empty.indexOf(doc['LONGITUDE']) !== -1 ? '-' : doc['LONGITUDE'];
 
     if (
       date != '-' &&
@@ -626,14 +548,12 @@ router.post('/newdoctyphi', function (req, res, next) {
           ACCURACY: accuracy,
           LATITUDE: latitude,
           LONGITUDE: longitude,
-          'dashboard view': dView
-        }
-      }
+          'dashboard view': dView,
+        },
+      },
     );
   });
-  res
-    .status(200)
-    .json({ message: 'Typhi Collection update initiated successfully' });
+  res.status(200).json({ message: 'Typhi Collection update initiated successfully' });
 });
 
 router.post('/newdockleb', function (req, res, next) {
@@ -641,9 +561,7 @@ router.post('/newdockleb', function (req, res, next) {
   let collection, collection2, localFilePath;
 
   collection2 = client.db('kpneumo').collection('merge_rawdata_kp');
-  console.log(
-    'I am trying to update a collection: merge_rawdata_kp, with new query method (w/o aggregare functions)'
-  );
+  console.log('I am trying to update a collection: merge_rawdata_kp, with new query method (w/o aggregare functions)');
 
   var dView, kLocus, oLocus, location;
   collection2.find().forEach(function (doc) {
@@ -651,20 +569,13 @@ router.post('/newdockleb', function (req, res, next) {
 
     var date = empty.indexOf(doc['year']) !== -1 ? '-' : doc['year'];
 
-    var countryOnly =
-      empty.indexOf(doc['Country']) !== -1 ? '-' : doc['Country'];
+    var countryOnly = empty.indexOf(doc['Country']) !== -1 ? '-' : doc['Country'];
 
-    var latitude =
-      empty.indexOf(doc['latitude']) !== -1 ? '-' : doc['latitude'];
+    var latitude = empty.indexOf(doc['latitude']) !== -1 ? '-' : doc['latitude'];
 
-    var longitude =
-      empty.indexOf(doc['longitude']) !== -1 ? '-' : doc['longitude'];
+    var longitude = empty.indexOf(doc['longitude']) !== -1 ? '-' : doc['longitude'];
 
-    if (
-      date != '-' &&
-      countryOnly != '-' &&
-      doc['species'] == 'Klebsiella pneumoniae'
-    ) {
+    if (date != '-' && countryOnly != '-' && doc['species'] == 'Klebsiella pneumoniae') {
       dView = 'Include';
     } else {
       dView = 'Exclude';
@@ -694,21 +605,16 @@ router.post('/newdockleb', function (req, res, next) {
           COUNTRY_ONLY: countryOnly,
           LATITUDE: latitude,
           LONGITUDE: longitude,
-          LOCATION:
-            doc['City'] && doc['City']['region'] !== undefined
-              ? doc['City']['region']
-              : '-',
+          LOCATION: doc['City'] && doc['City']['region'] !== undefined ? doc['City']['region'] : '-',
           K_locus_identity: kLocus,
           K_locus_identity: kLocus,
           O_locus_identity: oLocus,
-          'dashboard view': dView
-        }
-      }
+          'dashboard view': dView,
+        },
+      },
     );
   });
-  res
-    .status(200)
-    .json({ message: 'Kleb Collection update initiated successfully' });
+  res.status(200).json({ message: 'Kleb Collection update initiated successfully' });
 });
 
 export default router;

@@ -1,15 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Box,
-  Button,
-  CardContent,
-  Checkbox,
-  ListItemText,
-  MenuItem,
-  Select,
-  Tooltip,
-  Typography
-} from '@mui/material';
+import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './DrugResistanceGraphMUI';
 import {
   Brush,
@@ -21,26 +11,17 @@ import {
   Tooltip as ChartTooltip,
   LineChart,
   Line,
-  Label
+  Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import {
-  drugsKP,
-  drugsForDrugResistanceGraphST,
-  drugsNG1
-} from '../../../../util/drugs';
+import { drugsKP, drugsForDrugResistanceGraphST, drugsNG1 } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
 import { InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import {
-  setCaptureDRT,
-  setCaptureRFWG,
-  setCaptureRDWG,
-  setCaptureGD
-} from '../../../../stores/slices/dashboardSlice';
+import { setCaptureDRT, setCaptureRFWG, setCaptureRDWG, setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
 export const DrugResistanceGraph = () => {
   const classes = useStyles();
@@ -48,17 +29,13 @@ export const DrugResistanceGraph = () => {
   const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
-  const drugResistanceGraphView = useAppSelector(
-    (state) => state.graph.drugResistanceGraphView
-  );
+  const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
   const drugsYearData = useAppSelector((state) => state.graph.drugsYearData);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const actualCountry = useAppSelector(
-    (state) => state.dashboard.actualCountry
-  );
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -137,7 +114,7 @@ export const DrugResistanceGraph = () => {
       }
     } else {
       const {
-        target: { value }
+        target: { value },
       } = event;
       newValues = value;
     }
@@ -154,7 +131,7 @@ export const DrugResistanceGraph = () => {
       const value = {
         name: currentData.name,
         count: currentData.count,
-        drugs: []
+        drugs: [],
       };
 
       delete currentData.name;
@@ -174,7 +151,7 @@ export const DrugResistanceGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          fill: event.activePayload.find((x) => x.name === key).stroke
+          fill: event.activePayload.find((x) => x.name === key).stroke,
         });
         value.drugs.sort((a, b) => b.count - a.count);
       });
@@ -197,43 +174,23 @@ export const DrugResistanceGraph = () => {
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <LineChart
-              data={getData()}
-              cursor={isTouchDevice() ? 'default' : 'pointer'}
-              onClick={handleClickChart}
-            >
+            <LineChart data={getData()} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 tickCount={20}
                 allowDecimals={false}
                 padding={{ left: 20, right: 20 }}
                 dataKey="name"
-                domain={
-                  drugsYearData.length > 0 ? ['dataMin', 'dataMax'] : undefined
-                }
+                domain={drugsYearData.length > 0 ? ['dataMin', 'dataMax'] : undefined}
                 interval={'preserveStartEnd'}
                 tick={{ fontSize: 14 }}
               />
-              <YAxis
-                tickCount={6}
-                padding={{ top: 20, bottom: 20 }}
-                allowDecimals={false}
-              >
-                <Label
-                  angle={-90}
-                  position="insideLeft"
-                  className={classes.graphLabel}
-                >
+              <YAxis tickCount={6} padding={{ top: 20, bottom: 20 }} allowDecimals={false}>
+                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Resistant (%)
                 </Label>
               </YAxis>
-              {drugsYearData.length > 0 && (
-                <Brush
-                  dataKey="name"
-                  height={20}
-                  stroke={'rgb(31, 187, 211)'}
-                />
-              )}
+              {drugsYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
 
               {organism !== 'none' && (
                 <Legend
@@ -266,17 +223,9 @@ export const DrugResistanceGraph = () => {
                             dataKeyElement = dataKey;
                           }
                           return (
-                            <div
-                              key={`drug-resistance-legend-${index}`}
-                              className={classes.legendItemWrapper}
-                            >
-                              <Box
-                                className={classes.colorCircle}
-                                style={{ backgroundColor: color }}
-                              />
-                              <Typography variant="caption">
-                                {dataKeyElement}
-                              </Typography>
+                            <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
+                              <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                              <Typography variant="caption">{dataKeyElement}</Typography>
                             </div>
                           );
                         })}
@@ -290,9 +239,7 @@ export const DrugResistanceGraph = () => {
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
-                    return (
-                      <div className={classes.chartTooltipLabel}>{label}</div>
-                    );
+                    return <div className={classes.chartTooltipLabel}>{label}</div>;
                   }
                   return null;
                 }}
@@ -321,18 +268,12 @@ export const DrugResistanceGraph = () => {
     <CardContent className={classes.drugResistanceGraph}>
       <div className={classes.selectWrapper}>
         <div className={classes.labelWrapper}>
-          <Typography variant="caption">
-            Select drugs/classes to display
-          </Typography>
+          <Typography variant="caption">Select drugs/classes to display</Typography>
           <Tooltip
             title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
             placement="top"
           >
-            <InfoOutlined
-              color="action"
-              fontSize="small"
-              className={classes.labelTooltipIcon}
-            />
+            <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
           </Tooltip>
         </div>
         <Select
@@ -347,24 +288,16 @@ export const DrugResistanceGraph = () => {
               className={classes.selectButton}
               onClick={() => handleChangeDrugsView({ all: true })}
               disabled={organism === 'none'}
-              color={
-                drugResistanceGraphView.length === getDrugs().length
-                  ? 'error'
-                  : 'primary'
-              }
+              color={drugResistanceGraphView.length === getDrugs().length ? 'error' : 'primary'}
             >
-              {drugResistanceGraphView.length === getDrugs().length
-                ? 'Clear All'
-                : 'Select All'}
+              {drugResistanceGraphView.length === getDrugs().length ? 'Clear All' : 'Select All'}
             </Button>
           }
           inputProps={{ className: classes.selectInput }}
           MenuProps={{
-            classes: { paper: classes.menuPaper, list: classes.selectMenu }
+            classes: { paper: classes.menuPaper, list: classes.selectMenu },
           }}
-          renderValue={(selected) => (
-            <div>{`${selected.length} of ${getDrugs().length} selected`}</div>
-          )}
+          renderValue={(selected) => <div>{`${selected.length} of ${getDrugs().length} selected`}</div>}
         >
           {getDrugs().map((drug, index) => (
             <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
@@ -385,9 +318,7 @@ export const DrugResistanceGraph = () => {
                 <Typography variant="h5" fontWeight="600">
                   {currentTooltip.name}
                 </Typography>
-                <Typography variant="subtitle1">
-                  {'N = ' + currentTooltip.count}
-                </Typography>
+                <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
               </div>
               <div className={classes.tooltipContent}>
                 {currentTooltip.drugs.map((item, index) => {
@@ -414,24 +345,18 @@ export const DrugResistanceGraph = () => {
                     itemLabel = item.label;
                   }
                   return (
-                    <div
-                      key={`tooltip-content-${index}`}
-                      className={classes.tooltipItemWrapper}
-                    >
+                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
                       <Box
                         className={classes.tooltipItemBox}
                         style={{
-                          backgroundColor: item.fill
+                          backgroundColor: item.fill,
                         }}
                       />
                       <div className={classes.tooltipItemStats}>
                         <Typography variant="body2" fontWeight="500">
                           {itemLabel}
                         </Typography>
-                        <Typography
-                          variant="caption"
-                          noWrap
-                        >{`N = ${item.count}`}</Typography>
+                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
                         <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
                       </div>
                     </div>
@@ -441,9 +366,7 @@ export const DrugResistanceGraph = () => {
             </div>
           ) : (
             <div className={classes.noYearSelected}>
-              {drugResistanceGraphView.length === 0
-                ? 'No drug selected'
-                : 'No year selected'}{' '}
+              {drugResistanceGraphView.length === 0 ? 'No drug selected' : 'No year selected'}{' '}
             </div>
           )}
         </div>

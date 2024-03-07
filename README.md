@@ -1,4 +1,3 @@
-
 # AMRnet
 
 ![AMRnet](assets/img/logo-prod.png){: width="80" height="auto" }
