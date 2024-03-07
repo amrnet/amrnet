@@ -52,7 +52,7 @@ const initialState: GraphState = {
     frequencies: false,
     trendsKP: false,
     KODiversity: false,
-    convergence: false
+    convergence: false,
   },
   countriesForFilter: [],
   genotypesYearData: [],
@@ -84,7 +84,7 @@ const initialState: GraphState = {
   maxSliderValueRD: 0,
   sliderList: 0,
   NGMAST: [],
-  ngmastDrugsData: []
+  ngmastDrugsData: [],
 };
 
 export const graphSlice = createSlice({
@@ -92,8 +92,7 @@ export const graphSlice = createSlice({
   initialState,
   reducers: {
     setCollapse: (state, action: PayloadAction<any>) => {
-      state.collapses[action.payload.key as keyof CollapsesModel] =
-        action.payload.value;
+      state.collapses[action.payload.key as keyof CollapsesModel] = action.payload.value;
     },
     setCollapses: (state, action: PayloadAction<CollapsesModel>) => {
       state.collapses = action.payload;
@@ -110,28 +109,19 @@ export const graphSlice = createSlice({
     setDistributionGraphView: (state, action: PayloadAction<string>) => {
       state.distributionGraphView = action.payload;
     },
-    setDrugResistanceGraphView: (
-      state,
-      action: PayloadAction<Array<string>>
-    ) => {
+    setDrugResistanceGraphView: (state, action: PayloadAction<Array<string>>) => {
       state.drugResistanceGraphView = action.payload;
     },
     setFrequenciesGraphView: (state, action: PayloadAction<string>) => {
       state.frequenciesGraphView = action.payload;
     },
-    setFrequenciesGraphSelectedGenotypes: (
-      state,
-      action: PayloadAction<Array<string>>
-    ) => {
+    setFrequenciesGraphSelectedGenotypes: (state, action: PayloadAction<Array<string>>) => {
       state.frequenciesGraphSelectedGenotypes = action.payload;
     },
     setCustomDropdownMapView: (state, action: PayloadAction<Array<string>>) => {
       state.customDropdownMapView = action.payload;
     },
-    setCustomDropdownMapViewNG: (
-      state,
-      action: PayloadAction<Array<string>>
-    ) => {
+    setCustomDropdownMapViewNG: (state, action: PayloadAction<Array<string>>) => {
       state.customDropdownMapViewNG = action.payload;
     },
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
@@ -149,10 +139,7 @@ export const graphSlice = createSlice({
     setGenotypesDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugClassesData = action.payload;
     },
-    setGenotypesAndDrugsYearData: (
-      state,
-      action: PayloadAction<Array<any>>
-    ) => {
+    setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesAndDrugsYearData = action.payload;
     },
     setTrendsKPGraphDrugClass: (state, action: PayloadAction<string>) => {
@@ -202,8 +189,8 @@ export const graphSlice = createSlice({
     },
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -239,7 +226,7 @@ export const {
   setMaxSliderValueRD,
   setSliderList,
   setNgmast,
-  setNgmastDrugsData
+  setNgmastDrugsData,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

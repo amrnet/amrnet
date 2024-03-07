@@ -1,8 +1,4 @@
-import {
-  AddCircle,
-  FilterCenterFocus,
-  RemoveCircle
-} from '@mui/icons-material';
+import { AddCircle, FilterCenterFocus, RemoveCircle } from '@mui/icons-material';
 import { IconButton, Tooltip, Zoom } from '@mui/material';
 import { useStyles } from './BottomLeftControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
@@ -33,20 +29,15 @@ export const BottomLeftControls = () => {
         setPosition({
           ...position,
           coordinates: [0, 0],
-          zoom: position.zoom / 2
-        })
+          zoom: position.zoom / 2,
+        }),
       );
     }
   }
 
   return (
     <div className={classes.bottomLeftControls}>
-      <Zoom
-        in={
-          position.zoom !== 1 ||
-          position.coordinates.some((coordinate) => coordinate !== 0)
-        }
-      >
+      <Zoom in={position.zoom !== 1 || position.coordinates.some((coordinate) => coordinate !== 0)}>
         <Tooltip title="Recenter" placement="right">
           <IconButton onClick={handleRecenter}>
             <FilterCenterFocus fontSize="large" color="primary" />
@@ -55,22 +46,14 @@ export const BottomLeftControls = () => {
       </Zoom>
       <Tooltip title="Zoom In" placement="right">
         <span>
-          <IconButton
-            color="primary"
-            onClick={handleZoomIn}
-            disabled={organism === 'none'}
-          >
+          <IconButton color="primary" onClick={handleZoomIn} disabled={organism === 'none'}>
             <AddCircle fontSize="large" />
           </IconButton>
         </span>
       </Tooltip>
       <Tooltip title="Zoom Out" placement="right">
         <span>
-          <IconButton
-            color="primary"
-            onClick={handleZoomOut}
-            disabled={organism === 'none'}
-          >
+          <IconButton color="primary" onClick={handleZoomOut} disabled={organism === 'none'}>
             <RemoveCircle fontSize="large" />
           </IconButton>
         </span>

@@ -3,9 +3,9 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles((theme) => ({
   card: {
     '&.MuiCard-root': {
-      borderRadius: '16px'
+      borderRadius: '16px',
     },
-    minHeight: '500px'
+    minHeight: '500px',
   },
   cardContent: {
     maxWidth: '600px',
@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '50px !important',
 
     '@media (max-width: 500px)': {
-      padding: '24px !important'
-    }
+      padding: '24px !important',
+    },
   },
   row: {
     display: 'flex',
@@ -25,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
     gap: '24px',
 
     '@media (max-width: 600px)': {
-      flexDirection: 'column'
-    }
+      flexDirection: 'column',
+    },
   },
   submitButton: {
     marginTop: '16px !important',
     height: '50px',
-    color: '#fff !important'
-  }
+    color: '#fff !important',
+  },
 }));
 
 export { useStyles };

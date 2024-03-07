@@ -4,32 +4,32 @@ const merge_rawdata_st = [
       from: 'pw_amr-genes',
       localField: 'NAME',
       foreignField: 'NAME',
-      as: 'pw_amr-genes'
-    }
+      as: 'pw_amr-genes',
+    },
   },
   {
     $lookup: {
       from: 'pw_species-prediction',
       localField: 'NAME',
       foreignField: 'Genome Name',
-      as: 'pw_species-prediction'
-    }
+      as: 'pw_species-prediction',
+    },
   },
   {
     $lookup: {
       from: 'pw_amr-snps',
       localField: 'NAME',
       foreignField: 'NAME',
-      as: 'pw_amr-snps'
-    }
+      as: 'pw_amr-snps',
+    },
   },
   {
     $lookup: {
       from: 'pw_metadata',
       localField: 'NAME',
       foreignField: 'NAME',
-      as: 'pw_metadata'
-    }
+      as: 'pw_metadata',
+    },
   },
   // {
   //   $lookup: {
@@ -44,8 +44,8 @@ const merge_rawdata_st = [
       from: 'pw_typing',
       localField: 'NAME',
       foreignField: 'NAME',
-      as: 'pw_typing'
-    }
+      as: 'pw_typing',
+    },
   },
   {
     $replaceRoot:
@@ -56,27 +56,27 @@ const merge_rawdata_st = [
         newRoot: {
           $mergeObjects: [
             {
-              $arrayElemAt: ['$pw_amr-genes', 0]
+              $arrayElemAt: ['$pw_amr-genes', 0],
             },
             {
-              $arrayElemAt: ['$pw_species-prediction', 0]
+              $arrayElemAt: ['$pw_species-prediction', 0],
             },
             {
-              $arrayElemAt: ['$pw_amr-snps', 0]
+              $arrayElemAt: ['$pw_amr-snps', 0],
             },
             {
-              $arrayElemAt: ['$pw_metadata', 0]
+              $arrayElemAt: ['$pw_metadata', 0],
             },
             {
-              $arrayElemAt: ['$pw_stats', 0]
+              $arrayElemAt: ['$pw_stats', 0],
             },
             {
-              $arrayElemAt: ['$pw_typing', 0]
+              $arrayElemAt: ['$pw_typing', 0],
             },
-            '$$ROOT'
-          ]
-        }
-      }
+            '$$ROOT',
+          ],
+        },
+      },
   },
   {
     $project: {
@@ -85,13 +85,13 @@ const merge_rawdata_st = [
       'pw_amr-snps': 0,
       pw_metadata: 0,
       // pw_stats: 0,
-      pw_typing: 0
-    }
+      pw_typing: 0,
+    },
   },
   {
     $merge: {
-      into: 'merge_rawdata_st'
-    }
-  }
+      into: 'merge_rawdata_st',
+    },
+  },
 ];
 export default merge_rawdata_st;

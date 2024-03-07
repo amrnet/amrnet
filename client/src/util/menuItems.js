@@ -1,29 +1,22 @@
-import {
-  Description,
-  Home,
-  Info,
-  MenuBook,
-  Person,
-  Storage
-} from '@mui/icons-material';
+import { Description, Home, Info, MenuBook, Person, Storage } from '@mui/icons-material';
 
 // List of drawer menu items
 export const menuItems = [
   {
     key: 'home',
     label: 'Home',
-    icon: <Home />
+    icon: <Home />,
   },
   {
     key: 'about',
     label: 'About',
-    icon: <Info />
+    icon: <Info />,
   },
   {
     key: 'user-guide',
     label: 'User Guide',
-    icon: <MenuBook />
-  }
+    icon: <MenuBook />,
+  },
   // {
   //   key: 'database',
   //   label: 'Database',

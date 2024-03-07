@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  clearErrors,
-  getProductDetails,
-  newReview
-} from '../../actions/productAction';
+import { clearErrors, getProductDetails, newReview } from '../../actions/productAction';
 import { MdOutlineReviews } from 'react-icons/md';
 import ReviewCard from './ReviewCard.js';
 import Loader from '../layout/Loader';
 import Metadata from '../layout/Metadata';
 import { addItemsToCart } from '../../actions/cartAction';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Button
-} from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { NEW_REVIEW_RESET } from '../../constants/productConstants';
 import { toast } from 'react-toastify';
@@ -31,13 +21,9 @@ export default function ProductDetails() {
 
   const navigate = useNavigate();
 
-  const { product, loading, error } = useSelector(
-    (state) => state.productDetails
-  );
+  const { product, loading, error } = useSelector((state) => state.productDetails);
 
-  const { success, error: reviewError } = useSelector(
-    (state) => state.newReview
-  );
+  const { success, error: reviewError } = useSelector((state) => state.newReview);
 
   const { isAuthenticated } = useSelector((state) => state.user);
 
@@ -54,8 +40,7 @@ export default function ProductDetails() {
       });
     });
 
-  let verified =
-    purchaseIds && purchaseIds.filter((ele) => String(ele) === product._id);
+  let verified = purchaseIds && purchaseIds.filter((ele) => String(ele) === product._id);
 
   const isVarified = String(verified) === product._id;
 
@@ -65,7 +50,7 @@ export default function ProductDetails() {
     size: 'large',
     value: product.ratings,
     readOnly: true,
-    precision: 0.5
+    precision: 0.5,
   };
 
   const [quantity, setQuantity] = useState(1);
@@ -99,7 +84,7 @@ export default function ProductDetails() {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: 'colored'
+      theme: 'colored',
     });
   };
 
@@ -118,7 +103,7 @@ export default function ProductDetails() {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: 'colored'
+      theme: 'colored',
     });
     setOpen(false);
   };
@@ -127,20 +112,20 @@ export default function ProductDetails() {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 5
+      items: 5,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 2
+      items: 2,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 2
+      items: 2,
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
+      items: 1,
+    },
   };
 
   useEffect(() => {
@@ -190,14 +175,7 @@ export default function ProductDetails() {
                 >
                   {product.images &&
                     product.images.map((element, index) => {
-                      return (
-                        <img
-                          className="h-[100%]"
-                          key={index}
-                          src={element.url}
-                          alt=""
-                        />
-                      );
+                      return <img className="h-[100%]" key={index} src={element.url} alt="" />;
                     })}
                 </Carousel>
               </div>
@@ -206,12 +184,8 @@ export default function ProductDetails() {
                 <div className="container px-5 md:py-10 mx-auto">
                   <div className="lg:w-4/5 mx-auto flex flex-wrap md:justify-center md:items-center">
                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 lg:mx-5">
-                      <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                        {product.category}
-                      </h2>
-                      <h1 className=" text-2xl lg:text-3xl title-font font-medium mb-1">
-                        {product.name}
-                      </h1>
+                      <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.category}</h2>
+                      <h1 className=" text-2xl lg:text-3xl title-font font-medium mb-1">{product.name}</h1>
                       <div className="flex mb-4">
                         <span className="flex items-center">
                           <div>
@@ -260,21 +234,16 @@ export default function ProductDetails() {
                       </div>
                       <p className="leading-relaxed text-xs">
                         {' '}
-                        <span className=" font-semibold">Id</span> :{' '}
-                        {product._id}
+                        <span className=" font-semibold">Id</span> : {product._id}
                       </p>
                       <p className="text-sm lg:text-base my-3">
-                        <span className=" font-semibold ">Description</span> :
-                        {product.description}
+                        <span className=" font-semibold ">Description</span> :{product.description}
                       </p>
                       <div className="flex flex-col justify-start mt-6 items-start pb-5 border-b-2 border-gray-800 mb-5 space-y-3">
                         <div className="flex">
                           <span className="">
                             {' '}
-                            <span className="text-base font-semibold">
-                              Stock left :
-                            </span>{' '}
-                            {product.stock}
+                            <span className="text-base font-semibold">Stock left :</span> {product.stock}
                           </span>
                         </div>
                         <div className="flex">
@@ -283,15 +252,13 @@ export default function ProductDetails() {
                             {product.price &&
                               product.price.toLocaleString('en-IN', {
                                 style: 'currency',
-                                currency: 'INR'
+                                currency: 'INR',
                               })}
                           </span>
                         </div>
                         <div className="flex items-center">
                           <span className="mr-3">
-                            <span className="text-base font-semibold">
-                              Quantity
-                            </span>
+                            <span className="text-base font-semibold">Quantity</span>
                           </span>
                           <div className="">
                             <button
@@ -300,9 +267,7 @@ export default function ProductDetails() {
                             >
                               -
                             </button>
-                            <span className="text-base font-semibold">
-                              {quantity}
-                            </span>
+                            <span className="text-base font-semibold">{quantity}</span>
                             <button
                               onClick={increaseQuantity}
                               disabled={product.stock - 1 < quantity}
@@ -315,16 +280,8 @@ export default function ProductDetails() {
                       </div>
 
                       <div className="flex items-center my-3 space-x-2">
-                        <span className="text-base font-semibold ">
-                          Status :
-                        </span>
-                        <p
-                          className={
-                            product.stock < 5
-                              ? 'text-red-500 font-bold'
-                              : 'text-green-500 font-bold'
-                          }
-                        >
+                        <span className="text-base font-semibold ">Status :</span>
+                        <p className={product.stock < 5 ? 'text-red-500 font-bold' : 'text-green-500 font-bold'}>
                           {product.stock < 1 ? 'Out Of Stock' : 'Instock'}
                         </p>
                       </div>
@@ -357,18 +314,10 @@ export default function ProductDetails() {
 
                   <div className="h-[1px] bg-gray-700 w-[90vw] m-auto my-5"></div>
 
-                  <Dialog
-                    aria-labelledby="simple-dialog-title"
-                    open={open}
-                    onClose={submitReviewToggle}
-                  >
+                  <Dialog aria-labelledby="simple-dialog-title" open={open} onClose={submitReviewToggle}>
                     <DialogTitle>Add Review</DialogTitle>
                     <DialogContent className="submitDialog">
-                      <Rating
-                        onChange={(e) => setRating(e.target.value)}
-                        value={rating}
-                        size="large"
-                      />
+                      <Rating onChange={(e) => setRating(e.target.value)} value={rating} size="large" />
 
                       <textarea
                         className="submitDialogTextArea"
@@ -389,20 +338,13 @@ export default function ProductDetails() {
                   </Dialog>
                   <div className="text-center my-5 font-semibold">
                     <span className="text-xl">Reviews</span>{' '}
-                    <span className="text-blue-500">
-                      ({product.numOfReviews})
-                    </span>
+                    <span className="text-blue-500">({product.numOfReviews})</span>
                   </div>
                   {product.reviews && product.reviews[0] ? (
                     <div className="md:flex md:flex-col">
                       {product.reviews &&
                         product.reviews.map((element, index) => (
-                          <ReviewCard
-                            review={element}
-                            allReviews={product.reviews}
-                            key={index}
-                            product={product}
-                          />
+                          <ReviewCard review={element} allReviews={product.reviews} key={index} product={product} />
                         ))}
                     </div>
                   ) : (

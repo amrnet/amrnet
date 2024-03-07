@@ -36,7 +36,7 @@ const initialState: DashboardState = {
   globalOverviewLabel: {
     italicLabel: 'Salmonella',
     label: 'Typhi',
-    fullLabel: 'Salmonella Typhi'
+    fullLabel: 'Salmonella Typhi',
   },
   organism: 'styphi',
   loadingData: false,
@@ -57,7 +57,7 @@ const initialState: DashboardState = {
   captureDRT: true,
   captureRFWG: true,
   captureRDWG: true,
-  captureGD: true
+  captureGD: true,
 };
 
 export const dashboardSlice = createSlice({
@@ -67,10 +67,7 @@ export const dashboardSlice = createSlice({
     setCanGetData: (state, action: PayloadAction<boolean>) => {
       state.canGetData = action.payload;
     },
-    setGlobalOverviewLabel: (
-      state,
-      action: PayloadAction<GlobalOverviewModel>
-    ) => {
+    setGlobalOverviewLabel: (state, action: PayloadAction<GlobalOverviewModel>) => {
       state.globalOverviewLabel = action.payload;
     },
     setOrganism: (state, action: PayloadAction<string>) => {
@@ -132,8 +129,8 @@ export const dashboardSlice = createSlice({
     },
     setCaptureGD: (state, action: PayloadAction<boolean>) => {
       state.captureGD = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -158,7 +155,7 @@ export const {
   setCaptureDRT,
   setCaptureRFWG,
   setCaptureRDWG,
-  setCaptureGD
+  setCaptureGD,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;
