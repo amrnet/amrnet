@@ -87,10 +87,11 @@ export const SelectOrganism = () => {
     const labels = currentOrganism.label.split(' ');
     dispatch(
       setGlobalOverviewLabel({
-        italicLabel: labels[0],
-        label: labels[1],
-        fullLabel: currentOrganism.label,
-      }),
+        label0: labels[0],
+        label1: labels[1],
+        label2: labels[2],
+        fullLabel: currentOrganism.label
+      })
     );
   }
 

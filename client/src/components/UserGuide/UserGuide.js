@@ -49,10 +49,11 @@ export const UserGuidePage = () => {
             specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see
             per-organism details below).
           </Typography>
+          <br/>
           <Typography variant="body2" className={classes.paragraph}>
             All plots are interactive; use the menus at the top to{' '}
             <span className={classes.paragraphBold}>select variables to display</span>, and whether to show{' '}
-            <span className={classes.paragraphBold}>counts or percentages.</span>
+            <span className={classes.paragraphBold}>counts or percentages</span>.
           </Typography>
           <br />
           <Typography variant="body2" className={classes.paragraph}>
@@ -64,9 +65,13 @@ export const UserGuidePage = () => {
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the
-            inTypographyidual genome-level information that is used to populate the dashboard (‘Download database (CSV
+            individual genome-level information that is used to populate the dashboard (‘Download database (CSV
             format)’); and (2) a static report of the currently displayed plots, together with a basic description of
             the data sources and variable definitions (‘Download PDF’).
+          </Typography>
+          <br />
+          <Typography variant="body2" className={classes.paragraph}>
+            <span className={classes.paragraphBold}>NOTE:</span> Please note PDF reports are not yet available for all organisms, they will be added in future updates.
           </Typography>
           <br />
           <Divider sx={{ borderBottomWidth: 3 }} />
@@ -80,7 +85,7 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <i>Salmonella</i> Typhi data in AMRnet are drawn from{' '}
-            <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <a href="http://Pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>
             , which calls AMR and{' '}
@@ -101,7 +106,7 @@ export const UserGuidePage = () => {
             </a>
             . The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling
             frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations).
-            Last update: XX.
+            Last update: 24 January 2024.
           </Typography>
           <br />
           <Typography variant="subtitle2" className={classes.paragraph}>
@@ -115,18 +120,18 @@ export const UserGuidePage = () => {
               </a>{' '}
               scheme, see{' '}
               <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
-                Dyson & Holt, 2021.
-              </a>
+                Dyson & Holt, 2021
+              </a>.
             </li>
             <li>
               <span className={classes.paragraphBold}>AMR determinants</span> are described in the{' '}
-              <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-                Typhi Pathogenwatch paper.
-              </a>{' '}
+             <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+                Typhi Pathogenwatch paper
+              </a>.{' '}
               and the{' '}
               <a href="https://elifesciences.org/articles/85867" target="_blank" rel="noreferrer">
-                Consortium paper.
-              </a>
+                Consortium paper
+              </a>.
             </li>
             <li>
               <span className={classes.paragraphBold}>Travel-associated cases</span> are attributed to the country of
@@ -167,18 +172,18 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <i>Klebsiella pneumoniae</i> data are sourced from{' '}
-            <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <a href="https://pathogen.watch/" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>
             , which calls AMR (using{' '}
-            <a href="https://github.com/klebgenomics/Kleborate" target="_blank" rel="noreferrer">
+            <a href="https://doi.org/10.1038/s41467-021-24448-3" target="_blank" rel="noreferrer">
               Kleborate
             </a>
             ) and genotypes (
             <a href="https://doi.org/10.1128/jcm.43.8.4178-4182.2005" target="_blank" rel="noreferrer">
               MLST
             </a>
-            ) from genomes assembled from public data. Last update: January 24th 2024.
+            ) from genomes assembled from public data. Last update: 24 January 2024.
           </Typography>
           <br />
 
@@ -204,8 +209,8 @@ export const UserGuidePage = () => {
               </a>{' '}
               for <i>Klebsiella pneumoniae</i>, maintained by{' '}
               <a href="https://bigsdb.pasteur.fr/klebsiella/" target="_blank" rel="noreferrer">
-                Institut Pasteur.
-              </a>
+                Institut Pasteur
+              </a>.
             </li>
             <li>
               <span className={classes.paragraphBold}>AMR determinants</span> are called using{' '}
@@ -214,7 +219,7 @@ export const UserGuidePage = () => {
               </a>
               , described{' '}
               <a href="https://doi.org/10.1038/s41467-021-24448-3" target="_blank" rel="noreferrer">
-                here
+                Lam et al, 2021
               </a>
               .
             </li>
@@ -239,7 +244,7 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <i>Neisseria gonorrhoeae</i> data are sourced from{' '}
-            <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+            <a href="https://pathogen.watch/" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>
             , which calls AMR and lineage{' '}
@@ -264,7 +269,7 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1016/s2666-5247(22)00044-1" target="_blank" rel="noreferrer">
               2018
             </a>
-            , and several national surveillance studies. Last update: January 24th 2024.
+            , and several national surveillance studies. Last update: 24 January 2024.
           </Typography>
 
           <br />
@@ -290,18 +295,16 @@ export const UserGuidePage = () => {
             </li>
             <li>
               <span className={classes.paragraphBold}>AMR determinants</span> are identified by{' '}
-              <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-                Pathogenwatch
-              </a>{' '}
+              Pathogenwatch{' '}
               using an inhouse dictionary developed and maintained in consultation with an expert advisory group,
               described{' '}
               <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
-                here
+                Sánchez-Busó et al (2021)
               </a>
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>AMR determinants</span> within genotypes - This plot shows
+              <span className={classes.paragraphBold}>AMR determinants within genotypes</span> - This plot shows
               combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined
               in Figure 3 of{' '}
               <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
@@ -376,7 +379,7 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1093/bioinformatics/btab234" target="_blank" rel="noreferrer">
               hierarchical clustering
             </a>
-            . Last update: January 24th 2024.
+            . Last update: 24 January 2024.
           </Typography>
 
           <br />
@@ -507,7 +510,7 @@ export const UserGuidePage = () => {
           </Typography>
           <br />
           <Typography variant="body2" className={classes.paragraph}>
-            Last update: January 24th 2024
+            Last update: 24 January 2024
           </Typography>
 
           <br />
@@ -586,7 +589,7 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target="_blank" rel="noreferrer">
               &gt;90% of iNTS
             </a>
-            ), and identifies lineages thereof using MLST. Last update: January 24th 2024.
+            ), and identifies lineages thereof using MLST. Last update: 24 January 2024.
           </Typography>
 
           <br />
