@@ -22,7 +22,7 @@ export const Header = ({ showSelect }) => {
   const organism = useAppSelector((state) => state.dashboard.organism);
 
   function getPageTitle() {
-    const title = menuItems.find((item) => item.key === page).label;
+    const title = menuItems.find((item) => item.key === page).labelHead;
     return title;
   }
 
