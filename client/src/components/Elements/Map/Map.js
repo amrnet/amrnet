@@ -246,22 +246,21 @@ export const Map = () => {
             ''
           ) : (
             <>
-              {organism === 'ngono' || organism === 'ecoli' || organism === 'senterica' || organism === 'kpneumo' ? (
-                <span>
-                  of{' '}
-                  <i>
-                    {globalOverviewLabel.italicLabel} {globalOverviewLabel.label}{' '}
-                  </i>
-                </span>
-              ) : organism === 'decoli' || organism === 'sentericaints' ? (
-                <span>
-                  of {globalOverviewLabel.italicLabel} <i>{globalOverviewLabel.label} </i>
-                </span>
-              ) : (
-                <span>
-                  of <i>{globalOverviewLabel.italicLabel}</i> {globalOverviewLabel.label}
-                </span>
-              )}
+            {organism === "ngono" || organism === "ecoli" ||organism === "senterica" ||organism ==='kpneumo'?
+            <span>
+              of <i>{globalOverviewLabel.label0} {globalOverviewLabel.label1} {globalOverviewLabel.label2}</i>
+            </span>:
+            organism === "decoli"?
+            <span>
+              of {globalOverviewLabel.label0} <i>{globalOverviewLabel.label1} {globalOverviewLabel.label2}</i>
+            </span>:
+            organism === "sentericaints"?
+            <span>
+              of {globalOverviewLabel.label0} {globalOverviewLabel.label1} <i>{globalOverviewLabel.label2}</i>
+            </span>:
+            <span>
+              of <i>{globalOverviewLabel.label0}</i> {globalOverviewLabel.label1} {globalOverviewLabel.label2} 
+            </span>}
             </>
           )}
         </Typography>

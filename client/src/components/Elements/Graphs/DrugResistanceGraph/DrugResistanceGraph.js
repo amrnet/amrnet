@@ -101,6 +101,27 @@ export const DrugResistanceGraph = () => {
   //   // }
   //   // return drugsKP;
   // }
+
+  function getXDRDefinition() {
+    switch (organism) {
+      case 'styphi':
+        return "XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)";
+      case 'ngono': 
+        return "XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])";
+      default:
+        return
+    }
+  }
+  function getMDRDefinition() {
+    switch (organism) {
+      case 'styphi':
+        return "MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)";
+      case 'ngono': 
+        return "MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])";
+      default:
+        return
+    }
+  }
   function handleChangeDrugsView({ event = null, all = false }) {
     setCurrentTooltip(null);
     let newValues = [];
@@ -203,19 +224,13 @@ export const DrugResistanceGraph = () => {
                           let dataKeyElement;
                           if (dataKey === 'XDR') {
                             dataKeyElement = (
-                              <Tooltip
-                                title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)."
-                                placement="top"
-                              >
+                              <Tooltip title={getXDRDefinition()} placement="top">
                                 <span>XDR</span>
                               </Tooltip>
                             );
                           } else if (dataKey === 'MDR') {
                             dataKeyElement = (
-                              <Tooltip
-                                title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)"
-                                placement="top"
-                              >
+                              <Tooltip title={getMDRDefinition()} placement="top">
                                 <span>MDR</span>
                               </Tooltip>
                             );
