@@ -105,10 +105,10 @@ export const DashboardPage = () => {
     // if (organism === 'styphi') {
     genotypes.sort((a, b) => a.localeCompare(b));
     dispatch(setGenotypesForFilter(genotypes));
-    if (organism === 'ngono') {
-    genotypes.sort((a, b) => a.localeCompare(b));
-    dispatch(setGenotypesForFilter(genotypes));
-    }
+    // if (organism === 'ngono') {
+    // genotypes.sort((a, b) => a.localeCompare(b));
+    // dispatch(setGenotypesForFilter(genotypes));
+    // }
     if (organism === 'ngono') {
       ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
     }
