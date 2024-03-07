@@ -106,7 +106,7 @@ export const UserGuidePage = () => {
             </a>
             . The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling
             frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations).
-            Last update: XX.
+            Last update: 24 January 2024.
           </Typography>
           <br />
           <Typography variant="subtitle2" className={classes.paragraph}>
