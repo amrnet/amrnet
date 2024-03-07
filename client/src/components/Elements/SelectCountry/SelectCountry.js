@@ -30,7 +30,7 @@ export const SelectCountry = () => {
           }`}
         </Typography>
         <Typography variant="subtitle1" fontWeight={500}>
-          Select or click on a focus country to view details in the plots below
+          Select a focus country by clicking on the map above or selecting from the list below
         </Typography>
         <Select
           variant="standard"
