@@ -130,7 +130,7 @@ export const DeterminantsGraph = () => {
   let determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
   useEffect(() => {
     let mp = new Map(); //mp = total count of a genotype in database(including all years)
-    // console.log("genotypesYearData", genotypesYearData)
+    // console.log('determinantsGraphDrugClassDataxx', determinantsGraphDrugClassData);
     determinantsGraphDrugClassData.forEach((cur) => {
       Object.keys(cur).forEach((it) => {
         if (it !== 'name' && it !== 'count' && it !== 'resistantCount' && it !== 'totalCount') {
@@ -147,21 +147,26 @@ export const DeterminantsGraph = () => {
     mapArray.sort((a, b) => b[1] - a[1]);
     const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
     setTopXGenotypes(slicedArray);
-    console.log('setMaxSliderValueRD', mapArray.length);
+    // console.log('setMaxSliderValueRD', mapArray.length);
     dispatch(setMaxSliderValueRD(mapArray.length));
   }, [determinantsGraphDrugClass, currentSliderValueRD]);
 
   let newArray = []; //TODO: can be a global value in redux
   const exclusions = ['name', 'totalCount', 'resistantCount'];
 
+
   newArray = determinantsGraphDrugClassData.map((item) => {
     let count = 0;
+    let newTotalCount=0;
     for (const key in item) {
+      if (!exclusions.includes(key)) {
+        newTotalCount += item[key];
+      }
       if (!topXGenotypes.includes(key) && !exclusions.includes(key)) {
         count += item[key]; //adding count of all genotypes which are not in topX
       }
     }
-    const newItem = { ...item, Other: count };
+    const newItem = { ...item, Other: count, newTotalCount: newTotalCount };
     return newItem; //return item of genotypesYearData with additional filed 'Other' to newArray
   });
   // let cnt = 0;
