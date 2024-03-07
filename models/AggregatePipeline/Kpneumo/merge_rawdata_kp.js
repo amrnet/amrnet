@@ -4,8 +4,8 @@ const merge_rawdata_kleb = [
       from: 'pw_klebsiella_metadata',
       localField: 'Genome Name',
       foreignField: 'name',
-      as: 'pw_klebsiella_metadata'
-    }
+      as: 'pw_klebsiella_metadata',
+    },
   },
   {
     $replaceRoot:
@@ -16,12 +16,12 @@ const merge_rawdata_kleb = [
         newRoot: {
           $mergeObjects: [
             {
-              $arrayElemAt: ['$pw_klebsiella_metadata', 0]
+              $arrayElemAt: ['$pw_klebsiella_metadata', 0],
             },
-            '$$ROOT'
-          ]
-        }
-      }
+            '$$ROOT',
+          ],
+        },
+      },
   },
   // {
   //     $project: {
@@ -61,9 +61,9 @@ const merge_rawdata_kleb = [
   // },
   {
     $merge: {
-      into: 'merge_rawdata_kleb'
-    }
-  }
+      into: 'merge_rawdata_kleb',
+    },
+  },
 ];
 
 export default merge_rawdata_kleb;

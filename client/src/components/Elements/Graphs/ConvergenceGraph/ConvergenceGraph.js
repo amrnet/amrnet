@@ -12,12 +12,10 @@ import {
   ScatterChart,
   Scatter,
   ZAxis,
-  Cell
+  Cell,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import {
-  /*setConvergenceColourVariable,*/ setConvergenceGroupVariable
-} from '../../../../stores/slices/graphSlice';
+import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -31,16 +29,10 @@ export const ConvergenceGraph = () => {
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const convergenceData = useAppSelector(
-    (state) => state.graph.convergenceData
-  );
-  const convergenceGroupVariable = useAppSelector(
-    (state) => state.graph.convergenceGroupVariable
-  );
+  const convergenceData = useAppSelector((state) => state.graph.convergenceData);
+  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
-  const convergenceColourPallete = useAppSelector(
-    (state) => state.graph.convergenceColourPallete
-  );
+  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -94,11 +86,7 @@ export const ConvergenceGraph = () => {
                 domain={[0, 3]}
                 padding={{ top: 20, bottom: 20 }}
               >
-                <Label
-                  angle={-90}
-                  position="insideLeft"
-                  className={classes.graphLabel}
-                >
+                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Mean resistance score
                 </Label>
               </YAxis>
@@ -108,24 +96,19 @@ export const ConvergenceGraph = () => {
                 content={() => {
                   return (
                     <div className={classes.legendWrapper}>
-                      {Object.keys(convergenceColourPallete).map(
-                        (key, index) => {
-                          return (
-                            <div
-                              key={`convergence-legend-${index}`}
-                              className={classes.legendItemWrapper}
-                            >
-                              <Box
-                                className={classes.colorCircle}
-                                style={{
-                                  backgroundColor: convergenceColourPallete[key]
-                                }}
-                              />
-                              <Typography variant="caption">{key}</Typography>
-                            </div>
-                          );
-                        }
-                      )}
+                      {Object.keys(convergenceColourPallete).map((key, index) => {
+                        return (
+                          <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
+                            <Box
+                              className={classes.colorCircle}
+                              style={{
+                                backgroundColor: convergenceColourPallete[key],
+                              }}
+                            />
+                            <Typography variant="caption">{key}</Typography>
+                          </div>
+                        );
+                      })}
                     </div>
                   );
                 }}
@@ -135,11 +118,7 @@ export const ConvergenceGraph = () => {
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active }) => {
                   if (payload !== null && active) {
-                    return (
-                      <div className={classes.chartTooltipLabel}>
-                        {payload[0]?.payload.name}
-                      </div>
-                    );
+                    return <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>;
                   }
                   return null;
                 }}
@@ -177,10 +156,7 @@ export const ConvergenceGraph = () => {
           >
             {variablesOptions.map((option, index) => {
               return (
-                <MenuItem
-                  key={index + 'convergence-group-variable'}
-                  value={option.value}
-                >
+                <MenuItem key={index + 'convergence-group-variable'} value={option.value}>
                   {option.label}
                 </MenuItem>
               );
@@ -218,16 +194,14 @@ export const ConvergenceGraph = () => {
                   {currentTooltip.name}
                 </Typography>
                 {/* <Typography noWrap variant="subtitle1" minWidth="90px" textAlign="end"> */}
-                <Typography variant="subtitle1">
-                  {'N = ' + currentTooltip.z}
-                </Typography>
+                <Typography variant="subtitle1">{'N = ' + currentTooltip.z}</Typography>
               </div>
               <div className={classes.tooltipContent}>
                 <div className={classes.tooltipItemWrapper}>
                   <Box
                     className={classes.tooltipItemBox}
                     style={{
-                      backgroundColor: 'rgb(24, 85, 183)'
+                      backgroundColor: 'rgb(24, 85, 183)',
                     }}
                   />
                   <div className={classes.tooltipItemStats}>
@@ -243,7 +217,7 @@ export const ConvergenceGraph = () => {
                   <Box
                     className={classes.tooltipItemBox}
                     style={{
-                      backgroundColor: 'rgb(187, 54, 60)'
+                      backgroundColor: 'rgb(187, 54, 60)',
                     }}
                   />
                   <div className={classes.tooltipItemStats}>

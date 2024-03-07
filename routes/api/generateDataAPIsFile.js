@@ -62,17 +62,15 @@ router.post('/download', function (req, res, next) {
       // Use map to transform the headerList into the desired header object
       const headerL = headerList.map((fieldName) => ({
         id: fieldName,
-        title: fieldName
+        title: fieldName,
       }));
       // Create a CSV stringifier
       const csvStringifier = createCsvStringifier({
-        header: headerL
+        header: headerL,
       });
 
       // Convert the data to a CSV string
-      csvString =
-        csvStringifier.getHeaderString() +
-        csvStringifier.stringifyRecords(data);
+      csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(data);
     } else {
       if (fs.existsSync(localFilePath)) {
         // Read the file content
@@ -80,10 +78,7 @@ router.post('/download', function (req, res, next) {
       }
     }
     // Set appropriate headers for the file download
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename=${path.basename(organism)}`
-    );
+    res.setHeader('Content-Disposition', `attachment; filename=${path.basename(organism)}`);
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -160,8 +155,8 @@ router.get('/generate/:organism', async function (req, res, next) {
         path: `../../assets/webscrap/clean/${folderName}/cleanAll_${ext}.csv`,
         header: Object.keys(sanitizedData[0]).map((field) => ({
           id: field,
-          title: field
-        }))
+          title: field,
+        })),
       });
 
       await csvWriter.writeRecords(sanitizedData);
@@ -230,14 +225,11 @@ router.get('/clean/:organism', async function (req, res, next) {
     console.log('queryResult', queryResult.length);
     if (queryResult.length > 0) {
       const csvWriter = createCsvWriter({
-        path: path.join(
-          __dirname,
-          `../../assets/webscrap/clean/${folderName}/clean_${ext}.csv`
-        ),
+        path: path.join(__dirname, `../../assets/webscrap/clean/${folderName}/clean_${ext}.csv`),
         header: Object.keys(queryResult[0]).map((field) => ({
           id: field,
-          title: field
-        }))
+          title: field,
+        })),
       });
 
       await csvWriter.writeRecords(queryResult);

@@ -3,16 +3,11 @@ export function getSalmonellaTexts(date) {
   const lastUpdated = 'January 24th 2024';
   const githubRepo = 'https://github.com/typhoidgenomics/TyphiNET';
   const typhinetURL = 'https://www.typhi.net';
-  const typhiPathogenwatchPaper =
-    'Argimon et al. 2021, Nat. Commun., (<https://doi.org/10.1038/s41467-021-23091-2>)';
-  const dysonHoltPaper =
-    'Dyson & Holt (2021), J. Infect. Dis. (<https://doi.org/10.1093/infdis/jiab414>)';
-  const ingleEtAlPaper =
-    'Ingle et al. 2019, PLoS NTDs., (<https://doi.org/10.1371/journal.pntd.0007620>)';
-  const careyEtAlPaper =
-    'Carey et al, 2023 https://doi.org/10.7554/eLife.85867';
-  const wellcomeTrustFunding =
-    'Wellcome Trust (Open Research Fund, 219692/Z/19/Z and AMRnet project, 226432/Z/22/Z)';
+  const typhiPathogenwatchPaper = 'Argimon et al. 2021, Nat. Commun., (<https://doi.org/10.1038/s41467-021-23091-2>)';
+  const dysonHoltPaper = 'Dyson & Holt (2021), J. Infect. Dis. (<https://doi.org/10.1093/infdis/jiab414>)';
+  const ingleEtAlPaper = 'Ingle et al. 2019, PLoS NTDs., (<https://doi.org/10.1371/journal.pntd.0007620>)';
+  const careyEtAlPaper = 'Carey et al, 2023 https://doi.org/10.7554/eLife.85867';
+  const wellcomeTrustFunding = 'Wellcome Trust (Open Research Fund, 219692/Z/19/Z and AMRnet project, 226432/Z/22/Z)';
   const euHorizon2020Funding =
     'European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681';
 
@@ -33,7 +28,7 @@ export function getSalmonellaTexts(date) {
     `)`,
     `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
     `Funding`,
-    `This project has received funding from the Wellcome Trust (Open Research Fund, 219692/Z/19/Z and AMRnet project, 226432/Z/22/Z) and the European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681`
+    `This project has received funding from the Wellcome Trust (Open Research Fund, 219692/Z/19/Z and AMRnet project, 226432/Z/22/Z) and the European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681`,
   ];
 }
 
@@ -45,8 +40,7 @@ export function getKlebsiellaTexts() {
   const klebPathogenwatchPaperURL = 'https://doi.org/10.1093/cid/ciab784';
   const diancourtPaper =
     'Diancourt et al (2005), J Clin Microbiol. (<https://doi.org/10.1128/jcm.43.8.4178-4182.2005>)';
-  const lamEtAlPaper =
-    'Lam et al (2021), Nature Communications, (<https://doi.org/10.1038/s41467-021-24448-3>)';
+  const lamEtAlPaper = 'Lam et al (2021), Nature Communications, (<https://doi.org/10.1038/s41467-021-24448-3>)';
 
   return [
     'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation',
@@ -81,7 +75,7 @@ export function getKlebsiellaTexts() {
     'Abbreviations',
     'ESBL (extended-spectrum beta-lactamase)',
     'MLST (multi-locus sequence type)',
-    'ST (sequence type)'
+    'ST (sequence type)',
   ];
 }
 
@@ -122,7 +116,7 @@ export function getNgonoTexts() {
     `1. MDR, multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])`,
     `2. XDR, extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])`,
     `Note these definitions are based on those defined in the European CDC Response Plan, modified to use the specific representatives of category I and II antibiotic classes that we have available in the dashboard. `,
-    `(https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf)`
+    `(https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf)`,
   ];
 }
 

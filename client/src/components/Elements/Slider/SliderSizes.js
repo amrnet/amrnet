@@ -6,7 +6,7 @@ import {
   setCurrentSliderValue,
   setMaxSliderValue,
   setCurrentSliderValueRD,
-  setMaxSliderValueRD
+  setMaxSliderValueRD,
 } from '../../../stores/slices/graphSlice';
 import { useStyles } from './SliderMUI';
 import { graphCards } from './../../../util/graphCards';
@@ -14,20 +14,12 @@ import { graphCards } from './../../../util/graphCards';
 export const SliderSizes = (props) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const currentSliderValue = useAppSelector(
-    (state) => state.graph.currentSliderValue
-  );
-  const genotypesForFilter = useAppSelector(
-    (state) => state.dashboard.genotypesForFilter
-  );
+  const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
+  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
   // const [currentSliderValue, setCurrentSliderValue] = useState(20);
-  const currentSliderValueRD = useAppSelector(
-    (state) => state.graph.currentSliderValueRD
-  );
-  const maxSliderValueRD = useAppSelector(
-    (state) => state.graph.maxSliderValueRD
-  );
+  const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
+  const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
   const organism = useAppSelector((state) => state.dashboard.organism);
 
   const [heading, setHeading] = useState('');
@@ -43,7 +35,7 @@ export const SliderSizes = (props) => {
     }
   };
 
-  const geno = organism ==='shige'?"lineages":"genotype";
+  const geno = organism === 'shige' ? 'lineages' : 'genotype';
 
   useEffect(() => {
     if (props.value === 'GD') {
@@ -68,8 +60,8 @@ export const SliderSizes = (props) => {
             {props.value === 'GD'
               ? currentSliderValue
               : currentSliderValueRD < maxSliderValueRD
-                ? currentSliderValueRD
-                : maxSliderValueRD}
+              ? currentSliderValueRD
+              : maxSliderValueRD}
           </p>
         </div>
         <Slider
@@ -77,8 +69,8 @@ export const SliderSizes = (props) => {
             props.value === 'GD'
               ? currentSliderValue
               : currentSliderValueRD < maxSliderValueRD
-                ? currentSliderValueRD
-                : maxSliderValueRD
+              ? currentSliderValueRD
+              : maxSliderValueRD
           }
           onChange={handleDefaultSliderChange}
           aria-label="Default"

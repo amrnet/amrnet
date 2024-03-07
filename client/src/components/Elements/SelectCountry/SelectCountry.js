@@ -6,19 +6,11 @@ import { setActualCountry } from '../../../stores/slices/dashboardSlice';
 export const SelectCountry = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const actualCountry = useAppSelector(
-    (state) => state.dashboard.actualCountry
-  );
-  const countriesForFilter = useAppSelector(
-    (state) => state.graph.countriesForFilter
-  );
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
   const dataset = useAppSelector((state) => state.map.dataset);
-  const actualTimeInitial = useAppSelector(
-    (state) => state.dashboard.actualTimeInitial
-  );
-  const actualTimeFinal = useAppSelector(
-    (state) => state.dashboard.actualTimeFinal
-  );
+  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
 
   function handleChange(event) {
@@ -46,7 +38,7 @@ export const SelectCountry = () => {
           onChange={handleChange}
           inputProps={{ className: classes.selectInput }}
           MenuProps={{
-            classes: { paper: classes.menuPaper, list: classes.selectMenu }
+            classes: { paper: classes.menuPaper, list: classes.selectMenu },
           }}
           disabled={organism === 'none'}
         >

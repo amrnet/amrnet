@@ -85,7 +85,7 @@ router.get('/checkForChanges', async (req, res) => {
       for (const key in difference.updated[element]) {
         difference.updated[element][key] = {
           new: difference.updated[element][key],
-          old: collection[element][key]
+          old: collection[element][key],
         };
       }
     });
@@ -93,15 +93,11 @@ router.get('/checkForChanges', async (req, res) => {
       difference.deleted[element] = collection[element];
     });
 
-    if (
-      Object.keys(difference).filter(
-        (x) => Object.keys(difference[x]).length > 0
-      ).length > 0
-    ) {
+    if (Object.keys(difference).filter((x) => Object.keys(difference[x]).length > 0).length > 0) {
       const currentDate = new Date();
       aux.splice(0, 0, {
         updatedAt: currentDate.toISOString(),
-        changes: difference
+        changes: difference,
       });
       aux[aux.length - 1].data = data;
       aux[aux.length - 1].updatedAt = currentDate.toISOString();
@@ -138,14 +134,9 @@ router.post('/deleteChange', (req, res) => {
 
 //Import raw json data into mongoDB
 
-const STyphifolderPath = path.join(
-  __dirname,
-  '../assets/webscrap/clean/styphi'
-);
+const STyphifolderPath = path.join(__dirname, '../assets/webscrap/clean/styphi');
 router.get('/import/styphi', async (req, res) => {
-  const jsonFiles = fs
-    .readdirSync(STyphifolderPath)
-    .filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(STyphifolderPath).filter((file) => file.endsWith('.json'));
 
   const dbName = 'styphi';
 
@@ -171,9 +162,7 @@ router.get('/import/styphi', async (req, res) => {
 
 const KlebfolderPath = path.join(__dirname, '../assets/webscrap/clean/kpneumo');
 router.get('/import/kpneumo', async (req, res) => {
-  const jsonFiles = fs
-    .readdirSync(KlebfolderPath)
-    .filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(KlebfolderPath).filter((file) => file.endsWith('.json'));
 
   const dbName = 'kpneumo';
   try {
@@ -197,9 +186,7 @@ router.get('/import/kpneumo', async (req, res) => {
 
 const NgonofolderPath = path.join(__dirname, '../assets/webscrap/clean/ngono');
 router.get('/import/ngono', async (req, res) => {
-  const jsonFiles = fs
-    .readdirSync(NgonofolderPath)
-    .filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(NgonofolderPath).filter((file) => file.endsWith('.json'));
 
   const dbName = 'ngono';
   try {
@@ -223,9 +210,7 @@ router.get('/import/ngono', async (req, res) => {
 
 const EcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/ecoli');
 router.get('/import/ecoli', async (req, res) => {
-  const jsonFiles = fs
-    .readdirSync(EcolifolderPath)
-    .filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(EcolifolderPath).filter((file) => file.endsWith('.json'));
 
   const dbName = 'ecoli';
   try {
@@ -246,14 +231,9 @@ router.get('/import/ecoli', async (req, res) => {
     return res.status(500).send('Internal Server Error');
   }
 });
-const DEcolifolderPath = path.join(
-  __dirname,
-  '../assets/webscrap/clean/decoli'
-);
+const DEcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/decoli');
 router.get('/import/decoli', async (req, res) => {
-  const jsonFiles = fs
-    .readdirSync(DEcolifolderPath)
-    .filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(DEcolifolderPath).filter((file) => file.endsWith('.json'));
 
   const dbName = 'decoli';
   try {
@@ -277,9 +257,7 @@ router.get('/import/decoli', async (req, res) => {
 
 const ShigefolderPath = path.join(__dirname, '../assets/webscrap/clean/shige');
 router.get('/import/shige', async (req, res) => {
-  const jsonFiles = fs
-    .readdirSync(ShigefolderPath)
-    .filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(ShigefolderPath).filter((file) => file.endsWith('.json'));
 
   const dbName = 'shige';
   try {
@@ -301,14 +279,9 @@ router.get('/import/shige', async (req, res) => {
   }
 });
 
-const SentericafolderPath = path.join(
-  __dirname,
-  '../assets/webscrap/clean/senterica'
-);
+const SentericafolderPath = path.join(__dirname, '../assets/webscrap/clean/senterica');
 router.get('/import/senterica', async (req, res) => {
-  const jsonFiles = fs
-    .readdirSync(SentericafolderPath)
-    .filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(SentericafolderPath).filter((file) => file.endsWith('.json'));
 
   const dbName = 'senterica';
   try {
@@ -330,14 +303,9 @@ router.get('/import/senterica', async (req, res) => {
   }
 });
 
-const SentericaintsfolderPath = path.join(
-  __dirname,
-  '../assets/webscrap/clean/sentericaints'
-);
+const SentericaintsfolderPath = path.join(__dirname, '../assets/webscrap/clean/sentericaints');
 router.get('/import/sentericaints', async (req, res) => {
-  const jsonFiles = fs
-    .readdirSync(SentericaintsfolderPath)
-    .filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(SentericaintsfolderPath).filter((file) => file.endsWith('.json'));
 
   const dbName = 'sentericaints';
   try {

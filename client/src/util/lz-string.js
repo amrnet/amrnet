@@ -13,10 +13,8 @@
 var LZString = (function () {
   // private property
   var f = String.fromCharCode;
-  var keyStrBase64 =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-  var keyStrUriSafe =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$';
+  var keyStrBase64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  var keyStrUriSafe = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$';
   var baseReverseDic = {};
 
   function getBaseValue(alphabet, character) {
@@ -148,25 +146,16 @@ var LZString = (function () {
 
       for (ii = 0; ii < uncompressed.length; ii += 1) {
         context_c = uncompressed.charAt(ii);
-        if (
-          !Object.prototype.hasOwnProperty.call(context_dictionary, context_c)
-        ) {
+        if (!Object.prototype.hasOwnProperty.call(context_dictionary, context_c)) {
           context_dictionary[context_c] = context_dictSize++;
           context_dictionaryToCreate[context_c] = true;
         }
 
         context_wc = context_w + context_c;
-        if (
-          Object.prototype.hasOwnProperty.call(context_dictionary, context_wc)
-        ) {
+        if (Object.prototype.hasOwnProperty.call(context_dictionary, context_wc)) {
           context_w = context_wc;
         } else {
-          if (
-            Object.prototype.hasOwnProperty.call(
-              context_dictionaryToCreate,
-              context_w
-            )
-          ) {
+          if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
             if (context_w.charCodeAt(0) < 256) {
               for (i = 0; i < context_numBits; i++) {
                 context_data_val = context_data_val << 1;
@@ -249,12 +238,7 @@ var LZString = (function () {
 
       // Output the code for w.
       if (context_w !== '') {
-        if (
-          Object.prototype.hasOwnProperty.call(
-            context_dictionaryToCreate,
-            context_w
-          )
-        ) {
+        if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
           if (context_w.charCodeAt(0) < 256) {
             for (i = 0; i < context_numBits; i++) {
               context_data_val = context_data_val << 1;
@@ -526,7 +510,7 @@ var LZString = (function () {
           numBits++;
         }
       }
-    }
+    },
   };
   return LZString;
 })();
