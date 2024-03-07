@@ -1,6 +1,5 @@
 // List of Salmonella genotypes
 export const genotypes = [
-
   '0',
   '0.0.1',
   '0.0.2',
@@ -88,5 +87,5 @@ export const genotypes = [
   '4.3.1.2.1',
   '4.3.1.2.1.1',
   '4.3.1.3',
-  '4.3.1.3.Bdq'
+  '4.3.1.3.Bdq',
 ].sort((a, b) => a.localeCompare(b));

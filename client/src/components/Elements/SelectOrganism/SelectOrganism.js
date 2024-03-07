@@ -8,17 +8,17 @@ const organisms = [
   {
     label: 'Salmonella Typhi',
     value: 'styphi',
-    abbr: 'S. Typhi'
+    abbr: 'S. Typhi',
   },
   {
     label: 'Klebsiella pneumoniae',
     value: 'kpneumo',
-    abbr: 'K. pneumoniae'
+    abbr: 'K. pneumoniae',
   },
   {
     label: 'Neisseria gonorrhoeae',
     value: 'ngono',
-    abbr: 'N. gonorrhoeae'
+    abbr: 'N. gonorrhoeae',
   },
   // {
   //   label: 'Escherichia coli',
@@ -28,18 +28,18 @@ const organisms = [
   {
     label: 'Diarrheagenic E. coli',
     value: 'decoli',
-    abbr: 'DEC'
+    abbr: 'DEC',
   },
   {
     label: 'Shigella + EIEC',
     value: 'shige',
-    abbr: 'Shigella+EIEC'
+    abbr: 'Shigella+EIEC',
   },
   {
-    label: 'invasive non-typhoidal Salmonella',
+    label: 'Invasive non-typhoidal Salmonella',
     value: 'sentericaints',
-    abbr: 'iNTS'
-  }
+    abbr: 'iNTS',
+  },
   // {
   //   label: 'Salmonella enterica',
   //   value: 'senterica',

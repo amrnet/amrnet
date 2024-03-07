@@ -5,17 +5,17 @@ export const menuItems = [
   {
     key: 'home',
     label: 'Home',
-    icon: <Home />
+    icon: <Home />,
   },
   {
     key: 'about',
     label: 'About AMRnet',
-    icon: <Info />
+    icon: <Info />,
   },
   {
     key: 'user-guide',
     label: 'User Guide',
-    icon: <MenuBook />
+    icon: <MenuBook />,
   },
   // {
   //   key: 'database',

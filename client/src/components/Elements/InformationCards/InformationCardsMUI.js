@@ -12,21 +12,21 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'space-between',
       padding: '8px 0px',
       maxWidth: '100%',
-      borderTop: '1px solid rgba(0, 0, 0, 0.12)'
+      borderTop: '1px solid rgba(0, 0, 0, 0.12)',
     },
 
     '@media (max-width: 650px)': {
       flexDirection: 'column',
       rowGap: '4px',
-      padding: '0px 0px 4px'
-    }
+      padding: '0px 0px 4px',
+    },
   },
   card: {
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   cardContent: {
     padding: '8px 16px !important',
@@ -35,23 +35,23 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'flex-end',
       columnGap: '8px',
-      padding: '0px 0px !important'
-    }
+      padding: '0px 0px !important',
+    },
   },
   title: {
     whiteSpace: 'nowrap',
     paddingBottom: '6px',
 
     '@media (max-width: 1000px)': {
-      paddingBottom: '0px'
-    }
+      paddingBottom: '0px',
+    },
   },
   actualAndTotalValues: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
-  bp1000: {}
+  bp1000: {},
 }));
 
 export { useStyles };

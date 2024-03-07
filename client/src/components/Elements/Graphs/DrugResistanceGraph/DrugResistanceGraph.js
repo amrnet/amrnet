@@ -11,17 +11,17 @@ import {
   Tooltip as ChartTooltip,
   LineChart,
   Line,
-  Label
+  Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsForDrugResistanceGraphST, drugsNG1 } from '../../../../util/drugs';
+import { drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
 import { InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureDRT, setCaptureRFWG, setCaptureRDWG, setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
 export const DrugResistanceGraph = () => {
   const classes = useStyles();
@@ -43,11 +43,11 @@ export const DrugResistanceGraph = () => {
 
   useEffect(() => {
     if (drugsYearData.length <= 0) {
-        dispatch(setCaptureDRT(false));
+      dispatch(setCaptureDRT(false));
     } else {
-        dispatch(setCaptureDRT(true));
+      dispatch(setCaptureDRT(true));
     }
-}, [drugsYearData]);
+  }, [drugsYearData]);
 
   function getData() {
     const exclusions = ['name', 'count'];
@@ -59,7 +59,7 @@ export const DrugResistanceGraph = () => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
       // if(item.length<0)
-        // console.log("setCaptureDRT", item.count);
+      // console.log("setCaptureDRT", item.count);
       return item;
     });
 
@@ -77,21 +77,21 @@ export const DrugResistanceGraph = () => {
       return drugsKP;
     }
     if (organism === 'ngono') {
-      return drugsNG1;
-      }
+      return drugsNG;
+    }
   }
   function getDrugsForLegends() {
     if (organism === 'none') {
       return [];
     }
     // if (organism === 'typhi') {
-      return drugResistanceGraphView;
+    return drugResistanceGraphView;
     // }
     // return drugsKP;
   }
 
-  //TODO: check the comment above code duplicate 
-  
+  //TODO: check the comment above code duplicate
+
   // function getDrugsForLegends() {
   //   if (organism === 'none') {
   //     return [];
@@ -135,7 +135,7 @@ export const DrugResistanceGraph = () => {
       }
     } else {
       const {
-        target: { value }
+        target: { value },
       } = event;
       newValues = value;
     }
@@ -143,18 +143,16 @@ export const DrugResistanceGraph = () => {
     dispatch(setDrugResistanceGraphView(newValues));
   }
 
-
   function handleClickChart(event) {
     const data = drugsYearData.find((item) => item.name === event?.activeLabel);
 
     if (data && drugResistanceGraphView.length > 0) {
       const currentData = structuredClone(data);
 
-
       const value = {
         name: currentData.name,
         count: currentData.count,
-        drugs: []
+        drugs: [],
       };
 
       delete currentData.name;
@@ -174,7 +172,7 @@ export const DrugResistanceGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          fill: event.activePayload.find((x) => x.name === key).stroke
+          fill: event.activePayload.find((x) => x.name === key).stroke,
         });
         value.drugs.sort((a, b) => b.count - a.count);
       });
@@ -189,9 +187,9 @@ export const DrugResistanceGraph = () => {
       const lines = doc.getElementsByClassName('recharts-line');
 
       for (let index = 0; index < lines.length; index++) {
-          const drug = drugResistanceGraphView[index];
-          const hasValue = getDrugs().includes(drug);
-          lines[index].style.display = hasValue ? 'block' : 'none';
+        const drug = drugResistanceGraphView[index];
+        const hasValue = getDrugs().includes(drug);
+        lines[index].style.display = hasValue ? 'block' : 'none';
       }
 
       setPlotChart(() => {
@@ -224,21 +222,21 @@ export const DrugResistanceGraph = () => {
                         {payload.map((entry, index) => {
                           const { dataKey, color } = entry;
                           let dataKeyElement;
-                          if (dataKey === "XDR") {
+                          if (dataKey === 'XDR') {
                             dataKeyElement = (
                               <Tooltip title={getXDRDefinition()} placement="top">
                                 <span>XDR</span>
-                                </Tooltip>
+                              </Tooltip>
                             );
-                        } else if(dataKey === "MDR"){
+                          } else if (dataKey === 'MDR') {
                             dataKeyElement = (
                               <Tooltip title={getMDRDefinition()} placement="top">
                                 <span>MDR</span>
-                                </Tooltip>
+                              </Tooltip>
                             );
-                        }else{
+                          } else {
                             dataKeyElement = dataKey;
-                        }
+                          }
                           return (
                             <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
                               <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
@@ -311,7 +309,9 @@ export const DrugResistanceGraph = () => {
             </Button>
           }
           inputProps={{ className: classes.selectInput }}
-          MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
+          MenuProps={{
+            classes: { paper: classes.menuPaper, list: classes.selectMenu },
+          }}
           renderValue={(selected) => <div>{`${selected.length} of ${getDrugs().length} selected`}</div>}
         >
           {getDrugs().map((drug, index) => (
@@ -339,26 +339,32 @@ export const DrugResistanceGraph = () => {
                 {currentTooltip.drugs.map((item, index) => {
                   let itemLabel;
                   if (item.label === 'XDR') {
-                      itemLabel = (
-                        <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
-                          <span>XDR</span>
-                          </Tooltip>
-                      );
-                  } else if(item.label === 'MDR'){
-                      itemLabel = (
-                        <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
-                          <span>MDR</span>
-                          </Tooltip>
-                      );
-                  }else{
-                      itemLabel = item.label;
+                    itemLabel = (
+                      <Tooltip
+                        title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)."
+                        placement="top"
+                      >
+                        <span>XDR</span>
+                      </Tooltip>
+                    );
+                  } else if (item.label === 'MDR') {
+                    itemLabel = (
+                      <Tooltip
+                        title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)"
+                        placement="top"
+                      >
+                        <span>MDR</span>
+                      </Tooltip>
+                    );
+                  } else {
+                    itemLabel = item.label;
                   }
                   return (
                     <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
                       <Box
                         className={classes.tooltipItemBox}
                         style={{
-                          backgroundColor: item.fill
+                          backgroundColor: item.fill,
                         }}
                       />
                       <div className={classes.tooltipItemStats}>

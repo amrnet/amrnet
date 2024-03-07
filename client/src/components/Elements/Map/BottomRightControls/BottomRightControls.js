@@ -33,7 +33,7 @@ export const BottomRightControls = () => {
         // scale: 4,
         backgroundColor: 'white',
         width: 1200,
-        left: -200
+        left: -200,
       }).then(async (uri) => {
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext('2d');
@@ -47,7 +47,7 @@ export const BottomRightControls = () => {
         const cHeight = 1800;
         const textHeight = 250;
         const legendHeight = 350;
-        
+
         canvas.width = cWidth;
         canvas.height = cHeight + textHeight + legendHeight;
 
@@ -58,7 +58,7 @@ export const BottomRightControls = () => {
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
-        ctx.fillText("Global Overview of ", canvas.width*0.44 , 80);
+        ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
 
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
@@ -110,8 +110,6 @@ export const BottomRightControls = () => {
           ctx.font = 'bolder 50px Montserrat';
           ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
         }
-  
-        
 
         ctx.font = '35px Montserrat';
         ctx.textAlign = 'center';
@@ -121,7 +119,7 @@ export const BottomRightControls = () => {
         ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 190);
         ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 240);
-        if(mapView === 'Genotype prevalence'){
+        if (mapView === 'Genotype prevalence') {
           if (customDropdownMapView.length === 1) {
             ctx.fillText('Selected Genotypes: ' + customDropdownMapView, canvas.width / 2, 290);
           } else if (customDropdownMapView.length > 1) {
@@ -129,7 +127,7 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 290);
           }
         }
-        if(mapView === 'NG-MAST prevalence'){
+        if (mapView === 'NG-MAST prevalence') {
           if (customDropdownMapView.length === 1) {
             ctx.fillText('Selected NG-MAST TYPE: ' + customDropdownMapView, canvas.width / 2, 290);
           } else if (customDropdownMapView.length > 1) {
@@ -137,7 +135,7 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
           }
         }
-        if(mapView === 'Lineage prevalence'){
+        if (mapView === 'Lineage prevalence') {
           if (customDropdownMapView.length === 1) {
             ctx.fillText('Selected Lineage: ' + customDropdownMapView, canvas.width / 2, 290);
           } else if (customDropdownMapView.length > 1) {
@@ -145,7 +143,7 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 290);
           }
         }
-        ctx.drawImage(mapImg, 0, textHeight+50, canvas.width, cHeight);
+        ctx.drawImage(mapImg, 0, textHeight + 50, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
         const legendImgPromise = imgOnLoadPromise(legendImg);
@@ -172,24 +170,18 @@ export const BottomRightControls = () => {
             break;
         }
         if (mapView === 'Dominant Genotype') {
-        await legendImgPromise;
-        ctx.drawImage(
-          legendImg,
-          canvas.width / 2 - legendWidth / 2,
-          canvas.height - legendHeight - 30,
-          legendWidth,
-          legendHeight
-        );
-      } else {
-        await legendImgPromise;
-        ctx.drawImage(
-          legendImg,
-          canvas.width - (canvas.width / 6),
-          0,
-          legendWidth,
-          legendHeight
-        );
-      }
+          await legendImgPromise;
+          ctx.drawImage(
+            legendImg,
+            canvas.width / 2 - legendWidth / 2,
+            canvas.height - legendHeight - 30,
+            legendWidth,
+            legendHeight,
+          );
+        } else {
+          await legendImgPromise;
+          ctx.drawImage(legendImg, canvas.width - canvas.width / 6, 0, legendWidth, legendHeight);
+        }
 
         const typhinetLogo = document.createElement('img');
         const typhinetLogoPromise = imgOnLoadPromise(typhinetLogo);
