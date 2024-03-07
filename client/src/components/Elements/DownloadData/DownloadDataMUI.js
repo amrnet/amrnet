@@ -7,13 +7,13 @@ const useStyles = makeStyles((theme) => ({
     padding: '16px 0px',
 
     '@media (max-width: 500px)': {
-      padding: '8px 0px'
+      padding: '8px 0px',
     },
 
     '@media (max-width: 700px)': {
       flexDirection: 'column',
-      rowGap: '8px'
-    }
+      rowGap: '8px',
+    },
   },
   button: {
     color: '#fff !important',
@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '100px !important',
 
     '@media (max-width: 700px)': {
-      width: '100%'
-    }
-  }
+      width: '100%',
+    },
+  },
 }));
 
 export { useStyles };

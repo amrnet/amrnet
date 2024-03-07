@@ -7,33 +7,33 @@ const useStyles = makeStyles((theme) => ({
     rowGap: '16px',
 
     '@media (max-width: 500px)': {
-      rowGap: '8px'
-    }
+      rowGap: '8px',
+    },
   },
   card: {
     '&.MuiCard-root': {
-      borderRadius: '16px'
-    }
+      borderRadius: '16px',
+    },
   },
   cardActions: {
     display: 'flex',
     columnGap: '8px',
     justifyContent: 'space-between',
-    padding: '16px !important'
+    padding: '16px !important',
   },
   titleWrapper: {
     display: 'flex',
-    columnGap: '8px'
+    columnGap: '8px',
   },
   title: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   actionsWrapper: {
     display: 'flex',
     alignItems: 'center',
-    columnGap: '8px'
-  }
+    columnGap: '8px',
+  },
 }));
 
 export { useStyles };

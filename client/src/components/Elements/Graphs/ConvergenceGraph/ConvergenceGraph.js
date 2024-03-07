@@ -12,7 +12,7 @@ import {
   ScatterChart,
   Scatter,
   ZAxis,
-  Cell
+  Cell,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
@@ -101,7 +101,9 @@ export const ConvergenceGraph = () => {
                           <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
                             <Box
                               className={classes.colorCircle}
-                              style={{ backgroundColor: convergenceColourPallete[key] }}
+                              style={{
+                                backgroundColor: convergenceColourPallete[key],
+                              }}
                             />
                             <Typography variant="caption">{key}</Typography>
                           </div>
@@ -199,7 +201,7 @@ export const ConvergenceGraph = () => {
                   <Box
                     className={classes.tooltipItemBox}
                     style={{
-                      backgroundColor: 'rgb(24, 85, 183)'
+                      backgroundColor: 'rgb(24, 85, 183)',
                     }}
                   />
                   <div className={classes.tooltipItemStats}>
@@ -215,7 +217,7 @@ export const ConvergenceGraph = () => {
                   <Box
                     className={classes.tooltipItemBox}
                     style={{
-                      backgroundColor: 'rgb(187, 54, 60)'
+                      backgroundColor: 'rgb(187, 54, 60)',
                     }}
                   />
                   <div className={classes.tooltipItemStats}>
