@@ -355,10 +355,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         drugsData.push({ ...response, ...drugStats });
       }
     }
-    if (
-      (organism === 'kpneumo' && getUniqueGenotypes) ||
-      (organism === 'ngono' && getUniqueGenotypes)
-    ) {
+    if (getUniqueGenotypes) {
       //TODO: I remove the ecoli and change the IF rule
       const sortedStats = Object.fromEntries(
         Object.entries(stats)
