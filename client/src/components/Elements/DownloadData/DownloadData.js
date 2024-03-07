@@ -693,7 +693,7 @@ export const DownloadData = () => {
         const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
         await graphImgPromise;
-        if (graphImg.width <= 741) {
+        if (graphImg.width <= 700) {
           doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined,undefined, 'FAST');
         } else {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
