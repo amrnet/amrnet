@@ -67,7 +67,11 @@ export const UserGuidePage = () => {
             <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the
             individual genome-level information that is used to populate the dashboard (‘Download database (CSV
             format)’); and (2) a static report of the currently displayed plots, together with a basic description of
-            the data sources and variable definitions (‘Download PDF’). Please note PDF reports are not yet available for all organisms, they will be added in future updates.
+            the data sources and variable definitions (‘Download PDF’).
+          </Typography>
+          <br />
+          <Typography variant="body2" className={classes.paragraph}>
+            <span className={classes.paragraphBold}>NOTE:</span> Please note PDF reports are not yet available for all organisms, they will be added in future updates.
           </Typography>
           <br />
           <Divider sx={{ borderBottomWidth: 3 }} />
