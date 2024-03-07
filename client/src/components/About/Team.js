@@ -64,12 +64,15 @@ export const Team = () => {
                             gap={4}
                             p={1}
                             sx={{ border: '2px solid purple' , margin:'auto'}}>
-                            <img
-                                srcSet={`${member.img}?w=70&h=64&fit=crop&auto=format&dpr=1 1x`}
-                                src={`${member.img}?w=70&h=64&fit=crop&auto=format`}
-                                alt={member.title}
-                                loading="lazy"
-                            />
+                            <a href={member.redirect} target="_blank" rel="noreferrer">
+                                <img
+                                    srcSet={`${member.img}?w=70&h=64&fit=crop&auto=format&dpr=1 1x`}
+                                    src={`${member.img}?w=70&h=64&fit=crop&auto=format`}
+                                    alt={member.title}
+                                    loading="lazy"
+                                    onClick={member.redirect}
+                                />
+                            </a>
                         </Box>
                         
                         <Typography sx={{marginTop:"10px" }}>
