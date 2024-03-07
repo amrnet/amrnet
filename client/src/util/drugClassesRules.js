@@ -75,19 +75,6 @@ export const drugRulesNG = [
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
 ];
 
-export const drugRulesDEC = [];
-
-export const drugClassesRulesDEC = [];
-
-export const drugClassesRulesSEINTS = [];
-
-export const drugRulesSEINTS = [];
-
-export const drugRulesSE = [];
-
-export const drugRulesSH = [];
-
-export const drugRulesEC = [];
 
 // Salmonella Typhi drug classes rules for determinants graph
 export const drugClassesRulesST = {
@@ -679,12 +666,6 @@ export const drugClassesRulesKP = {
   ESBL: 'Bla_ESBL_acquired',
 };
 
-// Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesEC = {};
-
-// Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesSH = {};
-
 export const drugClassesRulesNG = {
   Azithromycin: [
     {
@@ -773,5 +754,3 @@ export const drugClassesRulesNG = {
     },
   ],
 };
-
-export const drugClassesRulesSE = {};

@@ -15,7 +15,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsForDrugResistanceGraphST, drugsNG1 } from '../../../../util/drugs';
+import { drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -77,7 +77,7 @@ export const DrugResistanceGraph = () => {
       return drugsKP;
     }
     if (organism === 'ngono') {
-      return drugsNG1;
+      return drugsNG;
     }
   }
   function getDrugsForLegends() {
