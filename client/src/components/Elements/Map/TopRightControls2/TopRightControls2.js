@@ -64,26 +64,21 @@ export const TopRightControls2 = () => {
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
   }
-  function getHeading (){
+  function getHoverIcon (){
     if (organism === 'decoli')
-      return (
-        <Tooltip title="pathovar and 7-locus MLST" placement="top">
-                <span>Select Lineage</span>
-              </Tooltip>
-      )
+      return "Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display."
     else if(organism === 'kpneumo')
-      return (
-        <Tooltip title="7-locus MLST" placement="top">
-                <span>Select Lineage</span>
-              </Tooltip>
-      )
+      return "Sequence type are labelled as 7-locus MLST. Select up to 10 to display."
     else if (organism === "shige")
-      return (
-        <Tooltip title="species + HC400 cluster" placement="top">
-                <span>Select Lineage</span>
-              </Tooltip>
-      )
-    return "Select genotype"
+      return "Lineages are labelled as Species + HC400 cluster. Select up to 10 to display."
+    return "Select up to 10 to display"
+  }
+  function getHeading (){
+    if (organism === 'decoli' ||  organism === "shige")
+      return "Select Lineage"
+    // else if (organism === 'kpneumo')
+    //   return "Select sequence type"
+    return "Select Genotype"
   }
   const filteredData = genotypesDrugsData2.filter(
     (genotype) =>
@@ -97,7 +92,7 @@ export const TopRightControls2 = () => {
       <CardContent className={classes.frequenciesGraph}>
         <div className={classes.label}>
           <Typography variant="caption">{getHeading()}</Typography>
-          <Tooltip title="Select up to 10 Genotypes" placement="top">
+          <Tooltip title={getHoverIcon()} placement="top">
             <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
           </Tooltip>
         </div>
