@@ -136,7 +136,7 @@ export const Map = () => {
             percentCounterNG += genotype.count;
           });
           genotypesNG.forEach((genotype) => {
-            console.log('genotype', genotype, genotype.name, customDropdownMapViewNG);
+            // console.log('genotype', genotype, genotype.name, customDropdownMapViewNG);
             if (customDropdownMapViewNG.includes(genotype.name))
               tooltip.content[genotype.name] = `${genotype.count} (${(
                 (genotype.count / percentCounterNG) *
@@ -167,7 +167,7 @@ export const Map = () => {
             percentCounter += genotype.count;
           });
           genotypes1.forEach((genotype) => {
-            console.log('genotype', genotype, genotype.name);
+            // console.log('genotype', genotype, genotype.name);
             if (customDropdownMapView.includes(genotype.name))
               tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count / percentCounter) * 100).toFixed(
                 2,

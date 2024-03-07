@@ -64,17 +64,17 @@ export const FrequenciesGraph = () => {
 
   useEffect(() => {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
-    console.log('getData', data);
+    // console.log('getData', data);
     let cnt = 0;
     data.map((item) => {
       cnt += item.totalCount;
     });
     if (frequenciesGraphSelectedGenotypes.length <= 0 || cnt === 0) {
       dispatch(setCaptureRFWG(false));
-      console.log('setCaptureRFWG', frequenciesGraphSelectedGenotypes.length, captureRFWG, false);
+      // console.log('setCaptureRFWG', frequenciesGraphSelectedGenotypes.length, captureRFWG, false);
     } else {
       dispatch(setCaptureRFWG(true));
-      console.log('setCaptureRFWG', frequenciesGraphSelectedGenotypes.length, captureRFWG, true);
+      // console.log('setCaptureRFWG', frequenciesGraphSelectedGenotypes.length, captureRFWG, true);
     }
   }, [frequenciesGraphSelectedGenotypes]);
 
@@ -110,7 +110,7 @@ export const FrequenciesGraph = () => {
 
   function getData() {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
-    console.log('getData', data);
+    // console.log('getData', data);
     // let cnt = 0;
     // data.map((item) => {
     //   cnt += item.totalCount;

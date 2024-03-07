@@ -255,7 +255,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       name: year,
       count: yearData.length,
     };
-    console.log('response:', response);
+    // console.log('response:', response);
     let stats = {};
 
     if (yearData.length > 0) {
@@ -376,7 +376,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     };
   });
 
-  console.log('genotypesYearData3', genotypesData);
+  // console.log('genotypesYearData3', genotypesData);
   if (getUniqueGenotypes) {
     uniqueGenotypes = [...new Set(uniqueGenotypes.map((x) => x))];
     uniqueGenotypes.sort((a, b) => a - b);
@@ -420,8 +420,9 @@ export function getGenotypesData({ data, genotypes, organism }) {
   }
 
   const genotypesDrugsData = genotypes.map((genotype) => {
+    
     const genotypeData = data.filter((x) => x.GENOTYPE === genotype);
-
+//console.log("xx genotypesDrugsData", genotype, genotypeData,genotypeData.length)
     const response = {
       name: genotype,
       totalCount: genotypeData.length,
@@ -526,7 +527,7 @@ export function getNgmastData({ data, ngmast, organism }) {
     // Map ngmastData based on mast value
     ngmastDrugData = ngmast.map((mast) => {
       const ngmastData = data.filter((x) => x['NG-MAST TYPE'] === mast);
-      console.log('mast', mast, mast, ngmastData.length);
+      // console.log('mast', mast, mast, ngmastData.length);
       // Calculate response object
       const response = {
         name: mast,
