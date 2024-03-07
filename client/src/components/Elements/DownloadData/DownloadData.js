@@ -201,7 +201,8 @@ export const DownloadData = () => {
   function drawHeader({ document, pageWidth }) {
     document.setFontSize(8);
     document.line(0, 26, pageWidth, 26);
-    document.text(
+    if(organism !== "styphi" && organism !== "ngono")
+      document.text(
       `NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`,
       16,
       10,
@@ -360,7 +361,10 @@ export const DownloadData = () => {
       doc.text('AMRnet Report for', 177, 44, { align: 'center' });
       doc.setFont(undefined, 'bolditalic');
       doc.text(firstName, 264, 44, { align: 'center' });
-      doc.setFont(undefined, 'bold');
+      if(organism === 'kpneumo' || organism === 'ngono')
+        doc.setFont(undefined, "bolditalic");
+      else
+        doc.setFont(undefined, "bold");
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(date, pageWidth / 2, 68, { align: 'center' });
@@ -499,7 +503,7 @@ export const DownloadData = () => {
         let pmidSpace, dynamicText;
         if (actualCountry === 'All') {
           pmidSpace = 0;
-          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs):Data are drawn from studies with ${list.join(
+          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(
             ', ',
           )}.`;
         } else {
@@ -516,7 +520,7 @@ export const DownloadData = () => {
         pmidSpace =
           pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
 
-        doc.text(dynamicText, 16, 255, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(dynamicText, 16, 265, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[0], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
         doc.text(texts[1], 16, 125, { align: 'left', maxWidth: pageWidth - 36 });
@@ -543,6 +547,7 @@ export const DownloadData = () => {
         doc.text(texts[12], 16, 355 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
         doc.text(texts[13], 32, 365 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
         doc.text(texts[14], 74, 365 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[15], 16, 375 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
@@ -711,7 +716,7 @@ export const DownloadData = () => {
         const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
         await graphImgPromise;
-        if (graphImg.width <= 741) {
+        if (graphImg.width <= 700) {
           doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined, undefined, 'FAST');
         } else {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
@@ -842,7 +847,7 @@ export const DownloadData = () => {
 
   function handleClickDatabasePage() {
     dispatch(setPage('user-guide'));
-    navigate('/user-guide');
+    window.open('#/user-guide', '_blank');
   }
 
   return (
