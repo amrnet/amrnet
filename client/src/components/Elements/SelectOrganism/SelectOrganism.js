@@ -36,7 +36,7 @@ const organisms = [
     abbr: 'Shigella+EIEC',
   },
   {
-    label: 'invasive non-typhoidal Salmonella',
+    label: 'Invasive non-typhoidal Salmonella',
     value: 'sentericaints',
     abbr: 'iNTS',
   },

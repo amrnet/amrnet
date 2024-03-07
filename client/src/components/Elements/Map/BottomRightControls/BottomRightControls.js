@@ -75,11 +75,11 @@ export const BottomRightControls = () => {
         } else if (organism === 'ecoli') {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.65, 80);
         } else if (organism === 'decoli') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.7, 80);
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.775, 80);
         } else if (organism === 'shige') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.7, 80);
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.775, 80);
         } else if (organism === 'sentericaints') {
-          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.7, 90);
+          ctx.fillText(globalOverviewLabel.label, canvas.width * 0.775, 90);
         } else {
           ctx.fillText(globalOverviewLabel.label, canvas.width * 0.64, 80);
         }
