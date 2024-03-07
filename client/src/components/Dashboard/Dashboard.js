@@ -187,6 +187,7 @@ export const DashboardPage = () => {
     }
     if (organism !== 'styphi') {
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+      dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
