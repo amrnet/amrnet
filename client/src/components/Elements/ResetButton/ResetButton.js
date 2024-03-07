@@ -66,11 +66,11 @@ export const ResetButton = (props) => {
     });
     const ngmastData = getNgmastData({ data: props.data, ngmast, organism });
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-    console.log(
-      'setCustomDropdownMapView',
-      customDropdownMapViewNG,
-      genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name),
-    );
+    // console.log(
+    //   'setCustomDropdownMapView',
+    //   customDropdownMapViewNG,
+    //   genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name),
+    // );
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
 
     if (organism === 'styphi') {

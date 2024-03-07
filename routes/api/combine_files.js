@@ -8,7 +8,7 @@ import merge_rawdata_kp from '../../models/AggregatePipeline/Kpneumo/merge_rawda
 // import merge_rawdata_ng from "../../models/AggregatePipeline/ngono/merge_rawdata_ng.js";
 
 router.get('/typhidata', async (req, res) => {
-  console.log('i m in');
+  //console.log('i m in');
 
   try {
     await client.db('styphi').collection('merge_rawdata_st').drop();
@@ -33,7 +33,7 @@ router.get('/klebdata', async (req, res) => {
 });
 //TODO: the rules need to be change for one file
 router.get('/ngonodata', async (req, res) => {
-  console.log('i m in');
+  //console.log('i m in');
 
   try {
     await client.db('ngono').collection('merge_rawdata_ng').drop();
@@ -47,7 +47,7 @@ router.get('/ngonodata', async (req, res) => {
 });
 //TODO: the rules need to be change for one file
 router.get('/ecolidata', async (req, res) => {
-  console.log('i m in');
+  //console.log('i m in');
 
   try {
     await client.db('ecoli').collection('merge_rawdata_ec').drop();
@@ -61,7 +61,7 @@ router.get('/ecolidata', async (req, res) => {
   }
 });
 router.get('/decolidata', async (req, res) => {
-  console.log('i m in');
+  //console.log('i m in');
 
   try {
     await client.db('decoli').collection('merge_rawdata_dec').drop();
@@ -76,7 +76,7 @@ router.get('/decolidata', async (req, res) => {
 });
 //TODO: the rules need to be change for one file
 router.get('/shigedata', async (req, res) => {
-  console.log('i m in');
+  //console.log('i m in');
 
   try {
     await client.db('shige').collection('merge_rawdata_sh').drop();
@@ -90,7 +90,7 @@ router.get('/shigedata', async (req, res) => {
 });
 //TODO: the rules need to be change for one file
 router.get('/sentericadata', async (req, res) => {
-  console.log('i m in');
+  //console.log('i m in');
 
   try {
     await client.db('senterica').collection('merge_rawdata_se').drop();
@@ -103,7 +103,7 @@ router.get('/sentericadata', async (req, res) => {
   }
 });
 router.get('/sentericaintsdata', async (req, res) => {
-  console.log('i m in');
+  //console.log('i m in');
 
   try {
     await client.db('sentericaints').collection('merge_rawdata_seints').drop();
