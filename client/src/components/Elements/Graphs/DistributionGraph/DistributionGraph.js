@@ -48,6 +48,7 @@ export const DistributionGraph = () => {
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
 
 
+
   useEffect(() => {
     let cnt = 0;
       newArray.map((item)=>{
@@ -79,6 +80,7 @@ export const DistributionGraph = () => {
       let mp = new Map(); //mp = total count of a genotype in database(including all years)
       genotypesYearData.forEach(cur => {
         Object.keys(cur).forEach(it => {
+          console.log("colorArrayit", it, cur)
           if (it !== "name" && it !== "count") {
             if (mp.has(it)) {
               mp.set(it, mp.get(it) + cur[it]);
@@ -89,12 +91,13 @@ export const DistributionGraph = () => {
         })
       })
       const mapArray = Array.from(mp);//[key, total_count], eg: ['4.3.1.1', 1995]
+      const filteredArr = mapArray.filter(item => genotypesForFilter.includes(item[0]));
       // Sort the array based on keys
-      mapArray.sort((a, b) => b[1] - a[1]);
-      const colorArray = mapArray.slice(0, maxSliderValue).map(([key, value]) => key);
-      const slicedArray = mapArray.slice(0, currentSliderValue).map(([key, value]) => key);
+      filteredArr.sort((a, b) => b[1] - a[1]);
+      
+      const slicedArray = filteredArr.slice(0, currentSliderValue).map(([key, value]) => key);
       setTopXGenotypes(slicedArray);
-      dispatch(setColorPallete(generatePalleteForGenotypes(colorArray)));
+      dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
   },[genotypesForFilter, genotypesYearData, currentSliderValue]);
 
   let newArray = []; //TODO: can be a global value in redux

@@ -23,7 +23,8 @@ import {
   setTotalGenomes,
   setTotalGenotypes,
   setYears,
-  setPMID
+  setPMID,
+  setColorPallete
 } from '../../stores/slices/dashboardSlice.ts';
 import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
@@ -187,6 +188,7 @@ export const DashboardPage = () => {
     }
     if(organism !== "styphi"){
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
+      dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
     }
 
     dispatch(setGenotypesYearData(yearsData.genotypesData));
