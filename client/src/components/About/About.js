@@ -46,7 +46,11 @@ export const AboutPage = () => {
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            A major barrier to using public data for surveillance is the need for careful data curation, to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with other organism communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (<a href="mailto:amrnetdashboard@gmail.com">amrnetdashboard@gmail.com</a>)
+            A major barrier to using public data for surveillance is the need for careful data curation, to identify
+            which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of
+            curation can benefit a wide range of users and we plan to work with other organism communities to curate
+            data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to
+            work with us (<a href="mailto:amrnetdashboard@gmail.com">amrnetdashboard@gmail.com</a>)
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
