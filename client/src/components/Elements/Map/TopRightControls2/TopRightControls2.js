@@ -59,7 +59,7 @@ export const TopRightControls2 = () => {
   }, [genotypesDrugsData]);
 
   function getSelectGenotypeLabel(genotype) {
-    const matchingGenotype = genotypesDrugsData.find((g) => g.name === genotype);
+    const matchingGenotype = genotypesDrugsData.find(g => g.name === genotype);
     const totalCount = matchingGenotype?.totalCount ?? 0;
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;

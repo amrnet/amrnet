@@ -107,9 +107,9 @@ export const Map = () => {
                     Genotypes: countryStats.GENOTYPE.count,
                     MDR: `${countryStats.MDR.percentage}%`,
                     XDR: `${countryStats.XDR.percentage}%`,
-                    // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
-                    // Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
-                    // Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
+                    Azithromycin: `${countryStats.Azithromycin.percentage}%`,
+                    Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
+                    Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
                     Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : {
