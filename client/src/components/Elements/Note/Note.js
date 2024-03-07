@@ -49,7 +49,7 @@ export const Note = () => {
         </span>
       );
     } else{
-      return (<span>This data is pulled from <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">Enterobase</a> and represents unfiltered data deposited in <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">Enterobase</a>/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates. AMR data is not yet available but is coming soon.</span>)
+      return (<span>This data is pulled from <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">Enterobase</a> and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates. AMR data is not yet available but is coming soon.</span>)
     }
   };
 
