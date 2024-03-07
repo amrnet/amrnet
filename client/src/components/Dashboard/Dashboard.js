@@ -23,7 +23,7 @@ import {
   setTotalGenomes,
   setTotalGenotypes,
   setYears,
-  setPMID
+  setPMID,
 } from '../../stores/slices/dashboardSlice.ts';
 import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
@@ -55,7 +55,7 @@ import {
   setCurrentSliderValue,
   setCurrentSliderValueRD,
   setNgmast,
-  setNgmastDrugsData
+  setNgmastDrugsData,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -65,7 +65,7 @@ import {
   getCountryDisplayName,
   getKODiversityData,
   getConvergenceData,
-  getNgmastData
+  getNgmastData,
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
@@ -102,9 +102,9 @@ export const DashboardPage = () => {
     const genotypes = [...new Set(responseData.map((x) => x.GENOTYPE))];
     ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
     // if (organism === 'styphi') {
-      genotypes.sort((a, b) => a.localeCompare(b));
-      dispatch(setGenotypesForFilter(genotypes));
-    if(organism === 'ngono'){
+    genotypes.sort((a, b) => a.localeCompare(b));
+    dispatch(setGenotypesForFilter(genotypes));
+    if (organism === 'ngono') {
       ngmast = [...new Set(responseData.map((x) => x['NG-MAST TYPE']))];
     }
 
@@ -138,13 +138,13 @@ export const DashboardPage = () => {
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
     dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
-      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
+    dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
 
     const yearsData = getYearsData({
       data: responseData,
       years,
       organism,
-      getUniqueGenotypes: true
+      getUniqueGenotypes: true,
     });
 
     if (organism === 'kpneumo') {
@@ -159,12 +159,12 @@ export const DashboardPage = () => {
         data: responseData,
         groupVariable: convergenceGroupVariable,
         // colourVariable: convergenceColourVariable,
-        colourVariable: convergenceGroupVariable
+        colourVariable: convergenceGroupVariable,
       });
       dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
       dispatch(setConvergenceData(convergenceData.data));
     }
-   
+
     if (organism === 'ngono') {
       // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
       // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
@@ -183,9 +183,8 @@ export const DashboardPage = () => {
       dispatch(setActualTimeFinal(years[years.length - 1]));
       dispatch(setCountriesForFilter(countries));
       // console.log("NGMAST",)
-      
     }
-    if(organism !== "styphi"){
+    if (organism !== 'styphi') {
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
     }
 
@@ -268,8 +267,8 @@ export const DashboardPage = () => {
           frequencies: false,
           trendsKP: false,
           KODiversity: false,
-          convergence: false
-        })
+          convergence: false,
+        }),
       );
       setData([]);
       dispatch(setDataset(''));
@@ -294,10 +293,10 @@ export const DashboardPage = () => {
       dispatch(setConvergenceColourPallete({}));
       dispatch(setIfCustom(false));
       dispatch(setNgmast([]));
-      
+
       dispatch(setCurrentSliderValue(20));
       dispatch(setCurrentSliderValueRD(5));
-      
+
       switch (organism) {
         case 'styphi':
           getData('getDataForSTyphi');
@@ -312,7 +311,7 @@ export const DashboardPage = () => {
           getData('getDataForEcoli');
           break;
         case 'decoli':
-            getData('getDataForDEcoli');
+          getData('getDataForDEcoli');
           break;
         case 'shige':
           getData('getDataForShige');
@@ -337,7 +336,7 @@ export const DashboardPage = () => {
 
       const filters = filterData({ data, dataset, actualTimeInitial, actualTimeFinal, organism, actualCountry });
       const filteredData = filters.data.filter(
-        (x) => actualCountry === 'All' || getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry
+        (x) => actualCountry === 'All' || getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry,
       );
 
       if (
@@ -352,7 +351,7 @@ export const DashboardPage = () => {
           data: filteredData,
           groupVariable: convergenceGroupVariable,
           // colourVariable: convergenceColourVariable,
-          colourVariable: convergenceGroupVariable
+          colourVariable: convergenceGroupVariable,
         });
         dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
         dispatch(setConvergenceData(convergenceData.data));
@@ -360,14 +359,13 @@ export const DashboardPage = () => {
         dispatch(setActualGenomes(filters.genomesCount));
         dispatch(setActualGenotypes(filters.genotypesCount));
         dispatch(setListPMID(filters.listPMID));
-        
 
         dispatch(setMapData(getMapData({ data: filters.data, countries: countriesForFilter, organism })));
 
         const genotypesData = getGenotypesData({
           data: filteredData,
           genotypes: genotypesForFilter,
-          organism
+          organism,
         });
         dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
         // const genotypeDataGreaterThanZero = genotypesData.genotypesDrugsData.filter(x => x.totalCount > 0);
@@ -380,7 +378,7 @@ export const DashboardPage = () => {
         const yearsData = getYearsData({
           data: filteredData,
           years: yearsForFilter,
-          organism
+          organism,
         });
         dispatch(setGenotypesYearData(yearsData.genotypesData));
         dispatch(setDrugsYearData(yearsData.drugsData));
@@ -394,7 +392,7 @@ export const DashboardPage = () => {
             data: filteredData,
             groupVariable: convergenceGroupVariable,
             // colourVariable: convergenceColourVariable,
-            colourVariable: convergenceGroupVariable
+            colourVariable: convergenceGroupVariable,
           });
           dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
           dispatch(setConvergenceData(convergenceData.data));
@@ -421,12 +419,12 @@ export const DashboardPage = () => {
     actualTimeFinal,
     actualCountry,
     convergenceGroupVariable,
-    convergenceColourVariable
+    convergenceColourVariable,
   ]);
 
   return (
     <MainLayout isHomePage>
-      <Note/>
+      <Note />
       <Map />
       <SelectCountry />
       <Graphs />

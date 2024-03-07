@@ -14,12 +14,10 @@ export const drugsST = [
   'Sulphonamides',
   'Susceptible',
   'Tetracyclines',
-  'Trimethoprim'
+  'Trimethoprim',
 ].sort((a, b) => a.localeCompare(b));
 
-export const drugsForDrugResistanceGraphST = [...drugsST, 'XDR', 'MDR'].sort(
-  (a, b) => a.localeCompare(b)
-);
+export const drugsForDrugResistanceGraphST = [...drugsST, 'XDR', 'MDR'].sort((a, b) => a.localeCompare(b));
 
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
@@ -29,7 +27,7 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'MDR',
   'Susceptible',
   'Trimethoprim-sulfamethoxazole',
-  'XDR'
+  'XDR',
 ];
 
 export const drugsNG1 = [
@@ -43,7 +41,7 @@ export const drugsNG1 = [
   'Susceptible',
   'Spectinomycin',
   'MDR',
-  'XDR'
+  'XDR',
 ];
 
 // List of N. gono drug classes
@@ -58,7 +56,7 @@ export const drugsNG = [
   'Susceptible',
   'Spectinomycin',
   'MDR',
-  'XDR'
+  'XDR',
 ];
 
 // List of Klebsiella drugs
@@ -77,7 +75,7 @@ export const drugsKP = [
   'Susceptible',
   'Tetracycline',
   'Tigecycline',
-  'Trimethoprim'
+  'Trimethoprim',
 ];
 
 // List of Salmonella Typhi drug classes
@@ -93,12 +91,11 @@ export const drugClassesST = [
   'Ciprofloxacin NS',
   'Sulphonamides',
   'Tetracyclines',
-  'Trimethoprim'
+  'Trimethoprim',
 ];
 
 // List of Klebsiella drug classes
 export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
-
 
 // List of Klebsiella drug classes
 export const drugClassesKP = ['Carbapenems', 'ESBL'];

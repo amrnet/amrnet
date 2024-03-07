@@ -18,7 +18,7 @@ router.get('/create', async function (req, res) {
     'pw_species-prediction.csv',
     'pw_amr-snps.csv',
     'pw_amr-profile.csv',
-    'pw_stats.csv'
+    'pw_stats.csv',
   ];
 
   //All header fields require related to each pw_file
@@ -43,7 +43,7 @@ router.get('/create', async function (req, res) {
     'ACCURACY',
     'PMID',
     'LATITUDE',
-    'LONGITUDE'
+    'LONGITUDE',
   ];
 
   const headers_species_prediction = [
@@ -58,7 +58,7 @@ router.get('/create', async function (req, res) {
     'Reference ID',
     'Matching Hashes',
     'p-Value',
-    'Mash Distance'
+    'Mash Distance',
   ];
 
   const headers_typing = [
@@ -66,7 +66,7 @@ router.get('/create', async function (req, res) {
     'MLST ST (EnteroBase)',
     'MLST PROFILE (EnteroBase)',
     'GENOTYPHI SNPs CALLED',
-    'Inc Types'
+    'Inc Types',
   ];
 
   const headers_amr_genes = [
@@ -97,7 +97,7 @@ router.get('/create', async function (req, res) {
     'tetA(B)',
     'tetA(C)',
     'tetA(D)',
-    'ereA'
+    'ereA',
   ];
 
   const headers_amr_snps = [
@@ -119,7 +119,7 @@ router.get('/create', async function (req, res) {
     // 'parE_D420N',
     // 'parE_L416F',
     'acrB_R717Q',
-    'acrB_R717L'
+    'acrB_R717L',
   ];
   const headers_amr_profile = [
     'Ampicillin',
@@ -132,7 +132,7 @@ router.get('/create', async function (req, res) {
     'Tetracycline',
     'Azithromycin',
     'Colistin',
-    'Meropenem'
+    'Meropenem',
   ];
 
   const empty = ['NA', 'Not Provided', '', '-', undefined];
@@ -141,10 +141,7 @@ router.get('/create', async function (req, res) {
   let data_to_write = [];
 
   for (let file of read_files) {
-    fs.createReadStream(
-      path.join(__dirname, `../../assets/webscrap/raw_data/styphi/${file}`),
-      { start: 0 }
-    )
+    fs.createReadStream(path.join(__dirname, `../../assets/webscrap/raw_data/styphi/${file}`), { start: 0 })
       .pipe(csv())
       .on('data', (data) => {
         let column_names = Object.keys(data);
@@ -184,14 +181,8 @@ router.get('/create', async function (req, res) {
               }
             }
 
-            obj_parser['COUNTRY_ONLY'] = empty.includes(
-              data['COUNTRY OF ORIGIN']
-            )
-              ? '-'
-              : data['COUNTRY OF ORIGIN'];
-            obj_parser['REGION_IN_COUNTRY'] = empty.includes(data['LOCATION'])
-              ? '-'
-              : data['LOCATION'];
+            obj_parser['COUNTRY_ONLY'] = empty.includes(data['COUNTRY OF ORIGIN']) ? '-' : data['COUNTRY OF ORIGIN'];
+            obj_parser['REGION_IN_COUNTRY'] = empty.includes(data['LOCATION']) ? '-' : data['LOCATION'];
 
             if (data['TRAVEL ASSOCIATED'] === 'Yes') {
               obj_parser['TRAVEL'] = 'travel';
@@ -201,34 +192,17 @@ router.get('/create', async function (req, res) {
               obj_parser['TRAVEL'] = 'Not Provided';
             }
 
-            obj_parser['COUNTRY_ORIGIN'] = empty.includes(
-              data['COUNTRY OF ORIGIN']
-            )
-              ? '-'
-              : data['COUNTRY OF ORIGIN'];
-            obj_parser['TRAVEL_LOCATION'] = empty.includes(
-              data['TRAVEL COUNTRY']
-            )
-              ? '-'
-              : data['TRAVEL COUNTRY'];
+            obj_parser['COUNTRY_ORIGIN'] = empty.includes(data['COUNTRY OF ORIGIN']) ? '-' : data['COUNTRY OF ORIGIN'];
+            obj_parser['TRAVEL_LOCATION'] = empty.includes(data['TRAVEL COUNTRY']) ? '-' : data['TRAVEL COUNTRY'];
 
             const keys = Object.keys(data);
 
             for (let i = 0; i < headers_metadata.length; i++) {
               const index = keys.findIndex((x) => x === headers_metadata[i]);
               if (headers_metadata[i] === 'ACCESSION') {
-                obj_parser['ACCESSION'] = empty.includes(data[keys[3]])
-                  ? '-'
-                  : data[keys[3]];
-              } else if (
-                !['DATE'].includes(headers_metadata[i]) &&
-                index != -1
-              ) {
-                obj_parser[keys[index].toUpperCase()] = empty.includes(
-                  data[keys[index]]
-                )
-                  ? '-'
-                  : data[keys[index]];
+                obj_parser['ACCESSION'] = empty.includes(data[keys[3]]) ? '-' : data[keys[3]];
+              } else if (!['DATE'].includes(headers_metadata[i]) && index != -1) {
+                obj_parser[keys[index].toUpperCase()] = empty.includes(data[keys[index]]) ? '-' : data[keys[index]];
               }
             }
           }
@@ -255,7 +229,7 @@ router.get('/create', async function (req, res) {
               '4.3.1.1.EA1',
               '4.3.1.2.EA2',
               '4.3.1.2.EA3',
-              '4.3.1.3.Bdq'
+              '4.3.1.3.Bdq',
             ];
             const curate_223 = [
               '9953_5_76_LaoLNT1480_2010',
@@ -263,7 +237,7 @@ router.get('/create', async function (req, res) {
               '10060_6_20_LaoUI10788_2007',
               '10060_6_30_LaoUI14598_2009',
               '10209_5_36_LaoUI2001_2002',
-              '10209_5_60_LaoUI3396_2003'
+              '10209_5_60_LaoUI3396_2003',
             ];
             if (h58_genotypes.indexOf(data['GENOTYPHI GENOTYPE']) != -1) {
               obj_parser['h58_genotypes'] = data['GENOTYPHI GENOTYPE'];
@@ -288,15 +262,7 @@ router.get('/create', async function (req, res) {
               }
             }
             obj_parser['num_amr_genes'] = num_amr_genes.toString();
-            const dirA = [
-              'dfrA1',
-              'dfrA5',
-              'dfrA7',
-              'dfrA14',
-              'dfrA15',
-              'dfrA17',
-              'dfrA18'
-            ];
+            const dirA = ['dfrA1', 'dfrA5', 'dfrA7', 'dfrA14', 'dfrA15', 'dfrA17', 'dfrA18'];
             obj_parser['dfra_any'] = '0';
             for (let d of dirA) {
               if (data[d] == '1') {
@@ -313,20 +279,12 @@ router.get('/create', async function (req, res) {
             } else {
               obj_parser['co_trim'] = '0';
             }
-            if (
-              data['catA1'] == '1' &&
-              data['blaTEM-1D'] == '1' &&
-              obj_parser['co_trim'] == '1'
-            ) {
+            if (data['catA1'] == '1' && data['blaTEM-1D'] == '1' && obj_parser['co_trim'] == '1') {
               obj_parser['MDR'] = 'MDR';
             } else {
               obj_parser['MDR'] = '-';
             }
-            if (
-              obj_parser['MDR'] == 'MDR' &&
-              data['blaCTX-M-15_23'] == '1' &&
-              data['qnrS'] == '1'
-            ) {
+            if (obj_parser['MDR'] == 'MDR' && data['blaCTX-M-15_23'] == '1' && data['qnrS'] == '1') {
               obj_parser['XDR'] = 'XDR';
             } else {
               obj_parser['XDR'] = '-';
@@ -350,12 +308,7 @@ router.get('/create', async function (req, res) {
             } else {
               obj_parser['chloramphenicol_category'] = 'ChlS';
             }
-            if (
-              data['tetA(A)'] == '1' ||
-              data['tetA(B)'] == '1' ||
-              data['tetA(C)'] == '1' ||
-              data['tetA(D)'] == '1'
-            ) {
+            if (data['tetA(A)'] == '1' || data['tetA(B)'] == '1' || data['tetA(C)'] == '1' || data['tetA(D)'] == '1') {
               obj_parser['tetracycline_category'] = 'TetR';
             } else {
               obj_parser['tetracycline_category'] = 'TetS';
@@ -364,9 +317,7 @@ router.get('/create', async function (req, res) {
           if (file === 'pw_amr-genes.csv') {
             if (obj_parser['cip_pheno_qrdr_gene'] == undefined) {
               obj_parser['cip_pheno_qrdr_gene'] =
-                data['qnrS'].toString() +
-                data['qnrB'].toString() +
-                data['qnrD'].toString();
+                data['qnrS'].toString() + data['qnrB'].toString() + data['qnrD'].toString();
             } else {
               obj_parser['cip_pheno_qrdr_gene'] =
                 obj_parser['cip_pheno_qrdr_gene'] +
@@ -392,25 +343,19 @@ router.get('/create', async function (req, res) {
               }
             } else {
               if (data['qnrS'] == '1' && data['qnrB'] == '1') {
-                obj_parser['dcs_mechanisms'] =
-                  obj_parser['dcs_mechanisms'] + `_QRDR + qnrS + qnrB`;
+                obj_parser['dcs_mechanisms'] = obj_parser['dcs_mechanisms'] + `_QRDR + qnrS + qnrB`;
               } else if (data['qnrS'] == '1' && data['qnrD'] == '1') {
-                obj_parser['dcs_mechanisms'] =
-                  obj_parser['dcs_mechanisms'] + `_QRDR + qnrS + qnrD`;
+                obj_parser['dcs_mechanisms'] = obj_parser['dcs_mechanisms'] + `_QRDR + qnrS + qnrD`;
               } else if (data['qnrS'] == '1') {
-                obj_parser['dcs_mechanisms'] =
-                  obj_parser['dcs_mechanisms'] + `_QRDR + qnrS`;
+                obj_parser['dcs_mechanisms'] = obj_parser['dcs_mechanisms'] + `_QRDR + qnrS`;
               } else if (data['qnrB'] == '1') {
-                obj_parser['dcs_mechanisms'] =
-                  obj_parser['dcs_mechanisms'] + `_QRDR + qnrB`;
+                obj_parser['dcs_mechanisms'] = obj_parser['dcs_mechanisms'] + `_QRDR + qnrB`;
               } else if (data['qnrD'] == '1') {
-                obj_parser['dcs_mechanisms'] =
-                  obj_parser['dcs_mechanisms'] + `_QRDR + qnrD`;
+                obj_parser['dcs_mechanisms'] = obj_parser['dcs_mechanisms'] + `_QRDR + qnrD`;
               } else {
                 let auxDCS = obj_parser['dcs_mechanisms'];
                 if (!(typeof auxDCS === 'string' && auxDCS.includes('QRDR'))) {
-                  obj_parser['dcs_mechanisms'] =
-                    obj_parser['dcs_mechanisms'] + `_QRDR`;
+                  obj_parser['dcs_mechanisms'] = obj_parser['dcs_mechanisms'] + `_QRDR`;
                 }
               }
             }
@@ -435,7 +380,7 @@ router.get('/create', async function (req, res) {
               'parC_S80I',
               'parC_S80R',
               'parC_E84G',
-              'parC_E84K'
+              'parC_E84K',
               // 'parE_D420N',
               // 'parE_L416F'
             ];
@@ -448,15 +393,11 @@ router.get('/create', async function (req, res) {
             if (obj_parser['dcs_mechanisms'] == undefined) {
               obj_parser['dcs_mechanisms'] = obj_parser['num_qrdr'];
             } else {
-              obj_parser['dcs_mechanisms'] =
-                obj_parser['num_qrdr'] + obj_parser['dcs_mechanisms'];
+              obj_parser['dcs_mechanisms'] = obj_parser['num_qrdr'] + obj_parser['dcs_mechanisms'];
             }
             obj_parser['num_acrb'] = data['acrB_R717Q'];
             if (obj_parser['azith_pred_pheno'] == undefined) {
-              if (
-                parseInt(data['acrB_R717Q']) > 0 ||
-                parseInt(data['acrB_R717L']) > 0
-              ) {
+              if (parseInt(data['acrB_R717Q']) > 0 || parseInt(data['acrB_R717L']) > 0) {
                 obj_parser['azith_pred_pheno'] = 'AzithR';
               } else {
                 obj_parser['azith_pred_pheno'] = 'AzithS';
@@ -478,26 +419,16 @@ router.get('/create', async function (req, res) {
 
             if (obj_parser['cip_pheno_qrdr_gene'] != undefined) {
               let cid_pred_pheno =
-                obj_parser['cip_pred_pheno'].toString() +
-                obj_parser['cip_pheno_qrdr_gene'].toString();
+                obj_parser['cip_pred_pheno'].toString() + obj_parser['cip_pheno_qrdr_gene'].toString();
               obj_parser['cip_pheno_qrdr_gene'] = cid_pred_pheno;
-              if (
-                cid_pred_pheno == 'CipS101' ||
-                cid_pred_pheno == 'CipS110' ||
-                cid_pred_pheno == 'CipS010'
-              ) {
+              if (cid_pred_pheno == 'CipS101' || cid_pred_pheno == 'CipS110' || cid_pred_pheno == 'CipS010') {
                 obj_parser['cip_pred_pheno'] = 'CipNS';
               }
-              if (
-                cid_pred_pheno == 'CipNS100' ||
-                cid_pred_pheno == 'CipNS110' ||
-                cid_pred_pheno == 'CipNS010'
-              ) {
+              if (cid_pred_pheno == 'CipNS100' || cid_pred_pheno == 'CipNS110' || cid_pred_pheno == 'CipNS010') {
                 obj_parser['cip_pred_pheno'] = 'CipR';
               }
             } else {
-              obj_parser['cip_pheno_qrdr_gene'] =
-                obj_parser['cip_pred_pheno'].toString();
+              obj_parser['cip_pheno_qrdr_gene'] = obj_parser['cip_pred_pheno'].toString();
             }
             obj_parser['dcs_category'] = obj_parser['cip_pred_pheno'];
             if (obj_parser['cip_pred_pheno'] == 'CipNS') {
@@ -551,9 +482,7 @@ router.get('/create', async function (req, res) {
               obj_parser['amr_category'] = 'MDR_DCS';
             } else if (
               dcs_category == 'DCS' &&
-              (cip_pred_pheno == 'CipR' ||
-                cip_pred_pheno == 'CipS' ||
-                cip_pred_pheno == 'CipNS') &&
+              (cip_pred_pheno == 'CipR' || cip_pred_pheno == 'CipS' || cip_pred_pheno == 'CipNS') &&
               // (cip_pheno_qrdr_gene == 'CipNS000' || cip_pheno_qrdr_gene == 'CipR000') &&
               azith_pred_pheno == 'AzithR'
             ) {
@@ -635,27 +564,21 @@ router.get('/create', async function (req, res) {
           if (!['', undefined].includes(data_to_write[d]['num_qrdr'])) {
             if (
               data_to_write[d]['num_qrdr'] === 0 &&
-              (data_to_write[d]['qnrS'] === '1' ||
-                data_to_write[d]['qnrB'] === '1' ||
-                data_to_write[d]['qnrD'] === '1')
+              (data_to_write[d]['qnrS'] === '1' || data_to_write[d]['qnrB'] === '1' || data_to_write[d]['qnrD'] === '1')
             ) {
               data_to_write[d]['cip_pred_pheno'] = 'CipNS';
             } else if (data_to_write[d]['num_qrdr'] === 0) {
               data_to_write[d]['cip_pred_pheno'] = 'CipS';
             } else if (
               data_to_write[d]['num_qrdr'] === 1 &&
-              (data_to_write[d]['qnrS'] === '1' ||
-                data_to_write[d]['qnrB'] === '1' ||
-                data_to_write[d]['qnrD'] === '1')
+              (data_to_write[d]['qnrS'] === '1' || data_to_write[d]['qnrB'] === '1' || data_to_write[d]['qnrD'] === '1')
             ) {
               data_to_write[d]['cip_pred_pheno'] = 'CipR';
             } else if (data_to_write[d]['num_qrdr'] === 1) {
               data_to_write[d]['cip_pred_pheno'] = 'CipNS';
             } else if (
               data_to_write[d]['num_qrdr'] === 2 &&
-              (data_to_write[d]['qnrS'] === '1' ||
-                data_to_write[d]['qnrB'] === '1' ||
-                data_to_write[d]['qnrD'] === '1')
+              (data_to_write[d]['qnrS'] === '1' || data_to_write[d]['qnrB'] === '1' || data_to_write[d]['qnrD'] === '1')
             ) {
               data_to_write[d]['cip_pred_pheno'] = 'CipR';
             } else if (data_to_write[d]['num_qrdr'] === 2) {
@@ -664,10 +587,7 @@ router.get('/create', async function (req, res) {
               data_to_write[d]['cip_pred_pheno'] = 'CipR';
             }
           }
-          if (
-            data_to_write[d]['cip_pred_pheno'] === 'CipNS' ||
-            data_to_write[d]['cip_pred_pheno'] === 'CipR'
-          ) {
+          if (data_to_write[d]['cip_pred_pheno'] === 'CipNS' || data_to_write[d]['cip_pred_pheno'] === 'CipR') {
             data_to_write[d]['dcs_category'] = 'DCS';
           } else {
             data_to_write[d]['dcs_category'] = 'CipS';

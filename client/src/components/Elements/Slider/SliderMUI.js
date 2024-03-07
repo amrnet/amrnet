@@ -5,11 +5,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     fontSize: '12px',
     justifyContent: 'space-between',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   sliderSize: {
-    margin: '0px 10px'
-  }
+    margin: '0px 10px',
+  },
 }));
 
 export { useStyles };

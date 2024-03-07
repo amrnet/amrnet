@@ -50,13 +50,13 @@ const initialState: MapState = {
   loadingMap: false,
   position: {
     coordinates: [0, 0],
-    zoom: 1
+    zoom: 1,
   },
   mapView: '',
   tooltipContent: null,
   dataset: '',
   mapData: [],
-  ifCustom: false
+  ifCustom: false,
 };
 
 export const mapSlice = createSlice({
@@ -84,18 +84,11 @@ export const mapSlice = createSlice({
     },
     setIfCustom: (state, action: PayloadAction<boolean>) => {
       state.ifCustom = action.payload;
-    }
-  }
+    },
+  },
 });
 
-export const {
-  setPosition,
-  setMapView,
-  setTooltipContent,
-  setDataset,
-  setLoadingMap,
-  setMapData,
-  setIfCustom
-} = mapSlice.actions;
+export const { setPosition, setMapView, setTooltipContent, setDataset, setLoadingMap, setMapData, setIfCustom } =
+  mapSlice.actions;
 
 export default mapSlice.reducer;

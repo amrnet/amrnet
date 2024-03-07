@@ -8,14 +8,11 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDataset } from '../../../../stores/slices/mapSlice.ts';
-import {
-  setActualTimeFinal,
-  setActualTimeInitial
-} from '../../../../stores/slices/dashboardSlice';
+import { setActualTimeFinal, setActualTimeInitial } from '../../../../stores/slices/dashboardSlice';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -25,12 +22,8 @@ export const TopLeftControls = () => {
 
   const dispatch = useAppDispatch();
   const dataset = useAppSelector((state) => state.map.dataset);
-  const actualTimeInitial = useAppSelector(
-    (state) => state.dashboard.actualTimeInitial
-  );
-  const actualTimeFinal = useAppSelector(
-    (state) => state.dashboard.actualTimeFinal
-  );
+  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const years = useAppSelector((state) => state.dashboard.years);
   const organism = useAppSelector((state) => state.dashboard.organism);
 
@@ -53,9 +46,7 @@ export const TopLeftControls = () => {
   }
 
   return (
-    <div
-      className={`${classes.topLeftControls} ${matches ? classes.bp700 : ''}`}
-    >
+    <div className={`${classes.topLeftControls} ${matches ? classes.bp700 : ''}`}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <Typography variant="h6">Filters</Typography>
@@ -64,19 +55,9 @@ export const TopLeftControls = () => {
               <Typography gutterBottom variant="caption">
                 Select dataset
               </Typography>
-              <ToggleButtonGroup
-                value={dataset}
-                exclusive
-                size="small"
-                onChange={handleChange}
-                disabled={isDisabled()}
-              >
+              <ToggleButtonGroup value={dataset} exclusive size="small" onChange={handleChange} disabled={isDisabled()}>
                 {datasetOptions.map((option, index) => (
-                  <ToggleButton
-                    key={`dataset-${index}`}
-                    value={option}
-                    color="primary"
-                  >
+                  <ToggleButton key={`dataset-${index}`} value={option} color="primary">
                     {option}
                   </ToggleButton>
                 ))}
@@ -94,8 +75,8 @@ export const TopLeftControls = () => {
                 MenuProps={{
                   classes: {
                     paper: classes.menuPaper,
-                    list: classes.selectMenu
-                  }
+                    list: classes.selectMenu,
+                  },
                 }}
                 value={actualTimeInitial}
                 onChange={handleChangeInitial}
@@ -124,8 +105,8 @@ export const TopLeftControls = () => {
                 MenuProps={{
                   classes: {
                     paper: classes.menuPaper,
-                    list: classes.selectMenu
-                  }
+                    list: classes.selectMenu,
+                  },
                 }}
                 value={actualTimeFinal}
                 onChange={handleChangeFinal}

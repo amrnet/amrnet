@@ -1,10 +1,4 @@
-import {
-  Alert,
-  CircularProgress,
-  IconButton,
-  Snackbar,
-  Tooltip
-} from '@mui/material';
+import { Alert, CircularProgress, IconButton, Snackbar, Tooltip } from '@mui/material';
 import { useStyles } from './BottomRightControlsMUI';
 import { CameraAlt } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
@@ -25,18 +19,10 @@ export const BottomRightControls = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const mapView = useAppSelector((state) => state.map.mapView);
   const dataset = useAppSelector((state) => state.map.dataset);
-  const actualTimeInitial = useAppSelector(
-    (state) => state.dashboard.actualTimeInitial
-  );
-  const actualTimeFinal = useAppSelector(
-    (state) => state.dashboard.actualTimeFinal
-  );
-  const globalOverviewLabel = useAppSelector(
-    (state) => state.dashboard.globalOverviewLabel
-  );
-  const customDropdownMapView = useAppSelector(
-    (state) => state.graph.customDropdownMapView
-  );
+  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
+  const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
+  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
 
   async function handleClick() {
     setLoading(true);
@@ -47,7 +33,7 @@ export const BottomRightControls = () => {
         // scale: 4,
         backgroundColor: 'white',
         width: 1200,
-        left: -200
+        left: -200,
       }).then(async (uri) => {
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext('2d');
@@ -105,57 +91,29 @@ export const BottomRightControls = () => {
 
         ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 190);
-        ctx.fillText(
-          'Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal,
-          canvas.width / 2,
-          240
-        );
+        ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 240);
         if (mapView === 'Genotype prevalence') {
           if (customDropdownMapView.length === 1) {
-            ctx.fillText(
-              'Selected Genotypes: ' + customDropdownMapView,
-              canvas.width / 2,
-              290
-            );
+            ctx.fillText('Selected Genotypes: ' + customDropdownMapView, canvas.width / 2, 290);
           } else if (customDropdownMapView.length > 1) {
             const genotypesText = customDropdownMapView.join(', ');
-            ctx.fillText(
-              'Selected Genotypes: ' + genotypesText,
-              canvas.width / 2,
-              290
-            );
+            ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 290);
           }
         }
         if (mapView === 'NG-MAST prevalence') {
           if (customDropdownMapView.length === 1) {
-            ctx.fillText(
-              'Selected NG-MAST TYPE: ' + customDropdownMapView,
-              canvas.width / 2,
-              290
-            );
+            ctx.fillText('Selected NG-MAST TYPE: ' + customDropdownMapView, canvas.width / 2, 290);
           } else if (customDropdownMapView.length > 1) {
             const genotypesText = customDropdownMapView.join(', ');
-            ctx.fillText(
-              'Selected NG-MAST TYPE: ' + genotypesText,
-              canvas.width / 2,
-              290
-            );
+            ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
           }
         }
         if (mapView === 'Lineage prevalence') {
           if (customDropdownMapView.length === 1) {
-            ctx.fillText(
-              'Selected Lineage: ' + customDropdownMapView,
-              canvas.width / 2,
-              290
-            );
+            ctx.fillText('Selected Lineage: ' + customDropdownMapView, canvas.width / 2, 290);
           } else if (customDropdownMapView.length > 1) {
             const genotypesText = customDropdownMapView.join(', ');
-            ctx.fillText(
-              'Selected Lineage: ' + genotypesText,
-              canvas.width / 2,
-              290
-            );
+            ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 290);
           }
         }
         ctx.drawImage(mapImg, 0, textHeight + 50, canvas.width, cHeight);
@@ -191,17 +149,11 @@ export const BottomRightControls = () => {
             canvas.width / 2 - legendWidth / 2,
             canvas.height - legendHeight - 30,
             legendWidth,
-            legendHeight
+            legendHeight,
           );
         } else {
           await legendImgPromise;
-          ctx.drawImage(
-            legendImg,
-            canvas.width - canvas.width / 6,
-            0,
-            legendWidth,
-            legendHeight
-          );
+          ctx.drawImage(legendImg, canvas.width - canvas.width / 6, 0, legendWidth, legendHeight);
         }
 
         const typhinetLogo = document.createElement('img');
@@ -211,10 +163,7 @@ export const BottomRightControls = () => {
         ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
 
         const base64 = canvas.toDataURL();
-        await download(
-          base64,
-          `AMRnet - Global Overview ${globalOverviewLabel.label}.png`
-        );
+        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.label}.png`);
       });
     } catch (error) {
       setShowAlert(true);
@@ -231,29 +180,13 @@ export const BottomRightControls = () => {
     <div className={classes.bottomRightControls}>
       <Tooltip title="Download Map as PNG" placement="left">
         <span>
-          <IconButton
-            color="primary"
-            onClick={handleClick}
-            disabled={organism === 'none' || loading}
-          >
-            {loading ? (
-              <CircularProgress color="primary" size={35} />
-            ) : (
-              <CameraAlt fontSize="large" />
-            )}
+          <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
+            {loading ? <CircularProgress color="primary" size={35} /> : <CameraAlt fontSize="large" />}
           </IconButton>
         </span>
       </Tooltip>
-      <Snackbar
-        open={showAlert}
-        autoHideDuration={5000}
-        onClose={handleCloseAlert}
-      >
-        <Alert
-          onClose={handleCloseAlert}
-          severity="error"
-          sx={{ width: '100%' }}
-        >
+      <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
           Something went wrong with the download, please try again later.
         </Alert>
       </Snackbar>

@@ -241,6 +241,6 @@ const countries = [
   'Siachen Glacier',
   'Antarctica',
   'Sint Maarten',
-  'Tuvalu'
+  'Tuvalu',
 ].sort();
 export default countries;

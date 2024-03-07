@@ -9,52 +9,52 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
 
     '&$bp700': {
-      position: 'relative'
-    }
+      position: 'relative',
+    },
   },
   card: { borderRadius: '6px !important' },
   cardContent: {
     display: 'flex',
     flexDirection: 'column',
-    rowGap: '4px'
+    rowGap: '4px',
   },
   label: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    columnGap: '8px'
+    columnGap: '8px',
   },
   labelTooltipIcon: {
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   selectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
-    textAlign: 'start'
+    textAlign: 'start',
   },
   selectMenu: {
     '& .MuiMenuItem-root': {
-      fontSize: '14px'
-    }
+      fontSize: '14px',
+    },
   },
   legendWrapper: {
     marginTop: '8px',
     maxHeight: '250px',
-    overflowY: 'auto'
+    overflowY: 'auto',
   },
   legend: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   legendColorBox: {
     width: '10px',
     height: '10px',
-    marginRight: '4px'
+    marginRight: '4px',
   },
   legendText: {
-    fontSize: '10px'
+    fontSize: '10px',
   },
-  bp700: {}
+  bp700: {},
 }));
 
 export { useStyles };

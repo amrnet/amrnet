@@ -12,11 +12,7 @@ router.get('/typhidata', async (req, res) => {
 
   try {
     await client.db('styphi').collection('merge_rawdata_st').drop();
-    await client
-      .db('styphi')
-      .collection('pw_amr-profile')
-      .aggregate(merge_rawdata_st)
-      .toArray();
+    await client.db('styphi').collection('pw_amr-profile').aggregate(merge_rawdata_st).toArray();
 
     return res.status(200).send('All data merged successfully');
   } catch (error) {
@@ -27,11 +23,7 @@ router.get('/typhidata', async (req, res) => {
 router.get('/klebdata', async (req, res) => {
   try {
     await client.db('kpneumo').collection('merge_rawdata_kp').drop();
-    await client
-      .db('kpneumo')
-      .collection('pw_kleborate')
-      .aggregate(merge_rawdata_kp)
-      .toArray();
+    await client.db('kpneumo').collection('pw_kleborate').aggregate(merge_rawdata_kp).toArray();
 
     return res.status(200).send('All data merged successfully');
   } catch (error) {
