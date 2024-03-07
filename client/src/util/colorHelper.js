@@ -136,10 +136,10 @@ export const generatePalleteForGenotypes = (genotypes) => {
   if (genotypes.length === 0) {
     return {};
   }
-  const colors = iwanthue(genotypes.length,{
+  const colors = iwanthue(genotypes.length, {
     clustering: 'force-vector',
     seed: 'all',
-    quality: 100
+    quality: 100,
   });
 
   const pallete = {};
@@ -176,7 +176,7 @@ export const generatePalleteForGenes = (genes) => {
     '#a6dba0',
     '#5aae61',
     '#1b7837',
-    '#00441b'
+    '#00441b',
   );
 
   const pallete = [];
@@ -193,7 +193,7 @@ export const colorForDrugClassesST = {
     { name: 'acrB_R717L', color: '#FBCFE5' },
     { name: 'acrB_R717Q', color: '#addd8e' },
     { name: 'acrB_R717Q + acrB_R717L', color: '#fd8d3c' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None', color: '#B9B9B9' },
   ],
   // 'Fluoroquinolones (CipNS)': [
   'Ciprofloxacin NS': [
@@ -209,23 +209,23 @@ export const colorForDrugClassesST = {
     { name: '3_QRDR (CipR)', color: '#cc0000' },
     { name: '3_QRDR + qnrB (CipR)', color: '#660000' },
     { name: '3_QRDR + qnrS (CipR)', color: 'black' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None', color: '#B9B9B9' },
   ],
   Chloramphenicol: [
     { name: 'catA1', color: '#9e9ac8' },
     { name: 'catA1 + cmlA', color: '#FFEC78' },
     { name: 'cmlA', color: '#addd8e' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None', color: '#B9B9B9' },
   ],
-  "Ampicillin/Amoxicillin": [
+  'Ampicillin/Amoxicillin': [
     { name: 'blaTEM-1D', color: '#addd8e' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None', color: '#B9B9B9' },
   ],
   Sulphonamides: [
     { name: 'None', color: '#B9B9B9' },
     { name: 'sul1', color: '#fd8d3c' },
     { name: 'sul1 + sul2', color: '#B4DD70' },
-    { name: 'sul2', color: '#ffeda0' }
+    { name: 'sul2', color: '#ffeda0' },
   ],
   Trimethoprim: [
     { name: 'dfrA1', color: '#B4DD70' },
@@ -236,14 +236,14 @@ export const colorForDrugClassesST = {
     { name: 'dfrA15', color: '#FBCFE5' },
     { name: 'dfrA17', color: '#FCB469' },
     { name: 'dfrA18', color: '#66c2a4' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None', color: '#B9B9B9' },
   ],
   Tetracyclines: [
     { name: 'tetA(A)', color: 'rgb(174,227,154)' },
     { name: 'tetA(B)', color: '#D7AEF7' },
     { name: 'tetA(C)', color: '#FFEC78' },
     { name: 'tetA(D)', color: '#FCB469' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None', color: '#B9B9B9' },
   ],
   // ESBL: [
   //   { name: 'blaCTX-M-15', color: '#6baed6' },
@@ -257,7 +257,7 @@ export const colorForDrugClassesST = {
     { name: 'blaCTX-M-55', color: '#FBCFE5' },
     { name: 'blaOXA-7', color: '#9e9ac8' },
     { name: 'blaSHV-12', color: '#addd8e' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None', color: '#B9B9B9' },
   ],
   // 'Co-trimoxazole': [
   'Trimethoprim-sulfamethoxazole': [
@@ -283,8 +283,8 @@ export const colorForDrugClassesST = {
     { name: 'dfrA18 + sul1', color: '#54278f' },
     { name: 'dfrA18 + sul2', color: '#98fb98' },
     { name: 'dfrA18 + sul1 + sul2', color: '#fc9272' },
-    { name: 'None', color: '#B9B9B9' }
-  ]
+    { name: 'None', color: '#B9B9B9' },
+  ],
 };
 
 // Colors for Klebsiella drug classes genes
@@ -395,7 +395,7 @@ export const colorForDrugClassesKP = {
     { name: 'VEB-1 + VEB-1', color: '#146a30' },
     { name: 'VEB-5', color: '#0f612a' },
     { name: 'VEB-6', color: '#0a5725' },
-    { name: 'VEB-9', color: '#054e20' }
+    { name: 'VEB-9', color: '#054e20' },
   ],
   Carbapenems: [
     { name: 'CTX-M-33', color: '#D1E5F0' },
@@ -494,8 +494,8 @@ export const colorForDrugClassesKP = {
     { name: 'VIM-29', color: '#08306B' },
     { name: 'VIM-33', color: '#67001F' },
     { name: 'VIM-4', color: '#4A0082' },
-    { name: 'VIM-5', color: '#40004B' }
-  ]
+    { name: 'VIM-5', color: '#40004B' },
+  ],
 };
 
 // Color variables
@@ -509,7 +509,7 @@ export const hoverColor = '#D2F1F6';
 export const colorForDrugClassesNG = {
   Ceftriaxone: [
     { name: 'CefR1', color: '#f9c74f' },
-    { name: 'None', color: '#B9B9B9' }
+    { name: 'None', color: '#B9B9B9' },
   ],
   Azithromycin: [
     { name: 'AzithR1', color: '#D1E5F0' },
@@ -523,6 +523,6 @@ export const colorForDrugClassesNG = {
     { name: 'AzithR9', color: '#f9c74f' },
     { name: 'AzithR10', color: '#f9844a' },
     { name: 'AzithR11', color: '#543005' },
-    { name: 'None', color: '#B9B9B9' }
-  ]
+    { name: 'None', color: '#B9B9B9' },
+  ],
 };

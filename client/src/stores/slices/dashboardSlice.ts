@@ -34,7 +34,12 @@ interface DashboardState {
 
 const initialState: DashboardState = {
   canGetData: true,
-  globalOverviewLabel: { label0: 'Salmonella', label1: 'Typhi', label2: '', fullLabel: 'Salmonella Typhi' },
+  globalOverviewLabel: {
+    label0: 'Salmonella',
+    label1: 'Typhi',
+    label2: '', 
+    fullLabel: 'Salmonella Typhi',
+  },
   organism: 'styphi',
   loadingData: false,
   actualCountry: 'All',
@@ -127,7 +132,7 @@ export const dashboardSlice = createSlice({
     setCaptureGD: (state, action: PayloadAction<boolean>) => {
       state.captureGD = action.payload;
     },
-  }
+  },
 });
 
 export const {
@@ -152,7 +157,7 @@ export const {
   setCaptureDRT,
   setCaptureRFWG,
   setCaptureRDWG,
-  setCaptureGD
+  setCaptureGD,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

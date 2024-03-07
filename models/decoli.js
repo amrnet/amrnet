@@ -4,350 +4,350 @@ const Schema = mongoose.Schema;
 // MongoDB scheme
 const decoliSchema = new Schema({
   NAME: {
-    type: String
+    type: String,
   },
   DATE: {
-    type: String
+    type: String,
   },
   COUNTRY_ONLY: {
-    type: String
+    type: String,
   },
   REGION_IN_COUNTRY: {
-    type: String
+    type: String,
   },
   TRAVEL: {
-    type: String
+    type: String,
   },
   COUNTRY_ORIGIN: {
-    type: String
+    type: String,
   },
   TRAVEL_LOCATION: {
-    type: String
+    type: String,
   },
   'TGC ID': {
-    type: String
+    type: String,
   },
   ACCESSION: {
-    type: String
+    type: String,
   },
   AGE: {
-    type: String
+    type: String,
   },
   'COUNTRY OF ORIGIN': {
-    type: String
+    type: String,
   },
   LOCATION: {
-    type: String
+    type: String,
   },
   'COUNTRY ISOLATED': {
-    type: String
+    type: String,
   },
   'TRAVEL ASSOCIATED': {
-    type: String
+    type: String,
   },
   'TRAVEL COUNTRY': {
-    type: String
+    type: String,
   },
   STRAIN: {
-    type: String
+    type: String,
   },
   'PURPOSE OF SAMPLING': {
-    type: String
+    type: String,
   },
   SOURCE: {
-    type: String
+    type: String,
   },
   'SYMPTOM STATUS': {
-    type: String
+    type: String,
   },
   'PROJECT ACCESSION': {
-    type: String
+    type: String,
   },
   BIOSAMPLE: {
-    type: String
+    type: String,
   },
   LAB: {
-    type: String
+    type: String,
   },
   CONTACT: {
-    type: String
+    type: String,
   },
   ACCURACY: {
-    type: String
+    type: String,
   },
   PMID: {
-    type: String
+    type: String,
   },
   LATITUDE: {
-    type: String
+    type: String,
   },
   LONGITUDE: {
-    type: String
+    type: String,
   },
   gyrA_S83F: {
-    type: String
+    type: String,
   },
   gyrA_S83Y: {
-    type: String
+    type: String,
   },
   gyrA_D87A: {
-    type: String
+    type: String,
   },
   gyrA_D87G: {
-    type: String
+    type: String,
   },
   gyrA_D87N: {
-    type: String
+    type: String,
   },
   gyrA_D87V: {
-    type: String
+    type: String,
   },
   gyrA_D87Y: {
-    type: String
+    type: String,
   },
   gyrB_S464F: {
-    type: String
+    type: String,
   },
   gyrB_S464Y: {
-    type: String
+    type: String,
   },
   gyrB_Q465L: {
-    type: String
+    type: String,
   },
   gyrB_Q465R: {
-    type: String
+    type: String,
   },
   parC_S80I: {
-    type: String
+    type: String,
   },
   parC_S80R: {
-    type: String
+    type: String,
   },
   parC_E84G: {
-    type: String
+    type: String,
   },
   parC_E84K: {
-    type: String
+    type: String,
   },
   parE_D420N: {
-    type: String
+    type: String,
   },
   parE_L416F: {
-    type: String
+    type: String,
   },
   acrB_R717Q: {
-    type: String
+    type: String,
   },
   acrB_R717L: {
-    type: String
+    type: String,
   },
   num_qrdr: {
-    type: String
+    type: String,
   },
   dcs_mechanisms: {
-    type: String
+    type: String,
   },
   num_acrb: {
-    type: String
+    type: String,
   },
   azith_pred_pheno: {
-    type: String
+    type: String,
   },
   cip_pred_pheno: {
-    type: String
+    type: String,
   },
   CipNS: {
-    type: String
+    type: String,
   },
   'dashboard view': {
-    type: String
+    type: String,
   },
   CipR: {
-    type: String
+    type: String,
   },
   cip: {
-    type: String
+    type: String,
   },
   cip_pheno_qrdr_gene: {
-    type: String
+    type: String,
   },
   dcs_category: {
-    type: String
+    type: String,
   },
   REFERENCE: {
-    type: String
+    type: String,
   },
   'MLST ST (EnteroBase)': {
-    type: String
+    type: String,
   },
   'MLST PROFILE (EnteroBase)': {
-    type: String
+    type: String,
   },
   'GENOTYPHI SNPs CALLED': {
-    type: String
+    type: String,
   },
   'Inc Types': {
-    type: String
+    type: String,
   },
   h58_genotypes: {
-    type: String
+    type: String,
   },
   GENOTYPE_SIMPLE: {
-    type: String
+    type: String,
   },
   GENOTYPE: {
-    type: String
+    type: String,
   },
   ampC: {
-    type: String
+    type: String,
   },
   'blaCTX-M-12': {
-    type: String
+    type: String,
   },
   'blaCTX-M-15_23': {
-    type: String
+    type: String,
   },
   'blaCTX-M-55': {
-    type: String
+    type: String,
   },
   'blaOXA-1': {
-    type: String
+    type: String,
   },
   'blaOXA-7': {
-    type: String
+    type: String,
   },
-  'blaOXA134_2': {
-    type: String
+  blaOXA134_2: {
+    type: String,
   },
   'blaSHV-12': {
-    type: String
+    type: String,
   },
   'blaTEM-1D': {
-    type: String
+    type: String,
   },
   catA1: {
-    type: String
+    type: String,
   },
   cmlA: {
-    type: String
+    type: String,
   },
   qnrB: {
-    type: String
+    type: String,
   },
   qnrS: {
-    type: String
+    type: String,
   },
   qnrD: {
-    type: String
+    type: String,
   },
   sul1: {
-    type: String
+    type: String,
   },
   sul2: {
-    type: String
+    type: String,
   },
   dfrA1: {
-    type: String
+    type: String,
   },
   dfrA14: {
-    type: String
+    type: String,
   },
   dfrA15: {
-    type: String
+    type: String,
   },
   dfrA17: {
-    type: String
+    type: String,
   },
   dfrA18: {
-    type: String
+    type: String,
   },
   dfrA5: {
-    type: String
+    type: String,
   },
   dfrA7: {
-    type: String
+    type: String,
   },
   'tetA(A)': {
-    type: String
+    type: String,
   },
   'tetA(B)': {
-    type: String
+    type: String,
   },
   'tetA(C)': {
-    type: String
+    type: String,
   },
   'tetA(D)': {
-    type: String
+    type: String,
   },
   ereA: {
-    type: String
+    type: String,
   },
   num_amr_genes: {
-    type: String
+    type: String,
   },
   dfra_any: {
-    type: String
+    type: String,
   },
   sul_any: {
-    type: String
+    type: String,
   },
   co_trim: {
-    type: String
+    type: String,
   },
   MDR: {
-    type: String
+    type: String,
   },
   XDR: {
-    type: String
+    type: String,
   },
   ESBL_category: {
-    type: String
+    type: String,
   },
   chloramphenicol_category: {
-    type: String
+    type: String,
   },
   tetracycline_category: {
-    type: String
+    type: String,
   },
   amr_category: {
-    type: String
+    type: String,
   },
   'Genome ID': {
-    type: String
+    type: String,
   },
   Version: {
-    type: String
+    type: String,
   },
   'Organism Name': {
-    type: String
+    type: String,
   },
   'Organism ID': {
-    type: String
+    type: String,
   },
   'Species Name': {
-    type: String
+    type: String,
   },
   'Species ID': {
-    type: String
+    type: String,
   },
   'Genus Name': {
-    type: String
+    type: String,
   },
   'Genus ID': {
-    type: String
+    type: String,
   },
   'Reference ID': {
-    type: String
+    type: String,
   },
   'Matching Hashes': {
-    type: String
+    type: String,
   },
   'p-Value': {
-    type: String
+    type: String,
   },
   'Mash Distance': {
-    type: String
-  }
+    type: String,
+  },
 });
 
 const decoliModel = mongoose.model('decoliModel', decoliSchema);

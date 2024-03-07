@@ -16,7 +16,7 @@ interface GraphState {
   drugsYearData: Array<any>;
   genotypesAndDrugsYearData: Array<any>;
   collapses: CollapsesModel;
-  drugResistanceGraphView: Array<string>,
+  drugResistanceGraphView: Array<string>;
   frequenciesGraphView: string;
   frequenciesGraphSelectedGenotypes: Array<string>;
   customDropdownMapView: Array<string>;
@@ -36,10 +36,10 @@ interface GraphState {
   convergenceColourPallete: Object;
   currentSliderValue: number;
   resetBool: boolean;
-  maxSliderValue:number;
+  maxSliderValue: number;
   currentSliderValueRD: number;
-  maxSliderValueRD:number;
-  sliderList:number;
+  maxSliderValueRD: number;
+  sliderList: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
 }
@@ -68,7 +68,6 @@ const initialState: GraphState = {
   customDropdownMapView: [],
   customDropdownMapViewNG: [],
   determinantsGraphView: 'percentage',
-  customDropdownMapViewNG: [],
   determinantsGraphDrugClass: '',
   trendsKPGraphDrugClass: '',
   trendsKPGraphView: 'number',
@@ -78,13 +77,13 @@ const initialState: GraphState = {
   convergenceGroupVariable: 'COUNTRY_ONLY',
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
-  currentSliderValue:20,
+  currentSliderValue: 20,
   resetBool: false,
-  maxSliderValue:0,
-  currentSliderValueRD:5,
-  maxSliderValueRD:0,
-  sliderList:0,
-  NGMAST:[],
+  maxSliderValue: 0,
+  currentSliderValueRD: 5,
+  maxSliderValueRD: 0,
+  sliderList: 0,
+  NGMAST: [],
   ngmastDrugsData: [],
 };
 
@@ -167,7 +166,7 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
-     setCurrentSliderValue: (state, action: PayloadAction<number>) => {
+    setCurrentSliderValue: (state, action: PayloadAction<number>) => {
       state.currentSliderValue = action.payload;
     },
     setResetBool: (state, action: PayloadAction<boolean>) => {
@@ -191,7 +190,7 @@ export const graphSlice = createSlice({
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
     },
-  }
+  },
 });
 
 export const {
@@ -227,7 +226,7 @@ export const {
   setMaxSliderValueRD,
   setSliderList,
   setNgmast,
-  setNgmastDrugsData
+  setNgmastDrugsData,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

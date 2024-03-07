@@ -12,46 +12,46 @@ const useStyles = makeStyles((theme) => ({
       position: 'relative',
 
       '& $yearWrapper': {
-        width: '100%'
+        width: '100%',
       },
       '& $datasetWrapper .MuiToggleButton-root': {
-        width: '100%'
-      }
-    }
+        width: '100%',
+      },
+    },
   },
   card: { borderRadius: '6px !important' },
   cardContent: {
     display: 'flex',
     flexDirection: 'column',
     rowGap: '8px',
-    textAlign: 'start'
+    textAlign: 'start',
   },
   datasetWrapper: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   selectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
-    textAlign: 'start'
+    textAlign: 'start',
   },
   selectMenu: {
     '& .MuiMenuItem-root': {
-      fontSize: '14px'
-    }
+      fontSize: '14px',
+    },
   },
   yearsWrapper: {
     display: 'flex',
     columnGap: '4px',
-    paddingTop: '8px'
+    paddingTop: '8px',
   },
   yearWrapper: {
-    width: '78px'
+    width: '78px',
   },
   menuPaper: {
-    maxHeight: '350px !important'
+    maxHeight: '350px !important',
   },
-  bp700: {}
+  bp700: {},
 }));
 
 export { useStyles };

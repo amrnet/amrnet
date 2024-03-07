@@ -8,111 +8,111 @@ import CircularProgress from '@mui/material/CircularProgress';
 // CircularProgress for 'Submit data' and 'Look for changes' dialogs
 const CustomCircularProgress = withStyles({
   root: {
-    color: 'rgb(31, 187, 211)'
-  }
+    color: 'rgb(31, 187, 211)',
+  },
 })(CircularProgress);
 
 // CSS like classes
 const useStyles = makeStyles({
   cellON: {
-    backgroundColor: '#e9f9fc'
+    backgroundColor: '#e9f9fc',
   },
   off: {},
   tableID: {
     position: 'sticky',
-    right: 0
+    right: 0,
   },
   tablePadding: {
-    marginTop: '16px'
+    marginTop: '16px',
   },
   actionsCell: {
     borderLeft: '1px solid rgba(224, 224, 224, 1)',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   stickyCell: {
     position: 'sticky',
     right: 0,
     borderLeft: '1px solid rgba(224, 224, 224, 1)',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   actionsHeaderCell: {
     backgroundColor: 'black',
     color: 'white',
-    borderLeft: '1px solid rgba(224, 224, 224, 1)'
+    borderLeft: '1px solid rgba(224, 224, 224, 1)',
   },
   stickyHeaderCell: {
     position: 'sticky',
     right: 0,
     backgroundColor: 'black',
     color: 'white',
-    borderLeft: '1px solid rgba(224, 224, 224, 1)'
+    borderLeft: '1px solid rgba(224, 224, 224, 1)',
   },
   changesTable: {
     maxHeight: '400px',
-    marginBottom: 32
+    marginBottom: 32,
   },
   viewButton: {
-    width: 80
+    width: 80,
   },
   resetButton: {
     width: 150,
     height: 40,
     marginRight: 16,
-    marginLeft: 16
+    marginLeft: 16,
   },
   uploadButton: {
     width: 150,
-    height: 40
+    height: 40,
   },
   checkChangesButton: {
     width: 100,
-    height: 40
+    height: 40,
   },
   dialog: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   input: {
-    marginBottom: 16
+    marginBottom: 16,
   },
   input2: {
-    marginBottom: 16
+    marginBottom: 16,
   },
   currentData: {
     backgroundColor: 'black',
     color: 'white',
     whiteSpace: 'nowrap',
-    paddingRight: 8
+    paddingRight: 8,
   },
   toolbar: {
     backgroundColor: 'black',
     borderBottom: '1px solid white',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   deleteSelected: {
-    color: 'red'
+    color: 'red',
   },
   checkboxCell: {
-    backgroundColor: 'black'
+    backgroundColor: 'black',
   },
   checkbox: {
-    color: 'white'
+    color: 'white',
   },
   tableRowRoot: {
     '&$tableRowSelected, &$tableRowSelected:hover': {
-      backgroundColor: '#e9f9fc'
-    }
+      backgroundColor: '#e9f9fc',
+    },
   },
   tableRowSelected: {
-    backgroundColor: '#e9f9fc'
+    backgroundColor: '#e9f9fc',
   },
   box: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 16
+    paddingLeft: 16,
   },
   select: {
     textAlign: 'right',
@@ -127,33 +127,33 @@ const useStyles = makeStyles({
     fontSize: 14,
     backgroundColor: 'transparent',
     '&:focus': {
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
     },
-    marginRight: 12
+    marginRight: 12,
   },
   choosePage: {
     opacity: 0.87,
     whiteSpace: 'nowrap',
-    paddingLeft: 8
+    paddingLeft: 8,
   },
   selectFilter: {
     backgroundColor: 'white',
-    textAlign: 'start'
+    textAlign: 'start',
   },
   header: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
   },
   headerTitle: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   rowHeader: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   deleteChangeButton: {
     backgroundColor: 'grey',
@@ -163,16 +163,16 @@ const useStyles = makeStyles({
     border: '1px solid rgba(0, 0, 0, 0.23)',
     '&:hover': {
       color: 'white',
-      backgroundColor: '#4F4F4F'
-    }
+      backgroundColor: '#4F4F4F',
+    },
   },
   searchInputWrapper: {
     width: '-webkit-fill-available',
-    maxWidth: '300px'
+    maxWidth: '300px',
   },
   searchInput: {
-    backgroundColor: 'white'
-  }
+    backgroundColor: 'white',
+  },
 });
 
 // Load button from the changes table
@@ -182,10 +182,10 @@ const ColorButton = withStyles((theme) => ({
     color: 'white',
     '&:hover': {
       color: 'white',
-      backgroundColor: '#4F4F4F'
+      backgroundColor: '#4F4F4F',
     },
-    marginRight: '16px'
-  }
+    marginRight: '16px',
+  },
 }))(Button);
 
 // 'Reset changes' and 'Add new entry' buttons
@@ -195,10 +195,10 @@ const ColorButton3 = withStyles((theme) => ({
     color: '#1FBBD3',
     '&:hover': {
       color: 'black',
-      backgroundColor: '#CFCFCF'
+      backgroundColor: '#CFCFCF',
     },
-    borderColor: '#1FBBD3'
-  }
+    borderColor: '#1FBBD3',
+  },
 }))(Button);
 
 // Submit changes button
@@ -208,9 +208,9 @@ const ColorButton4 = withStyles((theme) => ({
     color: 'white',
     '&:hover': {
       color: 'white',
-      backgroundColor: '#188C9E'
-    }
-  }
+      backgroundColor: '#188C9E',
+    },
+  },
 }))(Button);
 
 // Refresh button
@@ -220,28 +220,28 @@ const ColorButton5 = withStyles((theme) => ({
     borderColor: 'black',
     backgroundColor: 'transparent',
     '&:hover': {
-      backgroundColor: '#CFCFCF'
+      backgroundColor: '#CFCFCF',
     },
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 }))(Button);
 
 // Header cell for both tables
 const StyledHeaderCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
   },
   body: {
-    fontSize: 14
-  }
+    fontSize: 14,
+  },
 }))(TableCell);
 
 // Wrapper for data table
 const CustomTableContainer = withStyles((theme) => ({
   root: {
-    maxHeight: '600px'
-  }
+    maxHeight: '600px',
+  },
 }))(TableContainer);
 
 // Label for header cells from the data table with order buttons
@@ -249,16 +249,16 @@ const CustomTableSortLabel = withStyles((theme) => ({
   root: {
     color: 'white',
     '&:hover': {
-      color: 'white'
+      color: 'white',
     },
     '&$active': {
-      color: 'white'
-    }
+      color: 'white',
+    },
   },
   active: {},
   icon: {
-    color: 'inherit !important'
-  }
+    color: 'inherit !important',
+  },
 }))(TableSortLabel);
 
 export {
@@ -270,5 +270,5 @@ export {
   StyledHeaderCell,
   CustomTableContainer,
   CustomTableSortLabel,
-  CustomCircularProgress
+  CustomCircularProgress,
 };
