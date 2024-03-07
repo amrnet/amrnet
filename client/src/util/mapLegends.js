@@ -10,7 +10,7 @@ export const mapLegends = [
   { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono'] },
   { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
   { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
-  { value: 'Carb', label: 'Carbapenems prevalence', organisms: ['kpneumo'] },
+  { value: 'Carb', label: 'Carbapenemase prevalence', organisms: ['kpneumo'] },
   { value: 'Sensitive to all drugs', label: 'Sensitive to all drugs', organisms: ['styphi', 'kpneumo', 'ngono'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   {

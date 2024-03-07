@@ -3,13 +3,9 @@ export const drugsST = [
   'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
-  // 'Co-trimoxazole',
   'Trimethoprim-sulfamethoxazole',
-  // 'ESBL',
   'Ceftriaxone',
-  // 'Fluoroquinolones (CipNS)',
   'Ciprofloxacin NS',
-  // 'Fluoroquinolones (CipR)',
   'Ciprofloxacin R',
   'Sulphonamides',
   'Susceptible',
@@ -30,7 +26,8 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'XDR',
 ];
 
-export const drugsNG1 = [
+// List of N. gono drug classes
+export const drugsNG = [
   'Azithromycin',
   'Ceftriaxone',
   'Ciprofloxacin',
@@ -45,7 +42,7 @@ export const drugsNG1 = [
 ];
 
 // List of N. gono drug classes
-export const drugsNG = [
+export const drugsNG1 = [
   'Azithromycin',
   'Ceftriaxone',
   'Ciprofloxacin',
@@ -55,8 +52,6 @@ export const drugsNG = [
   'Penicillin',
   'Susceptible',
   'Spectinomycin',
-  'MDR',
-  'XDR',
 ];
 
 // List of Klebsiella drugs
@@ -83,11 +78,8 @@ export const drugClassesST = [
   'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Chloramphenicol',
-  // 'Co-trimoxazole',
   'Trimethoprim-sulfamethoxazole',
-  // 'ESBL',
   'Ceftriaxone',
-  // 'Fluoroquinolones (CipNS)',
   'Ciprofloxacin NS',
   'Sulphonamides',
   'Tetracyclines',
