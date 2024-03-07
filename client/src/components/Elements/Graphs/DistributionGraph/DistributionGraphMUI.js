@@ -4,24 +4,24 @@ const useStyles = makeStyles((theme) => ({
   distributionGraph: {
     display: 'flex',
     flexDirection: 'column',
-    borderTop: '1px solid rgba(0, 0, 0, 0.12)'
+    borderTop: '1px solid rgba(0, 0, 0, 0.12)',
   },
   selectWrapper: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   selectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
-    padding: '8px 32px 8px 8px !important'
+    padding: '8px 32px 8px 8px !important',
   },
   selectMenu: {
     '& .MuiMenuItem-root': {
-      fontSize: '14px'
-    }
+      fontSize: '14px',
+    },
   },
   selectLabel: {
-    paddingBottom: '4px'
+    paddingBottom: '4px',
   },
   graphWrapper: {
     paddingTop: '16px',
@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 1000px)': {
       flexDirection: 'column',
-      height: '100%'
-    }
+      height: '100%',
+    },
   },
   graph: {
     height: '100%',
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 1000px)': {
       width: '100%',
-      height: '460px'
+      height: '460px',
     },
 
     // '@media (max-width: 500px)': {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     // }
   },
   graphLabel: {
-    textAnchor: 'middle'
+    textAnchor: 'middle',
   },
   legendWrapper: {
     display: 'flex',
@@ -60,19 +60,19 @@ const useStyles = makeStyles((theme) => ({
     height: '110px',
     gap: '4px',
     padding: '8px 0px 4px',
-    marginLeft: '60px'
+    marginLeft: '60px',
   },
   legendItemWrapper: {
     display: 'flex',
     alignItems: 'center',
     columnGap: '4px',
-    paddingRight: '8px'
+    paddingRight: '8px',
   },
   colorCircle: {
     height: '10px',
     width: '10px',
     borderRadius: '50%',
-    minWidth: '10px'
+    minWidth: '10px',
   },
   tooltipWrapper: {
     width: '100%',
@@ -84,9 +84,9 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       height: '250px',
       overflowY: 'hidden',
-    }
+    },
   },
-  sliderCont:{
+  sliderCont: {
     width: '30%',
     overflowY: 'auto',
     overflowX: 'hidden',
@@ -94,27 +94,26 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       overflowY: 'hidden',
       overflowX: 'hidden',
-    }
-    
+    },
   },
   noYearSelected: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%'
+    height: '100%',
   },
   tooltip: {
     width: '100%',
     height: '450px',
     display: 'flex',
-    overflowY:'auto',
+    overflowY: 'auto',
     flexDirection: 'column',
     '@media (max-width: 1000px)': {
       width: '100%',
-      height:'100%',
+      height: '100%',
       overflowY: 'hidden',
       overflowX: 'hidden',
-    }
+    },
   },
   noYearSelected2: {
     display: 'flex',
@@ -123,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
     height: '450px',
     '@media (max-width: 1000px)': {
       height: '100%',
-    }
+    },
   },
   tooltipTitle: {
     display: 'flex',
@@ -131,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
     columnGap: '8px',
     alignItems: 'flex-end',
     padding: '16px 16px 8px',
-    borderBottom: '1px solid #fff'
+    borderBottom: '1px solid #fff',
   },
   tooltipContent: {
     display: 'grid',
@@ -139,33 +138,33 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     gap: '16px',
     padding: '16px',
-    overflowY: 'auto'
+    overflowY: 'auto',
   },
   tooltipItemWrapper: {
     display: 'flex',
     flexDirection: 'row',
     columnGap: '8px',
-    gridColumn: 'span 6'
+    gridColumn: 'span 6',
   },
   tooltipItemBox: {
     height: '18px',
     width: '18px',
     border: 'solid rgb(0, 0, 0, 0.75) 0.5px',
-    flex: 'none'
+    flex: 'none',
   },
   tooltipItemStats: {
     display: 'flex',
     flexDirection: 'column',
 
     '& .MuiTypography-body2': {
-      overflowWrap: 'anywhere'
-    }
+      overflowWrap: 'anywhere',
+    },
   },
   chartTooltipLabel: {
     backgroundColor: '#fff',
     padding: '8px',
-    border: 'solid rgba(0, 0, 0, 0.25) 1px'
-  }
+    border: 'solid rgba(0, 0, 0, 0.25) 1px',
+  },
 }));
 
 export { useStyles };

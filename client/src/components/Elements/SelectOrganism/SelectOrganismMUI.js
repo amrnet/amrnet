@@ -5,14 +5,14 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: '800px',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   organismSelect: {
     height: '36px',
     width: '100%',
 
     '@media (max-width: 500px)': {
-      padding: '4px 0px'
+      padding: '4px 0px',
     },
 
     '& .MuiSelect-select.MuiSelect-select': {
@@ -25,18 +25,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgba(0, 0, 0, 0.05)',
 
       '&:hover': {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)'
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
       },
 
       '@media (min-width: 501px)': {
-        padding: '4px !important'
+        padding: '4px !important',
       },
 
       '@media (max-width: 500px)': {
-        fontSize: '16px'
-      }
-    }
-  }
+        fontSize: '16px',
+      },
+    },
+  },
 }));
 
 export { useStyles };

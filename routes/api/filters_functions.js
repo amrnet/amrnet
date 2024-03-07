@@ -153,7 +153,7 @@ function FilterTypingFile(Title, data, obj_parser, headers) {
     '10060_6_20_LaoUI10788_2007',
     '10060_6_30_LaoUI14598_2009',
     '10209_5_36_LaoUI2001_2002',
-    '10209_5_60_LaoUI3396_2003'
+    '10209_5_60_LaoUI3396_2003',
   ];
 
   if (h58_genotypes.indexOf(data['GENOTYPHI GENOTYPE']) != -1) {
@@ -251,7 +251,7 @@ function FilterAmrSNPS(Title, data, obj_parser, headers) {
       'gyrB_S464Y',
       'parC_S80I',
       'parC_E84G',
-      'parC_E84K'
+      'parC_E84K',
     ];
     obj_parser['num_qrdr'] = 0;
     for (qrdr of list_qrdr) {

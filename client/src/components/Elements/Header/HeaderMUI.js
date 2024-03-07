@@ -6,11 +6,11 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     // width: '100%', // Default width
     '@supports (-webkit-appearance:none)': {
-    // Safari and Chrome
+      // Safari and Chrome
       width: '-webkit-fill-available',
     },
     '@supports (-moz-appearance:none)': {
-    // Firefox
+      // Firefox
       width: '-moz-available',
     },
     display: 'flex',
@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px 16px',
 
     '@media (max-width: 500px)': {
-      margin: '0px 8px'
-    }
+      margin: '0px 8px',
+    },
   },
   headerBox: {
     width: '100%',
@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 500px)': {
       paddingLeft: '16px',
-      height: '24px'
-    }
+      height: '24px',
+    },
   },
   appBar: {
-    borderRadius: '16px'
+    borderRadius: '16px',
   },
   toolbar: {
     backgroundColor: '#fff',
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 500px)': {
       paddingTop: '8px',
-      paddingBottom: '8px'
+      paddingBottom: '8px',
     },
 
     '&$otherPage': {
@@ -57,31 +57,31 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'space-between',
 
       '& $leftWrapper': {
-        justifyContent: 'space-between'
-      }
-    }
+        justifyContent: 'space-between',
+      },
+    },
   },
   logo: {
     height: '80px',
     padding: '8px 0px',
 
     '@media (max-width: 1000px)': {
-      height: '60px'
+      height: '60px',
     },
 
     '@media (max-width: 500px)': {
-      height: '40px'
-    }
+      height: '40px',
+    },
   },
   leftWrapper: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    columnGap: '10px'
+    columnGap: '10px',
   },
   drawerTitleWrapper: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   toolbarWrapper: {
     width: '100%',
@@ -90,24 +90,24 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
 
     '@media (min-width: 651px) and (max-width: 1000px)': {
-      flexDirection: 'column'
+      flexDirection: 'column',
     },
 
     '@media (max-width: 650px)': {
-      columnGap: '4px'
+      columnGap: '4px',
     },
 
     '@media (max-width: 500px)': {
-      justifyContent: 'flex-end'
-    }
+      justifyContent: 'flex-end',
+    },
   },
   infoCollapse: {
-    width: '100%'
+    width: '100%',
   },
   title: {
-    position: 'absolute'
+    position: 'absolute',
   },
-  otherPage: {}
+  otherPage: {},
 }));
 
 export { useStyles };

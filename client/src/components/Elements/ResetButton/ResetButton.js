@@ -22,13 +22,10 @@ import {
   setFrequenciesGraphSelectedGenotypes,
   setNgmast,
   setNgmastDrugsData,
-  setCustomDropdownMapViewNG
+  setCustomDropdownMapViewNG,
 } from '../../../stores/slices/graphSlice';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
-import {
-  getGenotypesData,
-  getNgmastData
-} from '../../Dashboard/filters';
+import { getGenotypesData, getNgmastData } from '../../Dashboard/filters';
 
 export const ResetButton = (props) => {
   const classes = useStyles();
@@ -41,8 +38,7 @@ export const ResetButton = (props) => {
   const genotypes = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const ngmast = useAppSelector((state) => state.graph.NGMAST);
-    const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
-
+  const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
 
   function handleClick() {
     dispatch(setCanGetData(false));
@@ -54,8 +50,8 @@ export const ResetButton = (props) => {
         frequencies: false,
         trendsKP: false,
         KODiversity: false,
-        convergence: false
-      })
+        convergence: false,
+      }),
     );
 
     dispatch(setDataset('All'));
@@ -63,24 +59,32 @@ export const ResetButton = (props) => {
     dispatch(setActualTimeFinal(timeFinal));
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
     dispatch(setActualCountry('All'));
-    const genotypesData = getGenotypesData({ data: props.data, genotypes, actualCountry });
+    const genotypesData = getGenotypesData({
+      data: props.data,
+      genotypes,
+      actualCountry,
+    });
     const ngmastData = getNgmastData({ data: props.data, ngmast, organism });
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-    console.log("setCustomDropdownMapView", customDropdownMapViewNG, genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name))
+    console.log(
+      'setCustomDropdownMapView',
+      customDropdownMapViewNG,
+      genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name),
+    );
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
 
     if (organism === 'styphi') {
       dispatch(setMapView('CipNS'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-    } else if(organism === 'ngono'){
+    } else if (organism === 'ngono') {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(drugsNG));
       dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
-    }else {
+    } else {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));

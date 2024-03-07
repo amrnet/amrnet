@@ -1,34 +1,32 @@
-
 export const TeamCards = [
   {
-    Name: 'Kat Holt',
-    Post: "PROFESSOR OF MICROBIAL SYSTEMS GENOMICS / AMRNET PRINCIPAL INVESTIGATOR",
+    Name: 'Prof Kat Holt',
+    Post: 'Principal Investigator',
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/profile_photo_listing/public/profile_image/3496.jpg?itok=jsLaBdBY',
   },
   {
-    Name: 'Zoe Dyson',
-    Post: "ASSISTANT PROFESSOR / GENOMIC EPIDEMIOLOGIST",
+    Name: 'Prof Zoe Dyson',
+    Post: 'Genomic Epidemiologist',
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/profile_photo_listing/public/profile_image/4397.jpg?itok=yCa726w7',
   },
   {
-    Name: 'Louise Cerdeira',
-    Post: "RESEARCH SOFTWARE ENGINEER / MICROBIAL GENOMICS",
+    Name: 'Dr Louise Cerdeira',
+    Post: 'Lead Software Engineer',
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/profile_photo_listing/public/profile_image/5718.jpg?itok=YUZpAXGM',
   },
   {
     Name: 'Vandana Sharma',
-    Post: "RESEARCH SOFTWARE ENGINEER",
+    Post: 'Software Engineer',
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/thumbnail/public/2023-04/vandana-sharma.jpg?itok=QkzifVuT',
   },
   {
-    Name: 'Megan Carey',
-    Post: "RESEARCH FELLOW - POLICY ENGAGEMENT / POSTDOCTORAL RESEARCH FELLOW /GENOMIC EPIDEMIOLOGY AND POLICY",
+    Name: 'Dr Megan Carey',
+    Post: 'Policy Engagement',
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/profile_photo_listing/public/profile_image/5635.jpg?itok=Jhvc4R1B',
   },
   {
-    Name: 'Mary Maranga',
-   Post: "RESEARCH FELLOW IN AMR BIOINFORMATICS",
+    Name: 'Dr Mary Maranga',
+    Post: 'Bioinformatics',
     img: 'https://www.lshtm.ac.uk/sites/default/files/styles/profile_photo_listing/public/profile_image/5776.jpg?itok=TVA_pOqx',
   },
-  
 ];
