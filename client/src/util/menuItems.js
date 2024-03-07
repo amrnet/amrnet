@@ -4,17 +4,20 @@ import { Description, Home, Info, MenuBook, Person, Storage } from '@mui/icons-m
 export const menuItems = [
   {
     key: 'home',
-    label: 'Home',
+    label: 'Dashboard',
+    labelHead: 'Home',
     icon: <Home />,
   },
   {
     key: 'about',
-    label: 'About AMRnet',
+    label: 'About',
+    labelHead: 'About AMRnet',
     icon: <Info />,
   },
   {
     key: 'user-guide',
     label: 'User Guide',
+    labelHead: 'User Guide',
     icon: <MenuBook />,
   },
   // {
