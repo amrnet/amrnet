@@ -234,7 +234,7 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
           case 'ngono':
             dispatch(setMapView('No. Samples'));
             dispatch(setDrugResistanceGraphView(drugsNG));
-            dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
+            dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
             break;
           case 'ecoli':
             dispatch(setMapView('No. Samples'));
