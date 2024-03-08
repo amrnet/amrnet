@@ -3,6 +3,12 @@ import { MainLayout } from '../Layout';
 import { useStyles } from './UserGuideMUI';
 import { Footer } from '../Elements/Footer';
 import Divider from '@mui/material/Divider';
+import header from '../../assets/img/screencaptures/header.png';
+import map from '../../assets/img/screencaptures/map.png';
+import filter from '../../assets/img/screencaptures/filter.png';
+import plot from '../../assets/img/screencaptures/plot.png';
+import plot2 from '../../assets/img/screencaptures/plot2.png';
+import downloads from '../../assets/img/screencaptures/downloads.png';
 
 export const UserGuidePage = () => {
   const classes = useStyles();
@@ -22,6 +28,13 @@ export const UserGuidePage = () => {
             parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected
             dashboard.
           </Typography>
+            <img className={classes.img}
+              srcSet={header}
+              src={header}
+              alt={"Header"}
+              loading="lazy"
+            />
+          <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             <span className={classes.paragraphBold}>Map:</span> Use the menu on the right to{' '}
@@ -32,12 +45,26 @@ export const UserGuidePage = () => {
             N≥20 samples (using the current filters) for summary data to be displayed, otherwise it will be coloured
             grey to indicate insufficient data.
           </Typography>
+          <img className={classes.img}
+              srcSet={map}
+              src={map}
+              alt={"map"}
+              loading="lazy"
+            />
+          <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             Filters set in this panel apply not only to the map, but to all plots on the page.{' '}
             <span className={classes.paragraphBold}>Clicking on a country in the map</span> also functions as a filter,
             so that subsequent plots reflect data for the selected country only.
           </Typography>
+          <img className={classes.img}
+              srcSet={filter}
+              src={filter}
+              alt={"Filter"}
+              loading="lazy"
+            />
+          <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             <span className={classes.paragraphBold}>Detailed plots:</span> These are intended to show country-level
@@ -49,12 +76,26 @@ export const UserGuidePage = () => {
             specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see
             per-organism details below).
           </Typography>
+          <img className={classes.img}
+              srcSet={plot}
+              src={plot}
+              alt={"Plot"}
+              loading="lazy"
+            />
+          <br />
           <br/>
           <Typography variant="body2" className={classes.paragraph}>
             All plots are interactive; use the menus at the top to{' '}
             <span className={classes.paragraphBold}>select variables to display</span>, and whether to show{' '}
             <span className={classes.paragraphBold}>counts or percentages</span>.
           </Typography>
+          <img className={classes.img}
+              srcSet={plot2}
+              src={plot2}
+              alt={"Plot2"}
+              loading="lazy"
+            />
+          <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             Each plot has a dynamic legend to the right; click on an x-axis value to display counts and percentages of
@@ -69,6 +110,13 @@ export const UserGuidePage = () => {
             format)’); and (2) a static report of the currently displayed plots, together with a basic description of
             the data sources and variable definitions (‘Download PDF’).
           </Typography>
+          <img className={classes.img}
+              srcSet={downloads}
+              src={downloads}
+              alt={"Downloads"}
+              loading="lazy"
+            />
+          <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             <span className={classes.paragraphBold}>NOTE:</span> Please note PDF reports are not yet available for all organisms, they will be added in future updates.
