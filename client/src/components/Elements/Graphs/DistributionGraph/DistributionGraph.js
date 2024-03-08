@@ -13,7 +13,7 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
-import { setColorPallete } from '../../../../stores/slices/dashboardSlice';
+import { setColorPallete,setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
 import { setDistributionGraphView, setResetBool } from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
@@ -91,6 +91,7 @@ export const DistributionGraph = () => {
     filteredArr.sort((a, b) => b[1] - a[1]);
     
     const slicedArray = filteredArr.slice(0, currentSliderValue).map(([key, value]) => key);
+    dispatch(setGenotypesForFilterSelected(slicedArray));
     setTopXGenotypes(slicedArray);
     dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
   }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
