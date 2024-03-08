@@ -72,6 +72,7 @@ export const Graphs = () => {
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
+  const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -149,10 +150,7 @@ export const Graphs = () => {
     }
 
     let orgBasedColumns, orgBasedSpace;
-    if (organism === 'styphi' || organism === 'kpneumo' || organism === 'sentericaints' || organism === 'senterica') {
-      orgBasedColumns = 9;
-      orgBasedSpace = 87;
-    } else if (organism === 'shige') {
+     if (organism === 'shige') {
       orgBasedColumns = 5;
       orgBasedSpace = 180;
     } else {
@@ -185,7 +183,7 @@ export const Graphs = () => {
         drugClassesFactor = Math.ceil(drugClassesBars.length / 4);
         heightFactor += drugClassesFactor * 22;
       } else if (card.id === 'GD') {
-        genotypesFactor = Math.ceil(genotypesForFilter.length / orgBasedColumns);
+        genotypesFactor = Math.ceil(genotypesForFilterSelected.length / orgBasedColumns);
         heightFactor += genotypesFactor * 22;
       } else if (card.id === 'CERDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
@@ -275,7 +273,7 @@ export const Graphs = () => {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
-          legendData: genotypesForFilter,
+          legendData: genotypesForFilterSelected,
           context: ctx,
           factor: genotypesFactor,
           mobileFactor,

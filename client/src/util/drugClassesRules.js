@@ -676,7 +676,7 @@ export const drugClassesRulesNG = {
     {
       name: 'AzithR2',
       susceptible: false,
-      rules: [{ columnID: 'AzithR3', value: '1' }],
+      rules: [{ columnID: 'AzithR2', value: '1' }],
     },
     {
       name: 'AzithR3',
