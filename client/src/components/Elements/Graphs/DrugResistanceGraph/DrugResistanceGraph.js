@@ -341,7 +341,7 @@ export const DrugResistanceGraph = () => {
                   if (item.label === 'XDR') {
                     itemLabel = (
                       <Tooltip
-                        title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)."
+                        title={getXDRDefinition()}
                         placement="top"
                       >
                         <span>XDR</span>
@@ -350,7 +350,7 @@ export const DrugResistanceGraph = () => {
                   } else if (item.label === 'MDR') {
                     itemLabel = (
                       <Tooltip
-                        title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)"
+                        title={getMDRDefinition()}
                         placement="top"
                       >
                         <span>MDR</span>

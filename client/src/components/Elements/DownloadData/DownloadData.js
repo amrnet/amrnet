@@ -114,13 +114,14 @@ export const DownloadData = () => {
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
+  const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
 
   async function handleClickDownloadDatabase() {
     setLoadingCSV(true);
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
       .then((res) => {
-        console.log('response', res);
+        //console.log('response', res);
         let indexes = [];
         let csv = res.data.split('\n');
         let lines = [];
@@ -342,13 +343,13 @@ export const DownloadData = () => {
         secondName = 'Typhi';
         secondword = 315;
       } else if (organism === 'kpneumo') {
-        console.log('organism', organism);
+        // console.log('organism', organism);
         texts = getKlebsiellaTexts();
         firstName = 'Klebsiella';
         secondName = 'pneumoniae';
         secondword = 330;
       } else if (organism === 'ngono') {
-        console.log('organism', organism);
+        // console.log('organism', organism);
         texts = getNgonoTexts();
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
@@ -659,7 +660,7 @@ export const DownloadData = () => {
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
-      const genotypesFactor = Math.ceil(genotypesForFilter.length / 6);
+      const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 6);
 
       const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
@@ -762,12 +763,12 @@ export const DownloadData = () => {
         } else if (cards[index].id === 'GD') {
           drawLegend({
             document: doc,
-            legendData: genotypesForFilter,
+            legendData: genotypesForFilterSelected,
             factor: genotypesFactor,
             rectY,
             xSpace: 65,
             isGenotype: true,
-            twoPages: isNgono,
+            twoPages: (isNgono && genotypesForFilterSelected.length>156),
           });
           if (isKlebe || isNgono) {
             drawHeader({ document: doc, pageWidth });
