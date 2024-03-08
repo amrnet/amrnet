@@ -150,8 +150,7 @@ export const DashboardPage = () => {
       data: responseData,
       years,
       organism,
-      getUniqueGenotypes: true,
-      getUniqueGenotypes: true,
+      getUniqueGenotypes: organism === 'styphi' ? false : true,
     });
 
     if (organism === 'kpneumo') {
@@ -166,7 +165,6 @@ export const DashboardPage = () => {
         data: responseData,
         groupVariable: convergenceGroupVariable,
         // colourVariable: convergenceColourVariable,
-        colourVariable: convergenceGroupVariable,
         colourVariable: convergenceGroupVariable,
       });
       dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
@@ -197,7 +195,7 @@ export const DashboardPage = () => {
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
       dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
     }
-
+console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));

@@ -45,7 +45,7 @@ export const SliderSizes = (props) => {
       setSliderValueMax(maxSliderValueRD);
       setHeading('Individual resistance determinants:');
     }
-    console.log('genotypesForFilter', genotypesForFilter);
+    //console.log('genotypesForFilter', genotypesForFilter);
     const max = genotypesForFilter.length;
     dispatch(setMaxSliderValue(max));
   });

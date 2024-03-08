@@ -40,8 +40,8 @@ export const TopRightControls2 = () => {
   const [open, setOpen] = useState(true);
   const mapView = useAppSelector((state) => state.map.mapView);
 
-  console.log('i m 2', genotypesDrugsData2);
-  console.log('customDropdownMapView', customDropdownMapView);
+  // console.log('i m 2', genotypesDrugsData2);
+  // console.log('customDropdownMapView', customDropdownMapView);
   const handleAutocompleteChange = (event, newValue) => {
     if (customDropdownMapView.length === 10 && newValue.length > 10) {
       return;
@@ -85,7 +85,7 @@ export const TopRightControls2 = () => {
       genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()),
   );
   // .filter(x => x.totalCount >= 20)
-  console.log('filteredData', filteredData);
+  // console.log('filteredData', filteredData);
   const icon = (
     // <div className={`${classes.topRightControls}`}>
     <Card elevation={3} className={classes.card}>
