@@ -114,6 +114,7 @@ export const DownloadData = () => {
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
+  const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
 
   async function handleClickDownloadDatabase() {
     setLoadingCSV(true);
@@ -659,7 +660,7 @@ export const DownloadData = () => {
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
-      const genotypesFactor = Math.ceil(genotypesForFilter.length / 6);
+      const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 3);
 
       const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
@@ -762,7 +763,7 @@ export const DownloadData = () => {
         } else if (cards[index].id === 'GD') {
           drawLegend({
             document: doc,
-            legendData: genotypesForFilter,
+            legendData: genotypesForFilterSelected,
             factor: genotypesFactor,
             rectY,
             xSpace: 65,
