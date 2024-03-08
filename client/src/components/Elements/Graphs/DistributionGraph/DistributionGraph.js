@@ -91,7 +91,12 @@ export const DistributionGraph = () => {
     filteredArr.sort((a, b) => b[1] - a[1]);
     
     const slicedArray = filteredArr.slice(0, currentSliderValue).map(([key, value]) => key);
-    dispatch(setGenotypesForFilterSelected(slicedArray));
+    const slicedArrayWithOther = structuredClone(slicedArray);
+    const Other = 'Other';
+    const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
+    slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
+    
+    dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
     setTopXGenotypes(slicedArray);
     dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
   }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
