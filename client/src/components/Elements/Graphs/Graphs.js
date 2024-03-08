@@ -150,10 +150,7 @@ export const Graphs = () => {
     }
 
     let orgBasedColumns, orgBasedSpace;
-    if (organism === 'styphi' || organism === 'kpneumo' || organism === 'sentericaints' || organism === 'senterica') {
-      orgBasedColumns = 9;
-      orgBasedSpace = 87;
-    } else if (organism === 'shige') {
+     if (organism === 'shige') {
       orgBasedColumns = 5;
       orgBasedSpace = 180;
     } else {
@@ -186,7 +183,7 @@ export const Graphs = () => {
         drugClassesFactor = Math.ceil(drugClassesBars.length / 4);
         heightFactor += drugClassesFactor * 22;
       } else if (card.id === 'GD') {
-        genotypesFactor = Math.ceil(genotypesForFilter.length / orgBasedColumns);
+        genotypesFactor = Math.ceil(genotypesForFilterSelected.length / orgBasedColumns);
         heightFactor += genotypesFactor * 22;
       } else if (card.id === 'CERDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
