@@ -498,7 +498,7 @@ export function getGenotypesData({ data, genotypes, organism }) {
         const drugData = genotypeData.filter((x) => rule.values.includes(x[rule.columnID]));
         response[rule.key] = drugData.length;
       
-        const drugClassesToInclude = ['Azithromycin', 'Ceftriaxone'];
+        const drugClassesToInclude = ['Azithromycin'];
 
         if (drugClassesToInclude.includes(rule.key)) {
           const drugClass = { ...drugClassResponse };

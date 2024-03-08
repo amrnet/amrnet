@@ -116,7 +116,7 @@ export const DownloadData = () => {
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
 
-  async function handleClickDownloadDatabase() {
+  async function handleClickDownloadDatabase(firstName, secondName) {
     setLoadingCSV(true);
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
@@ -163,7 +163,7 @@ export const DownloadData = () => {
           }
           newCSV += aux;
         }
-        download(newCSV, 'Database.csv');
+        download(newCSV, `AMRnet ${firstName} ${secondName} Database.csv`);
       })
       .finally(() => {
         setLoadingCSV(false);
