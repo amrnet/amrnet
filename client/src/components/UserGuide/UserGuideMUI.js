@@ -17,6 +17,23 @@ const useStyles = makeStyles((theme) => ({
   paragraphBold: {
     fontWeight: '550',
   },
+  imageContainer: {
+    width: '100%',
+    height: '0',
+    paddingTop: '56.25%',
+    position: 'relative',
+    // overflow: 'hidden',
+  },
+  img:{
+    '@supports (-webkit-appearance:none)': {
+      // Safari and Chrome
+      maxWidth: '-webkit-fill-available',
+    },
+    '@supports (-moz-appearance:none)': {
+      // Firefox
+      maxWidth: '-moz-available',
+    },
+  }
 }));
 
 export { useStyles };

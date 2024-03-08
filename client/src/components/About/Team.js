@@ -5,15 +5,6 @@ import { Card, CardContent, Typography, Box } from '@mui/material';
 import { TeamCards } from './TeamCard';
 import { GitHub } from '@mui/icons-material';
 import { LinkedIn } from '@mui/icons-material';
-// import TeamImgKH from '../../../src/assets/img/TeamImgKH.jpg';
-// import TeamImgZD from '../../../src/assets/img/TeamImgZD.jpg';
-// import TeamImgLC from '../../../src/assets/img/TeamImgLC.jpg';
-// import TeamImgVS from '../../../src/assets/img/TeamImgVS.jpg';
-// import TeamImgMC from '../../../src/assets/img/TeamImgMC.jpg';
-// import TeamImgMM from '../../../src/assets/img/TeamImgMM.jpg';
-
-//google scholar icon link
-{/* <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/google-scholar.png" alt="google-scholar"/> */}
 
 export const Team = () => {
   const classes = useStyles();
