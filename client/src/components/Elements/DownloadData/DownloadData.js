@@ -374,62 +374,115 @@ export const DownloadData = () => {
         let list = PMID.filter((value) => value !== '-');
         let pmidSpace, dynamicText;
         if (actualCountry === 'All') {
-          pmidSpace = 0;
+          pmidSpace = 50;
           dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(
             ', ',
           )}.`;
+          // pmidSpace = 50;
         } else {
           list = listPIMD.filter((value) => value !== '-');
           dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(
             ', ',
           )}.`;
           const textWidth = doc.getTextWidth(dynamicText);
-
-          const widthRanges = [815, 1200, 1600, 2000, 2400];
-          const pmidSpaces = [-50, -40, -30, -20, -10, 0];
+          const widthRanges = [400, 800, 1230, 1640, 2050, 2460, 2870];
+          const pmidSpaces = [0, 10, 20, 30, 40, 50, 60, 70];
 
           // Find the appropriate pmidSpace based on textWidth
           pmidSpace =
             pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
         }
-        doc.text(dynamicText, 16, 205, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(dynamicText, 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
 
         // Info
 
         doc.text(texts[0], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[1], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[1], 16, 135, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[2], 16, 175, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[3], 16, 285 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'bold');
-        doc.text(texts[4], 16, 325 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[5], 16, 345 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[6], 16, 375 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[7], 16, 405 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'bold');
-        doc.text(texts[8], 16, 435 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[9], 16, 455 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[10], 16, 485 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[11], 16, 505 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[2], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text('qnr', 16, 515 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[3], 90, 165 , { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[12], 32, 515 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 136, 165 , { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[5], 16, 175 , { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text('gyrA/parC/gyrB', 122, 515 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 205 , { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[13], 185, 515 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[14], 16, 535 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFontSize(10).setFont(undefined, 'bold');
-        doc.text(texts[15], 16, pageHeight - 60, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 62, 205 , { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'bold');
+        doc.text(texts[8], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[9], 16, 225, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[16], 16, pageHeight - 50, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 62, 225, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16,235, { align: 'left', maxWidth: pageWidth - 36 });
+        
+        doc.text(texts[12], 16, 295 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+       
+        doc.text(texts[13], 16, 335 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[14], 56, 335 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        // doc.setFontSize(10).setFont(undefined, 'bold');
+        doc.text(texts[15], 102, 335 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[16], 16, 355 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 16, 375 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[18], 16, 405 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[19], 16, 435 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[20], 16, 465 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[21], 16, 485 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[22], 16, 515 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[23], 16, 535 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text('qnr', 16, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[24], 32, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text('gyrA/parC/gyrB', 120, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[25], 183, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        
+        
+        // doc.setFont(undefined, 'italic');
+        // doc.text('qnr', 16, 40, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[24], 32, 40, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('gyrA/parC/gyrB', 120, 40, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[25], 183, 40, { align: 'left', maxWidth: pageWidth - 36 });
+        if(pmidSpace >= 40){
+          drawFooter({ document: doc, pageHeight, pageWidth, date });
+          doc.addPage();
+          drawHeader({ document: doc, pageWidth });
+          doc.text(texts[26], 16, 40, { align: 'left', maxWidth: pageWidth - 36 });
+        }else{
+          doc.text(texts[26], 16, 575 + pmidSpace-10, { align: 'left', maxWidth: pageWidth - 36 });
+          drawFooter({ document: doc, pageHeight, pageWidth, date });
+          doc.addPage();
+          drawHeader({ document: doc, pageWidth });
+        }
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[27], 16, pageHeight - 90, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[28], 16, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[29], 136, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[30], 182, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[31], 16, pageHeight - 60, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
         const euFlag = new Image();
         euFlag.src = EUFlagImg;
-        doc.addImage(euFlag, 'JPG', 173, pageHeight - 38, 12, 7, undefined, 'FAST');
+        doc.addImage(euFlag, 'JPG', 322, pageHeight - 56.5, 12, 7, undefined, 'FAST');
+        // doc.text(texts[31], 16, pageHeight - 30, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'kpneumo') {
         // Info
         let newLine = 10;
