@@ -20,8 +20,7 @@ export const Note = () => {
         <span>
           Typhi data are curated by the{' '}
           <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
-            Global Typhoid Genomics Consortium{' '}
-          </a>{' '}
+            Global Typhoid Genomics Consortium</a>{' '}
           and analysed using{' '}
           <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
             Pathogenwatch
