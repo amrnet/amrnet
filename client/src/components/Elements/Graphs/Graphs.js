@@ -72,6 +72,7 @@ export const Graphs = () => {
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
+  const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -275,7 +276,7 @@ export const Graphs = () => {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
-          legendData: genotypesForFilter,
+          legendData: genotypesForFilterSelected,
           context: ctx,
           factor: genotypesFactor,
           mobileFactor,
