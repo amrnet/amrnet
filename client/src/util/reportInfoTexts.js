@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from '@mui/material';
-export function getSalmonellaTexts(date) {
+export function getSalmonellaTexts() {
   const lastUpdated = 'January 24th 2024';
   const githubRepo = 'https://github.com/typhoidgenomics/TyphiNET';
   const typhinetURL = 'https://www.typhi.net';
