@@ -23,6 +23,8 @@ import {
   setNgmast,
   setNgmastDrugsData,
   setCustomDropdownMapViewNG,
+  setCurrentSliderValueRD,
+  setCurrentSliderValue
 } from '../../../stores/slices/graphSlice';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
 import { getGenotypesData, getNgmastData } from '../../Dashboard/filters';
@@ -66,11 +68,11 @@ export const ResetButton = (props) => {
     });
     const ngmastData = getNgmastData({ data: props.data, ngmast, organism });
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-    console.log(
-      'setCustomDropdownMapView',
-      customDropdownMapViewNG,
-      genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name),
-    );
+    // console.log(
+    //   'setCustomDropdownMapView',
+    //   customDropdownMapViewNG,
+    //   genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name),
+    // );
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
 
     if (organism === 'styphi') {
@@ -100,6 +102,8 @@ export const ResetButton = (props) => {
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
     dispatch(setCanGetData(true));
+    dispatch(setCurrentSliderValue(20));
+    dispatch(setCurrentSliderValueRD(5));
   }
 
   return (
