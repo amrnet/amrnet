@@ -23,6 +23,8 @@ import {
   setNgmast,
   setNgmastDrugsData,
   setCustomDropdownMapViewNG,
+  setCurrentSliderValueRD,
+  setCurrentSliderValue
 } from '../../../stores/slices/graphSlice';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
 import { getGenotypesData, getNgmastData } from '../../Dashboard/filters';
@@ -100,6 +102,8 @@ export const ResetButton = (props) => {
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
     dispatch(setCanGetData(true));
+    dispatch(setCurrentSliderValue(20));
+    dispatch(setCurrentSliderValueRD(5));
   }
 
   return (
