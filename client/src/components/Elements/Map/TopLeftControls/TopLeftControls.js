@@ -50,6 +50,7 @@ export const TopLeftControls = () => {
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <Typography variant="h6">Filters</Typography>
+          <Typography variant="caption">Applied to all plots</Typography>
           {organism !== 'styphi' ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
