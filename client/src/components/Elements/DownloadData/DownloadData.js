@@ -116,7 +116,21 @@ export const DownloadData = () => {
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
 
-  async function handleClickDownloadDatabase(firstName, secondName) {
+
+  async function handleClickDownloadDatabase() {
+
+    let firstName, secondName;
+      if (organism === 'styphi') {
+        firstName = 'Salmonella';
+        secondName = 'Typhi';
+      } else if (organism === 'kpneumo') {
+        firstName = 'Klebsiella';
+        secondName = 'pneumoniae';
+      } else if (organism === 'ngono') {
+        firstName = 'Neisseria';
+        secondName = 'gonorrhoeae';
+      }
+
     setLoadingCSV(true);
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
