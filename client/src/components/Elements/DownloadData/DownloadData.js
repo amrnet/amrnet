@@ -660,7 +660,7 @@ export const DownloadData = () => {
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
       const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
-      const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 3);
+      const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 6);
 
       const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
       const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
@@ -768,7 +768,7 @@ export const DownloadData = () => {
             rectY,
             xSpace: 65,
             isGenotype: true,
-            twoPages: isNgono,
+            twoPages: (isNgono && genotypesForFilterSelected.length>156),
           });
           if (isKlebe || isNgono) {
             drawHeader({ document: doc, pageWidth });
