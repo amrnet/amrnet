@@ -669,57 +669,57 @@ export const drugClassesRulesKP = {
 export const drugClassesRulesNG = {
   Azithromycin: [
     {
-      name: 'AzithR1',
+      name: '23S_a2045g + mtrR_proDel',
       susceptible: false,
       rules: [{ columnID: 'AzithR1', value: '1' }],
     },
     {
-      name: 'AzithR2',
+      name: '23S_rDNA_a2045g + mtrR_G45D',
       susceptible: false,
       rules: [{ columnID: 'AzithR2', value: '1' }],
     },
     {
-      name: 'AzithR3',
+      name: 'mtrR_G45D + mtrC_loss + 23S_a2045g',
       susceptible: false,
       rules: [{ columnID: 'AzithR3', value: '1' }],
     },
     {
-      name: 'AzithR4',
+      name: '23S_c2597t + mtrR_proDel',
       susceptible: false,
       rules: [{ columnID: 'AzithR4', value: '1' }],
     },
     {
-      name: 'AzithR5',
+      name: '23S_c2597t + mtrR_A39T',
       susceptible: false,
       rules: [{ columnID: 'AzithR5', value: '1' }],
     },
     {
-      name: 'AzithR6',
+      name: '23S_c2597t + mtrR_G45D',
       susceptible: false,
       rules: [{ columnID: 'AzithR6', value: '1' }],
     },
     {
-      name: 'AzithR7',
+      name: '23S_c2597t',
       susceptible: false,
       rules: [{ columnID: 'AzithR7', value: '1' }],
     },
     {
-      name: 'AzithR8',
+      name: '23S_rDNA_c2597t + mtrC_loss',
       susceptible: false,
       rules: [{ columnID: 'AzithR8', value: '1' }],
     },
     {
-      name: 'AzithR9',
+      name: 'mtrC_loss + mtrD_mos2',
       susceptible: false,
       rules: [{ columnID: 'AzithR9', value: '1' }],
     },
     {
-      name: 'AzithR10',
+      name: 'mtrD_mos2 + mtr_mos2',
       susceptible: false,
       rules: [{ columnID: 'AzithR10', value: '1' }],
     },
     {
-      name: 'AzithR11',
+      name: 'mtr_mos2',
       susceptible: false,
       rules: [{ columnID: 'AzithR11', value: '1' }],
     },
