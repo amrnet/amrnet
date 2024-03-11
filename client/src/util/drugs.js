@@ -87,7 +87,7 @@ export const drugClassesST = [
 ];
 
 // List of Klebsiella drug classes
-export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
+export const drugClassesNG = ['Azithromycin']; //, 'Ceftriaxone'
 
 // List of Klebsiella drug classes
 export const drugClassesKP = ['Carbapenems', 'ESBL'];
