@@ -41,17 +41,17 @@ export const drugsNG = [
   'XDR',
 ];
 
-// List of N. gono drug classes
-export const drugsNG1 = [
+// List of N. gono drug classes default
+export const defaultDrugsForDrugResistanceGraphNG = [
   'Azithromycin',
   'Ceftriaxone',
   'Ciprofloxacin',
-  'Sulfonamides',
-  'Tetracycline',
   'Cefixime',
   'Penicillin',
   'Susceptible',
   'Spectinomycin',
+  'MDR',
+  'XDR',
 ];
 
 // List of Klebsiella drugs
