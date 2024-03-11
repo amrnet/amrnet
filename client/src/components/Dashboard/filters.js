@@ -180,7 +180,7 @@ export function getMapData({ data, countries, organism }) {
       stats.CipR = getMapStatsData({ countryData, columnKey: 'cip_pred_pheno', statsKey: 'CipR' });
       stats.CipNS = getMapStatsData({ countryData, columnKey: 'cip_pred_pheno', statsKey: 'CipNS' });
     } else if (organism === 'ngono') {
-      stats.Susceptible = getMapStatsData({ countryData, columnKey: 'nonsus', statsKey: '1' });
+      stats.Susceptible = getMapStatsData({ countryData, columnKey: 'Susceptible', statsKey: '1' });
       stats.Ciprofloxacin = getMapStatsData({ countryData, columnKey: 'Ciprofloxacin', statsKey: '1' });
       stats.Ceftriaxone = getMapStatsData({ countryData, columnKey: 'Ceftriaxone', statsKey: '1' });
       stats.Azithromycin = getMapStatsData({ countryData, columnKey: 'Azithromycin', statsKey: '1' });
@@ -343,7 +343,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             const drugData = yearData.filter((x) => rule.values.includes(x[rule.columnID]));
             drugStats[rule.key] = drugData.length;
           });
-          // const susceptible = yearData.filter((x) => x.nonsus === '0');
+          // const susceptible = yearData.filter((x) => x.Susceptible === '0');
           // drugStats['Susceptible'] = susceptible.length;
 
           // For genotypesAndDrugsData
@@ -563,7 +563,7 @@ export function getNgmastData({ data, ngmast, organism }) {
         response[rule.key] = drugData.length;
       });
       // Calculate susceptible count
-      const susceptible = ngmastData.filter((x) => x.nonsus === '1');
+      const susceptible = ngmastData.filter((x) => x.Susceptible === '1');
       response['Susceptible'] = susceptible.length;
       // Push drugClass objects to ngmastDrugClassesData
       Object.keys(drugClassesRulesNG).forEach((key) => {
