@@ -652,8 +652,7 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
-              <span className={classes.paragraphBold}>Lineages:</span> Lineages are labeled by the serotype followed by
-              the (7-locus) ST.
+              <span className={classes.paragraphBold}>Lineages:</span> Lineage is labelled as iTYM (invasive Typhimurium) or iENT (invasive Enteritidis), followed by the lineage name. Lineages are identified based on HierCC 150 clusters as follows: 305 = iTYM ST19-L1; 1547 = iTYM ST19-L3; 48 = iTYM ST19-L4; 9882 = iTYM ST313-L1; 12675 = iENT CEAC (Central/East Africa Clade); 2452 = iENT WAC (West Africa Clade).
             </li>
             <li>
               <span className={classes.paragraphBold}>AMR determinants:</span>{' '}
