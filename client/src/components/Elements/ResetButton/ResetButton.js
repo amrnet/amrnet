@@ -26,7 +26,7 @@ import {
   setCurrentSliderValueRD,
   setCurrentSliderValue
 } from '../../../stores/slices/graphSlice';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST, defaultDrugsForDrugResistanceGraphNG } from '../../../util/drugs';
 import { getGenotypesData, getNgmastData } from '../../Dashboard/filters';
 
 export const ResetButton = (props) => {
@@ -81,7 +81,7 @@ export const ResetButton = (props) => {
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
     } else if (organism === 'ngono') {
       dispatch(setMapView('No. Samples'));
-      dispatch(setDrugResistanceGraphView(drugsNG));
+      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
       dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
