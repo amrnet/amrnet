@@ -238,12 +238,13 @@ export const DeterminantsGraph = () => {
       const currentData = structuredClone(data);
       const value = {
         name: currentData.name,
-        count: currentData.totalCount,
+        count: currentData.newTotalCount,
         drugClasses: [],
       };
 
       delete currentData.name;
       delete currentData.totalCount;
+      delete currentData.newTotalCount;
       delete currentData.resistantCount;
 
       Object.keys(currentData).forEach((key) => {
