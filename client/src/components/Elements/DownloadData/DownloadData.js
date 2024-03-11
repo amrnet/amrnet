@@ -177,7 +177,7 @@ export const DownloadData = () => {
           }
           newCSV += aux;
         }
-        download(newCSV, `AMRnet ${firstName} ${secondName} Database.csv`);
+        download(newCSV, `AMRnet Database.csv`);
       })
       .finally(() => {
         setLoadingCSV(false);
