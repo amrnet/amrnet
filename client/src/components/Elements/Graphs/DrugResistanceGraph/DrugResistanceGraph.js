@@ -122,6 +122,14 @@ export const DrugResistanceGraph = () => {
         return
     }
   }
+  function getSusceptibleDefinition() {
+    switch (organism) {
+      case 'ngono': 
+        return "Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)";
+      default:
+        return
+    }
+  }
   function handleChangeDrugsView({ event = null, all = false }) {
     setCurrentTooltip(null);
     let newValues = [];
@@ -232,6 +240,12 @@ export const DrugResistanceGraph = () => {
                             dataKeyElement = (
                               <Tooltip title={getMDRDefinition()} placement="top">
                                 <span>MDR</span>
+                              </Tooltip>
+                            );
+                          }else if (dataKey === 'Susceptible') {
+                            dataKeyElement = (
+                              <Tooltip title={getSusceptibleDefinition()} placement="top">
+                                <span>Susceptible</span>
                               </Tooltip>
                             );
                           } else {
@@ -354,6 +368,15 @@ export const DrugResistanceGraph = () => {
                         placement="top"
                       >
                         <span>MDR</span>
+                      </Tooltip>
+                    );
+                  }else if (item.label === 'Susceptible') {
+                    itemLabel = (
+                      <Tooltip
+                        title={getSusceptibleDefinition()}
+                        placement="top"
+                      >
+                        <span>Susceptible</span>
                       </Tooltip>
                     );
                   } else {
