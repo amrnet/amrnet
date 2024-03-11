@@ -55,8 +55,8 @@ export const TopRightControls2 = () => {
   };
 
   useEffect(() => {
-    dispatch(setCustomDropdownMapView(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-  }, [genotypesDrugsData]);
+    dispatch(setCustomDropdownMapView(genotypesDrugsData2.slice(0, 1).map((x) => x.name)));
+  }, [genotypesDrugsData2]);
 
   function getSelectGenotypeLabel(genotype) {
     const matchingGenotype = genotypesDrugsData.find(g => g.name === genotype);
