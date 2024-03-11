@@ -140,10 +140,7 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
               GenoTyphi
             </a>{' '}
-            genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in{' '}
-            <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-              Pathogenwatch
-            </a>{' '}
+            genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in Pathogenwatch
             are curated by the{' '}
             <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
               Global Typhoid Genomics Consortium
@@ -175,7 +172,7 @@ export const UserGuidePage = () => {
               <span className={classes.paragraphBold}>AMR determinants</span> are described in the{' '}
              <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
                 Typhi Pathogenwatch paper
-              </a>.{' '}
+              </a>{' '}
               and the{' '}
               <a href="https://elifesciences.org/articles/85867" target="_blank" rel="noreferrer">
                 Consortium paper
@@ -205,7 +202,7 @@ export const UserGuidePage = () => {
             </li>
             <li>
               <span className={classes.paragraphBold}>Ciprofloxacin NS:</span> ciprofloxacin non-susceptible (MIC
-              &ge;0.06 mg/L, due to presence of one or more qnr genes or mutations in gyrA/parC/gyrB)
+              &ge;0.06 mg/L, due to presence of one or more <i>qnr</i> genes or mutations in <i>gyrA/parC/gyrB</i>)
             </li>
             <li>
               <span className={classes.paragraphBold}>Ciprofloxacin R:</span> ciprofloxacin resistant (MIC &ge;0.5 mg/L,
@@ -361,7 +358,7 @@ export const UserGuidePage = () => {
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>Susceptible to cat I/II drugs</span> - No determinants found for
+              <span className={classes.paragraphBold}>Susceptible to class I/II drugs</span> - No determinants found for
               Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category
               II).
             </li>
@@ -632,12 +629,11 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1371/journal.pone.0147101" target="_blank" rel="noreferrer">
               SISTR
             </a>
-            . The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which
-            account for{' '}
+            . he iNTS dashboard currently includes invasive lineages of serovar Typhimurium or Enteritidis (which account for{' '}
             <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target="_blank" rel="noreferrer">
               &gt;90% of iNTS
             </a>
-            ), and identifies lineages thereof using MLST. Last update: 24 January 2024.
+            ), based on HierCC 150 clusters. Last update: 24 January 2024.
           </Typography>
 
           <br />
@@ -656,8 +652,7 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
-              <span className={classes.paragraphBold}>Lineages:</span> Lineages are labeled by the serotype followed by
-              the (7-locus) ST.
+              <span className={classes.paragraphBold}>Lineages:</span> Lineage is labelled as iTYM (invasive Typhimurium) or iENT (invasive Enteritidis), followed by the lineage name. Lineages are identified based on HierCC 150 clusters as follows: 305 = iTYM ST19-L1; 1547 = iTYM ST19-L3; 48 = iTYM ST19-L4; 9882 = iTYM ST313-L1; 12675 = iENT CEAC (Central/East Africa Clade); 2452 = iENT WAC (West Africa Clade).
             </li>
             <li>
               <span className={classes.paragraphBold}>AMR determinants:</span>{' '}
