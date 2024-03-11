@@ -140,10 +140,7 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
               GenoTyphi
             </a>{' '}
-            genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in{' '}
-            <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
-              Pathogenwatch
-            </a>{' '}
+            genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in Pathogenwatch
             are curated by the{' '}
             <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
               Global Typhoid Genomics Consortium
@@ -175,7 +172,7 @@ export const UserGuidePage = () => {
               <span className={classes.paragraphBold}>AMR determinants</span> are described in the{' '}
              <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
                 Typhi Pathogenwatch paper
-              </a>.{' '}
+              </a>{' '}
               and the{' '}
               <a href="https://elifesciences.org/articles/85867" target="_blank" rel="noreferrer">
                 Consortium paper
@@ -205,7 +202,7 @@ export const UserGuidePage = () => {
             </li>
             <li>
               <span className={classes.paragraphBold}>Ciprofloxacin NS:</span> ciprofloxacin non-susceptible (MIC
-              &ge;0.06 mg/L, due to presence of one or more qnr genes or mutations in gyrA/parC/gyrB)
+              &ge;0.06 mg/L, due to presence of one or more <i>qnr</i> genes or mutations in <i>gyrA/parC/gyrB</i>)
             </li>
             <li>
               <span className={classes.paragraphBold}>Ciprofloxacin R:</span> ciprofloxacin resistant (MIC &ge;0.5 mg/L,
