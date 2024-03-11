@@ -110,7 +110,7 @@ export const Map = () => {
                     Azithromycin: `${countryStats.Azithromycin.percentage}%`,
                     Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
                     Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`,
+                    // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : {
                     Samples: countryData.count,
