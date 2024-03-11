@@ -34,13 +34,17 @@ export const SliderSizes = (props) => {
       dispatch(setCurrentSliderValueRD(newValue));
     }
   };
-
-  const geno = organism === 'shige' ? 'lineages' : 'genotype';
+  function geno(){
+    if (organism === 'decoli' ||  organism === "shige"  ||  organism === 'sentericaints')
+      return "lineages"
+    return "genotype"
+  }
+  // const geno = organism === 'shige' ? 'lineages' : 'genotype';
 
   useEffect(() => {
     if (props.value === 'GD') {
       setSliderValueMax(maxSliderValue);
-      setHeading(`Individual ${geno} to colour:`);
+      setHeading(`Individual ${geno()} to colour:`);
     } else {
       setSliderValueMax(maxSliderValueRD);
       setHeading('Individual resistance determinants:');
@@ -49,29 +53,20 @@ export const SliderSizes = (props) => {
     const max = genotypesForFilter.length;
     dispatch(setMaxSliderValue(max));
   });
-
+  let SliderValueToSet = props.value === 'GD'
+              ? (currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue)
+              : (currentSliderValueRD < maxSliderValueRD ? currentSliderValueRD : maxSliderValueRD);
   return (
     <div className={classes.sliderSize}>
       <Box>
         {/* Display the values of the sliders */}
         <div className={classes.sliderLabel}>
           <p>{heading}</p>
-          <p>
-            {props.value === 'GD'
-              ? currentSliderValue
-              : currentSliderValueRD < maxSliderValueRD
-              ? currentSliderValueRD
-              : maxSliderValueRD}
+          <p>{SliderValueToSet}
           </p>
         </div>
         <Slider
-          value={
-            props.value === 'GD'
-              ? currentSliderValue
-              : currentSliderValueRD < maxSliderValueRD
-              ? currentSliderValueRD
-              : maxSliderValueRD
-          }
+          value={SliderValueToSet}
           onChange={handleDefaultSliderChange}
           aria-label="Default"
           valueLabelDisplay="auto"
