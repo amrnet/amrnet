@@ -41,6 +41,8 @@ export const ResetButton = (props) => {
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const ngmast = useAppSelector((state) => state.graph.NGMAST);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
+  const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
+
 
   function handleClick() {
     dispatch(setCanGetData(false));
@@ -82,7 +84,7 @@ export const ResetButton = (props) => {
     } else if (organism === 'ngono') {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
-      dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
+      dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
@@ -102,8 +104,10 @@ export const ResetButton = (props) => {
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
     dispatch(setCanGetData(true));
-    dispatch(setCurrentSliderValue(20));
-    dispatch(setCurrentSliderValueRD(5));
+     if(organism === 'ngono')
+        dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+      else
+        dispatch(setCurrentSliderValueRD(5));
   }
 
   return (

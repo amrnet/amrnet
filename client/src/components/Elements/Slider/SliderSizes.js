@@ -53,20 +53,27 @@ export const SliderSizes = (props) => {
     const max = genotypesForFilter.length;
     dispatch(setMaxSliderValue(max));
   });
-  let SliderValueToSet = props.value === 'GD'
-              ? (currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue)
-              : (currentSliderValueRD < maxSliderValueRD ? currentSliderValueRD : maxSliderValueRD);
+  function SliderValueToSet(){
+    let sliderValueForPlot;
+    if(props.value === 'GD'){
+      sliderValueForPlot = (currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue);
+    }else{
+        sliderValueForPlot = (currentSliderValueRD < maxSliderValueRD ? currentSliderValueRD : maxSliderValueRD);
+    } 
+    return sliderValueForPlot;
+  }
+
   return (
     <div className={classes.sliderSize}>
       <Box>
         {/* Display the values of the sliders */}
         <div className={classes.sliderLabel}>
           <p>{heading}</p>
-          <p>{SliderValueToSet}
+          <p>{SliderValueToSet()}
           </p>
         </div>
         <Slider
-          value={SliderValueToSet}
+          value={SliderValueToSet()}
           onChange={handleDefaultSliderChange}
           aria-label="Default"
           valueLabelDisplay="auto"
