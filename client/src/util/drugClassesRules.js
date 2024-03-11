@@ -62,7 +62,7 @@ export const drugRulesKP = [
   { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] },
 ];
-
+// TODO: Duplicate of drugRulesForDrugResistanceGraphNG
 export const drugRulesNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
   { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
@@ -73,6 +73,8 @@ export const drugRulesNG = [
   { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
   { key: 'Susceptible', columnID: ['Susceptible'], values: ['1'] },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
+  { key: 'MDR', columnID: 'MDR', values: ['1'] },
+  { key: 'XDR', columnID: 'XDR', values: ['1'] },
 ];
 
 
