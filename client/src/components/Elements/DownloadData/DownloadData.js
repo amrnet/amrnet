@@ -625,17 +625,19 @@ export const DownloadData = () => {
         doc.text(texts[18], 16, 385 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[19], 16, 415 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[20], 16, 445 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'bold');
         doc.text(texts[21], 16, 485 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[22], 16, 515 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[22], 16, 505 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[23], 16, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[23], 16, 535 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        
 
         drawFooter({ document: doc, pageHeight, pageWidth, date });
         doc.addPage();
         drawHeader({ document: doc, pageWidth });
         doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[25], 16, 86, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[25], 16, 76, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[26], 16, 116, { align: 'left', maxWidth: pageWidth - 36 });
       }
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 

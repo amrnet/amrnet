@@ -358,7 +358,7 @@ export const UserGuidePage = () => {
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>Susceptible to cat I/II drugs</span> - No determinants found for
+              <span className={classes.paragraphBold}>Susceptible to class I/II drugs</span> - No determinants found for
               Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category
               II).
             </li>
