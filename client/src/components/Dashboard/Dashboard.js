@@ -71,7 +71,7 @@ import {
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG } from '../../util/drugs';
+import { drugsKP, defaultDrugsForDrugResistanceGraphST, defaultDrugsForDrugResistanceGraphNG } from '../../util/drugs';
 // import countries from '../../util/countries';
 
 export const DashboardPage = () => {
@@ -233,7 +233,7 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
             break;
           case 'ngono':
             dispatch(setMapView('No. Samples'));
-            dispatch(setDrugResistanceGraphView(drugsNG));
+            dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
             dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
             break;
           case 'ecoli':
