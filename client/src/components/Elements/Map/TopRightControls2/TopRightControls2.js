@@ -71,10 +71,12 @@ export const TopRightControls2 = () => {
       return "Sequence type are labelled as 7-locus MLST. Select up to 10 to display."
     else if (organism === "shige")
       return "Lineages are labelled as Species + HC400 cluster. Select up to 10 to display."
+    else if (organism === "sentericaints")
+      return "Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster. Select up to 10 to display."
     return "Select up to 10 to display"
   }
   function getHeading (){
-    if (organism === 'decoli' ||  organism === "shige")
+    if (organism === 'decoli' ||  organism === "shige"  ||  organism === 'sentericaints')
       return "Select Lineage"
     // else if (organism === 'kpneumo')
     //   return "Select sequence type"
@@ -139,7 +141,7 @@ export const TopRightControls2 = () => {
         className={classes.font}
         control={<Switch checked={open} onChange={handleClick} />}
         label={
-          organism === 'shige' || organism === 'decoli' ? (
+          organism === 'shige' || organism === 'decoli' ||  organism === 'sentericaints'  ? (
             open ? (
               <Typography className={classes.font}>Close lineage selector</Typography>
             ) : (

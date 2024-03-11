@@ -34,13 +34,17 @@ export const SliderSizes = (props) => {
       dispatch(setCurrentSliderValueRD(newValue));
     }
   };
-
-  const geno = organism === 'shige' ? 'lineages' : 'genotype';
+  function geno(){
+    if (organism === 'decoli' ||  organism === "shige"  ||  organism === 'sentericaints')
+      return "lineages"
+    return "genotype"
+  }
+  // const geno = organism === 'shige' ? 'lineages' : 'genotype';
 
   useEffect(() => {
     if (props.value === 'GD') {
       setSliderValueMax(maxSliderValue);
-      setHeading(`Individual ${geno} to colour:`);
+      setHeading(`Individual ${geno()} to colour:`);
     } else {
       setSliderValueMax(maxSliderValueRD);
       setHeading('Individual resistance determinants:');
