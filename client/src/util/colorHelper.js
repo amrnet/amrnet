@@ -518,7 +518,7 @@ export const colorForDrugClassesNG = {
     { name: '23S_c2597t + mtrR_proDel', color: '#F6E8C3' },
     { name: '23S_c2597t + mtrR_A39T', color: '#67001F' },
     { name: '23S_c2597t + mtrR_G45D', color: '#4A0082' },
-    { name: '23S_c2597t ', color: '#20004D' },
+    { name: '23S_c2597t', color: '#20004D' },
     { name: '23S_rDNA_c2597t + mtrC_loss', color: '#054e20' },
     { name: 'mtrC_loss + mtrD_mos2', color: '#f9c74f' },
     { name: 'mtrD_mos2 + mtr_mos2', color: '#f9844a' },
