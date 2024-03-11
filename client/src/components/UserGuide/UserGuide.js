@@ -629,12 +629,11 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1371/journal.pone.0147101" target="_blank" rel="noreferrer">
               SISTR
             </a>
-            . The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which
-            account for{' '}
+            . he iNTS dashboard currently includes invasive lineages of serovar Typhimurium or Enteritidis (which account for{' '}
             <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target="_blank" rel="noreferrer">
               &gt;90% of iNTS
             </a>
-            ), and identifies lineages thereof using MLST. Last update: 24 January 2024.
+            ), based on HierCC 150 clusters. Last update: 24 January 2024.
           </Typography>
 
           <br />
