@@ -91,6 +91,7 @@ export const DashboardPage = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
+  const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
 
   // This function is only called once, after the csv is read. It gets all the static and dynamic data
   // that came from the csv file and sets all the data the organism needs to show
@@ -303,7 +304,10 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
       dispatch(setNgmast([]));
       
       dispatch(setCurrentSliderValue(20));
-      dispatch(setCurrentSliderValueRD(5));
+      if(organism === 'ngono')
+        dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+      else
+        dispatch(setCurrentSliderValueRD(5));
       
       switch (organism) {
         case 'styphi':
