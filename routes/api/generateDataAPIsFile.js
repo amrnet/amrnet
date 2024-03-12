@@ -58,9 +58,16 @@ router.post('/download', function (req, res, next) {
       // Use the keys of the first document as headers
       const header = Object.keys(data[0]);
       const headerList = [...header];
+      // const desiredOrder = ['NAME','DATE', ...header];
+      // Remove 'NAME' and 'DATE' if they exist in the original position
+      const filteredHeaderList = headerList.filter(fieldName => fieldName !== 'NAME' && fieldName !== 'DATE');
 
+      // Add 'NAME' and 'DATE' to the beginning of the filtered list
+      const rearrangedHeaderList = ['NAME', 'DATE', 'COUNTRY', 'COUNTRY_ONLY','PMID','GENOTYPE', ...filteredHeaderList];
+      // Rearrange the headerList array according to the desired order
+      // const rearrangedHeaderList = desiredOrder.filter(fieldName => headerList.includes(fieldName));
       // Use map to transform the headerList into the desired header object
-      const headerL = headerList.map((fieldName) => ({
+      const headerL = rearrangedHeaderList.map((fieldName) => ({
         id: fieldName,
         title: fieldName,
       }));

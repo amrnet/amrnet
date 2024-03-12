@@ -1,4 +1,4 @@
-const merge_rawdata_kleb = [
+const merge_rawdata_kp = [
   {
     $lookup: {
       from: 'pw_klebsiella_metadata',
@@ -61,9 +61,9 @@ const merge_rawdata_kleb = [
   // },
   {
     $merge: {
-      into: 'merge_rawdata_kleb',
+      into: 'merge_rawdata_kp',
     },
   },
 ];
 
-export default merge_rawdata_kleb;
+export default merge_rawdata_kp;

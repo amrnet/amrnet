@@ -565,7 +565,7 @@ router.post('/newdockleb', function (req, res, next) {
 
   var dView, kLocus, oLocus, location;
   collection2.find().forEach(function (doc) {
-    const empty = ['NA', 'Not Provided', '', '-', undefined];
+    const empty = ['NA', 'Not Provided', '', '-', undefined, null];
 
     var date = empty.indexOf(doc['year']) !== -1 ? '-' : doc['year'];
 
@@ -599,9 +599,9 @@ router.post('/newdockleb', function (req, res, next) {
       { _id: doc._id },
       {
         $set: {
-          NAME: doc['name'].toString(),
+          NAME: doc['name'],
           DATE: date,
-          GENOTYPE: doc['ST'].toString(),
+          GENOTYPE: doc['ST'],
           COUNTRY_ONLY: countryOnly,
           LATITUDE: latitude,
           LONGITUDE: longitude,
