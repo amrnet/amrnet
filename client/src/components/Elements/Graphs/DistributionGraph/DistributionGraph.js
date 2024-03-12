@@ -129,7 +129,6 @@ export const DistributionGraph = () => {
   }
 
   function getGenotypeColor(genotype) {
-    // console.log("genotype", genotype);
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
@@ -137,7 +136,6 @@ export const DistributionGraph = () => {
     dispatch(setDistributionGraphView(event.target.value));
   }
   function handleClickChart(event) {
-    // console.log("event", event);
     setCurrentEventSelected(event);
     const data = newArray.find((item) => item.name === event?.activeLabel);
     if (data) {
@@ -153,10 +151,7 @@ export const DistributionGraph = () => {
       delete currentData.count;
 
       value.genotypes = Object.keys(currentData).map((key) => {
-        // console.log("key", key);
         const count = currentData[key];
-        // const activePayload = event.activePayload.find((x) => x.name === key);
-        // console.log("activePayload", activePayload);
         return {
           label: key,
           count,
@@ -164,14 +159,11 @@ export const DistributionGraph = () => {
           color: getGenotypeColor(key),
         };
       });
-      // console.log("value.genotypes", value.genotypes);
       value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === 'Other');
-      // console.log("value", value);
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
     }
   }
-  // console.log("currentTooltip", currentTooltip);
   useEffect(() => {
     if (!resetBool) handleClickChart(currentEventSelected);
     else {

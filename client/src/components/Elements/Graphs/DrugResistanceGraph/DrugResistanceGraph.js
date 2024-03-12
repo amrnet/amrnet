@@ -58,8 +58,6 @@ export const DrugResistanceGraph = () => {
       keys.forEach((key) => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
-      // if(item.length<0)
-      // console.log("setCaptureDRT", item.count);
       return item;
     });
 

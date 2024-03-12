@@ -130,7 +130,6 @@ export const DeterminantsGraph = () => {
   let determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
   useEffect(() => {
     let mp = new Map(); //mp = total count of a genotype in database(including all years)
-    // console.log('determinantsGraphDrugClassDataxx', determinantsGraphDrugClassData);
     determinantsGraphDrugClassData.forEach((cur) => {
       Object.keys(cur).forEach((it) => {
         if (it !== 'name' && it !== 'count' && it !== 'resistantCount' && it !== 'totalCount') {
@@ -147,7 +146,7 @@ export const DeterminantsGraph = () => {
     mapArray.sort((a, b) => b[1] - a[1]);
     const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
     setTopXGenotypes(slicedArray);
-    // console.log('setMaxSliderValueRD', mapArray.length);
+    // 'setMaxSliderValueRD', mapArray.length);
     dispatch(setMaxSliderValueRD(mapArray.length));
   }, [determinantsGraphDrugClass, currentSliderValueRD]);
 
@@ -169,17 +168,7 @@ export const DeterminantsGraph = () => {
     const newItem = { ...item, Other: count, newTotalCount: newTotalCount };
     return newItem; //return item of genotypesYearData with additional filed 'Other' to newArray
   });
-  // let cnt = 0;
-  //     newArray.map((item) => {
-  //       cnt += item.totalCount;
-  //     });
-  //   if (cnt <= 0 ) {
-  //       dispatch(setCaptureRDWG(false));
-  //       console.log("determinantsGraphDrugClassData", cnt,newArray, false)
-  //   } else {
-  //       dispatch(setCaptureRDWG(true));
-  //       console.log("determinantsGraphDrugClassData", cnt,newArray, true)
-  //   }
+ 
   let genotypeDrugClassesDataPercentage = structuredClone(newArray);
   useEffect(() => {
     //TODO change the exclusions

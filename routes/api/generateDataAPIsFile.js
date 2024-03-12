@@ -51,7 +51,6 @@ router.post('/download', function (req, res, next) {
       client.close();
       return;
     }
-    //console.log('data.length', data.length);
     let csvString;
     // Check if there is at least one document
     if (data.length > 0) {
@@ -66,19 +65,17 @@ router.post('/download', function (req, res, next) {
       else
       nameField = 'NAME'
 
-      let pmidField;
-      if(organism === 'styphi' || organism === 'ngono')
-      pmidField = 'PMID'
-      else
-      pmidField = undefined
-
       const filteredHeaderList = headerList.filter(fieldName => fieldName !== nameField && fieldName !== 'DATE' && fieldName !== 'COUNTRY' && fieldName !== 'COUNTRY_ONLY' && fieldName !== 'PMID' && fieldName !== 'GENOTYPE');
 
+      let rearrangedHeaderList;
+      if(organism === 'styphi' || organism === 'ngono')
+      rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY','PMID','GENOTYPE', ...filteredHeaderList];
+      else
+      rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY','GENOTYPE', ...filteredHeaderList];
+
       // Add 'NAME' and 'DATE' to the beginning of the filtered list
-      const rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY',pmidField,'GENOTYPE', ...filteredHeaderList];
-      // Rearrange the headerList array according to the desired order
-      // const rearrangedHeaderList = desiredOrder.filter(fieldName => headerList.includes(fieldName));
-      // Use map to transform the headerList into the desired header object
+      // const rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY',pmidField,'GENOTYPE', ...filteredHeaderList];
+     
       const headerL = rearrangedHeaderList.map((fieldName) => ({
         id: fieldName,
         title: fieldName,
