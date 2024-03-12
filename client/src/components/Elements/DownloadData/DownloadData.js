@@ -129,6 +129,15 @@ export const DownloadData = () => {
       } else if (organism === 'ngono') {
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
+      }else if (organism === 'shige') {
+        firstName = 'Shigella';
+        secondName = '+ EIEC';
+      }else if (organism === 'decoli') {
+        firstName = 'Diarrheagenic';
+        secondName = 'E. coli';
+      }else if (organism === 'sentericaints') {
+        firstName = 'Invasive';
+        secondName = 'non-typhoidal Salmonella';
       }
 
     setLoadingCSV(true);
@@ -144,6 +153,11 @@ export const DownloadData = () => {
           let line = csv[index].split(',');
           lines.push(line);
         }
+        lines[0].forEach((curr, index) => {
+          if (curr === 'COUNTRY_ONLY') {
+            lines[0][index] = 'COUNTRY';
+          } 
+        });
 
         for (let index = 0; index < columnsToRemove.length; index++) {
           let currentIndex = lines[0].indexOf(columnsToRemove[index]);
@@ -177,7 +191,7 @@ export const DownloadData = () => {
           }
           newCSV += aux;
         }
-        download(newCSV, `AMRnet Database.csv`);
+        download(newCSV, `AMRnet ${firstName} ${secondName} Database.csv`);
       })
       .finally(() => {
         setLoadingCSV(false);
