@@ -59,7 +59,7 @@ export const TopRightControls2 = () => {
   }, [genotypesDrugsData2]);
 
   function getSelectGenotypeLabel(genotype) {
-    const matchingGenotype = genotypesDrugsData.find(g => g.name === genotype);
+    const matchingGenotype = genotypesDrugsData2.find(g => g.name === genotype);
     const totalCount = matchingGenotype?.totalCount ?? 0;
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
     if (organism === 'decoli' ||  organism === "shige"  ||  organism === 'sentericaints')
