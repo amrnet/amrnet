@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface GlobalOverviewModel {
-  italicLabel: string;
-  label: string;
+  label0: string;
+  label1: string;
+  label2: string;
   fullLabel: string
 }
 
@@ -22,6 +23,7 @@ interface DashboardState {
   actualTimeFinal: number | string;
   years: Array<number>;
   genotypesForFilter: Array<string>;
+  genotypesForFilterSelected: Array<string>;
   colorPallete: Object;
   listPMID: Array<string>;
   PMID: Array<string>;
@@ -33,7 +35,12 @@ interface DashboardState {
 
 const initialState: DashboardState = {
   canGetData: true,
-  globalOverviewLabel: { italicLabel: 'Salmonella', label: 'Typhi', fullLabel: 'Salmonella Typhi' },
+  globalOverviewLabel: {
+    label0: 'Salmonella',
+    label1: 'Typhi',
+    label2: '', 
+    fullLabel: 'Salmonella Typhi',
+  },
   organism: 'styphi',
   loadingData: false,
   actualCountry: 'All',
@@ -47,6 +54,7 @@ const initialState: DashboardState = {
   actualTimeFinal: '',
   years: [],
   genotypesForFilter: [],
+  genotypesForFilterSelected: [],
   colorPallete: {},
   listPMID: [],
   PMID: [],
@@ -105,6 +113,9 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilter: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilter = action.payload;
     },
+    setGenotypesForFilterSelected: (state, action: PayloadAction<Array<string>>) => {
+      state.genotypesForFilterSelected = action.payload;
+    },
     setColorPallete: (state, action: PayloadAction<Object>) => {
       state.colorPallete = action.payload;
     },
@@ -126,7 +137,7 @@ export const dashboardSlice = createSlice({
     setCaptureGD: (state, action: PayloadAction<boolean>) => {
       state.captureGD = action.payload;
     },
-  }
+  },
 });
 
 export const {
@@ -145,13 +156,14 @@ export const {
   setActualTimeFinal,
   setYears,
   setGenotypesForFilter,
+  setGenotypesForFilterSelected,
   setColorPallete,
   setListPMID,
   setPMID,
   setCaptureDRT,
   setCaptureRFWG,
   setCaptureRDWG,
-  setCaptureGD
+  setCaptureGD,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

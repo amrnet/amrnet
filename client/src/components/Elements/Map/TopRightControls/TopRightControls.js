@@ -2,7 +2,7 @@ import { InfoOutlined } from '@mui/icons-material';
 import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import { useStyles } from './TopRightControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setMapView, setIfCustom} from '../../../../stores/slices/mapSlice.ts';
+import { setMapView, setIfCustom } from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
@@ -12,8 +12,20 @@ const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
-const ExcludedView = ['Genotype prevalence', 'NG-MAST prevalence'];
-const mapViewsWithZeroPercentOption = ['CipNS', 'CipR', 'AzithR', 'MDR', 'XDR', 'H58 / Non-H58', 'ESBL', 'Carb', 'Genotype prevalence', 'NG-MAST prevalence'];
+const ExcludedView = ['Genotype prevalence', 'NG-MAST prevalence', 'Lineage prevalence'];
+const mapViewsWithZeroPercentOption = [
+  'CipNS',
+  'CipR',
+  'AzithR',
+  'MDR',
+  'XDR',
+  'H58 / Non-H58',
+  'ESBL',
+  'Carb',
+  'Genotype prevalence',
+  'NG-MAST prevalence',
+  'Lineage prevalence',
+];
 
 export const TopRightControls = () => {
   const classes = useStyles();
@@ -27,10 +39,13 @@ export const TopRightControls = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   function handleChangeMapView(event) {
-    if(event.target.value === 'Genotype prevalence' || event.target.value === 'NG-MAST prevalence')
+    if (
+      event.target.value === 'Genotype prevalence' ||
+      event.target.value === 'NG-MAST prevalence' ||
+      event.target.value === 'Lineage prevalence'
+    )
       dispatch(setIfCustom(true));
-    else
-      dispatch(setIfCustom(false));
+    else dispatch(setIfCustom(false));
     dispatch(setMapView(event.target.value));
   }
 
@@ -60,6 +75,7 @@ export const TopRightControls = () => {
         return getDominantGenotypeSteps();
       case 'NG-MAST prevalence':
       case 'Genotype prevalence':
+      case 'Lineage prevalence':
         return gradientStyle;
       default:
         return generalSteps;
@@ -83,6 +99,27 @@ export const TopRightControls = () => {
     }
   }
 
+  function getXDRDefinition() {
+    switch (organism) {
+      case 'styphi':
+        return "XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)";
+      case 'ngono': 
+        return "XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])";
+      default:
+        return
+    }
+  }
+  function getMDRDefinition() {
+    switch (organism) {
+      case 'styphi':
+        return "MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)";
+      case 'ngono': 
+        return "MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])";
+      default:
+        return
+    }
+  }
+
   function getMapLegends() {
     return mapLegends.filter((legend) => legend.organisms.includes(organism));
   }
@@ -92,7 +129,7 @@ export const TopRightControls = () => {
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.label}>
-            <Typography variant="caption">Select map view</Typography>
+            <Typography variant="caption">Colour country by</Typography>
             <Tooltip
               title="Percentage frequency data is shown only for countries with
           N≥20 genomes"
@@ -112,19 +149,31 @@ export const TopRightControls = () => {
             {getMapLegends().map((legend, index) => {
               let legendLabel;
               if (legend.label === 'Extensively drug resistant (XDR)') {
-                  legendLabel = (
-                    <Tooltip title="XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)." placement="top">
-                      <span>Extensively drug resistant (XDR)</span>
-                      </Tooltip>
-                  );
-              } else if(legend.label === 'Multidrug resistant (MDR)'){
-                  legendLabel = (
-                    <Tooltip title="MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)" placement="top">
-                      <span>Multidrug resistant (MDR)</span>
-                      </Tooltip>
-                  );
-              }else{
-                  legendLabel = legend.label;
+                legendLabel = (
+                  <Tooltip
+                    title={getXDRDefinition()}
+                    placement="top"
+                  >
+                    <span>Extensively drug resistant (XDR)</span>
+                  </Tooltip>
+                );
+              } else if (legend.label === 'Multidrug resistant (MDR)') {
+                legendLabel = (
+                  <Tooltip
+                    title={getMDRDefinition()}
+                    placement="top"
+                  >
+                    <span>Multidrug resistant (MDR)</span>
+                  </Tooltip>
+                );
+              } else if (legend.label === 'Lineage prevalence') {
+                legendLabel = (
+                  <Tooltip title="Lineage prevalence" placement="top">
+                    <span>Lineage prevalence</span>
+                  </Tooltip>
+                );
+              } else {
+                legendLabel = legend.label;
               }
               return (
                 <MenuItem key={index + 'mapview'} value={legend.value}>
@@ -153,21 +202,21 @@ export const TopRightControls = () => {
                   </div>
                 );
               })} */}
-              {ExcludedView.includes(mapView) ?(
+              {ExcludedView.includes(mapView) ? (
                 <div key={`step-1`} className={classes.legend}>
                   <Box
                     className={classes.legendColorBox}
                     style={{
                       height: '50px',
-                      marginTop:'2px',
-                      backgroundImage: "linear-gradient( #FAAD8F, #FA694A, #DD2C24, #A20F17)"
+                      marginTop: '2px',
+                      backgroundImage: 'linear-gradient( #FAAD8F, #FA694A, #DD2C24, #A20F17)',
                     }}
                   />
                   <span className={classes.legendText}>
-                    <div style={{textAlign:'left', height: '50px'}}>
+                    <div style={{ textAlign: 'left', height: '50px' }}>
                       <div>1%</div>
-                      <br/>
-                      <br/>
+                      <br />
+                      <br />
                       <div>100%</div>
                     </div>
                   </span>
@@ -179,7 +228,7 @@ export const TopRightControls = () => {
                     <span className={classes.legendText}>{step}</span>
                   </div>
                 ))
-              ) }
+              )}
             </div>
           )}
         </CardContent>

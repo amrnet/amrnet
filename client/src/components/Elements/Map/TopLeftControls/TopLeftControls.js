@@ -8,7 +8,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDataset } from '../../../../stores/slices/mapSlice.ts';
@@ -50,18 +50,21 @@ export const TopLeftControls = () => {
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <Typography variant="h6">Filters</Typography>
-          <div className={classes.datasetWrapper}>
-            <Typography gutterBottom variant="caption">
-              Select dataset
-            </Typography>
-            <ToggleButtonGroup value={dataset} exclusive size="small" onChange={handleChange} disabled={isDisabled()}>
-              {datasetOptions.map((option, index) => (
-                <ToggleButton key={`dataset-${index}`} value={option} color="primary">
-                  {option}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-          </div>
+          <Typography variant="caption">Applied to all plots</Typography>
+          {organism !== 'styphi' ? null : (
+            <div className={classes.datasetWrapper}>
+              <Typography gutterBottom variant="caption">
+                Select dataset
+              </Typography>
+              <ToggleButtonGroup value={dataset} exclusive size="small" onChange={handleChange} disabled={isDisabled()}>
+                {datasetOptions.map((option, index) => (
+                  <ToggleButton key={`dataset-${index}`} value={option} color="primary">
+                    {option}
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </div>
+          )}
           <div className={classes.yearsWrapper}>
             <div className={classes.yearWrapper}>
               <Typography gutterBottom variant="caption">
@@ -70,7 +73,12 @@ export const TopLeftControls = () => {
               <Select
                 variant="standard"
                 inputProps={{ className: classes.selectInput }}
-                MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
+                MenuProps={{
+                  classes: {
+                    paper: classes.menuPaper,
+                    list: classes.selectMenu,
+                  },
+                }}
                 value={actualTimeInitial}
                 onChange={handleChangeInitial}
                 fullWidth
@@ -95,7 +103,12 @@ export const TopLeftControls = () => {
               <Select
                 variant="standard"
                 inputProps={{ className: classes.selectInput }}
-                MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
+                MenuProps={{
+                  classes: {
+                    paper: classes.menuPaper,
+                    list: classes.selectMenu,
+                  },
+                }}
                 value={actualTimeFinal}
                 onChange={handleChangeFinal}
                 fullWidth

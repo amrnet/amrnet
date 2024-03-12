@@ -15,8 +15,8 @@ router.post('/', async function (req, res, next) {
       service: 'gmail',
       auth: {
         user: receiverEmail,
-        pass: receiverPass
-      }
+        pass: receiverPass,
+      },
     });
 
     const mailOptions = await transporter.sendMail({
@@ -29,7 +29,7 @@ router.post('/', async function (req, res, next) {
       <p><b>First Name: </b>${userInfo.firstName}</p>    
       <p><b>Last Name: </b>${userInfo.lastName}</p>
       <p><b>Message: </b>${userInfo.message}</p>        
-    ` // html body
+    `, // html body
     });
 
     console.log('Message sent: %s', mailOptions.messageId);

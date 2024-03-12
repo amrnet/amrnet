@@ -44,7 +44,8 @@ export const Drawer = () => {
       return;
     }
 
-    navigate(`/${item.key}`);
+    // navigate(`/${item.key}`);
+    window.open(`#/${item.key}`, '_blank');
   }
 
   return (

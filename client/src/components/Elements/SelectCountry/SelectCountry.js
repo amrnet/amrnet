@@ -22,22 +22,24 @@ export const SelectCountry = () => {
       <CardContent className={classes.cardContent}>
         <Typography variant="h5" fontWeight={700}>
           {`Detailed plots for selected: ${
-            organism === 'none'
-              ? ''
-              : `${dataset} data from ${actualCountry === 'All' ? 'all countries' : actualCountry} from ${
-                  actualTimeInitial || 'year'
-                } to ${actualTimeFinal || 'year'}`
+            organism === 'styphi'
+              ? `${dataset} data from ${
+                  actualCountry === 'All' ? 'all countries' : actualCountry
+                } from ${actualTimeInitial} to ${actualTimeFinal}`
+              : `data from ${actualCountry === 'All' ? 'all countries' : actualCountry}`
           }`}
         </Typography>
         <Typography variant="subtitle1" fontWeight={500}>
-          Select country (or click map)
+          Select a focus country by clicking on the map above or selecting from the list below
         </Typography>
         <Select
           variant="standard"
           value={actualCountry}
           onChange={handleChange}
           inputProps={{ className: classes.selectInput }}
-          MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
+          MenuProps={{
+            classes: { paper: classes.menuPaper, list: classes.selectMenu },
+          }}
           disabled={organism === 'none'}
         >
           <MenuItem value="All">All</MenuItem>
