@@ -51,7 +51,6 @@ router.post('/download', function (req, res, next) {
       client.close();
       return;
     }
-    //console.log('data.length', data.length);
     let csvString;
     // Check if there is at least one document
     if (data.length > 0) {
