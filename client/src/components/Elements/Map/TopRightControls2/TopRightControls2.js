@@ -62,6 +62,8 @@ export const TopRightControls2 = () => {
     const matchingGenotype = genotypesDrugsData.find(g => g.name === genotype);
     const totalCount = matchingGenotype?.totalCount ?? 0;
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
+    if (organism === 'decoli' ||  organism === "shige"  ||  organism === 'sentericaints')
+      return `${genotype} (total N=${totalCount})`;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
   }
   function getHoverIcon (){
