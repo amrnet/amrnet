@@ -7,6 +7,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet)
 ![Open Issues](https://img.shields.io/github/issues-raw/amrnet/amrnet)
 ![Repo Size](https://img.shields.io/github/repo-size/amrnet/amrnet)
+![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
 
 
 ## Table of Contents
