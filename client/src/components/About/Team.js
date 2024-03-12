@@ -57,11 +57,10 @@ export const Team = () => {
                             sx={{ border: '2px solid purple' , margin:'auto'}}>
                             <a href={member.redirect} target="_blank" rel="noreferrer">
                                 <img
-                                    srcSet={`${member.img}?w=70&h=64&fit=crop&auto=format&dpr=1 1x`}
-                                    src={`${member.img}?w=70&h=64&fit=crop&auto=format`}
+                                    srcSet={`${member.img}`}
+                                    src={`${member.img}`}
                                     alt={member.title}
                                     loading="lazy"
-                                    onClick={member.redirect}
                                 />
                             </a>
                         </Box>
