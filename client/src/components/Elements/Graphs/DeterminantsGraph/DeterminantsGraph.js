@@ -226,7 +226,7 @@ export const DeterminantsGraph = () => {
         : colorForDrugClassesNG;
     const drugClassColors = colorForDrugClasses[determinantsGraphDrugClass];
     // Find the color for the specific drug from the drug class colors
-    const drugColorObject = drugClassColors.find((item) => drug.includes(item.name));
+    const drugColorObject = drugClassColors.find((item) => (drug === item.name));
     const drugColor = drugColorObject ? drugColorObject.color : '#DCDCDC'; // If drugColorObject exists, extract color, otherwise set to empty string
     return drugColor;
   }
