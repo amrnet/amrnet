@@ -9,13 +9,13 @@ export const store = configureStore({
     app: appReducer,
     dashboard: deashboardReducer,
     map: mapReducer,
-    graph: graphReducer
+    graph: graphReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
-      serializableCheck: false
+      serializableCheck: false,
     });
-  }
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

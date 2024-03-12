@@ -26,7 +26,7 @@ interface StatsModel {
   Susceptible: ItemsModel;
   CipR: ItemsModel;
   CipNS: ItemsModel;
-  NGMAST:ItemsModel;
+  NGMAST: ItemsModel;
 }
 
 interface MapDataModel {
@@ -43,20 +43,20 @@ interface MapState {
   tooltipContent: Object | null;
   dataset: string;
   mapData: Array<MapDataModel>;
-  ifCustom : boolean;
+  ifCustom: boolean;
 }
 
 const initialState: MapState = {
   loadingMap: false,
   position: {
     coordinates: [0, 0],
-    zoom: 1
+    zoom: 1,
   },
   mapView: '',
   tooltipContent: null,
   dataset: '',
   mapData: [],
-  ifCustom : false,
+  ifCustom: false,
 };
 
 export const mapSlice = createSlice({
@@ -85,9 +85,10 @@ export const mapSlice = createSlice({
     setIfCustom: (state, action: PayloadAction<boolean>) => {
       state.ifCustom = action.payload;
     },
-  }
+  },
 });
 
-export const { setPosition, setMapView, setTooltipContent, setDataset, setLoadingMap, setMapData,  setIfCustom } = mapSlice.actions;
+export const { setPosition, setMapView, setTooltipContent, setDataset, setLoadingMap, setMapData, setIfCustom } =
+  mapSlice.actions;
 
 export default mapSlice.reducer;

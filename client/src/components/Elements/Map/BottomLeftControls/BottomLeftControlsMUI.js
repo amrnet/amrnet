@@ -6,8 +6,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     position: 'absolute',
     bottom: 0,
-    left: 0
-  }
+    left: 0,
+  },
 }));
 
 export { useStyles };
