@@ -155,8 +155,6 @@ export const DashboardPage = () => {
     });
 
     if (organism === 'kpneumo') {
-      //console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
-      // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
 
       const KODiversityData = getKODiversityData({ data: responseData });
@@ -174,9 +172,6 @@ export const DashboardPage = () => {
 
 
     if (organism === 'ngono') {
-      // console.log("yearsData.uniqueGenotypes", yearsData.uniqueGenotypes)
-      // dispatch(setColorPallete(generatePalleteForGenotypes(yearsData.uniqueGenotypes)));
-      // dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
       const years = [...new Set(responseData.map((x) => x.DATE))];
       const countries = [...new Set(responseData.map((x) => getCountryDisplayName(x.COUNTRY_ONLY)))];
       years.sort();
@@ -190,7 +185,6 @@ export const DashboardPage = () => {
       dispatch(setTimeFinal(years[years.length - 1]));
       dispatch(setActualTimeFinal(years[years.length - 1]));
       dispatch(setCountriesForFilter(countries));
-      // console.log("NGMAST",)
     }
     if (organism !== 'styphi') {
       dispatch(setGenotypesForFilter(yearsData.uniqueGenotypes));
@@ -200,7 +194,6 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
     dispatch(setGenotypesYearData(yearsData.genotypesData));
     dispatch(setDrugsYearData(yearsData.drugsData));
     dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-    // console.log("genotypesDrugsData", genotypesData.genotypesDrugsData);
     return responseData;
   }
 
@@ -267,7 +260,6 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
   // call the function to read the specific organism csv
   useEffect(() => {
     if (organism !== 'none') {
-      // console.log('change organism');
       dispatch(
         setCollapses({
           determinants: false,
@@ -344,7 +336,6 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
   // It filters accordingly to the filters give. Is also called when the reset button is pressed.
   useEffect(() => {
     if (data.length > 0 && canGetData) {
-      // console.log('update data', dataset, actualTimeInitial, actualTimeFinal, actualCountry);
 
       const filters = filterData({ data, dataset, actualTimeInitial, actualTimeFinal, organism, actualCountry });
       const filteredData = filters.data.filter(
@@ -355,7 +346,6 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
         convergenceGroupVariable !== currentConvergenceGroupVariable ||
         convergenceColourVariable !== currentConvergenceColourVariable
       ) {
-        // console.log('update variables', convergenceGroupVariable, convergenceColourVariable);
         setCurrentConvergenceGroupVariable(convergenceGroupVariable);
         setCurrentConvergenceColourVariable(convergenceColourVariable);
 
