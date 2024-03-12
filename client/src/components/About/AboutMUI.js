@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     // color:"blue",
     // fontSize:"10px"
   },
+  paragraphBold: {
+    fontWeight: '550',
+  },
 }));
 
 export { useStyles };
