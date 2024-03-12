@@ -79,6 +79,8 @@ let columnsToRemove = [
   'parE_D420N',
   'parE_L416F',
   '_id',
+  "LATITUDE",
+  "LONGITUDE",
 ];
 let columnsToRemoveNonTyphi = [
   'PURPOSE OF SAMPLING',
@@ -95,6 +97,81 @@ let columnsToRemoveNonTyphi = [
   'AzithR9',
   'AzithR10',
   'AzithR11',
+  'Source Niche', 
+  'Continent', 
+  'Serological Group', 
+  'Serotype, EcoR Cluster', 
+  'Sample ID', 
+  'ST Complex', 
+  'Subspecies',
+  'source_niche',
+  'Source Niche',
+  'AbST',
+  "Aerobactin",
+  "Alternative sample name 1",
+  "CbST",
+  "Chr_ST",
+  "K_locus_problems",
+  
+  "Omp_mutations",
+  "Salmochelin",
+  "YbST",
+  "Yersiniabactin",
+  "clbA",
+  "clbB",
+  "clbC",
+  "clbD",
+  "clbE",
+  "clbF",
+  "clbG",
+  "clbH",
+  "clbI",
+  "clbL",
+  "clbM",
+  "clbN",
+  "clbO",
+  "clbP",
+  "clbQ",
+  "contig_count",
+  "fyuA",
+  "gapA",
+  "infB",
+  "iroB",
+  "iroC",
+  "iroD",
+  "iroN",
+  "irp1",
+  "irp2",
+  "iucA",
+  "iucB",
+  "iucC",
+  "iucD",
+  "iutA",
+  "largest_contig",
+  "pgi",
+  "phoE",
+  "resistance_score",
+  "rmpA",
+  "rmpA2",
+  "rmpC",
+  "rmpD",
+  "rpoB",
+  "species",
+  "spurious_resistance_hits",
+  "spurious_virulence_hits",
+  "tonB",
+  "total_size",
+  "truncated_resistance_hits",
+  "virulence_score",
+  "wzi",
+  "ybtA",
+  "ybtE",
+  "ybtP",
+  "ybtQ",
+  "ybtS",
+  "ybtT",
+  "ybtU",
+  "ybtX",
 ];
 export const DownloadData = () => {
   const classes = useStyles();
@@ -168,10 +245,19 @@ export const DownloadData = () => {
           let line = csv[index].split(',');
           lines.push(line);
         }
+        const replacements = {
+          'COUNTRY_ONLY': 'Country',
+          'NAME': 'Name',
+          'DATE': 'Date',
+          'GENOTYPE': 'Genotype',
+          'source_type':'Source_type',
+          'accession' : 'Accession',
+          'ACCESSION': 'Accession',
+          'dashboard view': 'Dashboard view'
+        };
+
         lines[0].forEach((curr, index) => {
-          if (curr === 'COUNTRY_ONLY') {
-            lines[0][index] = 'COUNTRY';
-          } 
+          lines[0][index] = replacements[curr] || curr;
         });
 
         for (let index = 0; index < columnsToRemove.length; index++) {
