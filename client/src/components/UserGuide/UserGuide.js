@@ -28,6 +28,7 @@ export const UserGuidePage = () => {
             parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected
             dashboard.
           </Typography>
+          <br />
             <img className={classes.img}
               srcSet={header}
               src={header}
@@ -45,6 +46,7 @@ export const UserGuidePage = () => {
             N≥20 samples (using the current filters) for summary data to be displayed, otherwise it will be coloured
             grey to indicate insufficient data.
           </Typography>
+          <br />
           <img className={classes.img}
               srcSet={map}
               src={map}
@@ -58,6 +60,7 @@ export const UserGuidePage = () => {
             <span className={classes.paragraphBold}>Clicking on a country in the map</span> also functions as a filter,
             so that subsequent plots reflect data for the selected country only.
           </Typography>
+          <br />
           <img className={classes.img}
               srcSet={filter}
               src={filter}
@@ -76,26 +79,13 @@ export const UserGuidePage = () => {
             specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see
             per-organism details below).
           </Typography>
-          <img className={classes.img}
-              srcSet={plot}
-              src={plot}
-              alt={"Plot"}
-              loading="lazy"
-            />
-          <br />
           <br/>
           <Typography variant="body2" className={classes.paragraph}>
             All plots are interactive; use the menus at the top to{' '}
             <span className={classes.paragraphBold}>select variables to display</span>, and whether to show{' '}
             <span className={classes.paragraphBold}>counts or percentages</span>.
           </Typography>
-          <img className={classes.img}
-              srcSet={plot2}
-              src={plot2}
-              alt={"Plot2"}
-              loading="lazy"
-            />
-          <br />
+
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             Each plot has a dynamic legend to the right; click on an x-axis value to display counts and percentages of
@@ -110,6 +100,7 @@ export const UserGuidePage = () => {
             format)’); and (2) a static report of the currently displayed plots, together with a basic description of
             the data sources and variable definitions (‘Download PDF’).
           </Typography>
+          <br />
           <img className={classes.img}
               srcSet={downloads}
               src={downloads}
