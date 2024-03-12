@@ -31,7 +31,7 @@ import {
 import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
-const columnsToRemove = [
+let columnsToRemove = [
   'azith_pred_pheno',
   'PROJECT ACCESSION',
   'COUNTRY_ONLY',
@@ -80,7 +80,22 @@ const columnsToRemove = [
   'parE_L416F',
   '_id',
 ];
-
+let columnsToRemoveNonTyphi = [
+  'PURPOSE OF SAMPLING',
+  'CipNS',
+  'CipR',
+  'AzithR1',
+  'AzithR2',
+  'AzithR3',
+  'AzithR4',
+  'AzithR5',
+  'AzithR6',
+  'AzithR7',
+  'AzithR8',
+  'AzithR9',
+  'AzithR10',
+  'AzithR11',
+];
 export const DownloadData = () => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -139,12 +154,12 @@ export const DownloadData = () => {
         firstName = 'Invasive';
         secondName = 'non-typhoidal Salmonella';
       }
-
+      if(organism !== 'styphi')
+        columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove]
     setLoadingCSV(true);
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
       .then((res) => {
-        //console.log('response', res);
         let indexes = [];
         let csv = res.data.split('\n');
         let lines = [];
@@ -371,13 +386,11 @@ export const DownloadData = () => {
         secondName = 'Typhi';
         secondword = 315;
       } else if (organism === 'kpneumo') {
-        // console.log('organism', organism);
         texts = getKlebsiellaTexts();
         firstName = 'Klebsiella';
         secondName = 'pneumoniae';
         secondword = 330;
       } else if (organism === 'ngono') {
-        // console.log('organism', organism);
         texts = getNgonoTexts();
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';

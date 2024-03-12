@@ -38,7 +38,6 @@ export const Ngmast = () => {
   const [selectedValues, setSelectedValues] = useState([customDropdownMapViewNG[0]]);
   const [open, setOpen] = useState(true);
 
-  // console.log('customDropdownMapViewNG', customDropdownMapViewNG);
   const handleAutocompleteChange = (event, newValue) => {
     if (customDropdownMapViewNG.length === 10 && newValue.length > 10) {
       return;
@@ -65,10 +64,7 @@ export const Ngmast = () => {
     (genotype) =>
       genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()),
   );
-  // .filter(x => x.totalCount >= 20)
-  // console.log('filteredDataNG', filteredData);
   const icon = (
-    // <div className={`${classes.topRightControls}`}>
     <Card elevation={3} className={classes.card}>
       <CardContent className={classes.frequenciesGraph}>
         <div className={classes.label}>
@@ -106,7 +102,6 @@ export const Ngmast = () => {
         </FormControl>
       </CardContent>
     </Card>
-    // </div>
   );
   return (
     <Box className={`${classes.topRightControls}`}>
