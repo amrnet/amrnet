@@ -60,7 +60,6 @@ export const Map = () => {
       dispatch(setActualCountry(countryData.name));
     }
   }
-  // console.log(" ifCustom ", ifCustom);
   function handleOnMouseLeave() {
     dispatch(setTooltipContent(null));
   }
@@ -136,7 +135,6 @@ export const Map = () => {
             percentCounterNG += genotype.count;
           });
           genotypesNG.forEach((genotype) => {
-            // console.log('genotype', genotype, genotype.name, customDropdownMapViewNG);
             if (customDropdownMapViewNG.includes(genotype.name))
               tooltip.content[genotype.name] = `${genotype.count} (${(
                 (genotype.count / percentCounterNG) *
@@ -167,7 +165,6 @@ export const Map = () => {
             percentCounter += genotype.count;
           });
           genotypes1.forEach((genotype) => {
-            // console.log('genotype', genotype, genotype.name);
             if (customDropdownMapView.includes(genotype.name))
               tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count / percentCounter) * 100).toFixed(
                 2,
@@ -311,13 +308,11 @@ export const Map = () => {
                         case 'NG-MAST prevalence':
                           let percentCounterNG = 0;
                           const genotypesNG = countryStats.NGMAST.items;
-                          // console.log("gencountryDataotypes1",countryData);
                           let genotypesNG2 = [];
                           genotypesNG.forEach((genotype) => {
                             if (customDropdownMapViewNG.includes(genotype.name)) genotypesNG2.push(genotype);
                             percentCounterNG += genotype.count;
                           });
-                          // console.log("genotypes2",genotypes2.length );
 
                           let sumCountNG = 0;
 
@@ -327,7 +322,6 @@ export const Map = () => {
                             }
                           }
                           if (countryData.count >= 20 && genotypesNG2.length > 0) {
-                            // console.log("count %",count );
                             if (genotypesNG2 !== undefined) {
                               fillColor = redColorScale2(((sumCountNG / percentCounterNG) * 100).toFixed(2));
                             }
@@ -340,13 +334,11 @@ export const Map = () => {
                         case 'Lineage prevalence':
                           let percentCounter = 0;
                           const genotypes1 = countryStats.GENOTYPE.items;
-                          // console.log("gencountryDataotypes1",countryData);
                           let genotypes2 = [];
                           genotypes1.forEach((genotype) => {
                             if (customDropdownMapView.includes(genotype.name)) genotypes2.push(genotype);
                             percentCounter += genotype.count;
                           });
-                          // console.log("genotypes2",genotypes2.length );
 
                           let sumCount = 0;
 
@@ -356,7 +348,6 @@ export const Map = () => {
                             }
                           }
                           if (countryData.count >= 20 && genotypes2.length > 0) {
-                            // console.log("count %",count );
                             if (genotypes2 !== undefined) {
                               fillColor = redColorScale2(((sumCount / percentCounter) * 100).toFixed(2));
                             }
@@ -398,10 +389,8 @@ export const Map = () => {
                           let countCipR = countryStats[statKey['CipR']]?.count;
                           let countCipNS = countryStats[statKey['CipNS']]?.count;
                           count = countCipR + countCipNS;
-                          // count = countryStats[statKey[mapView]]?.count;
                           let per =
                             countryStats[statKey['CipNS']].percentage + countryStats[statKey['CipR']].percentage;
-                          // console.log("per", countryStats[statKey["CipNS"]], per)
                           if (countryData.count >= 20 && count > 0) {
                             if (mapView === 'Susceptible to all drugs') {
                               fillColor = sensitiveColorScale(per);

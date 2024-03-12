@@ -39,7 +39,6 @@ export const SliderSizes = (props) => {
       return "lineages"
     return "genotype"
   }
-  // const geno = organism === 'shige' ? 'lineages' : 'genotype';
 
   useEffect(() => {
     if (props.value === 'GD') {
@@ -49,7 +48,6 @@ export const SliderSizes = (props) => {
       setSliderValueMax(maxSliderValueRD);
       setHeading('Individual resistance determinants:');
     }
-    //console.log('genotypesForFilter', genotypesForFilter);
     const max = genotypesForFilter.length;
     dispatch(setMaxSliderValue(max));
   });
