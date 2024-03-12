@@ -81,10 +81,3 @@ GitHub: https://github.com/amrnet/amrnet/
 ## Funding & acknowledgements
 
 AMRnet is funded by the Wellcome Trust and based in Kat Holt's group at the London School of Hygiene and Tropical Medicine.
-
-
-
-If you use data/metadata from the website, or the analysis based on these data, please cite AMRnet:
-
-DOI: https://zenodo.org/doi/10.5281/zenodo.10810218
-GitHub: https://github.com/amrnet/amrnet/
