@@ -4,20 +4,20 @@ const useStyles = makeStyles((theme) => ({
   mapWrapper: { position: 'relative' },
   card: {
     '&.MuiCard-root': {
-      borderRadius: '16px'
-    }
+      borderRadius: '16px',
+    },
   },
   cardContent: {
     textAlign: 'center',
-    position: 'relative'
+    position: 'relative',
   },
   composableMap: {
     height: '500px',
     width: '100%',
 
     '@media (max-width: 500px)': {
-      height: '300px'
-    }
+      height: '300px',
+    },
   },
   tooltipMap: {
     display: 'flex',
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
     '& $country': {
       fontWeight: 500,
-      fontSize: '18px'
+      fontSize: '18px',
     },
 
     '& $tooltipInfo': {
@@ -44,21 +44,21 @@ const useStyles = makeStyles((theme) => ({
           width: '10px',
           height: '10px',
           marginRight: '4px',
-          border: '1px solid #f5f4f6'
-        }
-      }
-    }
+          border: '1px solid #f5f4f6',
+        },
+      },
+    },
   },
   topControls: {
     marginTop: '16px',
     display: 'flex',
     flexDirection: 'column',
-    rowGap: '16px'
+    rowGap: '16px',
   },
   country: {},
   tooltipInfo: {},
   info: {},
-  color: {}
+  color: {},
 }));
 
 export { useStyles };

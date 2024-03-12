@@ -25,7 +25,13 @@ export const BottomLeftControls = () => {
     if (position.zoom / 2 === 1) {
       dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
     } else {
-      dispatch(setPosition({ ...position, coordinates: [0, 0], zoom: position.zoom / 2 }));
+      dispatch(
+        setPosition({
+          ...position,
+          coordinates: [0, 0],
+          zoom: position.zoom / 2,
+        }),
+      );
     }
   }
 

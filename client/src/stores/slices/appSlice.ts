@@ -7,7 +7,7 @@ interface AppState {
 
 const initialState: AppState = {
   page: 'home',
-  openDrawer: false
+  openDrawer: false,
 };
 
 export const appSlice = createSlice({
@@ -19,8 +19,8 @@ export const appSlice = createSlice({
     },
     setOpenDrawer: (state, action: PayloadAction<boolean>) => {
       state.openDrawer = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const { setPage, setOpenDrawer } = appSlice.actions;
