@@ -129,6 +129,15 @@ export const DownloadData = () => {
       } else if (organism === 'ngono') {
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
+      }else if (organism === 'shige') {
+        firstName = 'Shigella';
+        secondName = '+ EIEC';
+      }else if (organism === 'decoli') {
+        firstName = 'Diarrheagenic';
+        secondName = 'E. coli';
+      }else if (organism === 'sentericaints') {
+        firstName = 'Invasive';
+        secondName = 'non-typhoidal Salmonella';
       }
 
     setLoadingCSV(true);
