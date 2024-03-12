@@ -18,8 +18,8 @@ import { store } from './stores/store.ts';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1fbbd3'
-    }
+      main: '#1fbbd3',
+    },
   },
   typography: {
     fontFamily: [
@@ -34,9 +34,9 @@ const theme = createTheme({
       '"Fira Sans"',
       '"Droid Sans"',
       '"Helvetica Neue"',
-      'sans-serif'
-    ].join(',')
-  }
+      'sans-serif',
+    ].join(','),
+  },
 });
 
 ReactDOM.render(
@@ -59,7 +59,7 @@ ReactDOM.render(
       </Provider>
     </HashRouter>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 registerServiceWorker();

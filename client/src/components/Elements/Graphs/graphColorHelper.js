@@ -83,5 +83,5 @@ export const colorsForKODiversityGraph = [
   { name: 'ESBL', color: '#DB90F0' },
   { name: 'Aerobactin(iuc)', color: 'rgb(180,221,112)' },
   { name: 'rmpADC', color: 'rgb(252,180,105)' },
-  { name: 'neither', color: lightGrey }
+  { name: 'neither', color: lightGrey },
 ];

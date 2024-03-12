@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
   Tooltip as ChartTooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from 'recharts';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
@@ -23,7 +23,7 @@ import { drugClassesKP } from '../../../../util/drugs';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
-  { label: 'Percentage per year', value: 'percentage' }
+  { label: 'Percentage per year', value: 'percentage' },
 ];
 
 export const TrendsKPGraph = () => {
@@ -102,7 +102,7 @@ export const TrendsKPGraph = () => {
         name: currentData.name,
         count: currentData.totalCount,
         genes: [],
-        genotypes: []
+        genotypes: [],
       };
 
       delete currentData.name;
@@ -120,7 +120,7 @@ export const TrendsKPGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: event.activePayload.find((x) => x.name === key).color
+          color: event.activePayload.find((x) => x.name === key).color,
         };
 
         if (genotypesForFilter.includes(key)) {
@@ -138,8 +138,8 @@ export const TrendsKPGraph = () => {
     }
   }
 
-  useEffect(()=>{
-    if(resetBool){
+  useEffect(() => {
+    if (resetBool) {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
     }
@@ -197,7 +197,7 @@ export const TrendsKPGraph = () => {
                                   style={{
                                     backgroundColor: color,
                                     borderRadius:
-                                      index < colorForDrugClassesKP[trendsKPGraphDrugClass]?.length ? undefined : '50%'
+                                      index < colorForDrugClassesKP[trendsKPGraphDrugClass]?.length ? undefined : '50%',
                                   }}
                                 />
                                 <Typography variant="caption">{dataKey}</Typography>
@@ -319,7 +319,7 @@ export const TrendsKPGraph = () => {
                       <Box
                         className={classes.tooltipItemBox}
                         style={{
-                          backgroundColor: item.color
+                          backgroundColor: item.color,
                         }}
                       />
                       <div className={classes.tooltipItemStats}>

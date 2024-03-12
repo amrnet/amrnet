@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
   Tooltip as ChartTooltip,
-  Label
+  Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setKODiversityGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
@@ -21,7 +21,7 @@ import { colorsForKODiversityGraph } from '../graphColorHelper';
 
 const dataViewOptions = [
   { label: 'K locus', value: 'K_locus' },
-  { label: 'O locus', value: 'O_locus' }
+  { label: 'O locus', value: 'O_locus' },
 ];
 
 export const KODiversityGraph = () => {
@@ -55,7 +55,7 @@ export const KODiversityGraph = () => {
       const value = {
         name: currentData.name,
         count: currentData.count,
-        diversity: []
+        diversity: [],
       };
 
       delete currentData.name;
@@ -74,18 +74,17 @@ export const KODiversityGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: activePayload?.fill
+          color: activePayload?.fill,
         });
       });
 
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
-
     }
   }
 
-  useEffect(()=>{
-    if(resetBool){
+  useEffect(() => {
+    if (resetBool) {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
     }
@@ -200,7 +199,7 @@ export const KODiversityGraph = () => {
                       <Box
                         className={classes.tooltipItemBox}
                         style={{
-                          backgroundColor: item.color
+                          backgroundColor: item.color,
                         }}
                       />
                       <div className={classes.tooltipItemStats}>
