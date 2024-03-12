@@ -73,6 +73,17 @@ export const AboutPage = () => {
             </a>
             . An API is coming soon!
           </Typography>
+          <br />
+          <Typography variant="h6" className={classes.paragraph}>
+            Citation for AMRnet
+          </Typography>
+          <br />
+          <Typography variant="body1" className={classes.paragraph}>
+            If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kat Holt), 
+            <span className={classes.paragraphBold}> GitHub: </span>
+             https://github.com/amrnet/amrnet, 
+             <span className={classes.paragraphBold}> DOI:</span> 10.5281/zenodo.10810219
+          </Typography>
         </CardContent>
       </Card>
       <Team />
