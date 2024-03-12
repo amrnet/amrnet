@@ -132,7 +132,6 @@ export const getColorForGenotype = (genotype) => {
 // Generate color pallete for Klebsiella genotypes
 let iwanthue = require('iwanthue');
 export const generatePalleteForGenotypes = (genotypes) => {
-  // console.log("genotypes.length", genotypes.length);
   if (genotypes.length === 0) {
     return {};
   }

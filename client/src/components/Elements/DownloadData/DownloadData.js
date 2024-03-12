@@ -160,7 +160,6 @@ export const DownloadData = () => {
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
       .then((res) => {
-        //console.log('response', res);
         let indexes = [];
         let csv = res.data.split('\n');
         let lines = [];
@@ -387,13 +386,11 @@ export const DownloadData = () => {
         secondName = 'Typhi';
         secondword = 315;
       } else if (organism === 'kpneumo') {
-        // console.log('organism', organism);
         texts = getKlebsiellaTexts();
         firstName = 'Klebsiella';
         secondName = 'pneumoniae';
         secondword = 330;
       } else if (organism === 'ngono') {
-        // console.log('organism', organism);
         texts = getNgonoTexts();
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
