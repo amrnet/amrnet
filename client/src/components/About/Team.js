@@ -71,6 +71,9 @@ export const Team = () => {
                         <Typography sx={{fontSize:"10px" }}className={classes.teamPost}>
                             {member.Post}
                         </Typography>
+                        <Typography sx={{fontSize:"10px" }}className={classes.teamPost}>
+                            {member.Post1}
+                        </Typography>
                     </Typography>)
                     
                 })}
