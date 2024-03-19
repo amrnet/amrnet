@@ -62,13 +62,13 @@ export const DeterminantsGraph = () => {
   const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
 
+  let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
-    let cnt = 0;
     newArray.map((item) => {
-      cnt += item.totalCount;
+      sumOfBarDataToShowOnPlot += item.totalCount;
     });
 
-    if (cnt <= 0) {
+    if (sumOfBarDataToShowOnPlot <= 0) {
       dispatch(setCaptureRDWG(false));
     } else {
       dispatch(setCaptureRDWG(true));
@@ -297,6 +297,8 @@ export const DeterminantsGraph = () => {
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
+                        if(!sumOfBarDataToShowOnPlot)
+                          return null
                         const { dataKey, color } = entry;
                         return (
                           <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>
