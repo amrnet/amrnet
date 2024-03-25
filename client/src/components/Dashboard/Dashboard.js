@@ -430,6 +430,8 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
     if (dataset !== undefined && data !== undefined && data.length > 0) {
       const getYearsForLocalAndTravel = getYears({data, dataset});
       dispatch(setYears(getYearsForLocalAndTravel));
+      dispatch(setActualTimeInitial(getYearsForLocalAndTravel[0]));
+      dispatch(setActualTimeFinal(getYearsForLocalAndTravel[getYearsForLocalAndTravel.length - 1]));
     }
   }, [dataset, data]);
 
