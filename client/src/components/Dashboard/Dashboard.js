@@ -426,9 +426,14 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
 
   // This useEffect is called once dataset changes
   useEffect(() => {
-    const getYearsForLocalAndTravel = getYears({data,dataset});
-    dispatch(setYears(getYearsForLocalAndTravel));
-  }, [dataset]);
+    // Check if dataset and data are defined before proceeding
+    if (dataset !== undefined && data !== undefined && data.length > 0) {
+      const getYearsForLocalAndTravel = getYears({data, dataset});
+      dispatch(setYears(getYearsForLocalAndTravel));
+    }
+  }, [dataset, data]);
+
+
   return (
     <MainLayout isHomePage>
       <Note />
