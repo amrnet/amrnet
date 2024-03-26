@@ -61,6 +61,8 @@ export const DeterminantsGraph = () => {
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
   const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
+  const captureRDWG  = useAppSelector((state) => state.dashboard.captureRDWG);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
   let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
@@ -73,7 +75,7 @@ export const DeterminantsGraph = () => {
     } else {
       dispatch(setCaptureRDWG(true));
     }
-  }, [genotypesDrugClassesData, determinantsGraphDrugClass]);
+  }, [genotypesDrugClassesData, determinantsGraphDrugClass, actualCountry]);
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
@@ -297,7 +299,7 @@ export const DeterminantsGraph = () => {
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
-                        if(!sumOfBarDataToShowOnPlot)
+                        if(!captureRDWG)
                           return null
                         const { dataKey, color } = entry;
                         return (
