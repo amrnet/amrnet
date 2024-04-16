@@ -74,7 +74,7 @@ export const FrequenciesGraph = () => {
     } else {
       dispatch(setCaptureRFWG(true));
     }
-  }, [frequenciesGraphSelectedGenotypes]);
+  }, [frequenciesGraphSelectedGenotypes, frequenciesGraphView]);
 
   useEffect(() => {
     dispatch(setResetBool(true));
