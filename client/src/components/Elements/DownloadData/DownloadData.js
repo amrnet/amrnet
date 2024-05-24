@@ -1029,8 +1029,8 @@ export const DownloadData = () => {
   }
 
   function handleClickDatabasePage() {
-    dispatch(setPage('user-guide'));
-    window.open('#/user-guide', '_blank');
+    // dispatch(setPage('user-guide'));
+    window.open('https://reader-guide.readthedocs.io/en/latest/index.html', '_blank');
   }
 
   return (
