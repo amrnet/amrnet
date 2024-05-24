@@ -44,6 +44,11 @@ export const Drawer = () => {
       return;
     }
 
+    if (item.key === 'user-guide') {
+      window.open(`https://reader-guide.readthedocs.io/en/latest/index.html`, '_blank');
+      return;
+    }
+
     // navigate(`/${item.key}`);
     window.open(`#/${item.key}`, '_blank');
   }

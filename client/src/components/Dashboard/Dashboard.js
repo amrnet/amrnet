@@ -67,6 +67,7 @@ import {
   getKODiversityData,
   getConvergenceData,
   getNgmastData,
+  getYears
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
@@ -346,7 +347,7 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
         convergenceGroupVariable !== currentConvergenceGroupVariable ||
         convergenceColourVariable !== currentConvergenceColourVariable
       ) {
-        setCurrentConvergenceGroupVariable(convergenceGroupVariable);
+
         setCurrentConvergenceColourVariable(convergenceColourVariable);
 
         const convergenceData = getConvergenceData({
@@ -422,6 +423,18 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
     convergenceGroupVariable,
     convergenceColourVariable,
   ]);
+
+  // This useEffect is called once dataset changes
+  useEffect(() => {
+    // Check if dataset and data are defined before proceeding
+    if (dataset !== undefined && data !== undefined && data.length > 0) {
+      const getYearsForLocalAndTravel = getYears({data, dataset});
+      dispatch(setYears(getYearsForLocalAndTravel));
+      dispatch(setActualTimeInitial(getYearsForLocalAndTravel[0]));
+      dispatch(setActualTimeFinal(getYearsForLocalAndTravel[getYearsForLocalAndTravel.length - 1]));
+    }
+  }, [dataset, data]);
+
 
   return (
     <MainLayout isHomePage>
