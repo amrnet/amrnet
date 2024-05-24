@@ -61,19 +61,21 @@ export const DeterminantsGraph = () => {
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
   const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
+  const captureRDWG  = useAppSelector((state) => state.dashboard.captureRDWG);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
+  let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
-    let cnt = 0;
     newArray.map((item) => {
-      cnt += item.totalCount;
+      sumOfBarDataToShowOnPlot += item.totalCount;
     });
 
-    if (cnt <= 0) {
+    if (sumOfBarDataToShowOnPlot <= 0) {
       dispatch(setCaptureRDWG(false));
     } else {
       dispatch(setCaptureRDWG(true));
     }
-  }, [genotypesDrugClassesData, determinantsGraphDrugClass]);
+  }, [genotypesDrugClassesData, determinantsGraphDrugClass, actualCountry]);
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
@@ -297,6 +299,8 @@ export const DeterminantsGraph = () => {
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
+                        if(!captureRDWG)
+                          return null
                         const { dataKey, color } = entry;
                         return (
                           <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>
