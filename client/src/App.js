@@ -12,7 +12,7 @@ import { UserGuidePage } from './components/UserGuide';
 import { DatabasePage } from './components/Database';
 import { DocumentationPage } from './components/Documentation';
 import { ContactPage } from './components/Contact';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes, Navigate} from 'react-router-dom';
 import { store } from './stores/store.ts';
 
 const theme = createTheme({
@@ -49,7 +49,7 @@ ReactDOM.render(
               <Route path="/" element={<DashboardPage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/user-guide" element={<UserGuidePage />} />
+              {/* <Route  element={<Navigate to="https://reader-guide.readthedocs.io/en/latest/index.html" replace />} /> */}
               <Route path="/database" element={<DatabasePage />} />
               <Route path="/documentation" element={<DocumentationPage />} />
               <Route path="/contact" element={<ContactPage />} />
