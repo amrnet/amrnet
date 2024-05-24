@@ -61,19 +61,20 @@ export const FrequenciesGraph = () => {
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
 
   let data = genotypesDrugsData;
-
+  let sumOfBarDataToShowOnPlot = 0;
+  
   useEffect(() => {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
-    let cnt = 0;
+
     data.map((item) => {
-      cnt += item.totalCount;
+      sumOfBarDataToShowOnPlot += item.totalCount;
     });
-    if (frequenciesGraphSelectedGenotypes.length <= 0 || cnt === 0) {
+    if (frequenciesGraphSelectedGenotypes.length <= 0 || sumOfBarDataToShowOnPlot === 0) {
       dispatch(setCaptureRFWG(false));
     } else {
       dispatch(setCaptureRFWG(true));
     }
-  }, [frequenciesGraphSelectedGenotypes]);
+  }, [frequenciesGraphSelectedGenotypes, frequenciesGraphView]);
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -265,6 +266,8 @@ export const FrequenciesGraph = () => {
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
+                        if(!sumOfBarDataToShowOnPlot)
+                          return null;
                           const { dataKey, color } = entry;
                           let dataKeyElement;
                           if (dataKey === 'XDR') {
