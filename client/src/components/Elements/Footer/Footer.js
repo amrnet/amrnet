@@ -8,7 +8,7 @@ export const Footer = () => {
   const classes = useStyles();
 
   function handleClickGithub() {
-    window.open('https://github.com/amrnet', '_blank');
+    window.open('https://github.com/amrnet/amrnet', '_blank');
   }
 
   function handleClickLSHTM() {
