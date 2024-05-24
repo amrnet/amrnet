@@ -780,3 +780,21 @@ function getKPDrugClassData({ drugKey, dataToFilter }) {
   return drugClass;
 }
 
+//Get Year based on Local and Travel filter
+export function getYears({ data, dataset }) {
+  // Filter the data based on the dataset parameter
+  const filteredData = data.filter(item => {
+    if (dataset === 'All') {
+      return true;
+    } else {
+      return item.TRAVEL.toLowerCase() === dataset.toLowerCase();
+    }
+  });
+
+  // Extract the unique and sorted dates from the filtered data
+  const dates = Array.from(
+    new Set(filteredData.map(item => item.DATE))
+  ).sort();
+
+  return dates;
+}
