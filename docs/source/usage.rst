@@ -1,4 +1,4 @@
-User guide page
+About AMRnet
 ===============
 
 Dashboard overview

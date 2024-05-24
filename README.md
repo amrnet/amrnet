@@ -14,7 +14,7 @@
 
 - [Description](#description)
 - [Installation](#installation-for-software-development-purposes-only)
-- [User guide](https://amrnetdev2-bda07af7e807.herokuapp.com/#/user-guide)
+- [User guide](https://reader-guide.readthedocs.io/en/latest/usage.html#)
 - [Citing](#citing)
 - [Funding & acknowledgements](#funding--acknowledgements)
 
