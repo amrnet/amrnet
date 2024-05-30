@@ -1,2 +1,39 @@
+Data access
+===========
+
+Summary about the data access etc.
+
+Download data via bucket
+------------------------
+
+Browser
+-------
+
+Click on the root bucket URL (https://amrnet.s3.amazonaws.com/) to view an XML text representation of all the available files.
+
+Use Ctrl-F/Cmd-F to search the page with the name of the organism
+
+Copy the root bucket URL into a new tab + / at the end of the URL and append the contents of the Key field (i.e. <Key>[file name]</Key> and your browser should automatically download it (tested in Chrome/Firefox/Safari)
+
+Command line
+------------
+
+Using S3cmd tool
+----------------
+
+The easiest tool for working with S3 buckets is the s3cmd tool. It supports browsing, downloading and syncing from S3 buckets in general.
+
 API
 ===
+
+Via SaaS (Mongo Atlas)
+----------------------
+
+Via GUI (FARM)
+--------------
+
+Request API token
+-----------------
+
+Update automatically the token
+------------------------------
