@@ -10,7 +10,7 @@ requires-python = ">=3.9"
 license = {file = "LICENSE"}
 authors = [
     {name = "Louise Cerdeira", email = "lcerdeira@gmail.com"},
-    {name = "Vandana Sharma", email = "vandana.sharma@lshtm.ac.uk"}
+    {name = "Vandana Sharma", email = "vandana.sharma@lshtm.ac.uk"},
     {name = "Kathryn Holt", email = "kat.holt@lshtm.ac.uk"},
     ]
 
