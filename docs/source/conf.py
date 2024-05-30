@@ -25,7 +25,7 @@ html_theme = 'sphinx_rtd_theme'
 
 # -- Html Favicon Option
 
-html_favicon = 'favicon.ico'
+# html_favicon = 'favicon.ico'
 
 extensions = [
     'sphinx.ext.duration',
