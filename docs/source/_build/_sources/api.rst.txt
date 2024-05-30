@@ -37,4 +37,7 @@ Update automatically the token
 
 .. toctree::
 
-:maxdepth: 2
+:maxdepth: 5
+
+   usage
+   database
