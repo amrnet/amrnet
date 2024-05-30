@@ -6,8 +6,8 @@ project = ' AMRnet'
 copyright = '2024, AMRnet'
 author = 'Louise Cerdeira and Vandana Sharma'
 
-release = '0.1'
-version = '0.1.0'
+release = '0.2'
+version = '1.0.0'
 
 # -- General configuration
 
