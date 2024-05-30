@@ -14,7 +14,7 @@ python:
 build:
   os: "ubuntu-22.04"
   tools:
-    python: "3.10"
+    python: "3.8"
   jobs:
     pre_create_environment:
        - conda update --yes --quiet --name=base --channel=defaults conda
