@@ -1,13 +1,59 @@
 version: "2"
 
+formats:
+  - epub
+  - htmlzip
+
+sphinx:
+  configuration: docs/conf.py
+
+  # Disabled due to temporary issue with Django docs
+  fail_on_warning: false
+
+python:
+  install:
+    - requirements: requirements/docs.txt
+
 build:
   os: "ubuntu-22.04"
   tools:
     python: "3.10"
+  jobs:
+    post_checkout:
+      # https://docs.readthedocs.io/en/stable/build-customization.html#cancel-build-based-on-a-condition
+      #
+      # Cancel building pull requests when there aren't changed in the docs directory.
+      #
+      # If there are no changes (git diff exits with 0) we force the command to return with 183.
+      # This is a special exit code on Read the Docs that will cancel the build immediately.
+      - |
+        if [ "$READTHEDOCS_VERSION_TYPE" = "external" ] && git diff --quiet origin/main -- docs/ .readthedocs.yml requirements/docs.txt;
+        then
+          echo "No changes to docs/ - exiting the build.";
+          exit 183;
+        fi
 
-python:
-  install:
-    - requirements: docs/requirements.txt
+    # Install our Sphinx Theme version that uses the Addons CustomEvent to generate the integrated flyout
+    # TODO: this custom installation once a new release has been done
+    post_install:
+      - pip uninstall --yes sphinx-rtd-theme
+      - pip install git+https://github.com/readthedocs/sphinx_rtd_theme.git@humitos/addons-flyout#egg=sphinx-rtd-theme
 
-sphinx:
-  configuration: docs/source/conf.py
+search:
+  ranking:
+    # Deprecated content
+    api/v1.html: -1
+    config-file/v1.html: -5
+
+    # Surface the tutorial content first, this page covers the configuration
+    # file basics very well. The explanation page is more conceptual and about
+    # versioning. Bump up the v2 reference page a little too, but the tutorial
+    # should be the first page the user looks at still.
+    config-file/index.html: 5
+    config-file/v2.html: 2
+    explanation/configuration-file.html: -1
+
+    # Useful content, but not something we want most users finding
+    changelog.html: -6
+  ignore:
+    - dmca/archive/*
