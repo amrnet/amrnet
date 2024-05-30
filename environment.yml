@@ -1,0 +1,8 @@
+name: rtd38
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.8
+prefix: /Users/lshlt19/anaconda3/envs/rtd38
