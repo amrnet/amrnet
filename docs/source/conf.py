@@ -20,19 +20,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    'hoverxref.extension',
-    'multiproject',
-    'myst_parser',
-    'notfound.extension',
-    'sphinx_copybutton',
-    'sphinx_design',
-    'sphinx_tabs.tabs',
-    'sphinx-prompt',
     'sphinx.ext.intersphinx',
-    'sphinxcontrib.httpdomain',
-    'sphinxcontrib.video',
-    'sphinxemoji.sphinxemoji',
-    'sphinxext.opengraph',
 ]
 
 intersphinx_mapping = {
