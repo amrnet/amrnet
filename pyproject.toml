@@ -4,5 +4,27 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "amrnet"
-authors = [{name = "Louise", email = "lcerdeira@gmail.com}]
-dynamic = ["version", "description"]
+version = "1.0.2"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [{name = "Louise Cerdeira", email = "lcerdeira@gmail.com}]
+authors = [{name = "Vandana Sharma", email = "}]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Intended Audience :: Science/Research"
+]
+dependencies = ["biopython","numpy","dna_features_viewer"]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-mock"]  # needed for running automated tests
+
+[project.urls]
+homepage = "https://www.amrnet.org/"
+documentation = "https://amrnet.readthedocs.io/"
+repository = "https://github.com/amrnet/amrnet"

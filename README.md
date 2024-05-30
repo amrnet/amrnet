@@ -14,7 +14,7 @@
 
 - [Description](#description)
 - [Installation](#installation-for-software-development-purposes-only)
-- [User guide](https://reader-guide.readthedocs.io/en/latest/usage.html#)
+- [User guide](https://amrnet.readthedocs.io/)
 - [Citing](#citing)
 - [Funding & acknowledgements](#funding--acknowledgements)
 
