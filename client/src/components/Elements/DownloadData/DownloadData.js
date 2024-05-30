@@ -1030,7 +1030,7 @@ export const DownloadData = () => {
 
   function handleClickDatabasePage() {
     // dispatch(setPage('user-guide'));
-    window.open('https://reader-guide.readthedocs.io/en/latest/index.html', '_blank');
+    window.open('https://amrnet.readthedocs.io/', '_blank');
   }
 
   return (
