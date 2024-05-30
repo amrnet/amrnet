@@ -5,4 +5,12 @@ channels:
   - defaults
 dependencies:
   - python=3.8
+  - rasterio==1.2
+  - pytorch-cpu=1.7
+  - pip>=20.1
+  - cmake
+  - numpy
+  - compilers
+  - pip:
+    - black==20.8b1
 prefix: /docs/.conda/envs/rtd38
