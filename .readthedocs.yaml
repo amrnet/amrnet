@@ -17,7 +17,7 @@ build:
     python: "3.8"
   jobs:
     pre_create_environment:
-       - conda update --yes --quiet --name=base --channel=defaults conda
+       - conda update --yes --quiet --name=rtd38 --channel=defaults conda
 
     post_checkout:
       # https://docs.readthedocs.io/en/stable/build-customization.html#cancel-build-based-on-a-condition
