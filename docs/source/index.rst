@@ -1,4 +1,4 @@
-AMRnet
+Welcome to AMRnet Dashboard Guide!
 ===================================
 The **AMRnet** dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.
 
@@ -21,11 +21,5 @@ Contents
 
 .. toctree::
 
-   about
-   termsconditions
-   gettingstarted
    usage
-   databases
-   maintenancesupport
    api
-   developing
