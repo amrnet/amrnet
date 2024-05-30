@@ -35,6 +35,3 @@ Request API token
 Update automatically the token
 -------------------------------
 
-.. toctree::
-
-:maxdepth: 2
