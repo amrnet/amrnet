@@ -5,4 +5,4 @@ channels:
   - defaults
 dependencies:
   - python=3.8
-prefix: /Users/lshlt19/anaconda3/envs/rtd38
+prefix: /docs/.conda/envs/rtd38
