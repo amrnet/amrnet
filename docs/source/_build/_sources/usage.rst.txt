@@ -27,12 +27,12 @@ Individual pathogen
 *Salmonella* Typhi
 ~~~~~~~~~~~~~~~~~~
 
-*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`__, which calls AMR and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_, genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`__. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
+*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`_, which calls AMR and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_, genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
 
 **Variable definitions**
 
 - **Genotypes**: GenoTyphi scheme, see `Dyson & Holt, 2021 <https://doi.org/10.1093/infdis/jiab414>`_.
-- **AMR determinants** are described in the `Typhi Pathogenwatch paper <https://doi.org/10.1038/s41467-021-23091-2>`__.
+- **AMR determinants** are described in the `Typhi Pathogenwatch paper <https://doi.org/10.1038/s41467-021-23091-2>`_.
 - **Travel-associated cases** are attributed to the country of travel, not the country of isolation, see `Ingle et al, 2019 <https://doi.org/10.1371/journal.pntd.0007620>`_.
 
 **Abbreviations**
@@ -44,14 +44,14 @@ Individual pathogen
 
 *Klebsiella pneumoniae*
 ~~~~~~~~~~~~~~~~~~~~~~~
-*Klebsiella pneumoniae* data are sourced from `Pathogenwatch <https://doi.org/10.1093/cid/ciab784>`__, which calls AMR (using `Kleborate <https://github.com/klebgenomics/Kleborate>`_) and genotypes (`MLST <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`__) from genomes assembled from public data. Last update: 24 January 2024.
+*Klebsiella pneumoniae* data are sourced from `Pathogenwatch <https://doi.org/10.1093/cid/ciab784>`_, which calls AMR (using `Kleborate <https://github.com/klebgenomics/Kleborate>`_) and genotypes (`MLST <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_) from genomes assembled from public data. Last update: 24 January 2024.
 
 .. warning:: The *Klebsiella pneumoniae* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which have been largely directed at sequencing ESBL and carbapenemase-producing strains or hypervirulent strains. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
 
 **Variable definitions**
 
-- **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`__ for Klebsiella pneumoniae, maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_.
-- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`__.
+- **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_.
+- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`_.
 
 **Abbreviations**
 
@@ -61,7 +61,7 @@ Individual pathogen
 *Neisseria gonorrhoeae*
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-*Neisseria gonorrhoeae* data are sourced from `Pathogenwatch <https://doi.org/10.1186/s13073-021-00858-2>`__, which calls AMR and lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST <https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST <https://doi.org/10.1086/383047>`_) from genomes assembled from public data. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). These include EuroGASP `2013 <https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 <https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national surveillance studies. Last update: 24 January 2024.
+*Neisseria gonorrhoeae* data are sourced from `Pathogenwatch <https://doi.org/10.1186/s13073-021-00858-2>`_, which calls AMR and lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST <https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST <https://doi.org/10.1086/383047>`_) from genomes assembled from public data. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). These include EuroGASP `2013 <https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 <https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national surveillance studies. Last update: 24 January 2024.
 
 **Variable definitions**
 
@@ -84,7 +84,7 @@ Individual pathogen
 *Shigella* + EIEC
 ~~~~~~~~~~~~~~~~~~~
 
-*Shigella* and enteroinvasive E. *coli* (EIEC) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 24 January 2024.
+*Shigella* and enteroinvasive E. *coli* (EIEC) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 24 January 2024.
 
 .. warning:: 
    
@@ -92,14 +92,14 @@ Individual pathogen
 
 **Variable definitions**
 
-- **Lineages**: The logic used by `Enterobase <https://doi.org/10.1101/gr.251678.119>`__ to classify genomes as *Shigella* or EIEC are detailed `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella>`__. *Shigella sonnei* are monophyletic and labelled as lineage ‘S. *sonnei*’. For other *Shigella*, lineages are labeled by the species followed by the HC400 (`HierCC <https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_) cluster ID (as this nomenclature has been `shown <https://doi.org/10.1038/s41467-022-28121-1>`_ to mirror the paraphyletic lineage structure of *Shigella*). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).
+- **Lineages**: The logic used by `Enterobase <https://doi.org/10.1101/gr.251678.119>`_ to classify genomes as *Shigella* or EIEC are detailed `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella>`_. *Shigella sonnei* are monophyletic and labelled as lineage ‘S. *sonnei*’. For other *Shigella*, lineages are labeled by the species followed by the HC400 (`HierCC <https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_) cluster ID (as this nomenclature has been `shown <https://doi.org/10.1038/s41467-022-28121-1>`_ to mirror the paraphyletic lineage structure of *Shigella*). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).
 
-- **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`__ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
+- **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
 
 Diarrheagenic E. *coli*
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Diarrheagenic E. *coli* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. The logic used by Enterobase to classify E. *coli* genomes to pathotypes is shown `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__. Pathotypes included in the diarrheagenic E. *coli* dashboard are:
+Diarrheagenic E. *coli* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. The logic used by Enterobase to classify E. *coli* genomes to pathotypes is shown `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_. Pathotypes included in the diarrheagenic E. *coli* dashboard are:
 
 - Shiga toxin-producing E. *coli* (STEC)
 - Enterohemorrhagic E. *coli* (EHEC)
@@ -135,7 +135,7 @@ Invasive non-typhoidal *Salmonella* (iNTS) data in AMRnet are drawn from `Entero
 
 .. toctree::
 
-:maxdepth: 2
+:maxdepth: 5
 
    api
    database
