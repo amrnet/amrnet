@@ -8,8 +8,11 @@ version = "1.0.2"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
-authors = [{name = "Louise Cerdeira", email = "lcerdeira@gmail.com}]
-authors = [{name = "Vandana Sharma", email = "}]
+authors = [
+    {name = "Louise Cerdeira", email = "lcerdeira@gmail.com"},
+    {name = "Vandana Sharma", email = "vandana.sharma@lshtm.ac.uk"}
+    {name = "Kathryn Holt", email = "kat.holt@lshtm.ac.uk"},
+    ]
 
 [project.urls]
 homepage = "https://www.amrnet.org/"
