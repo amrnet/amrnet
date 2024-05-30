@@ -1,10 +1,12 @@
+===============
 Data access
-===========
+===============
 
 Summary about the data access etc.
 
+--------------------------
 Download data via bucket
-------------------------
+--------------------------
 
 Browser
 -------
@@ -23,17 +25,18 @@ Using S3cmd tool
 
 The easiest tool for working with S3 buckets is the s3cmd tool. It supports browsing, downloading and syncing from S3 buckets in general.
 
-API
-===
-
-Via SaaS (Mongo Atlas)
-----------------------
-
-Via GUI (FARM)
+--------------
+SaaS API 
 --------------
 
-Request API token
------------------
+--------------
+GUI API
+--------------
 
+-------------------
+Request API token
+-------------------
+
+-------------------------------
 Update automatically the token
-------------------------------
+-------------------------------
