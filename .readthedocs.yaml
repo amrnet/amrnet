@@ -12,10 +12,6 @@ build:
 python:
   install:
     - requirements: docs/requirements.txt
-    # Install SCT itself
-    - path: .
-      extra_requirements:
-      - docs
   
 sphinx:
   configuration: docs/source/conf.py
