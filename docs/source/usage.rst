@@ -133,9 +133,3 @@ Invasive non-typhoidal *Salmonella* (iNTS) data in AMRnet are drawn from `Entero
 
 - **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
 
-.. toctree::
-
-:maxdepth: 2
-
-   api
-   database
