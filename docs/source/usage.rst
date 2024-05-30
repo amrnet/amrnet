@@ -1,7 +1,7 @@
-Use
-===============
+Dashboard User Guide
+====================
 
-Dashboard overview
+Overview
 ------------------
 
 **Header**: Use the menu to **select a species or pathogen group** to display. Each pathogen has its own dashboard configuration that is customised to show genotypes, resistances and other relevant parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected dashboard. 
@@ -21,8 +21,8 @@ Each plot has a dynamic legend to the right; click on an x-axis value to display
 .. note:: 
    Please note PDF reports are not yet available for all organisms, they will be added in future updates.
 
-Individual pathogen details
----------------------------
+Individual pathogen
+-------------------
 
 *Salmonella* Typhi
 ~~~~~~~~~~~~~~~~~~
