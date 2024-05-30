@@ -17,6 +17,8 @@ templates_path = ['_templates']
 
 html_logo = 'amrnet-logo.png'
 
+# html_static_path = ['_static']
+
 # -- Logo Option
 
 html_theme = 'sphinx_rtd_theme'
@@ -25,14 +27,27 @@ html_theme = 'sphinx_rtd_theme'
 
 html_favicon = 'favicon.ico'
 
+extensions = [
+    'sphinx.ext.duration',
+    'sphinx.ext.doctest',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.intersphinx',
+]
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
+intersphinx_disabled_domains = ['std']
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
 
 html_theme_options = {
-    'analytics_id': 'G-XXXXXXXXXX',  #  Provided by Google in your dashboard
+   # 'analytics_id': 'G-XXXXXXXXXX',  #  Provided by Google in your dashboard
     'analytics_anonymize_ip': False,
     'logo_only': True,
-    'display_version': True,
+    'display_version': False,
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
     'vcs_pageview_mode': '',
@@ -40,9 +55,6 @@ html_theme_options = {
     # Toc options
     'collapse_navigation': True,
     'sticky_navigation': True,
-    'navigation_depth': 4,
     'includehidden': True,
     'titles_only': False
 }
-
-html_static_path = ["_static"]
