@@ -2,7 +2,7 @@ Dashboard User Guide
 ====================
 
 Overview
-------------------
+--------
 
 **Header**: Use the menu to **select a species or pathogen group** to display. Each pathogen has its own dashboard configuration that is customised to show genotypes, resistances and other relevant parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected dashboard. 
 
@@ -27,7 +27,7 @@ Individual pathogen
 *Salmonella* Typhi
 ~~~~~~~~~~~~~~~~~~
 
-*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`_, which calls AMR and `GenoTyphi<https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
+*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`_, which calls AMR and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_, genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
 
 **Variable definitions**
 
@@ -51,7 +51,7 @@ Individual pathogen
 **Variable definitions**
 
 - **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_.
-- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here<https://doi.org/10.1038/s41467-021-24448-3>`_.
+- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`_.
 
 **Abbreviations**
 
