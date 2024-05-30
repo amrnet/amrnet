@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "amrnet"
@@ -10,13 +10,6 @@ requires-python = ">=3.9"
 license = {file = "LICENSE"}
 authors = [{name = "Louise Cerdeira", email = "lcerdeira@gmail.com}]
 authors = [{name = "Vandana Sharma", email = "}]
-
-classifiers = [
-    "License :: GNU General Public License v3 (GPLv3)",
-    "Topic :: Scientific/Engineering :: Bio-Informatics",
-    "Topic :: Scientific/Engineering :: Medical Science Apps.",
-    "Intended Audience :: Science/Research"
-]
 
 [project.urls]
 homepage = "https://www.amrnet.org/"
