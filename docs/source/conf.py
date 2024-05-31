@@ -32,12 +32,14 @@ html_theme = 'sphinx_book_theme'
 # html_favicon = 'favicon.ico'
 
 extensions = [
+    'ablog',
+    'myst_nb',
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.viewcode',
+    # 'sphinx.ext.viewcode',
     'sphinxcontrib.youtube',
     'sphinx_copybutton',
     'sphinx_design',
