@@ -56,8 +56,6 @@ extensions = [
 
 autosummary_generate = True
 
-html_css_files = ["custom.css"]
-
 source_suffix = ['.rst', '.md', '.txt']
 
 numfig = True
@@ -158,18 +156,18 @@ html_theme_options = {
     # 'includehidden': True,
     # 'titles_only': False
 
-html_sidebars = {
-    "/*": [
-        "navbar-logo.html",
-        "database.html",
-        "api.html",
-        "usage.html",
-        # "ablog/tagcloud.html",
-        # "ablog/categories.html",
-        # "ablog/archives.html",
-        "sbt-sidebar-nav.html",
-    ]
-}
+# html_sidebars = {
+#     "/*": [
+#         "navbar-logo.html",
+#         "database.html",
+#         "api.html",
+#         "usage.html",
+#         # "ablog/tagcloud.html",
+#         # "ablog/categories.html",
+#         # "ablog/archives.html",
+#         "sbt-sidebar-nav.html",
+#     ]
+# }
 
 nb_execution_mode = "cache"
 thebe_config = {
