@@ -37,17 +37,28 @@ extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
+    'sphinx.ext.todo',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    # 'sphinx.ext.viewcode',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.graphviz',
     'sphinxcontrib.youtube',
     'sphinx_copybutton',
     'sphinx_design',
     'sphinx_examples',
     'sphinx_tabs.tabs',
     'sphinx_thebe',
-    'sphinx_togglebutton',
+    'sphinx_togglebutton'
+    
 ]
+
+autosummary_generate = True
+
+html_css_files = ["custom.css"]
+
+source_suffix = ['.rst', '.md', '.txt']
 
 numfig = True
 
@@ -72,14 +83,14 @@ myst_enable_extensions = [
     # "linkify",
     # "substitution",
 ]
-html_title = 'AMRnet Dashboard User Guide'
+html_title = 'AMRnetUser Guide'
 
 html_copy_source = True
 
 html_theme_options = {
     "path_to_docs": "docs",
-    "repository_url": "https://github.com/amrnet/amrnet",
-    "repository_branch": "staging",
+    "repository_url": "https://github.com/amrnet/amrnet/",
+    "repository_branch": "https://github.com/amrnet/amrnet/tree/staging",
     "launch_buttons": {
         "binderhub_url": "https://mybinder.org",
         "colab_url": "https://colab.research.google.com/",
@@ -93,7 +104,7 @@ html_theme_options = {
     "use_issues_button": True,
     "use_download_button": True,
     "use_sidenotes": True,
-    "show_toc_level": 2,
+    "show_toc_level": 4,
     "icon_links": [
         # {
         #     "name": "jupyterlab",
@@ -117,7 +128,7 @@ html_theme_options = {
     # "use_fullscreen_button": False,
     # "home_page_in_toc": True,
     # "extra_footer": "<a href='https://google.com'>Test</a>",  # DEPRECATED KEY
-    # "show_navbar_depth": 2,
+    "show_navbar_depth": 2,
     # Testing layout areas
     # "navbar_start": ["test.html"],
     # "navbar_center": ["test.html"],
@@ -148,7 +159,7 @@ html_theme_options = {
     # 'titles_only': False
 
 html_sidebars = {
-    "html/*": [
+    "/*": [
         "navbar-logo.html",
         "database.html",
         "api.html",
