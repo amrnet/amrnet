@@ -49,7 +49,7 @@ ReactDOM.render(
               <Route path="/" element={<DashboardPage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/about" element={<AboutPage />} />
-              {/* <Route  element={<Navigate to="https://amrnet.readthedocs.io/" replace />} /> */}
+              {/* <Route  element={<Navigate to="https://amrnet.readthedocs.io/en/staging/" replace />} /> */}
               <Route path="/database" element={<DatabasePage />} />
               <Route path="/documentation" element={<DocumentationPage />} />
               <Route path="/contact" element={<ContactPage />} />

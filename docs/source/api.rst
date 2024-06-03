@@ -3,6 +3,15 @@ Data access
 
 Summary about the data access etc.
 
+**Architetures**: The API architectures have 3 options developed for the project which includes:
+
+.. figure:: assets/api.jpg
+   :width: 100%
+   :align: center
+   :alt: api
+
+
+
 Download data via bucket
 ------------------------
 
@@ -33,49 +42,101 @@ Downloading a File:
 
 Getting the complete list of files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    * Step 1: Install ``xq``, a command-line tool for parsing XML from the ``yq`` toolset. The installation instructions vary depending on your operating system but typically involve using a package manager like ``brew`` on macOS or ``apt`` on Ubuntu.
-    * Step 2: Use ``curl`` to fetch the XML representation of the file list from the S3 bucket and pipe it to ``xq`` to parse and extract the keys (file names). The command looks like this:
+* Step 1: Install ``xq``, a command-line tool for parsing XML from the ``yq`` toolset. The installation instructions vary depending on your operating system but typically involve using a package manager like ``brew`` on macOS or ``apt`` on Ubuntu.
+* Step 2: Use ``curl`` to fetch the XML representation of the file list from the S3 bucket and pipe it to ``xq`` to parse and extract the keys (file names). The command looks like this:
 
+.. code-block:: bash    
+    
+    curl -H "Authorization: Token 19okmz5k0i6yk17jp70jlnv91v" https://docs.example.com/en/latest/example.html
 
-    .. prompt:: bash $
-
-        curl -H "Authorization: Token 19okmz5k0i6yk17jp70jlnv91v" https://docs.example.com/en/latest/example.html
-
-    * Explanation: ``curl`` retrieves the XML data from the URL. The ``|`` symbol pipes this data into ``xq``, which parses the XML and extracts the file names, displaying them in the terminal.
+* Explanation: ``curl`` retrieves the XML data from the URL. The ``|`` symbol pipes this data into ``xq``, which parses the XML and extracts the file names, displaying them in the terminal.
 
 Downloading a single file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    * Step 1: Install ``jq``, a command-line tool for parsing JSON. Like ``xq``, installation instructions will vary based on your operating system.
-    * Step 2: Use ``curl`` to download the file by constructing the URL with the file name. The command for downloading a file named ``pathogenwatch-styphi-07lsscrbhu2x-public-genomes-amr-genes.csv`` is:
+* Step 1: Install ``jq``, a command-line tool for parsing JSON. Like ``xq``, installation instructions will vary based on your operating system.
+* Step 2: Use ``curl`` to download the file by constructing the URL with the file name. The command for downloading a file named ``pathogenwatch-styphi-07lsscrbhu2x-public-genomes-amr-genes.csv`` is:
 
-    For example:
+For example:
 
-    .. prompt:: bash $
+.. code-block:: bash
 
-        curl -H "Authorization: Token 19okmz5k0i6yk17jp70jlnv91v" https://docs.example.com/en/latest/example.html
+    curl -H "Authorization: Token 19okmz5k0i6yk17jp70jlnv91v" https://docs.example.com/en/latest/example.html
 
-    * Explanation: 
-        * ``curl -O`` is used to download the file and save it with its original name.
-        * ``$( ... )`` executes the command inside the parentheses and substitutes its output into the URL.
-        * ``printf "file_name"`` outputs the file name.
-        * ``|`` pipes this file name into ``jq``, which converts the file name into a URI-encoded string (handling any special characters appropriately).
-        * The complete URL is then passed to ``curl``, which downloads the file from the S3 bucket.
+* Explanation: 
+    * ``curl -O`` is used to download the file and save it with its original name.
+    * ``$( ... )`` executes the command inside the parentheses and substitutes its output into the URL.
+    * ``printf "file_name"`` outputs the file name.
+    * ``|`` pipes this file name into ``jq``, which converts the file name into a URI-encoded string (handling any special characters appropriately).
+    * The complete URL is then passed to ``curl``, which downloads the file from the S3 bucket.
 
 By following these steps, you can efficiently search for and download specific files from the S3 bucket using both a web browser and the command line.
 
 3. Data accessing using Using S3cmd tool
 ****************************************
 
-The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
+The ``s3cmd`` tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
 
 AMRnet API
 ----------
-Via SaaS
-********
+
+API command line
+********************
+
+To download data using our API, please follow the given steps:, 
+Request API token from amrnet.api@gmail.com with the email.
+Once you have API token:Replace this key with ``<API_KEY>``
+
+For example:
+
+*One sample*
+
+.. code-block:: bash
+
+            curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-qdikagn/endpoint/data/v1/action/find'\
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"Cluster0",
+                "projection": {"_id": 1}
+            }'
+
+
+*Multiple samples*
+
+.. code-block:: bash
+
+API Postman
+******************
+
+Steps to Import the Example ``cURL`` Command in Postman
+    
+1. Open Postman.
+2. Sign In with your credentials.
+3. Click the "Import" button.
+4. In the Import modal, select "Raw Text".
+5. Paste the cURL command:
+
+.. code-block:: bash
+
+    curl -X GET "https://api.example.com/data" -H "accept: application/json"
+    
+
+5. Click "Continue", then "Import".
+6. Review the imported request details in Postman.
+7. Click "Send" to execute the request and view the response.
+
 
 Via GUI
 ********
 
 Request API token
 -----------------
+
+Request API token from ``amrnet.api@gmail.com`` with the email.
+
+Update automatically the token
+******************************

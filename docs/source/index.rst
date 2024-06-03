@@ -6,10 +6,10 @@ We started with Salmonella Typhi, built on our `TyphiNET <https://www.typhi.net>
 
 A major barrier to using public data for surveillance is the need for careful data curation, to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with other organism communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (`amrnetdashboard@gmail.com <amrnetdashboard@gmail.com>`_)
 
-Find out more about the project team (based at London School of Hygiene and Tropical Medicine), and our policy advisory group, `here <https://www.lshtm.ac.uk/amrnet>`_.
+Find out more about the project team (based at London School of Hygiene and Tropical Medicine), and our policy advisory group, `here <https://www.lshtm.ac.uk/amrnet>`__.
 
 
-The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_. Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`_. An API is coming soon!
+The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_. Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__. An API is coming soon!
 
 Citation for AMRnet
 -------------------
@@ -24,3 +24,4 @@ Contents
    usage
    api
    database
+   architecture
