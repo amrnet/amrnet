@@ -1,12 +1,12 @@
-Architecture
+Data architecture
 ============
 
 Under development!
 
 
-Data
+Data ingestion
 ~~~~~~
+
+
 Data lake
 ~~~~~~~~~~
-ETL
-~~~~~~~
