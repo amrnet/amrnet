@@ -6,7 +6,7 @@ Dashboard overview
 
 **Header**: Use the menu to **select a species or pathogen group** to display. Each pathogen has its own dashboard configuration that is customised to show genotypes, resistances and other relevant parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected dashboard. 
 
-.. figure:: screencaptures/header.png
+.. figure:: assets/header.png
    :width: 100%
    :align: center
    :alt: header
@@ -15,7 +15,7 @@ Header
 
 **Map**: Use the menu on the right to **select a variable to display per-country summary data** on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the **filters on the left** to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed, otherwise it will be coloured grey to indicate insufficient data.
 
-.. figure:: screencaptures/map.png
+.. figure:: assets/map.png
    :width: 100%
    :align: center
    :alt: map
@@ -24,7 +24,7 @@ Map
 
 Filters set in this panel apply not only to the map, but to all plots on the page. **Clicking on a country in the map** also functions as a filter, so that subsequent plots reflect data for the selected country only. 
 
-.. figure:: screencaptures/filter.png
+.. figure:: assets/filter.png
    :width: 100%
    :align: center
    :alt: filter
@@ -39,7 +39,7 @@ Each plot has a dynamic legend to the right; click on an x-axis value to display
 
 **Downloads**: At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’). Please note PDF reports are not yet available for all organisms, they will be added in future updates.
 
-.. figure:: screencaptures/downloads.png
+.. figure::  assets/downloads.png
    :width: 100%
    :align: center
    :alt: downloads
@@ -57,7 +57,7 @@ Individual pathogen details
 *Salmonella* Typhi
 ~~~~~~~~~~~~~~~~~~
 
-*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`_, which calls AMR and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
+*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`__, which calls AMR and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
 
 **Variable definitions**
 
@@ -74,14 +74,14 @@ Individual pathogen details
 
 *Klebsiella pneumoniae*
 ~~~~~~~~~~~~~~~~~~~~~~~
-*Klebsiella pneumoniae* data are sourced from `Pathogenwatch <https://doi.org/10.1093/cid/ciab784>`_, which calls AMR (using `Kleborate <https://github.com/klebgenomics/Kleborate>`_) and genotypes (`MLST <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_) from genomes assembled from public data. Last update: 24 January 2024.
+*Klebsiella pneumoniae* data are sourced from `Pathogenwatch <https://doi.org/10.1093/cid/ciab784>`__, which calls AMR (using `Kleborate <https://github.com/klebgenomics/Kleborate>`_) and genotypes (`MLST <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`__) from genomes assembled from public data. Last update: 24 January 2024.
 
 .. warning:: The *Klebsiella pneumoniae* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which have been largely directed at sequencing ESBL and carbapenemase-producing strains or hypervirulent strains. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
 
 **Variable definitions**
 
 - **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_.
-- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`_.
+- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`__.
 
 **Abbreviations**
 
@@ -91,12 +91,12 @@ Individual pathogen details
 *Neisseria gonorrhoeae*
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-*Neisseria gonorrhoeae* data are sourced from `Pathogenwatch <https://doi.org/10.1186/s13073-021-00858-2>`_, which calls AMR and lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST <https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST <https://doi.org/10.1086/383047>`_) from genomes assembled from public data. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). These include EuroGASP `2013 <https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 <https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national surveillance studies. Last update: 24 January 2024.
+*Neisseria gonorrhoeae* data are sourced from `Pathogenwatch <https://doi.org/10.1186/s13073-021-00858-2>`__, which calls AMR and lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST <https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST <https://doi.org/10.1086/383047>`_) from genomes assembled from public data. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). These include EuroGASP `2013 <https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 <https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national surveillance studies. Last update: 24 January 2024.
 
 **Variable definitions**
 
 - **Genotypes**: sequence types from the `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for **Neisseria**, or 2-locus **N. gonorrhoeae** multi-antigen sequence typing (`NG-MAST <https://doi.org/10.1086/383047>`_) scheme, both hosted by `PubMLST <https://pubmlst.org/neisseria/>`_.
-- **AMR determinants** are identified by Pathogenwatch using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described `here <https://doi.org/10.1186/s13073-021-00858-2>`_. 
+- **AMR determinants** are identified by Pathogenwatch using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described `here <https://doi.org/10.1186/s13073-021-00858-2>`__. 
 - **AMR determinants within genotypes** - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of `Sánchez-Busó et al (2021) <https://doi.org/10.1186/s13073-021-00858-2>`_.
 - **Susceptible to cat I/II drugs** - No determinants found for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category II).
 
@@ -114,7 +114,7 @@ Individual pathogen details
 *Shigella* + EIEC
 ~~~~~~~~~~~~~~~~~~~
 
-*Shigella* and enteroinvasive E. *coli* (EIEC) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 24 January 2024.
+*Shigella* and enteroinvasive E. *coli* (EIEC) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 24 January 2024.
 
 .. warning:: 
    
@@ -122,14 +122,14 @@ Individual pathogen details
 
 **Variable definitions**
 
-- **Lineages**: The logic used by `Enterobase <https://doi.org/10.1101/gr.251678.119>`_ to classify genomes as *Shigella* or EIEC are detailed `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella>`_. *Shigella sonnei* are monophyletic and labelled as lineage ‘S. *sonnei*’. For other *Shigella*, lineages are labeled by the species followed by the HC400 (`HierCC <https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_) cluster ID (as this nomenclature has been `shown <https://doi.org/10.1038/s41467-022-28121-1>`_ to mirror the paraphyletic lineage structure of *Shigella*). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).
+- **Lineages**: The logic used by `Enterobase <https://doi.org/10.1101/gr.251678.119>`__ to classify genomes as *Shigella* or EIEC are detailed `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella>`__. *Shigella sonnei* are monophyletic and labelled as lineage ‘S. *sonnei*’. For other *Shigella*, lineages are labeled by the species followed by the HC400 (`HierCC <https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_) cluster ID (as this nomenclature has been `shown <https://doi.org/10.1038/s41467-022-28121-1>`_ to mirror the paraphyletic lineage structure of *Shigella*). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).
 
-- **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
+- **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`__ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
 
 Diarrheagenic E. *coli*
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Diarrheagenic E. *coli* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. The logic used by Enterobase to classify E. *coli* genomes to pathotypes is shown `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_. Pathotypes included in the diarrheagenic E. *coli* dashboard are:
+Diarrheagenic E. *coli* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. The logic used by Enterobase to classify E. *coli* genomes to pathotypes is shown `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__. Pathotypes included in the diarrheagenic E. *coli* dashboard are:
 
 - Shiga toxin-producing E. *coli* (STEC)
 - Enterohemorrhagic E. *coli* (EHEC)
