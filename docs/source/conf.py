@@ -44,6 +44,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx.ext.graphviz',
+    'sphinx.ext.autosectionlabel',
     'sphinxcontrib.youtube',
     'sphinx_copybutton',
     'sphinx_design',
@@ -81,7 +82,7 @@ myst_enable_extensions = [
     # "linkify",
     # "substitution",
 ]
-html_title = 'AMRnetUser Guide'
+html_title = 'AMRnet User Guide'
 
 html_copy_source = True
 
@@ -101,7 +102,7 @@ html_theme_options = {
     "use_source_button": True,
     "use_issues_button": True,
     "use_download_button": True,
-    "use_sidenotes": True,
+    "use_sidenotes": False,
     "show_toc_level": 4,
     "icon_links": [
         # {
@@ -169,6 +170,7 @@ html_theme_options = {
 #     ]
 # }
 
+autosectionlabel_prefix_document = True
 nb_execution_mode = "cache"
 thebe_config = {
     "repository_url": "https://github.com/binder-examples/jupyter-stacks-datascience",

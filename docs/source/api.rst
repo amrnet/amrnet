@@ -1,48 +1,142 @@
 Data access
-===============
+===========
 
 Summary about the data access etc.
 
+**Architetures**: The API architectures have 3 options developed for the project which includes:
+
+.. figure:: assets/api.jpg
+   :width: 100%
+   :align: center
+   :alt: api
+
+
+
 Download data via bucket
---------------------------
-Browser
-~~~~~~~
-Click on the root bucket URL (https://amrnet.s3.amazonaws.com/) to view an XML text representation of all the available files.
+------------------------
 
-Use Ctrl-F/Cmd-F to search the page with the name of the organism
+1. Data accessing using Browser
+*******************************
 
-Copy the root bucket URL into a new tab + / at the end of the URL and append the contents of the Key field (i.e. <Key>[file name]</Key> and your browser should automatically download it (tested in Chrome/Firefox/Safari)
+Viewing Available Files:
+~~~~~~~~~~~~~~~~~~~~~~~~
+* Step 1: Open a web browser (Chrome, Firefox, Safari, etc.).
+* Step 2: Navigate to the root bucket URL by entering ``https://amrnet.s3.amazonaws.com/`` into the browser's address bar and pressing Enter.
+* Step 3: This URL leads to an XML text representation listing all the files available in the Amazon S3 bucket. The XML format will display information about each file, such as its key (name), last modified date, size, etc.
 
-Command line
-~~~~~~~~~~~~
+Searching for a Specific Organism:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Step 1: Use the search functionality of your browser (Ctrl-F on Windows/Linux or Cmd-F on Mac).
+* Step 2: Type the name of the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism.
+
+Downloading a File:
+~~~~~~~~~~~~~~~~~~~
+* Step 1: Once you find the ``<Key>`` field that contains the file name you are interested in, note down the file name.
+* Step 2: Open a new tab in your browser.
+* Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com/`` into the new tab's address bar.
+* Step 4: Append a slash ``/`` to the end of the URL, followed by the contents of the ``<Key>`` field (file name).
+* Step 5: Press Enter, and your browser should automatically start downloading the file. This method has been tested to work in Chrome, Firefox, and Safari.
+
+2. Data accessing using Command line
+************************************
+
+Getting the complete list of files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Step 1: Install ``xq``, a command-line tool for parsing XML from the ``yq`` toolset. The installation instructions vary depending on your operating system but typically involve using a package manager like ``brew`` on macOS or ``apt`` on Ubuntu.
+* Step 2: Use ``curl`` to fetch the XML representation of the file list from the S3 bucket and pipe it to ``xq`` to parse and extract the keys (file names). The command looks like this:
+
+.. code-block:: bash    
+    
+    curl -H "Authorization: Token 19okmz5k0i6yk17jp70jlnv91v" https://docs.example.com/en/latest/example.html
+
+* Explanation: ``curl`` retrieves the XML data from the URL. The ``|`` symbol pipes this data into ``xq``, which parses the XML and extracts the file names, displaying them in the terminal.
+
+Downloading a single file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Step 1: Install ``jq``, a command-line tool for parsing JSON. Like ``xq``, installation instructions will vary based on your operating system.
+* Step 2: Use ``curl`` to download the file by constructing the URL with the file name. The command for downloading a file named ``pathogenwatch-styphi-07lsscrbhu2x-public-genomes-amr-genes.csv`` is:
+
+For example:
 
 .. code-block:: bash
 
-    1. Getting the complete list of files.
-    xq is a tool for parsing XML from the yq set of tools. It can be easily installed for most systems.
+    curl -H "Authorization: Token 19okmz5k0i6yk17jp70jlnv91v" https://docs.example.com/en/latest/example.html
 
-    curl https://https://amrnet.s3.amazonaws.com/ | xq '.ListBucketResult.Contents[].Key'
+* Explanation: 
+    * ``curl -O`` is used to download the file and save it with its original name.
+    * ``$( ... )`` executes the command inside the parentheses and substitutes its output into the URL.
+    * ``printf "file_name"`` outputs the file name.
+    * ``|`` pipes this file name into ``jq``, which converts the file name into a URI-encoded string (handling any special characters appropriately).
+    * The complete URL is then passed to ``curl``, which downloads the file from the S3 bucket.
 
-    2. Downloading a single file
-    jq is a tool for parsing JSON files on the command line. It can also be easily installed on most systems.
+By following these steps, you can efficiently search for and download specific files from the S3 bucket using both a web browser and the command line.
 
-    Note: substitute the file name you wish to download into the command below.
+3. Data accessing using Using S3cmd tool
+****************************************
 
-    curl -O https://https://amrnet.s3.amazonaws.com//$( printf "pathogenwatch-styphi-07lsscrbhu2x-public-genomes-amr-genes.csv" | jq -sRr '@uri )'
+The ``s3cmd`` tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
 
-Using S3cmd tool
-~~~~~~~~~~~~~~~~~
+AMRnet API
+----------
 
-The easiest tool for working with S3 buckets is the s3cmd tool. It supports browsing, downloading and syncing from S3 buckets in general.
+API command line
+********************
 
-API 
-----
-SaaS
-~~~~
-GUI
-~~~~
+To download data using our API, please follow the given steps:, 
+Request API token from amrnet.api@gmail.com with the email.
+Once you have API token:Replace this key with ``<API_KEY>``
+
+For example:
+
+*One sample*
+
+.. code-block:: bash
+
+            curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-qdikagn/endpoint/data/v1/action/find'\
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"Cluster0",
+                "projection": {"_id": 1}
+            }'
+
+
+*Multiple samples*
+
+.. code-block:: bash
+
+API Postman
+******************
+
+Steps to Import the Example ``cURL`` Command in Postman
+    
+1. Open Postman.
+2. Sign In with your credentials.
+3. Click the "Import" button.
+4. In the Import modal, select "Raw Text".
+5. Paste the cURL command:
+
+.. code-block:: bash
+
+    curl -X GET "https://api.example.com/data" -H "accept: application/json"
+    
+
+5. Click "Continue", then "Import".
+6. Review the imported request details in Postman.
+7. Click "Send" to execute the request and view the response.
+
+
+Via GUI
+********
+
 Request API token
 -----------------
-Update automatically the token
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Request API token from ``amrnet.api@gmail.com`` with the email.
+
+Update automatically the token
+******************************
