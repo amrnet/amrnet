@@ -80,16 +80,30 @@ The ``s3cmd`` tool is a versatile and powerful command-line utility designed to 
 AMRnet API
 ----------
 
+Send an email to amrnet.api@gmail.com requesting an API token.
+
 API command line
 ********************
 
-To download data using our API, please follow the given steps:, 
-Request API token from amrnet.api@gmail.com with the email.
-Once you have API token:Replace this key with ``<API_KEY>``
+To download data using our API, please follow the given steps:
+
+1. Once you have API token, Replace ``<API_KEY>`` in the following command with the actual API token you received.
+2. Determine the specific database and collection you need data from. 
+
+database and collection list to choose from:
+
+* Organism: Diarrheagenic E. coli; database: ``decoli``; collection: ``merge_rawdata_dec``
+.. * Organism: ; database: ecoli; collection: merge_rawdata_ec
+* Organism: Klebsiella pneumoniae; database: ``kpneumo``; collection: ``merge_rawdata_kp``
+* Organism: Neisseria gonorrhoeae; database: ``ngono``; collection: ``merge_rawdata_ng``
+.. * Organism: ; database: senterica; collection: merge_rawdata_se
+* Organism: Invasive non-typhoidal Salmonella'; database: ``sentericaints``; collection: ``merge_rawdata_seints``
+* Organism: Shigella + EIEC; database: ``shige``; collection: ``merge_rawdata_sh``
+* Organism: Salmonella Typhi; database: ``styphi``; collection: ``merge_rawdata_st``
+
+3. Open your command line interface (CLI) or terminal and execute the following curl command to download data.
 
 For example:
-
-*One sample*
 
 .. code-block:: bash
 
@@ -100,14 +114,10 @@ For example:
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"Cluster0",
-                "projection": {"_id": 1}
+                "dataSource":"<Cluster>"
             }'
 
-
-*Multiple samples*
-
-.. code-block:: bash
+4. If you want to save the response data to a file, you can use the -o option with curl. This command will save the response data to a file named data.json in the current directory.
 
 API Postman
 ******************
