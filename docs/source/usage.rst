@@ -1,14 +1,35 @@
-Dashboard User Guide
+Dashboard User guide
 ====================
 
-Overview
+Dashboard overview
 ------------------
 
 **Header**: Use the menu to **select a species or pathogen group** to display. Each pathogen has its own dashboard configuration that is customised to show genotypes, resistances and other relevant parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected dashboard. 
 
-**Map**: Use the menu on the right to **select a variable to display per-country summary data** on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the **filters on the left** to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed, otherwise it will be coloured grey to indicate insufficient data. 
+.. figure:: screencaptures/header.png
+   :width: 100%
+   :align: center
+   :alt: header
+
+Header
+
+**Map**: Use the menu on the right to **select a variable to display per-country summary data** on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the **filters on the left** to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed, otherwise it will be coloured grey to indicate insufficient data.
+
+.. figure:: screencaptures/map.png
+   :width: 100%
+   :align: center
+   :alt: map
+
+Map
 
 Filters set in this panel apply not only to the map, but to all plots on the page. **Clicking on a country in the map** also functions as a filter, so that subsequent plots reflect data for the selected country only. 
+
+.. figure:: screencaptures/filter.png
+   :width: 100%
+   :align: center
+   :alt: filter
+
+Filter
 
 **Detailed plots**: These are intended to show country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters. The heading below the map summarizes the current filter set applied to all plots, and provides another opportunity to select a focus country. Below this are a series of tabs, one per available plot. **Click a tab title to open/close the plotting area**. The specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below). 
 
@@ -18,16 +39,25 @@ Each plot has a dynamic legend to the right; click on an x-axis value to display
 
 **Downloads**: At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’). Please note PDF reports are not yet available for all organisms, they will be added in future updates.
 
+.. figure:: screencaptures/downloads.png
+   :width: 100%
+   :align: center
+   :alt: downloads
+
+Downloads
+
+
+
 .. note:: 
    Please note PDF reports are not yet available for all organisms, they will be added in future updates.
 
-Individual pathogen
--------------------
+Individual pathogen details
+---------------------------
 
 *Salmonella* Typhi
 ~~~~~~~~~~~~~~~~~~
 
-*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`_, which calls AMR and `GenoTyphi<https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
+*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`_, which calls AMR and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
 
 **Variable definitions**
 
@@ -51,7 +81,7 @@ Individual pathogen
 **Variable definitions**
 
 - **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_.
-- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here<https://doi.org/10.1038/s41467-021-24448-3>`_.
+- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`_.
 
 **Abbreviations**
 
