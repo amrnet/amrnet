@@ -11,7 +11,6 @@ Summary about the data access etc.
    :alt: api
 
 
-
 Download data via bucket
 ------------------------
 
@@ -77,10 +76,10 @@ By following these steps, you can efficiently search for and download specific f
 
 The ``s3cmd`` tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
 
-AMRnet API
-----------
+API
+-----
 
-API command line
+Command line
 ********************
 
 To download data using our API, please follow the given steps:, 
@@ -109,8 +108,10 @@ For example:
 
 .. code-block:: bash
 
-API Postman
-******************
+Platform
+********
+
+.. TODO: add a note to user other tool.
 
 Steps to Import the Example ``cURL`` Command in Postman
     
@@ -130,13 +131,13 @@ Steps to Import the Example ``cURL`` Command in Postman
 7. Click "Send" to execute the request and view the response.
 
 
-Via GUI
-********
+Graphical User Interface (GUI)
+******************************
 
-Request API token
+Request API Token
 -----------------
 
-Request API token from ``amrnet.api@gmail.com`` with the email.
+Request API Token from ``amrnet.api@gmail.com`` with the email.
 
 Update automatically the token
 ******************************
