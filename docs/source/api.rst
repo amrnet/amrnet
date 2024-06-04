@@ -81,13 +81,6 @@ API
 
 Send an email to amrnet.api@gmail.com requesting an API token.
 
-Command line
-************
-
-To download data using our API, please follow the given steps:
-
-1. Once you have API token, Replace ``<API_KEY>`` in the following command with the actual API token you received.
-2. Determine the specific database and collection you need data from. 
 
 database and collection list to choose from:
 
@@ -98,6 +91,13 @@ database and collection list to choose from:
 * Organism: Shigella + EIEC; database: ``shige``; collection: ``merge_rawdata_sh``
 * Organism: Salmonella Typhi; database: ``styphi``; collection: ``merge_rawdata_st``
 
+Command line
+************
+
+To download data using our API, please follow the given steps:
+
+1. Once you have API token, Replace ``<API_KEY>`` in the following command with the actual API token you received.
+2. Determine the specific database and collection you need data from. 
 3. Open your command line interface (CLI) or terminal and execute the following curl command to download data.
 
 For example:
@@ -200,12 +200,4 @@ EXAMPLE
    :alt: save
 
 Graphical User Interface (GUI)
-******************************
-
-Request API Token
------------------
-
-Request API Token from ``amrnet.api@gmail.com`` with the email.
-
-Update automatically the token
 ******************************
