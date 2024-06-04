@@ -79,16 +79,28 @@ The ``s3cmd`` tool is a versatile and powerful command-line utility designed to 
 API
 -----
 
-Command line
-********************
+Send an email to amrnet.api@gmail.com requesting an API token.
 
-To download data using our API, please follow the given steps:, 
-Request API token from amrnet.api@gmail.com with the email.
-Once you have API token:Replace this key with ``<API_KEY>``
+Command line
+************
+
+To download data using our API, please follow the given steps:
+
+1. Once you have API token, Replace ``<API_KEY>`` in the following command with the actual API token you received.
+2. Determine the specific database and collection you need data from. 
+
+database and collection list to choose from:
+
+* Organism: Diarrheagenic E. coli; database: ``decoli``; collection: ``merge_rawdata_dec``
+* Organism: Klebsiella pneumoniae; database: ``kpneumo``; collection: ``merge_rawdata_kp``
+* Organism: Neisseria gonorrhoeae; database: ``ngono``; collection: ``merge_rawdata_ng``
+* Organism: Invasive non-typhoidal Salmonella'; database: ``sentericaints``; collection: ``merge_rawdata_seints``
+* Organism: Shigella + EIEC; database: ``shige``; collection: ``merge_rawdata_sh``
+* Organism: Salmonella Typhi; database: ``styphi``; collection: ``merge_rawdata_st``
+
+3. Open your command line interface (CLI) or terminal and execute the following curl command to download data.
 
 For example:
-
-*One sample*
 
 .. code-block:: bash
 
@@ -99,37 +111,93 @@ For example:
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"Cluster0",
-                "projection": {"_id": 1}
+                "dataSource":"<Cluster>"
             }'
 
-
-*Multiple samples*
-
-.. code-block:: bash
+4. If you want to save the response data to a file, you can use the -o option with curl. This command will save the response data to a file named data.json in the current directory.
 
 Platform
 ********
+.. note::
 
-.. TODO: add a note to user other tool.
+    Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API.
 
-Steps to Import the Example ``cURL`` Command in Postman
+Steps to Import the Example ``cURL`` Command using Postman
     
-1. Open Postman.
-2. Sign In with your credentials.
+1. Open `Postman <https://www.postman.com/>`_.
+2. Sign In with your credentials and "discover what a postman can do"
+
+.. figure:: assets/login_postman.png
+   :width: 100%
+   :align: center
+   :alt: Login
+
 3. Click the "Import" button.
-4. In the Import modal, select "Raw Text".
-5. Paste the cURL command:
+
+.. figure:: assets/import_postman.png
+   :width: 100%
+   :align: center
+   :alt: Import
+
+
+5. Paste the cURL command in Import:
+
+.. figure:: assets/curl_postman.png
+   :width: 100%
+   :align: center
+   :alt: CURL
 
 .. code-block:: bash
 
-    curl -X GET "https://api.example.com/data" -H "accept: application/json"
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"Cluster1"
+            }'
+
     
+6. Review the imported request details and add ``<API_KEY>``in ``Headers`` in Postman.
+7. Replace database name and collection name based on data to download
+8. Add filters to get specific data in ``filter``
 
-5. Click "Continue", then "Import".
-6. Review the imported request details in Postman.
-7. Click "Send" to execute the request and view the response.
+.. figure:: assets/sample_postman.png
+   :width: 100%
+   :align: center
+   :alt: filter
 
+EXAMPLE 
+
+.. code-block:: bash
+
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"<Cluster>"
+                "filter": "filter": {"$and": [{"DATE": "2015"},{"LOCATION": "Blantyre"}]}
+            }'
+
+
+9. Click "Send" to execute the request and view the response. 
+
+.. figure:: assets/send_postman.png
+   :width: 100%
+   :align: center
+   :alt: send
+
+10. Save the response in file
+
+.. figure:: assets/save_postman.png
+   :width: 100%
+   :align: center
+   :alt: save
 
 Graphical User Interface (GUI)
 ******************************
