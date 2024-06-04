@@ -15,7 +15,6 @@ sphinx_examples
 sphinx-tabs
 sphinx-thebe
 sphinx-togglebutton
-sphinxcontrib.programoutput
 recommonmark
 arrow==1.1.1
 asgiref==3.4.1
