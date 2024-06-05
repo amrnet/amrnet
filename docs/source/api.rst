@@ -74,7 +74,7 @@ By following these steps, you can efficiently search for and download specific f
 3. Data accessing using Using S3cmd tool
 ****************************************
 
-The ``s3cmd`` tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
+The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
 
 API
 -----
@@ -104,14 +104,14 @@ For example:
 
 .. code-block:: bash
 
-            curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-qdikagn/endpoint/data/v1/action/find'\
+            curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find'\
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
             --header 'api-key: <API_KEY>' \
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"<Cluster>"
+                "dataSource":"ClusterAMRnet"
             }'
 
 4. If you want to save the response data to a file, you can use the -o option with curl. This command will save the response data to a file named data.json in the current directory.
@@ -156,7 +156,7 @@ Steps to Import the Example ``cURL`` Command using Postman
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"Cluster1"
+                "dataSource":"ClusterAMRnet"
             }'
 
     
