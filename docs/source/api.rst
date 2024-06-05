@@ -5,11 +5,56 @@ Summary about the data access etc.
 
 **Architetures**: The API architectures have 3 options developed for the project which includes:
 
-.. figure:: assets/api.jpg
+**OPTION 1:**
+
+.. figure:: assets/apiauth1.png
    :width: 100%
    :align: center
    :alt: api
 
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/apiauth2.png
+    :width: 100%
+    :align: center
+    :alt: api
+
+**OPTION 2:**
+
+.. figure:: assets/apidatalake1.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/apidatalake2.png
+    :width: 100%
+    :align: center
+    :alt: api
+
+**OPTION 3:**
+
+.. figure:: assets/apigui1.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/apigui2.png
+    :width: 100%
+    :align: center
+    :alt: api
 
 Download data via bucket
 ------------------------
