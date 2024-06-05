@@ -77,7 +77,7 @@ Downloading a File:
 ~~~~~~~~~~~~~~~~~~~
 * Step 1: Once you find the ``<Key>`` field that contains the file name you are interested in, note down the file name.
 * Step 2: Open a new tab in your browser.
-* Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com/`` into the new tab's address bar.
+* Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into the new tab's address bar.
 * Step 4: Append a slash ``/`` to the end of the URL, followed by the contents of the ``<Key>`` field (file name).
 * Step 5: Press Enter, and your browser should automatically start downloading the file. This method has been tested to work in Chrome, Firefox, and Safari.
 
