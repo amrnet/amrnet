@@ -59,6 +59,8 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 Download data via bucket
 ------------------------
 
+.. warning:: If you intend to frequently access data, please contact the AMRnet team at amrnet.api@gmail.com .
+
 1. Data accessing using Browser
 *******************************
 
@@ -91,7 +93,7 @@ Getting the complete list of files
 
 .. code-block:: bash    
     
-    curl -H "Authorization: Token 19okmz5k0i6yk17jp70jlnv91v" https://docs.example.com/en/latest/example.html
+    curl -H "Authorization: Token <API_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
 
 * Explanation: ``curl`` retrieves the XML data from the URL. The ``|`` symbol pipes this data into ``xq``, which parses the XML and extracts the file names, displaying them in the terminal.
 
@@ -99,13 +101,13 @@ Downloading a single file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Step 1: Install ``jq``, a command-line tool for parsing JSON. Like ``xq``, installation instructions will vary based on your operating system.
-* Step 2: Use ``curl`` to download the file by constructing the URL with the file name. The command for downloading a file named ``pathogenwatch-styphi-07lsscrbhu2x-public-genomes-amr-genes.csv`` is:
+* Step 2: Use ``curl`` to download the file by constructing the URL with the file name. The command for downloading a file named ``amrnet_<ORGAMISM>.csv`` is:
 
 For example:
 
 .. code-block:: bash
 
-    curl -H "Authorization: Token 19okmz5k0i6yk17jp70jlnv91v" https://docs.example.com/en/latest/example.html
+    curl -H "Authorization: Token <API_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
 
 * Explanation: 
     * ``curl -O`` is used to download the file and save it with its original name.
@@ -148,23 +150,39 @@ Example:
         Period: 2010 to 2020
 
 
-2. You will receive email from us with all the necessary detailed. like: **API_KEY, collection, database, dataSource**.
+2. You will receive email from us with all the necessary detailed. like: **API_TOKEN_KEY, collection, database, dataSource**.
 3. Once you received these details use the method below to download required data.
-4. To download data with specific country and period add a filed **filter**.
+4. To download data with specific country and period add a **filter**.
 
-EXAMPLE 
+Example code to download all the data for an organism:
 
 .. code-block:: bash
 
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
-            --header 'api-key: <API_KEY>' \
+            --header 'api-key: <API_TOKEN_KEY>' \
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>"
-                "filter": {"$and": [{"DATE": "2015"},{"LOCATION": "Blantyre"}]}
+            }'
+
+
+Example code to download the data with filters for an organism:
+
+
+.. code-block:: bash
+
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_TOKEN_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"<dataSource_NAME>"
+                "filter": {"$and": [{"DATE": "2015"},{"COUNTRY": "Blantyre"}]}
             }'
 
 .. database and collection list to choose from:
@@ -181,7 +199,7 @@ Command line
 
 To download data using our API, please follow the given steps:
 
-1. Once you have API token, Replace ``<API_KEY>`` in the following command with the actual API token you received.
+1. Once you have API token, Replace ``<API_TOKEN_KEY>`` in the following command with the actual API token you received.
 2. Determine the specific database and collection you need data from. 
 3. Open your command line interface (CLI) or terminal and execute the following curl command to download data.
 
@@ -192,7 +210,7 @@ For example:
             curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find'\
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
-            --header 'api-key: <API_KEY>' \
+            --header 'api-key: <API_TOKEN_KEY>' \
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
@@ -237,7 +255,7 @@ Steps to Import the Example ``cURL`` Command using Postman
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
-            --header 'api-key: <API_KEY>' \
+            --header 'api-key: <AAPI_TOKEN_KEY>' \
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
@@ -245,7 +263,7 @@ Steps to Import the Example ``cURL`` Command using Postman
             }'
 
     
-6. Review the imported request details and add ``<API_KEY>``in ``Headers`` in Postman.
+6. Review the imported request details and add ``<API_TOKEN_KEY>``in ``Headers`` in Postman.
 7. Replace database name and collection name based on data to download
 8. Add filters to get specific data in ``filter``
 
