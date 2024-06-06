@@ -1,6 +1,7 @@
 Data access
 ===========
 
+The full sample-level data for each organism can be downloaded from the AMRnet dashboard itself, using the ‘Download database (CSV) format’ button at the bottom of the page. In addition, you can access AMRnet data via the API described below.
 
 **Architetures**: The API architectures have 3 options developed for the project which includes:
 
@@ -123,17 +124,57 @@ The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful comman
 API
 -----
 
-Send an email to amrnet.api@gmail.com requesting an API token.
+1. Send an email to amrnet.api@gmail.com requesting an API token. 
+Include details like:
+
+**Organism name**, 
+
+**Specific Country or All**, 
+
+**Specific Date/Period (starting and Ending year) or All**
+
+Example:
+
+.. code-block:: bash
+
+        Subject: Request for API Token
+
+.. code-block:: bash
+
+        I am writing to request an API token for accessing the AMRnet database. Below are the specific details for my request:
+
+        Organism Name: Escherichia coli
+        Country: United Kingdom
+        Period: 2010 to 2020
 
 
-database and collection list to choose from:
+2. You will receive email from us with all the necessary detailed. like: **API_KEY, collection, database, dataSource**.
+3. Once you received these details use the method below to download required data.
+4. To download data with specific country and period add a filed **filter**.
 
-* Organism: Diarrheagenic E. coli; database: ``decoli``; collection: ``merge_rawdata_dec``
-* Organism: Klebsiella pneumoniae; database: ``kpneumo``; collection: ``merge_rawdata_kp``
-* Organism: Neisseria gonorrhoeae; database: ``ngono``; collection: ``merge_rawdata_ng``
-* Organism: Invasive non-typhoidal Salmonella'; database: ``sentericaints``; collection: ``merge_rawdata_seints``
-* Organism: Shigella + EIEC; database: ``shige``; collection: ``merge_rawdata_sh``
-* Organism: Salmonella Typhi; database: ``styphi``; collection: ``merge_rawdata_st``
+EXAMPLE 
+
+.. code-block:: bash
+
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"<dataSource_NAME>"
+                "filter": {"$and": [{"DATE": "2015"},{"LOCATION": "Blantyre"}]}
+            }'
+
+.. database and collection list to choose from:
+
+.. * Organism: Diarrheagenic E. coli; database: ``decoli``; collection: ``merge_rawdata_dec``
+.. * Organism: Klebsiella pneumoniae; database: ``kpneumo``; collection: ``merge_rawdata_kp``
+.. * Organism: Neisseria gonorrhoeae; database: ``ngono``; collection: ``merge_rawdata_ng``
+.. * Organism: Invasive non-typhoidal Salmonella'; database: ``sentericaints``; collection: ``merge_rawdata_seints``
+.. * Organism: Shigella + EIEC; database: ``shige``; collection: ``merge_rawdata_sh``
+.. * Organism: Salmonella Typhi; database: ``styphi``; collection: ``merge_rawdata_st``
 
 Command line
 ************
@@ -155,7 +196,7 @@ For example:
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"ClusterAMRnet"
+                "dataSource":"<dataSource_NAME>"
             }'
 
 4. If you want to save the response data to a file, you can use the -o option with curl. This command will save the response data to a file named data.json in the current directory.
@@ -200,7 +241,7 @@ Steps to Import the Example ``cURL`` Command using Postman
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"ClusterAMRnet"
+                "dataSource":"<dataSource_NAME>"
             }'
 
     
@@ -213,20 +254,7 @@ Steps to Import the Example ``cURL`` Command using Postman
    :align: center
    :alt: filter
 
-EXAMPLE 
 
-.. code-block:: bash
-
-    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
-            --header 'Content-Type: application/json' \
-            --header 'Access-Control-Request-Headers: *' \
-            --header 'api-key: <API_KEY>' \
-            --data-raw '{
-                "collection":"<COLLECTION_NAME>",
-                "database":"<DATABASE_NAME>",
-                "dataSource":"<Cluster>"
-                "filter": "filter": {"$and": [{"DATE": "2015"},{"LOCATION": "Blantyre"}]}
-            }'
 
 
 9. Click "Send" to execute the request and view the response. 
