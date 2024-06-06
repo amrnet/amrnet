@@ -185,14 +185,10 @@ Example code to download the data with filters for an organism:
                 "filter": {"$and": [{"DATE": "2015"},{"COUNTRY": "Blantyre"}]}
             }'
 
-.. database and collection list to choose from:
+.. note::
 
-.. * Organism: Diarrheagenic E. coli; database: ``decoli``; collection: ``merge_rawdata_dec``
-.. * Organism: Klebsiella pneumoniae; database: ``kpneumo``; collection: ``merge_rawdata_kp``
-.. * Organism: Neisseria gonorrhoeae; database: ``ngono``; collection: ``merge_rawdata_ng``
-.. * Organism: Invasive non-typhoidal Salmonella'; database: ``sentericaints``; collection: ``merge_rawdata_seints``
-.. * Organism: Shigella + EIEC; database: ``shige``; collection: ``merge_rawdata_sh``
-.. * Organism: Salmonella Typhi; database: ``styphi``; collection: ``merge_rawdata_st``
+    To test your cURL requests, you can use the online tool `Run Curl Commands Online <https://reqbin.com/curl>`_. This tool provides a convenient way to execute and test your cURL commands directly in your web browser without needing to install any additional software.
+
 
 Command line
 ************
@@ -265,7 +261,7 @@ Steps to Import the Example ``cURL`` Command using Postman
     
 6. Review the imported request details and add ``<API_TOKEN_KEY>``in ``Headers`` in Postman.
 7. Replace database name and collection name based on data to download
-8. **Add filters to get specific data in ``filter``**
+8. Add filters to get specific data in ``filter``
 
 .. figure:: assets/sample_postman.png
    :width: 100%
