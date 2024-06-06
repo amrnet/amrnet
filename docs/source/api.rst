@@ -1,7 +1,6 @@
 Data access
 ===========
 
-Summary about the data access etc.
 
 **Architetures**: The API architectures have 3 options developed for the project which includes:
 
