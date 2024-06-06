@@ -81,12 +81,3 @@ Bioinformatics
 ..    :alt: Dr Mary Maranga
 
 Mary is an expert in genomics and bioinformatics, and is leading bioinformatics code development for the AMRnet platform.
-
-
-
-.. toctree::
-
-   usage
-   api
-   database
-   architecture
