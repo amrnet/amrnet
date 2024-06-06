@@ -235,7 +235,7 @@ Steps to Import the Example ``cURL`` Command using Postman
    :align: center
    :alt: Login
 
-3. Click the "Import" button.
+3. **Click the "Import" button.**
 
 .. figure:: assets/import_postman.png
    :width: 100%
@@ -243,7 +243,7 @@ Steps to Import the Example ``cURL`` Command using Postman
    :alt: Import
 
 
-5. Paste the cURL command in Import:
+5. **Paste the cURL command in Import:**
 
 .. figure:: assets/curl_postman.png
    :width: 100%
@@ -265,7 +265,7 @@ Steps to Import the Example ``cURL`` Command using Postman
     
 6. Review the imported request details and add ``<API_TOKEN_KEY>``in ``Headers`` in Postman.
 7. Replace database name and collection name based on data to download
-8. Add filters to get specific data in ``filter``
+8. **Add filters to get specific data in ``filter``**
 
 .. figure:: assets/sample_postman.png
    :width: 100%
@@ -275,14 +275,14 @@ Steps to Import the Example ``cURL`` Command using Postman
 
 
 
-9. Click "Send" to execute the request and view the response. 
+9. **Click "Send" to execute the request and view the response.** 
 
 .. figure:: assets/send_postman.png
    :width: 100%
    :align: center
    :alt: send
 
-10. Save the response in file
+10. **Save the response in file**
 
 .. figure:: assets/save_postman.png
    :width: 100%
