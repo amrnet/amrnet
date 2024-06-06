@@ -50,7 +50,7 @@ extensions = [
     'sphinx_design',
     'sphinx_examples',
     'sphinx_tabs.tabs',
-    'sphinx_thebe',
+    # 'sphinx_thebe',
     'sphinx_togglebutton'
     
 ]
