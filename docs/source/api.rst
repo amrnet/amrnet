@@ -59,7 +59,7 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 Download data via bucket
 ------------------------
 
-.. warning:: If you intend to frequently access data, please contact the AMRnet team at amrnet.api@gmail.com .
+.. note:: If you intend to frequently access data, please contact the AMRnet team at amrnet.api@gmail.com .
 
 1. Data accessing using Browser
 *******************************

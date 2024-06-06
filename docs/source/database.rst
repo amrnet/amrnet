@@ -1,4 +1,0 @@
-Databases
-=========
-
-Under development!
