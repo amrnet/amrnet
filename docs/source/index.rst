@@ -23,6 +23,3 @@ Contents
 
    usage
    api
-   database
-   architecture
-   contact
