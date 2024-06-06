@@ -5,11 +5,56 @@ Summary about the data access etc.
 
 **Architetures**: The API architectures have 3 options developed for the project which includes:
 
-.. figure:: assets/api.jpg
+**OPTION 1:**
+
+.. figure:: assets/apiauth1.png
    :width: 100%
    :align: center
    :alt: api
 
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/apiauth2.png
+    :width: 100%
+    :align: center
+    :alt: api
+
+**OPTION 2:**
+
+.. figure:: assets/apidatalake1.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/apidatalake2.png
+    :width: 100%
+    :align: center
+    :alt: api
+
+**OPTION 3:**
+
+.. figure:: assets/apigui1.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+
+.. figure:: assets/apigui2.png
+    :width: 100%
+    :align: center
+    :alt: api
 
 Download data via bucket
 ------------------------
@@ -32,7 +77,7 @@ Downloading a File:
 ~~~~~~~~~~~~~~~~~~~
 * Step 1: Once you find the ``<Key>`` field that contains the file name you are interested in, note down the file name.
 * Step 2: Open a new tab in your browser.
-* Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com/`` into the new tab's address bar.
+* Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into the new tab's address bar.
 * Step 4: Append a slash ``/`` to the end of the URL, followed by the contents of the ``<Key>`` field (file name).
 * Step 5: Press Enter, and your browser should automatically start downloading the file. This method has been tested to work in Chrome, Firefox, and Safari.
 
@@ -74,20 +119,13 @@ By following these steps, you can efficiently search for and download specific f
 3. Data accessing using Using S3cmd tool
 ****************************************
 
-The ``s3cmd`` tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
+The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
 
 API
 -----
 
 Send an email to amrnet.api@gmail.com requesting an API token.
 
-Command line
-************
-
-To download data using our API, please follow the given steps:
-
-1. Once you have API token, Replace ``<API_KEY>`` in the following command with the actual API token you received.
-2. Determine the specific database and collection you need data from. 
 
 database and collection list to choose from:
 
@@ -98,20 +136,27 @@ database and collection list to choose from:
 * Organism: Shigella + EIEC; database: ``shige``; collection: ``merge_rawdata_sh``
 * Organism: Salmonella Typhi; database: ``styphi``; collection: ``merge_rawdata_st``
 
+Command line
+************
+
+To download data using our API, please follow the given steps:
+
+1. Once you have API token, Replace ``<API_KEY>`` in the following command with the actual API token you received.
+2. Determine the specific database and collection you need data from. 
 3. Open your command line interface (CLI) or terminal and execute the following curl command to download data.
 
 For example:
 
 .. code-block:: bash
 
-            curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-qdikagn/endpoint/data/v1/action/find'\
+            curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find'\
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
             --header 'api-key: <API_KEY>' \
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"<Cluster>"
+                "dataSource":"ClusterAMRnet"
             }'
 
 4. If you want to save the response data to a file, you can use the -o option with curl. This command will save the response data to a file named data.json in the current directory.
@@ -156,7 +201,7 @@ Steps to Import the Example ``cURL`` Command using Postman
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"Cluster1"
+                "dataSource":"ClusterAMRnet"
             }'
 
     
@@ -200,12 +245,4 @@ EXAMPLE
    :alt: save
 
 Graphical User Interface (GUI)
-******************************
-
-Request API Token
------------------
-
-Request API Token from ``amrnet.api@gmail.com`` with the email.
-
-Update automatically the token
 ******************************
