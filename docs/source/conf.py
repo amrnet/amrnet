@@ -105,7 +105,7 @@ html_theme_options = {
     "use_issues_button": True,
     "use_download_button": True,
     "use_sidenotes": False,
-    "show_toc_level": 4,
+    "show_toc_level": 5,
     "icon_links": [
         # {
         #     "name": "jupyterlab",
