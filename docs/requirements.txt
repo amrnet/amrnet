@@ -13,6 +13,7 @@ sphinx-copybutton
 sphinx-design
 sphinx_examples
 sphinx-tabs
+sphinx-thebe
 sphinx-togglebutton
 recommonmark
 arrow==1.1.1
