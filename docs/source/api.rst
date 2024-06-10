@@ -61,6 +61,17 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
 .. note:: If you intend to frequently access data, please contact the AMRnet team at amrnet.api@gmail.com .
 
+
+.. note:: **Organism name for downloading files from AWS:** 
+    Diarrheagenic E. coli as ``decoli``; 
+    Escherichia coli as ``ecoli``; 
+    Klebsiella pneumoniae as ``kpneumo``; 
+    Neisseria gonorrhoeae as ``ngono``; 
+    Invasive non-typhoidal Salmonella as ``sentericaints``; 
+    Shigella as ``shige``; 
+    Salmonella Typhi as ``styphi``
+
+
 a. Data accessing using Browser
 ******************************************
 
@@ -74,16 +85,6 @@ ii. Searching for a Specific Organism
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Step 1: Use the search functionality of your browser (Ctrl-F on Windows/Linux or Cmd-F on Mac).
 * Step 2: Type the name of file based on the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism.
-
-.. note::
-
-    Diarrheagenic E. coli as ``decoli``; 
-    Escherichia coli as ``ecoli``; 
-    Klebsiella pneumoniae as ``kpneumo``; 
-    Neisseria gonorrhoeae as ``ngono``; 
-    Invasive non-typhoidal Salmonella as ``sentericaints``; 
-    Shigella as ``shige``; 
-    Salmonella Typhi as ``styphi``
 
 iii. Downloading a File
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,7 +114,7 @@ i. Getting the complete list of files
 
 .. code-block:: bash    
     
-    curl -H "Authorization: Token <API_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
+    curl -H "Authorization: Token <AWS_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
 
 * Explanation: ``curl`` retrieves the XML data from the URL. The ``|`` symbol pipes this data into ``xq``, which parses the XML and extracts the file names, displaying them in the terminal.
 
@@ -127,7 +128,7 @@ For example:
 
 .. code-block:: bash
 
-    curl -H "Authorization: Token <API_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
+    curl -H "Authorization: Token <AWS_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
 
 * Explanation: 
     * ``curl -O`` is used to download the file and save it with its original name.
