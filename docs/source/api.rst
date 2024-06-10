@@ -3,7 +3,7 @@ Data access
 
 The full sample-level data for each organism can be downloaded from the AMRnet dashboard itself, using the ‘Download database (CSV) format’ button at the bottom of the page. In addition, you can access AMRnet data via the API described below.
 
-**Architectures**: The API architectures have 3 options developed for the project which includes:
+**Architectures**: The API architectures have 2 options developed for the project which includes:
 
 .. **OPTION 1:**
 
@@ -61,19 +61,30 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
 .. note:: If you intend to frequently access data, please contact the AMRnet team at amrnet.api@gmail.com .
 
+
+.. note:: **Organism name for downloading files from AWS:** 
+    Diarrheagenic E. coli as ``decoli``; 
+    Escherichia coli as ``ecoli``; 
+    Klebsiella pneumoniae as ``kpneumo``; 
+    Neisseria gonorrhoeae as ``ngono``; 
+    Invasive non-typhoidal Salmonella as ``sentericaints``; 
+    Shigella as ``shige``; 
+    Salmonella Typhi as ``styphi``
+
+
 a. Data accessing using Browser
 ******************************************
 
 i. Viewing Available Files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Step 1: Open a web browser (Chrome, Firefox, Safari, etc.).
-* Step 2: Navigate to the root bucket URL by entering ``https://amrnet.s3.amazonaws.com/`` into the browser's address bar and pressing Enter.
+* Step 2: Navigate to the root bucket URL by clicking `https://amrnet.s3.amazonaws.com/ <https://amrnet.s3.amazonaws.com/>`_.
 * Step 3: This URL leads to an XML text representation listing all the files available in the Amazon S3 bucket. The XML format will display information about each file, such as its key (name), last modified date, size, etc.
 
 ii. Searching for a Specific Organism
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Step 1: Use the search functionality of your browser (Ctrl-F on Windows/Linux or Cmd-F on Mac).
-* Step 2: Type the name of the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism.
+* Step 2: Type the name of file based on the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism.
 
 iii. Downloading a File
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,6 +93,16 @@ iii. Downloading a File
 * Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into the new tab's address bar.
 * Step 4: Append a slash ``/`` to the end of the URL, followed by the contents of the ``<Key>`` field (file name).
 * Step 5: Press Enter, and your browser should automatically start downloading the file. This method has been tested to work in Chrome, Firefox, and Safari.
+
+**OR**
+
+* Copy the URL below and modify the organism name added at the end **amrnet-** ``decoli`` **.csv** based on organism list given above.
+
+Example: 
+
+.. code-block:: bash
+
+    https://amrnet.s3.amazonaws.com/amrnet-latest/amrnet-decoli.csv
 
 b. Data accessing using Command line
 ************************************************
@@ -93,7 +114,7 @@ i. Getting the complete list of files
 
 .. code-block:: bash    
     
-    curl -H "Authorization: Token <API_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
+    curl -H "Authorization: Token <AWS_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
 
 * Explanation: ``curl`` retrieves the XML data from the URL. The ``|`` symbol pipes this data into ``xq``, which parses the XML and extracts the file names, displaying them in the terminal.
 
@@ -107,7 +128,7 @@ For example:
 
 .. code-block:: bash
 
-    curl -H "Authorization: Token <API_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
+    curl -H "Authorization: Token <AWS_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
 
 * Explanation: 
     * ``curl -O`` is used to download the file and save it with its original name.
@@ -156,7 +177,7 @@ Example code to download all the data for an organism:
 
 .. code-block:: bash
 
-    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
             --header 'api-key: <API_TOKEN_KEY>' \
@@ -172,7 +193,7 @@ Example code to download the data with filters **DATE** and **COUNTRY** for an o
 
 .. code-block:: bash
 
-    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
             --header 'api-key: <API_TOKEN_KEY>' \
@@ -180,7 +201,7 @@ Example code to download the data with filters **DATE** and **COUNTRY** for an o
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>"
-                "filter": {"$and": [{"DATE": "2015"},{"COUNTRY": "Blantyre"}]}
+                "filter": {"$and": [{"DATE": "2015"},{"COUNTRY": "United Kingdom"}]}
             }'
 
 Example code to download the data with only one filter e.g. **DATE** for an organism:
@@ -188,7 +209,7 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
 
 .. code-block:: bash
 
-    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/findOne' \
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
             --header 'api-key: <API_TOKEN_KEY>' \
@@ -245,7 +266,7 @@ Steps to Import the Example ``cURL`` Command using Postman
    :align: center
    :alt: CURL
     
-6. Review the imported request details and add ``<API_TOKEN_KEY>``in ``Headers`` in Postman.
+6. Review the imported request details and add ``<API_TOKEN_KEY>`` in ``Headers`` in Postman.
 7. Replace database name and collection name based on data to download
 8. Add filters to get specific data in ``filter``
 
@@ -271,5 +292,5 @@ Steps to Import the Example ``cURL`` Command using Postman
    :align: center
    :alt: save
 
-3. Graphical User Interface (GUI)
----------------------------------
+.. 3. Graphical User Interface (GUI)
+.. ---------------------------------
