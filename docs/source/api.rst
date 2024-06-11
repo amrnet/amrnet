@@ -59,7 +59,6 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 1. Download data via bucket
 ---------------------------
 
-.. note:: If you intend to frequently access data, please contact the AMRnet team at amrnet.api@gmail.com .
 
 
 .. note:: **Organism name for downloading files from AWS:** 
@@ -148,13 +147,6 @@ The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful comman
 ------------------------
 
 1. Send an email to amrnet.api@gmail.com requesting an API token. 
-Include details like:
-
-**Organism name**, 
-
-.. **Specific Country or All**, 
-
-.. **Specific Date/Period (starting and Ending year) or All**
 
 Example:
 
