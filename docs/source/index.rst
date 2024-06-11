@@ -1,4 +1,4 @@
-Welcome to AMRnet Dashboard Guide!
+AMRnet Dashboard Documentation
 ===================================
 The `AMRnet dashboard <https://www.amrnet.org/>`_ aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.
 
@@ -9,7 +9,8 @@ A major barrier to using public data for surveillance is the need for careful da
 Find out more about the project team (based at London School of Hygiene and Tropical Medicine), and our policy advisory group, `here <https://www.lshtm.ac.uk/amrnet>`__.
 
 
-The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_. Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__. An API is coming soon!
+The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_. Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__. API access is described on the :doc:`/api` page.
+
 
 Citation for AMRnet
 -------------------
