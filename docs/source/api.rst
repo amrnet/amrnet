@@ -106,37 +106,26 @@ Example:
 b. Data accessing using Command line
 ************************************************
 
-i. Getting the complete list of files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Step 1: Install ``xq``, a command-line tool for parsing XML from the ``yq`` toolset. The installation instructions vary depending on your operating system but typically involve using a package manager like ``brew`` on macOS or ``apt`` on Ubuntu.
-* Step 2: Use ``curl`` to fetch the XML representation of the file list from the S3 bucket and pipe it to ``xq`` to parse and extract the keys (file names). The command looks like this:
+* Step 1: Open your terminal.
+* Step 2: Use the following command to download data from the provided URL:
 
 .. code-block:: bash    
     
-    curl -H "Authorization: Token <AWS_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
+    curl -O https://amrnet.s3.amazonaws.com/
 
-* Explanation: ``curl`` retrieves the XML data from the URL. The ``|`` symbol pipes this data into ``xq``, which parses the XML and extracts the file names, displaying them in the terminal.
-
-ii. Downloading a single file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-* Step 1: Install ``jq``, a command-line tool for parsing JSON. Like ``xq``, installation instructions will vary based on your operating system.
-* Step 2: Use ``curl`` to download the file by constructing the URL with the file name. The command for downloading a file named ``amrnet_<ORGAMISM>.csv`` is:
-
-For example:
+Similarly, if you need to download a specific file from the URL, you would specify the file name in the URL. For example:
 
 .. code-block:: bash
 
-    curl -H "Authorization: Token <AWS_TOKEN_KEY>" https://docs.example.com/en/latest/example.html
+    curl -O https://amrnet.s3.amazonaws.com/filename
 
-* Explanation: 
-    * ``curl -O`` is used to download the file and save it with its original name.
-    * ``$( ... )`` executes the command inside the parentheses and substitutes its output into the URL.
-    * ``printf "file_name"`` outputs the file name.
-    * ``|`` pipes this file name into ``jq``, which converts the file name into a URI-encoded string (handling any special characters appropriately).
-    * The complete URL is then passed to ``curl``, which downloads the file from the S3 bucket.
 
-By following these steps, you can efficiently search for and download specific files from the S3 bucket using both a web browser and the command line.
+Example:
+
+.. code-block:: bash
+
+    curl -O https://amrnet.s3.amazonaws.com/amrnet-latest/amrnet-shige.csv
+
 
 c. Data accessing using Using S3cmd tool 
 ***************************************************
