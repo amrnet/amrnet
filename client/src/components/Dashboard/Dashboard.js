@@ -437,7 +437,7 @@ console.log("yearsData.uniqueGenotypes", (yearsData.uniqueGenotypes).length);
 
 
   return (
-    <MainLayout isHomePage>
+    <MainLayout >
       <Note />
       <Map />
       <SelectCountry />
