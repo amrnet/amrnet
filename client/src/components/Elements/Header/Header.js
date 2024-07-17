@@ -54,14 +54,14 @@ export const Header = ({ showSelect }) => {
                 </Link>
 
               </div>
-              {showSelect && <SelectOrganism />}
+              { <SelectOrganism />}
             </div>
-            {!showSelect && (
+            {/* {!showSelect && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
-            )}
-            {showSelect &&
+            )} */}
+            {
               (matches650 ? (
                 organism !== 'none' && (
                   <IconButton onClick={handleToggleCollapse}>
