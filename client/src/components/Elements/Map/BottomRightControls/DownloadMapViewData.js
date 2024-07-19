@@ -3,7 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 
 export const DownloadMapViewData = () => {
   const mapData = useAppSelector((state) => state.map.mapData);
-  console.log("mapData", mapData)
+  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
+  const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
 
   const downloadCSV = () => {
     if (Array.isArray(mapData) && mapData.length > 0) {
@@ -21,7 +22,8 @@ export const DownloadMapViewData = () => {
                             'Ciprofloxacin resistant',
                             'Carbapenemase prevalence',
                             'Sensitive to all drugs/Susceptible to class I/II drugs',
-                            'Genotype/Lineage/NG-MAST', ];
+                            `Genotype/Lineage ${customDropdownMapView}`,
+                            `NG-MAST ${customDropdownMapViewNG}` ];
 
       
 
@@ -30,24 +32,33 @@ export const DownloadMapViewData = () => {
       
       // Create CSV rows
       const rows = mapData.map((item) => {
-        const MDRCount = (item.stats && item.stats.MDR && item.stats.MDR.count)   ? item.stats.MDR.count  : 0;
-        const XDRCount = (item.stats && item.stats.XDR && item.stats.XDR.count)   ? item.stats.XDR.count  : 0;
-        const H58Count = (item.stats && item.stats.H58 && item.stats.H58.count)   ? item.stats.H58.count  : 0;
-        const CipRCount = (item.stats && item.stats.CipR && item.stats.CipR.count)   ? item.stats.CipR.count  : 0;
-        const CipNSCount = (item.stats && item.stats.CipNS && item.stats.CipNS.count)   ? item.stats.CipNS.count  : 0;
-        const AzithRCount = ((item.stats && item.stats.AzithR && item.stats.AzithR.count) ? item.stats.AzithR.count  : 0) || ((item.stats && item.stats.Azithromycin && item.stats.Azithromycin.count)   ? item.stats.Azithromycin.count  : 0) ;
-        const ESBLCount = (item.stats && item.stats.ESBL && item.stats.ESBL.count)   ? item.stats.ESBL.count  : 0;
-        // const ESBL_categoryCount = (item.stats && item.stats.ESBL_category && item.stats.ESBL_category.count)   ? item.stats.ESBL_category.count  : 0;
-        const CeftriaxoneCount = ((item.stats && item.stats.Ceftriaxone && item.stats.Ceftriaxone.count)   ? item.stats.Ceftriaxone.count  : 0) || ((item.stats && item.stats.ESBL_category && item.stats.ESBL_category.count)   ? item.stats.ESBL_category.count  : 0) ;
-        // const AzithromycinCount = (item.stats && item.stats.Azithromycin && item.stats.Azithromycin.count)   ? item.stats.Azithromycin.count  : 0;
-        const CiprofloxacinCount = (item.stats && item.stats.Ciprofloxacin && item.stats.Ciprofloxacin.count)   ? item.stats.Ciprofloxacin.count  : 0;
-        const CarbCount = (item.stats && item.stats.Carb && item.stats.Carb.count)   ? item.stats.Carb.count  : 0;
-        const SensitiveDrugsCount = (item.stats && item.stats.Susceptible && item.stats.Susceptible.count  )
-                ? item.stats.Susceptible.count
-                 : 0;
-        const Genotype = (item.stats && item.stats.GENOTYPE && item.stats.GENOTYPE.count)   ? item.stats.GENOTYPE.count  : 0;
+        const MDRCount = item.stats?.MDR?.count || 0;
+        const XDRCount = item.stats?.XDR?.count || 0;
+        const H58Count = item.stats?.H58?.count || 0;
+        const CipRCount = item.stats?.CipR?.count || 0;
+        const CipNSCount = item.stats?.CipNS?.count || 0;
+        const AzithRCount = item.stats?.AzithR?.count || item.stats?.Azithromycin?.count || 0;
+        const ESBLCount = item.stats?.ESBL?.count || 0;
+        const CeftriaxoneCount = item.stats?.Ceftriaxone?.count || item.stats?.ESBL_category?.count || 0;
+        const CiprofloxacinCount = item.stats?.Ciprofloxacin?.count || 0;
+        const CarbCount = item.stats?.Carb?.count || 0;
+        const SensitiveDrugsCount = item.stats?.Susceptible?.count || 0;
+        // const Genotype = item.stats.GENOTYPE.items.find((genotypeItem) => genotypeItem.name == customDropdownMapView)?.count || 0;
+        const genotypeCounts = customDropdownMapView.length > 0
+        ? customDropdownMapView.map((viewItem) => {
+          const genotypeItem = (item.stats?.GENOTYPE?.items.find((genotypeItem) => genotypeItem.name === viewItem));
+          console.log("genotype", genotypeItem ? genotypeItem.count : 0)
+          return genotypeItem ? genotypeItem.count : 0;
+        }).join(',')
+        : '0';
+       const NGMASTCounts = customDropdownMapViewNG.length > 0
+        ? customDropdownMapViewNG.map((viewItem) => {
+            const NGMASTItem = item.stats?.NGMAST?.items.find((NGMASTItem) => NGMASTItem.name === viewItem);
+            return NGMASTItem ? NGMASTItem.count : 0;
+            }).join(',')
+        : '0';
 
-        console.log("Susceptible",item.stats.Susceptible.count);
+        
         return [
           item.name,
           item.count || '',
@@ -64,7 +75,8 @@ export const DownloadMapViewData = () => {
           CiprofloxacinCount,
           CarbCount,
           SensitiveDrugsCount,
-          Genotype
+          genotypeCounts,
+          NGMASTCounts
         ].join(',');
       });
 
