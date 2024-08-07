@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { red } from "@mui/material/colors";
 import {DashboardPage} from '../../Dashboard';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {Footer} from '../Footer'
 
 
 const organisms = [
@@ -74,7 +75,7 @@ export const LandingPage = () =>{
     };
 
     return (
-    <MainLayout isHomePage>
+    <MainLayout  isLandingPage>
      
         <Card className={classes.card}>
             <CardContent className={classes.cardContent}>
@@ -121,7 +122,7 @@ export const LandingPage = () =>{
             </Carousel>
             </CardContent>
         </Card>
-     
+      <Footer />
     </MainLayout>
   );
 }
