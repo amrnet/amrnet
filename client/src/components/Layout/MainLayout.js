@@ -4,7 +4,7 @@ import { Header } from '../Elements/Header';
 import { useStyles } from './MainLayoutUI';
 import { useAppSelector } from '../../stores/hooks';
 
-export const MainLayout = ({ children, isHomePage = false }) => {
+export const MainLayout = ({ children, isHomePage = false, isLandingPage = false }) => {
   const classes = useStyles();
 
   const page = useAppSelector((state) => state.app.page);
@@ -14,7 +14,7 @@ export const MainLayout = ({ children, isHomePage = false }) => {
   return (
     <>
       <div className={classes.mainLayout} id="main-layout">
-        <Header showSelect={isHomePage} />
+        <Header showSelect={isHomePage} showSelect2={isLandingPage} />
         <div className={classes.childrenWrapper}>
           <div className={`${classes.children} ${page === 'home' ? '' : classes.otherPage}`}>{children}</div>
         </div>
