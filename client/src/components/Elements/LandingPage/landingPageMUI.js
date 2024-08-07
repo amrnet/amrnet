@@ -18,13 +18,22 @@ const useStyles = makeStyles((theme) => ({
   },
   teamMember: {
     width: 270,
-    height: 200,
+    // height: 200,
     // border:"2px solid purple",
     borderRadius: '5px',
-    padding: '20px',
+    // padding: '20px',
     margin: '20px !important',
-    backgroundColor: '#FCF5FA',
+    // backgroundColor: '#FCF5FA',
     textAlign: 'center',
+    // overflow: 'hidden',
+    position: 'relative',
+    display:'grid'
+  },
+  teamMemberImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: 5,
   },
   teamPost: {
     textAlign: 'center',
