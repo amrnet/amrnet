@@ -13,49 +13,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {Footer} from '../Footer'
 
 
-const organisms = [
-  {
-    label: 'Salmonella Typhi',
-    value: 'styphi',
-    abbr: 'S. Typhi',
-  },
-  {
-    label: 'Klebsiella pneumoniae',
-    value: 'kpneumo',
-    abbr: 'K. pneumoniae',
-  },
-  {
-    label: 'Neisseria gonorrhoeae',
-    value: 'ngono',
-    abbr: 'N. gonorrhoeae',
-  },
-  // {
-  //   label: 'Escherichia coli',
-  //   value: 'ecoli',
-  //   abbr: 'E. coli'
-  // },
-  {
-    label: 'Diarrheagenic E. coli',
-    value: 'decoli',
-    abbr: 'DEC',
-  },
-  {
-    label: 'Shigella + EIEC',
-    value: 'shige',
-    abbr: 'Shigella+EIEC',
-  },
-  {
-    label: 'Invasive non-typhoidal Salmonella',
-    value: 'sentericaints',
-    abbr: 'iNTS',
-  },
-  // {
-  //   label: 'Salmonella enterica',
-  //   value: 'senterica',
-  //   abbr: 'S. enterica'
-  // }
-];
-
 
 export const LandingPage = () =>{
     const navigate = useNavigate();
@@ -113,10 +70,18 @@ export const LandingPage = () =>{
                 {orgCard.map((member, index) => {
                 return (
                     <div className={classes.teamMember} key={`team-card-${index}`} onClick={() => handleClick(member.value)} >
+                      <img
+                          // srcSet={`${member.img}`}
+                          src={`${member.img}`}
+                          alt={member.title}
+                          loading="lazy"
+                          className={classes.teamMemberImg}
+                      />
                         <Typography sx={{ marginTop: "10px" }}>
                             {member.label}
                         </Typography>
                     </div>
+                    
                 )
                 })}
             </Carousel>
