@@ -5,79 +5,151 @@ export const DownloadMapViewData = () => {
   const mapData = useAppSelector((state) => state.map.mapData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
+  
 
   const downloadCSV = () => {
     if (Array.isArray(mapData) && mapData.length > 0) {
-      const HeaderList = ['Country', 'Total number of Count', 
-                            'Multidrug resistant (MDR)', 
-                            'Extensively drug resistant (XDR)', 
-                            'H58', 
-                            'Ciprofloxacin resistant (CipR)', 
-                            'Ciprofloxacin non-susceptible (CipNS)', 
-                            'Azithromycin resistant', 
-                            'ESBL prevalence', 
-                            'Ceftriaxone resistant',
-                            // 'Ceftriaxone resistant(ESBL_category)', 
-                            // 'Azithromycin resistant',
-                            'Ciprofloxacin resistant',
-                            'Carbapenemase prevalence',
-                            'Sensitive to all drugs/Susceptible to class I/II drugs',
-                            `Genotype/Lineage ${customDropdownMapView}`,
-                            `NG-MAST ${customDropdownMapViewNG}` ];
-
-      
+      const HeaderList = [
+                          'Country', 
+                          'Total number of Count', 
+                          'Multidrug resistant (MDR)',
+                          'Multidrug resistant (MDR) %', 
+                          'Extensively drug resistant (XDR)',
+                          'Extensively drug resistant (XDR) %',
+                          'H58', 
+                          'H58 %',
+                          'Ciprofloxacin resistant (CipR)', 
+                          'Ciprofloxacin resistant (CipR) %',
+                          'Ciprofloxacin non-susceptible (CipNS)', 
+                          'Ciprofloxacin non-susceptible (CipNS) %',
+                          'Azithromycin resistant', 
+                          'Azithromycin resistant %',
+                          'ESBL prevalence', 
+                          'ESBL prevalence %',
+                          'Ceftriaxone resistant',
+                          'Ceftriaxone resistant %',
+                          'Ciprofloxacin resistant',
+                          'Ciprofloxacin resistant %',
+                          'Carbapenemase prevalence',
+                          'Carbapenemase prevalence %',
+                          'Sensitive to all drugs/Susceptible to class I/II drugs',
+                          'Sensitive to all drugs/Susceptible to class I/II drugs %',
+                          `Genotype/Lineage ${customDropdownMapView}`,
+                          `Genotype/Lineage ${customDropdownMapView} %`,
+                          `NG-MAST ${customDropdownMapViewNG}`,
+                          `NG-MAST ${customDropdownMapViewNG} %`
+                        ];
 
       // Create CSV header row
       const headers = HeaderList.join(',');
       
       // Create CSV rows
-      const rows = mapData.map((item) => {
+      console.log("item", mapData.length, mapData)
+      const rows = mapData.filter((item) => Object.keys(item).length > 0).map((item) => {
+        
         const MDRCount = item.stats?.MDR?.count || 0;
+        const MDRPerCount = MDRCount < 20 ? 'insufficient' : (item.stats?.MDR?.percentage || 0);
+
         const XDRCount = item.stats?.XDR?.count || 0;
+        const XDRPerCount = XDRCount < 20 ? 'insufficient' : (item.stats?.XDR?.percentage || 0);
+
         const H58Count = item.stats?.H58?.count || 0;
+        const H58PerCount = H58Count < 20 ? 'insufficient' : (item.stats?.H58?.percentage || 0);
+
         const CipRCount = item.stats?.CipR?.count || 0;
+        const CipRPerCount = CipRCount < 20 ? 'insufficient' : (item.stats?.CipR?.percentage || 0);
+
         const CipNSCount = item.stats?.CipNS?.count || 0;
+        const CipNSPerCount = CipNSCount < 20 ? 'insufficient' : (item.stats?.CipNS?.percentage || 0);
+
         const AzithRCount = item.stats?.AzithR?.count || item.stats?.Azithromycin?.count || 0;
+        const AzithRPerCount = AzithRCount < 20 ? 'insufficient' : (item.stats?.AzithR?.percentage || item.stats?.Azithromycin?.percentage || 0);
+
         const ESBLCount = item.stats?.ESBL?.count || 0;
+        const ESBLPerCount = ESBLCount < 20 ? 'insufficient' : (item.stats?.ESBL?.percentage || 0);
+
         const CeftriaxoneCount = item.stats?.Ceftriaxone?.count || item.stats?.ESBL_category?.count || 0;
+        const CeftriaxonePerCount = CeftriaxoneCount < 20 ? 'insufficient' : (item.stats?.Ceftriaxone?.percentage || item.stats?.ESBL_category?.percentage || 0);
+
         const CiprofloxacinCount = item.stats?.Ciprofloxacin?.count || 0;
+        const CiprofloxacinPerCount = CiprofloxacinCount < 20 ? 'insufficient' : (item.stats?.Ciprofloxacin?.percentage || 0);
+
         const CarbCount = item.stats?.Carb?.count || 0;
+        const CarbPerCount = CarbCount < 20 ? 'insufficient' : (item.stats?.Carb?.percentage || 0);
+
         const SensitiveDrugsCount = item.stats?.Susceptible?.count || 0;
-        // const Genotype = item.stats.GENOTYPE.items.find((genotypeItem) => genotypeItem.name == customDropdownMapView)?.count || 0;
+        const SensitiveDrugsPerCount = SensitiveDrugsCount < 20 ? 'insufficient' : (item.stats?.Susceptible?.percentage || 0);
+        
+        const genotypes1 = item.stats.GENOTYPE.items;
+        let percentCounter = 0;
+        let genotypes2 = [];
+          genotypes1.forEach((genotype) => {
+            if (customDropdownMapView.includes(genotype.name)) {
+              // tooltip.content[genotype.name] = `${genotype.count} `;
+              genotypes2.push(genotype);
+            }
+            percentCounter += genotype.count;
+          });
+        
         const genotypeCounts = customDropdownMapView.length > 0
         ? customDropdownMapView.map((viewItem) => {
           const genotypeItem = (item.stats?.GENOTYPE?.items.find((genotypeItem) => genotypeItem.name === viewItem));
-          console.log("genotype", genotypeItem ? genotypeItem.count : 0)
           return genotypeItem ? genotypeItem.count : 0;
         }).join(',')
         : '0';
+        const genotypePerCounts =  genotypeCounts < 20 ? 'insufficient' : (((genotypeCounts / percentCounter) * 100).toFixed(2) || 0);
+        
+        let percentCounterNG = 0;
+          const genotypesNG = item.stats.NGMAST.items;
+          let genotypesNG2 = [];
+          genotypesNG.forEach((genotype) => {
+            if (customDropdownMapViewNG.includes(genotype.name)) {
+              // tooltip.content[genotype.name] = `${genotype.count} `;
+              genotypesNG2.push(genotype);
+            }
+            percentCounterNG += genotype.count;
+          });
+
        const NGMASTCounts = customDropdownMapViewNG.length > 0
         ? customDropdownMapViewNG.map((viewItem) => {
             const NGMASTItem = item.stats?.NGMAST?.items.find((NGMASTItem) => NGMASTItem.name === viewItem);
             return NGMASTItem ? NGMASTItem.count : 0;
             }).join(',')
         : '0';
+        const NGMASTPerCounts =  NGMASTCounts < 20 ? 'insufficient' : (((NGMASTCounts / percentCounter) * 100).toFixed(2) || 0);
 
         
         return [
           item.name,
           item.count || '',
           MDRCount,
+          MDRPerCount,
           XDRCount,
+          XDRPerCount,
           H58Count,
+          H58PerCount,
           CipRCount,
-          CipNSCount+CipRCount,
+          CipRPerCount,
+          CipNSCount + CipRCount,
+          CipNSPerCount,
           AzithRCount,
+          AzithRPerCount,
           ESBLCount,
-        //   ESBL_categoryCount,
+          ESBLPerCount,
           CeftriaxoneCount,
-        //   AzithromycinCount,
+          CeftriaxonePerCount,
           CiprofloxacinCount,
+          CiprofloxacinPerCount,
           CarbCount,
+          CarbPerCount,
           SensitiveDrugsCount,
+          SensitiveDrugsPerCount,
           genotypeCounts,
-          NGMASTCounts
-        ].join(',');
+          genotypePerCounts,
+          NGMASTCounts,
+          NGMASTPerCounts,
+        ]
+        .join(',');
       });
 
       // Combine header and rows into CSV content
