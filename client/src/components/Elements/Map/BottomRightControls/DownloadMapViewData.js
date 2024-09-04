@@ -35,9 +35,9 @@ export const DownloadMapViewData = () => {
                           'Sensitive to all drugs/Susceptible to class I/II drugs',
                           'Sensitive to all drugs/Susceptible to class I/II drugs %',
                           `Genotype/Lineage ${customDropdownMapView}`,
-                          `Genotype/Lineage ${customDropdownMapView} %`,
+                          `Genotype/Lineage % ${customDropdownMapView} `,
                           `NG-MAST ${customDropdownMapViewNG}`,
-                          `NG-MAST ${customDropdownMapViewNG} %`
+                          `NG-MAST % ${customDropdownMapViewNG}`
                         ];
 
       // Create CSV header row
@@ -80,16 +80,6 @@ export const DownloadMapViewData = () => {
         const SensitiveDrugsCount = item.stats?.Susceptible?.count || 0;
         const SensitiveDrugsPerCount = SensitiveDrugsCount < 20 ? 'insufficient' : (item.stats?.Susceptible?.percentage || 0);
         
-        const genotypes1 = item.stats.GENOTYPE.items;
-        let percentCounter = 0;
-        let genotypes2 = [];
-          genotypes1.forEach((genotype) => {
-            if (customDropdownMapView.includes(genotype.name)) {
-              // tooltip.content[genotype.name] = `${genotype.count} `;
-              genotypes2.push(genotype);
-            }
-            percentCounter += genotype.count;
-          });
         
         const genotypeCounts = customDropdownMapView.length > 0
         ? customDropdownMapView.map((viewItem) => {
@@ -97,7 +87,11 @@ export const DownloadMapViewData = () => {
           return genotypeItem ? genotypeItem.count : 0;
         }).join(',')
         : '0';
-        const genotypePerCounts =  genotypeCounts < 20 ? 'insufficient' : (((genotypeCounts / percentCounter) * 100).toFixed(2) || 0);
+        const genotypePerCounts = customDropdownMapView.length > 0
+        ? customDropdownMapView.map((viewItem) => {
+          const genotypeItem = (item.stats?.GENOTYPE?.items.find((genotypeItem) => genotypeItem.name === viewItem));
+          return genotypeItem ? (genotypeItem.count < 20 ? 'insufficient' : (((genotypeItem.count / item.stats.GENOTYPE.sum) * 100).toFixed(2))) : 'insufficient';
+        }).join(','): '0';
         
         let percentCounterNG = 0;
           const genotypesNG = item.stats.NGMAST.items;
@@ -116,7 +110,12 @@ export const DownloadMapViewData = () => {
             return NGMASTItem ? NGMASTItem.count : 0;
             }).join(',')
         : '0';
-        const NGMASTPerCounts =  NGMASTCounts < 20 ? 'insufficient' : (((NGMASTCounts / percentCounter) * 100).toFixed(2) || 0);
+        const NGMASTPerCounts = customDropdownMapViewNG.length > 0
+        ? customDropdownMapViewNG.map((viewItem) => {
+            const NGMASTItem = item.stats?.NGMAST?.items.find((NGMASTItem) => NGMASTItem.name === viewItem);
+            return NGMASTItem ?(NGMASTItem.count < 20 ? 'insufficient' : (((NGMASTItem.count / item.stats.NGMAST.sum) * 100).toFixed(2))) : 'insufficient';
+            }).join(',')
+        : '0';
 
         
         return [
