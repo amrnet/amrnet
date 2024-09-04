@@ -81,17 +81,31 @@ export const DownloadMapViewData = () => {
         const SensitiveDrugsPerCount = SensitiveDrugsCount < 20 ? 'insufficient' : (item.stats?.Susceptible?.percentage || 0);
         
         
-        const genotypeCounts = customDropdownMapView.length > 0
+        // const genotypeCounts = customDropdownMapView.length > 0
+        // ? customDropdownMapView.map((viewItem) => {
+        //   const genotypeItem = (item.stats?.GENOTYPE?.items.find((genotypeItem) => genotypeItem.name === viewItem));
+        //   return genotypeItem ? genotypeItem.count : 0;
+        // }).join(',')
+        // : '0';
+        // const genotypePerCounts = customDropdownMapView.length > 0
+        // ? customDropdownMapView.map((viewItem) => {
+        //   const genotypeItem = (item.stats?.GENOTYPE?.items.find((genotypeItem) => genotypeItem.name === viewItem));
+        //   return genotypeItem ? (genotypeItem.count < 20 ? 'insufficient' : (((genotypeItem.count / item.stats.GENOTYPE.sum) * 100).toFixed(2))) : 'insufficient';
+        // }).join(','): '0';
+
+        const genotypeData = customDropdownMapView.length > 0
         ? customDropdownMapView.map((viewItem) => {
-          const genotypeItem = (item.stats?.GENOTYPE?.items.find((genotypeItem) => genotypeItem.name === viewItem));
-          return genotypeItem ? genotypeItem.count : 0;
-        }).join(',')
-        : '0';
-        const genotypePerCounts = customDropdownMapView.length > 0
-        ? customDropdownMapView.map((viewItem) => {
-          const genotypeItem = (item.stats?.GENOTYPE?.items.find((genotypeItem) => genotypeItem.name === viewItem));
-          return genotypeItem ? (genotypeItem.count < 20 ? 'insufficient' : (((genotypeItem.count / item.stats.GENOTYPE.sum) * 100).toFixed(2))) : 'insufficient';
-        }).join(','): '0';
+            const genotypeItem = item.stats?.GENOTYPE?.items.find((genotypeItem) => genotypeItem.name === viewItem);
+            const count = genotypeItem ? genotypeItem.count : 0;
+            const percentage = genotypeItem
+              ? (count < 20 ? 'insufficient' : (((count / item.stats.GENOTYPE.sum) * 100).toFixed(2)))
+              : 'insufficient';
+            return { count, percentage };
+          })
+        : [{ count: '0', percentage: '0' }];
+
+      const genotypeCounts = genotypeData.map(data => data.count).join(',');
+      const genotypePerCounts = genotypeData.map(data => data.percentage).join(',');
         
         let percentCounterNG = 0;
           const genotypesNG = item.stats.NGMAST.items;
