@@ -89,40 +89,11 @@ export const LandingPage = () =>{
      
         <Card className={classes.card}>
             <CardContent className={classes.cardContent}>
-            <Typography variant="h6" className={classes.teamHeading}>Organism</Typography>
-            <Carousel
-                activeSlideIndex={activeSlideIndex}
-                onRequestChange={setActiveSlideIndex}
-                itemsToShow={4}
-                itemsToScroll={1}
-                onChange={handleClick}
-                forwardBtnProps={{ style: { display: "none" } }}
-                backwardBtnProps={{ style: { display: "none" } }}
-                dotsNav={{
-                show: true,
-                itemBtnProps: {
-                    style: {
-                    height: 16,
-                    width: 16,
-                    borderRadius: "50%",
-                    border: 0
-                    }
-                },
-                activeItemBtnProps: {
-                    style: {
-                    height: 16,
-                    width: 16,
-                    borderRadius: "50%",
-                    border: 0,
-                    background: "gray"
-                    }
-                }
-                }}
-                speed={400}
-            >
+              <Typography variant="h6" className={classes.teamHeading}>Organism</Typography>
+              <div className={classes.teamMember} >
                 {orgCard.map((member, index) => {
                 return (
-                    <div className={classes.teamMember} key={`team-card-${index}`} onClick={() => handleClick(member.value)} >
+                    <div key={`team-card-${index}`} onClick={() => handleClick(member.value)} >
                       <img
                           // srcSet={`${member.img}`}
                           src={`${member.img}`}
@@ -134,10 +105,9 @@ export const LandingPage = () =>{
                             {member.label}
                         </Typography>
                     </div>
-                    
                 )
                 })}
-            </Carousel>
+              </div>
             </CardContent>
         </Card>
       <Footer />
