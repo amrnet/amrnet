@@ -110,7 +110,7 @@ export const DownloadMapViewData = () => {
             interleavedGenotypeData.push(genotypePerCounts[index]);  // Add corresponding genotype percentage
           });
       console.log("genotypeCounts", ...interleavedGenotypeData)
-
+      
       const genotypeDataNG = customDropdownMapViewNG.length > 0
         ? customDropdownMapViewNG.map((viewItem) => {
             const genotypeItem = item.stats?.NGMAST?.items.find((genotypeItem) => genotypeItem.name === viewItem);
@@ -125,36 +125,14 @@ export const DownloadMapViewData = () => {
       const genotypeCountsNG = genotypeDataNG.map(data => data.count);
       const genotypePerCountsNG = genotypeDataNG.map(data => data.percentage);
           const interleavedGenotypeDataNG = [];
+        if(organism === 'ngono') 
           genotypeCountsNG.forEach((count, index) => {
             interleavedGenotypeDataNG.push(count);                // Add genotype count
             interleavedGenotypeDataNG.push(genotypePerCountsNG[index]);  // Add corresponding genotype percentage
           });
-      console.log("genotypeCountsNG", ...interleavedGenotypeDataNG)
         
-      //   let percentCounterNG = 0;
-      //     const genotypesNG = item.stats.NGMAST.items;
-      //     let genotypesNG2 = [];
-      //     genotypesNG.forEach((genotype) => {
-      //       if (customDropdownMapViewNG.includes(genotype.name)) {
-      //         // tooltip.content[genotype.name] = `${genotype.count} `;
-      //         genotypesNG2.push(genotype);
-      //       }
-      //       percentCounterNG += genotype.count;
-      //     });
-
-      //  const NGMASTCounts = customDropdownMapViewNG.length > 0
-      //   ? customDropdownMapViewNG.map((viewItem) => {
-      //       const NGMASTItem = item.stats?.NGMAST?.items.find((NGMASTItem) => NGMASTItem.name === viewItem);
-      //       return NGMASTItem ? NGMASTItem.count : 0;
-      //       }).join(',')
-      //   : '0';
-      //   const NGMASTPerCounts = customDropdownMapViewNG.length > 0
-      //   ? customDropdownMapViewNG.map((viewItem) => {
-      //       const NGMASTItem = item.stats?.NGMAST?.items.find((NGMASTItem) => NGMASTItem.name === viewItem);
-      //       return NGMASTItem ?(NGMASTItem.count < 20 ? 'insufficient' : (((NGMASTItem.count / item.stats.NGMAST.sum) * 100).toFixed(2))) : 'insufficient';
-      //       }).join(',')
-      //   : '0';
-
+      console.log("genotypeCountsNG", ...interleavedGenotypeDataNG)
+     
         
         return [
           item.name,
