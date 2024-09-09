@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   display: 'grid',           
   gridTemplateColumns: 'repeat(3, 1fr)',
   gridTemplateRows: 'repeat(3, auto)',   
-  gap: '60px',              
+  gap: '20px',              
   justifyContent: 'center',   
   alignItems: 'center',       
   margin: '20px',
