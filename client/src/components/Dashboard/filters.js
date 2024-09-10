@@ -167,6 +167,9 @@ export function getMapData({ data, countries, organism }) {
         count: countryData.filter((x) => x.GENOTYPE === genotype).length,
       };
     });
+    stats.GENOTYPE.sum = stats.GENOTYPE.items.reduce((sum, item) => {
+      return sum + (item.count || 0);  // Add the count of each item to the sum
+    }, 0);
     stats.GENOTYPE.items.sort((a, b) => (a.count <= b.count ? 1 : -1));
 
     if (organism === 'styphi') {
@@ -194,6 +197,9 @@ export function getMapData({ data, countries, organism }) {
           count: countryData.filter((x) => x['NG-MAST TYPE'] === mast).length,
         };
       });
+      stats.NGMAST.sum = stats.NGMAST.items.reduce((sum, item) => {
+      return sum + (item.count || 0);  // Add the count of each item to the sum
+    }, 0);
       stats.NGMAST.items.sort((a, b) => (a.count <= b.count ? 1 : -1));
       // stats.ESBL = getMapStatsData({ countryData, columnKey: 'Bla_ESBL_acquired', statsKey: '-' });
       // stats.Carb = getMapStatsData({ countryData, columnKey: 'Bla_Carb_acquired', statsKey: '-' });
