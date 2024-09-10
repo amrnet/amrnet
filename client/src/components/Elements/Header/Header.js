@@ -23,7 +23,9 @@ export const Header = ({ showSelect, showSelect2 }) => {
   const organism = useAppSelector((state) => state.dashboard.organism);
 
   function getPageTitle() {
+    console.log("menuItems", menuItems)
     const title = menuItems.find((item) => item.key === page).labelHead;
+    console.log("title", title)
     return title;
   }
 
