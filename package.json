@@ -20,10 +20,9 @@
     "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
-    "install": "cd client && yarn",
+    "install": "cd client && npm i --legacy-peer-deps",
     "client": "cd client && yarn start",
-    "build": "cd client && yarn build",
-    "heroku-postbuild": "cd client && npm install --legacy-peer-deps && npm run build"
+    "build": "cd client && yarn build"
   },
   "license": "GPL-3.0",
   "dependencies": {
