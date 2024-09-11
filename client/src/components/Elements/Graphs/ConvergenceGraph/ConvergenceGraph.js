@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
+import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 
 export const ConvergenceGraph = () => {
   const classes = useStyles();
@@ -41,6 +42,7 @@ export const ConvergenceGraph = () => {
   function handleChangeGroupVariable(event) {
     setCurrentTooltip(null);
     dispatch(setConvergenceGroupVariable(event.target.value));
+    dispatch(setCanFilterData(true));
   }
 
   // function handleChangeColourVariable(event) {

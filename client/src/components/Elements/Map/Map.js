@@ -1,17 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Card, CardContent, Typography, useMediaQuery, Tooltip } from '@mui/material';
-import { InfoOutlined } from '@mui/icons-material';
+import { Card, CardContent, Typography, useMediaQuery } from '@mui/material';
 import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup } from 'react-simple-maps';
 import { useStyles } from './MapMUI';
 import geography from '../../../assets/world-50m.json';
 import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
 import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from './mapColorHelper';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip as ReactTooltip } from 'react-tooltip'
 import { BottomLeftControls } from './BottomLeftControls';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.ts';
 import { TopRightControls } from './TopRightControls';
-import { setActualCountry } from '../../../stores/slices/dashboardSlice.ts';
+import { setActualCountry, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
 import { TopLeftControls } from './TopLeftControls';
 import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
@@ -58,6 +57,7 @@ export const Map = () => {
   function handleOnClick(countryData) {
     if (countryData !== undefined) {
       dispatch(setActualCountry(countryData.name));
+      dispatch(setCanFilterData(true));
     }
   }
   function handleOnMouseLeave() {
@@ -243,21 +243,29 @@ export const Map = () => {
             ''
           ) : (
             <>
-            {organism === "ngono" || organism === "ecoli" ||organism === "senterica" ||organism ==='kpneumo'?
-            <span>
-              of <i>{globalOverviewLabel.label0} {globalOverviewLabel.label1} {globalOverviewLabel.label2}</i>
-            </span>:
-            organism === "decoli"?
-            <span>
-              of {globalOverviewLabel.label0} <i>{globalOverviewLabel.label1} {globalOverviewLabel.label2}</i>
-            </span>:
-            organism === "sentericaints"?
-            <span>
-              of {globalOverviewLabel.label0} {globalOverviewLabel.label1} <i>{globalOverviewLabel.label2}</i>
-            </span>:
-            <span>
-              of <i>{globalOverviewLabel.label0}</i> {globalOverviewLabel.label1} {globalOverviewLabel.label2} 
-            </span>}
+              {organism === 'ngono' || organism === 'ecoli' || organism === 'senterica' || organism === 'kpneumo' ? (
+                <span>
+                  of{' '}
+                  <i>
+                    {globalOverviewLabel.label0} {globalOverviewLabel.label1} {globalOverviewLabel.label2}
+                  </i>
+                </span>
+              ) : organism === 'decoli' ? (
+                <span>
+                  of {globalOverviewLabel.label0}{' '}
+                  <i>
+                    {globalOverviewLabel.label1} {globalOverviewLabel.label2}
+                  </i>
+                </span>
+              ) : organism === 'sentericaints' ? (
+                <span>
+                  of {globalOverviewLabel.label0} {globalOverviewLabel.label1} <i>{globalOverviewLabel.label2}</i>
+                </span>
+              ) : (
+                <span>
+                  of <i>{globalOverviewLabel.label0}</i> {globalOverviewLabel.label1} {globalOverviewLabel.label2}
+                </span>
+              )}
             </>
           )}
         </Typography>

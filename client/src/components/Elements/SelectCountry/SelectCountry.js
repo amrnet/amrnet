@@ -1,7 +1,7 @@
 import { useStyles } from './SelectCountryMUI';
 import { Card, CardContent, MenuItem, Select, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { setActualCountry } from '../../../stores/slices/dashboardSlice';
+import { setActualCountry, setCanFilterData } from '../../../stores/slices/dashboardSlice';
 
 export const SelectCountry = () => {
   const classes = useStyles();
@@ -15,6 +15,7 @@ export const SelectCountry = () => {
 
   function handleChange(event) {
     dispatch(setActualCountry(event.target.value));
+    dispatch(setCanFilterData(true));
   }
 
   return (
