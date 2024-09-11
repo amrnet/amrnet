@@ -1,61 +1,61 @@
-import { Card, CardContent, Typography } from '@mui/material';
+// import { Card, CardContent, Typography } from '@mui/material';
 export function getSalmonellaTexts() {
-  const lastUpdated = 'January 24th 2024';
-  const githubRepo = 'https://github.com/typhoidgenomics/TyphiNET';
-  const typhinetURL = 'https://www.typhi.net';
-  const typhiPathogenwatchPaper = 'Argimon et al. 2021, Nat. Commun., (<https://doi.org/10.1038/s41467-021-23091-2>)';
-  const dysonHoltPaper = 'Dyson & Holt (2021), J. Infect. Dis. (<https://doi.org/10.1093/infdis/jiab414>)';
-  const ingleEtAlPaper = 'Ingle et al. 2019, PLoS NTDs., (<https://doi.org/10.1371/journal.pntd.0007620>)';
-  const careyEtAlPaper = 'Carey et al, 2023 https://doi.org/10.7554/eLife.85867';
-  const wellcomeTrustFunding = 'Wellcome Trust (Open Research Fund, 219692/Z/19/Z and AMRnet project, 226432/Z/22/Z)';
-  const euHorizon2020Funding =
-    'European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681';
+  // const lastUpdated = 'January 24th 2024';
+  // const githubRepo = 'https://github.com/typhoidgenomics/TyphiNET';
+  // const typhinetURL = 'https://www.typhi.net';
+  // const typhiPathogenwatchPaper = 'Argimon et al. 2021, Nat. Commun., (<https://doi.org/10.1038/s41467-021-23091-2>)';
+  // const dysonHoltPaper = 'Dyson & Holt (2021), J. Infect. Dis. (<https://doi.org/10.1093/infdis/jiab414>)';
+  // const ingleEtAlPaper = 'Ingle et al. 2019, PLoS NTDs., (<https://doi.org/10.1371/journal.pntd.0007620>)';
+  // const careyEtAlPaper = 'Carey et al, 2023 https://doi.org/10.7554/eLife.85867';
+  // const wellcomeTrustFunding = 'Wellcome Trust (Open Research Fund, 219692/Z/19/Z and AMRnet project, 226432/Z/22/Z)';
+  // const euHorizon2020Funding =
+  //   'European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681';
 
   return [
     `This report was generated using the AMRnet dashboard (https://www.amrnet.org), see website for documentation.`,
-      `Source Data`,
-      `AMRnet displays genome-derived information on antimicrobial resistance (AMR) and genotypes for the bacterial pathogen`,
-      'Salmonella',
-      'Typhi. The prevalence estimates shown are calculated using genome',
-      'collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations).',
-      'Salmonella',
-      'Typhi data in AMRnet are drawn from Pathogenwatch (https://pathogen.watch), which calls ',
-      'AMR and genotypes from genome assemblies (see https://doi.org/10.1038/s41467-021-23091-2). The',
-      'Salmonella',
-      'Typhi data in Pathogenwatch are curated by the Global Typhoid Genomics Consortium ',
-      '(https://www.typhoidgenomics.org), as described in Carey et al (2023), eLife (https://doi.org/10.7554/eLife.85867). The AMRnet dashboard mirrors the data and functionality of the TyphiNET dashboard (https://www.typhi.net), on which AMRnet is based.',
-      'Individual genome information, including derived genotype and AMR calls, sequence data accession numbers, and source information (PubMedID for citation) can be downloaded as a spreadsheet from the AMRnet dashboard (https://www.amrnet.org).',
-      'AMRnet’s',
-      'Salmonella',
-      'Typhi database was last updated on 24 January 2024.',
-      `Variable definitions`,  
-      `The genotypes reported here are from the GenoTyphi scheme, defined in Dyson & Holt (2021), J. Infect. Dis. (https://doi.org/10.1093/infdis/jiab414).`,
-      `Travel-associated cases are attributed to the country of travel, not the country of isolation, see Ingle et al. 2019, PLoS NTDs., (https://doi.org/10.1371/journal.pntd.0007620).`,
-      `Antimicrobial resistance determinants are described in the Typhi Pathogenwatch paper, see Argimon et al. 2021, Nat. Commun., (https://doi.org/10.1038/s41467-021-23091-2).`,
-      'Abbreviations',
-      `1. MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)`,
-      `2. XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)`,
-      `3. Ciprofloxacin NS, ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more`, 
-      `genes or mutations in`,
-      `)`,
-      `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
-      `Funding`,
-      'The TyphiNET dashboard for',
-      'Salmonella',
-      'Typhi received funding from the Wellcome Trust (Open ',
-      'Research Fund, 219692/Z/19/Z) and the European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681.       The AMRnet project (funded by the Wellcome Trust, 226432/Z/22/Z) builds on TyphiNET to extend functionality to other bacteria.',
+    `Source Data`,
+    `AMRnet displays genome-derived information on antimicrobial resistance (AMR) and genotypes for the bacterial pathogen`,
+    'Salmonella',
+    'Typhi. The prevalence estimates shown are calculated using genome',
+    'collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations).',
+    'Salmonella',
+    'Typhi data in AMRnet are drawn from Pathogenwatch (https://pathogen.watch), which calls ',
+    'AMR and genotypes from genome assemblies (see https://doi.org/10.1038/s41467-021-23091-2). The',
+    'Salmonella',
+    'Typhi data in Pathogenwatch are curated by the Global Typhoid Genomics Consortium ',
+    '(https://www.typhoidgenomics.org), as described in Carey et al (2023), eLife (https://doi.org/10.7554/eLife.85867). The AMRnet dashboard mirrors the data and functionality of the TyphiNET dashboard (https://www.typhi.net), on which AMRnet is based.',
+    'Individual genome information, including derived genotype and AMR calls, sequence data accession numbers, and source information (PubMedID for citation) can be downloaded as a spreadsheet from the AMRnet dashboard (https://www.amrnet.org).',
+    'AMRnet’s',
+    'Salmonella',
+    'Typhi database was last updated on 24 January 2024.',
+    `Variable definitions`,
+    `The genotypes reported here are from the GenoTyphi scheme, defined in Dyson & Holt (2021), J. Infect. Dis. (https://doi.org/10.1093/infdis/jiab414).`,
+    `Travel-associated cases are attributed to the country of travel, not the country of isolation, see Ingle et al. 2019, PLoS NTDs., (https://doi.org/10.1371/journal.pntd.0007620).`,
+    `Antimicrobial resistance determinants are described in the Typhi Pathogenwatch paper, see Argimon et al. 2021, Nat. Commun., (https://doi.org/10.1038/s41467-021-23091-2).`,
+    'Abbreviations',
+    `1. MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)`,
+    `2. XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)`,
+    `3. Ciprofloxacin NS, ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more`,
+    `genes or mutations in`,
+    `)`,
+    `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
+    `Funding`,
+    'The TyphiNET dashboard for',
+    'Salmonella',
+    'Typhi received funding from the Wellcome Trust (Open ',
+    'Research Fund, 219692/Z/19/Z) and the European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681.       The AMRnet project (funded by the Wellcome Trust, 226432/Z/22/Z) builds on TyphiNET to extend functionality to other bacteria.',
   ];
 }
 
 export function getKlebsiellaTexts() {
-  const amrnetURL = 'https://www.amrnet.org';
-  const KpgithubRepo = 'https://github.com/klebgenomics/Kleborate';
-  const pathogenwatchURL = 'https://pathogen.watch';
-  const bigsdbURL = 'https://bigsdb.pasteur.fr/klebsiella';
-  const klebPathogenwatchPaperURL = 'https://doi.org/10.1093/cid/ciab784';
-  const diancourtPaper =
-    'Diancourt et al (2005), J Clin Microbiol. (<https://doi.org/10.1128/jcm.43.8.4178-4182.2005>)';
-  const lamEtAlPaper = 'Lam et al (2021), Nature Communications, (<https://doi.org/10.1038/s41467-021-24448-3>)';
+  // const amrnetURL = 'https://www.amrnet.org';
+  // const KpgithubRepo = 'https://github.com/klebgenomics/Kleborate';
+  // const pathogenwatchURL = 'https://pathogen.watch';
+  // const bigsdbURL = 'https://bigsdb.pasteur.fr/klebsiella';
+  // const klebPathogenwatchPaperURL = 'https://doi.org/10.1093/cid/ciab784';
+  // const diancourtPaper =
+  //   'Diancourt et al (2005), J Clin Microbiol. (<https://doi.org/10.1128/jcm.43.8.4178-4182.2005>)';
+  // const lamEtAlPaper = 'Lam et al (2021), Nature Communications, (<https://doi.org/10.1038/s41467-021-24448-3>)';
 
   return [
     'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation',
@@ -95,15 +95,15 @@ export function getKlebsiellaTexts() {
 }
 
 export function getNgonoTexts() {
-  const amrnetURL = 'https://www.amrnet.org';
-  const pathogenwatchURL = 'https://pathogen.watch';
-  const gonoPaper1 = 'https://doi.org/10.1186/s13073-021-00858-2';
-  const gonoPaper2 = 'https://doi.org/10.1186/1741-7007-5-35';
-  const gonoPaper3 = 'https://doi.org/10.1086/383047';
-  const gonoPaper4 = 'https://pubmlst.org/neisseria/';
-  const gonoPaper5 = 'https://doi.org/10.1186/s13073-021-00858-2';
-  const gonoPaper6 =
-    'https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf';
+  // const amrnetURL = 'https://www.amrnet.org';
+  // const pathogenwatchURL = 'https://pathogen.watch';
+  // const gonoPaper1 = 'https://doi.org/10.1186/s13073-021-00858-2';
+  // const gonoPaper2 = 'https://doi.org/10.1186/1741-7007-5-35';
+  // const gonoPaper3 = 'https://doi.org/10.1086/383047';
+  // const gonoPaper4 = 'https://pubmlst.org/neisseria/';
+  // const gonoPaper5 = 'https://doi.org/10.1186/s13073-021-00858-2';
+  // const gonoPaper6 =
+  //   'https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf';
 
   return [
     'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation',

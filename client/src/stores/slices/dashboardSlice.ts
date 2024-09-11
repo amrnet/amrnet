@@ -4,11 +4,12 @@ interface GlobalOverviewModel {
   label0: string;
   label1: string;
   label2: string;
-  fullLabel: string
+  fullLabel: string;
 }
 
 interface DashboardState {
   canGetData: boolean;
+  canFilterData: boolean;
   globalOverviewLabel: GlobalOverviewModel;
   organism: string;
   loadingData: boolean;
@@ -35,10 +36,11 @@ interface DashboardState {
 
 const initialState: DashboardState = {
   canGetData: true,
+  canFilterData: false,
   globalOverviewLabel: {
     label0: 'Salmonella',
     label1: 'Typhi',
-    label2: '', 
+    label2: '',
     fullLabel: 'Salmonella Typhi',
   },
   organism: 'styphi',
@@ -70,6 +72,9 @@ export const dashboardSlice = createSlice({
   reducers: {
     setCanGetData: (state, action: PayloadAction<boolean>) => {
       state.canGetData = action.payload;
+    },
+    setCanFilterData: (state, action: PayloadAction<boolean>) => {
+      state.canFilterData = action.payload;
     },
     setGlobalOverviewLabel: (state, action: PayloadAction<GlobalOverviewModel>) => {
       state.globalOverviewLabel = action.payload;
@@ -142,6 +147,7 @@ export const dashboardSlice = createSlice({
 
 export const {
   setCanGetData,
+  setCanFilterData,
   setGlobalOverviewLabel,
   setOrganism,
   setLoadingData,

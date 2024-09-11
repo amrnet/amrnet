@@ -1,20 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  Button,
   Card,
   CardContent,
   Checkbox,
   ListItemText,
   MenuItem,
-  Select,
   Tooltip,
   Typography,
-  InputAdornment,
   FormControl,
-  ListSubheader,
   Autocomplete,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCustomDropdownMapViewNG } from '../../../../stores/slices/graphSlice';
@@ -28,11 +23,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 export const Ngmast = () => {
   const classes = useStyles();
-  const [, setCurrentTooltip] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [searchValue2, setSearchValue2] = useState('');
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const NGMAST = useAppSelector((state) => state.graph.NGMAST);
   const ngmastDrugData = useAppSelector((state) => state.graph.ngmastDrugsData);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapViewNG[0]]);

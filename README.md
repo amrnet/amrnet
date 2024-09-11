@@ -1,6 +1,5 @@
-<img src='assets/img/logo-prod.png' width="150" height="90">    
+# AMRnet
 
-![Code Count](https://img.shields.io/github/languages/count/amrnet/amrnet)
 ![Main Code Base](https://img.shields.io/github/languages/top/amrnet/amrnet)
 ![Version](https://img.shields.io/badge/version-1.0-red)
 ![License](https://img.shields.io/badge/license-GPLv3-blue)
@@ -8,7 +7,28 @@
 ![Open Issues](https://img.shields.io/github/issues-raw/amrnet/amrnet)
 ![Repo Size](https://img.shields.io/github/repo-size/amrnet/amrnet)
 [![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
+[![GitHub](https://img.shields.io/github/stars/amrnet/amrnet)]
+[![GitHub](https://img.shields.io/github/forks/amrnet/amrnet)]
+[![GitHub](https://img.shields.io/github/watchers/amrnet/amrnet)]
+[![GitHub](https://img.shields.io/github/contributors/amrnet/amrnet)]
+Visiting the [AMRnet dashboard](https://amrnetdev2-bda07af7e807.herokuapp.com/) for more informations.
 
+## Installation (for software development purposes only)
+
+### Step 1. Install GIT, NPM and MongoDB
+
+To install GIT, please visit [https://git-scm.com/](https://git-scm.com/).
+
+To install NPM, please visit [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm).
+
+To install MongoDB, please visit [https://www.mongodb.com/try/download/community?tck=docs_server](https://www.mongodb.com/try/download/community?tck=docs_server).
+
+Note: While installing MongoDB, check the option to install MongoDB Compass. If there's no option, you can download it here: [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass).
+
+### Step 2. Install YARN with the command
+
+```bash
+npm install -g yarn
 
 ## Table of Contents
 
@@ -17,7 +37,6 @@
 - [User guide](https://amrnet.readthedocs.io/)
 - [Citing](#citing)
 - [Funding & acknowledgements](#funding--acknowledgements)
-
 
 ## Description
 
@@ -29,7 +48,22 @@ Visiting the [AMRnet dashboard](https://amrnetdev2-bda07af7e807.herokuapp.com/) 
 
 ## Installation (for software development purposes only)
 
+#### 1. InstallMessage: MD001/heading-increment: Heading levels should only increment by one level at a time [Expected: h3; Actual: h4]
+Problematic code: #### 1. Install <a href="https://git-scm.com/">GIT</a>, <a href="https://www.npmjs.com/get-npm">NPM</a> and <a href="https://www.mongodb.com/try/download/community?tck=docs_server">MongoDB</a>
+Context:
+```markdown
+
+Visiting the [AMRnet dashboard](https://amrnetdev2-bda07af7e807.herokuapp.com/) for more informations.
+
+## Installation (for software development purposes only)
+
 #### 1. Install <a href="https://git-scm.com/">GIT</a>, <a href="https://www.npmjs.com/get-npm">NPM</a> and <a href="https://www.mongodb.com/try/download/community?tck=docs_server">MongoDB</a>
+
+`Note: While installing MongoDB, check the option to install MongoDB Compass. If there's no option, you can download it here:` <a href="https://www.mongodb.com/try/download/compass">MongoDB Compass</a>
+
+#### 2. Install YARN with the command
+
+ <a href="https://git-scm.com/">GIT</a>, <a href="https://www.npmjs.com/get-npm">NPM</a> and <a href="https://www.mongodb.com/try/download/community?tck=docs_server">MongoDB</a>
 
 `Note: While installing MongoDB, check the option to install MongoDB Compass. If there's no option, you can download it here:` <a href="https://www.mongodb.com/try/download/compass">MongoDB Compass</a>
 
@@ -45,9 +79,7 @@ npm install -g yarn
 git clone https://github.com/amrnet/amrnet
 ```
 
-
 #### 4. Inside the project folder run this command to install the server dependencies
-
 
 ```sh
 npm install
@@ -55,9 +87,7 @@ npm install
 
 #### 5. Inside the folder `/client`, run the previous command to install the client dependencies
 
-
-#### 6. Inside the project folder, create a file named `.env`. Inside it, copy the following code.
-
+#### 6. Inside the project folder, create a file named `.env`. Inside it, copy the following code
 
 ```sh
 MONGO_URI= (see item 7 from the manual)
@@ -71,12 +101,13 @@ MONGO_URI_ATLAS=(see item 7 from manual to access MongoDB Atlas cloud)
 ```sh
 yarn start: prod
 ```
+
 ## Citing
 
 If you use data/metadata from the AMRnet dashboard, or the analysis based on these data, please cite:
 
-DOI: https://zenodo.org/doi/10.5281/zenodo.10810218
-GitHub: https://github.com/amrnet/amrnet/
+DOI: <https://zenodo.org/doi/10.5281/zenodo.10810218>
+GitHub: <https://github.com/amrnet/amrnet/>
 
 ## Funding & acknowledgements
 

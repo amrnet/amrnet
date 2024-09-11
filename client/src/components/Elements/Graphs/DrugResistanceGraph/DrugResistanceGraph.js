@@ -21,7 +21,7 @@ import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
 import { InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { setCaptureDRT, setCaptureRFWG, setCaptureRDWG, setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
 
 export const DrugResistanceGraph = () => {
   const classes = useStyles();
@@ -35,7 +35,6 @@ export const DrugResistanceGraph = () => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -103,29 +102,29 @@ export const DrugResistanceGraph = () => {
   function getXDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return "XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)";
-      case 'ngono': 
-        return "XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])";
+        return 'XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)';
+      case 'ngono':
+        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
       default:
-        return
+        return;
     }
   }
   function getMDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return "MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)";
-      case 'ngono': 
-        return "MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])";
+        return 'MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
+      case 'ngono':
+        return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:
-        return
+        return;
     }
   }
   function getSusceptibleDefinition() {
     switch (organism) {
-      case 'ngono': 
-        return "Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)";
+      case 'ngono':
+        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
-        return
+        return;
     }
   }
   function handleChangeDrugsView({ event = null, all = false }) {
@@ -226,8 +225,7 @@ export const DrugResistanceGraph = () => {
                     return (
                       <div className={classes.legendWrapper}>
                         {payload.map((entry, index) => {
-                          if(!drugsYearData.length)
-                            return null;
+                          if (!drugsYearData.length) return null;
                           const { dataKey, color } = entry;
                           let dataKeyElement;
                           if (dataKey === 'XDR') {
@@ -242,7 +240,7 @@ export const DrugResistanceGraph = () => {
                                 <span>MDR</span>
                               </Tooltip>
                             );
-                          }else if (dataKey === 'Susceptible') {
+                          } else if (dataKey === 'Susceptible') {
                             dataKeyElement = (
                               <Tooltip title={getSusceptibleDefinition()} placement="top">
                                 <span>Susceptible</span>
@@ -354,28 +352,19 @@ export const DrugResistanceGraph = () => {
                   let itemLabel;
                   if (item.label === 'XDR') {
                     itemLabel = (
-                      <Tooltip
-                        title={getXDRDefinition()}
-                        placement="top"
-                      >
+                      <Tooltip title={getXDRDefinition()} placement="top">
                         <span>XDR</span>
                       </Tooltip>
                     );
                   } else if (item.label === 'MDR') {
                     itemLabel = (
-                      <Tooltip
-                        title={getMDRDefinition()}
-                        placement="top"
-                      >
+                      <Tooltip title={getMDRDefinition()} placement="top">
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  }else if (item.label === 'Susceptible') {
+                  } else if (item.label === 'Susceptible') {
                     itemLabel = (
-                      <Tooltip
-                        title={getSusceptibleDefinition()}
-                        placement="top"
-                      >
+                      <Tooltip title={getSusceptibleDefinition()} placement="top">
                         <span>Susceptible</span>
                       </Tooltip>
                     );
