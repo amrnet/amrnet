@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
   teamMember: {
   display: 'grid',           
-    
   gap: '20px',              
-  justifyContent: 'center',   
+  justifyContent: 'center', 
+  
   // alignItems: 'center',       
   margin: '20px',
   '@media (min-width: 500px)': {
@@ -32,13 +32,32 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateRows: 'repeat(3, auto)', 
     },
     
-},
+  },
+  teamMemberDiv: {
+    display: 'grid',           
+    gap: '20px',              
+    justifyContent: 'center', 
+    // alignItems: 'center',       
+    margin: '20px',
+    '@media (max-width: 500px)': {
+      justifyContent: 'left', 
+      gap: '0px',              
+      margin: '0px',
+      textWrap:'nowrap',
+      textDecoration:"underline"
+      },
+    },
 
+  
   teamMemberImg: {
     width: '100%',
     height: '230px',
     objectFit: 'cover',
     borderRadius: 5,
+    '@media (max-width: 500px)': {
+    width: '0%',
+    height: '0px',
+    },
   },
   teamPost: {
     textAlign: 'center',
