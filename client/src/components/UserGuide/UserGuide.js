@@ -6,8 +6,6 @@ import Divider from '@mui/material/Divider';
 import header from '../../assets/img/screencaptures/header.png';
 import map from '../../assets/img/screencaptures/map.png';
 import filter from '../../assets/img/screencaptures/filter.png';
-import plot from '../../assets/img/screencaptures/plot.png';
-import plot2 from '../../assets/img/screencaptures/plot2.png';
 import downloads from '../../assets/img/screencaptures/downloads.png';
 
 export const UserGuidePage = () => {
@@ -29,12 +27,7 @@ export const UserGuidePage = () => {
             dashboard.
           </Typography>
           <br />
-            <img className={classes.img}
-              srcSet={header}
-              src={header}
-              alt={"Header"}
-              loading="lazy"
-            />
+          <img className={classes.img} srcSet={header} src={header} alt={'Header'} loading="lazy" />
           <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
@@ -47,12 +40,7 @@ export const UserGuidePage = () => {
             grey to indicate insufficient data.
           </Typography>
           <br />
-          <img className={classes.img}
-              srcSet={map}
-              src={map}
-              alt={"map"}
-              loading="lazy"
-            />
+          <img className={classes.img} srcSet={map} src={map} alt={'map'} loading="lazy" />
           <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
@@ -61,12 +49,7 @@ export const UserGuidePage = () => {
             so that subsequent plots reflect data for the selected country only.
           </Typography>
           <br />
-          <img className={classes.img}
-              srcSet={filter}
-              src={filter}
-              alt={"Filter"}
-              loading="lazy"
-            />
+          <img className={classes.img} srcSet={filter} src={filter} alt={'Filter'} loading="lazy" />
           <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
@@ -79,7 +62,7 @@ export const UserGuidePage = () => {
             specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see
             per-organism details below).
           </Typography>
-          <br/>
+          <br />
           <Typography variant="body2" className={classes.paragraph}>
             All plots are interactive; use the menus at the top to{' '}
             <span className={classes.paragraphBold}>select variables to display</span>, and whether to show{' '}
@@ -101,16 +84,12 @@ export const UserGuidePage = () => {
             the data sources and variable definitions (‘Download PDF’).
           </Typography>
           <br />
-          <img className={classes.img}
-              srcSet={downloads}
-              src={downloads}
-              alt={"Downloads"}
-              loading="lazy"
-            />
+          <img className={classes.img} srcSet={downloads} src={downloads} alt={'Downloads'} loading="lazy" />
           <br />
           <br />
           <Typography variant="body2" className={classes.paragraph}>
-            <span className={classes.paragraphBold}>NOTE:</span> Please note PDF reports are not yet available for all organisms, they will be added in future updates.
+            <span className={classes.paragraphBold}>NOTE:</span> Please note PDF reports are not yet available for all
+            organisms, they will be added in future updates.
           </Typography>
           <br />
           <Divider sx={{ borderBottomWidth: 3 }} />
@@ -131,8 +110,7 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
               GenoTyphi
             </a>{' '}
-            genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in Pathogenwatch
-            are curated by the{' '}
+            genotypes from genome assemblies. The <i>Salmonella</i> Typhi data in Pathogenwatch are curated by the{' '}
             <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
               Global Typhoid Genomics Consortium
             </a>
@@ -157,17 +135,19 @@ export const UserGuidePage = () => {
               scheme, see{' '}
               <a href="https://doi.org/10.1093/infdis/jiab414" target="_blank" rel="noreferrer">
                 Dyson & Holt, 2021
-              </a>.
+              </a>
+              .
             </li>
             <li>
               <span className={classes.paragraphBold}>AMR determinants</span> are described in the{' '}
-             <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
+              <a href="https://doi.org/10.1038/s41467-021-23091-2" target="_blank" rel="noreferrer">
                 Typhi Pathogenwatch paper
               </a>{' '}
               and the{' '}
               <a href="https://elifesciences.org/articles/85867" target="_blank" rel="noreferrer">
                 Consortium paper
-              </a>.
+              </a>
+              .
             </li>
             <li>
               <span className={classes.paragraphBold}>Travel-associated cases</span> are attributed to the country of
@@ -246,7 +226,8 @@ export const UserGuidePage = () => {
               for <i>Klebsiella pneumoniae</i>, maintained by{' '}
               <a href="https://bigsdb.pasteur.fr/klebsiella/" target="_blank" rel="noreferrer">
                 Institut Pasteur
-              </a>.
+              </a>
+              .
             </li>
             <li>
               <span className={classes.paragraphBold}>AMR determinants</span> are called using{' '}
@@ -330,10 +311,8 @@ export const UserGuidePage = () => {
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>AMR determinants</span> are identified by{' '}
-              Pathogenwatch{' '}
-              using an inhouse dictionary developed and maintained in consultation with an expert advisory group,
-              described{' '}
+              <span className={classes.paragraphBold}>AMR determinants</span> are identified by Pathogenwatch using an
+              inhouse dictionary developed and maintained in consultation with an expert advisory group, described{' '}
               <a href="https://doi.org/10.1186/s13073-021-00858-2" target="_blank" rel="noreferrer">
                 Sánchez-Busó et al (2021)
               </a>
@@ -620,7 +599,8 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1371/journal.pone.0147101" target="_blank" rel="noreferrer">
               SISTR
             </a>
-            . he iNTS dashboard currently includes invasive lineages of serovar Typhimurium or Enteritidis (which account for{' '}
+            . he iNTS dashboard currently includes invasive lineages of serovar Typhimurium or Enteritidis (which
+            account for{' '}
             <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target="_blank" rel="noreferrer">
               &gt;90% of iNTS
             </a>
@@ -643,7 +623,10 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
-              <span className={classes.paragraphBold}>Lineages:</span> Lineage is labelled as iTYM (invasive Typhimurium) or iENT (invasive Enteritidis), followed by the lineage name. Lineages are identified based on HierCC 150 clusters as follows: 305 = iTYM ST19-L1; 1547 = iTYM ST19-L3; 48 = iTYM ST19-L4; 9882 = iTYM ST313-L1; 12675 = iENT CEAC (Central/East Africa Clade); 2452 = iENT WAC (West Africa Clade).
+              <span className={classes.paragraphBold}>Lineages:</span> Lineage is labelled as iTYM (invasive
+              Typhimurium) or iENT (invasive Enteritidis), followed by the lineage name. Lineages are identified based
+              on HierCC 150 clusters as follows: 305 = iTYM ST19-L1; 1547 = iTYM ST19-L3; 48 = iTYM ST19-L4; 9882 = iTYM
+              ST313-L1; 12675 = iENT CEAC (Central/East Africa Clade); 2452 = iENT WAC (West Africa Clade).
             </li>
             <li>
               <span className={classes.paragraphBold}>AMR determinants:</span>{' '}
