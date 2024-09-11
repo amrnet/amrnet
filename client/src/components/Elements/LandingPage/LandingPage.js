@@ -93,7 +93,7 @@ export const LandingPage = () =>{
               <div className={classes.teamMember} >
                 {orgCard.map((member, index) => {
                 return (
-                    <div key={`team-card-${index}`} onClick={() => handleClick(member.value)} >
+                    <div className={classes.teamMemberDiv} key={`team-card-${index}`} onClick={() => handleClick(member.value)} >
                       <img
                           // srcSet={`${member.img}`}
                           src={`${member.img}`}
@@ -101,7 +101,7 @@ export const LandingPage = () =>{
                           loading="lazy"
                           className={classes.teamMemberImg}
                       />
-                        <Typography sx={{ marginTop: "10px" }}>
+                        <Typography >
                             {member.label}
                         </Typography>
                     </div>
