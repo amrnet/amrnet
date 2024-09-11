@@ -18,12 +18,20 @@ const useStyles = makeStyles((theme) => ({
   },
   teamMember: {
   display: 'grid',           
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gridTemplateRows: 'repeat(3, auto)',   
+    
   gap: '20px',              
   justifyContent: 'center',   
-  alignItems: 'center',       
+  // alignItems: 'center',       
   margin: '20px',
+  '@media (min-width: 500px)': {
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gridTemplateRows: 'repeat(2, auto)', 
+    },
+  '@media (min-width: 750px)': {
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gridTemplateRows: 'repeat(3, auto)', 
+    },
+    
 },
 
   teamMemberImg: {
