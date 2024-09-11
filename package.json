@@ -2,7 +2,7 @@
   "name": "amrnet",
   "author": "Louise Cerdeira",
   "version": "1.0.2",
-  "repository": "ehmpathy/declapract",
+  "repository": "https://github.com/amrnet/amrnet/",
   "homepage": "https://github.com/amrnet/amrnet",
   "keywords": [
     "mern",
@@ -20,9 +20,10 @@
     "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
-    "install": "cd client && npm i --legacy-peer-deps",
+    "install": "cd client && yarn",
     "client": "cd client && yarn start",
-    "build": "cd client && yarn build"
+    "build": "cd client && yarn build",
+    "heroku-postbuild": "cd client && npm install --legacy-peer-deps && npm run build"
   },
   "license": "GPL-3.0",
   "dependencies": {
