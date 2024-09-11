@@ -6,6 +6,7 @@ interface CollapsesModel {
   drugResistance: boolean;
   frequencies: boolean;
   trendsKP: boolean;
+  trendsNG: boolean;
   KODiversity: boolean;
   convergence: boolean;
 }
@@ -28,6 +29,8 @@ interface GraphState {
   determinantsGraphDrugClass: string;
   trendsKPGraphDrugClass: string;
   trendsKPGraphView: string;
+  trendsNGGraphDrugClass: string;
+  trendsNGGraphView: string;
   KODiversityData: Array<any>;
   KODiversityGraphView: string;
   convergenceData: Array<any>;
@@ -35,11 +38,19 @@ interface GraphState {
   convergenceColourVariable: string;
   convergenceColourPallete: Object;
   currentSliderValue: number;
-  resetBool: boolean;
   maxSliderValue: number;
   currentSliderValueRD: number;
   maxSliderValueRD: number;
+  currentSliderValueKP_GT: number;
+  currentSliderValueKP_GE: number;
+  maxSliderValueKP_GE: number;
+  currentSliderValueNG_GT: number;
+  currentSliderValueNG_GE: number;
+  maxSliderValueNG_GE: number;
+  resetBool: boolean;
   sliderList: number;
+  sliderListKP_GE: number;
+  sliderListNG_GE: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
 }
@@ -51,6 +62,7 @@ const initialState: GraphState = {
     drugResistance: false,
     frequencies: false,
     trendsKP: false,
+    trendsNG: false,
     KODiversity: false,
     convergence: false,
   },
@@ -71,6 +83,8 @@ const initialState: GraphState = {
   determinantsGraphDrugClass: '',
   trendsKPGraphDrugClass: '',
   trendsKPGraphView: 'number',
+  trendsNGGraphDrugClass: '',
+  trendsNGGraphView: 'number',
   KODiversityData: [],
   KODiversityGraphView: 'K_locus',
   convergenceData: [],
@@ -78,13 +92,21 @@ const initialState: GraphState = {
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
   currentSliderValue: 20,
-  resetBool: false,
   maxSliderValue: 0,
   currentSliderValueRD: 5,
   maxSliderValueRD: 0,
+  currentSliderValueKP_GT: 20,
+  currentSliderValueKP_GE: 20,
+  maxSliderValueKP_GE: 0,
+  resetBool: false,
   sliderList: 0,
+  sliderListKP_GE: 0,
   NGMAST: [],
   ngmastDrugsData: [],
+  currentSliderValueNG_GT: 0,
+  currentSliderValueNG_GE: 0,
+  maxSliderValueNG_GE: 0,
+  sliderListNG_GE: 0
 };
 
 export const graphSlice = createSlice({
@@ -148,6 +170,12 @@ export const graphSlice = createSlice({
     setTrendsKPGraphView: (state, action: PayloadAction<string>) => {
       state.trendsKPGraphView = action.payload;
     },
+    setTrendsNGGraphDrugClass: (state, action: PayloadAction<string>) => {
+      state.trendsNGGraphDrugClass = action.payload;
+    },
+    setTrendsNGGraphView: (state, action: PayloadAction<string>) => {
+      state.trendsNGGraphView = action.payload;
+    },
     setKODiversityData: (state, action: PayloadAction<Array<any>>) => {
       state.KODiversityData = action.payload;
     },
@@ -181,8 +209,29 @@ export const graphSlice = createSlice({
     setMaxSliderValueRD: (state, action: PayloadAction<number>) => {
       state.maxSliderValueRD = action.payload;
     },
+    setCurrentSliderValueKP_GT: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKP_GT = action.payload;
+    },
+    setCurrentSliderValueKP_GE: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKP_GE = action.payload;
+    },
+    setMaxSliderValueKP_GE: (state, action: PayloadAction<number>) => {
+      state.maxSliderValueKP_GE = action.payload;
+    },
     setSliderList: (state, action: PayloadAction<number>) => {
       state.sliderList = action.payload;
+    },
+    setSliderListKP_GE: (state, action: PayloadAction<number>) => {
+      state.sliderListKP_GE = action.payload;
+    },
+    setCurrentSliderValueNG_GT: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKP_GT = action.payload;
+    },
+    setCurrentSliderValueNG_GE: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKP_GE = action.payload;
+    },
+    setMaxSliderValueNG_GE: (state, action: PayloadAction<number>) => {
+      state.maxSliderValueKP_GE = action.payload;
     },
     setNgmast: (state, action: PayloadAction<Array<any>>) => {
       state.NGMAST = action.payload;
@@ -213,6 +262,8 @@ export const {
   setGenotypesAndDrugsYearData,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
+  setTrendsNGGraphDrugClass,
+  setTrendsNGGraphView,
   setKODiversityData,
   setKODiversityGraphView,
   setConvergenceData,
@@ -225,8 +276,15 @@ export const {
   setCurrentSliderValueRD,
   setMaxSliderValueRD,
   setSliderList,
+  setSliderListKP_GE,
   setNgmast,
   setNgmastDrugsData,
+  setCurrentSliderValueKP_GT,
+  setCurrentSliderValueKP_GE,
+  setMaxSliderValueKP_GE,
+  setCurrentSliderValueNG_GT,
+  setCurrentSliderValueNG_GE,
+  setMaxSliderValueNG_GE,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

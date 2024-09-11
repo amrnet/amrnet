@@ -77,6 +77,8 @@ export const TopRightControls = () => {
       case 'Genotype prevalence':
       case 'Lineage prevalence':
         return gradientStyle;
+      case '':
+        return [];
       default:
         return generalSteps;
     }
@@ -102,21 +104,21 @@ export const TopRightControls = () => {
   function getXDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return "XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)";
-      case 'ngono': 
-        return "XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])";
+        return 'XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)';
+      case 'ngono':
+        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
       default:
-        return
+        return;
     }
   }
   function getMDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return "MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)";
-      case 'ngono': 
-        return "MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])";
+        return 'MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
+      case 'ngono':
+        return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:
-        return
+        return;
     }
   }
 
@@ -150,19 +152,13 @@ export const TopRightControls = () => {
               let legendLabel;
               if (legend.label === 'Extensively drug resistant (XDR)') {
                 legendLabel = (
-                  <Tooltip
-                    title={getXDRDefinition()}
-                    placement="top"
-                  >
+                  <Tooltip title={getXDRDefinition()} placement="top">
                     <span>Extensively drug resistant (XDR)</span>
                   </Tooltip>
                 );
               } else if (legend.label === 'Multidrug resistant (MDR)') {
                 legendLabel = (
-                  <Tooltip
-                    title={getMDRDefinition()}
-                    placement="top"
-                  >
+                  <Tooltip title={getMDRDefinition()} placement="top">
                     <span>Multidrug resistant (MDR)</span>
                   </Tooltip>
                 );

@@ -88,7 +88,8 @@ export const KODiversityGraph = () => {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (canGetData) {

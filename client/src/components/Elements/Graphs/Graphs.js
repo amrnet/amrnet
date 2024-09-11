@@ -23,7 +23,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
+import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -32,6 +32,7 @@ import {
   getColorForGenotype,
 } from '../../../util/colorHelper';
 import { TrendsKPGraph } from './TrendsKPGraph';
+import { TrendsNGGraph } from './TrendsNGGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { KODiversityGraph } from './KODiversityGraph';
@@ -41,7 +42,7 @@ import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 export const Graphs = () => {
   const classes = useStyles();
   const matches1000 = useMediaQuery('(max-width:1000px)');
-  const matches750 = useMediaQuery('(max-width:750px)');
+  // const matches750 = useMediaQuery('(max-width:750px)');
   const [showAlert, setShowAlert] = useState(false);
   const [chartLoadings, setCharLoadings] = useState({
     frequencies: false,
@@ -49,6 +50,7 @@ export const Graphs = () => {
     determinants: false,
     distribution: false,
     trendsKP: false,
+    trendsNG: false,
   });
 
   const dispatch = useAppDispatch();
@@ -60,6 +62,7 @@ export const Graphs = () => {
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
   const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
+  const trendsNGGraphDrugClass = useAppSelector((state) => state.graph.trendsNGGraphDrugClass);
   const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
@@ -150,7 +153,7 @@ export const Graphs = () => {
     }
 
     let orgBasedColumns, orgBasedSpace;
-     if (organism === 'shige') {
+    if (organism === 'shige') {
       orgBasedColumns = 5;
       orgBasedSpace = 180;
     } else {
@@ -222,6 +225,7 @@ export const Graphs = () => {
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 176);
       if (card.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
       if (card.id === 'CERDT') ctx.fillText(`Drug Class: ${trendsKPGraphDrugClass}`, canvas.width / 2, 198);
+      if (card.id === 'NG') ctx.fillText(`Drug Class: ${trendsNGGraphDrugClass}`, canvas.width / 2, 198);
       if (card.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
       if (card.id === 'CVM') {
         const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
@@ -401,6 +405,7 @@ export const Graphs = () => {
               {card.collapse === 'determinants' && <DeterminantsGraph />}
               {card.collapse === 'distribution' && <DistributionGraph />}
               {card.collapse === 'trendsKP' && <TrendsKPGraph />}
+              {card.collapse === 'trendsNG' && <TrendsNGGraph />}
               {card.collapse === 'KODiversity' && <KODiversityGraph />}
               {card.collapse === 'convergence' && <ConvergenceGraph />}
             </Collapse>
