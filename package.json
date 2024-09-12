@@ -26,7 +26,6 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "@babel/eslint-parser": "^7.23.10",
     "@mui/styles": "^5.14.18",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.5",
@@ -87,7 +86,6 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
     "autoprefixer": "^10.4.19",
     "browser-sync": "^2.23.7",
     "concurrently": "^6.5.1",
