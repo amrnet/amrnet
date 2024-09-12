@@ -1,4 +1,4 @@
-import { Circles } from  'react-loader-spinner' 
+import Loader from 'react-loader-spinner';
 // import LogoImg from '../../assets/img/logo-prod.png';
 import { Header } from '../Elements/Header';
 import { useStyles } from './MainLayoutUI';
@@ -22,7 +22,7 @@ export const MainLayout = ({ children, isHomePage = false }) => {
       {(loadingData || loadingMap) && (
         <div className={classes.loading}>
           {/* <img className={classes.logo} src={LogoImg} alt="AMRnet" /> */}
-          <Circles color="#6F2F9F" height={80} width={80} />
+          <Loader type="Circles" color="#6F2F9F" height={70} width={70} />
         </div>
       )}
     </>

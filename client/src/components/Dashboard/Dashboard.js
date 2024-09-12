@@ -53,8 +53,6 @@ import {
   setKODiversityGraphView,
   setTrendsKPGraphDrugClass,
   setTrendsKPGraphView,
-  setTrendsNGGraphDrugClass,
-  setTrendsNGGraphView,
   setCurrentSliderValue,
   setCurrentSliderValueRD,
   setNgmast,
@@ -101,7 +99,7 @@ export const DashboardPage = () => {
   async function getStoreOrGenerateData(storeName, handleGetData) {
     let organismData = [];
 
-    // console.log(storeName)// Check if organism data is already in indexedDB
+    // Check if organism data is already in indexedDB
     const storeHasItems = await hasItems(storeName);
 
     // If it is then use it, if not then get it from database
@@ -274,8 +272,6 @@ export const DashboardPage = () => {
           dispatch(setMapView('No. Samples'));
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
           dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
-          dispatch(setTrendsNGGraphDrugClass('Azithromycin'));
-          dispatch(setTrendsNGGraphView('number'));
           break;
         case 'ecoli':
         case 'decoli':
@@ -304,7 +300,6 @@ export const DashboardPage = () => {
           drugResistance: false,
           frequencies: false,
           trendsKP: false,
-          trendsNG: false,
           KODiversity: false,
           convergence: false,
         }),
@@ -325,7 +320,6 @@ export const DashboardPage = () => {
       dispatch(setConvergenceData([]));
       dispatch(setDeterminantsGraphDrugClass(''));
       dispatch(setTrendsKPGraphDrugClass(''));
-      dispatch(setTrendsNGGraphDrugClass(''));
       dispatch(setMapView(''));
       dispatch(setFrequenciesGraphView('percentage'));
       dispatch(setDeterminantsGraphView('percentage'));

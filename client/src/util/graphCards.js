@@ -7,7 +7,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'ngono','kpneumo'],
+    organisms: ['styphi', 'ngono'],
   },
   {
     collapse: 'frequencies',
@@ -49,14 +49,6 @@ export const graphCards = [
     icon: <MultilineChart color="primary" />,
     id: 'CERDT',
     organisms: ['kpneumo'],
-  },
-  {
-    collapse: 'trendsNG',
-    title: 'N. gonorrhoeae resistant determinant trends',
-    description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
-    icon: <MultilineChart color="primary" />,
-    id: 'NG',
-    organisms: ['ngono'],
   },
   {
     collapse: 'KODiversity',

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode, FC } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, FC } from 'react';
 import { addItem, deleteItem, getItem, getItems, bulkAddItems, hasItems, filterItems, initDB } from '../idb';
 
 // Define the shape of the context value
