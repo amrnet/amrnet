@@ -96,8 +96,8 @@
     "typescript": "^4.8.4"
   },
   "engines": {
-    "node": "ˆ20.17.0",
-    "yarn": "ˆ1.22.20"
+    "node": "20.17.0",
+    "yarn": "1.22.20"
   },
   "config": {
     "commitizen": {
