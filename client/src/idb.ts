@@ -1,6 +1,6 @@
 import { openDB } from 'idb';
 
-type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' |'shige' | 'sentericaints' | 'senterica';
+type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
 const DB_NAME = 'organismsData';
 const DB_VERSION = 5;
