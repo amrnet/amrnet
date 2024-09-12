@@ -105,7 +105,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/react-simple-maps": "^3.0.0",
     "browser-sync": "^2.23.7",
     "eslint": "^7.29.0",
