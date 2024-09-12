@@ -191,7 +191,6 @@ export const DownloadData = () => {
   const dataset = useAppSelector((state) => state.map.dataset);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
   const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
-  const trendsNGGraphDrugClass = useAppSelector((state) => state.graph.trendsNGGraphDrugClass);
   const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
@@ -440,7 +439,6 @@ export const DownloadData = () => {
         drugResistance: true,
         frequencies: true,
         trendsKP: true,
-        trendsNG: true,
         KODiversity: true,
         convergence: true,
       }),
@@ -856,9 +854,6 @@ export const DownloadData = () => {
             break;
           case 'CERDT':
             title += `: ${trendsKPGraphDrugClass}`;
-            break;
-          case 'NG':
-            title += `: ${trendsNGGraphDrugClass}`;
             break;
           case 'KO':
             title += `: ${KODiversityGraphView}`;
