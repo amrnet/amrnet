@@ -2,17 +2,11 @@
   "name": "amrnet",
   "author": "Louise Cerdeira",
   "version": "1.0.2",
-  "repository": "ehmpathy/declapract",
-  "homepage": "https://github.com/amrnet/amrnet",
-  "keywords": [
-    "mern",
-    "amr",
-    "bacteria",
-    "mongo",
-    "javascript",
-    "genomic",
-    "metadata"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amrnet/amrnet"
+  },
+  "description": "AMRnet server",
   "bugs": "https://github.com/amrnet/amrnet/issues",
   "main": "server.js",
   "type": "module",
@@ -26,6 +20,7 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
+    "@babel/eslint-parser": "^7.23.10",
     "@mui/styles": "^5.14.18",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.5",
@@ -86,6 +81,9 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.17",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.22.15",
     "autoprefixer": "^10.4.19",
     "browser-sync": "^2.23.7",
     "concurrently": "^6.5.1",
@@ -104,8 +102,8 @@
     "typescript": "^4.8.4"
   },
   "engines": {
-    "node": "14.15.0",
-    "yarn": "1.22.20"
+    "node": "14.8.0",
+    "yarn": "1.22.5"
   },
   "config": {
     "commitizen": {
