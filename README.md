@@ -1,4 +1,4 @@
-# AMRnet
+<img src='assets/img/logo-prod.png' width="150" height="90">    
 
 ![Main Code Base](https://img.shields.io/github/languages/top/amrnet/amrnet)
 ![Version](https://img.shields.io/badge/version-1.0-red)
