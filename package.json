@@ -84,26 +84,22 @@
     "@babel/core": "^7.22.17",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.22.15",
+    "@types/node": "^22.5.4",
     "autoprefixer": "^10.4.19",
     "browser-sync": "^2.23.7",
     "concurrently": "^6.5.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.29.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-prettier": "^3.1.4",
     "if-env": "^1.0.4",
     "mocha": "^9.0.1",
     "nodemon": "^2.0.9",
     "postcss": "^8.4.38",
-    "prettier": "^2.1.2",
     "tailwindcss": "^3.4.3",
     "typescript": "^4.8.4"
   },
   "engines": {
-    "node": "14.8.0",
-    "yarn": "1.22.5"
+    "node": "14.15.0",
+    "yarn": "1.22.20"
   },
   "config": {
     "commitizen": {
