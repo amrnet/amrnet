@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDataset } from '../../../../stores/slices/mapSlice.ts';
-import { setActualTimeFinal, setActualTimeInitial } from '../../../../stores/slices/dashboardSlice';
+import { setActualTimeFinal, setActualTimeInitial, setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -30,15 +30,18 @@ export const TopLeftControls = () => {
   function handleChange(_event, newValue) {
     if (newValue !== null) {
       dispatch(setDataset(newValue));
+      dispatch(setCanFilterData(true));
     }
   }
 
   function handleChangeInitial(_event, child) {
     dispatch(setActualTimeInitial(child.props.value));
+    dispatch(setCanFilterData(true));
   }
 
   function handleChangeFinal(_event, child) {
     dispatch(setActualTimeFinal(child.props.value));
+    dispatch(setCanFilterData(true));
   }
 
   function isDisabled() {

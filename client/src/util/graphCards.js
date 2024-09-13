@@ -31,7 +31,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'senterica'],
+    organisms: ['styphi', 'kpneumo', 'ngono'],
   },
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
@@ -40,7 +40,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['shige', 'decoli', 'sentericaints'],
+    organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'],
   },
   {
     collapse: 'trendsKP',
@@ -48,7 +48,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
     id: 'CERDT',
-    organisms: [''],
+    organisms: ['kpneumo'],
   },
   {
     collapse: 'KODiversity',
