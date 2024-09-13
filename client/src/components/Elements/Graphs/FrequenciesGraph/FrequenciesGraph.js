@@ -36,9 +36,9 @@ import {
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP, drugsNG, drugsEC } from '../../../../util/drugs';
+import { drugsST, drugsKP, drugsNG } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { setCaptureDRT, setCaptureRFWG, setCaptureRDWG, setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureRFWG } from '../../../../stores/slices/dashboardSlice';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -58,14 +58,14 @@ export const FrequenciesGraph = () => {
   const frequenciesGraphView = useAppSelector((state) => state.graph.frequenciesGraphView);
   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
-  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
 
   let data = genotypesDrugsData;
   let sumOfBarDataToShowOnPlot = 0;
-  
+
   useEffect(() => {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
 
+    // eslint-disable-next-line array-callback-return
     data.map((item) => {
       sumOfBarDataToShowOnPlot += item.totalCount;
     });
@@ -109,35 +109,34 @@ export const FrequenciesGraph = () => {
   function getXDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return "XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)";
-      case 'ngono': 
-        return "XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])";
+        return 'XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)';
+      case 'ngono':
+        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
       default:
-        return
+        return;
     }
   }
   function getMDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return "MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)";
-      case 'ngono': 
-        return "MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])";
+        return 'MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
+      case 'ngono':
+        return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:
-        return
+        return;
     }
   }
   function getSusceptibleDefinition() {
     switch (organism) {
-      case 'ngono': 
-        return "Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)";
+      case 'ngono':
+        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
-        return
+        return;
     }
   }
 
   function getData() {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
-  
 
     if (frequenciesGraphView === 'number') {
       return data;
@@ -266,31 +265,30 @@ export const FrequenciesGraph = () => {
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
-                        if(!sumOfBarDataToShowOnPlot)
-                          return null;
-                          const { dataKey, color } = entry;
-                          let dataKeyElement;
-                          if (dataKey === 'XDR') {
-                            dataKeyElement = (
-                              <Tooltip title={getXDRDefinition()} placement="top">
-                                <span>XDR</span>
-                              </Tooltip>
-                            );
-                          } else if (dataKey === 'MDR') {
-                            dataKeyElement = (
-                              <Tooltip title={getMDRDefinition()} placement="top">
-                                <span>MDR</span>
-                              </Tooltip>
-                            );
-                          }else if (dataKey === 'Susceptible') {
-                            dataKeyElement = (
-                              <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                <span>Susceptible</span>
-                              </Tooltip>
-                            );
-                          } else {
-                            dataKeyElement = dataKey;
-                          }
+                        if (!sumOfBarDataToShowOnPlot) return null;
+                        const { dataKey, color } = entry;
+                        let dataKeyElement;
+                        if (dataKey === 'XDR') {
+                          dataKeyElement = (
+                            <Tooltip title={getXDRDefinition()} placement="top">
+                              <span>XDR</span>
+                            </Tooltip>
+                          );
+                        } else if (dataKey === 'MDR') {
+                          dataKeyElement = (
+                            <Tooltip title={getMDRDefinition()} placement="top">
+                              <span>MDR</span>
+                            </Tooltip>
+                          );
+                        } else if (dataKey === 'Susceptible') {
+                          dataKeyElement = (
+                            <Tooltip title={getSusceptibleDefinition()} placement="top">
+                              <span>Susceptible</span>
+                            </Tooltip>
+                          );
+                        } else {
+                          dataKeyElement = dataKey;
+                        }
                         return (
                           <div key={`frequencies-legend-${index}`} className={classes.legendItemWrapper}>
                             <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
@@ -432,28 +430,19 @@ export const FrequenciesGraph = () => {
                   let itemLabel;
                   if (item.label === 'XDR') {
                     itemLabel = (
-                      <Tooltip
-                        title={getXDRDefinition()}
-                        placement="top"
-                      >
+                      <Tooltip title={getXDRDefinition()} placement="top">
                         <span>XDR</span>
                       </Tooltip>
                     );
                   } else if (item.label === 'MDR') {
                     itemLabel = (
-                      <Tooltip
-                        title={getMDRDefinition()}
-                        placement="top"
-                      >
+                      <Tooltip title={getMDRDefinition()} placement="top">
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  }else if (item.label === 'Susceptible') {
+                  } else if (item.label === 'Susceptible') {
                     itemLabel = (
-                      <Tooltip
-                        title={getSusceptibleDefinition()}
-                        placement="top"
-                      >
+                      <Tooltip title={getSusceptibleDefinition()} placement="top">
                         <span>Susceptible</span>
                       </Tooltip>
                     );

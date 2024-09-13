@@ -21,7 +21,7 @@ import {
   setSliderList,
   setMaxSliderValueRD,
 } from '../../../../stores/slices/graphSlice';
-import { drugClassesST, drugClassesKP, drugClassesNG, drugsNG } from '../../../../util/drugs';
+import { drugClassesST, drugClassesKP, drugClassesNG } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import {
   colorForDrugClassesKP,
@@ -31,7 +31,7 @@ import {
 } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
-import { setCaptureDRT, setCaptureRFWG, setCaptureRDWG, setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureRDWG } from '../../../../stores/slices/dashboardSlice';
 
 const dataViewOptions = [
   {
@@ -61,11 +61,12 @@ export const DeterminantsGraph = () => {
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
   const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
-  const captureRDWG  = useAppSelector((state) => state.dashboard.captureRDWG);
+  const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
   let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
+    // eslint-disable-next-line array-callback-return
     newArray.map((item) => {
       sumOfBarDataToShowOnPlot += item.totalCount;
     });
@@ -155,10 +156,9 @@ export const DeterminantsGraph = () => {
   let newArray = []; //TODO: can be a global value in redux
   const exclusions = ['name', 'totalCount', 'resistantCount'];
 
-
   newArray = determinantsGraphDrugClassData.map((item) => {
     let count = 0;
-    let newTotalCount=0;
+    let newTotalCount = 0;
     for (const key in item) {
       if (!exclusions.includes(key)) {
         newTotalCount += item[key];
@@ -170,7 +170,7 @@ export const DeterminantsGraph = () => {
     const newItem = { ...item, Other: count, newTotalCount: newTotalCount };
     return newItem; //return item of genotypesYearData with additional filed 'Other' to newArray
   });
- 
+
   let genotypeDrugClassesDataPercentage = structuredClone(newArray);
   useEffect(() => {
     //TODO change the exclusions
@@ -217,7 +217,7 @@ export const DeterminantsGraph = () => {
         : colorForDrugClassesNG;
     const drugClassColors = colorForDrugClasses[determinantsGraphDrugClass];
     // Find the color for the specific drug from the drug class colors
-    const drugColorObject = drugClassColors.find((item) => (drug === item.name));
+    const drugColorObject = drugClassColors.find((item) => drug === item.name);
     const drugColor = drugColorObject ? drugColorObject.color : '#DCDCDC'; // If drugColorObject exists, extract color, otherwise set to empty string
     return drugColor;
   }
@@ -299,8 +299,7 @@ export const DeterminantsGraph = () => {
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
-                        if(!captureRDWG)
-                          return null
+                        if (!captureRDWG) return null;
                         const { dataKey, color } = entry;
                         return (
                           <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>

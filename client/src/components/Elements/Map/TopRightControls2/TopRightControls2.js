@@ -1,20 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  Button,
   Card,
   CardContent,
   Checkbox,
   ListItemText,
   MenuItem,
-  Select,
   Tooltip,
   Typography,
-  InputAdornment,
   FormControl,
-  ListSubheader,
   Autocomplete,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
@@ -25,20 +20,17 @@ import { Collapse } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { setMapView } from '../../../../stores/slices/mapSlice';
 
 export const TopRightControls2 = () => {
   const classes = useStyles();
-  const [, setCurrentTooltip] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [searchValue2, setSearchValue2] = useState('');
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
   const genotypesDrugsData2 = useAppSelector((state) => state.graph.genotypesDrugsData2);
-  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
   const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
   const [open, setOpen] = useState(true);
-  const mapView = useAppSelector((state) => state.map.mapView);
 
   const handleAutocompleteChange = (event, newValue) => {
     if (customDropdownMapView.length === 10 && newValue.length > 10) {
@@ -57,28 +49,26 @@ export const TopRightControls2 = () => {
   }, [genotypesDrugsData2]);
 
   function getSelectGenotypeLabel(genotype) {
-    const matchingGenotype = genotypesDrugsData2.find(g => g.name === genotype);
+    const matchingGenotype = genotypesDrugsData2.find((g) => g.name === genotype);
     const totalCount = matchingGenotype?.totalCount ?? 0;
     const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
-    if (organism === 'decoli' ||  organism === "shige"  ||  organism === 'sentericaints')
+    if (organism === 'decoli' || organism === 'shige' || organism === 'sentericaints')
       return `${genotype} (total N=${totalCount})`;
     return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
   }
-  function getHoverIcon (){
+  function getHoverIcon() {
     if (organism === 'decoli')
-      return "Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display."
-    else if(organism === 'kpneumo')
-      return "Sequence type are labelled as 7-locus MLST. Select up to 10 to display."
-    else if (organism === "shige")
-      return "Lineages are labelled as Species + HC400 cluster. Select up to 10 to display."
-    else if (organism === "sentericaints")
-      return "Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster. Select up to 10 to display."
-    return "Select up to 10 to display"
+      return 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.';
+    else if (organism === 'kpneumo') return 'Sequence type are labelled as 7-locus MLST. Select up to 10 to display.';
+    else if (organism === 'shige')
+      return 'Lineages are labelled as Species + HC400 cluster. Select up to 10 to display.';
+    else if (organism === 'sentericaints')
+      return 'Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster. Select up to 10 to display.';
+    return 'Select up to 10 to display';
   }
-  function getHeading (){
-    if (organism === 'decoli' ||  organism === "shige"  ||  organism === 'sentericaints')
-      return "Select Lineage"
-    return "Select Genotype"
+  function getHeading() {
+    if (organism === 'decoli' || organism === 'shige' || organism === 'sentericaints') return 'Select Lineage';
+    return 'Select Genotype';
   }
   const filteredData = genotypesDrugsData2.filter(
     (genotype) =>
@@ -135,7 +125,7 @@ export const TopRightControls2 = () => {
         className={classes.font}
         control={<Switch checked={open} onChange={handleClick} />}
         label={
-          organism === 'shige' || organism === 'decoli' ||  organism === 'sentericaints'  ? (
+          organism === 'shige' || organism === 'decoli' || organism === 'sentericaints' ? (
             open ? (
               <Typography className={classes.font}>Close lineage selector</Typography>
             ) : (
