@@ -13,7 +13,10 @@ import { DocumentationPage } from './components/Documentation';
 import { ContactPage } from './components/Contact';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { store } from './stores/store.ts';
+import { Dashboard } from '@mui/icons-material';
+import { LandingPage } from './components/Elements/LandingPage';
 import { IndexedDBProvider } from './context/IndexedDBContext';
+
 
 const theme = createTheme({
   palette: {
@@ -47,7 +50,8 @@ ReactDOM.render(
           <IndexedDBProvider>
             <div className="App">
               <Routes>
-                <Route path="/" element={<DashboardPage />} />
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/DashboardPage" element={<DashboardPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/database" element={<DatabasePage />} />
