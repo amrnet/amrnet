@@ -12,7 +12,7 @@ import {
   ScatterChart,
   Scatter,
   ZAxis,
-  Cell
+  Cell,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
+import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 
 export const ConvergenceGraph = () => {
   const classes = useStyles();
@@ -41,6 +42,7 @@ export const ConvergenceGraph = () => {
   function handleChangeGroupVariable(event) {
     setCurrentTooltip(null);
     dispatch(setConvergenceGroupVariable(event.target.value));
+    dispatch(setCanFilterData(true));
   }
 
   // function handleChangeColourVariable(event) {
@@ -101,7 +103,9 @@ export const ConvergenceGraph = () => {
                           <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
                             <Box
                               className={classes.colorCircle}
-                              style={{ backgroundColor: convergenceColourPallete[key] }}
+                              style={{
+                                backgroundColor: convergenceColourPallete[key],
+                              }}
                             />
                             <Typography variant="caption">{key}</Typography>
                           </div>
@@ -199,7 +203,7 @@ export const ConvergenceGraph = () => {
                   <Box
                     className={classes.tooltipItemBox}
                     style={{
-                      backgroundColor: 'rgb(24, 85, 183)'
+                      backgroundColor: 'rgb(24, 85, 183)',
                     }}
                   />
                   <div className={classes.tooltipItemStats}>
@@ -215,7 +219,7 @@ export const ConvergenceGraph = () => {
                   <Box
                     className={classes.tooltipItemBox}
                     style={{
-                      backgroundColor: 'rgb(187, 54, 60)'
+                      backgroundColor: 'rgb(187, 54, 60)',
                     }}
                   />
                   <div className={classes.tooltipItemStats}>

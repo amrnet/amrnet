@@ -16,7 +16,7 @@ interface GraphState {
   drugsYearData: Array<any>;
   genotypesAndDrugsYearData: Array<any>;
   collapses: CollapsesModel;
-  drugResistanceGraphView: Array<string>,
+  drugResistanceGraphView: Array<string>;
   frequenciesGraphView: string;
   frequenciesGraphSelectedGenotypes: Array<string>;
   customDropdownMapView: Array<string>;
@@ -35,11 +35,15 @@ interface GraphState {
   convergenceColourVariable: string;
   convergenceColourPallete: Object;
   currentSliderValue: number;
-  resetBool: boolean;
-  maxSliderValue:number;
+  maxSliderValue: number;
   currentSliderValueRD: number;
-  maxSliderValueRD:number;
-  sliderList:number;
+  maxSliderValueRD: number;
+  currentSliderValueKP_GT: number;
+  currentSliderValueKP_GE: number;
+  maxSliderValueKP_GE: number;
+  resetBool: boolean;
+  sliderList: number;
+  sliderListKP_GE: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
 }
@@ -68,7 +72,6 @@ const initialState: GraphState = {
   customDropdownMapView: [],
   customDropdownMapViewNG: [],
   determinantsGraphView: 'percentage',
-  customDropdownMapViewNG: [],
   determinantsGraphDrugClass: '',
   trendsKPGraphDrugClass: '',
   trendsKPGraphView: 'number',
@@ -78,13 +81,17 @@ const initialState: GraphState = {
   convergenceGroupVariable: 'COUNTRY_ONLY',
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
-  currentSliderValue:20,
+  currentSliderValue: 20,
+  maxSliderValue: 0,
+  currentSliderValueRD: 5,
+  maxSliderValueRD: 0,
+  currentSliderValueKP_GT: 20,
+  currentSliderValueKP_GE: 20,
+  maxSliderValueKP_GE: 0,
   resetBool: false,
-  maxSliderValue:0,
-  currentSliderValueRD:5,
-  maxSliderValueRD:0,
-  sliderList:0,
-  NGMAST:[],
+  sliderList: 0,
+  sliderListKP_GE: 0,
+  NGMAST: [],
   ngmastDrugsData: [],
 };
 
@@ -167,7 +174,7 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
-     setCurrentSliderValue: (state, action: PayloadAction<number>) => {
+    setCurrentSliderValue: (state, action: PayloadAction<number>) => {
       state.currentSliderValue = action.payload;
     },
     setResetBool: (state, action: PayloadAction<boolean>) => {
@@ -182,8 +189,20 @@ export const graphSlice = createSlice({
     setMaxSliderValueRD: (state, action: PayloadAction<number>) => {
       state.maxSliderValueRD = action.payload;
     },
+    setCurrentSliderValueKP_GT: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKP_GT = action.payload;
+    },
+    setCurrentSliderValueKP_GE: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKP_GE = action.payload;
+    },
+    setMaxSliderValueKP_GE: (state, action: PayloadAction<number>) => {
+      state.maxSliderValueKP_GE = action.payload;
+    },
     setSliderList: (state, action: PayloadAction<number>) => {
       state.sliderList = action.payload;
+    },
+    setSliderListKP_GE: (state, action: PayloadAction<number>) => {
+      state.sliderListKP_GE = action.payload;
     },
     setNgmast: (state, action: PayloadAction<Array<any>>) => {
       state.NGMAST = action.payload;
@@ -191,7 +210,7 @@ export const graphSlice = createSlice({
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
     },
-  }
+  },
 });
 
 export const {
@@ -226,8 +245,12 @@ export const {
   setCurrentSliderValueRD,
   setMaxSliderValueRD,
   setSliderList,
+  setSliderListKP_GE,
   setNgmast,
-  setNgmastDrugsData
+  setNgmastDrugsData,
+  setCurrentSliderValueKP_GT,
+  setCurrentSliderValueKP_GE,
+  setMaxSliderValueKP_GE,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

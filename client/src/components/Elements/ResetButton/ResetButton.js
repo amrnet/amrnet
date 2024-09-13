@@ -2,7 +2,12 @@ import { RestartAlt } from '@mui/icons-material';
 import { useStyles } from './ResetButtonMUI';
 import { Fab, Tooltip, useMediaQuery } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { setActualTimeFinal, setActualTimeInitial, setCanGetData } from '../../../stores/slices/dashboardSlice';
+import {
+  setActualTimeFinal,
+  setActualTimeInitial,
+  setCanFilterData,
+  setCanGetData,
+} from '../../../stores/slices/dashboardSlice';
 import { setDataset, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice';
 import {
@@ -20,18 +25,21 @@ import {
   setTrendsKPGraphView,
   setCustomDropdownMapView,
   setFrequenciesGraphSelectedGenotypes,
-  setNgmast,
   setNgmastDrugsData,
-  setCustomDropdownMapViewNG
+  setCustomDropdownMapViewNG,
+  setCurrentSliderValueRD,
 } from '../../../stores/slices/graphSlice';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
 import {
-  getGenotypesData,
-  getNgmastData
-} from '../../Dashboard/filters';
+  drugsKP,
+  defaultDrugsForDrugResistanceGraphST,
+  defaultDrugsForDrugResistanceGraphNG,
+} from '../../../util/drugs';
+import { getGenotypesData, getNgmastData } from '../../Dashboard/filters';
+import { useIndexedDB } from '../../../context/IndexedDBContext';
 
-export const ResetButton = (props) => {
+export const ResetButton = () => {
   const classes = useStyles();
+  const { getItems } = useIndexedDB();
   const matches500 = useMediaQuery('(max-width: 500px)');
 
   const dispatch = useAppDispatch();
@@ -41,10 +49,9 @@ export const ResetButton = (props) => {
   const genotypes = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const ngmast = useAppSelector((state) => state.graph.NGMAST);
-    const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
+  const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
 
-
-  function handleClick() {
+  async function handleClick() {
     dispatch(setCanGetData(false));
     dispatch(
       setCollapses({
@@ -54,8 +61,8 @@ export const ResetButton = (props) => {
         frequencies: false,
         trendsKP: false,
         KODiversity: false,
-        convergence: false
-      })
+        convergence: false,
+      }),
     );
 
     dispatch(setDataset('All'));
@@ -63,24 +70,29 @@ export const ResetButton = (props) => {
     dispatch(setActualTimeFinal(timeFinal));
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
     dispatch(setActualCountry('All'));
-    const genotypesData = getGenotypesData({ data: props.data, genotypes, actualCountry });
-    const ngmastData = getNgmastData({ data: props.data, ngmast, organism });
+
+    const storeData = await getItems(organism);
+    const genotypesData = getGenotypesData({
+      data: storeData,
+      genotypes,
+      actualCountry,
+    });
+    const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
     dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-    console.log("setCustomDropdownMapView", customDropdownMapViewNG, genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name))
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
 
     if (organism === 'styphi') {
       dispatch(setMapView('CipNS'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-    } else if(organism === 'ngono'){
+    } else if (organism === 'ngono') {
       dispatch(setMapView('No. Samples'));
-      dispatch(setDrugResistanceGraphView(drugsNG));
-      dispatch(setDeterminantsGraphDrugClass('Ceftriaxone'));
+      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
+      dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
-    }else {
+    } else {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
@@ -95,7 +107,10 @@ export const ResetButton = (props) => {
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
+    if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+    else dispatch(setCurrentSliderValueRD(5));
     dispatch(setCanGetData(true));
+    dispatch(setCanFilterData(true));
   }
 
   return (

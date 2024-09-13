@@ -1,21 +1,24 @@
-import { Description, Home, Info, MenuBook, Person, Storage } from '@mui/icons-material';
+import { Home, Info, MenuBook } from '@mui/icons-material';
 
 // List of drawer menu items
 export const menuItems = [
   {
     key: 'home',
-    label: 'Home',
-    icon: <Home />
+    label: 'Dashboard',
+    labelHead: 'Home',
+    icon: <Home />,
   },
   {
     key: 'about',
     label: 'About',
-    icon: <Info />
+    labelHead: 'About AMRnet',
+    icon: <Info />,
   },
   {
     key: 'user-guide',
     label: 'User Guide',
-    icon: <MenuBook />
+    labelHead: 'User Guide',
+    icon: <MenuBook />,
   },
   // {
   //   key: 'database',

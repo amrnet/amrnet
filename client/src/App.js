@@ -8,18 +8,18 @@ import { Provider } from 'react-redux';
 import { AdminPage } from './components/Admin';
 import { DashboardPage } from './components/Dashboard';
 import { AboutPage } from './components/About';
-import { UserGuidePage } from './components/UserGuide';
 import { DatabasePage } from './components/Database';
 import { DocumentationPage } from './components/Documentation';
 import { ContactPage } from './components/Contact';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { store } from './stores/store.ts';
+import { IndexedDBProvider } from './context/IndexedDBContext';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1fbbd3'
-    }
+      main: '#1fbbd3',
+    },
   },
   typography: {
     fontFamily: [
@@ -34,9 +34,9 @@ const theme = createTheme({
       '"Fira Sans"',
       '"Droid Sans"',
       '"Helvetica Neue"',
-      'sans-serif'
-    ].join(',')
-  }
+      'sans-serif',
+    ].join(','),
+  },
 });
 
 ReactDOM.render(
@@ -44,22 +44,23 @@ ReactDOM.render(
     <HashRouter>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <div className="App">
-            <Routes>
-              <Route path="/" element={<DashboardPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/user-guide" element={<UserGuidePage />} />
-              <Route path="/database" element={<DatabasePage />} />
-              <Route path="/documentation" element={<DocumentationPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-            </Routes>
-          </div>
+          <IndexedDBProvider>
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/database" element={<DatabasePage />} />
+                <Route path="/documentation" element={<DocumentationPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+              </Routes>
+            </div>
+          </IndexedDBProvider>
         </ThemeProvider>
       </Provider>
     </HashRouter>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 registerServiceWorker();

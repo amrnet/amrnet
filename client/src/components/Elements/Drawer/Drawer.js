@@ -44,7 +44,13 @@ export const Drawer = () => {
       return;
     }
 
-    navigate(`/${item.key}`);
+    if (item.key === 'user-guide') {
+      window.open(`https://amrnet.readthedocs.io/en/staging/`, '_blank');
+      return;
+    }
+
+    // navigate(`/${item.key}`);
+    window.open(`#/${item.key}`, '_blank');
   }
 
   return (
