@@ -8,43 +8,43 @@ const organisms = [
   {
     label: 'Salmonella Typhi',
     value: 'styphi',
-    abbr: 'S. Typhi'
+    abbr: 'S. Typhi',
   },
   {
     label: 'Klebsiella pneumoniae',
     value: 'kpneumo',
-    abbr: 'K. pneumoniae'
+    abbr: 'K. pneumoniae',
   },
   {
     label: 'Neisseria gonorrhoeae',
     value: 'ngono',
-    abbr: 'N. gonorrhoeae'
+    abbr: 'N. gonorrhoeae',
   },
-  // {
-  //   label: 'Escherichia coli',
-  //   value: 'ecoli',
-  //   abbr: 'E. coli'
-  // },
+  {
+    label: 'Escherichia coli',
+    value: 'ecoli',
+    abbr: 'E. coli'
+  },
   {
     label: 'Diarrheagenic E. coli',
     value: 'decoli',
-    abbr: 'DEC'
+    abbr: 'DEC',
   },
   {
     label: 'Shigella + EIEC',
     value: 'shige',
-    abbr: 'Shigella+EIEC'
+    abbr: 'Shigella+EIEC',
   },
   {
-    label: 'invasive non-typhoidal Salmonella',
+    label: 'Invasive non-typhoidal Salmonella',
     value: 'sentericaints',
-    abbr: 'iNTS'
+    abbr: 'iNTS',
+  },
+  {
+    label: 'Salmonella enterica',
+    value: 'senterica',
+    abbr: 'S. enterica'
   }
-  // {
-  //   label: 'Salmonella enterica',
-  //   value: 'senterica',
-  //   abbr: 'S. enterica'
-  // }
 ];
 
 export const SelectOrganism = () => {
@@ -87,8 +87,9 @@ export const SelectOrganism = () => {
     const labels = currentOrganism.label.split(' ');
     dispatch(
       setGlobalOverviewLabel({
-        italicLabel: labels[0],
-        label: labels[1],
+        label0: labels[0],
+        label1: labels[1],
+        label2: labels[2],
         fullLabel: currentOrganism.label
       })
     );

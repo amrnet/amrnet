@@ -25,7 +25,7 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputAdornment
+  InputAdornment,
 } from '@mui/material';
 import {
   FirstPage,
@@ -36,7 +36,7 @@ import {
   Info,
   Edit,
   Search,
-  Close
+  Close,
 } from '@mui/icons-material';
 import {
   useStyles,
@@ -47,7 +47,7 @@ import {
   StyledHeaderCell,
   CustomTableContainer,
   CustomTableSortLabel,
-  CustomCircularProgress
+  CustomCircularProgress,
 } from './materialUI';
 import { API_ENDPOINT } from '../../constants';
 import axios from 'axios';
@@ -103,7 +103,7 @@ export const AdminPage = () => {
     'Mash Distance',
     'Matching Hashes',
     'SANGER LANE',
-    'STRAIN'
+    'STRAIN',
   ]);
 
   // Change table page
@@ -416,7 +416,7 @@ export const AdminPage = () => {
         .post(`${API_ENDPOINT}mongo/upload/admin`, {
           data: LZString.compress(JSON.stringify(parts[parts.length - 1])),
           parts: times,
-          current: index + 1
+          current: index + 1,
         })
         .then((res) => {
           if (res.data !== '' && res.data.Status === 'Uploaded') {
@@ -596,7 +596,7 @@ export const AdminPage = () => {
                 setSearch(value);
                 setPage(0);
               }
-            }
+            },
           }}
         />
 
@@ -745,7 +745,7 @@ export const AdminPage = () => {
     count: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
-    rowsPerPage: PropTypes.number.isRequired
+    rowsPerPage: PropTypes.number.isRequired,
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -932,7 +932,7 @@ export const AdminPage = () => {
                         selected={isItemSelected}
                         classes={{
                           selected: classes.tableRowSelected,
-                          root: classes.tableRowRoot
+                          root: classes.tableRowRoot,
                         }}
                       >
                         <TableCell padding="checkbox">

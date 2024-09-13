@@ -9,9 +9,9 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 500px)': {
       right: 8,
-      padding: '16px 8px'
-    }
-  }
+      padding: '16px 8px',
+    },
+  },
 }));
 
 export { useStyles };
