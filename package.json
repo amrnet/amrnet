@@ -6,7 +6,6 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "prebuild": "rm -rf ./src",
     "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
@@ -89,8 +88,8 @@
     "eslint-plugin-prettier": "^3.1.4",
     "mocha": "^9.0.1",
     "nodemon": "^3.1.4",
-    "prettier": "^2.1.2",
     "postcss": "^8.4.38",
+    "prettier": "^2.1.2",
     "react-scripts": "^5.0.1",
     "tailwindcss": "^3.4.3",
     "typescript": "^4.8.4"
