@@ -20,6 +20,19 @@ export const LandingPage = () =>{
     const organism = useAppSelector((state) => state.dashboard.organism);
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
+    
+    const names = (value, name) => {
+      const labels = name.split(' ');
+      if (['ngono', 'ecoli', 'senterica', 'kpneumo'].includes(value)) {
+        return <i>{labels[0]} {labels[1]} {labels[2]}</i>;
+      }else if (value === ('decoli')) {
+        return <> {labels[0]} <i>{labels[1]} {labels[2]} </i></>;
+      } else if (value === ('sentericaints')) {
+        return <> {labels[0]} {labels[1]} <i> {labels[2]} </i></>;
+      } else{
+        return <> <i>{labels[0]}</i> {labels[1]} {labels[2]}</>;
+      }
+    };
 
     const handleClick = (name) => {
         dispatch(setOrganism(name));
@@ -32,6 +45,7 @@ export const LandingPage = () =>{
         label1: labels[1],
         label2: labels[2],
         fullLabel: currentOrganism.label
+        
       })
     );
         return(
@@ -46,7 +60,6 @@ export const LandingPage = () =>{
      
         <Card className={classes.card}>
             <CardContent className={classes.cardContent}>
-              <Typography variant="h6" className={classes.teamHeading}>Organism</Typography>
               <div className={classes.teamMember} >
                 {orgCard.map((member, index) => {
                 return (
@@ -59,7 +72,7 @@ export const LandingPage = () =>{
                           className={classes.teamMemberImg}
                       />
                         <Typography >
-                            {member.label}
+                            {names(member.value, member.label)}
                         </Typography>
                     </div>
                 )
