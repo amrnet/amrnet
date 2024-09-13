@@ -11,7 +11,8 @@ import { menuItems } from '../../../util/menuItems';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export const Header = ({ showSelect }) => {
+export const Header = ({ showSelect, showSelect2 }) => {
+  console.log("showSelect", showSelect, showSelect2);
   const classes = useStyles();
   const matches650 = useMediaQuery('(max-width: 650px)');
   const matches500 = useMediaQuery('(max-width: 500px)');
@@ -22,7 +23,9 @@ export const Header = ({ showSelect }) => {
   const organism = useAppSelector((state) => state.dashboard.organism);
 
   function getPageTitle() {
+    console.log("menuItems", menuItems)
     const title = menuItems.find((item) => item.key === page).labelHead;
+    console.log("title", title)
     return title;
   }
 
@@ -54,9 +57,10 @@ export const Header = ({ showSelect }) => {
                 </Link>
 
               </div>
+              {/* {(showSelect || showSelect2) && <SelectOrganism />} */}
               {showSelect && <SelectOrganism />}
             </div>
-            {!showSelect && (
+            {!(showSelect || showSelect2) && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
