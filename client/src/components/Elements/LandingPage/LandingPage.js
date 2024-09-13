@@ -5,7 +5,7 @@ import { useStyles } from './landingPageMUI';
 import Carousel from 'react-simply-carousel';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { orgCard } from '../../../util/orgCard';
-import { setOrganism, setGlobalOverviewLabel} from '../../../stores/slices/dashboardSlice';
+import { setOrganism, setGlobalOverviewLabel, setTotalGenomes} from '../../../stores/slices/dashboardSlice';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { red } from "@mui/material/colors";
 import {DashboardPage} from '../../Dashboard';
@@ -19,6 +19,7 @@ export const LandingPage = () =>{
     const dispatch = useAppDispatch();
     const organism = useAppSelector((state) => state.dashboard.organism);
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+    const totalGenomes = useAppSelector((state) => state.dashboard.totalGenomes);
 
     
     const names = (value, name) => {
@@ -71,8 +72,9 @@ export const LandingPage = () =>{
                           loading="lazy"
                           className={classes.teamMemberImg}
                       />
-                        <Typography >
+                        <Typography sx={{textAlign:'center', fontSize:'bold'}}>
                             {names(member.value, member.label)}
+                            {/* <div>Total Genomes: {totalGenomes}</div> */}
                         </Typography>
                     </div>
                 )
