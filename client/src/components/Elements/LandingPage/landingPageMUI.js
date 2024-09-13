@@ -49,7 +49,25 @@ const useStyles = makeStyles((theme) => ({
       textDecoration:"underline",
       backgroundColor:'unset',
       },
+
+    '&:hover': {
+      transform: 'scale(1.05)',
+      boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+      backgroundColor: '#fce4ec',  // Optional: change background color on hover
     },
+    '&:focus': {
+        transform: 'scale(1.05)',
+        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+        backgroundColor: '#fce4ec',  // Optional: change background color on focus
+    },
+    '@media (pointer: coarse)': {
+        ':active': {
+            transform: 'scale(1.05)',
+            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+            backgroundColor: '#fce4ec',  // Optional: change background color on touch
+        },
+    },
+  },
 
   
   teamMemberImg: {
