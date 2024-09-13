@@ -159,14 +159,12 @@ export const Map = () => {
           let genotypes2 = [];
           genotypes1.forEach((genotype) => {
             if (customDropdownMapView.includes(genotype.name)) {
-              // tooltip.content[genotype.name] = `${genotype.count} `;
               genotypes2.push(genotype);
             }
-            percentCounter += genotype.count;
           });
           genotypes1.forEach((genotype) => {
             if (customDropdownMapView.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count / percentCounter) * 100).toFixed(
+              tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count / countryStats.GENOTYPE.sum) * 100).toFixed(
                 2,
               )} %)`;
           });
@@ -176,7 +174,7 @@ export const Map = () => {
               sumCount += genotype.count;
             }
             if (countryData.count >= 20 && genotypes2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount / percentCounter) * 100).toFixed(
+              tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount / countryStats.GENOTYPE.sum) * 100).toFixed(
                 2,
               )} %)`;
           }

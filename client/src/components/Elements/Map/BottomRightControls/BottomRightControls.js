@@ -1,6 +1,6 @@
 import { Alert, CircularProgress, IconButton, Snackbar, Tooltip } from '@mui/material';
 import { useStyles } from './BottomRightControlsMUI';
-import { CameraAlt } from '@mui/icons-material';
+import { CameraAlt, Download} from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useState } from 'react';
 import { setPosition } from '../../../../stores/slices/mapSlice';
@@ -9,6 +9,9 @@ import { imgOnLoadPromise } from '../../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
 import LogoImg from '../../../../assets/img/logo-prod.png';
 import { mapLegends } from '../../../../util/mapLegends';
+import {DownloadMapViewData} from './DownloadMapViewData';
+// import {DownloadData} from '../../DownloadData';
+import {setFilterdDataDownload} from "../../../../stores/slices/dashboardSlice";
 
 export const BottomRightControls = () => {
   const classes = useStyles();
@@ -203,8 +206,19 @@ export const BottomRightControls = () => {
     setShowAlert(false);
   }
 
+  const handleClickDownloadMapData = () =>{
+    
+  }
+
   return (
     <div className={classes.bottomRightControls}>
+      <Tooltip title="Download Data" placement="right">
+        <span>
+          <IconButton color="primary" disabled={organism === 'none' || loading}>
+            {loading ? <CircularProgress color="primary" size={35} /> : <DownloadMapViewData fontSize="large" />}
+          </IconButton>
+        </span>
+      </Tooltip>
       <Tooltip title="Download Map as PNG" placement="left">
         <span>
           <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
