@@ -151,10 +151,14 @@ export function getMapData({ data, countries, organism }) {
       return acc;
     }, {});
 
+
     stats.GENOTYPE.count = Object.keys(genotypeMap).length;
     stats.GENOTYPE.items = Object.entries(genotypeMap)
       .map(([genotype, count]) => ({ name: genotype, count }))
       .sort((a, b) => b.count - a.count);
+    stats.GENOTYPE.sum = stats.GENOTYPE.items.reduce((sum, item) => {
+      return sum + (item.count || 0);  // Add the count of each item to the sum
+    }, 0);
 
     if (organism === 'styphi') {
       const statKeys = [
@@ -170,6 +174,7 @@ export function getMapData({ data, countries, organism }) {
       statKeys.forEach(({ name, column, key }) => {
         stats[name] = getMapStatsData({ countryData, columnKey: column, statsKey: key });
       });
+
     } else if (organism === 'ngono') {
       const statKeys = [
         { name: 'Susceptible', column: 'Susceptible', key: '1' },
@@ -193,6 +198,9 @@ export function getMapData({ data, countries, organism }) {
       stats.NGMAST.items = Object.entries(ngmastMap)
         .map(([mast, count]) => ({ name: mast, count }))
         .sort((a, b) => b.count - a.count);
+      stats.NGMAST.sum = stats.NGMAST.items.reduce((sum, item) => {
+        return sum + (item.count || 0);  // Add the count of each item to the sum
+      }, 0);
     } else if (organism === 'ecoli') {
     } else if (organism === 'decoli') {
     } else if (organism === 'shige') {

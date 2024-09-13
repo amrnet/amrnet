@@ -3,49 +3,50 @@ import { useStyles } from './SelectOrganismMUI';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { setGlobalOverviewLabel, setOrganism } from '../../../stores/slices/dashboardSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { orgCard } from '../../../util/orgCard';
 
-const organisms = [
-  {
-    label: 'Salmonella Typhi',
-    value: 'styphi',
-    abbr: 'S. Typhi',
-  },
-  {
-    label: 'Klebsiella pneumoniae',
-    value: 'kpneumo',
-    abbr: 'K. pneumoniae',
-  },
-  {
-    label: 'Neisseria gonorrhoeae',
-    value: 'ngono',
-    abbr: 'N. gonorrhoeae',
-  },
-  {
-    label: 'Escherichia coli',
-    value: 'ecoli',
-    abbr: 'E. coli'
-  },
-  {
-    label: 'Diarrheagenic E. coli',
-    value: 'decoli',
-    abbr: 'DEC',
-  },
-  {
-    label: 'Shigella + EIEC',
-    value: 'shige',
-    abbr: 'Shigella+EIEC',
-  },
-  {
-    label: 'Invasive non-typhoidal Salmonella',
-    value: 'sentericaints',
-    abbr: 'iNTS',
-  },
-  {
-    label: 'Salmonella enterica',
-    value: 'senterica',
-    abbr: 'S. enterica'
-  }
-];
+// const orgCard = [
+//   {
+//     label: 'Salmonella Typhi',
+//     value: 'styphi',
+//     abbr: 'S. Typhi',
+//   },
+//   {
+//     label: 'Klebsiella pneumoniae',
+//     value: 'kpneumo',
+//     abbr: 'K. pneumoniae',
+//   },
+//   {
+//     label: 'Neisseria gonorrhoeae',
+//     value: 'ngono',
+//     abbr: 'N. gonorrhoeae',
+//   },
+//   {
+//     label: 'Escherichia coli',
+//     value: 'ecoli',
+//     abbr: 'E. coli'
+//   },
+//   {
+//     label: 'Diarrheagenic E. coli',
+//     value: 'decoli',
+//     abbr: 'DEC',
+//   },
+//   {
+//     label: 'Shigella + EIEC',
+//     value: 'shige',
+//     abbr: 'Shigella+EIEC',
+//   },
+//   {
+//     label: 'Invasive non-typhoidal Salmonella',
+//     value: 'sentericaints',
+//     abbr: 'iNTS',
+//   },
+//   {
+//     label: 'Salmonella enterica',
+//     value: 'senterica',
+//     abbr: 'S. enterica'
+//   }
+// ];
 
 export const SelectOrganism = () => {
   const classes = useStyles();
@@ -63,27 +64,27 @@ export const SelectOrganism = () => {
   }
 
   function handlePreviousAgent() {
-    const index = organisms.findIndex((org) => org.value === organism);
+    const index = orgCard.findIndex((org) => org.value === organism);
     if (index !== -1) {
       const isFirstIndex = index === 0;
-      const newValue = isFirstIndex ? organisms[organisms.length - 1].value : organisms[index - 1].value;
+      const newValue = isFirstIndex ? orgCard[orgCard.length - 1].value : orgCard[index - 1].value;
       dispatch(setOrganism(newValue));
       handleGlobalOverviewLabel(newValue);
     }
   }
 
   function handleNextAgent() {
-    const index = organisms.findIndex((org) => org.value === organism);
+    const index = orgCard.findIndex((org) => org.value === organism);
     if (index !== -1) {
-      const isLastIndex = organisms.length - 1 === index;
-      const newValue = isLastIndex ? organisms[0].value : organisms[index + 1].value;
+      const isLastIndex = orgCard.length - 1 === index;
+      const newValue = isLastIndex ? orgCard[0].value : orgCard[index + 1].value;
       dispatch(setOrganism(newValue));
       handleGlobalOverviewLabel(newValue);
     }
   }
 
   function handleGlobalOverviewLabel(value) {
-    const currentOrganism = organisms.find((x) => x.value === value);
+    const currentOrganism = orgCard.find((x) => x.value === value);
     const labels = currentOrganism.label.split(' ');
     dispatch(
       setGlobalOverviewLabel({
@@ -114,7 +115,7 @@ export const SelectOrganism = () => {
         <MenuItem value="none" disabled>
           Select an organism
         </MenuItem>
-        {organisms.map((item, index) => (
+        {orgCard.map((item, index) => (
           <MenuItem key={`organism-${index}`} value={item.value}>
             {matches1050 ? item.abbr : item.label}
           </MenuItem>
