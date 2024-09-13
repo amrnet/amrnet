@@ -13,13 +13,13 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
-import { setColorPallete,setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
+import { setColorPallete, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
 import { setDistributionGraphView, setResetBool } from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
-import { setCaptureDRT, setCaptureRFWG, setCaptureRDWG, setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -40,14 +40,13 @@ export const DistributionGraph = () => {
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
-  const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
-  const captureGD = useAppSelector((state) => state.dashboard.captureGD);
 
   useEffect(() => {
     let cnt = 0;
+    // eslint-disable-next-line array-callback-return
     newArray.map((item) => {
       cnt += item.count;
     });
@@ -57,11 +56,13 @@ export const DistributionGraph = () => {
     } else {
       dispatch(setCaptureGD(true));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
 
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesYearData]);
 
   function getDomain() {
@@ -86,19 +87,20 @@ export const DistributionGraph = () => {
       });
     });
     const mapArray = Array.from(mp); //[key, total_count], eg: ['4.3.1.1', 1995]
-      const filteredArr = mapArray.filter(item => genotypesForFilter.includes(item[0]));
+    const filteredArr = mapArray.filter((item) => genotypesForFilter.includes(item[0]));
     // Sort the array based on keys
     filteredArr.sort((a, b) => b[1] - a[1]);
-    
+
     const slicedArray = filteredArr.slice(0, currentSliderValue).map(([key, value]) => key);
     const slicedArrayWithOther = structuredClone(slicedArray);
     const Other = 'Other';
     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
-    
+
     dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
     setTopXGenotypes(slicedArray);
     dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
 
   let newArray = []; //TODO: can be a global value in redux
@@ -170,6 +172,7 @@ export const DistributionGraph = () => {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topXGenotypes]);
 
   useEffect(() => {
@@ -197,8 +200,7 @@ export const DistributionGraph = () => {
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
-                        if(!genotypesYearData.length)
-                          return null;
+                        if (!genotypesYearData.length) return null;
                         const { dataKey, color } = entry;
                         return (
                           <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>
@@ -213,7 +215,7 @@ export const DistributionGraph = () => {
               />
 
               <ChartTooltip
-                cursor={genotypesYearData != 0 ? { fill: hoverColor } : false}
+                cursor={genotypesYearData !== 0 ? { fill: hoverColor } : false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
                     return <div className={classes.chartTooltipLabel}>{label}</div>;
