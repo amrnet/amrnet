@@ -1,8 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography, InputAdornment } from '@mui/material';
+import {
+  Box,
+  Button,
+  CardContent,
+  Checkbox,
+  ListItemText,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+  InputAdornment,
+} from '@mui/material';
 import { useStyles } from './FrequenciesGraphMUI';
 import { InfoOutlined } from '@mui/icons-material';
-import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import {
   Bar,
@@ -14,28 +25,31 @@ import {
   YAxis,
   Label,
   Legend,
-  Brush
+  Brush,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView, setResetBool} from '../../../../stores/slices/graphSlice';
+import {
+  setFrequenciesGraphSelectedGenotypes,
+  setFrequenciesGraphView,
+  setResetBool,
+} from '../../../../stores/slices/graphSlice';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP, drugsNG, drugsNG1, drugsEC } from '../../../../util/drugs';
+import { drugsST, drugsKP, drugsNG } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { setCaptureDRT,setCaptureRFWG,setCaptureRDWG,setCaptureGD } from '../../../../stores/slices/dashboardSlice';
-
+import { setCaptureRFWG } from '../../../../stores/slices/dashboardSlice';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
-  { label: 'Percentage within genotype', value: 'percentage' }
+  { label: 'Percentage within genotype', value: 'percentage' },
 ];
 
 export const FrequenciesGraph = () => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
-  const [searchValue2, setSearchValue2] = useState("")
+  const [searchValue2, setSearchValue2] = useState('');
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
@@ -44,36 +58,36 @@ export const FrequenciesGraph = () => {
   const frequenciesGraphView = useAppSelector((state) => state.graph.frequenciesGraphView);
   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
-  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
 
   let data = genotypesDrugsData;
+  let sumOfBarDataToShowOnPlot = 0;
 
   useEffect(() => {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
-    console.log("getData",data)
-    let cnt = 0;
+
+    // eslint-disable-next-line array-callback-return
     data.map((item) => {
-      cnt += item.totalCount;
+      sumOfBarDataToShowOnPlot += item.totalCount;
     });
-    if (frequenciesGraphSelectedGenotypes.length <= 0 || cnt === 0) {
-        dispatch(setCaptureRFWG(false));
-        console.log("setCaptureRFWG", frequenciesGraphSelectedGenotypes.length,captureRFWG, false)
+    if (frequenciesGraphSelectedGenotypes.length <= 0 || sumOfBarDataToShowOnPlot === 0) {
+      dispatch(setCaptureRFWG(false));
     } else {
-        dispatch(setCaptureRFWG(true));
-        console.log("setCaptureRFWG", frequenciesGraphSelectedGenotypes.length,captureRFWG, true)
+      dispatch(setCaptureRFWG(true));
     }
-}, [frequenciesGraphSelectedGenotypes]);
+  }, [frequenciesGraphSelectedGenotypes, frequenciesGraphView]);
 
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
-      dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+    dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
   }, [genotypesDrugsData]);
 
   function getSelectGenotypeLabel(genotype) {
     const percentage = Number(((genotype.Susceptible / genotype.totalCount) * 100).toFixed(2));
 
-    return `${genotype.name} (total N=${genotype.totalCount===0 ? 0:`${genotype.totalCount}, ${percentage}% Susceptible`})`;
+    return `${genotype.name} (total N=${
+      genotype.totalCount === 0 ? 0 : `${genotype.totalCount}, ${percentage}% Susceptible`
+    })`;
   }
 
   function getDomain() {
@@ -83,29 +97,46 @@ export const FrequenciesGraph = () => {
   function getDrugs() {
     if (organism === 'none') {
       return [];
-    }
-    else if (organism === 'styphi') {
+    } else if (organism === 'styphi') {
       return drugsST;
-    }
-    else if (organism === 'kpneumo') {
+    } else if (organism === 'kpneumo') {
       return drugsKP;
+    } else if (organism === 'ngono') {
+      return drugsNG;
     }
-    else if (organism === 'ngono') {
-      return drugsNG1;
+  }
+
+  function getXDRDefinition() {
+    switch (organism) {
+      case 'styphi':
+        return 'XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)';
+      case 'ngono':
+        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
+      default:
+        return;
+    }
+  }
+  function getMDRDefinition() {
+    switch (organism) {
+      case 'styphi':
+        return 'MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
+      case 'ngono':
+        return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
+      default:
+        return;
+    }
+  }
+  function getSusceptibleDefinition() {
+    switch (organism) {
+      case 'ngono':
+        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+      default:
+        return;
     }
   }
 
   function getData() {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
-    console.log("getData",data)
-    // let cnt = 0;
-    // data.map((item) => {
-    //   cnt += item.totalCount;
-    // });
-    // if(cnt === 0){
-    //   dispatch(setCaptureRFWG(false));
-    // }
-
 
     if (frequenciesGraphView === 'number') {
       return data;
@@ -143,7 +174,7 @@ export const FrequenciesGraph = () => {
       const value = {
         name: currentData.name,
         count: currentData.totalCount,
-        drugs: []
+        drugs: [],
       };
 
       delete currentData.name;
@@ -161,7 +192,7 @@ export const FrequenciesGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          fill: event.activePayload.find((x) => x.name === key).fill
+          fill: event.activePayload.find((x) => x.name === key).fill,
         });
         value.drugs.sort((a, b) => b.count - a.count);
       });
@@ -171,8 +202,8 @@ export const FrequenciesGraph = () => {
     }
   }
 
-  useEffect(()=>{
-    if(resetBool){
+  useEffect(() => {
+    if (resetBool) {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
     }
@@ -190,7 +221,7 @@ export const FrequenciesGraph = () => {
     }
 
     const {
-      target: { value }
+      target: { value },
     } = event;
 
     if (frequenciesGraphSelectedGenotypes.length === 7 && value.length > 7) {
@@ -203,13 +234,14 @@ export const FrequenciesGraph = () => {
     dispatch(setFrequenciesGraphSelectedGenotypes(value));
   }
 
-    function setSearchValue(event){
-    event.preventDefault()
-    setSearchValue2(event.target.value)
+  function setSearchValue(event) {
+    event.preventDefault();
+    setSearchValue2(event.target.value);
   }
 
-  const filteredData = data.filter((genotype) =>
-    genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase())
+  const filteredData = data.filter(
+    (genotype) =>
+      genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()),
   );
 
   useEffect(() => {
@@ -233,11 +265,34 @@ export const FrequenciesGraph = () => {
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
+                        if (!sumOfBarDataToShowOnPlot) return null;
                         const { dataKey, color } = entry;
+                        let dataKeyElement;
+                        if (dataKey === 'XDR') {
+                          dataKeyElement = (
+                            <Tooltip title={getXDRDefinition()} placement="top">
+                              <span>XDR</span>
+                            </Tooltip>
+                          );
+                        } else if (dataKey === 'MDR') {
+                          dataKeyElement = (
+                            <Tooltip title={getMDRDefinition()} placement="top">
+                              <span>MDR</span>
+                            </Tooltip>
+                          );
+                        } else if (dataKey === 'Susceptible') {
+                          dataKeyElement = (
+                            <Tooltip title={getSusceptibleDefinition()} placement="top">
+                              <span>Susceptible</span>
+                            </Tooltip>
+                          );
+                        } else {
+                          dataKeyElement = dataKey;
+                        }
                         return (
                           <div key={`frequencies-legend-${index}`} className={classes.legendItemWrapper}>
                             <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
-                            <Typography variant="caption">{dataKey}</Typography>
+                            <Typography variant="caption">{dataKeyElement}</Typography>
                           </div>
                         );
                       })}
@@ -247,7 +302,7 @@ export const FrequenciesGraph = () => {
               />
 
               <ChartTooltip
-                cursor={frequenciesGraphSelectedGenotypes !== 0?{ fill: hoverColor }:false}
+                cursor={frequenciesGraphSelectedGenotypes !== 0 ? { fill: hoverColor } : false}
                 content={({ payload, active, label }) => {
                   if (payload !== null && active) {
                     return <div className={classes.chartTooltipLabel}>{label}</div>;
@@ -310,39 +365,44 @@ export const FrequenciesGraph = () => {
             //   </Button>
             // }
             inputProps={{ className: classes.genotypesSelectInput }}
-            MenuProps={{ classes: { paper: classes.genotypesMenuPaper, list: classes.genotypesSelectMenu } }}
-            renderValue={(selected) => (<div>{`Select genotypes (currently showing ${selected.length} )`}</div>)}
+            MenuProps={{
+              classes: {
+                paper: classes.genotypesMenuPaper,
+                list: classes.genotypesSelectMenu,
+              },
+            }}
+            renderValue={(selected) => <div>{`Select genotypes (currently showing ${selected.length} )`}</div>}
           >
-            <TextField 
-                size="small"
-                autoFocus
-                placeholder="Type to search..."
-                label="Search genotype" 
-                variant="standard" 
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Button
-                        variant="outlined"
-                        className={classes.genotypesSelectButton}
-                        onClick={() => handleChangeSelectedGenotypes({ all: true })}
-                        disabled={frequenciesGraphSelectedGenotypes.length === 0}
-                        color="error"
-                      >
-                        Clear All
-                      </Button>
-                    </InputAdornment>
-                  )
-                }}
-                sx={{ width:'98%', margin:'0% 1%'}}
-                onChange={e => setSearchValue(e)}
-                onKeyDown={(e) => e.stopPropagation()}
-              />
+            <TextField
+              size="small"
+              autoFocus
+              placeholder="Type to search..."
+              label="Search genotype"
+              variant="standard"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Button
+                      variant="outlined"
+                      className={classes.genotypesSelectButton}
+                      onClick={() => handleChangeSelectedGenotypes({ all: true })}
+                      disabled={frequenciesGraphSelectedGenotypes.length === 0}
+                      color="error"
+                    >
+                      Clear All
+                    </Button>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ width: '98%', margin: '0% 1%' }}
+              onChange={(e) => setSearchValue(e)}
+              onKeyDown={(e) => e.stopPropagation()}
+            />
             {filteredData.map((genotype, index) => (
               <MenuItem key={`frequencies-option-${index}`} value={genotype.name}>
                 <Checkbox checked={frequenciesGraphSelectedGenotypes.indexOf(genotype.name) > -1} />
@@ -367,17 +427,39 @@ export const FrequenciesGraph = () => {
               </div>
               <div className={classes.tooltipContent}>
                 {currentTooltip.drugs.map((item, index) => {
+                  let itemLabel;
+                  if (item.label === 'XDR') {
+                    itemLabel = (
+                      <Tooltip title={getXDRDefinition()} placement="top">
+                        <span>XDR</span>
+                      </Tooltip>
+                    );
+                  } else if (item.label === 'MDR') {
+                    itemLabel = (
+                      <Tooltip title={getMDRDefinition()} placement="top">
+                        <span>MDR</span>
+                      </Tooltip>
+                    );
+                  } else if (item.label === 'Susceptible') {
+                    itemLabel = (
+                      <Tooltip title={getSusceptibleDefinition()} placement="top">
+                        <span>Susceptible</span>
+                      </Tooltip>
+                    );
+                  } else {
+                    itemLabel = item.label;
+                  }
                   return (
                     <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
                       <Box
                         className={classes.tooltipItemBox}
                         style={{
-                          backgroundColor: item.fill
+                          backgroundColor: item.fill,
                         }}
                       />
                       <div className={classes.tooltipItemStats}>
                         <Typography variant="body2" fontWeight="500">
-                          {item.label}
+                          {itemLabel}
                         </Typography>
                         <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
                         <Typography fontSize="10px">{`${item.percentage}%`}</Typography>

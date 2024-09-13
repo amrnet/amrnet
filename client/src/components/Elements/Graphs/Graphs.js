@@ -23,26 +23,32 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
+import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
-import { colorForDrugClassesKP, colorForDrugClassesNG, colorForDrugClassesST, getColorForGenotype } from '../../../util/colorHelper';
-import { TrendsKPGraph }   from './TrendsKPGraph';
+import {
+  colorForDrugClassesKP,
+  colorForDrugClassesNG,
+  colorForDrugClassesST,
+  getColorForGenotype,
+} from '../../../util/colorHelper';
+import { TrendsKPGraph } from './TrendsKPGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
-import { graphCards }  from '../../../util/graphCards';
-import { KODiversityGraph }  from './KODiversityGraph';
-import { ConvergenceGraph }   from './ConvergenceGraph';
+import { graphCards } from '../../../util/graphCards';
+import { KODiversityGraph } from './KODiversityGraph';
+import { ConvergenceGraph } from './ConvergenceGraph';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 export const Graphs = () => {
   const classes = useStyles();
-  const matches500 = useMediaQuery('(max-width:500px)');
+  const matches1000 = useMediaQuery('(max-width:1000px)');
+  // const matches750 = useMediaQuery('(max-width:750px)');
   const [showAlert, setShowAlert] = useState(false);
   const [chartLoadings, setCharLoadings] = useState({
     frequencies: false,
     drugResistance: false,
     determinants: false,
     distribution: false,
-    trendsKP: false
+    trendsKP: false,
   });
 
   const dispatch = useAppDispatch();
@@ -66,7 +72,8 @@ export const Graphs = () => {
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
-  
+  const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
+
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
   }
@@ -84,7 +91,7 @@ export const Graphs = () => {
       case 'ngono':
         return colorForDrugClassesNG[determinantsGraphDrugClass];
       default:
-        return []
+        return [];
     }
   }
 
@@ -97,7 +104,7 @@ export const Graphs = () => {
     isGenotype = false,
     isDrug = false,
     isVariable = false,
-    xSpace
+    xSpace,
   }) {
     legendData.forEach((legend, i) => {
       const yFactor = (i % factor) * 24;
@@ -111,14 +118,14 @@ export const Graphs = () => {
         ? convergenceColourPallete[legend]
         : legend.color;
       context.beginPath();
-      context.arc(102 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
+      context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
       context.fillStyle = 'black';
       context.fillText(
         isGenotype || isDrug || isVariable ? legend : legend.name,
-        111 + xFactor,
-        yPosition + 4 - mobileFactor + yFactor
+        61 + xFactor,
+        yPosition + 4 - mobileFactor + yFactor,
       );
     });
   }
@@ -127,21 +134,29 @@ export const Graphs = () => {
     event.stopPropagation();
     handleLoading(card.collapse, true);
     if ((card.id === 'DRT' && drugResistanceGraphView.length === 0) || (card.id === 'DRT' && captureDRT === false)) {
-        handleLoading(card.id, false);
-        alert("No drugs/classes selected to download or no data to download");
-        return;
+      handleLoading(card.id, false);
+      alert('No drugs/classes selected to download or no data to download');
+      return;
     }
-    if ((card.id === 'RFWG' && captureRFWG === false)) {
-        handleLoading(card.id, false);
-        alert("No genotype selected to download or no data to download");
-        return;
+    if (card.id === 'RFWG' && captureRFWG === false) {
+      handleLoading(card.id, false);
+      alert('No genotype selected to download or no data to download');
+      return;
     }
     if ((card.id === 'RDWG' && captureRDWG === false) || (card.id === 'GD' && captureGD === false)) {
-        handleLoading(card.id, false);
-        alert("No data to download");
-        return;
+      handleLoading(card.id, false);
+      alert('No data to download');
+      return;
     }
-    
+
+    let orgBasedColumns, orgBasedSpace;
+    if (organism === 'shige') {
+      orgBasedColumns = 5;
+      orgBasedSpace = 180;
+    } else {
+      orgBasedColumns = 6;
+      orgBasedSpace = 140;
+    }
 
     try {
       const canvas = document.createElement('canvas');
@@ -152,7 +167,7 @@ export const Graphs = () => {
       const graphImgPromise = imgOnLoadPromise(graphImg);
 
       graphImg.src = await domtoimage.toPng(graph, { quality: 0.1, bgcolor: 'white' });
-      
+
       await graphImgPromise;
 
       let heightFactor = 0,
@@ -160,7 +175,7 @@ export const Graphs = () => {
         drugClassesFactor,
         genotypesFactor,
         variablesFactor;
-        
+
       if (['RFWG', 'DRT'].includes(card.id)) {
         heightFactor = 250;
       } else if (['RDWG', 'CERDT'].includes(card.id)) {
@@ -168,7 +183,7 @@ export const Graphs = () => {
         drugClassesFactor = Math.ceil(drugClassesBars.length / 4);
         heightFactor += drugClassesFactor * 22;
       } else if (card.id === 'GD') {
-        genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
+        genotypesFactor = Math.ceil(genotypesForFilterSelected.length / orgBasedColumns);
         heightFactor += genotypesFactor * 22;
       } else if (card.id === 'CERDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
@@ -178,7 +193,7 @@ export const Graphs = () => {
         heightFactor += variablesFactor * 22;
       }
 
-     canvas.width = 922;
+      canvas.width = 922;
       canvas.height = graphImg.height + 220 + heightFactor;
 
       ctx.fillStyle = 'white';
@@ -195,7 +210,7 @@ export const Graphs = () => {
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
-      ctx.fillText(card.title, canvas.width / 2 ,50);
+      ctx.fillText(card.title, canvas.width / 2, 50);
 
       ctx.font = '12px Montserrat';
       ctx.fillText(card.description.join(' / '), canvas.width / 2, 72);
@@ -218,7 +233,7 @@ export const Graphs = () => {
       ctx.textAlign = 'start';
       ctx.font = '12px Montserrat';
 
-      const mobileFactor = matches500 ? 100 : 0;
+      const mobileFactor = matches1000 ? 100 : 0;
       if ('RFWG'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
@@ -226,23 +241,23 @@ export const Graphs = () => {
         drawLegend({
           legendData: legendDrugs,
           context: ctx,
-          factor: (legendDrugs.length>12 ? 8 : 4),
+          factor: legendDrugs.length > 12 ? 8 : 4,
           mobileFactor,
           yPosition: 670,
-          xSpace: (legendDrugs.length>12 ? 400 : 200),
-          isDrug: true
+          xSpace: legendDrugs.length > 12 ? 400 : 200,
+          isDrug: true,
         });
       } else if ('DRT'.includes(card.id)) {
-          ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-          drawLegend({
-            legendData: drugsForDrugResistanceGraphST,
-            context: ctx,
-            factor: 4,
-            mobileFactor,
-            yPosition: 670,
-            xSpace: 200,
-            isDrug: true
-          });
+        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        drawLegend({
+          legendData: drugsForDrugResistanceGraphST,
+          context: ctx,
+          factor: 4,
+          mobileFactor,
+          yPosition: 670,
+          xSpace: 200,
+          isDrug: true,
+        });
       } else if (card.id === 'RDWG') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
@@ -252,19 +267,19 @@ export const Graphs = () => {
           factor: drugClassesFactor,
           mobileFactor,
           yPosition: 670,
-          xSpace: 208
+          xSpace: 208,
         });
       } else if (card.id === 'GD') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
-          legendData: genotypesForFilter,
+          legendData: genotypesForFilterSelected,
           context: ctx,
           factor: genotypesFactor,
           mobileFactor,
           yPosition: 670,
           isGenotype: true,
-          xSpace: 87
+          xSpace: orgBasedSpace,
         });
       } else if (card.id === 'CERDT') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
@@ -277,7 +292,7 @@ export const Graphs = () => {
           factor: drugClassesFactor,
           mobileFactor,
           yPosition: 695,
-          xSpace: 208
+          xSpace: 208,
         });
 
         ctx.fillStyle = 'black';
@@ -289,7 +304,7 @@ export const Graphs = () => {
           mobileFactor,
           yPosition: 1330,
           isGenotype: true,
-          xSpace: 87
+          xSpace: 87,
         });
       } else if (card.id === 'KO') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
@@ -300,7 +315,7 @@ export const Graphs = () => {
           factor: 5,
           mobileFactor,
           yPosition: 670,
-          xSpace: 330
+          xSpace: 330,
         });
       } else if (card.id === 'CVM') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
@@ -312,13 +327,12 @@ export const Graphs = () => {
           mobileFactor,
           yPosition: 670,
           xSpace: 270,
-          isVariable: true
+          isVariable: true,
         });
       }
 
       const base64 = canvas.toDataURL();
       await download(base64, `AMRnet - ${globalOverviewLabel.fullLabel} - ${card.title}.png`);
-    
     } catch {
       setShowAlert(true);
     } finally {

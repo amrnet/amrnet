@@ -7,7 +7,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'ngono']
+    organisms: ['styphi', 'ngono'],
   },
   {
     collapse: 'frequencies',
@@ -15,7 +15,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 7)'],
     icon: <BarChart color="primary" />,
     id: 'RFWG',
-    organisms: ['styphi', 'kpneumo', 'ngono']
+    organisms: ['styphi', 'kpneumo', 'ngono'],
   },
   {
     collapse: 'determinants',
@@ -23,7 +23,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
-    organisms: ['styphi', 'kpneumo', 'ngono']
+    organisms: ['styphi', 'kpneumo', 'ngono'],
   },
   {
     collapse: 'distribution',
@@ -31,7 +31,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'senterica', 'decoli', 'sentericaints']
+    organisms: ['styphi', 'kpneumo', 'ngono'],
   },
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
@@ -40,7 +40,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['shige']
+    organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'],
   },
   {
     collapse: 'trendsKP',
@@ -48,7 +48,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
     id: 'CERDT',
-    organisms: ['']
+    organisms: ['kpneumo'],
   },
   {
     collapse: 'KODiversity',
@@ -56,7 +56,7 @@ export const graphCards = [
     description: ['Top K/O (up to 20)'],
     icon: <StackedBarChart color="primary" />,
     id: 'KO',
-    organisms: ['']
+    organisms: [''],
   },
   {
     collapse: 'convergence',
@@ -64,6 +64,6 @@ export const graphCards = [
     description: [''],
     icon: <BubbleChart color="primary" />,
     id: 'CVM',
-    organisms: ['']
-  }
+    organisms: [''],
+  },
 ];
