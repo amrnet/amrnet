@@ -23,7 +23,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../util/drugs';
+import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -41,7 +41,7 @@ import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 export const Graphs = () => {
   const classes = useStyles();
   const matches1000 = useMediaQuery('(max-width:1000px)');
-  const matches750 = useMediaQuery('(max-width:750px)');
+  // const matches750 = useMediaQuery('(max-width:750px)');
   const [showAlert, setShowAlert] = useState(false);
   const [chartLoadings, setCharLoadings] = useState({
     frequencies: false,
@@ -150,7 +150,7 @@ export const Graphs = () => {
     }
 
     let orgBasedColumns, orgBasedSpace;
-     if (organism === 'shige') {
+    if (organism === 'shige') {
       orgBasedColumns = 5;
       orgBasedSpace = 180;
     } else {

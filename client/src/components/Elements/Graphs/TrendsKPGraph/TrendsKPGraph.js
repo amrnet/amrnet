@@ -14,12 +14,18 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { colorForDrugClassesKP, hoverColor } from '../../../../util/colorHelper';
-import { setTrendsKPGraphDrugClass, setTrendsKPGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
+import {
+  setTrendsKPGraphDrugClass,
+  setTrendsKPGraphView,
+  setResetBool,
+  setMaxSliderValueKP_GE,
+} from '../../../../stores/slices/graphSlice';
 import { drugClassesKP } from '../../../../util/drugs';
+import { SliderSizes } from '../../Slider';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -31,6 +37,8 @@ export const TrendsKPGraph = () => {
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [tooltipTab, setTooltipTab] = useState('genes');
+  const [topGenotypes, setTopGenotypes] = useState([]);
+  const [topGenes, setTopGenes] = useState([]);
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
@@ -43,11 +51,17 @@ export const TrendsKPGraph = () => {
   const trendsKPGraphView = useAppSelector((state) => state.graph.trendsKPGraphView);
   const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
+  const currentSliderValueKP_GE = useAppSelector((state) => state.graph.currentSliderValueKP_GE);
+  const currentSliderValueKP_GT = useAppSelector((state) => state.graph.currentSliderValueKP_GT);
 
   useEffect(() => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesAndDrugsYearData]);
+
+  useEffect(() => {
+    setCurrentTooltip(null);
+  }, [currentSliderValueKP_GE, currentSliderValueKP_GT]);
 
   function getDrugClasses() {
     if (organism === 'none') {
@@ -60,13 +74,92 @@ export const TrendsKPGraph = () => {
     return trendsKPGraphView === 'number' ? undefined : [0, 100];
   }
 
+  const slicedData = useMemo(() => {
+    const slicedDataArray = [];
+    const genotypes = {};
+    const genes = {};
+
+    genotypesAndDrugsYearData[trendsKPGraphDrugClass]?.forEach((year) => {
+      Object.keys(year).forEach((key) => {
+        if (['name', 'totalCount', 'resistantCount'].includes(key)) {
+          return;
+        }
+
+        if (genotypesForFilter.includes(key)) {
+          if (key in genotypes) {
+            genotypes[key] += year[key];
+            return;
+          }
+
+          genotypes[key] = year[key];
+          return;
+        }
+
+        if (key in genes) {
+          genes[key] += year[key];
+          return;
+        }
+
+        genes[key] = year[key];
+      });
+    });
+
+    dispatch(setMaxSliderValueKP_GE(Object.keys(genes).length));
+
+    const sortedGenotypeKeys = Object.keys(genotypes).sort((a, b) => genotypes[b] - genotypes[a]);
+    const sortedGeneKeys = Object.keys(genes).sort((a, b) => genes[b] - genes[a]);
+
+    const topGT = sortedGenotypeKeys.slice(0, currentSliderValueKP_GT);
+    const topGE = sortedGeneKeys.slice(0, currentSliderValueKP_GE);
+    setTopGenotypes(topGT);
+    setTopGenes(topGE);
+
+    genotypesAndDrugsYearData[trendsKPGraphDrugClass]?.forEach((year) => {
+      const value = {
+        name: year.name,
+        totalCount: year.totalCount,
+        resistantCount: year.resistantCount,
+        'Other Genotypes': 0,
+        'Other Genes': 0,
+      };
+
+      Object.keys(year).forEach((key) => {
+        if (['name', 'totalCount', 'resistantCount'].includes(key)) {
+          return;
+        }
+
+        if (topGT.includes(key) || topGE.includes(key)) {
+          value[key] = year[key];
+          return;
+        }
+
+        if (genotypesForFilter.includes(key)) {
+          value['Other Genotypes'] += year[key];
+          return;
+        }
+
+        value['Other Genes'] += year[key];
+      });
+
+      slicedDataArray.push(value);
+    });
+
+    return slicedDataArray;
+  }, [
+    currentSliderValueKP_GE,
+    currentSliderValueKP_GT,
+    genotypesAndDrugsYearData,
+    genotypesForFilter,
+    trendsKPGraphDrugClass,
+  ]);
+
   function getData() {
     if (trendsKPGraphView === 'number') {
-      return genotypesAndDrugsYearData[trendsKPGraphDrugClass];
+      return slicedData;
     }
 
     const exclusions = ['name', 'totalCount', 'resistantCount'];
-    let percentageData = structuredClone(genotypesAndDrugsYearData[trendsKPGraphDrugClass] ?? []);
+    let percentageData = structuredClone(slicedData ?? []);
     percentageData = percentageData.map((item) => {
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
 
@@ -94,7 +187,7 @@ export const TrendsKPGraph = () => {
   }
 
   function handleClickChart(event) {
-    const data = genotypesAndDrugsYearData[trendsKPGraphDrugClass].find((item) => item.name === event?.activeLabel);
+    const data = slicedData.find((item) => item.name === event?.activeLabel);
 
     if (data) {
       const currentData = structuredClone(data);
@@ -120,10 +213,10 @@ export const TrendsKPGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: event.activePayload.find((x) => x.name === key).color,
+          color: event.activePayload.find((x) => x.name === key)?.color,
         };
 
-        if (genotypesForFilter.includes(key)) {
+        if (genotypesForFilter.includes(key) || key === 'Other Genotypes') {
           value.genotypes.push(item);
           value.genotypes.sort((a, b) => a.label.localeCompare(b.label));
           return;
@@ -156,11 +249,7 @@ export const TrendsKPGraph = () => {
                 allowDecimals={false}
                 padding={{ left: 20, right: 20 }}
                 dataKey="name"
-                domain={
-                  (genotypesAndDrugsYearData[trendsKPGraphDrugClass] ?? []).length > 0
-                    ? ['dataMin', 'dataMax']
-                    : undefined
-                }
+                domain={(slicedData ?? []).length > 0 ? ['dataMin', 'dataMax'] : undefined}
                 interval={'preserveStartEnd'}
                 tick={{ fontSize: 14 }}
               />
@@ -175,15 +264,13 @@ export const TrendsKPGraph = () => {
                   Number of Genomes
                 </Label>
               </YAxis>
-              {(genotypesAndDrugsYearData[trendsKPGraphDrugClass] ?? []).length > 0 && (
-                <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />
-              )}
+              {(slicedData ?? []).length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
 
               {organism !== 'none' && (
                 <Legend
                   content={(props) => {
                     const { payload } = props;
-                    const diviserIndex = colorForDrugClassesKP[trendsKPGraphDrugClass]?.length ?? 0;
+                    const diviserIndex = topGenes.length === 0 ? 0 : topGenes.length + 1;
 
                     return (
                       <div className={classes.legendWrapper}>
@@ -224,17 +311,13 @@ export const TrendsKPGraph = () => {
                 }}
               />
 
-              {colorForDrugClassesKP[trendsKPGraphDrugClass]?.map((option, index) => (
-                <Bar
-                  key={`trendsKP-bar-${index}`}
-                  dataKey={option.name}
-                  name={option.name}
-                  stackId={0}
-                  fill={option.color}
-                />
-              ))}
+              {topGenes?.map((option, index) => {
+                const color = colorForDrugClassesKP[trendsKPGraphDrugClass].find((x) => x.name === option).color;
+                return <Bar key={`trendsKP-bar-${index}`} dataKey={option} name={option} stackId={0} fill={color} />;
+              })}
+              <Bar key="trendsKP-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
 
-              {genotypesForFilter.map((option, index) => (
+              {topGenotypes.map((option, index) => (
                 <Line
                   key={`trendsKP-line-${index}`}
                   dataKey={option}
@@ -245,13 +328,28 @@ export const TrendsKPGraph = () => {
                   activeDot={timeInitial === timeFinal ? true : false}
                 />
               ))}
+              <Line
+                key="trendsKP-line-other"
+                dataKey="Other Genotypes"
+                strokeWidth={2}
+                stroke="#F5F4F6"
+                connectNulls
+                type="monotone"
+                activeDot={timeInitial === timeFinal ? true : false}
+              />
             </ComposedChart>
           </ResponsiveContainer>
         );
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesAndDrugsYearData, trendsKPGraphView, trendsKPGraphDrugClass]);
+  }, [
+    genotypesAndDrugsYearData,
+    trendsKPGraphView,
+    trendsKPGraphDrugClass,
+    currentSliderValueKP_GE,
+    currentSliderValueKP_GT,
+  ]);
 
   return (
     <CardContent className={classes.trendsKPGraph}>
@@ -297,46 +395,50 @@ export const TrendsKPGraph = () => {
         <div className={classes.graph} id="CERDT">
           {plotChart}
         </div>
-        <div className={classes.tooltipWrapper}>
-          {currentTooltip ? (
-            <div className={classes.tooltip}>
-              <div className={classes.tooltipTitle}>
-                <Typography variant="h5" fontWeight="600">
-                  {currentTooltip.name}
-                </Typography>
-                <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
-              </div>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={tooltipTab} onChange={handleChangeTooltipTab} variant="fullWidth">
-                  <Tab label="Genes" value="genes" />
-                  <Tab label="Genotypes" value="genotypes" />
-                </Tabs>
-              </Box>
-              <div className={classes.tooltipContent}>
-                {currentTooltip[tooltipTab].map((item, index) => {
-                  return (
-                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                      <Box
-                        className={classes.tooltipItemBox}
-                        style={{
-                          backgroundColor: item.color,
-                        }}
-                      />
-                      <div className={classes.tooltipItemStats}>
-                        <Typography variant="body2" fontWeight="500">
-                          {item.label}
-                        </Typography>
-                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                        <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+        <div className={classes.sliderCont}>
+          <SliderSizes value={'KP_GT'} sx={{ margin: '0px 10px 0px 10px' }} />
+          <SliderSizes value={'KP_GE'} sx={{ margin: '0px 10px 0px 10px' }} />
+          <div className={classes.tooltipWrapper}>
+            {currentTooltip ? (
+              <div className={classes.tooltip}>
+                <div className={classes.tooltipTitle}>
+                  <Typography variant="h5" fontWeight="600">
+                    {currentTooltip.name}
+                  </Typography>
+                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                </div>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <Tabs value={tooltipTab} onChange={handleChangeTooltipTab} variant="fullWidth">
+                    <Tab label="Genes" value="genes" />
+                    <Tab label="Genotypes" value="genotypes" />
+                  </Tabs>
+                </Box>
+                <div className={classes.tooltipContent}>
+                  {currentTooltip[tooltipTab].map((item, index) => {
+                    return (
+                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                        <Box
+                          className={classes.tooltipItemBox}
+                          style={{
+                            backgroundColor: item.color,
+                          }}
+                        />
+                        <div className={classes.tooltipItemStats}>
+                          <Typography variant="body2" fontWeight="500">
+                            {item.label}
+                          </Typography>
+                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className={classes.noYearSelected}>No year selected</div>
-          )}
+            ) : (
+              <div className={classes.noYearSelected2}>No year selected</div>
+            )}
+          </div>
         </div>
       </div>
     </CardContent>

@@ -35,11 +35,15 @@ interface GraphState {
   convergenceColourVariable: string;
   convergenceColourPallete: Object;
   currentSliderValue: number;
-  resetBool: boolean;
   maxSliderValue: number;
   currentSliderValueRD: number;
   maxSliderValueRD: number;
+  currentSliderValueKP_GT: number;
+  currentSliderValueKP_GE: number;
+  maxSliderValueKP_GE: number;
+  resetBool: boolean;
   sliderList: number;
+  sliderListKP_GE: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
 }
@@ -78,11 +82,15 @@ const initialState: GraphState = {
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
   currentSliderValue: 20,
-  resetBool: false,
   maxSliderValue: 0,
   currentSliderValueRD: 5,
   maxSliderValueRD: 0,
+  currentSliderValueKP_GT: 20,
+  currentSliderValueKP_GE: 20,
+  maxSliderValueKP_GE: 0,
+  resetBool: false,
   sliderList: 0,
+  sliderListKP_GE: 0,
   NGMAST: [],
   ngmastDrugsData: [],
 };
@@ -181,8 +189,20 @@ export const graphSlice = createSlice({
     setMaxSliderValueRD: (state, action: PayloadAction<number>) => {
       state.maxSliderValueRD = action.payload;
     },
+    setCurrentSliderValueKP_GT: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKP_GT = action.payload;
+    },
+    setCurrentSliderValueKP_GE: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKP_GE = action.payload;
+    },
+    setMaxSliderValueKP_GE: (state, action: PayloadAction<number>) => {
+      state.maxSliderValueKP_GE = action.payload;
+    },
     setSliderList: (state, action: PayloadAction<number>) => {
       state.sliderList = action.payload;
+    },
+    setSliderListKP_GE: (state, action: PayloadAction<number>) => {
+      state.sliderListKP_GE = action.payload;
     },
     setNgmast: (state, action: PayloadAction<Array<any>>) => {
       state.NGMAST = action.payload;
@@ -225,8 +245,12 @@ export const {
   setCurrentSliderValueRD,
   setMaxSliderValueRD,
   setSliderList,
+  setSliderListKP_GE,
   setNgmast,
   setNgmastDrugsData,
+  setCurrentSliderValueKP_GT,
+  setCurrentSliderValueKP_GE,
+  setMaxSliderValueKP_GE,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '10px',
   },
   tooltipWrapper: {
-    width: '30%',
+    width: '100%',
     borderRadius: '6px',
     backgroundColor: '#E5E5E5',
     overflowY: 'auto',
@@ -87,6 +87,17 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 1000px)': {
       width: '100%',
       height: '300px',
+      overflowY: 'hidden',
+    },
+  },
+  sliderCont: {
+    width: '30%',
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    '@media (max-width: 1000px)': {
+      width: '100%',
+      overflowY: 'hidden',
+      overflowX: 'hidden',
     },
   },
   noYearSelected: {
@@ -95,11 +106,27 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '100%',
   },
+  noYearSelected2: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '400px',
+    '@media (max-width: 1000px)': {
+      height: '100%',
+    },
+  },
   tooltip: {
     width: '100%',
-    height: '100%',
+    height: '400px',
     display: 'flex',
+    overflowY: 'auto',
     flexDirection: 'column',
+    '@media (max-width: 1000px)': {
+      width: '100%',
+      height: '100%',
+      overflowY: 'hidden',
+      overflowX: 'hidden',
+    },
   },
   tooltipTitle: {
     display: 'flex',

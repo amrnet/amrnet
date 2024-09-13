@@ -1,8 +1,6 @@
 import { Alert, Button, Snackbar, useMediaQuery } from '@mui/material';
 import { useStyles } from './DownloadDataMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { setPage } from '../../../stores/slices/appSlice';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import download from 'downloadjs';
 import { API_ENDPOINT } from '../../../constants';
@@ -20,7 +18,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses } from '../../../stores/slices/graphSlice';
-import { drugsKP, drugsST, drugsNG, drugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -79,8 +77,8 @@ let columnsToRemove = [
   'parE_D420N',
   'parE_L416F',
   '_id',
-  "LATITUDE",
-  "LONGITUDE",
+  'LATITUDE',
+  'LONGITUDE',
 ];
 let columnsToRemoveNonTyphi = [
   'PURPOSE OF SAMPLING',
@@ -97,85 +95,84 @@ let columnsToRemoveNonTyphi = [
   'AzithR9',
   'AzithR10',
   'AzithR11',
-  'Source Niche', 
-  'Continent', 
-  'Serological Group', 
-  'Serotype, EcoR Cluster', 
-  'Sample ID', 
-  'ST Complex', 
+  'Source Niche',
+  'Continent',
+  'Serological Group',
+  'Serotype, EcoR Cluster',
+  'Sample ID',
+  'ST Complex',
   'Subspecies',
   'source_niche',
   'Source Niche',
   'AbST',
-  "Aerobactin",
-  "Alternative sample name 1",
-  "CbST",
-  "Chr_ST",
-  "K_locus_problems",
-  
-  "Omp_mutations",
-  "Salmochelin",
-  "YbST",
-  "Yersiniabactin",
-  "clbA",
-  "clbB",
-  "clbC",
-  "clbD",
-  "clbE",
-  "clbF",
-  "clbG",
-  "clbH",
-  "clbI",
-  "clbL",
-  "clbM",
-  "clbN",
-  "clbO",
-  "clbP",
-  "clbQ",
-  "contig_count",
-  "fyuA",
-  "gapA",
-  "infB",
-  "iroB",
-  "iroC",
-  "iroD",
-  "iroN",
-  "irp1",
-  "irp2",
-  "iucA",
-  "iucB",
-  "iucC",
-  "iucD",
-  "iutA",
-  "largest_contig",
-  "pgi",
-  "phoE",
-  "resistance_score",
-  "rmpA",
-  "rmpA2",
-  "rmpC",
-  "rmpD",
-  "rpoB",
-  "species",
-  "spurious_resistance_hits",
-  "spurious_virulence_hits",
-  "tonB",
-  "total_size",
-  "truncated_resistance_hits",
-  "virulence_score",
-  "wzi",
-  "ybtA",
-  "ybtE",
-  "ybtP",
-  "ybtQ",
-  "ybtS",
-  "ybtT",
-  "ybtU",
-  "ybtX",
+  'Aerobactin',
+  'Alternative sample name 1',
+  'CbST',
+  'Chr_ST',
+  'K_locus_problems',
+
+  'Omp_mutations',
+  'Salmochelin',
+  'YbST',
+  'Yersiniabactin',
+  'clbA',
+  'clbB',
+  'clbC',
+  'clbD',
+  'clbE',
+  'clbF',
+  'clbG',
+  'clbH',
+  'clbI',
+  'clbL',
+  'clbM',
+  'clbN',
+  'clbO',
+  'clbP',
+  'clbQ',
+  'contig_count',
+  'fyuA',
+  'gapA',
+  'infB',
+  'iroB',
+  'iroC',
+  'iroD',
+  'iroN',
+  'irp1',
+  'irp2',
+  'iucA',
+  'iucB',
+  'iucC',
+  'iucD',
+  'iutA',
+  'largest_contig',
+  'pgi',
+  'phoE',
+  'resistance_score',
+  'rmpA',
+  'rmpA2',
+  'rmpC',
+  'rmpD',
+  'rpoB',
+  'species',
+  'spurious_resistance_hits',
+  'spurious_virulence_hits',
+  'tonB',
+  'total_size',
+  'truncated_resistance_hits',
+  'virulence_score',
+  'wzi',
+  'ybtA',
+  'ybtE',
+  'ybtP',
+  'ybtQ',
+  'ybtS',
+  'ybtT',
+  'ybtU',
+  'ybtX',
 ];
 export const DownloadData = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const matches1000 = useMediaQuery('(max-width:1000px)');
   const [loadingCSV, setLoadingCSV] = useState(false);
   const [loadingPDF, setLoadingPDF] = useState(false);
@@ -208,31 +205,28 @@ export const DownloadData = () => {
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
 
-
   async function handleClickDownloadDatabase() {
-
     let firstName, secondName;
-      if (organism === 'styphi') {
-        firstName = 'Salmonella';
-        secondName = 'Typhi';
-      } else if (organism === 'kpneumo') {
-        firstName = 'Klebsiella';
-        secondName = 'pneumoniae';
-      } else if (organism === 'ngono') {
-        firstName = 'Neisseria';
-        secondName = 'gonorrhoeae';
-      }else if (organism === 'shige') {
-        firstName = 'Shigella';
-        secondName = '+ EIEC';
-      }else if (organism === 'decoli') {
-        firstName = 'Diarrheagenic';
-        secondName = 'E. coli';
-      }else if (organism === 'sentericaints') {
-        firstName = 'Invasive';
-        secondName = 'non-typhoidal Salmonella';
-      }
-      if(organism !== 'styphi')
-        columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove]
+    if (organism === 'styphi') {
+      firstName = 'Salmonella';
+      secondName = 'Typhi';
+    } else if (organism === 'kpneumo') {
+      firstName = 'Klebsiella';
+      secondName = 'pneumoniae';
+    } else if (organism === 'ngono') {
+      firstName = 'Neisseria';
+      secondName = 'gonorrhoeae';
+    } else if (organism === 'shige') {
+      firstName = 'Shigella';
+      secondName = '+ EIEC';
+    } else if (organism === 'decoli') {
+      firstName = 'Diarrheagenic';
+      secondName = 'E. coli';
+    } else if (organism === 'sentericaints') {
+      firstName = 'Invasive';
+      secondName = 'non-typhoidal Salmonella';
+    }
+    if (organism !== 'styphi') columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove];
     setLoadingCSV(true);
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
@@ -246,14 +240,14 @@ export const DownloadData = () => {
           lines.push(line);
         }
         const replacements = {
-          'COUNTRY_ONLY': 'Country',
-          'NAME': 'Name',
-          'DATE': 'Date',
-          'GENOTYPE': 'Genotype',
-          'source_type':'Source_type',
-          'accession' : 'Accession',
-          'ACCESSION': 'Accession',
-          'dashboard view': 'Dashboard view'
+          COUNTRY_ONLY: 'Country',
+          NAME: 'Name',
+          DATE: 'Date',
+          GENOTYPE: 'Genotype',
+          source_type: 'Source_type',
+          accession: 'Accession',
+          ACCESSION: 'Accession',
+          'dashboard view': 'Dashboard view',
         };
 
         lines[0].forEach((curr, index) => {
@@ -331,13 +325,13 @@ export const DownloadData = () => {
   function drawHeader({ document, pageWidth }) {
     document.setFontSize(8);
     document.line(0, 26, pageWidth, 26);
-    if(organism !== "styphi" && organism !== "ngono")
+    if (organism !== 'styphi' && organism !== 'ngono')
       document.text(
-      `NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`,
-      16,
-      10,
-      { align: 'left', maxWidth: pageWidth - 16 },
-    );
+        `NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`,
+        16,
+        10,
+        { align: 'left', maxWidth: pageWidth - 16 },
+      );
     document.setFontSize(12);
   }
 
@@ -489,10 +483,8 @@ export const DownloadData = () => {
       doc.text('AMRnet Report for', 177, 44, { align: 'center' });
       doc.setFont(undefined, 'bolditalic');
       doc.text(firstName, 264, 44, { align: 'center' });
-      if(organism === 'kpneumo' || organism === 'ngono')
-        doc.setFont(undefined, "bolditalic");
-      else
-        doc.setFont(undefined, "bold");
+      if (organism === 'kpneumo' || organism === 'ngono') doc.setFont(undefined, 'bolditalic');
+      else doc.setFont(undefined, 'bold');
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(date, pageWidth / 2, 68, { align: 'center' });
@@ -529,15 +521,15 @@ export const DownloadData = () => {
         doc.setFont(undefined, 'normal');
         doc.text(texts[2], 16, 155, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text(texts[3], 90, 165 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[3], 90, 165, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[4], 136, 165 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 136, 165, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
-        doc.text(texts[5], 16, 175 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 175, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text(texts[6], 16, 205 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 205, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[7], 62, 205 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 62, 205, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'bold');
         doc.text(texts[8], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
@@ -545,10 +537,10 @@ export const DownloadData = () => {
         doc.text(texts[9], 16, 225, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
         doc.text(texts[10], 62, 225, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[11], 16,235, { align: 'left', maxWidth: pageWidth - 36 });
-        
+        doc.text(texts[11], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+
         doc.text(texts[12], 16, 295 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-       
+
         doc.text(texts[13], 16, 335 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
         doc.text(texts[14], 56, 335 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
@@ -575,8 +567,7 @@ export const DownloadData = () => {
         doc.text('gyrA/parC/gyrB', 120, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
         doc.text(texts[25], 183, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        
-        
+
         // doc.setFont(undefined, 'italic');
         // doc.text('qnr', 16, 40, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
@@ -585,13 +576,13 @@ export const DownloadData = () => {
         // doc.text('gyrA/parC/gyrB', 120, 40, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
         // doc.text(texts[25], 183, 40, { align: 'left', maxWidth: pageWidth - 36 });
-        if(pmidSpace >= 40){
+        if (pmidSpace >= 40) {
           drawFooter({ document: doc, pageHeight, pageWidth, date });
           doc.addPage();
           drawHeader({ document: doc, pageWidth });
           doc.text(texts[26], 16, 40, { align: 'left', maxWidth: pageWidth - 36 });
-        }else{
-          doc.text(texts[26], 16, 575 + pmidSpace-10, { align: 'left', maxWidth: pageWidth - 36 });
+        } else {
+          doc.text(texts[26], 16, 575 + pmidSpace - 10, { align: 'left', maxWidth: pageWidth - 36 });
           drawFooter({ document: doc, pageHeight, pageWidth, date });
           doc.addPage();
           drawHeader({ document: doc, pageWidth });
@@ -612,7 +603,6 @@ export const DownloadData = () => {
         // doc.text(texts[31], 16, pageHeight - 30, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'kpneumo') {
         // Info
-        let newLine = 10;
         let kleb = 92;
         doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
@@ -684,9 +674,7 @@ export const DownloadData = () => {
         let pmidSpace, dynamicText;
         if (actualCountry === 'All') {
           pmidSpace = 0;
-          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(
-            ', ',
-          )}.`;
+          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(', ')}.`;
         } else {
           list = listPIMD.filter((value) => value !== '-');
           dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(
@@ -743,7 +731,6 @@ export const DownloadData = () => {
         doc.text(texts[22], 16, 515 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
         doc.text(texts[23], 16, 535 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        
 
         drawFooter({ document: doc, pageHeight, pageWidth, date });
         doc.addPage();
@@ -950,7 +937,7 @@ export const DownloadData = () => {
             rectY,
             xSpace: 65,
             isGenotype: true,
-            twoPages: (isNgono && genotypesForFilterSelected.length>156),
+            twoPages: isNgono && genotypesForFilterSelected.length > 156,
           });
           if (isKlebe || isNgono) {
             drawHeader({ document: doc, pageWidth });
@@ -994,10 +981,6 @@ export const DownloadData = () => {
             // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CVM') {
-          const isTwoPages = ['Bla_Carb_acquired', 'Bla_ESBL_acquired', 'Yersiniabactin'].includes(
-            convergenceColourVariable,
-          );
-
           drawLegend({
             document: doc,
             legendData: Object.keys(convergenceColourPallete),
