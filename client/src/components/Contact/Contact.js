@@ -12,7 +12,7 @@ const defaultValues = {
   firstName: '',
   lastName: '',
   email: '',
-  message: ''
+  message: '',
 };
 
 const requiredValues = ['firstName', 'lastName', 'email'];
