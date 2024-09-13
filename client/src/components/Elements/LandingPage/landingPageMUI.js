@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
   teamMember: {
   display: 'grid',           
-  gap: '20px',              
+  // gap: '20px',              
   justifyContent: 'center', 
   
   // alignItems: 'center',       
-  margin: '20px',
+  // margin: '20px',
   '@media (min-width: 500px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
     gridTemplateRows: 'repeat(2, auto)', 
@@ -37,14 +37,17 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',           
     gap: '20px',              
     justifyContent: 'center', 
-    // alignItems: 'center',       
-    margin: '20px',
+    margin: '5px',
+    padding:'25px',
+    backgroundColor:'#fef5f8',
+    borderRadius:'10px',
     '@media (max-width: 500px)': {
       justifyContent: 'left', 
       gap: '0px',              
       margin: '0px',
       textWrap:'nowrap',
-      textDecoration:"underline"
+      textDecoration:"underline",
+      backgroundColor:'unset',
       },
     },
 
