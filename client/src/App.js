@@ -51,7 +51,7 @@ ReactDOM.render(
             <div className="App">
               <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/" element={<DashboardPage />} />
+                <Route path="/DashboardPage" element={<DashboardPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/database" element={<DatabasePage />} />
