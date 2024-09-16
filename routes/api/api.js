@@ -222,4 +222,19 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
   }
 });
 
+router.get('/genomes', async function (req, res, next) {
+  try {
+    const result = await client
+      .db('totalGenomes')
+      .collection('genome_counts')
+      .find()
+      .toArray();
+    console.log(result);
+    return res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 export default router;

@@ -617,4 +617,81 @@ router.post('/newdockleb', function (req, res, next) {
   res.status(200).json({ message: 'Kleb Collection update initiated successfully' });
 });
 
+router.post('/genomescollection', async function (req, res, next) {
+  try {
+    // Fetch counts from different collections concurrently
+    const [styphi, kpneumo, ngono, ecoli, decoli, shige, senterica, sentericaints] = await Promise.all([
+      client.db('styphi').collection('merge_rawdata_st').aggregate([
+        { $match: { 'dashboard view': 'Include' } }, 
+        { $count: 'count' }
+      ]).toArray(),
+      
+      client.db('kpneumo').collection('merge_rawdata_kp').aggregate([
+        { $match: { 'dashboard view': 'Include' } }, 
+        { $count: 'count' }
+      ]).toArray(),
+      
+      client.db('ngono').collection('merge_rawdata_ng').aggregate([
+        { $match: { 'dashboard view': 'Include' } }, 
+        { $count: 'count' }
+      ]).toArray(),
+      
+      client.db('ecoli').collection('merge_rawdata_ec').aggregate([
+        { $match: { 'dashboard view': 'Include' } }, 
+        { $count: 'count' }
+      ]).toArray(),
+      
+      client.db('decoli').collection('merge_rawdata_dec').aggregate([
+        { $match: { 'dashboard view': 'Include' } }, 
+        { $count: 'count' }
+      ]).toArray(),
+      
+      client.db('shige').collection('merge_rawdata_sh').aggregate([
+        { $match: { 'dashboard view': 'Include' } }, 
+        { $count: 'count' }
+      ]).toArray(),
+      
+      client.db('senterica').collection('merge_rawdata_se').aggregate([
+        { $match: { 'dashboard view': 'Include' } }, 
+        { $count: 'count' }
+      ]).toArray(),
+      
+      client.db('sentericaints').collection('merge_rawdata_sients').aggregate([
+        { $match: { 'dashboard view': 'Include' } }, 
+        { $count: 'count' }
+      ]).toArray()
+    ]);
+
+    // Helper function to extract count or return 0 if no result
+    const extractCount = (arr) => arr.length > 0 ? arr[0].count : 0;
+
+    // Create the object with counts
+    const genomeCounts = {
+      styphi: extractCount(styphi),
+      kpneumo: extractCount(kpneumo),
+      ngono: extractCount(ngono),
+      ecoli: extractCount(ecoli),
+      decoli: extractCount(decoli),
+      shige: extractCount(shige),
+      senterica: extractCount(senterica),
+      sentericaints: extractCount(sentericaints)
+    };
+
+    // Insert or update the counts in a new collection (e.g., "genome_counts")
+    await client.db('totalGenomes').collection('genome_counts').updateOne(
+      { _id: 'genomeCountDoc' }, // Using _id to ensure there's only one document
+      { $set: genomeCounts },   // Set the new counts
+      { upsert: true }          // Create the document if it doesn't exist
+    );
+
+    // Send success response
+    res.status(200).json({ message: 'Genome counts updated successfully', genomeCounts });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 export default router;

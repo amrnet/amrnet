@@ -1,6 +1,6 @@
 import { Header } from "../Header"
 import { MainLayout } from '../../Layout';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useStyles } from './landingPageMUI';
 import Carousel from 'react-simply-carousel';
 import { Card, CardContent, Typography, Box } from '@mui/material';
@@ -10,7 +10,10 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { red } from "@mui/material/colors";
 import {DashboardPage} from '../../Dashboard';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {Footer} from '../Footer'
+import {Footer} from '../Footer';
+import { API_ENDPOINT } from '../../../constants';
+import axios from 'axios';
+
 
 
 export const LandingPage = () =>{
@@ -20,8 +23,20 @@ export const LandingPage = () =>{
     const organism = useAppSelector((state) => state.dashboard.organism);
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
     const totalGenomes = useAppSelector((state) => state.dashboard.totalGenomes);
+    const [totalGenomesData, setTotalGenomesData] = useState({});
 
-    
+    useEffect(() => {
+      async function fetchData() {
+          try {
+              const response =  await axios.get(`${API_ENDPOINT}filters/genomes`);
+              setTotalGenomesData(response.data[0]); // Set total genomes data
+          } catch (error) {
+              console.error('Error fetching genome data:', error);
+          }
+      }
+      fetchData();
+  }, []); // Runs once when the component mounts
+
     const names = (value, name) => {
       const labels = name.split(' ');
       if (['ngono', 'ecoli', 'senterica', 'kpneumo'].includes(value)) {
@@ -74,7 +89,7 @@ export const LandingPage = () =>{
                       />
                         <Typography sx={{textAlign:'center', fontSize:'bold'}}>
                             {names(member.value, member.label)}
-                            {/* <div>Total Genomes: {totalGenomes}</div> */}
+                            <div>Total Genomes: {totalGenomesData[member.value] || 'Loading...'}</div>
                         </Typography>
                     </div>
                 )
