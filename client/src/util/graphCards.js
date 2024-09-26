@@ -7,7 +7,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'ngono'],
+    organisms: ['styphi', 'ngono', 'kpneumo'],
   },
   {
     collapse: 'frequencies',
