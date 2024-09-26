@@ -64,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '80px',
     padding: '8px 0px',
+    alignContent:'center',
+    
 
     '@media (max-width: 1000px)': {
       height: '60px',

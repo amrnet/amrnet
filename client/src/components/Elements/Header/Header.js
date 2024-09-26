@@ -10,9 +10,10 @@ import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
 import { menuItems } from '../../../util/menuItems';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {MenuHead} from '../LandingPage/MenuHead';
 
 export const Header = ({ showSelect, showSelect2 }) => {
-  console.log("showSelect", showSelect, showSelect2);
+  // console.log("showSelect", showSelect, showSelect2);
   const classes = useStyles();
   const matches650 = useMediaQuery('(max-width: 650px)');
   const matches500 = useMediaQuery('(max-width: 500px)');
@@ -60,11 +61,15 @@ export const Header = ({ showSelect, showSelect2 }) => {
               {/* {(showSelect || showSelect2) && <SelectOrganism />} */}
               {showSelect && <SelectOrganism />}
             </div>
-            {!(showSelect || showSelect2) && (
+            {showSelect2 ? <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
+                <MenuHead/>
+              </Typography>: null}
+            {/* {!(showSelect || showSelect2) && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
-            )}
+            )} */}
+            
             {showSelect &&
               (matches650 ? (
                 organism !== 'none' && (
