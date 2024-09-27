@@ -49,9 +49,12 @@ export const LandingPage = () =>{
         
       })
     );
-        return(
+        // return(
             navigate('/DashboardPage')
-        )
+            console.log("organism", name, organism);
+
+            // window.open(`#/DashboardPage`, '_blank');
+        // )
        
         // handleGlobalOverviewLabel(name);
     };
@@ -64,19 +67,22 @@ export const LandingPage = () =>{
               <div className={classes.teamMember} >
                 {orgCard.map((member, index) => {
                 return (
+                  <div className={classes.overlay}>
                     <div className={classes.teamMemberDiv} key={`team-card-${index}`} onClick={() => handleClick(member.value)} >
-                      <img
-                          // srcSet={`${member.img}`}
-                          src={`${member.img}`}
-                          alt={member.title}
-                          loading="lazy"
-                          className={classes.teamMemberImg}
-                      />
-                        <Typography sx={{textAlign:'center', fontSize:'bold'}}>
+                        <img
+                            src={`${member.img}`}
+                            alt={member.title}
+                            loading="lazy"
+                            className={classes.teamMemberImg}
+                        />   
+                    </div>
+                    <div className={classes.typographyWrapper}>
+                        <Typography className={classes.typography}>
                             {names(member.value, member.label)}
-                            {/* <div>Total Genomes: {totalGenomes}</div> */}
                         </Typography>
                     </div>
+                </div>
+
                 )
                 })}
               </div>
