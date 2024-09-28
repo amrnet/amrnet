@@ -1,11 +1,15 @@
 import { menuItems } from '../../../util/menuItems';
 
 export const MenuHead = () => {
-    menuItems.map((item) => console.log(item.label));
-
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            AMRNET
+        <div style={{ display: 'flex' }}>
+            {menuItems.map((item, index) => (
+                <div key={index} style={{ padding: '10px',  backgroundColor: 'cyan', alignItems: 'center', backgroundColor: 'yellow'}}>
+                    <a href={item.link} style={{ textDecoration: 'none', color: 'black' }}>
+                        {item.label}
+                    </a>
+                </div>
+            ))}
         </div>
     );
 };
