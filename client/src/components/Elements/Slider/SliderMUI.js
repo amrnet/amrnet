@@ -9,6 +9,20 @@ const useStyles = makeStyles((theme) => ({
   },
   sliderSize: {
     margin: '0px 10px',
+    '& .MuiSlider-valueLabel': {
+      fontSize: 12,
+      fontWeight: '600',
+      top: 24,
+      backgroundColor: 'unset',
+      color: 'white',
+      '&::before': {
+        display: 'none',
+      },
+    },
+    '& .MuiSlider-thumb': {
+      height: 25,
+      width: 25,
+    },
   },
 }));
 
