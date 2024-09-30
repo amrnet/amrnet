@@ -122,21 +122,21 @@ export const SliderSizes = (props) => {
   }, [maxSliderValue, maxSliderValueKP_GE, maxSliderValueRD, props.value]);
 
   return (
-    <div className={classes.sliderSize}>
+    <div className={classes.sliderSize} style={props.style}>
       <Box>
         {/* Display the values of the sliders */}
         <div className={classes.sliderLabel}>
           <p>{heading}</p>
-          <p>{sliderValue}</p>
         </div>
         <Slider
           value={sliderValue}
           onChange={handleSliderChange}
           onChangeCommitted={handleSliderComittedChange}
           aria-label="Default"
-          valueLabelDisplay="auto"
+          valueLabelDisplay="on"
           min={1}
           max={maxValue}
+          disabled={props.disabled ?? false}
         />
       </Box>
     </div>
