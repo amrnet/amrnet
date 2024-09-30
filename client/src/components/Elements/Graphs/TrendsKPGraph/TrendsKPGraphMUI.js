@@ -11,9 +11,15 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     rowGap: '8px',
   },
+  selectPreWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    columnGap: '20px',
+  },
   selectWrapper: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
   },
   selectInput: {
     fontSize: '14px !important',
@@ -79,25 +85,14 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '10px',
   },
   tooltipWrapper: {
-    width: '100%',
     borderRadius: '6px',
     backgroundColor: '#E5E5E5',
     overflowY: 'auto',
+    height: '100%',
 
     '@media (max-width: 1000px)': {
       width: '100%',
       height: '300px',
-      overflowY: 'hidden',
-    },
-  },
-  sliderCont: {
-    width: '30%',
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    '@media (max-width: 1000px)': {
-      width: '100%',
-      overflowY: 'hidden',
-      overflowX: 'hidden',
     },
   },
   noYearSelected: {
@@ -106,27 +101,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '100%',
   },
-  noYearSelected2: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '400px',
-    '@media (max-width: 1000px)': {
-      height: '100%',
-    },
-  },
   tooltip: {
     width: '100%',
-    height: '400px',
+    height: '100%',
     display: 'flex',
-    overflowY: 'auto',
     flexDirection: 'column',
-    '@media (max-width: 1000px)': {
-      width: '100%',
-      height: '100%',
-      overflowY: 'hidden',
-      overflowX: 'hidden',
-    },
   },
   tooltipTitle: {
     display: 'flex',
@@ -171,6 +150,19 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     gap: '16px',
     overflowY: 'auto',
+  },
+  formGroup: {
+    paddingLeft: '12px',
+  },
+  rightSide: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '30%',
+    rowGap: '8px',
+
+    '@media (max-width: 1000px)': {
+      width: '100%',
+    },
   },
 }));
 
