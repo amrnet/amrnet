@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     display: 'flex',
     alignItems: 'center',
-    zIndex: 2,
+    zIndex: 5,
     backgroundColor: '#E5E5E5',
     borderRadius: '0px 0px 16px 16px',
     flexDirection: 'column',
@@ -80,6 +80,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
     columnGap: '10px',
+    // width:'auto',
+    // marginLeft:'auto',
   },
   drawerTitleWrapper: {
     display: 'flex',
