@@ -61,14 +61,12 @@ export const Header = ({ showSelect, showSelect2 }) => {
               {/* {(showSelect || showSelect2) && <SelectOrganism />} */}
               {showSelect && <SelectOrganism />}
             </div>
-            {showSelect2 ? <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
-                <MenuHead/>
-              </Typography>: null}
-            {/* {!(showSelect || showSelect2) && (
+            {showSelect2 ? <MenuHead/>: null}
+            {!(showSelect || showSelect2) && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
-            )} */}
+            )}
             
             {showSelect &&
               (matches650 ? (
