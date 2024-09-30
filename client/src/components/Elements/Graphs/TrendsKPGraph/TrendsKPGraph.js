@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, CardContent, Divider, MenuItem, Select, Tab, Tabs, Typography } from '@mui/material';
+import { Box, CardContent, Divider, FormGroup, MenuItem, Select, Switch, Tab, Tabs, Typography } from '@mui/material';
 import { useStyles } from './TrendsKPGraphMUI';
 import {
   Bar,
@@ -26,6 +26,7 @@ import {
 } from '../../../../stores/slices/graphSlice';
 import { drugClassesKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
+import { FormControlLabel } from '@material-ui/core';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -39,6 +40,7 @@ export const TrendsKPGraph = () => {
   const [tooltipTab, setTooltipTab] = useState('genes');
   const [topGenotypes, setTopGenotypes] = useState([]);
   const [topGenes, setTopGenes] = useState([]);
+  const [switchLines, setSwitchLines] = useState(true);
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
@@ -231,6 +233,12 @@ export const TrendsKPGraph = () => {
     }
   }
 
+  function handleSwitchLines(event) {
+    setCurrentTooltip(null);
+    setTooltipTab('genes');
+    setSwitchLines(event.target.checked);
+  }
+
   useEffect(() => {
     if (resetBool) {
       setCurrentTooltip(null);
@@ -255,7 +263,7 @@ export const TrendsKPGraph = () => {
               />
               <YAxis
                 tickCount={6}
-                padding={{ top: 20, bottom: 20 }}
+                padding={switchLines ? { top: 20, bottom: 20 } : undefined}
                 allowDecimals={false}
                 domain={getDomain()}
                 allowDataOverflow={true}
@@ -289,7 +297,7 @@ export const TrendsKPGraph = () => {
                                 />
                                 <Typography variant="caption">{dataKey}</Typography>
                               </div>
-                              {diviserIndex - 1 === index && (
+                              {switchLines && diviserIndex - 1 === index && (
                                 <Divider orientation="vertical" className={classes.legendDivider} />
                               )}
                             </React.Fragment>
@@ -317,26 +325,18 @@ export const TrendsKPGraph = () => {
               })}
               <Bar key="trendsKP-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
 
-              {topGenotypes.map((option, index) => (
-                <Line
-                  key={`trendsKP-line-${index}`}
-                  dataKey={option}
-                  strokeWidth={2}
-                  stroke={colorPallete[option] || '#F5F4F6'}
-                  connectNulls
-                  type="monotone"
-                  activeDot={timeInitial === timeFinal ? true : false}
-                />
-              ))}
-              <Line
-                key="trendsKP-line-other"
-                dataKey="Other Genotypes"
-                strokeWidth={2}
-                stroke="#F5F4F6"
-                connectNulls
-                type="monotone"
-                activeDot={timeInitial === timeFinal ? true : false}
-              />
+              {switchLines &&
+                [...topGenotypes, 'Other Genotypes'].map((option, index) => (
+                  <Line
+                    key={`trendsKP-line-${index}`}
+                    dataKey={option}
+                    strokeWidth={2}
+                    stroke={colorPallete[option] || '#F5F4F6'}
+                    connectNulls
+                    type="monotone"
+                    activeDot={timeInitial === timeFinal ? true : false}
+                  />
+                ))}
             </ComposedChart>
           </ResponsiveContainer>
         );
@@ -349,55 +349,66 @@ export const TrendsKPGraph = () => {
     trendsKPGraphDrugClass,
     currentSliderValueKP_GE,
     currentSliderValueKP_GT,
+    switchLines,
   ]);
 
   return (
     <CardContent className={classes.trendsKPGraph}>
       <div className={classes.selectsWrapper}>
-        <div className={classes.selectWrapper}>
-          <Typography variant="caption">Select drug class</Typography>
-          <Select
-            value={trendsKPGraphDrugClass}
-            onChange={handleChangeDrugClass}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {getDrugClasses().map((option, index) => {
-              return (
-                <MenuItem key={index + 'trendsKP-drug-classes'} value={option}>
-                  {option}
-                </MenuItem>
-              );
-            })}
-          </Select>
+        <div className={classes.selectPreWrapper}>
+          <div className={classes.selectWrapper}>
+            <Typography variant="caption">Select drug class</Typography>
+            <Select
+              value={trendsKPGraphDrugClass}
+              onChange={handleChangeDrugClass}
+              inputProps={{ className: classes.selectInput }}
+              MenuProps={{ classes: { list: classes.selectMenu } }}
+              disabled={organism === 'none'}
+            >
+              {getDrugClasses().map((option, index) => {
+                return (
+                  <MenuItem key={index + 'trendsKP-drug-classes'} value={option}>
+                    {option}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </div>
+          <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} />
         </div>
-        <div className={classes.selectWrapper}>
-          <Typography variant="caption">Data view</Typography>
-          <Select
-            value={trendsKPGraphView}
-            onChange={handleChangeDataView}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {dataViewOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'trendsKP-dataview'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
+        <div className={classes.selectPreWrapper}>
+          <div className={classes.selectWrapper}>
+            <Typography variant="caption">Data view</Typography>
+            <Select
+              value={trendsKPGraphView}
+              onChange={handleChangeDataView}
+              inputProps={{ className: classes.selectInput }}
+              MenuProps={{ classes: { list: classes.selectMenu } }}
+              disabled={organism === 'none'}
+            >
+              {dataViewOptions.map((option, index) => {
+                return (
+                  <MenuItem key={index + 'trendsKP-dataview'} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </div>
+          <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} />
         </div>
       </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="CERDT">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
-          <SliderSizes value={'KP_GT'} sx={{ margin: '0px 10px 0px 10px' }} />
-          <SliderSizes value={'KP_GE'} sx={{ margin: '0px 10px 0px 10px' }} />
+        <div className={classes.rightSide}>
+          <FormGroup className={classes.formGroup}>
+            <FormControlLabel
+              label={<Typography variant="caption">Show genotype lines</Typography>}
+              control={<Switch checked={switchLines} onChange={handleSwitchLines} />}
+            />
+          </FormGroup>
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
@@ -410,7 +421,7 @@ export const TrendsKPGraph = () => {
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={tooltipTab} onChange={handleChangeTooltipTab} variant="fullWidth">
                     <Tab label="Genes" value="genes" />
-                    <Tab label="Genotypes" value="genotypes" />
+                    {switchLines && <Tab label="Genotypes" value="genotypes" />}
                   </Tabs>
                 </Box>
                 <div className={classes.tooltipContent}>
@@ -436,7 +447,7 @@ export const TrendsKPGraph = () => {
                 </div>
               </div>
             ) : (
-              <div className={classes.noYearSelected2}>No year selected</div>
+              <div className={classes.noYearSelected}>No year selected</div>
             )}
           </div>
         </div>
