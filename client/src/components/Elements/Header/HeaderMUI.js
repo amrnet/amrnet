@@ -80,6 +80,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
     columnGap: '10px',
+    
+    
     // width:'auto',
     // marginLeft:'auto',
   },
@@ -87,15 +89,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  
   toolbarWrapper: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-
-    '@media (min-width: 651px) and (max-width: 1000px)': {
-      flexDirection: 'column',
-    },
 
     '@media (max-width: 650px)': {
       columnGap: '4px',
@@ -103,6 +102,17 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 500px)': {
       justifyContent: 'flex-end',
+    },
+  },
+  dashboardHead: {  // Conditional style that applies when `dashboard` class is present
+      '@media (min-width: 651px) and (max-width: 1000px)': {
+        flexDirection: 'column',
+      },
+      
+    },
+  landingPageHeadOnly:{
+    '@media (max-width: 700px)': {
+        width: '0%',
     },
   },
   infoCollapse: {
