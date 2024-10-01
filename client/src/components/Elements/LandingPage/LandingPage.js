@@ -67,8 +67,8 @@ export const LandingPage = () =>{
               <div className={classes.teamMember} >
                 {orgCard.map((member, index) => {
                 return (
-                  <div className={classes.overlay}>
-                    <div className={classes.teamMemberDiv} key={`team-card-${index}`} onClick={() => handleClick(member.value)} >
+                  <div className={classes.overlay} onClick={() => handleClick(member.value)}>
+                    <div className={classes.teamMemberDiv} key={`team-card-${index}`}  >
                         <img
                             src={`${member.img}`}
                             alt={member.title}
