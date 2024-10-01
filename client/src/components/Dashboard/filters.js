@@ -521,8 +521,8 @@ export function getNgmastData({ data, ngmast, organism }) {
 }
 
 // Define KO_MDR and KO_HV arrays
-const KO_MDR = ['ST258', 'ST307', 'ST340', 'ST512', 'ST11', 'ST15'];
-const KO_HV = ['ST23', 'ST86', 'ST65', 'ST25'];
+// const KO_MDR = ['ST258', 'ST307', 'ST340', 'ST512', 'ST11', 'ST15'];
+// const KO_HV = ['ST23', 'ST86', 'ST65', 'ST25'];
 
 // Define getKODiversityData function
 export function getKODiversityData({ data }) {
@@ -541,25 +541,25 @@ export function getKODiversityData({ data }) {
       ESBL: 0,
       'Aerobactin(iuc)': 0,
       rmpADC: 0,
-      neither: 0,
+      None: 0,
     };
 
     diversityData.forEach((x) => {
-      if (KO_MDR.includes(x.GENOTYPE.toString())) counts.MDR++;
-      if (KO_HV.includes(x.GENOTYPE.toString())) counts.Hv++;
+      // if (KO_MDR.includes(x.GENOTYPE.toString())) counts.MDR++;
+      // if (KO_HV.includes(x.GENOTYPE.toString())) counts.Hv++;
       if (x.Bla_Carb_acquired !== '-') counts.Carbapenems++;
       if (x.Bla_ESBL_acquired !== '-') counts.ESBL++;
       if (x.Aerobactin !== '-') counts['Aerobactin(iuc)']++;
       if (!['-', '-,-,-'].includes(x.RmpADC)) counts.rmpADC++;
       if (
-        !KO_MDR.includes(x.GENOTYPE.toString()) &&
-        !KO_HV.includes(x.GENOTYPE.toString()) &&
+        // !KO_MDR.includes(x.GENOTYPE.toString()) &&
+        // !KO_HV.includes(x.GENOTYPE.toString()) &&
         x.Bla_Carb_acquired === '-' &&
         x.Bla_ESBL_acquired === '-' &&
         x.Aerobactin === '-' &&
         ['-', '-,-,-'].includes(x.RmpADC)
       ) {
-        counts.neither++;
+        counts.None++;
       }
     });
 
