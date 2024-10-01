@@ -6,7 +6,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex', 
     width:'-webkit-fill-available', 
     justifyContent:'end', 
-    gap:'40px'
+    // '@media (min-width: 650px)': {
+    //   gap:'40px',
+    // },
+
+    '@media (max-width: 450px)': {
+        fontSize:'x-small'
+    },
     
   },
   itemDiv: {
