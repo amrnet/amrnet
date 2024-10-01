@@ -55,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     width: '100%',
     textAlign: 'center',
+    '@media (max-width: 500px)': {
+        height:'44px',
+        overflow:'clip'
+    },
+
     '&:hover': {
       zIndex: '2',  
       transform: 'scale(1.05)',
@@ -82,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: '2',  /* Ensure it overlaps the image */
     backgroundColor: 'rgba(0, 0, 0, 0.7)',  /* Cyan background */
     textAlign: 'center',
-    color:'wheat',
+    color:'white',
   },
 
   typography: {
@@ -96,8 +101,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     // borderRadius: 5,
     '@media (max-width: 500px)': {
-    width: '0%',
-    height: '0px',
+    // height: '20px',
     },
   },
   teamPost: {
