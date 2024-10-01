@@ -64,6 +64,6 @@ export const graphCards = [
     description: [''],
     icon: <BubbleChart color="primary" />,
     id: 'CVM',
-    organisms: ['kpneumo', 'styphi', 'ngono', 'decoli'],
+    organisms: ['kpneumo'],
   },
 ];
