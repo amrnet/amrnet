@@ -56,7 +56,7 @@ export const graphCards = [
     description: ['Top K/O (up to 20)'],
     icon: <StackedBarChart color="primary" />,
     id: 'KO',
-    organisms: [''],
+    organisms: ['kpneumo'],
   },
   {
     collapse: 'convergence',
@@ -64,6 +64,6 @@ export const graphCards = [
     description: [''],
     icon: <BubbleChart color="primary" />,
     id: 'CVM',
-    organisms: [''],
+    organisms: ['kpneumo', 'styphi', 'ngono', 'decoli'],
   },
 ];
