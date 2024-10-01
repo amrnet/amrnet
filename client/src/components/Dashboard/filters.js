@@ -535,8 +535,8 @@ export function getKODiversityData({ data }) {
   // Function to calculate counts
   const calculateCounts = (diversityData) => {
     const counts = {
-      MDR: 0,
-      Hv: 0,
+      // MDR: 0,
+      // Hv: 0,
       Carbapenems: 0,
       ESBL: 0,
       'Aerobactin(iuc)': 0,
