@@ -51,9 +51,7 @@ export const LandingPage = () =>{
     );
         // return(
             navigate('/DashboardPage')
-            console.log("organism", name, organism);
 
-            // window.open(`#/DashboardPage`, '_blank');
         // )
        
         // handleGlobalOverviewLabel(name);

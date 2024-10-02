@@ -47,7 +47,7 @@ export const Header = ({ showSelect, showSelect2 }) => {
     <div className={classes.headerWrapper}>
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
-        <Toolbar className={`${classes.toolbar} ${page === 'home' ? '' : classes.otherPage}`}>
+        <Toolbar className={`${classes.toolbar} `}>
           <div className={`${classes.toolbarWrapper} ${!showSelect2 ? classes.dashboardHead : ''}`}>
             <div className={`${classes.leftWrapper} ${showSelect2 ? classes.landingPageHeadOnly : ''}`}>
               <div className={classes.drawerTitleWrapper}>
