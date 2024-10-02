@@ -40,12 +40,14 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderRadius: '16px',
+    backgroundColor: '#E5E5',
   },
   toolbar: {
     backgroundColor: '#fff',
     borderRadius: '16px',
     flexDirection: 'column',
     minHeight: '0 !important',
+    display:'block',
 
     '@media (max-width: 500px)': {
       paddingTop: '8px',
