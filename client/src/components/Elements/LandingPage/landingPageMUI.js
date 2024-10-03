@@ -20,17 +20,15 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',           
     justifyContent: 'center', 
     padding:'0px !important',
-    backgroundColor:'yellow',
 
     
     '@media (min-width: 500px)': {
-      gridTemplateColumns: 'repeat(2, 1fr)',
-      gridTemplateRows: 'repeat(2, auto)', 
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gridTemplateRows: 'repeat(2, auto)', 
       },
     '@media (min-width: 750px)': {
-      gridTemplateColumns: 'repeat(4, 1fr)',
+        gridTemplateColumns: 'repeat(4, 1fr)',
       },
-      
     },
   teamMemberDiv: {
     display: 'grid',           
@@ -56,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     textAlign: 'center',
     '@media (max-width: 500px)': {
-        height:'44px',
+        height:'45px',
         overflow:'clip'
     },
 
@@ -85,13 +83,13 @@ const useStyles = makeStyles((theme) => ({
     bottom: '0',  /* Align to the bottom of the container */
     width: '100%',  /* Span across the full width */
     zIndex: '2',  /* Ensure it overlaps the image */
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',  /* Cyan background */
+    backgroundColor: 'rgba(0, 0, 0,1)',  /* Cyan background */
     textAlign: 'center',
     color:'white',
   },
 
   typography: {
-    fontWeight: 'bold',  /* Bold text */
+    fontWeight: 'bold !important',  /* Bold text */
     padding: '10px 0 ', /* Padding for spacing */
   },
   
@@ -101,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     // borderRadius: 5,
     '@media (max-width: 500px)': {
-    // height: '20px',
+    width: '0%',
     },
   },
   teamPost: {
