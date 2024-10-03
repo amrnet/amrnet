@@ -16,7 +16,7 @@ export const MainLayout = ({ children, isHomePage = false, isLandingPage = false
       <div className={classes.mainLayout} id="main-layout">
         <Header showSelect={isHomePage} showSelect2={isLandingPage} />
         <div className={classes.childrenWrapper}>
-          <div className={`${classes.children} ${isLandingPage ? '' : classes.otherPage} ${page === 'home' ? '' : classes.otherPage}`}>{children}</div>
+          <div className={`${classes.children} ${page === 'home' ? '' : classes.otherPage}`}>{children}</div>
         </div>
       </div>
       {(loadingData || loadingMap) && (
