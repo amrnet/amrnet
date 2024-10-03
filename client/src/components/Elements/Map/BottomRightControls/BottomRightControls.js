@@ -215,14 +215,14 @@ export const BottomRightControls = () => {
       <Tooltip title="Download Data" placement="right">
         <span>
           <IconButton color="primary" disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={35} /> : <DownloadMapViewData fontSize="large" />}
+            {loading ? <CircularProgress color="primary" size={35} /> : <DownloadMapViewData fontSize="inherit" />}
           </IconButton>
         </span>
       </Tooltip>
       <Tooltip title="Download Map as PNG" placement="left">
         <span>
           <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={35} /> : <CameraAlt fontSize="large" />}
+            {loading ? <CircularProgress color="primary" size={35} /> : <CameraAlt fontSize="inherit" />}
           </IconButton>
         </span>
       </Tooltip>
