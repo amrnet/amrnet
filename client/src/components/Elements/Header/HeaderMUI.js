@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     display: 'flex',
     alignItems: 'center',
-    zIndex: 5,
+    zIndex: 2,
     backgroundColor: '#E5E5E5',
     borderRadius: '0px 0px 16px 16px',
     flexDirection: 'column',
@@ -40,14 +40,12 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderRadius: '16px',
-    backgroundColor: '#E5E5',
   },
   toolbar: {
     backgroundColor: '#fff',
     borderRadius: '16px',
     flexDirection: 'column',
     minHeight: '0 !important',
-    display:'block',
 
     '@media (max-width: 500px)': {
       paddingTop: '8px',
@@ -66,8 +64,6 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     height: '80px',
     padding: '8px 0px',
-    alignContent:'center',
-    
 
     '@media (max-width: 1000px)': {
       height: '60px',
@@ -82,21 +78,20 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
     columnGap: '10px',
-    
-    
-    // width:'auto',
-    // marginLeft:'auto',
   },
   drawerTitleWrapper: {
     display: 'flex',
     alignItems: 'center',
   },
-  
   toolbarWrapper: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+
+    '@media (min-width: 651px) and (max-width: 1000px)': {
+      flexDirection: 'column',
+    },
 
     '@media (max-width: 650px)': {
       columnGap: '4px',
@@ -104,17 +99,6 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 500px)': {
       justifyContent: 'flex-end',
-    },
-  },
-  dashboardHead: {  // Conditional style that applies when `dashboard` class is present
-      '@media (min-width: 651px) and (max-width: 1000px)': {
-        flexDirection: 'column',
-      },
-      
-    },
-  landingPageHeadOnly:{
-    '@media (max-width: 700px)': {
-        width: '0%',
     },
   },
   infoCollapse: {
