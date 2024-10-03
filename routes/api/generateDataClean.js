@@ -1,9 +1,15 @@
 import express from 'express';
 import { client } from '../../config/db2.js';
-
+import RateLimit from 'express-rate-limit';
 const router = express.Router();
 
-router.post('/newdoctyphi', function (req, res, next) {
+// set up rate limiter: maximum of 100 requests per 15 minutes
+const limiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
+
+router.post('/newdoctyphi', limiter, function (req, res, next) {
   const organism = req.body.organism;
   let collection, collection2, localFilePath;
 
@@ -556,7 +562,7 @@ router.post('/newdoctyphi', function (req, res, next) {
   res.status(200).json({ message: 'Typhi Collection update initiated successfully' });
 });
 
-router.post('/newdockleb', function (req, res, next) {
+router.post('/newdockleb', limiter, function (req, res, next) {
   const organism = req.body.organism;
   let collection, collection2, localFilePath;
 
