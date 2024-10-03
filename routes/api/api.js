@@ -199,7 +199,7 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
   try {
     const result = await client
       .db('sentericaints')
-      .collection('merge_rawdata_sients')
+      .collection('merge_rawdata_seints')
       .find({ 'dashboard view': 'Include' })
       .toArray();
     console.log(result.length);

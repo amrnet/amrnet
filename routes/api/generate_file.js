@@ -5,8 +5,15 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as Tools from '../../services/services.js';
+import rateLimit from 'express-rate-limit';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
+
+// Set up rate limiter: maximum of 100 requests per 15 minutes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
 
 //Route GET to create the clean.csv
 router.get('/create', async function (req, res) {
@@ -644,7 +651,7 @@ router.post('/download', function (req, res, next) {
 });
 
 // Get data for admin page: changes and current data
-router.get('/databaseLog', function (req, res, next) {
+router.get('/databaseLog', limiter, function (req, res, next) {
   // Define file path
   const path = './assets/database/previousDatabases.txt';
   // Read text file contents
