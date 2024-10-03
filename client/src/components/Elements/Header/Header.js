@@ -10,10 +10,9 @@ import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
 import { menuItems } from '../../../util/menuItems';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {MenuHead} from '../LandingPage/MenuHead';
 
 export const Header = ({ showSelect, showSelect2 }) => {
-  // console.log("showSelect", showSelect, showSelect2);
+  console.log("showSelect", showSelect, showSelect2);
   const classes = useStyles();
   const matches650 = useMediaQuery('(max-width: 650px)');
   const matches500 = useMediaQuery('(max-width: 500px)');
@@ -41,15 +40,14 @@ export const Header = ({ showSelect, showSelect2 }) => {
   function handleToggleCollapse() {
     setInfoCollapse(!infoCollapse);
   }
-  console.log("showSelect2", showSelect2);
 
   return (
     <div className={classes.headerWrapper}>
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
-        <Toolbar className={`${classes.toolbar} `}>
-          <div className={`${classes.toolbarWrapper} ${!showSelect2 ? classes.dashboardHead : ''}`}>
-            <div className={`${classes.leftWrapper} ${showSelect2 ? classes.landingPageHeadOnly : ''}`}>
+        <Toolbar className={`${classes.toolbar} ${page === 'home' ? '' : classes.otherPage}`}>
+          <div className={classes.toolbarWrapper}>
+            <div className={classes.leftWrapper}>
               <div className={classes.drawerTitleWrapper}>
                 <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
                   <Menu sx={{ fontSize: '1.7rem' }} />
@@ -59,15 +57,14 @@ export const Header = ({ showSelect, showSelect2 }) => {
                 </Link>
 
               </div>
+              {/* {(showSelect || showSelect2) && <SelectOrganism />} */}
               {showSelect && <SelectOrganism />}
             </div>
-            {showSelect2 ? <MenuHead/>: null}
             {!(showSelect || showSelect2) && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
             )}
-            
             {showSelect &&
               (matches650 ? (
                 organism !== 'none' && (
