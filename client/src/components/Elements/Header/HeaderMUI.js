@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     display: 'flex',
     alignItems: 'center',
-    zIndex: 2,
+    zIndex: 5,
     backgroundColor: '#E5E5E5',
     borderRadius: '0px 0px 16px 16px',
     flexDirection: 'column',
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
       margin: '0px 8px',
     },
   },
+
   headerBox: {
     width: '100%',
     height: '32px',
@@ -38,14 +39,18 @@ const useStyles = makeStyles((theme) => ({
       height: '24px',
     },
   },
+
   appBar: {
     borderRadius: '16px',
+    backgroundColor: '#E5E5',
   },
+
   toolbar: {
     backgroundColor: '#fff',
     borderRadius: '16px',
     flexDirection: 'column',
     minHeight: '0 !important',
+    display: 'block',
 
     '@media (max-width: 500px)': {
       paddingTop: '8px',
@@ -61,9 +66,11 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
   logo: {
     height: '80px',
     padding: '8px 0px',
+    alignContent: 'center',
 
     '@media (max-width: 1000px)': {
       height: '60px',
@@ -73,25 +80,24 @@ const useStyles = makeStyles((theme) => ({
       height: '40px',
     },
   },
+
   leftWrapper: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
     columnGap: '10px',
   },
+
   drawerTitleWrapper: {
     display: 'flex',
     alignItems: 'center',
   },
+
   toolbarWrapper: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-
-    '@media (min-width: 651px) and (max-width: 1000px)': {
-      flexDirection: 'column',
-    },
 
     '@media (max-width: 650px)': {
       columnGap: '4px',
@@ -101,12 +107,15 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'flex-end',
     },
   },
+
   infoCollapse: {
     width: '100%',
   },
+
   title: {
     position: 'absolute',
   },
+
   otherPage: {},
 }));
 

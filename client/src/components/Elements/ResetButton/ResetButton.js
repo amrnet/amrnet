@@ -21,8 +21,8 @@ import {
   setDrugResistanceGraphView,
   setFrequenciesGraphView,
   setKODiversityGraphView,
-  setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
   setCustomDropdownMapView,
   setFrequenciesGraphSelectedGenotypes,
   setNgmastDrugsData,
@@ -59,7 +59,7 @@ export const ResetButton = () => {
         distribution: false,
         drugResistance: false,
         frequencies: false,
-        trendsKP: false,
+        trends: false,
         KODiversity: false,
         convergence: false,
       }),
@@ -89,6 +89,8 @@ export const ResetButton = () => {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
       dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+      dispatch(setTrendsGraphDrugClass('Azithromycin'));
+      dispatch(setTrendsGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
@@ -96,8 +98,8 @@ export const ResetButton = () => {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsKPGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsKPGraphView('number'));
+      dispatch(setTrendsGraphDrugClass('Carbapenems'));
+      dispatch(setTrendsGraphView('number'));
       dispatch(setKODiversityGraphView('K_locus'));
       dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
       dispatch(setConvergenceColourVariable('DATE'));

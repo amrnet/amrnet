@@ -5,7 +5,7 @@ interface CollapsesModel {
   distribution: boolean;
   drugResistance: boolean;
   frequencies: boolean;
-  trendsKP: boolean;
+  trends: boolean;
   KODiversity: boolean;
   convergence: boolean;
 }
@@ -26,8 +26,8 @@ interface GraphState {
   genotypesDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
-  trendsKPGraphDrugClass: string;
-  trendsKPGraphView: string;
+  trendsGraphDrugClass: string;
+  trendsGraphView: string;
   KODiversityData: Array<any>;
   KODiversityGraphView: string;
   convergenceData: Array<any>;
@@ -54,7 +54,7 @@ const initialState: GraphState = {
     distribution: false,
     drugResistance: false,
     frequencies: false,
-    trendsKP: false,
+    trends: false,
     KODiversity: false,
     convergence: false,
   },
@@ -73,8 +73,8 @@ const initialState: GraphState = {
   customDropdownMapViewNG: [],
   determinantsGraphView: 'percentage',
   determinantsGraphDrugClass: '',
-  trendsKPGraphDrugClass: '',
-  trendsKPGraphView: 'number',
+  trendsGraphDrugClass: '',
+  trendsGraphView: 'number',
   KODiversityData: [],
   KODiversityGraphView: 'K_locus',
   convergenceData: [],
@@ -150,11 +150,11 @@ export const graphSlice = createSlice({
     setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesAndDrugsYearData = action.payload;
     },
-    setTrendsKPGraphDrugClass: (state, action: PayloadAction<string>) => {
-      state.trendsKPGraphDrugClass = action.payload;
+    setTrendsGraphDrugClass: (state, action: PayloadAction<string>) => {
+      state.trendsGraphDrugClass = action.payload;
     },
-    setTrendsKPGraphView: (state, action: PayloadAction<string>) => {
-      state.trendsKPGraphView = action.payload;
+    setTrendsGraphView: (state, action: PayloadAction<string>) => {
+      state.trendsGraphView = action.payload;
     },
     setKODiversityData: (state, action: PayloadAction<Array<any>>) => {
       state.KODiversityData = action.payload;
@@ -231,8 +231,8 @@ export const {
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,
   setGenotypesAndDrugsYearData,
-  setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
   setKODiversityData,
   setKODiversityGraphView,
   setConvergenceData,

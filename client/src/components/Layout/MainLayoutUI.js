@@ -25,14 +25,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#E5E5E5',
 
     '@media (max-width: 1000px)': {
-      padding: '158px 16px 16px',
-
-      '&$otherPage': {
-        padding: '108px 16px 16px',
-      },
-    },
-
-    '@media (max-width: 650px)': {
       padding: '108px 16px 16px',
     },
 
@@ -62,7 +54,11 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: 'center',
     paddingLeft: '20px',
   },
-  otherPage: {},
+  otherPage: {
+    '@media (min-width: 651px) and (max-width: 1000px)': {
+      padding: '158px 16px 16px',
+    },
+  },
 }));
 
 export { useStyles };

@@ -183,14 +183,13 @@ export const DownloadData = () => {
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const listPIMD = useAppSelector((state) => state.dashboard.listPMID);
   const PMID = useAppSelector((state) => state.dashboard.PMID);
-  // const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const mapView = useAppSelector((state) => state.map.mapView);
   const dataset = useAppSelector((state) => state.map.dataset);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
-  const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
+  const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
   const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
@@ -390,7 +389,7 @@ export const DownloadData = () => {
       );
       document.circle(50 + xFactor, rectY + 10 + yFactor, 2.5, 'F');
 
-      if (id === 'CERDT' && i < 2) {
+      if (id === 'RDT' && i < 2) {
         if (i === 0) {
           document.setFont(undefined, 'bold');
         } else {
@@ -438,7 +437,7 @@ export const DownloadData = () => {
         distribution: true,
         drugResistance: true,
         frequencies: true,
-        trendsKP: true,
+        trends: true,
         KODiversity: true,
         convergence: true,
       }),
@@ -852,8 +851,8 @@ export const DownloadData = () => {
           case 'RDWG':
             title += `: ${determinantsGraphDrugClass}`;
             break;
-          case 'CERDT':
-            title += `: ${trendsKPGraphDrugClass}`;
+          case 'RDT':
+            title += `: ${trendsGraphDrugClass}`;
             break;
           case 'KO':
             title += `: ${KODiversityGraphView}`;
@@ -943,13 +942,13 @@ export const DownloadData = () => {
             drawHeader({ document: doc, pageWidth });
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
-        } else if (cards[index].id === 'CERDT') {
+        } else if (cards[index].id === 'RDT') {
           const legendGenotypes = genotypesForFilter.map((genotype) => {
             return { name: genotype, color: getGenotypeColor(genotype) };
           });
 
           drawLegend({
-            id: 'CERDT',
+            id: 'RDT',
             document: doc,
             legendData: [{ name: 'GENES: ', color: 'white' }, ...drugClassesBars],
             factor: drugClassesFactor,
@@ -961,7 +960,7 @@ export const DownloadData = () => {
           drawFooter({ document: doc, pageHeight, pageWidth, date });
 
           drawLegend({
-            id: 'CERDT',
+            id: 'RDT',
             document: doc,
             legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
             factor: Math.ceil(genotypesForFilter.length / 3),

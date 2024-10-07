@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, CardContent, Divider, FormGroup, MenuItem, Select, Switch, Tab, Tabs, Typography } from '@mui/material';
-import { useStyles } from './TrendsKPGraphMUI';
+import { useStyles } from './TrendsGraphMUI';
 import {
   Bar,
   Brush,
@@ -17,14 +17,14 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { colorForDrugClassesKP, hoverColor } from '../../../../util/colorHelper';
+import { colorForDrugClassesNG, colorForDrugClassesKP, hoverColor } from '../../../../util/colorHelper';
 import {
-  setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
   setResetBool,
   setMaxSliderValueKP_GE,
 } from '../../../../stores/slices/graphSlice';
-import { drugClassesKP } from '../../../../util/drugs';
+import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
 import { FormControlLabel } from '@material-ui/core';
 
@@ -33,7 +33,7 @@ const dataViewOptions = [
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
-export const TrendsKPGraph = () => {
+export const TrendsGraph = () => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -50,8 +50,8 @@ export const TrendsKPGraph = () => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const genotypesAndDrugsYearData = useAppSelector((state) => state.graph.genotypesAndDrugsYearData);
-  const trendsKPGraphView = useAppSelector((state) => state.graph.trendsKPGraphView);
-  const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
+  const trendsGraphView = useAppSelector((state) => state.graph.trendsGraphView);
+  const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const currentSliderValueKP_GE = useAppSelector((state) => state.graph.currentSliderValueKP_GE);
   const currentSliderValueKP_GT = useAppSelector((state) => state.graph.currentSliderValueKP_GT);
@@ -69,11 +69,19 @@ export const TrendsKPGraph = () => {
     if (organism === 'none') {
       return [];
     }
-    return drugClassesKP;
+    if (organism === 'kpneumo') {
+      return drugClassesKP;
+    }
+
+    return drugClassesNG;
   }
 
   function getDomain() {
-    return trendsKPGraphView === 'number' ? undefined : [0, 100];
+    return trendsGraphView === 'number' ? undefined : [0, 100];
+  }
+
+  function getColors() {
+    return organism === 'kpneumo' ? colorForDrugClassesKP : colorForDrugClassesNG;
   }
 
   const slicedData = useMemo(() => {
@@ -81,7 +89,7 @@ export const TrendsKPGraph = () => {
     const genotypes = {};
     const genes = {};
 
-    genotypesAndDrugsYearData[trendsKPGraphDrugClass]?.forEach((year) => {
+    genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
       Object.keys(year).forEach((key) => {
         if (['name', 'totalCount', 'resistantCount'].includes(key)) {
           return;
@@ -116,7 +124,7 @@ export const TrendsKPGraph = () => {
     setTopGenotypes(topGT);
     setTopGenes(topGE);
 
-    genotypesAndDrugsYearData[trendsKPGraphDrugClass]?.forEach((year) => {
+    genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
       const value = {
         name: year.name,
         totalCount: year.totalCount,
@@ -152,11 +160,11 @@ export const TrendsKPGraph = () => {
     currentSliderValueKP_GT,
     genotypesAndDrugsYearData,
     genotypesForFilter,
-    trendsKPGraphDrugClass,
+    trendsGraphDrugClass,
   ]);
 
   function getData() {
-    if (trendsKPGraphView === 'number') {
+    if (trendsGraphView === 'number') {
       return slicedData;
     }
 
@@ -176,12 +184,12 @@ export const TrendsKPGraph = () => {
   }
 
   function handleChangeDataView(event) {
-    dispatch(setTrendsKPGraphView(event.target.value));
+    dispatch(setTrendsGraphView(event.target.value));
   }
 
   function handleChangeDrugClass(event) {
     setCurrentTooltip(null);
-    dispatch(setTrendsKPGraphDrugClass(event.target.value));
+    dispatch(setTrendsGraphDrugClass(event.target.value));
   }
 
   function handleChangeTooltipTab(_, newValue) {
@@ -285,14 +293,13 @@ export const TrendsKPGraph = () => {
                         {payload.map((entry, index) => {
                           const { dataKey, color } = entry;
                           return (
-                            <React.Fragment key={`trendsKP-legend-${index}`}>
+                            <React.Fragment key={`trends-legend-${index}`}>
                               <div className={classes.legendItemWrapper}>
                                 <Box
                                   className={classes.colorCircle}
                                   style={{
                                     backgroundColor: color,
-                                    borderRadius:
-                                      index < colorForDrugClassesKP[trendsKPGraphDrugClass]?.length ? undefined : '50%',
+                                    borderRadius: index < getColors()[trendsGraphDrugClass]?.length ? undefined : '50%',
                                   }}
                                 />
                                 <Typography variant="caption">{dataKey}</Typography>
@@ -320,15 +327,15 @@ export const TrendsKPGraph = () => {
               />
 
               {topGenes?.map((option, index) => {
-                const color = colorForDrugClassesKP[trendsKPGraphDrugClass].find((x) => x.name === option).color;
-                return <Bar key={`trendsKP-bar-${index}`} dataKey={option} name={option} stackId={0} fill={color} />;
+                const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option).color;
+                return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={color} />;
               })}
-              <Bar key="trendsKP-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
+              <Bar key="trends-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
 
               {switchLines &&
                 [...topGenotypes, 'Other Genotypes'].map((option, index) => (
                   <Line
-                    key={`trendsKP-line-${index}`}
+                    key={`trends-line-${index}`}
                     dataKey={option}
                     strokeWidth={2}
                     stroke={colorPallete[option] || '#F5F4F6'}
@@ -345,21 +352,21 @@ export const TrendsKPGraph = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     genotypesAndDrugsYearData,
-    trendsKPGraphView,
-    trendsKPGraphDrugClass,
+    trendsGraphView,
+    trendsGraphDrugClass,
     currentSliderValueKP_GE,
     currentSliderValueKP_GT,
     switchLines,
   ]);
 
   return (
-    <CardContent className={classes.trendsKPGraph}>
+    <CardContent className={classes.trendsGraph}>
       <div className={classes.selectsWrapper}>
         <div className={classes.selectPreWrapper}>
           <div className={classes.selectWrapper}>
             <Typography variant="caption">Select drug class</Typography>
             <Select
-              value={trendsKPGraphDrugClass}
+              value={trendsGraphDrugClass}
               onChange={handleChangeDrugClass}
               inputProps={{ className: classes.selectInput }}
               MenuProps={{ classes: { list: classes.selectMenu } }}
@@ -367,7 +374,7 @@ export const TrendsKPGraph = () => {
             >
               {getDrugClasses().map((option, index) => {
                 return (
-                  <MenuItem key={index + 'trendsKP-drug-classes'} value={option}>
+                  <MenuItem key={index + 'trends-drug-classes'} value={option}>
                     {option}
                   </MenuItem>
                 );
@@ -380,7 +387,7 @@ export const TrendsKPGraph = () => {
           <div className={classes.selectWrapper}>
             <Typography variant="caption">Data view</Typography>
             <Select
-              value={trendsKPGraphView}
+              value={trendsGraphView}
               onChange={handleChangeDataView}
               inputProps={{ className: classes.selectInput }}
               MenuProps={{ classes: { list: classes.selectMenu } }}
@@ -388,7 +395,7 @@ export const TrendsKPGraph = () => {
             >
               {dataViewOptions.map((option, index) => {
                 return (
-                  <MenuItem key={index + 'trendsKP-dataview'} value={option.value}>
+                  <MenuItem key={index + 'trends-dataview'} value={option.value}>
                     {option.label}
                   </MenuItem>
                 );
@@ -399,7 +406,7 @@ export const TrendsKPGraph = () => {
         </div>
       </div>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CERDT">
+        <div className={classes.graph} id="RDT">
           {plotChart}
         </div>
         <div className={classes.rightSide}>
