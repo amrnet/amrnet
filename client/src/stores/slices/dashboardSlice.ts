@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { ReactNode } from 'react';
+import { organismsCards } from '../../util/organismsCards';
 
 interface GlobalOverviewModel {
-  label0: string;
-  label1: string;
-  label2: string;
-  fullLabel: string;
+  label: ReactNode;
+  stringLabel: string;
 }
 
 interface DashboardState {
@@ -38,12 +38,10 @@ const initialState: DashboardState = {
   canGetData: true,
   canFilterData: false,
   globalOverviewLabel: {
-    label0: 'Salmonella',
-    label1: 'Typhi',
-    label2: '',
-    fullLabel: 'Salmonella Typhi',
+    label: organismsCards.find((card) => card.value === 'styphi')?.label || '',
+    stringLabel: organismsCards.find((card) => card.value === 'styphi')?.stringLabel || '',
   },
-  organism: 'styphi',
+  organism: 'none',
   loadingData: false,
   actualCountry: 'All',
   totalGenotypes: 0,
@@ -79,7 +77,22 @@ export const dashboardSlice = createSlice({
     setGlobalOverviewLabel: (state, action: PayloadAction<GlobalOverviewModel>) => {
       state.globalOverviewLabel = action.payload;
     },
+    removeOrganism: (state) => {
+      state.organism = 'none';
+    },
     setOrganism: (state, action: PayloadAction<string>) => {
+      const url = new URL(window.location.href);
+      const hash = url.hash;
+
+      let [path, queryString] = hash.split('?');
+      const searchParams = new URLSearchParams(queryString);
+
+      if (searchParams.get('organism') !== action.payload) {
+        searchParams.set('organism', action.payload);
+        url.hash = `${path}?${searchParams.toString()}`;
+        window.history.replaceState(null, '', url);
+      }
+
       state.organism = action.payload;
     },
     setLoadingData: (state, action: PayloadAction<boolean>) => {
@@ -170,6 +183,7 @@ export const {
   setCaptureRFWG,
   setCaptureRDWG,
   setCaptureGD,
+  removeOrganism,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

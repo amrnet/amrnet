@@ -1,5 +1,16 @@
 import { BarChart, BubbleChart, MultilineChart, StackedBarChart, Timeline } from '@mui/icons-material';
 
+function getTrendstitle(organism) {
+  switch (organism) {
+    case 'kpneumo':
+      return 'Carbapenems and ESBL resistant determinant trends';
+    case 'ngono':
+      return 'Azithromycin and Ceftriaxone resistant determinant trends';
+    default:
+      return '';
+  }
+}
+
 export const graphCards = [
   {
     collapse: 'drugResistance',
@@ -43,12 +54,20 @@ export const graphCards = [
     organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'],
   },
   {
-    collapse: 'trendsKP',
-    title: 'Carbapenems and ESBL resistant determinant trends',
+    collapse: 'trends',
+    title: getTrendstitle('kpneumo'),
     description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
-    id: 'CERDT',
+    id: 'RDT',
     organisms: ['kpneumo'],
+  },
+  {
+    collapse: 'trends',
+    title: getTrendstitle('ngono'),
+    description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
+    icon: <MultilineChart color="primary" />,
+    id: 'RDT',
+    organisms: ['ngono'],
   },
   {
     collapse: 'KODiversity',
@@ -56,14 +75,14 @@ export const graphCards = [
     description: ['Top K/O (up to 20)'],
     icon: <StackedBarChart color="primary" />,
     id: 'KO',
-    organisms: [''],
+    organisms: ['kpneumo'],
   },
   {
     collapse: 'convergence',
     title: 'Convergence vs metadata',
-    description: [''],
+    description: ['Top Genotypes (up to 30)'],
     icon: <BubbleChart color="primary" />,
     id: 'CVM',
-    organisms: [''],
+    organisms: ['kpneumo'],
   },
 ];

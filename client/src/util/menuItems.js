@@ -4,21 +4,27 @@ import { Home, Info, MenuBook } from '@mui/icons-material';
 export const menuItems = [
   {
     key: 'home',
-    label: 'Dashboard',
-    labelHead: 'Home',
+    label: 'Home',
+    labelHead: '',
     icon: <Home />,
-  },
-  {
-    key: 'about',
-    label: 'About',
-    labelHead: 'About AMRnet',
-    icon: <Info />,
+    link: '/',
+    target: '_self',
   },
   {
     key: 'user-guide',
     label: 'User Guide',
     labelHead: 'User Guide',
     icon: <MenuBook />,
+    link: 'https://amrnet.readthedocs.io/en/staging/',
+    target: '_blank',
+  },
+  {
+    key: 'about',
+    label: 'About',
+    labelHead: 'About AMRnet',
+    icon: <Info />,
+    link: '#/about',
+    target: '_self',
   },
   // {
   //   key: 'database',

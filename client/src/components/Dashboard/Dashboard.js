@@ -25,6 +25,7 @@ import {
   setPMID,
   setColorPallete,
   setCanFilterData,
+  setOrganism,
 } from '../../stores/slices/dashboardSlice.ts';
 import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
@@ -51,8 +52,8 @@ import {
   setGenotypesYearData,
   setKODiversityData,
   setKODiversityGraphView,
-  setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
   setCurrentSliderValue,
   setCurrentSliderValueRD,
   setNgmast,
@@ -260,9 +261,9 @@ export const DashboardPage = () => {
           dispatch(setMapView('No. Samples'));
           dispatch(setDrugResistanceGraphView(drugsKP));
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-          dispatch(setTrendsKPGraphDrugClass('Carbapenems'));
+          dispatch(setTrendsGraphDrugClass('Carbapenems'));
           dispatch(setKODiversityGraphView('K_locus'));
-          dispatch(setTrendsKPGraphView('number'));
+          dispatch(setTrendsGraphView('number'));
           dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
           dispatch(setConvergenceColourVariable('DATE'));
           setCurrentConvergenceGroupVariable('COUNTRY_ONLY');
@@ -272,6 +273,8 @@ export const DashboardPage = () => {
           dispatch(setMapView('No. Samples'));
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
           dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+          dispatch(setTrendsGraphDrugClass('Azithromycin'));
+          dispatch(setTrendsGraphView('number'));
           break;
         case 'ecoli':
         case 'decoli':
@@ -299,7 +302,7 @@ export const DashboardPage = () => {
           distribution: false,
           drugResistance: false,
           frequencies: false,
-          trendsKP: false,
+          trends: false,
           KODiversity: false,
           convergence: false,
         }),
@@ -319,7 +322,7 @@ export const DashboardPage = () => {
       dispatch(setKODiversityData([]));
       dispatch(setConvergenceData([]));
       dispatch(setDeterminantsGraphDrugClass(''));
-      dispatch(setTrendsKPGraphDrugClass(''));
+      dispatch(setTrendsGraphDrugClass(''));
       dispatch(setMapView(''));
       dispatch(setFrequenciesGraphView('percentage'));
       dispatch(setDeterminantsGraphView('percentage'));
@@ -360,8 +363,25 @@ export const DashboardPage = () => {
         default:
           break;
       }
+    } else {
+      const organismParam = getURLparam('organism');
+      if (organismParam) {
+        dispatch(setOrganism(organismParam));
+      }
     }
   }, [organism]);
+
+  function getURLparam(param) {
+    const fragment = window.location.hash;
+
+    if (fragment.includes('?')) {
+      const queryString = fragment.split('?')[1];
+      const params = new URLSearchParams(queryString);
+      return params.get(param);
+    }
+
+    return null;
+  }
 
   useEffect(() => {
     if (yearsForFilter.length > 0) {
@@ -459,7 +479,7 @@ export const DashboardPage = () => {
   }
 
   return (
-    <MainLayout isHomePage>
+    <MainLayout>
       <Note />
       <Map />
       <SelectCountry />
