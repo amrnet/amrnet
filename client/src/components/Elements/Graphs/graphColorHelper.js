@@ -77,11 +77,11 @@ export const getColorForDrug = (drug) => {
 };
 
 export const colorsForKODiversityGraph = [
-  { name: 'MDR', color: 'rgb(187, 54, 60)' },
-  { name: 'Hv', color: 'rgb(24, 85, 183)' },
+  // { name: 'MDR', color: 'rgb(187, 54, 60)' },
+  // { name: 'Hv', color: 'rgb(24, 85, 183)' },
   { name: 'Carbapenems', color: 'rgb(144,211,199)' },
   { name: 'ESBL', color: '#DB90F0' },
   { name: 'Aerobactin(iuc)', color: 'rgb(180,221,112)' },
   { name: 'rmpADC', color: 'rgb(252,180,105)' },
-  { name: 'neither', color: lightGrey },
+  { name: 'None', color: lightGrey },
 ];

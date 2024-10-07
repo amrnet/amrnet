@@ -3,50 +3,8 @@ import { useStyles } from './SelectOrganismMUI';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { setGlobalOverviewLabel, setOrganism } from '../../../stores/slices/dashboardSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { orgCard } from '../../../util/orgCard';
-
-// const orgCard = [
-//   {
-//     label: 'Salmonella Typhi',
-//     value: 'styphi',
-//     abbr: 'S. Typhi',
-//   },
-//   {
-//     label: 'Klebsiella pneumoniae',
-//     value: 'kpneumo',
-//     abbr: 'K. pneumoniae',
-//   },
-//   {
-//     label: 'Neisseria gonorrhoeae',
-//     value: 'ngono',
-//     abbr: 'N. gonorrhoeae',
-//   },
-//   {
-//     label: 'Escherichia coli',
-//     value: 'ecoli',
-//     abbr: 'E. coli'
-//   },
-//   {
-//     label: 'Diarrheagenic E. coli',
-//     value: 'decoli',
-//     abbr: 'DEC',
-//   },
-//   {
-//     label: 'Shigella + EIEC',
-//     value: 'shige',
-//     abbr: 'Shigella+EIEC',
-//   },
-//   {
-//     label: 'Invasive non-typhoidal Salmonella',
-//     value: 'sentericaints',
-//     abbr: 'iNTS',
-//   },
-//   {
-//     label: 'Salmonella enterica',
-//     value: 'senterica',
-//     abbr: 'S. enterica'
-//   }
-// ];
+import { organismsCards } from '../../../util/organismsCards';
+import { useEffect } from 'react';
 
 export const SelectOrganism = () => {
   const classes = useStyles();
@@ -57,43 +15,37 @@ export const SelectOrganism = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
 
+  useEffect(() => {
+    if (organism !== '') {
+      const currentOrganism = organismsCards.find((x) => x.value === organism);
+      if (currentOrganism) {
+        dispatch(setGlobalOverviewLabel({ label: currentOrganism.label, stringLabel: currentOrganism.stringLabel }));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [organism]);
+
   function handleChange(event) {
     const value = event.target.value;
     dispatch(setOrganism(value));
-    handleGlobalOverviewLabel(value);
   }
 
   function handlePreviousAgent() {
-    const index = orgCard.findIndex((org) => org.value === organism);
+    const index = organismsCards.findIndex((org) => org.value === organism);
     if (index !== -1) {
       const isFirstIndex = index === 0;
-      const newValue = isFirstIndex ? orgCard[orgCard.length - 1].value : orgCard[index - 1].value;
+      const newValue = isFirstIndex ? organismsCards[organismsCards.length - 1].value : organismsCards[index - 1].value;
       dispatch(setOrganism(newValue));
-      handleGlobalOverviewLabel(newValue);
     }
   }
 
   function handleNextAgent() {
-    const index = orgCard.findIndex((org) => org.value === organism);
+    const index = organismsCards.findIndex((org) => org.value === organism);
     if (index !== -1) {
-      const isLastIndex = orgCard.length - 1 === index;
-      const newValue = isLastIndex ? orgCard[0].value : orgCard[index + 1].value;
+      const isLastIndex = organismsCards.length - 1 === index;
+      const newValue = isLastIndex ? organismsCards[0].value : organismsCards[index + 1].value;
       dispatch(setOrganism(newValue));
-      handleGlobalOverviewLabel(newValue);
     }
-  }
-
-  function handleGlobalOverviewLabel(value) {
-    const currentOrganism = orgCard.find((x) => x.value === value);
-    const labels = currentOrganism.label.split(' ');
-    dispatch(
-      setGlobalOverviewLabel({
-        label0: labels[0],
-        label1: labels[1],
-        label2: labels[2],
-        fullLabel: currentOrganism.label
-      })
-    );
   }
 
   return (
@@ -115,14 +67,11 @@ export const SelectOrganism = () => {
         <MenuItem value="none" disabled>
           Select an organism
         </MenuItem>
-        {orgCard.map((item, index) => (
+        {organismsCards.map((item, index) => (
           <MenuItem key={`organism-${index}`} value={item.value}>
             {matches1050 ? item.abbr : item.label}
           </MenuItem>
         ))}
-        {/* <MenuItem value="ngono" disabled>
-          {matches1050 ? 'N. gonorrhoeae' : 'Neisseria gonorrhoeae'}
-        </MenuItem> */}
       </Select>
       {!matches650 && (
         <IconButton color="inherit" onClick={handleNextAgent} disabled={loadingData}>

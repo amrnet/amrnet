@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  trendsKPGraph: {
+  trendsGraph: {
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
