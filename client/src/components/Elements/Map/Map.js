@@ -154,7 +154,6 @@ export const Map = () => {
           break;
         case 'Genotype prevalence':
         case 'Lineage prevalence':
-          let percentCounter = 0;
           const genotypes1 = countryStats.GENOTYPE.items;
           let genotypes2 = [];
           genotypes1.forEach((genotype) => {
@@ -164,9 +163,10 @@ export const Map = () => {
           });
           genotypes1.forEach((genotype) => {
             if (customDropdownMapView.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count / countryStats.GENOTYPE.sum) * 100).toFixed(
-                2,
-              )} %)`;
+              tooltip.content[genotype.name] = `${genotype.count} (${(
+                (genotype.count / countryStats.GENOTYPE.sum) *
+                100
+              ).toFixed(2)} %)`;
           });
           if (genotypes2.length > 0) {
             let sumCount = 0;
@@ -174,9 +174,10 @@ export const Map = () => {
               sumCount += genotype.count;
             }
             if (countryData.count >= 20 && genotypes2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount / countryStats.GENOTYPE.sum) * 100).toFixed(
-                2,
-              )} %)`;
+              tooltip.content['All selected genotypes'] = `${sumCount} (${(
+                (sumCount / countryStats.GENOTYPE.sum) *
+                100
+              ).toFixed(2)} %)`;
           }
           break;
         case 'H58 / Non-H58':
@@ -236,36 +237,7 @@ export const Map = () => {
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h5" fontWeight={'bold'}>
-          Global Overview{' '}
-          {organism === 'none' ? (
-            ''
-          ) : (
-            <>
-              {organism === 'ngono' || organism === 'ecoli' || organism === 'senterica' || organism === 'kpneumo' ? (
-                <span>
-                  of{' '}
-                  <i>
-                    {globalOverviewLabel.label0} {globalOverviewLabel.label1} {globalOverviewLabel.label2}
-                  </i>
-                </span>
-              ) : organism === 'decoli' ? (
-                <span>
-                  of {globalOverviewLabel.label0}{' '}
-                  <i>
-                    {globalOverviewLabel.label1} {globalOverviewLabel.label2}
-                  </i>
-                </span>
-              ) : organism === 'sentericaints' ? (
-                <span>
-                  of {globalOverviewLabel.label0} {globalOverviewLabel.label1} <i>{globalOverviewLabel.label2}</i>
-                </span>
-              ) : (
-                <span>
-                  of <i>{globalOverviewLabel.label0}</i> {globalOverviewLabel.label1} {globalOverviewLabel.label2}
-                </span>
-              )}
-            </>
-          )}
+          Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
         <div className={classes.mapWrapper}>
           <ComposableMap

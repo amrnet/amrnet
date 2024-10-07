@@ -22,7 +22,8 @@ export const Drawer = () => {
     }
 
     dispatch(setPage(currentPage));
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleToggleDrawer(event, value) {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

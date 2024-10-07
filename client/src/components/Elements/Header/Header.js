@@ -8,25 +8,31 @@ import { InformationCards } from '../InformationCards/InformationCards';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
 import { menuItems } from '../../../util/menuItems';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import {MenuHead} from '../LandingPage/MenuHead';
+import { useMemo, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { MenuHead } from '../MenuHead';
 
-export const Header = ({ showSelect, showSelect2 }) => {
-  // console.log("showSelect", showSelect, showSelect2);
+export const Header = () => {
   const classes = useStyles();
+  const location = useLocation();
   const matches650 = useMediaQuery('(max-width: 650px)');
   const matches500 = useMediaQuery('(max-width: 500px)');
+  const matches800 = useMediaQuery('(max-width: 800px)');
   const [infoCollapse, setInfoCollapse] = useState(false);
 
   const dispatch = useAppDispatch();
   const page = useAppSelector((state) => state.app.page);
   const organism = useAppSelector((state) => state.dashboard.organism);
 
+  const isHomePage = useMemo(() => location.pathname === '/', [location.pathname]);
+  const isDashboardPage = useMemo(
+    () => !['/', '/user-guide', '/about'].includes(location.pathname),
+    [location.pathname],
+  );
+
   function getPageTitle() {
-    console.log("menuItems", menuItems)
     const title = menuItems.find((item) => item.key === page).labelHead;
-    console.log("title", title)
+
     return title;
   }
 
@@ -41,34 +47,34 @@ export const Header = ({ showSelect, showSelect2 }) => {
   function handleToggleCollapse() {
     setInfoCollapse(!infoCollapse);
   }
-  console.log("showSelect2", showSelect2);
 
   return (
     <div className={classes.headerWrapper}>
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
         <Toolbar className={`${classes.toolbar} `}>
-          <div className={`${classes.toolbarWrapper} ${!showSelect2 ? classes.dashboardHead : ''}`}>
-            <div className={`${classes.leftWrapper} ${showSelect2 ? classes.landingPageHeadOnly : ''}`}>
+          <div className={`${classes.toolbarWrapper}`}>
+            <div className={`${classes.leftWrapper}`}>
               <div className={classes.drawerTitleWrapper}>
-                <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
-                  <Menu sx={{ fontSize: '1.7rem' }} />
-                </IconButton>
+                {(isDashboardPage || matches800) && (
+                  <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
+                    <Menu sx={{ fontSize: '1.7rem' }} />
+                  </IconButton>
+                )}
                 <Link to="/">
                   <img src={LogoImg} alt="AMRnet" className={classes.logo} />
                 </Link>
-
               </div>
-              {showSelect && <SelectOrganism />}
+              {isDashboardPage && <SelectOrganism />}
             </div>
-            {showSelect2 ? <MenuHead/>: null}
-            {!(showSelect || showSelect2) && (
+            {!isDashboardPage && !matches800 && <MenuHead />}
+            {!isHomePage && !isDashboardPage && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
             )}
-            
-            {showSelect &&
+
+            {isDashboardPage &&
               (matches650 ? (
                 organism !== 'none' && (
                   <IconButton onClick={handleToggleCollapse}>

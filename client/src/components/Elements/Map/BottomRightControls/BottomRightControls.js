@@ -1,6 +1,6 @@
 import { Alert, CircularProgress, IconButton, Snackbar, Tooltip } from '@mui/material';
 import { useStyles } from './BottomRightControlsMUI';
-import { CameraAlt, Download} from '@mui/icons-material';
+import { CameraAlt } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useState } from 'react';
 import { setPosition } from '../../../../stores/slices/mapSlice';
@@ -9,9 +9,7 @@ import { imgOnLoadPromise } from '../../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
 import LogoImg from '../../../../assets/img/logo-prod.png';
 import { mapLegends } from '../../../../util/mapLegends';
-import {DownloadMapViewData} from './DownloadMapViewData';
-// import {DownloadData} from '../../DownloadData';
-import {setFilterdDataDownload} from "../../../../stores/slices/dashboardSlice";
+import { DownloadMapViewData } from './DownloadMapViewData';
 
 export const BottomRightControls = () => {
   const classes = useStyles();
@@ -69,49 +67,45 @@ export const BottomRightControls = () => {
 
         // Revert to the original font style for the remaining text
         // ctx.font = 'bolder 50px Montserrat';
+        const labelSplit = globalOverviewLabel.stringLabel.split(' ');
+
         if (organism === 'styphi') {
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.615, 80);
-        }else if (organism === 'kpneumo') {
+          ctx.fillText(labelSplit[1], canvas.width * 0.615, 80);
+        } else if (['kpneumo', 'ngono'].includes(organism)) {
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
-          // ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
-        }else if (organism === 'ngono') {
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
-          // ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
-        }else if (organism === 'ecoli') {
+          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
+        } else if (organism === 'ecoli') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.65, 80);
-        }else if (organism === 'decoli') {
+          ctx.fillText(labelSplit[1], canvas.width * 0.65, 80);
+        } else if (organism === 'decoli') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.565, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.565, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.63, 80);
-          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.65, 80);
-        }else if (organism === 'shige') {
+          ctx.fillText(labelSplit[1], canvas.width * 0.63, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.65, 80);
+        } else if (organism === 'shige') {
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.545, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.585, 80);
-          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.61, 80);
-        }else if (organism === 'sentericaints') {
+          ctx.fillText(labelSplit[1], canvas.width * 0.585, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.61, 80);
+        } else if (organism === 'sentericaints') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.545, 80);
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.635, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.635, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.735, 80);
-        }else {
+          ctx.fillText(labelSplit[2], canvas.width * 0.735, 80);
+        } else {
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
         }
 
         ctx.font = '35px Montserrat';
@@ -193,7 +187,7 @@ export const BottomRightControls = () => {
         ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
 
         const base64 = canvas.toDataURL();
-        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.fullLabel}.png`);
+        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.stringLabel}.png`);
       });
     } catch (error) {
       setShowAlert(true);
@@ -204,10 +198,6 @@ export const BottomRightControls = () => {
 
   function handleCloseAlert() {
     setShowAlert(false);
-  }
-
-  const handleClickDownloadMapData = () =>{
-    
   }
 
   return (

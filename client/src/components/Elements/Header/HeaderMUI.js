@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
       margin: '0px 8px',
     },
   },
+
   headerBox: {
     width: '100%',
     height: '32px',
@@ -38,16 +39,18 @@ const useStyles = makeStyles((theme) => ({
       height: '24px',
     },
   },
+
   appBar: {
     borderRadius: '16px',
     backgroundColor: '#E5E5',
   },
+
   toolbar: {
     backgroundColor: '#fff',
     borderRadius: '16px',
     flexDirection: 'column',
     minHeight: '0 !important',
-    display:'block',
+    display: 'block',
 
     '@media (max-width: 500px)': {
       paddingTop: '8px',
@@ -63,11 +66,11 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
   logo: {
     height: '80px',
     padding: '8px 0px',
-    alignContent:'center',
-    
+    alignContent: 'center',
 
     '@media (max-width: 1000px)': {
       height: '60px',
@@ -77,21 +80,19 @@ const useStyles = makeStyles((theme) => ({
       height: '40px',
     },
   },
+
   leftWrapper: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
     columnGap: '10px',
-    
-    
-    // width:'auto',
-    // marginLeft:'auto',
   },
+
   drawerTitleWrapper: {
     display: 'flex',
     alignItems: 'center',
   },
-  
+
   toolbarWrapper: {
     width: '100%',
     display: 'flex',
@@ -106,23 +107,15 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'flex-end',
     },
   },
-  dashboardHead: {  // Conditional style that applies when `dashboard` class is present
-      '@media (min-width: 651px) and (max-width: 1000px)': {
-        flexDirection: 'column',
-      },
-      
-    },
-  landingPageHeadOnly:{
-    '@media (max-width: 700px)': {
-        width: '0%',
-    },
-  },
+
   infoCollapse: {
     width: '100%',
   },
+
   title: {
     position: 'absolute',
   },
+
   otherPage: {},
 }));
 
