@@ -11,20 +11,20 @@ export const menuItems = [
     target: '_self',
   },
   {
+    key: 'about',
+    label: 'About',
+    labelHead: 'About AMRnet',
+    icon: <Info />,
+    link: '#/about',
+    target: '_blank',
+  },
+  {
     key: 'user-guide',
     label: 'User Guide',
     labelHead: 'User Guide',
     icon: <MenuBook />,
     link: 'https://amrnet.readthedocs.io/en/staging/',
     target: '_blank',
-  },
-  {
-    key: 'about',
-    label: 'About',
-    labelHead: 'About AMRnet',
-    icon: <Info />,
-    link: '#/about',
-    target: '_self',
   },
   // {
   //   key: 'database',

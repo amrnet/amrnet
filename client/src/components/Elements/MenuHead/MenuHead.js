@@ -16,9 +16,9 @@ export const MenuHead = () => {
   }
 
   const currentMenuItems = useMemo(() => {
-    if (location.pathname === '/about') {
-      return menuItems.filter((item) => item.key !== 'about');
-    }
+    // if (location.pathname === '/about') {
+    //   return menuItems.filter((item) => item.key !== 'about');
+    // }
 
     return menuItems.filter((item) => item.key !== 'home');
   }, [location.pathname]);

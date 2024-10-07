@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
   },
 
   item: {
-    color: 'black',
+    color: '#730343 !important',
   },
 }));
 

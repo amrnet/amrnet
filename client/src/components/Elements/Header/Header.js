@@ -56,7 +56,7 @@ export const Header = () => {
           <div className={`${classes.toolbarWrapper}`}>
             <div className={`${classes.leftWrapper}`}>
               <div className={classes.drawerTitleWrapper}>
-                {(isDashboardPage || matches800) && (
+                {(!isHomePage && (!isDashboardPage || matches800)) && (
                   <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
                     <Menu sx={{ fontSize: '1.7rem' }} />
                   </IconButton>
@@ -67,7 +67,7 @@ export const Header = () => {
               </div>
               {isDashboardPage && <SelectOrganism />}
             </div>
-            {!isDashboardPage && !matches800 && <MenuHead />}
+            {isHomePage && !isDashboardPage && !matches800 && <MenuHead />}
             {!isHomePage && !isDashboardPage && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
