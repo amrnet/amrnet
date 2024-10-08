@@ -40,7 +40,7 @@ export const Header = () => {
 
     dispatch(setOpenDrawer(value));
   }
-
+console.log("isDashboardPage", isDashboardPage);
   function handleToggleCollapse() {
     setInfoCollapse(!infoCollapse);
   }
@@ -49,7 +49,7 @@ export const Header = () => {
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
         <Toolbar className={`${classes.toolbar} `}>
-          <div className={`${classes.toolbarWrapper} ${isHomePage ? classes.flex : ''}`}>
+          <div className={`${classes.toolbarWrapper} ${isDashboardPage ? '' : classes.flex}`}>
             <div className={`${classes.leftWrapper}`}>
               <div className={classes.drawerTitleWrapper}>
                 {(isDashboardPage || matches800) && (
