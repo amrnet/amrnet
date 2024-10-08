@@ -83,7 +83,6 @@ export const HomePage = () => {
                     >
                       <Typography fontWeight="600" sx={{fontSize:"small"}}>{organism.label}</Typography>
                       <Typography sx={{fontSize:"smaller"}}>
-
                         Genomes: {loading ? <CircularProgress size="1rem" /> : organismCounts[organism.value] ?? 0}
                       </Typography>
                     </div>
