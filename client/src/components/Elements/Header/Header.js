@@ -44,13 +44,12 @@ export const Header = () => {
   function handleToggleCollapse() {
     setInfoCollapse(!infoCollapse);
   }
-
   return (
     <div className={classes.headerWrapper}>
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
         <Toolbar className={`${classes.toolbar} `}>
-          <div className={`${classes.toolbarWrapper}`}>
+          <div className={`${classes.toolbarWrapper} ${isHomePage ? classes.flex : ''}`}>
             <div className={`${classes.leftWrapper}`}>
               <div className={classes.drawerTitleWrapper}>
                 {(isDashboardPage || matches800) && (
