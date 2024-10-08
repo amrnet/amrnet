@@ -17,7 +17,7 @@ export const InformationCards = () => {
       <div className={classes.card}>
         <div className={classes.cardContent}>
           <Typography variant={matches650 ? 'body2' : 'body1'} component="div" className={classes.title}>
-            {`Total Genomes${matches1000 ? ':' : ''}`}
+            {`Total Genomes include${matches1000 ? ':' : ''}`}
           </Typography>
           <Typography variant={matches650 ? 'h6' : 'h5'} sx={{ fontWeight: '500' }}>
             {totalGenomes === actualGenomes ? (
