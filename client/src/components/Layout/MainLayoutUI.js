@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
     rowGap: '16px',
     backgroundColor: '#E5E5E5',
 
-    '@media (max-width: 1000px)': {
-      padding: '108px 16px 16px',
-    },
+    // '@media (max-width: 1000px)': {
+    //   padding: '108px 16px 16px',
+    // },
 
     '@media (max-width: 500px)': {
       padding: '88px 8px 8px',
