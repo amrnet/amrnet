@@ -43,7 +43,6 @@ export const Header = () => {
 
     dispatch(setOpenDrawer(value));
   }
-console.log("isDashboardPage", isDashboardPage);
   function handleToggleCollapse() {
     setInfoCollapse(!infoCollapse);
   }

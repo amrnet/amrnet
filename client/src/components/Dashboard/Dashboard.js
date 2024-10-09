@@ -160,7 +160,7 @@ export const DashboardPage = () => {
     dispatch(setPMID(PMID));
     dispatch(setNgmast(ngmast));
 
-    await Promise.all([
+    Promise.all([
       // Get map data
       getStoreOrGenerateData(`${organism}_map`, async () =>
         getMapData({ data: responseData, countries, organism }),
@@ -246,8 +246,9 @@ export const DashboardPage = () => {
         const response = await axios.get(`${API_ENDPOINT}filters/${endpoint}`);
         return response.data;
       });
-
-      await getInfoFromData(organismData);
+      console.log("organismData", organismData)
+      const oko = await getInfoFromData(organismData);
+      console.log("oko", oko)
 
       // Set all filters that need to be set after the data has been acquired
       dispatch(setDataset('All'));
