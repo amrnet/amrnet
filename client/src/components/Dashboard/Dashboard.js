@@ -95,6 +95,8 @@ export const DashboardPage = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
+  const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
+  const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
 
   // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData) {
@@ -246,9 +248,8 @@ export const DashboardPage = () => {
         const response = await axios.get(`${API_ENDPOINT}filters/${endpoint}`);
         return response.data;
       });
-      console.log("organismData", organismData)
-      const oko = await getInfoFromData(organismData);
-      console.log("oko", oko)
+      await getInfoFromData(organismData);
+      
 
       // Set all filters that need to be set after the data has been acquired
       dispatch(setDataset('All'));
@@ -290,6 +291,8 @@ export const DashboardPage = () => {
     } finally {
       dispatch(setLoadingData(false));
     }
+
+    
   }
 
   // This useEffect is called everytime the organism changes, it resets all data and filters and
@@ -332,8 +335,8 @@ export const DashboardPage = () => {
       dispatch(setIfCustom(false));
       dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));
-      if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
-      else dispatch(setCurrentSliderValueRD(5));
+      // if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+       dispatch(setCurrentSliderValueRD(5));
 
       // Get data from organism
       switch (organism) {

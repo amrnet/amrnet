@@ -124,6 +124,7 @@ export const TrendsGraph = () => {
     setTopGenotypes(topGT);
     setTopGenes(topGE);
 
+
     genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
       const value = {
         name: year.name,
@@ -329,11 +330,7 @@ export const TrendsGraph = () => {
               const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option);
               const fillColor = color ? color.color : '#B9B9B9'; // Default color if not found
 
-              if (!color) {
-                  console.error("No color found for the specified option:", option);
-              }
-
-              return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={fillColor} />;
+              return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={'#B9B9B9'} />;
           })}
 
               <Bar key="trends-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
