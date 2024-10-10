@@ -20,8 +20,7 @@ export const TeamCards = [
   },
   {
     Name: 'Dr Louise Cerdeira',
-    Post: 'Lead Software Architecture & Engineer Team',
-          't'
+    Post: 'Lead Software Architecture & Engineer Team \nMicrobial Genomics',
     img: LC,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/teixeira-cerdeira.louise',
   },

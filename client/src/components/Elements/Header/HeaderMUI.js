@@ -57,6 +57,11 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: '8px',
     },
 
+    // '@media (min-width: 651px) and (max-width: 1000px)': {
+    //   flexDirection: 'column',
+    // },
+
+
     '&$otherPage': {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -66,6 +71,19 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  // dashboardHead: {  // Conditional style that applies when `dashboard` class is present
+  //     '@media (min-width: 651px) and (max-width: 1000px)': {
+  //       flexDirection: 'column',
+  //       backgroundColor:"red"
+  //     },
+      
+  //   },
+  // landingPageHeadOnly:{
+  //   '@media (max-width: 700px)': {
+  //       width: '0%',
+        
+  //   },
+  // },
 
   logo: {
     height: '80px',
@@ -95,17 +113,25 @@ const useStyles = makeStyles((theme) => ({
 
   toolbarWrapper: {
     width: '100%',
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    
 
     '@media (max-width: 650px)': {
       columnGap: '4px',
+      display: 'flex',
+    },
+
+    '@media (min-width: 1000px)':{
+      display: 'flex',
     },
 
     '@media (max-width: 500px)': {
       justifyContent: 'flex-end',
     },
+  },
+  flex:{
+    display: 'flex',
   },
 
   infoCollapse: {
