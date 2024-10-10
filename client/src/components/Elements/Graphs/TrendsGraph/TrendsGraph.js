@@ -330,7 +330,7 @@ export const TrendsGraph = () => {
               const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option);
               const fillColor = color ? color.color : '#B9B9B9'; // Default color if not found
 
-              return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={'#B9B9B9'} />;
+              return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={fillColor} />;
           })}
 
               <Bar key="trends-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
@@ -360,6 +360,9 @@ export const TrendsGraph = () => {
     currentSliderValueKP_GE,
     currentSliderValueKP_GT,
     switchLines,
+    slicedData,
+    timeInitial,
+    colorPallete
   ]);
 
   return (
