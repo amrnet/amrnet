@@ -58,6 +58,7 @@ import {
   setCurrentSliderValueRD,
   setNgmast,
   setNgmastDrugsData,
+  setMaxSliderValueCM,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -78,7 +79,7 @@ import { useIndexedDB } from '../../context/IndexedDBContext';
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
   const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('COUNTRY_ONLY');
-  const [currentConvergenceColourVariable, setCurrentConvergenceColourVariable] = useState('DATE');
+  // const [currentConvergenceColourVariable, setCurrentConvergenceColourVariable] = useState('DATE');
 
   const { hasItems, bulkAddItems, getItems } = useIndexedDB();
 
@@ -93,24 +94,32 @@ export const DashboardPage = () => {
   const yearsForFilter = useAppSelector((state) => state.dashboard.years);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
-  const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
+  // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
 
   // Get info either from indexedDB or mongoDB
-  async function getStoreOrGenerateData(storeName, handleGetData) {
-    let organismData = [];
-
+  async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
     const storeHasItems = await hasItems(storeName);
 
-    // If it is then use it, if not then get it from database
     if (storeHasItems) {
       const storeData = await getItems(storeName);
-      organismData = storeData;
-    } else {
-      organismData = await handleGetData();
-      await bulkAddItems(storeName, organismData);
+
+      if (!storeName.includes('convergence')) {
+        return storeData;
+      }
+
+      if (!clearStore) {
+        const convergenceObject = storeData.find(
+          (x) => x.name === `${convergenceGroupVariable}_${convergenceGroupVariable}`,
+        );
+
+        if (convergenceObject) return convergenceObject;
+      }
     }
+
+    const organismData = await handleGetData();
+    await bulkAddItems(storeName, storeName.includes('convergence') ? [organismData] : organismData, clearStore);
 
     return organismData;
   }
@@ -181,13 +190,15 @@ export const DashboardPage = () => {
       }),
 
       // Get ngmast data
-      getStoreOrGenerateData(`${organism}_ngmast`, () => {
-        const dt = getNgmastData({ data: responseData, ngmast, organism });
-        return [dt.ngmastDrugData, dt.ngmastDrugClassesData];
-      }).then(([ngmastDrugData, ngmastDrugClassesData]) => {
-        dispatch(setNgmastDrugsData(ngmastDrugData));
-        dispatch(setCustomDropdownMapViewNG(ngmastDrugData.slice(0, 1).map((x) => x.name)));
-      }),
+      organism === 'ngono'
+        ? getStoreOrGenerateData(`${organism}_ngmast`, () => {
+            const dt = getNgmastData({ data: responseData, ngmast, organism });
+            return [dt.ngmastDrugData, dt.ngmastDrugClassesData];
+          }).then(([ngmastDrugData, ngmastDrugClassesData]) => {
+            dispatch(setNgmastDrugsData(ngmastDrugData));
+            dispatch(setCustomDropdownMapViewNG(ngmastDrugData.slice(0, 1).map((x) => x.name)));
+          })
+        : Promise.resolve(),
 
       // Get years data
       getStoreOrGenerateData(`${organism}_years`, () => {
@@ -227,11 +238,15 @@ export const DashboardPage = () => {
               groupVariable: convergenceGroupVariable,
               colourVariable: convergenceGroupVariable,
             });
-            return [dt.colourVariables, ...dt.data];
+            return {
+              name: `${convergenceGroupVariable}_${convergenceGroupVariable}`,
+              colourVariables: dt.colourVariables,
+              data: dt.data,
+            };
           }).then((convergenceData) => {
-            const convergenceColourVariables = convergenceData.shift();
-            dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceColourVariables)));
-            dispatch(setConvergenceData(convergenceData));
+            dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+            dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
+            dispatch(setConvergenceData(convergenceData.data));
           })
         : Promise.resolve(),
     ]);
@@ -267,7 +282,7 @@ export const DashboardPage = () => {
           dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
           dispatch(setConvergenceColourVariable('DATE'));
           setCurrentConvergenceGroupVariable('COUNTRY_ONLY');
-          setCurrentConvergenceColourVariable('DATE');
+          // setCurrentConvergenceColourVariable('DATE');
           break;
         case 'ngono':
           dispatch(setMapView('No. Samples'));
@@ -410,34 +425,46 @@ export const DashboardPage = () => {
   ]);
 
   async function updateDataOnFilters() {
-    const storeData = await getItems(organism);
+    if (convergenceGroupVariable !== currentConvergenceGroupVariable) {
+      setCurrentConvergenceGroupVariable(convergenceGroupVariable);
 
-    const filters = filterData({
-      data: storeData,
-      dataset,
-      actualTimeInitial,
-      actualTimeFinal,
-      organism,
-      actualCountry,
-    });
-    const filteredData = filters.data.filter(
-      (x) => actualCountry === 'All' || getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry,
-    );
+      const convergenceData = await getStoreOrGenerateData(
+        `${organism}_convergence`,
+        async () => {
+          const storeData = await getItems(organism);
 
-    if (
-      convergenceGroupVariable !== currentConvergenceGroupVariable ||
-      convergenceColourVariable !== currentConvergenceColourVariable
-    ) {
-      setCurrentConvergenceColourVariable(convergenceColourVariable);
+          const dt = getConvergenceData({
+            data: storeData,
+            groupVariable: convergenceGroupVariable,
+            colourVariable: convergenceGroupVariable,
+          });
+          return {
+            name: `${convergenceGroupVariable}_${convergenceGroupVariable}`,
+            colourVariables: dt.colourVariables,
+            data: dt.data,
+          };
+        },
+        false,
+      );
 
-      const convergenceData = getConvergenceData({
-        data: filteredData,
-        groupVariable: convergenceGroupVariable,
-        colourVariable: convergenceGroupVariable,
-      });
       dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+      dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
       dispatch(setConvergenceData(convergenceData.data));
     } else {
+      const storeData = await getItems(organism);
+
+      const filters = filterData({
+        data: storeData,
+        dataset,
+        actualTimeInitial,
+        actualTimeFinal,
+        organism,
+        actualCountry,
+      });
+      const filteredData = filters.data.filter(
+        (x) => actualCountry === 'All' || getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry,
+      );
+
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
@@ -465,12 +492,20 @@ export const DashboardPage = () => {
         const KODiversityData = getKODiversityData({ data: filteredData });
         dispatch(setKODiversityData(KODiversityData));
 
-        const convergenceData = getConvergenceData({
-          data: filteredData,
-          groupVariable: convergenceGroupVariable,
-          colourVariable: convergenceGroupVariable,
+        const convergenceData = await getStoreOrGenerateData(`${organism}_convergence`, () => {
+          const dt = getConvergenceData({
+            data: filteredData,
+            groupVariable: convergenceGroupVariable,
+            colourVariable: convergenceGroupVariable,
+          });
+          return {
+            name: `${convergenceGroupVariable}_${convergenceGroupVariable}`,
+            colourVariables: dt.colourVariables,
+            data: dt.data,
+          };
         });
         dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+        dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
       }
     }
