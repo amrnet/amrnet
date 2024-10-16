@@ -3,7 +3,7 @@ import { openDB } from 'idb';
 type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
 const DB_NAME = 'organismsData';
-const DB_VERSION = 7;
+const DB_VERSION = 11;
 
 const OBJECT_STORES = [
   'styphi',
@@ -48,6 +48,17 @@ const OBJECT_STORES = [
 export const initDB = async () => {
   return await openDB(DB_NAME, DB_VERSION, {
     upgrade(db) {
+      // Convert db.objectStoreNames to an array so it can be iterated
+      const currentStores = Array.from(db.objectStoreNames);
+
+      // Remove stores that are no longer in the OBJECT_STORES array
+      currentStores.forEach((storeName) => {
+        if (!OBJECT_STORES.includes(storeName)) {
+          db.deleteObjectStore(storeName);
+        }
+      });
+
+      // Add new stores that are in the OBJECT_STORES array but not in the database
       OBJECT_STORES.forEach((store) => {
         if (!db.objectStoreNames.contains(store)) {
           db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
@@ -87,14 +98,16 @@ export const deleteItem = async (storeName: OrganismStore, id: number): Promise<
   return store.delete(id);
 };
 
-export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>) => {
+export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>, clearStore: boolean = true) => {
   const store = await getStore(storeName);
 
   // Start a transaction for the specified store
   const tx = store.transaction;
 
   // Clear all existing data from the store
-  await store.clear();
+  if (clearStore) {
+    await store.clear();
+  }
 
   // Add all items in the transaction
   items.forEach((item) => {
