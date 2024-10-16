@@ -193,12 +193,20 @@ export function getMapData({ data, countries, organism }) {
       stats.NGMAST.sum = stats.NGMAST.items.reduce((sum, item) => {
         return sum + (item.count || 0); // Add the count of each item to the sum
       }, 0);
-    } else if (organism === 'ecoli') {
-    } else if (organism === 'decoli') {
-    } else if (organism === 'shige') {
+    } else if (organism === 'kpneumo') {
+      const statKeys = [
+        { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
+        { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-' },
+        { name: 'Carb', column: 'Bla_Carb_acquired', key: '-' },
+      ];
+      statKeys.forEach(({ name, column, key }) => {
+        stats[name] = getMapStatsData({ countryData, columnKey: column, statsKey: key });
+      });
     } else {
       const statKeys = [
         { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
+        { name: 'MDR', column: 'MDR', key: 'MDR' },
+        { name: 'XDR', column: 'XDR', key: 'XDR' },
         { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-' },
         { name: 'Carb', column: 'Bla_Carb_acquired', key: '-' },
       ];
@@ -620,6 +628,24 @@ export function getKODiversityData({ data }) {
   return KODiversityData;
 }
 
+// Get top 50 highest items
+const getUniqueValuesWithHighestCount = (data, key) => {
+  // Step 1: Calculate the frequency of each unique value
+  const countMap = data.reduce((acc, item) => {
+    const value = getVariableValue(item, key);
+    acc[value] = (acc[value] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Step 2: Sort the unique values by their count in descending order
+  const sortedByCount = Object.entries(countMap)
+    .sort(([, countA], [, countB]) => countB - countA) // Sort by count in descending order
+    .slice(0, 30); // Step 3: Get the top 50
+
+  // Step 4: Return only the unique values, not their counts
+  return sortedByCount.map(([value]) => value);
+};
+
 // Define getVariableValue function
 function getVariableValue(dataItem, variable) {
   if (variable === 'COUNTRY_ONLY') {
@@ -627,20 +653,6 @@ function getVariableValue(dataItem, variable) {
   }
 
   return dataItem[variable];
-}
-
-function getTopGenotypes({ data }) {
-  // Count occurrences of each GENOTYPE
-  const genotypeCounts = data.reduce((acc, obj) => {
-    const genotype = obj.GENOTYPE;
-    acc[genotype] = (acc[genotype] || 0) + 1;
-    return acc;
-  }, {});
-
-  // Convert counts to an array and sort it by count
-  const sortedGenotypes = Object.entries(genotypeCounts).sort(([, countA], [, countB]) => countB - countA);
-
-  return sortedGenotypes.slice(0, 30).map(([genotype]) => genotype);
 }
 
 // Define getConvergenceData function
@@ -651,10 +663,10 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
   let colourVariables = [];
 
   // Function to get unique values
-  const getUniqueValues = (key) => [...new Set(data.map((x) => getVariableValue(x, key)))];
+  // const getUniqueValues = (key) => [...new Set(data.map((x) => getVariableValue(x, key)))];
 
   // Define function for genotype or others
-  const unique = groupVariable === 'GENOTYPE' ? getTopGenotypes({ data }) : getUniqueValues(groupVariable);
+  const unique = getUniqueValuesWithHighestCount(data, groupVariable);
 
   // Check if groupVariable and colourVariable are the same
   if (groupVariable === colourVariable) {
@@ -662,10 +674,10 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
     colourVariables = [...unique];
   } else {
     // Get unique values for variablesCombinations and colourVariables
-    variablesCombinations = unique.flatMap((groupVal) =>
-      getUniqueValues(colourVariable).map((colourVal) => `${groupVal} - ${colourVal}`),
-    );
-    colourVariables = getUniqueValues(colourVariable);
+    // variablesCombinations = unique.flatMap((groupVal) =>
+    //   getUniqueValues(colourVariable).map((colourVal) => `${groupVal} - ${colourVal}`),
+    // );
+    // colourVariables = getUniqueValues(colourVariable);
   }
 
   // Map combinations to data
@@ -706,6 +718,7 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
     }
   });
 
+  convergenceData.sort((a, b) => b.z - a.z);
   // Sort colourVariables based on the type of colourVariable
   colourVariables.sort((a, b) => (colourVariable === 'YEAR' ? b - a : a.localeCompare(b)));
 

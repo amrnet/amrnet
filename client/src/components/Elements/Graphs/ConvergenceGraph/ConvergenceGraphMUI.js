@@ -82,14 +82,14 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '10px',
   },
   tooltipWrapper: {
-    width: '30%',
     borderRadius: '6px',
     backgroundColor: '#E5E5E5',
     overflowY: 'auto',
+    height: '100%',
 
     '@media (max-width: 1000px)': {
       width: '100%',
-      height: '250px',
+      height: '300px',
     },
   },
   tooltip: {
@@ -139,6 +139,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
+  },
+  rightSide: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '30%',
+    rowGap: '8px',
+
+    '@media (max-width: 1000px)': {
+      width: '100%',
+    },
   },
 }));
 
