@@ -4,6 +4,13 @@ import { useAppSelector } from '../../../stores/hooks';
 import LogoImg from '../../../assets/img/logo-typhinet-prod.png';
 // import Button from '@mui/material/Button';
 
+/**
+ * Note component
+ *
+ * This component displays a note at the top of the page with information about the data source and any caveats.
+ *
+ * @returns {ReactElement} The Note component
+ */
 export const Note = () => {
   const classes = useStyles();
   // const dispatch = useAppDispatch();
@@ -14,6 +21,12 @@ export const Note = () => {
   // const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
 
+  /**
+   * This function returns a JSX span element containing text for the Note component
+   * based on the organism selected.
+   *
+   * @returns {ReactElement} A JSX span element
+   */
   const textNote = () => {
     if (organism === 'styphi') {
       return (
@@ -64,7 +77,7 @@ export const Note = () => {
   };
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} data-testid="note">
       <CardContent className={classes.cardContent}>
         {organism === 'styphi' ? (
           <img src={LogoImg} alt="AMRnet" className={classes.logo} />

@@ -7,6 +7,14 @@ import { Button, Toolbar } from '@mui/material';
 import { useMemo } from 'react';
 import { useMediaQuery } from '@mui/material';
 
+/**
+ * The MenuHead component renders a toolbar with links to all
+ * the menu items defined in `menuItems` except for the 'home'
+ * item. The links are styled differently based on the screen
+ * width.
+ *
+ * @returns a JSX element
+ */
 export const MenuHead = () => {
   const classes = useStyles();
   const location = useLocation();
