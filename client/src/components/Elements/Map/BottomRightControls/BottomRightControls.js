@@ -204,15 +204,15 @@ export const BottomRightControls = () => {
     <div className={classes.bottomRightControls}>
       <Tooltip title="Download Data" placement="right">
         <span>
-          <IconButton color="primary" disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={35} /> : <DownloadMapViewData fontSize="inherit" />}
+          <IconButton color="primary" disabled={organism === 'none'}>
+            <DownloadMapViewData fontSize="inherit" />
           </IconButton>
         </span>
       </Tooltip>
       <Tooltip title="Download Map as PNG" placement="left">
         <span>
           <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={35} /> : <CameraAlt fontSize="inherit" />}
+            {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
           </IconButton>
         </span>
       </Tooltip>
