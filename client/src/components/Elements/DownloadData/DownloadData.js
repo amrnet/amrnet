@@ -196,7 +196,7 @@ export const DownloadData = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
-  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
+  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
   const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
@@ -764,16 +764,16 @@ export const DownloadData = () => {
       doc.text(`Map View: ${actualMapView}`, 16, 128);
       doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
       if (mapView === 'Genotype prevalence') {
-        if (customDropdownMapView.length === 1) {
-          doc.text('Selected Genotypes: ' + customDropdownMapView, 16, 160);
+        if (prevalenceMapViewOptionsSelected.length === 1) {
+          doc.text('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'NG-MAST prevalence') {
-          doc.text('Selected NG-MAST TYPE: ' + customDropdownMapView, 16, 160);
-        } else if (customDropdownMapView.length > 1) {
-          const genotypesText = customDropdownMapView.join('\n');
+          doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
+        } else if (prevalenceMapViewOptionsSelected.length > 1) {
+          const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
           doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
         }
       }
-      let mapY = 180 + customDropdownMapView.length * 9;
+      let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
         // scale: 4,
         backgroundColor: 'white',

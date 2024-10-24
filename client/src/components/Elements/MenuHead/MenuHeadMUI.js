@@ -12,7 +12,10 @@ const useStyles = makeStyles(() => ({
   },
 
   item: {
-    color: 'black',
+    color: 'black !important',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.1) !important', // Darker shade for hover
+    },
   },
 }));
 

@@ -7,11 +7,14 @@ export const getColorForDrug = (drug) => {
       return 'rgb(129,178,210)';
 
     case 'Azithromycin':
+    case 'AzithR':
     case 'Carbapenems':
+    case 'Carb':
       return 'rgb(144,211,199)';
 
     case 'Chloramphenicol':
     case '3rd gen cephalosporins (3GCs)':
+    case 'ESBL':
       return 'rgb(249,129,117)';
 
     // case 'Co-trimoxazole':
@@ -33,6 +36,7 @@ export const getColorForDrug = (drug) => {
     case 'Ciprofloxacin NS':
     case 'Ciprofloxacin':
     case 'Penicillins':
+    case 'CipNS':
       return 'rgb(255,236,120)';
 
     // case 'Fluoroquinolones (CipR)':

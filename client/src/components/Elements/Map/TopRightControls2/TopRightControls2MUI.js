@@ -2,35 +2,23 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   topRightControls: {
-    // display: 'flex'
     textAlign: 'end',
     flexDirection: 'column',
     position: 'absolute',
     top: 0,
     right: 0,
-    marginTop: '200px',
-    width: '450px',
+    marginTop: '250px',
+    width: '350px',
     maxHeight: '300px',
     alignItems: 'normal',
 
-    // overflowY: 'auto',
-    // width:'25%',
-    '@media (max-width: 1000px)': {
-      // width:
-    },
     '@media (max-width: 700px)': {
       position: 'relative',
       marginTop: '0px',
       width: '100%',
     },
-    // '&$bp700': {
-    //   position: 'relative'
-    // }
   },
   font: {
-    // '&.MuiFormControlLabel-root': {
-    //   // borderRadius: '16px',
-    // },
     fontSize: 'small !important',
     marginRight: '0px !important',
   },
@@ -40,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '14px',
       height: '20px',
       padding: '0px',
-      // width:'20px',
     },
   },
   checkbox: {
@@ -48,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'blue',
       color: 'red',
       padding: '0px',
-      // width:'20px',
     },
   },
   card: { borderRadius: '6px !important' },
@@ -87,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: '8px',
+    paddingBottom: '4px',
   },
   dataViewSelectInput: {
     fontSize: '14px !important',

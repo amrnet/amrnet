@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   legendWrapper: {
     marginTop: '8px',
-    maxHeight: '250px',
+    maxHeight: '140px',
     overflowY: 'auto',
   },
   legend: {

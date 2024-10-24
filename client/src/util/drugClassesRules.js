@@ -17,6 +17,23 @@ export const drugRulesST = [
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
 ];
 
+export const statKeysST = [
+  { name: 'Ampicillin/Amoxicillin', column: 'blaTEM-1D', key: '1', resistanceView: true },
+  { name: 'AzithR', column: 'azith_pred_pheno', key: 'AzithR' },
+  { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true },
+  { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
+  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
+  { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR' },
+  { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
+  { name: 'MDR', column: 'MDR', key: 'MDR' },
+  { name: 'Sulphonamides', column: 'sul_any-1D', key: '1', resistanceView: true },
+  { name: 'Susceptible', column: 'amr_category', key: 'No AMR detected' },
+  { name: 'Tetracyclines', column: 'tetracycline_category-1D', key: 'TetR', resistanceView: true },
+  { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
+  { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim-1D', key: '1', resistanceView: true },
+  { name: 'XDR', column: 'XDR', key: 'XDR' },
+];
+
 // export const drugRulesForDrugResistanceGraphNG = [
 //   { key: 'MDR', columnID: 'MDR', values: ['1'] },
 //   { key: 'XDR', columnID: 'XDR', values: ['1'] }
@@ -62,6 +79,30 @@ export const drugRulesKP = [
   { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] },
 ];
+
+export const statKeysKP = [
+  { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
+  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  {
+    name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
+    column: 'Bla_ESBL_inhR_acquired',
+    key: '-',
+    resistanceView: true,
+  },
+  { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
+  { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-', resistanceView: true },
+  { name: 'Fluoroquinolones', column: ['Flq_acquired', 'Flq_mutations'], key: '-', resistanceView: true },
+  { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true },
+  { name: 'Penicillins', column: 'Bla_chr', key: '-', resistanceView: true },
+  { name: 'β-lactamase inhibitors', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  { name: 'Phenicols', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  { name: 'Sulfonamides', column: 'Phe_acquired', key: '-', resistanceView: true },
+  { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
+  { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
+  { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
+  { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
+];
+
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG
 export const drugRulesNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
@@ -77,6 +118,19 @@ export const drugRulesNG = [
   { key: 'XDR', columnID: 'XDR', values: ['1'] },
 ];
 
+export const statKeysNG = [
+  { name: 'Azithromycin', column: 'Azithromycin', key: '1', resistanceView: true },
+  { name: 'Cefixime', column: 'Cefixime', key: '1', resistanceView: true },
+  { name: 'Ceftriaxone', column: 'Ceftriaxone', key: '1', resistanceView: true },
+  { name: 'Ciprofloxacin', column: 'Ciprofloxacin', key: '1', resistanceView: true },
+  { name: 'Susceptible', column: 'Susceptible', key: '1' },
+  { name: 'MDR', column: 'MDR', key: '1', resistanceView: true },
+  { name: 'Penicillin', column: 'Penicillin', key: '1', resistanceView: true },
+  { name: 'Spectinomycin', column: 'Spectinomycin', key: '1', resistanceView: true },
+  { name: 'Sulfonamides', column: 'Sulfonamides', key: '1', resistanceView: true },
+  { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
+  { name: 'XDR', column: 'XDR', key: '1', resistanceView: true },
+];
 
 // Salmonella Typhi drug classes rules for determinants graph
 export const drugClassesRulesST = {
@@ -755,4 +809,19 @@ export const drugClassesRulesNG = {
       rules: [{ columnID: 'CefR1', value: '0' }],
     },
   ],
+};
+
+export const statKeysOthers = [
+  { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
+  { name: 'MDR', column: 'MDR', key: 'MDR' },
+  { name: 'XDR', column: 'XDR', key: 'XDR' },
+  { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-' },
+  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-' },
+];
+
+export const statKeys = {
+  styphi: statKeysST,
+  ngono: statKeysNG,
+  kpneumo: statKeysKP,
+  others: statKeysOthers,
 };

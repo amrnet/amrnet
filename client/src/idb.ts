@@ -3,7 +3,7 @@ import { openDB } from 'idb';
 type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
 const DB_NAME = 'organismsData';
-const DB_VERSION = 11;
+const DB_VERSION = 13;
 
 const OBJECT_STORES = [
   'styphi',
@@ -51,18 +51,15 @@ export const initDB = async () => {
       // Convert db.objectStoreNames to an array so it can be iterated
       const currentStores = Array.from(db.objectStoreNames);
 
-      // Remove stores that are no longer in the OBJECT_STORES array
+      // Remove all existing object stores if needed (essentially clearing the cache)
       currentStores.forEach((storeName) => {
-        if (!OBJECT_STORES.includes(storeName)) {
-          db.deleteObjectStore(storeName);
-        }
+        db.deleteObjectStore(storeName); // Delete the entire store
       });
 
-      // Add new stores that are in the OBJECT_STORES array but not in the database
+      // Recreate object stores with the updated schema
       OBJECT_STORES.forEach((store) => {
-        if (!db.objectStoreNames.contains(store)) {
-          db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
-        }
+        // Add new stores with updated schema, including the new key if needed
+        db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
       });
     },
   });

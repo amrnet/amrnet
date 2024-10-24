@@ -56,15 +56,6 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: '8px',
       paddingBottom: '8px',
     },
-
-    '&$otherPage': {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-
-      '& $leftWrapper': {
-        justifyContent: 'space-between',
-      },
-    },
   },
 
   logo: {
@@ -115,8 +106,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     position: 'absolute',
   },
-
-  otherPage: {},
 }));
 
 export { useStyles };

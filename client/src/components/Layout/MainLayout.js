@@ -6,7 +6,6 @@ import { useAppSelector } from '../../stores/hooks';
 export const MainLayout = ({ children }) => {
   const classes = useStyles();
 
-  const page = useAppSelector((state) => state.app.page);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
@@ -15,7 +14,7 @@ export const MainLayout = ({ children }) => {
       <div className={classes.mainLayout} id="main-layout">
         <Header />
         <div className={classes.childrenWrapper}>
-          <div className={`${classes.children} ${page === 'home' ? '' : classes.otherPage}`}>{children}</div>
+          <div className={`${classes.children}`}>{children}</div>
         </div>
       </div>
       {(loadingData || loadingMap) && (
