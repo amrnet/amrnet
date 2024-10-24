@@ -3,9 +3,9 @@ import { decoli, ecoli, ints, kleb, ngono, senterica, shig, typhi } from '../ass
 export const organismsCards = [
   {
     label: (
-      <div>
+      <span>
         <i>Salmonella</i> Typhi
-      </div>
+      </span>
     ),
     stringLabel: 'Salmonella Typhi',
     value: 'styphi',
@@ -14,9 +14,9 @@ export const organismsCards = [
   },
   {
     label: (
-      <div>
+      <span>
         <i>Klebsiella pneumoniae</i>
-      </div>
+      </span>
     ),
     stringLabel: 'Klebsiella pneumoniae',
     value: 'kpneumo',
@@ -25,9 +25,9 @@ export const organismsCards = [
   },
   {
     label: (
-      <div>
+      <span>
         <i>Neisseria gonorrhoeae</i>
-      </div>
+      </span>
     ),
     stringLabel: 'Neisseria gonorrhoeae',
     value: 'ngono',
@@ -36,9 +36,9 @@ export const organismsCards = [
   },
   {
     label: (
-      <div>
+      <span>
         <i>Escherichia coli</i>
-      </div>
+      </span>
     ),
     stringLabel: 'Escherichia coli',
     value: 'ecoli',
@@ -47,9 +47,9 @@ export const organismsCards = [
   },
   {
     label: (
-      <div>
+      <span>
         Diarrheagenic <i>E. coli</i>
-      </div>
+      </span>
     ),
     stringLabel: 'Diarrheagenic E. coli',
     value: 'decoli',
@@ -58,9 +58,9 @@ export const organismsCards = [
   },
   {
     label: (
-      <div>
+      <span>
         <i>Shigella</i> + EIEC
-      </div>
+      </span>
     ),
     stringLabel: 'Shigella + EIEC',
     value: 'shige',
@@ -69,9 +69,9 @@ export const organismsCards = [
   },
   {
     label: (
-      <div>
+      <span>
         Invasive non-typhoidal <i>Salmonella</i>
-      </div>
+      </span>
     ),
     stringLabel: 'Invasive non-typhoidal Salmonella',
     value: 'sentericaints',
@@ -80,9 +80,9 @@ export const organismsCards = [
   },
   {
     label: (
-      <div>
+      <span>
         <i>Salmonella enterica</i>
-      </div>
+      </span>
     ),
     stringLabel: 'Salmonella enterica',
     value: 'senterica',

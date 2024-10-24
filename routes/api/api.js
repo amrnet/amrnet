@@ -245,7 +245,7 @@ router.get('/getCollectionCounts', async function (req, res, next) {
   try {
     // Perform asynchronous counting of documents in parallel across databases
     const countPromises = Object.values(dbAndCollectionNames).map(({ dbName, collectionName }) => {
-      return client.db(dbName).collection(collectionName).countDocuments();
+      return client.db(dbName).collection(collectionName).countDocuments({ 'dashboard view': 'Include' });
     });
 
     // Wait for all counts to resolve

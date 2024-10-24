@@ -32,6 +32,8 @@ interface DashboardState {
   captureRFWG: boolean;
   captureRDWG: boolean;
   captureGD: boolean;
+  selectedLineages: Array<string>;
+  pathovar: Array<string>;
 }
 
 const initialState: DashboardState = {
@@ -62,6 +64,8 @@ const initialState: DashboardState = {
   captureRFWG: true,
   captureRDWG: true,
   captureGD: true,
+  selectedLineages: [],
+  pathovar: [],
 };
 
 export const dashboardSlice = createSlice({
@@ -155,6 +159,12 @@ export const dashboardSlice = createSlice({
     setCaptureGD: (state, action: PayloadAction<boolean>) => {
       state.captureGD = action.payload;
     },
+    setSelectedLineages: (state, action: PayloadAction<Array<string>>) => {
+      state.selectedLineages = action.payload;
+    },
+    setPathovar: (state, action: PayloadAction<Array<string>>) => {
+      state.pathovar = action.payload;
+    },
   },
 });
 
@@ -184,6 +194,8 @@ export const {
   setCaptureRDWG,
   setCaptureGD,
   removeOrganism,
+  setSelectedLineages,
+  setPathovar,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

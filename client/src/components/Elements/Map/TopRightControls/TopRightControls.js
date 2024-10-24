@@ -2,17 +2,19 @@ import { InfoOutlined } from '@mui/icons-material';
 import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import { useStyles } from './TopRightControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setMapView, setIfCustom } from '../../../../stores/slices/mapSlice.ts';
+import { setMapView } from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
+import { statKeys } from '../../../../util/drugClassesRules';
+import { getColorForDrug } from '../../Graphs/graphColorHelper';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
-const ExcludedView = ['Genotype prevalence', 'NG-MAST prevalence', 'Lineage prevalence'];
+const excludedViews = ['Genotype prevalence', 'NG-MAST prevalence', 'Lineage prevalence'];
 const mapViewsWithZeroPercentOption = [
   'CipNS',
   'CipR',
@@ -25,6 +27,7 @@ const mapViewsWithZeroPercentOption = [
   'Genotype prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence',
+  'Resistance prevalence',
 ];
 
 export const TopRightControls = () => {
@@ -39,13 +42,6 @@ export const TopRightControls = () => {
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   function handleChangeMapView(event) {
-    if (
-      event.target.value === 'Genotype prevalence' ||
-      event.target.value === 'NG-MAST prevalence' ||
-      event.target.value === 'Lineage prevalence'
-    )
-      dispatch(setIfCustom(true));
-    else dispatch(setIfCustom(false));
     dispatch(setMapView(event.target.value));
   }
 
@@ -77,6 +73,9 @@ export const TopRightControls = () => {
       case 'Genotype prevalence':
       case 'Lineage prevalence':
         return gradientStyle;
+      case 'Resistance prevalence':
+        const stats = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+        return stats.filter((stat) => stat.resistanceView).map((stat) => stat.name);
       case '':
         return [];
       default:
@@ -190,15 +189,7 @@ export const TopRightControls = () => {
                   <span className={classes.legendText}>0%</span>
                 </div>
               )}
-              {/* {getSteps().map((step, index) => {
-                return (
-                  <div key={`step-${index}`} className={classes.legend}>
-                    <Box className={classes.legendColorBox} style={{ backgroundColor: getStepBoxColor(step, index) }} />
-                    <span className={classes.legendText}>{step}</span>
-                  </div>
-                );
-              })} */}
-              {ExcludedView.includes(mapView) ? (
+              {excludedViews.includes(mapView) ? (
                 <div key={`step-1`} className={classes.legend}>
                   <Box
                     className={classes.legendColorBox}
@@ -220,7 +211,13 @@ export const TopRightControls = () => {
               ) : (
                 getSteps().map((step, index) => (
                   <div key={`step-${index}`} className={classes.legend}>
-                    <Box className={classes.legendColorBox} style={{ backgroundColor: getStepBoxColor(step, index) }} />
+                    <Box
+                      className={classes.legendColorBox}
+                      style={{
+                        backgroundColor:
+                          mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
+                      }}
+                    />
                     <span className={classes.legendText}>{step}</span>
                   </div>
                 ))

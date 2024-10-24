@@ -26,8 +26,10 @@ import {
   setColorPallete,
   setCanFilterData,
   setOrganism,
+  setPathovar,
+  setSelectedLineages,
 } from '../../stores/slices/dashboardSlice.ts';
-import { setDataset, setMapData, setMapView, setPosition, setIfCustom } from '../../stores/slices/mapSlice.ts';
+import { setDataset, setMapData, setMapView, setPosition } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
 import {
   setCollapses,
@@ -42,13 +44,11 @@ import {
   setDrugResistanceGraphView,
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
-  setCustomDropdownMapView,
   setCustomDropdownMapViewNG,
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
   setGenotypesDrugsData,
-  setGenotypesDrugsData2,
   setGenotypesYearData,
   setKODiversityData,
   setKODiversityGraphView,
@@ -93,6 +93,7 @@ export const DashboardPage = () => {
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
   const yearsForFilter = useAppSelector((state) => state.dashboard.years);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
+  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
@@ -138,6 +139,7 @@ export const DashboardPage = () => {
     const yearsSet = new Set();
     const countriesSet = new Set();
     const PMIDSet = new Set();
+    const pathovarSet = new Set();
 
     responseData.forEach((x) => {
       genotypesSet.add(x.GENOTYPE);
@@ -145,6 +147,13 @@ export const DashboardPage = () => {
       yearsSet.add(x.DATE);
       countriesSet.add(getCountryDisplayName(x.COUNTRY_ONLY));
       PMIDSet.add(x.PMID);
+
+      if (organism === 'sentericaints') {
+        pathovarSet.add(x.SISTR1_Serovar);
+      }
+      if (['shige', 'decoli'].includes(organism)) {
+        pathovarSet.add(x.Pathovar);
+      }
     });
 
     const genotypes = Array.from(genotypesSet);
@@ -152,11 +161,17 @@ export const DashboardPage = () => {
     const years = Array.from(yearsSet);
     const countries = Array.from(countriesSet);
     const PMID = Array.from(PMIDSet);
+    const pathovar = Array.from(pathovarSet);
 
     // Sort values
     genotypes.sort((a, b) => a.localeCompare(b));
     years.sort();
     countries.sort();
+    pathovar.sort();
+
+    if (pathovar.length > 0) {
+      dispatch(setSelectedLineages(pathovar));
+    }
 
     // Set values
     dispatch(setTotalGenotypes(genotypes.length));
@@ -168,6 +183,7 @@ export const DashboardPage = () => {
     dispatch(setCountriesForFilter(countries));
     dispatch(setPMID(PMID));
     dispatch(setNgmast(ngmast));
+    dispatch(setPathovar(pathovar));
 
     await Promise.all([
       // Get map data
@@ -183,9 +199,7 @@ export const DashboardPage = () => {
         return [dt.genotypesDrugsData, dt.genotypesDrugClassesData];
       }).then(([genotypesDrugsData, genotypesDrugClassesData]) => {
         dispatch(setGenotypesDrugsData(genotypesDrugsData));
-        dispatch(setGenotypesDrugsData2(genotypesDrugsData));
         dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
-        dispatch(setCustomDropdownMapView(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
         dispatch(setGenotypesDrugClassesData(genotypesDrugClassesData));
       }),
 
@@ -343,9 +357,9 @@ export const DashboardPage = () => {
       dispatch(setDeterminantsGraphView('percentage'));
       dispatch(setDistributionGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
-      dispatch(setIfCustom(false));
       dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));
+      dispatch(setSelectedLineages([]));
       if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
       else dispatch(setCurrentSliderValueRD(5));
 
@@ -460,6 +474,7 @@ export const DashboardPage = () => {
         actualTimeFinal,
         organism,
         actualCountry,
+        selectedLineages,
       });
       const filteredData = filters.data.filter(
         (x) => actualCountry === 'All' || getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry,

@@ -23,7 +23,7 @@ export const BottomRightControls = () => {
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
-  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
+  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
 
   async function handleClick() {
     setLoading(true);
@@ -117,26 +117,26 @@ export const BottomRightControls = () => {
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 190);
         ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 240);
         if (mapView === 'Genotype prevalence') {
-          if (customDropdownMapView.length === 1) {
-            ctx.fillText('Selected Genotypes: ' + customDropdownMapView, canvas.width / 2, 290);
-          } else if (customDropdownMapView.length > 1) {
-            const genotypesText = customDropdownMapView.join(', ');
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 290);
           }
         }
         if (mapView === 'NG-MAST prevalence') {
-          if (customDropdownMapView.length === 1) {
-            ctx.fillText('Selected NG-MAST TYPE: ' + customDropdownMapView, canvas.width / 2, 290);
-          } else if (customDropdownMapView.length > 1) {
-            const genotypesText = customDropdownMapView.join(', ');
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
           }
         }
         if (mapView === 'Lineage prevalence') {
-          if (customDropdownMapView.length === 1) {
-            ctx.fillText('Selected Lineage: ' + customDropdownMapView, canvas.width / 2, 290);
-          } else if (customDropdownMapView.length > 1) {
-            const genotypesText = customDropdownMapView.join(', ');
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected Lineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 290);
           }
         }

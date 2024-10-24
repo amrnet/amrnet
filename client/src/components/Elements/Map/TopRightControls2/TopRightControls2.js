@@ -1,18 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Card,
-  CardContent,
-  Checkbox,
-  ListItemText,
-  MenuItem,
-  Tooltip,
-  Typography,
-  FormControl,
-  Autocomplete,
-} from '@mui/material';
-import { useState, useEffect } from 'react';
+import { Card, CardContent, Checkbox, Tooltip, Typography, FormControl, Autocomplete, Chip } from '@mui/material';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setCustomDropdownMapView } from '../../../../stores/slices/graphSlice';
 import { useStyles } from './TopRightControls2MUI';
 import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
@@ -20,125 +8,181 @@ import { Collapse } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
+import { statKeys } from '../../../../util/drugClassesRules';
+
+const INFO_ICON_TEXTS = {
+  decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
+  kpneumo: 'Sequence type are labelled as 7-locus MLST. Select up to 10 to display.',
+  shige: 'Lineages are labelled as Species + HC400 cluster. Select up to 10 to display.',
+  sentericaints:
+    'Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster. Select up to 10 to display.',
+};
 
 export const TopRightControls2 = () => {
   const classes = useStyles();
-  // eslint-disable-next-line no-unused-vars
-  const [searchValue2, setSearchValue2] = useState('');
   const dispatch = useAppDispatch();
+
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const genotypesDrugsData2 = useAppSelector((state) => state.graph.genotypesDrugsData2);
-  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
-  const [selectedValues, setSelectedValues] = useState([customDropdownMapView[0]]);
+  const mapView = useAppSelector((state) => state.map.mapView);
+  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
+  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
+
   const [open, setOpen] = useState(true);
 
-  const handleAutocompleteChange = (event, newValue) => {
-    if (customDropdownMapView.length === 10 && newValue.length > 10) {
-      return;
-    }
-    dispatch(setCustomDropdownMapView(newValue));
-    setSelectedValues(newValue);
-  };
-
-  const handleClick = () => {
-    setOpen((prev) => !prev);
-  };
+  const isResPrevalence = useMemo(() => mapView === 'Resistance prevalence', [mapView]);
+  const resistanceOptions = useMemo(() => {
+    const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+    return options.filter((option) => option.resistanceView).map((option) => option.name);
+  }, [organism]);
 
   useEffect(() => {
-    dispatch(setCustomDropdownMapView(genotypesDrugsData2.slice(0, 1).map((x) => x.name)));
-  }, [genotypesDrugsData2]);
+    if (isResPrevalence) {
+      dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
+    } else {
+      dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [genotypesDrugsData, isResPrevalence, resistanceOptions]);
 
-  function getSelectGenotypeLabel(genotype) {
-    const matchingGenotype = genotypesDrugsData2.find((g) => g.name === genotype);
-    const totalCount = matchingGenotype?.totalCount ?? 0;
-    const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
-    if (organism === 'decoli' || organism === 'shige' || organism === 'sentericaints')
-      return `${genotype} (total N=${totalCount})`;
-    return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
-  }
-  function getHoverIcon() {
-    if (organism === 'decoli')
-      return 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.';
-    else if (organism === 'kpneumo') return 'Sequence type are labelled as 7-locus MLST. Select up to 10 to display.';
-    else if (organism === 'shige')
-      return 'Lineages are labelled as Species + HC400 cluster. Select up to 10 to display.';
-    else if (organism === 'sentericaints')
-      return 'Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster. Select up to 10 to display.';
+  const placeholder = useMemo(() => {
+    if (prevalenceMapViewOptionsSelected.length) {
+      return 'Type to search...';
+    }
+
+    if (isResPrevalence) {
+      return '0 drugs selected';
+    }
+
+    if (organism === 'shige' || organism === 'decoli') {
+      return '0 lineage selected';
+    }
+
+    return '0 genotype selected';
+  }, [prevalenceMapViewOptionsSelected.length, isResPrevalence, organism]);
+
+  const infoIconText = useMemo(() => {
+    if (Object.keys(INFO_ICON_TEXTS).includes(organism) && !isResPrevalence) {
+      return INFO_ICON_TEXTS[organism];
+    }
     return 'Select up to 10 to display';
-  }
-  function getHeading() {
-    if (organism === 'decoli' || organism === 'shige' || organism === 'sentericaints') return 'Select Lineage';
+  }, [isResPrevalence, organism]);
+
+  const heading = useMemo(() => {
+    if (isResPrevalence) {
+      return 'Select Drug';
+    }
+
+    if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
+      return 'Select Lineage';
+    }
+
     return 'Select Genotype';
+  }, [isResPrevalence, organism]);
+
+  const label = useMemo(() => {
+    if (isResPrevalence) {
+      return `${open ? 'Close' : 'Open'} drug selector`;
+    }
+
+    if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
+      return `${open ? 'Close' : 'Open'} lineage selector`;
+    }
+
+    return `${open ? 'Close' : 'Open'} genotype selector`;
+  }, [isResPrevalence, open, organism]);
+
+  const getOptionLabel = useCallback(
+    (item) => {
+      if (isResPrevalence) {
+        return item;
+      }
+
+      const matchingItem = genotypesDrugsData.find((g) => g.name === item);
+
+      const totalCount = matchingItem?.totalCount ?? 0;
+      const susceptiblePercentage = (matchingItem?.Susceptible / totalCount || 0) * 100;
+
+      if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
+        return `${item} (total N=${totalCount})`;
+      }
+
+      return `${item} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
+    },
+    [genotypesDrugsData, isResPrevalence, organism],
+  );
+
+  function getOptionDisabled(option) {
+    return prevalenceMapViewOptionsSelected.length >= 10 && !prevalenceMapViewOptionsSelected.includes(option);
   }
-  const filteredData = genotypesDrugsData2.filter(
-    (genotype) =>
-      genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()),
-  );
-  const icon = (
-    <Card elevation={3} className={classes.card}>
-      <CardContent className={classes.frequenciesGraph}>
-        <div className={classes.label}>
-          <Typography variant="caption">{getHeading()}</Typography>
-          <Tooltip title={getHoverIcon()} placement="top">
-            <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-          </Tooltip>
-        </div>
-        <FormControl fullWidth>
-          <Autocomplete
-            sx={{ m: 1, maxHeight: 200 }}
-            multiple
-            limitTags={1}
-            id="tags-standard"
-            options={filteredData.map((data) => data.name)}
-            freeSolo={customDropdownMapView.length >= 10 ? false : true}
-            getOptionDisabled={(options) => (customDropdownMapView.length >= 10 ? true : false)}
-            value={selectedValues}
-            disableCloseOnSelect
-            onChange={handleAutocompleteChange}
-            renderOption={(props, option, { selected }) => (
-              <MenuItem key={option} value={option} sx={{ justifyContent: 'space-between' }} {...props}>
-                <Checkbox checked={customDropdownMapView.indexOf(option) > -1} />
-                <ListItemText primary={getSelectGenotypeLabel(option)} />
-              </MenuItem>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                placeholder={
-                  customDropdownMapView.length > 0
-                    ? 'Type to search...'
-                    : organism === 'shige' || organism === 'decoli'
-                    ? '0 lineage selected'
-                    : '0 genotype selected'
-                }
-              />
-            )}
-          />
-        </FormControl>
-      </CardContent>
-    </Card>
-  );
+
+  function handleAutocompleteChange(_, newValue) {
+    if (prevalenceMapViewOptionsSelected.length === 10 && newValue.length > 10) {
+      return;
+    }
+
+    dispatch(setPrevalenceMapViewOptionsSelected(newValue));
+  }
+
+  function handleClick() {
+    setOpen((prev) => !prev);
+  }
+
   return (
     <Box className={`${classes.topRightControls}`}>
       <FormControlLabel
         className={classes.font}
         control={<Switch checked={open} onChange={handleClick} />}
-        label={
-          organism === 'shige' || organism === 'decoli' || organism === 'sentericaints' ? (
-            open ? (
-              <Typography className={classes.font}>Close lineage selector</Typography>
-            ) : (
-              <Typography className={classes.font}>Open lineage selector</Typography>
-            )
-          ) : open ? (
-            <Typography className={classes.font}>Close genotype selector</Typography>
-          ) : (
-            <Typography className={classes.font}>Open genotype selector</Typography>
-          )
-        }
+        label={<Typography className={classes.font}>{label}</Typography>}
       />
-      <Collapse in={open}>{icon}</Collapse>
+      <Collapse in={open}>
+        <Card elevation={3} className={classes.card}>
+          <CardContent className={classes.frequenciesGraph}>
+            <div className={classes.label}>
+              <Typography variant="caption">{heading}</Typography>
+              <Tooltip title={infoIconText} placement="top">
+                <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+              </Tooltip>
+            </div>
+            <FormControl fullWidth>
+              <Autocomplete
+                multiple
+                disableCloseOnSelect
+                value={prevalenceMapViewOptionsSelected}
+                options={isResPrevalence ? resistanceOptions : genotypesDrugsData.map((data) => data.name)}
+                onChange={handleAutocompleteChange}
+                limitTags={1}
+                getOptionDisabled={getOptionDisabled}
+                renderInput={(params) => <TextField {...params} variant="standard" placeholder={placeholder} />}
+                renderOption={(props, option, { selected }) => {
+                  const { key, ...optionProps } = props;
+
+                  return (
+                    <li key={key} {...optionProps}>
+                      <Checkbox
+                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                        checkedIcon={<CheckBoxIcon fontSize="small" />}
+                        sx={{ marginRight: '8px', padding: 0 }}
+                        checked={selected}
+                      />
+                      {getOptionLabel(option)}
+                    </li>
+                  );
+                }}
+                renderTags={(value, getTagProps) => (
+                  <Box sx={{ maxHeight: 60, overflowY: 'auto' }}>
+                    {value.map((option, index) => (
+                      <Chip key={index} label={option} {...getTagProps({ index })} />
+                    ))}
+                  </Box>
+                )}
+              />
+            </FormControl>
+          </CardContent>
+        </Card>
+      </Collapse>
     </Box>
   );
 };

@@ -19,10 +19,9 @@ interface GraphState {
   drugResistanceGraphView: Array<string>;
   frequenciesGraphView: string;
   frequenciesGraphSelectedGenotypes: Array<string>;
-  customDropdownMapView: Array<string>;
+  prevalenceMapViewOptionsSelected: Array<string>;
   customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
-  genotypesDrugsData2: Array<any>;
   genotypesDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
@@ -64,14 +63,13 @@ const initialState: GraphState = {
   genotypesYearData: [],
   drugsYearData: [],
   genotypesDrugsData: [],
-  genotypesDrugsData2: [],
   genotypesDrugClassesData: [],
   genotypesAndDrugsYearData: [],
   distributionGraphView: 'number',
   drugResistanceGraphView: [],
   frequenciesGraphView: 'percentage',
   frequenciesGraphSelectedGenotypes: [],
-  customDropdownMapView: [],
+  prevalenceMapViewOptionsSelected: [],
   customDropdownMapViewNG: [],
   determinantsGraphView: 'percentage',
   determinantsGraphDrugClass: '',
@@ -130,17 +128,14 @@ export const graphSlice = createSlice({
     setFrequenciesGraphSelectedGenotypes: (state, action: PayloadAction<Array<string>>) => {
       state.frequenciesGraphSelectedGenotypes = action.payload;
     },
-    setCustomDropdownMapView: (state, action: PayloadAction<Array<string>>) => {
-      state.customDropdownMapView = action.payload;
+    setPrevalenceMapViewOptionsSelected: (state, action: PayloadAction<Array<string>>) => {
+      state.prevalenceMapViewOptionsSelected = action.payload;
     },
     setCustomDropdownMapViewNG: (state, action: PayloadAction<Array<string>>) => {
       state.customDropdownMapViewNG = action.payload;
     },
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugsData = action.payload;
-    },
-    setGenotypesDrugsData2: (state, action: PayloadAction<Array<any>>) => {
-      state.genotypesDrugsData2 = action.payload;
     },
     setDeterminantsGraphView: (state, action: PayloadAction<string>) => {
       state.determinantsGraphView = action.payload;
@@ -233,10 +228,9 @@ export const {
   setCollapses,
   setFrequenciesGraphView,
   setFrequenciesGraphSelectedGenotypes,
-  setCustomDropdownMapView,
+  setPrevalenceMapViewOptionsSelected,
   setCustomDropdownMapViewNG,
   setGenotypesDrugsData,
-  setGenotypesDrugsData2,
   setDeterminantsGraphView,
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,

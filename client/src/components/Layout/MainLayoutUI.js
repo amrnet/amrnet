@@ -31,10 +31,6 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 500px)': {
       padding: '88px 8px 8px',
       rowGap: '8px',
-
-      '&$otherPage': {
-        padding: '88px 8px 8px',
-      },
     },
   },
   loading: {
@@ -53,11 +49,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100px',
     alignSelf: 'center',
     paddingLeft: '20px',
-  },
-  otherPage: {
-    '@media (min-width: 651px) and (max-width: 1000px)': {
-      padding: '158px 16px 16px',
-    },
   },
 }));
 
