@@ -49,7 +49,7 @@ export const HomePage = () => {
         <CardContent className={classes.organisms}>
           <Grid container>
             {organismsCards.map((organism) => (
-              <Grid item xs={12} sm={4} md={3} key={organism.value} style={{ padding: matches600 ? '16px' : '' }}>
+              <Grid item xs={12} sm={4} md={3} key={organism.value} style={{ padding: matches600 ? '2px 16px' : '' }}>
                 <Link className={classes.organismLink} to={`/dashboard?organism=${organism.value}`} target="_blank">
                   <Card
                     className={`${classes.organismCard} ${matches600 ? classes.mobile : ''}`}
@@ -68,7 +68,7 @@ export const HomePage = () => {
                     <CardMedia
                       component="img"
                       alt={`${organism.stringLabel} image`}
-                      height={matches600 ? '100px' : '320px'}
+                      height={matches600 ? 'auto' : '320px'}
                       style={{ width: matches600 ? '100px' : undefined }}
                       image={organism.img}
                     />
@@ -81,8 +81,9 @@ export const HomePage = () => {
                         color: matches600 ? 'black' : 'white',
                       }}
                     >
-                      <Typography fontWeight="600">{organism.label}</Typography>
-                      <Typography>
+                      <Typography fontWeight="600" sx={{fontSize:"small"}}>{organism.label}</Typography>
+                      <Typography sx={{fontSize:"smaller"}}>
+
                         Genomes: {loading ? <CircularProgress size="1rem" /> : organismCounts[organism.value] ?? 0}
                       </Typography>
                     </div>
