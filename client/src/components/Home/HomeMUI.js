@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   cardContent: {
-    margin: '8px 16px',
+    // margin: '8px 16px',
   },
 
   title: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   legend: {
-    paddingBottom: '16px',
+    // paddingBottom: '16px',
     maxWidth: '750px',
   },
 
