@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
   legend: {
     paddingBottom: '16px',
-    maxWidth: '800px',
+    maxWidth: '750px',
   },
 
   organisms: {
