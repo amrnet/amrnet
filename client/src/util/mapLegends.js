@@ -39,6 +39,11 @@ export const mapLegends = [
     label: 'Genotype prevalence',
     organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'senterica'],
   },
+  {
+    value: 'Resistance prevalence',
+    label: 'Resistance prevalence',
+    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
+  },
   { value: 'Lineage prevalence', label: 'Lineage prevalence', organisms: ['shige', 'decoli', 'sentericaints'] },
   { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['styphi'] },
   { value: 'Resistance prevalence', label: 'Resistance prevalence', organisms: [] },

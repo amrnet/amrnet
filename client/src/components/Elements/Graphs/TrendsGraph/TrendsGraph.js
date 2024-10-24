@@ -427,8 +427,8 @@ export const TrendsGraph = () => {
                 </div>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={tooltipTab} onChange={handleChangeTooltipTab} variant="fullWidth">
-                    <Tab label="Genes" value="genes" />
-                    {switchLines && <Tab label="Genotypes" value="genotypes" />}
+                    <Tab label="AMR" value="genes" />
+                    {switchLines && <Tab label="Types" value="genotypes" />}
                   </Tabs>
                 </Box>
                 <div className={classes.tooltipContent}>

@@ -3,7 +3,7 @@ import { Home, Info, MenuBook } from '@mui/icons-material';
 // List of drawer menu items
 export const menuItems = [
   {
-    key: 'home',
+    key: '',
     label: 'Home',
     labelHead: '',
     icon: <Home />,
@@ -21,7 +21,7 @@ export const menuItems = [
   {
     key: 'about',
     label: 'About',
-    labelHead: 'About AMRnet',
+    labelHead: 'About',
     icon: <Info />,
     link: '#/about',
     target: '_self',

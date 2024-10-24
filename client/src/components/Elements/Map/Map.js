@@ -15,6 +15,8 @@ import { TopLeftControls } from './TopLeftControls';
 import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
 import { Ngmast } from './Ng_mast/Ngmast';
+import { statKeys } from '../../../util/drugClassesRules';
+import { getColorForDrug } from '../Graphs/graphColorHelper';
 
 const statKey = {
   MDR: 'MDR',
@@ -45,10 +47,8 @@ export const Map = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  // const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
-  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
+  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
-  const ifCustom = useAppSelector((state) => state.map.ifCustom);
 
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
@@ -157,12 +157,12 @@ export const Map = () => {
           const genotypes1 = countryStats.GENOTYPE.items;
           let genotypes2 = [];
           genotypes1.forEach((genotype) => {
-            if (customDropdownMapView.includes(genotype.name)) {
+            if (prevalenceMapViewOptionsSelected.includes(genotype.name)) {
               genotypes2.push(genotype);
             }
           });
           genotypes1.forEach((genotype) => {
-            if (customDropdownMapView.includes(genotype.name))
+            if (prevalenceMapViewOptionsSelected.includes(genotype.name))
               tooltip.content[genotype.name] = `${genotype.count} (${(
                 (genotype.count / countryStats.GENOTYPE.sum) *
                 100
@@ -179,6 +179,12 @@ export const Map = () => {
                 100
               ).toFixed(2)} %)`;
           }
+          break;
+        case 'Resistance prevalence':
+          prevalenceMapViewOptionsSelected.forEach((option) => {
+            const stats = countryStats[option];
+            tooltip.content[option] = `${stats.count} (${stats.percentage}%)`;
+          });
           break;
         case 'H58 / Non-H58':
         case 'MDR':
@@ -227,6 +233,7 @@ export const Map = () => {
     return ![
       'Dominant Genotype',
       'Genotype prevalence',
+      'Resistance prevalence',
       'No. Samples',
       'NG-MAST prevalence',
       'Lineage prevalence',
@@ -314,7 +321,7 @@ export const Map = () => {
                           const genotypes1 = countryStats.GENOTYPE.items;
                           let genotypes2 = [];
                           genotypes1.forEach((genotype) => {
-                            if (customDropdownMapView.includes(genotype.name)) genotypes2.push(genotype);
+                            if (prevalenceMapViewOptionsSelected.includes(genotype.name)) genotypes2.push(genotype);
                             percentCounter += genotype.count;
                           });
 
@@ -332,6 +339,37 @@ export const Map = () => {
                           } else if (countryData.count >= 20) {
                             fillColor = darkGrey;
                             smallerThan20 = true;
+                          }
+                          break;
+                        case 'Resistance prevalence':
+                          if (countryData.count >= 20) {
+                            const stats = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+                            const keys = stats
+                              .filter(
+                                (stat) =>
+                                  stat.resistanceView === true && prevalenceMapViewOptionsSelected.includes(stat.name),
+                              )
+                              .map((stat) => stat.name);
+
+                            let biggerCountItem = null;
+
+                            keys.forEach((key) => {
+                              if (biggerCountItem === null) {
+                                biggerCountItem = { key, ...countryStats[key] };
+                                return;
+                              }
+
+                              if (countryStats[key].count > biggerCountItem.count) {
+                                biggerCountItem = { key, ...countryStats[key] };
+                              }
+                            });
+
+                            if (!biggerCountItem || biggerCountItem.count === 0) {
+                              fillColor = darkGrey;
+                              smallerThan20 = true;
+                            } else {
+                              fillColor = getColorForDrug(biggerCountItem.key);
+                            }
                           }
                           break;
                         case 'Sensitive to all drugs':
@@ -434,9 +472,9 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {(ifCustom && mapView === 'Genotype prevalence') || (ifCustom && mapView === 'Lineage prevalence') ? (
+              {['Genotype prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
                 <TopRightControls2 />
-              ) : ifCustom && mapView === 'NG-MAST prevalence' ? (
+              ) : mapView === 'NG-MAST prevalence' ? (
                 <Ngmast />
               ) : null}
             </>
@@ -447,9 +485,9 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {(ifCustom && mapView === 'Genotype prevalence') || (ifCustom && mapView === 'Lineage prevalence') ? (
+            {['Genotype prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
               <TopRightControls2 />
-            ) : ifCustom && mapView === 'NG-MAST prevalence' ? (
+            ) : mapView === 'NG-MAST prevalence' ? (
               <Ngmast />
             ) : null}
             <TopLeftControls />
