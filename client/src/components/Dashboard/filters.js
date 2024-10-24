@@ -1,16 +1,43 @@
-import { drugRulesForDrugResistanceGraphST, drugRulesST, drugRulesKP, drugRulesNG } from '../../util/drugClassesRules';
+import {
+  drugRulesForDrugResistanceGraphST,
+  drugRulesST,
+  drugRulesKP,
+  drugRulesNG,
+  statKeysST,
+  statKeysNG,
+  statKeysKP,
+  statKeysOthers,
+} from '../../util/drugClassesRules';
 import { drugClassesRulesST, drugClassesRulesKP, drugClassesRulesNG } from '../../util/drugClassesRules';
 
 // This filter is called after either dataset, initialYear, finalYear or country changes and if reset button is pressed.
 // And it returns the data filtered by the variables said before, also the list of unique genotypes, count of genotypes
 // and count of genomes.
-export function filterData({ data, dataset, actualTimeInitial, actualTimeFinal, organism, actualCountry }) {
+export function filterData({
+  data,
+  dataset,
+  actualTimeInitial,
+  actualTimeFinal,
+  organism,
+  actualCountry,
+  selectedLineages,
+}) {
   const checkDataset = (item) => dataset === 'All' || item.TRAVEL === dataset.toLowerCase();
   const checkTime = (item) => {
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
   };
+  const checkLineages = (item) => {
+    if (!['sentericaints', 'decoli', 'shige'].includes(organism)) {
+      return true;
+    }
 
-  const newData = data.filter((x) => checkDataset(x) && checkTime(x));
+    if (organism === 'sentericaints') {
+      return selectedLineages.includes(item.serotype);
+    }
+    return selectedLineages.includes(item.Pathovar);
+  };
+
+  const newData = data.filter((x) => checkDataset(x) && checkTime(x) && checkLineages(x));
   const genotypes = [...new Set(newData.map((x) => x.GENOTYPE))];
 
   if (organism === 'styphi') {
@@ -154,29 +181,11 @@ export function getMapData({ data, countries, organism }) {
     }, 0);
 
     if (organism === 'styphi') {
-      const statKeys = [
-        { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
-        { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL' },
-        { name: 'MDR', column: 'MDR', key: 'MDR' },
-        { name: 'XDR', column: 'XDR', key: 'XDR' },
-        { name: 'AzithR', column: 'azith_pred_pheno', key: 'AzithR' },
-        { name: 'Susceptible', column: 'amr_category', key: 'No AMR detected' },
-        { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR' },
-        { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS' },
-      ];
-      statKeys.forEach(({ name, column, key }) => {
+      statKeysST.forEach(({ name, column, key }) => {
         stats[name] = getMapStatsData({ countryData, columnKey: column, statsKey: key });
       });
     } else if (organism === 'ngono') {
-      const statKeys = [
-        { name: 'Susceptible', column: 'Susceptible', key: '1' },
-        { name: 'Ciprofloxacin', column: 'Ciprofloxacin', key: '1' },
-        { name: 'Ceftriaxone', column: 'Ceftriaxone', key: '1' },
-        { name: 'Azithromycin', column: 'Azithromycin', key: '1' },
-        { name: 'MDR', column: 'MDR', key: '1' },
-        { name: 'XDR', column: 'XDR', key: '1' },
-      ];
-      statKeys.forEach(({ name, column, key }) => {
+      statKeysNG.forEach(({ name, column, key }) => {
         stats[name] = getMapStatsData({ countryData, columnKey: column, statsKey: key });
       });
 
@@ -194,23 +203,20 @@ export function getMapData({ data, countries, organism }) {
         return sum + (item.count || 0); // Add the count of each item to the sum
       }, 0);
     } else if (organism === 'kpneumo') {
-      const statKeys = [
-        { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
-        { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-' },
-        { name: 'Carb', column: 'Bla_Carb_acquired', key: '-' },
-      ];
-      statKeys.forEach(({ name, column, key }) => {
-        stats[name] = getMapStatsData({ countryData, columnKey: column, statsKey: key });
+      statKeysKP.forEach(({ name, column, key }) => {
+        if (Array.isArray(column)) {
+          const count = countryData.filter((x) => column.some((id) => x[id] !== '-')).length;
+          stats[name] = {
+            items: [],
+            count,
+            percentage: Number(((count / countryData.length) * 100).toFixed(2)),
+          };
+        } else {
+          stats[name] = getMapStatsData({ countryData, columnKey: column, statsKey: key });
+        }
       });
     } else {
-      const statKeys = [
-        { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
-        { name: 'MDR', column: 'MDR', key: 'MDR' },
-        { name: 'XDR', column: 'XDR', key: 'XDR' },
-        { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-' },
-        { name: 'Carb', column: 'Bla_Carb_acquired', key: '-' },
-      ];
-      statKeys.forEach(({ name, column, key }) => {
+      statKeysOthers.forEach(({ name, column, key }) => {
         stats[name] = getMapStatsData({ countryData, columnKey: column, statsKey: key });
       });
     }

@@ -7,6 +7,7 @@ import {
   setActualTimeInitial,
   setCanFilterData,
   setCanGetData,
+  setSelectedLineages,
 } from '../../../stores/slices/dashboardSlice';
 import { setDataset, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice';
@@ -23,7 +24,6 @@ import {
   setKODiversityGraphView,
   setTrendsGraphDrugClass,
   setTrendsGraphView,
-  setCustomDropdownMapView,
   setFrequenciesGraphSelectedGenotypes,
   setNgmastDrugsData,
   setCustomDropdownMapViewNG,
@@ -48,6 +48,7 @@ export const ResetButton = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const genotypes = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const pathovar = useAppSelector((state) => state.dashboard.pathovar);
   const ngmast = useAppSelector((state) => state.graph.NGMAST);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
 
@@ -78,7 +79,6 @@ export const ResetButton = () => {
       actualCountry,
     });
     const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
-    dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
 
     if (organism === 'styphi') {
@@ -104,6 +104,10 @@ export const ResetButton = () => {
       dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
       dispatch(setConvergenceColourVariable('DATE'));
       dispatch(setConvergenceColourPallete({}));
+    }
+
+    if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
+      dispatch(setSelectedLineages(pathovar));
     }
 
     dispatch(setFrequenciesGraphView('percentage'));

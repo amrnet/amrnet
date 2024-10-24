@@ -21,14 +21,11 @@ export const Header = () => {
   const [infoCollapse, setInfoCollapse] = useState(false);
 
   const dispatch = useAppDispatch();
-  const page = useAppSelector((state) => state.app.page);
   const organism = useAppSelector((state) => state.dashboard.organism);
 
-  const isHomePage = useMemo(() => location.pathname === '/', [location.pathname]);
-  const isDashboardPage = useMemo(
-    () => !['/', '/user-guide', '/about'].includes(location.pathname),
-    [location.pathname],
-  );
+  const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
+  const isHomePage = useMemo(() => page === '', [page]);
+  const isDashboardPage = useMemo(() => !['', 'user-guide', 'about'].includes(page), [page]);
 
   function getPageTitle() {
     const title = menuItems.find((item) => item.key === page).labelHead;
