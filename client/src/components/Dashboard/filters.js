@@ -30,6 +30,14 @@ export function filterData({
     if (!['sentericaints', 'decoli', 'shige'].includes(organism)) {
       return true;
     }
+    if (selectedLineages.includes("EIEC")) {
+      return (
+        item.Pathovar === "E. coli - EIEC/EHEC" ||
+        item.Pathovar === "E. coli - EIEC/EPEC" ||
+        item.Pathovar === "E. coli - EIEC/STEC" ||
+        item.Pathovar === "EIEC"
+      );
+    }
 
     if (organism === 'sentericaints') {
       return selectedLineages.includes(item.serotype);
