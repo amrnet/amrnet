@@ -150,8 +150,13 @@ export const DashboardPage = () => {
 
       if (organism === 'sentericaints') {
         pathovarSet.add(x.SISTR1_Serovar);
-      }
-      if (['shige', 'decoli'].includes(organism)) {
+      }else if (organism === 'shige') {
+        if (['E. coli - EIEC/EPEC', 'E. coli - EIEC/EHEC', 'E. coli - EIEC/STEC', 'EIEC'].includes(x.Pathovar)) {
+          pathovarSet.add('EIEC');
+        } else {
+          pathovarSet.add(x.Pathovar);
+        }
+      } else if (['decoli'].includes(organism)) {
         pathovarSet.add(x.Pathovar);
       }
     });
