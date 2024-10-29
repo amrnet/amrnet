@@ -141,25 +141,36 @@ export const DashboardPage = () => {
     const PMIDSet = new Set();
     const pathovarSet = new Set();
 
-    responseData.forEach((x) => {
-      genotypesSet.add(x.GENOTYPE);
-      ngmastSet.add(x['NG-MAST TYPE']);
-      yearsSet.add(x.DATE);
-      countriesSet.add(getCountryDisplayName(x.COUNTRY_ONLY));
-      PMIDSet.add(x.PMID);
+    const pathovarMapping = {
+      sentericaints: (x) => x.SISTR1_Serovar,
+      shige: (x) => {
+        const pathovar = x.Pathovar;
+        return ['E. coli - EIEC/EPEC', 'E. coli - EIEC/EHEC', 'E. coli - EIEC/STEC', 'EIEC'].includes(pathovar)
+          ? 'EIEC'
+          : pathovar;
+      },
+      decoli: (x) => {
+        const pathovar = x.Pathovar;
+        return ['EIEC/EHEC', 'EIEC/STEC', 'EIEC'].includes(pathovar)
+          ? 'EIEC'
+          : ['ETEC/EHEC', 'ETEC/STEC', 'ETEC/EPEC', 'EIEC'].includes(pathovar)
+          ? 'ETEC'
+          : pathovar;
+      },
+    };
 
-      if (organism === 'sentericaints') {
-        pathovarSet.add(x.SISTR1_Serovar);
-      }else if (organism === 'shige') {
-        if (['E. coli - EIEC/EPEC', 'E. coli - EIEC/EHEC', 'E. coli - EIEC/STEC', 'EIEC'].includes(x.Pathovar)) {
-          pathovarSet.add('EIEC');
-        } else {
-          pathovarSet.add(x.Pathovar);
-        }
-      } else if (['decoli'].includes(organism)) {
-        pathovarSet.add(x.Pathovar);
-      }
-    });
+responseData.forEach((x) => {
+  genotypesSet.add(x.GENOTYPE);
+  ngmastSet.add(x['NG-MAST TYPE']);
+  yearsSet.add(x.DATE);
+  countriesSet.add(getCountryDisplayName(x.COUNTRY_ONLY));
+  PMIDSet.add(x.PMID);
+
+  const getPathovar = pathovarMapping[organism];
+  if (getPathovar) {
+    pathovarSet.add(getPathovar(x));
+  }
+});
 
     const genotypes = Array.from(genotypesSet);
     const ngmast = Array.from(ngmastSet);
