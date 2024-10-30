@@ -148,7 +148,7 @@ export const TopRightControls2 = () => {
             </div>
             <FormControl fullWidth>
               <Autocomplete
-                multiple
+                multiple={isResPrevalence?false:true } 
                 disableCloseOnSelect
                 value={prevalenceMapViewOptionsSelected}
                 options={isResPrevalence ? resistanceOptions : genotypesDrugsData.map((data) => data.name)}
