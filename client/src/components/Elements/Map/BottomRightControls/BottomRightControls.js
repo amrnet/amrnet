@@ -59,8 +59,10 @@ export const BottomRightControls = () => {
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
-        ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
-
+        if(organism === 'sentericaints')
+          ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
+        else
+          ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
         // ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
@@ -97,10 +99,10 @@ export const BottomRightControls = () => {
           ctx.fillText(labelSplit[2], canvas.width * 0.61, 80);
         } else if (organism === 'sentericaints') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
-          ctx.fillText(labelSplit[1], canvas.width * 0.635, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.465, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.555, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[2], canvas.width * 0.735, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.655, 80);
         } else {
           ctx.font = 'italic bold 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
@@ -204,15 +206,15 @@ export const BottomRightControls = () => {
     <div className={classes.bottomRightControls}>
       <Tooltip title="Download Data" placement="right">
         <span>
-          <IconButton color="primary" disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={35} /> : <DownloadMapViewData fontSize="large" />}
+          <IconButton color="primary" disabled={organism === 'none'}>
+            <DownloadMapViewData fontSize="inherit" />
           </IconButton>
         </span>
       </Tooltip>
       <Tooltip title="Download Map as PNG" placement="left">
         <span>
           <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={35} /> : <CameraAlt fontSize="large" />}
+            {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
           </IconButton>
         </span>
       </Tooltip>
