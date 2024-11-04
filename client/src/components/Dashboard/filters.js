@@ -26,42 +26,14 @@ export function filterData({
   const checkTime = (item) => {
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
   };
- const checkLineages = (item) => {
-  if (organism === 'sentericaints') {
-    return selectedLineages.includes(item.serotype);
-  }
-
-    const pathovarChecks = {
-      'decoli': {
-        'EIEC': [
-          "EIEC/EHEC",
-          "EIEC/STEC",
-          "EIEC",
-        ],
-        'ETEC': [
-          "ETEC/EHEC",
-          "ETEC/STEC",
-          "ETEC/EPEC",
-          "ETEC",
-        ],
-      },
-      'shige': {
-        'EIEC': [
-          "E. coli - EIEC/EHEC",
-          "E. coli - EIEC/EPEC",
-          "E. coli - EIEC/STEC",
-          "EIEC",
-        ],
-      },
-    };
-
-    if (organism in pathovarChecks) {
-      const lineage = selectedLineages.find((lineage) => lineage in pathovarChecks[organism]);
-      if (lineage) {
-        return pathovarChecks[organism][lineage].includes(item.Pathovar);
-      }
+  const checkLineages = (item) => {
+    if (!['sentericaints', 'decoli', 'shige'].includes(organism)) {
+      return true;
     }
 
+    if (organism === 'sentericaints') {
+      return selectedLineages.includes(item.serotype);
+    }
     return selectedLineages.includes(item.Pathovar);
   };
 

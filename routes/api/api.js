@@ -253,7 +253,7 @@ router.get('/getCollectionCounts', async function (req, res, next) {
 
     // Get object with counts
     const result = Object.keys(dbAndCollectionNames).reduce((acc, key, index) => {
-      acc[key] = counts[index].toLocaleString('fi-FI');
+      acc[key] = counts[index].toLocaleString('pt-br');
       return acc;
     }, {});
 
