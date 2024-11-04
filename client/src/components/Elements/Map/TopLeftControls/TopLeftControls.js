@@ -99,6 +99,16 @@ export const TopLeftControls = () => {
     return ['Clear All', 'Select All'].includes(option);
   }
 
+  function getOption(option) {
+    const optionMapping = {
+      "Shigella boydii": "S. boydii",
+      "Shigella sonnei": "S. sonnei",
+      // add more mappings as needed
+    };
+
+    return (optionMapping[option] || option);
+  }
+
   return (
     <div className={`${classes.topLeftControls} ${matches ? classes.bp700 : ''}`}>
       <Card elevation={3} className={classes.card}>
@@ -155,14 +165,14 @@ export const TopLeftControls = () => {
                           checked={selected}
                         />
                       )}
-                      {option}
+                      {getOption(option)}
                     </li>
                   );
                 }}
                 renderTags={(value, getTagProps) => (
                   <Box sx={{ maxHeight: 80, overflowY: 'auto' }}>
                     {value.map((option, index) => (
-                      <Chip key={index} label={option} {...getTagProps({ index })} onDelete={undefined} />
+                      <Chip key={index} label={getOption(option)} {...getTagProps({ index })} onDelete={undefined} />
                     ))}
                   </Box>
                 )}
