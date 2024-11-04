@@ -97,6 +97,8 @@ export const DashboardPage = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
+  // const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
+  // const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
 
   // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
@@ -141,20 +143,36 @@ export const DashboardPage = () => {
     const PMIDSet = new Set();
     const pathovarSet = new Set();
 
-    responseData.forEach((x) => {
-      genotypesSet.add(x.GENOTYPE);
-      ngmastSet.add(x['NG-MAST TYPE']);
-      yearsSet.add(x.DATE);
-      countriesSet.add(getCountryDisplayName(x.COUNTRY_ONLY));
-      PMIDSet.add(x.PMID);
+    const pathovarMapping = {
+      sentericaints: (x) => x.SISTR1_Serovar,
+      shige: (x) => {
+        const pathovar = x.Pathovar;
+        return ['E. coli - EIEC/EPEC', 'E. coli - EIEC/EHEC', 'E. coli - EIEC/STEC', 'EIEC'].includes(pathovar)
+          ? 'EIEC'
+          : pathovar;
+      },
+      decoli: (x) => {
+        const pathovar = x.Pathovar;
+        return ['EIEC/EHEC', 'EIEC/STEC', 'EIEC'].includes(pathovar)
+          ? 'EIEC'
+          : ['ETEC/EHEC', 'ETEC/STEC', 'ETEC/EPEC', 'EIEC'].includes(pathovar)
+          ? 'ETEC'
+          : pathovar;
+      },
+    };
 
-      if (organism === 'sentericaints') {
-        pathovarSet.add(x.SISTR1_Serovar);
-      }
-      if (['shige', 'decoli'].includes(organism)) {
-        pathovarSet.add(x.Pathovar);
-      }
-    });
+responseData.forEach((x) => {
+  genotypesSet.add(x.GENOTYPE);
+  ngmastSet.add(x['NG-MAST TYPE']);
+  yearsSet.add(x.DATE);
+  countriesSet.add(getCountryDisplayName(x.COUNTRY_ONLY));
+  PMIDSet.add(x.PMID);
+
+  const getPathovar = pathovarMapping[organism];
+  if (getPathovar) {
+    pathovarSet.add(getPathovar(x));
+  }
+});
 
     const genotypes = Array.from(genotypesSet);
     const ngmast = Array.from(ngmastSet);
@@ -185,7 +203,7 @@ export const DashboardPage = () => {
     dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
 
-    await Promise.all([
+     Promise.all([
       // Get map data
       getStoreOrGenerateData(`${organism}_map`, async () =>
         getMapData({ data: responseData, countries, organism }),
@@ -360,8 +378,8 @@ export const DashboardPage = () => {
       dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));
       dispatch(setSelectedLineages([]));
-      if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
-      else dispatch(setCurrentSliderValueRD(5));
+      // if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+      dispatch(setCurrentSliderValueRD(5));
 
       // Get data from organism
       switch (organism) {
