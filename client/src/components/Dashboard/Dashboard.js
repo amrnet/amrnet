@@ -97,6 +97,8 @@ export const DashboardPage = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
+  // const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
+  // const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
 
   // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
@@ -201,7 +203,7 @@ responseData.forEach((x) => {
     dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
 
-    await Promise.all([
+     Promise.all([
       // Get map data
       getStoreOrGenerateData(`${organism}_map`, async () =>
         getMapData({ data: responseData, countries, organism }),
@@ -376,8 +378,8 @@ responseData.forEach((x) => {
       dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));
       dispatch(setSelectedLineages([]));
-      if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
-      else dispatch(setCurrentSliderValueRD(5));
+      // if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+      dispatch(setCurrentSliderValueRD(5));
 
       // Get data from organism
       switch (organism) {
