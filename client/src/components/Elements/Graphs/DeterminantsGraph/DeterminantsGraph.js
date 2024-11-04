@@ -151,7 +151,7 @@ export const DeterminantsGraph = () => {
     setTopXGenotypes(slicedArray);
     // 'setMaxSliderValueRD', mapArray.length);
     dispatch(setMaxSliderValueRD(mapArray.length));
-  }, [determinantsGraphDrugClass, currentSliderValueRD, genotypesDrugClassesData]);
+  }, [determinantsGraphDrugClass, currentSliderValueRD]);
 
   let newArray = []; //TODO: can be a global value in redux
   const exclusions = ['name', 'totalCount', 'resistantCount'];
