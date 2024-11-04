@@ -10,18 +10,12 @@ const useStyles = makeStyles(() => ({
   toolbar: {
     columnGap: '24px',
   },
-  toolbar_mobile: {
-    columnGap: '0px !important',
-    paddingRight:'0px !important'
-  },
 
   item: {
-    color: '#730343 !important',
-    // fontSize:"10px !important"
-  },
-  item_mobile: {
-    color: '#730343 !important',
-    fontSize:"10px !important"
+    color: 'black !important',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.1) !important', // Darker shade for hover
+    },
   },
 }));
 
