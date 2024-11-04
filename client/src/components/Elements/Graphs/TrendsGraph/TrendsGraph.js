@@ -327,9 +327,8 @@ export const TrendsGraph = () => {
               />
 
               {topGenes?.map((option, index) => {
-                const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option);
-                const fillColor = color ? color.color : '#B9B9B9'; // Default color if not found
-                return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={'#B9B9B9'} />;
+                const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option)?.color;
+                return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={color} />;
               })}
               <Bar key="trends-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
 
@@ -382,6 +381,7 @@ export const TrendsGraph = () => {
               })}
             </Select>
           </div>
+          <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} />
         </div>
         <div className={classes.selectPreWrapper}>
           <div className={classes.selectWrapper}>
@@ -402,17 +402,14 @@ export const TrendsGraph = () => {
               })}
             </Select>
           </div>
-          
+          <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} />
         </div>
       </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDT">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
-          <SliderSizes value={'KP_GT'}  disabled={!switchLines} />
-          <SliderSizes value={'KP_GE'}  />
-
+        <div className={classes.rightSide}>
           <FormGroup className={classes.formGroup}>
             <FormControlLabel
               label={<Typography variant="caption">Show genotype lines</Typography>}
