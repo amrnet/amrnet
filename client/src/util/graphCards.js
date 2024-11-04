@@ -3,7 +3,7 @@ import { BarChart, BubbleChart, MultilineChart, StackedBarChart, Timeline } from
 function getTrendstitle(organism) {
   switch (organism) {
     case 'kpneumo':
-      return 'Carbapenems and ESBL resistant determinant trends';
+      return 'Carbapenemase and ESBL distribution';
     case 'ngono':
       return 'Azithromycin and Ceftriaxone resistant determinant trends';
     default:
@@ -75,7 +75,7 @@ export const graphCards = [
     description: ['Top K/O (up to 20)'],
     icon: <StackedBarChart color="primary" />,
     id: 'KO',
-    organisms: ['kpneumo'],
+    organisms: [''],
   },
   {
     collapse: 'convergence',
