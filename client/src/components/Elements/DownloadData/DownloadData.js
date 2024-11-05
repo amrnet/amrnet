@@ -474,6 +474,11 @@ export const DownloadData = () => {
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
         secondword = 330;
+      }else {
+        texts = getNgonoTexts();
+        firstName = 'shigella';
+        secondName = 'gonorrhoeae';
+        secondword = 330;
       }
 
       // Title and Date
@@ -737,6 +742,8 @@ export const DownloadData = () => {
         doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[25], 16, 76, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[26], 16, 116, { align: 'left', maxWidth: pageWidth - 36 });
+      }else {
+        console.log("shige....")
       }
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
@@ -827,7 +834,9 @@ export const DownloadData = () => {
       const cards = getOrganismCards();
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
-      const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
+      let drugClassesFactor = 0;
+      if(drugClassesBars !== undefined)
+        drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 6);
 
       const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
@@ -1035,7 +1044,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
+        // disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
       >
         Download PDF
       </LoadingButton>
