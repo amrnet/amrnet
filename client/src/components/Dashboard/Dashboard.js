@@ -152,7 +152,7 @@ export const DashboardPage = () => {
         pathovarSet.add(x.SISTR1_Serovar);
       }
       if (['shige', 'decoli'].includes(organism)) {
-        pathovarSet.add(x.Pathovar);
+        pathovarSet.add(x.Pathotype);
       }
     });
 
