@@ -41,8 +41,9 @@ export const HomePage = () => {
     <MainLayout>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <Typography variant="body2" fontWeight="500" className={classes.legend}>
-            AMRnet displays antimicrobial resistance data derived from genomic surveillance, for priority organisms. Click an organism below to view its data dashboard.
+          <Typography variant="body4" fontWeight="500" align="justify" className={classes.title}>
+            AMRnet displays antimicrobial resistance data derived from genomic surveillance, for priority organisms.
+            Click an organism below to view its data dashboard.
           </Typography>
         </CardContent>
 
