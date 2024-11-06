@@ -101,9 +101,10 @@ export const SliderSizes = (props) => {
     }
 
     if (props.value === 'CM') {
+      console.log("variablesOptions",variablesOptions, convergenceGroupVariable)
       return `Individual ${variablesOptions
         .find((x) => x.value === convergenceGroupVariable)
-        .label.toLowerCase()} to colour`;
+        .label} to colour`;
     }
 
     return 'Individual resistance determinants:';
