@@ -1,4 +1,4 @@
-import { Home, Info, MenuBook, Person } from '@mui/icons-material';
+import { Home, Info, MenuBook, Person, GitHub, Groups } from '@mui/icons-material';
 
 // List of drawer menu items
 export const menuItems = [
@@ -23,7 +23,7 @@ export const menuItems = [
     key: 'team',
     label: 'Team',
     labelHead: 'Team',
-    icon: <Info />,
+    icon: <Groups />,
     link: '#/team',
     target: '_blank',
   },
@@ -51,6 +51,14 @@ export const menuItems = [
     labelHead: 'Contact',
     icon: <Person />,
     link: '#/contact',
+    target: '_blank',
+  },
+  {
+    key: 'git',
+    label: 'GitHub',
+    labelHead: 'GitHub',
+    icon: <GitHub />,
+    link: 'https://github.com/amrnet/amrnet',
     target: '_blank',
   }
 ];
