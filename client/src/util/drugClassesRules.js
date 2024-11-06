@@ -83,9 +83,15 @@ export const drugRulesKP = [
 export const statKeysKP = [
   // { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
   { name: 'Carbapenems', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  // {
+  //   name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
+  //   column: 'Bla_ESBL_inhR_acquired',
+  //   key: '-',
+  //   resistanceView: true,
+  // },
   {
-    name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
-    column: 'Bla_ESBL_inhR_acquired',
+    name: '3rd gen cephalosporins (3GCs)',
+    column: 'Bla_ESBL_acquired',
     key: '-',
     resistanceView: true,
   },
