@@ -3,7 +3,7 @@ export const variablesOptions = [
   { label: 'Year', value: 'DATE' },
   { label: 'Genotype (7-locus MLST)', value: 'GENOTYPE' },
   { label: 'cgST', value: 'cgST' },
-  { label: 'Sublineage (lincode associated)', value: 'Sublineage' },
+  { label: 'Sublineage', value: 'Sublineage' },
   { label: 'Host', value: 'Host' },
   // { label: 'Bla_Carb_acquired', value: 'Bla_Carb_acquired' },
   // { label: 'Bla_ESBL_acquired', value: 'Bla_ESBL_acquired' }
