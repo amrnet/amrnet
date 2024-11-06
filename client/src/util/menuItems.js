@@ -48,6 +48,7 @@ export const menuItems = [
   {
     key: 'contact',
     label: 'Contact',
+    labelHead: 'Contact',
     icon: <Person />,
     link: '#/contact',
     target: '_blank',
