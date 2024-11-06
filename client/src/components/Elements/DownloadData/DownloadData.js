@@ -775,6 +775,8 @@ export const DownloadData = () => {
           doc.text('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'NG-MAST prevalence') {
           doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
+        } else if (mapView === 'ST prevalence') {
+          doc.text('Selected ST: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (prevalenceMapViewOptionsSelected.length > 1) {
           const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
           doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
