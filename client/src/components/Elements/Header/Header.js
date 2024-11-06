@@ -76,7 +76,7 @@ export const Header = () => {
                 </Link>
                 )}
               </div>
-            {!isHomePage && !isDashboardPage && (
+            {!isHomePage && !isDashboardPage && !matches500 && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
