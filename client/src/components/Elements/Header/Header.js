@@ -28,10 +28,12 @@ export const Header = () => {
 
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
   const isHomePage = useMemo(() => page === '', [page]);
-  const isDashboardPage = useMemo(() => !['', 'user-guide', 'about', 'contact'].includes(page), [page]);
+  const isDashboardPage = useMemo(() => !['user-guide', 'about', 'contact','team'].includes(page), [page]);
+
   function getPageTitle() {
     const title = menuItems.find((item) => item.key === page).labelHead;
-
+    if(title === 'Team')
+      return 'About'
     return title;
   }
 
@@ -55,7 +57,7 @@ export const Header = () => {
           <div className={`${classes.toolbarWrapper}`}>
             <div className={`${classes.leftWrapper}`}>
               <div className={classes.drawerTitleWrapper}>
-                {(isDashboardPage || matches800) && (
+                {((!isDashboardPage && !isHomePage) || matches800) && (
                   <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
                     <Menu sx={{ fontSize: '1.7rem' }} />
                   </IconButton>
@@ -64,9 +66,9 @@ export const Header = () => {
                   <img src={LogoImg} alt="AMRnet" className={classes.logo} />
                 </Link>
               </div>
-              {isDashboardPage && <SelectOrganism />}
+              {(isDashboardPage && !isHomePage )&& <SelectOrganism />}
             </div>
-            {!isDashboardPage && !matches800 && <MenuHead />}
+            {(isDashboardPage || isHomePage ) && !matches800 && <MenuHead />}
             <div >
             {(!isDashboardPage || isHomePage ) && matches200 &&(
                 <Link to="/">
@@ -80,7 +82,7 @@ export const Header = () => {
               </Typography>
             )}
 
-            {isDashboardPage &&
+            {(isDashboardPage && !isHomePage) &&
               (matches650 ? (
                 organism !== 'none' && (
                   <IconButton onClick={handleToggleCollapse}>
