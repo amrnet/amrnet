@@ -384,7 +384,7 @@ export const TrendsGraph = () => {
               })}
             </Select>
           </div>
-          <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} />
+          {/* <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} /> */}
         </div>
         <div className={classes.selectPreWrapper}>
           <div className={classes.selectWrapper}>
@@ -405,14 +405,18 @@ export const TrendsGraph = () => {
               })}
             </Select>
           </div>
-          <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} />
+          {/* <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} /> */}
         </div>
       </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDT">
           {plotChart}
         </div>
-        <div className={classes.rightSide}>
+        <div className={classes.sliderCont}>
+          <SliderSizes value={'KP_GT'}  disabled={!switchLines} />
+          <SliderSizes value={'KP_GE'}  />
+
+        {/* <div className={classes.rightSide}> */}
           <FormGroup className={classes.formGroup}>
             <FormControlLabel
               label={<Typography variant="caption">Show genotype lines</Typography>}
