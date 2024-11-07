@@ -13,7 +13,7 @@ export const TeamCards = [
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/holt.kathryn',
   },
   {
-    Name: 'Prof Zoe Dyson',
+    Name: 'Asst Prof Zoe Dyson',
     Post: 'Genomic Epidemiologist',
     img: ZD,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/dyson.zoe',
