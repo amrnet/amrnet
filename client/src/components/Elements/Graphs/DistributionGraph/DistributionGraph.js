@@ -22,7 +22,7 @@ import { SliderSizes } from '../../Slider/SliderSizes';
 import { setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
 const dataViewOptions = [
-  { label: 'Number of genomes', value: 'number' },
+  { label: 'Number of ST', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
