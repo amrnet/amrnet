@@ -48,14 +48,14 @@ export const Header = () => {
   function handleToggleCollapse() {
     setInfoCollapse(!infoCollapse);
   }
-
+console.log("isHomePage",isHomePage, isDashboardPage)
   return (
     <div className={classes.headerWrapper}>
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
         <Toolbar className={`${classes.toolbar} `}>
-          <div className={`${classes.toolbarWrapper} ${!isHomePage ? classes.dashboardHead : ''}`}>
-            <div className={`${classes.leftWrapper}`}>
+          <div className={`${classes.toolbarWrapper} ${isDashboardPage ? classes.dashboardHead : classes.defaultHead}`}>
+            <div className={`${classes.leftWrapper} `}>
               <div className={classes.drawerTitleWrapper}>
                 {(!isHomePage || matches800) && (
                   <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>

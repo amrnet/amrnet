@@ -33,6 +33,13 @@ const useStyles = makeStyles((theme) => ({
       rowGap: '8px',
     },
   },
+  childrenOrg: {
+
+    '@media (max-width: 1000px)': {
+      padding: '158px 16px 16px',
+    },
+
+  },
   loading: {
     position: 'absolute',
     bottom: 0,
