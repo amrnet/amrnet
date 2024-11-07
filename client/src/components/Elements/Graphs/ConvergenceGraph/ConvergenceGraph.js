@@ -202,7 +202,7 @@ export const ConvergenceGraph = () => {
           {plotChart}
         </div>
         <div className={classes.rightSide}>
-          <SliderSizes value={'CM'} style={{ width: '100%', maxWidth: '350px' }} />
+          <SliderSizes value={'CM'} style={{ width: '100%'}} />
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
