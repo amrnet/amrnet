@@ -150,6 +150,22 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected ST: ' + genotypesText, canvas.width / 2, 290);
           }
         }
+        if (mapView === 'Resistance prevalence') {
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected Resistance: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText('Selected Resistance: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
+        if (mapView === 'Sublineage prevalence') {
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText('Selected Sublineage: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
         ctx.drawImage(mapImg, 0, textHeight + 50, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
@@ -170,6 +186,9 @@ export const BottomRightControls = () => {
           case 'NG-MAST prevalence':
           case 'Genotype prevalence':
           case 'Lineage prevalence':
+          case 'ST prevalence':
+          case 'Resistance prevalence':
+          case 'Sublineage prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
           default:
