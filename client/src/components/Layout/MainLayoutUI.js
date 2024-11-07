@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     
   },
   childrenOrg: {
-    backgroundColor:"green",
+    // backgroundColor:"green",
     '@media (min-width: 651px) and (max-width: 1000px)': {
       padding: '158px 16px 16px',
     },
