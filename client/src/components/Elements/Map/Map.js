@@ -4,7 +4,7 @@ import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup
 import { useStyles } from './MapMUI';
 import geography from '../../../assets/world-50m.json';
 import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
-import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from './mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2, blueColorScale } from './mapColorHelper';
 import ReactTooltip from 'react-tooltip';
 import { BottomLeftControls } from './BottomLeftControls';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -371,7 +371,7 @@ export const Map = () => {
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             } else {
-                              fillColor = getColorForDrug(biggerCountItem.key);
+                              fillColor = redColorScale2(biggerCountItem.count);
                             }
                           }
                           break;
