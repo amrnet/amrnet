@@ -1,6 +1,7 @@
 import { AppBar, Collapse, IconButton, Toolbar, Typography, useMediaQuery } from '@mui/material';
 import { useStyles } from './HeaderMUI';
 import LogoImg from '../../../assets/img/logo-prod.png';
+import LSHTMImg from '../../../assets/img/LSHTMLogo2020.jpg';
 import { ExpandLess, ExpandMore, Menu } from '@mui/icons-material';
 import { Drawer } from '../Drawer';
 import { SelectOrganism } from '../SelectOrganism';
@@ -18,6 +19,8 @@ export const Header = () => {
   const matches650 = useMediaQuery('(max-width: 650px)');
   const matches500 = useMediaQuery('(max-width: 500px)');
   const matches800 = useMediaQuery('(max-width: 800px)');
+  const matches200 = useMediaQuery('(min-width: 200px)');
+
   const [infoCollapse, setInfoCollapse] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -25,8 +28,7 @@ export const Header = () => {
 
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
   const isHomePage = useMemo(() => page === '', [page]);
-  const isDashboardPage = useMemo(() => !['', 'user-guide', 'about'].includes(page), [page]);
-
+  const isDashboardPage = useMemo(() => !['', 'user-guide', 'about', 'contact'].includes(page), [page]);
   function getPageTitle() {
     const title = menuItems.find((item) => item.key === page).labelHead;
 
@@ -65,6 +67,13 @@ export const Header = () => {
               {isDashboardPage && <SelectOrganism />}
             </div>
             {!isDashboardPage && !matches800 && <MenuHead />}
+            <div >
+            {(!isDashboardPage || isHomePage ) && matches200 &&(
+                <Link to="/">
+                  <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
+                </Link>
+                )}
+              </div>
             {!isHomePage && !isDashboardPage && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
