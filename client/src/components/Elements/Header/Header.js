@@ -67,7 +67,7 @@ console.log("isHomePage",isHomePage, "isDashboardPage",isDashboardPage)
               </div>
               {(isDashboardPage && !isHomePage )&& <SelectOrganism />}
             </div>
-            {(isDashboardPage && isHomePage ) && !matches800 && <MenuHead />}
+            {(!isDashboardPage || (isHomePage && !matches800)) && <MenuHead />}
             {(!isDashboardPage || isHomePage ) && matches200 &&(
                 <Link to="/">
                   <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
