@@ -102,17 +102,18 @@ const useStyles = makeStyles((theme) => ({
 
   dashboardHead: {  // Conditional style that applies when `dashboard` class is present
     display: 'flex',
-    '@media (min-width: 651px) and (max-width: 1000px)': {
-      display: 'block !important'
-    },
+    
     
   },
   defaultHead:{
+        display: 'flex',
+        '@media (min-width: 651px) and (max-width: 1000px)': {
+          display: 'block',
+        },
+  },
+  homeHead:{
         display: 'flex'
   },
-  // otherthandashboardHead:{
-  //        display: 'flex'
-  // },
 
 
   infoCollapse: {
