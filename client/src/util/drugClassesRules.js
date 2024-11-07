@@ -78,6 +78,7 @@ export const drugRulesKP = [
   { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
   { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] },
+  { key: 'Trimethoprim-sulfamethoxazole', columnIDs: ['Tmt_acquired'] },
 ];
 
 export const statKeysKP = [
@@ -107,6 +108,7 @@ export const statKeysKP = [
   // { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
   // { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
+  { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true },
 ];
 
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG
