@@ -42,7 +42,15 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'kpneumo', 'ngono'],
+    organisms: ['styphi', 'ngono'],
+  },
+  {
+    collapse: 'distribution',
+    title: 'ST distribution',
+    description: [''],
+    icon: <StackedBarChart color="primary" />,
+    id: 'GD',
+    organisms: ['kpneumo'],
   },
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
