@@ -27,16 +27,20 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 1000px)': {
       padding: '108px 16px 16px',
     },
-
     '@media (max-width: 500px)': {
       padding: '88px 8px 8px',
       rowGap: '8px',
     },
+    
   },
   childrenOrg: {
 
     '@media (max-width: 1000px)': {
       padding: '158px 16px 16px',
+    },
+    '@media (max-width: 500px)': {
+      padding: '88px 8px 8px',
+      rowGap: '8px',
     },
 
   },
