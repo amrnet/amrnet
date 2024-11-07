@@ -1,7 +1,7 @@
 import { AppBar, Collapse, IconButton, Toolbar, Typography, useMediaQuery } from '@mui/material';
 import { useStyles } from './HeaderMUI';
 import LogoImg from '../../../assets/img/logo-prod.png';
-import LSHTMImg from '../../../assets/img/LSHTMLogo2020.jpg';
+import LSHTMImg from '../../../assets/img/LSHTM.Logo.png';
 import { ExpandLess, ExpandMore, Menu } from '@mui/icons-material';
 import { Drawer } from '../Drawer';
 import { SelectOrganism } from '../SelectOrganism';
