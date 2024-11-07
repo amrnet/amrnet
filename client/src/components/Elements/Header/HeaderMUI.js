@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 
   toolbarWrapper: {
     width: '100%',
-    display: 'flex',
+    // display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
 
@@ -100,17 +100,19 @@ const useStyles = makeStyles((theme) => ({
 
   },
 
-    // dashboardHead: {  // Conditional style that applies when `dashboard` class is present
-    //   '@media (min-width: 651px) and (max-width: 1000px)': {
-    //     flexDirection: 'column',
-    //   },
-      
-    // },
-  landingPageHeadOnly:{
-    '@media (max-width: 700px)': {
-        width: '0%',
+  dashboardHead: {  // Conditional style that applies when `dashboard` class is present
+    display: 'flex',
+    '@media (min-width: 651px) and (max-width: 1000px)': {
+      display: 'block !important'
     },
+    
   },
+  defaultHead:{
+        display: 'flex'
+  },
+  // otherthandashboardHead:{
+  //        display: 'flex'
+  // },
 
 
   infoCollapse: {
