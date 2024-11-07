@@ -25,7 +25,7 @@ export const menuItems = [
     label: 'Team',
     labelHead: 'Team',
     icon: <Groups />,
-    link: '#/team',
+    link: '#about#team-section',
     target: '_blank',
   },
   {
