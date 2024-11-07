@@ -71,6 +71,7 @@ export const drugsKP = [
   'Tetracycline',
   'Tigecycline',
   'Trimethoprim',
+  'Trimethoprim-sulfamethoxazole'
 ];
 
 // List of Salmonella Typhi drug classes
