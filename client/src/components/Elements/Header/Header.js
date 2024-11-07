@@ -57,7 +57,7 @@ console.log("isHomePage",isHomePage, isDashboardPage)
           <div className={`${classes.toolbarWrapper} ${isDashboardPage ? classes.dashboardHead : classes.defaultHead}`}>
             <div className={`${classes.leftWrapper} `}>
               <div className={classes.drawerTitleWrapper}>
-                {(!isHomePage || matches800) && (
+                {((isDashboardPage && !isHomePage) || matches800) && (
                   <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
                     <Menu sx={{ fontSize: '1.7rem' }} />
                   </IconButton>
