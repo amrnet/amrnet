@@ -97,7 +97,21 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 500px)': {
       justifyContent: 'flex-end',
     },
+
   },
+
+    // dashboardHead: {  // Conditional style that applies when `dashboard` class is present
+    //   '@media (min-width: 651px) and (max-width: 1000px)': {
+    //     flexDirection: 'column',
+    //   },
+      
+    // },
+  landingPageHeadOnly:{
+    '@media (max-width: 700px)': {
+        width: '0%',
+    },
+  },
+
 
   infoCollapse: {
     width: '100%',

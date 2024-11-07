@@ -54,10 +54,10 @@ export const Header = () => {
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
         <Toolbar className={`${classes.toolbar} `}>
-          <div className={`${classes.toolbarWrapper}`}>
+          <div className={`${classes.toolbarWrapper} ${!isHomePage ? classes.dashboardHead : ''}`}>
             <div className={`${classes.leftWrapper}`}>
               <div className={classes.drawerTitleWrapper}>
-                {((!isDashboardPage && !isHomePage) || matches800) && (
+                {(!isHomePage || matches800) && (
                   <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
                     <Menu sx={{ fontSize: '1.7rem' }} />
                   </IconButton>
@@ -68,14 +68,12 @@ export const Header = () => {
               </div>
               {(isDashboardPage && !isHomePage )&& <SelectOrganism />}
             </div>
-            {(isDashboardPage || isHomePage ) && !matches800 && <MenuHead />}
-            <div >
+            {(isDashboardPage && isHomePage ) && !matches800 && <MenuHead />}
             {(!isDashboardPage || isHomePage ) && matches200 &&(
                 <Link to="/">
                   <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
                 </Link>
                 )}
-              </div>
             {!isHomePage && !isDashboardPage && !matches500 && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
