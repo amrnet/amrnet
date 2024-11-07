@@ -43,6 +43,21 @@ export const redColorScale2 = (percentage) => {
   return color;
 };
 
+export const blueColorScale = (percentage) => {
+  const p = parseInt(percentage);
+
+  // Define the color scale using chroma.scale
+  const colorScale = chroma.scale(['#B3E5FC', '#4FC3F7', '#0288D1', '#01579B']);
+
+  // Map the percentage to the color scale range (0 to 1)
+  const normalizedPercentage = p / 100;
+
+  // Use the color scale to interpolate the color based on the percentage
+  const color = colorScale(normalizedPercentage).hex();
+
+  return color;
+};
+
 export const sensitiveColorScale = (percentage) => {
   const p = parseFloat(percentage);
   if (p > 90) {
