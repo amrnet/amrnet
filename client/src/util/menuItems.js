@@ -54,7 +54,7 @@ export const menuItems = [
     label: 'Contact',
     labelHead: 'Contact',
     icon: <EmailIcon />,
-    link: '#/contact',
+    link: 'mailto:amrnetdashboard@gmail.com',
     target: '_blank',
   },
   {
