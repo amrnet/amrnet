@@ -185,7 +185,7 @@ export const DashboardPage = () => {
     dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
 
-    await Promise.all([
+    Promise.all([
       // Get map data
       getStoreOrGenerateData(`${organism}_map`, async () =>
         getMapData({ data: responseData, countries, organism }),
