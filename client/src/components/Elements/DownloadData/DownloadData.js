@@ -238,6 +238,7 @@ export const DownloadData = () => {
           let line = csv[index].split(',');
           lines.push(line);
         }
+
         const replacements = {
           COUNTRY_ONLY: 'Country',
           NAME: 'Name',
@@ -271,26 +272,23 @@ export const DownloadData = () => {
           newLines.push(aux);
         }
 
-        let newCSV = '';
+        // Assemble the new TSV data by joining columns with "\t" instead of ","
+        let newTSV = '';
         for (let i = 0; i < newLines.length; i++) {
-          let aux = '';
-          for (let index = 0; index < newLines[i].length; index++) {
-            aux += newLines[i][index];
-            if (index !== newLines[i].length - 1) {
-              aux += ',';
-            }
-          }
+          newTSV += newLines[i].join('\t');
           if (i !== newLines.length - 1) {
-            aux += '\n';
+            newTSV += '\n';
           }
-          newCSV += aux;
         }
-        download(newCSV, `AMRnet ${firstName} ${secondName} Database.csv`);
+
+        // Update the filename to reflect TSV format
+        download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
       })
       .finally(() => {
         setLoadingCSV(false);
       });
-  }
+}
+
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
