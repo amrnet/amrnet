@@ -21,18 +21,18 @@ export const AboutPage = () => {
         <CardContent className={classes.cardContent}>
           <Typography variant="body1" className={classes.paragraph}>
             The AMRnet dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data
-            accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence
-            estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance
+            accessible to a wide audience. Visualisations are geared towards showing national annual AMR prevalence
+            estimates and trends over time, which can be broken down and explored in terms of underlying genotypes and resistance
             mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more
             accessible and useful, we can encourage and motivate more sequencing and data sharing.
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            We started with Salmonella Typhi, built on our{' '}
+            We started with Salmonella Typhi and built on our{' '}
             <a href="https://www.typhi.net" target="_blank" rel="noreferrer">
               TyphiNET
             </a>{' '}
-            dashboard which uses data curated by the{' '}
+            dashboard which uses data that have been curated by the{' '}
             <a href="http://typhoidgenomics.org" target="_blank" rel="noreferrer">
               Global Typhoid Genomics Consortium
             </a>{' '}
@@ -54,9 +54,9 @@ export const AboutPage = () => {
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            A major barrier to using public data for surveillance is the need for careful data curation, to identify
+            A major barrier to using public data for surveillance is the need for careful data curation in order to identify
             which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of
-            curation can benefit a wide range of users and we plan to work with other organism communities to curate
+            curation can benefit a wide range of users and we plan to work with additional organism-specific communities to curate
             data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to
             work with us (<a href="mailto:amrnetdashboard@gmail.com">amrnetdashboard@gmail.com</a>)
           </Typography>
