@@ -108,7 +108,7 @@ export const statKeysKP = [
   { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
-  { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true },
+  { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true },//// TODO: need to update 'Trimethoprim-sulfamethoxazole column name 
 ];
 export const mapStatKeysKP = [
   // { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
@@ -137,6 +137,7 @@ export const mapStatKeysKP = [
   // { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
   // { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
+  { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true }, //// TODO: need to update 'Trimethoprim-sulfamethoxazole column name 
 ];
 
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG
