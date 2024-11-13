@@ -28,12 +28,11 @@ export const SliderSizes = (props) => {
   const maxSliderValueCM = useAppSelector((state) => state.graph.maxSliderValueCM);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   const organism = useAppSelector((state) => state.dashboard.organism);
-
-  const [sliderGD, setSliderGD] = useState(currentSliderValue);
-  const [sliderRD, setSliderRD] = useState(currentSliderValueRD);
-  const [sliderKP_GT, setSliderKP_GT] = useState(currentSliderValueKP_GT);
-  const [sliderKP_GE, setSliderKP_GE] = useState(currentSliderValueKP_GE);
-  const [sliderCM, setSliderCM] = useState(currentSliderValueCM);
+  // const [sliderGD, setSliderGD] = useState(currentSliderValue);
+  // const [sliderRD, setSliderRD] = useState(currentSliderValueRD);
+  // const [sliderKP_GT, setSliderKP_GT] = useState(currentSliderValueKP_GT);
+  // const [sliderKP_GE, setSliderKP_GE] = useState(currentSliderValueKP_GE);
+  // const [sliderCM, setSliderCM] = useState(currentSliderValueCM);
 
   useEffect(() => {
     if (['GD', 'KP_GT'].includes(props.value) && genotypesForFilter.length > 0) {
@@ -42,29 +41,29 @@ export const SliderSizes = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesForFilter]);
 
-  const handleSliderChange = (_, newValue) => {
-    if (props.value === 'GD') {
-      setSliderGD(newValue);
-      return;
-    }
+  // const handleSliderChange = (_, newValue) => {
+  //   if (props.value === 'GD') {
+  //     setSliderGD(newValue);
+  //     return;
+  //   }
 
-    if (props.value === 'KP_GT') {
-      setSliderKP_GT(newValue);
-      return;
-    }
+  //   if (props.value === 'KP_GT') {
+  //     setSliderKP_GT(newValue);
+  //     return;
+  //   }
 
-    if (props.value === 'KP_GE') {
-      setSliderKP_GE(newValue);
-      return;
-    }
+  //   if (props.value === 'KP_GE') {
+  //     setSliderKP_GE(newValue);
+  //     return;
+  //   }
 
-    if (props.value === 'CM') {
-      setSliderCM(newValue);
-      return;
-    }
+  //   if (props.value === 'CM') {
+  //     setSliderCM(newValue);
+  //     return;
+  //   }
 
-    setSliderRD(newValue);
-  };
+  //   setSliderRD(newValue);
+  // };
 
   const handleSliderComittedChange = (_, newValue) => {
     if (props.value === 'GD') {
@@ -111,33 +110,37 @@ export const SliderSizes = (props) => {
     return 'Individual resistance determinants:';
   }, [convergenceGroupVariable, organism, props.value]);
 
-  const sliderValue = useMemo(() => {
-    if (props.value === 'GD') {
-      return sliderGD < maxSliderValue ? sliderGD : maxSliderValue;
-    }
-    if (props.value === 'KP_GT') {
-      return sliderKP_GT < maxSliderValue ? sliderKP_GT : maxSliderValue;
-    }
-    if (props.value === 'KP_GE') {
-      return sliderKP_GE < maxSliderValueKP_GE ? sliderKP_GE : maxSliderValueKP_GE;
-    }
-    if (props.value === 'CM') {
-      return sliderCM < maxSliderValueCM ? sliderCM : maxSliderValueCM;
-    }
+  const [sliderValue, setSliderValue] = useState(0);
 
-    return sliderRD < maxSliderValueRD ? sliderRD : maxSliderValueRD;
-  }, [
-    maxSliderValue,
-    maxSliderValueCM,
-    maxSliderValueKP_GE,
-    maxSliderValueRD,
-    props.value,
-    sliderCM,
-    sliderGD,
-    sliderKP_GE,
-    sliderKP_GT,
-    sliderRD,
-  ]);
+useEffect(() => {
+  let newSliderValue;
+
+  if (props.value === 'GD') {
+    newSliderValue = currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue;
+  } else if (props.value === 'KP_GT') {
+    newSliderValue = currentSliderValueKP_GT < maxSliderValue ? currentSliderValueKP_GT : maxSliderValue;
+  } else if (props.value === 'KP_GE') {
+    newSliderValue = currentSliderValueKP_GE < maxSliderValueKP_GE ? currentSliderValueKP_GE : maxSliderValueKP_GE;
+  } else if (props.value === 'CM') {
+    newSliderValue = currentSliderValueCM < maxSliderValueCM ? currentSliderValueCM : maxSliderValueCM;
+  } else {
+    newSliderValue = currentSliderValueRD < maxSliderValueRD ? currentSliderValueRD : maxSliderValueRD;
+  }
+
+  setSliderValue(newSliderValue);
+}, [
+  maxSliderValue,
+  maxSliderValueCM,
+  maxSliderValueKP_GE,
+  maxSliderValueRD,
+  props.value,
+  currentSliderValueCM,
+  currentSliderValue,
+  currentSliderValueKP_GE,
+  currentSliderValueKP_GT,
+  currentSliderValueRD,
+]);
+
 
   const maxValue = useMemo(() => {
     if (['GD', 'KP_GT'].includes(props.value)) {
@@ -162,8 +165,8 @@ export const SliderSizes = (props) => {
         </div>
         <Slider
           value={sliderValue}
-          onChange={handleSliderChange}
-          onChangeCommitted={handleSliderComittedChange}
+          onChange={handleSliderComittedChange}
+          // onChangeCommitted={handleSliderComittedChange}
           aria-label="Default"
           valueLabelDisplay="on"
           min={1}

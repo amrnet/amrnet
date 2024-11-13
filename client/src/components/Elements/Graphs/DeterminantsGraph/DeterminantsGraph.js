@@ -63,7 +63,7 @@ export const DeterminantsGraph = () => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-
+console.log("currentSliderValueRD",currentSliderValueRD)
   let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
     // eslint-disable-next-line array-callback-return
