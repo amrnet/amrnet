@@ -197,7 +197,7 @@ export const Graphs = () => {
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
-
+///TODO: improve the code below as its hardcode
       canvas.width = 922;
       canvas.height = graphImg.height + 220 + ((card.id === 'RDT')?250: heightFactor);
 // canvas.height = graphImg.height + 220 + heightFactor;
