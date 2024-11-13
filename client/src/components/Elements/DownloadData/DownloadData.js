@@ -940,7 +940,7 @@ export const DownloadData = () => {
             factor: drugClassesFactor,
             rectY,
             xSpace: 127,
-            twoPages: isKlebe,
+            // twoPages: isKlebe,
           });
 
           if (isKlebe || isNgono) {
@@ -1012,7 +1012,7 @@ export const DownloadData = () => {
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
-            twoPages: isKlebe,
+            // twoPages: isKlebe,
           });
 
           if (isKlebe) {
