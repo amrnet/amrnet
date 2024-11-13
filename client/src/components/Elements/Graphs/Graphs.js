@@ -199,8 +199,8 @@ export const Graphs = () => {
       }
 
       canvas.width = 922;
-      canvas.height = graphImg.height + 220 + (card.id === 'RDT')?genotypesForFilter.length * 5: heightFactor;
-
+      canvas.height = graphImg.height + 220 + ((card.id === 'RDT')?250: heightFactor);
+// canvas.height = graphImg.height + 220 + heightFactor;
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -301,20 +301,20 @@ export const Graphs = () => {
         drawLegend({
           legendData: legendGens,
           context: ctx,
-          factor: drugClassesFactor,
+          factor: legendGens.length/4,
           mobileFactor,
           yPosition: 695,
           xSpace: 238,
         });
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENOTYPES:', 50, 675);
+        ctx.fillText('GENOTYPES:', 50, 800);
         drawLegend({
           legendData: legendGenotypes,
           context: ctx,
           factor: Math.ceil(legendGenotypes.length/8) ,
           mobileFactor,
-          yPosition: 795,
+          yPosition: 930,
           isGenotype: true,
           xSpace: 87,
         });
