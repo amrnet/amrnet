@@ -203,6 +203,9 @@ export const DownloadData = () => {
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
+  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
+  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -956,14 +959,19 @@ export const DownloadData = () => {
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         } else if (cards[index].id === 'RDT') {
-          const legendGenotypes = genotypesForFilter.map((genotype) => {
-            return { name: genotype, color: getGenotypeColor(genotype) };
-          });
+          const legendGenotypes = genotypesForFilter
+            .filter((genotype) => topGenotypeSlice.includes(genotype))
+            .map((genotype) => ({
+              name: genotype,
+              color: getGenotypeColor(genotype)
+            }));
+
+          const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
 
           drawLegend({
             id: 'RDT',
             document: doc,
-            legendData: [{ name: 'GENES: ', color: 'white' }, ...drugClassesBars],
+            legendData: [{ name: 'GENES: ', color: 'white' }, ...legendGens],
             factor: drugClassesFactor,
             rectY,
             xSpace: 127,
