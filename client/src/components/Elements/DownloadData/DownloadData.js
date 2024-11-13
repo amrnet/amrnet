@@ -206,6 +206,7 @@ export const DownloadData = () => {
   const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+  const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
 
 
   async function handleClickDownloadDatabase() {
@@ -1004,9 +1005,10 @@ export const DownloadData = () => {
             // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CVM') {
+          console.log("convergenceColourPallete",topColorSlice)
           drawLegend({
             document: doc,
-            legendData: Object.keys(convergenceColourPallete),
+            legendData: Object.keys(topColorSlice),
             factor: variablesFactor,
             rectY,
             xSpace: isYersiniabactin ? 190 : 127,
