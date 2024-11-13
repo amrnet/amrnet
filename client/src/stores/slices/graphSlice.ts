@@ -47,6 +47,8 @@ interface GraphState {
   sliderListKP_GE: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
+  topGenesSlice: Array<any>;
+  topGenotypeSlice: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -95,6 +97,8 @@ const initialState: GraphState = {
   sliderListKP_GE: 0,
   NGMAST: [],
   ngmastDrugsData: [],
+  topGenesSlice: [],
+  topGenotypeSlice: [],
 };
 
 export const graphSlice = createSlice({
@@ -215,6 +219,12 @@ export const graphSlice = createSlice({
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
     },
+    setTopGenesSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topGenesSlice = action.payload;
+    },
+    setTopGenotypeSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topGenotypeSlice = action.payload;
+    },
   },
 });
 
@@ -257,6 +267,8 @@ export const {
   setMaxSliderValueKP_GE,
   setCurrentSliderValueCM,
   setMaxSliderValueCM,
+  setTopGenesSlice,
+  setTopGenotypeSlice,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
