@@ -28,6 +28,10 @@ import {
   setNgmastDrugsData,
   setCustomDropdownMapViewNG,
   setCurrentSliderValueRD,
+  setCurrentSliderValueCM,
+  setCurrentSliderValue,
+  setCurrentSliderValueKP_GT,
+  setCurrentSliderValueKP_GE,
 } from '../../../stores/slices/graphSlice';
 import {
   drugsKP,
@@ -104,6 +108,10 @@ export const ResetButton = () => {
       dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
       dispatch(setConvergenceColourVariable('DATE'));
       dispatch(setConvergenceColourPallete({}));
+      dispatch(setCurrentSliderValueCM(20));
+      dispatch(setCurrentSliderValue(20));
+      dispatch(setCurrentSliderValueKP_GT(20));
+      dispatch(setCurrentSliderValueKP_GE(20));
     }
 
     if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
@@ -114,7 +122,7 @@ export const ResetButton = () => {
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
     if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
-    else dispatch(setCurrentSliderValueRD(5));
+    dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));
     dispatch(setCanFilterData(true));
   }

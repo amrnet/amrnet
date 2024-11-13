@@ -48,7 +48,6 @@ export const Header = () => {
   function handleToggleCollapse() {
     setInfoCollapse(!infoCollapse);
   }
-console.log("isHomePage",isHomePage, "isDashboardPage",isDashboardPage)
   return (
     <div className={classes.headerWrapper}>
       <div className={classes.headerBox}></div>
