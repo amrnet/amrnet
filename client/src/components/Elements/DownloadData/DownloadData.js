@@ -203,6 +203,7 @@ export const DownloadData = () => {
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
+  const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
 
@@ -931,9 +932,11 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'RDWG') {
+          const legendDataRD = drugClassesBars.filter((value) => genotypesForFilterSelectedRD.includes(value.name));
+          // console.log("..../", genotypesForFilterSelectedRD, legendDataRD)
           drawLegend({
             document: doc,
-            legendData: drugClassesBars,
+            legendData: legendDataRD,
             factor: drugClassesFactor,
             rectY,
             xSpace: 127,
