@@ -49,6 +49,7 @@ interface GraphState {
   ngmastDrugsData: Array<any>;
   topGenesSlice: Array<any>;
   topGenotypeSlice: Array<any>;
+  topColorSlice: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -99,6 +100,7 @@ const initialState: GraphState = {
   ngmastDrugsData: [],
   topGenesSlice: [],
   topGenotypeSlice: [],
+  topColorSlice: [],
 };
 
 export const graphSlice = createSlice({
@@ -225,6 +227,9 @@ export const graphSlice = createSlice({
     setTopGenotypeSlice: (state, action: PayloadAction<Array<any>>) => {
       state.topGenotypeSlice = action.payload;
     },
+    setTopColorSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topColorSlice = action.payload;
+    },
   },
 });
 
@@ -269,6 +274,7 @@ export const {
   setMaxSliderValueCM,
   setTopGenesSlice,
   setTopGenotypeSlice,
+  setTopColorSlice,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
