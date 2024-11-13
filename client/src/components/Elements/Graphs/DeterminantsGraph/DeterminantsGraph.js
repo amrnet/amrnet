@@ -159,7 +159,6 @@ mapArray.sort((a, b) => b[1] - a[1]);
 const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
     dispatch(setGenotypesForFilterSelectedRD(slicedArray));
     setTopXGenotypes(slicedArray);
-    console.log("RD", genotypesDrugClassesData[determinantsGraphDrugClass], slicedArray);
 
     dispatch(setMaxSliderValueRD(mapArray.length));
   }, [determinantsGraphDrugClass, currentSliderValueRD]);
