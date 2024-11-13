@@ -259,10 +259,11 @@ export const Graphs = () => {
           isDrug: true,
         });
       } else if (card.id === 'RDWG') {
+        const legendDataRD = drugClassesBars.filter((value) => genotypesForFilterSelectedRD.includes(value.name));
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
-          legendData: drugClassesBars,
+          legendData: legendDataRD,
           context: ctx,
           factor: drugClassesFactor,
           mobileFactor,
