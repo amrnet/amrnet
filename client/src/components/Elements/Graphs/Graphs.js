@@ -73,6 +73,11 @@ export const Graphs = () => {
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
+  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
+  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+  const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
+  const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
+
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -194,7 +199,7 @@ export const Graphs = () => {
       }
 
       canvas.width = 922;
-      canvas.height = graphImg.height + 220 + heightFactor;
+      canvas.height = graphImg.height + 220 + (card.id === 'RDT')?genotypesForFilter.length * 5: heightFactor;
 
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -283,27 +288,33 @@ export const Graphs = () => {
           xSpace: orgBasedSpace,
         });
       } else if (card.id === 'RDT') {
+        const legendGenotypes = genotypesForFilter
+          .filter((genotype) => topGenotypeSlice.includes(genotype))
+          .map((genotype) => (genotype));
+
+        const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
+
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENES:', 98, 675);
+        ctx.fillText('GENES:', 50, 575);
         drawLegend({
-          legendData: drugClassesBars,
+          legendData: legendGens,
           context: ctx,
           factor: drugClassesFactor,
           mobileFactor,
           yPosition: 695,
-          xSpace: 208,
+          xSpace: 238,
         });
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENOTYPES:', 98, 1310);
+        ctx.fillText('GENOTYPES:', 50, 675);
         drawLegend({
-          legendData: genotypesForFilter,
+          legendData: legendGenotypes,
           context: ctx,
-          factor: genotypesFactor,
+          factor: Math.ceil(legendGenotypes.length/8) ,
           mobileFactor,
-          yPosition: 1330,
+          yPosition: 795,
           isGenotype: true,
           xSpace: 87,
         });
