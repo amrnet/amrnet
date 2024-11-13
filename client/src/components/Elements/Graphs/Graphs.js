@@ -321,7 +321,7 @@ export const Graphs = () => {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
-          legendData: Object.keys(convergenceColourPallete),
+          legendData: Object.keys(topColorSlice),
           context: ctx,
           factor: variablesFactor,
           mobileFactor,
