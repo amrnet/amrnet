@@ -86,7 +86,7 @@ const initialState: GraphState = {
   convergenceColourPallete: {},
   currentSliderValue: 20,
   maxSliderValue: 0,
-  currentSliderValueRD: 5,
+  currentSliderValueRD: 20,
   maxSliderValueRD: 0,
   currentSliderValueKP_GT: 20,
   currentSliderValueKP_GE: 20,
