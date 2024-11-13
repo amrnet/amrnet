@@ -976,9 +976,9 @@ export const DownloadData = () => {
             id: 'RDT',
             document: doc,
             legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
-            factor: Math.ceil(genotypesForFilter.length / 3),
-            rectY: 6 * 14,
-            xSpace: 127,
+            factor: Math.ceil(legendGenotypes.length/6) ,
+            rectY: isKlebe ? 6 * 18 : 6 * 6,
+            xSpace: 60,
             threePages: false,
           });
           drawHeader({ document: doc, pageWidth });
