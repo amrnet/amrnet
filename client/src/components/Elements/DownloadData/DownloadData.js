@@ -1005,7 +1005,7 @@ export const DownloadData = () => {
             // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CVM') {
-          console.log("convergenceColourPallete",topColorSlice)
+          // console.log("convergenceColourPallete",topColorSlice)
           drawLegend({
             document: doc,
             legendData: Object.keys(topColorSlice),
@@ -1077,7 +1077,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        // disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
+        disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
       >
         Download PDF
       </LoadingButton>
