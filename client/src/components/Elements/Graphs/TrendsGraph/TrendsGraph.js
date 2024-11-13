@@ -23,6 +23,8 @@ import {
   setTrendsGraphView,
   setResetBool,
   setMaxSliderValueKP_GE,
+  setTopGenesSlice,
+  setTopGenotypeSlice,
 } from '../../../../stores/slices/graphSlice';
 import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
@@ -55,6 +57,9 @@ export const TrendsGraph = () => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const currentSliderValueKP_GE = useAppSelector((state) => state.graph.currentSliderValueKP_GE);
   const currentSliderValueKP_GT = useAppSelector((state) => state.graph.currentSliderValueKP_GT);
+  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
+  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -121,8 +126,11 @@ export const TrendsGraph = () => {
 
     const topGT = sortedGenotypeKeys.slice(0, currentSliderValueKP_GT);
     const topGE = sortedGeneKeys.slice(0, currentSliderValueKP_GE);
-    setTopGenotypes(topGT);
-    setTopGenes(topGE);
+    // setTopGenotypes(topGT);
+    // setTopGenes(topGE);
+    dispatch(setTopGenesSlice(topGE));
+    dispatch(setTopGenotypeSlice(topGT));
+
 
     genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
       const value = {
@@ -286,7 +294,7 @@ export const TrendsGraph = () => {
                 <Legend
                   content={(props) => {
                     const { payload } = props;
-                    const diviserIndex = topGenes.length === 0 ? 0 : topGenes.length + 1;
+                    const diviserIndex = topGenesSlice.length === 0 ? 0 : topGenesSlice.length + 1;
 
                     return (
                       <div className={classes.legendWrapper}>
@@ -326,7 +334,7 @@ export const TrendsGraph = () => {
                 }}
               />
 
-              {topGenes?.map((option, index) => {
+              {topGenesSlice?.map((option, index) => {
                 const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option);
                 // const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option)?.color;
                 const fillColor = color ? color.color : '#B9B9B9'; // Default color if not found
@@ -335,7 +343,7 @@ export const TrendsGraph = () => {
               <Bar key="trends-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
               
               {switchLines &&
-                [...topGenotypes, 'Other Genotypes'].map((option, index) => (
+                [...topGenotypeSlice, 'Other Genotypes'].map((option, index) => (
                   <Line
                     key={`trends-line-${index}`}
                     dataKey={option}
