@@ -77,7 +77,7 @@ export const TrendsGraph = () => {
   }
 
   function getDomain() {
-    return trendsGraphView === 'number' ? undefined : [0, 100];
+    return trendsGraphView === 'number' ? ['dataMin', 'dataMax'] : [0, 100];
   }
 
   function getColors() {
@@ -270,7 +270,7 @@ export const TrendsGraph = () => {
                 tick={{ fontSize: 14 }}
               />
               <YAxis
-                tickCount={6}
+                tickCount={8}
                 padding={switchLines ? { top: 20, bottom: 20 } : undefined}
                 allowDecimals={false}
                 domain={getDomain()}
