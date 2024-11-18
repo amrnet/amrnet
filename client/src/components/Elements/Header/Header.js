@@ -1,7 +1,6 @@
 import { AppBar, Collapse, IconButton, Toolbar, Typography, useMediaQuery } from '@mui/material';
 import { useStyles } from './HeaderMUI';
 import LogoImg from '../../../assets/img/logo-prod.png';
-import LSHTMImg from '../../../assets/img/LSHTM.Logo.png';
 import { ExpandLess, ExpandMore, Menu } from '@mui/icons-material';
 import { Drawer } from '../Drawer';
 import { SelectOrganism } from '../SelectOrganism';
@@ -19,9 +18,6 @@ export const Header = () => {
   const matches650 = useMediaQuery('(max-width: 650px)');
   const matches500 = useMediaQuery('(max-width: 500px)');
   const matches800 = useMediaQuery('(max-width: 800px)');
-  const matches200 = useMediaQuery('(min-width: 200px)');
-  const matches1300 = useMediaQuery('(min-width: 1300px)');
-
   const [infoCollapse, setInfoCollapse] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -29,12 +25,11 @@ export const Header = () => {
 
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
   const isHomePage = useMemo(() => page === '', [page]);
-  const isDashboardPage = useMemo(() => !['user-guide', 'about', 'contact','team'].includes(page), [page]);
+  const isDashboardPage = useMemo(() => !['', 'user-guide', 'about'].includes(page), [page]);
 
   function getPageTitle() {
     const title = menuItems.find((item) => item.key === page).labelHead;
-    if(title === 'Team')
-      return 'About'
+
     return title;
   }
 
@@ -45,18 +40,20 @@ export const Header = () => {
 
     dispatch(setOpenDrawer(value));
   }
+
   function handleToggleCollapse() {
     setInfoCollapse(!infoCollapse);
   }
+
   return (
     <div className={classes.headerWrapper}>
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
         <Toolbar className={`${classes.toolbar} `}>
-          <div className={`${classes.toolbarWrapper} ${isDashboardPage ? isHomePage? classes.homeHead : classes.defaultHead: classes.dashboardHead }`}>
-            <div className={`${classes.leftWrapper} `}>
+          <div className={`${classes.toolbarWrapper}`}>
+            <div className={`${classes.leftWrapper}`}>
               <div className={classes.drawerTitleWrapper}>
-                {((isDashboardPage && !isHomePage) || matches800) && (
+                {(isDashboardPage || matches800) && (
                   <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
                     <Menu sx={{ fontSize: '1.7rem' }} />
                   </IconButton>
@@ -65,21 +62,16 @@ export const Header = () => {
                   <img src={LogoImg} alt="AMRnet" className={classes.logo} />
                 </Link>
               </div>
-              {(isDashboardPage && !isHomePage )&& <SelectOrganism />}
+              {isDashboardPage && <SelectOrganism />}
             </div>
-            {((!isDashboardPage && matches1300) || (isHomePage && !matches800)) && <MenuHead />}
-            {(!isDashboardPage || isHomePage ) && matches200 &&(
-                <Link to="/">
-                  <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
-                </Link>
-                )}
-            {!isHomePage && !isDashboardPage && !matches500 && (
+            {!isDashboardPage && !matches800 && <MenuHead />}
+            {!isHomePage && !isDashboardPage && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
             )}
 
-            {(isDashboardPage && !isHomePage) &&
+            {isDashboardPage &&
               (matches650 ? (
                 organism !== 'none' && (
                   <IconButton onClick={handleToggleCollapse}>

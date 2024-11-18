@@ -167,9 +167,7 @@ export const TopLeftControls = () => {
                   </Box>
                 )}
                 sx={{
-                  '@media (min-width: 700px)': {
-                    maxWidth: '165px',
-                  },
+                  maxWidth: '165px',
                   '& .MuiAutocomplete-tag': {
                     maxHeight: 30,
                   },

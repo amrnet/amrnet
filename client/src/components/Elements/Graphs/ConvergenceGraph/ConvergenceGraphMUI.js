@@ -41,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     width: '70%',
 
-    // '@media (max-width: 1000px)': {
-    //   width: '100%',
-    // },
-
     '@media (max-width: 1000px)': {
+      width: '100%',
+    },
+
+    '@media (max-width: 500px)': {
       width: '100%',
       height: '460px',
     },

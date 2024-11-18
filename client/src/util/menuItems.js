@@ -1,5 +1,4 @@
-import { Home, Info, MenuBook, GitHub, Groups, Storage } from '@mui/icons-material';
-import EmailIcon from '@mui/icons-material/Email';
+import { Home, Info, MenuBook } from '@mui/icons-material';
 
 // List of drawer menu items
 export const menuItems = [
@@ -11,23 +10,6 @@ export const menuItems = [
     link: '/',
     target: '_self',
   },
-  
-  {
-    key: 'about',
-    label: 'About',
-    labelHead: 'About',
-    icon: <Info />,
-    link: '#/about',
-    target: '_blank',
-  },
-  {
-    key: 'team',
-    label: 'Team',
-    labelHead: 'Team',
-    icon: <Groups />,
-    link: '#about#team-section',
-    target: '_blank',
-  },
   {
     key: 'user-guide',
     label: 'User Guide',
@@ -37,32 +19,26 @@ export const menuItems = [
     target: '_blank',
   },
   {
-    key: 'database',
-    label: 'Database',
-    labelHead: 'Database',
-    icon: <Storage />,
-    link: 'https://amrnet.readthedocs.io/en/staging/api.html',
-    target: '_blank',
+    key: 'about',
+    label: 'About',
+    labelHead: 'About',
+    icon: <Info />,
+    link: '#/about',
+    target: '_self',
   },
+  // {
+  //   key: 'database',
+  //   label: 'Database',
+  //   icon: <Storage />
+  // },
   // {
   //   key: 'documentation',
   //   label: 'Documentation',
   //   icon: <Description />
   // },
-  {
-    key: 'contact',
-    label: 'Contact',
-    labelHead: 'Contact',
-    icon: <EmailIcon />,
-    link: 'mailto:amrnetdashboard@gmail.com',
-    target: '_blank',
-  },
-  {
-    key: 'git',
-    label: 'GitHub',
-    labelHead: 'GitHub',
-    icon: <GitHub />,
-    link: 'https://github.com/amrnet/amrnet',
-    target: '_blank',
-  }
+  // {
+  //   key: 'contact',
+  //   label: 'Contact',
+  //   icon: <Person />
+  // }
 ];

@@ -203,11 +203,6 @@ export const DownloadData = () => {
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
-  const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
-  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
-  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
-  const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
-
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -243,7 +238,6 @@ export const DownloadData = () => {
           let line = csv[index].split(',');
           lines.push(line);
         }
-
         const replacements = {
           COUNTRY_ONLY: 'Country',
           NAME: 'Name',
@@ -277,23 +271,26 @@ export const DownloadData = () => {
           newLines.push(aux);
         }
 
-        // Assemble the new TSV data by joining columns with "\t" instead of ","
-        let newTSV = '';
+        let newCSV = '';
         for (let i = 0; i < newLines.length; i++) {
-          newTSV += newLines[i].join('\t');
-          if (i !== newLines.length - 1) {
-            newTSV += '\n';
+          let aux = '';
+          for (let index = 0; index < newLines[i].length; index++) {
+            aux += newLines[i][index];
+            if (index !== newLines[i].length - 1) {
+              aux += ',';
+            }
           }
+          if (i !== newLines.length - 1) {
+            aux += '\n';
+          }
+          newCSV += aux;
         }
-
-        // Update the filename to reflect TSV format
-        download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
+        download(newCSV, `AMRnet ${firstName} ${secondName} Database.csv`);
       })
       .finally(() => {
         setLoadingCSV(false);
       });
-}
-
+  }
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -443,6 +440,7 @@ export const DownloadData = () => {
         trends: true,
         KODiversity: true,
         convergence: true,
+        continent: true,
       }),
     );
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
@@ -475,11 +473,6 @@ export const DownloadData = () => {
       } else if (organism === 'ngono') {
         texts = getNgonoTexts();
         firstName = 'Neisseria';
-        secondName = 'gonorrhoeae';
-        secondword = 330;
-      }else {
-        texts = getNgonoTexts();
-        firstName = 'shigella';
         secondName = 'gonorrhoeae';
         secondword = 330;
       }
@@ -541,39 +534,39 @@ export const DownloadData = () => {
         doc.text(texts[8], 16, 215, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
         doc.setFont(undefined, 'italic');
-        doc.text(texts[9], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 225, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[10], 62, 235, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[11], 16, 245, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 62, 225, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 235, { align: 'left', maxWidth: pageWidth - 36 });
 
-        doc.text(texts[12], 16, 305 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 295 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
 
-        doc.text(texts[13], 16, 345 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 16, 335 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text(texts[14], 56, 345 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 56, 335 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
         // doc.setFontSize(10).setFont(undefined, 'bold');
-        doc.text(texts[15], 102, 345 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 102, 335 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[16], 16, 365 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[16], 16, 355 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[17], 16, 385 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[18], 16, 415 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[19], 16, 445 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[17], 16, 375 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[18], 16, 405 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[19], 16, 435 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'bold');
-        doc.text(texts[20], 16, 475 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[20], 16, 465 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[21], 16, 495 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[22], 16, 525 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[23], 16, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[21], 16, 485 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[22], 16, 515 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[23], 16, 535 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text('qnr', 16, 555 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text('qnr', 16, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[24], 32, 555 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[24], 32, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text('gyrA/parC/gyrB', 120, 555 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text('gyrA/parC/gyrB', 120, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[25], 183, 555 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[25], 183, 545 + pmidSpace, { align: 'left', maxWidth: pageWidth - 36 });
 
         // doc.setFont(undefined, 'italic');
         // doc.text('qnr', 16, 40, { align: 'left', maxWidth: pageWidth - 36 });
@@ -745,8 +738,6 @@ export const DownloadData = () => {
         doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[25], 16, 76, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[26], 16, 116, { align: 'left', maxWidth: pageWidth - 36 });
-      }else {
-        console.log("shige....")
       }
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
@@ -773,22 +764,16 @@ export const DownloadData = () => {
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       doc.text(`Map View: ${actualMapView}`, 16, 128);
       doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
-      if (prevalenceMapViewOptionsSelected.length === 1) {
-        if (mapView === 'Genotype prevalence') {
+      if (mapView === 'Genotype prevalence') {
+        if (prevalenceMapViewOptionsSelected.length === 1) {
           doc.text('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'NG-MAST prevalence') {
           doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        } else if (mapView === 'ST prevalence') {
-          doc.text('Selected ST: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        }else if (mapView === 'Sublineage prevalence') {
-          doc.text('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        }else if (mapView === 'Resistance prevalence') {
-          doc.text('Selected Resistance: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        } 
-      }else if (prevalenceMapViewOptionsSelected.length > 1) {
+        } else if (prevalenceMapViewOptionsSelected.length > 1) {
           const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
           doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
         }
+      }
       let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
         // scale: 4,
@@ -843,9 +828,7 @@ export const DownloadData = () => {
       const cards = getOrganismCards();
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
-      let drugClassesFactor = 0;
-      if(drugClassesBars !== undefined)
-        drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
+      const drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 6);
 
       const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
@@ -933,15 +916,13 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'RDWG') {
-          const legendDataRD = drugClassesBars.filter((value) => genotypesForFilterSelectedRD.includes(value.name));
-          // console.log("..../", genotypesForFilterSelectedRD, legendDataRD)
           drawLegend({
             document: doc,
-            legendData: legendDataRD,
+            legendData: drugClassesBars,
             factor: drugClassesFactor,
             rectY,
             xSpace: 127,
-            // twoPages: isKlebe,
+            twoPages: isKlebe,
           });
 
           if (isKlebe || isNgono) {
@@ -963,19 +944,14 @@ export const DownloadData = () => {
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         } else if (cards[index].id === 'RDT') {
-          const legendGenotypes = genotypesForFilter
-            .filter((genotype) => topGenotypeSlice.includes(genotype))
-            .map((genotype) => ({
-              name: genotype,
-              color: getGenotypeColor(genotype)
-            }));
-
-          const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
+          const legendGenotypes = genotypesForFilter.map((genotype) => {
+            return { name: genotype, color: getGenotypeColor(genotype) };
+          });
 
           drawLegend({
             id: 'RDT',
             document: doc,
-            legendData: [{ name: 'GENES: ', color: 'white' }, ...legendGens],
+            legendData: [{ name: 'GENES: ', color: 'white' }, ...drugClassesBars],
             factor: drugClassesFactor,
             rectY,
             xSpace: 127,
@@ -988,9 +964,9 @@ export const DownloadData = () => {
             id: 'RDT',
             document: doc,
             legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
-            factor: Math.ceil(legendGenotypes.length/6) ,
-            rectY: isKlebe ? 6 * 18 : 6 * 6,
-            xSpace: 60,
+            factor: Math.ceil(genotypesForFilter.length / 3),
+            rectY: 6 * 14,
+            xSpace: 127,
             threePages: false,
           });
           drawHeader({ document: doc, pageWidth });
@@ -1005,16 +981,15 @@ export const DownloadData = () => {
             // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CVM') {
-          // console.log("convergenceColourPallete",topColorSlice)
           drawLegend({
             document: doc,
-            legendData: Object.keys(topColorSlice),
+            legendData: Object.keys(convergenceColourPallete),
             factor: variablesFactor,
             rectY,
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
-            // twoPages: isKlebe,
+            twoPages: isKlebe,
           });
 
           if (isKlebe) {
@@ -1037,24 +1012,8 @@ export const DownloadData = () => {
   }
 
   function handleClickDatabasePage() {
-    let Name;
-    if (organism === 'styphi') {
-      Name = 'salmonella-typhi';
-    } else if (organism === 'kpneumo') {
-      Name = 'klebsiella-pneumoniae';
-    } else if (organism === 'ngono') {
-      Name = 'neisseria-gonorrhoeae';
-    } else if (organism === 'shige') {
-      Name = 'shigella-eiec';
-    } else if (organism === 'decoli') {
-      Name = 'diarrheagenic-e-coli';
-    } else if (organism === 'sentericaints') {
-      Name = 'invasive-non-typhoidal-salmonella';
-    }
-    const url = `https://amrnet.readthedocs.io/en/staging/usage.html#${Name}`;
-    console.log("url",url)
-    window.open(url, '_blank');
-    // window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
+    // dispatch(setPage('user-guide'));
+    window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
   }
 
   return (
@@ -1081,7 +1040,7 @@ export const DownloadData = () => {
       >
         Download PDF
       </LoadingButton>
-      <Button className={classes.button} variant="contained" onClick={() => handleClickDatabasePage()} startIcon={<Storage />}>
+      <Button className={classes.button} variant="contained" onClick={handleClickDatabasePage} startIcon={<Storage />}>
         See Database info
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>

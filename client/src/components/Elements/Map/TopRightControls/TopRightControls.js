@@ -14,7 +14,7 @@ const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
-const excludedViews = ['Genotype prevalence', 'ST prevalence', 'NG-MAST prevalence', 'Lineage prevalence', 'Resistance prevalence'];
+const excludedViews = ['Genotype prevalence', 'NG-MAST prevalence', 'Lineage prevalence'];
 const mapViewsWithZeroPercentOption = [
   'CipNS',
   'CipR',
@@ -25,7 +25,6 @@ const mapViewsWithZeroPercentOption = [
   'ESBL',
   'Carb',
   'Genotype prevalence',
-  'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence',
   'Resistance prevalence',
@@ -75,7 +74,8 @@ export const TopRightControls = () => {
       case 'Lineage prevalence':
         return gradientStyle;
       case 'Resistance prevalence':
-        return gradientStyle;
+        const stats = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+        return stats.filter((stat) => stat.resistanceView).map((stat) => stat.name);
       case '':
         return [];
       default:

@@ -42,15 +42,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'ngono'],
-  },
-  {
-    collapse: 'distribution',
-    title: 'ST distribution',
-    description: [''],
-    icon: <StackedBarChart color="primary" />,
-    id: 'GD',
-    organisms: ['kpneumo'],
+    organisms: ['styphi', 'kpneumo', 'ngono'],
   },
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
@@ -94,3 +86,12 @@ export const graphCards = [
     organisms: ['kpneumo'],
   },
 ];
+
+export const continentGraphCard = {
+  collapse: 'continent',
+  title: 'Geographic Comparisons',
+  description: [''],
+  icon: <BubbleChart color="primary" />,
+  id: 'DRT',
+  organisms: ['styphi', 'ngono', 'kpneumo'],
+};

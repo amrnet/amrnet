@@ -101,16 +101,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '100%',
   },
-  sliderCont: {
-    width: '30%',
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    '@media (max-width: 1000px)': {
-      width: '100%',
-      overflowY: 'hidden',
-      overflowX: 'hidden',
-    },
-  },
   tooltip: {
     width: '100%',
     height: '100%',

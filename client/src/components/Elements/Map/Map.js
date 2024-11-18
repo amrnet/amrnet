@@ -4,7 +4,7 @@ import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup
 import { useStyles } from './MapMUI';
 import geography from '../../../assets/world-50m.json';
 import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
-import { redColorScale, samplesColorScale, sensitiveColorScale, differentColorScale } from './mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from './mapColorHelper';
 import ReactTooltip from 'react-tooltip';
 import { BottomLeftControls } from './BottomLeftControls';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -153,7 +153,6 @@ export const Map = () => {
           }
           break;
         case 'Genotype prevalence':
-        case 'ST prevalence':
         case 'Lineage prevalence':
           const genotypes1 = countryStats.GENOTYPE.items;
           let genotypes2 = [];
@@ -234,7 +233,6 @@ export const Map = () => {
     return ![
       'Dominant Genotype',
       'Genotype prevalence',
-      'ST prevalence',
       'Resistance prevalence',
       'No. Samples',
       'NG-MAST prevalence',
@@ -310,7 +308,7 @@ export const Map = () => {
                           }
                           if (countryData.count >= 20 && genotypesNG2.length > 0) {
                             if (genotypesNG2 !== undefined) {
-                              fillColor = differentColorScale(((sumCountNG / percentCounterNG) * 100).toFixed(2),'red');
+                              fillColor = redColorScale2(((sumCountNG / percentCounterNG) * 100).toFixed(2));
                             }
                           } else if (countryData.count >= 20) {
                             fillColor = darkGrey;
@@ -319,7 +317,6 @@ export const Map = () => {
                           break;
                         case 'Genotype prevalence':
                         case 'Lineage prevalence':
-                        case 'ST prevalence':
                           let percentCounter = 0;
                           const genotypes1 = countryStats.GENOTYPE.items;
                           let genotypes2 = [];
@@ -337,7 +334,7 @@ export const Map = () => {
                           }
                           if (countryData.count >= 20 && genotypes2.length > 0) {
                             if (genotypes2 !== undefined) {
-                              fillColor = differentColorScale(((sumCount / percentCounter) * 100).toFixed(2), 'red');
+                              fillColor = redColorScale2(((sumCount / percentCounter) * 100).toFixed(2));
                             }
                           } else if (countryData.count >= 20) {
                             fillColor = darkGrey;
@@ -371,7 +368,7 @@ export const Map = () => {
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             } else {
-                              fillColor = differentColorScale(biggerCountItem.count, 'red');
+                              fillColor = getColorForDrug(biggerCountItem.key);
                             }
                           }
                           break;
@@ -475,7 +472,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {['Genotype prevalence','ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
+              {['Genotype prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
                 <TopRightControls2 />
               ) : mapView === 'NG-MAST prevalence' ? (
                 <Ngmast />
@@ -488,7 +485,7 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {['Genotype prevalence','ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
+            {['Genotype prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
               <TopRightControls2 />
             ) : mapView === 'NG-MAST prevalence' ? (
               <Ngmast />

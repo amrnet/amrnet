@@ -23,8 +23,6 @@ import {
   setTrendsGraphView,
   setResetBool,
   setMaxSliderValueKP_GE,
-  setTopGenesSlice,
-  setTopGenotypeSlice,
 } from '../../../../stores/slices/graphSlice';
 import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
@@ -57,9 +55,6 @@ export const TrendsGraph = () => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const currentSliderValueKP_GE = useAppSelector((state) => state.graph.currentSliderValueKP_GE);
   const currentSliderValueKP_GT = useAppSelector((state) => state.graph.currentSliderValueKP_GT);
-  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
-  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
-
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -82,7 +77,7 @@ export const TrendsGraph = () => {
   }
 
   function getDomain() {
-    return trendsGraphView === 'number' ? ['dataMin', 'dataMax'] : [0, 100];
+    return trendsGraphView === 'number' ? undefined : [0, 100];
   }
 
   function getColors() {
@@ -126,11 +121,8 @@ export const TrendsGraph = () => {
 
     const topGT = sortedGenotypeKeys.slice(0, currentSliderValueKP_GT);
     const topGE = sortedGeneKeys.slice(0, currentSliderValueKP_GE);
-    // setTopGenotypes(topGT);
-    // setTopGenes(topGE);
-    dispatch(setTopGenesSlice(topGE));
-    dispatch(setTopGenotypeSlice(topGT));
-
+    setTopGenotypes(topGT);
+    setTopGenes(topGE);
 
     genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
       const value = {
@@ -278,7 +270,7 @@ export const TrendsGraph = () => {
                 tick={{ fontSize: 14 }}
               />
               <YAxis
-                tickCount={8}
+                tickCount={6}
                 padding={switchLines ? { top: 20, bottom: 20 } : undefined}
                 allowDecimals={false}
                 domain={getDomain()}
@@ -294,7 +286,7 @@ export const TrendsGraph = () => {
                 <Legend
                   content={(props) => {
                     const { payload } = props;
-                    const diviserIndex = topGenesSlice.length === 0 ? 0 : topGenesSlice.length + 1;
+                    const diviserIndex = topGenes.length === 0 ? 0 : topGenes.length + 1;
 
                     return (
                       <div className={classes.legendWrapper}>
@@ -334,16 +326,14 @@ export const TrendsGraph = () => {
                 }}
               />
 
-              {topGenesSlice?.map((option, index) => {
-                const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option);
-                // const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option)?.color;
-                const fillColor = color ? color.color : '#B9B9B9'; // Default color if not found
-                return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={fillColor} />;
+              {topGenes?.map((option, index) => {
+                const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option)?.color;
+                return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={color} />;
               })}
               <Bar key="trends-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
-              
+
               {switchLines &&
-                [...topGenotypeSlice, 'Other Genotypes'].map((option, index) => (
+                [...topGenotypes, 'Other Genotypes'].map((option, index) => (
                   <Line
                     key={`trends-line-${index}`}
                     dataKey={option}
@@ -367,7 +357,6 @@ export const TrendsGraph = () => {
     currentSliderValueKP_GE,
     currentSliderValueKP_GT,
     switchLines,
-    slicedData,
   ]);
 
   return (
@@ -392,7 +381,7 @@ export const TrendsGraph = () => {
               })}
             </Select>
           </div>
-          {/* <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} /> */}
+          <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} />
         </div>
         <div className={classes.selectPreWrapper}>
           <div className={classes.selectWrapper}>
@@ -413,18 +402,14 @@ export const TrendsGraph = () => {
               })}
             </Select>
           </div>
-          {/* <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} /> */}
+          <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} />
         </div>
       </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDT">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
-          <SliderSizes value={'KP_GT'}  disabled={!switchLines} />
-          <SliderSizes value={'KP_GE'}  />
-
-        {/* <div className={classes.rightSide}> */}
+        <div className={classes.rightSide}>
           <FormGroup className={classes.formGroup}>
             <FormControlLabel
               label={<Typography variant="caption">Show genotype lines</Typography>}

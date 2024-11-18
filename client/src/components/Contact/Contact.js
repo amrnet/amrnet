@@ -120,7 +120,7 @@ export const ContactPage = () => {
           </LoadingButton>
         </CardContent>
       </Card>
-      {/* <Footer /> */}
+      <Footer />
     </MainLayout>
   );
 };

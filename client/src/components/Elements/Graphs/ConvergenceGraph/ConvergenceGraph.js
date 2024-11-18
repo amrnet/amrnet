@@ -14,7 +14,7 @@ import {
   Cell,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable, setTopColorSlice, } from '../../../../stores/slices/graphSlice';
+import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
 import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -71,10 +71,6 @@ export const ConvergenceGraph = () => {
       ),
     );
   }, [convergenceColourPallete, topConvergenceData]);
-
-  useEffect(()=>{
-    dispatch(setTopColorSlice(topColours))
-  },[topColours])
 
   useEffect(() => {
     if (canGetData) {
@@ -206,7 +202,7 @@ export const ConvergenceGraph = () => {
           {plotChart}
         </div>
         <div className={classes.rightSide}>
-          <SliderSizes value={'CM'} style={{ width: '100%'}} />
+          <SliderSizes value={'CM'} style={{ width: '100%', maxWidth: '350px' }} />
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>

@@ -5,11 +5,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     width: '-webkit-fill-available',
     justifyContent: 'end',
-    minWidth: "max-content",
   },
 
   toolbar: {
-    columnGap: '0px',
+    columnGap: '24px',
   },
 
   item: {

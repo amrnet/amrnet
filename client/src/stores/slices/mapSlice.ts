@@ -43,6 +43,7 @@ interface MapState {
   tooltipContent: Object | null;
   dataset: string;
   mapData: Array<MapDataModel>;
+  mapRegionData: Array<MapDataModel>;
 }
 
 const initialState: MapState = {
@@ -55,6 +56,7 @@ const initialState: MapState = {
   tooltipContent: null,
   dataset: '',
   mapData: [],
+  mapRegionData: [],
 };
 
 export const mapSlice = createSlice({
@@ -80,9 +82,13 @@ export const mapSlice = createSlice({
     setMapData: (state, action: PayloadAction<Array<any>>) => {
       state.mapData = action.payload;
     },
+    setMapRegionData: (state, action: PayloadAction<Array<any>>) => {
+      state.mapRegionData = action.payload;
+    },
   },
 });
 
-export const { setPosition, setMapView, setTooltipContent, setDataset, setLoadingMap, setMapData } = mapSlice.actions;
+export const { setPosition, setMapView, setTooltipContent, setDataset, setLoadingMap, setMapData, setMapRegionData } =
+  mapSlice.actions;
 
 export default mapSlice.reducer;

@@ -25,7 +25,6 @@ interface DashboardState {
   years: Array<number>;
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
-  genotypesForFilterSelectedRD: Array<string>;
   colorPallete: Object;
   listPMID: Array<string>;
   PMID: Array<string>;
@@ -35,6 +34,7 @@ interface DashboardState {
   captureGD: boolean;
   selectedLineages: Array<string>;
   pathovar: Array<string>;
+  economicRegions: Object;
 }
 
 const initialState: DashboardState = {
@@ -58,7 +58,6 @@ const initialState: DashboardState = {
   years: [],
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
-  genotypesForFilterSelectedRD: [],
   colorPallete: {},
   listPMID: [],
   PMID: [],
@@ -68,6 +67,7 @@ const initialState: DashboardState = {
   captureGD: true,
   selectedLineages: [],
   pathovar: [],
+  economicRegions: {},
 };
 
 export const dashboardSlice = createSlice({
@@ -140,9 +140,6 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilterSelected: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilterSelected = action.payload;
     },
-    setGenotypesForFilterSelectedRD: (state, action: PayloadAction<Array<string>>) => {
-      state.genotypesForFilterSelectedRD = action.payload;
-    },
     setColorPallete: (state, action: PayloadAction<Object>) => {
       state.colorPallete = action.payload;
     },
@@ -170,6 +167,9 @@ export const dashboardSlice = createSlice({
     setPathovar: (state, action: PayloadAction<Array<string>>) => {
       state.pathovar = action.payload;
     },
+    setEconomicRegions: (state, action: PayloadAction<Object>) => {
+      state.economicRegions = action.payload;
+    },
   },
 });
 
@@ -191,7 +191,6 @@ export const {
   setYears,
   setGenotypesForFilter,
   setGenotypesForFilterSelected,
-  setGenotypesForFilterSelectedRD,
   setColorPallete,
   setListPMID,
   setPMID,
@@ -202,6 +201,7 @@ export const {
   removeOrganism,
   setSelectedLineages,
   setPathovar,
+  setEconomicRegions,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

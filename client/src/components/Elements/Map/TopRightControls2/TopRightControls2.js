@@ -11,7 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
-import { statKeys, mapStatKeysKP} from '../../../../util/drugClassesRules';
+import { statKeys } from '../../../../util/drugClassesRules';
 
 const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
@@ -34,11 +34,7 @@ export const TopRightControls2 = () => {
 
   const isResPrevalence = useMemo(() => mapView === 'Resistance prevalence', [mapView]);
   const resistanceOptions = useMemo(() => {
-    let options;
-    if(organism === 'kpneumo')
-      options = mapStatKeysKP;
-    else
-      options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+    const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
     return options.filter((option) => option.resistanceView).map((option) => option.name);
   }, [organism]);
 
@@ -82,9 +78,6 @@ export const TopRightControls2 = () => {
     if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
       return 'Select Lineage';
     }
-    if (['kpneumo'].includes(organism)) {
-      return 'Select ST';
-    }
 
     return 'Select Genotype';
   }, [isResPrevalence, organism]);
@@ -96,9 +89,6 @@ export const TopRightControls2 = () => {
 
     if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
       return `${open ? 'Close' : 'Open'} lineage selector`;
-    }
-    if (['kpneumo'].includes(organism)) {
-      return `${open ? 'Close' : 'Open'} ST selector`;
     }
 
     return `${open ? 'Close' : 'Open'} genotype selector`;
@@ -125,15 +115,15 @@ export const TopRightControls2 = () => {
   );
 
   function getOptionDisabled(option) {
-    if(isResPrevalence)
+    if (isResPrevalence)
       return prevalenceMapViewOptionsSelected.length >= 1 && !prevalenceMapViewOptionsSelected.includes(option);
     return prevalenceMapViewOptionsSelected.length >= 10 && !prevalenceMapViewOptionsSelected.includes(option);
   }
 
   function handleAutocompleteChange(_, newValue) {
-      if (prevalenceMapViewOptionsSelected.length === 10 && newValue.length > 10) {
-        return;
-      }
+    if (prevalenceMapViewOptionsSelected.length === 10 && newValue.length > 10) {
+      return;
+    }
 
     dispatch(setPrevalenceMapViewOptionsSelected(newValue));
   }

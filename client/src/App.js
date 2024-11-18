@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { AdminPage } from './components/Admin';
 import { DashboardPage } from './components/Dashboard';
 import { AboutPage } from './components/About';
-import { Team } from './components/About/Team';
 import { DatabasePage } from './components/Database';
 import { DocumentationPage } from './components/Documentation';
 import { ContactPage } from './components/Contact';
@@ -53,7 +52,6 @@ ReactDOM.render(
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/about" element={<AboutPage />} />
-                <Route path="/team" element={<AboutPage />} />
                 <Route path="/database" element={<DatabasePage />} />
                 <Route path="/documentation" element={<DocumentationPage />} />
                 <Route path="/contact" element={<ContactPage />} />
