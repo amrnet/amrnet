@@ -56,6 +56,7 @@ import {
   setTrendsGraphView,
   setCurrentSliderValue,
   setCurrentSliderValueRD,
+  setCurrentSliderValueCM,
   setNgmast,
   setNgmastDrugsData,
   setMaxSliderValueCM,
@@ -361,7 +362,8 @@ export const DashboardPage = () => {
       dispatch(setCurrentSliderValue(20));
       dispatch(setSelectedLineages([]));
       dispatch(setCurrentSliderValueRD(maxSliderValueRD));
-      dispatch(setCurrentSliderValueRD(5));
+      dispatch(setCurrentSliderValueRD(20));
+      dispatch(setCurrentSliderValueCM(20));
 
       // Get data from organism
       switch (organism) {

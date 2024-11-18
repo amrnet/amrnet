@@ -96,7 +96,7 @@ export const DistributionGraph = () => {
     const Other = 'Other';
     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
-
+// console.log("GD", slicedArrayWithOther);
     dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
     setTopXGenotypes(slicedArray);
     dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
