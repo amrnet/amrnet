@@ -13,14 +13,14 @@ export const TeamCards = [
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/holt.kathryn',
   },
   {
-    Name: 'Prof Zoe Dyson',
+    Name: 'Asst Prof Zoe Dyson',
     Post: 'Genomic Epidemiologist',
     img: ZD,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/dyson.zoe',
   },
   {
     Name: 'Dr Louise Cerdeira',
-    Post: 'Lead Software Architecture & Engineer Team',
+    Post: 'Lead Software Architecture & Engineer Team \nMicrobial Genomics',
     img: LC,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/teixeira-cerdeira.louise',
   },

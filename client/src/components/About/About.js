@@ -87,7 +87,7 @@ export const AboutPage = () => {
         </CardContent>
       </Card>
       <Team />
-      <Footer />
+      {/* <Footer /> */}
     </MainLayout>
   );
 };
