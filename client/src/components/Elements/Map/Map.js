@@ -153,6 +153,7 @@ export const Map = () => {
           }
           break;
         case 'Genotype prevalence':
+        case 'ST prevalence':
         case 'Lineage prevalence':
           const genotypes1 = countryStats.GENOTYPE.items;
           let genotypes2 = [];
@@ -233,6 +234,7 @@ export const Map = () => {
     return ![
       'Dominant Genotype',
       'Genotype prevalence',
+      'ST prevalence',
       'Resistance prevalence',
       'No. Samples',
       'NG-MAST prevalence',
@@ -317,6 +319,7 @@ export const Map = () => {
                           break;
                         case 'Genotype prevalence':
                         case 'Lineage prevalence':
+                        case 'ST prevalence':
                           let percentCounter = 0;
                           const genotypes1 = countryStats.GENOTYPE.items;
                           let genotypes2 = [];
@@ -472,7 +475,7 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {['Genotype prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
+              {['Genotype prevalence','ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
                 <TopRightControls2 />
               ) : mapView === 'NG-MAST prevalence' ? (
                 <Ngmast />
@@ -485,7 +488,7 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {['Genotype prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
+            {['Genotype prevalence','ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
               <TopRightControls2 />
             ) : mapView === 'NG-MAST prevalence' ? (
               <Ngmast />

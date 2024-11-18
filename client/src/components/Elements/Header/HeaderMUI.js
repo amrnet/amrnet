@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 
   toolbarWrapper: {
     width: '100%',
-    display: 'flex',
+    // display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
 
@@ -97,7 +97,24 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 500px)': {
       justifyContent: 'flex-end',
     },
+
   },
+
+  dashboardHead: {  // Conditional style that applies when `dashboard` class is present
+    display: 'flex',
+    
+    
+  },
+  defaultHead:{
+        display: 'flex',
+        '@media (min-width: 651px) and (max-width: 1000px)': {
+          display: 'block',
+        },
+  },
+  homeHead:{
+        display: 'flex'
+  },
+
 
   infoCollapse: {
     width: '100%',
