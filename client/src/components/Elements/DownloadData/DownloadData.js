@@ -775,6 +775,8 @@ export const DownloadData = () => {
           doc.text('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'NG-MAST prevalence') {
           doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
+        } else if (mapView === 'ST prevalence') {
+          doc.text('Selected ST: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (prevalenceMapViewOptionsSelected.length > 1) {
           const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
           doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
@@ -1020,8 +1022,24 @@ export const DownloadData = () => {
   }
 
   function handleClickDatabasePage() {
-    // dispatch(setPage('user-guide'));
-    window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
+    let Name;
+    if (organism === 'styphi') {
+      Name = 'salmonella-typhi';
+    } else if (organism === 'kpneumo') {
+      Name = 'klebsiella-pneumoniae';
+    } else if (organism === 'ngono') {
+      Name = 'neisseria-gonorrhoeae';
+    } else if (organism === 'shige') {
+      Name = 'shigella-eiec';
+    } else if (organism === 'decoli') {
+      Name = 'diarrheagenic-e-coli';
+    } else if (organism === 'sentericaints') {
+      Name = 'invasive-non-typhoidal-salmonella';
+    }
+    const url = `https://amrnet.readthedocs.io/en/staging/usage.html#${Name}`;
+    console.log("url",url)
+    window.open(url, '_blank');
+    // window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
   }
 
   return (
@@ -1048,7 +1066,7 @@ export const DownloadData = () => {
       >
         Download PDF
       </LoadingButton>
-      <Button className={classes.button} variant="contained" onClick={handleClickDatabasePage} startIcon={<Storage />}>
+      <Button className={classes.button} variant="contained" onClick={() => handleClickDatabasePage()} startIcon={<Storage />}>
         See Database info
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>

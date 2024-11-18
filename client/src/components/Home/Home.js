@@ -95,7 +95,7 @@ export const HomePage = () => {
           </Grid>
         </CardContent>
       </Card>
-      <Footer />
+      {/* <Footer /> */}
     </MainLayout>
   );
 };

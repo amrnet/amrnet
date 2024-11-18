@@ -142,6 +142,14 @@ export const BottomRightControls = () => {
             ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 290);
           }
         }
+        if (mapView === 'ST prevalence') {
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected ST: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText('Selected ST: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
         ctx.drawImage(mapImg, 0, textHeight + 50, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');

@@ -37,7 +37,12 @@ export const mapLegends = [
   {
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'senterica'],
+    organisms: ['styphi', 'ngono', 'ecoli', 'senterica'],
+  },
+  {
+    value: 'ST prevalence',
+    label: 'ST prevalence',
+    organisms: ['kpneumo'],
   },
   {
     value: 'Resistance prevalence',
