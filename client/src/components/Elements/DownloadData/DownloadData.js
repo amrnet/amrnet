@@ -203,6 +203,11 @@ export const DownloadData = () => {
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
+  const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
+  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
+  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+  const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
+
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -928,13 +933,15 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'RDWG') {
+          const legendDataRD = drugClassesBars.filter((value) => genotypesForFilterSelectedRD.includes(value.name));
+          // console.log("..../", genotypesForFilterSelectedRD, legendDataRD)
           drawLegend({
             document: doc,
-            legendData: drugClassesBars,
+            legendData: legendDataRD,
             factor: drugClassesFactor,
             rectY,
             xSpace: 127,
-            twoPages: isKlebe,
+            // twoPages: isKlebe,
           });
 
           if (isKlebe || isNgono) {
@@ -956,14 +963,19 @@ export const DownloadData = () => {
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         } else if (cards[index].id === 'RDT') {
-          const legendGenotypes = genotypesForFilter.map((genotype) => {
-            return { name: genotype, color: getGenotypeColor(genotype) };
-          });
+          const legendGenotypes = genotypesForFilter
+            .filter((genotype) => topGenotypeSlice.includes(genotype))
+            .map((genotype) => ({
+              name: genotype,
+              color: getGenotypeColor(genotype)
+            }));
+
+          const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
 
           drawLegend({
             id: 'RDT',
             document: doc,
-            legendData: [{ name: 'GENES: ', color: 'white' }, ...drugClassesBars],
+            legendData: [{ name: 'GENES: ', color: 'white' }, ...legendGens],
             factor: drugClassesFactor,
             rectY,
             xSpace: 127,
@@ -976,9 +988,9 @@ export const DownloadData = () => {
             id: 'RDT',
             document: doc,
             legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
-            factor: Math.ceil(genotypesForFilter.length / 3),
-            rectY: 6 * 14,
-            xSpace: 127,
+            factor: Math.ceil(legendGenotypes.length/6) ,
+            rectY: isKlebe ? 6 * 18 : 6 * 6,
+            xSpace: 60,
             threePages: false,
           });
           drawHeader({ document: doc, pageWidth });
@@ -993,15 +1005,16 @@ export const DownloadData = () => {
             // twoPages: isKlebe
           });
         } else if (cards[index].id === 'CVM') {
+          // console.log("convergenceColourPallete",topColorSlice)
           drawLegend({
             document: doc,
-            legendData: Object.keys(convergenceColourPallete),
+            legendData: Object.keys(topColorSlice),
             factor: variablesFactor,
             rectY,
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
-            twoPages: isKlebe,
+            // twoPages: isKlebe,
           });
 
           if (isKlebe) {
@@ -1064,7 +1077,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        // disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
+        disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
       >
         Download PDF
       </LoadingButton>

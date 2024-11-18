@@ -25,6 +25,7 @@ interface DashboardState {
   years: Array<number>;
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
+  genotypesForFilterSelectedRD: Array<string>;
   colorPallete: Object;
   listPMID: Array<string>;
   PMID: Array<string>;
@@ -57,6 +58,7 @@ const initialState: DashboardState = {
   years: [],
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
+  genotypesForFilterSelectedRD: [],
   colorPallete: {},
   listPMID: [],
   PMID: [],
@@ -138,6 +140,9 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilterSelected: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilterSelected = action.payload;
     },
+    setGenotypesForFilterSelectedRD: (state, action: PayloadAction<Array<string>>) => {
+      state.genotypesForFilterSelectedRD = action.payload;
+    },
     setColorPallete: (state, action: PayloadAction<Object>) => {
       state.colorPallete = action.payload;
     },
@@ -186,6 +191,7 @@ export const {
   setYears,
   setGenotypesForFilter,
   setGenotypesForFilterSelected,
+  setGenotypesForFilterSelectedRD,
   setColorPallete,
   setListPMID,
   setPMID,
