@@ -152,7 +152,7 @@ export const DashboardPage = () => {
         pathovarSet.add(x.SISTR1_Serovar);
       }
       if (['shige', 'decoli'].includes(organism)) {
-        pathovarSet.add(x.Pathovar);
+        pathovarSet.add(x.Pathotype);
       }
     });
 
@@ -360,8 +360,8 @@ export const DashboardPage = () => {
       dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));
       dispatch(setSelectedLineages([]));
-      if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
-      else dispatch(setCurrentSliderValueRD(5));
+      dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+      dispatch(setCurrentSliderValueRD(5));
 
       // Get data from organism
       switch (organism) {
