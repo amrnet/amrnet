@@ -47,6 +47,9 @@ interface GraphState {
   sliderListKP_GE: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
+  topGenesSlice: Array<any>;
+  topGenotypeSlice: Array<any>;
+  topColorSlice: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -83,7 +86,7 @@ const initialState: GraphState = {
   convergenceColourPallete: {},
   currentSliderValue: 20,
   maxSliderValue: 0,
-  currentSliderValueRD: 5,
+  currentSliderValueRD: 20,
   maxSliderValueRD: 0,
   currentSliderValueKP_GT: 20,
   currentSliderValueKP_GE: 20,
@@ -95,6 +98,9 @@ const initialState: GraphState = {
   sliderListKP_GE: 0,
   NGMAST: [],
   ngmastDrugsData: [],
+  topGenesSlice: [],
+  topGenotypeSlice: [],
+  topColorSlice: [],
 };
 
 export const graphSlice = createSlice({
@@ -215,6 +221,15 @@ export const graphSlice = createSlice({
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
     },
+    setTopGenesSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topGenesSlice = action.payload;
+    },
+    setTopGenotypeSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topGenotypeSlice = action.payload;
+    },
+    setTopColorSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topColorSlice = action.payload;
+    },
   },
 });
 
@@ -257,6 +272,9 @@ export const {
   setMaxSliderValueKP_GE,
   setCurrentSliderValueCM,
   setMaxSliderValueCM,
+  setTopGenesSlice,
+  setTopGenotypeSlice,
+  setTopColorSlice,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
