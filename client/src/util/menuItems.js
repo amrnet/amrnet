@@ -1,4 +1,4 @@
-import { Home, Info, MenuBook, GitHub, Groups } from '@mui/icons-material';
+import { Home, Info, MenuBook, GitHub, Groups, Storage } from '@mui/icons-material';
 import EmailIcon from '@mui/icons-material/Email';
 
 // List of drawer menu items
@@ -25,7 +25,7 @@ export const menuItems = [
     label: 'Team',
     labelHead: 'Team',
     icon: <Groups />,
-    link: '#/team',
+    link: '#about#team-section',
     target: '_blank',
   },
   {
@@ -36,11 +36,14 @@ export const menuItems = [
     link: 'https://amrnet.readthedocs.io/en/staging/',
     target: '_blank',
   },
-  // {
-  //   key: 'database',
-  //   label: 'Database',
-  //   icon: <Storage />
-  // },
+  {
+    key: 'database',
+    label: 'Database',
+    labelHead: 'Database',
+    icon: <Storage />,
+    link: 'https://amrnet.readthedocs.io/en/staging/api.html',
+    target: '_blank',
+  },
   // {
   //   key: 'documentation',
   //   label: 'Documentation',
@@ -51,7 +54,7 @@ export const menuItems = [
     label: 'Contact',
     labelHead: 'Contact',
     icon: <EmailIcon />,
-    link: '#/contact',
+    link: 'mailto:amrnetdashboard@gmail.com',
     target: '_blank',
   },
   {

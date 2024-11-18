@@ -20,7 +20,7 @@ export const Header = () => {
   const matches500 = useMediaQuery('(max-width: 500px)');
   const matches800 = useMediaQuery('(max-width: 800px)');
   const matches200 = useMediaQuery('(min-width: 200px)');
-  const matches1200 = useMediaQuery('(min-width: 1200px)');
+  const matches1300 = useMediaQuery('(min-width: 1300px)');
 
   const [infoCollapse, setInfoCollapse] = useState(false);
 
@@ -68,7 +68,7 @@ console.log("isHomePage",isHomePage, "isDashboardPage",isDashboardPage)
               </div>
               {(isDashboardPage && !isHomePage )&& <SelectOrganism />}
             </div>
-            {((!isDashboardPage && matches1200) || (isHomePage && !matches800)) && <MenuHead />}
+            {((!isDashboardPage && matches1300) || (isHomePage && !matches800)) && <MenuHead />}
             {(!isDashboardPage || isHomePage ) && matches200 &&(
                 <Link to="/">
                   <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
