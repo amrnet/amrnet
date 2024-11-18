@@ -78,6 +78,9 @@ export const TopRightControls2 = () => {
     if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
       return 'Select Lineage';
     }
+    if (['kpneumo'].includes(organism)) {
+      return 'Select ST';
+    }
 
     return 'Select Genotype';
   }, [isResPrevalence, organism]);
@@ -89,6 +92,9 @@ export const TopRightControls2 = () => {
 
     if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
       return `${open ? 'Close' : 'Open'} lineage selector`;
+    }
+    if (['kpneumo'].includes(organism)) {
+      return `${open ? 'Close' : 'Open'} ST selector`;
     }
 
     return `${open ? 'Close' : 'Open'} genotype selector`;

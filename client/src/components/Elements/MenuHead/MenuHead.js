@@ -24,7 +24,7 @@ export const MenuHead = () => {
         {currentMenuItems.map((item, index) => {
           return (
             <Button key={`toolbar-item-${index}`} className={classes.item} href={item.link} target={item.target}>
-              {item.label}
+              {item.label === "GitHub" ? item.icon : item.label === "Contact" ? item.icon : item.label}
             </Button>
           );
         })}
