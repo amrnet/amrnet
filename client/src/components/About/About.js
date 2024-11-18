@@ -3,9 +3,17 @@ import { MainLayout } from '../Layout';
 import { useStyles } from './AboutMUI';
 import { Footer } from '../Elements/Footer';
 import { Team } from './Team';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const AboutPage = () => {
   const classes = useStyles();
+  const location = useLocation();
+  useEffect(() => {
+    if (location.hash === '#team-section') {
+      document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [location]);
 
   return (
     <MainLayout>
@@ -86,7 +94,9 @@ export const AboutPage = () => {
           </Typography>
         </CardContent>
       </Card>
-      <Team />
+      <div id="team-section">
+        <Team />
+      </div>
       {/* <Footer /> */}
     </MainLayout>
   );
