@@ -4,7 +4,7 @@ import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup
 import { useStyles } from './MapMUI';
 import geography from '../../../assets/world-50m.json';
 import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
-import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from './mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale, differentColorScale } from './mapColorHelper';
 import ReactTooltip from 'react-tooltip';
 import { BottomLeftControls } from './BottomLeftControls';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -310,7 +310,7 @@ export const Map = () => {
                           }
                           if (countryData.count >= 20 && genotypesNG2.length > 0) {
                             if (genotypesNG2 !== undefined) {
-                              fillColor = redColorScale2(((sumCountNG / percentCounterNG) * 100).toFixed(2));
+                              fillColor = differentColorScale(((sumCountNG / percentCounterNG) * 100).toFixed(2),'red');
                             }
                           } else if (countryData.count >= 20) {
                             fillColor = darkGrey;
@@ -337,7 +337,7 @@ export const Map = () => {
                           }
                           if (countryData.count >= 20 && genotypes2.length > 0) {
                             if (genotypes2 !== undefined) {
-                              fillColor = redColorScale2(((sumCount / percentCounter) * 100).toFixed(2));
+                              fillColor = differentColorScale(((sumCount / percentCounter) * 100).toFixed(2), 'red');
                             }
                           } else if (countryData.count >= 20) {
                             fillColor = darkGrey;
@@ -371,7 +371,7 @@ export const Map = () => {
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             } else {
-                              fillColor = getColorForDrug(biggerCountItem.key);
+                              fillColor = differentColorScale(biggerCountItem.count, 'red');
                             }
                           }
                           break;

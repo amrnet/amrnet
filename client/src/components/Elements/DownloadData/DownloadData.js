@@ -238,6 +238,7 @@ export const DownloadData = () => {
           let line = csv[index].split(',');
           lines.push(line);
         }
+
         const replacements = {
           COUNTRY_ONLY: 'Country',
           NAME: 'Name',
@@ -271,26 +272,23 @@ export const DownloadData = () => {
           newLines.push(aux);
         }
 
-        let newCSV = '';
+        // Assemble the new TSV data by joining columns with "\t" instead of ","
+        let newTSV = '';
         for (let i = 0; i < newLines.length; i++) {
-          let aux = '';
-          for (let index = 0; index < newLines[i].length; index++) {
-            aux += newLines[i][index];
-            if (index !== newLines[i].length - 1) {
-              aux += ',';
-            }
-          }
+          newTSV += newLines[i].join('\t');
           if (i !== newLines.length - 1) {
-            aux += '\n';
+            newTSV += '\n';
           }
-          newCSV += aux;
         }
-        download(newCSV, `AMRnet ${firstName} ${secondName} Database.csv`);
+
+        // Update the filename to reflect TSV format
+        download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
       })
       .finally(() => {
         setLoadingCSV(false);
       });
-  }
+}
+
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -770,18 +768,22 @@ export const DownloadData = () => {
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       doc.text(`Map View: ${actualMapView}`, 16, 128);
       doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
-      if (mapView === 'Genotype prevalence') {
-        if (prevalenceMapViewOptionsSelected.length === 1) {
+      if (prevalenceMapViewOptionsSelected.length === 1) {
+        if (mapView === 'Genotype prevalence') {
           doc.text('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'NG-MAST prevalence') {
           doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'ST prevalence') {
           doc.text('Selected ST: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        } else if (prevalenceMapViewOptionsSelected.length > 1) {
+        }else if (mapView === 'Sublineage prevalence') {
+          doc.text('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, 16, 160);
+        }else if (mapView === 'Resistance prevalence') {
+          doc.text('Selected Resistance: ' + prevalenceMapViewOptionsSelected, 16, 160);
+        } 
+      }else if (prevalenceMapViewOptionsSelected.length > 1) {
           const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
           doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
         }
-      }
       let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
         // scale: 4,
