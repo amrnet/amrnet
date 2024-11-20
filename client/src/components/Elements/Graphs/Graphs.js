@@ -31,7 +31,7 @@ import {
   colorForDrugClassesST,
   getColorForGenotype,
 } from '../../../util/colorHelper';
-import { TrendsKPGraph } from './TrendsKPGraph';
+import { TrendsGraph } from './TrendsGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { KODiversityGraph } from './KODiversityGraph';
@@ -48,7 +48,7 @@ export const Graphs = () => {
     drugResistance: false,
     determinants: false,
     distribution: false,
-    trendsKP: false,
+    trends: false,
   });
 
   const dispatch = useAppDispatch();
@@ -59,7 +59,7 @@ export const Graphs = () => {
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
-  const trendsKPGraphDrugClass = useAppSelector((state) => state.graph.trendsKPGraphDrugClass);
+  const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
   const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
@@ -73,6 +73,11 @@ export const Graphs = () => {
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
   const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
+  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
+  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+  const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
+  const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
+
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -178,24 +183,24 @@ export const Graphs = () => {
 
       if (['RFWG', 'DRT'].includes(card.id)) {
         heightFactor = 250;
-      } else if (['RDWG', 'CERDT'].includes(card.id)) {
+      } else if (['RDWG', 'RDT'].includes(card.id)) {
         drugClassesBars = getDrugClassesBars();
         drugClassesFactor = Math.ceil(drugClassesBars.length / 4);
         heightFactor += drugClassesFactor * 22;
       } else if (card.id === 'GD') {
         genotypesFactor = Math.ceil(genotypesForFilterSelected.length / orgBasedColumns);
         heightFactor += genotypesFactor * 22;
-      } else if (card.id === 'CERDT') {
+      } else if (card.id === 'RDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
       } else if (card.id === 'CVM') {
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
-
+///TODO: improve the code below as its hardcode
       canvas.width = 922;
-      canvas.height = graphImg.height + 220 + heightFactor;
-
+      canvas.height = graphImg.height + 220 + ((card.id === 'RDT')?250: heightFactor);
+// canvas.height = graphImg.height + 220 + heightFactor;
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -216,12 +221,12 @@ export const Graphs = () => {
       ctx.fillText(card.description.join(' / '), canvas.width / 2, 72);
 
       ctx.font = '14px Montserrat';
-      ctx.fillText(`Organism: ${globalOverviewLabel.fullLabel}`, canvas.width / 2, 110);
+      ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
       ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 176);
       if (card.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
-      if (card.id === 'CERDT') ctx.fillText(`Drug Class: ${trendsKPGraphDrugClass}`, canvas.width / 2, 198);
+      if (card.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
       if (card.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
       if (card.id === 'CVM') {
         const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
@@ -259,10 +264,11 @@ export const Graphs = () => {
           isDrug: true,
         });
       } else if (card.id === 'RDWG') {
+        const legendDataRD = drugClassesBars.filter((value) => genotypesForFilterSelectedRD.includes(value.name));
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
-          legendData: drugClassesBars,
+          legendData: legendDataRD,
           context: ctx,
           factor: drugClassesFactor,
           mobileFactor,
@@ -281,28 +287,34 @@ export const Graphs = () => {
           isGenotype: true,
           xSpace: orgBasedSpace,
         });
-      } else if (card.id === 'CERDT') {
+      } else if (card.id === 'RDT') {
+        const legendGenotypes = genotypesForFilter
+          .filter((genotype) => topGenotypeSlice.includes(genotype))
+          .map((genotype) => (genotype));
+
+        const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
+
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENES:', 98, 675);
+        ctx.fillText('GENES:', 50, 575);
         drawLegend({
-          legendData: drugClassesBars,
+          legendData: legendGens,
           context: ctx,
-          factor: drugClassesFactor,
+          factor: legendGens.length/4,
           mobileFactor,
           yPosition: 695,
-          xSpace: 208,
+          xSpace: 238,
         });
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENOTYPES:', 98, 1310);
+        ctx.fillText('GENOTYPES:', 50, 800);
         drawLegend({
-          legendData: genotypesForFilter,
+          legendData: legendGenotypes,
           context: ctx,
-          factor: genotypesFactor,
+          factor: Math.ceil(legendGenotypes.length/8) ,
           mobileFactor,
-          yPosition: 1330,
+          yPosition: 930,
           isGenotype: true,
           xSpace: 87,
         });
@@ -321,7 +333,7 @@ export const Graphs = () => {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
-          legendData: Object.keys(convergenceColourPallete),
+          legendData: Object.keys(topColorSlice),
           context: ctx,
           factor: variablesFactor,
           mobileFactor,
@@ -332,7 +344,7 @@ export const Graphs = () => {
       }
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.fullLabel} - ${card.title}.png`);
+      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel} - ${card.title}.png`);
     } catch {
       setShowAlert(true);
     } finally {
@@ -400,7 +412,7 @@ export const Graphs = () => {
               {card.collapse === 'drugResistance' && <DrugResistanceGraph />}
               {card.collapse === 'determinants' && <DeterminantsGraph />}
               {card.collapse === 'distribution' && <DistributionGraph />}
-              {card.collapse === 'trendsKP' && <TrendsKPGraph />}
+              {card.collapse === 'trends' && <TrendsGraph />}
               {card.collapse === 'KODiversity' && <KODiversityGraph />}
               {card.collapse === 'convergence' && <ConvergenceGraph />}
             </Collapse>

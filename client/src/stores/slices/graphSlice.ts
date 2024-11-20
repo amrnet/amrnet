@@ -5,9 +5,10 @@ interface CollapsesModel {
   distribution: boolean;
   drugResistance: boolean;
   frequencies: boolean;
-  trendsKP: boolean;
+  trends: boolean;
   KODiversity: boolean;
   convergence: boolean;
+  continent: boolean;
 }
 interface GraphState {
   countriesForFilter: Array<string>;
@@ -19,15 +20,14 @@ interface GraphState {
   drugResistanceGraphView: Array<string>;
   frequenciesGraphView: string;
   frequenciesGraphSelectedGenotypes: Array<string>;
-  customDropdownMapView: Array<string>;
+  prevalenceMapViewOptionsSelected: Array<string>;
   customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
-  genotypesDrugsData2: Array<any>;
   genotypesDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
-  trendsKPGraphDrugClass: string;
-  trendsKPGraphView: string;
+  trendsGraphDrugClass: string;
+  trendsGraphView: string;
   KODiversityData: Array<any>;
   KODiversityGraphView: string;
   convergenceData: Array<any>;
@@ -40,12 +40,21 @@ interface GraphState {
   maxSliderValueRD: number;
   currentSliderValueKP_GT: number;
   currentSliderValueKP_GE: number;
+  currentSliderValueCM: number;
+  maxSliderValueCM: number;
   maxSliderValueKP_GE: number;
   resetBool: boolean;
   sliderList: number;
   sliderListKP_GE: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
+  drugsCountriesKPData: Object;
+  drugsRegionsKPData: Object;
+  uniqueCountryKPDrugs: Object;
+  uniqueRegionKPDrugs: Object;
+  topGenesSlice: Array<any>;
+  topGenotypeSlice: Array<any>;
+  topColorSlice: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -54,27 +63,27 @@ const initialState: GraphState = {
     distribution: false,
     drugResistance: false,
     frequencies: false,
-    trendsKP: false,
+    trends: false,
     KODiversity: false,
     convergence: false,
+    continent: false,
   },
   countriesForFilter: [],
   genotypesYearData: [],
   drugsYearData: [],
   genotypesDrugsData: [],
-  genotypesDrugsData2: [],
   genotypesDrugClassesData: [],
   genotypesAndDrugsYearData: [],
   distributionGraphView: 'number',
   drugResistanceGraphView: [],
   frequenciesGraphView: 'percentage',
   frequenciesGraphSelectedGenotypes: [],
-  customDropdownMapView: [],
+  prevalenceMapViewOptionsSelected: [],
   customDropdownMapViewNG: [],
   determinantsGraphView: 'percentage',
   determinantsGraphDrugClass: '',
-  trendsKPGraphDrugClass: '',
-  trendsKPGraphView: 'number',
+  trendsGraphDrugClass: '',
+  trendsGraphView: 'number',
   KODiversityData: [],
   KODiversityGraphView: 'K_locus',
   convergenceData: [],
@@ -83,16 +92,25 @@ const initialState: GraphState = {
   convergenceColourPallete: {},
   currentSliderValue: 20,
   maxSliderValue: 0,
-  currentSliderValueRD: 5,
+  currentSliderValueRD: 20,
   maxSliderValueRD: 0,
   currentSliderValueKP_GT: 20,
   currentSliderValueKP_GE: 20,
+  currentSliderValueCM: 20,
+  maxSliderValueCM: 0,
   maxSliderValueKP_GE: 0,
   resetBool: false,
   sliderList: 0,
   sliderListKP_GE: 0,
   NGMAST: [],
   ngmastDrugsData: [],
+  drugsCountriesKPData: {},
+  drugsRegionsKPData: {},
+  uniqueCountryKPDrugs: {},
+  uniqueRegionKPDrugs: {},
+  topGenesSlice: [],
+  topGenotypeSlice: [],
+  topColorSlice: [],
 };
 
 export const graphSlice = createSlice({
@@ -126,17 +144,14 @@ export const graphSlice = createSlice({
     setFrequenciesGraphSelectedGenotypes: (state, action: PayloadAction<Array<string>>) => {
       state.frequenciesGraphSelectedGenotypes = action.payload;
     },
-    setCustomDropdownMapView: (state, action: PayloadAction<Array<string>>) => {
-      state.customDropdownMapView = action.payload;
+    setPrevalenceMapViewOptionsSelected: (state, action: PayloadAction<Array<string>>) => {
+      state.prevalenceMapViewOptionsSelected = action.payload;
     },
     setCustomDropdownMapViewNG: (state, action: PayloadAction<Array<string>>) => {
       state.customDropdownMapViewNG = action.payload;
     },
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugsData = action.payload;
-    },
-    setGenotypesDrugsData2: (state, action: PayloadAction<Array<any>>) => {
-      state.genotypesDrugsData2 = action.payload;
     },
     setDeterminantsGraphView: (state, action: PayloadAction<string>) => {
       state.determinantsGraphView = action.payload;
@@ -150,11 +165,11 @@ export const graphSlice = createSlice({
     setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesAndDrugsYearData = action.payload;
     },
-    setTrendsKPGraphDrugClass: (state, action: PayloadAction<string>) => {
-      state.trendsKPGraphDrugClass = action.payload;
+    setTrendsGraphDrugClass: (state, action: PayloadAction<string>) => {
+      state.trendsGraphDrugClass = action.payload;
     },
-    setTrendsKPGraphView: (state, action: PayloadAction<string>) => {
-      state.trendsKPGraphView = action.payload;
+    setTrendsGraphView: (state, action: PayloadAction<string>) => {
+      state.trendsGraphView = action.payload;
     },
     setKODiversityData: (state, action: PayloadAction<Array<any>>) => {
       state.KODiversityData = action.payload;
@@ -189,6 +204,12 @@ export const graphSlice = createSlice({
     setMaxSliderValueRD: (state, action: PayloadAction<number>) => {
       state.maxSliderValueRD = action.payload;
     },
+    setCurrentSliderValueCM: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueCM = action.payload;
+    },
+    setMaxSliderValueCM: (state, action: PayloadAction<number>) => {
+      state.maxSliderValueCM = action.payload;
+    },
     setCurrentSliderValueKP_GT: (state, action: PayloadAction<number>) => {
       state.currentSliderValueKP_GT = action.payload;
     },
@@ -210,6 +231,27 @@ export const graphSlice = createSlice({
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
     },
+    setDrugsCountriesKPData: (state, action: PayloadAction<Object>) => {
+      state.drugsCountriesKPData = action.payload;
+    },
+    setDrugsRegionsKPData: (state, action: PayloadAction<Object>) => {
+      state.drugsRegionsKPData = action.payload;
+    },
+    setUniqueCountryKPDrugs: (state, action: PayloadAction<Object>) => {
+      state.uniqueCountryKPDrugs = action.payload;
+    },
+    setUniqueRegionKPDrugs: (state, action: PayloadAction<Object>) => {
+      state.uniqueRegionKPDrugs = action.payload;
+    },
+    setTopGenesSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topGenesSlice = action.payload;
+    },
+    setTopGenotypeSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topGenotypeSlice = action.payload;
+    },
+    setTopColorSlice: (state, action: PayloadAction<Array<any>>) => {
+      state.topColorSlice = action.payload;
+    },
   },
 });
 
@@ -223,16 +265,15 @@ export const {
   setCollapses,
   setFrequenciesGraphView,
   setFrequenciesGraphSelectedGenotypes,
-  setCustomDropdownMapView,
+  setPrevalenceMapViewOptionsSelected,
   setCustomDropdownMapViewNG,
   setGenotypesDrugsData,
-  setGenotypesDrugsData2,
   setDeterminantsGraphView,
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,
   setGenotypesAndDrugsYearData,
-  setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
   setKODiversityData,
   setKODiversityGraphView,
   setConvergenceData,
@@ -251,6 +292,15 @@ export const {
   setCurrentSliderValueKP_GT,
   setCurrentSliderValueKP_GE,
   setMaxSliderValueKP_GE,
+  setCurrentSliderValueCM,
+  setMaxSliderValueCM,
+  setDrugsCountriesKPData,
+  setDrugsRegionsKPData,
+  setUniqueCountryKPDrugs,
+  setUniqueRegionKPDrugs,
+  setTopGenesSlice,
+  setTopGenotypeSlice,
+  setTopColorSlice,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
