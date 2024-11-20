@@ -443,6 +443,7 @@ export const DownloadData = () => {
         trends: true,
         KODiversity: true,
         convergence: true,
+        continent: true,
       }),
     );
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));

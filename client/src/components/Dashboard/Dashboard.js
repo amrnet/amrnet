@@ -28,8 +28,9 @@ import {
   setOrganism,
   setPathovar,
   setSelectedLineages,
+  setEconomicRegions,
 } from '../../stores/slices/dashboardSlice.ts';
-import { setDataset, setMapData, setMapView, setPosition } from '../../stores/slices/mapSlice.ts';
+import { setDataset, setMapData, setMapRegionData, setMapView, setPosition } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
 import {
   setCollapses,
@@ -60,6 +61,10 @@ import {
   setNgmast,
   setNgmastDrugsData,
   setMaxSliderValueCM,
+  setDrugsCountriesKPData,
+  setDrugsRegionsKPData,
+  setUniqueCountryKPDrugs,
+  setUniqueRegionKPDrugs,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -70,17 +75,21 @@ import {
   getKODiversityData,
   getConvergenceData,
   getNgmastData,
+  getDrugsCountriesData,
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST, defaultDrugsForDrugResistanceGraphNG } from '../../util/drugs';
 import { useIndexedDB } from '../../context/IndexedDBContext';
+import { ContinentGraphs } from '../Elements/ContinentGraphs';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
   const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('COUNTRY_ONLY');
   // const [currentConvergenceColourVariable, setCurrentConvergenceColourVariable] = useState('DATE');
+  const [currentTimeInitial, setCurrentTimeInitial] = useState('');
+  const [currentTimeFinal, setCurrentTimeFinal] = useState('');
 
   const { hasItems, bulkAddItems, getItems } = useIndexedDB();
 
@@ -92,6 +101,7 @@ export const DashboardPage = () => {
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
+  const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const yearsForFilter = useAppSelector((state) => state.dashboard.years);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
@@ -128,11 +138,30 @@ export const DashboardPage = () => {
 
   // This function is only called once, after the csv is read. It gets all the static and dynamic data
   // that came from the csv file and sets all the data the organism needs to show
-  async function getInfoFromData(responseData) {
+  async function getInfoFromData(responseData, regions) {
     const dataLength = responseData.length;
 
     dispatch(setTotalGenomes(dataLength));
     dispatch(setActualGenomes(dataLength));
+
+    // Get regions
+    const ecRegions = {};
+    const countryRegions = {};
+
+    regions.forEach((item) => {
+      const region = item['Sub-region Name'];
+
+      if (!region) return;
+
+      if (!(region in ecRegions)) {
+        ecRegions[region] = [];
+      }
+
+      const country = getCountryDisplayName(item['Country or Area']);
+      ecRegions[region].push(country);
+      countryRegions[country] = region;
+    });
+    dispatch(setEconomicRegions(ecRegions));
 
     // Get mapped values
     const genotypesSet = new Set();
@@ -143,10 +172,11 @@ export const DashboardPage = () => {
     const pathovarSet = new Set();
 
     responseData.forEach((x) => {
+      const country = getCountryDisplayName(x.COUNTRY_ONLY);
+      countriesSet.add(country);
       genotypesSet.add(x.GENOTYPE);
       ngmastSet.add(x['NG-MAST TYPE']);
       yearsSet.add(x.DATE);
-      countriesSet.add(getCountryDisplayName(x.COUNTRY_ONLY));
       PMIDSet.add(x.PMID);
 
       if (organism === 'sentericaints') {
@@ -155,6 +185,8 @@ export const DashboardPage = () => {
       if (['shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathotype);
       }
+
+      x['ECONOMIC_REGION'] = countryRegions[country];
     });
 
     const genotypes = Array.from(genotypesSet);
@@ -189,10 +221,19 @@ export const DashboardPage = () => {
     await Promise.all([
       // Get map data
       getStoreOrGenerateData(`${organism}_map`, async () =>
-        getMapData({ data: responseData, countries, organism }),
+        getMapData({ data: responseData, items: countries, organism }),
       ).then((mapData) => {
         dispatch(setMapData(mapData));
       }),
+
+      // Get regions data
+      ['styphi', 'kpneumo'].includes(organism)
+        ? getStoreOrGenerateData(`${organism}_map_regions`, async () =>
+            getMapData({ data: responseData, items: Object.keys(ecRegions).sort(), organism, type: 'region' }),
+          ).then((mapData) => {
+            dispatch(setMapRegionData(mapData));
+          })
+        : Promise.resolve(),
 
       // Get genotypes data
       getStoreOrGenerateData(`${organism}_genotype`, () => {
@@ -235,6 +276,37 @@ export const DashboardPage = () => {
         }
       }),
 
+      // Get drugs carb and esbl data for countries
+      organism === 'kpneumo'
+        ? getStoreOrGenerateData(`${organism}_drugs_countries`, () => {
+            const { drugsData, uniqueDrugs } = getDrugsCountriesData({
+              data: responseData,
+              items: countries,
+              organism,
+            });
+            return [drugsData, uniqueDrugs];
+          }).then(([drugsData, uniqueDrugs]) => {
+            dispatch(setDrugsCountriesKPData(drugsData));
+            dispatch(setUniqueCountryKPDrugs(uniqueDrugs));
+          })
+        : Promise.resolve(),
+
+      // Get drugs carb and esbl data for countries
+      organism === 'kpneumo'
+        ? getStoreOrGenerateData(`${organism}_drugs_regions`, () => {
+            const { drugsData, uniqueDrugs } = getDrugsCountriesData({
+              data: responseData,
+              items: Object.keys(ecRegions),
+              type: 'region',
+              organism,
+            });
+            return [drugsData, uniqueDrugs];
+          }).then(([drugsData, uniqueDrugs]) => {
+            dispatch(setDrugsRegionsKPData(drugsData));
+            dispatch(setUniqueRegionKPDrugs(uniqueDrugs));
+          })
+        : Promise.resolve(),
+
       // Get KO diversity data
       organism === 'kpneumo'
         ? getStoreOrGenerateData(`${organism}_ko`, () => {
@@ -273,11 +345,18 @@ export const DashboardPage = () => {
 
     try {
       const organismData = await getStoreOrGenerateData(storeName, async () => {
-        const response = await axios.get(`${API_ENDPOINT}filters/${endpoint}`);
+        const response = await axios.get(`${API_ENDPOINT}filters/${endpoint}`, {
+          maxContentLength: Infinity,
+          maxBodyLength: Infinity,
+        });
         return response.data;
       });
 
-      await getInfoFromData(organismData);
+      const regions = await getStoreOrGenerateData('unr', async () => {
+        return (await axios.get(`${API_ENDPOINT}filters/getUNR`)).data;
+      });
+
+      await getInfoFromData(organismData, regions);
 
       // Set all filters that need to be set after the data has been acquired
       dispatch(setDataset('All'));
@@ -335,6 +414,7 @@ export const DashboardPage = () => {
           trends: false,
           KODiversity: false,
           convergence: false,
+          continent: false,
         }),
       );
       setData([]);
@@ -418,8 +498,10 @@ export const DashboardPage = () => {
     if (yearsForFilter.length > 0) {
       dispatch(setTimeInitial(yearsForFilter[0]));
       dispatch(setActualTimeInitial(yearsForFilter[0]));
+      setCurrentTimeInitial(yearsForFilter[0]);
       dispatch(setTimeFinal(yearsForFilter[yearsForFilter.length - 1]));
       dispatch(setActualTimeFinal(yearsForFilter[yearsForFilter.length - 1]));
+      setCurrentTimeFinal(yearsForFilter[yearsForFilter.length - 1]);
     }
   }, [yearsForFilter]);
 
@@ -485,7 +567,8 @@ export const DashboardPage = () => {
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
-      dispatch(setMapData(getMapData({ data: filters.data, countries: countriesForFilter, organism })));
+      dispatch(setMapData(getMapData({ data: filters.data, items: countriesForFilter, organism })));
+      dispatch(setMapRegionData(getMapData({ data: filters.data, items: Object.keys(economicRegions), organism })));
 
       const genotypesData = getGenotypesData({
         data: filteredData,
@@ -524,6 +607,23 @@ export const DashboardPage = () => {
         dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
+
+        if (currentTimeInitial !== actualTimeInitial || currentTimeFinal !== actualTimeFinal) {
+          const { drugsData: drugsDataC, uniqueDrugs: uniqueDrugsC } = getDrugsCountriesData({
+            data: filteredData,
+            items: countriesForFilter,
+          });
+          dispatch(setDrugsCountriesKPData(drugsDataC));
+          dispatch(setUniqueCountryKPDrugs(uniqueDrugsC));
+
+          const { drugsData: drugsDataR, uniqueDrugs: uniqueDrugsR } = getDrugsCountriesData({
+            data: filteredData,
+            items: Object.keys(economicRegions),
+            type: 'region',
+          });
+          dispatch(setDrugsRegionsKPData(drugsDataR));
+          dispatch(setUniqueRegionKPDrugs(uniqueDrugsR));
+        }
       }
     }
 
@@ -534,6 +634,7 @@ export const DashboardPage = () => {
     <MainLayout>
       <Note />
       <Map />
+      {['styphi', 'kpneumo'].includes(organism) && <ContinentGraphs />}
       <SelectCountry />
       <Graphs />
       <DownloadData />

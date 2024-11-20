@@ -67,6 +67,7 @@ export const ResetButton = () => {
         trends: false,
         KODiversity: false,
         convergence: false,
+        continent: false,
       }),
     );
 

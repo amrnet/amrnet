@@ -35,6 +35,7 @@ interface DashboardState {
   captureGD: boolean;
   selectedLineages: Array<string>;
   pathovar: Array<string>;
+  economicRegions: Object;
 }
 
 const initialState: DashboardState = {
@@ -68,6 +69,7 @@ const initialState: DashboardState = {
   captureGD: true,
   selectedLineages: [],
   pathovar: [],
+  economicRegions: {},
 };
 
 export const dashboardSlice = createSlice({
@@ -170,6 +172,9 @@ export const dashboardSlice = createSlice({
     setPathovar: (state, action: PayloadAction<Array<string>>) => {
       state.pathovar = action.payload;
     },
+    setEconomicRegions: (state, action: PayloadAction<Object>) => {
+      state.economicRegions = action.payload;
+    },
   },
 });
 
@@ -202,6 +207,7 @@ export const {
   removeOrganism,
   setSelectedLineages,
   setPathovar,
+  setEconomicRegions,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;
