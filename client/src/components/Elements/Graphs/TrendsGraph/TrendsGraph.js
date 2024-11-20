@@ -341,7 +341,7 @@ export const TrendsGraph = () => {
                 return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={fillColor} />;
               })}
               <Bar key="trends-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
-              
+
               {switchLines &&
                 [...topGenotypeSlice, 'Other Genotypes'].map((option, index) => (
                   <Line

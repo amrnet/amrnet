@@ -63,7 +63,7 @@ export const DeterminantsGraph = () => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-console.log("currentSliderValueRD",currentSliderValueRD)
+
   let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
     // eslint-disable-next-line array-callback-return
@@ -149,14 +149,14 @@ console.log("currentSliderValueRD",currentSliderValueRD)
     // Sort the array based on keys
     // filteredArr.sort((a, b) => b[1] - a[1]);
 
-//     const slicedArray = filteredArr.slice(0, currentSliderValueRD).map(([key, value]) => key);
-//     const slicedArrayWithOther = structuredClone(slicedArray);
-//     const Other = 'Other';
-//     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
-//     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
+    //     const slicedArray = filteredArr.slice(0, currentSliderValueRD).map(([key, value]) => key);
+    //     const slicedArrayWithOther = structuredClone(slicedArray);
+    //     const Other = 'Other';
+    //     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
+    //     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
 
-mapArray.sort((a, b) => b[1] - a[1]);   
-const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
+    mapArray.sort((a, b) => b[1] - a[1]);
+    const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
     dispatch(setGenotypesForFilterSelectedRD(slicedArray));
     setTopXGenotypes(slicedArray);
 

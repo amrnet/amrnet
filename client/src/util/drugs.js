@@ -92,3 +92,25 @@ export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
 
 // List of Klebsiella drug classes
 export const drugClassesKP = ['Carbapenems', 'ESBL'];
+
+export const drugAcronyms = {
+  'Ampicillin/Amoxicillin': 'AMP/AMC',
+  Ceftriaxone: 'CRO',
+  Chloramphenicol: 'CLO',
+  CipNS: 'CIP',
+  Sulphonamides: 'SUL',
+  Sulfonamides: 'SUL',
+  Tetracyclines: 'TET',
+  Tetracycline: 'TET',
+  Trimethoprim: 'TMP',
+  'Trimethoprim-sulfamethoxazole': 'SXT',
+  Colistin: 'COL',
+  Fosfomycin: 'FOS',
+  Carb: 'CARB',
+  Aminoglycosides: 'AGLY',
+  Fluoroquinolones: 'FLQ',
+  'β-lactamase inhibitors': 'β-lactamase inhibitors',
+  Phenicols: 'PHE',
+  Tigecycline: 'TGC',
+  ESBL: 'ESBL',
+};

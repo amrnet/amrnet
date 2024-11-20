@@ -28,40 +28,39 @@ export const redColorScale = (percentage) => {
   }
 };
 
-export const differentColorScale = (percentage, colour) => {
+export const differentColorScale = (percentage, colour, maxValue = 100) => {
   const p = parseInt(percentage);
-  let colorScale; 
+  let colorScale;
   // Define the color scale using chroma.scale
   switch (colour) {
     case 'red':
-        colorScale = chroma.scale(['#FAAD8F', '#FA694A', '#DD2C24', '#A20F17']);
-        break;
+      colorScale = chroma.scale(['#FAAD8F', '#FA694A', '#DD2C24', '#A20F17']);
+      break;
     case 'blue':
-        colorScale = chroma.scale(['#B3E5FC', '#4FC3F7', '#0288D1', '#01579B']);
-        break;
+      colorScale = chroma.scale(['#B3E5FC', '#4FC3F7', '#0288D1', '#01579B']);
+      break;
     case 'pink':
-        colorScale = chroma.scale(['#F8BBD0', '#F06292', '#E91E63', '#880E4F']);
-        break;
+      colorScale = chroma.scale(['#F8BBD0', '#F06292', '#E91E63', '#880E4F']);
+      break;
     case 'orange':
-        colorScale = chroma.scale(['#FFE0B2', '#FFB74D', '#FB8C00', '#E65100']);
-        break;
+      colorScale = chroma.scale(['#FFE0B2', '#FFB74D', '#FB8C00', '#E65100']);
+      break;
     case 'green':
-        colorScale = chroma.scale(['#C8E6C9', '#81C784', '#388E3C', '#1B5E20']);
-        break;
+      colorScale = chroma.scale(['#C8E6C9', '#81C784', '#388E3C', '#1B5E20']);
+      break;
     case 'purple':
-        colorScale = chroma.scale(['#E1BEE7', '#BA68C8', '#8E24AA', '#4A148C']);
-        break;
+      colorScale = chroma.scale(['#E1BEE7', '#BA68C8', '#8E24AA', '#4A148C']);
+      break;
     case 'brown':
-        colorScale = chroma.scale(['#D7CCC8', '#A1887F', '#6D4C41', '#3E2723']);
-        break;
+      colorScale = chroma.scale(['#D7CCC8', '#A1887F', '#6D4C41', '#3E2723']);
+      break;
     default:
-        colorScale = chroma.scale(['#E0E0E0', '#9E9E9E', '#616161', '#212121']);
-        break;
-}
-
+      colorScale = chroma.scale(['#E0E0E0', '#9E9E9E', '#616161', '#212121']);
+      break;
+  }
 
   // Map the percentage to the color scale range (0 to 1)
-  const normalizedPercentage = p / 100;
+  const normalizedPercentage = p / maxValue;
 
   // Use the color scale to interpolate the color based on the percentage
   const color = colorScale(normalizedPercentage).hex();
