@@ -13,7 +13,7 @@ Dashboard overview
 
 
 
-**Map**: Use the menu on the right to **select a variable to display per-country summary data** on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the **filters on the left** to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed, otherwise it will be coloured grey to indicate insufficient data.
+**Map**: Use the menu on the right to **select a variable to display per-country summary data** on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the **filters on the left** to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed otherwise, it will be coloured grey to indicate insufficient data are available.
 
 .. figure:: assets/map.png
    :width: 100%
@@ -31,9 +31,9 @@ Filters set in this panel apply not only to the map, but to all plots on the pag
 
 
 
-**Detailed plots**: These are intended to show country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters. The heading below the map summarizes the current filter set applied to all plots, and provides another opportunity to select a focus country. Below this are a series of tabs, one per available plot. **Click a tab title to open/close the plotting area**. The specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below). 
+**Detailed plots**: These are intended to show country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters. The heading below the map  that has been applied to all plots, and provides another opportunity to select a focus country. Below this are a series of tabs, one per available plot. **Click a tab title to open/close the plotting area**. The specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below). 
 
-All plots are interactive; use the menus at the top to **select variables to display**, and whether to show **counts or percentages**. 
+All plots are interactive; use the menus at the top to **select which variables to display**, and whether to show **counts or percentages**. 
 
 Each plot has a dynamic legend to the right; click on an x-axis value to display counts and percentages of secondary variables calculated amongst genomes matching that x-axis value. For example, most pathogens will have a ‘Resistance frequencies within genotypes’ plot; click a genotype to display counts and percentages of resistance estimated for each drug.
 
@@ -57,7 +57,7 @@ Individual pathogen details
 *Salmonella* Typhi
 ~~~~~~~~~~~~~~~~~~
 
-*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`__, which calls AMR and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). Last update: 24 January 2024.
+*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`__, which calls AMR determinants and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations) with known year of isolation and country of origin. Last update: 12 November 2024.
 
 **Variable definitions**
 
@@ -74,19 +74,21 @@ Individual pathogen details
 
 *Klebsiella pneumoniae*
 ~~~~~~~~~~~~~~~~~~~~~~~
-*Klebsiella pneumoniae* data are sourced from `Pathogenwatch <https://doi.org/10.1093/cid/ciab784>`__, which calls AMR (using `Kleborate <https://github.com/klebgenomics/Kleborate>`_) and genotypes (`MLST <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`__) from genomes assembled from public data. Last update: 24 January 2024.
+*Klebsiella pneumoniae* data are sourced from `Pathogenwatch <https://doi.org/10.1093/cid/ciab784>`__, which calls AMR (using `Kleborate <https://github.com/klebgenomics/Kleborate>`_) and genotypes (`MLST <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`__) from genomes assembled from public data. Last update: 4 November 2024.
 
 .. warning:: The *Klebsiella pneumoniae* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which have been largely directed at sequencing ESBL and carbapenemase-producing strains or hypervirulent strains. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
 
 **Variable definitions**
 
-- **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_.
-- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`__.
+- **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, and sublineages (defined from core-genome MLST, as described `here <https://doi.org/10.1093/molbev/msac135>`__), maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_.
+- **AMR determinants** are called using `Kleborate v2 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`__. Fluoroquinolone resistance is defined as presence of an acquired qnr/qep gene OR a mutation in the quinolone-resistance determining regions of gyrA or parC.
 
 **Abbreviations**
 
 - **ESBL**: extended-spectrum beta-lactamase
+- **3GC**: third-generation cephalosporins
 - **ST**: sequence type
+- **cgST**: core-genome sequence type
 
 *Neisseria gonorrhoeae*
 ~~~~~~~~~~~~~~~~~~~~~~~

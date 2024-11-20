@@ -7,11 +7,14 @@ export const getColorForDrug = (drug) => {
       return 'rgb(129,178,210)';
 
     case 'Azithromycin':
+    case 'AzithR':
     case 'Carbapenems':
+    case 'Carb':
       return 'rgb(144,211,199)';
 
     case 'Chloramphenicol':
     case '3rd gen cephalosporins (3GCs)':
+    case 'ESBL':
       return 'rgb(249,129,117)';
 
     // case 'Co-trimoxazole':
@@ -33,6 +36,7 @@ export const getColorForDrug = (drug) => {
     case 'Ciprofloxacin NS':
     case 'Ciprofloxacin':
     case 'Penicillins':
+    case 'CipNS':
       return 'rgb(255,236,120)';
 
     // case 'Fluoroquinolones (CipR)':
@@ -77,11 +81,11 @@ export const getColorForDrug = (drug) => {
 };
 
 export const colorsForKODiversityGraph = [
-  { name: 'MDR', color: 'rgb(187, 54, 60)' },
-  { name: 'Hv', color: 'rgb(24, 85, 183)' },
+  // { name: 'MDR', color: 'rgb(187, 54, 60)' },
+  // { name: 'Hv', color: 'rgb(24, 85, 183)' },
   { name: 'Carbapenems', color: 'rgb(144,211,199)' },
   { name: 'ESBL', color: '#DB90F0' },
   { name: 'Aerobactin(iuc)', color: 'rgb(180,221,112)' },
   { name: 'rmpADC', color: 'rgb(252,180,105)' },
-  { name: 'neither', color: lightGrey },
+  { name: 'None', color: lightGrey },
 ];

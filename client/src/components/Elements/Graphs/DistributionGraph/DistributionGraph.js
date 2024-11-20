@@ -22,7 +22,7 @@ import { SliderSizes } from '../../Slider/SliderSizes';
 import { setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 
 const dataViewOptions = [
-  { label: 'Number of genomes', value: 'number' },
+  { label: 'Number of ST', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
@@ -96,7 +96,7 @@ export const DistributionGraph = () => {
     const Other = 'Other';
     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
-
+// console.log("GD", slicedArrayWithOther);
     dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
     setTopXGenotypes(slicedArray);
     dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
