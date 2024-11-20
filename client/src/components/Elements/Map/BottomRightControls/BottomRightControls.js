@@ -9,6 +9,7 @@ import { imgOnLoadPromise } from '../../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
 import LogoImg from '../../../../assets/img/logo-prod.png';
 import { mapLegends } from '../../../../util/mapLegends';
+import { DownloadMapViewData } from './DownloadMapViewData';
 
 export const BottomRightControls = () => {
   const classes = useStyles();
@@ -22,7 +23,7 @@ export const BottomRightControls = () => {
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
-  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
+  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
 
   async function handleClick() {
     setLoading(true);
@@ -58,57 +59,55 @@ export const BottomRightControls = () => {
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
-        ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
-
+        if(organism === 'sentericaints')
+          ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
+        else
+          ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
         // ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
 
         // Revert to the original font style for the remaining text
         // ctx.font = 'bolder 50px Montserrat';
+        const labelSplit = globalOverviewLabel.stringLabel.split(' ');
+
         if (organism === 'styphi') {
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.615, 80);
-        }else if (organism === 'kpneumo') {
+          ctx.fillText(labelSplit[1], canvas.width * 0.615, 80);
+        } else if (['kpneumo', 'ngono'].includes(organism)) {
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
-          // ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
-        }else if (organism === 'ngono') {
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
-          // ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
-        }else if (organism === 'ecoli') {
+          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
+        } else if (organism === 'ecoli') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.65, 80);
-        }else if (organism === 'decoli') {
+          ctx.fillText(labelSplit[1], canvas.width * 0.65, 80);
+        } else if (organism === 'decoli') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.565, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.565, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.63, 80);
-          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.65, 80);
-        }else if (organism === 'shige') {
+          ctx.fillText(labelSplit[1], canvas.width * 0.63, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.65, 80);
+        } else if (organism === 'shige') {
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.545, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.585, 80);
-          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.61, 80);
-        }else if (organism === 'sentericaints') {
+          ctx.fillText(labelSplit[1], canvas.width * 0.585, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.61, 80);
+        } else if (organism === 'sentericaints') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.545, 80);
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.635, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.465, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.555, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label2, canvas.width * 0.735, 80);
-        }else {
+          ctx.fillText(labelSplit[2], canvas.width * 0.655, 80);
+        } else {
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(globalOverviewLabel.label1, canvas.width * 0.64, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
         }
 
         ctx.font = '35px Montserrat';
@@ -120,27 +119,51 @@ export const BottomRightControls = () => {
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 190);
         ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 240);
         if (mapView === 'Genotype prevalence') {
-          if (customDropdownMapView.length === 1) {
-            ctx.fillText('Selected Genotypes: ' + customDropdownMapView, canvas.width / 2, 290);
-          } else if (customDropdownMapView.length > 1) {
-            const genotypesText = customDropdownMapView.join(', ');
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 290);
           }
         }
         if (mapView === 'NG-MAST prevalence') {
-          if (customDropdownMapView.length === 1) {
-            ctx.fillText('Selected NG-MAST TYPE: ' + customDropdownMapView, canvas.width / 2, 290);
-          } else if (customDropdownMapView.length > 1) {
-            const genotypesText = customDropdownMapView.join(', ');
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
           }
         }
         if (mapView === 'Lineage prevalence') {
-          if (customDropdownMapView.length === 1) {
-            ctx.fillText('Selected Lineage: ' + customDropdownMapView, canvas.width / 2, 290);
-          } else if (customDropdownMapView.length > 1) {
-            const genotypesText = customDropdownMapView.join(', ');
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected Lineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
+        if (mapView === 'ST prevalence') {
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected ST: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText('Selected ST: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
+        if (mapView === 'Resistance prevalence') {
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected Resistance: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText('Selected Resistance: ' + genotypesText, canvas.width / 2, 290);
+          }
+        }
+        if (mapView === 'Sublineage prevalence') {
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText('Selected Sublineage: ' + genotypesText, canvas.width / 2, 290);
           }
         }
         ctx.drawImage(mapImg, 0, textHeight + 50, canvas.width, cHeight);
@@ -163,6 +186,9 @@ export const BottomRightControls = () => {
           case 'NG-MAST prevalence':
           case 'Genotype prevalence':
           case 'Lineage prevalence':
+          case 'ST prevalence':
+          case 'Resistance prevalence':
+          case 'Sublineage prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
           default:
@@ -190,7 +216,7 @@ export const BottomRightControls = () => {
         ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
 
         const base64 = canvas.toDataURL();
-        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.fullLabel}.png`);
+        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.stringLabel}.png`);
       });
     } catch (error) {
       setShowAlert(true);
@@ -205,10 +231,17 @@ export const BottomRightControls = () => {
 
   return (
     <div className={classes.bottomRightControls}>
+      <Tooltip title="Download Data" placement="right">
+        <span>
+          <IconButton color="primary" disabled={organism === 'none'}>
+            <DownloadMapViewData fontSize="inherit" />
+          </IconButton>
+        </span>
+      </Tooltip>
       <Tooltip title="Download Map as PNG" placement="left">
         <span>
           <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={35} /> : <CameraAlt fontSize="large" />}
+            {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
           </IconButton>
         </span>
       </Tooltip>
