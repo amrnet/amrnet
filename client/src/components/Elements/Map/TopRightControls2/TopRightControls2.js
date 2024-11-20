@@ -125,15 +125,15 @@ export const TopRightControls2 = () => {
   );
 
   function getOptionDisabled(option) {
-    if(isResPrevalence)
+    if (isResPrevalence)
       return prevalenceMapViewOptionsSelected.length >= 1 && !prevalenceMapViewOptionsSelected.includes(option);
     return prevalenceMapViewOptionsSelected.length >= 10 && !prevalenceMapViewOptionsSelected.includes(option);
   }
 
   function handleAutocompleteChange(_, newValue) {
-      if (prevalenceMapViewOptionsSelected.length === 10 && newValue.length > 10) {
-        return;
-      }
+    if (prevalenceMapViewOptionsSelected.length === 10 && newValue.length > 10) {
+      return;
+    }
 
     dispatch(setPrevalenceMapViewOptionsSelected(newValue));
   }

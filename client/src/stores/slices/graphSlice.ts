@@ -8,6 +8,7 @@ interface CollapsesModel {
   trends: boolean;
   KODiversity: boolean;
   convergence: boolean;
+  continent: boolean;
 }
 interface GraphState {
   countriesForFilter: Array<string>;
@@ -47,6 +48,10 @@ interface GraphState {
   sliderListKP_GE: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
+  drugsCountriesKPData: Object;
+  drugsRegionsKPData: Object;
+  uniqueCountryKPDrugs: Object;
+  uniqueRegionKPDrugs: Object;
   topGenesSlice: Array<any>;
   topGenotypeSlice: Array<any>;
   topColorSlice: Array<any>;
@@ -61,6 +66,7 @@ const initialState: GraphState = {
     trends: false,
     KODiversity: false,
     convergence: false,
+    continent: false,
   },
   countriesForFilter: [],
   genotypesYearData: [],
@@ -98,6 +104,10 @@ const initialState: GraphState = {
   sliderListKP_GE: 0,
   NGMAST: [],
   ngmastDrugsData: [],
+  drugsCountriesKPData: {},
+  drugsRegionsKPData: {},
+  uniqueCountryKPDrugs: {},
+  uniqueRegionKPDrugs: {},
   topGenesSlice: [],
   topGenotypeSlice: [],
   topColorSlice: [],
@@ -221,6 +231,18 @@ export const graphSlice = createSlice({
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
     },
+    setDrugsCountriesKPData: (state, action: PayloadAction<Object>) => {
+      state.drugsCountriesKPData = action.payload;
+    },
+    setDrugsRegionsKPData: (state, action: PayloadAction<Object>) => {
+      state.drugsRegionsKPData = action.payload;
+    },
+    setUniqueCountryKPDrugs: (state, action: PayloadAction<Object>) => {
+      state.uniqueCountryKPDrugs = action.payload;
+    },
+    setUniqueRegionKPDrugs: (state, action: PayloadAction<Object>) => {
+      state.uniqueRegionKPDrugs = action.payload;
+    },
     setTopGenesSlice: (state, action: PayloadAction<Array<any>>) => {
       state.topGenesSlice = action.payload;
     },
@@ -272,6 +294,10 @@ export const {
   setMaxSliderValueKP_GE,
   setCurrentSliderValueCM,
   setMaxSliderValueCM,
+  setDrugsCountriesKPData,
+  setDrugsRegionsKPData,
+  setUniqueCountryKPDrugs,
+  setUniqueRegionKPDrugs,
   setTopGenesSlice,
   setTopGenotypeSlice,
   setTopColorSlice,

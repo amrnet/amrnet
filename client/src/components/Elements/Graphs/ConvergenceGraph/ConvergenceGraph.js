@@ -14,13 +14,17 @@ import {
   Cell,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable, setTopColorSlice, } from '../../../../stores/slices/graphSlice';
+import {
+  /*setConvergenceColourVariable,*/ setConvergenceGroupVariable,
+  setTopColorSlice,
+} from '../../../../stores/slices/graphSlice';
 import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 import { SliderSizes } from '../../Slider';
+import { differentColorScale } from '../../Map/mapColorHelper';
 
 export const ConvergenceGraph = () => {
   const classes = useStyles();
@@ -72,9 +76,14 @@ export const ConvergenceGraph = () => {
     );
   }, [convergenceColourPallete, topConvergenceData]);
 
-  useEffect(()=>{
-    dispatch(setTopColorSlice(topColours))
-  },[topColours])
+  const maxZValue = useMemo(() => {
+    return Math.max(...(topConvergenceData.map((item) => item.z) ?? []));
+  }, [topConvergenceData]);
+
+  useEffect(() => {
+    dispatch(setTopColorSlice(topColours));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topColours]);
 
   useEffect(() => {
     if (canGetData) {
@@ -121,7 +130,14 @@ export const ConvergenceGraph = () => {
                             <Box
                               className={classes.colorCircle}
                               style={{
-                                backgroundColor: convergenceColourPallete[key],
+                                backgroundColor:
+                                  convergenceGroupVariable === 'DATE'
+                                    ? differentColorScale(
+                                        topConvergenceData.find((x) => x.name === key).z,
+                                        '',
+                                        maxZValue,
+                                      )
+                                    : convergenceColourPallete[key],
                               }}
                             />
                             <Typography variant="caption">{key}</Typography>
@@ -149,7 +165,11 @@ export const ConvergenceGraph = () => {
                     name={option.name}
                     onClick={() => handleClickChart(option.name)}
                     key={`combination-cell-${index}`}
-                    fill={convergenceColourPallete[option.colorLabel]}
+                    fill={
+                      convergenceGroupVariable === 'DATE'
+                        ? differentColorScale(option.z, '', maxZValue)
+                        : convergenceColourPallete[option.colorLabel]
+                    }
                   />
                 ))}
               </Scatter>
@@ -206,7 +226,7 @@ export const ConvergenceGraph = () => {
           {plotChart}
         </div>
         <div className={classes.rightSide}>
-          <SliderSizes value={'CM'} style={{ width: '100%'}} />
+          <SliderSizes value={'CM'} style={{ width: '100%' }} />
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
