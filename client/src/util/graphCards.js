@@ -94,3 +94,12 @@ export const graphCards = [
     organisms: ['kpneumo'],
   },
 ];
+
+export const continentGraphCard = {
+  collapse: 'continent',
+  title: 'Geographic Comparisons',
+  description: [''],
+  icon: <BubbleChart color="primary" />,
+  id: 'DRT',
+  organisms: ['styphi', 'ngono', 'kpneumo'],
+};

@@ -101,10 +101,7 @@ export const SliderSizes = (props) => {
     }
 
     if (props.value === 'CM') {
-      console.log("variablesOptions",variablesOptions, convergenceGroupVariable)
-      return `Individual ${variablesOptions
-        .find((x) => x.value === convergenceGroupVariable)
-        .label} to colour`;
+      return `Individual ${variablesOptions.find((x) => x.value === convergenceGroupVariable).label} to colour`;
     }
 
     return 'Individual resistance determinants:';
@@ -112,35 +109,34 @@ export const SliderSizes = (props) => {
 
   const [sliderValue, setSliderValue] = useState(0);
 
-useEffect(() => {
-  let newSliderValue;
+  useEffect(() => {
+    let newSliderValue;
 
-  if (props.value === 'GD') {
-    newSliderValue = currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue;
-  } else if (props.value === 'KP_GT') {
-    newSliderValue = currentSliderValueKP_GT < maxSliderValue ? currentSliderValueKP_GT : maxSliderValue;
-  } else if (props.value === 'KP_GE') {
-    newSliderValue = currentSliderValueKP_GE < maxSliderValueKP_GE ? currentSliderValueKP_GE : maxSliderValueKP_GE;
-  } else if (props.value === 'CM') {
-    newSliderValue = currentSliderValueCM < maxSliderValueCM ? currentSliderValueCM : maxSliderValueCM;
-  } else {
-    newSliderValue = currentSliderValueRD < maxSliderValueRD ? currentSliderValueRD : maxSliderValueRD;
-  }
+    if (props.value === 'GD') {
+      newSliderValue = currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue;
+    } else if (props.value === 'KP_GT') {
+      newSliderValue = currentSliderValueKP_GT < maxSliderValue ? currentSliderValueKP_GT : maxSliderValue;
+    } else if (props.value === 'KP_GE') {
+      newSliderValue = currentSliderValueKP_GE < maxSliderValueKP_GE ? currentSliderValueKP_GE : maxSliderValueKP_GE;
+    } else if (props.value === 'CM') {
+      newSliderValue = currentSliderValueCM < maxSliderValueCM ? currentSliderValueCM : maxSliderValueCM;
+    } else {
+      newSliderValue = currentSliderValueRD < maxSliderValueRD ? currentSliderValueRD : maxSliderValueRD;
+    }
 
-  setSliderValue(newSliderValue);
-}, [
-  maxSliderValue,
-  maxSliderValueCM,
-  maxSliderValueKP_GE,
-  maxSliderValueRD,
-  props.value,
-  currentSliderValueCM,
-  currentSliderValue,
-  currentSliderValueKP_GE,
-  currentSliderValueKP_GT,
-  currentSliderValueRD,
-]);
-
+    setSliderValue(newSliderValue);
+  }, [
+    maxSliderValue,
+    maxSliderValueCM,
+    maxSliderValueKP_GE,
+    maxSliderValueRD,
+    props.value,
+    currentSliderValueCM,
+    currentSliderValue,
+    currentSliderValueKP_GE,
+    currentSliderValueKP_GT,
+    currentSliderValueRD,
+  ]);
 
   const maxValue = useMemo(() => {
     if (['GD', 'KP_GT'].includes(props.value)) {
