@@ -31,7 +31,7 @@ import {
 } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
-import { setCaptureRDWG } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
 
 const dataViewOptions = [
   {
@@ -145,11 +145,21 @@ export const DeterminantsGraph = () => {
       });
     });
     const mapArray = Array.from(mp); //[key, total_count], eg: ['4.3.1.1', 1995]
+    // const filteredArr = mapArray.filter((item) => genotypesDrugClassesData[determinantsGraphDrugClass].includes(item[0]));
     // Sort the array based on keys
+    // filteredArr.sort((a, b) => b[1] - a[1]);
+
+    //     const slicedArray = filteredArr.slice(0, currentSliderValueRD).map(([key, value]) => key);
+    //     const slicedArrayWithOther = structuredClone(slicedArray);
+    //     const Other = 'Other';
+    //     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
+    //     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
+
     mapArray.sort((a, b) => b[1] - a[1]);
     const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
+    dispatch(setGenotypesForFilterSelectedRD(slicedArray));
     setTopXGenotypes(slicedArray);
-    // 'setMaxSliderValueRD', mapArray.length);
+
     dispatch(setMaxSliderValueRD(mapArray.length));
   }, [determinantsGraphDrugClass, currentSliderValueRD]);
 
