@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { AdminPage } from './components/Admin';
 import { DashboardPage } from './components/Dashboard';
 import { AboutPage } from './components/About';
-import { Team } from './components/About/Team';
 import { DatabasePage } from './components/Database';
 import { DocumentationPage } from './components/Documentation';
 import { ContactPage } from './components/Contact';

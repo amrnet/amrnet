@@ -1,6 +1,5 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
-import sanitizeHtml from 'sanitize-html';
 
 const router = express.Router();
 /* GET home page. */
@@ -26,10 +25,10 @@ router.post('/', async function (req, res, next) {
       subject: `New contact ${userInfo.firstName} ${userInfo.lastName} interested`, // Subject line
       text: '', // plain text body
       html: `
-      <p><b>E-mail: </b>${sanitizeHtml(userInfo.email)}</p>
-      <p><b>First Name: </b>${sanitizeHtml(userInfo.firstName)}</p>    
-      <p><b>Last Name: </b>${sanitizeHtml(userInfo.lastName)}</p>
-      <p><b>Message: </b>${sanitizeHtml(userInfo.message)}</p>        
+      <p><b>E-mail: </b>${userInfo.email}</p>
+      <p><b>First Name: </b>${userInfo.firstName}</p>    
+      <p><b>Last Name: </b>${userInfo.lastName}</p>
+      <p><b>Message: </b>${userInfo.message}</p>        
     `, // html body
     });
 

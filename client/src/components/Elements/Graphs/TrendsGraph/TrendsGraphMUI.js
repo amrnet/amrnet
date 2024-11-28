@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     gap: '4px',
     padding: '8px 0px 4px',
     marginLeft: '60px',
+    marginRight: '60px',
   },
   legendItemWrapper: {
     display: 'flex',

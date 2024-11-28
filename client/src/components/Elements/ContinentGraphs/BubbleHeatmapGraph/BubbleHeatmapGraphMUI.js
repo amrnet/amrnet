@@ -109,6 +109,16 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     paddingTop: '16px',
   },
+  labelWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: '8px',
+    paddingBottom: '4px',
+  },
+  labelTooltipIcon: {
+    cursor: 'pointer',
+  },
 }));
 
 export { useStyles };
