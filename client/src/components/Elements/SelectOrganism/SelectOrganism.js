@@ -4,7 +4,7 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { setGlobalOverviewLabel, setOrganism } from '../../../stores/slices/dashboardSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { organismsCards } from '../../../util/organismsCards';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 export const SelectOrganism = () => {
   const classes = useStyles();
@@ -14,6 +14,8 @@ export const SelectOrganism = () => {
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
+
+  const activeOrganismsCards = useMemo(() => organismsCards.filter((x) => !x.disabled), []);
 
   useEffect(() => {
     if (organism !== '') {
@@ -31,19 +33,21 @@ export const SelectOrganism = () => {
   }
 
   function handlePreviousAgent() {
-    const index = organismsCards.findIndex((org) => org.value === organism);
+    const index = activeOrganismsCards.findIndex((org) => org.value === organism);
     if (index !== -1) {
       const isFirstIndex = index === 0;
-      const newValue = isFirstIndex ? organismsCards[organismsCards.length - 1].value : organismsCards[index - 1].value;
+      const newValue = isFirstIndex
+        ? activeOrganismsCards[activeOrganismsCards.length - 1].value
+        : activeOrganismsCards[index - 1].value;
       dispatch(setOrganism(newValue));
     }
   }
 
   function handleNextAgent() {
-    const index = organismsCards.findIndex((org) => org.value === organism);
+    const index = activeOrganismsCards.findIndex((org) => org.value === organism);
     if (index !== -1) {
-      const isLastIndex = organismsCards.length - 1 === index;
-      const newValue = isLastIndex ? organismsCards[0].value : organismsCards[index + 1].value;
+      const isLastIndex = activeOrganismsCards.length - 1 === index;
+      const newValue = isLastIndex ? activeOrganismsCards[0].value : activeOrganismsCards[index + 1].value;
       dispatch(setOrganism(newValue));
     }
   }
@@ -68,7 +72,7 @@ export const SelectOrganism = () => {
           Select an organism
         </MenuItem>
         {organismsCards.map((item, index) => (
-          <MenuItem key={`organism-${index}`} value={item.value}>
+          <MenuItem key={`organism-${index}`} value={item.value} disabled={item.disabled}>
             {matches1050 ? item.abbr : item.label}
           </MenuItem>
         ))}

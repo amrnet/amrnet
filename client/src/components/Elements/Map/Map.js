@@ -16,7 +16,6 @@ import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
 import { Ngmast } from './Ng_mast/Ngmast';
 import { statKeys } from '../../../util/drugClassesRules';
-import { getColorForDrug } from '../Graphs/graphColorHelper';
 
 const statKey = {
   MDR: 'MDR',
@@ -98,7 +97,7 @@ export const Map = () => {
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
                     Carb: `${countryStats.Carb.percentage}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`,
+                    // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : organism === 'ngono'
                 ? {
@@ -310,7 +309,10 @@ export const Map = () => {
                           }
                           if (countryData.count >= 20 && genotypesNG2.length > 0) {
                             if (genotypesNG2 !== undefined) {
-                              fillColor = differentColorScale(((sumCountNG / percentCounterNG) * 100).toFixed(2),'red');
+                              fillColor = differentColorScale(
+                                ((sumCountNG / percentCounterNG) * 100).toFixed(2),
+                                'red',
+                              );
                             }
                           } else if (countryData.count >= 20) {
                             fillColor = darkGrey;
@@ -475,7 +477,9 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {['Genotype prevalence','ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
+              {['Genotype prevalence', 'ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(
+                mapView,
+              ) ? (
                 <TopRightControls2 />
               ) : mapView === 'NG-MAST prevalence' ? (
                 <Ngmast />
@@ -488,7 +492,9 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {['Genotype prevalence','ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(mapView) ? (
+            {['Genotype prevalence', 'ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(
+              mapView,
+            ) ? (
               <TopRightControls2 />
             ) : mapView === 'NG-MAST prevalence' ? (
               <Ngmast />

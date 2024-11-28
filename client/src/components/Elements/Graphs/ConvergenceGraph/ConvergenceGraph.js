@@ -24,7 +24,6 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 import { SliderSizes } from '../../Slider';
-import { differentColorScale } from '../../Map/mapColorHelper';
 
 export const ConvergenceGraph = () => {
   const classes = useStyles();
@@ -76,10 +75,6 @@ export const ConvergenceGraph = () => {
     );
   }, [convergenceColourPallete, topConvergenceData]);
 
-  const maxZValue = useMemo(() => {
-    return Math.max(...(topConvergenceData.map((item) => item.z) ?? []));
-  }, [topConvergenceData]);
-
   useEffect(() => {
     dispatch(setTopColorSlice(topColours));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,14 +125,7 @@ export const ConvergenceGraph = () => {
                             <Box
                               className={classes.colorCircle}
                               style={{
-                                backgroundColor:
-                                  convergenceGroupVariable === 'DATE'
-                                    ? differentColorScale(
-                                        topConvergenceData.find((x) => x.name === key).z,
-                                        '',
-                                        maxZValue,
-                                      )
-                                    : convergenceColourPallete[key],
+                                backgroundColor: convergenceColourPallete[key],
                               }}
                             />
                             <Typography variant="caption">{key}</Typography>
@@ -165,11 +153,7 @@ export const ConvergenceGraph = () => {
                     name={option.name}
                     onClick={() => handleClickChart(option.name)}
                     key={`combination-cell-${index}`}
-                    fill={
-                      convergenceGroupVariable === 'DATE'
-                        ? differentColorScale(option.z, '', maxZValue)
-                        : convergenceColourPallete[option.colorLabel]
-                    }
+                    fill={convergenceColourPallete[option.colorLabel]}
                   />
                 ))}
               </Scatter>

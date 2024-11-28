@@ -71,7 +71,7 @@ export const drugsKP = [
   'Tetracycline',
   'Tigecycline',
   'Trimethoprim',
-  'Trimethoprim-sulfamethoxazole'
+  'Trimethoprim-sulfamethoxazole',
 ];
 
 // List of Salmonella Typhi drug classes
@@ -109,7 +109,7 @@ export const drugAcronyms = {
   Carb: 'CARB',
   Aminoglycosides: 'AGLY',
   Fluoroquinolones: 'FLQ',
-  'β-lactamase inhibitors': 'β-lactamase inhibitors',
+  // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
   Phenicols: 'PHE',
   Tigecycline: 'TGC',
   ESBL: 'ESBL',
