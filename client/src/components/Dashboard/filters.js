@@ -208,7 +208,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
         const result = { name: genotype, count, drugs: {} };
         const dataWithGenFilter = itemData.filter((x) => x['GENOTYPE'] === genotype);
 
-        statKeys[organism].forEach(({ name, column, key }) => {
+        statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key }) => {
           if (Array.isArray(column)) {
             const count = dataWithGenFilter.filter((x) => column.some((id) => x[id] !== '-')).length;
             result.drugs[name] = {
@@ -232,7 +232,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       return sum + (item.count || 0); // Add the count of each item to the sum
     }, 0);
 
-    statKeys[organism].forEach(({ name, column, key }) => {
+    statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key }) => {
       if (Array.isArray(column)) {
         const count = itemData.filter((x) => column.some((id) => x[id] !== '-')).length;
         stats[name] = {

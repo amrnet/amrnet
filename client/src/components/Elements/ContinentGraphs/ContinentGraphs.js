@@ -21,7 +21,7 @@ const TABS = [
     disabled: true,
   },
   {
-    label: 'Heatmap view for ST vs genotype',
+    label: 'Heatmap ST vs genotype',
     value: 'three',
     disabled: false,
   },

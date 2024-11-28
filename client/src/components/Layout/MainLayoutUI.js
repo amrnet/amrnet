@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
       padding: '88px 8px 8px',
       rowGap: '8px',
     },
-    
   },
   childrenOrg: {
     // backgroundColor:"green",
@@ -42,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
       padding: '88px 8px 8px',
       rowGap: '8px',
     },
-
   },
   loading: {
     position: 'absolute',
@@ -53,13 +51,13 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: '#fff',
     zIndex: 9999,
+    gap: '16px',
   },
   logo: {
     height: '100px',
     alignSelf: 'center',
-    paddingLeft: '20px',
   },
 }));
 

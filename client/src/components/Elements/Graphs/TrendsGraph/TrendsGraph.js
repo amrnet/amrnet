@@ -40,8 +40,6 @@ export const TrendsGraph = () => {
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [tooltipTab, setTooltipTab] = useState('genes');
-  const [topGenotypes, setTopGenotypes] = useState([]);
-  const [topGenes, setTopGenes] = useState([]);
   const [switchLines, setSwitchLines] = useState(true);
 
   const dispatch = useAppDispatch();
@@ -59,7 +57,6 @@ export const TrendsGraph = () => {
   const currentSliderValueKP_GT = useAppSelector((state) => state.graph.currentSliderValueKP_GT);
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
-
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -81,8 +78,8 @@ export const TrendsGraph = () => {
     return drugClassesNG;
   }
 
-  function getDomain() {
-    return trendsGraphView === 'number' ? ['dataMin', 'dataMax'] : [0, 100];
+  function getDomain(max = null) {
+    return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
   }
 
   function getColors() {
@@ -130,7 +127,6 @@ export const TrendsGraph = () => {
     // setTopGenes(topGE);
     dispatch(setTopGenesSlice(topGE));
     dispatch(setTopGenotypeSlice(topGT));
-
 
     genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
       const value = {
@@ -283,9 +279,23 @@ export const TrendsGraph = () => {
                 allowDecimals={false}
                 domain={getDomain()}
                 allowDataOverflow={true}
+                yAxisId="left"
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Number of Genomes
+                </Label>
+              </YAxis>
+              <YAxis
+                tickCount={8}
+                padding={switchLines ? { top: 20, bottom: 20 } : undefined}
+                allowDecimals={false}
+                domain={getDomain(1500)}
+                allowDataOverflow={true}
+                yAxisId="right"
+                orientation="right"
+              >
+                <Label angle={90} position="insideRight" className={classes.graphLabel}>
+                  Number of Genotypes
                 </Label>
               </YAxis>
               {(slicedData ?? []).length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
@@ -338,14 +348,31 @@ export const TrendsGraph = () => {
                 const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option);
                 // const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option)?.color;
                 const fillColor = color ? color.color : '#B9B9B9'; // Default color if not found
-                return <Bar key={`trends-bar-${index}`} dataKey={option} name={option} stackId={0} fill={fillColor} />;
+                return (
+                  <Bar
+                    key={`trends-bar-${index}`}
+                    yAxisId="left"
+                    dataKey={option}
+                    name={option}
+                    stackId={0}
+                    fill={fillColor}
+                  />
+                );
               })}
-              <Bar key="trends-bar-others" dataKey="Other Genes" name="Other Genes" stackId={0} fill="#f5f4f6" />
+              <Bar
+                key="trends-bar-others"
+                yAxisId="left"
+                dataKey="Other Genes"
+                name="Other Genes"
+                stackId={0}
+                fill="#f5f4f6"
+              />
 
               {switchLines &&
                 [...topGenotypeSlice, 'Other Genotypes'].map((option, index) => (
                   <Line
                     key={`trends-line-${index}`}
+                    yAxisId="right"
                     dataKey={option}
                     strokeWidth={2}
                     stroke={colorPallete[option] || '#F5F4F6'}
@@ -421,10 +448,10 @@ export const TrendsGraph = () => {
           {plotChart}
         </div>
         <div className={classes.sliderCont}>
-          <SliderSizes value={'KP_GT'}  disabled={!switchLines} />
-          <SliderSizes value={'KP_GE'}  />
+          <SliderSizes value={'KP_GT'} disabled={!switchLines} />
+          <SliderSizes value={'KP_GE'} />
 
-        {/* <div className={classes.rightSide}> */}
+          {/* <div className={classes.rightSide}> */}
           <FormGroup className={classes.formGroup}>
             <FormControlLabel
               label={<Typography variant="caption">Show genotype lines</Typography>}
