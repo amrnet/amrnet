@@ -1,4 +1,15 @@
-import { Box, Button, CardContent, Checkbox, Divider, ListItemText, MenuItem, Select, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CardContent,
+  Checkbox,
+  Divider,
+  ListItemText,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './BubbleHeatmapGraphMUI';
 import {
   ResponsiveContainer,
@@ -18,6 +29,7 @@ import { drugClassesRulesKP, statKeys } from '../../../../util/drugClassesRules'
 import { drugAcronyms } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
+import { InfoOutlined } from '@mui/icons-material';
 
 const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
   return {
@@ -42,8 +54,8 @@ export const BubbleHeatmapGraph = () => {
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-  const uniqueCountryKPDrugs = useAppSelector((state) => state.graph.uniqueCountryKPDrugs);
-  const uniqueRegionKPDrugs = useAppSelector((state) => state.graph.uniqueRegionKPDrugs);
+  // const uniqueCountryKPDrugs = useAppSelector((state) => state.graph.uniqueCountryKPDrugs);
+  // const uniqueRegionKPDrugs = useAppSelector((state) => state.graph.uniqueRegionKPDrugs);
 
   const countryRegionOptions = useMemo(() => {
     switch (countryRegionFilterType) {
@@ -56,14 +68,6 @@ export const BubbleHeatmapGraph = () => {
     }
   }, [countriesForFilter, countryRegionFilterType, economicRegions]);
 
-  const resistanceOptions = useMemo(() => {
-    const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
-    return options
-      .filter((option) => option.heatmapView)
-      .map((option) => option.name)
-      .sort();
-  }, [organism]);
-
   const selectedCRData = useMemo(
     () =>
       (countryRegionFilterType === 'country' ? mapData : mapRegionData).find(
@@ -72,11 +76,51 @@ export const BubbleHeatmapGraph = () => {
     [countryRegionFilterSelected, countryRegionFilterType, mapData, mapRegionData],
   );
 
+  const resistanceOptions = useMemo(() => {
+    const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+    const resistance = options
+      .filter((option) => option.heatmapView)
+      .map((option) => option.name)
+      .sort();
+    const drugs = {};
+
+    resistance.forEach((drug) => {
+      const stats = selectedCRData?.stats;
+
+      if (!stats) return;
+
+      if (!(drug in drugs)) {
+        drugs[drug] = stats[drug]?.count ?? 0;
+        return;
+      }
+
+      drugs[drug] += stats[drug]?.count ?? 0;
+    });
+
+    return (
+      Object.entries(drugs)
+        .filter((x) => x[1] > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]) ?? []
+    );
+  }, [organism, selectedCRData?.stats]);
+
+  const markersOptions = useMemo(() => {
+    const drugKey = yAxisType === 'kp-markers-carbapenems' ? 'Carb' : 'ESBL';
+
+    return (
+      selectedCRData?.stats[drugKey]?.items
+        .filter((x) => x.name !== '-')
+        .sort((a, b) => b.count - a.count)
+        .map((x) => x.name) ?? []
+    );
+  }, [selectedCRData?.stats, yAxisType]);
+
   const xAxisOptions = useMemo(() => {
     switch (xAxisType) {
       case 'genotype':
         if (!selectedCRData) return [];
-        return selectedCRData?.stats.GENOTYPE.items.map((x) => x.name).slice(0, 30);
+        return selectedCRData?.stats.GENOTYPE.items.map((x) => x.name);
       default:
         return [];
     }
@@ -87,17 +131,12 @@ export const BubbleHeatmapGraph = () => {
       case 'resistance':
         return resistanceOptions;
       case 'kp-markers-carbapenems':
-        return countryRegionFilterType === 'country'
-          ? uniqueCountryKPDrugs['Carbapenems'].slice(0, 30)
-          : uniqueRegionKPDrugs['Carbapenems'].slice(0, 30);
       case 'kp-markers-esbl':
-        return countryRegionFilterType === 'country'
-          ? uniqueCountryKPDrugs['ESBL'].slice(0, 30)
-          : uniqueRegionKPDrugs['ESBL'].slice(0, 30);
+        return markersOptions;
       default:
         return [];
     }
-  }, [countryRegionFilterType, resistanceOptions, uniqueCountryKPDrugs, uniqueRegionKPDrugs, yAxisType]);
+  }, [markersOptions, resistanceOptions, yAxisType]);
 
   useEffect(() => {
     setCountryRegionFilterSelected(countryRegionOptions[0]);
@@ -196,7 +235,7 @@ export const BubbleHeatmapGraph = () => {
           }
 
           if (yAxisType.includes('markers')) {
-            const drugGenes = item.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carb'].items;
+            const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carb']?.items;
 
             yAxisSelected.forEach((gene) => {
               const currentGene = drugGenes.find((dg) => dg.name === gene);
@@ -306,11 +345,16 @@ export const BubbleHeatmapGraph = () => {
               disabled={organism === 'none'}
             >
               <MenuItem value="country">Countries</MenuItem>
-              <MenuItem value="region">United Nations Regions</MenuItem>
+              <MenuItem value="region">Economic regions</MenuItem>
             </Select>
           </div>
           <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select country/region</Typography>
+            <div className={classes.labelWrapper}>
+              <Typography variant="caption">Select country/region</Typography>
+              <Tooltip title="Navigate by typing the first letter of the country/region." placement="top">
+                <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+              </Tooltip>
+            </div>
             <Select
               value={countryRegionFilterSelected}
               onChange={handleChangeCRFSelected}
@@ -347,7 +391,7 @@ export const BubbleHeatmapGraph = () => {
             </Select>
           </div>
           <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select genotypes/pathovar (top 30)</Typography>
+            <Typography variant="caption">Select genotypes/pathovar</Typography>
             <Select
               multiple
               value={xAxisSelected}

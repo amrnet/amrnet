@@ -11,7 +11,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
-import { statKeys, mapStatKeysKP} from '../../../../util/drugClassesRules';
+import { statKeys, mapStatKeysKP } from '../../../../util/drugClassesRules';
 
 const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
@@ -35,10 +35,8 @@ export const TopRightControls2 = () => {
   const isResPrevalence = useMemo(() => mapView === 'Resistance prevalence', [mapView]);
   const resistanceOptions = useMemo(() => {
     let options;
-    if(organism === 'kpneumo')
-      options = mapStatKeysKP;
-    else
-      options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+    if (organism === 'kpneumo') options = mapStatKeysKP;
+    else options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
     return options.filter((option) => option.resistanceView).map((option) => option.name);
   }, [organism]);
 
@@ -146,7 +144,7 @@ export const TopRightControls2 = () => {
     <Box className={`${classes.topRightControls}`}>
       <FormControlLabel
         className={classes.font}
-        control={<Switch checked={open} onChange={handleClick} />}
+        control={<Switch checked={open} onChange={handleClick} size="small" />}
         label={<Typography className={classes.font}>{label}</Typography>}
       />
       <Collapse in={open}>
@@ -184,7 +182,7 @@ export const TopRightControls2 = () => {
                   );
                 }}
                 renderTags={(value, getTagProps) => (
-                  <Box sx={{ maxHeight: 60, overflowY: 'auto' }}>
+                  <Box sx={{ maxHeight: 50, overflowY: 'auto' }}>
                     {value.map((option, index) => (
                       <Chip key={index} label={option} {...getTagProps({ index })} />
                     ))}

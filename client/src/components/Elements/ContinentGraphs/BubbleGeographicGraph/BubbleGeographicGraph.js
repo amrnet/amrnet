@@ -1,4 +1,15 @@
-import { Box, Button, CardContent, Checkbox, Divider, ListItemText, MenuItem, Select, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CardContent,
+  Checkbox,
+  Divider,
+  ListItemText,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './BubbleGeographicGraphMUI';
 import {
   ResponsiveContainer,
@@ -18,6 +29,7 @@ import { drugClassesRulesKP, statKeys } from '../../../../util/drugClassesRules'
 import { drugAcronyms } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
+import { InfoOutlined } from '@mui/icons-material';
 
 const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
   return {
@@ -40,19 +52,94 @@ export const BubbleGeographicGraph = () => {
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
-  const uniqueCountryKPDrugs = useAppSelector((state) => state.graph.uniqueCountryKPDrugs);
-  const uniqueRegionKPDrugs = useAppSelector((state) => state.graph.uniqueRegionKPDrugs);
+  // const uniqueCountryKPDrugs = useAppSelector((state) => state.graph.uniqueCountryKPDrugs);
+  // const uniqueRegionKPDrugs = useAppSelector((state) => state.graph.uniqueRegionKPDrugs);
   const drugsRegionsKPData = useAppSelector((state) => state.graph.drugsRegionsKPData);
   const drugsCountriesKPData = useAppSelector((state) => state.graph.drugsCountriesKPData);
 
   const resistanceOptions = useMemo(() => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
-    return options
+    const resistance = options
       .filter((option) => option.heatmapView)
       .map((option) => option.name)
       .sort();
-  }, [organism]);
+
+    const drugs = {};
+
+    (xAxisType === 'country' ? mapData : mapRegionData)
+      .filter((item) => xAxisSelected.includes(item.name))
+      .forEach((item) => {
+        const stats = item.stats;
+        if (!stats) return;
+        console.log(stats);
+
+        resistance.forEach((drug) => {
+          if (!(drug in drugs)) {
+            drugs[drug] = stats[drug]?.count ?? 0;
+            return;
+          }
+
+          drugs[drug] += stats[drug]?.count ?? 0;
+        });
+      });
+
+    return (
+      Object.entries(drugs)
+        .filter((x) => x[1] > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]) ?? []
+    );
+  }, [mapData, mapRegionData, organism, xAxisSelected, xAxisType]);
+
+  const markersOptions = useMemo(() => {
+    const drugKey = yAxisType === 'kp-trends-carbapenems' ? 'Carbapenems' : 'ESBL';
+
+    const data = xAxisType === 'country' ? drugsCountriesKPData[drugKey] : drugsRegionsKPData[drugKey];
+    const filteredData = data?.filter((x) => xAxisSelected.includes(x.name)) ?? [];
+    const drugs = {};
+
+    filteredData.forEach((obj) => {
+      Object.keys(obj).forEach((key) => {
+        if (['None', 'name', 'resistantCount', 'totalCount'].includes(key)) {
+          return;
+        }
+
+        if (!(key in drugs)) {
+          drugs[key] = obj[key];
+          return;
+        }
+
+        drugs[key] += obj[key];
+      });
+    });
+
+    return (
+      Object.entries(drugs)
+
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]) ?? []
+    );
+  }, [drugsCountriesKPData, drugsRegionsKPData, xAxisSelected, xAxisType, yAxisType]);
+
+  const genotypesEntries = useMemo(() => {
+    const filteredData = (xAxisType === 'country' ? mapData : mapRegionData).filter((x) =>
+      xAxisSelected.includes(x.name),
+    );
+    const genotypes = {};
+
+    filteredData.forEach((obj) => {
+      obj.stats.GENOTYPE.items.forEach((item) => {
+        if (!(item.name in genotypes)) {
+          genotypes[item.name] = item.count;
+          return;
+        }
+
+        genotypes[item.name] += item.count;
+      });
+    });
+
+    return genotypes;
+  }, [mapData, mapRegionData, xAxisSelected, xAxisType]);
 
   const xAxisOptions = useMemo(() => {
     switch (xAxisType) {
@@ -70,19 +157,18 @@ export const BubbleGeographicGraph = () => {
       case 'resistance':
         return resistanceOptions;
       case 'genotype':
-        return genotypesDrugsData.map((data) => data.name).slice(0, 30);
+        return (
+          Object.entries(genotypesEntries)
+            .sort((a, b) => b[1] - a[1])
+            .map((x) => x[0]) ?? []
+        );
       case 'kp-trends-carbapenems':
-        return xAxisType === 'country'
-          ? uniqueCountryKPDrugs['Carbapenems'].slice(0, 30)
-          : uniqueRegionKPDrugs['Carbapenems'].slice(0, 30);
       case 'kp-trends-esbl':
-        return xAxisType === 'country'
-          ? uniqueCountryKPDrugs['ESBL'].slice(0, 30)
-          : uniqueRegionKPDrugs['ESBL'].slice(0, 30);
+        return markersOptions;
       default:
         return [];
     }
-  }, [genotypesDrugsData, resistanceOptions, uniqueCountryKPDrugs, uniqueRegionKPDrugs, xAxisType, yAxisType]);
+  }, [genotypesEntries, markersOptions, resistanceOptions, yAxisType]);
 
   useEffect(() => {
     setXAxisSelected(
@@ -97,7 +183,7 @@ export const BubbleGeographicGraph = () => {
   useEffect(() => {
     setYAxisSelected(yAxisOptions.slice(0, 8));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yAxisType]);
+  }, [yAxisOptions]);
 
   const yAxisWidth = useMemo(() => {
     return longestVisualWidth((xAxisSelected ?? []).map((x) => (x === 'United States of America' ? 'USA' : x)));
@@ -109,18 +195,9 @@ export const BubbleGeographicGraph = () => {
         return item;
       }
 
-      const matchingItem = genotypesDrugsData.find((g) => g.name === item);
-
-      const totalCount = matchingItem?.totalCount ?? 0;
-      const susceptiblePercentage = (matchingItem?.Susceptible / totalCount || 0) * 100;
-
-      if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
-        return `${item} (total N=${totalCount})`;
-      }
-
-      return `${item} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
+      return `${item} (total N=${genotypesEntries[item]})`;
     },
-    [genotypesDrugsData, organism, yAxisType],
+    [genotypesEntries, yAxisType],
   );
 
   function handleChangeXAxisType(event) {
@@ -311,11 +388,16 @@ export const BubbleGeographicGraph = () => {
               disabled={organism === 'none'}
             >
               <MenuItem value="country">Countries</MenuItem>
-              <MenuItem value="region">United Nations Regions</MenuItem>
+              <MenuItem value="region">Economic regions</MenuItem>
             </Select>
           </div>
           <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select countries/regions</Typography>
+            <div className={classes.labelWrapper}>
+              <Typography variant="caption">Select countries/regions</Typography>
+              <Tooltip title="Navigate by typing the first letter of the country/region." placement="top">
+                <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+              </Tooltip>
+            </div>
             <Select
               multiple
               value={xAxisSelected}
@@ -369,7 +451,7 @@ export const BubbleGeographicGraph = () => {
             </Select>
           </div>
           <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select drugs/genotypes (top 30) (up to 8)</Typography>
+            <Typography variant="caption">Select drugs/genotypes (up to 8)</Typography>
             <Select
               multiple
               value={yAxisSelected}

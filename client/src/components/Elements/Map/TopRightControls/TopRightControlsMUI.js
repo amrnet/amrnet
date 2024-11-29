@@ -54,6 +54,15 @@ const useStyles = makeStyles((theme) => ({
   legendText: {
     fontSize: '10px',
   },
+  mapViewWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    paddingBottom: '16px',
+  },
+  toggleGroup: {
+    textWrap: 'nowrap',
+  },
   bp700: {},
 }));
 
