@@ -59,17 +59,43 @@ export const BubbleGeographicGraph = () => {
 
   const resistanceOptions = useMemo(() => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
-    return options
+    const resistance = options
       .filter((option) => option.heatmapView)
       .map((option) => option.name)
       .sort();
-  }, [organism]);
+
+    const drugs = {};
+
+    (xAxisType === 'country' ? mapData : mapRegionData)
+      .filter((item) => xAxisSelected.includes(item.name))
+      .forEach((item) => {
+        const stats = item.stats;
+        if (!stats) return;
+        console.log(stats);
+
+        resistance.forEach((drug) => {
+          if (!(drug in drugs)) {
+            drugs[drug] = stats[drug]?.count ?? 0;
+            return;
+          }
+
+          drugs[drug] += stats[drug]?.count ?? 0;
+        });
+      });
+
+    return (
+      Object.entries(drugs)
+        .filter((x) => x[1] > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]) ?? []
+    );
+  }, [mapData, mapRegionData, organism, xAxisSelected, xAxisType]);
 
   const markersOptions = useMemo(() => {
     const drugKey = yAxisType === 'kp-trends-carbapenems' ? 'Carbapenems' : 'ESBL';
 
     const data = xAxisType === 'country' ? drugsCountriesKPData[drugKey] : drugsRegionsKPData[drugKey];
-    const filteredData = data.filter((x) => xAxisSelected.includes(x.name));
+    const filteredData = data?.filter((x) => xAxisSelected.includes(x.name)) ?? [];
     const drugs = {};
 
     filteredData.forEach((obj) => {
@@ -89,6 +115,7 @@ export const BubbleGeographicGraph = () => {
 
     return (
       Object.entries(drugs)
+
         .sort((a, b) => b[1] - a[1])
         .map((x) => x[0]) ?? []
     );
@@ -113,7 +140,6 @@ export const BubbleGeographicGraph = () => {
 
     return genotypes;
   }, [mapData, mapRegionData, xAxisSelected, xAxisType]);
-  console.log(genotypesEntries);
 
   const xAxisOptions = useMemo(() => {
     switch (xAxisType) {

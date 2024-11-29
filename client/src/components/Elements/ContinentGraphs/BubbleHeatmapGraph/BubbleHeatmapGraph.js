@@ -68,14 +68,6 @@ export const BubbleHeatmapGraph = () => {
     }
   }, [countriesForFilter, countryRegionFilterType, economicRegions]);
 
-  const resistanceOptions = useMemo(() => {
-    const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
-    return options
-      .filter((option) => option.heatmapView)
-      .map((option) => option.name)
-      .sort();
-  }, [organism]);
-
   const selectedCRData = useMemo(
     () =>
       (countryRegionFilterType === 'country' ? mapData : mapRegionData).find(
@@ -84,11 +76,40 @@ export const BubbleHeatmapGraph = () => {
     [countryRegionFilterSelected, countryRegionFilterType, mapData, mapRegionData],
   );
 
+  const resistanceOptions = useMemo(() => {
+    const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+    const resistance = options
+      .filter((option) => option.heatmapView)
+      .map((option) => option.name)
+      .sort();
+    const drugs = {};
+
+    resistance.forEach((drug) => {
+      const stats = selectedCRData?.stats;
+
+      if (!stats) return;
+
+      if (!(drug in drugs)) {
+        drugs[drug] = stats[drug]?.count ?? 0;
+        return;
+      }
+
+      drugs[drug] += stats[drug]?.count ?? 0;
+    });
+
+    return (
+      Object.entries(drugs)
+        .filter((x) => x[1] > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map((x) => x[0]) ?? []
+    );
+  }, [organism, selectedCRData?.stats]);
+
   const markersOptions = useMemo(() => {
     const drugKey = yAxisType === 'kp-markers-carbapenems' ? 'Carb' : 'ESBL';
 
     return (
-      selectedCRData?.stats[drugKey].items
+      selectedCRData?.stats[drugKey]?.items
         .filter((x) => x.name !== '-')
         .sort((a, b) => b.count - a.count)
         .map((x) => x.name) ?? []
@@ -214,7 +235,7 @@ export const BubbleHeatmapGraph = () => {
           }
 
           if (yAxisType.includes('markers')) {
-            const drugGenes = item.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carb'].items;
+            const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carb']?.items;
 
             yAxisSelected.forEach((gene) => {
               const currentGene = drugGenes.find((dg) => dg.name === gene);
