@@ -55,6 +55,8 @@ export const ResetButton = () => {
   const pathovar = useAppSelector((state) => state.dashboard.pathovar);
   const ngmast = useAppSelector((state) => state.graph.NGMAST);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
+  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
+  const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
   async function handleClick() {
     dispatch(setCanGetData(false));
@@ -136,7 +138,7 @@ export const ResetButton = () => {
             color="primary"
             size={matches500 ? 'medium' : 'large'}
             onClick={handleClick}
-            disabled={organism === 'none'}
+            disabled={organism === 'none' || loadingData || loadingMap}
           >
             <RestartAlt sx={{ color: '#fff' }} />
           </Fab>

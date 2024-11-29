@@ -45,6 +45,7 @@ interface MapState {
   dataset: string;
   mapData: Array<MapDataModel>;
   mapRegionData: Array<MapDataModel>;
+  mapColoredBy: string;
 }
 
 const initialState: MapState = {
@@ -58,6 +59,7 @@ const initialState: MapState = {
   dataset: '',
   mapData: [],
   mapRegionData: [],
+  mapColoredBy: 'country',
 };
 
 export const mapSlice = createSlice({
@@ -86,10 +88,21 @@ export const mapSlice = createSlice({
     setMapRegionData: (state, action: PayloadAction<Array<any>>) => {
       state.mapRegionData = action.payload;
     },
+    setMapColoredBy: (state, action: PayloadAction<string>) => {
+      state.mapColoredBy = action.payload;
+    },
   },
 });
 
-export const { setPosition, setMapView, setTooltipContent, setDataset, setLoadingMap, setMapData, setMapRegionData } =
-  mapSlice.actions;
+export const {
+  setPosition,
+  setMapView,
+  setTooltipContent,
+  setDataset,
+  setLoadingMap,
+  setMapData,
+  setMapRegionData,
+  setMapColoredBy,
+} = mapSlice.actions;
 
 export default mapSlice.reducer;
