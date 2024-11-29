@@ -1,20 +1,36 @@
 import { InfoOutlined } from '@mui/icons-material';
-import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  MenuItem,
+  Select,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import { useStyles } from './TopRightControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setMapView } from '../../../../stores/slices/mapSlice.ts';
+import { setMapColoredBy, setMapView } from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
-import { statKeys } from '../../../../util/drugClassesRules';
 import { getColorForDrug } from '../../Graphs/graphColorHelper';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
-const excludedViews = ['Genotype prevalence', 'ST prevalence', 'NG-MAST prevalence', 'Lineage prevalence', 'Resistance prevalence'];
+const excludedViews = [
+  'Genotype prevalence',
+  'ST prevalence',
+  'NG-MAST prevalence',
+  'Lineage prevalence',
+  'Resistance prevalence',
+];
 const mapViewsWithZeroPercentOption = [
   'CipNS',
   'CipR',
@@ -38,9 +54,14 @@ export const TopRightControls = () => {
   const dispatch = useAppDispatch();
   const mapData = useAppSelector((state) => state.map.mapData);
   const mapView = useAppSelector((state) => state.map.mapView);
+  const mapColoredBy = useAppSelector((state) => state.map.mapColoredBy);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
+
+  function handleChangeMapColoredBy(_, newValue) {
+    dispatch(setMapColoredBy(newValue));
+  }
 
   function handleChangeMapView(event) {
     dispatch(setMapView(event.target.value));
@@ -110,6 +131,7 @@ export const TopRightControls = () => {
         return;
     }
   }
+
   function getMDRDefinition() {
     switch (organism) {
       case 'styphi':
@@ -129,6 +151,27 @@ export const TopRightControls = () => {
     <div className={`${classes.topRightControls} ${matches ? classes.bp700 : ''}`}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
+          <div className={classes.mapViewWrapper}>
+            <Typography gutterBottom variant="caption">
+              Select map view
+            </Typography>
+            <ToggleButtonGroup
+              value={mapColoredBy}
+              exclusive
+              size="small"
+              onChange={handleChangeMapColoredBy}
+              disabled={organism === 'none'}
+              fullWidth
+              className={classes.toggleGroup}
+            >
+              <ToggleButton value="country" color="primary">
+                Country
+              </ToggleButton>
+              <ToggleButton value="region" color="primary">
+                Economic Region
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
           <div className={classes.label}>
             <Typography variant="caption">Colour country by</Typography>
             <Tooltip
