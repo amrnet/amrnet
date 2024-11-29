@@ -41,13 +41,16 @@ export const Map = () => {
   const dispatch = useAppDispatch();
   const position = useAppSelector((state) => state.map.position);
   const mapData = useAppSelector((state) => state.map.mapData);
+  const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
   const mapView = useAppSelector((state) => state.map.mapView);
+  const mapColoredBy = useAppSelector((state) => state.map.mapColoredBy);
   const tooltipContent = useAppSelector((state) => state.map.tooltipContent);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
+  const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
 
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
@@ -59,13 +62,14 @@ export const Map = () => {
       dispatch(setCanFilterData(true));
     }
   }
+
   function handleOnMouseLeave() {
     dispatch(setTooltipContent(null));
   }
+
   function handleOnMouseEnter({ geo, countryStats, countryData, smallerThan20 = false, showTooltip = false }) {
-    const { NAME } = geo.properties;
     const tooltip = {
-      name: NAME,
+      name: countryData?.name ?? (mapColoredBy === 'country' ? geo.properties.NAME : 'No economic region found'),
       content: {},
       smallerThan20,
     };
@@ -269,7 +273,17 @@ export const Map = () => {
               <Geographies geography={geography}>
                 {({ geographies }) => {
                   return geographies.map((geo) => {
-                    const countryData = mapData.find((item) => item.name === geo.properties.NAME);
+                    let countryData;
+
+                    if (mapColoredBy === 'country') {
+                      countryData = mapData.find((item) => item.name === geo.properties.NAME);
+                    } else {
+                      const regionKey = Object.keys(economicRegions).find((key) =>
+                        economicRegions[key].includes(geo.properties.NAME),
+                      );
+                      countryData = mapRegionData.find((item) => item.name === regionKey);
+                    }
+
                     const countryStats = countryData?.stats;
                     // const countryStatsNG = countryData?.statsNG;
                     let fillColor = lightGrey;
