@@ -181,12 +181,16 @@ export const FrequenciesGraph = () => {
       delete currentData.totalCount;
       delete currentData.resistantCount;
 
+      console.log(event.activePayload);
+
       Object.keys(currentData).forEach((key) => {
         const count = currentData[key];
 
         if (count === 0) {
           return;
         }
+
+        console.log(key);
 
         value.drugs.push({
           label: key,

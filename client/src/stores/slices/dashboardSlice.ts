@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { ReactNode } from 'react';
+import { organismsCards } from '../../util/organismsCards';
 
 interface GlobalOverviewModel {
-  label0: string;
-  label1: string;
-  label2: string;
-  fullLabel: string;
+  label: ReactNode;
+  stringLabel: string;
 }
 
 interface DashboardState {
@@ -25,6 +25,7 @@ interface DashboardState {
   years: Array<number>;
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
+  genotypesForFilterSelectedRD: Array<string>;
   colorPallete: Object;
   listPMID: Array<string>;
   PMID: Array<string>;
@@ -32,18 +33,19 @@ interface DashboardState {
   captureRFWG: boolean;
   captureRDWG: boolean;
   captureGD: boolean;
+  selectedLineages: Array<string>;
+  pathovar: Array<string>;
+  economicRegions: Object;
 }
 
 const initialState: DashboardState = {
   canGetData: true,
   canFilterData: false,
   globalOverviewLabel: {
-    label0: 'Salmonella',
-    label1: 'Typhi',
-    label2: '',
-    fullLabel: 'Salmonella Typhi',
+    label: organismsCards.find((card) => card.value === 'styphi')?.label || '',
+    stringLabel: organismsCards.find((card) => card.value === 'styphi')?.stringLabel || '',
   },
-  organism: 'styphi',
+  organism: 'none',
   loadingData: false,
   actualCountry: 'All',
   totalGenotypes: 0,
@@ -57,6 +59,7 @@ const initialState: DashboardState = {
   years: [],
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
+  genotypesForFilterSelectedRD: [],
   colorPallete: {},
   listPMID: [],
   PMID: [],
@@ -64,6 +67,9 @@ const initialState: DashboardState = {
   captureRFWG: true,
   captureRDWG: true,
   captureGD: true,
+  selectedLineages: [],
+  pathovar: [],
+  economicRegions: {},
 };
 
 export const dashboardSlice = createSlice({
@@ -79,7 +85,22 @@ export const dashboardSlice = createSlice({
     setGlobalOverviewLabel: (state, action: PayloadAction<GlobalOverviewModel>) => {
       state.globalOverviewLabel = action.payload;
     },
+    removeOrganism: (state) => {
+      state.organism = 'none';
+    },
     setOrganism: (state, action: PayloadAction<string>) => {
+      const url = new URL(window.location.href);
+      const hash = url.hash;
+
+      let [path, queryString] = hash.split('?');
+      const searchParams = new URLSearchParams(queryString);
+
+      if (searchParams.get('organism') !== action.payload) {
+        searchParams.set('organism', action.payload);
+        url.hash = `${path}?${searchParams.toString()}`;
+        window.history.replaceState(null, '', url);
+      }
+
       state.organism = action.payload;
     },
     setLoadingData: (state, action: PayloadAction<boolean>) => {
@@ -121,6 +142,9 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilterSelected: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilterSelected = action.payload;
     },
+    setGenotypesForFilterSelectedRD: (state, action: PayloadAction<Array<string>>) => {
+      state.genotypesForFilterSelectedRD = action.payload;
+    },
     setColorPallete: (state, action: PayloadAction<Object>) => {
       state.colorPallete = action.payload;
     },
@@ -141,6 +165,15 @@ export const dashboardSlice = createSlice({
     },
     setCaptureGD: (state, action: PayloadAction<boolean>) => {
       state.captureGD = action.payload;
+    },
+    setSelectedLineages: (state, action: PayloadAction<Array<string>>) => {
+      state.selectedLineages = action.payload;
+    },
+    setPathovar: (state, action: PayloadAction<Array<string>>) => {
+      state.pathovar = action.payload;
+    },
+    setEconomicRegions: (state, action: PayloadAction<Object>) => {
+      state.economicRegions = action.payload;
     },
   },
 });
@@ -163,6 +196,7 @@ export const {
   setYears,
   setGenotypesForFilter,
   setGenotypesForFilterSelected,
+  setGenotypesForFilterSelectedRD,
   setColorPallete,
   setListPMID,
   setPMID,
@@ -170,6 +204,10 @@ export const {
   setCaptureRFWG,
   setCaptureRDWG,
   setCaptureGD,
+  removeOrganism,
+  setSelectedLineages,
+  setPathovar,
+  setEconomicRegions,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

@@ -4,7 +4,7 @@ import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup
 import { useStyles } from './MapMUI';
 import geography from '../../../assets/world-50m.json';
 import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
-import { redColorScale, samplesColorScale, sensitiveColorScale, redColorScale2 } from './mapColorHelper';
+import { redColorScale, samplesColorScale, sensitiveColorScale, differentColorScale } from './mapColorHelper';
 import ReactTooltip from 'react-tooltip';
 import { BottomLeftControls } from './BottomLeftControls';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -15,6 +15,7 @@ import { TopLeftControls } from './TopLeftControls';
 import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
 import { Ngmast } from './Ng_mast/Ngmast';
+import { statKeys } from '../../../util/drugClassesRules';
 
 const statKey = {
   MDR: 'MDR',
@@ -40,15 +41,16 @@ export const Map = () => {
   const dispatch = useAppDispatch();
   const position = useAppSelector((state) => state.map.position);
   const mapData = useAppSelector((state) => state.map.mapData);
+  const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
   const mapView = useAppSelector((state) => state.map.mapView);
+  const mapColoredBy = useAppSelector((state) => state.map.mapColoredBy);
   const tooltipContent = useAppSelector((state) => state.map.tooltipContent);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  // const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
-  const customDropdownMapView = useAppSelector((state) => state.graph.customDropdownMapView);
+  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
-  const ifCustom = useAppSelector((state) => state.map.ifCustom);
+  const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
 
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
@@ -60,13 +62,14 @@ export const Map = () => {
       dispatch(setCanFilterData(true));
     }
   }
+
   function handleOnMouseLeave() {
     dispatch(setTooltipContent(null));
   }
+
   function handleOnMouseEnter({ geo, countryStats, countryData, smallerThan20 = false, showTooltip = false }) {
-    const { NAME } = geo.properties;
     const tooltip = {
-      name: NAME,
+      name: countryData?.name ?? (mapColoredBy === 'country' ? geo.properties.NAME : 'No economic region found'),
       content: {},
       smallerThan20,
     };
@@ -98,7 +101,7 @@ export const Map = () => {
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
                     Carb: `${countryStats.Carb.percentage}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`,
+                    // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : organism === 'ngono'
                 ? {
@@ -153,22 +156,21 @@ export const Map = () => {
           }
           break;
         case 'Genotype prevalence':
+        case 'ST prevalence':
         case 'Lineage prevalence':
-          let percentCounter = 0;
           const genotypes1 = countryStats.GENOTYPE.items;
           let genotypes2 = [];
           genotypes1.forEach((genotype) => {
-            if (customDropdownMapView.includes(genotype.name)) {
-              // tooltip.content[genotype.name] = `${genotype.count} `;
+            if (prevalenceMapViewOptionsSelected.includes(genotype.name)) {
               genotypes2.push(genotype);
             }
-            percentCounter += genotype.count;
           });
           genotypes1.forEach((genotype) => {
-            if (customDropdownMapView.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count} (${((genotype.count / percentCounter) * 100).toFixed(
-                2,
-              )} %)`;
+            if (prevalenceMapViewOptionsSelected.includes(genotype.name))
+              tooltip.content[genotype.name] = `${genotype.count} (${(
+                (genotype.count / countryStats.GENOTYPE.sum) *
+                100
+              ).toFixed(2)} %)`;
           });
           if (genotypes2.length > 0) {
             let sumCount = 0;
@@ -176,10 +178,17 @@ export const Map = () => {
               sumCount += genotype.count;
             }
             if (countryData.count >= 20 && genotypes2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount / percentCounter) * 100).toFixed(
-                2,
-              )} %)`;
+              tooltip.content['All selected genotypes'] = `${sumCount} (${(
+                (sumCount / countryStats.GENOTYPE.sum) *
+                100
+              ).toFixed(2)} %)`;
           }
+          break;
+        case 'Resistance prevalence':
+          prevalenceMapViewOptionsSelected.forEach((option) => {
+            const stats = countryStats[option];
+            tooltip.content[option] = `${stats.count} (${stats.percentage}%)`;
+          });
           break;
         case 'H58 / Non-H58':
         case 'MDR':
@@ -228,6 +237,8 @@ export const Map = () => {
     return ![
       'Dominant Genotype',
       'Genotype prevalence',
+      'ST prevalence',
+      'Resistance prevalence',
       'No. Samples',
       'NG-MAST prevalence',
       'Lineage prevalence',
@@ -238,36 +249,7 @@ export const Map = () => {
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h5" fontWeight={'bold'}>
-          Global Overview{' '}
-          {organism === 'none' ? (
-            ''
-          ) : (
-            <>
-              {organism === 'ngono' || organism === 'ecoli' || organism === 'senterica' || organism === 'kpneumo' ? (
-                <span>
-                  of{' '}
-                  <i>
-                    {globalOverviewLabel.label0} {globalOverviewLabel.label1} {globalOverviewLabel.label2}
-                  </i>
-                </span>
-              ) : organism === 'decoli' ? (
-                <span>
-                  of {globalOverviewLabel.label0}{' '}
-                  <i>
-                    {globalOverviewLabel.label1} {globalOverviewLabel.label2}
-                  </i>
-                </span>
-              ) : organism === 'sentericaints' ? (
-                <span>
-                  of {globalOverviewLabel.label0} {globalOverviewLabel.label1} <i>{globalOverviewLabel.label2}</i>
-                </span>
-              ) : (
-                <span>
-                  of <i>{globalOverviewLabel.label0}</i> {globalOverviewLabel.label1} {globalOverviewLabel.label2}
-                </span>
-              )}
-            </>
-          )}
+          Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
         <div className={classes.mapWrapper}>
           <ComposableMap
@@ -291,7 +273,17 @@ export const Map = () => {
               <Geographies geography={geography}>
                 {({ geographies }) => {
                   return geographies.map((geo) => {
-                    const countryData = mapData.find((item) => item.name === geo.properties.NAME);
+                    let countryData;
+
+                    if (mapColoredBy === 'country') {
+                      countryData = mapData.find((item) => item.name === geo.properties.NAME);
+                    } else {
+                      const regionKey = Object.keys(economicRegions).find((key) =>
+                        economicRegions[key].includes(geo.properties.NAME),
+                      );
+                      countryData = mapRegionData.find((item) => item.name === regionKey);
+                    }
+
                     const countryStats = countryData?.stats;
                     // const countryStatsNG = countryData?.statsNG;
                     let fillColor = lightGrey;
@@ -331,7 +323,10 @@ export const Map = () => {
                           }
                           if (countryData.count >= 20 && genotypesNG2.length > 0) {
                             if (genotypesNG2 !== undefined) {
-                              fillColor = redColorScale2(((sumCountNG / percentCounterNG) * 100).toFixed(2));
+                              fillColor = differentColorScale(
+                                ((sumCountNG / percentCounterNG) * 100).toFixed(2),
+                                'red',
+                              );
                             }
                           } else if (countryData.count >= 20) {
                             fillColor = darkGrey;
@@ -340,11 +335,12 @@ export const Map = () => {
                           break;
                         case 'Genotype prevalence':
                         case 'Lineage prevalence':
+                        case 'ST prevalence':
                           let percentCounter = 0;
                           const genotypes1 = countryStats.GENOTYPE.items;
                           let genotypes2 = [];
                           genotypes1.forEach((genotype) => {
-                            if (customDropdownMapView.includes(genotype.name)) genotypes2.push(genotype);
+                            if (prevalenceMapViewOptionsSelected.includes(genotype.name)) genotypes2.push(genotype);
                             percentCounter += genotype.count;
                           });
 
@@ -357,11 +353,42 @@ export const Map = () => {
                           }
                           if (countryData.count >= 20 && genotypes2.length > 0) {
                             if (genotypes2 !== undefined) {
-                              fillColor = redColorScale2(((sumCount / percentCounter) * 100).toFixed(2));
+                              fillColor = differentColorScale(((sumCount / percentCounter) * 100).toFixed(2), 'red');
                             }
                           } else if (countryData.count >= 20) {
                             fillColor = darkGrey;
                             smallerThan20 = true;
+                          }
+                          break;
+                        case 'Resistance prevalence':
+                          if (countryData.count >= 20) {
+                            const stats = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+                            const keys = stats
+                              .filter(
+                                (stat) =>
+                                  stat.resistanceView === true && prevalenceMapViewOptionsSelected.includes(stat.name),
+                              )
+                              .map((stat) => stat.name);
+
+                            let biggerCountItem = null;
+
+                            keys.forEach((key) => {
+                              if (biggerCountItem === null) {
+                                biggerCountItem = { key, ...countryStats[key] };
+                                return;
+                              }
+
+                              if (countryStats[key].count > biggerCountItem.count) {
+                                biggerCountItem = { key, ...countryStats[key] };
+                              }
+                            });
+
+                            if (!biggerCountItem || biggerCountItem.count === 0) {
+                              fillColor = darkGrey;
+                              smallerThan20 = true;
+                            } else {
+                              fillColor = differentColorScale(biggerCountItem.count, 'red');
+                            }
                           }
                           break;
                         case 'Sensitive to all drugs':
@@ -464,9 +491,11 @@ export const Map = () => {
             <>
               <TopLeftControls />
               <TopRightControls />
-              {(ifCustom && mapView === 'Genotype prevalence') || (ifCustom && mapView === 'Lineage prevalence') ? (
+              {['Genotype prevalence', 'ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(
+                mapView,
+              ) ? (
                 <TopRightControls2 />
-              ) : ifCustom && mapView === 'NG-MAST prevalence' ? (
+              ) : mapView === 'NG-MAST prevalence' ? (
                 <Ngmast />
               ) : null}
             </>
@@ -477,9 +506,11 @@ export const Map = () => {
         {matches && (
           <div className={classes.topControls}>
             <TopRightControls />
-            {(ifCustom && mapView === 'Genotype prevalence') || (ifCustom && mapView === 'Lineage prevalence') ? (
+            {['Genotype prevalence', 'ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(
+              mapView,
+            ) ? (
               <TopRightControls2 />
-            ) : ifCustom && mapView === 'NG-MAST prevalence' ? (
+            ) : mapView === 'NG-MAST prevalence' ? (
               <Ngmast />
             ) : null}
             <TopLeftControls />

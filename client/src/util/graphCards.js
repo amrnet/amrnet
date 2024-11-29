@@ -1,5 +1,16 @@
 import { BarChart, BubbleChart, MultilineChart, StackedBarChart, Timeline } from '@mui/icons-material';
 
+function getTrendstitle(organism) {
+  switch (organism) {
+    case 'kpneumo':
+      return 'Carbapenemase and ESBL distribution';
+    case 'ngono':
+      return 'Azithromycin and Ceftriaxone resistant determinant trends';
+    default:
+      return '';
+  }
+}
+
 export const graphCards = [
   {
     collapse: 'drugResistance',
@@ -7,7 +18,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'ngono'],
+    organisms: ['styphi', 'ngono', 'kpneumo'],
   },
   {
     collapse: 'frequencies',
@@ -31,7 +42,15 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'senterica'],
+    organisms: ['styphi', 'ngono'],
+  },
+  {
+    collapse: 'distribution',
+    title: 'ST distribution',
+    description: [''],
+    icon: <StackedBarChart color="primary" />,
+    id: 'GD',
+    organisms: ['kpneumo'],
   },
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
@@ -40,15 +59,23 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['shige', 'decoli', 'sentericaints'],
+    organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'],
   },
   {
-    collapse: 'trendsKP',
-    title: 'Carbapenems and ESBL resistant determinant trends',
+    collapse: 'trends',
+    title: getTrendstitle('kpneumo'),
     description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
-    id: 'CERDT',
+    id: 'RDT',
     organisms: ['kpneumo'],
+  },
+  {
+    collapse: 'trends',
+    title: getTrendstitle('ngono'),
+    description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
+    icon: <MultilineChart color="primary" />,
+    id: 'RDT',
+    organisms: ['ngono'],
   },
   {
     collapse: 'KODiversity',
@@ -61,9 +88,18 @@ export const graphCards = [
   {
     collapse: 'convergence',
     title: 'Convergence vs metadata',
-    description: [''],
+    description: ['Top Genotypes (up to 30)'],
     icon: <BubbleChart color="primary" />,
     id: 'CVM',
-    organisms: [''],
+    organisms: ['kpneumo'],
   },
 ];
+
+export const continentGraphCard = {
+  collapse: 'continent',
+  title: 'Geographic Comparisons',
+  description: [''],
+  icon: <BubbleChart color="primary" />,
+  id: 'DRT',
+  organisms: ['styphi', 'ngono', 'kpneumo'],
+};

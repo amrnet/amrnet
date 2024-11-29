@@ -1,9 +1,9 @@
 import { openDB } from 'idb';
 
-type OrganismStore = 'styphi' | 'kpneumo';
+type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
 const DB_NAME = 'organismsData';
-const DB_VERSION = 5;
+const DB_VERSION = 20;
 
 const OBJECT_STORES = [
   'styphi',
@@ -17,48 +17,56 @@ const OBJECT_STORES = [
   'styphi_sets',
   'styphi_map',
   'styphi_genotype',
-  'styphi_ngmast',
   'styphi_years',
+  'styphi_map_regions',
+  'styphi_drugs_countries',
+  'styphi_drugs_regions',
   'kpneumo_map',
   'kpneumo_genotype',
-  'kpneumo_ngmast',
   'kpneumo_years',
   'kpneumo_ko',
   'kpneumo_convergence',
+  'kpneumo_map_regions',
+  'kpneumo_drugs_countries',
+  'kpneumo_drugs_regions',
   'ngono_map',
   'ngono_genotype',
   'ngono_ngmast',
   'ngono_years',
   'ecoli_map',
   'ecoli_genotype',
-  'ecoli_ngmast',
   'ecoli_years',
   'decoli_map',
   'decoli_genotype',
-  'decoli_ngmast',
   'decoli_years',
   'shige_map',
   'shige_genotype',
-  'shige_ngmast',
   'shige_years',
   'sentericaints_map',
   'sentericaints_genotype',
-  'sentericaints_ngmast',
   'sentericaints_years',
   'senterica_map',
   'senterica_genotype',
-  'senterica_ngmast',
   'senterica_years',
+  'unr',
 ];
 
 // Initialize the database
 export const initDB = async () => {
   return await openDB(DB_NAME, DB_VERSION, {
     upgrade(db) {
+      // Convert db.objectStoreNames to an array so it can be iterated
+      const currentStores = Array.from(db.objectStoreNames);
+
+      // Remove all existing object stores if needed (essentially clearing the cache)
+      currentStores.forEach((storeName) => {
+        db.deleteObjectStore(storeName); // Delete the entire store
+      });
+
+      // Recreate object stores with the updated schema
       OBJECT_STORES.forEach((store) => {
-        if (!db.objectStoreNames.contains(store)) {
-          db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
-        }
+        // Add new stores with updated schema, including the new key if needed
+        db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
       });
     },
   });
@@ -94,14 +102,16 @@ export const deleteItem = async (storeName: OrganismStore, id: number): Promise<
   return store.delete(id);
 };
 
-export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>) => {
+export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>, clearStore: boolean = true) => {
   const store = await getStore(storeName);
 
   // Start a transaction for the specified store
   const tx = store.transaction;
 
   // Clear all existing data from the store
-  await store.clear();
+  if (clearStore) {
+    await store.clear();
+  }
 
   // Add all items in the transaction
   items.forEach((item) => {

@@ -59,18 +59,19 @@ export const drugsKP = [
   'Aminoglycosides',
   'Carbapenems',
   '3rd gen cephalosporins (3GCs)',
-  '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
+  // '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   'Colistin',
   'Fluoroquinolones',
   'Fosfomycin',
-  'Penicillins',
-  'β-lactamase inhibitors',
+  // 'Penicillins',
+  // 'β-lactamase inhibitors',
   'Phenicols',
-  'Sulfonamides',
-  'Susceptible',
+  // 'Sulfonamides',
+  // 'Susceptible',
   'Tetracycline',
   'Tigecycline',
   'Trimethoprim',
+  'Trimethoprim-sulfamethoxazole',
 ];
 
 // List of Salmonella Typhi drug classes
@@ -87,7 +88,29 @@ export const drugClassesST = [
 ];
 
 // List of Klebsiella drug classes
-export const drugClassesNG = ['Azithromycin']; //, 'Ceftriaxone'
+export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
 
 // List of Klebsiella drug classes
 export const drugClassesKP = ['Carbapenems', 'ESBL'];
+
+export const drugAcronyms = {
+  'Ampicillin/Amoxicillin': 'AMP/AMC',
+  Ceftriaxone: 'CRO',
+  Chloramphenicol: 'CLO',
+  CipNS: 'CIP',
+  Sulphonamides: 'SUL',
+  Sulfonamides: 'SUL',
+  Tetracyclines: 'TET',
+  Tetracycline: 'TET',
+  Trimethoprim: 'TMP',
+  'Trimethoprim-sulfamethoxazole': 'SXT',
+  Colistin: 'COL',
+  Fosfomycin: 'FOS',
+  Carb: 'CARB',
+  Aminoglycosides: 'AGLY',
+  Fluoroquinolones: 'FLQ',
+  // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
+  Phenicols: 'PHE',
+  Tigecycline: 'TGC',
+  ESBL: 'ESBL',
+};

@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   legendWrapper: {
     marginTop: '8px',
-    maxHeight: '250px',
+    maxHeight: '140px',
     overflowY: 'auto',
   },
   legend: {
@@ -53,6 +53,15 @@ const useStyles = makeStyles((theme) => ({
   },
   legendText: {
     fontSize: '10px',
+  },
+  mapViewWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    paddingBottom: '16px',
+  },
+  toggleGroup: {
+    textWrap: 'nowrap',
   },
   bp700: {},
 }));

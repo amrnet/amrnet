@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
 import {
@@ -15,12 +14,16 @@ import {
   Cell,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { /*setConvergenceColourVariable,*/ setConvergenceGroupVariable } from '../../../../stores/slices/graphSlice';
-import { useEffect, useState } from 'react';
+import {
+  /*setConvergenceColourVariable,*/ setConvergenceGroupVariable,
+  setTopColorSlice,
+} from '../../../../stores/slices/graphSlice';
+import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
+import { SliderSizes } from '../../Slider';
 
 export const ConvergenceGraph = () => {
   const classes = useStyles();
@@ -34,6 +37,7 @@ export const ConvergenceGraph = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
+  const currentSliderValueCM = useAppSelector((state) => state.graph.currentSliderValueCM);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -58,6 +62,23 @@ export const ConvergenceGraph = () => {
       setCurrentTooltip({ ...currentData });
     }
   }
+
+  const topConvergenceData = useMemo(() => {
+    return convergenceData.slice(0, currentSliderValueCM);
+  }, [convergenceData, currentSliderValueCM]);
+
+  const topColours = useMemo(() => {
+    return Object.fromEntries(
+      Object.entries(convergenceColourPallete).filter(([key]) =>
+        topConvergenceData.some((item) => item.colorLabel === key),
+      ),
+    );
+  }, [convergenceColourPallete, topConvergenceData]);
+
+  useEffect(() => {
+    dispatch(setTopColorSlice(topColours));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topColours]);
 
   useEffect(() => {
     if (canGetData) {
@@ -98,7 +119,7 @@ export const ConvergenceGraph = () => {
                 content={() => {
                   return (
                     <div className={classes.legendWrapper}>
-                      {Object.keys(convergenceColourPallete).map((key, index) => {
+                      {Object.keys(topColours).map((key, index) => {
                         return (
                           <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
                             <Box
@@ -126,8 +147,8 @@ export const ConvergenceGraph = () => {
                 }}
               />
 
-              <Scatter name="combinations" data={convergenceData}>
-                {convergenceData.map((option, index) => (
+              <Scatter name="combinations" data={topConvergenceData}>
+                {topConvergenceData.map((option, index) => (
                   <Cell
                     name={option.name}
                     onClick={() => handleClickChart(option.name)}
@@ -142,7 +163,7 @@ export const ConvergenceGraph = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [convergenceData]);
+  }, [topConvergenceData]);
 
   return (
     <CardContent className={classes.convergenceGraph}>
@@ -188,54 +209,57 @@ export const ConvergenceGraph = () => {
         <div className={classes.graph} id="CVM">
           {plotChart}
         </div>
-        <div className={classes.tooltipWrapper}>
-          {currentTooltip ? (
-            <div className={classes.tooltip}>
-              <div className={classes.tooltipTitle}>
-                <Typography variant="h5" fontWeight="600">
-                  {currentTooltip.name}
-                </Typography>
-                {/* <Typography noWrap variant="subtitle1" minWidth="90px" textAlign="end"> */}
-                <Typography variant="subtitle1">{'N = ' + currentTooltip.z}</Typography>
-              </div>
-              <div className={classes.tooltipContent}>
-                <div className={classes.tooltipItemWrapper}>
-                  <Box
-                    className={classes.tooltipItemBox}
-                    style={{
-                      backgroundColor: 'rgb(24, 85, 183)',
-                    }}
-                  />
-                  <div className={classes.tooltipItemStats}>
-                    <Typography variant="body2" fontWeight="500">
-                      Mean virulence score
-                    </Typography>
-                    <Typography variant="caption" noWrap>
-                      {currentTooltip.x}
-                    </Typography>
+        <div className={classes.rightSide}>
+          <SliderSizes value={'CM'} style={{ width: '100%' }} />
+          <div className={classes.tooltipWrapper}>
+            {currentTooltip ? (
+              <div className={classes.tooltip}>
+                <div className={classes.tooltipTitle}>
+                  <Typography variant="h5" fontWeight="600">
+                    {currentTooltip.name}
+                  </Typography>
+                  {/* <Typography noWrap variant="subtitle1" minWidth="90px" textAlign="end"> */}
+                  <Typography variant="subtitle1">{'N = ' + currentTooltip.z}</Typography>
+                </div>
+                <div className={classes.tooltipContent}>
+                  <div className={classes.tooltipItemWrapper}>
+                    <Box
+                      className={classes.tooltipItemBox}
+                      style={{
+                        backgroundColor: 'rgb(24, 85, 183)',
+                      }}
+                    />
+                    <div className={classes.tooltipItemStats}>
+                      <Typography variant="body2" fontWeight="500">
+                        Mean virulence score
+                      </Typography>
+                      <Typography variant="caption" noWrap>
+                        {currentTooltip.x}
+                      </Typography>
+                    </div>
+                  </div>
+                  <div className={classes.tooltipItemWrapper}>
+                    <Box
+                      className={classes.tooltipItemBox}
+                      style={{
+                        backgroundColor: 'rgb(187, 54, 60)',
+                      }}
+                    />
+                    <div className={classes.tooltipItemStats}>
+                      <Typography variant="body2" fontWeight="500">
+                        Mean resistance score
+                      </Typography>
+                      <Typography variant="caption" noWrap>
+                        {currentTooltip.y}
+                      </Typography>
+                    </div>
                   </div>
                 </div>
-                <div className={classes.tooltipItemWrapper}>
-                  <Box
-                    className={classes.tooltipItemBox}
-                    style={{
-                      backgroundColor: 'rgb(187, 54, 60)',
-                    }}
-                  />
-                  <div className={classes.tooltipItemStats}>
-                    <Typography variant="body2" fontWeight="500">
-                      Mean resistance score
-                    </Typography>
-                    <Typography variant="caption" noWrap>
-                      {currentTooltip.y}
-                    </Typography>
-                  </div>
-                </div>
               </div>
-            </div>
-          ) : (
-            <div className={classes.noBubbleSelected}>No bubble selected</div>
-          )}
+            ) : (
+              <div className={classes.noBubbleSelected}>No bubble selected</div>
+            )}
+          </div>
         </div>
       </div>
     </CardContent>

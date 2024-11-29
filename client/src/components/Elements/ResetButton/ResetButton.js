@@ -7,6 +7,7 @@ import {
   setActualTimeInitial,
   setCanFilterData,
   setCanGetData,
+  setSelectedLineages,
 } from '../../../stores/slices/dashboardSlice';
 import { setDataset, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice';
@@ -21,13 +22,16 @@ import {
   setDrugResistanceGraphView,
   setFrequenciesGraphView,
   setKODiversityGraphView,
-  setTrendsKPGraphDrugClass,
-  setTrendsKPGraphView,
-  setCustomDropdownMapView,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
   setFrequenciesGraphSelectedGenotypes,
   setNgmastDrugsData,
   setCustomDropdownMapViewNG,
   setCurrentSliderValueRD,
+  setCurrentSliderValueCM,
+  setCurrentSliderValue,
+  setCurrentSliderValueKP_GT,
+  setCurrentSliderValueKP_GE,
 } from '../../../stores/slices/graphSlice';
 import {
   drugsKP,
@@ -48,8 +52,11 @@ export const ResetButton = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const genotypes = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const pathovar = useAppSelector((state) => state.dashboard.pathovar);
   const ngmast = useAppSelector((state) => state.graph.NGMAST);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
+  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
+  const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
   async function handleClick() {
     dispatch(setCanGetData(false));
@@ -59,9 +66,10 @@ export const ResetButton = () => {
         distribution: false,
         drugResistance: false,
         frequencies: false,
-        trendsKP: false,
+        trends: false,
         KODiversity: false,
         convergence: false,
+        continent: false,
       }),
     );
 
@@ -78,7 +86,6 @@ export const ResetButton = () => {
       actualCountry,
     });
     const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
-    dispatch(setCustomDropdownMapView(genotypesData.genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
 
     if (organism === 'styphi') {
@@ -89,6 +96,8 @@ export const ResetButton = () => {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
       dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+      dispatch(setTrendsGraphDrugClass('Azithromycin'));
+      dispatch(setTrendsGraphView('number'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
@@ -96,19 +105,27 @@ export const ResetButton = () => {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsKPGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsKPGraphView('number'));
+      dispatch(setTrendsGraphDrugClass('Carbapenems'));
+      dispatch(setTrendsGraphView('number'));
       dispatch(setKODiversityGraphView('K_locus'));
       dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
       dispatch(setConvergenceColourVariable('DATE'));
       dispatch(setConvergenceColourPallete({}));
+      dispatch(setCurrentSliderValueCM(20));
+      dispatch(setCurrentSliderValue(20));
+      dispatch(setCurrentSliderValueKP_GT(20));
+      dispatch(setCurrentSliderValueKP_GE(20));
+    }
+
+    if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
+      dispatch(setSelectedLineages(pathovar));
     }
 
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('number'));
     if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
-    else dispatch(setCurrentSliderValueRD(5));
+    dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));
     dispatch(setCanFilterData(true));
   }
@@ -121,7 +138,7 @@ export const ResetButton = () => {
             color="primary"
             size={matches500 ? 'medium' : 'large'}
             onClick={handleClick}
-            disabled={organism === 'none'}
+            disabled={organism === 'none' || loadingData || loadingMap}
           >
             <RestartAlt sx={{ color: '#fff' }} />
           </Fab>
