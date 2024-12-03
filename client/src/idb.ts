@@ -1,9 +1,9 @@
 import { openDB } from 'idb';
 
-type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
+type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica' | 'vcholerae' | 'spneumo' | 'saureus' | 'abaumanii';
 
 const DB_NAME = 'organismsData';
-const DB_VERSION = 20;
+const DB_VERSION = 24;
 
 const OBJECT_STORES = [
   'styphi',
@@ -12,8 +12,12 @@ const OBJECT_STORES = [
   'ecoli',
   'decoli',
   'shige',
+  'abaumanii',
   'sentericaints',
   'senterica',
+  'saureus',
+  'spneumo',
+  'vcholerae',
   'styphi_sets',
   'styphi_map',
   'styphi_genotype',

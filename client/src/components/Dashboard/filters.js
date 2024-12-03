@@ -31,7 +31,7 @@ export function filterData({
     if (organism === 'sentericaints') {
       return selectedLineages.includes(item.serotype);
     }
-    return selectedLineages.includes(item.Pathovar);
+    return selectedLineages.includes(item.Pathotype);
   };
 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x) && checkLineages(x));

@@ -388,7 +388,7 @@ export const BubbleGeographicGraph = () => {
               disabled={organism === 'none'}
             >
               <MenuItem value="country">Countries</MenuItem>
-              <MenuItem value="region">Economic regions</MenuItem>
+              <MenuItem value="region">Regions</MenuItem>
             </Select>
           </div>
           <div className={classes.selectWrapper}>

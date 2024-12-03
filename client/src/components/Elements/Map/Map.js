@@ -69,7 +69,7 @@ export const Map = () => {
 
   function handleOnMouseEnter({ geo, countryStats, countryData, smallerThan20 = false, showTooltip = false }) {
     const tooltip = {
-      name: countryData?.name ?? (mapColoredBy === 'country' ? geo.properties.NAME : 'No economic region found'),
+      name: countryData?.name ?? (mapColoredBy === 'country' ? geo.properties.NAME : 'No region found'),
       content: {},
       smallerThan20,
     };

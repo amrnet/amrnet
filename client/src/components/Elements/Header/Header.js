@@ -69,7 +69,7 @@ export const Header = () => {
             </div>
             {((!isDashboardPage && matches1300) || (isHomePage && !matches800)) && <MenuHead />}
             {(!isDashboardPage || isHomePage ) && matches200 &&(
-                <Link to="/">
+                <Link to="https://www.lshtm.ac.uk/">
                   <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
                 </Link>
                 )}
