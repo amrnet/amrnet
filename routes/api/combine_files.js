@@ -60,65 +60,6 @@ router.get('/ecolidata', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-router.get('/abaumaniidata', async (req, res) => {
-  //console.log('i m in');
-
-  try {
-    await client.db('abaumanii').collection('merge_rawdata_ab').drop();
-    //No aggregate needs (Note: flag to check)
-    // await client.db("ecoli2").collection("pw_amr-profile").aggregate(merge_rawdata_ec).toArray();
-
-    return res.status(200).send('All data merged successfully');
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-router.get('/vcholeraedata', async (req, res) => {
-  //console.log('i m in');
-
-  try {
-    await client.db('saureus').collection('merge_rawdata_sa').drop();
-    //No aggregate needs (Note: flag to check)
-    // await client.db("ecoli2").collection("pw_amr-profile").aggregate(merge_rawdata_ec).toArray();
-
-    return res.status(200).send('All data merged successfully');
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-router.get('/vcholerae', async (req, res) => {
-  //console.log('i m in');
-
-  try {
-    await client.db('spneumo').collection('merge_rawdata_sp').drop();
-    //No aggregate needs (Note: flag to check)
-    // await client.db("ecoli2").collection("pw_amr-profile").aggregate(merge_rawdata_ec).toArray();
-
-    return res.status(200).send('All data merged successfully');
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-router.get('/vcholeraedata', async (req, res) => {
-  //console.log('i m in');
-
-  try {
-    await client.db('vcholerae').collection('merge_rawdata_vc').drop();
-    //No aggregate needs (Note: flag to check)
-    // await client.db("ecoli2").collection("pw_amr-profile").aggregate(merge_rawdata_ec).toArray();
-
-    return res.status(200).send('All data merged successfully');
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 router.get('/decolidata', async (req, res) => {
   //console.log('i m in');
 

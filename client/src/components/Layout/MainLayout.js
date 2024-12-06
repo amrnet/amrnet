@@ -26,6 +26,7 @@ export const MainLayout = ({ children }) => {
         </div>
         {(loadingData || loadingMap) && (
           <div className={classes.loading}>
+            <img src={LogoImg} alt="AMRnet" className={classes.logo} />
             <Circles wrapperClass={classes.loader} color="#6F2F9F" height={60} width={60} />
           </div>
         )}

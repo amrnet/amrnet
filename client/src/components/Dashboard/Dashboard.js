@@ -389,10 +389,6 @@ export const DashboardPage = () => {
         case 'decoli':
         case 'shige':
         case 'senterica':
-        case 'saureus':
-        case 'spneumo':
-        case 'vcholarea':
-        case 'abaumanii':
         case 'sentericaints':
           dispatch(setMapView('No. Samples'));
           break;
@@ -466,23 +462,11 @@ export const DashboardPage = () => {
         case 'decoli':
           getData({ storeName: organism, endpoint: 'getDataForDEcoli' });
           break;
-        case 'spneumo':
-          getData({ storeName: organism, endpoint: 'getDataForSpneumo' });
-          break;
-        case 'saureus':
-          getData({ storeName: organism, endpoint: 'getDataForSaureus' });
-          break;
-        case 'vcholerae':
-          getData({ storeName: organism, endpoint: 'getDataForVcholerae' });
-          break;
         case 'shige':
           getData({ storeName: organism, endpoint: 'getDataForShige' });
           break;
         case 'senterica':
           getData({ storeName: organism, endpoint: 'getDataForSenterica' });
-          break;
-        case 'abaumanii':
-          getData({ storeName: organism, endpoint: 'getDataForAbaumanii' });
           break;
         case 'sentericaints':
           getData({ storeName: organism, endpoint: 'getDataForSentericaints' });

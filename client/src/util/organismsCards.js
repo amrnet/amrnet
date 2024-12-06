@@ -1,4 +1,4 @@
-import { decoli, ecoli, ints, kleb, ngono, senterica, shig, typhi, vcholerae, abaumanii, saureus, spneumo } from '../assets/organisms';
+import { decoli, ecoli, ints, kleb, ngono, senterica, shig, typhi } from '../assets/organisms';
 
 export const organismsCards = [
   {
@@ -96,10 +96,10 @@ export const organismsCards = [
       </span>
     ),
     stringLabel: 'Staphylococcus aureus',
-    value: 'saureus',
+    value: 'aureus',
     abbr: 'S. aureus',
-    img: saureus,
-    // disabled: true,
+    img: senterica,
+    disabled: true,
   },
   {
     label: (
@@ -108,22 +108,34 @@ export const organismsCards = [
       </span>
     ),
     stringLabel: 'Acinetobacter baumanii',
-    value: 'abaumanii',
+    value: 'baumanii',
     abbr: 'A. baumanii',
-    img: abaumanii,
-    // disabled: true,
+    img: senterica,
+    disabled: true,
   },
   {
     label: (
       <span>
-        <i>Vibrio Cholerae</i>
+        <i>Pseudomonas aeruginosa</i>
       </span>
     ),
-    stringLabel: 'Vibrio Cholerae',
-    value: 'vcholerae',
-    abbr: 'V. Cholerae',
-    img: vcholerae,
-    // disabled: true,
+    stringLabel: 'Pseudomonas aeruginosa',
+    value: 'aeru',
+    abbr: 'P. aeruginosa',
+    img: senterica,
+    disabled: true,
+  },
+  {
+    label: (
+      <span>
+        <i>Haemophilus influenza</i>
+      </span>
+    ),
+    stringLabel: 'Haemophilus influenza',
+    value: 'influ',
+    abbr: 'H. influenza',
+    img: senterica,
+    disabled: true,
   },
   {
     label: (
@@ -134,7 +146,7 @@ export const organismsCards = [
     stringLabel: 'Streptococcus pneumoniae',
     value: 'spneumo',
     abbr: 'S. pneumoniae',
-    img: spneumo,
-    // disabled: true,
+    img: senterica,
+    disabled: true,
   },
 ];

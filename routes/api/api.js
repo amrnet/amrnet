@@ -14,10 +14,6 @@ const dbAndCollectionNames = {
   shige: { dbName: 'shige', collectionName: 'merge_rawdata_sh' },
   senterica: { dbName: 'senterica', collectionName: 'merge_rawdata_se' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
-  saureus: { dbName: 'saureus', collectionName: 'merge_rawdata_sa' },
-  vcholerae: { dbName: 'vcholerae', collectionName: 'merge_rawdata_vc' },
-  abaumanii: { dbName: 'abaumanii', collectionName: 'merge_rawdata_ab' },
-  spneumo: { dbName: 'spneumo', collectionName: 'merge_rawdata_sp' },
   unr: { dbName: 'unr', collectionName: 'unr' },
 };
 
@@ -316,118 +312,6 @@ router.get('/getDataForSenterica', async function (req, res, next) {
     if (result.length < 1) {
       let results = [];
       let read_file = Tools.path_clean_se;
-      fs.createReadStream(read_file)
-        .on('error', (_) => {
-          return res.json([]);
-        })
-        .pipe(csv())
-        .on('data', (data_) => results.push(data_))
-        .on('end', () => {
-          return res.json(results);
-        });
-    } else return res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-router.get('/getDataForVcholerae', async function (req, res, next) {
-  const dbAndCollection = dbAndCollectionNames['vcholerae'];
-  try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
-      .toArray();
-    console.log(result.length);
-    if (result.length < 1) {
-      let results = [];
-      let read_file = Tools.path_clean_vcholerae;
-      fs.createReadStream(read_file)
-        .on('error', (_) => {
-          return res.json([]);
-        })
-        .pipe(csv())
-        .on('data', (data_) => results.push(data_))
-        .on('end', () => {
-          return res.json(results);
-        });
-    } else return res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-router.get('/getDataForSaureus', async function (req, res, next) {
-  const dbAndCollection = dbAndCollectionNames['saureus'];
-  try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
-      .toArray();
-    console.log(result.length);
-    if (result.length < 1) {
-      let results = [];
-      let read_file = Tools.path_clean_saureus;
-      fs.createReadStream(read_file)
-        .on('error', (_) => {
-          return res.json([]);
-        })
-        .pipe(csv())
-        .on('data', (data_) => results.push(data_))
-        .on('end', () => {
-          return res.json(results);
-        });
-    } else return res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-router.get('/getDataForSpneumo', async function (req, res, next) {
-  const dbAndCollection = dbAndCollectionNames['spneumo'];
-  try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
-      .toArray();
-    console.log(result.length);
-    if (result.length < 1) {
-      let results = [];
-      let read_file = Tools.path_clean_spneumo;
-      fs.createReadStream(read_file)
-        .on('error', (_) => {
-          return res.json([]);
-        })
-        .pipe(csv())
-        .on('data', (data_) => results.push(data_))
-        .on('end', () => {
-          return res.json(results);
-        });
-    } else return res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-router.get('/getDataForAbaumanii', async function (req, res, next) {
-  const dbAndCollection = dbAndCollectionNames['abaumanii'];
-  try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
-      .toArray();
-    console.log(result.length);
-    if (result.length < 1) {
-      let results = [];
-      let read_file = Tools.path_clean_ab;
       fs.createReadStream(read_file)
         .on('error', (_) => {
           return res.json([]);

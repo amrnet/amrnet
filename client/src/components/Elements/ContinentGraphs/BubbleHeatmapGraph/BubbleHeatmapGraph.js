@@ -345,7 +345,7 @@ export const BubbleHeatmapGraph = () => {
               disabled={organism === 'none'}
             >
               <MenuItem value="country">Countries</MenuItem>
-              <MenuItem value="region">Regions</MenuItem>
+              <MenuItem value="region">Economic regions</MenuItem>
             </Select>
           </div>
           <div className={classes.selectWrapper}>
@@ -391,7 +391,7 @@ export const BubbleHeatmapGraph = () => {
             </Select>
           </div>
           <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select genotypes/pathotype</Typography>
+            <Typography variant="caption">Select genotypes/pathovar</Typography>
             <Select
               multiple
               value={xAxisSelected}

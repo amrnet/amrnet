@@ -168,7 +168,7 @@ export const TopRightControls = () => {
                 Country
               </ToggleButton>
               <ToggleButton value="region" color="primary">
-                Region
+                Economic Region
               </ToggleButton>
             </ToggleButtonGroup>
           </div>

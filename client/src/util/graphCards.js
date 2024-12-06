@@ -59,7 +59,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica', 'saureus', 'vcholerae', 'spneumo', 'abaumanii'],
+    organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'],
   },
   {
     collapse: 'trends',

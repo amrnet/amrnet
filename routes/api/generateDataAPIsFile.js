@@ -36,21 +36,9 @@ router.post('/download', function (req, res, next) {
   } else if (organism === 'shige') {
     collection = client.db('shige').collection('merge_rawdata_sh');
     localFilePath = Tools.path_clean_all_sh;
-  } else if (organism === 'saureus') {
-    collection = client.db('saureus').collection('merge_rawdata_sa');
-    localFilePath = Tools.path_clean_all_sa;
-  } else if (organism === 'vcholerae') {
-    collection = client.db('vcholerae').collection('merge_rawdata_vc');
-    localFilePath = Tools.path_clean_all_vc;
-  } else if (organism === 'spneumo') {
-    collection = client.db('spneumo').collection('merge_rawdata_sp');
-    localFilePath = Tools.path_clean_all_sp;
-  } else if (organism === 'abaumanii') {
-    collection = client.db('abaumanii').collection('merge_rawdata_ab');
-    localFilePath = Tools.path_clean_all_ab;
   } else if (organism === 'sentericaints') {
     collection = client.db('sentericaints').collection('merge_rawdata_seints');
-    localFilePath = Tools.path_clean_all_seints;
+    localFilePath = Tools.path_clean_all_sh;
   } else {
     collection = client.db('senterica').collection('merge_rawdata_se');
     localFilePath = Tools.path_clean_all_se;
@@ -162,30 +150,6 @@ router.get('/generate/:organism', async function (req, res, next) {
     ext = 'seints';
     collection_ext = 'seints';
     fileName = 'cleanAll_seints.csv';
-  } else if (organism === 'saureus') {
-    collection = client.db('saureus').collection('merge_rawdata_sa');
-    folderName = 'saureus';
-    ext = 'sa';
-    collection_ext = 'sa';
-    fileName = 'cleanAll_sa.csv';
-  } else if (organism === 'abaumanii') {
-    collection = client.db('abaumanii').collection('merge_rawdata_ab');
-    folderName = 'abaumanii';
-    ext = 'ab';
-    collection_ext = 'ab';
-    fileName = 'cleanAll_ab.csv';
-  } else if (organism === 'vcholerae') {
-    collection = client.db('vcholerae').collection('merge_rawdata_vc');
-    folderName = 'vcholerae';
-    ext = 'vc';
-    collection_ext = 'vc';
-    fileName = 'cleanAll_vc.csv';
-  } else if (organism === 'spneumo') {
-    collection = client.db('spneumo').collection('merge_rawdata_sp');
-    folderName = 'spneumo';
-    ext = 'sp';
-    collection_ext = 'sp';
-    fileName = 'cleanAll_sp.csv';
   } else {
     collection = client.db('senterica').collection('merge_rawdata_se');
     folderName = 'senterica';
