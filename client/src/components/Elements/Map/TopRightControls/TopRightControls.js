@@ -152,9 +152,9 @@ export const TopRightControls = () => {
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.mapViewWrapper}>
-            <Typography gutterBottom variant="caption">
+            {/* <Typography gutterBottom variant="caption">
               Select map view
-            </Typography>
+            </Typography> */}
             <ToggleButtonGroup
               value={mapColoredBy}
               exclusive
@@ -164,12 +164,12 @@ export const TopRightControls = () => {
               fullWidth
               className={classes.toggleGroup}
             >
-              <ToggleButton value="country" color="primary">
+              {/* <ToggleButton value="country" color="primary">
                 Country
-              </ToggleButton>
-              <ToggleButton value="region" color="primary">
+              </ToggleButton> */}
+              {/* <ToggleButton value="region" color="primary">
                 Region
-              </ToggleButton>
+              </ToggleButton> */}
             </ToggleButtonGroup>
           </div>
           <div className={classes.label}>

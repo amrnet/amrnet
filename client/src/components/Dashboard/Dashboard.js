@@ -638,7 +638,7 @@ export const DashboardPage = () => {
       <SelectCountry />
       <Graphs />
       <DownloadData />
-      <Footer />
+      {/* <Footer /> */}
       <ResetButton data={data} />
     </MainLayout>
   );
