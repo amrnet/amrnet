@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './DeterminantsGraphMUI';
 import {
   Bar,
@@ -21,7 +21,7 @@ import {
   setSliderList,
   setMaxSliderValueRD,
 } from '../../../../stores/slices/graphSlice';
-import { drugClassesST, drugClassesKP, drugClassesNG } from '../../../../util/drugs';
+import { getDrugClasses } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import {
   colorForDrugClassesKP,
@@ -32,6 +32,8 @@ import {
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
 import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
 
 const dataViewOptions = [
   {
@@ -46,7 +48,7 @@ const dataViewOptions = [
   },
 ];
 
-export const DeterminantsGraph = () => {
+export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [topXGenotypes, setTopXGenotypes] = useState([]);
@@ -81,19 +83,6 @@ export const DeterminantsGraph = () => {
     dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesDrugClassesData]);
-
-  function getDrugClasses() {
-    switch (organism) {
-      case 'styphi':
-        return drugClassesST;
-      case 'kpneumo':
-        return drugClassesKP;
-      case 'ngono':
-        return drugClassesNG;
-      default:
-        return [];
-    }
-  }
 
   function getDrugClassesBars() {
     switch (organism) {
@@ -353,44 +342,6 @@ export const DeterminantsGraph = () => {
 
   return (
     <CardContent className={classes.determinantsGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.selectWrapper}>
-          <Typography variant="caption">Select drug/class</Typography>
-          <Select
-            value={determinantsGraphDrugClass}
-            onChange={handleChangeDrugClass}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {getDrugClasses().map((option, index) => {
-              return (
-                <MenuItem key={index + 'determinants-drug-classes'} value={option}>
-                  {option}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div>
-        <div className={classes.selectWrapper}>
-          <Typography variant="caption">Data view</Typography>
-          <Select
-            value={determinantsGraphView}
-            onChange={handleChangeDataView}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {dataViewOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'determinants-dataview'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDWG">
           {plotChart}
@@ -434,6 +385,61 @@ export const DeterminantsGraph = () => {
           </div>
         </div>
       </div>
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={classes.selectsWrapper}>
+                <SelectCountry />
+                <div className={classes.selectWrapper}>
+                  <Typography variant="caption">Select drug/class</Typography>
+                  <Select
+                    value={determinantsGraphDrugClass}
+                    onChange={handleChangeDrugClass}
+                    inputProps={{ className: classes.selectInput }}
+                    MenuProps={{ classes: { list: classes.selectMenu } }}
+                    disabled={organism === 'none'}
+                  >
+                    {getDrugClasses(organism).map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'determinants-drug-classes'} value={option}>
+                          {option}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                <div className={classes.selectWrapper}>
+                  <Typography variant="caption">Data view</Typography>
+                  <Select
+                    value={determinantsGraphView}
+                    onChange={handleChangeDataView}
+                    inputProps={{ className: classes.selectInput }}
+                    MenuProps={{ classes: { list: classes.selectMenu } }}
+                    disabled={organism === 'none'}
+                  >
+                    {dataViewOptions.map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'determinants-dataview'} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

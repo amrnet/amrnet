@@ -10,7 +10,7 @@ import { BottomLeftControls } from './BottomLeftControls';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.ts';
 import { TopRightControls } from './TopRightControls';
-import { setActualCountry, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
+import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
 import { TopLeftControls } from './TopLeftControls';
 import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
@@ -58,7 +58,11 @@ export const Map = () => {
 
   function handleOnClick(countryData) {
     if (countryData !== undefined) {
-      dispatch(setActualCountry(countryData.name));
+      const country = countryData.name;
+      const region = Object.keys(economicRegions).find((key) => economicRegions[key].includes(country)) ?? 'All';
+
+      dispatch(setActualRegion(region));
+      dispatch(setActualCountry(country));
       dispatch(setCanFilterData(true));
     }
   }
@@ -100,7 +104,7 @@ export const Map = () => {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carb: `${countryStats.Carb.percentage}%`,
+                    Carbapenems: `${countryStats.Carb.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : organism === 'ngono'
@@ -203,7 +207,7 @@ export const Map = () => {
         case 'ESBL_category':
         case 'Carb':
           if (showTooltip) {
-            tooltip.content[statKey[mapView]] = {
+            tooltip.content[mapView === 'Carb' ? 'Carbapenems' : statKey[mapView]] = {
               count: countryStats[statKey[mapView]].count,
               percentage: `${countryStats[statKey[mapView]].percentage}%`,
             };

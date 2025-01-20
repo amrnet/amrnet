@@ -4,7 +4,6 @@ import { useStyles } from './MainLayoutUI';
 import { useMemo } from 'react';
 import { useAppSelector } from '../../stores/hooks';
 import { useLocation } from 'react-router-dom';
-import LogoImg from '../../assets/img/logo-prod.png';
 
 export const MainLayout = ({ children }) => {
   const classes = useStyles();

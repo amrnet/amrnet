@@ -1,24 +1,24 @@
 import {
   Alert,
-  Box,
   Card,
   CardActions,
   CircularProgress,
   Collapse,
   IconButton,
   Snackbar,
-  Tab,
-  Tabs,
-  tabsClasses,
   Tooltip,
   Typography,
   useMediaQuery,
 } from '@mui/material';
 import { useStyles } from './GraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
+import { CameraAlt, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { setCollapse } from '../../../stores/slices/graphSlice';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { DeterminantsGraph } from './DeterminantsGraph';
+import { FrequenciesGraph } from './FrequenciesGraph';
+import { DrugResistanceGraph } from './DrugResistanceGraph';
+import { DistributionGraph } from './DistributionGraph';
+import { useState } from 'react';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
@@ -31,17 +31,25 @@ import {
   colorForDrugClassesST,
   getColorForGenotype,
 } from '../../../util/colorHelper';
+import { TrendsGraph } from './TrendsGraph';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
+import { KODiversityGraph } from './KODiversityGraph';
+import { ConvergenceGraph } from './ConvergenceGraph';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 export const Graphs = () => {
   const classes = useStyles();
   const matches1000 = useMediaQuery('(max-width:1000px)');
+  // const matches750 = useMediaQuery('(max-width:750px)');
   const [showAlert, setShowAlert] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [currentTab, setCurrentTab] = useState('');
-  const [showFilter, setShowFilter] = useState(false);
+  const [chartLoadings, setCharLoadings] = useState({
+    frequencies: false,
+    drugResistance: false,
+    determinants: false,
+    distribution: false,
+    trends: false,
+  });
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -70,19 +78,10 @@ export const Graphs = () => {
   const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
   const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
 
-  const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
 
-  useEffect(() => {
-    if (organismCards.length > 0) {
-      setCurrentTab(organismCards[0].id);
-    }
-  }, [organismCards]);
-
-  useEffect(() => {
-    setShowFilter(false);
-  }, [organism]);
-
-  const currentCard = useMemo(() => organismCards.find((x) => x.id === currentTab), [currentTab, organismCards]);
+  function getOrganismCards() {
+    return graphCards.filter((card) => card.organisms.includes(organism));
+  }
 
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
@@ -136,24 +135,21 @@ export const Graphs = () => {
     });
   }
 
-  async function handleClickDownload(event) {
+  async function handleClickDownload(event, card) {
     event.stopPropagation();
-    setLoading(true);
-    if (
-      (currentCard.id === 'DRT' && drugResistanceGraphView.length === 0) ||
-      (currentCard.id === 'DRT' && captureDRT === false)
-    ) {
-      setLoading(false);
+    handleLoading(card.collapse, true);
+    if ((card.id === 'DRT' && drugResistanceGraphView.length === 0) || (card.id === 'DRT' && captureDRT === false)) {
+      handleLoading(card.id, false);
       alert('No drugs/classes selected to download or no data to download');
       return;
     }
-    if (currentCard.id === 'RFWG' && captureRFWG === false) {
-      setLoading(false);
+    if (card.id === 'RFWG' && captureRFWG === false) {
+      handleLoading(card.id, false);
       alert('No genotype selected to download or no data to download');
       return;
     }
-    if ((currentCard.id === 'RDWG' && captureRDWG === false) || (currentCard.id === 'GD' && captureGD === false)) {
-      setLoading(false);
+    if ((card.id === 'RDWG' && captureRDWG === false) || (card.id === 'GD' && captureGD === false)) {
+      handleLoading(card.id, false);
       alert('No data to download');
       return;
     }
@@ -171,7 +167,7 @@ export const Graphs = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
 
-      const graph = document.getElementById(currentCard.id);
+      const graph = document.getElementById(card.id);
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
 
@@ -185,26 +181,26 @@ export const Graphs = () => {
         genotypesFactor,
         variablesFactor;
 
-      if (['RFWG', 'DRT'].includes(currentCard.id)) {
+      if (['RFWG', 'DRT'].includes(card.id)) {
         heightFactor = 250;
-      } else if (['RDWG', 'RDT'].includes(currentCard.id)) {
+      } else if (['RDWG', 'RDT'].includes(card.id)) {
         drugClassesBars = getDrugClassesBars();
         drugClassesFactor = Math.ceil(drugClassesBars.length / 4);
         heightFactor += drugClassesFactor * 22;
-      } else if (currentCard.id === 'GD') {
+      } else if (card.id === 'GD') {
         genotypesFactor = Math.ceil(genotypesForFilterSelected.length / orgBasedColumns);
         heightFactor += genotypesFactor * 22;
-      } else if (currentCard.id === 'RDT') {
+      } else if (card.id === 'RDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
-      } else if (currentCard.id === 'CVM') {
+      } else if (card.id === 'CVM') {
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
-      ///TODO: improve the code below as its hardcode
+///TODO: improve the code below as its hardcode
       canvas.width = 922;
-      canvas.height = graphImg.height + 220 + (currentCard.id === 'RDT' ? 250 : heightFactor);
-      // canvas.height = graphImg.height + 220 + heightFactor;
+      canvas.height = graphImg.height + 220 + ((card.id === 'RDT')?250: heightFactor);
+// canvas.height = graphImg.height + 220 + heightFactor;
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -219,20 +215,20 @@ export const Graphs = () => {
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
-      ctx.fillText(currentCard.title, canvas.width / 2, 50);
+      ctx.fillText(card.title, canvas.width / 2, 50);
 
       ctx.font = '12px Montserrat';
-      ctx.fillText(currentCard.description.join(' / '), canvas.width / 2, 72);
+      ctx.fillText(card.description.join(' / '), canvas.width / 2, 72);
 
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
       ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 176);
-      if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
-      if (currentCard.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
-      if (currentCard.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
-      if (currentCard.id === 'CVM') {
+      if (card.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
+      if (card.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
+      if (card.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
+      if (card.id === 'CVM') {
         const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
         const colour = variablesOptions.find((option) => option.value === convergenceColourVariable).label;
         ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
@@ -243,7 +239,7 @@ export const Graphs = () => {
       ctx.font = '12px Montserrat';
 
       const mobileFactor = matches1000 ? 100 : 0;
-      if ('RFWG'.includes(currentCard.id)) {
+      if ('RFWG'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
 
@@ -256,7 +252,7 @@ export const Graphs = () => {
           xSpace: legendDrugs.length > 12 ? 400 : 200,
           isDrug: true,
         });
-      } else if ('DRT'.includes(currentCard.id)) {
+      } else if ('DRT'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         drawLegend({
           legendData: drugsForDrugResistanceGraphST,
@@ -267,7 +263,7 @@ export const Graphs = () => {
           xSpace: 200,
           isDrug: true,
         });
-      } else if (currentCard.id === 'RDWG') {
+      } else if (card.id === 'RDWG') {
         const legendDataRD = drugClassesBars.filter((value) => genotypesForFilterSelectedRD.includes(value.name));
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
@@ -279,7 +275,7 @@ export const Graphs = () => {
           yPosition: 670,
           xSpace: 208,
         });
-      } else if (currentCard.id === 'GD') {
+      } else if (card.id === 'GD') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
@@ -291,10 +287,10 @@ export const Graphs = () => {
           isGenotype: true,
           xSpace: orgBasedSpace,
         });
-      } else if (currentCard.id === 'RDT') {
+      } else if (card.id === 'RDT') {
         const legendGenotypes = genotypesForFilter
           .filter((genotype) => topGenotypeSlice.includes(genotype))
-          .map((genotype) => genotype);
+          .map((genotype) => (genotype));
 
         const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
 
@@ -305,7 +301,7 @@ export const Graphs = () => {
         drawLegend({
           legendData: legendGens,
           context: ctx,
-          factor: legendGens.length / 4,
+          factor: legendGens.length/4,
           mobileFactor,
           yPosition: 695,
           xSpace: 238,
@@ -316,13 +312,13 @@ export const Graphs = () => {
         drawLegend({
           legendData: legendGenotypes,
           context: ctx,
-          factor: Math.ceil(legendGenotypes.length / 8),
+          factor: Math.ceil(legendGenotypes.length/8) ,
           mobileFactor,
           yPosition: 930,
           isGenotype: true,
           xSpace: 87,
         });
-      } else if (currentCard.id === 'KO') {
+      } else if (card.id === 'KO') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
@@ -333,7 +329,7 @@ export const Graphs = () => {
           yPosition: 670,
           xSpace: 330,
         });
-      } else if (currentCard.id === 'CVM') {
+      } else if (card.id === 'CVM') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
@@ -348,137 +344,81 @@ export const Graphs = () => {
       }
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel} - ${currentCard.title}.png`);
+      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel} - ${card.title}.png`);
     } catch {
       setShowAlert(true);
     } finally {
-      setLoading(false);
+      handleLoading(card.collapse, false);
     }
+  }
+
+  function handleLoading(collapse, value) {
+    setCharLoadings({ ...chartLoadings, [collapse]: value });
   }
 
   function handleCloseAlert() {
     setShowAlert(false);
   }
 
-  function handleExpandClick() {
-    dispatch(setCollapse({ key: 'all', value: !collapses['all'] }));
-  }
-
-  function handleChangeTab(_, newValue) {
-    setCurrentTab(newValue);
-  }
-
-  function handleClickFilter(event) {
-    event.stopPropagation();
-    setShowFilter(!showFilter);
+  function handleExpandClick(event, key) {
+    dispatch(setCollapse({ key, value: !collapses[key] }));
   }
 
   return (
     <div className={classes.cardsWrapper}>
-      <Card className={classes.card}>
-        <CardActions
-          disableSpacing
-          className={classes.cardActions}
-          onClick={handleExpandClick}
-          style={{
-            cursor: isTouchDevice() ? 'default' : 'pointer',
-          }}
-          sx={{ padding: collapses['all'] ? '16px 16px 0px !important' : '16px !important' }}
-        >
-          <div className={classes.titleWrapper}>
-            <StackedBarChart color="primary" />
-            <div className={classes.title}>
-              <Typography fontSize="18px" fontWeight="500">
-                All Other Graphs
-              </Typography>
-              {collapses['all'] && (
-                <Typography fontSize="10px" component="span">
-                  {currentCard?.description.map((d, i) => (
-                    <div key={`description-${i}`}>{d}</div>
-                  ))}
-                </Typography>
-              )}
-            </div>
-          </div>
-          <div className={classes.actionsWrapper}>
-            {collapses['all'] && (
-              <Tooltip title="Download Chart as PNG" placement="top">
-                <span>
-                  <IconButton
-                    color="primary"
-                    onClick={(event) => handleClickDownload(event)}
-                    disabled={organism === 'none' || loading}
-                  >
-                    {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
-                  </IconButton>
-                </span>
-              </Tooltip>
-            )}
-            {collapses['all'] && (
-              <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
-                <span>
-                  <IconButton color="primary" onClick={(event) => handleClickFilter(event)}>
-                    {showFilter ? <FilterListOff /> : <FilterList />}
-                  </IconButton>
-                </span>
-              </Tooltip>
-            )}
-            <IconButton>{collapses['all'] ? <ExpandLess /> : <ExpandMore />}</IconButton>
-          </div>
-        </CardActions>
-        {collapses['all'] && (
-          <Tabs
-            value={currentTab}
-            onChange={handleChangeTab}
-            variant="scrollable"
-            scrollButtons
-            className={classes.tabList}
-            sx={{
-              [`& .${tabsClasses.scrollButtons}`]: {
-                '&.Mui-disabled': { opacity: 0.3 },
-              },
-            }}
-          >
-            {organismCards.map((card, i) => {
-              return (
-                <Tab
-                  key={`geo-tab-${i}`}
-                  label={card.title}
-                  icon={card.icon}
-                  iconPosition="start"
-                  value={card.id}
-                  sx={{
-                    flexGrow: 1,
-                    textWrap: 'nowrap',
-                    minWidth: ['RFWG', 'RDWG'].includes(card.id) ? '420px' : undefined,
-                  }}
-                />
-              );
-            })}
-          </Tabs>
-        )}
-
-        <Collapse in={collapses['all']} timeout="auto">
-          <Box className={classes.boxWrapper}>
-            {organismCards.map((card) => {
-              return (
-                <Box
-                  key={`card-${card.id}`}
-                  sx={{
-                    visibility: currentTab === card.id ? 'visible' : 'hidden',
-                    position: currentTab === card.id ? 'relative' : 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                  }}
-                >
-                  {cloneElement(card.component, { showFilter, setShowFilter })}
-                </Box>
-              );
-            })}
-          </Box>
-        </Collapse>
-      </Card>
+      {getOrganismCards().map((card, index) => {
+        return (
+          <Card key={`graph-card-${index}`} className={classes.card}>
+            <CardActions
+              disableSpacing
+              className={classes.cardActions}
+              onClick={(event) => handleExpandClick(event, card.collapse)}
+              style={{ cursor: isTouchDevice() ? 'default' : 'pointer' }}
+            >
+              <div className={classes.titleWrapper}>
+                {card.icon}
+                <div className={classes.title}>
+                  <Typography fontSize="18px" fontWeight="500">
+                    {card.title}
+                  </Typography>
+                  {collapses[card.collapse] && (
+                    <Typography fontSize="10px" component="span">
+                      {card.description.map((d, i) => (
+                        <div key={`description-${i}`}>{d}</div>
+                      ))}
+                    </Typography>
+                  )}
+                </div>
+              </div>
+              <div className={classes.actionsWrapper}>
+                {collapses[card.collapse] && (
+                  <Tooltip title="Download Chart as PNG" placement="top">
+                    <span>
+                      <IconButton
+                        color="primary"
+                        onClick={(event) => handleClickDownload(event, card)}
+                        disabled={organism === 'none' || chartLoadings[card.collapse]}
+                      >
+                        {chartLoadings[card.collapse] ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                )}
+                <IconButton>{collapses[card.collapse] ? <ExpandLess /> : <ExpandMore />}</IconButton>
+              </div>
+            </CardActions>
+            <Collapse in={collapses[card.collapse]} timeout="auto">
+              {card.collapse === 'frequencies' && <FrequenciesGraph />}
+              {card.collapse === 'drugResistance' && <DrugResistanceGraph />}
+              {card.collapse === 'determinants' && <DeterminantsGraph />}
+              {card.collapse === 'distribution' && <DistributionGraph />}
+              {card.collapse === 'trends' && <TrendsGraph />}
+              {card.collapse === 'KODiversity' && <KODiversityGraph />}
+              {card.collapse === 'convergence' && <ConvergenceGraph />}
+            </Collapse>
+          </Card>
+        );
+      })}
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
           Something went wrong with the download, please try again later.

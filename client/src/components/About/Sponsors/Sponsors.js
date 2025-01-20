@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { useStyles } from './AboutMUI';
+import { useState } from 'react';
+import { useStyles } from '../AboutMUI';
 import Carousel from 'react-simply-carousel';
 import { Card, CardContent, Typography, Box } from '@mui/material';
-import { TeamCards } from './TeamCard';
+// import MultiCarousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import { sponsorsCards } from './SponsorsCards';
 
-export const Team = () => {
+export const Sponsors = () => {
   const classes = useStyles();
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
@@ -12,7 +14,7 @@ export const Team = () => {
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
         <Typography variant="h6" className={classes.teamHeading}>
-          Team
+          Sponsors
         </Typography>
         <Carousel
           activeSlideIndex={activeSlideIndex}
@@ -43,28 +45,33 @@ export const Team = () => {
           }}
           speed={400}
         >
-          {TeamCards.map((member, index) => {
+          {sponsorsCards.map((sponsor, index) => {
             return (
               <Typography className={classes.teamMember} key={`team-card-${index}`}>
                 <Box
                   component="section"
                   height={70}
                   width={64}
-                  // my={4}
                   display="flex"
                   alignItems="center"
                   gap={4}
                   p={1}
                   sx={{ border: '2px solid purple', margin: 'auto' }}
                 >
-                  <a href={member.redirect} target="_blank" rel="noreferrer">
-                    <img srcSet={`${member.img}`} src={`${member.img}`} alt={member.title} loading="lazy" />
+                  <a href={sponsor.redirect} target="_blank" rel="noreferrer">
+                    <img
+                      width={64}
+                      srcSet={`${sponsor.img}`}
+                      src={`${sponsor.img}`}
+                      alt={sponsor.title}
+                      loading="lazy"
+                    />
                   </a>
                 </Box>
 
-                <Typography sx={{ marginTop: '10px' }}>{member.Name}</Typography>
+                <Typography sx={{ marginTop: '10px' }}>{sponsor.name}</Typography>
                 <Typography sx={{ fontSize: '10px' }} className={classes.teamPost}>
-                  {member.Post}
+                  {sponsor.post}
                 </Typography>
               </Typography>
             );

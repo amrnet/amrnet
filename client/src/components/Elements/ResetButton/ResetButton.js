@@ -1,8 +1,9 @@
-import { RestartAlt } from '@mui/icons-material';
+import { GitHub, RestartAlt } from '@mui/icons-material';
 import { useStyles } from './ResetButtonMUI';
-import { Fab, Tooltip, useMediaQuery } from '@mui/material';
+import { Fab, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import {
+  setActualRegion,
   setActualTimeFinal,
   setActualTimeInitial,
   setCanFilterData,
@@ -24,7 +25,6 @@ import {
   setKODiversityGraphView,
   setTrendsGraphDrugClass,
   setTrendsGraphView,
-  setFrequenciesGraphSelectedGenotypes,
   setNgmastDrugsData,
   setCustomDropdownMapViewNG,
   setCurrentSliderValueRD,
@@ -38,7 +38,7 @@ import {
   defaultDrugsForDrugResistanceGraphST,
   defaultDrugsForDrugResistanceGraphNG,
 } from '../../../util/drugs';
-import { getGenotypesData, getNgmastData } from '../../Dashboard/filters';
+import { getNgmastData } from '../../Dashboard/filters';
 import { useIndexedDB } from '../../../context/IndexedDBContext';
 
 export const ResetButton = () => {
@@ -50,8 +50,6 @@ export const ResetButton = () => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const genotypes = useAppSelector((state) => state.dashboard.genotypesForFilter);
-  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const pathovar = useAppSelector((state) => state.dashboard.pathovar);
   const ngmast = useAppSelector((state) => state.graph.NGMAST);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
@@ -62,14 +60,8 @@ export const ResetButton = () => {
     dispatch(setCanGetData(false));
     dispatch(
       setCollapses({
-        determinants: false,
-        distribution: false,
-        drugResistance: false,
-        frequencies: false,
-        trends: false,
-        KODiversity: false,
-        convergence: false,
         continent: false,
+        all: true,
       }),
     );
 
@@ -77,16 +69,11 @@ export const ResetButton = () => {
     dispatch(setActualTimeInitial(timeInitial));
     dispatch(setActualTimeFinal(timeFinal));
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
+    dispatch(setActualRegion('All'));
     dispatch(setActualCountry('All'));
 
     const storeData = await getItems(organism);
-    const genotypesData = getGenotypesData({
-      data: storeData,
-      genotypes,
-      actualCountry,
-    });
     const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
-    dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
 
     if (organism === 'styphi') {
       dispatch(setMapView('CipNS'));
@@ -130,8 +117,24 @@ export const ResetButton = () => {
     dispatch(setCanFilterData(true));
   }
 
+  if (organism === 'none' || loadingData || loadingMap) {
+    return <></>;
+  }
+
   return (
     <div className={classes.resetButton}>
+      <Tooltip title="Github" placement="left">
+        <span>
+          <IconButton
+            href="https://github.com/amrnet/amrnet"
+            target="_blank"
+            disabled={organism === 'none' || loadingData || loadingMap}
+            sx={{ padding: 0 }}
+          >
+            <GitHub sx={{ color: '#000', fontSize: '32px' }} />
+          </IconButton>
+        </span>
+      </Tooltip>
       <Tooltip title="Reset Configurations" placement="left">
         <span>
           <Fab

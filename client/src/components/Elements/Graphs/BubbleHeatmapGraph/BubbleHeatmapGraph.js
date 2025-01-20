@@ -12,7 +12,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStyles } from './BubbleGeographicGraphMUI';
+import { useStyles } from './BubbleHeatmapGraphMUI';
 import {
   ResponsiveContainer,
   XAxis,
@@ -27,35 +27,36 @@ import { useAppSelector } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesKP, drugClassesRulesST, statKeys } from '../../../../util/drugClassesRules';
+import { drugClassesRulesKP, statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
-import { Close, InfoOutlined } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
 
 const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
   return {
-    organism: 'kpneumo',
-    key: drug,
-    value: `kp-trends-${drug.toLowerCase()}`,
-    label: `${drug} resistant determinant trends`,
+    value: `kp-markers-${drug.toLowerCase()}`,
+    label: `${drug} resistance markers`,
   };
 });
 
-const stYOptions = Object.keys(drugClassesRulesST).map((drug) => {
-  return {
-    organism: 'styphi',
-    key: drug,
-    value: `st-trends-${drug.toLowerCase()}`,
-    label: `${drug} resistant determinant trends`,
-  };
-});
+const xOptionsByOrganism = [
+  {
+    label: 'Genotype',
+    value: 'genotype',
+    organisms: ['styphi', 'ngono', 'kpneumo'],
+  },
+  {
+    label: 'Pathotype',
+    value: 'pathotype',
+    organisms: ['shige', 'decoli', 'ecoli'],
+  },
+];
 
-const allYOptions = kpYOptions.concat(stYOptions);
-
-export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
+export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
-  const [xAxisType, setXAxisType] = useState('country');
+  const [xAxisType, setXAxisType] = useState('');
   const [yAxisType, setYAxisType] = useState('resistance');
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
@@ -65,19 +66,22 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const mapData = useAppSelector((state) => state.map.mapData);
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
-  const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
-  const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-  const drugsRegionsData = useAppSelector((state) => state.graph.drugsRegionsData);
-  const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
 
-  useEffect(() => {
-    setXAxisType('country');
-    setYAxisType('resistance');
+  const xOptions = useMemo(() => {
+    return xOptionsByOrganism.filter((x) => x.organisms.includes(organism));
   }, [organism]);
 
-  const drugsData = useMemo(() => {
-    return xAxisType === 'country' ? drugsCountriesData : drugsRegionsData;
-  }, [drugsCountriesData, drugsRegionsData, xAxisType]);
+  useEffect(() => {
+    setXAxisType(xOptions[0].value ?? '');
+  }, [xOptions]);
+
+  const selectedCRData = useMemo(() => {
+    return (actualCountry !== 'All' ? mapData : mapRegionData).find(
+      (x) => x.name === (actualCountry !== 'All' ? actualCountry : actualRegion),
+    );
+  }, [actualCountry, actualRegion, mapData, mapRegionData]);
 
   const resistanceOptions = useMemo(() => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
@@ -85,24 +89,20 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       .filter((option) => option.resistanceView)
       .map((option) => option.name)
       .sort();
-
     const drugs = {};
 
-    (xAxisType === 'country' ? mapData : mapRegionData)
-      .filter((item) => xAxisSelected.includes(item.name))
-      .forEach((item) => {
-        const stats = item.stats;
-        if (!stats) return;
+    resistance.forEach((drug) => {
+      const stats = selectedCRData?.stats;
 
-        resistance.forEach((drug) => {
-          if (!(drug in drugs)) {
-            drugs[drug] = stats[drug]?.count ?? 0;
-            return;
-          }
+      if (!stats) return;
 
-          drugs[drug] += stats[drug]?.count ?? 0;
-        });
-      });
+      if (!(drug in drugs)) {
+        drugs[drug] = stats[drug]?.count ?? 0;
+        return;
+      }
+
+      drugs[drug] += stats[drug]?.count ?? 0;
+    });
 
     return (
       Object.entries(drugs)
@@ -110,112 +110,73 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         .sort((a, b) => b[1] - a[1])
         .map((x) => x[0]) ?? []
     );
-  }, [mapData, mapRegionData, organism, xAxisSelected, xAxisType]);
+  }, [organism, selectedCRData?.stats]);
 
   const markersOptions = useMemo(() => {
-    const drugKey = allYOptions?.find((x) => x.value === yAxisType)?.key;
-
-    const data = drugsData?.[drugKey];
-    const filteredData = data?.filter((x) => xAxisSelected.includes(x.name)) ?? [];
-    const drugs = {};
-
-    filteredData.forEach((obj) => {
-      Object.keys(obj).forEach((key) => {
-        if (['None', 'name', 'resistantCount', 'totalCount'].includes(key)) {
-          return;
-        }
-
-        if (!(key in drugs)) {
-          drugs[key] = obj[key];
-          return;
-        }
-
-        drugs[key] += obj[key];
-      });
-    });
+    const drugKey = yAxisType === 'kp-markers-carbapenems' ? 'Carb' : 'ESBL';
 
     return (
-      Object.entries(drugs)
-        .filter((x) => x[1] > 0)
-        .sort((a, b) => b[1] - a[1])
-        .map((x) => x[0]) ?? []
+      selectedCRData?.stats[drugKey]?.items
+        .filter((x) => x.name !== '-')
+        .sort((a, b) => b.count - a.count)
+        .map((x) => x.name) ?? []
     );
-  }, [drugsData, xAxisSelected, yAxisType]);
-
-  const genotypesEntries = useMemo(() => {
-    const filteredData = (xAxisType === 'country' ? mapData : mapRegionData).filter((x) =>
-      xAxisSelected.includes(x.name),
-    );
-    const genotypes = {};
-
-    filteredData.forEach((obj) => {
-      obj.stats.GENOTYPE.items.forEach((item) => {
-        if (!(item.name in genotypes)) {
-          genotypes[item.name] = item.count;
-          return;
-        }
-
-        genotypes[item.name] += item.count;
-      });
-    });
-
-    return genotypes;
-  }, [mapData, mapRegionData, xAxisSelected, xAxisType]);
+  }, [selectedCRData?.stats, yAxisType]);
 
   const xAxisOptions = useMemo(() => {
     switch (xAxisType) {
-      case 'country':
-        return countriesForFilter;
-      case 'region':
-        return Object.keys(economicRegions).sort();
+      case 'genotype':
+        if (!selectedCRData) return [];
+        return selectedCRData?.stats.GENOTYPE?.items?.map((x) => x.name) ?? [];
+      case 'pathotype':
+        return selectedCRData?.stats.PATHOTYPE?.items?.map((x) => x.name) ?? [];
       default:
         return [];
     }
-  }, [countriesForFilter, economicRegions, xAxisType]);
+  }, [selectedCRData, xAxisType]);
 
   const yAxisOptions = useMemo(() => {
     switch (yAxisType) {
       case 'resistance':
         return resistanceOptions;
-      case 'genotype':
-        return (
-          Object.entries(genotypesEntries)
-            .sort((a, b) => b[1] - a[1])
-            .map((x) => x[0]) ?? []
-        );
+      case 'kp-markers-carbapenems':
+      case 'kp-markers-esbl':
+        return markersOptions;
       default:
-        return markersOptions ?? [];
+        return [];
     }
-  }, [genotypesEntries, markersOptions, resistanceOptions, yAxisType]);
+  }, [markersOptions, resistanceOptions, yAxisType]);
 
   useEffect(() => {
-    setXAxisSelected(
-      (xAxisType === 'country' ? mapData : mapRegionData)
-        .slice()
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 10)
-        .map((item) => item.name),
-    );
-  }, [mapData, mapRegionData, xAxisType]);
+    setXAxisSelected(xAxisOptions?.slice(0, 10));
+  }, [xAxisOptions]);
 
   useEffect(() => {
-    setYAxisSelected(yAxisOptions.slice(0, 8));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setYAxisSelected(yAxisOptions?.slice(0, 8));
   }, [yAxisOptions]);
 
   const yAxisWidth = useMemo(() => {
-    return longestVisualWidth((xAxisSelected ?? []).map((x) => (x === 'United States of America' ? 'USA' : x)));
+    return longestVisualWidth(xAxisSelected ?? []);
   }, [xAxisSelected]);
 
   const getOptionLabel = useCallback(
     (item) => {
-      if (yAxisType !== 'genotype') {
+      const totalCount = selectedCRData?.stats[xAxisType?.toUpperCase()].items.find((x) => x.name === item)?.count ?? 0;
+
+      return `${item} (total N=${totalCount})`;
+    },
+    [selectedCRData, xAxisType],
+  );
+
+  const getOptionLabelY = useCallback(
+    (item) => {
+      if (yAxisType === 'resistance') {
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 
-      return `${item} (total N=${genotypesEntries[item]})`;
+      return item;
     },
-    [genotypesEntries, yAxisType],
+    [yAxisType],
   );
 
   function handleChangeXAxisType(event) {
@@ -233,12 +194,12 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    if (xAxisSelected.length === xAxisOptions.length) {
+    if (xAxisSelected?.length === xAxisOptions?.length) {
       setXAxisSelected([]);
       return;
     }
 
-    setXAxisSelected(xAxisOptions.slice());
+    setXAxisSelected(xAxisOptions?.slice());
   }
 
   function handleChangeYAxisSelected(event) {
@@ -257,92 +218,52 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     return drugAcronymsOpposite[value] ?? Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === value) ?? value;
   }, []);
 
-  const countriesTooltipForRegion = useCallback(
-    (region, stat) => {
-      if (xAxisType === 'country') {
-        return null;
-      }
-
-      const countries = economicRegions[region];
-      const drug = Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === stat) ?? stat;
-      const regionCount = mapRegionData.find((x) => x.name === region).count;
-      const countriesData = mapData.filter((x) => countries.includes(x.name) && x.stats[drug].count > 0);
-
-      return (
-        <div>
-          <br />
-          {countriesData.map((country) => {
-            const drugCount = country.stats[drug].count;
-            const percentage = Number(((drugCount / regionCount) * 100).toFixed(2));
-
-            return (
-              <Typography fontSize="12px">
-                <Typography fontWeight={500} fontSize="12px" display="inline">
-                  {country.name}
-                </Typography>
-                {`: ${drugCount} (${percentage}%)`}
-              </Typography>
-            );
-          })}
-        </div>
-      );
-    },
-    [economicRegions, mapData, mapRegionData, xAxisType],
-  );
-
   const configuredMapData = useMemo(() => {
-    return (xAxisType === 'country' ? mapData : mapRegionData)
-      .filter((item) => xAxisSelected.includes(item.name))
-      .map((item) => {
-        const data = { name: item.name === 'United States of America' ? 'USA' : item.name, items: [] };
+    if (!selectedCRData) {
+      return [];
+    }
 
-        if (yAxisType === 'resistance') {
-          Object.entries(item.stats).forEach(([key, value]) => {
-            if (resistanceOptions.includes(key) && yAxisSelected.includes(key)) {
-              data.items.push({
-                itemName: drugAcronyms[key] ?? key,
-                percentage: value.percentage,
-                count: value.count,
+    if (xAxisType === 'genotype') {
+      return selectedCRData?.stats.GENOTYPE.items
+        .filter((item) => xAxisSelected?.includes(item.name))
+        .map((item) => {
+          const itemData = { name: item.name, items: [] };
+
+          if (yAxisType === 'resistance') {
+            Object.entries(item.drugs).forEach(([key, value]) => {
+              if (yAxisSelected.includes(key)) {
+                itemData.items.push({
+                  itemName: drugAcronyms[key] ?? key,
+                  percentage: value.percentage,
+                  count: value.count,
+                  index: 1,
+                  typeName: item.name,
+                });
+              }
+            });
+          }
+
+          if (yAxisType.includes('markers')) {
+            const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carb']?.items;
+
+            yAxisSelected.forEach((gene) => {
+              const currentGene = drugGenes.find((dg) => dg.name === gene);
+
+              itemData.items.push({
+                itemName: (currentGene?.name ?? gene).replace(' + ', '/'),
+                percentage: currentGene?.percentage ?? 0,
                 index: 1,
                 typeName: item.name,
               });
-            }
-          });
-        }
-
-        if (yAxisType === 'genotype') {
-          yAxisSelected.forEach((genotype) => {
-            const gen = item.stats.GENOTYPE.items.find((g) => g.name === genotype);
-
-            data.items.push({
-              itemName: genotype,
-              percentage: gen ? Number(((gen.count / item.count) * 100).toFixed(2)) : 0,
-              index: 1,
-              typeName: item.name,
             });
-          });
-        }
+          }
 
-        if (yAxisType.includes('trends')) {
-          const drugKey = allYOptions?.find((x) => x.value === yAxisType)?.key;
-          const locationDrugData = drugsData?.[drugKey];
-          const locationData = locationDrugData?.find((x) => x.name === item.name);
+          return itemData;
+        });
+    }
 
-          yAxisSelected.forEach((drug) => {
-            const drugCount = locationData ? locationData[drug] : 0;
-
-            data.items.push({
-              itemName: drug.replaceAll(' + ', '/'),
-              percentage: drugCount ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2)) : 0,
-              index: 1,
-              typeName: item.name,
-            });
-          });
-        }
-
-        return data;
-      });
-  }, [drugsData, mapData, mapRegionData, resistanceOptions, xAxisSelected, xAxisType, yAxisSelected, yAxisType]);
+    return [];
+  }, [selectedCRData, xAxisSelected, xAxisType, yAxisSelected, yAxisType]);
 
   useEffect(() => {
     if (canGetData) {
@@ -351,7 +272,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           <>
             {configuredMapData.map((item, index) => {
               return (
-                <ResponsiveContainer key={`bubble-graph-${index}`} width="100%" height={index === 0 ? 80 : 60}>
+                <ResponsiveContainer key={`heatmap-graph-${index}`} width="100%" height={index === 0 ? 80 : 60}>
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
                     margin={{ bottom: index === 0 ? -20 : 0 }}
@@ -406,7 +327,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       content={({ payload, active }) => {
                         if (payload !== null && active) {
                           const title = getTitle(payload[0]?.payload.itemName);
-
                           return (
                             <div className={classes.chartTooltipLabel}>
                               <Typography variant="body1" fontWeight="500">
@@ -417,7 +337,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                                   ? `${title}: ${payload[0]?.payload.percentage}%`
                                   : `${title}: ${payload[0]?.payload.count} (${payload[0]?.payload.percentage}%)`}
                               </Typography>
-                              {countriesTooltipForRegion(payload[1]?.payload.typeName, payload[0]?.payload.itemName)}
                             </div>
                           );
                         }
@@ -446,15 +365,15 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [configuredMapData, yAxisWidth]);
 
   return (
-    <CardContent className={classes.bubbleGeographicGraph}>
+    <CardContent className={classes.bubbleHeatmapGraph}>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="CVM">
           {plotChart}
         </div>
       </div>
-      {configuredMapData.length === 0 && (
+      {!selectedCRData && (
         <Box className={classes.nothingSelected}>
-          <Typography fontWeight={600}>No data to show</Typography>
+          <Typography fontWeight={600}>No region or country selected</Typography>
         </Box>
       )}
       <Divider className={classes.divider} />
@@ -482,6 +401,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 </Tooltip>
               </div>
               <div className={classes.selectsWrapper}>
+                <SelectCountry />
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <Typography variant="caption">X axis</Typography>
@@ -492,17 +412,15 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      <MenuItem value="country">Countries</MenuItem>
-                      <MenuItem value="region">Regions</MenuItem>
+                      {xOptions.map((option) => (
+                        <MenuItem key={`x-option-${option.value}`} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>
-                    <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select countries/regions</Typography>
-                      <Tooltip title="Navigate by typing the first letter of the country/region." placement="top">
-                        <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-                      </Tooltip>
-                    </div>
+                    <Typography variant="caption">Select genotypes/pathotypes</Typography>
                     <Select
                       multiple
                       value={xAxisSelected}
@@ -515,21 +433,21 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           className={classes.selectButton}
                           onClick={() => handleChangeXAxisSelected({ all: true })}
                           disabled={organism === 'none'}
-                          color={xAxisSelected.length === xAxisOptions.length ? 'error' : 'primary'}
+                          color={xAxisSelected?.length === xAxisOptions?.length ? 'error' : 'primary'}
                         >
-                          {xAxisSelected.length === xAxisOptions.length ? 'Clear All' : 'Select All'}
+                          {xAxisSelected?.length === xAxisOptions?.length ? 'Clear All' : 'Select All'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
                       MenuProps={{
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={(selected) => <div>{`${selected.length} of ${xAxisOptions.length} selected`}</div>}
+                      renderValue={(selected) => <div>{`${selected?.length} of ${xAxisOptions?.length} selected`}</div>}
                     >
-                      {xAxisOptions.map((option, index) => (
+                      {xAxisOptions?.map((option, index) => (
                         <MenuItem key={`geo-x-axis-option-${index}`} value={option}>
-                          <Checkbox checked={xAxisSelected.indexOf(option) > -1} />
-                          <ListItemText primary={option} />
+                          <Checkbox checked={xAxisSelected?.indexOf(option) > -1} />
+                          <ListItemText primary={getOptionLabel(option)} />
                         </MenuItem>
                       ))}
                     </Select>
@@ -546,23 +464,16 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       disabled={organism === 'none'}
                     >
                       <MenuItem value="resistance">Resistance prevalence</MenuItem>
-                      <MenuItem value="genotype">Genotype prevalence</MenuItem>
                       {organism === 'kpneumo' &&
                         kpYOptions.map((option, index) => (
                           <MenuItem key={`y-kp-option-${index}`} value={option.value}>
                             {option.label}
                           </MenuItem>
                         ))}
-                      {organism === 'styphi' &&
-                        stYOptions.map((option, index) => (
-                          <MenuItem key={`y-st-option-${index}`} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Select drugs/genotypes (up to 8)</Typography>
+                    <Typography variant="caption">Select drugs/genes (up to 8)</Typography>
                     <Select
                       multiple
                       value={yAxisSelected}
@@ -574,7 +485,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           variant="outlined"
                           className={classes.selectButton}
                           onClick={clearYAxisSelected}
-                          disabled={organism === 'none' || yAxisSelected.length === 0}
+                          disabled={organism === 'none' || yAxisSelected?.length === 0}
                           color="error"
                         >
                           Clear All
@@ -584,12 +495,12 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={(selected) => <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>}
+                      renderValue={(selected) => <div>{`${selected?.length} of ${yAxisOptions.length} selected`}</div>}
                     >
                       {yAxisOptions.map((option, index) => (
                         <MenuItem key={`geo-y-axis-option-${index}`} value={option}>
                           <Checkbox checked={yAxisSelected.indexOf(option) > -1} />
-                          <ListItemText primary={getOptionLabel(option)} />
+                          <ListItemText primary={getOptionLabelY(option)} />
                         </MenuItem>
                       ))}
                     </Select>

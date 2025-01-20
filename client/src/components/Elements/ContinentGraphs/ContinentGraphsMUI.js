@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     '&.MuiCard-root': {
       borderRadius: '16px',
+      overflow: 'visible',
     },
   },
   cardActions: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     columnGap: '8px',
+  },
+  boxWrapper: {
+    position: 'relative',
   },
 }));
 

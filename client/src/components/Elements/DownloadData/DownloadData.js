@@ -208,7 +208,6 @@ export const DownloadData = () => {
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
   const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
 
-
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
     if (organism === 'styphi') {
@@ -292,8 +291,7 @@ export const DownloadData = () => {
       .finally(() => {
         setLoadingCSV(false);
       });
-}
-
+  }
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -436,14 +434,8 @@ export const DownloadData = () => {
     setLoadingPDF(true);
     dispatch(
       setCollapses({
-        determinants: true,
-        distribution: true,
-        drugResistance: true,
-        frequencies: true,
-        trends: true,
-        KODiversity: true,
-        convergence: true,
         continent: true,
+        all: true,
       }),
     );
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
@@ -478,7 +470,7 @@ export const DownloadData = () => {
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
         secondword = 330;
-      }else {
+      } else {
         texts = getNgonoTexts();
         firstName = 'shigella';
         secondName = 'gonorrhoeae';
@@ -746,8 +738,8 @@ export const DownloadData = () => {
         doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[25], 16, 76, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[26], 16, 116, { align: 'left', maxWidth: pageWidth - 36 });
-      }else {
-        console.log("shige....")
+      } else {
+        console.log('shige....');
       }
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
@@ -781,15 +773,15 @@ export const DownloadData = () => {
           doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'ST prevalence') {
           doc.text('Selected ST: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        }else if (mapView === 'Sublineage prevalence') {
+        } else if (mapView === 'Sublineage prevalence') {
           doc.text('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        }else if (mapView === 'Resistance prevalence') {
+        } else if (mapView === 'Resistance prevalence') {
           doc.text('Selected Resistance: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        } 
-      }else if (prevalenceMapViewOptionsSelected.length > 1) {
-          const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
-          doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
         }
+      } else if (prevalenceMapViewOptionsSelected.length > 1) {
+        const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
+        doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
+      }
       let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
         // scale: 4,
@@ -845,8 +837,7 @@ export const DownloadData = () => {
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
       let drugClassesFactor = 0;
-      if(drugClassesBars !== undefined)
-        drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
+      if (drugClassesBars !== undefined) drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 6);
 
       const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
@@ -968,7 +959,7 @@ export const DownloadData = () => {
             .filter((genotype) => topGenotypeSlice.includes(genotype))
             .map((genotype) => ({
               name: genotype,
-              color: getGenotypeColor(genotype)
+              color: getGenotypeColor(genotype),
             }));
 
           const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
@@ -989,7 +980,7 @@ export const DownloadData = () => {
             id: 'RDT',
             document: doc,
             legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
-            factor: Math.ceil(legendGenotypes.length/6) ,
+            factor: Math.ceil(legendGenotypes.length / 6),
             rectY: isKlebe ? 6 * 18 : 6 * 6,
             xSpace: 60,
             threePages: false,
@@ -1053,7 +1044,7 @@ export const DownloadData = () => {
       Name = 'invasive-non-typhoidal-salmonella';
     }
     const url = `https://amrnet.readthedocs.io/en/staging/usage.html#${Name}`;
-    console.log("url",url)
+    console.log('url', url);
     window.open(url, '_blank');
     // window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
   }
@@ -1082,7 +1073,12 @@ export const DownloadData = () => {
       >
         Download PDF
       </LoadingButton>
-      <Button className={classes.button} variant="contained" onClick={() => handleClickDatabasePage()} startIcon={<Storage />}>
+      <Button
+        className={classes.button}
+        variant="contained"
+        onClick={() => handleClickDatabasePage()}
+        startIcon={<Storage />}
+      >
         See Database info
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>

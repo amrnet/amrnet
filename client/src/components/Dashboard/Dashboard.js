@@ -2,7 +2,6 @@
 import { MainLayout } from '../Layout';
 import { Note } from '../Elements/Note';
 import { Map } from '../Elements/Map';
-import { Footer } from '../Elements/Footer';
 import { API_ENDPOINT } from '../../constants';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -29,6 +28,7 @@ import {
   setPathovar,
   setSelectedLineages,
   setEconomicRegions,
+  setActualRegion,
 } from '../../stores/slices/dashboardSlice.ts';
 import { setDataset, setMapData, setMapRegionData, setMapView, setPosition } from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
@@ -61,10 +61,10 @@ import {
   setNgmast,
   setNgmastDrugsData,
   setMaxSliderValueCM,
-  setDrugsCountriesKPData,
-  setDrugsRegionsKPData,
-  setUniqueCountryKPDrugs,
-  setUniqueRegionKPDrugs,
+  setDrugsCountriesData,
+  setDrugsRegionsData,
+  setCountriesYearData,
+  setRegionsYearData,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -83,6 +83,7 @@ import { SelectCountry } from '../Elements/SelectCountry';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST, defaultDrugsForDrugResistanceGraphNG } from '../../util/drugs';
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
+import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
@@ -100,6 +101,7 @@ export const DashboardPage = () => {
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const yearsForFilter = useAppSelector((state) => state.dashboard.years);
@@ -146,7 +148,6 @@ export const DashboardPage = () => {
 
     // Get regions
     const ecRegions = {};
-    const countryRegions = {};
 
     regions.forEach((item) => {
       const region = item['Sub-region Name'];
@@ -159,9 +160,7 @@ export const DashboardPage = () => {
 
       const country = getCountryDisplayName(item['Country or Area']);
       ecRegions[region].push(country);
-      countryRegions[country] = region;
     });
-    dispatch(setEconomicRegions(ecRegions));
 
     // Get mapped values
     const genotypesSet = new Set();
@@ -185,8 +184,6 @@ export const DashboardPage = () => {
       if (['shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathotype);
       }
-
-      x['ECONOMIC_REGION'] = countryRegions[country];
     });
 
     const genotypes = Array.from(genotypesSet);
@@ -218,6 +215,17 @@ export const DashboardPage = () => {
     dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
 
+    // Set regions
+    Object.keys(ecRegions).forEach((key) => {
+      ecRegions[key] = ecRegions[key].filter((country) => countries.includes(country)).sort();
+
+      if (ecRegions[key].length === 0) {
+        delete ecRegions[key];
+      }
+    });
+
+    dispatch(setEconomicRegions(ecRegions));
+
     await Promise.all([
       // Get map data
       getStoreOrGenerateData(`${organism}_map`, async () =>
@@ -227,9 +235,9 @@ export const DashboardPage = () => {
       }),
 
       // Get regions data
-      ['styphi', 'kpneumo'].includes(organism)
+      ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'].includes(organism)
         ? getStoreOrGenerateData(`${organism}_map_regions`, async () =>
-            getMapData({ data: responseData, items: Object.keys(ecRegions).sort(), organism, type: 'region' }),
+            getMapData({ data: responseData, items: ecRegions, organism, type: 'region' }),
           ).then((mapData) => {
             dispatch(setMapRegionData(mapData));
           })
@@ -237,12 +245,19 @@ export const DashboardPage = () => {
 
       // Get genotypes data
       getStoreOrGenerateData(`${organism}_genotype`, () => {
-        const dt = getGenotypesData({ data: responseData, genotypes, organism });
-        return [dt.genotypesDrugsData, dt.genotypesDrugClassesData];
-      }).then(([genotypesDrugsData, genotypesDrugClassesData]) => {
+        const dt = getGenotypesData({ data: responseData, genotypes, organism, years, countries, regions: ecRegions });
+        return [
+          dt.genotypesDrugsData,
+          dt.genotypesDrugClassesData,
+          dt.countriesDrugClassesData,
+          dt.regionsDrugClassesData,
+        ];
+      }).then(([genotypesDrugsData, genotypesDrugClassesData, countriesDrugClassesData, regionsDrugClassesData]) => {
         dispatch(setGenotypesDrugsData(genotypesDrugsData));
         dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
         dispatch(setGenotypesDrugClassesData(genotypesDrugClassesData));
+        dispatch(setCountriesYearData(countriesDrugClassesData));
+        dispatch(setRegionsYearData(regionsDrugClassesData));
       }),
 
       // Get ngmast data
@@ -264,7 +279,14 @@ export const DashboardPage = () => {
           organism,
           getUniqueGenotypes: organism === 'styphi' ? false : true,
         });
-        return [dt.genotypesData, dt.drugsData, dt.uniqueGenotypes, dt.genotypesAndDrugsData];
+        return [
+          dt.genotypesData,
+          dt.drugsData,
+          dt.uniqueGenotypes,
+          dt.genotypesAndDrugsData,
+          dt.countriesData,
+          dt.regionsData,
+        ];
       }).then(([genotypesData, drugsData, uniqueGenotypes, genotypesAndDrugsData]) => {
         dispatch(setGenotypesYearData(genotypesData));
         dispatch(setDrugsYearData(drugsData));
@@ -277,33 +299,31 @@ export const DashboardPage = () => {
       }),
 
       // Get drugs carb and esbl data for countries
-      organism === 'kpneumo'
+      ['styphi', 'kpneumo'].includes(organism)
         ? getStoreOrGenerateData(`${organism}_drugs_countries`, () => {
-            const { drugsData, uniqueDrugs } = getDrugsCountriesData({
+            const { drugsData } = getDrugsCountriesData({
               data: responseData,
               items: countries,
               organism,
             });
-            return [drugsData, uniqueDrugs];
-          }).then(([drugsData, uniqueDrugs]) => {
-            dispatch(setDrugsCountriesKPData(drugsData));
-            dispatch(setUniqueCountryKPDrugs(uniqueDrugs));
+            return [drugsData];
+          }).then(([drugsData]) => {
+            dispatch(setDrugsCountriesData(drugsData));
           })
         : Promise.resolve(),
 
-      // Get drugs carb and esbl data for countries
-      organism === 'kpneumo'
+      // Get drugs carb and esbl data for regions
+      ['styphi', 'kpneumo'].includes(organism)
         ? getStoreOrGenerateData(`${organism}_drugs_regions`, () => {
-            const { drugsData, uniqueDrugs } = getDrugsCountriesData({
+            const { drugsData } = getDrugsCountriesData({
               data: responseData,
-              items: Object.keys(ecRegions),
+              items: ecRegions,
               type: 'region',
               organism,
             });
-            return [drugsData, uniqueDrugs];
-          }).then(([drugsData, uniqueDrugs]) => {
-            dispatch(setDrugsRegionsKPData(drugsData));
-            dispatch(setUniqueRegionKPDrugs(uniqueDrugs));
+            return [drugsData];
+          }).then(([drugsData]) => {
+            dispatch(setDrugsRegionsData(drugsData));
           })
         : Promise.resolve(),
 
@@ -407,14 +427,8 @@ export const DashboardPage = () => {
       // Clear all that needs to be cleared
       dispatch(
         setCollapses({
-          determinants: false,
-          distribution: false,
-          drugResistance: false,
-          frequencies: false,
-          trends: false,
-          KODiversity: false,
-          convergence: false,
           continent: false,
+          all: true,
         }),
       );
       setData([]);
@@ -423,6 +437,7 @@ export const DashboardPage = () => {
       dispatch(setActualTimeFinal(''));
       dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
       dispatch(setActualCountry('All'));
+      dispatch(setActualRegion('All'));
       dispatch(setMapData([]));
       dispatch(setGenotypesYearData([]));
       dispatch(setDrugsYearData([]));
@@ -559,25 +574,44 @@ export const DashboardPage = () => {
         organism,
         actualCountry,
         selectedLineages,
+        actualRegion,
+        economicRegions,
       });
-      const filteredData = filters.data.filter(
-        (x) => actualCountry === 'All' || getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry,
+
+      const filteredCountries =
+        actualRegion === 'All'
+          ? countriesForFilter
+          : actualCountry !== 'All'
+          ? [actualCountry]
+          : economicRegions[actualRegion];
+      const filteredData = filters.data.filter((x) =>
+        filteredCountries.includes(getCountryDisplayName(x.COUNTRY_ONLY)),
       );
 
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
       dispatch(setMapData(getMapData({ data: filters.data, items: countriesForFilter, organism })));
-      dispatch(setMapRegionData(getMapData({ data: filters.data, items: Object.keys(economicRegions), organism })));
+      if (['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'].includes(organism)) {
+        dispatch(
+          setMapRegionData(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })),
+        );
+      }
 
       const genotypesData = getGenotypesData({
         data: filteredData,
         genotypes: genotypesForFilter,
         organism,
+        years: yearsForFilter,
+        countries: countriesForFilter,
+        regions: economicRegions,
+        dataForGeographic: filters.data,
       });
       dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
       dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
       dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
+      dispatch(setCountriesYearData(genotypesData.countriesDrugClassesData));
+      dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
 
       const yearsData = getYearsData({
         data: filteredData,
@@ -607,22 +641,22 @@ export const DashboardPage = () => {
         dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
+      }
 
+      if (['styphi', 'kpneumo'].includes(organism)) {
         if (currentTimeInitial !== actualTimeInitial || currentTimeFinal !== actualTimeFinal) {
-          const { drugsData: drugsDataC, uniqueDrugs: uniqueDrugsC } = getDrugsCountriesData({
+          const { drugsData: drugsDataC } = getDrugsCountriesData({
             data: filteredData,
             items: countriesForFilter,
           });
-          dispatch(setDrugsCountriesKPData(drugsDataC));
-          dispatch(setUniqueCountryKPDrugs(uniqueDrugsC));
+          dispatch(setDrugsCountriesData(drugsDataC));
 
-          const { drugsData: drugsDataR, uniqueDrugs: uniqueDrugsR } = getDrugsCountriesData({
+          const { drugsData: drugsDataR } = getDrugsCountriesData({
             data: filteredData,
-            items: Object.keys(economicRegions),
+            items: economicRegions,
             type: 'region',
           });
-          dispatch(setDrugsRegionsKPData(drugsDataR));
-          dispatch(setUniqueRegionKPDrugs(uniqueDrugsR));
+          dispatch(setDrugsRegionsData(drugsDataR));
         }
       }
     }
@@ -631,15 +665,18 @@ export const DashboardPage = () => {
   }
 
   return (
-    <MainLayout>
-      <Note />
-      <Map />
-      {['styphi', 'kpneumo'].includes(organism) && <ContinentGraphs />}
-      <SelectCountry />
-      <Graphs />
-      <DownloadData />
-      {/* <Footer /> */}
-      <ResetButton data={data} />
-    </MainLayout>
+    <>
+      <MainLayout>
+        <Note />
+        <Map />
+        <ContinentGraphs />
+        {/* <SelectCountry /> */}
+        <Graphs />
+        <DownloadData />
+        {/* <Footer /> */}
+        <ResetButton data={data} />
+      </MainLayout>
+      <FloatingGlobalFilters />
+    </>
   );
 };

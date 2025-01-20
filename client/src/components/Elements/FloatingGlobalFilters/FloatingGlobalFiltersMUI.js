@@ -1,19 +1,13 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  resetButton: {
+  fabGF: {
     position: 'fixed',
-    right: 16,
+    left: 8,
     bottom: 0,
     padding: '16px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px',
-    alignItems: 'center',
-    zIndex: 1,
 
     '@media (max-width: 500px)': {
-      right: 8,
       padding: '16px 8px',
     },
   },

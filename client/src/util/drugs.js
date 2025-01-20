@@ -112,5 +112,26 @@ export const drugAcronyms = {
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
   Phenicols: 'PHE',
   Tigecycline: 'TGC',
-  ESBL: 'ESBL',
+  AzithR: 'AZM',
+  '3rd gen cephalosporins (3GCs)': '3GCs',
 };
+
+export const drugAcronymsOpposite = {
+  CIP: 'Ciprofloxacin',
+  CARB: 'Carbapenems',
+  AZM: 'Azithromycin',
+  ESBL: 'Extended-Spectrum Beta-Lactamase',
+};
+
+export function getDrugClasses(organism) {
+  switch (organism) {
+    case 'styphi':
+      return drugClassesST;
+    case 'kpneumo':
+      return drugClassesKP;
+    case 'ngono':
+      return drugClassesNG;
+    default:
+      return [];
+  }
+}

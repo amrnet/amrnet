@@ -25,7 +25,7 @@ export const mapLegends = [
   {
     value: 'Carb',
     label: 'Carbapenemase prevalence',
-    organisms: ['kpneumo', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
+    organisms: ['kpneumo', 'ecoli', 'shige', 'decoli'],
   },
   {
     value: 'Sensitive to all drugs',
