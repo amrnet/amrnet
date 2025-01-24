@@ -151,7 +151,7 @@ export const TopRightControls = () => {
     <div className={`${classes.topRightControls} ${matches ? classes.bp700 : ''}`}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <div className={classes.mapViewWrapper}>
+          {/* <div className={classes.mapViewWrapper}>
             <Typography gutterBottom variant="caption">
               Select map view
             </Typography>
@@ -171,7 +171,7 @@ export const TopRightControls = () => {
                 Economic Region
               </ToggleButton>
             </ToggleButtonGroup>
-          </div>
+          </div> */}
           <div className={classes.label}>
             <Typography variant="caption">Colour country by</Typography>
             <Tooltip
