@@ -634,7 +634,7 @@ export const DashboardPage = () => {
     <MainLayout>
       <Note />
       <Map />
-      {['styphi', 'kpneumo'].includes(organism) && <ContinentGraphs />}
+      {/* {['styphi', 'kpneumo'].includes(organism) && <ContinentGraphs />} */}
       <SelectCountry />
       <Graphs />
       <DownloadData />
