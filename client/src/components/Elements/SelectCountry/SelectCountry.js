@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice';
 // import { useMemo } from 'react';
 
-export const SelectCountry = () => {
+export const SelectCountry = ({ hideAll = false }) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
@@ -107,7 +107,13 @@ export const SelectCountry = () => {
         }}
         disabled={organism === 'none'}
       >
-        <MenuItem value="All">All regions</MenuItem>
+        {hideAll ? (
+          <MenuItem value="All" disabled>
+            Select a region
+          </MenuItem>
+        ) : (
+          <MenuItem value="All">All regions</MenuItem>
+        )}
         {Object.keys(economicRegions)
           .sort()
           .map((country, index) => {
@@ -131,7 +137,13 @@ export const SelectCountry = () => {
         }}
         disabled={organism === 'none'}
       >
-        <MenuItem value="All">All countries</MenuItem>
+        {hideAll ? (
+          <MenuItem value="All" disabled>
+            Select a country
+          </MenuItem>
+        ) : (
+          <MenuItem value="All">All countries</MenuItem>
+        )}
         {(actualRegion === 'All' ? countriesForFilter : economicRegions[actualRegion]).map((country, index) => {
           return (
             <MenuItem key={index + 'mapview'} value={country}>

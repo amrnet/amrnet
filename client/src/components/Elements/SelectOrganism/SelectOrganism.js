@@ -15,11 +15,15 @@ export const SelectOrganism = () => {
   const organism = useAppSelector((state) => state.dashboard.organism);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
 
-  const activeOrganismsCards = useMemo(() => organismsCards.filter((x) => !x.disabled), []);
+  const sortedOrganismsCards = useMemo(
+    () => organismsCards.slice().sort((a, b) => a.disabled - b.disabled || a.stringLabel.localeCompare(b.stringLabel)),
+    [],
+  );
+  const activeOrganismsCards = useMemo(() => sortedOrganismsCards.filter((x) => !x.disabled), [sortedOrganismsCards]);
 
   useEffect(() => {
     if (organism !== '') {
-      const currentOrganism = organismsCards.find((x) => x.value === organism);
+      const currentOrganism = sortedOrganismsCards.find((x) => x.value === organism);
       if (currentOrganism) {
         dispatch(setGlobalOverviewLabel({ label: currentOrganism.label, stringLabel: currentOrganism.stringLabel }));
       }
@@ -71,7 +75,7 @@ export const SelectOrganism = () => {
         <MenuItem value="none" disabled>
           Select an organism
         </MenuItem>
-        {organismsCards.map((item, index) => (
+        {sortedOrganismsCards.map((item, index) => (
           <MenuItem key={`organism-${index}`} value={item.value} disabled={item.disabled}>
             {matches1050 ? item.abbr : item.label}
           </MenuItem>

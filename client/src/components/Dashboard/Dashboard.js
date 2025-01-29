@@ -79,7 +79,6 @@ import {
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
-import { SelectCountry } from '../Elements/SelectCountry';
 import { drugsKP, defaultDrugsForDrugResistanceGraphST, defaultDrugsForDrugResistanceGraphNG } from '../../util/drugs';
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
@@ -279,14 +278,7 @@ export const DashboardPage = () => {
           organism,
           getUniqueGenotypes: organism === 'styphi' ? false : true,
         });
-        return [
-          dt.genotypesData,
-          dt.drugsData,
-          dt.uniqueGenotypes,
-          dt.genotypesAndDrugsData,
-          dt.countriesData,
-          dt.regionsData,
-        ];
+        return [dt.genotypesData, dt.drugsData, dt.uniqueGenotypes, dt.genotypesAndDrugsData];
       }).then(([genotypesData, drugsData, uniqueGenotypes, genotypesAndDrugsData]) => {
         dispatch(setGenotypesYearData(genotypesData));
         dispatch(setDrugsYearData(drugsData));

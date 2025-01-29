@@ -22,6 +22,7 @@ import {
   Scatter,
   ZAxis,
   Cell,
+  LabelList,
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -171,6 +172,9 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const getOptionLabelY = useCallback(
     (item) => {
       if (yAxisType === 'resistance') {
+        if (['MDR', 'XDR'].includes(item)) {
+          return item;
+        }
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 
@@ -272,7 +276,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
           <>
             {configuredMapData.map((item, index) => {
               return (
-                <ResponsiveContainer key={`heatmap-graph-${index}`} width="100%" height={index === 0 ? 80 : 60}>
+                <ResponsiveContainer key={`heatmap-graph-${index}`} width="100%" height={index === 0 ? 90 : 70}>
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
                     margin={{ bottom: index === 0 ? -20 : 0 }}
@@ -319,7 +323,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       width={yAxisWidth}
                     />
 
-                    <ZAxis type="number" dataKey="percentage" range={[600, 600]} />
+                    <ZAxis type="number" dataKey="percentage" range={[1200, 1200]} />
 
                     <ChartTooltip
                       cursor={{ fill: hoverColor }}
@@ -352,6 +356,25 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                           fill={option.percentage === 0 ? darkGrey : differentColorScale(option.percentage, 'red')}
                         />
                       ))}
+                      <LabelList
+                        dataKey="percentage"
+                        fontSize={12}
+                        content={({ x, y, value, z }) => {
+                          return (
+                            <text
+                              x={x + 20}
+                              y={y + 23}
+                              textAnchor="middle"
+                              fontSize={12}
+                              fontWeight={500}
+                              fill={value === 0 || value > 25 ? '#fff' : '#000'}
+                              pointerEvents="none"
+                            >
+                              {value}
+                            </text>
+                          );
+                        }}
+                      />
                     </Scatter>
                   </ScatterChart>
                 </ResponsiveContainer>
@@ -373,7 +396,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
       </div>
       {!selectedCRData && (
         <Box className={classes.nothingSelected}>
-          <Typography fontWeight={600}>No region or country selected</Typography>
+          <Typography fontWeight={600}>Please select a region or country</Typography>
         </Box>
       )}
       <Divider className={classes.divider} />
@@ -401,7 +424,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                 </Tooltip>
               </div>
               <div className={classes.selectsWrapper}>
-                <SelectCountry />
+                <SelectCountry hideAll />
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <Typography variant="caption">X axis</Typography>

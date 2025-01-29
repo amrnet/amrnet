@@ -22,6 +22,7 @@ import {
   Scatter,
   ZAxis,
   Cell,
+  LabelList,
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -210,6 +211,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const getOptionLabel = useCallback(
     (item) => {
       if (yAxisType !== 'genotype') {
+        if (['MDR', 'XDR'].includes(item)) {
+          return item;
+        }
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 
@@ -351,10 +355,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           <>
             {configuredMapData.map((item, index) => {
               return (
-                <ResponsiveContainer key={`bubble-graph-${index}`} width="100%" height={index === 0 ? 80 : 60}>
+                <ResponsiveContainer key={`bubble-graph-${index}`} width="100%" height={index === 0 ? 90 : 70}>
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
                     margin={{ bottom: index === 0 ? -20 : 0 }}
+                    rad
                   >
                     <XAxis
                       type="category"
@@ -398,7 +403,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       width={yAxisWidth}
                     />
 
-                    <ZAxis type="number" dataKey="percentage" range={[600, 600]} />
+                    <ZAxis type="number" dataKey="percentage" range={[1200, 1200]} />
 
                     <ChartTooltip
                       cursor={{ fill: hoverColor }}
@@ -433,6 +438,25 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           fill={option.percentage === 0 ? darkGrey : differentColorScale(option.percentage, 'red')}
                         />
                       ))}
+                      <LabelList
+                        dataKey="percentage"
+                        fontSize={12}
+                        content={({ x, y, value, z }) => {
+                          return (
+                            <text
+                              x={x + 20}
+                              y={y + 23}
+                              textAnchor="middle"
+                              fontSize={12}
+                              fontWeight={500}
+                              fill={value === 0 || value > 25 ? '#fff' : '#000'}
+                              pointerEvents="none"
+                            >
+                              {value}
+                            </text>
+                          );
+                        }}
+                      />
                     </Scatter>
                   </ScatterChart>
                 </ResponsiveContainer>

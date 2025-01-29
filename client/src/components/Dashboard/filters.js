@@ -750,8 +750,6 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
     }
   });
 
-  console.log(countriesDrugClassesData, regionsDrugClassesData);
-
   return { genotypesDrugsData, genotypesDrugClassesData, countriesDrugClassesData, regionsDrugClassesData };
 }
 
