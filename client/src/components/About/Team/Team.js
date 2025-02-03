@@ -1,117 +1,67 @@
-import { useState } from 'react';
 import { useStyles } from '../AboutMUI';
-import Carousel from 'react-simply-carousel';
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography, CardMedia, Divider } from '@mui/material';
 import { teamCards } from './TeamCard';
-// import MultiCarousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
 
 export const Team = () => {
   const classes = useStyles();
-  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
-        <Typography variant="h6" className={classes.teamHeading}>
+        <Typography variant="h5" className={classes.heading}>
           Team
         </Typography>
-        <Carousel
-          activeSlideIndex={activeSlideIndex}
-          onRequestChange={setActiveSlideIndex}
-          itemsToShow={4}
-          itemsToScroll={1}
-          forwardBtnProps={{ style: { display: 'none' } }}
-          backwardBtnProps={{ style: { display: 'none' } }}
-          dotsNav={{
-            show: true,
-            itemBtnProps: {
-              style: {
-                height: 16,
-                width: 16,
-                borderRadius: '50%',
-                border: 0,
-              },
+        <Divider />
+        <Swiper
+          loop={true}
+          slidesPerView={1}
+          spaceBetween={15}
+          pagination={{
+            clickable: true,
+            type: 'bullets',
+            bulletActiveClass: classes.bulletActive,
+          }}
+          breakpoints={{
+            550: {
+              slidesPerView: 2,
+              spaceBetween: 20,
             },
-            activeItemBtnProps: {
-              style: {
-                height: 16,
-                width: 16,
-                borderRadius: '50%',
-                border: 0,
-                background: 'gray',
-              },
+            800: {
+              slidesPerView: 3,
+              spaceBetween: 25,
+            },
+            1100: {
+              slidesPerView: 4,
+              spaceBetween: 30,
             },
           }}
-          speed={400}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+          className={classes.carouselSwiper}
         >
-          {teamCards.map((member, index) => {
+          {teamCards.map((card) => {
             return (
-              <Typography className={classes.teamMember} key={`team-card-${index}`}>
-                <Box
-                  component="section"
-                  height={70}
-                  width={64}
-                  display="flex"
-                  alignItems="center"
-                  gap={4}
-                  p={1}
-                  sx={{ border: '2px solid purple', margin: 'auto' }}
-                >
-                  <a href={member.redirect} target="_blank" rel="noreferrer">
-                    <img srcSet={`${member.img}`} src={`${member.img}`} alt={member.title} loading="lazy" />
-                  </a>
-                </Box>
-
-                <Typography sx={{ marginTop: '10px' }}>{member.name}</Typography>
-                <Typography sx={{ fontSize: '10px' }} className={classes.teamPost}>
-                  {member.post}
-                </Typography>
-              </Typography>
+              <SwiperSlide>
+                <Card className={classes.swiperCard} elevation={2}>
+                  <CardMedia
+                    sx={{ height: 70, backgroundRepeat: 'no-repeat', backgroundSize: 'contain' }}
+                    image={card.img}
+                  />
+                  <CardContent className={classes.swiperCardContent}>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {card.name}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      {card.post}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </SwiperSlide>
             );
           })}
-        </Carousel>
-        {/* <MultiCarousel
-          arrows
-          centerMode={false}
-          draggable
-          infinite
-          renderButtonGroupOutside={false}
-          responsive={{
-            desktop: {
-              breakpoint: {
-                max: 3000,
-                min: 1024,
-              },
-              items: 3,
-              partialVisibilityGutter: 40,
-            },
-            mobile: {
-              breakpoint: {
-                max: 464,
-                min: 0,
-              },
-              items: 1,
-              partialVisibilityGutter: 30,
-            },
-            tablet: {
-              breakpoint: {
-                max: 1024,
-                min: 464,
-              },
-              items: 2,
-              partialVisibilityGutter: 30,
-            },
-          }}
-          rtl={false}
-          showDots
-          slidesToSlide={1}
-          swipeable
-        >
-          {TeamCards.map((card) => {
-            return <Card>{card.Name}</Card>;
-          })}
-        </MultiCarousel> */}
+        </Swiper>
       </CardContent>
     </Card>
   );

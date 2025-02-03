@@ -95,7 +95,7 @@ export const ResetButton = () => {
       dispatch(setTrendsGraphDrugClass('Carbapenems'));
       dispatch(setTrendsGraphView('number'));
       dispatch(setKODiversityGraphView('K_locus'));
-      dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
+      dispatch(setConvergenceGroupVariable('DATE'));
       dispatch(setConvergenceColourVariable('DATE'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setCurrentSliderValueCM(20));

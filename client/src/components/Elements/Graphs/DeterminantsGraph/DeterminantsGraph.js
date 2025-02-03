@@ -279,7 +279,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
               data={getData()}
               cursor={isTouchDevice() ? 'default' : 'pointer'}
               onClick={handleClickChart}
-              maxBarSize={70}
+              maxBarSize={40}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />

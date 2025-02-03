@@ -10,7 +10,7 @@ export const sponsorsCards = [
   },
   {
     name: 'Wellcome Trust',
-    post: 'Global Charitable Foundation',
+    post: '',
     img: WellcomeTrustLogoImg,
     redirect: 'http://wellcome.org',
   },

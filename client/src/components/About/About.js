@@ -4,6 +4,10 @@ import { useStyles } from './AboutMUI';
 import { Team } from './Team/Team';
 import { Sponsors } from './Sponsors/Sponsors';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
 export const AboutPage = () => {
   const classes = useStyles();
 

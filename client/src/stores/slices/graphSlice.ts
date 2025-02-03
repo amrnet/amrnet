@@ -77,7 +77,7 @@ const initialState: GraphState = {
   KODiversityData: [],
   KODiversityGraphView: 'K_locus',
   convergenceData: [],
-  convergenceGroupVariable: 'COUNTRY_ONLY',
+  convergenceGroupVariable: 'DATE',
   convergenceColourVariable: 'DATE',
   convergenceColourPallete: {},
   currentSliderValue: 20,

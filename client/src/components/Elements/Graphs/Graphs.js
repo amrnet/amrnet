@@ -401,7 +401,7 @@ export const Graphs = () => {
             </div>
           </div>
           <div className={classes.actionsWrapper}>
-            {collapses['all'] && (
+            {collapses['all'] && currentTab !== 'HSG' && (
               <Tooltip title="Download Chart as PNG" placement="top">
                 <span>
                   <IconButton

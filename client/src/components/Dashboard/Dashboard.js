@@ -86,7 +86,7 @@ import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
-  const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('COUNTRY_ONLY');
+  const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('DATE');
   // const [currentConvergenceColourVariable, setCurrentConvergenceColourVariable] = useState('DATE');
   const [currentTimeInitial, setCurrentTimeInitial] = useState('');
   const [currentTimeFinal, setCurrentTimeFinal] = useState('');
@@ -385,9 +385,9 @@ export const DashboardPage = () => {
           dispatch(setTrendsGraphDrugClass('Carbapenems'));
           dispatch(setKODiversityGraphView('K_locus'));
           dispatch(setTrendsGraphView('number'));
-          dispatch(setConvergenceGroupVariable('COUNTRY_ONLY'));
+          dispatch(setConvergenceGroupVariable('DATE'));
           dispatch(setConvergenceColourVariable('DATE'));
-          setCurrentConvergenceGroupVariable('COUNTRY_ONLY');
+          setCurrentConvergenceGroupVariable('DATE');
           // setCurrentConvergenceColourVariable('DATE');
           break;
         case 'ngono':
@@ -530,7 +530,7 @@ export const DashboardPage = () => {
   ]);
 
   async function updateDataOnFilters() {
-    if (convergenceGroupVariable !== currentConvergenceGroupVariable) {
+    if (organism === 'kpneumo' && convergenceGroupVariable !== currentConvergenceGroupVariable) {
       setCurrentConvergenceGroupVariable(convergenceGroupVariable);
 
       const convergenceData = await getStoreOrGenerateData(
