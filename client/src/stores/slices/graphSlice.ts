@@ -49,6 +49,15 @@ interface GraphState {
   topGenesSlice: Array<any>;
   topGenotypeSlice: Array<any>;
   topColorSlice: Array<any>;
+  starttimeGD: number;
+  endtimeGD: number;
+  starttimeDRT: number;
+  endtimeDRT: number;
+  starttimeRDT: number;
+  endtimeRDT: number;
+  actualGenomesGD: number;
+  actualGenomesDRT: number;
+  actualGenomesRDT: number;
 }
 
 const initialState: GraphState = {
@@ -99,6 +108,15 @@ const initialState: GraphState = {
   topGenesSlice: [],
   topGenotypeSlice: [],
   topColorSlice: [],
+  starttimeGD:0,
+  endtimeGD:0,
+  starttimeDRT:0,
+  endtimeDRT:0,
+  actualGenomesGD:0,
+  actualGenomesDRT:0,
+  starttimeRDT:0,
+  endtimeRDT:0,
+  actualGenomesRDT:0,
 };
 
 export const graphSlice = createSlice({
@@ -234,6 +252,33 @@ export const graphSlice = createSlice({
     setTopColorSlice: (state, action: PayloadAction<Array<any>>) => {
       state.topColorSlice = action.payload;
     },
+    setStarttimeGD: (state, action: PayloadAction<number>) => {
+      state.starttimeGD = action.payload;
+    },
+    setEndtimeGD: (state, action: PayloadAction<number>) => {
+      state.endtimeGD = action.payload;
+    },
+    setStarttimeDRT: (state, action: PayloadAction<number>) => {
+      state.starttimeDRT = action.payload;
+    },
+    setEndtimeDRT: (state, action: PayloadAction<number>) => {
+      state.endtimeDRT = action.payload;
+    },
+    setActualGenomesGD: (state, action: PayloadAction<number>) => {
+      state.actualGenomesGD = action.payload;
+    },
+    setActualGenomesDRT: (state, action: PayloadAction<number>) => {
+      state.actualGenomesDRT = action.payload;
+    },
+    setStarttimeRDT: (state, action: PayloadAction<number>) => {
+      state.starttimeRDT = action.payload;
+    },
+    setEndtimeRDT: (state, action: PayloadAction<number>) => {
+      state.endtimeRDT = action.payload;
+    },
+    setActualGenomesRDT: (state, action: PayloadAction<number>) => {
+      state.actualGenomesRDT = action.payload;
+    },
     setDrugsCountriesData: (state, action: PayloadAction<Object>) => {
       state.drugsCountriesData = action.payload;
     },
@@ -285,6 +330,15 @@ export const {
   setTopGenesSlice,
   setTopGenotypeSlice,
   setTopColorSlice,
+  setStarttimeGD,
+  setEndtimeGD,
+  setStarttimeDRT,
+  setEndtimeDRT,
+  setActualGenomesGD,
+  setActualGenomesDRT,
+  setStarttimeRDT,
+  setEndtimeRDT,
+  setActualGenomesRDT,
   setDrugsCountriesData,
   setDrugsRegionsData,
   setCountriesYearData,

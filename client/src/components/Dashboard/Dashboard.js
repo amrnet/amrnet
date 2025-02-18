@@ -65,9 +65,13 @@ import {
   setDrugsRegionsData,
   setCountriesYearData,
   setRegionsYearData,
+  setActualGenomesGD,
+  setActualGenomesDRT,
+  setActualGenomesRDT,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
+  filterBrushData,
   getYearsData,
   getMapData,
   getGenotypesData,
@@ -109,7 +113,12 @@ export const DashboardPage = () => {
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
-
+  const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
+  const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
+  const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
+  const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
+  const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
+  const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
   // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
@@ -655,6 +664,35 @@ export const DashboardPage = () => {
 
     dispatch(setCanFilterData(false));
   }
+  useEffect(() => {
+    const fetchDataAndFilter = async () => {
+      try {
+        const data = await getItems(organism);
+        if (data.length > 0) {
+          const filters = filterBrushData({ 
+            data, 
+            dataset, 
+            actualCountry, 
+            starttimeGD, 
+            endtimeGD, 
+            starttimeDRT, 
+            endtimeDRT,
+            starttimeRDT, 
+            endtimeRDT 
+          });
+          dispatch(setActualGenomesGD(filters.genomesCountGD));
+          dispatch(setActualGenomesDRT(filters.genomesCountDRT));
+          dispatch(setActualGenomesRDT(filters.genomesCountRDT));
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchDataAndFilter();
+  }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT]);
+  
+  
 
   return (
     <>
