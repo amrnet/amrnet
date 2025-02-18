@@ -1,14 +1,27 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  KODiversityGraph: {
+  trendLineGraph: {
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
   },
+  selectsWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    rowGap: '8px',
+  },
+  selectPreWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+    width: '100%',
+  },
   selectWrapper: {
     display: 'flex',
     flexDirection: 'column',
+    flex: 1,
+    width: '100%',
   },
   selectInput: {
     fontSize: '14px !important',
@@ -19,12 +32,38 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiMenuItem-root': {
       fontSize: '14px',
     },
+    '& .MuiCheckbox-root': {
+      padding: '0px 8px 0px 0px',
+    },
   },
-  selectLabel: {
+  labelWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: '8px',
     paddingBottom: '4px',
   },
+  labelTooltipIcon: {
+    cursor: 'pointer',
+  },
+  multipleSelectInput: {
+    fontSize: '14px !important',
+    fontWeight: '600 !important',
+    padding: '8px 32px 8px 8px !important',
+    marginRight: '-80px !important',
+  },
+  selectButton: {
+    height: '20px',
+    fontSize: '10px !important',
+    padding: '3px 5px !important',
+    whiteSpace: 'nowrap',
+    position: 'absolute',
+    right: '18px',
+  },
+  menuPaper: {
+    maxHeight: '350px !important',
+  },
   graphWrapper: {
-    paddingTop: '16px',
     display: 'flex',
     flexDirection: 'row',
     gap: '16px',
@@ -43,11 +82,6 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       height: '460px',
     },
-
-    // '@media (max-width: 500px)': {
-    //   width: '100%',
-    //   height: '460px'
-    // }
   },
   graphLabel: {
     textAnchor: 'middle',
@@ -99,11 +133,15 @@ const useStyles = makeStyles((theme) => ({
   },
   tooltipTitle: {
     display: 'flex',
+    flexDirection: 'column',
+    padding: '16px 16px 8px',
+    borderBottom: '1px solid #fff',
+  },
+  tooltipInfo: {
+    display: 'flex',
     flexDirection: 'row',
     columnGap: '8px',
     alignItems: 'flex-end',
-    padding: '16px 16px 8px',
-    borderBottom: '1px solid #fff',
   },
   tooltipContent: {
     display: 'grid',

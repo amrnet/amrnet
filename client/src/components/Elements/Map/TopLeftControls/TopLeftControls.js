@@ -29,7 +29,7 @@ import { useEffect, useState } from 'react';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
-export const TopLeftControls = () => {
+export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }) => {
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
 
@@ -100,10 +100,13 @@ export const TopLeftControls = () => {
   }
 
   return (
-    <div className={`${classes.topLeftControls} ${matches ? classes.bp700 : ''}`}>
+    <div className={`${classes.topLeftControls} ${matches && !closeButton ? classes.bp700 : ''}`} style={style}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <Typography variant="h6">Filters</Typography>
+          <div className={classes.titleWrapper}>
+            <Typography variant="h6">{title}</Typography>
+            {closeButton}
+          </div>
           <Typography variant="caption">Applied to all plots</Typography>
           {organism !== 'styphi' ? null : (
             <div className={classes.datasetWrapper}>

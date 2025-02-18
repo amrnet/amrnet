@@ -1,19 +1,15 @@
 import { Card, CardContent, Typography } from '@mui/material';
 import { MainLayout } from '../Layout';
 import { useStyles } from './AboutMUI';
-import { Footer } from '../Elements/Footer';
-import { Team } from './Team';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Team } from './Team/Team';
+import { Sponsors } from './Sponsors/Sponsors';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 export const AboutPage = () => {
   const classes = useStyles();
-  const location = useLocation();
-  useEffect(() => {
-    if (location.hash === '#team-section') {
-      document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [location]);
 
   return (
     <MainLayout>
@@ -22,9 +18,9 @@ export const AboutPage = () => {
           <Typography variant="body1" className={classes.paragraph}>
             The AMRnet dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data
             accessible to a wide audience. Visualisations are geared towards showing national annual AMR prevalence
-            estimates and trends over time, which can be broken down and explored in terms of underlying genotypes and resistance
-            mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more
-            accessible and useful, we can encourage and motivate more sequencing and data sharing.
+            estimates and trends over time, which can be broken down and explored in terms of underlying genotypes and
+            resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data
+            more accessible and useful, we can encourage and motivate more sequencing and data sharing.
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
@@ -54,11 +50,12 @@ export const AboutPage = () => {
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            A major barrier to using public data for surveillance is the need for careful data curation in order to identify
-            which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of
-            curation can benefit a wide range of users and we plan to work with additional organism-specific communities to curate
-            data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to
-            work with us (<a href="mailto:amrnetdashboard@gmail.com">amrnetdashboard@gmail.com</a>)
+            A major barrier to using public data for surveillance is the need for careful data curation in order to
+            identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This
+            kind of curation can benefit a wide range of users and we plan to work with additional organism-specific
+            communities to curate data, and to contribute to wider efforts around metadata standards. Please get in
+            touch if you would like to work with us (
+            <a href="mailto:amrnetdashboard@gmail.com">amrnetdashboard@gmail.com</a>)
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
@@ -87,15 +84,19 @@ export const AboutPage = () => {
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kat Holt), 
+            If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga,
+            Megan Carey, Zoe Dyson, Kat Holt),
             <span className={classes.paragraphBold}> GitHub: </span>
-             https://github.com/amrnet/amrnet, 
-             <span className={classes.paragraphBold}> DOI:</span> 10.5281/zenodo.10810219
+            https://github.com/amrnet/amrnet,
+            <span className={classes.paragraphBold}> DOI:</span> 10.5281/zenodo.10810219
           </Typography>
         </CardContent>
       </Card>
       <div id="team-section">
         <Team />
+      </div>
+      <div id="sponsors-section">
+        <Sponsors />
       </div>
       {/* <Footer /> */}
     </MainLayout>

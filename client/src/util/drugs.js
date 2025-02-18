@@ -100,7 +100,6 @@ export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMC',
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CLO',
-  CipNS: 'CIP',
   Sulphonamides: 'SUL',
   Sulfonamides: 'SUL',
   Tetracyclines: 'TET',
@@ -115,5 +114,29 @@ export const drugAcronyms = {
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
   Phenicols: 'PHE',
   Tigecycline: 'TGC',
-  ESBL: 'ESBL',
+  AzithR: 'AZM',
+  '3rd gen cephalosporins (3GCs)': '3GCs',
 };
+
+export const drugAcronymsOpposite = {
+  CipNS: 'Ciprofloxacin NS',
+  CARB: 'Carbapenems',
+  AZM: 'Azithromycin',
+  ESBL: 'Extended-Spectrum Beta-Lactamase',
+  CipR: 'Ciprofloxacin R',
+  MDR: 'Multi-drug Resistant',
+  XDR: 'Extensively Drug Resistant',
+};
+
+export function getDrugClasses(organism) {
+  switch (organism) {
+    case 'styphi':
+      return drugClassesST;
+    case 'kpneumo':
+      return drugClassesKP;
+    case 'ngono':
+      return drugClassesNG;
+    default:
+      return [];
+  }
+}

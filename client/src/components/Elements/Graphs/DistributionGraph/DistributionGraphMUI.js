@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
   selectWrapper: {
     display: 'flex',
     flexDirection: 'column',
+    paddingTop: '8px',
   },
   selectInput: {
     fontSize: '14px !important',
@@ -164,6 +165,24 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     padding: '8px',
     border: 'solid rgba(0, 0, 0, 0.25) 1px',
+  },
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }));
 

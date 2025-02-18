@@ -52,6 +52,12 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '350px !important',
   },
   lineageLi: { paddingLeft: '8px !important', paddingRight: '8px !important' },
+  titleWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   bp700: {},
 }));
 
