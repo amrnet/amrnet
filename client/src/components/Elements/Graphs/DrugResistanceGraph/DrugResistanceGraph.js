@@ -132,10 +132,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         return;
     }
   }
-  function getSusceptibleDefinition() {
+  function getPansusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Pansusceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
@@ -266,10 +266,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                                 <span>MDR</span>
                               </Tooltip>
                             );
-                          } else if (dataKey === 'Susceptible') {
+                          } else if (dataKey === 'Pansusceptible') {
                             dataKeyElement = (
-                              <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                <span>Susceptible</span>
+                              <Tooltip title={getPansusceptibleDefinition()} placement="top">
+                                <span>Pansusceptible</span>
                               </Tooltip>
                             );
                           } else {
@@ -347,10 +347,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  } else if (item.label === 'Susceptible') {
+                  } else if (item.label === 'Pansusceptible') {
                     itemLabel = (
-                      <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Susceptible</span>
+                      <Tooltip title={getPansusceptibleDefinition()} placement="top">
+                        <span>Pansusceptible</span>
                       </Tooltip>
                     );
                   } else {

@@ -151,7 +151,6 @@ export const DashboardPage = () => {
   // that came from the csv file and sets all the data the organism needs to show
   async function getInfoFromData(responseData, regions) {
     const dataLength = responseData.length;
-
     dispatch(setTotalGenomes(dataLength));
     dispatch(setActualGenomes(dataLength));
 
@@ -599,7 +598,7 @@ export const DashboardPage = () => {
           setMapRegionData(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })),
         );
       }
-
+console.log('filteredData', filteredData)
       const genotypesData = getGenotypesData({
         data: filteredData,
         genotypes: genotypesForFilter,

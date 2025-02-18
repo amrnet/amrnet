@@ -8,7 +8,7 @@ export const drugsST = [
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'Sulphonamides',
-  'Susceptible',
+  'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
 ].sort((a, b) => a.localeCompare(b));
@@ -21,7 +21,7 @@ export const defaultdrugsForDrugResistanceAndFrequencyGraphST = [
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'MDR',
-  'Susceptible',
+  'Pansusceptible',
   'Trimethoprim-sulfamethoxazole',
   'XDR',
 ];
@@ -35,7 +35,7 @@ export const drugsNG = [
   'Tetracycline',
   'Cefixime',
   'Penicillin',
-  'Susceptible',
+  'Pansusceptible',
   'Spectinomycin',
   'MDR',
   'XDR',
@@ -48,7 +48,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
   'Ciprofloxacin',
   'Cefixime',
   'Penicillin',
-  'Susceptible',
+  'Pansusceptible',
   'Spectinomycin',
   'MDR',
   'XDR',
@@ -67,7 +67,7 @@ export const drugsKP = [
   // 'β-lactamase inhibitors',
   'Phenicols',
   // 'Sulfonamides',
-  // 'Susceptible',
+  // 'Pansusceptible',
   'Tetracycline',
   'Tigecycline',
   'Trimethoprim',
@@ -85,7 +85,7 @@ export const drugClassesST = [
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim',
-  // 'Susceptible',
+  'Pansusceptible',
   'MDR',
   'XDR'
 ];

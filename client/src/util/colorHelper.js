@@ -292,10 +292,10 @@ export const colorForDrugClassesST = {
     { name: 'XDR', color: '#000' },
     { name: 'Non-XDR', color: '#B9B9B9' },
   ],
-  // Susceptible:[
-  //   { name: 'Susceptible', color: '#000053'},
-  //   { name: 'Non-Susceptible', color: '#b52b24' }
-  //   ]
+  Pansusceptible:[
+    { name: 'Pansusceptible (no AMR markers)', color: '#B9B9B9'},
+    { name: 'One or more AMR markers', color: '#000053' }
+    ]
 };
 
 // Colors for Klebsiella drug classes genes

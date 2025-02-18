@@ -32,7 +32,7 @@ export const mapLegends = [
     label: 'Sensitive to all drugs',
     organisms: ['styphi', 'kpneumo', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
   },
-  { value: 'Sensitive to all drugs', label: 'Susceptible to class I/II drugs', organisms: ['ngono'] },
+  { value: 'Sensitive to all drugs', label: 'Pansusceptible to class I/II drugs', organisms: ['ngono'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   {
     value: 'Genotype prevalence',

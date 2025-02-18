@@ -397,7 +397,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           drugStats[rule.key] = drugData.length;
         });
 
-        drugStats['Susceptible'] = yearData.filter((x) => x.num_resistance_classes === '0').length;
+        drugStats['Pansusceptible'] = yearData.filter((x) => x.num_resistance_classes === '0').length;
 
         Object.keys(drugClassesRulesKP).forEach((key) => {
           const filteredGenotypes = Object.entries(genotypeStats)
@@ -594,9 +594,8 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
   const regionsDrugClassesData = {};
 
   if (organism === 'styphi') {
-    console.log('drugRulesST', drugRulesST)
     drugRulesST.forEach((drug) => {
-      // if (drug.key !== 'Susceptible') {
+      // if (drug.key !== 'Pansusceptible') {
         genotypesDrugClassesData[drug.key] = [];
         countriesDrugClassesData[drug.key] = [];
         regionsDrugClassesData[drug.key] = [];
@@ -604,7 +603,7 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
     });
   } else if (organism === 'ngono') {
     drugRulesNG.forEach((drug) => {
-      if (drug.key !== 'Susceptible') {
+      if (drug.key !== 'Pansusceptible') {
         genotypesDrugClassesData[drug.key] = [];
         countriesDrugClassesData[drug.key] = [];
         regionsDrugClassesData[drug.key] = [];
@@ -643,7 +642,7 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
           response['Ciprofloxacin NS'] = response['Ciprofloxacin NS'] + response['Ciprofloxacin R'];
         }
 
-        if (rule.key !== 'Susceptible') {
+        // if (rule.key !== 'Pansusceptible') {
           const drugClass = { ...drugClassResponse };
           console.log('drugClassesRulesST',drugClassesRulesST)
           drugClassesRulesST[rule.key].forEach((classRule) => {
@@ -659,7 +658,8 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
           });
 
           genotypesDrugClassesData[rule.key].push(drugClass);
-        }
+          console.log('genotypesDrugClassesData', genotypesDrugClassesData['Pansusceptible'])
+        // }
       });
     } else if (organism === 'kpneumo') {
       drugRulesKP.forEach((rule) => {
@@ -668,7 +668,7 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
       });
 
       const susceptible = genotypeData.filter((x) => x.num_resistance_classes === '0');
-      response['Susceptible'] = susceptible.length;
+      response['Pansusceptible'] = susceptible.length;
 
       Object.keys(drugClassesRulesKP).forEach((key) => {
         const drugClass = { ...drugClassResponse, ...getKPDrugClassData({ drugKey: key, dataToFilter: genotypeData }) };
@@ -701,6 +701,7 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
     }
 
     response.resistantCount = response.totalCount - response['Susceptible'];
+    console.log('response.resistantCount',response, response.resistantCount)
     return response;
   });
 
@@ -723,7 +724,7 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
 
     if (organism === 'styphi') {
       drugRulesST.forEach((rule) => {
-        if (rule.key === 'Susceptible') {
+        if (rule.key === 'Pansusceptible') {
           return;
         }
 
@@ -820,7 +821,7 @@ export function getNgmastData({ data, ngmast, organism }) {
       name: mast,
       totalCount,
       resistantCount: 0,
-      Susceptible: 0,
+      Pansusceptible: 0,
     };
 
     const drugClassResponse = { ...response };
@@ -832,10 +833,10 @@ export function getNgmastData({ data, ngmast, organism }) {
     });
 
     // Calculate susceptible count
-    response.Susceptible = ngmastData.filter((x) => x.Susceptible === '1').length;
+    response.Pansusceptible = ngmastData.filter((x) => x.Pansusceptible === '1').length;
 
     // Update resistant count
-    response.resistantCount = response.totalCount - response.Susceptible;
+    response.resistantCount = response.totalCount - response.Pansusceptible;
 
     // Create and push drugClass objects
     Object.keys(drugClassesRulesNG).forEach((key) => {
@@ -1046,8 +1047,8 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
   return { data: convergenceData, colourVariables };
 }
 
-// Define isSusceptible function
-function isSusceptible(gene) {
+// Define isPansusceptible function
+function isPansusceptible(gene) {
   return /[*^?]/.test(gene);
 }
 
@@ -1063,7 +1064,7 @@ function getKPDrugClassData({ drugKey, dataToFilter }) {
     if (columnValue === '-') return;
 
     const genes = columnValue.split(';');
-    const susceptibleGenes = genes.filter(isSusceptible);
+    const susceptibleGenes = genes.filter(isPansusceptible);
 
     if (susceptibleGenes.length === genes.length) return;
 
@@ -1072,7 +1073,7 @@ function getKPDrugClassData({ drugKey, dataToFilter }) {
     if (genes.length === 1) {
       drugClass[genes[0]] = (drugClass[genes[0]] || 0) + 1;
     } else {
-      const resistantGenes = genes.filter((g) => !isSusceptible(g)).sort();
+      const resistantGenes = genes.filter((g) => !isPansusceptible(g)).sort();
       const name = resistantGenes.join(' + ');
       drugClass[name] = (drugClass[name] || 0) + 1;
     }

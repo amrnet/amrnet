@@ -24,7 +24,7 @@ interface StatsModel {
   MDR: ItemsModel;
   XDR: ItemsModel;
   AzithR: ItemsModel;
-  Susceptible: ItemsModel;
+  Pansusceptible: ItemsModel;
   CipR: ItemsModel;
   CipNS: ItemsModel;
   NGMAST: ItemsModel;

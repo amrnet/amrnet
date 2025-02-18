@@ -86,10 +86,10 @@ console.log('genotypesDrugsData',genotypesDrugsData)
   }, [genotypesDrugsData]);
 
   function getSelectGenotypeLabel(genotype) {
-    const percentage = Number(((genotype.Susceptible / genotype.totalCount) * 100).toFixed(2));
+    const percentage = Number(((genotype.Pansusceptible / genotype.totalCount) * 100).toFixed(2));
 
     return `${genotype.name} (total N=${
-      genotype.totalCount === 0 ? 0 : `${genotype.totalCount}, ${percentage}% Susceptible`
+      genotype.totalCount === 0 ? 0 : `${genotype.totalCount}, ${percentage}% Pansusceptible`
     })`;
   }
 
@@ -129,10 +129,10 @@ console.log('genotypesDrugsData',genotypesDrugsData)
         return;
     }
   }
-  function getSusceptibleDefinition() {
+  function getPansusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Pansusceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
@@ -283,10 +283,10 @@ console.log('genotypesDrugsData',genotypesDrugsData)
                               <span>MDR</span>
                             </Tooltip>
                           );
-                        } else if (dataKey === 'Susceptible') {
+                        } else if (dataKey === 'Pansusceptible') {
                           dataKeyElement = (
-                            <Tooltip title={getSusceptibleDefinition()} placement="top">
-                              <span>Susceptible</span>
+                            <Tooltip title={getPansusceptibleDefinition()} placement="top">
+                              <span>Pansusceptible</span>
                             </Tooltip>
                           );
                         } else {
@@ -355,10 +355,10 @@ console.log('genotypesDrugsData',genotypesDrugsData)
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  } else if (item.label === 'Susceptible') {
+                  } else if (item.label === 'Pansusceptible') {
                     itemLabel = (
-                      <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Susceptible</span>
+                      <Tooltip title={getPansusceptibleDefinition()} placement="top">
+                        <span>Pansusceptible</span>
                       </Tooltip>
                     );
                   } else {
