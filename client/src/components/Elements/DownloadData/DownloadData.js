@@ -18,7 +18,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses } from '../../../stores/slices/graphSlice';
-import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
+import { drugsKP, drugsForDrugResistanceAndFrequencyGraphST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -216,7 +216,6 @@ export const DownloadData = () => {
   const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
   const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
-console.log('in pdf', starttimeRDT, endtimeRDT, actualGenomesRDT);
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -851,7 +850,7 @@ console.log('in pdf', starttimeRDT, endtimeRDT, actualGenomesRDT);
       const isNgono = organism === 'ngono';
 
       const cards = getOrganismCards();
-      const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
+      const legendDrugs = organism === 'styphi' ? drugsForDrugResistanceAndFrequencyGraphST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
       let drugClassesFactor = 0;
       if(drugClassesBars !== undefined)

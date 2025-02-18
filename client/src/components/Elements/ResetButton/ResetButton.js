@@ -35,7 +35,7 @@ import {
 } from '../../../stores/slices/graphSlice';
 import {
   drugsKP,
-  defaultDrugsForDrugResistanceGraphST,
+  defaultdrugsForDrugResistanceAndFrequencyGraphST,
   defaultDrugsForDrugResistanceGraphNG,
 } from '../../../util/drugs';
 import { getGenotypesData, getNgmastData } from '../../Dashboard/filters';
@@ -91,7 +91,7 @@ export const ResetButton = () => {
     if (organism === 'styphi') {
       dispatch(setMapView('CipNS'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
-      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
+      dispatch(setDrugResistanceGraphView(defaultdrugsForDrugResistanceAndFrequencyGraphST));
     } else if (organism === 'ngono') {
       dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));

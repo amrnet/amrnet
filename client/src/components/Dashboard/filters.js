@@ -92,7 +92,6 @@ export function filterBrushData({
   let newDataGD = filterData(starttimeGD, endtimeGD);
   let newDataDRT = filterData(starttimeDRT, endtimeDRT);
   let newDataRDT = filterData(starttimeRDT, endtimeRDT);
-  console.log('newDataRDT',starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
   if (actualCountry !== 'All') {
     // const filterByCountry = newData.filter((x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry);
     const filterByCountry = (x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry;
@@ -510,10 +509,11 @@ export function getGenotypesData({ data, genotypes, organism }) {
   const genotypesDrugClassesData = {};
 
   if (organism === 'styphi') {
+    console.log('drugRulesST', drugRulesST)
     drugRulesST.forEach((drug) => {
-      if (drug.key !== 'Susceptible') {
+      // if (drug.key !== 'Susceptible') {
         genotypesDrugClassesData[drug.key] = [];
-      }
+      // }
     });
   } else if (organism === 'ngono') {
     drugRulesNG.forEach((drug) => {
@@ -553,7 +553,7 @@ export function getGenotypesData({ data, genotypes, organism }) {
 
         if (rule.key !== 'Susceptible') {
           const drugClass = { ...drugClassResponse };
-
+          console.log('drugClassesRulesST',drugClassesRulesST)
           drugClassesRulesST[rule.key].forEach((classRule) => {
             const classRuleName = classRule.name;
 

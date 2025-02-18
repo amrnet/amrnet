@@ -13,9 +13,9 @@ export const drugsST = [
   'Trimethoprim',
 ].sort((a, b) => a.localeCompare(b));
 
-export const drugsForDrugResistanceGraphST = [...drugsST, 'XDR', 'MDR'].sort((a, b) => a.localeCompare(b));
+export const drugsForDrugResistanceAndFrequencyGraphST = [...drugsST, 'XDR', 'MDR'].sort((a, b) => a.localeCompare(b));
 
-export const defaultDrugsForDrugResistanceGraphST = [
+export const defaultdrugsForDrugResistanceAndFrequencyGraphST = [
   'Azithromycin',
   'Ceftriaxone',
   'Ciprofloxacin NS',

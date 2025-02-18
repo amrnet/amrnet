@@ -84,7 +84,7 @@ import {
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { SelectCountry } from '../Elements/SelectCountry';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST, defaultDrugsForDrugResistanceGraphNG } from '../../util/drugs';
+import { drugsKP, defaultdrugsForDrugResistanceAndFrequencyGraphST, defaultDrugsForDrugResistanceGraphNG } from '../../util/drugs';
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 
@@ -372,7 +372,7 @@ export const DashboardPage = () => {
       switch (organism) {
         case 'styphi':
           dispatch(setMapView('CipNS'));
-          dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
+          dispatch(setDrugResistanceGraphView(defaultdrugsForDrugResistanceAndFrequencyGraphST));
           dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
           break;
         case 'kpneumo':

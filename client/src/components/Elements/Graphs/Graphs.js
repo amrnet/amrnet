@@ -23,7 +23,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsForDrugResistanceAndFrequencyGraphST, drugsKP } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -262,7 +262,7 @@ export const Graphs = () => {
       const mobileFactor = matches1000 ? 100 : 0;
       if ('RFWG'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
+        const legendDrugs = organism === 'styphi' ? drugsForDrugResistanceAndFrequencyGraphST : drugsKP;
 
         drawLegend({
           legendData: legendDrugs,
@@ -276,7 +276,7 @@ export const Graphs = () => {
       } else if ('DRT'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         drawLegend({
-          legendData: drugsForDrugResistanceGraphST,
+          legendData: drugsForDrugResistanceAndFrequencyGraphST,
           context: ctx,
           factor: 4,
           mobileFactor,

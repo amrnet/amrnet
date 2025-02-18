@@ -15,7 +15,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView, setStarttimeDRT,setEndtimeDRT} from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../../util/drugs';
+import { drugsKP, drugsForDrugResistanceAndFrequencyGraphST, drugsNG } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -35,7 +35,7 @@ export const DrugResistanceGraph = () => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
-
+  console.log('drugsYearData',drugsYearData)
   useEffect(() => {
     setCurrentTooltip(null);
   }, [drugsYearData]);
@@ -68,7 +68,7 @@ export const DrugResistanceGraph = () => {
       return [];
     }
     if (organism === 'styphi') {
-      return drugsForDrugResistanceGraphST;
+      return drugsForDrugResistanceAndFrequencyGraphST;
     }
     if (organism === 'kpneumo') {
       return drugsKP;

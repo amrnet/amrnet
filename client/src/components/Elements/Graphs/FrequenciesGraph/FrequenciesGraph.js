@@ -36,7 +36,7 @@ import {
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP, drugsNG } from '../../../../util/drugs';
+import { drugsForDrugResistanceAndFrequencyGraphST, drugsKP, drugsNG } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureRFWG } from '../../../../stores/slices/dashboardSlice';
 
@@ -61,7 +61,7 @@ export const FrequenciesGraph = () => {
 
   let data = genotypesDrugsData;
   let sumOfBarDataToShowOnPlot = 0;
-
+console.log('genotypesDrugsData',genotypesDrugsData)
   useEffect(() => {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
 
@@ -98,7 +98,7 @@ export const FrequenciesGraph = () => {
     if (organism === 'none') {
       return [];
     } else if (organism === 'styphi') {
-      return drugsST;
+      return drugsForDrugResistanceAndFrequencyGraphST;
     } else if (organism === 'kpneumo') {
       return drugsKP;
     } else if (organism === 'ngono') {
