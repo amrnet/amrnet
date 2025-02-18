@@ -598,7 +598,6 @@ export const DashboardPage = () => {
           setMapRegionData(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })),
         );
       }
-console.log('filteredData', filteredData)
       const genotypesData = getGenotypesData({
         data: filteredData,
         genotypes: genotypesForFilter,
@@ -678,7 +677,7 @@ console.log('filteredData', filteredData)
             starttimeDRT, 
             endtimeDRT,
             starttimeRDT, 
-            endtimeRDT 
+            endtimeRDT
           });
           dispatch(setActualGenomesGD(filters.genomesCountGD));
           dispatch(setActualGenomesDRT(filters.genomesCountDRT));
@@ -690,7 +689,7 @@ console.log('filteredData', filteredData)
     };
   
     fetchDataAndFilter();
-  }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT]);
+  }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT, actualTimeInitial,actualTimeFinal, actualCountry]);
   
   
 
