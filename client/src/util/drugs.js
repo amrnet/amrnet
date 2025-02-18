@@ -85,6 +85,9 @@ export const drugClassesST = [
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim',
+  // 'Susceptible',
+  'MDR',
+  'XDR'
 ];
 
 // List of Klebsiella drug classes
