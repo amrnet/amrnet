@@ -48,7 +48,6 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
-  console.log('drugsYearData',drugsYearData)
   useEffect(() => {
     setCurrentTooltip(null);
   }, [drugsYearData]);

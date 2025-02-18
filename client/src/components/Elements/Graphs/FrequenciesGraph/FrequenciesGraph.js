@@ -64,7 +64,6 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
 
   let data = genotypesDrugsData;
   let sumOfBarDataToShowOnPlot = 0;
-console.log('genotypesDrugsData',genotypesDrugsData)
   useEffect(() => {
     data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
 

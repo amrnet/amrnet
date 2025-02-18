@@ -65,7 +65,6 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-console.log('Pansusceptible', determinantsGraphDrugClass,genotypesDrugClassesData, genotypesDrugClassesData[determinantsGraphDrugClass]);
   let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
     // eslint-disable-next-line array-callback-return

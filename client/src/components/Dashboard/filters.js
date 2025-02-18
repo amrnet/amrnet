@@ -644,7 +644,6 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
 
         // if (rule.key !== 'Pansusceptible') {
           const drugClass = { ...drugClassResponse };
-          console.log('drugClassesRulesST',drugClassesRulesST)
           drugClassesRulesST[rule.key].forEach((classRule) => {
             const classRuleName = classRule.name;
 
@@ -658,7 +657,6 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
           });
 
           genotypesDrugClassesData[rule.key].push(drugClass);
-          console.log('genotypesDrugClassesData', genotypesDrugClassesData['Pansusceptible'])
         // }
       });
     } else if (organism === 'kpneumo') {
@@ -701,7 +699,6 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
     }
 
     response.resistantCount = response.totalCount - response['Susceptible'];
-    console.log('response.resistantCount',response, response.resistantCount)
     return response;
   });
 
