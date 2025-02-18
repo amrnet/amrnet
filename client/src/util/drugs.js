@@ -8,12 +8,11 @@ export const drugsST = [
   'Ciprofloxacin',
   'Ciprofloxacin R',
   'Sulphonamides',
-  'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
   'Pansusceptible',
-  'XDR',
   'MDR',
+  'XDR',
 ].sort((a, b) => a.localeCompare(b));
 
 export const defaultDrugsForDrugResistanceGraphST = [
@@ -21,9 +20,9 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'Ceftriaxone',
   'Ciprofloxacin',
   'Ciprofloxacin R',
-  'MDR',
-  'Pansusceptible',
   'Trimethoprim-sulfamethoxazole',
+  'Pansusceptible',
+  'MDR',
   'XDR',
 ];
 
