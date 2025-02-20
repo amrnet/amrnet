@@ -101,14 +101,14 @@ export const graphCards = [
     organisms: ['kpneumo'],
     component: <ConvergenceGraph />,
   },
-  {
-    title: 'Heatmap ST vs genotype',
-    description: [''],
-    icon: <BubbleChart color="primary" />,
-    id: 'HSG',
-    organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'],
-    component: <BubbleHeatmapGraph />,
-  },
+  // {
+  //   title: 'Heatmap ST vs genotype',
+  //   description: [''],
+  //   icon: <BubbleChart color="primary" />,
+  //   id: 'HSG',
+  //   organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'],
+  //   component: <BubbleHeatmapGraph />,
+  // },
 ];
 
 export const continentGraphCard = {

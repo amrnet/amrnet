@@ -236,13 +236,13 @@ export const Graphs = () => {
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
-      if(card.id === 'GD'){
+      if(currentCard.id === 'GD'){
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
-      }else if(card.id === 'DRT'){
+      }else if(currentCard.id === 'DRT'){
         ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);
-      }else if(card.id === 'RDT'){
+      }else if(currentCard.id === 'RDT'){
         ctx.fillText(`Time period: ${starttimeRDT} to ${endtimeRDT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesRDT} genomes`, canvas.width / 2, 172);
       }else
@@ -250,10 +250,10 @@ export const Graphs = () => {
       
       // ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
-      if (card.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
-      if (card.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
-      if (card.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
-      if (card.id === 'CVM') {
+      if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
+      if (currentCard.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
+      if (currentCard.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
+      if (currentCard.id === 'CVM') {
         const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
         const colour = variablesOptions.find((option) => option.value === convergenceColourVariable).label;
         ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
