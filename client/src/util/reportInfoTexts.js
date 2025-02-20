@@ -139,6 +139,59 @@ export function getNgonoTexts() {
 export function getEcoliTexts() {
   return [];
 }
+
+export function getIntsTexts() {
+  return [
+    'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation',
+    'Invasive non-typhoidal',
+    'Salmonella',
+    ' (iNTS) data in AMRnet are drawn from Enterobase, which calls',
+    'AMR genotypes using NCBI’s AMRFinderPlus, assigns lineages using MLST, cgMLST and hierarchical clustering, and assigns serotypes using SISTR. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for >90% of iNTS), and identifies lineages thereof using MLST. Last update: Feb 27, 2024 ',
+    'For information about',
+    'Salmonella',
+    'Typhi and iNTS, please see pathogen specific reports.',
+    'WARNING:',
+    'The iNTS data used in AMRnet have not yet been curated to include information on purpose of sampling, and therefore reflect the biases of global sequencing efforts, which may be skewed towards sequencing drug-resistant organisms and/or those isolated during outbreaks. Data curation efforts are ongoing; however, until then, please be careful when drawing inferences about generalisability of the data featured in the dashboard.',
+    
+    'Variable definitions',
+    'Lineages',
+    ': Lineages associated with invasive disease in low-income countries are labeled by the',
+    'serotype, either Typhimuirum (iTYM) or Enteritidis (iENT) followed by the (7-locus) ST, followed by invasive sublineages defined by Van Puyvelde et al. 2023 and  Fong et al. 2023',
+    'AMR determinants',
+    ': Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus.',
+    'AMRnet assigns these determinants to drugs/classes in the dashboard using the Subclass curated in refgenes. AMR categories are those described in Van Puyvelde et al. 2023',
+    
+    'Abbreviations',
+    'iTYM:',
+    ' Invasive Salmonella Typhimuirum',
+    'iENT:',
+    ' Invasive Salmonella Enteritidis',
+    'ST:',
+    ' Sequence Type',
+    'WAC:',
+    ' West Africa Clone',
+    'CEAC:',
+    ' Central/East African Clone',
+    'L:',
+    ' Lineage',
+    'MDR:',
+    'multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)',
+    'XDR:',
+    'extensively drug resistant (MDR plus resistant to either (i) ciprofloxacin and ceftriaxone, or ',
+    '(i) azithromycin and ceftriaxone)',
+    'PDR:',
+    'pan-drug resistant (MDR plus resistant to ciprofloxacin, azithromycin and ceftriazone)',
+    'Ciprofloxacin NS:',
+    'ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more',
+    'gnr',
+    ' genes or mutations in',
+    ' gyrA/parC/gyrB',
+    ')',
+    'Ciprofloxacin R:',
+    'ciprofloxacin resistant (MIC >=0.5 mg/L, due to the presence of multiple mutations',
+    'and/or genes)'
+  ];
+}
 export function getDEcoliTexts() {
   return [];
 }
