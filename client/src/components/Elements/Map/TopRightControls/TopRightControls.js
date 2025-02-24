@@ -74,7 +74,7 @@ export const TopRightControls = () => {
 
   function getSteps() {
     switch (mapView) {
-      case 'Sensitive to all drugs':
+      case 'Pansusceptible':
         return sensitiveSteps;
       case 'No. Samples':
         return noSamplesSteps;
@@ -95,7 +95,7 @@ export const TopRightControls = () => {
 
   function getStepBoxColor(step, index) {
     switch (mapView) {
-      case 'Sensitive to all drugs':
+      case 'Pansusceptible':
         const aux = ['10', '20', '50', '90', '100'];
         return sensitiveColorScale(aux[index]);
       case 'No. Samples': {

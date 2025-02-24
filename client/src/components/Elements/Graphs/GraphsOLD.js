@@ -23,7 +23,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsST, drugsKP } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -77,7 +77,6 @@ export const Graphs = () => {
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
   const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
   const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
-
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -197,10 +196,10 @@ export const Graphs = () => {
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
-///TODO: improve the code below as its hardcode
+      ///TODO: improve the code below as its hardcode
       canvas.width = 922;
-      canvas.height = graphImg.height + 220 + ((card.id === 'RDT')?250: heightFactor);
-// canvas.height = graphImg.height + 220 + heightFactor;
+      canvas.height = graphImg.height + 220 + (card.id === 'RDT' ? 250 : heightFactor);
+      // canvas.height = graphImg.height + 220 + heightFactor;
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -255,7 +254,7 @@ export const Graphs = () => {
       } else if ('DRT'.includes(card.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         drawLegend({
-          legendData: drugsForDrugResistanceGraphST,
+          legendData: drugsST,
           context: ctx,
           factor: 4,
           mobileFactor,
@@ -290,7 +289,7 @@ export const Graphs = () => {
       } else if (card.id === 'RDT') {
         const legendGenotypes = genotypesForFilter
           .filter((genotype) => topGenotypeSlice.includes(genotype))
-          .map((genotype) => (genotype));
+          .map((genotype) => genotype);
 
         const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
 
@@ -301,7 +300,7 @@ export const Graphs = () => {
         drawLegend({
           legendData: legendGens,
           context: ctx,
-          factor: legendGens.length/4,
+          factor: legendGens.length / 4,
           mobileFactor,
           yPosition: 695,
           xSpace: 238,
@@ -312,7 +311,7 @@ export const Graphs = () => {
         drawLegend({
           legendData: legendGenotypes,
           context: ctx,
-          factor: Math.ceil(legendGenotypes.length/8) ,
+          factor: Math.ceil(legendGenotypes.length / 8),
           mobileFactor,
           yPosition: 930,
           isGenotype: true,

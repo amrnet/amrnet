@@ -24,7 +24,7 @@ const statKey = {
   AzithR: 'AzithR',
   CipNS: 'CipNS',
   CipR: 'CipR',
-  'Sensitive to all drugs': 'Susceptible',
+  Pansusceptible: 'Pansusceptible',
   ESBL: 'ESBL',
   Ciprofloxacin: 'Ciprofloxacin',
   ESBL_category: 'Ceftriaxone',
@@ -97,7 +97,7 @@ export const Map = () => {
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
                     CipNS: `${combinedPercentage.toFixed(2)}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`,
+                    Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
                   }
                 : organism === 'kpneumo'
                 ? {
@@ -196,7 +196,7 @@ export const Map = () => {
           break;
         case 'H58 / Non-H58':
         case 'MDR':
-        case 'Sensitive to all drugs':
+        case 'Pansusceptible':
         case 'XDR':
         case 'AzithR':
         case 'Azithromycin':
@@ -395,7 +395,7 @@ export const Map = () => {
                             }
                           }
                           break;
-                        case 'Sensitive to all drugs':
+                        case 'Pansusceptible':
                         case 'H58 / Non-H58':
                         case 'MDR':
                         case 'XDR':
@@ -409,14 +409,14 @@ export const Map = () => {
                         case 'Carb':
                           count = countryStats[statKey[mapView]]?.count;
                           if (countryData.count >= 20 && count > 0) {
-                            if (mapView === 'Sensitive to all drugs') {
+                            if (mapView === 'Pansusceptible') {
                               fillColor = sensitiveColorScale(countryStats[statKey[mapView]].percentage);
                             } else {
                               fillColor = redColorScale(countryStats[statKey[mapView]].percentage);
                             }
                             showTooltip = true;
                           } else if (countryData.count >= 20) {
-                            if (mapView === 'Sensitive to all drugs') {
+                            if (mapView === 'Pansusceptible') {
                               fillColor = zeroPercentColor;
                             } else {
                               fillColor = darkGrey;
@@ -431,14 +431,14 @@ export const Map = () => {
                           let per =
                             countryStats[statKey['CipNS']].percentage + countryStats[statKey['CipR']].percentage;
                           if (countryData.count >= 20 && count > 0) {
-                            if (mapView === 'Susceptible to all drugs') {
+                            if (mapView === 'Pansusceptible to all drugs') {
                               fillColor = sensitiveColorScale(per);
                             } else {
                               fillColor = redColorScale(per);
                             }
                             showTooltip = true;
                           } else if (countryData.count >= 20) {
-                            if (mapView === 'Susceptible to all drugs') {
+                            if (mapView === 'Pansusceptible to all drugs') {
                               fillColor = zeroPercentColor;
                             } else {
                               fillColor = darkGrey;

@@ -1,5 +1,5 @@
 import { useStyles } from '../AboutMUI';
-import { Card, CardContent, Typography, CardMedia, Divider } from '@mui/material';
+import { Card, CardContent, Typography, CardMedia } from '@mui/material';
 import { sponsorsCards } from './SponsorsCards';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -10,10 +10,10 @@ export const Sponsors = () => {
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
-        <Typography variant="h5" className={classes.heading}>
+        {/* <Typography variant="h5" className={classes.heading}>
           Sponsors
         </Typography>
-        <Divider />
+        <Divider /> */}
         <Swiper
           loop={true}
           slidesPerView={1}
@@ -40,13 +40,14 @@ export const Sponsors = () => {
           navigation={true}
           modules={[Pagination, Navigation]}
           className={`${classes.carouselSwiper} sponsors-swiper`}
+          style={{ marginTop: '0px' }}
         >
           {sponsorsCards.map((card) => {
             return (
               <SwiperSlide>
                 <Card className={`${classes.swiperCard} sponsor-card`} elevation={2}>
                   <CardMedia
-                    sx={{ height: 70, backgroundRepeat: 'no-repeat', backgroundSize: 'contain' }}
+                    sx={{ height: 70, backgroundRepeat: 'no-repeat', backgroundSize: 'contain', width: '100%' }}
                     image={card.img}
                   />
                   <CardContent className={classes.swiperCardContent}>

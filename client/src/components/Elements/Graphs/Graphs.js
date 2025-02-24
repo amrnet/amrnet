@@ -23,7 +23,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP, drugsForDrugResistanceGraphST } from '../../../util/drugs';
+import { drugsST, drugsKP } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -34,6 +34,7 @@ import {
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
+import { Circles } from 'react-loader-spinner';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -69,6 +70,7 @@ export const Graphs = () => {
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
   const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
   const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
+  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
 
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
 
@@ -259,7 +261,7 @@ export const Graphs = () => {
       } else if ('DRT'.includes(currentCard.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
         drawLegend({
-          legendData: drugsForDrugResistanceGraphST,
+          legendData: drugsST,
           context: ctx,
           factor: 4,
           mobileFactor,
@@ -476,6 +478,11 @@ export const Graphs = () => {
                 </Box>
               );
             })}
+            {canFilterData && (
+              <div className={classes.loadingBlock}>
+                <Circles color="#6F2F9F" height={60} width={60} />
+              </div>
+            )}
           </Box>
         </Collapse>
       </Card>

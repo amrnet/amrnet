@@ -77,7 +77,7 @@ export const ResetButton = () => {
 
     if (organism === 'styphi') {
       dispatch(setMapView('CipNS'));
-      dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
+      dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
     } else if (organism === 'ngono') {
       dispatch(setMapView('No. Samples'));

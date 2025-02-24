@@ -5,23 +5,24 @@ export const drugsST = [
   'Chloramphenicol',
   'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'Sulphonamides',
-  'Susceptible',
+  'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
+  'Pansusceptible',
+  'XDR',
+  'MDR',
 ].sort((a, b) => a.localeCompare(b));
-
-export const drugsForDrugResistanceGraphST = [...drugsST, 'XDR', 'MDR'].sort((a, b) => a.localeCompare(b));
 
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'MDR',
-  'Susceptible',
+  'Pansusceptible',
   'Trimethoprim-sulfamethoxazole',
   'XDR',
 ];
@@ -35,7 +36,7 @@ export const drugsNG = [
   'Tetracycline',
   'Cefixime',
   'Penicillin',
-  'Susceptible',
+  'Pansusceptible',
   'Spectinomycin',
   'MDR',
   'XDR',
@@ -48,7 +49,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
   'Ciprofloxacin',
   'Cefixime',
   'Penicillin',
-  'Susceptible',
+  'Pansusceptible',
   'Spectinomycin',
   'MDR',
   'XDR',
@@ -81,10 +82,13 @@ export const drugClassesST = [
   'Chloramphenicol',
   'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim',
+  'Pansusceptible',
+  'MDR',
+  'XDR',
 ];
 
 // List of Klebsiella drug classes
@@ -116,7 +120,7 @@ export const drugAcronyms = {
 };
 
 export const drugAcronymsOpposite = {
-  CipNS: 'Ciprofloxacin NS',
+  CipNS: 'Ciprofloxacin',
   CARB: 'Carbapenems',
   AZM: 'Azithromycin',
   ESBL: 'Extended-Spectrum Beta-Lactamase',

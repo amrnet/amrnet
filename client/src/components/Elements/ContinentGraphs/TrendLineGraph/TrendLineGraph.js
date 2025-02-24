@@ -332,29 +332,33 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                 </Typography>
                 <Typography variant="subtitle2">{drugGene}</Typography>
               </div>
-              <div className={classes.tooltipContent}>
-                {currentTooltip?.geo.map((item, index) => {
-                  const itemLabel = item.label;
+              {currentTooltip?.geo.length > 0 ? (
+                <div className={classes.tooltipContent}>
+                  {currentTooltip?.geo.map((item, index) => {
+                    const itemLabel = item.label;
 
-                  return (
-                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                      <Box
-                        className={classes.tooltipItemBox}
-                        style={{
-                          backgroundColor: item.fill,
-                        }}
-                      />
-                      <div className={classes.tooltipItemStats}>
-                        <Typography variant="body2" fontWeight="500">
-                          {itemLabel}
-                        </Typography>
-                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                        <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                    return (
+                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                        <Box
+                          className={classes.tooltipItemBox}
+                          style={{
+                            backgroundColor: item.fill,
+                          }}
+                        />
+                        <div className={classes.tooltipItemStats}>
+                          <Typography variant="body2" fontWeight="500">
+                            {itemLabel}
+                          </Typography>
+                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <Typography className={classes.noData}>No data to show</Typography>
+              )}
             </div>
           ) : (
             <div className={classes.noYearSelected}>No year selected</div>
@@ -386,11 +390,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                     >
                       {getDrugClasses(organism).map((option, index) => {
                         return (
-                          <MenuItem
-                            key={index + 'trend-line-drug-classes'}
-                            value={option}
-                            disabled={option === 'Ceftriaxone'}
-                          >
+                          <MenuItem key={index + 'trend-line-drug-classes'} value={option}>
                             {option}
                           </MenuItem>
                         );

@@ -10,3 +10,10 @@ export function longestVisualWidth(list) {
     return Math.max(maxWidth, width);
   }, 0);
 }
+
+export function truncateWord(word, maxLength = 10) {
+  if (word.length > maxLength) {
+    return word.substring(0, maxLength) + '...';
+  }
+  return word;
+}

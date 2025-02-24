@@ -46,7 +46,7 @@ export const Team = () => {
               <SwiperSlide>
                 <Card className={classes.swiperCard} elevation={2}>
                   <CardMedia
-                    sx={{ height: 70, backgroundRepeat: 'no-repeat', backgroundSize: 'contain' }}
+                    sx={{ height: 70, backgroundRepeat: 'no-repeat', backgroundSize: 'contain', width: '100%' }}
                     image={card.img}
                   />
                   <CardContent className={classes.swiperCardContent}>

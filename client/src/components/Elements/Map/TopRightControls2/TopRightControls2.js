@@ -111,13 +111,13 @@ export const TopRightControls2 = () => {
       const matchingItem = genotypesDrugsData.find((g) => g.name === item);
 
       const totalCount = matchingItem?.totalCount ?? 0;
-      const susceptiblePercentage = (matchingItem?.Susceptible / totalCount || 0) * 100;
+      const susceptiblePercentage = (matchingItem?.Pansusceptible / totalCount || 0) * 100;
 
       if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
         return `${item} (total N=${totalCount})`;
       }
 
-      return `${item} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
+      return `${item} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Pansusceptible)`;
     },
     [genotypesDrugsData, isResPrevalence, organism],
   );

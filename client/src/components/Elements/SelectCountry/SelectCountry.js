@@ -142,7 +142,7 @@ export const SelectCountry = ({ hideAll = false }) => {
             Select a country
           </MenuItem>
         ) : (
-          <MenuItem value="All">All countries</MenuItem>
+          <MenuItem value="All">{actualRegion !== 'All' ? 'All countries in region' : 'All countries'}</MenuItem>
         )}
         {(actualRegion === 'All' ? countriesForFilter : economicRegions[actualRegion]).map((country, index) => {
           return (

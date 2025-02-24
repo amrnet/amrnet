@@ -3,7 +3,7 @@ import { openDB } from 'idb';
 type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
 const DB_NAME = 'organismsData';
-const DB_VERSION = 23;
+const DB_VERSION = 24;
 
 const OBJECT_STORES = [
   'styphi',
@@ -14,7 +14,7 @@ const OBJECT_STORES = [
   'shige',
   'sentericaints',
   'senterica',
-  'styphi_sets',
+  // 'styphi_sets',
   'styphi_map',
   'styphi_genotype',
   'styphi_years',

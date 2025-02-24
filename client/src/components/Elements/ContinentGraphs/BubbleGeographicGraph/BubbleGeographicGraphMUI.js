@@ -68,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
   graph: {
     height: '100%',
     width: '100%',
+    overflowX: 'auto',
+    overflowY: 'hidden',
 
     '@media (max-width: 1000px)': {
       width: '100%',
@@ -141,6 +143,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'lightgoldenrodyellow',
+  },
+  graphContainer: {
+    minWidth: '1000px !important',
   },
 }));
 

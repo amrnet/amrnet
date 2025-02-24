@@ -178,7 +178,7 @@ export const BottomRightControls = () => {
           case 'No. Samples':
             legendImg.src = 'legends/MapView_NoSamples.png';
             break;
-          case 'Sensitive to all drugs':
+          case 'Pansusceptible':
             legendImg.src = 'legends/MapView_Sensitive.png';
             break;
           case 'NG-MAST prevalence':

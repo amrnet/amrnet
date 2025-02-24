@@ -223,7 +223,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, []);
 
   const configuredMapData = useMemo(() => {
-    if (!selectedCRData) {
+    if (!selectedCRData || yAxisSelected.length === 0) {
       return [];
     }
 
@@ -323,7 +323,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       width={yAxisWidth}
                     />
 
-                    <ZAxis type="number" dataKey="percentage" range={[1200, 1200]} />
+                    <ZAxis type="number" dataKey="percentage" range={[1500, 1500]} />
 
                     <ChartTooltip
                       cursor={{ fill: hoverColor }}
@@ -348,7 +348,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       }}
                     />
 
-                    <Scatter data={item.items}>
+                    <Scatter data={item.items} shape="square">
                       {item.items.map((option, index) => (
                         <Cell
                           name={option.drug}
@@ -362,8 +362,8 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                         content={({ x, y, value, z }) => {
                           return (
                             <text
-                              x={x + 20}
-                              y={y + 23}
+                              x={x + 22}
+                              y={y + 25}
                               textAnchor="middle"
                               fontSize={12}
                               fontWeight={500}
@@ -390,14 +390,20 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.bubbleHeatmapGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CVM">
+        <div className={classes.graph} id="HSG">
           {plotChart}
         </div>
       </div>
-      {!selectedCRData && (
+      {!selectedCRData ? (
         <Box className={classes.nothingSelected}>
           <Typography fontWeight={600}>Please select a region or country</Typography>
         </Box>
+      ) : (
+        yAxisSelected.length === 0 && (
+          <Box className={classes.nothingSelected}>
+            <Typography fontWeight={600}>No data to show</Typography>
+          </Box>
+        )
       )}
       <Divider className={classes.divider} />
       <div className={classes.bottomLegend}>

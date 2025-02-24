@@ -195,7 +195,7 @@ export const colorForDrugClassesST = {
     { name: 'None', color: '#B9B9B9' },
   ],
   // 'Fluoroquinolones (CipNS)': [
-  'Ciprofloxacin NS': [
+  Ciprofloxacin: [
     { name: '0_QRDR + qnrB (CipNS)', color: '#0066cc' },
     { name: '0_QRDR + qnrS (CipNS)', color: '#009999' },
     { name: '0_QRDR + qnrS + qnrD (CipNS)', color: '#a8ddb5' },
@@ -283,6 +283,18 @@ export const colorForDrugClassesST = {
     { name: 'dfrA18 + sul2', color: '#98fb98' },
     { name: 'dfrA18 + sul1 + sul2', color: '#fc9272' },
     { name: 'None', color: '#B9B9B9' },
+  ],
+  MDR: [
+    { name: 'MDR', color: '#B80F0F' },
+    { name: 'Non-MDR', color: '#B9B9B9' },
+  ],
+  XDR: [
+    { name: 'XDR', color: '#000' },
+    { name: 'Non-XDR', color: '#B9B9B9' },
+  ],
+  Pansusceptible: [
+    { name: 'Pansusceptible (no AMR markers)', color: '#B9B9B9' },
+    { name: 'One or more AMR markers', color: '#000080' },
   ],
 };
 

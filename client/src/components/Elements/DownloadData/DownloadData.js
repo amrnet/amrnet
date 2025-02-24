@@ -816,7 +816,7 @@ export const DownloadData = () => {
         case 'No. Samples':
           mapLegend.src = 'legends/MapView_NoSamples.png';
           break;
-        case 'Sensitive to all drugs':
+        case 'Pansusceptible':
           mapLegend.src = 'legends/MapView_Sensitive.png';
           break;
         default:
@@ -833,7 +833,7 @@ export const DownloadData = () => {
       const isKlebe = organism === 'kpneumo';
       const isNgono = organism === 'ngono';
 
-      const cards = getOrganismCards();
+      const cards = getOrganismCards().filter((card) => card.id !== 'HSG');
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
       let drugClassesFactor = 0;
@@ -1018,6 +1018,7 @@ export const DownloadData = () => {
 
       doc.save(`AMRnet ${firstName} ${secondName} Report.pdf`);
     } catch (error) {
+      console.error('ERROR', error.message);
       setShowAlert(true);
     } finally {
       setLoadingPDF(false);
@@ -1069,7 +1070,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
+        disabled={!['styphi', 'kpneumo', 'ngono'].includes(organism)}
       >
         Download PDF
       </LoadingButton>

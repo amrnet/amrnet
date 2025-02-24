@@ -27,7 +27,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../../util/drugs';
+import { drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -81,7 +81,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       return [];
     }
     if (organism === 'styphi') {
-      return drugsForDrugResistanceGraphST;
+      return drugsST;
     }
     if (organism === 'kpneumo') {
       return drugsKP;
@@ -135,7 +135,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Pansusceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
@@ -253,10 +253,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                                 <span>MDR</span>
                               </Tooltip>
                             );
-                          } else if (dataKey === 'Susceptible') {
+                          } else if (dataKey === 'Pansusceptible') {
                             dataKeyElement = (
                               <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                <span>Susceptible</span>
+                                <span>Pansusceptible</span>
                               </Tooltip>
                             );
                           } else {
@@ -334,10 +334,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  } else if (item.label === 'Susceptible') {
+                  } else if (item.label === 'Pansusceptible') {
                     itemLabel = (
                       <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Susceptible</span>
+                        <span>Pansusceptible</span>
                       </Tooltip>
                     );
                   } else {

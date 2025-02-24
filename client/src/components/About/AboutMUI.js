@@ -26,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: '32px',
     },
 
+    '& .swiper-slide': {
+      display: 'flex',
+      height: 'auto',
+    },
+
     '&.sponsors-swiper .swiper-wrapper': {
       '@media (max-width: 500px)': {
         paddingBottom: '32px',
@@ -58,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '230px',
     borderRadius: '16px !important',
     paddingTop: '20px',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
 
     '&.sponsor-card': {
       maxHeight: '210px',

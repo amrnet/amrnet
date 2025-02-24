@@ -31,7 +31,7 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { drugClassesRulesKP, drugClassesRulesST, statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
-import { longestVisualWidth } from '../../../../util/helpers';
+import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Close, InfoOutlined } from '@mui/icons-material';
 
 const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
@@ -270,18 +270,18 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       const countries = economicRegions[region];
       const drug = Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === stat) ?? stat;
       const regionCount = mapRegionData.find((x) => x.name === region).count;
-      const countriesData = mapData.filter((x) => countries.includes(x.name) && x.stats[drug].count > 0);
+      const countriesData = mapData.filter((x) => countries.includes(x.name) && x.stats?.[drug]?.count > 0);
 
       return (
         <div>
           <br />
-          {countriesData.map((country) => {
+          {countriesData.map((country, index) => {
             const drugCount = country.stats[drug].count;
             const percentage = Number(((drugCount / regionCount) * 100).toFixed(2));
 
             return (
-              <Typography fontSize="12px">
-                <Typography fontWeight={500} fontSize="12px" display="inline">
+              <Typography fontSize="12px" key={`country-tooltip-${index}`}>
+                <Typography component="span" fontWeight={500} fontSize="12px" display="inline">
                   {country.name}
                 </Typography>
                 {`: ${drugCount} (${percentage}%)`}
@@ -295,6 +295,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   );
 
   const configuredMapData = useMemo(() => {
+    if (yAxisSelected.length === 0) {
+      return [];
+    }
+
     return (xAxisType === 'country' ? mapData : mapRegionData)
       .filter((item) => xAxisSelected.includes(item.name))
       .map((item) => {
@@ -355,7 +359,12 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           <>
             {configuredMapData.map((item, index) => {
               return (
-                <ResponsiveContainer key={`bubble-graph-${index}`} width="100%" height={index === 0 ? 90 : 70}>
+                <ResponsiveContainer
+                  className={classes.graphContainer}
+                  key={`bubble-graph-${index}`}
+                  width="100%"
+                  height={index === 0 ? 90 : 70}
+                >
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
                     margin={{ bottom: index === 0 ? -20 : 0 }}
@@ -380,7 +389,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                                     dy={-4}
                                     fill="rgb(128,128,128)"
                                   >
-                                    {props.payload.value}
+                                    {truncateWord(props.payload.value)}
                                   </text>
                                 </Tooltip>
                               );
@@ -476,7 +485,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           {plotChart}
         </div>
       </div>
-      {configuredMapData.length === 0 && (
+      {(configuredMapData.length === 0 || yAxisSelected.length === 0) && (
         <Box className={classes.nothingSelected}>
           <Typography fontWeight={600}>No data to show</Typography>
         </Box>

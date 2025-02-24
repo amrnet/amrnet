@@ -115,6 +115,6 @@ export const continentGraphCard = {
   title: 'Geographic Comparisons',
   description: [''],
   icon: <BubbleChart color="primary" />,
-  id: 'DRT',
+  id: 'CGC',
   organisms: ['styphi', 'ngono', 'kpneumo'],
 };
