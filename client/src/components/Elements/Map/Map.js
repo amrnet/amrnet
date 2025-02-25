@@ -431,14 +431,14 @@ export const Map = () => {
                           let per =
                             countryStats[statKey['CipNS']].percentage + countryStats[statKey['CipR']].percentage;
                           if (countryData.count >= 20 && count > 0) {
-                            if (mapView === 'Pansusceptible to all drugs') {
+                            if (mapView === 'Pansusceptible') {
                               fillColor = sensitiveColorScale(per);
                             } else {
                               fillColor = redColorScale(per);
                             }
                             showTooltip = true;
                           } else if (countryData.count >= 20) {
-                            if (mapView === 'Pansusceptible to all drugs') {
+                            if (mapView === 'Pansusceptible') {
                               fillColor = zeroPercentColor;
                             } else {
                               fillColor = darkGrey;
