@@ -77,7 +77,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     setXAxisType(xOptions[0].value ?? '');
   }, [xOptions]);
-
+  
   const selectedCRData = useMemo(() => {
     return (actualCountry !== 'All' ? mapData : mapRegionData).find(
       (x) => x.name === (actualCountry !== 'All' ? actualCountry : actualRegion),
@@ -385,7 +385,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [configuredMapData, yAxisWidth]);
+  }, [configuredMapData, yAxisWidth, canGetData]);
 
   return (
     <CardContent className={classes.bubbleHeatmapGraph}>
