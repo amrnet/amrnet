@@ -208,7 +208,7 @@ export const colorForDrugClassesST = {
     { name: '3_QRDR (CipR)', color: '#cc0000' },
     { name: '3_QRDR + qnrB (CipR)', color: '#660000' },
     { name: '3_QRDR + qnrS (CipR)', color: 'black' },
-    { name: 'None (CipNS)', color: '#B9B9B9' },
+    { name: 'None', color: '#B9B9B9' },
   ],
   Chloramphenicol: [
     { name: 'catA1', color: '#9e9ac8' },
