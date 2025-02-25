@@ -149,4 +149,4 @@ export const organismsCards = [
   //   img: senterica,
   //   disabled: true,
   // },
-];
+].sort((a, b) => a.stringLabel.localeCompare(b.stringLabel));
