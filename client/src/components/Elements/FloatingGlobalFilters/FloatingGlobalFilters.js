@@ -60,7 +60,7 @@ export const FloatingGlobalFilters = () => {
         const currentScrollTop = scrollContainer.scrollTop;
 
         if (currentScrollTop !== lastScrollTop) {
-          setShowFilter(false);
+          setShowFilter(true);
         }
         setLastScrollTop(currentScrollTop);
       };

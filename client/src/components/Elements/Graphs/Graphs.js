@@ -42,7 +42,7 @@ export const Graphs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState('');
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -73,7 +73,6 @@ export const Graphs = () => {
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
 
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
-
   useEffect(() => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
@@ -81,7 +80,7 @@ export const Graphs = () => {
   }, [organismCards]);
 
   useEffect(() => {
-    setShowFilter(false);
+    setShowFilter(true);
   }, [organism]);
 
   const currentCard = useMemo(() => organismCards.find((x) => x.id === currentTab), [currentTab, organismCards]);
