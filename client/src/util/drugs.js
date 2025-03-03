@@ -1,3 +1,5 @@
+import { drugRulesINTS } from './drugClassesRules';
+
 // List of Salmonella drugs
 export const drugsST = [
   'Ampicillin/Amoxicillin',
@@ -11,7 +13,6 @@ export const drugsST = [
   'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
-  'Pansusceptible',
   'XDR',
   'MDR',
 ].sort((a, b) => a.localeCompare(b));
@@ -128,6 +129,8 @@ export const drugAcronymsOpposite = {
   MDR: 'Multi-drug Resistant',
   XDR: 'Extensively Drug Resistant',
 };
+
+export const drugsINTS = drugRulesINTS.map((x) => x.key).sort((a, b) => a.localeCompare(b));
 
 export function getDrugClasses(organism) {
   switch (organism) {

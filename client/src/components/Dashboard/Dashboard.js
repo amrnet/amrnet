@@ -79,7 +79,12 @@ import {
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
-import { drugsKP, defaultDrugsForDrugResistanceGraphST, defaultDrugsForDrugResistanceGraphNG } from '../../util/drugs';
+import {
+  drugsKP,
+  defaultDrugsForDrugResistanceGraphST,
+  defaultDrugsForDrugResistanceGraphNG,
+  drugsINTS,
+} from '../../util/drugs';
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
@@ -234,7 +239,7 @@ export const DashboardPage = () => {
       }),
 
       // Get regions data
-      ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'].includes(organism)
+      ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli', 'sentericaints'].includes(organism)
         ? getStoreOrGenerateData(`${organism}_map_regions`, async () =>
             getMapData({ data: responseData, items: ecRegions, organism, type: 'region' }),
           ).then((mapData) => {
@@ -397,11 +402,14 @@ export const DashboardPage = () => {
           dispatch(setTrendsGraphDrugClass('Azithromycin'));
           dispatch(setTrendsGraphView('number'));
           break;
+        case 'sentericaints':
+          dispatch(setMapView('No. Samples'));
+          dispatch(setDrugResistanceGraphView(drugsINTS));
+          break;
         case 'ecoli':
         case 'decoli':
         case 'shige':
         case 'senterica':
-        case 'sentericaints':
           dispatch(setMapView('No. Samples'));
           break;
         default:

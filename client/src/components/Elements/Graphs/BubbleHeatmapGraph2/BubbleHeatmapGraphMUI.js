@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  bubbleGeographicGraph: {
+  bubbleHeatmapGraph: {
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
@@ -82,6 +82,10 @@ const useStyles = makeStyles((theme) => ({
     '& .recharts-surface': {
       overflow: 'visible',
     },
+
+    // '& .recharts-responsive-container': {
+    //   margin: 'auto',
+    // },
   },
   chartTooltipLabel: {
     backgroundColor: '#fff',
@@ -123,6 +127,13 @@ const useStyles = makeStyles((theme) => ({
   labelTooltipIcon: {
     cursor: 'pointer',
   },
+  nothingSelected: {
+    padding: '24px 8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'lightgoldenrodyellow',
+  },
   floatingFilter: {
     position: 'absolute',
     top: 16,
@@ -141,16 +152,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  nothingSelected: {
-    padding: '24px 8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'lightgoldenrodyellow',
-  },
-  // graphContainer: {
-  //   minWidth: '1000px !important',
-  // },
 }));
 
 export { useStyles };
