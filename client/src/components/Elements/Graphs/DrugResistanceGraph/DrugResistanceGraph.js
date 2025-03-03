@@ -27,7 +27,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView, setStarttimeDRT,setEndtimeDRT} from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
+import { drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -88,6 +88,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     }
     if (organism === 'ngono') {
       return drugsNG;
+    }
+    if (organism === 'sentericaints') {
+      return drugsINTS;
     }
   }
   function getDrugsForLegends() {

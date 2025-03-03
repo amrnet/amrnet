@@ -35,18 +35,13 @@ import {
   setFrequenciesGraphView,
   setResetBool,
 } from '../../../../stores/slices/graphSlice';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP, drugsNG } from '../../../../util/drugs';
+import { drugsST, drugsKP, drugsNG, drugsINTS } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureRFWG } from '../../../../stores/slices/dashboardSlice';
 import { SelectCountry } from '../../SelectCountry';
-
-const dataViewOptions = [
-  { label: 'Number of genomes', value: 'number' },
-  { label: 'Percentage within genotype', value: 'percentage' },
-];
 
 export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -61,6 +56,15 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   const frequenciesGraphView = useAppSelector((state) => state.graph.frequenciesGraphView);
   const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
+
+  const organismNomination = useMemo(() => (['sentericaints'].includes(organism) ? 'lineage' : 'genotype'), [organism]);
+  const dataViewOptions = useMemo(
+    () => [
+      { label: 'Number of genomes', value: 'number' },
+      { label: `Percentage within ${organismNomination}`, value: 'percentage' },
+    ],
+    [organismNomination],
+  );
 
   let data = genotypesDrugsData;
   let sumOfBarDataToShowOnPlot = 0;
@@ -106,6 +110,8 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
       return drugsKP;
     } else if (organism === 'ngono') {
       return drugsNG;
+    } else if (organism === 'sentericaints') {
+      return drugsINTS;
     }
   }
 
@@ -385,7 +391,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
               </div>
             </div>
           ) : (
-            <div className={classes.noGenotypeSelected}>Click on a genotype to see detail</div>
+            <div className={classes.noGenotypeSelected}>Click on a {organismNomination} to see detail</div>
           )}
         </div>
       </div>
@@ -405,7 +411,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectsWrapper}>
                 <div className={classes.labelWrapper}>
                   <Typography variant="caption">Data view</Typography>
-                  <Tooltip title="Select up to 7 genotypes" placement="top">
+                  <Tooltip title={`Select up to 7 ${organismNomination}s`} placement="top">
                     <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                   </Tooltip>
                 </div>
@@ -449,7 +455,9 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
                         list: classes.genotypesSelectMenu,
                       },
                     }}
-                    renderValue={(selected) => <div>{`Select genotypes (currently showing ${selected.length} )`}</div>}
+                    renderValue={(selected) => (
+                      <div>{`Select ${organismNomination}s (currently showing ${selected.length} )`}</div>
+                    )}
                   >
                     <TextField
                       size="small"

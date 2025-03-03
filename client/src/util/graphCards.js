@@ -6,7 +6,7 @@ import { DistributionGraph } from '../components/Elements/Graphs/DistributionGra
 import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
 import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
-import { BubbleHeatmapGraph } from '../components/Elements/Graphs/BubbleHeatmapGraph';
+import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 
 function getTrendstitle(organism) {
   switch (organism) {
@@ -25,7 +25,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'ngono', 'kpneumo'],
+    organisms: ['styphi', 'ngono', 'kpneumo', 'sentericaints'],
     component: <DrugResistanceGraph />,
   },
   {
@@ -34,6 +34,14 @@ export const graphCards = [
     icon: <BarChart color="primary" />,
     id: 'RFWG',
     organisms: ['styphi', 'kpneumo', 'ngono'],
+    component: <FrequenciesGraph />,
+  },
+  {
+    title: 'Resistance frequencies within lineages',
+    description: ['Top Lineages (up to 7)'],
+    icon: <BarChart color="primary" />,
+    id: 'RFWG',
+    organisms: ['sentericaints'],
     component: <FrequenciesGraph />,
   },
   {
@@ -101,13 +109,21 @@ export const graphCards = [
     organisms: ['kpneumo'],
     component: <ConvergenceGraph />,
   },
+  // {
+  //   title: 'Heatmap ST vs genotype',
+  //   description: [''],
+  //   icon: <BubbleChart color="primary" />,
+  //   id: 'HSG',
+  //   organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'],
+  //   component: <BubbleHeatmapGraph />,
+  // },
   {
     title: 'Heatmap ST vs genotype',
     description: [''],
     icon: <BubbleChart color="primary" />,
-    id: 'HSG',
-    organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'],
-    component: <BubbleHeatmapGraph />,
+    id: 'HSG2',
+    organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli', 'sentericaints'],
+    component: <BubbleHeatmapGraph2 />,
   },
 ];
 

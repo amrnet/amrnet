@@ -887,6 +887,67 @@ export const drugClassesRulesNG = {
   ],
 };
 
+// Sentericaints INTS
+export const drugRulesINTS = [
+  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
+  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
+  { key: 'Ceftriaxone', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
+  {
+    key: 'Chloramphenicol',
+    columnID: 'PHENICOL',
+    values: ['CHLORAMPHENICOL'],
+  },
+  { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'] },
+  { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
+  { key: 'Gentamicin', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
+  { key: 'Meropenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
+  { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
+  { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
+  { key: 'Tigecycline', columnID: 'TETRACYCLINE', values: ['TIGECYCLINE'] },
+  { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
+  {
+    key: 'Trimethoprim-sulfamethoxazole',
+    requirements: [
+      { columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
+      { columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM,dfrA'] },
+    ],
+  },
+  {
+    key: 'Pansusceptible',
+    requirements: [
+      { columnID: 'AMINOGLYCOSIDE', values: ['-'] },
+      { columnID: 'BETA-LACTAM', values: ['-'] },
+      { columnID: 'SULFONAMIDE', values: ['-'] },
+      { columnID: 'TETRACYCLINE', values: ['-'] },
+      { columnID: 'QUINOLONE', values: ['-'] },
+      { columnID: 'MACROLIDE', values: ['-'] },
+      { columnID: 'COLISTIN', values: ['-'] },
+      { columnID: 'TRIMETHOPRIM', values: ['-'] },
+    ],
+  },
+];
+
+export const statKeysINTS = [
+  {
+    name: 'Pansusceptible',
+    column: drugRulesINTS.find((x) => x.key === 'Pansusceptible').requirements.map((x) => x.columnID),
+    key: '-',
+  },
+  // { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
+  { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
+  { name: 'CipR', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
+  { name: 'AzithR', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
+  // { name: 'Ampicillin/Amoxicillin', column: 'blaTEM-1D', key: '1', resistanceView: true },
+  // { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
+  // { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
+  // { name: 'MDR', column: 'MDR', key: 'MDR', resistanceView: true },
+  // { name: 'Sulphonamides', column: 'sul_any', key: '1', resistanceView: true },
+  // { name: 'Tetracyclines', column: 'tetracycline_category', key: 'TetR', resistanceView: true },
+  // { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
+  // { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
+  // { name: 'XDR', column: 'XDR', key: 'XDR', resistanceView: true },
+];
+
 export const statKeysOthers = [
   { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0' },
   { name: 'MDR', column: 'MDR', key: 'MDR' },
@@ -899,5 +960,6 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
+  sentericaints: statKeysINTS,
   others: statKeysOthers,
 };
