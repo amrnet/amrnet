@@ -413,7 +413,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
               );
             }
 
-            return rule.values.some((value) => x[rule.columnID] === value || x[rule.columnID]?.includes(value));
+            return rule.values.some((value) => x[rule.columnID] === value);
           });
           drugStats[rule.key] = drugData.length;
 
