@@ -111,9 +111,9 @@ export const AboutPage = () => {
       <div id="team-section">
         <Team />
       </div>
-      <div id="sponsors-section">
+      {/* <div id="sponsors-section">
         <Sponsors />
-      </div>
+      </div> */}
       {/* <Footer /> */}
     </MainLayout>
   );
