@@ -178,7 +178,7 @@ export function getCountryDisplayName(country) {
 }
 
 // Get specific drug count, percentage and al its types for the map component
-function getMapStatsData({ itemData, columnKey, statsKey, noItems = false }) {
+function getMapStatsData({ itemData, columnKey, statsKey, noItems = false, organism }) {
   const totalLength = itemData.length;
   const columnDataMap = itemData.reduce((acc, item) => {
     const key = item[columnKey];
@@ -191,7 +191,13 @@ function getMapStatsData({ itemData, columnKey, statsKey, noItems = false }) {
     return { name, count, percentage: Number(percentage.toFixed(2)) };
   });
 
-  const stats = items.find((item) => item.name?.includes(statsKey)) || { count: 0, percentage: 0 };
+  const stats = items.find((item) => {
+    if(statsKey !== "ESBL" && statsKey !== "H58")
+      return item.name?.includes(statsKey)
+    else
+      return item.name === statsKey
+  }) || { count: 0, percentage: 0 };
+  
   if (statsKey === '-') {
     const nonStatsCount = totalLength - stats.count;
 
@@ -295,6 +301,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
                 columnKey: column,
                 statsKey: key,
                 noItems: !['Carb', 'ESBL'].includes(name),
+                organism
               });
             }
           });
