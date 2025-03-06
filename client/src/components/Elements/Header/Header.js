@@ -76,11 +76,11 @@ export const Header = () => {
                 <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
               </Link>
             )}
-            {!isHomePage && !isDashboardPage && !matches500 && (
+            {/* {!isHomePage && !isDashboardPage && !matches500 && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
-            )}
+            )} */}
 
             {isDashboardPage &&
               !isHomePage &&
