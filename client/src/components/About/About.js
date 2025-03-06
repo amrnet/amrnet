@@ -86,9 +86,20 @@ export const AboutPage = () => {
           <Typography variant="body1" className={classes.paragraph}>
             If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga,
             Megan Carey, Zoe Dyson, Kat Holt),
-            <span className={classes.paragraphBold}> GitHub: </span>
-            https://github.com/amrnet/amrnet,
-            <span className={classes.paragraphBold}> DOI:</span> 10.5281/zenodo.10810219
+            <span className={classes.paragraphBold}> GitHub: </span> {' '}
+            <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
+            https://github.com/amrnet/amrnet
+            </a>
+            ,
+            <span className={classes.paragraphBold}> DOI:</span> {' '}
+            <a href="https://zenodo.org/doi/10.5281/zenodo.10810218" target="_blank" rel="noreferrer">
+            https://zenodo.org/doi/10.5281/zenodo.10810218 
+            </a>
+            <br/>
+          </Typography>
+          <br/>
+          <Typography variant="caption text" >
+            The project is funded by the Wellcome Trust (grant 226432/Z/22/Z).
           </Typography>
         </CardContent>
       </Card>
