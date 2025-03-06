@@ -72,11 +72,17 @@ export const AboutPage = () => {
             <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
               GitHub
             </a>
-            . Issues and feature requests can be posted{' '}
+            . along with {' '}
+            <a href="https://amrnet.readthedocs.io/en/staging/" target="_blank" rel="noreferrer">
+            user guide
+            </a> and {' '}
+            <a href="https://amrnet.readthedocs.io/en/staging/api.html" target="_blank" rel="noreferrer">
+            API
+            </a>  to access the data. Issues and feature requests can be posted{' '}
             <a href="https://github.com/amrnet/amrnet/issues" target="_blank" rel="noreferrer">
               here
             </a>
-            . An API is coming soon!
+            .
           </Typography>
           <br />
           <Typography variant="h6" className={classes.paragraph}>
