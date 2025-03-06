@@ -36,17 +36,16 @@ export const AboutPage = () => {
             <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>{' '}
-            (to call AMR determinants and lineages from sequence data). More organisms will be added throughout 2024-25,
-            using data sourced from analysis platforms such as{' '}
+            (to call AMR determinants and lineages from sequence data). Additional organisms have been added, using data sourced from{' '}
             <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>
-            ,
+            , and
             <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
               {' '}
               Enterobase
             </a>
-            , and potentially others.
+            , however these dashboards are in beta mode as data curation is still ongoing. More organisms will be added throughout 2025.
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
