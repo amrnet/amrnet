@@ -94,6 +94,11 @@ export const AboutPage = () => {
             <span className={classes.paragraphBold}> GitHub: </span>
             https://github.com/amrnet/amrnet,
             <span className={classes.paragraphBold}> DOI:</span> 10.5281/zenodo.10810219
+            <br/>
+          </Typography>
+          <br/>
+          <Typography variant="caption text" >
+            The project is funded by the Wellcome Trust (grant 226432/Z/22/Z).
           </Typography>
         </CardContent>
       </Card>
