@@ -18,9 +18,9 @@ export const Header = () => {
   const location = useLocation();
   const matches650 = useMediaQuery('(max-width: 650px)');
   const matches500 = useMediaQuery('(max-width: 500px)');
-  const matches800 = useMediaQuery('(max-width: 800px)');
+  const matches999 = useMediaQuery('(max-width: 999px)');
   const matches200 = useMediaQuery('(min-width: 200px)');
-  const matches1300 = useMediaQuery('(min-width: 1300px)');
+  const matches1000 = useMediaQuery('(min-width: 1000px)');
 
   const [infoCollapse, setInfoCollapse] = useState(false);
 
@@ -59,7 +59,7 @@ export const Header = () => {
           >
             <div className={`${classes.leftWrapper} `}>
               <div className={classes.drawerTitleWrapper}>
-                {((isDashboardPage && !isHomePage) || matches800) && (
+                {((isDashboardPage && !isHomePage) || matches999) && (
                   <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
                     <Menu sx={{ fontSize: '1.7rem' }} />
                   </IconButton>
@@ -70,7 +70,7 @@ export const Header = () => {
               </div>
               {isDashboardPage && !isHomePage && <SelectOrganism />}
             </div>
-            {((!isDashboardPage && matches1300) || (isHomePage && !matches800)) && <MenuHead />}
+            {((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && <MenuHead />}
             {(!isDashboardPage || isHomePage) && matches200 && (
               <Link to="https://www.lshtm.ac.uk/amrnet">
                 <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
