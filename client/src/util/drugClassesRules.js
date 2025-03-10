@@ -44,7 +44,7 @@ export const statKeysST = [
 export const drugRulesForDrugResistanceGraphNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
   { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
-  { key: 'Ciprofloxacin NS', columnID: ['Ciprofloxacin NS'], values: ['1'] },
+  { key: 'Ciprofloxacin NS', columnID: ['Ciprofloxacin'], values: ['1'] },
   { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
@@ -147,7 +147,7 @@ export const mapStatKeysKP = [
 export const drugRulesNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
   { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
-  { key: 'Ciprofloxacin NS', columnID: ['Ciprofloxacin NS'], values: ['1'] },
+  { key: 'Ciprofloxacin NS', columnID: ['Ciprofloxacin'], values: ['1'] },
   { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
@@ -162,7 +162,7 @@ export const statKeysNG = [
   { name: 'Azithromycin', column: 'Azithromycin', key: '1', resistanceView: true },
   { name: 'Cefixime', column: 'Cefixime', key: '1', resistanceView: true },
   { name: 'Ceftriaxone', column: 'Ceftriaxone', key: '1', resistanceView: true },
-  { name: 'Ciprofloxacin NS', column: 'Ciprofloxacin NS', key: '1', resistanceView: true },
+  { name: 'Ciprofloxacin NS', column: 'Ciprofloxacin', key: '1', resistanceView: true },
   { name: 'Pansusceptible', column: 'Susceptible', key: '1' },
   { name: 'MDR', column: 'MDR', key: '1', resistanceView: true },
   { name: 'Penicillin', column: 'Penicillin', key: '1', resistanceView: true },
