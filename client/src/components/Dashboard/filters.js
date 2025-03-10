@@ -424,10 +424,10 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           drugStats[rule.key] = drugData.length;
 
-          if (rule.key === 'Ciprofloxacin') {
+          if (rule.key === 'Ciprofloxacin NS') {
             const cipRCount = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
             drugStats['Ciprofloxacin R'] = cipRCount;
-            drugStats['Ciprofloxacin'] += cipRCount;
+            drugStats['Ciprofloxacin NS'] += cipRCount;
           }
         });
       };
@@ -688,9 +688,9 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
         const drugData = genotypeData.filter((x) => rule.values.includes(x[rule.columnID]));
         response[rule.key] = drugData.length;
 
-        if (rule.key === 'Ciprofloxacin') {
+        if (rule.key === 'Ciprofloxacin NS') {
           response['Ciprofloxacin R'] = genotypeData.filter((x) => x[rule.columnID] === 'CipR').length;
-          response['Ciprofloxacin'] = response['Ciprofloxacin'] + response['Ciprofloxacin R'];
+          response['Ciprofloxacin NS'] = response['Ciprofloxacin NS'] + response['Ciprofloxacin R'];
         }
 
         const drugClass = { ...drugClassResponse };

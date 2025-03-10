@@ -172,7 +172,7 @@ export const UserGuidePage = () => {
               ciprofloxacin and ceftriaxone)
             </li>
             <li>
-              <span className={classes.paragraphBold}>Ciprofloxacin:</span> ciprofloxacin non-susceptible (MIC &ge;0.06
+              <span className={classes.paragraphBold}>Ciprofloxacin NS:</span> ciprofloxacin non-susceptible (MIC &ge;0.06
               mg/L, due to presence of one or more <i>qnr</i> genes or mutations in <i>gyrA/parC/gyrB</i>)
             </li>
             <li>
@@ -329,7 +329,7 @@ export const UserGuidePage = () => {
             </li>
             <li>
               <span className={classes.paragraphBold}>Pansusceptible to class I/II drugs</span> - No determinants found
-              for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category
+              for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin NS, Spectinomycin (category
               II).
             </li>
           </Typography>
@@ -341,13 +341,13 @@ export const UserGuidePage = () => {
           <Typography variant="body2" className={classes.paragraph}>
             <li>
               <span className={classes.paragraphBold}>MDR:</span> multi-drug resistant (Resistant to one of Azithromycin
-              / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin /
+              / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin NS /
               Spectinomycin [category II representatives])
             </li>
             <li>
               <span className={classes.paragraphBold}>XDR:</span> extensively drug resistant (Resistant to two of
               Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin /
-              Ciprofloxacin / Spectinomycin [category II representatives])
+              Ciprofloxacin NS / Spectinomycin [category II representatives])
             </li>
           </Typography>
 

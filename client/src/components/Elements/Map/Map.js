@@ -26,7 +26,7 @@ const statKey = {
   CipR: 'CipR',
   Pansusceptible: 'Pansusceptible',
   ESBL: 'ESBL',
-  Ciprofloxacin: 'Ciprofloxacin',
+  'Ciprofloxacin NS': 'Ciprofloxacin NS',
   ESBL_category: 'Ceftriaxone',
   Azithromycin: 'Azithromycin',
   //TODO check this variable
@@ -115,7 +115,7 @@ export const Map = () => {
                     XDR: `${countryStats.XDR.percentage}%`,
                     Azithromycin: `${countryStats.Azithromycin.percentage}%`,
                     Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
-                    Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
+                    'Ciprofloxacin NS': `${countryStats['Ciprofloxacin NS'].percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : {
@@ -200,7 +200,7 @@ export const Map = () => {
         case 'XDR':
         case 'AzithR':
         case 'Azithromycin':
-        case 'Ciprofloxacin':
+        case 'Ciprofloxacin NS':
         case 'Ceftriaxone':
         case 'CipR':
         case 'ESBL':
@@ -401,7 +401,7 @@ export const Map = () => {
                         case 'XDR':
                         case 'AzithR':
                         case 'Azithromycin':
-                        case 'Ciprofloxacin':
+                        case 'Ciprofloxacin NS':
                         case 'CipR':
                         case 'ESBL_category':
                         case 'Ceftriaxone':

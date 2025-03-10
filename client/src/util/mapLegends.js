@@ -11,7 +11,7 @@ export const mapLegends = [
     organisms: ['styphi', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli' /*'sentericaints'*/],
   },
   { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['styphi', 'sentericaints'] },
-  { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['styphi'] },
+  { value: 'CipNS', label: 'Ciprofloxacin NS non-susceptible (CipNS)', organisms: ['styphi'] },
   { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['styphi', 'sentericaints'] },
   {
     value: 'ESBL',
@@ -21,7 +21,7 @@ export const mapLegends = [
   { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: ['styphi'] },
   { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono', 'sentericaints'] },
   { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
-  { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
+  { value: 'Ciprofloxacin NS', label: 'Ciprofloxacin NS resistant', organisms: ['ngono'] },
   {
     value: 'Carb',
     label: 'Carbapenemase prevalence',
