@@ -21,7 +21,7 @@ export const mapLegends = [
   { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: ['styphi'] },
   { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono', 'sentericaints'] },
   { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
-  { value: 'Ciprofloxacin NS', label: 'Ciprofloxacin NS resistant', organisms: ['ngono'] },
+  { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
   {
     value: 'Carb',
     label: 'Carbapenemase prevalence',

@@ -32,7 +32,7 @@ export const defaultDrugsForDrugResistanceGraphST = [
 export const drugsNG = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Sulfonamides',
   'Tetracycline',
   'Cefixime',
@@ -47,7 +47,7 @@ export const drugsNG = [
 export const defaultDrugsForDrugResistanceGraphNG = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Cefixime',
   'Penicillin',
   'Pansusceptible',
