@@ -419,8 +419,10 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
                 req.values.some((value) => x[req.columnID] === value || x[req.columnID].includes(value)),
               );
             }
-
-            return rule.values.some((value) => x[rule.columnID] === value);
+            if(organism === 'styphi')
+              return rule.values.some((value) => x[rule.columnID] === value );
+            else
+              return rule.values.some((value) => x[rule.columnID] === value || x[rule.columnID]?.includes(value));
           });
           drugStats[rule.key] = drugData.length;
 
