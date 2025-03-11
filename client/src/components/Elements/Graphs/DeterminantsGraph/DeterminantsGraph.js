@@ -20,6 +20,7 @@ import {
   setResetBool,
   setSliderList,
   setMaxSliderValueRD,
+  setTopXGenotypeRDWG
 } from '../../../../stores/slices/graphSlice';
 import { getDrugClasses } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
@@ -51,7 +52,7 @@ const dataViewOptions = [
 export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
-  const [topXGenotypes, setTopXGenotypes] = useState([]);
+  // const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [plotChart, setPlotChart] = useState(() => {});
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
 
@@ -65,6 +66,8 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const topXGenotypeRDWG = useAppSelector((state) => state.graph.topXGenotypeRDWG);
+
 
   let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
@@ -89,19 +92,19 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
       case 'styphi':
         if (colorForDrugClassesST[determinantsGraphDrugClass] !== undefined)
           return colorForDrugClassesST[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypes.includes(item.name) || item.label === 'Other' || item.label === 'None',
+            (item) => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
           );
         break;
       case 'kpneumo':
         if (colorForDrugClassesKP[determinantsGraphDrugClass] !== undefined)
           return colorForDrugClassesKP[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypes.includes(item.name) || item.label === 'Other' || item.label === 'None',
+            (item) => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
           );
         break;
       case 'ngono':
         if (colorForDrugClassesNG[determinantsGraphDrugClass] !== undefined)
           return colorForDrugClassesNG[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypes.includes(item.name) || item.label === 'Other' || item.label === 'None',
+            (item) => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
           );
         break;
       default:
@@ -147,7 +150,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
     mapArray.sort((a, b) => b[1] - a[1]);
     const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
     dispatch(setGenotypesForFilterSelectedRD(slicedArray));
-    setTopXGenotypes(slicedArray);
+    dispatch(setTopXGenotypeRDWG(slicedArray));
 
     dispatch(setMaxSliderValueRD(mapArray.length));
   }, [determinantsGraphDrugClass, currentSliderValueRD]);
@@ -162,7 +165,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
       if (!exclusions.includes(key)) {
         newTotalCount += item[key];
       }
-      if (!topXGenotypes.includes(key) && !exclusions.includes(key)) {
+      if (!topXGenotypeRDWG.includes(key) && !exclusions.includes(key)) {
         count += item[key]; //adding count of all genotypes which are not in topX
       }
     }
@@ -254,13 +257,13 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
         // value.drugClasses = value.drugClasses.sort((a, b) => a.label.localeCompare(b.label));
         value.drugClasses = value.drugClasses
           .sort((a, b) => a.label.localeCompare(b.label))
-          .filter((item) => topXGenotypes.includes(item.label) || item.label === 'Other');
+          .filter((item) => topXGenotypeRDWG.includes(item.label) || item.label === 'Other');
       });
 
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
     }
-  }, [topXGenotypes, currentEventSelected.activeLabel, currentSliderValueRD]);
+  }, [topXGenotypeRDWG, currentEventSelected.activeLabel, currentSliderValueRD]);
 
   useEffect(() => {
     if (!resetBool) handleClickChart(currentEventSelected);
@@ -268,7 +271,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
     }
-  }, [topXGenotypes, currentSliderValueRD]);
+  }, [topXGenotypeRDWG, currentSliderValueRD]);
 
   useEffect(() => {
     if (canGetData) {
@@ -338,7 +341,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesDrugClassesData, determinantsGraphView, determinantsGraphDrugClass, topXGenotypes]);
+  }, [genotypesDrugClassesData, determinantsGraphView, determinantsGraphDrugClass, topXGenotypeRDWG]);
 
   return (
     <CardContent className={classes.determinantsGraph}>
