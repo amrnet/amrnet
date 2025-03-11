@@ -231,7 +231,7 @@ export const BottomRightControls = () => {
     <div className={classes.bottomRightControls}>
       <Tooltip title="Download Data" placement="top">
         <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none' || loading}>
-          <DownloadMapViewData fontSize="inherit" />
+          <DownloadMapViewData fontSize="inherit" value="map"/>
         </IconButton>
       </Tooltip>
       <Tooltip title="Download Map as PNG" placement="top">
