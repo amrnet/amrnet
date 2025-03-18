@@ -393,7 +393,7 @@ export const DashboardPage = () => {
           dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
           break;
         case 'kpneumo':
-          dispatch(setMapView('No. Samples'));
+          dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsKP));
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphDrugClass('Carbapenems'));

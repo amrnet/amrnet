@@ -16,7 +16,7 @@ export const mapLegends = [
   {
     value: 'ESBL',
     label: 'ESBL prevalence',
-    organisms: ['kpneumo', 'ecoli', 'shige', 'senterica', 'decoli'],
+    organisms: [ 'ecoli', 'shige', 'senterica', 'decoli'],
   },
   { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: ['styphi'] },
   { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono', 'sentericaints'] },
@@ -25,7 +25,7 @@ export const mapLegends = [
   {
     value: 'Carb',
     label: 'Carbapenemase prevalence',
-    organisms: ['kpneumo', 'ecoli', 'shige', 'decoli'],
+    organisms: [ 'ecoli', 'shige', 'decoli'],
   },
   {
     value: 'Pansusceptible',
