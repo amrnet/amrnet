@@ -393,7 +393,8 @@ console.log("mapData", mapData)
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             } else {
-                              fillColor = differentColorScale(biggerCountItem.count, 'red');
+                              fillColor = redColorScale(biggerCountItem.percentage);
+                              {/* fillColor = differentColorScale(biggerCountItem.count, 'red'); */}
                             }
                           }
                           break;
