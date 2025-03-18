@@ -211,7 +211,7 @@ export const BottomRightControls = () => {
         const typhinetLogoPromise = imgOnLoadPromise(typhinetLogo);
         typhinetLogo.src = LogoImg;
         await typhinetLogoPromise;
-        ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
+        ctx.drawImage(typhinetLogo, 25, 25);
 
         const base64 = canvas.toDataURL();
         await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.stringLabel}.png`);
