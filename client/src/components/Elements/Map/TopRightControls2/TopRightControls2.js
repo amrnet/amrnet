@@ -54,7 +54,7 @@ export const TopRightControls2 = () => {
 
   useEffect(() => {
     if (isResPrevalence) {
-      dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
+      dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[4] ? [resistanceOptions[4]] : []));
     } else {
       dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     }
