@@ -22,31 +22,31 @@ function getTrendstitle(organism) {
 
 export const graphCards = [
   {
-    title: 'Drug resistance trends',
+    title: 'AMR trends',
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
     organisms: organismsCards.map((x) => x.value),
     component: <DrugResistanceGraph />,
   },
+  // {
+  //   title: 'Resistance frequencies within genotypes',
+  //   description: ['Top Genotypes (up to 7)'],
+  //   icon: <BarChart color="primary" />,
+  //   id: 'RFWG',
+  //   organisms: ['styphi', 'kpneumo', 'ngono'],
+  //   component: <FrequenciesGraph />,
+  // },
+  // {
+  //   title: 'Resistance frequencies within lineages',
+  //   description: ['Top Lineages (up to 7)'],
+  //   icon: <BarChart color="primary" />,
+  //   id: 'RFWG',
+  //   organisms: ['sentericaints'],
+  //   component: <FrequenciesGraph />,
+  // },
   {
-    title: 'Resistance frequencies within genotypes',
-    description: ['Top Genotypes (up to 7)'],
-    icon: <BarChart color="primary" />,
-    id: 'RFWG',
-    organisms: ['styphi', 'kpneumo', 'ngono'],
-    component: <FrequenciesGraph />,
-  },
-  {
-    title: 'Resistance frequencies within lineages',
-    description: ['Top Lineages (up to 7)'],
-    icon: <BarChart color="primary" />,
-    id: 'RFWG',
-    organisms: amrLikeOrganisms,
-    component: <FrequenciesGraph />,
-  },
-  {
-    title: 'Resistance determinants within genotypes',
+    title: 'AMR markers by genotype',
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
@@ -54,7 +54,7 @@ export const graphCards = [
     component: <DeterminantsGraph />,
   },
   {
-    title: 'Genotype distribution',
+    title: 'Genotype trends',
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
@@ -119,7 +119,7 @@ export const graphCards = [
   //   component: <BubbleHeatmapGraph />,
   // },
   {
-    title: 'Heatmap ST vs genotype',
+    title: 'AMR by genotype',
     description: [''],
     icon: <BubbleChart color="primary" />,
     id: 'HSG2',
