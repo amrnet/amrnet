@@ -51,6 +51,8 @@ export const ContinentGraphs = () => {
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
   const organism = useAppSelector((state) => state.dashboard.organism);
+  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
 
   useEffect(() => {
     setShowFilter(false);
@@ -98,6 +100,7 @@ export const ContinentGraphs = () => {
               {collapses['continent'] && (
                 <Typography fontSize="10px" component="span">
                   {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
+                  {currentTab.includes('BG') && <div>Data are restricted to the filters selected above (Year {actualTimeInitial} - {actualTimeFinal} )</div>}
                 </Typography>
               )}
             </div>
