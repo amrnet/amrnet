@@ -114,7 +114,7 @@ export const ContinentGraphs = () => {
               {collapses['continent'] && (
                 <Typography fontSize="10px" component="span">
                   {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
-                  {currentTab.includes('BG') && <div>Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal} )</div>}
+                  {<div>Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal} )</div>}
                 </Typography>
               )}
             </div>
