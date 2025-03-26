@@ -29,6 +29,7 @@ export const TopRightControls2 = () => {
   const mapView = useAppSelector((state) => state.map.mapView);
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
+  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
 
   const [open, setOpen] = useState(true);
   const [openTypho, setOpenTypo] = useState();
@@ -181,18 +182,33 @@ export const TopRightControls2 = () => {
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder={placeholder} />}
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
-
-                  return (
-                    <li key={key} {...optionProps}>
-                      <Checkbox
-                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                        sx={{ marginRight: '8px', padding: 0 }}
-                        checked={selected}
-                      />
-                      {getOptionLabel(option)}
-                    </li>
-                  );
+                  if (organism === 'shige' || organism === 'decoli' || organism === 'ints'){
+                    if (selectedLineages.some(lineage => option.includes(lineage))) {
+                      return (
+                        <li key={option} {...optionProps}>
+                          <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                            sx={{ marginRight: '8px', padding: 0 }}
+                            checked={selected}
+                          />
+                          {getOptionLabel(option)}
+                        </li>
+                      );
+                    } 
+                  }else {
+                      return (
+                      <li key={key} {...optionProps}>
+                        <Checkbox
+                          icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                          checkedIcon={<CheckBoxIcon fontSize="small" />}
+                          sx={{ marginRight: '8px', padding: 0 }}
+                          checked={selected}
+                        />
+                        {getOptionLabel(option)}
+                      </li>
+                    );
+                    }
                 }}
                 renderTags={(value, getTagProps) => (
                   <Box sx={{ maxHeight: 50, overflowY: 'auto' }}>
