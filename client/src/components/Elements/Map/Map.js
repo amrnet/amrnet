@@ -52,7 +52,6 @@ export const Map = () => {
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-console.log("mapData", mapData)
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
@@ -171,19 +170,32 @@ console.log("mapData", mapData)
             }
           });
           genotypes1.forEach((genotype) => {
-            if (prevalenceMapViewOptionsSelected.includes(genotype.name))
+            if (prevalenceMapViewOptionsSelected.includes(genotype.name)){
+              let percentage = 0;
+              if (organism === 'shige' || organism === 'decoli' || organism === 'ints'){
+                  countryStats.PATHOTYPE.items.map((item) =>{
+                  if(genotype.name.includes(item.name)){
+                  percentage = item.count
+                  }
+                })
+              }else
+                percentage = countryStats.GENOTYPE.sum;
               tooltip.content[genotype.name] = `${genotype.count} (${(
-                (genotype.count / countryStats.GENOTYPE.sum) *
+                (genotype.count / percentage) *
                 100
               ).toFixed(2)} %)`;
+            }
           });
           if (genotypes2.length > 0) {
             let sumCount = 0;
             for (const genotype of genotypes2) {
               sumCount += genotype.count;
             }
+            let tooltipName = 'genotype';
+            if (organism === 'shige' || organism === 'decoli' || organism === 'ints')
+              tooltipName = 'lineage'
             if (countryData.count >= 20 && genotypes2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount} (${(
+              tooltip.content[`All selected  ${tooltipName}`] = `${sumCount} (${(
                 (sumCount / countryStats.GENOTYPE.sum) *
                 100
               ).toFixed(2)} %)`;
