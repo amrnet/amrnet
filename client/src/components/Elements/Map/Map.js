@@ -169,21 +169,30 @@ export const Map = () => {
               genotypes2.push(genotype);
             }
           });
+          if (organism === 'shige' || organism === 'decoli' || organism === 'ints'){
+            countryStats.PATHOTYPE.items.map((item) =>{
+            
+              tooltip.content[`Total ${item.name}`] = `${item.count}`;
+          })
+        }
           genotypes1.forEach((genotype) => {
             if (prevalenceMapViewOptionsSelected.includes(genotype.name)){
-              let percentage = 0;
               if (organism === 'shige' || organism === 'decoli' || organism === 'ints'){
                   countryStats.PATHOTYPE.items.map((item) =>{
                   if(genotype.name.includes(item.name)){
-                  percentage = item.count
+                    tooltip.content[genotype.name] = `${genotype.count} (${(
+                      (genotype.count / item.count) *
+                      100
+                    ).toFixed(2)} %)`;
                   }
                 })
-              }else
-                percentage = countryStats.GENOTYPE.sum;
-              tooltip.content[genotype.name] = `${genotype.count} (${(
-                (genotype.count / percentage) *
-                100
-              ).toFixed(2)} %)`;
+              }else{
+                tooltip.content[genotype.name] = `${genotype.count} (${(
+                  (genotype.count / countryStats.GENOTYPE.sum) *
+                  100
+                ).toFixed(2)} %)`;
+              }
+              
             }
           });
           if (genotypes2.length > 0) {
