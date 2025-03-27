@@ -58,10 +58,13 @@ export const TopRightControls2 = () => {
       dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
     } else {
       // dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-        const firstMatch = genotypesDrugsData.find(item => item.name.includes(selectedLineages));
-        if (firstMatch) {
-          dispatch(setPrevalenceMapViewOptionsSelected([firstMatch.name]));
-        } 
+      let firstMatch = genotypesDrugsData.find(item => item.name.includes(selectedLineages));
+      if(organism === 'sentericaints')
+        firstMatch = genotypesDrugsData.find(item => item.name.includes((selectedLineages === 'Enteritidis' ? 'iE' : 'iT')));
+      console.log("firstMatch", firstMatch)
+      if (firstMatch) {
+        dispatch(setPrevalenceMapViewOptionsSelected([firstMatch.name]));
+      } 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesDrugsData, isResPrevalence, resistanceOptions]);
@@ -186,9 +189,24 @@ export const TopRightControls2 = () => {
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder={placeholder} />}
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
-                  if (organism === 'shige' || organism === 'decoli' || organism === 'ints'){
+                  if (organism === 'shige' || organism === 'decoli'){
                     // if (selectedLineages.some(lineage => option.includes(lineage))) {
                       if (option.includes(selectedLineages)) {
+                      return (
+                        <li key={option} {...optionProps}>
+                          <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                            sx={{ marginRight: '8px', padding: 0 }}
+                            checked={selected}
+                          />
+                          {getOptionLabel(option)}
+                        </li>
+                      );
+                    } 
+                  }else if (organism === 'sentericaints'){
+
+                      if (option.includes((selectedLineages === 'Enteritidis' ? 'iE' : 'iT'))) {
                       return (
                         <li key={option} {...optionProps}>
                           <Checkbox
