@@ -183,7 +183,8 @@ export const TopRightControls2 = () => {
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
                   if (organism === 'shige' || organism === 'decoli' || organism === 'ints'){
-                    if (selectedLineages.some(lineage => option.includes(lineage))) {
+                    // if (selectedLineages.some(lineage => option.includes(lineage))) {
+                      if (option.includes(selectedLineages)) {
                       return (
                         <li key={option} {...optionProps}>
                           <Checkbox

@@ -213,7 +213,7 @@ export const DashboardPage = () => {
     pathovar.sort();
 
     if (pathovar.length > 0) {
-      dispatch(setSelectedLineages(pathovar));
+      dispatch(setSelectedLineages(pathovar[0]));
     }
 
     // Set values
