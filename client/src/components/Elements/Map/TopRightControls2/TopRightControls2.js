@@ -57,7 +57,11 @@ export const TopRightControls2 = () => {
     if (isResPrevalence) {
       dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
     } else {
-      dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
+      // dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
+        const firstMatch = genotypesDrugsData.find(item => item.name.includes(selectedLineages));
+        if (firstMatch) {
+          dispatch(setPrevalenceMapViewOptionsSelected([firstMatch.name]));
+        } 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesDrugsData, isResPrevalence, resistanceOptions]);
