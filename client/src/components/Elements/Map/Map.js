@@ -52,10 +52,12 @@ export const Map = () => {
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
+  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
+console.log("mapdata", mapData);
   function handleOnClick(countryData) {
     if (countryData !== undefined) {
       const country = countryData.name;
@@ -169,15 +171,15 @@ export const Map = () => {
               genotypes2.push(genotype);
             }
           });
-          if (organism === 'shige' || organism === 'decoli' || organism === 'ints'){
-            countryStats.PATHOTYPE.items.map((item) =>{
-            
-              tooltip.content[`Total ${item.name}`] = `${item.count}`;
-          })
-        }
+          // console.log("countryStats.PATHOTYPE", countryStats.PATHOTYPE, prevalenceMapViewOptionsSelected)
+          // if (organism === 'shige' || organism === 'decoli')
+          //   countryStats.PATHOTYPE.items.map((item) =>{
+          //     tooltip.content[`Total ${item.name}`] = `${item.count}`;
+          //   })
           genotypes1.forEach((genotype) => {
             if (prevalenceMapViewOptionsSelected.includes(genotype.name)){
-              if (organism === 'shige' || organism === 'decoli' || organism === 'ints'){
+              
+              if (organism === 'shige' || organism === 'decoli'){
                   countryStats.PATHOTYPE.items.map((item) =>{
                   if(genotype.name.includes(item.name)){
                     tooltip.content[genotype.name] = `${genotype.count} (${(
@@ -185,6 +187,16 @@ export const Map = () => {
                       100
                     ).toFixed(2)} %)`;
                   }
+                })
+              } else if(organism === 'sentericaints'){
+                countryStats.PATHOTYPE.items.map((item) =>{
+                 const geno =( item.name === 'Typhimurium' ? 'iTY' : 'iE');
+                  if (prevalenceMapViewOptionsSelected.some(option => option.includes(geno))) {
+                    tooltip.content[genotype.name] = `${genotype.count} (${(
+                      (genotype.count / item.count) * 100
+                    ).toFixed(2)} %)`;
+                  }
+
                 })
               }else{
                 tooltip.content[genotype.name] = `${genotype.count} (${(
@@ -201,13 +213,25 @@ export const Map = () => {
               sumCount += genotype.count;
             }
             let tooltipName = 'genotype';
-            if (organism === 'shige' || organism === 'decoli' || organism === 'ints')
+            if (organism === 'shige' || organism === 'decoli' || organism === 'sentericaints')
               tooltipName = 'lineage'
-            if (countryData.count >= 20 && genotypes2.length > 1)
-              tooltip.content[`All selected  ${tooltipName}`] = `${sumCount} (${(
-                (sumCount / countryStats.GENOTYPE.sum) *
-                100
-              ).toFixed(2)} %)`;
+            
+            // if (countryData.count >= 20 && genotypes2.length > 1)
+              if(organism === 'sentericaints'){
+                countryStats.PATHOTYPE.items.map((item) =>{
+                 const geno =( item.name === 'Typhimurium' ? 'iTY' : 'iE');
+                  if (prevalenceMapViewOptionsSelected.some(option => option.includes(geno))) {
+                    tooltip.content[`All selected  ${tooltipName}`] = `${sumCount} (${(
+                      (sumCount/ item.count) * 100
+                    ).toFixed(2)} %)`;
+                  }
+
+                })
+              }else
+                tooltip.content[`All selected  ${tooltipName}`] = `${sumCount} (${(
+                  (sumCount / countryStats.GENOTYPE.sum) *
+                  100
+                ).toFixed(2)} %)`;
           }
           break;
         case 'Resistance prevalence':
@@ -369,20 +393,48 @@ export const Map = () => {
                           genotypes1.forEach((genotype) => {
                             if (prevalenceMapViewOptionsSelected.includes(genotype.name)) genotypes2.push(genotype);
                             percentCounter += genotype.count;
+                            
                           });
+                          {/* console.log('genotypes1', genotypes1, genotypes2); */}
+                          genotypes1.forEach((genotype) => {
+                            if (prevalenceMapViewOptionsSelected.includes(genotype.name)){
+                              
+                              if (organism === 'shige' || organism === 'decoli'){
+                                  countryStats.PATHOTYPE.items.map((item) =>{
+                                  if(genotype.name.includes(item.name)){
+                                    percentCounter += item.count;
+                                  }
+                                })
+                              } else if(organism === 'sentericaints'){
+                                countryStats.PATHOTYPE.items.map((item) =>{
+                                const geno =( item.name === 'Typhimurium' ? 'iTY' : 'iE');
+                                  if (prevalenceMapViewOptionsSelected.some(option => option.includes(geno))) {
+                                    percentCounter += item.count;
+                                  }
 
+                                })
+                              }else{
+                                percentCounter += genotype.count;
+                              }
+                              
+                            }
+                          });
                           let sumCount = 0;
 
                           if (genotypes2.length > 0) {
                             for (const genotype of genotypes2) {
                               sumCount += genotype.count;
+                              
                             }
+                            {/* console.log('genotype.count', sumCount); */}
                           }
-                          if (countryData.count >= 20 && genotypes2.length > 0) {
+                          {/* console.log('countryData.count', countryData.count, countryData.name); */}
+                          if ( genotypes2.length > 0) {
                             if (genotypes2 !== undefined) {
+                              {/* console.log('per', countryData.name, sumCount, ((sumCount / percentCounter) * 100).toFixed(2),); */}
                               fillColor = differentColorScale(((sumCount / percentCounter) * 100).toFixed(2), 'red');
                             }
-                          } else if (countryData.count >= 20) {
+                          } else if (countryData.count <= 20) {
                             fillColor = darkGrey;
                             smallerThan20 = true;
                           }

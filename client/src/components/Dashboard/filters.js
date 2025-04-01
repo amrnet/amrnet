@@ -26,7 +26,7 @@ export function filterData({
     }
 
     if (organism === 'sentericaints') {
-      return selectedLineages.includes(item.serotype);
+      return selectedLineages.includes(item.SISTR1_Serovar);
     }
     return selectedLineages.includes(item.Pathotype);
   };
@@ -261,7 +261,6 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       if (item === 'All') {
         return true;
       }
-
       return items[item].includes(country);
     });
 
@@ -273,13 +272,13 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       GENOTYPE: { items: [], count: 0 },
     };
 
-    const generateStats = (statKey, dataKey = 'GENOTYPE') => {
+    const generateStats = (statKey, dataKey) => {  
       const statMap = itemData.reduce((acc, item) => {
-        const stat = item[dataKey];
+        const stat = (item[dataKey]);
         acc[stat] = (acc[stat] || 0) + 1;
         return acc;
       }, {});
-
+      // console.log("statMap", statMap, itemData, dataKey)
       stats[statKey].count = Object.keys(statMap).length;
       stats[statKey].items = Object.entries(statMap)
         .map(([stat, count]) => {
@@ -313,12 +312,12 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     };
 
     // Genotype
-    generateStats('GENOTYPE');
+    generateStats('GENOTYPE', 'GENOTYPE');
 
     // Pathotype
-    if (['shige', 'decoli', 'ecoli'].includes(organism)) {
+    if (['shige', 'decoli', 'ecoli', 'sentericaints'].includes(organism)) {
       stats['PATHOTYPE'] = { items: [], count: 0 };
-      generateStats('PATHOTYPE', 'Pathotype');
+      generateStats('PATHOTYPE', organism === "sentericaints" ? 'SISTR1_Serovar':'Pathotype');
     }
 
     // Other stats
