@@ -171,11 +171,10 @@ console.log("mapdata", mapData);
               genotypes2.push(genotype);
             }
           });
-          // console.log("countryStats.PATHOTYPE", countryStats.PATHOTYPE, prevalenceMapViewOptionsSelected)
-          // if (organism === 'shige' || organism === 'decoli')
-          //   countryStats.PATHOTYPE.items.map((item) =>{
-          //     tooltip.content[`Total ${item.name}`] = `${item.count}`;
-          //   })
+          if ((organism === 'shige' || organism === 'decoli'  || organism === 'sentericaints'))
+            countryStats.PATHOTYPE.items.map((item) =>{
+              tooltip.content[`Total ${item.name}`] = `${item.count}`;
+            })
           genotypes1.forEach((genotype) => {
             if (prevalenceMapViewOptionsSelected.includes(genotype.name)){
               
@@ -216,7 +215,8 @@ console.log("mapdata", mapData);
             if (organism === 'shige' || organism === 'decoli' || organism === 'sentericaints')
               tooltipName = 'lineage'
             
-            // if (countryData.count >= 20 && genotypes2.length > 1)
+            if (countryData.count > 20 && genotypes2.length > 1)
+            // if (genotypes2.length > 1)
               if(organism === 'sentericaints'){
                 countryStats.PATHOTYPE.items.map((item) =>{
                  const geno =( item.name === 'Typhimurium' ? 'iTY' : 'iE');
