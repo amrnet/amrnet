@@ -57,7 +57,6 @@ export const Map = () => {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
-console.log("mapdata", mapData);
   function handleOnClick(countryData) {
     if (countryData !== undefined) {
       const country = countryData.name;

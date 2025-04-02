@@ -52,7 +52,6 @@ export const TopRightControls2 = () => {
       setOpenTypo(`No Drug is selected`);
     }
   }, [open, prevalenceMapViewOptionsSelected[0]])
-console.log("currentSelectedLineages 2", selectedLineages)
   useEffect(() => {
     if (isResPrevalence) {
       dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
@@ -60,7 +59,7 @@ console.log("currentSelectedLineages 2", selectedLineages)
       // dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
       let firstMatch = genotypesDrugsData.find(item => item.name.includes(selectedLineages));
       if(organism === 'sentericaints')
-        firstMatch = genotypesDrugsData.find(item => item.name.includes((selectedLineages === 'Enteritidis' ? 'iE' : 'iT')));
+        firstMatch = genotypesDrugsData.find(item => item.name.includes((selectedLineages.includes('Enteritidis') ? 'iE' : 'iT')));
       console.log("firstMatch", firstMatch)
       if (firstMatch) {
         dispatch(setPrevalenceMapViewOptionsSelected([firstMatch.name]));
@@ -206,7 +205,7 @@ console.log("currentSelectedLineages 2", selectedLineages)
                     } 
                   }else if (organism === 'sentericaints'){
 
-                      if (option.includes((selectedLineages === 'Enteritidis' ? 'iE' : 'iT'))) {
+                      if (option.includes((selectedLineages.includes('Enteritidis') ? 'iE' : 'iT'))) {
                       return (
                         <li key={option} {...optionProps}>
                           <Checkbox
