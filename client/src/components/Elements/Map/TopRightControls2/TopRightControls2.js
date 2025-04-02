@@ -52,7 +52,7 @@ export const TopRightControls2 = () => {
       setOpenTypo(`No Drug is selected`);
     }
   }, [open, prevalenceMapViewOptionsSelected[0]])
-
+console.log("currentSelectedLineages 2", selectedLineages)
   useEffect(() => {
     if (isResPrevalence) {
       dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
@@ -67,7 +67,7 @@ export const TopRightControls2 = () => {
       } 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesDrugsData, isResPrevalence, resistanceOptions]);
+  }, [genotypesDrugsData, isResPrevalence, resistanceOptions, selectedLineages]);
 
   const placeholder = useMemo(() => {
     if (prevalenceMapViewOptionsSelected.length) {
