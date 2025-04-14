@@ -493,7 +493,7 @@ export const Map = () => {
           </ComposableMap>
           {!matches && (
             <>
-              <TopLeftControls />
+              {/* <TopLeftControls /> */}
               <TopRightControls />
               {['Genotype prevalence', 'ST prevalence', 'Lineage prevalence', 'Resistance prevalence'].includes(
                 mapView,
@@ -517,7 +517,7 @@ export const Map = () => {
             ) : mapView === 'NG-MAST prevalence' ? (
               <Ngmast />
             ) : null}
-            <TopLeftControls />
+            {/* <TopLeftControls /> */}
           </div>
         )}
         <ReactTooltip>
