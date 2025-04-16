@@ -22,6 +22,26 @@ export const DownloadMapViewData = ({value}) => {
   const mapView = useAppSelector((state) => state.map.mapView);
 
 
+  let firstName, secondName;
+    if (organism === 'styphi') {
+      firstName = 'Salmonella';
+      secondName = 'Typhi';
+    } else if (organism === 'kpneumo') {
+      firstName = 'Klebsiella';
+      secondName = 'pneumoniae';
+    } else if (organism === 'ngono') {
+      firstName = 'Neisseria';
+      secondName = 'gonorrhoeae';
+    } else if (organism === 'shige') {
+      firstName = 'Shigella';
+      secondName = '+ EIEC';
+    } else if (organism === 'decoli') {
+      firstName = 'Diarrheagenic';
+      secondName = 'E. coli';
+    } else if (organism === 'sentericaints') {
+      firstName = 'Invasive';
+      secondName = 'non-typhoidal Salmonella';
+    }
 
   const downloadCSV = () => {
     if (Array.isArray(mapData) && mapData.length > 0) {
@@ -599,7 +619,7 @@ const downloadCSVForHM = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `${name} data.csv`);
+    link.setAttribute('download', `${firstName} ${secondName} ${name} data.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
