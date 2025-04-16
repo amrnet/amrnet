@@ -19,185 +19,107 @@ export const DownloadMapViewData = ({value}) => {
   const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+  const mapView = useAppSelector((state) => state.map.mapView);
 
-  
 
 
   const downloadCSV = () => {
     if (Array.isArray(mapData) && mapData.length > 0) {
-      console.log("mapData", mapData);
-      const HeaderList = [
-        'Country',
-        'Total number of Count',
-        'Multidrug resistant (MDR)',
-        'Multidrug resistant (MDR) %',
-        'Extensively drug resistant (XDR)',
-        'Extensively drug resistant (XDR) %',
-        'H58',
-        'H58 %',
-        'Ciprofloxacin resistant (CipR)',
-        'Ciprofloxacin resistant (CipR) %',
-        'Ciprofloxacin NS non-susceptible (CipNS)',
-        'Ciprofloxacin NS non-susceptible (CipNS) %',
-        'Azithromycin resistant',
-        'Azithromycin resistant %',
-        'ESBL prevalence',
-        'ESBL prevalence %',
-        'Ceftriaxone resistant',
-        'Ceftriaxone resistant %',
-        'Ciprofloxacin NS resistant',
-        'Ciprofloxacin NS resistant %',
-        'Carbapenemase prevalence',
-        'Carbapenemase prevalence %',
-        'Sensitive to all drugs/Pansusceptible to class I/II drugs',
-        'Sensitive to all drugs/Pansusceptible to class I/II drugs %',
-      ];
-      prevalenceMapViewOptionsSelected.forEach((viewItem, index) => {
-        HeaderList.push(`Genotype/Lineage ${viewItem}`);
-        HeaderList.push(`Genotype/Lineage % ${viewItem}`);
-      });
-      if (organism === 'ngono')
-        customDropdownMapViewNG.forEach((viewItem, index) => {
-          HeaderList.push(`NG-MAST ${viewItem}`);
-          HeaderList.push(`NG-MAST % ${viewItem}`);
-        });
 
-      // console.log('HeaderList', HeaderList);
+    let HeaderList = [
+      'Year',
+      'Total number of Count',
+  ];
+  const mapViewOptionSelected = mapView === 'NG-MAST prevalence'? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
 
-      // Create CSV header row
-      const headers = HeaderList.join(',');
+  if(mapView === 'Genotype prevalence' || mapView === 'Resistance prevalence' || mapView === 'ST prevalence' || mapView === 'NG-MAST prevalence' || mapView === 'Lineage prevalence'){
+    mapViewOptionSelected.forEach((viewItem, index) => {
+      HeaderList.push(`${viewItem}`);
+      HeaderList.push(`${viewItem} %`);
+    });
+  }else{
+    Object.keys(mapData[0]?.stats).forEach((item) =>{
+      HeaderList.push(`${item}`);
+      HeaderList.push(`${item} %`);
+    })
+   } 
 
-      // Create CSV rows
-      // console.log('item', mapData.length, mapData);
-      const rows = mapData
-        .filter((item) => Object.keys(item).length > 0)
-        .map((item) => {
-          const MDRCount = item.stats?.MDR?.count || 0;
-          const MDRPerCount = MDRCount < 20 ? 'insufficient' : item.stats?.MDR?.percentage || 0;
+  
+  // Create CSV header row
+  const headers = HeaderList.join(',');
+          // Create CSV rows dynamically
+          const rows = mapData
+          .filter((item) => Object.keys(item).length > 0)
+          .map((item) => {
+              let rowData = [
+                  item.name,
+                  item.count || ''
+                ];
 
-          const XDRCount = item.stats?.XDR?.count || 0;
-          const XDRPerCount = XDRCount < 20 ? 'insufficient' : item.stats?.XDR?.percentage || 0;
+                if (mapView === 'Genotype prevalence' || mapView === 'ST prevalence' || mapView === 'NG-MAST prevalence' || mapView === 'Lineage prevalence') {
+                  const GenotypeORNgmast = mapView === 'NG-MAST prevalence' ? item.stats?.NGMAST : item.stats?.GENOTYPE;
+                  const foundGenotypes = new Set();
+                  GenotypeORNgmast?.items.forEach((genotypeItem) => {
+                      if (mapViewOptionSelected.includes(genotypeItem.name)) {
+                          foundGenotypes.add(genotypeItem.name); 
+              
+                          const count = genotypeItem.count || 0;
+                          const percentage = count < 20 
+                              ? 'insufficient' 
+                              : ((count / (GenotypeORNgmast.sum)) * 100).toFixed(2); // Prevent division by zero
+              
+                          rowData.push(count);
+                          rowData.push(percentage);
+                      }
+                  });
+                  mapViewOptionSelected.forEach((headerItem) => {
+                      if (!foundGenotypes.has(headerItem)) { 
+                          rowData.push(0);
+                          rowData.push('insufficient'); 
+                      }
+                  });
+                }else if( mapView === 'Resistance prevalence'){
+              
+                  const dataForSelected = item.stats[mapViewOptionSelected];
 
-          const H58Count = item.stats?.H58?.count || 0;
-          const H58PerCount = H58Count < 20 ? 'insufficient' : item.stats?.H58?.percentage || 0;
+                  const count = dataForSelected.count || 0;
+                  const percentage = count < 20 ? 'insufficient' : dataForSelected.percentage;
 
-          const CipRCount = item.stats?.CipR?.count || 0;
-          const CipRPerCount = CipRCount < 20 ? 'insufficient' : item.stats?.CipR?.percentage || 0;
+                  rowData.push(count);
+                  rowData.push(percentage);
 
-          const CipNSCount = item.stats?.CipNS?.count || 0;
-          const CipNSPerCount = CipNSCount < 20 ? 'insufficient' : item.stats?.CipNS?.percentage || 0;
+                }else if (item?.stats && typeof item.stats === 'object') {
+                  Object.keys(item.stats).forEach((key) => {
+                      const stat = item.stats[key]; 
+                      if (stat) {
+              
+                          const count = stat.count || 0;
+                          
+                          let percentage;
+                          if(key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE'){
+                            percentage = count < 20 
+                              ? 'insufficient' 
+                              : ((count / (stat.sum)) * 100).toFixed(2);
+                          }else{
+                            percentage = count < 20 
+                              ? 'insufficient' 
+                              : stat.percentage;
+                          }
+                          rowData.push(count);
+                          rowData.push(percentage);
+                      } else {
+                          console.warn(`Missing data for key: ${key}`);
+                      }
+                  });
+              }  
 
-          const AzithRCount = item.stats?.AzithR?.count || item.stats?.Azithromycin?.count || 0;
-          const AzithRPerCount =
-            AzithRCount < 20
-              ? 'insufficient'
-              : item.stats?.AzithR?.percentage || item.stats?.Azithromycin?.percentage || 0;
-
-          const ESBLCount = item.stats?.ESBL?.count || 0;
-          const ESBLPerCount = ESBLCount < 20 ? 'insufficient' : item.stats?.ESBL?.percentage || 0;
-
-          const CeftriaxoneCount = item.stats?.Ceftriaxone?.count || item.stats?.ESBL_category?.count || 0;
-          const CeftriaxonePerCount =
-            CeftriaxoneCount < 20
-              ? 'insufficient'
-              : item.stats?.Ceftriaxone?.percentage || item.stats?.ESBL_category?.percentage || 0;
-
-          const CiprofloxacinCount = item.stats?.['Ciprofloxacin NS']?.count || 0;
-          const CiprofloxacinPerCount =
-            CiprofloxacinCount < 20 ? 'insufficient' : item.stats?.['Ciprofloxacin NS']?.percentage || 0;
-
-          const CarbCount = item.stats?.Carb?.count || 0;
-          const CarbPerCount = CarbCount < 20 ? 'insufficient' : item.stats?.Carb?.percentage || 0;
-
-          const SensitiveDrugsCount = item.stats?.Pansusceptible?.count || 0;
-          const SensitiveDrugsPerCount =
-            SensitiveDrugsCount < 20 ? 'insufficient' : item.stats?.Pansusceptible?.percentage || 0;
-
-          const genotypeData =
-            prevalenceMapViewOptionsSelected.length > 0
-              ? prevalenceMapViewOptionsSelected.map((viewItem) => {
-                  const genotypeItem = item.stats?.GENOTYPE?.items.find(
-                    (genotypeItem) => genotypeItem.name === viewItem,
-                  );
-                  const count = genotypeItem ? genotypeItem.count : 0;
-                  const percentage = genotypeItem
-                    ? count < 20
-                      ? 'insufficient'
-                      : ((count / item.stats.GENOTYPE.sum) * 100).toFixed(2)
-                    : 'insufficient';
-                  return { count, percentage };
-                })
-              : [{ count: '0', percentage: '0' }];
-
-          const genotypeCounts = genotypeData.map((data) => data.count);
-          const genotypePerCounts = genotypeData.map((data) => data.percentage);
-          const interleavedGenotypeData = [];
-          genotypeCounts.forEach((count, index) => {
-            interleavedGenotypeData.push(count); // Add genotype count
-            interleavedGenotypeData.push(genotypePerCounts[index]); // Add corresponding genotype percentage
+              return rowData.join(',');
           });
-          // console.log('genotypeCounts', ...interleavedGenotypeData);
-
-          const genotypeDataNG =
-            customDropdownMapViewNG.length > 0
-              ? customDropdownMapViewNG.map((viewItem) => {
-                  const genotypeItem = item.stats?.NGMAST?.items.find((genotypeItem) => genotypeItem.name === viewItem);
-                  const count = genotypeItem ? genotypeItem.count : 0;
-                  const percentage = genotypeItem
-                    ? count < 20
-                      ? 'insufficient'
-                      : ((count / item.stats.NGMAST.sum) * 100).toFixed(2)
-                    : 'insufficient';
-                  return { count, percentage };
-                })
-              : [{ count: '0', percentage: '0' }];
-
-          const genotypeCountsNG = genotypeDataNG.map((data) => data.count);
-          const genotypePerCountsNG = genotypeDataNG.map((data) => data.percentage);
-          const interleavedGenotypeDataNG = [];
-          if (organism === 'ngono')
-            genotypeCountsNG.forEach((count, index) => {
-              interleavedGenotypeDataNG.push(count); // Add genotype count
-              interleavedGenotypeDataNG.push(genotypePerCountsNG[index]); // Add corresponding genotype percentage
-            });
-
-          // console.log('genotypeCountsNG', ...interleavedGenotypeDataNG);
-
-          return [
-            item.name,
-            item.count || '',
-            MDRCount,
-            MDRPerCount,
-            XDRCount,
-            XDRPerCount,
-            H58Count,
-            H58PerCount,
-            CipRCount,
-            CipRPerCount,
-            CipNSCount + CipRCount,
-            CipNSPerCount,
-            AzithRCount,
-            AzithRPerCount,
-            ESBLCount,
-            ESBLPerCount,
-            CeftriaxoneCount,
-            CeftriaxonePerCount,
-            CiprofloxacinCount,
-            CiprofloxacinPerCount,
-            CarbCount,
-            CarbPerCount,
-            SensitiveDrugsCount,
-            SensitiveDrugsPerCount,
-            ...interleavedGenotypeData,
-            ...interleavedGenotypeDataNG,
-          ].join(',');
-        });
-
-        generateCSV(headers, rows, 'Global map view')
-    } else {
-      console.log('mapData is not an array or is empty', mapData);
-    }
-  };
+          generateCSV(headers, rows, 'Map');
+        } else {
+          console.log('MapData is not an array or is empty', mapData);
+        }
+      };
 
   const downloadCSVForDRT = () => {
     if (Array.isArray(drugsYearData) && drugsYearData.length > 0) {
