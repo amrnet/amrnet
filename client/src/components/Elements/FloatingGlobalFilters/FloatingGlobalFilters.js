@@ -49,7 +49,7 @@ export const FloatingGlobalFilters = () => {
   }, []);
 
   useEffect(() => {
-    setShowFilter(!matches1750);
+    setShowFilter(true);
   }, [matches1750]);
 
   useEffect(() => {
@@ -58,10 +58,6 @@ export const FloatingGlobalFilters = () => {
     if (scrollContainer && matches1750) {
       const handleScroll = () => {
         const currentScrollTop = scrollContainer.scrollTop;
-
-        if (currentScrollTop !== lastScrollTop) {
-          setShowFilter(false);
-        }
         setLastScrollTop(currentScrollTop);
       };
 

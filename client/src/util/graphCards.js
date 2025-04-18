@@ -25,7 +25,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'ngono', 'kpneumo', 'sentericaints'],
+    organisms: ['styphi', 'ngono', 'kpneumo', 'sentericaints', 'shige'],
     component: <DrugResistanceGraph />,
   },
   {
@@ -41,7 +41,7 @@ export const graphCards = [
     description: ['Top Lineages (up to 7)'],
     icon: <BarChart color="primary" />,
     id: 'RFWG',
-    organisms: ['sentericaints'],
+    organisms: ['sentericaints', 'shige'],
     component: <FrequenciesGraph />,
   },
   {
@@ -122,7 +122,7 @@ export const graphCards = [
     description: [''],
     icon: <BubbleChart color="primary" />,
     id: 'HSG2',
-    organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli', 'sentericaints'],
+    organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli', 'sentericaints', 'shige'],
     component: <BubbleHeatmapGraph2 />,
   },
 ];
@@ -132,5 +132,5 @@ export const continentGraphCard = {
   description: [''],
   icon: <BubbleChart color="primary" />,
   id: 'CGC',
-  organisms: ['styphi', 'ngono', 'kpneumo'],
+  organisms: ['styphi', 'ngono', 'kpneumo', 'sentericaints', 'shige'],
 };

@@ -14,7 +14,7 @@ import {
 import { useStyles } from './ContinentGraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
-import { cloneElement, useEffect, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { continentGraphCard } from '../../../util/graphCards';
 import { BubbleGeographicGraph } from './BubbleGeographicGraph';
@@ -27,12 +27,14 @@ const TABS = [
     value: 'BG',
     disabled: false,
     component: <BubbleGeographicGraph />,
+    notShow: [],
   },
   {
     label: 'Trend line',
     value: 'TL',
     disabled: false,
     component: <TrendLineGraph />,
+    notShow: ['sentericaints', 'shige'],
   },
   // {
   //   label: 'Trend line 2',
@@ -46,15 +48,23 @@ export const ContinentGraphs = () => {
   const classes = useStyles();
   const [showAlert, setShowAlert] = useState(false);
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
   const organism = useAppSelector((state) => state.dashboard.organism);
+  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
+  const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
   useEffect(() => {
-    setShowFilter(false);
+    setShowFilter(true);
   }, [organism]);
+
+  const showFilterFull = useMemo(() => {
+    return showFilter && !loadingData && !loadingMap;
+  }, [loadingData, loadingMap, showFilter]);
+
+  const filteredTABS = useMemo(() => TABS.filter((tab) => !tab.notShow.includes(organism)), [organism]);
 
   function handleCloseAlert() {
     setShowAlert(false);
@@ -117,7 +127,7 @@ export const ContinentGraphs = () => {
         </CardActions>
         {collapses['continent'] && (
           <Tabs value={currentTab} onChange={handleChangeTab} variant="fullWidth">
-            {TABS.map((tab, i) => {
+            {filteredTABS.map((tab, i) => {
               return (
                 <Tab
                   key={`geo-tab-${i}`}
@@ -133,7 +143,7 @@ export const ContinentGraphs = () => {
 
         <Collapse in={collapses['continent']} timeout="auto">
           <Box className={classes.boxWrapper}>
-            {TABS.map((card) => {
+            {filteredTABS.map((card) => {
               return (
                 <Box
                   key={`card-${card.value}`}
@@ -145,7 +155,7 @@ export const ContinentGraphs = () => {
                     width: '100%',
                   }}
                 >
-                  {cloneElement(card.component, { showFilter, setShowFilter })}
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
               );
             })}

@@ -89,7 +89,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     if (organism === 'ngono') {
       return drugsNG;
     }
-    if (organism === 'sentericaints') {
+    if (['sentericaints', 'shige'].includes(organism)) {
       return drugsINTS;
     }
   }

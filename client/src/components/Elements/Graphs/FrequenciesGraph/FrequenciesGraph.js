@@ -110,7 +110,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
       return drugsKP;
     } else if (organism === 'ngono') {
       return drugsNG;
-    } else if (organism === 'sentericaints') {
+    } else if (['sentericaints', 'shige'].includes(organism)) {
       return drugsINTS;
     }
   }

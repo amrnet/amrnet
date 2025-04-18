@@ -26,9 +26,9 @@ export function filterData({
     }
 
     if (organism === 'sentericaints') {
-      return selectedLineages.includes(item.serotype);
+      return selectedLineages.some((selected) => item.serotype.toLowerCase().includes(selected.toLowerCase()));
     }
-    return selectedLineages.includes(item.Pathotype);
+    return selectedLineages.some((selected) => item.Pathotype.toLowerCase().includes(selected.toLowerCase()));
   };
 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x) && checkLineages(x));
@@ -67,9 +67,9 @@ export function filterData({
 export function getCountryDisplayName(country) {
   switch (country) {
     case 'Democratic Republic of the Congo':
-      // case 'Democratic Republic of Congo':
-      // case 'Republic of the Congo':
-      // case 'DR Congo':
+    case 'Democratic Republic of Congo':
+    case 'Republic of the Congo':
+    case 'DR Congo':
       return 'Dem. Rep. Congo';
     case 'Channel Islands':
       return 'Jersey';
@@ -134,7 +134,7 @@ export function getCountryDisplayName(country) {
 }
 
 // Get specific drug count, percentage and al its types for the map component
-function getMapStatsData({ itemData, columnKey, statsKey, noItems = false }) {
+function getMapStatsData({ itemData, columnKey, statsKey, noItems = false, organism }) {
   const totalLength = itemData.length;
   const columnDataMap = itemData.reduce((acc, item) => {
     const key = item[columnKey];
@@ -147,7 +147,14 @@ function getMapStatsData({ itemData, columnKey, statsKey, noItems = false }) {
     return { name, count, percentage: Number(percentage.toFixed(2)) };
   });
 
-  const stats = items.find((item) => item.name?.includes(statsKey)) || { count: 0, percentage: 0 };
+  const stats = items.find((item) => {
+    if (['sentericaints', 'shige'].includes(organism)) {
+      return item.name?.includes(statsKey);
+    }
+
+    return item.name === statsKey;
+  }) || { count: 0, percentage: 0 };
+
   if (statsKey === '-') {
     const nonStatsCount = totalLength - stats.count;
 
@@ -185,21 +192,21 @@ export function getMapData({ data, items, organism, type = 'country' }) {
   const formattedItems = type === 'country' ? items : Object.keys({ ...items, All: '' }).sort();
   const pallete = generatePalleteForGenotypes(formattedItems);
 
-  if (type !== 'country') {
-    data.forEach((x) => {
-      const country = getCountryDisplayName(x.COUNTRY_ONLY);
+  // if (type !== 'country') {
+  //   data.forEach((x) => {
+  //     const country = getCountryDisplayName(x.COUNTRY_ONLY);
 
-      const isPartOfRegion = formattedItems
-        .filter((y) => y !== 'All')
-        .some((item) => {
-          return items[item].includes(country);
-        });
+  //     const isPartOfRegion = formattedItems
+  //       .filter((y) => y !== 'All')
+  //       .some((item) => {
+  //         return items[item].includes(country);
+  //       });
 
-      if (!isPartOfRegion) {
-        console.log(country);
-      }
-    });
-  }
+  //     if (!isPartOfRegion) {
+  //       console.log(country);
+  //     }
+  //   });
+  // }
 
   formattedItems.forEach((item) => {
     const itemData = data.filter((x) => {
@@ -251,6 +258,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
                 columnKey: column,
                 statsKey: key,
                 noItems: !['Carb', 'ESBL'].includes(name),
+                organism,
               });
             }
           });
@@ -265,7 +273,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     // Genotype
     generateStats('GENOTYPE');
 
-    // Pathotype
+    //
     if (['shige', 'decoli', 'ecoli'].includes(organism)) {
       stats['PATHOTYPE'] = { items: [], count: 0 };
       generateStats('PATHOTYPE', 'Pathotype');
@@ -287,7 +295,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
           percentage: Number(((count / data.length) * 100).toFixed(2)),
         };
       } else {
-        stats[name] = getMapStatsData({ itemData, columnKey: column, statsKey: key });
+        stats[name] = getMapStatsData({ itemData, columnKey: column, statsKey: key, organism });
       }
     });
 
@@ -365,25 +373,33 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           const drugData = yearData.filter((x) => {
             if ('requirements' in rule) {
               return rule.requirements.every((req) =>
-                req.values.some((value) => x[req.columnID] === value || x[req.columnID].includes(value)),
+                req.values.some(
+                  (value) =>
+                    (['sentericaints', 'shige'].includes(organism) && x[req.columnID]?.includes(value)) ||
+                    x[req.columnID] === value,
+                ),
               );
             }
 
-            return rule.values.some((value) => x[rule.columnID] === value || x[rule.columnID]?.includes(value));
+            return rule.values.some(
+              (value) =>
+                (['sentericaints', 'shige'].includes(organism) && x[rule.columnID]?.includes(value)) ||
+                x[rule.columnID] === value,
+            );
           });
           drugStats[rule.key] = drugData.length;
 
-          if (rule.key === 'Ciprofloxacin') {
+          if (rule.key === 'Ciprofloxacin NS') {
             const cipRCount = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
             drugStats['Ciprofloxacin R'] = cipRCount;
-            drugStats['Ciprofloxacin'] += cipRCount;
+            drugStats['Ciprofloxacin NS'] += cipRCount;
           }
         });
       };
 
       if (organism === 'styphi') {
         calculateDrugStats(drugRulesST);
-      } else if (organism === 'sentericaints') {
+      } else if (['sentericaints', 'shige'].includes(organism)) {
         calculateDrugStats(drugRulesINTS);
       } else if (organism === 'kpneumo') {
         drugRulesKP.forEach((rule) => {
@@ -637,9 +653,9 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
         const drugData = genotypeData.filter((x) => rule.values.includes(x[rule.columnID]));
         response[rule.key] = drugData.length;
 
-        if (rule.key === 'Ciprofloxacin') {
+        if (rule.key === 'Ciprofloxacin NS') {
           response['Ciprofloxacin R'] = genotypeData.filter((x) => x[rule.columnID] === 'CipR').length;
-          response['Ciprofloxacin'] = response['Ciprofloxacin'] + response['Ciprofloxacin R'];
+          response['Ciprofloxacin NS'] = response['Ciprofloxacin NS'] + response['Ciprofloxacin R'];
         }
 
         const drugClass = { ...drugClassResponse };
@@ -699,16 +715,24 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
           genotypesDrugClassesData[rule.key].push(drugClass);
         }
       });
-    } else if (organism === 'sentericaints') {
+    } else if (['sentericaints', 'shige'].includes(organism)) {
       drugRulesINTS.forEach((rule) => {
         const drugData = genotypeData.filter((x) => {
           if ('requirements' in rule) {
             return rule.requirements.every((req) =>
-              req.values.some((value) => x[req.columnID] === value || x[req.columnID].includes(value)),
+              req.values.some(
+                (value) =>
+                  (['sentericaints', 'shige'].includes(organism) && x[req.columnID]?.includes(value)) ||
+                  x[req.columnID] === value,
+              ),
             );
           }
 
-          return rule.values.some((value) => x[rule.columnID] === value || x[rule.columnID]?.includes(value));
+          return rule.values.some(
+            (value) =>
+              (['sentericaints', 'shige'].includes(organism) && x[rule.columnID]?.includes(value)) ||
+              x[rule.columnID] === value,
+          );
         });
         response[rule.key] = drugData.length;
       });

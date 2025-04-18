@@ -10,7 +10,7 @@ export const drugRulesST = [
   },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  { key: 'Ciprofloxacin', columnID: 'cip_pred_pheno', values: ['CipNS'] },
+  { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Pansusceptible', columnID: 'amr_category', values: ['No AMR detected'] },
   { key: 'Tetracyclines', columnID: 'tetracycline_category', values: ['TetR'] },
@@ -530,7 +530,7 @@ export const drugClassesRulesST = {
     },
   ],
   // 'Fluoroquinolones (CipNS)': [
-  Ciprofloxacin: [
+  'Ciprofloxacin NS': [
     {
       name: '3_QRDR + qnrS (CipR)',
       susceptible: false,
@@ -961,5 +961,6 @@ export const statKeys = {
   ngono: statKeysNG,
   kpneumo: statKeysKP,
   sentericaints: statKeysINTS,
+  shige: statKeysINTS,
   others: statKeysOthers,
 };

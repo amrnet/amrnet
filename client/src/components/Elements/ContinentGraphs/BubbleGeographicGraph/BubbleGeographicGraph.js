@@ -44,11 +44,13 @@ const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
 });
 
 const stYOptions = Object.keys(drugClassesRulesST).map((drug) => {
+  const label = drug === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drug;
+
   return {
     organism: 'styphi',
     key: drug,
     value: `st-trends-${drug.toLowerCase()}`,
-    label: `${drug} resistant determinant trends`,
+    label: `${label} resistant determinant trends`,
   };
 });
 

@@ -232,46 +232,42 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
       return [];
     }
 
-    if (xAxisType === 'genotype') {
-      return selectedCRData?.stats.GENOTYPE.items
-        .filter((item) => xAxisSelected?.includes(item.name))
-        .map((item) => {
-          const itemData = { name: item.name, items: [] };
+    return selectedCRData?.stats[xAxisType.toUpperCase()].items
+      .filter((item) => xAxisSelected?.includes(item.name))
+      .map((item) => {
+        const itemData = { name: item.name, items: [] };
 
-          if (yAxisType === 'resistance') {
-            Object.entries(item.drugs).forEach(([key, value]) => {
-              if (yAxisSelected.includes(key)) {
-                itemData.items.push({
-                  itemName: drugAcronyms[key] ?? key,
-                  percentage: value.percentage,
-                  count: value.count,
-                  index: 1,
-                  typeName: item.name,
-                });
-              }
-            });
-          }
-
-          if (yAxisType.includes('markers')) {
-            const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carb']?.items;
-
-            yAxisSelected.forEach((gene) => {
-              const currentGene = drugGenes.find((dg) => dg.name === gene);
-
+        if (yAxisType === 'resistance') {
+          Object.entries(item.drugs).forEach(([key, value]) => {
+            if (yAxisSelected.includes(key)) {
               itemData.items.push({
-                itemName: (currentGene?.name ?? gene).replace(' + ', '/'),
-                percentage: currentGene?.percentage ?? 0,
+                itemName: drugAcronyms[key] ?? key,
+                percentage: value.percentage,
+                count: value.count,
                 index: 1,
                 typeName: item.name,
               });
+            }
+          });
+        }
+
+        if (yAxisType.includes('markers')) {
+          const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carb']?.items;
+
+          yAxisSelected.forEach((gene) => {
+            const currentGene = drugGenes.find((dg) => dg.name === gene);
+
+            itemData.items.push({
+              itemName: (currentGene?.name ?? gene).replace(' + ', '/'),
+              percentage: currentGene?.percentage ?? 0,
+              index: 1,
+              typeName: item.name,
             });
-          }
+          });
+        }
 
-          return itemData;
-        });
-    }
-
-    return [];
+        return itemData;
+      });
   }, [selectedCRData, xAxisSelected, xAxisType, yAxisSelected, yAxisType]);
 
   useEffect(() => {

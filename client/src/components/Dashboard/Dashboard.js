@@ -381,7 +381,7 @@ export const DashboardPage = () => {
         case 'styphi':
           dispatch(setMapView('CipNS'));
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-          dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin'));
+          dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
           break;
         case 'kpneumo':
           dispatch(setMapView('No. Samples'));
@@ -411,6 +411,7 @@ export const DashboardPage = () => {
         case 'shige':
         case 'senterica':
           dispatch(setMapView('No. Samples'));
+          dispatch(setDrugResistanceGraphView(drugsINTS));
           break;
         default:
           break;
@@ -432,6 +433,10 @@ export const DashboardPage = () => {
         }),
       );
       setData([]);
+      dispatch(setTotalGenomes(0));
+      dispatch(setTotalGenotypes(0));
+      dispatch(setActualGenomes(0));
+      dispatch(setActualGenotypes(0));
       dispatch(setDataset(''));
       dispatch(setActualTimeInitial(''));
       dispatch(setActualTimeFinal(''));

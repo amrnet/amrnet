@@ -7,7 +7,7 @@ export const drugsST = [
   'Chloramphenicol',
   'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
-  'Ciprofloxacin',
+  'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'Sulphonamides',
   'Pansusceptible',
@@ -20,7 +20,7 @@ export const drugsST = [
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin',
+  'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'MDR',
   'Pansusceptible',
@@ -83,7 +83,7 @@ export const drugClassesST = [
   'Chloramphenicol',
   'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
-  'Ciprofloxacin',
+  'Ciprofloxacin NS',
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim',
@@ -118,10 +118,11 @@ export const drugAcronyms = {
   Tigecycline: 'TGC',
   AzithR: 'AZM',
   '3rd gen cephalosporins (3GCs)': '3GCs',
+  CipNS: 'CIP',
 };
 
 export const drugAcronymsOpposite = {
-  CipNS: 'Ciprofloxacin',
+  CIP: 'Ciprofloxacin',
   CARB: 'Carbapenems',
   AZM: 'Azithromycin',
   ESBL: 'Extended-Spectrum Beta-Lactamase',

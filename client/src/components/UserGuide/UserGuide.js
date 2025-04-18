@@ -172,8 +172,8 @@ export const UserGuidePage = () => {
               ciprofloxacin and ceftriaxone)
             </li>
             <li>
-              <span className={classes.paragraphBold}>Ciprofloxacin:</span> ciprofloxacin non-susceptible (MIC &ge;0.06
-              mg/L, due to presence of one or more <i>qnr</i> genes or mutations in <i>gyrA/parC/gyrB</i>)
+              <span className={classes.paragraphBold}>Ciprofloxacin NS:</span> ciprofloxacin non-susceptible (MIC
+              &ge;0.06 mg/L, due to presence of one or more <i>qnr</i> genes or mutations in <i>gyrA/parC/gyrB</i>)
             </li>
             <li>
               <span className={classes.paragraphBold}>Ciprofloxacin R:</span> ciprofloxacin resistant (MIC &ge;0.5 mg/L,

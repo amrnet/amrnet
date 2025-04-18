@@ -42,7 +42,7 @@ export const Graphs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState('');
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -71,6 +71,8 @@ export const Graphs = () => {
   const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
   const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
+  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
+  const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
 
@@ -81,8 +83,12 @@ export const Graphs = () => {
   }, [organismCards]);
 
   useEffect(() => {
-    setShowFilter(false);
+    setShowFilter(true);
   }, [organism]);
+
+  const showFilterFull = useMemo(() => {
+    return showFilter && !loadingData && !loadingMap;
+  }, [loadingData, loadingMap, showFilter]);
 
   const currentCard = useMemo(() => organismCards.find((x) => x.id === currentTab), [currentTab, organismCards]);
 
@@ -474,7 +480,7 @@ export const Graphs = () => {
                     width: '100%',
                   }}
                 >
-                  {cloneElement(card.component, { showFilter, setShowFilter })}
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
               );
             })}
