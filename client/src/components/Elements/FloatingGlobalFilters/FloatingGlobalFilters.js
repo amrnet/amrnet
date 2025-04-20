@@ -48,27 +48,27 @@ export const FloatingGlobalFilters = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setShowFilter(!matches1750);
-  }, [matches1750]);
+  // useEffect(() => {
+  //   setShowFilter(!matches1750);
+  // }, [matches1750]);
 
-  useEffect(() => {
-    const scrollContainer = document.getElementById('main-layout');
+  // useEffect(() => {
+  //   const scrollContainer = document.getElementById('main-layout');
 
-    if (scrollContainer && matches1750) {
-      const handleScroll = () => {
-        const currentScrollTop = scrollContainer.scrollTop;
+  //   if (scrollContainer && matches1750) {
+  //     const handleScroll = () => {
+  //       const currentScrollTop = scrollContainer.scrollTop;
 
-        if (currentScrollTop !== lastScrollTop) {
-          setShowFilter(true);
-        }
-        setLastScrollTop(currentScrollTop);
-      };
+  //       if (currentScrollTop !== lastScrollTop) {
+  //         setShowFilter(true);
+  //       }
+  //       setLastScrollTop(currentScrollTop);
+  //     };
 
-      scrollContainer.addEventListener('scroll', handleScroll);
-      return () => scrollContainer.removeEventListener('scroll', handleScroll);
-    }
-  }, [lastScrollTop, matches1750]);
+  //     scrollContainer.addEventListener('scroll', handleScroll);
+  //     return () => scrollContainer.removeEventListener('scroll', handleScroll);
+  //   }
+  // }, [lastScrollTop, matches1750]);
 
   function handleClick() {
     setShowFilter(true);
@@ -82,7 +82,7 @@ export const FloatingGlobalFilters = () => {
 
   return (
     <div>
-      {show && (
+      {(
         <>
           {showFilter && (
             <TopLeftControls
