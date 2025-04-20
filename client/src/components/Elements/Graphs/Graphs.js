@@ -35,6 +35,7 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import { Circles } from 'react-loader-spinner';
+import { DownloadMapViewData } from '../Map/BottomRightControls/DownloadMapViewData';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -424,17 +425,24 @@ export const Graphs = () => {
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['all'] && currentTab !== 'HSG' && (
-              <Tooltip title="Download Chart as PNG" placement="top">
-                <span>
-                  <IconButton
-                    color="primary"
-                    onClick={(event) => handleClickDownload(event)}
-                    disabled={organism === 'none' || loading}
-                  >
-                    {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+              <div>
+                <Tooltip title="Download Data" placement="top">
+                  <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none' || loading}>
+                    <DownloadMapViewData fontSize="inherit" value={currentCard.id} />
                   </IconButton>
-                </span>
-              </Tooltip>
+                </Tooltip>
+                <Tooltip title="Download Chart as PNG" placement="top">
+                  <span>
+                    <IconButton
+                      color="primary"
+                      onClick={(event) => handleClickDownload(event)}
+                      disabled={organism === 'none' || loading}
+                    >
+                      {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </div>
             )}
             {collapses['all'] && (
               <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
