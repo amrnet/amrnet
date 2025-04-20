@@ -59,10 +59,8 @@ export const BottomRightControls = () => {
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
-        if(organism === 'sentericaints')
-          ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
-        else
-          ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
+        if (organism === 'sentericaints') ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
+        else ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
         // ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
@@ -180,7 +178,7 @@ export const BottomRightControls = () => {
           case 'No. Samples':
             legendImg.src = 'legends/MapView_NoSamples.png';
             break;
-          case 'Sensitive to all drugs':
+          case 'Pansusceptible':
             legendImg.src = 'legends/MapView_Sensitive.png';
             break;
           case 'NG-MAST prevalence':
@@ -231,19 +229,20 @@ export const BottomRightControls = () => {
 
   return (
     <div className={classes.bottomRightControls}>
-      <Tooltip title="Download Data" placement="right">
-        <span>
-          <IconButton color="primary" disabled={organism === 'none'}>
-            <DownloadMapViewData fontSize="inherit" />
-          </IconButton>
-        </span>
+      <Tooltip title="Download Data" placement="top">
+        <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none' || loading}>
+          <DownloadMapViewData fontSize="inherit" />
+        </IconButton>
       </Tooltip>
-      <Tooltip title="Download Map as PNG" placement="left">
-        <span>
-          <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
-          </IconButton>
-        </span>
+      <Tooltip title="Download Map as PNG" placement="top">
+        <IconButton
+          className={classes.actionButton}
+          color="primary"
+          onClick={handleClick}
+          disabled={organism === 'none' || loading}
+        >
+          {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
+        </IconButton>
       </Tooltip>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>

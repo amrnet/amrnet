@@ -1,5 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Checkbox,
+  IconButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './DrugResistanceGraphMUI';
 import {
   Brush,
@@ -15,15 +27,16 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../../util/drugs';
+import { drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { InfoOutlined } from '@mui/icons-material';
+import { Close, InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
+import { SelectCountry } from '../../SelectCountry';
 
-export const DrugResistanceGraph = () => {
+export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -68,7 +81,7 @@ export const DrugResistanceGraph = () => {
       return [];
     }
     if (organism === 'styphi') {
-      return drugsForDrugResistanceGraphST;
+      return drugsST;
     }
     if (organism === 'kpneumo') {
       return drugsKP;
@@ -122,7 +135,7 @@ export const DrugResistanceGraph = () => {
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Pansusceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
@@ -193,7 +206,7 @@ export const DrugResistanceGraph = () => {
 
       for (let index = 0; index < lines.length; index++) {
         const drug = drugResistanceGraphView[index];
-        const hasValue = getDrugs().includes(drug);
+        const hasValue = getDrugs()?.includes(drug);
         lines[index].style.display = hasValue ? 'block' : 'none';
       }
 
@@ -240,10 +253,10 @@ export const DrugResistanceGraph = () => {
                                 <span>MDR</span>
                               </Tooltip>
                             );
-                          } else if (dataKey === 'Susceptible') {
+                          } else if (dataKey === 'Pansusceptible') {
                             dataKeyElement = (
                               <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                <span>Susceptible</span>
+                                <span>Pansusceptible</span>
                               </Tooltip>
                             );
                           } else {
@@ -293,47 +306,6 @@ export const DrugResistanceGraph = () => {
 
   return (
     <CardContent className={classes.drugResistanceGraph}>
-      <div className={classes.selectWrapper}>
-        <div className={classes.labelWrapper}>
-          <Typography variant="caption">Select drugs/classes to display</Typography>
-          <Tooltip
-            title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
-            placement="top"
-          >
-            <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-          </Tooltip>
-        </div>
-        <Select
-          multiple
-          value={drugResistanceGraphView}
-          onChange={(event) => handleChangeDrugsView({ event })}
-          displayEmpty
-          disabled={organism === 'none'}
-          endAdornment={
-            <Button
-              variant="outlined"
-              className={classes.selectButton}
-              onClick={() => handleChangeDrugsView({ all: true })}
-              disabled={organism === 'none'}
-              color={drugResistanceGraphView.length === getDrugs().length ? 'error' : 'primary'}
-            >
-              {drugResistanceGraphView.length === getDrugs().length ? 'Clear All' : 'Select All'}
-            </Button>
-          }
-          inputProps={{ className: classes.selectInput }}
-          MenuProps={{
-            classes: { paper: classes.menuPaper, list: classes.selectMenu },
-          }}
-          renderValue={(selected) => <div>{`${selected.length} of ${getDrugs().length} selected`}</div>}
-        >
-          {getDrugs().map((drug, index) => (
-            <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
-              <Checkbox checked={drugResistanceGraphView.indexOf(drug) > -1} />
-              <ListItemText primary={drug} />
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="DRT">
           {plotChart}
@@ -362,10 +334,10 @@ export const DrugResistanceGraph = () => {
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  } else if (item.label === 'Susceptible') {
+                  } else if (item.label === 'Pansusceptible') {
                     itemLabel = (
                       <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Susceptible</span>
+                        <span>Pansusceptible</span>
                       </Tooltip>
                     );
                   } else {
@@ -398,6 +370,64 @@ export const DrugResistanceGraph = () => {
           )}
         </div>
       </div>
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <SelectCountry />
+              <div className={classes.selectWrapper}>
+                <div className={classes.labelWrapper}>
+                  <Typography variant="caption">Select drugs/classes to display</Typography>
+                  <Tooltip
+                    title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
+                    placement="top"
+                  >
+                    <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                  </Tooltip>
+                </div>
+                <Select
+                  multiple
+                  value={drugResistanceGraphView}
+                  onChange={(event) => handleChangeDrugsView({ event })}
+                  displayEmpty
+                  disabled={organism === 'none'}
+                  endAdornment={
+                    <Button
+                      variant="outlined"
+                      className={classes.selectButton}
+                      onClick={() => handleChangeDrugsView({ all: true })}
+                      disabled={organism === 'none'}
+                      color={drugResistanceGraphView.length === getDrugs()?.length ? 'error' : 'primary'}
+                    >
+                      {drugResistanceGraphView.length === getDrugs()?.length ? 'Clear All' : 'Select All'}
+                    </Button>
+                  }
+                  inputProps={{ className: classes.selectInput }}
+                  MenuProps={{
+                    classes: { paper: classes.menuPaper, list: classes.selectMenu },
+                  }}
+                  renderValue={(selected) => <div>{`${selected.length} of ${getDrugs()?.length} selected`}</div>}
+                >
+                  {getDrugs()?.map((drug, index) => (
+                    <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
+                      <Checkbox checked={drugResistanceGraphView.indexOf(drug) > -1} />
+                      <ListItemText primary={drug} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

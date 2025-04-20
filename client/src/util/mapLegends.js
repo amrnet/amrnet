@@ -25,14 +25,14 @@ export const mapLegends = [
   {
     value: 'Carb',
     label: 'Carbapenemase prevalence',
-    organisms: ['kpneumo', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
+    organisms: ['kpneumo', 'ecoli', 'shige', 'decoli'],
   },
   {
-    value: 'Sensitive to all drugs',
-    label: 'Sensitive to all drugs',
+    value: 'Pansusceptible',
+    label: 'Pansusceptible',
     organisms: ['styphi', 'kpneumo', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
   },
-  { value: 'Sensitive to all drugs', label: 'Susceptible to class I/II drugs', organisms: ['ngono'] },
+  { value: 'Pansusceptible', label: 'Pansusceptible', organisms: ['ngono'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   {
     value: 'Genotype prevalence',

@@ -10,7 +10,7 @@ import { BottomLeftControls } from './BottomLeftControls';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.ts';
 import { TopRightControls } from './TopRightControls';
-import { setActualCountry, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
+import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
 import { TopLeftControls } from './TopLeftControls';
 import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
@@ -24,7 +24,7 @@ const statKey = {
   AzithR: 'AzithR',
   CipNS: 'CipNS',
   CipR: 'CipR',
-  'Sensitive to all drugs': 'Susceptible',
+  Pansusceptible: 'Pansusceptible',
   ESBL: 'ESBL',
   Ciprofloxacin: 'Ciprofloxacin',
   ESBL_category: 'Ceftriaxone',
@@ -58,7 +58,11 @@ export const Map = () => {
 
   function handleOnClick(countryData) {
     if (countryData !== undefined) {
-      dispatch(setActualCountry(countryData.name));
+      const country = countryData.name;
+      const region = Object.keys(economicRegions).find((key) => economicRegions[key].includes(country)) ?? 'All';
+
+      dispatch(setActualRegion(region));
+      dispatch(setActualCountry(country));
       dispatch(setCanFilterData(true));
     }
   }
@@ -69,7 +73,7 @@ export const Map = () => {
 
   function handleOnMouseEnter({ geo, countryStats, countryData, smallerThan20 = false, showTooltip = false }) {
     const tooltip = {
-      name: countryData?.name ?? (mapColoredBy === 'country' ? geo.properties.NAME : 'No economic region found'),
+      name: countryData?.name ?? (mapColoredBy === 'country' ? geo.properties.NAME : 'No region found'),
       content: {},
       smallerThan20,
     };
@@ -93,14 +97,14 @@ export const Map = () => {
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
                     CipNS: `${combinedPercentage.toFixed(2)}%`,
-                    Susceptible: `${countryStats.Susceptible.percentage}%`,
+                    Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
                   }
                 : organism === 'kpneumo'
                 ? {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carb: `${countryStats.Carb.percentage}%`,
+                    Carbapenems: `${countryStats.Carb.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : organism === 'ngono'
@@ -192,7 +196,7 @@ export const Map = () => {
           break;
         case 'H58 / Non-H58':
         case 'MDR':
-        case 'Sensitive to all drugs':
+        case 'Pansusceptible':
         case 'XDR':
         case 'AzithR':
         case 'Azithromycin':
@@ -203,7 +207,7 @@ export const Map = () => {
         case 'ESBL_category':
         case 'Carb':
           if (showTooltip) {
-            tooltip.content[statKey[mapView]] = {
+            tooltip.content[mapView === 'Carb' ? 'Carbapenems' : statKey[mapView]] = {
               count: countryStats[statKey[mapView]].count,
               percentage: `${countryStats[statKey[mapView]].percentage}%`,
             };
@@ -391,7 +395,7 @@ export const Map = () => {
                             }
                           }
                           break;
-                        case 'Sensitive to all drugs':
+                        case 'Pansusceptible':
                         case 'H58 / Non-H58':
                         case 'MDR':
                         case 'XDR':
@@ -405,14 +409,14 @@ export const Map = () => {
                         case 'Carb':
                           count = countryStats[statKey[mapView]]?.count;
                           if (countryData.count >= 20 && count > 0) {
-                            if (mapView === 'Sensitive to all drugs') {
+                            if (mapView === 'Pansusceptible') {
                               fillColor = sensitiveColorScale(countryStats[statKey[mapView]].percentage);
                             } else {
                               fillColor = redColorScale(countryStats[statKey[mapView]].percentage);
                             }
                             showTooltip = true;
                           } else if (countryData.count >= 20) {
-                            if (mapView === 'Sensitive to all drugs') {
+                            if (mapView === 'Pansusceptible') {
                               fillColor = zeroPercentColor;
                             } else {
                               fillColor = darkGrey;
@@ -427,14 +431,14 @@ export const Map = () => {
                           let per =
                             countryStats[statKey['CipNS']].percentage + countryStats[statKey['CipR']].percentage;
                           if (countryData.count >= 20 && count > 0) {
-                            if (mapView === 'Susceptible to all drugs') {
+                            if (mapView === 'Pansusceptible') {
                               fillColor = sensitiveColorScale(per);
                             } else {
                               fillColor = redColorScale(per);
                             }
                             showTooltip = true;
                           } else if (countryData.count >= 20) {
-                            if (mapView === 'Susceptible to all drugs') {
+                            if (mapView === 'Pansusceptible') {
                               fillColor = zeroPercentColor;
                             } else {
                               fillColor = darkGrey;

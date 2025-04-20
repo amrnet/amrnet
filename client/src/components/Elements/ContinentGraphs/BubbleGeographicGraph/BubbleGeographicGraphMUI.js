@@ -5,25 +5,24 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-    padding: '16px 0px 24px 0px !important',
+    padding: '0px 0px 24px 0px !important',
   },
   selectsWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    rowGap: '8px',
-    padding: '0px 16px',
+    gap: '16px',
   },
   selectPreWrapper: {
     display: 'flex',
-    flexDirection: 'row',
-    columnGap: '20px',
+    flexDirection: 'column',
+    gap: '16px',
     width: '100%',
   },
   selectWrapper: {
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
-    width: '50%',
+    width: '100%',
   },
   selectInput: {
     fontSize: '14px !important',
@@ -69,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
   graph: {
     height: '100%',
     width: '100%',
+    overflowX: 'auto',
+    overflowY: 'hidden',
 
     '@media (max-width: 1000px)': {
       width: '100%',
@@ -76,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 500px)': {
       width: '100%',
-      height: '460px',
     },
   },
   chartTooltipLabel: {
@@ -118,6 +118,34 @@ const useStyles = makeStyles((theme) => ({
   },
   labelTooltipIcon: {
     cursor: 'pointer',
+  },
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  nothingSelected: {
+    padding: '24px 8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'lightgoldenrodyellow',
+  },
+  graphContainer: {
+    minWidth: '1000px !important',
   },
 }));
 

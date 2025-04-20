@@ -32,8 +32,8 @@ export const DownloadMapViewData = () => {
         'Ciprofloxacin resistant %',
         'Carbapenemase prevalence',
         'Carbapenemase prevalence %',
-        'Sensitive to all drugs/Susceptible to class I/II drugs',
-        'Sensitive to all drugs/Susceptible to class I/II drugs %',
+        'Sensitive to all drugs/Pansusceptible to class I/II drugs',
+        'Sensitive to all drugs/Pansusceptible to class I/II drugs %',
       ];
       prevalenceMapViewOptionsSelected.forEach((viewItem, index) => {
         HeaderList.push(`Genotype/Lineage ${viewItem}`);
@@ -92,9 +92,9 @@ export const DownloadMapViewData = () => {
           const CarbCount = item.stats?.Carb?.count || 0;
           const CarbPerCount = CarbCount < 20 ? 'insufficient' : item.stats?.Carb?.percentage || 0;
 
-          const SensitiveDrugsCount = item.stats?.Susceptible?.count || 0;
+          const SensitiveDrugsCount = item.stats?.Pansusceptible?.count || 0;
           const SensitiveDrugsPerCount =
-            SensitiveDrugsCount < 20 ? 'insufficient' : item.stats?.Susceptible?.percentage || 0;
+            SensitiveDrugsCount < 20 ? 'insufficient' : item.stats?.Pansusceptible?.percentage || 0;
 
           const genotypeData =
             prevalenceMapViewOptionsSelected.length > 0

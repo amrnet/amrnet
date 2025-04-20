@@ -5,23 +5,24 @@ export const drugsST = [
   'Chloramphenicol',
   'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'Sulphonamides',
-  'Susceptible',
+  'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
+  'Pansusceptible',
+  'XDR',
+  'MDR',
 ].sort((a, b) => a.localeCompare(b));
-
-export const drugsForDrugResistanceGraphST = [...drugsST, 'XDR', 'MDR'].sort((a, b) => a.localeCompare(b));
 
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'MDR',
-  'Susceptible',
+  'Pansusceptible',
   'Trimethoprim-sulfamethoxazole',
   'XDR',
 ];
@@ -35,7 +36,7 @@ export const drugsNG = [
   'Tetracycline',
   'Cefixime',
   'Penicillin',
-  'Susceptible',
+  'Pansusceptible',
   'Spectinomycin',
   'MDR',
   'XDR',
@@ -48,7 +49,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
   'Ciprofloxacin',
   'Cefixime',
   'Penicillin',
-  'Susceptible',
+  'Pansusceptible',
   'Spectinomycin',
   'MDR',
   'XDR',
@@ -81,10 +82,13 @@ export const drugClassesST = [
   'Chloramphenicol',
   'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim',
+  'Pansusceptible',
+  'MDR',
+  'XDR',
 ];
 
 // List of Klebsiella drug classes
@@ -97,7 +101,6 @@ export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMC',
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CLO',
-  CipNS: 'CIP',
   Sulphonamides: 'SUL',
   Sulfonamides: 'SUL',
   Tetracyclines: 'TET',
@@ -112,5 +115,29 @@ export const drugAcronyms = {
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
   Phenicols: 'PHE',
   Tigecycline: 'TGC',
-  ESBL: 'ESBL',
+  AzithR: 'AZM',
+  '3rd gen cephalosporins (3GCs)': '3GCs',
 };
+
+export const drugAcronymsOpposite = {
+  CipNS: 'Ciprofloxacin',
+  CARB: 'Carbapenems',
+  AZM: 'Azithromycin',
+  ESBL: 'Extended-Spectrum Beta-Lactamase',
+  CipR: 'Ciprofloxacin R',
+  MDR: 'Multi-drug Resistant',
+  XDR: 'Extensively Drug Resistant',
+};
+
+export function getDrugClasses(organism) {
+  switch (organism) {
+    case 'styphi':
+      return drugClassesST;
+    case 'kpneumo':
+      return drugClassesKP;
+    case 'ngono':
+      return drugClassesNG;
+    default:
+      return [];
+  }
+}

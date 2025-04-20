@@ -29,12 +29,11 @@ export const Header = () => {
 
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
   const isHomePage = useMemo(() => page === '', [page]);
-  const isDashboardPage = useMemo(() => !['user-guide', 'about', 'contact','team'].includes(page), [page]);
+  const isDashboardPage = useMemo(() => !['user-guide', 'about', 'contact', 'team'].includes(page), [page]);
 
   function getPageTitle() {
     const title = menuItems.find((item) => item.key === page).labelHead;
-    if(title === 'Team')
-      return 'About'
+    if (title === 'Team') return 'About';
     return title;
   }
 
@@ -53,7 +52,11 @@ export const Header = () => {
       <div className={classes.headerBox}></div>
       <AppBar position="relative" sx={{ maxWidth: '1280px' }} className={classes.appBar}>
         <Toolbar className={`${classes.toolbar} `}>
-          <div className={`${classes.toolbarWrapper} ${isDashboardPage ? isHomePage? classes.homeHead : classes.defaultHead: classes.dashboardHead }`}>
+          <div
+            className={`${classes.toolbarWrapper} ${
+              isDashboardPage ? (isHomePage ? classes.homeHead : classes.defaultHead) : classes.dashboardHead
+            }`}
+          >
             <div className={`${classes.leftWrapper} `}>
               <div className={classes.drawerTitleWrapper}>
                 {((isDashboardPage && !isHomePage) || matches800) && (
@@ -65,21 +68,22 @@ export const Header = () => {
                   <img src={LogoImg} alt="AMRnet" className={classes.logo} />
                 </Link>
               </div>
-              {(isDashboardPage && !isHomePage )&& <SelectOrganism />}
+              {isDashboardPage && !isHomePage && <SelectOrganism />}
             </div>
             {((!isDashboardPage && matches1300) || (isHomePage && !matches800)) && <MenuHead />}
-            {(!isDashboardPage || isHomePage ) && matches200 &&(
-                <Link to="/">
-                  <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
-                </Link>
-                )}
+            {(!isDashboardPage || isHomePage) && matches200 && (
+              <Link to="https://www.lshtm.ac.uk/">
+                <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
+              </Link>
+            )}
             {!isHomePage && !isDashboardPage && !matches500 && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}
               </Typography>
             )}
 
-            {(isDashboardPage && !isHomePage) &&
+            {isDashboardPage &&
+              !isHomePage &&
               (matches650 ? (
                 organism !== 'none' && (
                   <IconButton onClick={handleToggleCollapse}>

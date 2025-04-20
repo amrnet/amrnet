@@ -172,8 +172,8 @@ export const UserGuidePage = () => {
               ciprofloxacin and ceftriaxone)
             </li>
             <li>
-              <span className={classes.paragraphBold}>Ciprofloxacin NS:</span> ciprofloxacin non-susceptible (MIC
-              &ge;0.06 mg/L, due to presence of one or more <i>qnr</i> genes or mutations in <i>gyrA/parC/gyrB</i>)
+              <span className={classes.paragraphBold}>Ciprofloxacin:</span> ciprofloxacin non-susceptible (MIC &ge;0.06
+              mg/L, due to presence of one or more <i>qnr</i> genes or mutations in <i>gyrA/parC/gyrB</i>)
             </li>
             <li>
               <span className={classes.paragraphBold}>Ciprofloxacin R:</span> ciprofloxacin resistant (MIC &ge;0.5 mg/L,
@@ -328,8 +328,8 @@ export const UserGuidePage = () => {
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>Susceptible to class I/II drugs</span> - No determinants found for
-              Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category
+              <span className={classes.paragraphBold}>Pansusceptible to class I/II drugs</span> - No determinants found
+              for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category
               II).
             </li>
           </Typography>

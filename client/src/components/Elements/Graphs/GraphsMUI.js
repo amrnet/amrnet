@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     rowGap: '16px',
+    position: 'relative',
 
     '@media (max-width: 500px)': {
       rowGap: '8px',
@@ -13,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     '&.MuiCard-root': {
       borderRadius: '16px',
+      overflow: 'visible',
     },
   },
   cardActions: {
@@ -33,6 +35,21 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     columnGap: '8px',
+  },
+  boxWrapper: {
+    position: 'relative',
+  },
+  loadingBlock: {
+    display: 'flex',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    borderRadius: '0 0 16px 16px',
+    backgroundColor: 'white',
+    top: 0,
+    left: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 

@@ -1,4 +1,4 @@
-import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './DistributionGraphMUI';
 import {
   Bar,
@@ -20,13 +20,15 @@ import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
 import { setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
 
 const dataViewOptions = [
   { label: 'Number of ST', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
-export const DistributionGraph = () => {
+export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   // const [currentSliderValue, setCurrentSliderValue] = useState(20);
@@ -96,7 +98,7 @@ export const DistributionGraph = () => {
     const Other = 'Other';
     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
-// console.log("GD", slicedArrayWithOther);
+    // console.log("GD", slicedArrayWithOther);
     dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
     setTopXGenotypes(slicedArray);
     dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
@@ -244,24 +246,6 @@ export const DistributionGraph = () => {
 
   return (
     <CardContent className={classes.distributionGraph}>
-      <div className={classes.selectWrapper}>
-        <Typography variant="caption">Data view</Typography>
-        <Select
-          value={distributionGraphView}
-          onChange={handleChangeDataView}
-          inputProps={{ className: classes.selectInput }}
-          MenuProps={{ classes: { list: classes.selectMenu } }}
-          disabled={organism === 'none'}
-        >
-          {dataViewOptions.map((option, index) => {
-            return (
-              <MenuItem key={index + 'distribution-dataview'} value={option.value}>
-                {option.label}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="GD">
           {plotChart}
@@ -306,6 +290,41 @@ export const DistributionGraph = () => {
           </div>
         </div>
       </div>
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <SelectCountry />
+              <div className={classes.selectWrapper}>
+                <Typography variant="caption">Data view</Typography>
+                <Select
+                  value={distributionGraphView}
+                  onChange={handleChangeDataView}
+                  inputProps={{ className: classes.selectInput }}
+                  MenuProps={{ classes: { list: classes.selectMenu } }}
+                  disabled={organism === 'none'}
+                >
+                  {dataViewOptions.map((option, index) => {
+                    return (
+                      <MenuItem key={index + 'distribution-dataview'} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

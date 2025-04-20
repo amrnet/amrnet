@@ -1,8 +1,8 @@
 import { AppBar, IconButton, Toolbar, Tooltip } from '@mui/material';
 import { useStyles } from './FooterMUI';
 import { GitHub } from '@mui/icons-material';
-import LSHTMLogoImg from '../../../assets/img/LSHTMLogo2020.jpg';
-import WellcomeTrustLogoImg from '../../../assets/img/Wellcome_Trust_logo.png';
+import LSHTMLogoImg from '../../../assets/img/Sponsors/LSHTMLogo2020.jpg';
+import WellcomeTrustLogoImg from '../../../assets/img/Sponsors/Wellcome_Trust_logo.png';
 
 export const Footer = () => {
   const classes = useStyles();

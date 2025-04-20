@@ -1,19 +1,8 @@
 import { InfoOutlined } from '@mui/icons-material';
-import {
-  Box,
-  Card,
-  CardContent,
-  MenuItem,
-  Select,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography, useMediaQuery } from '@mui/material';
 import { useStyles } from './TopRightControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setMapColoredBy, setMapView } from '../../../../stores/slices/mapSlice.ts';
+import { setMapView } from '../../../../stores/slices/mapSlice.ts';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
@@ -54,14 +43,14 @@ export const TopRightControls = () => {
   const dispatch = useAppDispatch();
   const mapData = useAppSelector((state) => state.map.mapData);
   const mapView = useAppSelector((state) => state.map.mapView);
-  const mapColoredBy = useAppSelector((state) => state.map.mapColoredBy);
+  // const mapColoredBy = useAppSelector((state) => state.map.mapColoredBy);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
-  function handleChangeMapColoredBy(_, newValue) {
-    dispatch(setMapColoredBy(newValue));
-  }
+  // function handleChangeMapColoredBy(_, newValue) {
+  //   dispatch(setMapColoredBy(newValue));
+  // }
 
   function handleChangeMapView(event) {
     dispatch(setMapView(event.target.value));
@@ -85,7 +74,7 @@ export const TopRightControls = () => {
 
   function getSteps() {
     switch (mapView) {
-      case 'Sensitive to all drugs':
+      case 'Pansusceptible':
         return sensitiveSteps;
       case 'No. Samples':
         return noSamplesSteps;
@@ -106,7 +95,7 @@ export const TopRightControls = () => {
 
   function getStepBoxColor(step, index) {
     switch (mapView) {
-      case 'Sensitive to all drugs':
+      case 'Pansusceptible':
         const aux = ['10', '20', '50', '90', '100'];
         return sensitiveColorScale(aux[index]);
       case 'No. Samples': {
@@ -151,7 +140,7 @@ export const TopRightControls = () => {
     <div className={`${classes.topRightControls} ${matches ? classes.bp700 : ''}`}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <div className={classes.mapViewWrapper}>
+          {/* <div className={classes.mapViewWrapper}>
             <Typography gutterBottom variant="caption">
               Select map view
             </Typography>
@@ -168,10 +157,10 @@ export const TopRightControls = () => {
                 Country
               </ToggleButton>
               <ToggleButton value="region" color="primary">
-                Economic Region
+                Region
               </ToggleButton>
             </ToggleButtonGroup>
-          </div>
+          </div> */}
           <div className={classes.label}>
             <Typography variant="caption">Colour country by</Typography>
             <Tooltip

@@ -10,9 +10,11 @@ import {
   Tooltip,
   Typography,
   InputAdornment,
+  Card,
+  IconButton,
 } from '@mui/material';
 import { useStyles } from './FrequenciesGraphMUI';
-import { InfoOutlined } from '@mui/icons-material';
+import { Close, InfoOutlined } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import {
@@ -39,13 +41,14 @@ import { getColorForDrug } from '../graphColorHelper';
 import { drugsST, drugsKP, drugsNG } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureRFWG } from '../../../../stores/slices/dashboardSlice';
+import { SelectCountry } from '../../SelectCountry';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
   { label: 'Percentage within genotype', value: 'percentage' },
 ];
 
-export const FrequenciesGraph = () => {
+export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -83,10 +86,10 @@ export const FrequenciesGraph = () => {
   }, [genotypesDrugsData]);
 
   function getSelectGenotypeLabel(genotype) {
-    const percentage = Number(((genotype.Susceptible / genotype.totalCount) * 100).toFixed(2));
+    const percentage = Number(((genotype.Pansusceptible / genotype.totalCount) * 100).toFixed(2));
 
     return `${genotype.name} (total N=${
-      genotype.totalCount === 0 ? 0 : `${genotype.totalCount}, ${percentage}% Susceptible`
+      genotype.totalCount === 0 ? 0 : `${genotype.totalCount}, ${percentage}% Pansusceptible`
     })`;
   }
 
@@ -129,7 +132,7 @@ export const FrequenciesGraph = () => {
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Pansusceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
@@ -181,16 +184,12 @@ export const FrequenciesGraph = () => {
       delete currentData.totalCount;
       delete currentData.resistantCount;
 
-      console.log(event.activePayload);
-
       Object.keys(currentData).forEach((key) => {
         const count = currentData[key];
 
         if (count === 0) {
           return;
         }
-
-        console.log(key);
 
         value.drugs.push({
           label: key,
@@ -284,10 +283,10 @@ export const FrequenciesGraph = () => {
                               <span>MDR</span>
                             </Tooltip>
                           );
-                        } else if (dataKey === 'Susceptible') {
+                        } else if (dataKey === 'Pansusceptible') {
                           dataKeyElement = (
                             <Tooltip title={getSusceptibleDefinition()} placement="top">
-                              <span>Susceptible</span>
+                              <span>Pansusceptible</span>
                             </Tooltip>
                           );
                         } else {
@@ -328,94 +327,6 @@ export const FrequenciesGraph = () => {
 
   return (
     <CardContent className={classes.frequenciesGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.labelWrapper}>
-          <Typography variant="caption">Data view</Typography>
-          <Tooltip title="Select up to 7 genotypes" placement="top">
-            <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-          </Tooltip>
-        </div>
-        <div className={classes.selectWrapper}>
-          <Select
-            value={frequenciesGraphView}
-            onChange={handleChangeDataView}
-            inputProps={{ className: classes.dataViewSelectInput }}
-            MenuProps={{ classes: { list: classes.dataViewSelectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {dataViewOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'frequencies-dataview'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-          <Select
-            className={classes.select}
-            multiple
-            value={frequenciesGraphSelectedGenotypes}
-            onChange={(event) => handleChangeSelectedGenotypes({ event })}
-            displayEmpty
-            // endAdornment={
-            //   <Button
-            //     variant="outlined"
-            //     className={classes.genotypesSelectButton}
-            //     onClick={() => handleChangeSelectedGenotypes({ all: true })}
-            //     disabled={frequenciesGraphSelectedGenotypes.length === 0}
-            //     color="error"
-            //   >
-            //     Clear All
-            //   </Button>
-            // }
-            inputProps={{ className: classes.genotypesSelectInput }}
-            MenuProps={{
-              classes: {
-                paper: classes.genotypesMenuPaper,
-                list: classes.genotypesSelectMenu,
-              },
-            }}
-            renderValue={(selected) => <div>{`Select genotypes (currently showing ${selected.length} )`}</div>}
-          >
-            <TextField
-              size="small"
-              autoFocus
-              placeholder="Type to search..."
-              label="Search genotype"
-              variant="standard"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Button
-                      variant="outlined"
-                      className={classes.genotypesSelectButton}
-                      onClick={() => handleChangeSelectedGenotypes({ all: true })}
-                      disabled={frequenciesGraphSelectedGenotypes.length === 0}
-                      color="error"
-                    >
-                      Clear All
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ width: '98%', margin: '0% 1%' }}
-              onChange={(e) => setSearchValue(e)}
-              onKeyDown={(e) => e.stopPropagation()}
-            />
-            {filteredData.map((genotype, index) => (
-              <MenuItem key={`frequencies-option-${index}`} value={genotype.name}>
-                <Checkbox checked={frequenciesGraphSelectedGenotypes.indexOf(genotype.name) > -1} />
-                <ListItemText primary={getSelectGenotypeLabel(genotype)} />
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RFWG">
           {plotChart}
@@ -444,10 +355,10 @@ export const FrequenciesGraph = () => {
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  } else if (item.label === 'Susceptible') {
+                  } else if (item.label === 'Pansusceptible') {
                     itemLabel = (
                       <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Susceptible</span>
+                        <span>Pansusceptible</span>
                       </Tooltip>
                     );
                   } else {
@@ -478,6 +389,111 @@ export const FrequenciesGraph = () => {
           )}
         </div>
       </div>
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <SelectCountry />
+              <div className={classes.selectsWrapper}>
+                <div className={classes.labelWrapper}>
+                  <Typography variant="caption">Data view</Typography>
+                  <Tooltip title="Select up to 7 genotypes" placement="top">
+                    <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                  </Tooltip>
+                </div>
+                <div className={classes.selectWrapper}>
+                  <Select
+                    value={frequenciesGraphView}
+                    onChange={handleChangeDataView}
+                    inputProps={{ className: classes.dataViewSelectInput }}
+                    MenuProps={{ classes: { list: classes.dataViewSelectMenu } }}
+                    disabled={organism === 'none'}
+                  >
+                    {dataViewOptions.map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'frequencies-dataview'} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                  <Select
+                    className={classes.select}
+                    multiple
+                    value={frequenciesGraphSelectedGenotypes}
+                    onChange={(event) => handleChangeSelectedGenotypes({ event })}
+                    displayEmpty
+                    // endAdornment={
+                    //   <Button
+                    //     variant="outlined"
+                    //     className={classes.genotypesSelectButton}
+                    //     onClick={() => handleChangeSelectedGenotypes({ all: true })}
+                    //     disabled={frequenciesGraphSelectedGenotypes.length === 0}
+                    //     color="error"
+                    //   >
+                    //     Clear All
+                    //   </Button>
+                    // }
+                    inputProps={{ className: classes.genotypesSelectInput }}
+                    MenuProps={{
+                      classes: {
+                        paper: classes.genotypesMenuPaper,
+                        list: classes.genotypesSelectMenu,
+                      },
+                    }}
+                    renderValue={(selected) => <div>{`Select genotypes (currently showing ${selected.length} )`}</div>}
+                  >
+                    <TextField
+                      size="small"
+                      autoFocus
+                      placeholder="Type to search..."
+                      label="Search genotype"
+                      variant="standard"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon />
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Button
+                              variant="outlined"
+                              className={classes.genotypesSelectButton}
+                              onClick={() => handleChangeSelectedGenotypes({ all: true })}
+                              disabled={frequenciesGraphSelectedGenotypes.length === 0}
+                              color="error"
+                            >
+                              Clear All
+                            </Button>
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{ width: '98%', margin: '0% 1%' }}
+                      onChange={(e) => setSearchValue(e)}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    />
+                    {filteredData.map((genotype, index) => (
+                      <MenuItem key={`frequencies-option-${index}`} value={genotype.name}>
+                        <Checkbox checked={frequenciesGraphSelectedGenotypes.indexOf(genotype.name) > -1} />
+                        <ListItemText primary={getSelectGenotypeLabel(genotype)} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

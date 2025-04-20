@@ -1,5 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, CardContent, Divider, FormGroup, MenuItem, Select, Switch, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Box,
+  CardContent,
+  Divider,
+  FormGroup,
+  IconButton,
+  MenuItem,
+  Select,
+  Switch,
+  Tab,
+  Tabs,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './TrendsGraphMUI';
 import {
   Bar,
@@ -28,14 +41,16 @@ import {
 } from '../../../../stores/slices/graphSlice';
 import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
-import { FormControlLabel } from '@material-ui/core';
+import { Card, FormControlLabel } from '@material-ui/core';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
-export const TrendsGraph = () => {
+export const TrendsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -399,50 +414,6 @@ export const TrendsGraph = () => {
 
   return (
     <CardContent className={classes.trendsGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.selectPreWrapper}>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select drug class</Typography>
-            <Select
-              value={trendsGraphDrugClass}
-              onChange={handleChangeDrugClass}
-              inputProps={{ className: classes.selectInput }}
-              MenuProps={{ classes: { list: classes.selectMenu } }}
-              disabled={organism === 'none'}
-            >
-              {getDrugClasses().map((option, index) => {
-                return (
-                  <MenuItem key={index + 'trends-drug-classes'} value={option}>
-                    {option}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
-          {/* <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} /> */}
-        </div>
-        <div className={classes.selectPreWrapper}>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">Data view</Typography>
-            <Select
-              value={trendsGraphView}
-              onChange={handleChangeDataView}
-              inputProps={{ className: classes.selectInput }}
-              MenuProps={{ classes: { list: classes.selectMenu } }}
-              disabled={organism === 'none'}
-            >
-              {dataViewOptions.map((option, index) => {
-                return (
-                  <MenuItem key={index + 'trends-dataview'} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
-          {/* <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} /> */}
-        </div>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDT">
           {plotChart}
@@ -501,6 +472,67 @@ export const TrendsGraph = () => {
           </div>
         </div>
       </div>
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={classes.selectsWrapper}>
+                <SelectCountry />
+                <div className={classes.selectPreWrapper}>
+                  <div className={classes.selectWrapper}>
+                    <Typography variant="caption">Select drug class</Typography>
+                    <Select
+                      value={trendsGraphDrugClass}
+                      onChange={handleChangeDrugClass}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      {getDrugClasses().map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'trends-drug-classes'} value={option}>
+                            {option}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  {/* <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} /> */}
+                </div>
+                <div className={classes.selectPreWrapper}>
+                  <div className={classes.selectWrapper}>
+                    <Typography variant="caption">Data view</Typography>
+                    <Select
+                      value={trendsGraphView}
+                      onChange={handleChangeDataView}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      {dataViewOptions.map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'trends-dataview'} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  {/* <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} /> */}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

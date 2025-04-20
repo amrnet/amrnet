@@ -50,8 +50,8 @@ export const Ngmast = () => {
   function getSelectGenotypeLabel(genotype) {
     const matchingGenotype = ngmastDrugData.find((g) => g.name === genotype);
     const totalCount = matchingGenotype?.totalCount ?? 0;
-    const susceptiblePercentage = (matchingGenotype?.Susceptible / totalCount || 0) * 100;
-    return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
+    const susceptiblePercentage = (matchingGenotype?.Pansusceptible / totalCount || 0) * 100;
+    return `${genotype} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Pansusceptible)`;
   }
   const filteredData = ngmastDrugData.filter(
     (genotype) =>
