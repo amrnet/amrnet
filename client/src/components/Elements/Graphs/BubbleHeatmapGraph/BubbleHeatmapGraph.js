@@ -424,7 +424,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                 </Tooltip>
               </div>
               <div className={classes.selectsWrapper}>
-                <SelectCountry  />
+                <SelectCountry />
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <Typography variant="caption">X axis</Typography>

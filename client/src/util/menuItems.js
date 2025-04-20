@@ -18,7 +18,7 @@ export const menuItems = [
     labelHead: 'About',
     icon: <Info />,
     link: '#/about',
-    target: '_blank',
+    // target: '_blank',
   },
   {
     key: 'team',
@@ -26,7 +26,7 @@ export const menuItems = [
     labelHead: 'Team',
     icon: <Groups />,
     link: '#/about#team-section',
-    target: '_blank',
+    // target: '_blank',
   },
   {
     key: 'user-guide',

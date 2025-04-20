@@ -36,17 +36,16 @@ export const AboutPage = () => {
             <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>{' '}
-            (to call AMR determinants and lineages from sequence data). More organisms will be added throughout 2024-25,
-            using data sourced from analysis platforms such as{' '}
+            (to call AMR determinants and lineages from sequence data). Additional organisms have been added, using data sourced from{' '}
             <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>
-            ,
+            , and
             <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
               {' '}
               Enterobase
             </a>
-            , and potentially others.
+            , however these dashboards are in beta mode as data curation is still ongoing. More organisms will be added throughout 2025.
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
@@ -72,11 +71,17 @@ export const AboutPage = () => {
             <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
               GitHub
             </a>
-            . Issues and feature requests can be posted{' '}
+            . along with {' '}
+            <a href="https://amrnet.readthedocs.io/en/staging/" target="_blank" rel="noreferrer">
+            user guide
+            </a> and {' '}
+            <a href="https://amrnet.readthedocs.io/en/staging/api.html" target="_blank" rel="noreferrer">
+            API
+            </a>  to access the data. Issues and feature requests can be posted{' '}
             <a href="https://github.com/amrnet/amrnet/issues" target="_blank" rel="noreferrer">
               here
             </a>
-            . An API is coming soon!
+            .
           </Typography>
           <br />
           <Typography variant="h6" className={classes.paragraph}>
@@ -86,18 +91,29 @@ export const AboutPage = () => {
           <Typography variant="body1" className={classes.paragraph}>
             If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga,
             Megan Carey, Zoe Dyson, Kat Holt),
-            <span className={classes.paragraphBold}> GitHub: </span>
-            https://github.com/amrnet/amrnet,
-            <span className={classes.paragraphBold}> DOI:</span> 10.5281/zenodo.10810219
+            <span className={classes.paragraphBold}> GitHub: </span> {' '}
+            <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
+            https://github.com/amrnet/amrnet
+            </a>
+            ,
+            <span className={classes.paragraphBold}> DOI:</span> {' '}
+            <a href="https://zenodo.org/doi/10.5281/zenodo.10810218" target="_blank" rel="noreferrer">
+            https://zenodo.org/doi/10.5281/zenodo.10810218 
+            </a>
+            <br/>
+          </Typography>
+          <br/>
+          <Typography variant="caption text" >
+            The project is funded by the Wellcome Trust (grant 226432/Z/22/Z).
           </Typography>
         </CardContent>
       </Card>
       <div id="team-section">
         <Team />
       </div>
-      <div id="sponsors-section">
+      {/* <div id="sponsors-section">
         <Sponsors />
-      </div>
+      </div> */}
       {/* <Footer /> */}
     </MainLayout>
   );
