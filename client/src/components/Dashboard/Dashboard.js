@@ -390,7 +390,7 @@ export const DashboardPage = () => {
         case 'styphi':
           dispatch(setMapView('CipNS'));
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-          dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin'));
+          dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
           break;
         case 'kpneumo':
           dispatch(setMapView('No. Samples'));

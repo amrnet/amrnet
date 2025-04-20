@@ -11,7 +11,7 @@ export const mapLegends = [
     organisms: ['styphi', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli' /*'sentericaints'*/],
   },
   { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['styphi', 'sentericaints'] },
-  { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['styphi'] },
+  { value: 'CipNS', label: 'Ciprofloxacin NS non-susceptible (CipNS)', organisms: ['styphi'] },
   { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['styphi', 'sentericaints'] },
   {
     value: 'ESBL',

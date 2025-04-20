@@ -115,7 +115,7 @@ export const TopRightControls = () => {
       case 'styphi':
         return 'XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)';
       case 'ngono':
-        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
+        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin NS and Spectinomycin [category II drugs])';
       default:
         return;
     }

@@ -100,13 +100,13 @@ Individual pathogen details
 - **Genotypes**: sequence types from the `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for **Neisseria**, or 2-locus **N. gonorrhoeae** multi-antigen sequence typing (`NG-MAST <https://doi.org/10.1086/383047>`_) scheme, both hosted by `PubMLST <https://pubmlst.org/neisseria/>`_.
 - **AMR determinants** are identified by Pathogenwatch using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described `here <https://doi.org/10.1186/s13073-021-00858-2>`__. 
 - **AMR determinants within genotypes** - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of `Sánchez-Busó et al (2021) <https://doi.org/10.1186/s13073-021-00858-2>`_.
-- **Susceptible to cat I/II drugs** - No determinants found for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category II).
+- **Susceptible to cat I/II drugs** - No determinants found for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin NS, Spectinomycin (category II).
 
 
 **Abbreviations**
 
-- **MDR**: multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
-- **XDR**: extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
+- **MDR**: multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin NS / Spectinomycin [category II representatives])
+- **XDR**: extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin NS / Spectinomycin [category II representatives])
 
 .. note::
 

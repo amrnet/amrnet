@@ -20,16 +20,16 @@ export const DownloadMapViewData = () => {
         'H58 %',
         'Ciprofloxacin resistant (CipR)',
         'Ciprofloxacin resistant (CipR) %',
-        'Ciprofloxacin non-susceptible (CipNS)',
-        'Ciprofloxacin non-susceptible (CipNS) %',
+        'Ciprofloxacin NS non-susceptible (CipNS)',
+        'Ciprofloxacin NS non-susceptible (CipNS) %',
         'Azithromycin resistant',
         'Azithromycin resistant %',
         'ESBL prevalence',
         'ESBL prevalence %',
         'Ceftriaxone resistant',
         'Ceftriaxone resistant %',
-        'Ciprofloxacin resistant',
-        'Ciprofloxacin resistant %',
+        'Ciprofloxacin NS resistant',
+        'Ciprofloxacin NS resistant %',
         'Carbapenemase prevalence',
         'Carbapenemase prevalence %',
         'Sensitive to all drugs/Pansusceptible to class I/II drugs',
@@ -85,9 +85,9 @@ export const DownloadMapViewData = () => {
               ? 'insufficient'
               : item.stats?.Ceftriaxone?.percentage || item.stats?.ESBL_category?.percentage || 0;
 
-          const CiprofloxacinCount = item.stats?.Ciprofloxacin?.count || 0;
+          const CiprofloxacinCount = item.stats?.['Ciprofloxacin NS']?.count || 0;
           const CiprofloxacinPerCount =
-            CiprofloxacinCount < 20 ? 'insufficient' : item.stats?.Ciprofloxacin?.percentage || 0;
+            CiprofloxacinCount < 20 ? 'insufficient' : item.stats?.['Ciprofloxacin NS']?.percentage || 0;
 
           const CarbCount = item.stats?.Carb?.count || 0;
           const CarbPerCount = CarbCount < 20 ? 'insufficient' : item.stats?.Carb?.percentage || 0;
