@@ -18,7 +18,7 @@ const excludedViews = [
   'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence',
-  'Resistance prevalence',
+  // 'Resistance prevalence',
 ];
 const mapViewsWithZeroPercentOption = [
   'CipNS',
@@ -83,8 +83,6 @@ export const TopRightControls = () => {
       case 'NG-MAST prevalence':
       case 'Genotype prevalence':
       case 'Lineage prevalence':
-        return gradientStyle;
-      case 'Resistance prevalence':
         return gradientStyle;
       case '':
         return [];
@@ -246,8 +244,8 @@ export const TopRightControls = () => {
                     <Box
                       className={classes.legendColorBox}
                       style={{
-                        backgroundColor:
-                          mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
+                        backgroundColor: getStepBoxColor(step, index)
+                          // mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
                       }}
                     />
                     <span className={classes.legendText}>{step}</span>

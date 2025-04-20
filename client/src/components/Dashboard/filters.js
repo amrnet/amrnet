@@ -89,7 +89,6 @@ export function filterBrushData({
   let newDataGD = filterData(starttimeGD, endtimeGD);
   let newDataDRT = filterData(starttimeDRT, endtimeDRT);
   let newDataRDT = filterData(starttimeRDT, endtimeRDT);
-  console.log('newDataRDT',starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
   if (actualCountry !== 'All') {
     // const filterByCountry = newData.filter((x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry);
     const filterByCountry = (x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry;

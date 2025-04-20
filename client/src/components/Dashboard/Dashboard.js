@@ -388,12 +388,12 @@ export const DashboardPage = () => {
       dispatch(setDataset('All'));
       switch (organism) {
         case 'styphi':
-          dispatch(setMapView('CipNS'));
+          dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
           dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
           break;
         case 'kpneumo':
-          dispatch(setMapView('No. Samples'));
+          dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsKP));
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphDrugClass('Carbapenems'));

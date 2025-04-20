@@ -20,11 +20,11 @@ export const drugRulesST = [
 ];
 
 export const statKeysST = [
+  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
   { name: 'Ampicillin/Amoxicillin', column: 'blaTEM-1D', key: '1', resistanceView: true },
   { name: 'AzithR', column: 'azith_pred_pheno', key: 'AzithR', resistanceView: true },
   { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true },
   { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
-  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
   { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR', resistanceView: true },
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
   { name: 'MDR', column: 'MDR', key: 'MDR', resistanceView: true },
@@ -80,7 +80,7 @@ export const drugRulesKP = [
 
 export const statKeysKP = [
   { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  { name: 'Carbapenemase', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   // {
   //   name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   //   column: 'Bla_ESBL_inhR_acquired',
@@ -88,7 +88,7 @@ export const statKeysKP = [
   //   resistanceView: true,
   // },
   {
-    name: '3rd gen cephalosporins (3GCs)',
+    name: 'ESBL',
     column: 'Bla_ESBL_acquired',
     key: '-',
     resistanceView: true,
@@ -115,7 +115,7 @@ export const statKeysKP = [
 
 export const mapStatKeysKP = [
   // { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  { name: 'Carbapenemase', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   // {
   //   name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   //   column: 'Bla_ESBL_inhR_acquired',
@@ -123,7 +123,7 @@ export const mapStatKeysKP = [
   //   resistanceView: true,
   // },
   {
-    name: '3rd gen cephalosporins (3GCs)',
+    name: 'ESBL',
     column: 'Bla_ESBL_acquired',
     key: '-',
     resistanceView: true,
@@ -953,7 +953,7 @@ export const statKeysOthers = [
   { name: 'MDR', column: 'MDR', key: 'MDR' },
   { name: 'XDR', column: 'XDR', key: 'XDR' },
   { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-' },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-' },
+  { name: 'Carbapenemase', column: 'Bla_Carb_acquired', key: '-' },
 ];
 
 export const statKeys = {

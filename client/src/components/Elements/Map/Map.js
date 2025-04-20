@@ -52,7 +52,7 @@ export const Map = () => {
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-
+console.log("mapData", mapData)
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
@@ -105,7 +105,7 @@ export const Map = () => {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carbapenems: `${countryStats.Carb.percentage}%`,
+                    Carbapenems: `${countryStats.Carbapenemase.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : organism === 'ngono'
@@ -393,7 +393,8 @@ export const Map = () => {
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             } else {
-                              fillColor = differentColorScale(biggerCountItem.count, 'red');
+                              fillColor = redColorScale(biggerCountItem.percentage);
+                              {/* fillColor = differentColorScale(biggerCountItem.count, 'red'); */}
                             }
                           }
                           break;

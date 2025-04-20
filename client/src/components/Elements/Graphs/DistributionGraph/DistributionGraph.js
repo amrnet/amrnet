@@ -183,7 +183,6 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       // Dispatch initial values based on the default range (full range)
       const startValue = genotypesYearData[0]?.name; // First value in the data
       const endValue = genotypesYearData[genotypesYearData.length - 1]?.name; // Last value in the data
-      console.log('startValue', startValue, endValue);
       dispatch(setStarttimeGD(startValue));
       dispatch(setEndtimeGD(endValue));
     }

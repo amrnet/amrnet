@@ -31,6 +31,7 @@ export const TopRightControls2 = () => {
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
 
   const [open, setOpen] = useState(true);
+  const [openTypho, setOpenTypo] = useState();
 
   const isResPrevalence = useMemo(() => mapView === 'Resistance prevalence', [mapView]);
   const resistanceOptions = useMemo(() => {
@@ -39,6 +40,17 @@ export const TopRightControls2 = () => {
     else options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
     return options.filter((option) => option.resistanceView).map((option) => option.name);
   }, [organism]);
+
+  useEffect(()=>{
+    if(open)
+      setOpenTypo(null);
+    else{
+      if(prevalenceMapViewOptionsSelected[0] !== undefined)
+        setOpenTypo(`Showing ${prevalenceMapViewOptionsSelected[0]} data`);
+      else
+      setOpenTypo(`No Drug is selected`);
+    }
+  }, [open, prevalenceMapViewOptionsSelected[0]])
 
   useEffect(() => {
     if (isResPrevalence) {
@@ -147,6 +159,7 @@ export const TopRightControls2 = () => {
         control={<Switch checked={open} onChange={handleClick} size="small" />}
         label={<Typography className={classes.font}>{label}</Typography>}
       />
+      <Typography>{openTypho}</Typography>
       <Collapse in={open}>
         <Card elevation={3} className={classes.card}>
           <CardContent className={classes.frequenciesGraph}>
