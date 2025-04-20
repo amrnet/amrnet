@@ -19,7 +19,7 @@ recommonmark
 arrow==1.1.1
 asgiref==3.4.1
 binaryornot==0.4.4
-certifi==2021.5.30
+certifi==2024.7.4
 chardet==4.0.0
 charset-normalizer==2.0.4
 click==8.0.1
