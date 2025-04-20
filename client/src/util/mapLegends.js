@@ -22,11 +22,11 @@ export const mapLegends = [
   { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono', 'sentericaints'] },
   { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
   { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
-  {
-    value: 'Carb',
-    label: 'Carbapenemase prevalence',
-    organisms: [ 'ecoli', 'shige', 'decoli'],
-  },
+  // {
+  //   value: 'Carb',
+  //   label: 'Carbapenemase prevalence',
+  //   organisms: [ 'ecoli', 'shige', 'decoli'],
+  // },
   {
     value: 'Pansusceptible',
     label: 'Pansusceptible',

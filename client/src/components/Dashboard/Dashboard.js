@@ -124,6 +124,7 @@ export const DashboardPage = () => {
   const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
   const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
+  const mapView = useAppSelector((state) => state.map.mapView);
   // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
@@ -213,7 +214,7 @@ export const DashboardPage = () => {
     pathovar.sort();
 
     if (pathovar.length > 0) {
-      dispatch(setSelectedLineages(pathovar));
+      dispatch(setSelectedLineages(pathovar[0]));
     }
 
     // Set values
@@ -227,6 +228,7 @@ export const DashboardPage = () => {
     dispatch(setPMID(PMID));
     dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
+    console.log('setSelectedLineages dashboard', pathovar);
 
     // Set regions
     Object.keys(ecRegions).forEach((key) => {
@@ -532,11 +534,12 @@ export const DashboardPage = () => {
   // This useEffect is called everytime the main filters are changed, it does not need to read the csv file again.
   // It filters accordingly to the filters give. Is also called when the reset button is pressed.
   useEffect(() => {
-    if (canFilterData) {
+    if (canFilterData || mapView === 'Lineage prevalence') {
       updateDataOnFilters();
     }
   }, [
     canFilterData,
+    mapView
     // canGetData,
     // dataset,
     // actualTimeInitial,
@@ -596,7 +599,6 @@ export const DashboardPage = () => {
       const filteredData = filters.data.filter((x) =>
         filteredCountries.includes(getCountryDisplayName(x.COUNTRY_ONLY)),
       );
-
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
