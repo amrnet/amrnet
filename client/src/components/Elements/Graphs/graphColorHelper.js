@@ -3,6 +3,7 @@ import { lightGrey } from '../../../util/colorHelper';
 export const getColorForDrug = (drug) => {
   switch (drug) {
     case 'Ampicillin/Amoxicillin':
+    case 'Ampicillin':
     case 'Aminoglycosides':
       return 'rgb(129,178,210)';
 
@@ -24,8 +25,10 @@ export const getColorForDrug = (drug) => {
 
     // case 'ESBL':
     case 'Ceftriaxone':
-    case 'Colistin':
       return '#DB90F0';
+
+    case 'Colistin':
+      return 'rgb(0, 163, 35)';
 
     // case 'Fluoroquinolones (CipI)':
     case 'Fosfomycin':
@@ -47,6 +50,7 @@ export const getColorForDrug = (drug) => {
 
     case 'Sulphonamides':
     case 'Sulfonamides':
+    case 'Sulfamethoxazole':
       return 'rgb(180,221,112)';
 
     case 'Susceptible':
@@ -62,9 +66,11 @@ export const getColorForDrug = (drug) => {
       return 'rgb(102,102,255)';
 
     case 'β-lactamase inhibitors':
+    case 'Gentamicin':
       return '#F3AAB9';
 
     case 'Phenicols':
+    case 'Meropenem':
       return '#FBCFBA';
 
     case 'Tigecycline':

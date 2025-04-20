@@ -3,23 +3,23 @@ export const mapLegends = [
   {
     value: 'MDR',
     label: 'Multidrug resistant (MDR)',
-    organisms: ['styphi', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
+    organisms: ['styphi', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli' /*'sentericaints'*/],
   },
   {
     value: 'XDR',
     label: 'Extensively drug resistant (XDR)',
-    organisms: ['styphi', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
+    organisms: ['styphi', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli' /*'sentericaints'*/],
   },
-  { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['styphi'] },
+  { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['styphi', 'sentericaints'] },
   { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['styphi'] },
-  { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['styphi'] },
+  { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['styphi', 'sentericaints'] },
   {
     value: 'ESBL',
     label: 'ESBL prevalence',
-    organisms: ['kpneumo', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
+    organisms: ['kpneumo', 'ecoli', 'shige', 'senterica', 'decoli'],
   },
   { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: ['styphi'] },
-  { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono'] },
+  { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono', 'sentericaints'] },
   { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
   { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
   {
@@ -47,7 +47,7 @@ export const mapLegends = [
   {
     value: 'Resistance prevalence',
     label: 'Resistance prevalence',
-    organisms: ['styphi', 'kpneumo', 'ngono'],
+    organisms: ['styphi', 'kpneumo', 'ngono', 'sentericaints'],
   },
   { value: 'Lineage prevalence', label: 'Lineage prevalence', organisms: ['shige', 'decoli', 'sentericaints'] },
   { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['styphi'] },

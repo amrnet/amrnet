@@ -394,16 +394,10 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
           {plotChart}
         </div>
       </div>
-      {!selectedCRData ? (
+      {yAxisSelected.length === 0 && (
         <Box className={classes.nothingSelected}>
-          <Typography fontWeight={600}>Please select a region or country</Typography>
+          <Typography fontWeight={600}>No data to show</Typography>
         </Box>
-      ) : (
-        yAxisSelected.length === 0 && (
-          <Box className={classes.nothingSelected}>
-            <Typography fontWeight={600}>No data to show</Typography>
-          </Box>
-        )
       )}
       <Divider className={classes.divider} />
       <div className={classes.bottomLegend}>

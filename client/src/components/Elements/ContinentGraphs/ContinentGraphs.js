@@ -34,6 +34,12 @@ const TABS = [
     disabled: false,
     component: <TrendLineGraph />,
   },
+  // {
+  //   label: 'Trend line 2',
+  //   value: 'TL2',
+  //   disabled: false,
+  //   component: <TrendLineGraph2 />,
+  // },
 ];
 
 export const ContinentGraphs = () => {
@@ -91,7 +97,7 @@ export const ContinentGraphs = () => {
               </Typography>
               {collapses['continent'] && (
                 <Typography fontSize="10px" component="span">
-                  {currentTab === 'TL' && <div>Data are plotted for years with N ≥ 10 genomes</div>}
+                  {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
                 </Typography>
               )}
             </div>
