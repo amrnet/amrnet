@@ -188,6 +188,9 @@ export const DashboardPage = () => {
       if (['shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathotype);
       }
+      if (organism === 'ecoli') {
+        pathovarSet.add(x.Pathovar);
+      }
     });
 
     const genotypes = Array.from(genotypesSet);
@@ -597,11 +600,7 @@ export const DashboardPage = () => {
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
       dispatch(setMapData(getMapData({ data: filters.data, items: countriesForFilter, organism })));
-      if (['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'].includes(organism)) {
-        dispatch(
-          setMapRegionData(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })),
-        );
-      }
+      dispatch(setMapRegionData(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })));
 
       const genotypesData = getGenotypesData({
         data: filteredData,

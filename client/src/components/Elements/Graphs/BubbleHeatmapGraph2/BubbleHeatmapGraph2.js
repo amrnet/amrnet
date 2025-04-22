@@ -56,7 +56,7 @@ const xOptionsByOrganism = [
   {
     label: 'Lineage',
     value: 'genotype',
-    organisms: ['sentericaints'],
+    organisms: ['sentericaints', 'senterica'],
   },
 ];
 
@@ -232,8 +232,8 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
       return [];
     }
 
-    return selectedCRData?.stats[xAxisType.toUpperCase()].items
-      .filter((item) => xAxisSelected?.includes(item.name))
+    return selectedCRData?.stats[xAxisType.toUpperCase()]?.items
+      ?.filter((item) => xAxisSelected?.includes(item.name))
       .map((item) => {
         const itemData = { name: item.name, items: [] };
 
@@ -275,7 +275,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
       setPlotChart(() => {
         return (
           <>
-            {configuredMapData.map((item, index) => {
+            {configuredMapData?.map((item, index) => {
               return (
                 <ResponsiveContainer
                   key={`heatmap-graph-${index}`}
@@ -531,7 +531,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                       }}
                       renderValue={(selected) => <div>{`${selected?.length} of ${yAxisOptions.length} selected`}</div>}
                     >
-                      {yAxisOptions.map((option, index) => (
+                      {yAxisOptions.sort().map((option, index) => (
                         <MenuItem key={`geo-y-axis-option-${index}`} value={option}>
                           <Checkbox checked={yAxisSelected.indexOf(option) > -1} />
                           <ListItemText primary={getOptionLabelY(option)} />

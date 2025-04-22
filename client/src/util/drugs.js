@@ -100,6 +100,7 @@ export const drugClassesKP = ['Carbapenems', 'ESBL'];
 
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMC',
+  Ampicillin: 'AMP',
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CLO',
   Sulphonamides: 'SUL',
@@ -119,6 +120,8 @@ export const drugAcronyms = {
   AzithR: 'AZM',
   '3rd gen cephalosporins (3GCs)': '3GCs',
   CipNS: 'CIP',
+  Sulfamethoxazole: 'SMX',
+  Gentamicin: 'GENT',
 };
 
 export const drugAcronymsOpposite = {

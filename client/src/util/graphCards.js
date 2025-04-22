@@ -7,6 +7,7 @@ import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
 import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
+import { amrLikeOrganisms, organismsCards } from './organismsCards';
 
 function getTrendstitle(organism) {
   switch (organism) {
@@ -25,7 +26,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'ngono', 'kpneumo', 'sentericaints', 'shige'],
+    organisms: organismsCards.map((x) => x.value),
     component: <DrugResistanceGraph />,
   },
   {
@@ -41,7 +42,7 @@ export const graphCards = [
     description: ['Top Lineages (up to 7)'],
     icon: <BarChart color="primary" />,
     id: 'RFWG',
-    organisms: ['sentericaints', 'shige'],
+    organisms: amrLikeOrganisms,
     component: <FrequenciesGraph />,
   },
   {
@@ -74,7 +75,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'],
+    organisms: amrLikeOrganisms,
     component: <DistributionGraph />,
   },
   {
@@ -122,7 +123,7 @@ export const graphCards = [
     description: [''],
     icon: <BubbleChart color="primary" />,
     id: 'HSG2',
-    organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli', 'sentericaints', 'shige'],
+    organisms: organismsCards.map((x) => x.value),
     component: <BubbleHeatmapGraph2 />,
   },
 ];
@@ -132,5 +133,5 @@ export const continentGraphCard = {
   description: [''],
   icon: <BubbleChart color="primary" />,
   id: 'CGC',
-  organisms: ['styphi', 'ngono', 'kpneumo', 'sentericaints', 'shige'],
+  organisms: organismsCards.map((x) => x.value),
 };

@@ -1,6 +1,7 @@
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { drugRulesST, drugRulesKP, drugRulesNG, statKeys, drugRulesINTS } from '../../util/drugClassesRules';
 import { drugClassesRulesST, drugClassesRulesKP, drugClassesRulesNG } from '../../util/drugClassesRules';
+import { amrLikeOrganisms } from '../../util/organismsCards';
 
 // This filter is called after either dataset, initialYear, finalYear or country changes and if reset button is pressed.
 // And it returns the data filtered by the variables said before, also the list of unique genotypes, count of genotypes
@@ -148,7 +149,11 @@ function getMapStatsData({ itemData, columnKey, statsKey, noItems = false, organ
   });
 
   const stats = items.find((item) => {
-    if (['sentericaints', 'shige'].includes(organism)) {
+    if (amrLikeOrganisms.includes(organism)) {
+      if (Array.isArray(statsKey)) {
+        return statsKey.some((x) => item.name?.includes(x));
+      }
+
       return item.name?.includes(statsKey);
     }
 
@@ -276,7 +281,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     //
     if (['shige', 'decoli', 'ecoli'].includes(organism)) {
       stats['PATHOTYPE'] = { items: [], count: 0 };
-      generateStats('PATHOTYPE', 'Pathotype');
+      generateStats('PATHOTYPE', organism === 'ecoli' ? 'Pathovar' : 'Pathotype');
     }
 
     // Other stats
@@ -367,7 +372,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     // Initialize drugStats
     const drugStats = {};
 
-    if (count >= 10) {
+    if (count) {
       const calculateDrugStats = (rules) => {
         rules.forEach((rule) => {
           const drugData = yearData.filter((x) => {
@@ -375,7 +380,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
               return rule.requirements.every((req) =>
                 req.values.some(
                   (value) =>
-                    (['sentericaints', 'shige'].includes(organism) && x[req.columnID]?.includes(value)) ||
+                    (amrLikeOrganisms.includes(organism) && x[req.columnID]?.includes(value)) ||
                     x[req.columnID] === value,
                 ),
               );
@@ -383,7 +388,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
             return rule.values.some(
               (value) =>
-                (['sentericaints', 'shige'].includes(organism) && x[rule.columnID]?.includes(value)) ||
+                (amrLikeOrganisms.includes(organism) && x[rule.columnID]?.includes(value)) ||
                 x[rule.columnID] === value,
             );
           });
@@ -399,7 +404,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
       if (organism === 'styphi') {
         calculateDrugStats(drugRulesST);
-      } else if (['sentericaints', 'shige'].includes(organism)) {
+      } else if (amrLikeOrganisms.includes(organism)) {
         calculateDrugStats(drugRulesINTS);
       } else if (organism === 'kpneumo') {
         drugRulesKP.forEach((rule) => {
@@ -715,14 +720,14 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
           genotypesDrugClassesData[rule.key].push(drugClass);
         }
       });
-    } else if (['sentericaints', 'shige'].includes(organism)) {
+    } else if (amrLikeOrganisms.includes(organism)) {
       drugRulesINTS.forEach((rule) => {
         const drugData = genotypeData.filter((x) => {
           if ('requirements' in rule) {
             return rule.requirements.every((req) =>
               req.values.some(
                 (value) =>
-                  (['sentericaints', 'shige'].includes(organism) && x[req.columnID]?.includes(value)) ||
+                  (amrLikeOrganisms.includes(organism) && x[req.columnID]?.includes(value)) ||
                   x[req.columnID] === value,
               ),
             );
@@ -730,8 +735,7 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
 
           return rule.values.some(
             (value) =>
-              (['sentericaints', 'shige'].includes(organism) && x[rule.columnID]?.includes(value)) ||
-              x[rule.columnID] === value,
+              (amrLikeOrganisms.includes(organism) && x[rule.columnID]?.includes(value)) || x[rule.columnID] === value,
           );
         });
         response[rule.key] = drugData.length;

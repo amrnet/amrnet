@@ -253,15 +253,36 @@ router.get('/getDataForNgono', async function (req, res, next) {
 router.get('/getDataForEcoli', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['ecoli'];
   try {
+    // await client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName).createIndex({ Name: 1 });
+
+    // await client
+    //   .db(dbAndCollection.dbName)
+    //   .collection('ecoli-output-full') // Use actual collection name
+    //   .createIndex({ strain_name: 1 });
+
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
+      .aggregate([
+        { $match: { 'dashboard view': 'Include' } },
+        {
+          $lookup: {
+            from: 'ecoli-output-full',
+            let: { nameField: '$Name' },
+            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
+            as: 'extraData',
+          },
+        },
+        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+        { $addFields: sentericaintsFieldsToAdd },
+        { $project: { extraData: 0 } },
+      ])
       .toArray();
+
     console.log(result.length);
     if (result.length < 1) {
       let results = [];
-      let read_file = Tools.path_clean_ec;
+      let read_file = Tools.path_clean_sh;
       fs.createReadStream(read_file)
         .on('error', (_) => {
           return res.json([]);
@@ -272,6 +293,7 @@ router.get('/getDataForEcoli', async function (req, res, next) {
           return res.json(results);
         });
     } else return res.json(result);
+    // return res.json([]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -281,15 +303,36 @@ router.get('/getDataForEcoli', async function (req, res, next) {
 router.get('/getDataForDEcoli', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['decoli'];
   try {
+    // await client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName).createIndex({ Name: 1 });
+
+    // await client
+    //   .db(dbAndCollection.dbName)
+    //   .collection('ecoli-output-full') // Use actual collection name
+    //   .createIndex({ strain_name: 1 });
+
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
+      .aggregate([
+        { $match: { 'dashboard view': 'Include' } },
+        {
+          $lookup: {
+            from: 'ecoli-output-full',
+            let: { nameField: '$Name' },
+            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
+            as: 'extraData',
+          },
+        },
+        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+        { $addFields: sentericaintsFieldsToAdd },
+        { $project: { extraData: 0 } },
+      ])
       .toArray();
+
     console.log(result.length);
     if (result.length < 1) {
       let results = [];
-      let read_file = Tools.path_clean_dec;
+      let read_file = Tools.path_clean_sh;
       fs.createReadStream(read_file)
         .on('error', (_) => {
           return res.json([]);
@@ -300,6 +343,7 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
           return res.json(results);
         });
     } else return res.json(result);
+    // return res.json([]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

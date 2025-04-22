@@ -250,9 +250,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   function handleChangeYAxisSelected(event) {
     const newValue = event.target.value;
 
-    if (newValue.length <= 8) {
-      setYAxisSelected(newValue);
-    }
+    // if (newValue.length <= 8) {
+    //   setYAxisSelected(newValue);
+    // }
+    setYAxisSelected(newValue);
   }
 
   function clearYAxisSelected() {
@@ -359,7 +360,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       setPlotChart(() => {
         return (
           <>
-            {configuredMapData.map((item, index) => {
+            {configuredMapData?.map((item, index) => {
               return (
                 <ResponsiveContainer
                   className={classes.graphContainer}
@@ -629,7 +630,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       }}
                       renderValue={(selected) => <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>}
                     >
-                      {yAxisOptions.map((option, index) => (
+                      {yAxisOptions.sort().map((option, index) => (
                         <MenuItem key={`geo-y-axis-option-${index}`} value={option}>
                           <Checkbox checked={yAxisSelected.indexOf(option) > -1} />
                           <ListItemText primary={getOptionLabel(option)} />

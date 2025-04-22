@@ -10,6 +10,7 @@ import {
   Tabs,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import { useStyles } from './ContinentGraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -20,6 +21,7 @@ import { continentGraphCard } from '../../../util/graphCards';
 import { BubbleGeographicGraph } from './BubbleGeographicGraph';
 import { ExpandLess, ExpandMore, FilterList, FilterListOff } from '@mui/icons-material';
 import { TrendLineGraph } from './TrendLineGraph';
+import { amrLikeOrganisms } from '../../../util/organismsCards';
 
 const TABS = [
   {
@@ -34,7 +36,7 @@ const TABS = [
     value: 'TL',
     disabled: false,
     component: <TrendLineGraph />,
-    notShow: ['sentericaints', 'shige'],
+    notShow: amrLikeOrganisms,
   },
   // {
   //   label: 'Trend line 2',
@@ -46,9 +48,10 @@ const TABS = [
 
 export const ContinentGraphs = () => {
   const classes = useStyles();
+  const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
-  const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(!matches500);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -57,7 +60,8 @@ export const ContinentGraphs = () => {
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
   useEffect(() => {
-    setShowFilter(true);
+    setShowFilter(!matches500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organism]);
 
   const showFilterFull = useMemo(() => {
