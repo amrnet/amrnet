@@ -391,7 +391,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                       {getDrugClasses(organism).map((option, index) => {
                         return (
                           <MenuItem key={index + 'trend-line-drug-classes'} value={option}>
-                            {option}
+                            {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : option}
                           </MenuItem>
                         );
                       })}

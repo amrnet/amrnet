@@ -198,6 +198,9 @@ export const DashboardPage = () => {
       if (['shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathotype);
       }
+      if (organism === 'ecoli') {
+        pathovarSet.add(x.Pathovar);
+      }
     });
 
     const genotypes = Array.from(genotypesSet);
@@ -422,6 +425,7 @@ export const DashboardPage = () => {
         case 'shige':
         case 'senterica':
           dispatch(setMapView('No. Samples'));
+          dispatch(setDrugResistanceGraphView(drugsINTS));
           break;
         default:
           break;
@@ -443,6 +447,10 @@ export const DashboardPage = () => {
         }),
       );
       setData([]);
+      dispatch(setTotalGenomes(0));
+      dispatch(setTotalGenotypes(0));
+      dispatch(setActualGenomes(0));
+      dispatch(setActualGenotypes(0));
       dispatch(setDataset(''));
       dispatch(setActualTimeInitial(''));
       dispatch(setActualTimeFinal(''));
@@ -608,6 +616,7 @@ export const DashboardPage = () => {
           setMapRegionData(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })),
         );
       }
+     // dispatch(setMapRegionData(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })));
       const genotypesData = getGenotypesData({
         data: filteredData,
         genotypes: genotypesForFilter,

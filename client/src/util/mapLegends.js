@@ -1,5 +1,8 @@
+import { amrLikeOrganisms, organismsCards } from './organismsCards';
+
 // List of legends for the map and in which organisms they appear
 export const mapLegends = [
+
   // {
   //   value: 'MDR',
   //   label: 'Multidrug resistant (MDR)',
@@ -33,11 +36,12 @@ export const mapLegends = [
   //   organisms: ['', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
   // },
   // { value: 'Pansusceptible', label: 'Pansusceptible', organisms: ['ngono'] },
+
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   {
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
-    organisms: ['styphi', 'ngono', 'ecoli', 'senterica'],
+    organisms: ['styphi', 'ngono' /*, 'ecoli', 'senterica'*/],
   },
   {
     value: 'ST prevalence',
@@ -47,14 +51,20 @@ export const mapLegends = [
   {
     value: 'Resistance prevalence',
     label: 'Resistance prevalence',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'sentericaints'],
+    organisms: organismsCards.map((x) => x.value),
   },
+  {
+    value: 'Lineage prevalence',
+    label: 'Lineage prevalence',
+    organisms: amrLikeOrganisms,
+  },
+
   { value: 'Lineage prevalence', label: 'Lineage prevalence', organisms: ['shige', 'decoli', 'sentericaints'] },
-  { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
+  { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['styphi'] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
   {
     value: 'No. Samples',
     label: 'No. Samples',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
+    organisms: organismsCards.map((x) => x.value),
   },
 ];

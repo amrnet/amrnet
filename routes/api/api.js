@@ -46,6 +46,11 @@ const sentericaintsFieldsToAdd = {
   NITROIMIDAZOLE: '$extraData.NITROIMIDAZOLE',
 };
 
+const fieldsToProject = Object.keys(sentericaintsFieldsToAdd).reduce(
+  (acc, key) => ({ ...acc, [key]: 1 }),
+  { NAME: 1 }, // always include NAME for matching
+);
+
 // Get all data from the clean file inside assets
 router.get('/getDataForSTyphi', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['styphi'];
@@ -248,67 +253,32 @@ router.get('/getDataForNgono', async function (req, res, next) {
 router.get('/getDataForEcoli', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['ecoli'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
-      .toArray();
-    console.log(result.length);
-    if (result.length < 1) {
-      let results = [];
-      let read_file = Tools.path_clean_ec;
-      fs.createReadStream(read_file)
-        .on('error', (_) => {
-          return res.json([]);
-        })
-        .pipe(csv())
-        .on('data', (data_) => results.push(data_))
-        .on('end', () => {
-          return res.json(results);
-        });
-    } else return res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+    // await client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName).createIndex({ Name: 1 });
 
-router.get('/getDataForDEcoli', async function (req, res, next) {
-  const dbAndCollection = dbAndCollectionNames['decoli'];
-  try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
-      .toArray();
-    console.log(result.length);
-    if (result.length < 1) {
-      let results = [];
-      let read_file = Tools.path_clean_dec;
-      fs.createReadStream(read_file)
-        .on('error', (_) => {
-          return res.json([]);
-        })
-        .pipe(csv())
-        .on('data', (data_) => results.push(data_))
-        .on('end', () => {
-          return res.json(results);
-        });
-    } else return res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+    // await client
+    //   .db(dbAndCollection.dbName)
+    //   .collection('ecoli-output-full') // Use actual collection name
+    //   .createIndex({ strain_name: 1 });
 
-router.get('/getDataForShige', async function (req, res, next) {
-  const dbAndCollection = dbAndCollectionNames['shige'];
-  try {
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
+      .aggregate([
+        { $match: { 'dashboard view': 'Include' } },
+        {
+          $lookup: {
+            from: 'ecoli-output-full',
+            let: { nameField: '$Name' },
+            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
+            as: 'extraData',
+          },
+        },
+        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+        { $addFields: sentericaintsFieldsToAdd },
+        { $project: { extraData: 0 } },
+      ])
       .toArray();
+
     console.log(result.length);
     if (result.length < 1) {
       let results = [];
@@ -323,6 +293,107 @@ router.get('/getDataForShige', async function (req, res, next) {
           return res.json(results);
         });
     } else return res.json(result);
+    // return res.json([]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/getDataForDEcoli', async function (req, res, next) {
+  const dbAndCollection = dbAndCollectionNames['decoli'];
+  try {
+    // await client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName).createIndex({ Name: 1 });
+
+    // await client
+    //   .db(dbAndCollection.dbName)
+    //   .collection('ecoli-output-full') // Use actual collection name
+    //   .createIndex({ strain_name: 1 });
+
+    const result = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .aggregate([
+        { $match: { 'dashboard view': 'Include' } },
+        {
+          $lookup: {
+            from: 'ecoli-output-full',
+            let: { nameField: '$Name' },
+            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
+            as: 'extraData',
+          },
+        },
+        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+        { $addFields: sentericaintsFieldsToAdd },
+        { $project: { extraData: 0 } },
+      ])
+      .toArray();
+
+    console.log(result.length);
+    if (result.length < 1) {
+      let results = [];
+      let read_file = Tools.path_clean_sh;
+      fs.createReadStream(read_file)
+        .on('error', (_) => {
+          return res.json([]);
+        })
+        .pipe(csv())
+        .on('data', (data_) => results.push(data_))
+        .on('end', () => {
+          return res.json(results);
+        });
+    } else return res.json(result);
+    // return res.json([]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/getDataForShige', async function (req, res, next) {
+  const dbAndCollection = dbAndCollectionNames['shige'];
+  try {
+    // await client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName).createIndex({ Name: 1 });
+
+    // await client
+    //   .db(dbAndCollection.dbName)
+    //   .collection('ecoli-output-full') // Use actual collection name
+    //   .createIndex({ strain_name: 1 });
+
+    const result = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .aggregate([
+        { $match: { 'dashboard view': 'Include' } },
+        {
+          $lookup: {
+            from: 'ecoli-output-full',
+            let: { nameField: '$Name' },
+            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
+            as: 'extraData',
+          },
+        },
+        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+        { $addFields: sentericaintsFieldsToAdd },
+        { $project: { extraData: 0 } },
+      ])
+      .toArray();
+
+    console.log(result.length);
+    if (result.length < 1) {
+      let results = [];
+      let read_file = Tools.path_clean_sh;
+      fs.createReadStream(read_file)
+        .on('error', (_) => {
+          return res.json([]);
+        })
+        .pipe(csv())
+        .on('data', (data_) => results.push(data_))
+        .on('end', () => {
+          return res.json(results);
+        });
+    } else return res.json(result);
+    // return res.json([]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -332,11 +403,32 @@ router.get('/getDataForShige', async function (req, res, next) {
 router.get('/getDataForSenterica', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['senterica'];
   try {
+    // await client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName).createIndex({ name: 1 });
+
+    // await client
+    //   .db(dbAndCollection.dbName)
+    //   .collection('senterica-output-full') // Use actual collection name
+    //   .createIndex({ NAME: 1 });
+
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
+      .aggregate([
+        { $match: { 'dashboard view': 'Include' } },
+        {
+          $lookup: {
+            from: 'senterica-output-full',
+            let: { nameField: '$name' },
+            pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }, { $project: fieldsToProject }],
+            as: 'extraData',
+          },
+        },
+        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+        { $addFields: sentericaintsFieldsToAdd },
+        { $project: { extraData: 0 } },
+      ])
       .toArray();
+
     console.log(result.length);
     if (result.length < 1) {
       let results = [];
@@ -351,6 +443,7 @@ router.get('/getDataForSenterica', async function (req, res, next) {
           return res.json(results);
         });
     } else return res.json(result);
+    // return res.json([]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -376,7 +469,7 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
           $lookup: {
             from: 'senterica-output-full',
             let: { nameField: '$NAME' },
-            pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }],
+            pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }, { $project: fieldsToProject }],
             as: 'extraData',
           },
         },

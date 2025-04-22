@@ -8,6 +8,8 @@ import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { useAppSelector } from '../stores/hooks';
+import { amrLikeOrganisms, organismsCards } from './organismsCards';
+
 
 
 
@@ -39,7 +41,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: ['styphi', 'ngono', 'kpneumo', 'sentericaints'],
+    organisms: organismsCards.map((x) => x.value),
     component: <DrugResistanceGraph />,
   },
   // {
@@ -65,6 +67,14 @@ export const graphCards = [
     id: 'RDWG',
     organisms: ['styphi', 'ngono'],
     component: <DeterminantsGraph />,
+  },
+  {
+    title: 'Resistance frequencies within lineages',
+    description: ['Top Lineages (up to 7)'],
+    icon: <BarChart color="primary" />,
+    id: 'RFWG',
+    organisms: amrLikeOrganisms,
+    component: <FrequenciesGraph />,
   },
   {
     title: 'AMR markers by ST',
@@ -96,7 +106,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'],
+    organisms: amrLikeOrganisms,
     component: <DistributionGraph />,
   },
   {
@@ -161,6 +171,7 @@ export const graphCards = [
     icon: <BubbleChart color="primary" />,
     id: 'HSG2',
     organisms: ['kpneumo'],
+    //organisms: organismsCards.map((x) => x.value),
     component: <BubbleHeatmapGraph2 />,
   },
 ];
@@ -170,7 +181,7 @@ export const continentGraphCard = {
   description: [''],
   icon: <BubbleChart color="primary" />,
   id: 'CGC',
-  organisms: ['styphi', 'ngono', 'kpneumo'],
+  organisms: organismsCards.map((x) => x.value),
 };
 
 export const mapViewCard = {

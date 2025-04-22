@@ -35,6 +35,7 @@ import { Close, InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
 import { SelectCountry } from '../../SelectCountry';
+import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -89,7 +90,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     if (organism === 'ngono') {
       return drugsNG;
     }
-    if (organism === 'sentericaints') {
+    if (amrLikeOrganisms.includes(organism)) {
       return drugsINTS;
     }
   }

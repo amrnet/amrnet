@@ -42,6 +42,7 @@ import { drugsST, drugsKP, drugsNG, drugsINTS } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureRFWG } from '../../../../stores/slices/dashboardSlice';
 import { SelectCountry } from '../../SelectCountry';
+import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -110,7 +111,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
       return drugsKP;
     } else if (organism === 'ngono') {
       return drugsNG;
-    } else if (organism === 'sentericaints') {
+    } else if (amrLikeOrganisms.includes(organism)) {
       return drugsINTS;
     }
   }

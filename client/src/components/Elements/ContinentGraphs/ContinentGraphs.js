@@ -10,16 +10,18 @@ import {
   Tabs,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import { useStyles } from './ContinentGraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
-import { cloneElement, useEffect, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { continentGraphCard } from '../../../util/graphCards';
 import { BubbleGeographicGraph } from './BubbleGeographicGraph';
 import { ExpandLess, ExpandMore, FilterList, FilterListOff } from '@mui/icons-material';
 import { TrendLineGraph } from './TrendLineGraph';
+import { amrLikeOrganisms } from '../../../util/organismsCards';
 
 const TABS = [
   {
@@ -27,12 +29,14 @@ const TABS = [
     value: 'BG',
     disabled: false,
     component: <BubbleGeographicGraph />,
+    notShow: [],
   },
   {
     label: 'Trend line',
     value: 'TL',
     disabled: false,
     component: <TrendLineGraph />,
+    notShow: amrLikeOrganisms,
   },
   // {
   //   label: 'Trend line 2',
@@ -44,19 +48,29 @@ const TABS = [
 
 export const ContinentGraphs = () => {
   const classes = useStyles();
+  const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(!matches500);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
+  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
+  const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
   useEffect(() => {
-    setShowFilter(false);
+    setShowFilter(!matches500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organism]);
+
+  const showFilterFull = useMemo(() => {
+    return showFilter && !loadingData && !loadingMap;
+  }, [loadingData, loadingMap, showFilter]);
+
+  const filteredTABS = useMemo(() => TABS.filter((tab) => !tab.notShow.includes(organism)), [organism]);
 
   function handleCloseAlert() {
     setShowAlert(false);
@@ -120,7 +134,7 @@ export const ContinentGraphs = () => {
         </CardActions>
         {collapses['continent'] && (
           <Tabs value={currentTab} onChange={handleChangeTab} variant="fullWidth">
-            {TABS.map((tab, i) => {
+            {filteredTABS.map((tab, i) => {
               return (
                 <Tab
                   key={`geo-tab-${i}`}
@@ -136,7 +150,7 @@ export const ContinentGraphs = () => {
 
         <Collapse in={collapses['continent']} timeout="auto">
           <Box className={classes.boxWrapper}>
-            {TABS.map((card) => {
+            {filteredTABS.map((card) => {
               return (
                 <Box
                   key={`card-${card.value}`}
@@ -148,7 +162,7 @@ export const ContinentGraphs = () => {
                     width: '100%',
                   }}
                 >
-                  {cloneElement(card.component, { showFilter, setShowFilter })}
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
               );
             })}

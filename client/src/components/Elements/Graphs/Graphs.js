@@ -40,11 +40,12 @@ import { DownloadMapViewData } from '../Map/BottomRightControls/DownloadMapViewD
 export const Graphs = () => {
   const classes = useStyles();
   const matches1000 = useMediaQuery('(max-width:1000px)');
+  const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState('');
-  const [showFilter, setShowFilter] = useState(true);
-
+  //const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(!matches500);
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
   const organism = useAppSelector((state) => state.dashboard.organism);
@@ -81,7 +82,9 @@ export const Graphs = () => {
   const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
   const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
-  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
+ //const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
+  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
+  const loadingMap = useAppSelector((state) => state.map.loadingMap);
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
   useEffect(() => {
     if (organismCards.length > 0) {
@@ -90,8 +93,15 @@ export const Graphs = () => {
   }, [organismCards]);
 
   useEffect(() => {
-    setShowFilter(true);
+    //setShowFilter(true);
+    setShowFilter(!matches500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [organism]);
+
+  const showFilterFull = useMemo(() => {
+    return showFilter && !loadingData && !loadingMap;
+  }, [loadingData, loadingMap, showFilter]);
 
   const currentCard = useMemo(() => organismCards.find((x) => x.id === currentTab), [currentTab, organismCards]);
 
@@ -502,7 +512,7 @@ export const Graphs = () => {
                     width: '100%',
                   }}
                 >
-                  {cloneElement(card.component, { showFilter, setShowFilter })}
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
               );
             })}

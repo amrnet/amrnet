@@ -414,7 +414,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                     {getDrugClasses(organism).map((option, index) => {
                       return (
                         <MenuItem key={index + 'determinants-drug-classes'} value={option}>
-                          {option}
+                          {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : option}
                         </MenuItem>
                       );
                     })}

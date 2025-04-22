@@ -154,3 +154,4 @@ export const organismsCards = [
   //   disabled: true,
   // },
 ]
+export const amrLikeOrganisms = ['decoli', 'ecoli', 'senterica', 'shige', 'sentericaints'];

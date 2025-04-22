@@ -17,7 +17,7 @@ export const FloatingGlobalFilters = () => {
 
   const [left, setLeft] = useState(16);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(!matches500);
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
   useEffect(() => {
@@ -51,6 +51,13 @@ export const FloatingGlobalFilters = () => {
   // useEffect(() => {
   //   setShowFilter(!matches1750);
   // }, [matches1750]);
+  
+  useEffect(() => {
+    if (matches500) {
+      setShowFilter(false);
+    }
+  }, [matches500]);
+
 
   // useEffect(() => {
   //   const scrollContainer = document.getElementById('main-layout');
@@ -64,6 +71,13 @@ export const FloatingGlobalFilters = () => {
   //       }
   //       setLastScrollTop(currentScrollTop);
   //     };
+
+    if (scrollContainer && matches1750) {
+      const handleScroll = () => {
+        const currentScrollTop = scrollContainer.scrollTop;
+        setLastScrollTop(currentScrollTop);
+      };
+
 
   //     scrollContainer.addEventListener('scroll', handleScroll);
   //     return () => scrollContainer.removeEventListener('scroll', handleScroll);
