@@ -7,8 +7,21 @@ import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
 import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
-import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { useAppSelector } from '../stores/hooks';
 
+
+
+
+function getHeatMapsTitle(organism) {
+  switch (organism) {
+    case 'kpneumo':
+      return 'AMR by ST';
+    case 'ints':
+      return 'AMR by lineage';
+    default:
+      return 'AMR by genotype';
+  }
+}
 function getTrendstitle(organism) {
   switch (organism) {
     case 'kpneumo':
@@ -22,39 +35,47 @@ function getTrendstitle(organism) {
 
 export const graphCards = [
   {
-    title: 'Drug resistance trends',
+    title: 'AMR trends',
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: organismsCards.map((x) => x.value),
+    organisms: ['styphi', 'ngono', 'kpneumo', 'sentericaints'],
     component: <DrugResistanceGraph />,
   },
+  // {
+  //   title: 'Resistance frequencies within genotypes',
+  //   description: ['Top Genotypes (up to 7)'],
+  //   icon: <BarChart color="primary" />,
+  //   id: 'RFWG',
+  //   organisms: ['styphi', 'kpneumo', 'ngono'],
+  //   component: <FrequenciesGraph />,
+  // },
+  // {
+  //   title: 'Resistance frequencies within lineages',
+  //   description: ['Top Lineages (up to 7)'],
+  //   icon: <BarChart color="primary" />,
+  //   id: 'RFWG',
+  //   organisms: ['sentericaints'],
+  //   component: <FrequenciesGraph />,
+  // },
   {
-    title: 'Resistance frequencies within genotypes',
-    description: ['Top Genotypes (up to 7)'],
-    icon: <BarChart color="primary" />,
-    id: 'RFWG',
-    organisms: ['styphi', 'kpneumo', 'ngono'],
-    component: <FrequenciesGraph />,
-  },
-  {
-    title: 'Resistance frequencies within lineages',
-    description: ['Top Lineages (up to 7)'],
-    icon: <BarChart color="primary" />,
-    id: 'RFWG',
-    organisms: amrLikeOrganisms,
-    component: <FrequenciesGraph />,
-  },
-  {
-    title: 'Resistance determinants within genotypes',
+    title: 'AMR markers by genotype',
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
-    organisms: ['styphi', 'kpneumo', 'ngono'],
+    organisms: ['styphi', 'ngono'],
     component: <DeterminantsGraph />,
   },
   {
-    title: 'Genotype distribution',
+    title: 'AMR markers by ST',
+    description: ['Top Genotypes (up to 10)'],
+    icon: <StackedBarChart color="primary" />,
+    id: 'RDWG',
+    organisms: ['kpneumo'],
+    component: <DeterminantsGraph />,
+  },
+  {
+    title: 'Genotype trends',
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
@@ -71,11 +92,11 @@ export const graphCards = [
   },
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
-    title: 'Lineage prevalence',
+    title: 'Lineage trends',
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: amrLikeOrganisms,
+    organisms: ['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'],
     component: <DistributionGraph />,
   },
   {
@@ -119,11 +140,27 @@ export const graphCards = [
   //   component: <BubbleHeatmapGraph />,
   // },
   {
-    title: 'Heatmap ST vs genotype',
+    title: getHeatMapsTitle('styphi'),
     description: [''],
     icon: <BubbleChart color="primary" />,
     id: 'HSG2',
-    organisms: organismsCards.map((x) => x.value),
+    organisms: ['styphi', 'ngono', 'shige', 'decoli', 'ecoli'],
+    component: <BubbleHeatmapGraph2 />,
+  },
+  {
+    title: getHeatMapsTitle('ints'),
+    description: [''],
+    icon: <BubbleChart color="primary" />,
+    id: 'HSG2',
+    organisms: ['sentericaints'],
+    component: <BubbleHeatmapGraph2 />,
+  },
+  {
+    title: getHeatMapsTitle('kpneumo'),
+    description: [''],
+    icon: <BubbleChart color="primary" />,
+    id: 'HSG2',
+    organisms: ['kpneumo'],
     component: <BubbleHeatmapGraph2 />,
   },
 ];
@@ -133,5 +170,13 @@ export const continentGraphCard = {
   description: [''],
   icon: <BubbleChart color="primary" />,
   id: 'CGC',
-  organisms: organismsCards.map((x) => x.value),
+  organisms: ['styphi', 'ngono', 'kpneumo'],
+};
+
+export const mapViewCard = {
+  title: 'Geographic Comparisons',
+  description: [''],
+  icon: <BubbleChart color="primary" />,
+  id: 'CGC',
+  organisms: ['styphi', 'ngono', 'kpneumo'],
 };

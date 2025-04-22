@@ -76,7 +76,7 @@ export const ResetButton = () => {
     const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
 
     if (organism === 'styphi') {
-      dispatch(setMapView('CipNS'));
+      dispatch(setMapView('Resistance prevalence'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
     } else if (organism === 'ngono') {
@@ -89,7 +89,10 @@ export const ResetButton = () => {
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
     } else {
-      dispatch(setMapView('No. Samples'));
+      if(organism === 'kpneumo'){
+        dispatch(setMapView('Resistance prevalence'));
+      }else
+        dispatch(setMapView('No. Samples'));
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
       dispatch(setTrendsGraphDrugClass('Carbapenems'));
