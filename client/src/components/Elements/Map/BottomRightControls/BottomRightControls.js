@@ -211,7 +211,7 @@ export const BottomRightControls = () => {
         const typhinetLogoPromise = imgOnLoadPromise(typhinetLogo);
         typhinetLogo.src = LogoImg;
         await typhinetLogoPromise;
-        ctx.drawImage(typhinetLogo, 25, 25);
+        ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
 
         const base64 = canvas.toDataURL();
         await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.stringLabel}.png`);
@@ -231,7 +231,7 @@ export const BottomRightControls = () => {
     <div className={classes.bottomRightControls}>
       <Tooltip title="Download Data" placement="top">
         <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none' || loading}>
-          <DownloadMapViewData fontSize="inherit" value="map"/>
+          <DownloadMapViewData fontSize="inherit" />
         </IconButton>
       </Tooltip>
       <Tooltip title="Download Map as PNG" placement="top">

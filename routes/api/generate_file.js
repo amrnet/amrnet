@@ -125,7 +125,7 @@ router.get('/create', async function (req, res) {
     'Ampicillin',
     'Broad-Spectrum Cephalosporins',
     'Chloramphenicol',
-    'Ciprofloxacin NS',
+    'Ciprofloxacin',
     'Sulfonamides',
     'Trimethoprim',
     'Co-Trimoxazole',

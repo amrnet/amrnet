@@ -6,7 +6,7 @@ export const sponsorsCards = [
     name: 'LSHTM',
     post: 'The London School of Hygiene & Tropical Medicine',
     img: LSHTMLogoImg,
-    redirect: 'https://www.lshtm.ac.uk/amrnet',
+    redirect: 'https://www.lshtm.ac.uk',
   },
   {
     name: 'Wellcome Trust',

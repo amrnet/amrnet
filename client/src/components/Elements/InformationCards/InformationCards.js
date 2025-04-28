@@ -17,13 +17,9 @@ export const InformationCards = () => {
 
   const totalLabel = useMemo(() => {
     const lineageCard = graphCards.find((card) => card.title.toLowerCase().includes('lineage'));
-    const STCard = graphCards.find((card) => card.title.toLowerCase().includes('st'));
 
     if (lineageCard?.organisms?.includes(organism)) {
       return 'Total Lineages';
-    }
-    if (STCard?.organisms?.includes(organism)) {
-      return 'Total STs';
     }
     return 'Total Genotypes';
   }, [organism]);

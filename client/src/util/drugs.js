@@ -10,11 +10,11 @@ export const drugsST = [
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'Sulphonamides',
+  'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
-  'Pansusceptible',
-  'MDR',
   'XDR',
+  'MDR',
 ].sort((a, b) => a.localeCompare(b));
 
 export const defaultDrugsForDrugResistanceGraphST = [
@@ -22,9 +22,9 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'Ceftriaxone',
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
-  'Trimethoprim-sulfamethoxazole',
-  'Pansusceptible',
   'MDR',
+  'Pansusceptible',
+  'Trimethoprim-sulfamethoxazole',
   'XDR',
 ];
 
@@ -100,6 +100,7 @@ export const drugClassesKP = ['Carbapenems', 'ESBL'];
 
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMC',
+  Ampicillin: 'AMP',
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CLO',
   Sulphonamides: 'SUL',
@@ -118,10 +119,13 @@ export const drugAcronyms = {
   Tigecycline: 'TGC',
   AzithR: 'AZM',
   '3rd gen cephalosporins (3GCs)': '3GCs',
+  CipNS: 'CIP',
+  Sulfamethoxazole: 'SMX',
+  Gentamicin: 'GENT',
 };
 
 export const drugAcronymsOpposite = {
-  CipNS: 'Ciprofloxacin NS',
+  CIP: 'Ciprofloxacin',
   CARB: 'Carbapenems',
   AZM: 'Azithromycin',
   ESBL: 'Extended-Spectrum Beta-Lactamase',

@@ -18,7 +18,7 @@ const excludedViews = [
   'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence',
-  // 'Resistance prevalence',
+  'Resistance prevalence',
 ];
 const mapViewsWithZeroPercentOption = [
   'CipNS',
@@ -84,6 +84,8 @@ export const TopRightControls = () => {
       case 'Genotype prevalence':
       case 'Lineage prevalence':
         return gradientStyle;
+      case 'Resistance prevalence':
+        return gradientStyle;
       case '':
         return [];
       default:
@@ -113,7 +115,7 @@ export const TopRightControls = () => {
       case 'styphi':
         return 'XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)';
       case 'ngono':
-        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin NS and Spectinomycin [category II drugs])';
+        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
       default:
         return;
     }
@@ -244,8 +246,8 @@ export const TopRightControls = () => {
                     <Box
                       className={classes.legendColorBox}
                       style={{
-                        backgroundColor: getStepBoxColor(step, index)
-                          // mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
+                        backgroundColor:
+                          mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
                       }}
                     />
                     <span className={classes.legendText}>{step}</span>

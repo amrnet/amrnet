@@ -26,12 +26,6 @@ import {
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
 import { useEffect, useState } from 'react';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -39,7 +33,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
 
-  const [currentSelectedLineages, setCurrentSelectedLineages] = useState('');
+  const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
 
   const dispatch = useAppDispatch();
   const dataset = useAppSelector((state) => state.map.dataset);
@@ -51,7 +45,6 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
 
   useEffect(() => {
-    console.log('selectedLineages', selectedLineages);
     setCurrentSelectedLineages(selectedLineages);
   }, [selectedLineages]);
 
@@ -72,33 +65,26 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
     dispatch(setCanFilterData(true));
   }
 
-  // function handleChangeLineages(_, value) {
-  //   if (!value.includes('Clear All') && !value.includes('Select All')) {
-  //     setCurrentSelectedLineages(value);
-  //     return;
-  //   }
+  function handleChangeLineages(_, value) {
+    if (!value.includes('Clear All') && !value.includes('Select All')) {
+      setCurrentSelectedLineages(value);
+      return;
+    }
 
-  //   if (value.includes('Clear All')) {
-  //     setCurrentSelectedLineages([]);
-  //     return;
-  //   }
+    if (value.includes('Clear All')) {
+      setCurrentSelectedLineages([]);
+      return;
+    }
 
-  //   if (value.includes('Select All')) {
-  //     setCurrentSelectedLineages(pathovar);
-  //   }
-  // }
-
-  function handleChangeLineages(event) {
-    const newValue = event.target.value;
-    setCurrentSelectedLineages(newValue);
-    dispatch(setSelectedLineages([newValue])); // Store it as an array in Redux if necessary
-    dispatch(setCanFilterData(true));
+    if (value.includes('Select All')) {
+      setCurrentSelectedLineages(pathovar);
+    }
   }
 
   function handleCloseLineages(_) {
     if (
       currentSelectedLineages.length !== selectedLineages.length ||
-      currentSelectedLineages !== selectedLineages
+      currentSelectedLineages.some((item) => !selectedLineages.includes(item))
     ) {
       dispatch(setSelectedLineages(currentSelectedLineages));
       dispatch(setCanFilterData(true));
@@ -118,7 +104,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.titleWrapper}>
-            <Typography variant="h6">Global Filter</Typography>
+            <Typography variant="h6">{title}</Typography>
             {closeButton}
           </div>
           <Typography variant="caption">Applied to all plots</Typography>
@@ -141,90 +127,48 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}
               </Typography>
-              <FormControl onSubmit={handleChangeLineages} sx={{ width: '100%' }} variant="standard">
-            {/* <FormLabel id="demo-radio-buttons-group-label">{organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}</FormLabel> */}
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              value={currentSelectedLineages}
-              defaultValue={pathovar[0]}
-              name="radio-buttons-group"
-              onChange={handleChangeLineages}
-            >{
-              pathovar.map((option, index) => {
-                return (
-                  <FormControlLabel
-                    key={`radio-${index}`}
-                    value={option}
-                    control={<Radio
-                      sx={{
-                        '& .MuiSvgIcon-root': {
-                          fontSize: 16,
-                        },
-                      }}
-                    />}
-                    label={option}
-                    sx={{
-                      '@media (min-width: 700px)': {
-                        maxWidth: '165px',
-                      },
-                      '& .MuiAutocomplete-tag': {
-                        maxHeight: 30,
-                      },
-                      '& .MuiAutocomplete-inputRoot': {
-                        paddingRight: '0px !important',
-                      },
-                      '& .MuiAutocomplete-inputRoot .MuiAutocomplete-input': {
-                        width: '100% !important',
-                      },
-                    }}
-                  />
-                );
-              })
-            }
-            </RadioGroup>
-          </FormControl>
-              {/* <Autocomplete
-                // multiple
+              <Autocomplete
+                multiple
                 disableCloseOnSelect
                 value={currentSelectedLineages}
-                options={[ ...pathovar]}
+                options={[currentSelectedLineages.length === pathovar.length ? 'Clear All' : 'Select All', ...pathovar]}
                 onChange={handleChangeLineages}
-                // onClose={handleCloseLineages}
+                onClose={handleCloseLineages}
                 limitTags={1}
                 clearIcon={null}
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
-                // slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
-                // renderOption={(props, option, { selected }) => {
-                //   const { key, ...optionProps } = props;
-                //   const isAllButton = isAllOption(option);
+                slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
+                renderOption={(props, option, { selected }) => {
+                  const { key, ...optionProps } = props;
+                  const isAllButton = isAllOption(option);
 
-                //   return (
-                //     // eslint-disable-next-line jsx-a11y/role-supports-aria-props
-                //     <li
-                //       key={key}
-                //       {...optionProps}
-                //       aria-selected={isAllButton ? false : selected}
-                //       className={`${optionProps.className} ${classes.lineageLi}`}
-                //     >
-                //       {!isAllButton && (
-                //         <Checkbox
-                //           icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                //           checkedIcon={<CheckBoxIcon fontSize="small" />}
-                //           sx={{ marginRight: '8px', padding: 0 }}
-                //           checked={selected}
-                //         />
-                //       )}
-                //       {option}
-                //     </li>
-                //   );
-                // }}
-                // renderTags={(value, getTagProps) => (
-                //   <Box sx={{ maxHeight: 80, overflowY: 'auto' }}>
-                //     {value.map((option, index) => (
-                //       <Chip key={index} label={option} {...getTagProps({ index })} onDelete={undefined} />
-                //     ))}
-                //   </Box>
-                // )}
+                  return (
+                    // eslint-disable-next-line jsx-a11y/role-supports-aria-props
+                    <li
+                      key={key}
+                      {...optionProps}
+                      aria-selected={isAllButton ? false : selected}
+                      className={`${optionProps.className} ${classes.lineageLi}`}
+                    >
+                      {!isAllButton && (
+                        <Checkbox
+                          icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                          checkedIcon={<CheckBoxIcon fontSize="small" />}
+                          sx={{ marginRight: '8px', padding: 0 }}
+                          checked={selected}
+                        />
+                      )}
+                      {option}
+                    </li>
+                  );
+                }}
+                renderTags={(value, getTagProps) => (
+                  <Box sx={{ maxHeight: 80, overflowY: 'auto' }}>
+                    {value.map((option, index) => (
+                      <Chip key={index} label={option} {...getTagProps({ index })} onDelete={undefined} />
+                    ))}
+                  </Box>
+                )}
                 sx={{
                   '@media (min-width: 700px)': {
                     maxWidth: '165px',
@@ -239,11 +183,9 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                     width: '100% !important',
                   },
                 }}
-              /> */}
+              />
             </div>
           )}
-          
-
           <div className={classes.yearsWrapper}>
             <div className={classes.yearWrapper}>
               <Typography gutterBottom variant="caption">

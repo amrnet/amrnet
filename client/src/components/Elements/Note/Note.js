@@ -44,7 +44,8 @@ export const Note = () => {
           <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
             Pathogenwatch
           </a>{' '}
-          and represents unfiltered data deposited in Enterobase/NCBI/ENA. It includes diverse sources of bacteria (not just human clinical infections) and is biased towards sequencing of resistant strains. Future updates are planned to include curation and filters, to mitigate these issues.
+          and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards
+          sequencing of resistant strains. This will change in future updates.
         </span>
       );
     } else {

@@ -29,10 +29,8 @@ export const TopRightControls2 = () => {
   const mapView = useAppSelector((state) => state.map.mapView);
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
-  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
 
   const [open, setOpen] = useState(true);
-  const [openTypho, setOpenTypo] = useState();
 
   const isResPrevalence = useMemo(() => mapView === 'Resistance prevalence', [mapView]);
   const resistanceOptions = useMemo(() => {
@@ -42,31 +40,14 @@ export const TopRightControls2 = () => {
     return options.filter((option) => option.resistanceView).map((option) => option.name);
   }, [organism]);
 
-  useEffect(()=>{
-    if(open)
-      setOpenTypo(null);
-    else{
-      if(prevalenceMapViewOptionsSelected[0] !== undefined)
-        setOpenTypo(`Showing ${prevalenceMapViewOptionsSelected[0]} data`);
-      else
-      setOpenTypo(`No Drug is selected`);
-    }
-  }, [open, prevalenceMapViewOptionsSelected[0]])
   useEffect(() => {
     if (isResPrevalence) {
       dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
     } else {
-      // dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
-      let firstMatch = genotypesDrugsData.find(item => item.name.includes(selectedLineages));
-      if(organism === 'sentericaints')
-        firstMatch = genotypesDrugsData.find(item => item.name.includes((selectedLineages.includes('Enteritidis') ? 'iE' : 'iT')));
-      console.log("firstMatch", firstMatch)
-      if (firstMatch) {
-        dispatch(setPrevalenceMapViewOptionsSelected([firstMatch.name]));
-      } 
+      dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesDrugsData, isResPrevalence, resistanceOptions, selectedLineages]);
+  }, [genotypesDrugsData, isResPrevalence, resistanceOptions]);
 
   const placeholder = useMemo(() => {
     if (prevalenceMapViewOptionsSelected.length) {
@@ -166,7 +147,6 @@ export const TopRightControls2 = () => {
         control={<Switch checked={open} onChange={handleClick} size="small" />}
         label={<Typography className={classes.font}>{label}</Typography>}
       />
-      <Typography>{openTypho}</Typography>
       <Collapse in={open}>
         <Card elevation={3} className={classes.card}>
           <CardContent className={classes.frequenciesGraph}>
@@ -188,49 +168,18 @@ export const TopRightControls2 = () => {
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder={placeholder} />}
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
-                  if (organism === 'shige' || organism === 'decoli'){
-                    // if (selectedLineages.some(lineage => option.includes(lineage))) {
-                      if (option.includes(selectedLineages)) {
-                      return (
-                        <li key={option} {...optionProps}>
-                          <Checkbox
-                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                            checkedIcon={<CheckBoxIcon fontSize="small" />}
-                            sx={{ marginRight: '8px', padding: 0 }}
-                            checked={selected}
-                          />
-                          {getOptionLabel(option)}
-                        </li>
-                      );
-                    } 
-                  }else if (organism === 'sentericaints'){
 
-                      if (option.includes((selectedLineages.includes('Enteritidis') ? 'iE' : 'iT'))) {
-                      return (
-                        <li key={option} {...optionProps}>
-                          <Checkbox
-                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                            checkedIcon={<CheckBoxIcon fontSize="small" />}
-                            sx={{ marginRight: '8px', padding: 0 }}
-                            checked={selected}
-                          />
-                          {getOptionLabel(option)}
-                        </li>
-                      );
-                    } 
-                  }else {
-                      return (
-                      <li key={key} {...optionProps}>
-                        <Checkbox
-                          icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                          checkedIcon={<CheckBoxIcon fontSize="small" />}
-                          sx={{ marginRight: '8px', padding: 0 }}
-                          checked={selected}
-                        />
-                        {getOptionLabel(option)}
-                      </li>
-                    );
-                    }
+                  return (
+                    <li key={key} {...optionProps}>
+                      <Checkbox
+                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                        checkedIcon={<CheckBoxIcon fontSize="small" />}
+                        sx={{ marginRight: '8px', padding: 0 }}
+                        checked={selected}
+                      />
+                      {getOptionLabel(option)}
+                    </li>
+                  );
                 }}
                 renderTags={(value, getTagProps) => (
                   <Box sx={{ maxHeight: 50, overflowY: 'auto' }}>
