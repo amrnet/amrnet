@@ -32,8 +32,8 @@ export const DownloadMapViewData = () => {
         'Ciprofloxacin resistant %',
         'Carbapenemase prevalence',
         'Carbapenemase prevalence %',
-        'Sensitive to all drugs/Pansusceptible to class I/II drugs',
-        'Sensitive to all drugs/Pansusceptible to class I/II drugs %',
+        'Sensitive to all drugs/Pansusceptible',
+        'Sensitive to all drugs/Pansusceptible %',
       ];
       prevalenceMapViewOptionsSelected.forEach((viewItem, index) => {
         HeaderList.push(`Genotype/Lineage ${viewItem}`);

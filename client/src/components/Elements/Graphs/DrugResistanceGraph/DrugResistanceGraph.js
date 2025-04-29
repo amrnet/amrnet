@@ -139,7 +139,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Pansusceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Pansusceptible’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
