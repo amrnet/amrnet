@@ -25,7 +25,7 @@ function getHeatMapsTitle(organism) {
 function getTrendstitle(organism) {
   switch (organism) {
     case 'kpneumo':
-      return 'Carbapenemase and ESBL distribution';
+      return 'Bla trends';
     case 'ngono':
       return 'Azithromycin and Ceftriaxone resistant determinant trends';
     default:
@@ -124,7 +124,7 @@ export const graphCards = [
     component: <KODiversityGraph />,
   },
   {
-    title: 'Convergence vs metadata',
+    title: 'AMR/virulence',
     description: ['Top Genotypes (up to 30)'],
     icon: <BubbleChart color="primary" />,
     id: 'CVM',
