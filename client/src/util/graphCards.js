@@ -12,10 +12,11 @@ import { amrLikeOrganisms, organismsCards } from './organismsCards';
 
 
 function getHeatMapsTitle(organism) {
+  console.log('organism', organism);
   switch (organism) {
     case 'kpneumo':
       return 'AMR by ST';
-    case 'ints':
+    case 'sentericaints':
       return 'AMR by lineage';
     default:
       return 'AMR by genotype';
@@ -32,6 +33,15 @@ function getTrendstitle(organism) {
       return '';
   }
 }
+
+const heatmapCards = organismsCards.map((organismCard) => ({
+  title: getHeatMapsTitle(organismCard.value),
+  description: [''],
+  icon: <BubbleChart color="primary" />,
+  id: 'HSG2',
+  organisms: [organismCard.value],
+  component: <BubbleHeatmapGraph2 />,
+}));
 
 export const graphCards = [
   {
@@ -139,31 +149,35 @@ export const graphCards = [
   //   organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'],
   //   component: <BubbleHeatmapGraph />,
   // },
-  {
-    title: getHeatMapsTitle('styphi'),
-    description: [''],
-    icon: <BubbleChart color="primary" />,
-    id: 'HSG2',
-    organisms: ['styphi', 'ngono', 'shige', 'decoli', 'ecoli'],
-    component: <BubbleHeatmapGraph2 />,
-  },
-  {
-    title: getHeatMapsTitle('ints'),
-    description: [''],
-    icon: <BubbleChart color="primary" />,
-    id: 'HSG2',
-    organisms: ['sentericaints'],
-    component: <BubbleHeatmapGraph2 />,
-  },
-  {
-    title: getHeatMapsTitle('kpneumo'),
-    description: [''],
-    icon: <BubbleChart color="primary" />,
-    id: 'HSG2',
-    organisms: organismsCards.map((x) => x.value),
-    component: <BubbleHeatmapGraph2 />,
-  },
+  // {
+  //   title: getHeatMapsTitle('styphi'),
+  //   description: [''],
+  //   icon: <BubbleChart color="primary" />,
+  //   id: 'HSG2',
+  //   organisms: ['styphi', 'ngono', 'shige', 'decoli', 'ecoli'],
+  //   component: <BubbleHeatmapGraph2 />,
+  // },
+  // {
+  //   title: getHeatMapsTitle('ints'),
+  //   description: [''],
+  //   icon: <BubbleChart color="primary" />,
+  //   id: 'HSG2',
+  //   organisms: ['sentericaints'],
+  //   component: <BubbleHeatmapGraph2 />,
+  // },
+  // {
+  //   title: getHeatMapsTitle(),
+  //   description: [''],
+  //   icon: <BubbleChart color="primary" />,
+  //   id: 'HSG2',
+  //   organisms: organismsCards.map((x) => x.value),
+  //   component: <BubbleHeatmapGraph2 />,
+  // },
+  ...heatmapCards
 ];
+
+
+
 
 export const continentGraphCard = {
   title: 'Geographic Comparisons',
