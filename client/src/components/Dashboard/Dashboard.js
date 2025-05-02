@@ -396,7 +396,7 @@ export const DashboardPage = () => {
           dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
           break;
         case 'kpneumo':
-          dispatch(setMapView('No. Samples'));
+          dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsKP));
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphDrugClass('Carbapenems'));
@@ -408,21 +408,21 @@ export const DashboardPage = () => {
           // setCurrentConvergenceColourVariable('DATE');
           break;
         case 'ngono':
-          dispatch(setMapView('No. Samples'));
+          dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
           dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
           dispatch(setTrendsGraphDrugClass('Azithromycin'));
           dispatch(setTrendsGraphView('number'));
           break;
         case 'sentericaints':
-          dispatch(setMapView('No. Samples'));
+          dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsINTS));
           break;
         case 'ecoli':
         case 'decoli':
         case 'shige':
         case 'senterica':
-          dispatch(setMapView('No. Samples'));
+          dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsINTS));
           break;
         default:
