@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
 
     '&.sponsor-card': {
       maxHeight: '210px',

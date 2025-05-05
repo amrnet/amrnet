@@ -12,7 +12,7 @@ export const Footer = () => {
   }
 
   function handleClickLSHTM() {
-    window.open('https://www.lshtm.ac.uk', '_blank');
+    window.open('https://www.lshtm.ac.uk/amrnet', '_blank');
   }
 
   function handleClickWT() {
