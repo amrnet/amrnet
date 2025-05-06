@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
 import { setColorPallete, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
-import { setDistributionGraphView, setResetBool } from '../../../../stores/slices/graphSlice.ts';
+import { setDistributionGraphView, setResetBool, setEndtimeGD, setStarttimeGD } from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -178,6 +178,17 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   }, [topXGenotypes]);
 
   useEffect(() => {
+    if (genotypesYearData.length > 0) {
+      // Dispatch initial values based on the default range (full range)
+      const startValue = genotypesYearData[0]?.name; // First value in the data
+      const endValue = genotypesYearData[genotypesYearData.length - 1]?.name; // Last value in the data
+      console.log('startValue', startValue, endValue);
+      dispatch(setStarttimeGD(startValue));
+      dispatch(setEndtimeGD(endValue));
+    }
+  }, [genotypesYearData, dispatch]);
+
+  useEffect(() => {
     if (canGetData) {
       setPlotChart(() => {
         return (
@@ -195,7 +206,10 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   {dataViewOptions.find((option) => option.value === distributionGraphView).label}
                 </Label>
               </YAxis>
-              {genotypesYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
+              {genotypesYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} onChange={(brushRange) => {
+                dispatch(setStarttimeGD((genotypesYearData[brushRange.startIndex]?.name)));
+                dispatch(setEndtimeGD((genotypesYearData[brushRange.endIndex]?.name))); // if using state genotypesYearData[start]?.name
+              }}/>}
               <Legend
                 content={(props) => {
                   const { payload } = props;

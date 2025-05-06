@@ -38,6 +38,8 @@ import {
   setMaxSliderValueKP_GE,
   setTopGenesSlice,
   setTopGenotypeSlice,
+  setStarttimeRDT,
+  setEndtimeRDT
 } from '../../../../stores/slices/graphSlice';
 import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
@@ -273,6 +275,16 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     }
   });
   useEffect(() => {
+      if (slicedData.length > 0) {
+        // Dispatch initial values based on the default range (full range)
+        const startValue = slicedData[0]?.name; // First value in the data
+        const endValue = slicedData[slicedData.length - 1]?.name; // Last value in the data
+        dispatch(setStarttimeRDT(startValue));
+        dispatch(setEndtimeRDT(endValue));
+      }
+    }, [slicedData, dispatch]);
+
+  useEffect(() => {
     if (canGetData) {
       setPlotChart(() => {
         return (
@@ -313,7 +325,11 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                   Number of Genotypes
                 </Label>
               </YAxis>
-              {(slicedData ?? []).length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
+              {(slicedData ?? []).length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} onChange={(brushRange) => {
+                console.log('okoko', slicedData[brushRange.startIndex]?.name)
+                              dispatch(setStarttimeRDT((slicedData[brushRange.startIndex]?.name)));
+                              dispatch(setEndtimeRDT((slicedData[brushRange.endIndex]?.name))); // if using state genotypesYearData[start]?.name
+                            }} />}
 
               {organism !== 'none' && (
                 <Legend

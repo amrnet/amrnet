@@ -207,6 +207,15 @@ export const DownloadData = () => {
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
   const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
+  const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
+  const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
+  const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
+  const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
+  const actualGenomesGD = useAppSelector((state) => state.graph.actualGenomesGD);
+  const actualGenomesDRT = useAppSelector((state) => state.graph.actualGenomesDRT);
+  const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
+  const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
+  const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -882,9 +891,25 @@ export const DownloadData = () => {
         doc.setFontSize(10);
         doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 56);
         doc.setFontSize(12);
-        doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        // doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        if(cards[index].id === 'GD') 
+          doc.text(`Total: ${actualGenomesGD} genomes`, 16, 74);
+        else if(cards[index].id === 'DRT') 
+          doc.text(`Total: ${actualGenomesDRT} genomes`, 16, 74);
+        else if(cards[index].id === 'RDT') 
+          doc.text(`Total: ${actualGenomesRDT} genomes`, 16, 74);
+        else 
+          doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
         doc.text(`Country: ${actualCountry}`, 16, 86);
-        doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        // doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        if(cards[index].id === 'GD')
+          doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
+        else if(cards[index].id === 'DRT')
+          doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
+        else if(cards[index].id === 'RDT')
+          doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
+        else
+          doc.text(`Time eriod: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         doc.text(
           `Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`,
           16,

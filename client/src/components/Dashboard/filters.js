@@ -63,6 +63,50 @@ export function filterData({
   };
 }
 
+export function filterBrushData({
+  data,
+  dataset,
+  organism,
+  actualCountry,
+  selectedLineages,
+  starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT
+}) {
+  
+  const filterByDataset = (item) => dataset === 'All' || item.TRAVEL === dataset.toLowerCase();
+  const filterByTimeRange = (item, start, end) => item.DATE >= start && item.DATE <= end;
+  const filterByLineages = (item) => {
+    if (!['sentericaints', 'decoli', 'shige'].includes(organism)) {
+      return true;
+    }
+
+    if (organism === 'sentericaints') {
+      return selectedLineages.includes(item.serotype);
+    }
+    return selectedLineages.includes(item.Pathovar);
+  };
+  // const newData = data.filter((x) => filterByDataset(x) && filterByTimeRange(x) && filterByLineages(x));
+  const filterData = (start, end) => data.filter((x) => filterByDataset(x) && filterByTimeRange(x, start, end) && filterByLineages(x));
+
+  let newDataGD = filterData(starttimeGD, endtimeGD);
+  let newDataDRT = filterData(starttimeDRT, endtimeDRT);
+  let newDataRDT = filterData(starttimeRDT, endtimeRDT);
+  console.log('newDataRDT',starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
+  if (actualCountry !== 'All') {
+    // const filterByCountry = newData.filter((x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry);
+    const filterByCountry = (x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry;
+    newDataGD = newDataGD.filter(filterByCountry);
+    newDataDRT = newDataDRT.filter(filterByCountry);
+    newDataRDT = newDataRDT.filter(filterByCountry);
+
+  }
+
+  return {
+    genomesCountGD: newDataGD.length,
+    genomesCountDRT: newDataDRT.length,
+    genomesCountRDT: newDataRDT.length
+  };
+}
+
 //TODO: change for the mongo
 // Adjust the country names to its correct name
 export function getCountryDisplayName(country) {
