@@ -104,7 +104,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.titleWrapper}>
-            <Typography variant="h6">{title}</Typography>
+            <Typography variant="h6">Global Filter</Typography>
             {closeButton}
           </div>
           <Typography variant="caption">Applied to all plots</Typography>
