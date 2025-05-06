@@ -336,7 +336,7 @@ export const UserGuidePage = () => {
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>Pansusceptible to class I/II drugs</span> - No determinants found
+              <span className={classes.paragraphBold}>Pansusceptible</span> - No determinants found
               for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category
               II).
             </li>

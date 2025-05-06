@@ -34,7 +34,7 @@ export const mapLegends = [
     label: 'Pansusceptible',
     organisms: ['styphi', 'kpneumo', ...amrLikeOrganisms],
   },
-  { value: 'Pansusceptible', label: 'Pansusceptible to class I/II drugs', organisms: ['ngono'] },
+  { value: 'Pansusceptible', label: 'Pansusceptible', organisms: ['ngono'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   {
     value: 'Genotype prevalence',
