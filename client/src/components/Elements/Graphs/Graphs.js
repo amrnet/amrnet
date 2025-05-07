@@ -95,14 +95,11 @@ export const Graphs = () => {
   }, [organismCards]);
 
     useEffect(() => {
-      console.log('downloadForPDF', downloadForPDF);
       const runAsync = async () => {
         if (downloadForPDF) {
-          window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scroll to top
-          setTimeout(() => dispatch(setDownload(false)), 500); // Dispatch after delay
+          dispatch(setDownload(false))
         }
       };
-    
       runAsync();
   }, [downloadForPDF]);
   
@@ -523,18 +520,22 @@ export const Graphs = () => {
           <Box className={classes.boxWrapper}>
             {organismCards.map((card) => {
               return (
+                <>
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    visibility: downloadForPDF ? 'visible': currentTab === card.id ? 'visible' : 'hidden',
-                    position: downloadForPDF? 'relative' : currentTab === card.id ? 'relative' : 'absolute',
+                    position: downloadForPDF ? 'absolute' : currentTab === card.id ? 'relative' : 'absolute',
+                    visibility: downloadForPDF ? 'visible' : currentTab === card.id ? 'visible' : 'hidden',
                     top: 0,
                     left: 0,
                     width: '100%',
+                    backgroundColor: 'white',
+                    zIndex: downloadForPDF === true? 1 : 0,
                   }}
                 >
                   {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
+                </>
               );
             })}
             {canFilterData && (

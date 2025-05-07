@@ -1023,8 +1023,8 @@ export const DownloadData = () => {
           110,
         );
         dispatch(setDownload(true));
-            const graphImg = document.createElement('img');
-            const graphImgPromise = imgOnLoadPromise(graphImg);
+        const graphImg = document.createElement('img');
+        const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
             await graphImgPromise;
         if (graphImg.width <= 700) {
