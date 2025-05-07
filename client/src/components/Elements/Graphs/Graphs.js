@@ -17,7 +17,7 @@ import {
 import { useStyles } from './GraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
-import { setCollapse } from '../../../stores/slices/graphSlice';
+import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
@@ -84,6 +84,7 @@ export const Graphs = () => {
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
+  const downloadForPDF = useAppSelector((state) => state.graph.download);
 
   const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
@@ -92,6 +93,19 @@ export const Graphs = () => {
       setCurrentTab(organismCards[0].id);
     }
   }, [organismCards]);
+
+    useEffect(() => {
+      console.log('downloadForPDF', downloadForPDF);
+      const runAsync = async () => {
+        if (downloadForPDF) {
+          window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scroll to top
+          setTimeout(() => dispatch(setDownload(false)), 500); // Dispatch after delay
+        }
+      };
+    
+      runAsync();
+  }, [downloadForPDF]);
+  
 
   useEffect(() => {
     setShowFilter(true);
@@ -404,6 +418,15 @@ export const Graphs = () => {
     setShowFilter(!showFilter);
   }
 
+  
+//   const cycleThroughTabs = async () => {
+//   for (let i = 0; i < organismCards.length; i++) {
+//     await new Promise(resolve => setTimeout(resolve, 500)); // 1-second delay between tabs
+//     handleChangeTab(null, organismCards[i].id); // simulate tab change
+//   }
+// };
+
+
   return (
     <div className={classes.cardsWrapper}>
       <Card className={classes.card}>
@@ -503,8 +526,8 @@ export const Graphs = () => {
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    visibility: currentTab === card.id ? 'visible' : 'hidden',
-                    position: currentTab === card.id ? 'relative' : 'absolute',
+                    visibility: downloadForPDF ? 'visible': currentTab === card.id ? 'visible' : 'hidden',
+                    position: downloadForPDF? 'relative' : currentTab === card.id ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
