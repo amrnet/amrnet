@@ -28,7 +28,7 @@ function getTrendstitle(organism) {
     case 'kpneumo':
       return 'Bla trends';
     case 'ngono':
-      return 'Azithromycin and Ceftriaxone resistant determinant trends';
+      return 'Marker trends';
     default:
       return '';
   }
