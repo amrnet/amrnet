@@ -391,7 +391,11 @@ export const Map = () => {
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             } else {
-                              fillColor = differentColorScale(biggerCountItem.count, 'red');
+                              if(organism === 'shige' || organism === 'sentericaints') {
+                                fillColor = differentColorScale(biggerCountItem.percentage, 'red');
+                              } else 
+                              fillColor = redColorScale(biggerCountItem.percentage);
+                              {/* fillColor = differentColorScale(biggerCountItem.count, 'red'); */}
                             }
                           }
                           break;
