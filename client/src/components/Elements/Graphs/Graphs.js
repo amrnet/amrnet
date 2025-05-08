@@ -84,6 +84,7 @@ export const Graphs = () => {
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
+  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
   useEffect(() => {
     if (organismCards.length > 0) {
@@ -418,7 +419,7 @@ export const Graphs = () => {
             <StackedBarChart color="primary" />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-                All Other Graphs
+              Summary plots: {actualCountry === "All" ? "All Countries" : actualCountry }  for {actualRegion} Region
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">

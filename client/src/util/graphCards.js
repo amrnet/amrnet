@@ -9,10 +9,24 @@ import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 
+
+
+function getHeatMapsTitle(organism) {
+  console.log('organism', organism);
+  switch (organism) {
+    case 'kpneumo':
+      return 'AMR by ST';
+    case 'sentericaints':
+      return 'AMR by lineage';
+    default:
+      return 'AMR by genotype';
+  }
+}
+
 function getTrendstitle(organism) {
   switch (organism) {
     case 'kpneumo':
-      return 'Carbapenemase and ESBL distribution';
+      return 'Bla trends';
     case 'ngono':
       return 'Azithromycin and Ceftriaxone resistant determinant trends';
     default:
@@ -20,41 +34,58 @@ function getTrendstitle(organism) {
   }
 }
 
+const heatmapCards = organismsCards.map((organismCard) => ({
+  title: getHeatMapsTitle(organismCard.value),
+  description: [''],
+  icon: <BubbleChart color="primary" />,
+  id: 'HSG2',
+  organisms: [organismCard.value],
+  component: <BubbleHeatmapGraph2 />,
+}));
+
 export const graphCards = [
   {
-    title: 'Drug resistance trends',
+    title: 'AMR trends',
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
     organisms: organismsCards.map((x) => x.value),
     component: <DrugResistanceGraph />,
   },
+  // {
+  //   title: 'Resistance frequencies within genotypes',
+  //   description: ['Top Genotypes (up to 7)'],
+  //   icon: <BarChart color="primary" />,
+  //   id: 'RFWG',
+  //   organisms: ['styphi', 'kpneumo', 'ngono'],
+  //   component: <FrequenciesGraph />,
+  // },
+  // {
+  //   title: 'Resistance frequencies within lineages',
+  //   description: ['Top Lineages (up to 7)'],
+  //   icon: <BarChart color="primary" />,
+  //   id: 'RFWG',
+  //   organisms: ['sentericaints'],
+  //   component: <FrequenciesGraph />,
+  // },
   {
-    title: 'Resistance frequencies within genotypes',
-    description: ['Top Genotypes (up to 7)'],
-    icon: <BarChart color="primary" />,
-    id: 'RFWG',
-    organisms: ['styphi', 'kpneumo', 'ngono'],
-    component: <FrequenciesGraph />,
-  },
-  {
-    title: 'Resistance frequencies within lineages',
-    description: ['Top Lineages (up to 7)'],
-    icon: <BarChart color="primary" />,
-    id: 'RFWG',
-    organisms: amrLikeOrganisms,
-    component: <FrequenciesGraph />,
-  },
-  {
-    title: 'Resistance determinants within genotypes',
+    title: 'AMR markers by genotype',
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
-    organisms: ['styphi', 'kpneumo', 'ngono'],
+    organisms: ['styphi', 'ngono'],
     component: <DeterminantsGraph />,
   },
   {
-    title: 'Genotype distribution',
+    title: 'AMR markers by ST',
+    description: ['Top Genotypes (up to 10)'],
+    icon: <StackedBarChart color="primary" />,
+    id: 'RDWG',
+    organisms: ['kpneumo'],
+    component: <DeterminantsGraph />,
+  },
+  {
+    title: 'Genotype trends',
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
@@ -71,7 +102,7 @@ export const graphCards = [
   },
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
-    title: 'Lineage prevalence',
+    title: 'Lineage trends',
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
@@ -103,7 +134,7 @@ export const graphCards = [
     component: <KODiversityGraph />,
   },
   {
-    title: 'Convergence vs metadata',
+    title: 'AMR/virulence',
     description: ['Top Genotypes (up to 30)'],
     icon: <BubbleChart color="primary" />,
     id: 'CVM',
@@ -118,17 +149,45 @@ export const graphCards = [
   //   organisms: ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli'],
   //   component: <BubbleHeatmapGraph />,
   // },
-  {
-    title: 'Heatmap ST vs genotype',
-    description: [''],
-    icon: <BubbleChart color="primary" />,
-    id: 'HSG2',
-    organisms: organismsCards.map((x) => x.value),
-    component: <BubbleHeatmapGraph2 />,
-  },
+  // {
+  //   title: getHeatMapsTitle('styphi'),
+  //   description: [''],
+  //   icon: <BubbleChart color="primary" />,
+  //   id: 'HSG2',
+  //   organisms: ['styphi', 'ngono', 'shige', 'decoli', 'ecoli'],
+  //   component: <BubbleHeatmapGraph2 />,
+  // },
+  // {
+  //   title: getHeatMapsTitle('ints'),
+  //   description: [''],
+  //   icon: <BubbleChart color="primary" />,
+  //   id: 'HSG2',
+  //   organisms: ['sentericaints'],
+  //   component: <BubbleHeatmapGraph2 />,
+  // },
+  // {
+  //   title: getHeatMapsTitle(),
+  //   description: [''],
+  //   icon: <BubbleChart color="primary" />,
+  //   id: 'HSG2',
+  //   organisms: organismsCards.map((x) => x.value),
+  //   component: <BubbleHeatmapGraph2 />,
+  // },
+  ...heatmapCards
 ];
 
+
+
+
 export const continentGraphCard = {
+  title: 'Geographic Comparisons',
+  description: [''],
+  icon: <BubbleChart color="primary" />,
+  id: 'CGC',
+  organisms: organismsCards.map((x) => x.value),
+};
+
+export const mapViewCard = {
   title: 'Geographic Comparisons',
   description: [''],
   icon: <BubbleChart color="primary" />,
