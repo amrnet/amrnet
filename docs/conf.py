@@ -64,7 +64,7 @@ numfig = True
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-     "pst": ("https://pydata-sphinx-theme.readthedocs.io/en/latest/", None),
+     "pst": ("https://pydata-sphinx-theme.readthedocs.io/en/stable/", None),
 }
 intersphinx_disabled_domains = ['std']
 
