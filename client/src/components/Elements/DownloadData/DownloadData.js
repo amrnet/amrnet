@@ -26,7 +26,7 @@ import {
   colorForDrugClassesST,
   getColorForGenotype,
 } from '../../../util/colorHelper';
-import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts } from '../../../util/reportInfoTexts';
+import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts, getIntsTexts } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 let columnsToRemove = [
@@ -463,7 +463,7 @@ export const DownloadData = () => {
       doc.addImage(logo, 'PNG', 16, 36, logoWidth, 41, undefined, 'FAST');
 
       let texts;
-      let firstName, secondName, secondword;
+      let firstName, secondName, secondword = 330, firstWord = 264, fontSize = 16, amrnetHeading = 177;
       if (organism === 'styphi') {
         texts = getSalmonellaTexts(date);
         firstName = 'Salmonella';
@@ -473,26 +473,32 @@ export const DownloadData = () => {
         texts = getKlebsiellaTexts();
         firstName = 'Klebsiella';
         secondName = 'pneumoniae';
-        secondword = 330;
       } else if (organism === 'ngono') {
         texts = getNgonoTexts();
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
-        secondword = 330;
-      } else {
+      } else if (organism === 'shige') {
         texts = getNgonoTexts();
         firstName = 'shigella';
         secondName = 'gonorrhoeae';
-        secondword = 330;
+      }else {
+        texts = getIntsTexts();
+        firstName = 'Invasive non-typhoidal';
+        secondName = 'Salmonella';
+        amrnetHeading = 150;
+        firstWord = 242;
+        secondword = 318;
+        fontSize = 12;
       }
+
 
       // Title and Date
       drawHeader({ document: doc, pageWidth });
-      doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text('AMRnet Report for', 177, 44, { align: 'center' });
-      doc.setFont(undefined, 'bolditalic');
-      doc.text(firstName, 264, 44, { align: 'center' });
-      if (organism === 'kpneumo' || organism === 'ngono') doc.setFont(undefined, 'bolditalic');
+      doc.setFontSize(fontSize).setFont(undefined, 'bold');
+      doc.text('AMRnet Report for', amrnetHeading, 44, { align: 'center' });
+      if (organism === 'styphi')doc.setFont(undefined, 'bolditalic');
+      doc.text(firstName, firstWord, 44, { align: 'center' });
+      if (organism === 'kpneumo' || organism === 'ngono' || organism === 'sentericaints') doc.setFont(undefined, 'bolditalic');
       else doc.setFont(undefined, 'bold');
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
@@ -747,9 +753,110 @@ export const DownloadData = () => {
         doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[25], 16, 76, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[26], 16, 116, { align: 'left', maxWidth: pageWidth - 36 });
+      } else if (organism === 'sentericaints') {
+        // Info
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.text(texts[1], 16, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 109, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[3], 152, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 135, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.text(texts[5], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[6], 106, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[7], 153, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // Add a yellow background //WARNING
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 200, pageWidth - 20, 90, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[8], 16, 215, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[9], 16, 235, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        //Variable definitions
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[10], 16, 305, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 325, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[12], 55, 325, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[13], 16, 335, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[14], 16, 365, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[15], 96, 365, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[16], 16, 375, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // Abbreviations
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[17], 16, 405, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[18], 16, 425, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[19], 45, 425, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[20], 16, 435, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[21], 45, 435, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[22], 16, 445, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[23], 45, 445, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[24], 16, 455, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[25], 45, 455, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[26], 16, 465, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[27], 45, 465, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[28], 16, 475, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[29], 45, 475, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[30], 16, 485, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[31], 45, 485, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[32], 16, 495, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[33], 45, 495, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[34], 45, 505, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[35], 16, 515, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[36], 45, 515, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[37], 16, 525, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[38], 95, 525, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[39], 95, 535, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[40], 110, 535, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[41], 200, 535, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[42], 267, 535, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[43], 16, 545, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[44], 95, 545, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[45], 95, 555, { align: 'justify', maxWidth: pageWidth - 36 });
+        // const euFlag = new Image();
+        // euFlag.src = EUFlagImg;
+        // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
       } else {
-        console.log('shige....');
+        console.log('No Report available for this organism');
       }
+
+
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       // Map
@@ -757,10 +864,10 @@ export const DownloadData = () => {
       drawHeader({ document: doc, pageWidth });
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
-      doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text('Global Overview of', 177, 44, { align: 'center' });
+      doc.setFontSize(fontSize).setFont(undefined, 'bold');
+      doc.text('Global Overview of', amrnetHeading, 44, { align: 'center' });
       doc.setFont(undefined, 'bolditalic');
-      doc.text(firstName, 264, 44, { align: 'center' });
+      doc.text(firstName, firstWord, 44, { align: 'center' });
       doc.setFont(undefined, 'bold');
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
@@ -1095,7 +1202,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={!['styphi', 'kpneumo', 'ngono'].includes(organism)}
+        disabled={!['styphi', 'kpneumo', 'ngono', 'sentericaints'].includes(organism)}
       >
         Download PDF
       </LoadingButton>
