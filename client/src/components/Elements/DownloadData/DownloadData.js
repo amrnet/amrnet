@@ -1032,10 +1032,16 @@ export const DownloadData = () => {
             } else {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
-        
-        doc.setFillColor(255, 255, 255);
         const rectY = matches1000 ? 320 : 340;
-        doc.rect(0, rectY, pageWidth, 200, 'F');
+        if (cards[index].id === 'CVM'){
+          doc.setFillColor(255, 255, 255); // white
+          doc.rect(0, rectY+60, pageWidth, 200, 'F'); // fill with white
+        }
+        else if (cards[index].id !== 'HSG2' && cards[index].id !== 'CVM') {
+          doc.setFillColor(255, 255, 255); // white
+          doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
+        }
+        
 
         doc.setFontSize(9);
         if (cards[index].id === 'RFWG') {
@@ -1134,7 +1140,7 @@ export const DownloadData = () => {
             document: doc,
             legendData: Object.keys(topColorSlice),
             factor: variablesFactor,
-            rectY,
+            rectY:rectY+60,
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
