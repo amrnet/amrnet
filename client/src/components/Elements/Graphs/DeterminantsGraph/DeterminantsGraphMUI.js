@@ -92,14 +92,14 @@ const useStyles = makeStyles((theme) => ({
       height: '250px',
     },
   },
-  sliderCont: {
+  rightSide: {
+    display: 'flex',
+    flexDirection: 'column',
     width: '30%',
-    overflowY: 'auto',
-    overflowX: 'hidden',
+    rowGap: '8px',
+
     '@media (max-width: 1000px)': {
       width: '100%',
-      overflowY: 'hidden',
-      overflowX: 'hidden',
     },
   },
   tooltip: {

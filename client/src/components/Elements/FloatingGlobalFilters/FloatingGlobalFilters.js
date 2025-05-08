@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStyles } from './FloatingGlobalFiltersMUI';
 import { TopLeftControls } from '../Map/TopLeftControls';
 import { Fab, IconButton, Tooltip, useMediaQuery } from '@mui/material';
@@ -8,7 +8,7 @@ import { useAppSelector } from '../../../stores/hooks';
 export const FloatingGlobalFilters = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width: 500px)');
-  const matches700 = useMediaQuery('(max-width: 700px)');
+  // const matches700 = useMediaQuery('(max-width: 700px)');
   const matches1750 = useMediaQuery('(max-width: 1750px)');
 
   const organism = useAppSelector((state) => state.dashboard.organism);
@@ -16,9 +16,9 @@ export const FloatingGlobalFilters = () => {
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
   const [left, setLeft] = useState(16);
-  const [scrollPosition, setScrollPosition] = useState(0);
+  // const [scrollPosition, setScrollPosition] = useState(0);
   const [showFilter, setShowFilter] = useState(!matches500);
-  const [lastScrollTop, setLastScrollTop] = useState(0);
+  // const [lastScrollTop, setLastScrollTop] = useState(0);
 
   useEffect(() => {
     const updateLeft = () => {
@@ -33,24 +33,26 @@ export const FloatingGlobalFilters = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const scrollContainer = document.getElementById('main-layout');
-
-    const handleScroll = () => {
-      if (scrollContainer) {
-        setScrollPosition(scrollContainer.scrollTop);
-      }
-    };
-
-    scrollContainer?.addEventListener('scroll', handleScroll);
-    return () => {
-      scrollContainer?.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   // useEffect(() => {
-  //   setShowFilter(!matches1750);
-  // }, [matches1750]);
+  //   const scrollContainer = document.getElementById('main-layout');
+
+  //   // const handleScroll = () => {
+  //   //   if (scrollContainer) {
+  //   //     setScrollPosition(scrollContainer.scrollTop);
+  //   //   }
+  //   // };
+
+  //   scrollContainer?.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     scrollContainer?.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    if (matches500) {
+      setShowFilter(false);
+    }
+  }, [matches500]);
 
   // useEffect(() => {
   //   const scrollContainer = document.getElementById('main-layout');
@@ -74,17 +76,17 @@ export const FloatingGlobalFilters = () => {
     setShowFilter(true);
   }
 
-  const show = useMemo(() => {
-    const position = matches500 ? 1000 : matches700 ? 1150 : 420;
+  // const show = useMemo(() => {
+  //   const position = matches500 ? 1000 : matches700 ? 1150 : 420;
 
-    return !loadingData && !loadingMap && organism !== 'none' && scrollPosition > position;
-  }, [loadingData, loadingMap, matches500, matches700, organism, scrollPosition]);
+  //   return !loadingData && !loadingMap && organism !== 'none' && scrollPosition > position;
+  // }, [loadingData, loadingMap, matches500, matches700, organism, scrollPosition]);
 
   return (
     <div>
-      {(
+      {
         <>
-          {showFilter && (
+          {showFilter && !loadingData && !loadingMap && (
             <TopLeftControls
               style={{ top: 'unset', bottom: '16px', left }}
               title="Global Filters"
@@ -116,7 +118,7 @@ export const FloatingGlobalFilters = () => {
             </div>
           )}
         </>
-      )}
+      }
     </div>
   );
 };

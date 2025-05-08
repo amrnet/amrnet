@@ -122,7 +122,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </ToggleButtonGroup>
             </div>
           )}
-          {!['shige', 'decoli', 'sentericaints'].includes(organism) ? null : (
+          {!['shige', 'decoli', 'sentericaints', 'ecoli'].includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}
@@ -138,6 +138,18 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 clearIcon={null}
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
                 slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
+                getOptionDisabled={(option) => {
+                  if (['Clear All', 'Select All'].includes(option)) {
+                    return false;
+                  }
+
+                  if (
+                    (currentSelectedLineages.length === 1 && currentSelectedLineages?.[0] !== option) ||
+                    currentSelectedLineages.length === pathovar.length
+                  ) {
+                    return true;
+                  }
+                }}
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
                   const isAllButton = isAllOption(option);

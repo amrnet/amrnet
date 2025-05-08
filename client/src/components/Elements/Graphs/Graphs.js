@@ -35,7 +35,6 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import { Circles } from 'react-loader-spinner';
-import { DownloadMapViewData } from '../Map/BottomRightControls/DownloadMapViewData';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -44,7 +43,7 @@ export const Graphs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState('');
-  const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(!matches500);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -85,7 +84,6 @@ export const Graphs = () => {
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
 
-  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
   useEffect(() => {
     if (organismCards.length > 0) {
@@ -94,7 +92,8 @@ export const Graphs = () => {
   }, [organismCards]);
 
   useEffect(() => {
-    setShowFilter(true);
+    setShowFilter(!matches500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organism]);
 
   const showFilterFull = useMemo(() => {
@@ -246,18 +245,17 @@ export const Graphs = () => {
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
-      if(currentCard.id === 'GD'){
+      if (currentCard.id === 'GD') {
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
-      }else if(currentCard.id === 'DRT'){
+      } else if (currentCard.id === 'DRT') {
         ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);
-      }else if(currentCard.id === 'RDT'){
+      } else if (currentCard.id === 'RDT') {
         ctx.fillText(`Time period: ${starttimeRDT} to ${endtimeRDT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesRDT} genomes`, canvas.width / 2, 172);
-      }else
-        ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
-      
+      } else ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+
       // ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
       if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
@@ -420,7 +418,7 @@ export const Graphs = () => {
             <StackedBarChart color="primary" />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-              Summary plots: {actualCountry === "All" ? "All Countries" : actualCountry }  for {actualRegion} Region
+                All Other Graphs
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
@@ -433,24 +431,17 @@ export const Graphs = () => {
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['all'] && currentTab !== 'HSG' && (
-              <div>
-                <Tooltip title="Download Data" placement="top">
-                  <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none' || loading}>
-                    <DownloadMapViewData fontSize="inherit" value={currentCard.id} />
+              <Tooltip title="Download Chart as PNG" placement="top">
+                <span>
+                  <IconButton
+                    color="primary"
+                    onClick={(event) => handleClickDownload(event)}
+                    disabled={organism === 'none' || loading}
+                  >
+                    {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
                   </IconButton>
-                </Tooltip>
-                <Tooltip title="Download Chart as PNG" placement="top">
-                  <span>
-                    <IconButton
-                      color="primary"
-                      onClick={(event) => handleClickDownload(event)}
-                      disabled={organism === 'none' || loading}
-                    >
-                      {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
-                    </IconButton>
-                  </span>
-                </Tooltip>
-              </div>
+                </span>
+              </Tooltip>
             )}
             {collapses['all'] && (
               <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">

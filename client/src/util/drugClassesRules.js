@@ -20,11 +20,11 @@ export const drugRulesST = [
 ];
 
 export const statKeysST = [
-  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
   { name: 'Ampicillin/Amoxicillin', column: 'blaTEM-1D', key: '1', resistanceView: true },
   { name: 'AzithR', column: 'azith_pred_pheno', key: 'AzithR', resistanceView: true },
   { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true },
   { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
+  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
   { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR', resistanceView: true },
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
   { name: 'MDR', column: 'MDR', key: 'MDR', resistanceView: true },
@@ -897,7 +897,8 @@ export const drugRulesINTS = [
     columnID: 'PHENICOL',
     values: ['CHLORAMPHENICOL'],
   },
-  { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'] },
+  { key: 'Ciprofloxacin R', columnID: 'QUINOLONE', values: ['QUINOLONE'] },
+  { key: 'Ciprofloxacin NS', columnID: 'QUINOLONE', values: ['-'] },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
   { key: 'Gentamicin', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Meropenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
@@ -935,6 +936,7 @@ export const statKeysINTS = [
   },
   { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'CipR', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
+  { name: 'CipNS', column: 'QUINOLONE', key: '-', resistanceView: true },
   { name: 'AzithR', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },

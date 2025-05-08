@@ -12,6 +12,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { statKeys, mapStatKeysKP } from '../../../../util/drugClassesRules';
+import { drugAcronymsOpposite2 } from '../../../../util/drugs';
 
 const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
@@ -58,7 +59,7 @@ export const TopRightControls2 = () => {
       return '0 drugs selected';
     }
 
-    if (organism === 'shige' || organism === 'decoli') {
+    if (['shige', 'decoli', 'ecoli'].includes(organism)) {
       return '0 lineage selected';
     }
 
@@ -69,7 +70,8 @@ export const TopRightControls2 = () => {
     if (Object.keys(INFO_ICON_TEXTS).includes(organism) && !isResPrevalence) {
       return INFO_ICON_TEXTS[organism];
     }
-    return 'Select up to 10 to display';
+    // return 'Select up to 10 to display';
+    return 'Select an option to display';
   }, [isResPrevalence, organism]);
 
   const heading = useMemo(() => {
@@ -77,7 +79,7 @@ export const TopRightControls2 = () => {
       return 'Select Drug';
     }
 
-    if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
+    if (['decoli', 'shige', 'sentericaints', 'ecoli'].includes(organism)) {
       return 'Select Lineage';
     }
     if (['kpneumo'].includes(organism)) {
@@ -92,7 +94,7 @@ export const TopRightControls2 = () => {
       return `${open ? 'Close' : 'Open'} drug selector`;
     }
 
-    if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
+    if (['shige', 'decoli', 'sentericaints', 'ecoli'].includes(organism)) {
       return `${open ? 'Close' : 'Open'} lineage selector`;
     }
     if (['kpneumo'].includes(organism)) {
@@ -105,7 +107,7 @@ export const TopRightControls2 = () => {
   const getOptionLabel = useCallback(
     (item) => {
       if (isResPrevalence) {
-        return item;
+        return drugAcronymsOpposite2[item] ?? item;
       }
 
       const matchingItem = genotypesDrugsData.find((g) => g.name === item);
@@ -113,7 +115,7 @@ export const TopRightControls2 = () => {
       const totalCount = matchingItem?.totalCount ?? 0;
       const susceptiblePercentage = (matchingItem?.Pansusceptible / totalCount || 0) * 100;
 
-      if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
+      if (['decoli', 'shige', 'sentericaints', 'ecoli'].includes(organism)) {
         return `${item} (total N=${totalCount})`;
       }
 
@@ -184,7 +186,7 @@ export const TopRightControls2 = () => {
                 renderTags={(value, getTagProps) => (
                   <Box sx={{ maxHeight: 50, overflowY: 'auto' }}>
                     {value.map((option, index) => (
-                      <Chip key={index} label={option} {...getTagProps({ index })} />
+                      <Chip key={index} label={drugAcronymsOpposite2[option] ?? option} {...getTagProps({ index })} />
                     ))}
                   </Box>
                 )}
