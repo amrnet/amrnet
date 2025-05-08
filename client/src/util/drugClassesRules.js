@@ -29,7 +29,7 @@ export const statKeysST = [
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
   { name: 'Multidrug resistant (MDR)', column: 'MDR', key: 'MDR', resistanceView: true },
   { name: 'Sulphonamides', column: 'sul_any', key: '1', resistanceView: true },
-  { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected' },
+  { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true  },
   { name: 'Tetracyclines', column: 'tetracycline_category', key: 'TetR', resistanceView: true },
   { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
   { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
