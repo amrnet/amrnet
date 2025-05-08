@@ -24,7 +24,7 @@ import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 
 const dataViewOptions = [
-  { label: 'Number of ST', value: 'number' },
+  { label: 'Number per year', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
