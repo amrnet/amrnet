@@ -22,6 +22,26 @@ export const DownloadMapViewData = ({value}) => {
   const mapView = useAppSelector((state) => state.map.mapView);
 
 
+  let firstName, secondName;
+    if (organism === 'styphi') {
+      firstName = 'Salmonella';
+      secondName = 'Typhi';
+    } else if (organism === 'kpneumo') {
+      firstName = 'Klebsiella';
+      secondName = 'pneumoniae';
+    } else if (organism === 'ngono') {
+      firstName = 'Neisseria';
+      secondName = 'gonorrhoeae';
+    } else if (organism === 'shige') {
+      firstName = 'Shigella';
+      secondName = '+ EIEC';
+    } else if (organism === 'decoli') {
+      firstName = 'Diarrheagenic';
+      secondName = 'E. coli';
+    } else if (organism === 'sentericaints') {
+      firstName = 'Invasive';
+      secondName = 'non-typhoidal Salmonella';
+    }
 
   const downloadCSV = () => {
     if (Array.isArray(mapData) && mapData.length > 0) {
@@ -32,13 +52,16 @@ export const DownloadMapViewData = ({value}) => {
   ];
   const mapViewOptionSelected = mapView === 'NG-MAST prevalence'? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
 
-  if(mapView === 'Genotype prevalence' || mapView === 'Resistance prevalence' || mapView === 'ST prevalence' || mapView === 'NG-MAST prevalence' || mapView === 'Lineage prevalence'){
+  if(mapView === 'Genotype prevalence' || mapView === 'ST prevalence' || mapView === 'NG-MAST prevalence' || mapView === 'Lineage prevalence'){
     mapViewOptionSelected.forEach((viewItem, index) => {
       HeaderList.push(`${viewItem}`);
       HeaderList.push(`${viewItem} %`);
     });
-  }else{
+  }else{      
     Object.keys(mapData[0]?.stats).forEach((item) =>{
+      if(mapView === 'Resistance prevalence' && (item === 'GENOTYPE' || item === 'NGMAST' || item === 'PATHOTYPE')){
+        return;
+      }
       HeaderList.push(`${item}`);
       HeaderList.push(`${item} %`);
     })
@@ -78,40 +101,33 @@ export const DownloadMapViewData = ({value}) => {
                           rowData.push('insufficient'); 
                       }
                   });
-                }else if( mapView === 'Resistance prevalence'){
-              
-                  const dataForSelected = item.stats[mapViewOptionSelected];
-
-                  const count = dataForSelected.count || 0;
-                  const percentage = count < 20 ? 'insufficient' : dataForSelected.percentage;
-
-                  rowData.push(count);
-                  rowData.push(percentage);
-
-                }else if (item?.stats && typeof item.stats === 'object') {
-                  Object.keys(item.stats).forEach((key) => {
-                      const stat = item.stats[key]; 
-                      if (stat) {
-              
-                          const count = stat.count || 0;
-                          
-                          let percentage;
-                          if(key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE'){
-                            percentage = count < 20 
-                              ? 'insufficient' 
-                              : ((count / (stat.sum)) * 100).toFixed(2);
-                          }else{
-                            percentage = count < 20 
-                              ? 'insufficient' 
-                              : stat.percentage;
-                          }
-                          rowData.push(count);
-                          rowData.push(percentage);
-                      } else {
-                          console.warn(`Missing data for key: ${key}`);
+                }else {
+                    Object.keys(item.stats).forEach((key) => {
+                      if(mapView === 'Resistance prevalence' && (key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE')){
+                        return;
                       }
-                  });
-              }  
+                        const stat = item.stats[key]; 
+                        if (stat) {
+                
+                            const count = stat.count || 0;
+                            
+                            let percentage;
+                            if(key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE'){
+                              percentage = count < 20 
+                                ? 'insufficient' 
+                                : ((count / (stat.sum)) * 100).toFixed(2);
+                            }else{
+                              percentage = count < 20 
+                                ? 'insufficient' 
+                                : stat.percentage;
+                            }
+                            rowData.push(count);
+                            rowData.push(percentage);
+                        } else {
+                            console.warn(`Missing data for key: ${key}`);
+                        }
+                    });
+                }
 
               return rowData.join(',');
           });
@@ -599,7 +615,7 @@ const downloadCSVForHM = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `${name} data.csv`);
+    link.setAttribute('download', `${firstName} ${secondName} ${name} data.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
