@@ -111,7 +111,7 @@ export const drugAcronyms = {
   'Trimethoprim-sulfamethoxazole': 'SXT',
   Colistin: 'COL',
   Fosfomycin: 'FOS',
-  Carb: 'CARB',
+  Carbapenemase: 'CARB',
   Aminoglycosides: 'AGLY',
   Fluoroquinolones: 'FLQ',
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
@@ -121,7 +121,7 @@ export const drugAcronyms = {
   '3rd gen cephalosporins (3GCs)': '3GCs',
   CipNS: 'CIP',
   Sulfamethoxazole: 'SMX',
-  Gentamicin: 'GENT',
+  Gentamicin: 'GEN',
 };
 
 export const drugAcronymsOpposite = {

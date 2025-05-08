@@ -80,7 +80,7 @@ export const drugRulesKP = [
 
 export const statKeysKP = [
   { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  { name: 'Carbapenemase', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   // {
   //   name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   //   column: 'Bla_ESBL_inhR_acquired',
@@ -115,7 +115,7 @@ export const statKeysKP = [
 
 export const mapStatKeysKP = [
   // { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  { name: 'Carbapenemase', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   // {
   //   name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   //   column: 'Bla_ESBL_inhR_acquired',
@@ -952,7 +952,7 @@ export const statKeysOthers = [
   { name: 'MDR', column: 'MDR', key: 'MDR' },
   { name: 'XDR', column: 'XDR', key: 'XDR' },
   { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-' },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-' },
+  { name: 'Carbapenemase', column: 'Bla_Carb_acquired', key: '-' },
 ];
 
 export const statKeys = {

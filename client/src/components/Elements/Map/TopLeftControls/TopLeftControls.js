@@ -129,7 +129,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </Typography>
               <Autocomplete
                 //multiple
-                disableCloseOnSelect
+                //disableCloseOnSelect
                 value={currentSelectedLineages}
                 options={[currentSelectedLineages.length === pathovar.length ? 'Clear All' : 'Select All', ...pathovar]}
                 onChange={handleChangeLineages}
