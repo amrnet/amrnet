@@ -32,8 +32,6 @@ html_theme = 'sphinx_book_theme'
 # html_favicon = 'favicon.ico'
 
 extensions = [
-    # 'ablog',
-    # 'myst_nb',
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
