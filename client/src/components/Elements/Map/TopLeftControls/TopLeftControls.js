@@ -128,7 +128,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}
               </Typography>
               <Autocomplete
-                multiple
+                //multiple
                 disableCloseOnSelect
                 value={currentSelectedLineages}
                 options={[currentSelectedLineages.length === pathovar.length ? 'Clear All' : 'Select All', ...pathovar]}
