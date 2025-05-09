@@ -528,7 +528,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectsWrapper}>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">X axis</Typography>
+                    <Typography variant="caption">Rows</Typography>
                     <Select
                       value={xAxisType}
                       onChange={handleChangeXAxisType}
@@ -581,7 +581,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 </div>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Y axis</Typography>
+                    <Typography variant="caption">Columns</Typography>
                     <Select
                       value={yAxisType}
                       onChange={handleChangeYAxisType}

@@ -438,7 +438,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                 <SelectCountry />
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">X axis</Typography>
+                    <Typography variant="caption">Rows</Typography>
                     <Select
                       value={xAxisType}
                       onChange={handleChangeXAxisType}
@@ -489,7 +489,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                 </div>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Y axis</Typography>
+                    <Typography variant="caption">Columns</Typography>
                     <Select
                       value={yAxisType}
                       onChange={handleChangeYAxisType}
