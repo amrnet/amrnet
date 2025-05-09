@@ -23,7 +23,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP } from '../../../util/drugs';
+import { drugsST, drugsKP, drugsINTS } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -300,8 +300,9 @@ export const Graphs = () => {
         });
       } else if ('DRT'.includes(currentCard.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        const legendDrugs = organism === 'styphi' ? drugsST : drugsINTS;
         drawLegend({
-          legendData: drugsST,
+          legendData: legendDrugs,
           context: ctx,
           factor: 4,
           mobileFactor,
