@@ -102,7 +102,7 @@ export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMC',
   Ampicillin: 'AMP',
   Ceftriaxone: 'CRO',
-  Chloramphenicol: 'CLO',
+  Chloramphenicol: 'CHL',
   Sulphonamides: 'SUL',
   Sulfonamides: 'SUL',
   Tetracyclines: 'TET',
