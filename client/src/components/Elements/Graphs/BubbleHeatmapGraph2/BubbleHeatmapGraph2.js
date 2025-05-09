@@ -438,7 +438,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                 <SelectCountry />
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Rows</Typography>
+                    {/* <Typography variant="caption">Rows</Typography>
                     <Select
                       value={xAxisType}
                       onChange={handleChangeXAxisType}
@@ -451,10 +451,10 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                           {option.label}
                         </MenuItem>
                       ))}
-                    </Select>
+                    </Select> */}
                   </div>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Select genotypes/pathotypes</Typography>
+                    <Typography variant="caption">Select genotypes</Typography>
                     <Select
                       multiple
                       value={xAxisSelected}
@@ -489,7 +489,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                 </div>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Columns</Typography>
+                    {/* <Typography variant="caption">Columns</Typography>
                     <Select
                       value={yAxisType}
                       onChange={handleChangeYAxisType}
@@ -504,7 +504,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                             {option.label}
                           </MenuItem>
                         ))}
-                    </Select>
+                    </Select> */}
                   </div>
                   <div className={classes.selectWrapper}>
                     <Typography variant="caption">Select drugs/genes</Typography>
