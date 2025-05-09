@@ -367,7 +367,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   key={`bubble-graph-${index}`}
                   width={yAxisWidth + 65 * yAxisSelected.length}
                   height={index === 0 ? 105 : 65}
-                  style={{ marginTop: index === 0 ? 50 : 0 }}
+                  style={{ marginTop: index === 0 ? 110 : 0 }}
                 >
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
