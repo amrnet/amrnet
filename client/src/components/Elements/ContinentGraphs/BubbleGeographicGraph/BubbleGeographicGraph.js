@@ -28,7 +28,7 @@ import { useAppSelector } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesKP, drugClassesRulesST, statKeys } from '../../../../util/drugClassesRules';
+import { drugClassesRulesKP, drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
@@ -43,7 +43,7 @@ const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
   };
 });
 
-const stYOptions = Object.keys(drugClassesRulesST).map((drug) => {
+const stYOptions = Object.keys(drugClassesRulesSTHeatMap).map((drug) => {
   const label = drug === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drug;
 
   return {

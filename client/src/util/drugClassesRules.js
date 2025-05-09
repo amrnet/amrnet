@@ -173,7 +173,7 @@ export const statKeysNG = [
 ];
 
 // Salmonella Typhi drug classes rules for determinants graph
-export const drugClassesRulesST = {
+export const drugClassesRulesSTHeatMap = {
   'Ampicillin/Amoxicillin': [
     {
       name: 'blaTEM-1D',
@@ -753,7 +753,10 @@ export const drugClassesRulesST = {
       susceptible: true,
       rules: [{ columnID: 'dfra_any', value: '0' }],
     },
-  ],
+  ]
+};
+export const drugClassesRulesST = {
+  ...drugClassesRulesSTHeatMap,
   MDR: [
     {
       name: 'MDR',
@@ -791,6 +794,8 @@ export const drugClassesRulesST = {
     },
   ],
 };
+
+
 
 // Klebsiella drug classes rules for determinants graph
 export const drugClassesRulesKP = {
