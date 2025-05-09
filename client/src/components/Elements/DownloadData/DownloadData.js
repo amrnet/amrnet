@@ -979,9 +979,9 @@ export const DownloadData = () => {
       let legendWidth = 58.85;
 
       switch (mapView) {
-        case 'Dominant Genotype':
-          legendWidth = organism === 'styphi' ? 414.21 : 394.28;
-          mapLegend.src = `legends/MapView_DominantGenotype_${organism}.png`;
+        case 'Genotype prevalence':
+          // legendWidth = organism === 'styphi' ? 414.21 : 394.28;
+          mapLegend.src = `legends/MapView_prevalence.png`;
           break;
         case 'No. Samples':
           mapLegend.src = 'legends/MapView_NoSamples.png';
