@@ -940,7 +940,7 @@ export const statKeysINTS = [
   },
   { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'CipR', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
-  { name: 'AzithR', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
+  { name: 'Azithromycin', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
