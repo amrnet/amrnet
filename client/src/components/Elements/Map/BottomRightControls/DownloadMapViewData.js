@@ -47,7 +47,7 @@ export const DownloadMapViewData = ({value}) => {
     if (Array.isArray(mapData) && mapData.length > 0) {
 
     let HeaderList = [
-      'Year',
+      'Country',
       'Total number of Count',
   ];
   const mapViewOptionSelected = mapView === 'NG-MAST prevalence'? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
@@ -59,11 +59,13 @@ export const DownloadMapViewData = ({value}) => {
     });
   }else{      
     Object.keys(mapData[0]?.stats).forEach((item) =>{
-      if(mapView === 'Resistance prevalence' && (item === 'GENOTYPE' || item === 'NGMAST' || item === 'PATHOTYPE')){
+      if(mapView === 'Resistance prevalence' && (item === 'GENOTYPE' || item === 'NGMAST' || item === 'PATHOTYPE') || item === 'H58'){
         return;
       }
-      HeaderList.push(`${item}`);
-      HeaderList.push(`${item} %`);
+      // if( !item === 'H58'){
+        HeaderList.push(`${item}`);
+        HeaderList.push(`${item} %`);
+      // }
     })
    } 
 
@@ -103,7 +105,7 @@ export const DownloadMapViewData = ({value}) => {
                   });
                 }else {
                     Object.keys(item.stats).forEach((key) => {
-                      if(mapView === 'Resistance prevalence' && (key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE')){
+                      if(mapView === 'Resistance prevalence' && (key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE') || key === 'H58'){
                         return;
                       }
                         const stat = item.stats[key]; 
