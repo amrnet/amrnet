@@ -50,7 +50,7 @@ const stYOptions = Object.keys(drugClassesRulesST).map((drug) => {
     organism: 'styphi',
     key: drug,
     value: `st-trends-${drug.toLowerCase()}`,
-    label: `${label} resistant determinant trends`,
+    label: `${label} resistant determinant`,
   };
 });
 
