@@ -141,122 +141,44 @@ export const DownloadMapViewData = ({value}) => {
 
   const downloadCSVForDRT = () => {
     if (Array.isArray(drugsYearData) && drugsYearData.length > 0) {
-      console.log("DRT", drugsYearData)
-      const HeaderList = [
-        'Year',
-        'Total number of Count',
-        'Ampicillin/Amoxicillin',
-        'Ampicillin/Amoxicillin %',
-        'Azithromycin',
-        'Azithromycin %',
-        'Ceftriaxone',
-        'Ceftriaxone %',
-        'Chloramphenicol',
-        'Chloramphenicol %',
-        'Ciprofloxacin NS',
-        'Ciprofloxacin NS %',
-        'Ciprofloxacin R',
-        'Ciprofloxacin R %',
-        'MDR',
-        'MDR %',
-        'Pansusceptible',
-        'Pansusceptible %',
-        'Sulphonamides',
-        'Sulphonamides %',
-        'Tetracyclines',
-        'Tetracyclines %',
-        'Trimethoprim',
-        'Trimethoprim %',
-        'Trimethoprim-sulfamethoxazole',
-        'Trimethoprim-sulfamethoxazole %',
-        'XDR',
-        'XDR %',
-      ];
-
-      // Create CSV header row
+      const HeaderList = ['Year', 'Total Count'];
+  
+      // Dynamically build header: [drug, drug %]
+      const sample = drugsYearData[0];
+      const drugKeys = Object.keys(sample).filter(
+        (key) => key !== 'name' && key !== 'count'
+      );
+  
+      drugKeys.forEach((drug) => {
+        HeaderList.push(drug);
+        HeaderList.push(`${drug} %`);
+      });
+  
       const headers = HeaderList.join(',');
-
-      // Create CSV rows
+  
+      // Build data rows
       const rows = drugsYearData
-        .filter((item) => Object.keys(item).length > 0)
+        .filter((item) => item.count >= 1) // Optional: filter low-count rows
         .map((item) => {
-          const AMPCount = item?.['Ampicillin/Amoxicillin'] || 0;
-          const AMPPerCount = AMPCount < 20 ? 'insufficient' : (((AMPCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const AzithCount = item?.Azithromycin || 0;
-          const AzithPerCount = AzithCount < 20 ? 'insufficient' : (((AzithCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const CROCount = item?.Ceftriaxone || 0;
-          const CROPerCount = CROCount < 20 ? 'insufficient' : (((CROCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const ChlCount = item?.Chloramphenicol || 0;
-          const ChlPerCount = ChlCount < 20 ? 'insufficient' : (((ChlCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const CipNSCount = item?.['Ciprofloxacin NS'] || 0;
-          const CipNSPerCount = CipNSCount < 20 ? 'insufficient' : (((CipNSCount / item.count) * 100).toFixed(2)) || 0;
-
-          const CipRCount = item?.['Ciprofloxacin R'] || 0;
-          const CipRPerCount = CipRCount < 20 ? 'insufficient' : (((CipRCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const MDRCount = item?.MDR|| 0;
-          const MDRPerCount = MDRCount < 20 ? 'insufficient' : (((MDRCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const PanCount = item?.Pansusceptible || 0;
-          const PanPerCount = PanCount < 20 ? 'insufficient' : (((PanCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const SulCount = item?.Sulphonamides || 0;
-          const SulPerCount = SulCount < 20 ? 'insufficient' : (((SulCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const TetCount = item?.Tetracyclines || 0;
-          const TetPerCount = TetCount < 20 ? 'insufficient' : (((TetCount / item.count) * 100).toFixed(2)) || 0;
-
-          const TriCount = item?.Trimethoprim|| 0;
-          const TriPerCount = TriCount < 20 ? 'insufficient' : (((TriCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const TriSulCount = item?.['Trimethoprim-sulfamethoxazole'] || 0;
-          const TriSulPerCount = TriSulCount < 20 ? 'insufficient' : (((TriSulCount/ item.count) * 100).toFixed(2)) || 0;
-
-          const XDRCount = item?.XDR || 0;
-          const XDRPerCount = XDRCount < 20 ? 'insufficient' : (((XDRCount/ item.count) * 100).toFixed(2)) || 0;
-
-          return [
-            item.name,
-            item.count || '',
-            AMPCount,
-            AMPPerCount,
-            AzithCount,
-            AzithPerCount,
-            CROCount,
-            CROPerCount,
-            ChlCount,
-            ChlPerCount,
-            CipNSCount,
-            CipNSPerCount,
-            CipRCount,
-            CipRPerCount,
-            MDRCount,
-            MDRPerCount,
-            PanCount,
-            PanPerCount,
-            SulCount,
-            SulPerCount,
-            TetCount,
-            TetPerCount,
-            TriCount,
-            TriPerCount,
-            TriSulCount,
-            TriSulPerCount,
-            XDRCount,
-            XDRPerCount
-          ].join(',');
+          const row = [item.name, item.count];
+          drugKeys.forEach((drug) => {
+            const count = item[drug] || 0;
+            const percentage =
+            // count < 20 ? 'insufficient' : ((count / (stat.sum)) * 100).toFixed(2);
+            count < 20 ? 'insufficient' : ((count / item.count) * 100).toFixed(2);
+            // item.count > 0 ? ((count / item.count) * 100).toFixed(2) : 'insufficient';
+            row.push(count);
+            row.push(percentage);
+          });
+          return row.join(',');
         });
-        generateCSV(headers, rows, 'AMR trends ')
-      
+  
+      generateCSV(headers, rows, 'AMR_Trends');
     } else {
       console.log('drugsYearData is not an array or is empty', drugsYearData);
     }
   };
-
+  
   const downloadCSVForRFWG = () => {
     if (Array.isArray(genotypesDrugsData) && genotypesDrugsData.length > 0) {
       console.log("RFWG", genotypesDrugsData)
@@ -555,7 +477,6 @@ export const DownloadMapViewData = ({value}) => {
 const downloadCSVForHM = () => {
   if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
       let HeaderList = ['Name']; // Initial headers
-
       let allDrugs = new Set(); // Store unique drug names
 
       // Extract drug names dynamically from all items
