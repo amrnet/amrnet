@@ -260,6 +260,16 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     setYAxisSelected([]);
   }
 
+  function getSpace(){
+    switch(organism){
+      case 'shige':
+        return 110;
+      case 'sentericaints':
+        return 70;
+      default:
+        return 50;
+    }
+  }
   const getTitle = useCallback((value) => {
     return drugAcronymsOpposite[value] ?? Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === value) ?? value;
   }, []);
@@ -367,7 +377,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   key={`bubble-graph-${index}`}
                   width={yAxisWidth + 65 * yAxisSelected.length}
                   height={index === 0 ? 105 : 65}
-                  style={{ marginTop: index === 0 ? 110 : 0 }}
+                  style={{ marginTop: index === 0 ? getSpace() : 0 }}
                 >
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
