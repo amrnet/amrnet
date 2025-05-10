@@ -440,7 +440,7 @@ export const Graphs = () => {
             <StackedBarChart color="primary" />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-              Summary plots: {actualCountry === "All" ? "All Countries" : actualCountry }  for {actualRegion} Region
+              Summary plots: {actualCountry !== "All" ? actualCountry : actualRegion === "All" ? "All Regions" : actualRegion}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
