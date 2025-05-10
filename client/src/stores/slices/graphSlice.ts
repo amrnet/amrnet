@@ -60,6 +60,7 @@ interface GraphState {
   actualGenomesRDT: number;
   topXGenotype:Array<any>;
   topXGenotypeRDWG:Array<any>;
+  download: boolean;
 }
 
 const initialState: GraphState = {
@@ -121,6 +122,7 @@ const initialState: GraphState = {
   actualGenomesRDT:0,
   topXGenotype:[],
   topXGenotypeRDWG:[],
+  download: false,
 };
 
 export const graphSlice = createSlice({
@@ -295,6 +297,9 @@ export const graphSlice = createSlice({
     setTopXGenotypeRDWG: (state, action: PayloadAction<Array<any>>) => {
       state.topXGenotypeRDWG = action.payload;
     },
+    setDownload: (state, action: PayloadAction<boolean>) => {
+      state.download = action.payload;
+    },
   },
 });
 
@@ -354,7 +359,8 @@ export const {
   setCountriesYearData,
   setRegionsYearData,
   setTopXGenotype,
-  setTopXGenotypeRDWG
+  setTopXGenotypeRDWG,
+  setDownload
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

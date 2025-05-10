@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import axios from 'axios';
 import download from 'downloadjs';
 import { API_ENDPOINT } from '../../../constants';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { PictureAsPdf, Storage, TableChart } from '@mui/icons-material';
 import { setPosition } from '../../../stores/slices/mapSlice';
@@ -17,7 +17,7 @@ import { mapLegends } from '../../../util/mapLegends';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
-import { setCollapses } from '../../../stores/slices/graphSlice';
+import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
 import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
@@ -1022,17 +1022,17 @@ export const DownloadData = () => {
           16,
           110,
         );
-
+        dispatch(setDownload(true));
         const graphImg = document.createElement('img');
         const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
-        await graphImgPromise;
+            await graphImgPromise;
         if (graphImg.width <= 700) {
           doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined, undefined, 'FAST');
-        } else {
+            } else {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
-
+        
         doc.setFillColor(255, 255, 255);
         const rectY = matches1000 ? 320 : 340;
         doc.rect(0, rectY, pageWidth, 200, 'F');
