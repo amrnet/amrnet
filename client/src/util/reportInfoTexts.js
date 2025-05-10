@@ -201,5 +201,32 @@ export function getShigeTexts() {
 }
 
 export function getSentericaintsTexts() {
-  return [];
+  return [
+    'Salmonella enterica',
+    'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick',
+    '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using 7-gene MLST. The last update was made in November 2024.',
+    
+    'For information about Salmonella Typhi and iNTS, please see pathogen specific reports.',
+
+    'WARNING:',
+    'The ',
+    'Salmonella enterica',
+    ' data used in AMRnet are not yet curated for purpose-of-sampling, ',
+    'and therefore reflect the biases of global sequencing efforts.',
+
+       
+    ' Variable definitions',
+    'Genotype - Pathogenwatch assigns sequence types (STs) using the 7-locus MLST scheme for Salmonella enterica, defined by XX.',
+    'The genotypes reported here are from the X.',
+    'Antimicrobial resistance determinants are described in the paper XXXX',
+
+    'Abbreviations',
+    `1. MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)`,
+    `2. XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)`,
+    `3. Ciprofloxacin NS, ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more`,
+    `genes or mutations in`,
+    `)`,
+    `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
+
+  ];
 }

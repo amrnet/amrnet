@@ -26,7 +26,7 @@ import {
   colorForDrugClassesST,
   getColorForGenotype,
 } from '../../../util/colorHelper';
-import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts, getIntsTexts } from '../../../util/reportInfoTexts';
+import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts, getIntsTexts, getSentericaintsTexts } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
 let columnsToRemove = [
@@ -478,9 +478,13 @@ export const DownloadData = () => {
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
       } else if (organism === 'shige') {
-        texts = getNgonoTexts();
+        // texts = getSentericaintsTexts();
         firstName = 'shigella';
         secondName = 'gonorrhoeae';
+      }else if (organism === 'senterica'){
+        texts = getSentericaintsTexts();
+        firstName = 'Salmonella';
+        secondName = 'enterica';
       }else {
         texts = getIntsTexts();
         firstName = 'Invasive non-typhoidal';
@@ -496,9 +500,9 @@ export const DownloadData = () => {
       drawHeader({ document: doc, pageWidth });
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
       doc.text('AMRnet Report for', amrnetHeading, 44, { align: 'center' });
-      if (organism === 'styphi')doc.setFont(undefined, 'bolditalic');
+      if (organism === 'styphi' || organism === 'senterica' )doc.setFont(undefined, 'bolditalic');
       doc.text(firstName, firstWord, 44, { align: 'center' });
-      if (organism === 'kpneumo' || organism === 'ngono' || organism === 'sentericaints') doc.setFont(undefined, 'bolditalic');
+      if (organism === 'kpneumo' || organism === 'ngono' || organism === 'sentericaints'  || organism === 'senterica') doc.setFont(undefined, 'bolditalic');
       else doc.setFont(undefined, 'bold');
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
@@ -852,7 +856,57 @@ export const DownloadData = () => {
         // const euFlag = new Image();
         // euFlag.src = EUFlagImg;
         // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
-      } else {
+      } else if (organism === 'senterica') {
+        // Info
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[1], 100, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[3], 16, 155, { align: 'justify', maxWidth: pageWidth - 36 });
+
+
+        // // Add a yellow background //WARNING
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 165, pageWidth - 20, 40, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[4], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[5], 65, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[6], 85, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[7], 165, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
+        // Variable definitions
+        
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[10], 16, 245, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 275, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 295, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // Abbreviations
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[13], 16, 315 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[14], 16, 335 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 16, 365 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[16], 16, 385 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text('qnr', 16, 395 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 32, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[18], 183, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+
+      }else {
         console.log('No Report available for this organism');
       }
 
@@ -1208,7 +1262,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={!['styphi', 'kpneumo', 'ngono', 'sentericaints'].includes(organism)}
+        disabled={!['styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'].includes(organism)}
       >
         Download PDF
       </LoadingButton>
