@@ -17,6 +17,7 @@ export const DownloadMapViewData = ({value}) => {
   const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
   const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
   const mapView = useAppSelector((state) => state.map.mapView);
@@ -141,7 +142,7 @@ export const DownloadMapViewData = ({value}) => {
 
   const downloadCSVForDRT = () => {
     if (Array.isArray(drugsYearData) && drugsYearData.length > 0) {
-      const HeaderList = ['Year', 'Total Count'];
+      const HeaderList = ['Region','Country','Year', 'Total Count'];
   
       // Dynamically build header: [drug, drug %]
       const sample = drugsYearData[0];
@@ -160,7 +161,7 @@ export const DownloadMapViewData = ({value}) => {
       const rows = drugsYearData
         .filter((item) => item.count >= 1) // Optional: filter low-count rows
         .map((item) => {
-          const row = [item.name, item.count];
+          const row = [actualRegion, actualCountry,item.name, item.count];
           drugKeys.forEach((drug) => {
             const count = item[drug] || 0;
             const percentage =
@@ -305,6 +306,8 @@ export const DownloadMapViewData = ({value}) => {
     if (Array.isArray(genotypesDrugClassesData[determinantsGraphDrugClass]) && genotypesDrugClassesData[determinantsGraphDrugClass].length > 0) {
       console.log("RFWG", genotypesDrugClassesData[determinantsGraphDrugClass], topXGenotypeRDWG)
       let HeaderList = [
+        'Region',
+        'Country',
         'Name',
         'Total number of Count',
       ];
@@ -325,6 +328,8 @@ export const DownloadMapViewData = ({value}) => {
         .filter((item) => Object.keys(item).length > 0)
         .map((item) => {
             let rowData = [
+                actualRegion, 
+                actualCountry,
                 item.name,
                 item.totalCount || '' 
             ];
@@ -357,6 +362,8 @@ export const DownloadMapViewData = ({value}) => {
         console.log("GD", genotypesYearData, topXGenotype);
 
         let HeaderList = [
+            "Region",
+            "Country",
             'Year',
             'Total number of Count',
         ];
@@ -377,6 +384,8 @@ export const DownloadMapViewData = ({value}) => {
             .filter((item) => Object.keys(item).length > 0)
             .map((item) => {
                 let rowData = [
+                    actualRegion, 
+                    actualCountry,
                     item.name,
                     item.count || '' 
                 ];
@@ -411,6 +420,8 @@ export const DownloadMapViewData = ({value}) => {
         console.log("RDT", genotypesAndDrugsYearData[trendsGraphDrugClass]);
 
         let HeaderList = [
+          'Region',
+          'Country',
           'Name',
           'Total number of Count',
         ];
@@ -437,6 +448,8 @@ export const DownloadMapViewData = ({value}) => {
           .filter((item) => Object.keys(item).length > 0)
           .map((item) => {
               let rowData = [
+                  actualRegion,
+                  actualCountry,
                   item.name,
                   item.totalCount || '' 
               ];
@@ -476,7 +489,7 @@ export const DownloadMapViewData = ({value}) => {
 
 const downloadCSVForHM = () => {
   if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
-      let HeaderList = ['Name']; // Initial headers
+      let HeaderList = ['Region',"Country",'Name']; // Initial headers
       let allDrugs = new Set(); // Store unique drug names
 
       // Extract drug names dynamically from all items
@@ -499,7 +512,7 @@ const downloadCSVForHM = () => {
           .filter((item) => Object.keys(item).length > 0 && item.name === actualRegion)
           .flatMap((item) => {
               return Object.values(item.stats.GENOTYPE.items).map(obj => {
-                  let rowData = [obj.name]; // Start with genotype name
+                  let rowData = [actualRegion,actualCountry, obj.name]; // Start with genotype name
 
                   // Loop through all drugs to add count and percentage
                   allDrugs.forEach(drugName => {
@@ -514,9 +527,6 @@ const downloadCSVForHM = () => {
 
       // Create CSV header row
       let headers = HeaderList.join(',');
-
-      console.log("Headers:", HeaderList);
-      console.log("Rows:", rows);
 
       generateCSV(headers, rows, `AMR by genotype for (${actualRegion})`);
   } else {
