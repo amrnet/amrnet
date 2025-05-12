@@ -468,7 +468,7 @@ export const DashboardPage = () => {
       dispatch(setMapView(''));
       dispatch(setFrequenciesGraphView('percentage'));
       dispatch(setDeterminantsGraphView('percentage'));
-      dispatch(setDistributionGraphView('number'));
+      dispatch(setDistributionGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));

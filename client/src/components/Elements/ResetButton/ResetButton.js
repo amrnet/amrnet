@@ -110,7 +110,7 @@ export const ResetButton = () => {
 
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
-    dispatch(setDistributionGraphView('number'));
+    dispatch(setDistributionGraphView('percentage'));
     if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));

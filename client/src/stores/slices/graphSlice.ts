@@ -76,7 +76,7 @@ const initialState: GraphState = {
   genotypesAndDrugsYearData: [],
   countriesYearData: [],
   regionsYearData: [],
-  distributionGraphView: 'number',
+  distributionGraphView: 'percentage',
   drugResistanceGraphView: [],
   frequenciesGraphView: 'percentage',
   frequenciesGraphSelectedGenotypes: [],
