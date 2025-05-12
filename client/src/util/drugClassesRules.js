@@ -16,6 +16,8 @@ export const drugRulesST = [
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
   { key: 'MDR', columnID: 'MDR', values: ['MDR'] },
   { key: 'XDR', columnID: 'XDR', values: ['XDR'] },
+  { key: 'Pansusceptible', columnID: 'amr_category', values: ['No AMR detected'] },
+
 ];
 
 export const statKeysST = [
