@@ -125,6 +125,10 @@ export const drugAcronyms = {
   Gentamicin: 'GEN',
   'Multidrug resistant (MDR)':"MDR",
   'Extensively drug resistant (XDR)':"XDR",
+  'Cefixime': 'CFM',
+  'Ciprofloxacin': 'CIP',
+  'Penicillin': 'PEN',
+  'Spectinomycin': 'SPT'
 };
 
 export const drugAcronymsOpposite = {
