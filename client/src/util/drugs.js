@@ -87,7 +87,7 @@ export const drugClassesST = [
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim',
-  'Pansusceptible',
+  // 'Pansusceptible',
   'MDR',
   'XDR',
 ];
@@ -117,21 +117,24 @@ export const drugAcronyms = {
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
   Phenicols: 'PHE',
   Tigecycline: 'TGC',
-  AzithR: 'AZM',
+  Azithromycin: 'AZM',
   '3rd gen cephalosporins (3GCs)': '3GCs',
-  CipNS: 'CIP',
+  'Ciprofloxacin (non-susceptible)': 'CIP',
+  'Ciprofloxacin (resistant)': 'CipR',
   Sulfamethoxazole: 'SMX',
   Gentamicin: 'GEN',
+  'Multidrug resistant (MDR)':"MDR",
+  'Extensively drug resistant (XDR)':"XDR",
 };
 
 export const drugAcronymsOpposite = {
-  CIP: 'Ciprofloxacin',
+  CIP: 'Ciprofloxacin (non-susceptible)',
   CARB: 'Carbapenems',
   AZM: 'Azithromycin',
   ESBL: 'Extended-Spectrum Beta-Lactamase',
-  CipR: 'Ciprofloxacin R',
-  MDR: 'Multi-drug Resistant',
-  XDR: 'Extensively Drug Resistant',
+  CipR: 'Ciprofloxacin (resistant)',
+  MDR: 'Multidrug resistant (MDR)',
+  XDR: 'Extensively drug resistant (XDR)',
 };
 
 export const drugsINTS = drugRulesINTS.map((x) => x.key).sort((a, b) => a.localeCompare(b));
