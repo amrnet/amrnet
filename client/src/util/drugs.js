@@ -60,7 +60,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
 export const drugsKP = [
   'Aminoglycosides',
   'Carbapenems',
-  '3rd gen cephalosporins (3GCs)',
+  'ESBL',
   // '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   'Colistin',
   'Fluoroquinolones',
@@ -118,7 +118,7 @@ export const drugAcronyms = {
   Phenicols: 'PHE',
   Tigecycline: 'TGC',
   Azithromycin: 'AZM',
-  '3rd gen cephalosporins (3GCs)': '3GCs',
+  'ESBL': 'ESBL',
   'Ciprofloxacin (resistant)': 'CipR',
   Sulfamethoxazole: 'SMX',
   Gentamicin: 'GEN',
