@@ -119,7 +119,6 @@ export const drugAcronyms = {
   Tigecycline: 'TGC',
   Azithromycin: 'AZM',
   '3rd gen cephalosporins (3GCs)': '3GCs',
-  'Ciprofloxacin (non-susceptible)': 'CIP',
   'Ciprofloxacin (resistant)': 'CipR',
   Sulfamethoxazole: 'SMX',
   Gentamicin: 'GEN',
@@ -127,19 +126,21 @@ export const drugAcronyms = {
   'Extensively drug resistant (XDR)':"XDR",
   'Cefixime': 'CFM',
   'Ciprofloxacin': 'CIP',
+  'Ciprofloxacin (non-susceptible)': 'CipNS',
   'Penicillin': 'PEN',
   'Spectinomycin': 'SPT'
 };
 
 export const drugAcronymsOpposite = {
-  CIP: 'Ciprofloxacin (non-susceptible)',
-  CARB: 'Carbapenems',
-  AZM: 'Azithromycin',
-  ESBL: 'Extended-Spectrum Beta-Lactamase',
-  CipR: 'Ciprofloxacin (resistant)',
-  MDR: 'Multidrug resistant (MDR)',
-  XDR: 'Extensively drug resistant (XDR)',
-};
+    CipNS: 'Ciprofloxacin (non-susceptible)',
+    CARB: 'Carbapenems',
+    AZM: 'Azithromycin',
+    ESBL: 'Extended-Spectrum Beta-Lactamase',
+    CipR: 'Ciprofloxacin (resistant)',
+    MDR: 'Multidrug resistant (MDR)',
+    XDR: 'Extensively drug resistant (XDR)',
+    CIP: 'Ciprofloxacin',
+  };
 
 export const drugsINTS = drugRulesINTS.map((x) => x.key).sort((a, b) => a.localeCompare(b));
 
