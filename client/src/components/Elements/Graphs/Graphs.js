@@ -94,6 +94,16 @@ export const Graphs = () => {
     }
   }, [organismCards]);
 
+    useEffect(() => {
+      const runAsync = async () => {
+        if (downloadForPDF) {
+          dispatch(setDownload(false))
+        }
+      };
+      runAsync();
+  }, [downloadForPDF]);
+  
+
   useEffect(() => {
     const runAsync = async () => {
       if (downloadForPDF) {
@@ -413,12 +423,13 @@ export const Graphs = () => {
     setShowFilter(!showFilter);
   }
 
-  //   const cycleThroughTabs = async () => {
-  //   for (let i = 0; i < organismCards.length; i++) {
-  //     await new Promise(resolve => setTimeout(resolve, 500)); // 1-second delay between tabs
-  //     handleChangeTab(null, organismCards[i].id); // simulate tab change
-  //   }
-  // };
+  
+//   const cycleThroughTabs = async () => {
+//   for (let i = 0; i < organismCards.length; i++) {
+//     await new Promise(resolve => setTimeout(resolve, 500)); // 1-second delay between tabs
+//     handleChangeTab(null, organismCards[i].id); // simulate tab change
+//   }
+// };
 
   return (
     <div className={classes.cardsWrapper}>
@@ -436,8 +447,8 @@ export const Graphs = () => {
             <StackedBarChart color="primary" />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-                Summary plots:{' '}
-                {actualCountry !== 'All' ? actualCountry : actualRegion === 'All' ? 'All Regions' : actualRegion}
+
+              Summary plots: {actualCountry !== "All" ? actualCountry : actualRegion === "All" ? "All Regions" : actualRegion}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
@@ -521,6 +532,7 @@ export const Graphs = () => {
           <Box className={classes.boxWrapper}>
             {organismCards.map((card) => {
               return (
+                <>
                 <Box
                   key={`card-${card.id}`}
                   sx={{
@@ -530,11 +542,13 @@ export const Graphs = () => {
                     left: 0,
                     width: '100%',
                     backgroundColor: 'white',
-                    zIndex: downloadForPDF === true ? 1 : 0,
+
+                    zIndex: downloadForPDF === true? 1 : 0,
                   }}
                 >
                   {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
+                </>
               );
             })}
             {canFilterData && (

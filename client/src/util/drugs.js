@@ -112,7 +112,7 @@ export const drugAcronyms = {
   'Trimethoprim-sulfamethoxazole': 'SXT',
   Colistin: 'COL',
   Fosfomycin: 'FOS',
-  Carb: 'CARB',
+  Carbapenemase: 'CARB',
   Aminoglycosides: 'AGLY',
   Fluoroquinolones: 'FLQ',
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',

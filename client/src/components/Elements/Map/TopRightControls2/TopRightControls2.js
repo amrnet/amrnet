@@ -70,6 +70,8 @@ export const TopRightControls2 = () => {
   const infoIconText = useMemo(() => {
     if (Object.keys(INFO_ICON_TEXTS).includes(organism) && !isResPrevalence) {
       return INFO_ICON_TEXTS[organism];
+    } if(isResPrevalence) {
+      return 'Select one drug category to display its prevalence'
     }
     if (isResPrevalence) {
       return 'Select one drug category to display its prevalence';

@@ -795,6 +795,8 @@ export const drugClassesRulesST = {
   ],
 };
 
+
+
 // Klebsiella drug classes rules for determinants graph
 export const drugClassesRulesKP = {
   Carbapenems: 'Bla_Carb_acquired',

@@ -64,7 +64,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   function getData() {
     const exclusions = ['name', 'count'];
-    let drugDataPercentage = structuredClone(drugsYearData).filter((item) => item.count >= 10);
+
+    let drugDataPercentage = structuredClone(drugsYearData).filter(item => item.count >= 10);
     drugDataPercentage = drugDataPercentage.map((item) => {
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
 
@@ -202,7 +203,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       setCurrentTooltip(value);
     }
   }
-
+console.log('drugsYearData', drugsYearData[0]);
   useEffect(() => {
     if (drugsYearData.length > 0) {
       // Dispatch initial values based on the default range (full range)
