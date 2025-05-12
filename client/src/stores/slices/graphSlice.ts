@@ -85,7 +85,7 @@ const initialState: GraphState = {
   determinantsGraphView: 'percentage',
   determinantsGraphDrugClass: '',
   trendsGraphDrugClass: '',
-  trendsGraphView: 'number',
+  trendsGraphView: 'percentage',
   KODiversityData: [],
   KODiversityGraphView: 'K_locus',
   convergenceData: [],

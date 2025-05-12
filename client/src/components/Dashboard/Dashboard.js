@@ -401,7 +401,7 @@ export const DashboardPage = () => {
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphDrugClass('Carbapenems'));
           dispatch(setKODiversityGraphView('K_locus'));
-          dispatch(setTrendsGraphView('number'));
+          dispatch(setTrendsGraphView('percentage'));
           dispatch(setConvergenceGroupVariable('DATE'));
           dispatch(setConvergenceColourVariable('DATE'));
           setCurrentConvergenceGroupVariable('DATE');
@@ -412,7 +412,7 @@ export const DashboardPage = () => {
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
           dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
           dispatch(setTrendsGraphDrugClass('Azithromycin'));
-          dispatch(setTrendsGraphView('number'));
+          dispatch(setTrendsGraphView('percentage'));
           break;
         case 'sentericaints':
           dispatch(setMapView('Resistance prevalence'));
