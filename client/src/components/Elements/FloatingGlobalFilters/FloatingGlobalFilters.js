@@ -89,17 +89,17 @@ export const FloatingGlobalFilters = () => {
               style={{ top: 'unset', bottom: '16px', left }}
               title="Global Filters"
               closeButton={
-                matches1750 ? (
+                // matches1750 ? (
                   <Tooltip title="Hide Filters" placement="top">
                     <IconButton onClick={() => setShowFilter(false)}>
                       <Close fontSize="small" />
                     </IconButton>
                   </Tooltip>
-                ) : null
+                // ) : null
               }
             />
           )}
-          {!showFilter && matches1750 && (
+          {!showFilter && (
             <div className={classes.fabGF}>
               <Tooltip title="Global Filters" placement="right">
                 <span>
