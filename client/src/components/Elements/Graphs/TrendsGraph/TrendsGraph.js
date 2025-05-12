@@ -84,6 +84,15 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     setCurrentTooltip(null);
   }, [currentSliderValueKP_GE, currentSliderValueKP_GT]);
 
+  const dataViewOptionsGenomes = [
+    { label: 'Number of Genomes', value: 'number' },
+    { label: 'Percentage of Genomes', value: 'percentage' },
+  ];
+
+  const dataViewOptionsGenotype = [
+    { label: 'Number of Genotype', value: 'number' },
+    { label: 'Percentage of Genotype', value: 'percentage' },
+  ];
   function getDrugClasses() {
     if (organism === 'none') {
       return [];
@@ -309,7 +318,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                 yAxisId="left"
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                  Number of Genomes
+                {dataViewOptionsGenomes.find((option) => option.value === trendsGraphView).label}
                 </Label>
               </YAxis>
               <YAxis
@@ -322,7 +331,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                 orientation="right"
               >
                 <Label angle={90} position="insideRight" className={classes.graphLabel}>
-                  Number of Genotypes
+                {dataViewOptionsGenotype.find((option) => option.value === trendsGraphView).label}
                 </Label>
               </YAxis>
               {(slicedData ?? []).length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} onChange={(brushRange) => {
