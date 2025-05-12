@@ -35,11 +35,12 @@ import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Close, InfoOutlined } from '@mui/icons-material';
 
 const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
+  const label = drug === 'Carbapenems' ? 'Carbapenemases' : drug === 'ESBL'? 'ESBLs' : drug;
   return {
     organism: 'kpneumo',
     key: drug,
     value: `kp-trends-${drug.toLowerCase()}`,
-    label: `${drug} resistant determinant trends`,
+    label: `${label}`,
   };
 });
 

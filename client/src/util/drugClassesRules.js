@@ -63,7 +63,7 @@ export const drugRulesForDrugResistanceGraphNG = [
 export const drugRulesKP = [
   { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
   { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs)', columnIDs: ['Bla_ESBL_acquired'] },
+  { key: 'ESBL', columnIDs: ['Bla_ESBL_acquired'] },
   // {
   //   key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   //   columnIDs: ['Bla_ESBL_inhR_acquired'],
@@ -91,7 +91,7 @@ export const statKeysKP = [
   //   resistanceView: true,
   // },
   {
-    name: '3rd gen cephalosporins (3GCs)',
+    name: 'ESBL',
     column: 'Bla_ESBL_acquired',
     key: '-',
     resistanceView: true,
@@ -126,7 +126,7 @@ export const mapStatKeysKP = [
   //   resistanceView: true,
   // },
   {
-    name: '3rd gen cephalosporins (3GCs)',
+    name: 'ESBL',
     column: 'Bla_ESBL_acquired',
     key: '-',
     resistanceView: true,
