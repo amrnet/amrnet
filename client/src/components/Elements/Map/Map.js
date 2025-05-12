@@ -255,7 +255,7 @@ export const Map = () => {
         <Typography gutterBottom variant="h5" fontWeight={'bold'}>
           Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
-        <Typography variant="caption">{prevalenceMapViewOptionsSelected.join(',')}</Typography>
+        {mapView !== 'No. Samples'? <Typography variant="caption">{mapView}: {prevalenceMapViewOptionsSelected.join(',')}</Typography> : null}
         <div className={classes.mapWrapper}>
           <ComposableMap
             className={classes.composableMap}
