@@ -22,17 +22,18 @@ export function filterData({
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
   };
   const checkLineages = (item) => {
-    if (!['sentericaints', 'decoli', 'shige', 'ecoli'].includes(organism)) {
+    if (!amrLikeOrganisms.includes(organism)) {
       return true;
     }
 
-    if (organism === 'sentericaints') {
-      return selectedLineages.some((selected) => item.serotype.toLowerCase().includes(selected.toLowerCase()));
+    if (['sentericaints', 'senterica'].includes(organism)) {
+      return selectedLineages.some((selected) => item.SISTR1_Serovar.toLowerCase().includes(selected.toLowerCase()));
     }
-    if (organism === 'ecoli') {
-      return selectedLineages.some((selected) => item.Pathovar.toLowerCase().includes(selected.toLowerCase()));
+    if (['shige'].includes(organism)) {
+      return selectedLineages.some((selected) => item.Pathotype.toLowerCase().includes(selected.toLowerCase()));
     }
-    return selectedLineages.some((selected) => item.Pathotype.toLowerCase().includes(selected.toLowerCase()));
+
+    return selectedLineages.some((selected) => item.Pathovar.toLowerCase().includes(selected.toLowerCase()));
   };
 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x) && checkLineages(x));
@@ -98,7 +99,7 @@ export function filterBrushData({
   let newDataGD = filterData(starttimeGD, endtimeGD);
   let newDataDRT = filterData(starttimeDRT, endtimeDRT);
   let newDataRDT = filterData(starttimeRDT, endtimeRDT);
-  console.log('newDataRDT', starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
+  // console.log('newDataRDT', starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
   if (actualCountry !== 'All') {
     // const filterByCountry = newData.filter((x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry);
     const filterByCountry = (x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry;
@@ -656,7 +657,6 @@ function getYearsLocationData({ yearData, items, rule, type = 'country', drugCla
       });
     } else if (organism === 'kpneumo') {
       Object.assign(countryDrugClasses, getKPDrugClassData({ drugKey: rule, dataToFilter: countryData }));
-    } else {
     }
 
     drugClassResponse[item] = countryDrugClasses.resistantCount;

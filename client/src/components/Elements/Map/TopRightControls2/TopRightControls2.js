@@ -13,6 +13,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { statKeys, mapStatKeysKP } from '../../../../util/drugClassesRules';
 import { drugAcronymsOpposite2 } from '../../../../util/drugs';
+import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
@@ -70,8 +71,10 @@ export const TopRightControls2 = () => {
     if (Object.keys(INFO_ICON_TEXTS).includes(organism) && !isResPrevalence) {
       return INFO_ICON_TEXTS[organism];
     }
-    // return 'Select up to 10 to display';
-    return 'Select an option to display';
+    if (isResPrevalence) {
+      return 'Select one drug category to display its prevalence';
+    }
+    return 'Select up to 10 to display';
   }, [isResPrevalence, organism]);
 
   const heading = useMemo(() => {
@@ -79,7 +82,7 @@ export const TopRightControls2 = () => {
       return 'Select Drug';
     }
 
-    if (['decoli', 'shige', 'sentericaints', 'ecoli'].includes(organism)) {
+    if (amrLikeOrganisms.includes(organism)) {
       return 'Select Lineage';
     }
     if (['kpneumo'].includes(organism)) {
@@ -94,7 +97,7 @@ export const TopRightControls2 = () => {
       return `${open ? 'Close' : 'Open'} drug selector`;
     }
 
-    if (['shige', 'decoli', 'sentericaints', 'ecoli'].includes(organism)) {
+    if (amrLikeOrganisms.includes(organism)) {
       return `${open ? 'Close' : 'Open'} lineage selector`;
     }
     if (['kpneumo'].includes(organism)) {
@@ -115,7 +118,7 @@ export const TopRightControls2 = () => {
       const totalCount = matchingItem?.totalCount ?? 0;
       const susceptiblePercentage = (matchingItem?.Pansusceptible / totalCount || 0) * 100;
 
-      if (['decoli', 'shige', 'sentericaints', 'ecoli'].includes(organism)) {
+      if (amrLikeOrganisms.includes(organism)) {
         return `${item} (total N=${totalCount})`;
       }
 
@@ -163,7 +166,11 @@ export const TopRightControls2 = () => {
                 multiple
                 disableCloseOnSelect
                 value={prevalenceMapViewOptionsSelected}
-                options={isResPrevalence ? resistanceOptions : genotypesDrugsData.map((data) => data.name)}
+                options={
+                  isResPrevalence
+                    ? resistanceOptions
+                    : genotypesDrugsData.filter((data) => data.totalCount > 0).map((data) => data.name)
+                }
                 onChange={handleAutocompleteChange}
                 limitTags={1}
                 getOptionDisabled={getOptionDisabled}

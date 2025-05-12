@@ -1,5 +1,7 @@
 # Configuration file for the Sphinx documentation builder.
 import os
+import sphinx
+import sphinx_material
 from urllib.request import urlopen
 from pathlib import Path
 

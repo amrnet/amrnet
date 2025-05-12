@@ -2,39 +2,39 @@ import { amrLikeOrganisms, organismsCards } from './organismsCards';
 
 // List of legends for the map and in which organisms they appear
 export const mapLegends = [
-  {
-    value: 'MDR',
-    label: 'Multidrug resistant (MDR)',
-    organisms: ['styphi', 'ngono' /*, 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'*/],
-  },
-  {
-    value: 'XDR',
-    label: 'Extensively drug resistant (XDR)',
-    organisms: ['styphi', 'ngono' /*, 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'*/],
-  },
-  { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['styphi', ...amrLikeOrganisms] },
-  { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['styphi'] },
-  { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['styphi', ...amrLikeOrganisms] },
-  {
-    value: 'ESBL',
-    label: 'ESBL prevalence',
-    organisms: ['kpneumo' /*, 'ecoli', 'shige', 'senterica', 'decoli'*/],
-  },
-  { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: ['styphi'] },
-  { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono', ...amrLikeOrganisms] },
-  { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
-  { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
-  {
-    value: 'Carb',
-    label: 'Carbapenemase prevalence',
-    organisms: ['kpneumo' /*, 'ecoli', 'shige', 'decoli'*/],
-  },
-  {
-    value: 'Pansusceptible',
-    label: 'Pansusceptible',
-    organisms: ['styphi', 'kpneumo', ...amrLikeOrganisms],
-  },
-  { value: 'Pansusceptible', label: 'Pansusceptible', organisms: ['ngono'] },
+  // {
+  //   value: 'MDR',
+  //   label: 'Multidrug resistant (MDR)',
+  //   organisms: [ 'ngono' /*, 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'*/],
+  // },
+  // {
+  //   value: 'XDR',
+  //   label: 'Extensively drug resistant (XDR)',
+  //   organisms: [ 'ngono' /*, 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'*/],
+  // },
+  // { value: 'AzithR', label: 'Azithromycin resistant', organisms: [ ...amrLikeOrganisms] },
+  // { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: [] },
+  // { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: [ ...amrLikeOrganisms] },
+  // {
+  //   value: 'ESBL',
+  //   label: 'ESBL prevalence',
+  //   organisms: ['kpneumo' /*, 'ecoli', 'shige', 'senterica', 'decoli'*/],
+  // },
+  // { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: [] },
+  // { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono', ...amrLikeOrganisms] },
+  // { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
+  // { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
+  // {
+  //   value: 'Carb',
+  //   label: 'Carbapenemase prevalence',
+  //   organisms: ['kpneumo' /*, 'ecoli', 'shige', 'decoli'*/],
+  // },
+  // {
+  //   value: 'Pansusceptible',
+  //   label: 'Pansusceptible',
+  //   organisms: [ ...amrLikeOrganisms],
+  // },
+  // { value: 'Pansusceptible', label: 'Pansusceptible', organisms: ['ngono'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   {
     value: 'Genotype prevalence',
@@ -56,7 +56,7 @@ export const mapLegends = [
     label: 'Lineage prevalence',
     organisms: amrLikeOrganisms,
   },
-  { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['styphi'] },
+  // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
   {
     value: 'No. Samples',

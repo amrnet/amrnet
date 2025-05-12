@@ -17,7 +17,7 @@ import {
 import { useStyles } from './GraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
-import { setCollapse } from '../../../stores/slices/graphSlice';
+import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
@@ -35,6 +35,7 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import { Circles } from 'react-loader-spinner';
+import { DownloadMapViewData } from '../Map/BottomRightControls/DownloadMapViewData';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -43,7 +44,7 @@ export const Graphs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState('');
-  const [showFilter, setShowFilter] = useState(!matches500);
+  const [showFilter, setShowFilter] = useState(true);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -83,7 +84,9 @@ export const Graphs = () => {
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
+  const downloadForPDF = useAppSelector((state) => state.graph.download);
 
+  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
   useEffect(() => {
     if (organismCards.length > 0) {
@@ -92,8 +95,16 @@ export const Graphs = () => {
   }, [organismCards]);
 
   useEffect(() => {
-    setShowFilter(!matches500);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const runAsync = async () => {
+      if (downloadForPDF) {
+        dispatch(setDownload(false));
+      }
+    };
+    runAsync();
+  }, [downloadForPDF]);
+
+  useEffect(() => {
+    setShowFilter(true);
   }, [organism]);
 
   const showFilterFull = useMemo(() => {
@@ -402,6 +413,13 @@ export const Graphs = () => {
     setShowFilter(!showFilter);
   }
 
+  //   const cycleThroughTabs = async () => {
+  //   for (let i = 0; i < organismCards.length; i++) {
+  //     await new Promise(resolve => setTimeout(resolve, 500)); // 1-second delay between tabs
+  //     handleChangeTab(null, organismCards[i].id); // simulate tab change
+  //   }
+  // };
+
   return (
     <div className={classes.cardsWrapper}>
       <Card className={classes.card}>
@@ -418,7 +436,8 @@ export const Graphs = () => {
             <StackedBarChart color="primary" />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-                All Other Graphs
+                Summary plots:{' '}
+                {actualCountry !== 'All' ? actualCountry : actualRegion === 'All' ? 'All Regions' : actualRegion}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
@@ -431,17 +450,28 @@ export const Graphs = () => {
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['all'] && currentTab !== 'HSG' && (
-              <Tooltip title="Download Chart as PNG" placement="top">
-                <span>
+              <div>
+                <Tooltip title="Download Data" placement="top">
                   <IconButton
+                    className={classes.actionButton}
                     color="primary"
-                    onClick={(event) => handleClickDownload(event)}
                     disabled={organism === 'none' || loading}
                   >
-                    {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                    <DownloadMapViewData fontSize="inherit" value={currentCard.id} />
                   </IconButton>
-                </span>
-              </Tooltip>
+                </Tooltip>
+                <Tooltip title="Download Chart as PNG" placement="top">
+                  <span>
+                    <IconButton
+                      color="primary"
+                      onClick={(event) => handleClickDownload(event)}
+                      disabled={organism === 'none' || loading}
+                    >
+                      {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </div>
             )}
             {collapses['all'] && (
               <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
@@ -494,11 +524,13 @@ export const Graphs = () => {
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    visibility: currentTab === card.id ? 'visible' : 'hidden',
-                    position: currentTab === card.id ? 'relative' : 'absolute',
+                    position: downloadForPDF ? 'absolute' : currentTab === card.id ? 'relative' : 'absolute',
+                    visibility: downloadForPDF ? 'visible' : currentTab === card.id ? 'visible' : 'hidden',
                     top: 0,
                     left: 0,
                     width: '100%',
+                    backgroundColor: 'white',
+                    zIndex: downloadForPDF === true ? 1 : 0,
                   }}
                 >
                   {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}

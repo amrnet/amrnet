@@ -255,6 +255,7 @@ export const Map = () => {
         <Typography gutterBottom variant="h5" fontWeight={'bold'}>
           Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
+        <Typography variant="caption">{prevalenceMapViewOptionsSelected.join(',')}</Typography>
         <div className={classes.mapWrapper}>
           <ComposableMap
             className={classes.composableMap}
@@ -391,7 +392,7 @@ export const Map = () => {
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             } else {
-                              fillColor = differentColorScale(biggerCountItem.count, 'red');
+                              fillColor = redColorScale(biggerCountItem.percentage);
                             }
                           }
                           break;
