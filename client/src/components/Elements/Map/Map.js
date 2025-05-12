@@ -84,7 +84,7 @@ export const Map = () => {
           let combinedPercentage;
           if (organism === 'styphi')
             combinedPercentage =
-              (countryStats[statKey['CipR']].percentage || 0) + (countryStats[statKey['CipNS']].percentage || 0);
+              (countryStats[["Ciprofloxacin (resistant)"]].percentage || 0) + (countryStats[['Ciprofloxacin (non-susceptible)']].percentage || 0);
           Object.assign(tooltip, {
             content:
               organism === 'styphi'
@@ -92,10 +92,10 @@ export const Map = () => {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     H58: `${countryStats.H58.percentage}%`,
-                    MDR: `${countryStats.MDR.percentage}%`,
-                    XDR: `${countryStats.XDR.percentage}%`,
-                    AzithR: `${countryStats.AzithR.percentage}%`,
-                    CipR: `${countryStats.CipR.percentage}%`,
+                    MDR: `${countryStats['Multidrug resistant (MDR)'].percentage}%`,
+                    XDR: `${countryStats['Extensively drug resistant (XDR)'].percentage}%`,
+                    AzithR: `${countryStats['Azithromycin'].percentage}%`,
+                    CipR: `${countryStats["Ciprofloxacin (resistant)"].percentage}%`,
                     CipNS: `${combinedPercentage.toFixed(2)}%`,
                     Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
                   }
