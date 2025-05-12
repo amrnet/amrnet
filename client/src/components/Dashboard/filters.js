@@ -22,14 +22,18 @@ export function filterData({
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
   };
   const checkLineages = (item) => {
-    if (!['sentericaints', 'decoli', 'shige'].includes(organism)) {
+    if (!amrLikeOrganisms.includes(organism)) {
       return true;
     }
 
-    if (organism === 'sentericaints') {
-      return selectedLineages.some((selected) => item.serotype.toLowerCase().includes(selected.toLowerCase()));
+    if (['sentericaints', 'senterica'].includes(organism)) {
+      return selectedLineages.some((selected) => item.SISTR1_Serovar.toLowerCase().includes(selected.toLowerCase()));
     }
-    return selectedLineages.some((selected) => item.Pathotype.toLowerCase().includes(selected.toLowerCase()));
+    if (['shige'].includes(organism)) {
+      return selectedLineages.some((selected) => item.Pathotype.toLowerCase().includes(selected.toLowerCase()));
+    }
+
+    return selectedLineages.some((selected) => item.Pathovar.toLowerCase().includes(selected.toLowerCase()));
   };
 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x) && checkLineages(x));
@@ -69,9 +73,13 @@ export function filterBrushData({
   organism,
   actualCountry,
   selectedLineages,
-  starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT
+  starttimeGD,
+  endtimeGD,
+  starttimeDRT,
+  endtimeDRT,
+  starttimeRDT,
+  endtimeRDT,
 }) {
-  
   const filterByDataset = (item) => dataset === 'All' || item.TRAVEL === dataset.toLowerCase();
   const filterByTimeRange = (item, start, end) => item.DATE >= start && item.DATE <= end;
   const filterByLineages = (item) => {
@@ -85,25 +93,25 @@ export function filterBrushData({
     return selectedLineages.includes(item.Pathovar);
   };
   // const newData = data.filter((x) => filterByDataset(x) && filterByTimeRange(x) && filterByLineages(x));
-  const filterData = (start, end) => data.filter((x) => filterByDataset(x) && filterByTimeRange(x, start, end) && filterByLineages(x));
+  const filterData = (start, end) =>
+    data.filter((x) => filterByDataset(x) && filterByTimeRange(x, start, end) && filterByLineages(x));
 
   let newDataGD = filterData(starttimeGD, endtimeGD);
   let newDataDRT = filterData(starttimeDRT, endtimeDRT);
   let newDataRDT = filterData(starttimeRDT, endtimeRDT);
-  console.log('newDataRDT',starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
+  // console.log('newDataRDT', starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
   if (actualCountry !== 'All') {
     // const filterByCountry = newData.filter((x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry);
     const filterByCountry = (x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry;
     newDataGD = newDataGD.filter(filterByCountry);
     newDataDRT = newDataDRT.filter(filterByCountry);
     newDataRDT = newDataRDT.filter(filterByCountry);
-
   }
 
   return {
     genomesCountGD: newDataGD.length,
     genomesCountDRT: newDataDRT.length,
-    genomesCountRDT: newDataRDT.length
+    genomesCountRDT: newDataRDT.length,
   };
 }
 
@@ -192,7 +200,7 @@ function getMapStatsData({ itemData, columnKey, statsKey, noItems = false, organ
     return { name, count, percentage: Number(percentage.toFixed(2)) };
   });
 
-  const stats = items.find((item) => {
+  const statsList = items.filter((item) => {
     if (amrLikeOrganisms.includes(organism)) {
       if (Array.isArray(statsKey)) {
         return statsKey.some((x) => item.name?.includes(x));
@@ -204,7 +212,12 @@ function getMapStatsData({ itemData, columnKey, statsKey, noItems = false, organ
     return item.name === statsKey;
   }) || { count: 0, percentage: 0 };
 
-  if (statsKey === '-') {
+  const stats = {
+    count: statsList.reduce((sum, item) => sum + item.count, 0),
+    percentage: Number(statsList.reduce((sum, item) => sum + item.percentage, 0).toFixed(2)),
+  };
+
+  if (statsKey === '-' && columnKey !== 'QUINOLONE') {
     const nonStatsCount = totalLength - stats.count;
 
     if (noItems) {
@@ -438,7 +451,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           drugStats[rule.key] = drugData.length;
 
-          if (rule.key === 'Ciprofloxacin NS') {
+          if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin NS') {
             const cipRCount = yearData.filter((x) => x[rule.columnID] === 'CipR').length;
             drugStats['Ciprofloxacin R'] = cipRCount;
             drugStats['Ciprofloxacin NS'] += cipRCount;
@@ -680,6 +693,12 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
       countriesDrugClassesData[key] = [];
       regionsDrugClassesData[key] = [];
     });
+  } else {
+    drugRulesINTS.forEach((drug) => {
+      genotypesDrugClassesData[drug.key] = [];
+      countriesDrugClassesData[drug.key] = [];
+      regionsDrugClassesData[drug.key] = [];
+    });
   }
 
   // Genotypes
@@ -872,6 +891,27 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
           });
           regionsDrugClassesData[rule.key].push({ ...drugClassResponseR, ...regionDrugClass });
         }
+      });
+    } else {
+      drugRulesINTS.forEach((rule) => {
+        const countryDrugClass = getYearsLocationData({
+          drugClassResponse: drugClassResponse,
+          items: countries,
+          rule,
+          yearData,
+          organism,
+        });
+        countriesDrugClassesData[rule.key].push({ ...drugClassResponse, ...countryDrugClass });
+
+        const regionDrugClass = getYearsLocationData({
+          drugClassResponse: drugClassResponseR,
+          items: regions,
+          rule,
+          yearData,
+          type: 'region',
+          organism,
+        });
+        regionsDrugClassesData[rule.key].push({ ...drugClassResponseR, ...regionDrugClass });
       });
     }
   });

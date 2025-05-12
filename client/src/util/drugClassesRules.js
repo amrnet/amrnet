@@ -29,7 +29,7 @@ export const statKeysST = [
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
   { name: 'Multidrug resistant (MDR)', column: 'MDR', key: 'MDR', resistanceView: true },
   { name: 'Sulphonamides', column: 'sul_any', key: '1', resistanceView: true },
-  { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true  },
+  { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true },
   { name: 'Tetracyclines', column: 'tetracycline_category', key: 'TetR', resistanceView: true },
   { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
   { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
@@ -753,7 +753,7 @@ export const drugClassesRulesSTHeatMap = {
       susceptible: true,
       rules: [{ columnID: 'dfra_any', value: '0' }],
     },
-  ]
+  ],
 };
 export const drugClassesRulesST = {
   ...drugClassesRulesSTHeatMap,
@@ -902,7 +902,8 @@ export const drugRulesINTS = [
     columnID: 'PHENICOL',
     values: ['CHLORAMPHENICOL'],
   },
-  { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'] },
+  { key: 'Ciprofloxacin R', columnID: 'QUINOLONE', values: ['QUINOLONE'] },
+  { key: 'Ciprofloxacin NS', columnID: 'QUINOLONE', values: ['-'] },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
   { key: 'Gentamicin', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Meropenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
@@ -940,6 +941,7 @@ export const statKeysINTS = [
   },
   { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'CipR', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
+  { name: 'CipNS', column: 'QUINOLONE', key: '-', resistanceView: true },
   { name: 'AzithR', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },

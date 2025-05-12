@@ -105,6 +105,15 @@ export const Graphs = () => {
   
 
   useEffect(() => {
+    const runAsync = async () => {
+      if (downloadForPDF) {
+        dispatch(setDownload(false));
+      }
+    };
+    runAsync();
+  }, [downloadForPDF]);
+
+  useEffect(() => {
     setShowFilter(true);
   }, [organism]);
 
@@ -257,18 +266,17 @@ export const Graphs = () => {
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
-      if(currentCard.id === 'GD'){
+      if (currentCard.id === 'GD') {
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
-      }else if(currentCard.id === 'DRT'){
+      } else if (currentCard.id === 'DRT') {
         ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);
-      }else if(currentCard.id === 'RDT'){
+      } else if (currentCard.id === 'RDT') {
         ctx.fillText(`Time period: ${starttimeRDT} to ${endtimeRDT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesRDT} genomes`, canvas.width / 2, 172);
-      }else
-        ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
-      
+      } else ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+
       // ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
       if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
@@ -423,7 +431,6 @@ export const Graphs = () => {
 //   }
 // };
 
-
   return (
     <div className={classes.cardsWrapper}>
       <Card className={classes.card}>
@@ -440,6 +447,7 @@ export const Graphs = () => {
             <StackedBarChart color="primary" />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
+
               Summary plots: {actualCountry !== "All" ? actualCountry : actualRegion === "All" ? "All Regions" : actualRegion}
               </Typography>
               {collapses['all'] && (
@@ -455,7 +463,11 @@ export const Graphs = () => {
             {collapses['all'] && currentTab !== 'HSG' && (
               <div>
                 <Tooltip title="Download Data" placement="top">
-                  <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none' || loading}>
+                  <IconButton
+                    className={classes.actionButton}
+                    color="primary"
+                    disabled={organism === 'none' || loading}
+                  >
                     <DownloadMapViewData fontSize="inherit" value={currentCard.id} />
                   </IconButton>
                 </Tooltip>
@@ -530,6 +542,7 @@ export const Graphs = () => {
                     left: 0,
                     width: '100%',
                     backgroundColor: 'white',
+
                     zIndex: downloadForPDF === true? 1 : 0,
                   }}
                 >

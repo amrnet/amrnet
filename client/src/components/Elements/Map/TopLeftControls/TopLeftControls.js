@@ -26,6 +26,7 @@ import {
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
 import { useEffect, useState } from 'react';
+import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -122,7 +123,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </ToggleButtonGroup>
             </div>
           )}
-          {!['shige', 'decoli', 'sentericaints'].includes(organism) ? null : (
+          {!amrLikeOrganisms.includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}
@@ -131,13 +132,27 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 //multiple
                 //disableCloseOnSelect
                 value={currentSelectedLineages}
-                options={[currentSelectedLineages.length === pathovar.length ? 'Clear All' : 'Select All', ...pathovar]}
+                options={
+                  currentSelectedLineages.length === pathovar.length ? ['Clear All', ...pathovar] : [...pathovar]
+                }
                 onChange={handleChangeLineages}
                 onClose={handleCloseLineages}
                 limitTags={1}
                 clearIcon={null}
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
                 slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
+                getOptionDisabled={(option) => {
+                  if (['Clear All', 'Select All'].includes(option)) {
+                    return false;
+                  }
+
+                  if (
+                    (currentSelectedLineages.length === 1 && currentSelectedLineages?.[0] !== option) ||
+                    currentSelectedLineages.length === pathovar.length
+                  ) {
+                    return true;
+                  }
+                }}
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
                   const isAllButton = isAllOption(option);

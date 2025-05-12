@@ -14,7 +14,13 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
 import { setColorPallete, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
-import { setDistributionGraphView, setResetBool, setEndtimeGD, setStarttimeGD, setTopXGenotype } from '../../../../stores/slices/graphSlice.ts';
+import {
+  setDistributionGraphView,
+  setResetBool,
+  setEndtimeGD,
+  setStarttimeGD,
+  setTopXGenotype,
+} from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -60,7 +66,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       dispatch(setCaptureGD(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
+  }, [genotypesYearData, currentSliderValue]);
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -100,11 +106,12 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
     // console.log("GD", slicedArrayWithOther);
+
     dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
     dispatch(setTopXGenotype(slicedArray));
     dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
+  }, [genotypesYearData, currentSliderValue]);
 
   let newArray = []; //TODO: can be a global value in redux
   let newArrayPercentage = []; //TODO: can be a global value in redux
@@ -183,7 +190,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       // Dispatch initial values based on the default range (full range)
       const startValue = genotypesYearData[0]?.name; // First value in the data
       const endValue = genotypesYearData[genotypesYearData.length - 1]?.name; // Last value in the data
-      console.log('startValue', startValue, endValue);
+      // console.log('startValue', startValue, endValue);
       dispatch(setStarttimeGD(startValue));
       dispatch(setEndtimeGD(endValue));
     }
@@ -207,10 +214,17 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   {dataViewOptions.find((option) => option.value === distributionGraphView).label}
                 </Label>
               </YAxis>
-              {genotypesYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} onChange={(brushRange) => {
-                dispatch(setStarttimeGD((genotypesYearData[brushRange.startIndex]?.name)));
-                dispatch(setEndtimeGD((genotypesYearData[brushRange.endIndex]?.name))); // if using state genotypesYearData[start]?.name
-              }}/>}
+              {genotypesYearData.length > 0 && (
+                <Brush
+                  dataKey="name"
+                  height={20}
+                  stroke={'rgb(31, 187, 211)'}
+                  onChange={(brushRange) => {
+                    dispatch(setStarttimeGD(genotypesYearData[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeGD(genotypesYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                  }}
+                />
+              )}
               <Legend
                 content={(props) => {
                   const { payload } = props;
@@ -265,9 +279,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         <div className={classes.graph} id="GD">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
+        <div className={classes.rightSide}>
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
-          <SliderSizes value={'GD'} sx={{ margin: '0px 10px 0px 10px' }} />
+          <SliderSizes value={'GD'} style={{ width: '100%' }} />
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>

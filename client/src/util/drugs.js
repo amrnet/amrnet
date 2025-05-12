@@ -99,10 +99,11 @@ export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
 export const drugClassesKP = ['Carbapenems', 'ESBL'];
 
 export const drugAcronyms = {
-  'Ampicillin/Amoxicillin': 'AMP/AMC',
+  'Ampicillin/Amoxicillin': 'AMP/AMX',
   Ampicillin: 'AMP',
+  Azithromycin: 'AZM',
   Ceftriaxone: 'CRO',
-  Chloramphenicol: 'CLO',
+  Chloramphenicol: 'CHL',
   Sulphonamides: 'SUL',
   Sulfonamides: 'SUL',
   Tetracyclines: 'TET',
@@ -119,19 +120,32 @@ export const drugAcronyms = {
   Tigecycline: 'TGC',
   AzithR: 'AZM',
   '3rd gen cephalosporins (3GCs)': '3GCs',
-  CipNS: 'CIP',
   Sulfamethoxazole: 'SMX',
   Gentamicin: 'GEN',
+  Cefixime: 'CFM',
+  Ciprofloxacin: 'CIP',
+  Penicillin: 'PCN',
+  Spectinomycin: 'SPT',
 };
 
 export const drugAcronymsOpposite = {
-  CIP: 'Ciprofloxacin',
+  CipNS: 'Ciprofloxacin NS',
   CARB: 'Carbapenems',
   AZM: 'Azithromycin',
   ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin R',
   MDR: 'Multi-drug Resistant',
   XDR: 'Extensively Drug Resistant',
+};
+
+export const drugAcronymsOpposite2 = {
+  CipNS: 'Ciprofloxacin NS',
+  CARB: 'Carbapenems',
+  Carb: 'Carbapenems',
+  AZM: 'Azithromycin',
+  ESBL: 'Extended-Spectrum Beta-Lactamase',
+  CipR: 'Ciprofloxacin R',
+  AzithR: 'Azithromycin',
 };
 
 export const drugsINTS = drugRulesINTS.map((x) => x.key).sort((a, b) => a.localeCompare(b));
@@ -145,6 +159,6 @@ export function getDrugClasses(organism) {
     case 'ngono':
       return drugClassesNG;
     default:
-      return [];
+      return drugsINTS;
   }
 }

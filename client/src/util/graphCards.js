@@ -9,10 +9,7 @@ import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 
-
-
 function getHeatMapsTitle(organism) {
-  console.log('organism', organism);
   switch (organism) {
     case 'kpneumo':
       return 'AMR by ST';
@@ -106,7 +103,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: amrLikeOrganisms,
+    organisms: amrLikeOrganisms.filter((x) => x !== 'decoli'),
     component: <DistributionGraph />,
   },
   {
@@ -173,11 +170,8 @@ export const graphCards = [
   //   organisms: organismsCards.map((x) => x.value),
   //   component: <BubbleHeatmapGraph2 />,
   // },
-  ...heatmapCards
+  ...heatmapCards,
 ];
-
-
-
 
 export const continentGraphCard = {
   title: 'Geographic Comparisons',

@@ -96,7 +96,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
       default:
         return [];
     }
-  }, [currentData, drugClass, genotypesAndDrugsYearData, genotypesForFilter, organism]);
+  }, [currentData, drugClass, genotypesAndDrugsYearData, organism]);
 
   useEffect(() => {
     if (geneOptions.length > 0) {

@@ -20,7 +20,7 @@ import {
   setResetBool,
   setSliderList,
   setMaxSliderValueRD,
-  setTopXGenotypeRDWG
+  setTopXGenotypeRDWG,
 } from '../../../../stores/slices/graphSlice';
 import { getDrugClasses } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
@@ -67,7 +67,6 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const topXGenotypeRDWG = useAppSelector((state) => state.graph.topXGenotypeRDWG);
-
 
   let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
@@ -349,8 +348,8 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
         <div className={classes.graph} id="RDWG">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
-          <SliderSizes sx={{ margin: '0px 10px 0px 10px' }} />
+        <div className={classes.rightSide}>
+          <SliderSizes style={{ width: '100%' }} />
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>

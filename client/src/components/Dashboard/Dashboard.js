@@ -187,18 +187,15 @@ export const DashboardPage = () => {
       const country = getCountryDisplayName(x.COUNTRY_ONLY);
       countriesSet.add(country);
       genotypesSet.add(x.GENOTYPE);
-      ngmastSet.add(x['NG-MAST TYPE']);
       yearsSet.add(x.DATE);
-      PMIDSet.add(x.PMID);
+      if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
+      if ('PMID' in x) PMIDSet.add(x['PMID']);
 
-      if (organism === 'sentericaints') {
+      if (['sentericaints', 'senterica'].includes(organism)) {
         pathovarSet.add(x.SISTR1_Serovar);
       }
-      if (['shige', 'decoli'].includes(organism)) {
+      if (['shige', 'decoli', 'ecoli'].includes(organism)) {
         pathovarSet.add(x.Pathotype);
-      }
-      if (organism === 'ecoli') {
-        pathovarSet.add(x.Pathovar);
       }
     });
 
@@ -222,9 +219,7 @@ export const DashboardPage = () => {
     // Set values
     dispatch(setTotalGenotypes(genotypes.length));
     dispatch(setActualGenotypes(genotypes.length));
-    if (organism === 'styphi') {
-      dispatch(setGenotypesForFilter(genotypes));
-    }
+    dispatch(setGenotypesForFilter(genotypes));
     dispatch(setYears(years));
     dispatch(setCountriesForFilter(countries));
     dispatch(setPMID(PMID));
@@ -302,7 +297,7 @@ export const DashboardPage = () => {
         dispatch(setGenotypesAndDrugsYearData(genotypesAndDrugsData));
 
         if (organism !== 'styphi') {
-          dispatch(setGenotypesForFilter(uniqueGenotypes));
+          // dispatch(setGenotypesForFilter(uniqueGenotypes));
           dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
         }
       }),
@@ -445,6 +440,7 @@ export const DashboardPage = () => {
         }),
       );
       setData([]);
+      dispatch(setGenotypesForFilter([]));
       dispatch(setTotalGenomes(0));
       dispatch(setTotalGenotypes(0));
       dispatch(setActualGenomes(0));
@@ -676,35 +672,34 @@ export const DashboardPage = () => {
 
     dispatch(setCanFilterData(false));
   }
+
   useEffect(() => {
     const fetchDataAndFilter = async () => {
       try {
         const data = await getItems(organism);
         if (data.length > 0) {
-          const filters = filterBrushData({ 
-            data, 
-            dataset, 
-            actualCountry, 
-            starttimeGD, 
-            endtimeGD, 
-            starttimeDRT, 
+          const filters = filterBrushData({
+            data,
+            dataset,
+            actualCountry,
+            starttimeGD,
+            endtimeGD,
+            starttimeDRT,
             endtimeDRT,
-            starttimeRDT, 
-            endtimeRDT 
+            starttimeRDT,
+            endtimeRDT,
           });
           dispatch(setActualGenomesGD(filters.genomesCountGD));
           dispatch(setActualGenomesDRT(filters.genomesCountDRT));
           dispatch(setActualGenomesRDT(filters.genomesCountRDT));
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchDataAndFilter();
   }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT]);
-  
-  
 
   return (
     <>
