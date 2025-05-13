@@ -24,7 +24,7 @@ import {
   Cell,
   LabelList,
 } from 'recharts';
-import { useAppSelector } from '../../../../stores/hooks';
+import { useAppSelector , useAppDispatch} from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -33,6 +33,7 @@ import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Close, InfoOutlined } from '@mui/icons-material';
+import { setYAxisType} from '../../../../stores/slices/mapSlice';
 
 const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
   const label = drug === 'Carbapenems' ? 'Carbapenemases' : drug === 'ESBL'? 'ESBLs' : drug;
@@ -60,11 +61,11 @@ const allYOptions = kpYOptions.concat(stYOptions);
 export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [xAxisType, setXAxisType] = useState('country');
-  const [yAxisType, setYAxisType] = useState('resistance');
+  // const [yAxisType, setYAxisType] = useState('resistance');
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [plotChart, setPlotChart] = useState(() => {});
-
+  const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const mapData = useAppSelector((state) => state.map.mapData);
@@ -73,10 +74,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const drugsRegionsData = useAppSelector((state) => state.graph.drugsRegionsData);
   const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
+  const yAxisType = useAppSelector((state) => state.map.yAxisType);
 
   useEffect(() => {
     setXAxisType('country');
-    setYAxisType('resistance');
+    dispatch(setYAxisType('resistance'));
   }, [organism]);
 
   const drugsData = useMemo(() => {
@@ -230,7 +232,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }
 
   function handleChangeYAxisType(event) {
-    setYAxisType(event.target.value);
+    dispatch(setYAxisType(event.target.value));
   }
 
   function handleChangeXAxisSelected({ event = null, all = false }) {
@@ -593,6 +595,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <Typography variant="caption">Columns</Typography>
+                    {console.log('yAxisType', yAxisType)}
                     <Select
                       value={yAxisType}
                       onChange={handleChangeYAxisType}

@@ -24,9 +24,15 @@ export const DownloadMapViewData = ({value}) => {
   const mapView = useAppSelector((state) => state.map.mapView);
   const convergenceData = useAppSelector((state) => state.graph.convergenceData);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
+  const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
+  const drugsRegionsData = useAppSelector((state) => state.graph.drugsRegionsData);
+  const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
+  const yAxisType = useAppSelector((state) => state.map.yAxisType);
+  
   
 
-console.log('convergenceData', convergenceData, convergenceGroupVariable);
+// console.log('convergenceData', convergenceData, convergenceGroupVariable);
   let firstName, secondName;
     if (organism === 'styphi') {
       firstName = 'Salmonella';
@@ -401,7 +407,6 @@ console.log('convergenceData', convergenceData, convergenceGroupVariable);
   };
 
   const downloadCSVForGD = () => {
-    console.log("its working", value, genotypesDrugsData);
 
     if (Array.isArray(genotypesYearData) && genotypesYearData.length > 0) {
         console.log("GD", genotypesYearData, topXGenotype);
@@ -525,7 +530,7 @@ console.log('convergenceData', convergenceData, convergenceGroupVariable);
               return rowData.join(',');
           });
   
-        generateCSV(headers, rows, 'RDT');
+        generateCSV(headers, rows, 'AMR Markers');
     } else {
         console.log('genotypesAndDrugsYearData is empty or not an object', genotypesAndDrugsYearData);
     }
@@ -580,6 +585,122 @@ const downloadCSVForHM = () => {
 };
 
 
+const downloadCSVForCVM = () => {
+  // Helper: Extract clean yAxisKey and capitalize first letter
+  const getYAxisKey = (type) => {
+    const parts = type.split('-');
+    const key = parts.length > 1 ? parts.slice(2).join('-') : type;
+    return key.charAt(0).toUpperCase() + key.slice(1);
+  };
+
+  const yAxisKey = getYAxisKey(yAxisType);
+
+  // Step 1: Get correct dataSource
+  let dataSource;
+  if (yAxisKey === 'Resistance' || yAxisKey === 'Genotype') {
+    dataSource = mapData;
+  } else {
+    const matchedKey = Object.keys(drugsCountriesData || {}).find(
+      key => key.toLowerCase() === yAxisKey.toLowerCase()
+    );
+    if (matchedKey) {
+      dataSource = drugsCountriesData[matchedKey];
+    } else {
+      console.warn('No matching key found for:', yAxisKey);
+      return;
+    }
+  }
+
+  const allDrugsSet = new Set();
+
+  // Step 2: Collect unique flat drug names (exclude 'GENOTYPE', 'name', 'totalCount', etc.)
+  if (yAxisKey === 'Resistance' || yAxisKey === 'Genotype')
+      dataSource.forEach(region => {
+      if (region.stats) {
+        Object.entries(region.stats).forEach(([drugName, value]) => {
+          if (
+            drugName !== 'GENOTYPE' &&
+            value &&
+            typeof value === 'object' &&
+            'count' in value
+          ) {
+            allDrugsSet.add(drugName);
+          }
+        });
+      }
+    });
+  else
+    dataSource.forEach(entry => {
+      Object.entries(entry).forEach(([key, value]) => {
+          if (
+            key !== 'GENOTYPE' &&
+            key !== 'name' &&
+            key !== 'totalCount' &&
+            typeof value === 'number'
+          ) {
+            allDrugsSet.add(key);
+          }
+      });
+    });
+
+  const allDrugs = Array.from(allDrugsSet).sort();
+
+  // Step 3: Prepare headers
+  const headerList = ['Country', 'Total Count'];
+
+  // if (!(yAxisKey === 'Resistance' || yAxisKey === 'Genotype')) {
+    allDrugs.forEach(drug => {
+      headerList.push(drug);
+      headerList.push(`${drug} %`);
+    });
+  // }
+
+  const rows = [];
+
+  // Step 4: Build rows
+  dataSource.forEach(item => {
+    // const regionName = actualRegion || '';
+    const country = item.name || ''; // Or region.country
+    const totalCount = item.totalCount || item.count || 0;
+
+    const row = [country, totalCount];
+console.log('allDrugs', allDrugs)
+    if (!(yAxisKey === 'Resistance' || yAxisKey === 'Genotype')) {
+      allDrugs.forEach(drug => {
+        const count = item[drug] || 0;
+        const percentage = totalCount ? ((count / totalCount) * 100).toFixed(2) : 0;
+        row.push(count);
+        row.push(percentage);
+      });
+    } else {
+      if(yAxisKey === 'Resistance' )
+          allDrugs.forEach(drug => {
+            const drugData = item.stats?.[drug];
+            const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
+            const percentage = drugData && typeof drugData.percentage === 'number' ? drugData.percentage : 0;
+            row.push(count);
+            row.push(percentage);
+          });
+      else if(yAxisKey === 'Genotype')
+          allDrugs.forEach(drug => {
+            const drugData = item.stats?.[drug];
+            const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
+            const percentage = drugData && typeof drugData.percentage === 'number' ? drugData.percentage : 0;
+            row.push(count);
+            row.push(percentage);
+          });
+      }
+    
+
+    rows.push(row.join(','));
+  });
+
+  // Step 5: Export CSV
+  const headers = headerList.join(',');
+  generateCSV(headers, rows, `Geographic Comparisons (${yAxisType})`);
+};
+
+
 
 
   function generateCSV (headers, rows, name){
@@ -614,6 +735,8 @@ const downloadCSVForHM = () => {
         return downloadCSVForRDT();
       case 'convergence-graph':
         return downloadCSVForCG();
+      case 'BG':
+        return downloadCSVForCVM();
       default:
         return downloadCSV();
     }
