@@ -104,7 +104,7 @@ export const Map = () => {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carbapenems: `${countryStats.Carb.percentage}%`,
+                    Carbapenems: `${countryStats.Carbapenemase.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : organism === 'ngono'
