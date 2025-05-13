@@ -28,7 +28,7 @@ import { useAppSelector } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesKP, drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
+import { drugClassesRulesKP, drugClassesRulesST, statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
@@ -43,14 +43,14 @@ const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
   };
 });
 
-const stYOptions = Object.keys(drugClassesRulesSTHeatMap).map((drug) => {
+const stYOptions = Object.keys(drugClassesRulesST).map((drug) => {
   const label = drug === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drug;
 
   return {
     organism: 'styphi',
     key: drug,
     value: `st-trends-${drug.toLowerCase()}`,
-    label: `${label} resistant determinant`,
+    label: `${label} resistant determinant trends`,
   };
 });
 
@@ -528,7 +528,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectsWrapper}>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Rows</Typography>
+                    <Typography variant="caption">X axis</Typography>
                     <Select
                       value={xAxisType}
                       onChange={handleChangeXAxisType}
@@ -581,7 +581,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 </div>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Columns</Typography>
+                    <Typography variant="caption">Y axis</Typography>
                     <Select
                       value={yAxisType}
                       onChange={handleChangeYAxisType}

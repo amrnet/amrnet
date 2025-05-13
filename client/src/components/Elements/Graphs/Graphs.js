@@ -17,7 +17,7 @@ import {
 import { useStyles } from './GraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
-import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
+import { setCollapse } from '../../../stores/slices/graphSlice';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
@@ -35,7 +35,6 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import { Circles } from 'react-loader-spinner';
-import { DownloadMapViewData } from '../Map/BottomRightControls/DownloadMapViewData';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -44,7 +43,7 @@ export const Graphs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState('');
-  const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(!matches500);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -84,9 +83,7 @@ export const Graphs = () => {
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
-  const downloadForPDF = useAppSelector((state) => state.graph.download);
 
-  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
   useEffect(() => {
     if (organismCards.length > 0) {
@@ -461,28 +458,17 @@ export const Graphs = () => {
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['all'] && currentTab !== 'HSG' && (
-              <div>
-                <Tooltip title="Download Data" placement="top">
+              <Tooltip title="Download Chart as PNG" placement="top">
+                <span>
                   <IconButton
-                    className={classes.actionButton}
                     color="primary"
+                    onClick={(event) => handleClickDownload(event)}
                     disabled={organism === 'none' || loading}
                   >
-                    <DownloadMapViewData fontSize="inherit" value={currentCard.id} />
+                    {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
                   </IconButton>
-                </Tooltip>
-                <Tooltip title="Download Chart as PNG" placement="top">
-                  <span>
-                    <IconButton
-                      color="primary"
-                      onClick={(event) => handleClickDownload(event)}
-                      disabled={organism === 'none' || loading}
-                    >
-                      {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
-                    </IconButton>
-                  </span>
-                </Tooltip>
-              </div>
+                </span>
+              </Tooltip>
             )}
             {collapses['all'] && (
               <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
@@ -536,8 +522,8 @@ export const Graphs = () => {
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    position: downloadForPDF ? 'absolute' : currentTab === card.id ? 'relative' : 'absolute',
-                    visibility: downloadForPDF ? 'visible' : currentTab === card.id ? 'visible' : 'hidden',
+                    visibility: currentTab === card.id ? 'visible' : 'hidden',
+                    position: currentTab === card.id ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',

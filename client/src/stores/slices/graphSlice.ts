@@ -58,9 +58,6 @@ interface GraphState {
   actualGenomesGD: number;
   actualGenomesDRT: number;
   actualGenomesRDT: number;
-  topXGenotype:Array<any>;
-  topXGenotypeRDWG:Array<any>;
-  download: boolean;
 }
 
 const initialState: GraphState = {
@@ -120,9 +117,6 @@ const initialState: GraphState = {
   starttimeRDT:0,
   endtimeRDT:0,
   actualGenomesRDT:0,
-  topXGenotype:[],
-  topXGenotypeRDWG:[],
-  download: false,
 };
 
 export const graphSlice = createSlice({
@@ -291,15 +285,6 @@ export const graphSlice = createSlice({
     setDrugsRegionsData: (state, action: PayloadAction<Object>) => {
       state.drugsRegionsData = action.payload;
     },
-    setTopXGenotype: (state, action: PayloadAction<Array<any>>) => {
-      state.topXGenotype = action.payload;
-    },
-    setTopXGenotypeRDWG: (state, action: PayloadAction<Array<any>>) => {
-      state.topXGenotypeRDWG = action.payload;
-    },
-    setDownload: (state, action: PayloadAction<boolean>) => {
-      state.download = action.payload;
-    },
   },
 });
 
@@ -358,9 +343,6 @@ export const {
   setDrugsRegionsData,
   setCountriesYearData,
   setRegionsYearData,
-  setTopXGenotype,
-  setTopXGenotypeRDWG,
-  setDownload
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

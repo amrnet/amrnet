@@ -19,7 +19,6 @@ import {
   setResetBool,
   setEndtimeGD,
   setStarttimeGD,
-  setTopXGenotype,
 } from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
@@ -30,7 +29,7 @@ import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 
 const dataViewOptions = [
-  { label: 'Number per year', value: 'number' },
+  { label: 'Number of ST', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
@@ -49,8 +48,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
-  // const [topXGenotypes, setTopXGenotypes] = useState([]);
-  const topXGenotype = useAppSelector((state) => state.graph.topXGenotype);
+  const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
 
   useEffect(() => {
@@ -66,7 +64,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       dispatch(setCaptureGD(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, currentSliderValue]);
+  }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -106,12 +104,11 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
     slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
     // console.log("GD", slicedArrayWithOther);
-
     dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
-    dispatch(setTopXGenotype(slicedArray));
+    setTopXGenotypes(slicedArray);
     dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, currentSliderValue]);
+  }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
 
   let newArray = []; //TODO: can be a global value in redux
   let newArrayPercentage = []; //TODO: can be a global value in redux
@@ -119,7 +116,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   newArray = genotypesYearData.map((item) => {
     let count = 0;
     for (const key in item) {
-      if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
+      if (!topXGenotypes.includes(key) && !exclusions.includes(key)) {
         count += item[key]; //adding count of all genotypes which are not in topX
       }
     }
@@ -171,7 +168,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           color: getGenotypeColor(key),
         };
       });
-      value.genotypes = value.genotypes.filter((item) => topXGenotype.includes(item.label) || item.label === 'Other');
+      value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === 'Other');
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
     }
@@ -183,14 +180,14 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       dispatch(setResetBool(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topXGenotype]);
+  }, [topXGenotypes]);
 
   useEffect(() => {
     if (genotypesYearData.length > 0) {
       // Dispatch initial values based on the default range (full range)
       const startValue = genotypesYearData[0]?.name; // First value in the data
       const endValue = genotypesYearData[genotypesYearData.length - 1]?.name; // Last value in the data
-      // console.log('startValue', startValue, endValue);
+      console.log('startValue', startValue, endValue);
       dispatch(setStarttimeGD(startValue));
       dispatch(setEndtimeGD(endValue));
     }
@@ -255,7 +252,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                 }}
               />
 
-              {topXGenotype.map((option, index) => (
+              {topXGenotypes.map((option, index) => (
                 <Bar
                   key={`distribution-bar-${index}`}
                   dataKey={option}
@@ -271,7 +268,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, distributionGraphView, topXGenotype, currentSliderValue]);
+  }, [genotypesYearData, distributionGraphView, topXGenotypes, currentSliderValue]);
 
   return (
     <CardContent className={classes.distributionGraph}>

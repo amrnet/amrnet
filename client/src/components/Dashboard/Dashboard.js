@@ -187,15 +187,18 @@ export const DashboardPage = () => {
       const country = getCountryDisplayName(x.COUNTRY_ONLY);
       countriesSet.add(country);
       genotypesSet.add(x.GENOTYPE);
+      ngmastSet.add(x['NG-MAST TYPE']);
       yearsSet.add(x.DATE);
-      if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
-      if ('PMID' in x) PMIDSet.add(x['PMID']);
+      PMIDSet.add(x.PMID);
 
-      if (['sentericaints', 'senterica'].includes(organism)) {
+      if (organism === 'sentericaints') {
         pathovarSet.add(x.SISTR1_Serovar);
       }
-      if (['shige', 'decoli', 'ecoli'].includes(organism)) {
+      if (['shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathotype);
+      }
+      if (organism === 'ecoli') {
+        pathovarSet.add(x.Pathovar);
       }
     });
 
@@ -219,7 +222,9 @@ export const DashboardPage = () => {
     // Set values
     dispatch(setTotalGenotypes(genotypes.length));
     dispatch(setActualGenotypes(genotypes.length));
-    dispatch(setGenotypesForFilter(genotypes));
+    if (organism === 'styphi') {
+      dispatch(setGenotypesForFilter(genotypes));
+    }
     dispatch(setYears(years));
     dispatch(setCountriesForFilter(countries));
     dispatch(setPMID(PMID));
@@ -297,7 +302,7 @@ export const DashboardPage = () => {
         dispatch(setGenotypesAndDrugsYearData(genotypesAndDrugsData));
 
         if (organism !== 'styphi') {
-          // dispatch(setGenotypesForFilter(uniqueGenotypes));
+          dispatch(setGenotypesForFilter(uniqueGenotypes));
           dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
         }
       }),
@@ -386,12 +391,12 @@ export const DashboardPage = () => {
       dispatch(setDataset('All'));
       switch (organism) {
         case 'styphi':
-          dispatch(setMapView('Resistance prevalence'));
+          dispatch(setMapView('CipNS'));
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
           dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
           break;
         case 'kpneumo':
-          dispatch(setMapView('Resistance prevalence'));
+          dispatch(setMapView('No. Samples'));
           dispatch(setDrugResistanceGraphView(drugsKP));
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphDrugClass('Carbapenems'));
@@ -403,21 +408,21 @@ export const DashboardPage = () => {
           // setCurrentConvergenceColourVariable('DATE');
           break;
         case 'ngono':
-          dispatch(setMapView('Resistance prevalence'));
+          dispatch(setMapView('No. Samples'));
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
           dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
           dispatch(setTrendsGraphDrugClass('Azithromycin'));
           dispatch(setTrendsGraphView('number'));
           break;
         case 'sentericaints':
-          dispatch(setMapView('Resistance prevalence'));
+          dispatch(setMapView('No. Samples'));
           dispatch(setDrugResistanceGraphView(drugsINTS));
           break;
         case 'ecoli':
         case 'decoli':
         case 'shige':
         case 'senterica':
-          dispatch(setMapView('Resistance prevalence'));
+          dispatch(setMapView('No. Samples'));
           dispatch(setDrugResistanceGraphView(drugsINTS));
           break;
         default:
@@ -440,7 +445,6 @@ export const DashboardPage = () => {
         }),
       );
       setData([]);
-      dispatch(setGenotypesForFilter([]));
       dispatch(setTotalGenomes(0));
       dispatch(setTotalGenotypes(0));
       dispatch(setActualGenomes(0));
@@ -672,34 +676,35 @@ export const DashboardPage = () => {
 
     dispatch(setCanFilterData(false));
   }
-
   useEffect(() => {
     const fetchDataAndFilter = async () => {
       try {
         const data = await getItems(organism);
         if (data.length > 0) {
-          const filters = filterBrushData({
-            data,
-            dataset,
-            actualCountry,
-            starttimeGD,
-            endtimeGD,
-            starttimeDRT,
+          const filters = filterBrushData({ 
+            data, 
+            dataset, 
+            actualCountry, 
+            starttimeGD, 
+            endtimeGD, 
+            starttimeDRT, 
             endtimeDRT,
-            starttimeRDT,
-            endtimeRDT,
+            starttimeRDT, 
+            endtimeRDT 
           });
           dispatch(setActualGenomesGD(filters.genomesCountGD));
           dispatch(setActualGenomesDRT(filters.genomesCountDRT));
           dispatch(setActualGenomesRDT(filters.genomesCountRDT));
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchDataAndFilter();
   }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT]);
+  
+  
 
   return (
     <>

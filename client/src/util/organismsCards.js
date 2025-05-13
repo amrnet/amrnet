@@ -33,6 +33,7 @@ export const organismsCards = [
     value: 'senterica',
     abbr: 'S. enterica',
     img: senterica,
+    disabled: true,
   },
   {
     label: (
@@ -67,7 +68,7 @@ export const organismsCards = [
     abbr: 'Shigella+EIEC',
     img: shig,
   },
-  
+
   {
     label: (
       <span>
@@ -90,9 +91,7 @@ export const organismsCards = [
     abbr: 'E. coli',
     img: ecoli,
   },
-  
-  
-  
+
   // {
   //   label: (
   //     <span>

@@ -55,7 +55,8 @@ export const Note = () => {
             Enterobase
           </a>{' '}
           and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards
-          sequencing of resistant strains and/or outbreaks. This will change in future updates.
+          sequencing of resistant strains and/or outbreaks. This will change in future updates. AMR data is not yet
+          available but is coming soon.
         </span>
       );
     }

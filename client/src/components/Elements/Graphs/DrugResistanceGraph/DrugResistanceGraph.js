@@ -26,7 +26,7 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDrugResistanceGraphView, setStarttimeDRT, setEndtimeDRT } from '../../../../stores/slices/graphSlice';
+import { setDrugResistanceGraphView, setStarttimeDRT,setEndtimeDRT} from '../../../../stores/slices/graphSlice';
 import { drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
@@ -244,17 +244,10 @@ console.log('drugsYearData', drugsYearData[0]);
                   Resistant (%)
                 </Label>
               </YAxis>
-              {drugsYearData.length > 0 && (
-                <Brush
-                  dataKey="name"
-                  height={20}
-                  stroke={'rgb(31, 187, 211)'}
-                  onChange={(brushRange) => {
-                    dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
-                    dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
-                  }}
-                />
-              )}
+              {drugsYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} onChange={(brushRange) => {
+                dispatch(setStarttimeDRT((drugsYearData[brushRange.startIndex]?.name)));
+                dispatch(setEndtimeDRT((drugsYearData[brushRange.endIndex]?.name))); // if using state genotypesYearData[start]?.name
+              }} />}
 
               {organism !== 'none' && (
                 <Legend

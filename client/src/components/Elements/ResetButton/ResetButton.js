@@ -76,7 +76,7 @@ export const ResetButton = () => {
     const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
 
     if (organism === 'styphi') {
-      dispatch(setMapView('Resistance prevalence'));
+      dispatch(setMapView('CipNS'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
     } else if (organism === 'ngono') {

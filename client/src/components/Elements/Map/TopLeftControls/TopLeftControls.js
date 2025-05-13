@@ -26,7 +26,6 @@ import {
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
 import { useEffect, useState } from 'react';
-import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -123,7 +122,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </ToggleButtonGroup>
             </div>
           )}
-          {!amrLikeOrganisms.includes(organism) ? null : (
+          {!['shige', 'decoli', 'sentericaints', 'ecoli'].includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}
@@ -132,9 +131,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 //multiple
                 //disableCloseOnSelect
                 value={currentSelectedLineages}
-                options={
-                  currentSelectedLineages.length === pathovar.length ? ['Clear All', ...pathovar] : [...pathovar]
-                }
+                options={[currentSelectedLineages.length === pathovar.length ? 'Clear All' : 'Select All', ...pathovar]}
                 onChange={handleChangeLineages}
                 onClose={handleCloseLineages}
                 limitTags={1}

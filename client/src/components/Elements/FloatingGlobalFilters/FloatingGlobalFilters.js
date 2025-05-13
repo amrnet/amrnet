@@ -36,11 +36,11 @@ export const FloatingGlobalFilters = () => {
   // useEffect(() => {
   //   const scrollContainer = document.getElementById('main-layout');
 
-  //   const handleScroll = () => {
-  //     if (scrollContainer) {
-  //       setScrollPosition(scrollContainer.scrollTop);
-  //     }
-  //   };
+  //   // const handleScroll = () => {
+  //   //   if (scrollContainer) {
+  //   //     setScrollPosition(scrollContainer.scrollTop);
+  //   //   }
+  //   // };
 
   //   scrollContainer?.addEventListener('scroll', handleScroll);
   //   return () => {
@@ -48,9 +48,11 @@ export const FloatingGlobalFilters = () => {
   //   };
   // }, []);
 
-  // useEffect(() => {
-  //   setShowFilter(!matches1750);
-  // }, [matches1750]);
+  useEffect(() => {
+    if (matches500) {
+      setShowFilter(false);
+    }
+  }, [matches500]);
 
   // useEffect(() => {
   //   const scrollContainer = document.getElementById('main-layout');
