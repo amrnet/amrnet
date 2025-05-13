@@ -347,7 +347,7 @@ export const Graphs = () => {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENES:', 50, 575);
+        ctx.fillText('GENES:', 50, 675);
         drawLegend({
           legendData: legendGens,
           context: ctx,
@@ -358,7 +358,7 @@ export const Graphs = () => {
         });
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENOTYPES:', 50, 800);
+        ctx.fillText('GENOTYPES:', 50, 900);
         drawLegend({
           legendData: legendGenotypes,
           context: ctx,
