@@ -200,7 +200,7 @@ export const Graphs = () => {
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-
+      console.log("kkkmmmgraph", currentCard.id, document.getElementById("CVM"));
       const graph = document.getElementById(currentCard.id);
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
@@ -244,7 +244,10 @@ export const Graphs = () => {
       await logoPromise;
 
       ctx.drawImage(logo, 10, 10, 155, 80);
-      ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
+      if (currentCard.id === 'HSG2')
+        ctx.drawImage(graphImg, (canvas.width * 7)/12 - graphImg.width / 2, 220);
+      else
+        ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
 
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
