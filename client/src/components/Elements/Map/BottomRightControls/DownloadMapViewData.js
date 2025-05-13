@@ -21,8 +21,11 @@ export const DownloadMapViewData = ({value}) => {
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
   const mapView = useAppSelector((state) => state.map.mapView);
+  const convergenceData = useAppSelector((state) => state.graph.convergenceData);
+  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  
 
-
+console.log('convergenceData', convergenceData, convergenceGroupVariable);
   let firstName, secondName;
     if (organism === 'styphi') {
       firstName = 'Salmonella';
@@ -179,6 +182,40 @@ export const DownloadMapViewData = ({value}) => {
       console.log('drugsYearData is not an array or is empty', drugsYearData);
     }
   };
+  
+  const downloadCSVForCG = () => {
+    if (Object.keys(convergenceData) && convergenceData.length > 0) {
+      const HeaderList = ['Region','Country', 'name'];
+  
+      // Dynamically build header: [drug, drug %]
+      const sample = convergenceData[0];
+      const convergenceKey = Object.keys(sample).filter(
+        (key) => key !== 'name' && key !== 'count' && key !== 'colorLabel'
+      );
+      convergenceKey.forEach((drug) => {
+        HeaderList.push(drug);
+      });
+  
+      const headers = HeaderList.join(',');
+  
+      // Build data rows
+      const rows = convergenceData
+      .filter((item) => Object.keys(item).length > 0)
+      .map((item) => {
+          const row = [actualRegion, actualCountry,item.name];
+          convergenceKey.forEach((drug) => {
+            const count = item[drug] || 0;
+            row.push(count);
+          });
+          return row.join(',');
+        });
+  
+      generateCSV(headers, rows, 'AMR/Virulence Trends');
+    } else {
+      console.log('drugsYearData is not an array or is empty', drugsYearData);
+    }
+  };
+
   
   const downloadCSVForRFWG = () => {
     if (Array.isArray(genotypesDrugsData) && genotypesDrugsData.length > 0) {
@@ -566,7 +603,9 @@ const downloadCSVForHM = () => {
       case 'HSG2':
         return downloadCSVForHM();
       case 'RDT':
-        return downloadCSVForRDT()
+        return downloadCSVForRDT();
+      case 'convergence-graph':
+        return downloadCSVForCG();
       default:
         return downloadCSV();
     }
