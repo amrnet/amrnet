@@ -139,7 +139,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Pansusceptible’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Susceptible to cat I/II drugs (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
@@ -273,7 +273,7 @@ console.log('drugsYearData', drugsYearData[0]);
                           } else if (dataKey === 'Pansusceptible') {
                             dataKeyElement = (
                               <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                <span>Pansusceptible</span>
+                                <span>Susceptible to cat I/II drugs</span>
                               </Tooltip>
                             );
                           } else {
@@ -354,7 +354,7 @@ console.log('drugsYearData', drugsYearData[0]);
                   } else if (item.label === 'Pansusceptible') {
                     itemLabel = (
                       <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Pansusceptible</span>
+                        <span>Susceptible to cat I/II drugs</span>
                       </Tooltip>
                     );
                   } else {

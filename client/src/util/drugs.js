@@ -128,7 +128,9 @@ export const drugAcronyms = {
   'Ciprofloxacin': 'CIP',
   'Ciprofloxacin (non-susceptible)': 'CipNS',
   'Penicillin': 'PEN',
-  'Spectinomycin': 'SPT'
+  'Spectinomycin': 'SPT',
+  'Susceptible to cat I/II drugs': 'SUS',
+  'Pansusceptible': 'PANSUS',
 };
 
 export const drugAcronymsOpposite = {
