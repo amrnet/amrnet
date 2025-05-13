@@ -97,7 +97,7 @@ export const statKeysKP = [
     resistanceView: true,
   },
   { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
-  { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-', resistanceView: true },
+  // { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-', resistanceView: true },
   {
     name: 'Fluoroquinolones',
     column: ['Flq_acquired', 'Flq_mutations'],

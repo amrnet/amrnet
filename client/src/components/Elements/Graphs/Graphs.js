@@ -232,7 +232,11 @@ export const Graphs = () => {
         heightFactor += variablesFactor * 22;
       }
       ///TODO: improve the code below as its hardcode
-      canvas.width = 922;
+      if (currentCard.id === 'HSG2')
+        canvas.width = graphImg.width < 670? 922 : graphImg.width + 100;
+      else
+        canvas.width = 922
+      console.log("canvas.width", canvas.width, graphImg.width);
       canvas.height = graphImg.height + 220 + (currentCard.id === 'RDT' ? 250 : heightFactor);
       // canvas.height = graphImg.height + 220 + heightFactor;
       ctx.fillStyle = 'white';
@@ -245,7 +249,7 @@ export const Graphs = () => {
 
       ctx.drawImage(logo, 10, 10, 155, 80);
       if (currentCard.id === 'HSG2')
-        ctx.drawImage(graphImg, (canvas.width * 7)/12 - graphImg.width / 2, 220);
+      ctx.drawImage(graphImg, 40, 220);
       else
         ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
 
