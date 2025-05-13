@@ -115,6 +115,17 @@ export const ContinentGraphs = () => {
       const ctx = canvas.getContext('2d');
 
       const graph = document.getElementById("CVM");
+
+      // Store original styles
+      const originalOverflow = graph.style.overflow;
+      const originalWidth = graph.style.width;
+
+      // Temporarily expand the graph to its full scrollable width
+      graph.style.overflow = 'visible';
+      graph.style.width = graph.scrollWidth + 'px';
+
+      await new Promise((resolve) => setTimeout(resolve, 200)); // allow layout update
+
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
 
@@ -122,9 +133,17 @@ export const ContinentGraphs = () => {
 
       await graphImgPromise;
 
+      // Restore original styles
+      graph.style.overflow = originalOverflow;
+      graph.style.width = originalWidth;
+
       let heightFactor = 0;
       ///TODO: improve the code below as its hardcode
-      canvas.width = 1200;
+      // canvas.width = 1200;
+     
+
+      canvas.width = graphImg.width < 670? 922 : graphImg.width + 100;
+      console.log("canvas.width", canvas.width, graphImg.width);
       canvas.height = graphImg.height + 220 + ("CVM" ? 250 : heightFactor);
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
