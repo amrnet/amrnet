@@ -1,5 +1,6 @@
 import { Download } from '@mui/icons-material';
 import { useAppSelector } from '../../../../stores/hooks';
+import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
 
 export const DownloadMapViewData = ({value}) => {
   const mapData = useAppSelector((state) => state.map.mapData);
@@ -184,8 +185,14 @@ console.log('convergenceData', convergenceData, convergenceGroupVariable);
   };
   
   const downloadCSVForCG = () => {
+    let convergenceGroupVariableName;
+    variablesOptions.map((item) => {
+      if(item.value === convergenceGroupVariable){
+        convergenceGroupVariableName = item.label;
+      }
+    })
     if (Object.keys(convergenceData) && convergenceData.length > 0) {
-      const HeaderList = ['Region','Country', 'name', 'Total Count','Mean virulence score', 'Mean resistance score'];
+      const HeaderList = ['Region','Country', convergenceGroupVariableName, 'Total Count','Mean virulence score', 'Mean resistance score'];
   
       // Dynamically build header: [drug, drug %]
       const sample = convergenceData[0];
