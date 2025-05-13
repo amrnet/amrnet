@@ -64,6 +64,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   function getData() {
     const exclusions = ['name', 'count'];
+
     let drugDataPercentage = structuredClone(drugsYearData).filter(item => item.count >= 10);
     drugDataPercentage = drugDataPercentage.map((item) => {
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));

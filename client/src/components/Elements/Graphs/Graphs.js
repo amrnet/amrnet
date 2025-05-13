@@ -275,7 +275,7 @@ export const Graphs = () => {
         ctx.fillText(`Total ${actualGenomesRDT} genomes`, canvas.width / 2, 172);
       }else
         ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
-      
+
       // ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
       if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
@@ -467,17 +467,17 @@ export const Graphs = () => {
                     <DownloadMapViewData fontSize="inherit" value={currentCard.id} />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Download Chart as PNG" placement="top">
-                  <span>
-                    <IconButton
-                      color="primary"
-                      onClick={(event) => handleClickDownload(event)}
-                      disabled={organism === 'none' || loading}
-                    >
-                      {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
-                    </IconButton>
-                  </span>
-                </Tooltip>
+              <Tooltip title="Download Chart as PNG" placement="top">
+                <span>
+                  <IconButton
+                    color="primary"
+                    onClick={(event) => handleClickDownload(event)}
+                    disabled={organism === 'none' || loading}
+                  >
+                    {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                  </IconButton>
+                </span>
+              </Tooltip>
               </div>
             )}
             {collapses['all'] && (

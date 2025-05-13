@@ -99,9 +99,11 @@ export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
 export const drugClassesKP = ['Carbapenems', 'ESBL'];
 
 export const drugAcronyms = {
-  'Ampicillin/Amoxicillin': 'AMP/AMC',
+  'Ampicillin/Amoxicillin': 'AMP/AMX',
   Ampicillin: 'AMP',
+  Azithromycin: 'AZM',
   Ceftriaxone: 'CRO',
+  Chloramphenicol: 'CHL',
   Chloramphenicol: 'CHL',
   Sulphonamides: 'SUL',
   Sulfonamides: 'SUL',
@@ -155,6 +157,6 @@ export function getDrugClasses(organism) {
     case 'ngono':
       return drugClassesNG;
     default:
-      return [];
+      return drugsINTS;
   }
 }

@@ -707,8 +707,8 @@ console.log('allDrugs', allDrugs)
     // Combine header and rows into CSV content
     const csvContent = [headers, ...rows].join('\n');
 
-    // Create a Blob from the CSV content
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      // Create a Blob from the CSV content
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
 
     // Create a link to download the Blob as a file
     const url = URL.createObjectURL(blob);
