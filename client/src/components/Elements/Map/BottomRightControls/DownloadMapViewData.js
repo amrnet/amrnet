@@ -185,16 +185,16 @@ console.log('convergenceData', convergenceData, convergenceGroupVariable);
   
   const downloadCSVForCG = () => {
     if (Object.keys(convergenceData) && convergenceData.length > 0) {
-      const HeaderList = ['Region','Country', 'name'];
+      const HeaderList = ['Region','Country', 'name', 'Total Count','Mean virulence score', 'Mean resistance score'];
   
       // Dynamically build header: [drug, drug %]
       const sample = convergenceData[0];
       const convergenceKey = Object.keys(sample).filter(
         (key) => key !== 'name' && key !== 'count' && key !== 'colorLabel'
       );
-      convergenceKey.forEach((drug) => {
-        HeaderList.push(drug);
-      });
+      // convergenceKey.forEach((item) => {
+      //   HeaderList.push(item);
+      // });
   
       const headers = HeaderList.join(',');
   
@@ -203,8 +203,9 @@ console.log('convergenceData', convergenceData, convergenceGroupVariable);
       .filter((item) => Object.keys(item).length > 0)
       .map((item) => {
           const row = [actualRegion, actualCountry,item.name];
-          convergenceKey.forEach((drug) => {
-            const count = item[drug] || 0;
+          console.log("item", item)
+          convergenceKey.forEach((items) => {
+            const count = item[items] || 0;
             row.push(count);
           });
           return row.join(',');
