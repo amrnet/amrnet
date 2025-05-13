@@ -249,7 +249,7 @@ export const Graphs = () => {
 
       ctx.drawImage(logo, 10, 10, 155, 80);
       if (currentCard.id === 'HSG2')
-      ctx.drawImage(graphImg, 40, 220);
+        ctx.drawImage(graphImg, 40, 220);
       else
         ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
 
