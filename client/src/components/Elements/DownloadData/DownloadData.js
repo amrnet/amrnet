@@ -326,11 +326,13 @@ export const DownloadData = () => {
   function formatDate(date) {
     return moment(date).format('ddd MMM DD YYYY HH:mm');
   }
-
+let Page = 0;
   function drawFooter({ document, pageHeight, pageWidth, date }) {
+    Page++;
     document.setFontSize(10);
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
     document.text(`Source: amrnet.org`, 16, pageHeight - 10, { align: 'left' });
+    document.text(`Page:${Page}`, pageWidth-16, pageHeight - 10, { align: 'right' });
   }
 
   function drawHeader({ document, pageWidth }) {
