@@ -146,7 +146,7 @@ export function getIntsTexts() {
     'Invasive non-typhoidal',
     'Salmonella',
     ' (iNTS) data in AMRnet are drawn from Enterobase (https://enterobase',
-    '.warwick.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus, assigns lineages using MLST, cgMLST and hierarchical clustering, and assigns serotypes using SISTR. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for >90% of iNTS), and identifies lineages thereof using MLST. Last update: Feb 27, 2024 ',
+    '.warwick.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus, assigns lineages using MLST, cgMLST and hierarchical clustering, and assigns serotypes using SISTR. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for >90% of iNTS), and identifies lineages thereof using MLST. Last update: May 14th 2025 ',
     'For information about',
     'Salmonella',
     'Typhi and iNTS, please see the Typhi dashboard.',
@@ -204,7 +204,7 @@ export function getSentericaintsTexts() {
   return [
     'Salmonella enterica',
     'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick',
-    '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using 7-gene MLST. The last update was made in November 2024.',
+    '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using 7-gene MLST. The last update was made in May 14th 2025.',
 
     'For information about Salmonella Typhi and iNTS, please see pathogen specific reports.',
 
