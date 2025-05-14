@@ -76,24 +76,24 @@ export const ResetButton = () => {
     const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
 
     if (organism === 'styphi') {
-      dispatch(setMapView('CipNS'));
+      dispatch(setMapView('Resistance prevalence'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
     } else if (organism === 'ngono') {
-      dispatch(setMapView('No. Samples'));
+      dispatch(setMapView('Resistance prevalence'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
       dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphDrugClass('Azithromycin'));
-      dispatch(setTrendsGraphView('number'));
+      dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
     } else {
-      dispatch(setMapView('No. Samples'));
+      dispatch(setMapView('Resistance prevalence'));
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
       dispatch(setTrendsGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsGraphView('number'));
+      dispatch(setTrendsGraphView('percentage'));
       dispatch(setKODiversityGraphView('K_locus'));
       dispatch(setConvergenceGroupVariable('DATE'));
       dispatch(setConvergenceColourVariable('DATE'));
@@ -110,7 +110,7 @@ export const ResetButton = () => {
 
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
-    dispatch(setDistributionGraphView('number'));
+    dispatch(setDistributionGraphView('percentage'));
     if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));

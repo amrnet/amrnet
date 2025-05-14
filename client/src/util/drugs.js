@@ -60,7 +60,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
 export const drugsKP = [
   'Aminoglycosides',
   'Carbapenems',
-  '3rd gen cephalosporins (3GCs)',
+  'ESBL',
   // '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   'Colistin',
   'Fluoroquinolones',
@@ -87,7 +87,7 @@ export const drugClassesST = [
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim',
-  'Pansusceptible',
+  // 'Pansusceptible',
   'MDR',
   'XDR',
 ];
@@ -112,7 +112,7 @@ export const drugAcronyms = {
   'Trimethoprim-sulfamethoxazole': 'SXT',
   Colistin: 'COL',
   Fosfomycin: 'FOS',
-  Carbapenemase: 'CARB',
+  Carb: 'CARB',
   Aminoglycosides: 'AGLY',
   Fluoroquinolones: 'FLQ',
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
@@ -124,28 +124,39 @@ export const drugAcronyms = {
   Gentamicin: 'GEN',
   Cefixime: 'CFM',
   Ciprofloxacin: 'CIP',
-  Penicillin: 'PCN',
+  Penicillin: 'PEN',
   Spectinomycin: 'SPT',
+  Pansusceptible: 'PAN',
+  'Susceptible to cat I/II drugs': 'SUS',
+  Susceptible: 'SUS',
 };
 
 export const drugAcronymsOpposite = {
-  CipNS: 'Ciprofloxacin NS',
+  CipNS: 'Ciprofloxacin (non-susceptible)',
   CARB: 'Carbapenems',
   AZM: 'Azithromycin',
   ESBL: 'Extended-Spectrum Beta-Lactamase',
-  CipR: 'Ciprofloxacin R',
-  MDR: 'Multi-drug Resistant',
-  XDR: 'Extensively Drug Resistant',
+  CipR: 'Ciprofloxacin (resistant)',
+  MDR: 'Multi-drug Resistant (MDR)',
+  XDR: 'Extensively Drug Resistant (XDR)',
+  SUS: 'Susceptible to cat I/II drugs',
 };
 
 export const drugAcronymsOpposite2 = {
-  CipNS: 'Ciprofloxacin NS',
+  CipNS: 'Ciprofloxacin (non-susceptible)',
   CARB: 'Carbapenems',
   Carb: 'Carbapenems',
   AZM: 'Azithromycin',
   ESBL: 'Extended-Spectrum Beta-Lactamase',
-  CipR: 'Ciprofloxacin R',
+  CipR: 'Ciprofloxacin (resistant)',
   AzithR: 'Azithromycin',
+  MDR: 'Multi-drug Resistant (MDR)',
+  XDR: 'Extensively Drug Resistant (XDR)',
+};
+
+export const ciproAcronyms = {
+  'Ciprofloxacin NS': 'Ciprofloxacin (non-susceptible)',
+  'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
 export const drugsINTS = drugRulesINTS.map((x) => x.key).sort((a, b) => a.localeCompare(b));
@@ -161,4 +172,8 @@ export function getDrugClasses(organism) {
     default:
       return drugsINTS;
   }
+}
+
+export function ngonoSusceptibleRule(name, organism) {
+  return name === 'Susceptible' && organism === 'ngono' ? 'Susceptible to cat I/II drugs' : null;
 }

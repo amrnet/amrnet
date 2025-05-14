@@ -11,11 +11,12 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.ts';
 import { TopRightControls } from './TopRightControls';
 import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
-import { TopLeftControls } from './TopLeftControls';
+// import { TopLeftControls } from './TopLeftControls';
 import { TopRightControls2 } from './TopRightControls2/TopRightControls2';
 import { BottomRightControls } from './BottomRightControls';
 import { Ngmast } from './Ng_mast/Ngmast';
 import { statKeys } from '../../../util/drugClassesRules';
+import { drugAcronymsOpposite, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../util/drugs';
 
 const statKey = {
   MDR: 'MDR',
@@ -92,8 +93,8 @@ export const Map = () => {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     H58: `${countryStats.H58.percentage}%`,
-                    MDR: `${countryStats.MDR.percentage}%`,
-                    XDR: `${countryStats.XDR.percentage}%`,
+                    'Multi-drug Resistant (MDR)': `${countryStats.MDR.percentage}%`,
+                    'Extensively Drug Resistant (XDR)': `${countryStats.XDR.percentage}%`,
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
                     CipNS: `${combinedPercentage.toFixed(2)}%`,
@@ -111,8 +112,8 @@ export const Map = () => {
                 ? {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
-                    MDR: `${countryStats.MDR.percentage}%`,
-                    XDR: `${countryStats.XDR.percentage}%`,
+                    'Multi-drug Resistant (MDR)': `${countryStats.MDR.percentage}%`,
+                    'Extensively Drug Resistant (XDR)': `${countryStats.XDR.percentage}%`,
                     Azithromycin: `${countryStats.Azithromycin.percentage}%`,
                     Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
                     Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
@@ -191,7 +192,9 @@ export const Map = () => {
         case 'Resistance prevalence':
           prevalenceMapViewOptionsSelected.forEach((option) => {
             const stats = countryStats[option];
-            tooltip.content[option] = `${stats.count} (${stats.percentage}%)`;
+            tooltip.content[
+              ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option
+            ] = `${stats.count} (${stats.percentage}%)`;
           });
           break;
         case 'H58 / Non-H58':
@@ -255,6 +258,13 @@ export const Map = () => {
         <Typography gutterBottom variant="h5" fontWeight={'bold'}>
           Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
+        {mapView !== 'No. Samples' ? (
+          <Typography variant="caption">
+            {mapView}:{' '}
+            {drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join(',')] ||
+              prevalenceMapViewOptionsSelected.join(',')}
+          </Typography>
+        ) : null}
         <div className={classes.mapWrapper}>
           <ComposableMap
             className={classes.composableMap}
@@ -391,7 +401,7 @@ export const Map = () => {
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             } else {
-                              fillColor = differentColorScale(biggerCountItem.count, 'red');
+                              fillColor = redColorScale(biggerCountItem.percentage);
                             }
                           }
                           break;

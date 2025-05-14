@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
+  CircularProgress,
 } from '@mui/material';
 import { useStyles } from './ContinentGraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -19,9 +20,14 @@ import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { continentGraphCard } from '../../../util/graphCards';
 import { BubbleGeographicGraph } from './BubbleGeographicGraph';
-import { ExpandLess, ExpandMore, FilterList, FilterListOff } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, FilterList, FilterListOff, CameraAlt } from '@mui/icons-material';
 import { TrendLineGraph } from './TrendLineGraph';
 import { amrLikeOrganisms } from '../../../util/organismsCards';
+import { DownloadMapViewData } from '../Map/BottomRightControls/DownloadMapViewData';
+import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
+import download from 'downloadjs';
+import domtoimage from 'dom-to-image';
+import LogoImg from '../../../assets/img/logo-prod.png';
 
 const TABS = [
   {
@@ -52,12 +58,18 @@ export const ContinentGraphs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
   const [showFilter, setShowFilter] = useState(!matches500);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
+  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
+  const dataset = useAppSelector((state) => state.map.dataset);
+  const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
   useEffect(() => {
     setShowFilter(!matches500);
@@ -91,6 +103,84 @@ export const ContinentGraphs = () => {
     return null;
   }
 
+  async function handleClick(event) {
+    event.stopPropagation();
+
+    try {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const graph = document.getElementById('CVM');
+
+      // Store original styles
+      const originalOverflow = graph.style.overflow;
+      const originalWidth = graph.style.width;
+
+      // Temporarily expand the graph to its full scrollable width
+      graph.style.overflow = 'visible';
+      graph.style.width = graph.scrollWidth + 'px';
+
+      await new Promise((resolve) => setTimeout(resolve, 200)); // allow layout update
+
+      const graphImg = document.createElement('img');
+      const graphImgPromise = imgOnLoadPromise(graphImg);
+
+      graphImg.src = await domtoimage.toPng(graph, { quality: 0.1, bgcolor: 'white' });
+
+      await graphImgPromise;
+
+      // Restore original styles
+      graph.style.overflow = originalOverflow;
+      graph.style.width = originalWidth;
+
+      let heightFactor = 0;
+      ///TODO: improve the code below as its hardcode
+      // canvas.width = 1200;
+
+      canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
+      console.log('canvas.width', canvas.width, graphImg.width);
+      canvas.height = graphImg.height + 220 + ('CVM' ? 250 : heightFactor);
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const logo = document.createElement('img');
+      const logoPromise = imgOnLoadPromise(logo);
+      logo.src = LogoImg;
+      await logoPromise;
+
+      ctx.drawImage(logo, 10, 10, 155, 80);
+      ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
+
+      ctx.font = 'bold 18px Montserrat';
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'center';
+      ctx.fillText('Geographic Comparisons', canvas.width / 2, 50);
+
+      ctx.font = '12px Montserrat';
+      // ctx.fillText(currentCard.description.join(' / '), canvas.width / 2, 72);
+
+      ctx.font = '14px Montserrat';
+      ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
+      ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
+
+      ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+
+      ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+      ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
+
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'start';
+      ctx.font = '12px Montserrat';
+
+      const base64 = canvas.toDataURL();
+      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}.png`);
+    } catch {
+      setShowAlert(true);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className={classes.cardsWrapper}>
       <Card className={classes.card}>
@@ -112,19 +202,38 @@ export const ContinentGraphs = () => {
               {collapses['continent'] && (
                 <Typography fontSize="10px" component="span">
                   {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
+                  {
+                    <div>
+                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal})
+                    </div>
+                  }
                 </Typography>
               )}
             </div>
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['continent'] && (
-              <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
-                <span>
-                  <IconButton color="primary" onClick={(event) => handleClickFilter(event)}>
-                    {showFilter ? <FilterListOff /> : <FilterList />}
+              <>
+                <Tooltip title="Download Data" placement="top">
+                  <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none'}>
+                    <DownloadMapViewData fontSize="inherit" value={currentTab} />
                   </IconButton>
-                </span>
-              </Tooltip>
+                </Tooltip>
+                <Tooltip title="Download Chart as PNG" placement="top">
+                  <span>
+                    <IconButton color="primary" onClick={(event) => handleClick(event)} disabled={organism === 'none'}>
+                      {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                    </IconButton>
+                  </span>
+                </Tooltip>
+                <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
+                  <span>
+                    <IconButton color="primary" onClick={(event) => handleClickFilter(event)}>
+                      {showFilter ? <FilterListOff /> : <FilterList />}
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </>
             )}
             <IconButton>{collapses['continent'] ? <ExpandLess /> : <ExpandMore />}</IconButton>
           </div>

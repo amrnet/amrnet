@@ -36,6 +36,7 @@ export const getColorForDrug = (drug) => {
       return '#98fb98';
 
     // case 'Fluoroquinolones (CipNS)':
+    case 'Ciprofloxacin (non-susceptible)':
     case 'Ciprofloxacin NS':
     case 'Ciprofloxacin':
     case 'Penicillins':
@@ -44,6 +45,7 @@ export const getColorForDrug = (drug) => {
 
     // case 'Fluoroquinolones (CipR)':
     case 'Ciprofloxacin R':
+    case 'Ciprofloxacin (resistant)':
     case 'Fluoroquinolones':
     case 'Penicillin':
       return '#9e9ac8';

@@ -26,6 +26,7 @@ import {
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
 import { useEffect, useState } from 'react';
+import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -66,8 +67,17 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   }
 
   function handleChangeLineages(_, value) {
+    if (organism !== 'decoli' && value.length === 0) {
+      return;
+    }
+
     if (!value.includes('Clear All') && !value.includes('Select All')) {
-      setCurrentSelectedLineages(value);
+      if (organism === 'decoli') {
+        setCurrentSelectedLineages(value);
+        return;
+      }
+
+      setCurrentSelectedLineages([value[value.length - 1]]);
       return;
     }
 
@@ -122,16 +132,20 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </ToggleButtonGroup>
             </div>
           )}
-          {!['shige', 'decoli', 'sentericaints', 'ecoli'].includes(organism) ? null : (
+          {!amrLikeOrganisms.includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}
               </Typography>
               <Autocomplete
                 multiple
-                //disableCloseOnSelect
+                disableCloseOnSelect
                 value={currentSelectedLineages}
-                options={[currentSelectedLineages.length === pathovar.length ? 'Clear All' : 'Select All', ...pathovar]}
+                options={
+                  currentSelectedLineages.length === pathovar.length
+                    ? ['Clear All', ...pathovar]
+                    : [...(organism === 'decoli' ? ['Select All'] : []), ...pathovar]
+                }
                 onChange={handleChangeLineages}
                 onClose={handleCloseLineages}
                 limitTags={1}
@@ -139,14 +153,15 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
                 slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
                 getOptionDisabled={(option) => {
+                  if (organism === 'decoli') {
+                    return false;
+                  }
+
                   if (['Clear All', 'Select All'].includes(option)) {
                     return false;
                   }
 
-                  if (
-                    (currentSelectedLineages.length === 1 && currentSelectedLineages?.[0] !== option) ||
-                    currentSelectedLineages.length === pathovar.length
-                  ) {
+                  if (currentSelectedLineages.length === pathovar.length) {
                     return true;
                   }
                 }}

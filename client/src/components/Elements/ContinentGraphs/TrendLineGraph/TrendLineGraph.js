@@ -29,7 +29,7 @@ import { useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { hoverColor, lightGrey } from '../../../../util/colorHelper';
 import { Close, InfoOutlined } from '@mui/icons-material';
-import { drugAcronyms, getDrugClasses } from '../../../../util/drugs';
+import { drugAcronyms, drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 
 export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -391,7 +391,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                       {getDrugClasses(organism).map((option, index) => {
                         return (
                           <MenuItem key={index + 'trend-line-drug-classes'} value={option}>
-                            {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : option}
+                            {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drugAcronymsOpposite[option] || option}
                           </MenuItem>
                         );
                       })}

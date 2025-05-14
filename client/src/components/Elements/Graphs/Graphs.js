@@ -17,13 +17,13 @@ import {
 import { useStyles } from './GraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
-import { setCollapse } from '../../../stores/slices/graphSlice';
+import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP } from '../../../util/drugs';
+import { drugsST, drugsKP, drugsINTS } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -35,15 +35,16 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import { Circles } from 'react-loader-spinner';
+import { DownloadMapViewData } from '../Map/BottomRightControls/DownloadMapViewData';
 
 export const Graphs = () => {
   const classes = useStyles();
   const matches1000 = useMediaQuery('(max-width:1000px)');
-  const matches500 = useMediaQuery('(max-width:500px)');
+  // const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState('');
-  const [showFilter, setShowFilter] = useState(!matches500);
+  const [showFilter, setShowFilter] = useState(true);
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -83,23 +84,15 @@ export const Graphs = () => {
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
+  const downloadForPDF = useAppSelector((state) => state.graph.download);
 
+  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
   useEffect(() => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
     }
   }, [organismCards]);
-
-    useEffect(() => {
-      const runAsync = async () => {
-        if (downloadForPDF) {
-          dispatch(setDownload(false))
-        }
-      };
-      runAsync();
-  }, [downloadForPDF]);
-  
 
   useEffect(() => {
     const runAsync = async () => {
@@ -108,6 +101,7 @@ export const Graphs = () => {
       }
     };
     runAsync();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downloadForPDF]);
 
   useEffect(() => {
@@ -206,7 +200,7 @@ export const Graphs = () => {
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-
+      // console.log('kkkmmmgraph', currentCard.id, document.getElementById('CVM'));
       const graph = document.getElementById(currentCard.id);
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
@@ -238,7 +232,9 @@ export const Graphs = () => {
         heightFactor += variablesFactor * 22;
       }
       ///TODO: improve the code below as its hardcode
-      canvas.width = 922;
+      if (currentCard.id === 'HSG2') canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
+      else canvas.width = 922;
+      // console.log('canvas.width', canvas.width, graphImg.width);
       canvas.height = graphImg.height + 220 + (currentCard.id === 'RDT' ? 250 : heightFactor);
       // canvas.height = graphImg.height + 220 + heightFactor;
       ctx.fillStyle = 'white';
@@ -250,7 +246,8 @@ export const Graphs = () => {
       await logoPromise;
 
       ctx.drawImage(logo, 10, 10, 155, 80);
-      ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
+      if (currentCard.id === 'HSG2') ctx.drawImage(graphImg, 40, 220);
+      else ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
 
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
@@ -305,8 +302,9 @@ export const Graphs = () => {
         });
       } else if ('DRT'.includes(currentCard.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        const legendDrugs = organism === 'styphi' ? drugsST : drugsINTS;
         drawLegend({
-          legendData: drugsST,
+          legendData: legendDrugs,
           context: ctx,
           factor: 4,
           mobileFactor,
@@ -348,7 +346,7 @@ export const Graphs = () => {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENES:', 50, 575);
+        ctx.fillText('GENES:', 50, 675);
         drawLegend({
           legendData: legendGens,
           context: ctx,
@@ -359,7 +357,7 @@ export const Graphs = () => {
         });
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENOTYPES:', 50, 800);
+        ctx.fillText('GENOTYPES:', 50, 900);
         drawLegend({
           legendData: legendGenotypes,
           context: ctx,
@@ -420,13 +418,12 @@ export const Graphs = () => {
     setShowFilter(!showFilter);
   }
 
-  
-//   const cycleThroughTabs = async () => {
-//   for (let i = 0; i < organismCards.length; i++) {
-//     await new Promise(resolve => setTimeout(resolve, 500)); // 1-second delay between tabs
-//     handleChangeTab(null, organismCards[i].id); // simulate tab change
-//   }
-// };
+  //   const cycleThroughTabs = async () => {
+  //   for (let i = 0; i < organismCards.length; i++) {
+  //     await new Promise(resolve => setTimeout(resolve, 500)); // 1-second delay between tabs
+  //     handleChangeTab(null, organismCards[i].id); // simulate tab change
+  //   }
+  // };
 
   return (
     <div className={classes.cardsWrapper}>
@@ -444,8 +441,8 @@ export const Graphs = () => {
             <StackedBarChart color="primary" />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-
-              Summary plots: {actualCountry !== "All" ? actualCountry : actualRegion === "All" ? "All Regions" : actualRegion}
+                Summary plots:{' '}
+                {actualCountry !== 'All' ? actualCountry : actualRegion === 'All' ? 'All Regions' : actualRegion}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
@@ -458,17 +455,28 @@ export const Graphs = () => {
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['all'] && currentTab !== 'HSG' && (
-              <Tooltip title="Download Chart as PNG" placement="top">
-                <span>
+              <div>
+                <Tooltip title="Download Data" placement="top">
                   <IconButton
+                    className={classes.actionButton}
                     color="primary"
-                    onClick={(event) => handleClickDownload(event)}
                     disabled={organism === 'none' || loading}
                   >
-                    {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                    <DownloadMapViewData fontSize="inherit" value={currentCard?.id} />
                   </IconButton>
-                </span>
-              </Tooltip>
+                </Tooltip>
+                <Tooltip title="Download Chart as PNG" placement="top">
+                  <span>
+                    <IconButton
+                      color="primary"
+                      onClick={(event) => handleClickDownload(event)}
+                      disabled={organism === 'none' || loading}
+                    >
+                      {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </div>
             )}
             {collapses['all'] && (
               <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
@@ -518,23 +526,20 @@ export const Graphs = () => {
           <Box className={classes.boxWrapper}>
             {organismCards.map((card) => {
               return (
-                <>
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    visibility: currentTab === card.id ? 'visible' : 'hidden',
-                    position: currentTab === card.id ? 'relative' : 'absolute',
+                    position: downloadForPDF ? 'absolute' : currentTab === card.id ? 'relative' : 'absolute',
+                    visibility: downloadForPDF ? 'visible' : currentTab === card.id ? 'visible' : 'hidden',
                     top: 0,
                     left: 0,
                     width: '100%',
                     backgroundColor: 'white',
-
-                    zIndex: downloadForPDF === true? 1 : 0,
+                    zIndex: downloadForPDF === true ? 1 : 0,
                   }}
                 >
                   {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
-                </>
               );
             })}
             {canFilterData && (
