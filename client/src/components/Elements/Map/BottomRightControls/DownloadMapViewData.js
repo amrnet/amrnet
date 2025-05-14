@@ -583,7 +583,7 @@ export const DownloadMapViewData = ({ value }) => {
     const allDrugsSet = new Set();
 
     // Step 2: Collect unique flat drug names (exclude 'GENOTYPE', 'name', 'totalCount', etc.)
-    if (yAxisKey === 'Resistance' || yAxisKey === 'Genotype')
+    if (yAxisKey === 'Resistance')
       dataSource.forEach((region) => {
         if (region.stats) {
           Object.entries(region.stats).forEach(([drugName, value]) => {
@@ -593,6 +593,15 @@ export const DownloadMapViewData = ({ value }) => {
           });
         }
       });
+      else if (yAxisKey === 'Genotype') {
+        dataSource.forEach((region) => {
+          if (region.stats?.GENOTYPE?.items) {
+            region.stats.GENOTYPE.items.forEach((item) => {
+              allDrugsSet.add(item.name);
+            });
+          }
+        });
+      }      
     else
       dataSource.forEach((entry) => {
         Object.entries(entry).forEach(([key, value]) => {
@@ -631,8 +640,7 @@ export const DownloadMapViewData = ({ value }) => {
           row.push(count);
           row.push(percentage);
         });
-      } else {
-        if (yAxisKey === 'Resistance')
+      } else if (yAxisKey === 'Resistance')
           allDrugs.forEach((drug) => {
             const drugData = item.stats?.[drug];
             const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
@@ -640,15 +648,15 @@ export const DownloadMapViewData = ({ value }) => {
             row.push(count);
             row.push(percentage);
           });
-        else if (yAxisKey === 'Genotype')
-          allDrugs.forEach((drug) => {
-            const drugData = item.stats?.[drug];
-            const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
-            const percentage = drugData && typeof drugData.percentage === 'number' ? drugData.percentage : 0;
-            row.push(count);
-            row.push(percentage);
-          });
-      }
+          else if (yAxisKey === 'Genotype') {
+            allDrugs.forEach((genotype) => {
+              const match = item.stats?.GENOTYPE?.items?.find((g) => g.name === genotype);
+              const count = match?.count || 0;
+              const percentage = totalCount ? ((count / totalCount) * 100).toFixed(2) : 0;
+              row.push(count);
+              row.push(percentage);
+            });
+          }
 
       rows.push(row.join(','));
     });
