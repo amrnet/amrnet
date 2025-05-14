@@ -18,7 +18,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
-import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
+// import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -28,6 +28,8 @@ import {
 } from '../../../util/colorHelper';
 import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts, getIntsTexts, getSentericaintsTexts } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
+import { drugsNG, drugsST, drugsKP, drugsINTS, drugsSTLegendsOnly, drugsNGLegensOnly, drugsINTSLegendsOnly, drugsKlebLegendsOnly } from '../../../util/drugs';
+
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -1108,9 +1110,25 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'DRT') {
+          let legendDrugs;
+          
+                  switch (organism) {
+                    case 'styphi':
+                      legendDrugs = drugsSTLegendsOnly;
+                      break;
+                      case 'kpneumo':
+                      legendDrugs = drugsKlebLegendsOnly;
+                      break;
+                      case 'ngono':
+                      legendDrugs = drugsNGLegensOnly;
+                      break;
+                    default:
+                      legendDrugs = drugsINTSLegendsOnly;
+                      break;
+                  }
           drawLegend({
             document: doc,
-            legendData: drugResistanceGraphView,
+            legendData: legendDrugs,
             factor: 8,
             rectY,
             xSpace: 200,
