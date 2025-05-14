@@ -1001,6 +1001,29 @@ export const DownloadData = () => {
         doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5, 105, legendWidth, 47, undefined, 'FAST');
       }
 
+      //Heatmap
+      doc.addPage();
+      drawHeader({ document: doc, pageWidth });
+      drawFooter({ document: doc, pageHeight, pageWidth, date });
+      doc.setFontSize(12).setFont(undefined, 'bold');
+      doc.text("Geographic Comparisons", 16, 44);
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(12);
+      doc.text(`Selected View: ${actualMapView}`, 16, 56);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 76);
+      const graphImgHeat = document.createElement('img');
+      const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
+      graphImgHeat.src = await domtoimage.toPng(document.getElementById('CVM'), { bgcolor: 'white' });
+      await graphImgPromiseHeat;
+      console.log('graphImgHeat', graphImgHeat.width);
+      if (graphImgHeat.width > 3000) {
+        doc.addImage(graphImgHeat, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
+      } else {
+        doc.addImage(graphImgHeat, 'PNG', 16, 100, pageWidth - 80, 271, undefined, 'FAST');
+      }
+      
+        
+
       // Graphs
       const isKlebe = organism === 'kpneumo';
       const isNgono = organism === 'ngono';
@@ -1024,6 +1047,7 @@ export const DownloadData = () => {
         ) {
           continue;
         }
+          
         doc.addPage();
         drawHeader({ document: doc, pageWidth });
         drawFooter({ document: doc, pageHeight, pageWidth, date });
