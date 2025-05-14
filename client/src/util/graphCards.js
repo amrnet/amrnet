@@ -134,7 +134,7 @@ export const graphCards = [
     title: 'AMR/virulence',
     description: ['Top Genotypes (up to 30)'],
     icon: <BubbleChart color="primary" />,
-    id: 'CVM',
+    id: 'convergence-graph',
     organisms: ['kpneumo'],
     component: <ConvergenceGraph />,
   },

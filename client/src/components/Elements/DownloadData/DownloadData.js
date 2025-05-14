@@ -1206,13 +1206,13 @@ export const DownloadData = () => {
             xSpace: 90,
             // twoPages: isKlebe
           });
-        } else if (cards[index].id === 'CVM') {
+        } else if (cards[index].id === 'convergence-graph') {
           // console.log("convergenceColourPallete",topColorSlice)
           drawLegend({
             document: doc,
             legendData: Object.keys(topColorSlice),
             factor: variablesFactor,
-            rectY:rectY+60,
+            rectY:rectY,
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
