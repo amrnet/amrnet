@@ -10,12 +10,13 @@ export const drugRulesST = [
   },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
+  { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'], legends: 'Ciprofloxacin (non-susceptible)'  },
+  // { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)'  },
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracyclines', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
-  { key: 'MDR', columnID: 'MDR', values: ['MDR'] },
-  { key: 'XDR', columnID: 'XDR', values: ['XDR'] },
+  { key: 'MDR', columnID: 'MDR', values: ['MDR'], legends: 'Multi-drug Resistant (MDR)'  },
+  { key: 'XDR', columnID: 'XDR', values: ['XDR'], legends: 'Extensively Drug Resistant (XDR)'  },
   { key: 'Pansusceptible', columnID: 'amr_category', values: ['No AMR detected'] },
 ];
 
@@ -159,10 +160,10 @@ export const drugRulesNG = [
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Pansusceptible', columnID: ['Susceptible'], values: ['1'] },
+  { key: 'Pansusceptible', columnID: ['Susceptible'], values: ['1'] , legends: 'Susceptible to cat I/II drugs'},
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
-  { key: 'MDR', columnID: 'MDR', values: ['1'] },
-  { key: 'XDR', columnID: 'XDR', values: ['1'] },
+  { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multi-drug Resistant (MDR)' },
+  { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively Drug Resistant (XDR)' },
 ];
 
 export const statKeysNG = [
@@ -900,15 +901,15 @@ export const drugClassesRulesNG = {
 // Sentericaints INTS
 export const drugRulesINTS = [
   { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
-  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
+  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'],},
   { key: 'Ceftriaxone', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
   {
     key: 'Chloramphenicol',
     columnID: 'PHENICOL',
     values: ['CHLORAMPHENICOL'],
   },
-  { key: 'Ciprofloxacin R', columnID: 'QUINOLONE', values: ['QUINOLONE'] },
-  { key: 'Ciprofloxacin NS', columnID: 'QUINOLONE', values: ['-'] },
+  { key: 'Ciprofloxacin R', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin (resistant)' },
+  { key: 'Ciprofloxacin NS', columnID: 'QUINOLONE', values: ['-'],  legends: 'Ciprofloxacin (non-susceptible)'  },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
   { key: 'Gentamicin', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Meropenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
