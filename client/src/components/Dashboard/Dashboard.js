@@ -397,8 +397,8 @@ export const DashboardPage = () => {
           dispatch(setTrendsGraphDrugClass('Carbapenems'));
           dispatch(setKODiversityGraphView('K_locus'));
           dispatch(setTrendsGraphView('percentage'));
-          dispatch(setConvergenceGroupVariable('DATE'));
-          dispatch(setConvergenceColourVariable('DATE'));
+          dispatch(setConvergenceGroupVariable('cgST'));
+          dispatch(setConvergenceColourVariable('cgST'));
           setCurrentConvergenceGroupVariable('DATE');
           // setCurrentConvergenceColourVariable('DATE');
           break;
