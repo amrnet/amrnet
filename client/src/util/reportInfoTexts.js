@@ -39,11 +39,11 @@ export function getSalmonellaTexts() {
     `genes or mutations in`,
     `)`,
     `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
-    `Funding`,
-    'The TyphiNET dashboard for',
-    'Salmonella',
-    'Typhi received funding from the Wellcome Trust (Open ',
-    'Research Fund, 219692/Z/19/Z) and the European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681.       The AMRnet project (funded by the Wellcome Trust, 226432/Z/22/Z) builds on TyphiNET to extend functionality to other bacteria.',
+    // `Funding`,
+    // 'The TyphiNET dashboard for',
+    // 'Salmonella',
+    // 'Typhi received funding from the Wellcome Trust (Open ',
+    // 'Research Fund, 219692/Z/19/Z) and the European Union Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No 845681.       The AMRnet project (funded by the Wellcome Trust, 226432/Z/22/Z) builds on TyphiNET to extend functionality to other bacteria.',
   ];
 }
 

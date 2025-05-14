@@ -605,24 +605,24 @@ let Page = 0;
           drawHeader({ document: doc, pageWidth });
           doc.text(texts[26], 16, 40, { align: 'left', maxWidth: pageWidth - 36 });
         } else {
-          doc.text(texts[26], 16, 575 + pmidSpace - 10, { align: 'left', maxWidth: pageWidth - 36 });
-          drawFooter({ document: doc, pageHeight, pageWidth, date });
-          doc.addPage();
-          drawHeader({ document: doc, pageWidth });
+          doc.text(texts[26], 16, 585 + pmidSpace - 10, { align: 'left', maxWidth: pageWidth - 36 });
+          // drawFooter({ document: doc, pageHeight, pageWidth, date });
+          // doc.addPage();
+          // drawHeader({ document: doc, pageWidth });
         }
-        doc.setFont(undefined, 'bold');
-        doc.text(texts[27], 16, pageHeight - 90, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[28], 16, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'italic');
-        doc.text(texts[29], 136, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[30], 182, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[31], 16, pageHeight - 60, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'bold');
+        // doc.text(texts[27], 16, pageHeight - 90, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
-        const euFlag = new Image();
-        euFlag.src = EUFlagImg;
-        doc.addImage(euFlag, 'JPG', 322, pageHeight - 56.5, 12, 7, undefined, 'FAST');
+        // doc.text(texts[28], 16, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text(texts[29], 136, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[30], 182, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[31], 16, pageHeight - 60, { align: 'left', maxWidth: pageWidth - 36 });
+        // // doc.setFont(undefined, 'normal');
+        // const euFlag = new Image();
+        // euFlag.src = EUFlagImg;
+        // doc.addImage(euFlag, 'JPG', 322, pageHeight - 56.5, 12, 7, undefined, 'FAST');
         // doc.text(texts[31], 16, pageHeight - 30, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'kpneumo') {
         // Info
