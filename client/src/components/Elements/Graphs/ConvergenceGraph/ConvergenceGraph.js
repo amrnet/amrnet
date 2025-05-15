@@ -170,7 +170,8 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.convergenceGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CVM">
+{/* changed id="CVM" to id="convergence-graph", as 'CVM' is used as 'id' for The "Heatmap View",  */}
+        <div className={classes.graph} id="convergence-graph">
           {plotChart}
         </div>
         <div className={classes.rightSide}>

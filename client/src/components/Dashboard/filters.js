@@ -31,8 +31,14 @@ export function filterData({
         item.SISTR1_Serovar.toLowerCase().includes(selected.toLowerCase()),
       );
     }
+    //For E. coli, we need to add the Pathovar instead of the Pathotype 
+    // because the Pathotype is not present in E.coli data
+    // and the Pathovar is the one that is used in the database
+    if (['ecoli'].includes(organism)) {
+      return (selectedLineages ?? []).some((selected) => (item.Pathovar).toLowerCase().includes(selected.toLowerCase()));
+    }
 
-    return (selectedLineages ?? []).some((selected) => item.Pathotype.toLowerCase().includes(selected.toLowerCase()));
+    return (selectedLineages ?? []).some((selected) => (item.Pathotype).toLowerCase().includes(selected.toLowerCase()));
   };
 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x) && checkLineages(x));

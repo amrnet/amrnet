@@ -37,13 +37,13 @@ const TABS = [
     component: <BubbleGeographicGraph />,
     notShow: [],
   },
-  {
-    label: 'Trend line',
-    value: 'TL',
-    disabled: false,
-    component: <TrendLineGraph />,
-    notShow: amrLikeOrganisms,
-  },
+  // {
+  //   label: 'Trend line',
+  //   value: 'TL',
+  //   disabled: false,
+  //   component: <TrendLineGraph />,
+  //   notShow: amrLikeOrganisms,
+  // },
   // {
   //   label: 'Trend line 2',
   //   value: 'TL2',

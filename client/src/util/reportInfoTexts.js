@@ -206,7 +206,7 @@ export function getSentericaintsTexts() {
     'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick',
     '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using 7-gene MLST. The last update was made in May 14th 2025.',
 
-    'For information about Salmonella Typhi and iNTS, please see pathogen specific reports.',
+    'For information about Salmonella Typhi, please see the Typhi dashboard.',
 
     'WARNING:',
     'The ',

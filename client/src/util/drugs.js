@@ -159,13 +159,17 @@ export const drugAcronyms = {
   Pansusceptible: 'PAN',
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
+  //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap 
+  'Carbapenems': 'CARB',
+  Carbapenemase: 'CARB',
 };
 
 export const drugAcronymsOpposite = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
-  CARB: 'Carbapenems',
+  //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap (tooltip)
+  CARB: 'Carbapenemase',
   AZM: 'Azithromycin',
-  ESBL: 'Extended-Spectrum Beta-Lactamase',
+  // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multi-drug Resistant (MDR)',
   XDR: 'Extensively Drug Resistant (XDR)',
@@ -174,10 +178,11 @@ export const drugAcronymsOpposite = {
 
 export const drugAcronymsOpposite2 = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
-  CARB: 'Carbapenems',
-  Carb: 'Carbapenems',
+  // Implemneted for Consistency
+  CARB: 'Carbapenemase',
+  Carb: 'Carbapenemase',
   AZM: 'Azithromycin',
-  ESBL: 'Extended-Spectrum Beta-Lactamase',
+  // ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin (resistant)',
   AzithR: 'Azithromycin',
   MDR: 'Multi-drug Resistant (MDR)',

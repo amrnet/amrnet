@@ -80,9 +80,9 @@ export const BottomRightControls = () => {
           ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
         } else if (organism === 'ecoli') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.65, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
         } else if (organism === 'decoli') {
           ctx.font = 'bolder 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.565, 80);
