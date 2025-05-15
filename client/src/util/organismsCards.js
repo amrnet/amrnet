@@ -155,4 +155,7 @@ export const organismsCards = [
   // },
 ];
 
-export const amrLikeOrganisms = ['decoli', 'ecoli', 'senterica', 'shige', 'sentericaints'];
+export const onlyEcolis = ['decoli', 'ecoli'];
+export const nonEcolis = ['senterica', 'shige', 'sentericaints'];
+export const amrLikeOrganisms = [...onlyEcolis, ...nonEcolis];
+
