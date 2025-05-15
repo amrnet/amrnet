@@ -1,6 +1,5 @@
-import { BarChart, BubbleChart, MultilineChart, StackedBarChart, Timeline } from '@mui/icons-material';
+import { BubbleChart, MultilineChart, StackedBarChart, Timeline } from '@mui/icons-material';
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
-import { FrequenciesGraph } from '../components/Elements/Graphs/FrequenciesGraph';
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
 import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
 import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
@@ -103,7 +102,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: amrLikeOrganisms.filter((x) => !['decoli'].includes(x)),
+    organisms: amrLikeOrganisms,
     component: <DistributionGraph />,
   },
   {

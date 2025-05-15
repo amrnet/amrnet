@@ -176,7 +176,7 @@ export const DownloadMapViewData = ({ value }) => {
             const count = item[drug] || 0;
             const percentage =
               // count < 20 ? 'insufficient' : ((count / (stat.sum)) * 100).toFixed(2);
-              count < 20 ? 'insufficient' : ((count / item.count) * 100).toFixed(2);
+              count < 20 ? '0' : ((count / item.count) * 100).toFixed(2);
             // item.count > 0 ? ((count / item.count) * 100).toFixed(2) : 'insufficient';
             row.push(count);
             row.push(percentage);
@@ -280,46 +280,43 @@ export const DownloadMapViewData = ({ value }) => {
         .filter((item) => Object.keys(item).length > 0)
         .map((item) => {
           const AMPCount = item?.['Ampicillin/Amoxicillin'] || 0;
-          const AMPPerCount = AMPCount < 20 ? 'insufficient' : ((AMPCount / item.totalCount) * 100).toFixed(2) || 0;
+          const AMPPerCount = AMPCount < 20 ? '0' : ((AMPCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const AzithCount = item?.Azithromycin || 0;
-          const AzithPerCount =
-            AzithCount < 20 ? 'insufficient' : ((AzithCount / item.totalCount) * 100).toFixed(2) || 0;
+          const AzithPerCount = AzithCount < 20 ? '0' : ((AzithCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const CROCount = item?.Ceftriaxone || 0;
-          const CROPerCount = CROCount < 20 ? 'insufficient' : ((CROCount / item.totalCount) * 100).toFixed(2) || 0;
+          const CROPerCount = CROCount < 20 ? '0' : ((CROCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const ChlCount = item?.Chloramphenicol || 0;
-          const ChlPerCount = ChlCount < 20 ? 'insufficient' : ((ChlCount / item.totalCount) * 100).toFixed(2) || 0;
+          const ChlPerCount = ChlCount < 20 ? '0' : ((ChlCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const CipNSCount = item?.['Ciprofloxacin NS'] || 0;
-          const CipNSPerCount =
-            CipNSCount < 20 ? 'insufficient' : ((CipNSCount / item.totalCount) * 100).toFixed(2) || 0;
+          const CipNSPerCount = CipNSCount < 20 ? '0' : ((CipNSCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const CipRCount = item?.['Ciprofloxacin R'] || 0;
-          const CipRPerCount = CipRCount < 20 ? 'insufficient' : ((CipRCount / item.totalCount) * 100).toFixed(2) || 0;
+          const CipRPerCount = CipRCount < 20 ? '0' : ((CipRCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const MDRCount = item?.MDR || 0;
-          const MDRPerCount = MDRCount < 20 ? 'insufficient' : ((MDRCount / item.totalCount) * 100).toFixed(2) || 0;
+          const MDRPerCount = MDRCount < 20 ? '0' : ((MDRCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const PanCount = item?.Pansusceptible || 0;
-          const PanPerCount = PanCount < 20 ? 'insufficient' : ((PanCount / item.totalCount) * 100).toFixed(2) || 0;
+          const PanPerCount = PanCount < 20 ? '0' : ((PanCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const SulCount = item?.Sulphonamides || 0;
-          const SulPerCount = SulCount < 20 ? 'insufficient' : ((SulCount / item.totalCount) * 100).toFixed(2) || 0;
+          const SulPerCount = SulCount < 20 ? '0' : ((SulCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const TetCount = item?.Tetracyclines || 0;
-          const TetPerCount = TetCount < 20 ? 'insufficient' : ((TetCount / item.totalCount) * 100).toFixed(2) || 0;
+          const TetPerCount = TetCount < 20 ? '0' : ((TetCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const TriCount = item?.Trimethoprim || 0;
-          const TriPerCount = TriCount < 20 ? 'insufficient' : ((TriCount / item.totalCount) * 100).toFixed(2) || 0;
+          const TriPerCount = TriCount < 20 ? '0' : ((TriCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const TriSulCount = item?.['Trimethoprim-sulfamethoxazole'] || 0;
-          const TriSulPerCount =
-            TriSulCount < 20 ? 'insufficient' : ((TriSulCount / item.totalCount) * 100).toFixed(2) || 0;
+          const TriSulPerCount = TriSulCount < 20 ? '0' : ((TriSulCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const XDRCount = item?.XDR || 0;
-          const XDRPerCount = XDRCount < 20 ? 'insufficient' : ((XDRCount / item.totalCount) * 100).toFixed(2) || 0;
+          const XDRPerCount = XDRCount < 20 ? '0' : ((XDRCount / item.totalCount) * 100).toFixed(2) || 0;
 
           return [
             item.name,
@@ -389,7 +386,7 @@ export const DownloadMapViewData = ({ value }) => {
           if (Array.isArray(topXGenotypeRDWG) && topXGenotypeRDWG.length > 0) {
             topXGenotypeRDWG.forEach((genotype) => {
               const count = item?.[genotype] || 0;
-              const percentage = count < 20 ? 'insufficient' : ((count / item.totalCount) * 100).toFixed(2) || 0;
+              const percentage = count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
 
               rowData.push(count);
               rowData.push(percentage);
@@ -431,7 +428,7 @@ export const DownloadMapViewData = ({ value }) => {
           if (Array.isArray(topXGenotype) && topXGenotype.length > 0) {
             topXGenotype.forEach((genotype) => {
               const count = item?.[genotype] || 0;
-              const percentage = count < 20 ? 'insufficient' : ((count / item.count) * 100).toFixed(2) || 0;
+              const percentage = count < 20 ? '0' : ((count / item.count) * 100).toFixed(2) || 0;
 
               rowData.push(count);
               rowData.push(percentage);
@@ -482,7 +479,7 @@ export const DownloadMapViewData = ({ value }) => {
           if (Array.isArray(topGenesSlice) && topGenesSlice.length > 0) {
             topGenesSlice.forEach((gen) => {
               const count = item?.[gen] || 0;
-              const percentage = count < 20 ? 'insufficient' : ((count / item.totalCount) * 100).toFixed(2) || 0;
+              const percentage = count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
 
               rowData.push(count);
               rowData.push(percentage);
@@ -491,7 +488,7 @@ export const DownloadMapViewData = ({ value }) => {
           if (Array.isArray(topGenotypeSlice) && topGenotypeSlice.length > 0) {
             topGenotypeSlice.forEach((genotype) => {
               const count = item?.[genotype] || 0;
-              const percentage = count < 20 ? 'insufficient' : ((count / item.totalCount) * 100).toFixed(2) || 0;
+              const percentage = count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
 
               rowData.push(count);
               rowData.push(percentage);
@@ -583,7 +580,7 @@ export const DownloadMapViewData = ({ value }) => {
     const allDrugsSet = new Set();
 
     // Step 2: Collect unique flat drug names (exclude 'GENOTYPE', 'name', 'totalCount', etc.)
-    if (yAxisKey === 'Resistance' || yAxisKey === 'Genotype')
+    if (yAxisKey === 'Resistance')
       dataSource.forEach((region) => {
         if (region.stats) {
           Object.entries(region.stats).forEach(([drugName, value]) => {
@@ -593,7 +590,15 @@ export const DownloadMapViewData = ({ value }) => {
           });
         }
       });
-    else
+    else if (yAxisKey === 'Genotype') {
+      dataSource.forEach((region) => {
+        if (region.stats?.GENOTYPE?.items) {
+          region.stats.GENOTYPE.items.forEach((item) => {
+            allDrugsSet.add(item.name);
+          });
+        }
+      });
+    } else
       dataSource.forEach((entry) => {
         Object.entries(entry).forEach(([key, value]) => {
           if (key !== 'GENOTYPE' && key !== 'name' && key !== 'totalCount' && typeof value === 'number') {
@@ -631,23 +636,22 @@ export const DownloadMapViewData = ({ value }) => {
           row.push(count);
           row.push(percentage);
         });
-      } else {
-        if (yAxisKey === 'Resistance')
-          allDrugs.forEach((drug) => {
-            const drugData = item.stats?.[drug];
-            const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
-            const percentage = drugData && typeof drugData.percentage === 'number' ? drugData.percentage : 0;
-            row.push(count);
-            row.push(percentage);
-          });
-        else if (yAxisKey === 'Genotype')
-          allDrugs.forEach((drug) => {
-            const drugData = item.stats?.[drug];
-            const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
-            const percentage = drugData && typeof drugData.percentage === 'number' ? drugData.percentage : 0;
-            row.push(count);
-            row.push(percentage);
-          });
+      } else if (yAxisKey === 'Resistance')
+        allDrugs.forEach((drug) => {
+          const drugData = item.stats?.[drug];
+          const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
+          const percentage = drugData && typeof drugData.percentage === 'number' ? drugData.percentage : 0;
+          row.push(count);
+          row.push(percentage);
+        });
+      else if (yAxisKey === 'Genotype') {
+        allDrugs.forEach((genotype) => {
+          const match = item.stats?.GENOTYPE?.items?.find((g) => g.name === genotype);
+          const count = match?.count || 0;
+          const percentage = totalCount ? ((count / totalCount) * 100).toFixed(2) : 0;
+          row.push(count);
+          row.push(percentage);
+        });
       }
 
       rows.push(row.join(','));
@@ -688,7 +692,7 @@ export const DownloadMapViewData = ({ value }) => {
         return downloadCSVForHM();
       case 'RDT':
         return downloadCSVForRDT();
-      case 'convergence-graph':
+      case 'CVM':
         return downloadCSVForCG();
       case 'BG':
         return downloadCSVForCVM();

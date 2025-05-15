@@ -57,6 +57,7 @@ export const getColorForDrug = (drug) => {
 
     case 'Susceptible':
     case 'Pansusceptible':
+    case 'Susceptible to cat I/II drugs':
       return lightGrey;
 
     case 'Tetracyclines':
@@ -79,9 +80,11 @@ export const getColorForDrug = (drug) => {
       return '#54C2FF';
 
     case 'XDR':
+    case 'Extensively Drug Resistant (XDR)':
       return '#000';
 
     case 'MDR':
+    case 'Multi-drug Resistant (MDR)':
       return '#B80F0F';
 
     default:
