@@ -84,7 +84,7 @@ export const ResetButton = () => {
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
       dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphDrugClass('Azithromycin'));
-      dispatch(setTrendsGraphView('number'));
+      dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
@@ -93,10 +93,10 @@ export const ResetButton = () => {
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
       dispatch(setTrendsGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsGraphView('number'));
+      dispatch(setTrendsGraphView('percentage'));
       dispatch(setKODiversityGraphView('K_locus'));
-      dispatch(setConvergenceGroupVariable('DATE'));
-      dispatch(setConvergenceColourVariable('DATE'));
+      dispatch(setConvergenceGroupVariable('cgST'));
+      dispatch(setConvergenceColourVariable('cgST'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setCurrentSliderValueCM(20));
       dispatch(setCurrentSliderValue(20));
@@ -110,7 +110,7 @@ export const ResetButton = () => {
 
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
-    dispatch(setDistributionGraphView('number'));
+    dispatch(setDistributionGraphView('percentage'));
     if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));

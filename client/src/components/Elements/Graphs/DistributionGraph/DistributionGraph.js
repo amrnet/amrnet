@@ -13,7 +13,7 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
-import { setColorPallete, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
+import { setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
 import {
   setDistributionGraphView,
   setResetBool,
@@ -21,7 +21,7 @@ import {
   setStarttimeGD,
   setTopXGenotype,
 } from '../../../../stores/slices/graphSlice.ts';
-import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
+import { getColorForGenotype, hoverColor } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
@@ -43,7 +43,6 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const dispatch = useAppDispatch();
   const distributionGraphView = useAppSelector((state) => state.graph.distributionGraphView);
   const genotypesYearData = useAppSelector((state) => state.graph.genotypesYearData);
-  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
@@ -95,23 +94,16 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         }
       });
     });
+
     const mapArray = Array.from(mp); //[key, total_count], eg: ['4.3.1.1', 1995]
-    const filteredArr = mapArray.filter((item) => genotypesForFilter.includes(item[0]));
-    // Sort the array based on keys
-    filteredArr.sort((a, b) => b[1] - a[1]);
+    mapArray.sort((a, b) => b[1] - a[1]); // Sort the array based on keys
 
-    const slicedArray = filteredArr.slice(0, currentSliderValue).map(([key, value]) => key);
-    const slicedArrayWithOther = structuredClone(slicedArray);
-    const Other = 'Other';
-    const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
-    slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
-    // console.log("GD", slicedArrayWithOther);
+    const slicedArray = mapArray.slice(0, currentSliderValue).map(([key]) => key);
 
-    dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
     dispatch(setTopXGenotype(slicedArray));
-    dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
+    dispatch(setGenotypesForFilterSelected([...slicedArray, 'Other']));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, currentSliderValue]);
+  }, [currentSliderValue, genotypesYearData]);
 
   let newArray = []; //TODO: can be a global value in redux
   let newArrayPercentage = []; //TODO: can be a global value in redux
@@ -271,7 +263,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, distributionGraphView, topXGenotype, currentSliderValue]);
+  }, [genotypesYearData, distributionGraphView, topXGenotype, currentSliderValue, colorPallete]);
 
   return (
     <CardContent className={classes.distributionGraph}>

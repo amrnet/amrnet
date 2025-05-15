@@ -55,8 +55,10 @@ export const Ngmast = () => {
   }
   const filteredData = ngmastDrugData.filter(
     (genotype) =>
-      genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()),
+      genotype.totalCount > 20 &&
+      (genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase())),
   );
+
   const icon = (
     <Card elevation={3} className={classes.card}>
       <CardContent className={classes.frequenciesGraph}>

@@ -23,7 +23,14 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
-import { drugsST, drugsKP } from '../../../util/drugs';
+import {
+  drugsST,
+  drugsKP,
+  drugsSTLegendsOnly,
+  drugsNGLegensOnly,
+  drugsINTSLegendsOnly,
+  drugsKlebLegendsOnly,
+} from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -200,7 +207,7 @@ export const Graphs = () => {
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-
+      // console.log('kkkmmmgraph', currentCard.id, document.getElementById('CVM'));
       const graph = document.getElementById(currentCard.id);
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
@@ -232,7 +239,9 @@ export const Graphs = () => {
         heightFactor += variablesFactor * 22;
       }
       ///TODO: improve the code below as its hardcode
-      canvas.width = 922;
+      if (currentCard.id === 'HSG2') canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
+      else canvas.width = 922;
+      // console.log('canvas.width', canvas.width, graphImg.width);
       canvas.height = graphImg.height + 220 + (currentCard.id === 'RDT' ? 250 : heightFactor);
       // canvas.height = graphImg.height + 220 + heightFactor;
       ctx.fillStyle = 'white';
@@ -244,7 +253,8 @@ export const Graphs = () => {
       await logoPromise;
 
       ctx.drawImage(logo, 10, 10, 155, 80);
-      ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
+      if (currentCard.id === 'HSG2') ctx.drawImage(graphImg, 40, 220);
+      else ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
 
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
@@ -299,8 +309,25 @@ export const Graphs = () => {
         });
       } else if ('DRT'.includes(currentCard.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        let legendDrugs;
+
+        switch (organism) {
+          case 'styphi':
+            legendDrugs = drugsSTLegendsOnly;
+            break;
+          case 'kpneumo':
+            legendDrugs = drugsKlebLegendsOnly;
+            break;
+          case 'ngono':
+            legendDrugs = drugsNGLegensOnly;
+            break;
+          default:
+            legendDrugs = drugsINTSLegendsOnly;
+            break;
+        }
+
         drawLegend({
-          legendData: drugsST,
+          legendData: legendDrugs,
           context: ctx,
           factor: 4,
           mobileFactor,
@@ -342,7 +369,7 @@ export const Graphs = () => {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENES:', 50, 575);
+        ctx.fillText('GENES:', 50, 675);
         drawLegend({
           legendData: legendGens,
           context: ctx,
@@ -353,7 +380,7 @@ export const Graphs = () => {
         });
 
         ctx.fillStyle = 'black';
-        ctx.fillText('GENOTYPES:', 50, 800);
+        ctx.fillText('GENOTYPES:', 50, 900);
         drawLegend({
           legendData: legendGenotypes,
           context: ctx,
@@ -510,7 +537,6 @@ export const Graphs = () => {
                   sx={{
                     flexGrow: 1,
                     textWrap: 'nowrap',
-                    minWidth: ['RFWG', 'RDWG'].includes(card.id) ? '420px' : undefined,
                   }}
                 />
               );

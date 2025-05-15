@@ -22,7 +22,7 @@ import {
   setMaxSliderValueRD,
   setTopXGenotypeRDWG,
 } from '../../../../stores/slices/graphSlice';
-import { getDrugClasses } from '../../../../util/drugs';
+import { drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import {
   colorForDrugClassesKP,
@@ -413,7 +413,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                     {getDrugClasses(organism).map((option, index) => {
                       return (
                         <MenuItem key={index + 'determinants-drug-classes'} value={option}>
-                          {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : option}
+                          {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drugAcronymsOpposite[option] || option}
                         </MenuItem>
                       );
                     })}

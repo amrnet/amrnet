@@ -27,7 +27,7 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView, setStarttimeDRT, setEndtimeDRT } from '../../../../stores/slices/graphSlice';
-import { drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
+import { ciproAcronyms, drugAcronymsOpposite, drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -139,7 +139,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Pansusceptible’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Susceptible to cat I/II drugs (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
@@ -268,23 +268,23 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                           if (dataKey === 'XDR') {
                             dataKeyElement = (
                               <Tooltip title={getXDRDefinition()} placement="top">
-                                <span>XDR</span>
+                                <span>{drugAcronymsOpposite['XDR']}</span>
                               </Tooltip>
                             );
                           } else if (dataKey === 'MDR') {
                             dataKeyElement = (
                               <Tooltip title={getMDRDefinition()} placement="top">
-                                <span>MDR</span>
+                                <span>{drugAcronymsOpposite['MDR']}</span>
                               </Tooltip>
                             );
-                          } else if (dataKey === 'Pansusceptible') {
+                          } else if (dataKey === 'Pansusceptible' && organism === 'ngono') {
                             dataKeyElement = (
                               <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                <span>Pansusceptible</span>
+                                <span>Susceptible to cat I/II drugs</span>
                               </Tooltip>
                             );
                           } else {
-                            dataKeyElement = dataKey;
+                            dataKeyElement = ciproAcronyms[dataKey] || dataKey;
                           }
                           return (
                             <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
@@ -358,10 +358,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  } else if (item.label === 'Pansusceptible') {
+                  } else if (item.label === 'Pansusceptible' && organism === 'ngono') {
                     itemLabel = (
                       <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Pansusceptible</span>
+                        <span>Susceptible to cat I/II drugs</span>
                       </Tooltip>
                     );
                   } else {
@@ -443,7 +443,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   {getDrugs()?.map((drug, index) => (
                     <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
                       <Checkbox checked={drugResistanceGraphView.indexOf(drug) > -1} />
-                      <ListItemText primary={drug} />
+                      <ListItemText primary={drugAcronymsOpposite[drug] || ciproAcronyms[drug] || drug} />
                     </MenuItem>
                   ))}
                 </Select>

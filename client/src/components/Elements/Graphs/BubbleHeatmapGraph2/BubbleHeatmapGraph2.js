@@ -177,9 +177,6 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const getOptionLabelY = useCallback(
     (item) => {
       if (yAxisType === 'resistance') {
-        if (['MDR', 'XDR'].includes(item)) {
-          return item;
-        }
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 

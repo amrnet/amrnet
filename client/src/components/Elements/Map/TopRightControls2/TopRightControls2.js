@@ -12,7 +12,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { statKeys, mapStatKeysKP } from '../../../../util/drugClassesRules';
-import { drugAcronymsOpposite2 } from '../../../../util/drugs';
+import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 const INFO_ICON_TEXTS = {
@@ -110,7 +110,7 @@ export const TopRightControls2 = () => {
   const getOptionLabel = useCallback(
     (item) => {
       if (isResPrevalence) {
-        return drugAcronymsOpposite2[item] ?? item;
+        return ngonoSusceptibleRule(item, organism) || drugAcronymsOpposite2[item] || item;
       }
 
       const matchingItem = genotypesDrugsData.find((g) => g.name === item);
@@ -169,7 +169,7 @@ export const TopRightControls2 = () => {
                 options={
                   isResPrevalence
                     ? resistanceOptions
-                    : genotypesDrugsData.filter((data) => data.totalCount > 0).map((data) => data.name)
+                    : genotypesDrugsData.filter((data) => data.totalCount > 20).map((data) => data.name)
                 }
                 onChange={handleAutocompleteChange}
                 limitTags={1}
@@ -193,7 +193,11 @@ export const TopRightControls2 = () => {
                 renderTags={(value, getTagProps) => (
                   <Box sx={{ maxHeight: 50, overflowY: 'auto' }}>
                     {value.map((option, index) => (
-                      <Chip key={index} label={drugAcronymsOpposite2[option] ?? option} {...getTagProps({ index })} />
+                      <Chip
+                        key={index}
+                        label={ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option}
+                        {...getTagProps({ index })}
+                      />
                     ))}
                   </Box>
                 )}

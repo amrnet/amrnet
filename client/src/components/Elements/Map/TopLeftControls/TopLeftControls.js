@@ -67,11 +67,16 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   }
 
   function handleChangeLineages(_, value) {
-    if (value.length === 0) {
+    if (organism !== 'decoli' && value.length === 0) {
       return;
     }
 
     if (!value.includes('Clear All') && !value.includes('Select All')) {
+      if (organism === 'decoli') {
+        setCurrentSelectedLineages(value);
+        return;
+      }
+
       setCurrentSelectedLineages([value[value.length - 1]]);
       return;
     }
@@ -137,7 +142,9 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 disableCloseOnSelect
                 value={currentSelectedLineages}
                 options={
-                  currentSelectedLineages.length === pathovar.length ? ['Clear All', ...pathovar] : [...pathovar]
+                  currentSelectedLineages.length === pathovar.length
+                    ? ['Clear All', ...pathovar]
+                    : [...(organism === 'decoli' ? ['Select All'] : []), ...pathovar]
                 }
                 onChange={handleChangeLineages}
                 onClose={handleCloseLineages}
@@ -145,18 +152,19 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 clearIcon={null}
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
                 slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
-                // getOptionDisabled={(option) => {
-                //   if (['Clear All', 'Select All'].includes(option)) {
-                //     return false;
-                //   }
+                getOptionDisabled={(option) => {
+                  if (organism === 'decoli') {
+                    return false;
+                  }
 
-                //   if (
-                //     (currentSelectedLineages.length === 1 && currentSelectedLineages?.[0] !== option) ||
-                //     currentSelectedLineages.length === pathovar.length
-                //   ) {
-                //     return true;
-                //   }
-                // }}
+                  if (['Clear All', 'Select All'].includes(option)) {
+                    return false;
+                  }
+
+                  if (currentSelectedLineages.length === pathovar.length) {
+                    return true;
+                  }
+                }}
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
                   const isAllButton = isAllOption(option);

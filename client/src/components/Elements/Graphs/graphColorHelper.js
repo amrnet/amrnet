@@ -36,6 +36,7 @@ export const getColorForDrug = (drug) => {
       return '#98fb98';
 
     // case 'Fluoroquinolones (CipNS)':
+    case 'Ciprofloxacin (non-susceptible)':
     case 'Ciprofloxacin NS':
     case 'Ciprofloxacin':
     case 'Penicillins':
@@ -44,6 +45,7 @@ export const getColorForDrug = (drug) => {
 
     // case 'Fluoroquinolones (CipR)':
     case 'Ciprofloxacin R':
+    case 'Ciprofloxacin (resistant)':
     case 'Fluoroquinolones':
     case 'Penicillin':
       return '#9e9ac8';
@@ -55,6 +57,7 @@ export const getColorForDrug = (drug) => {
 
     case 'Susceptible':
     case 'Pansusceptible':
+    case 'Susceptible to cat I/II drugs':
       return lightGrey;
 
     case 'Tetracyclines':
@@ -77,9 +80,11 @@ export const getColorForDrug = (drug) => {
       return '#54C2FF';
 
     case 'XDR':
+    case 'Extensively Drug Resistant (XDR)':
       return '#000';
 
     case 'MDR':
+    case 'Multi-drug Resistant (MDR)':
       return '#B80F0F';
 
     default:

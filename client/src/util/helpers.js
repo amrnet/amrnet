@@ -11,7 +11,7 @@ export function longestVisualWidth(list) {
   }, 0);
 }
 
-export function truncateWord(word, maxLength = 10) {
+export function truncateWord(word, maxLength = 13) {
   if (word.length > maxLength) {
     return word.substring(0, maxLength) + '...';
   }

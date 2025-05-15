@@ -656,6 +656,7 @@ function getYearsLocationData({ yearData, items, rule, type = 'country', drugCla
       });
     } else if (organism === 'kpneumo') {
       Object.assign(countryDrugClasses, getKPDrugClassData({ drugKey: rule, dataToFilter: countryData }));
+    } else {
     }
 
     drugClassResponse[item] = countryDrugClasses.resistantCount;

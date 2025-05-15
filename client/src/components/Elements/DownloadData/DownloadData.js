@@ -4,13 +4,13 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import axios from 'axios';
 import download from 'downloadjs';
 import { API_ENDPOINT } from '../../../constants';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { PictureAsPdf, Storage, TableChart } from '@mui/icons-material';
 import { setPosition } from '../../../stores/slices/mapSlice';
 import jsPDF from 'jspdf';
 import LogoImg from '../../../assets/img/logo-prod.png';
-import EUFlagImg from '../../../assets/img/eu_flag.jpg';
+// import EUFlagImg from '../../../assets/img/eu_flag.jpg';
 import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { mapLegends } from '../../../util/mapLegends';
@@ -18,7 +18,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
-import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
+// import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -26,8 +26,23 @@ import {
   colorForDrugClassesST,
   getColorForGenotype,
 } from '../../../util/colorHelper';
-import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts, getIntsTexts, getSentericaintsTexts } from '../../../util/reportInfoTexts';
+import {
+  getKlebsiellaTexts,
+  getSalmonellaTexts,
+  getNgonoTexts,
+  getIntsTexts,
+  getSentericaintsTexts,
+} from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
+import {
+  drugsNG,
+  drugsST,
+  drugsKP,
+  drugsSTLegendsOnly,
+  drugsNGLegensOnly,
+  drugsINTSLegendsOnly,
+  drugsKlebLegendsOnly,
+} from '../../../util/drugs';
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -324,11 +339,13 @@ export const DownloadData = () => {
   function formatDate(date) {
     return moment(date).format('ddd MMM DD YYYY HH:mm');
   }
-
+  let Page = 0;
   function drawFooter({ document, pageHeight, pageWidth, date }) {
+    Page++;
     document.setFontSize(10);
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
     document.text(`Source: amrnet.org`, 16, pageHeight - 10, { align: 'left' });
+    document.text(`Page:${Page}`, pageWidth - 16, pageHeight - 10, { align: 'right' });
   }
 
   function drawHeader({ document, pageWidth }) {
@@ -463,7 +480,12 @@ export const DownloadData = () => {
       doc.addImage(logo, 'PNG', 16, 36, logoWidth, 41, undefined, 'FAST');
 
       let texts;
-      let firstName, secondName, secondword = 330, firstWord = 264, fontSize = 16, amrnetHeading = 177;
+      let firstName,
+        secondName,
+        secondword = 330,
+        firstWord = 264,
+        fontSize = 16,
+        amrnetHeading = 177;
       if (organism === 'styphi') {
         texts = getSalmonellaTexts(date);
         firstName = 'Salmonella';
@@ -481,11 +503,11 @@ export const DownloadData = () => {
         // texts = getSentericaintsTexts();
         firstName = 'shigella';
         secondName = 'gonorrhoeae';
-      }else if (organism === 'senterica'){
+      } else if (organism === 'senterica') {
         texts = getSentericaintsTexts();
         firstName = 'Salmonella';
         secondName = 'enterica';
-      }else {
+      } else {
         texts = getIntsTexts();
         firstName = 'Invasive non-typhoidal';
         secondName = 'Salmonella';
@@ -495,14 +517,14 @@ export const DownloadData = () => {
         fontSize = 12;
       }
 
-
       // Title and Date
       drawHeader({ document: doc, pageWidth });
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
       doc.text('AMRnet Report for', amrnetHeading, 44, { align: 'center' });
-      if (organism === 'styphi' || organism === 'senterica' )doc.setFont(undefined, 'bolditalic');
+      if (organism === 'styphi' || organism === 'senterica') doc.setFont(undefined, 'bolditalic');
       doc.text(firstName, firstWord, 44, { align: 'center' });
-      if (organism === 'kpneumo' || organism === 'ngono' || organism === 'sentericaints'  || organism === 'senterica') doc.setFont(undefined, 'bolditalic');
+      if (organism === 'kpneumo' || organism === 'ngono' || organism === 'sentericaints' || organism === 'senterica')
+        doc.setFont(undefined, 'bolditalic');
       else doc.setFont(undefined, 'bold');
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
@@ -601,24 +623,24 @@ export const DownloadData = () => {
           drawHeader({ document: doc, pageWidth });
           doc.text(texts[26], 16, 40, { align: 'left', maxWidth: pageWidth - 36 });
         } else {
-          doc.text(texts[26], 16, 575 + pmidSpace - 10, { align: 'left', maxWidth: pageWidth - 36 });
-          drawFooter({ document: doc, pageHeight, pageWidth, date });
-          doc.addPage();
-          drawHeader({ document: doc, pageWidth });
+          doc.text(texts[26], 16, 585 + pmidSpace - 10, { align: 'left', maxWidth: pageWidth - 36 });
+          // drawFooter({ document: doc, pageHeight, pageWidth, date });
+          // doc.addPage();
+          // drawHeader({ document: doc, pageWidth });
         }
-        doc.setFont(undefined, 'bold');
-        doc.text(texts[27], 16, pageHeight - 90, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[28], 16, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'italic');
-        doc.text(texts[29], 136, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[30], 182, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[31], 16, pageHeight - 60, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'bold');
+        // doc.text(texts[27], 16, pageHeight - 90, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
-        const euFlag = new Image();
-        euFlag.src = EUFlagImg;
-        doc.addImage(euFlag, 'JPG', 322, pageHeight - 56.5, 12, 7, undefined, 'FAST');
+        // doc.text(texts[28], 16, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text(texts[29], 136, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[30], 182, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[31], 16, pageHeight - 60, { align: 'left', maxWidth: pageWidth - 36 });
+        // // doc.setFont(undefined, 'normal');
+        // const euFlag = new Image();
+        // euFlag.src = EUFlagImg;
+        // doc.addImage(euFlag, 'JPG', 322, pageHeight - 56.5, 12, 7, undefined, 'FAST');
         // doc.text(texts[31], 16, pageHeight - 30, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'kpneumo') {
         // Info
@@ -867,7 +889,6 @@ export const DownloadData = () => {
         // doc.setFont(undefined, 'normal');
         doc.text(texts[3], 16, 155, { align: 'justify', maxWidth: pageWidth - 36 });
 
-
         // // Add a yellow background //WARNING
         doc.setFillColor(255, 253, 175); // Yellow color
         doc.rect(10, 165, pageWidth - 20, 40, 'F'); // Draw a filled rectangle as background
@@ -881,7 +902,7 @@ export const DownloadData = () => {
         doc.text(texts[7], 165, 185, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[8], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
         // Variable definitions
-        
+
         doc.setFont(undefined, 'bold');
         doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
@@ -891,13 +912,13 @@ export const DownloadData = () => {
 
         // Abbreviations
         doc.setFont(undefined, 'bold');
-        doc.text(texts[13], 16, 315 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 16, 315, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[14], 16, 335 , { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[15], 16, 365 , { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[16], 16, 385 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[16], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text('qnr', 16, 395 , { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text('qnr', 16, 395, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
         doc.text(texts[17], 32, 395, { align: 'left', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
@@ -905,11 +926,9 @@ export const DownloadData = () => {
         doc.setFont(undefined, 'normal');
         doc.text(texts[18], 183, 395, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
-
-      }else {
+      } else {
         console.log('No Report available for this organism');
       }
-
 
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
@@ -999,6 +1018,27 @@ export const DownloadData = () => {
         doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5, 105, legendWidth, 47, undefined, 'FAST');
       }
 
+      //Heatmap
+      doc.addPage();
+      drawHeader({ document: doc, pageWidth });
+      drawFooter({ document: doc, pageHeight, pageWidth, date });
+      doc.setFontSize(12).setFont(undefined, 'bold');
+      doc.text('Geographic Comparisons', 16, 44);
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(12);
+      doc.text(`Selected View: ${actualMapView}`, 16, 56);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 76);
+      const graphImgHeat = document.createElement('img');
+      const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
+      graphImgHeat.src = await domtoimage.toPng(document.getElementById('CVM'), { bgcolor: 'white' });
+      await graphImgPromiseHeat;
+      console.log('graphImgHeat', graphImgHeat.width);
+      if (graphImgHeat.width > 3000) {
+        doc.addImage(graphImgHeat, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
+      } else {
+        doc.addImage(graphImgHeat, 'PNG', 16, 100, pageWidth - 80, 271, undefined, 'FAST');
+      }
+
       // Graphs
       const isKlebe = organism === 'kpneumo';
       const isNgono = organism === 'ngono';
@@ -1022,6 +1062,7 @@ export const DownloadData = () => {
         ) {
           continue;
         }
+
         doc.addPage();
         drawHeader({ document: doc, pageWidth });
         drawFooter({ document: doc, pageHeight, pageWidth, date });
@@ -1053,24 +1094,16 @@ export const DownloadData = () => {
         doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 56);
         doc.setFontSize(12);
         // doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
-        if(cards[index].id === 'GD') 
-          doc.text(`Total: ${actualGenomesGD} genomes`, 16, 74);
-        else if(cards[index].id === 'DRT') 
-          doc.text(`Total: ${actualGenomesDRT} genomes`, 16, 74);
-        else if(cards[index].id === 'RDT') 
-          doc.text(`Total: ${actualGenomesRDT} genomes`, 16, 74);
-        else 
-          doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        if (cards[index].id === 'GD') doc.text(`Total: ${actualGenomesGD} genomes`, 16, 74);
+        else if (cards[index].id === 'DRT') doc.text(`Total: ${actualGenomesDRT} genomes`, 16, 74);
+        else if (cards[index].id === 'RDT') doc.text(`Total: ${actualGenomesRDT} genomes`, 16, 74);
+        else doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
         doc.text(`Country: ${actualCountry}`, 16, 86);
         // doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
-        if(cards[index].id === 'GD')
-          doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
-        else if(cards[index].id === 'DRT')
-          doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
-        else if(cards[index].id === 'RDT')
-          doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
-        else
-          doc.text(`Time eriod: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        if (cards[index].id === 'GD') doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
+        else if (cards[index].id === 'DRT') doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
+        else if (cards[index].id === 'RDT') doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
+        else doc.text(`Time eriod: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         doc.text(
           `Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`,
           16,
@@ -1080,22 +1113,20 @@ export const DownloadData = () => {
         const graphImg = document.createElement('img');
         const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
-            await graphImgPromise;
+        await graphImgPromise;
         if (graphImg.width <= 700) {
           doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined, undefined, 'FAST');
-            } else {
+        } else {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
         const rectY = matches1000 ? 320 : 340;
-        if (cards[index].id === 'CVM'){
+        if (cards[index].id === 'CVM') {
           doc.setFillColor(255, 255, 255); // white
-          doc.rect(0, rectY+60, pageWidth, 200, 'F'); // fill with white
-        }
-        else if (cards[index].id !== 'HSG2' && cards[index].id !== 'CVM') {
+          doc.rect(0, rectY + 60, pageWidth, 200, 'F'); // fill with white
+        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'CVM') {
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
         }
-        
 
         doc.setFontSize(9);
         if (cards[index].id === 'RFWG') {
@@ -1108,9 +1139,25 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'DRT') {
+          let legendDrugs;
+
+          switch (organism) {
+            case 'styphi':
+              legendDrugs = drugsSTLegendsOnly;
+              break;
+            case 'kpneumo':
+              legendDrugs = drugsKlebLegendsOnly;
+              break;
+            case 'ngono':
+              legendDrugs = drugsNGLegensOnly;
+              break;
+            default:
+              legendDrugs = drugsINTSLegendsOnly;
+              break;
+          }
           drawLegend({
             document: doc,
-            legendData: drugResistanceGraphView,
+            legendData: legendDrugs,
             factor: 8,
             rectY,
             xSpace: 200,
@@ -1194,7 +1241,7 @@ export const DownloadData = () => {
             document: doc,
             legendData: Object.keys(topColorSlice),
             factor: variablesFactor,
-            rectY:rectY+60,
+            rectY: rectY,
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
