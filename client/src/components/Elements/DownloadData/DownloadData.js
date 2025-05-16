@@ -1117,7 +1117,8 @@ export const DownloadData = () => {
         if (graphImg.width <= 700) {
           doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined, undefined, 'FAST');
         } else {
-          doc.addImage(graphImg, 'PNG', 16, 130, pageWidth , 271, undefined, 'FAST');
+          if (cards[index].id === 'HSG2') doc.addImage(graphImg, 'PNG', 16, 130, pageWidth , 271, undefined, 'FAST');
+          else doc.addImage(graphImg, 'PNG', 16, 130, pageWidth-80 , 271, undefined, 'FAST');
         }
         const rectY = matches1000 ? 320 : 340;
         if (cards[index].id === 'CVM') {
