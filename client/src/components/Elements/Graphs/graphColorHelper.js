@@ -84,7 +84,7 @@ export const getColorForDrug = (drug) => {
       return '#000';
 
     case 'MDR':
-    case 'Multi drug Resistant (MDR)':
+    case 'Multidrug resistant (MDR)':
       return '#B80F0F';
 
     default:
