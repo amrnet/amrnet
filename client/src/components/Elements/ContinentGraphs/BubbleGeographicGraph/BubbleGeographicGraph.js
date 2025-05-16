@@ -207,7 +207,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
   if (yAxisType === 'genotype' && yAxisOptions.length > 0) {
-    setYAxisSelected(yAxisOptions.slice(0, 10));
+    setYAxisSelected(yAxisOptions.slice(0, 20));
   }else
     setYAxisSelected(yAxisOptions);
 }, [yAxisOptions, yAxisType]);
