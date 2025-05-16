@@ -1103,7 +1103,7 @@ export const DownloadData = () => {
         if (cards[index].id === 'GD') doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
         else if (cards[index].id === 'DRT') doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
         else if (cards[index].id === 'RDT') doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
-        else doc.text(`Time eriod: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        else doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         doc.text(
           `Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`,
           16,
@@ -1117,7 +1117,7 @@ export const DownloadData = () => {
         if (graphImg.width <= 700) {
           doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined, undefined, 'FAST');
         } else {
-          doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
+          doc.addImage(graphImg, 'PNG', 16, 130, pageWidth , 271, undefined, 'FAST');
         }
         const rectY = matches1000 ? 320 : 340;
         if (cards[index].id === 'CVM') {
