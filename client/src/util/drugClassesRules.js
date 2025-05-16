@@ -20,7 +20,7 @@ export const drugRulesST = [
   { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracyclines', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
-  { key: 'MDR', columnID: 'MDR', values: ['MDR'], legends: 'Multi drug Resistant (MDR)' },
+  { key: 'MDR', columnID: 'MDR', values: ['MDR'], legends: 'Multidrug resistant (MDR)' },
   { key: 'XDR', columnID: 'XDR', values: ['XDR'], legends: 'Extensively Drug Resistant (XDR)' },
   { key: 'Pansusceptible', columnID: 'amr_category', values: ['No AMR detected'] },
 ];
@@ -167,7 +167,7 @@ export const drugRulesNG = [
   { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
   { key: 'Pansusceptible', columnID: ['Susceptible'], values: ['1'], legends: 'Susceptible to cat I/II drugs' },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
-  { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multi drug Resistant (MDR)' },
+  { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
   { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively Drug Resistant (XDR)' },
 ];
 
