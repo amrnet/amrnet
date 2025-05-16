@@ -30,7 +30,7 @@ export const drugsSTLegendsOnly = [
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
   'Extensively Drug Resistant (XDR)',
-  'Multidrug resistant (MDR)',
+  'Multi drug Resistant (MDR)',
 ];
 
 export const defaultDrugsForDrugResistanceGraphST = [
@@ -70,7 +70,7 @@ export const drugsNG = [
 //   'Spectinomycin',
 //   'Susceptible to cat I/II drugs',
 //   'Extensively Drug Resistant (XDR)',
-//   'Multidrug resistant (MDR)',
+//   'Multi drug Resistant (MDR)',
 // ];
 
 // List of N. gono drug classes default
@@ -171,7 +171,7 @@ export const drugAcronymsOpposite = {
   AZM: 'Azithromycin',
   // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
   CipR: 'Ciprofloxacin (resistant)',
-  MDR: 'Multidrug resistant (MDR)',
+  MDR: 'Multi drug Resistant (MDR)',
   XDR: 'Extensively Drug Resistant (XDR)',
   SUS: 'Susceptible to cat I/II drugs',
 };
@@ -185,7 +185,7 @@ export const drugAcronymsOpposite2 = {
   // ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin (resistant)',
   AzithR: 'Azithromycin',
-  MDR: 'Multidrug resistant (MDR)',
+  MDR: 'Multi drug Resistant (MDR)',
   XDR: 'Extensively Drug Resistant (XDR)',
 };
 
