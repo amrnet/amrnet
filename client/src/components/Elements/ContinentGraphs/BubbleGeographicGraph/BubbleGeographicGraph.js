@@ -206,9 +206,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [mapData, mapRegionData, xAxisType]);
 
   useEffect(() => {
+  if (yAxisType === 'genotype' && yAxisOptions.length > 0) {
+    setYAxisSelected(yAxisOptions.slice(0, 10));
+  }else
     setYAxisSelected(yAxisOptions);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yAxisOptions]);
+}, [yAxisOptions, yAxisType]);
 
   const yAxisWidth = useMemo(() => {
     return longestVisualWidth((xAxisSelected ?? []).map((x) => (x === 'United States of America' ? 'USA' : x)));
