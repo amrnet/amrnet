@@ -251,6 +251,11 @@ export const Map = () => {
       'Lineage prevalence',
     ].includes(mapView);
   }
+  // N+ to avoid long headings
+  function formatSelectionList(arr, limit = 5) {
+    if (arr.length <= limit) return arr.join(', ');
+    return `${arr.slice(0, limit).join(', ')} +${arr.length - limit}`;
+  }  
 
   return (
     <Card className={classes.card}>
@@ -259,10 +264,8 @@ export const Map = () => {
           Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
         {mapView !== 'No. Samples' ? (
-          <Typography variant="caption">
-            {mapView}:{' '}
-            {drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join(',')] ||
-              prevalenceMapViewOptionsSelected.join(',')}
+          <Typography variant="subtitle2">
+            {mapView}: {drugAcronymsOpposite[formatSelectionList(prevalenceMapViewOptionsSelected)]}
           </Typography>
         ) : null}
         <div className={classes.mapWrapper}>
