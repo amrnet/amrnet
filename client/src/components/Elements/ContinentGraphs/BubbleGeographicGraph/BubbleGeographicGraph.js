@@ -647,7 +647,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       }}
                       renderValue={(selected) => <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>}
                     >
-                      {yAxisOptions.sort().map((option, index) => (
+                      {yAxisOptions.map((option, index) => (
                         <MenuItem key={`geo-y-axis-option-${index}`} value={option}>
                           <Checkbox checked={yAxisSelected.indexOf(option) > -1} />
                           <ListItemText primary={getOptionLabel(option)} />
