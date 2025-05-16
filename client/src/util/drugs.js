@@ -29,7 +29,7 @@ export const drugsSTLegendsOnly = [
   'Tetracyclines',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
-  'Extensively Drug Resistant (XDR)',
+  'Extensively drug resistant (XDR)',
   'Multidrug resistant (MDR)',
 ];
 
@@ -69,7 +69,7 @@ export const drugsNG = [
 //   'Penicillin',
 //   'Spectinomycin',
 //   'Susceptible to cat I/II drugs',
-//   'Extensively Drug Resistant (XDR)',
+//   'Extensively drug resistant (XDR)',
 //   'Multidrug resistant (MDR)',
 // ];
 
@@ -172,7 +172,7 @@ export const drugAcronymsOpposite = {
   // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
-  XDR: 'Extensively Drug Resistant (XDR)',
+  XDR: 'Extensively drug resistant (XDR)',
   SUS: 'Susceptible to cat I/II drugs',
 };
 
@@ -186,7 +186,7 @@ export const drugAcronymsOpposite2 = {
   CipR: 'Ciprofloxacin (resistant)',
   AzithR: 'Azithromycin',
   MDR: 'Multidrug resistant (MDR)',
-  XDR: 'Extensively Drug Resistant (XDR)',
+  XDR: 'Extensively drug resistant (XDR)',
 };
 
 export const ciproAcronyms = {
