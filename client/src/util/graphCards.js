@@ -6,10 +6,14 @@ import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
 import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
-import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { amrLikeOrganisms, onlyEcolis, nonEcolis, organismsCards } from './organismsCards';
 
 function getHeatMapsTitle(organism) {
   switch (organism) {
+   
+    case 'ecoli':
+    case 'decoli':
+      return 'AMR by pathotype';
     case 'kpneumo':
       return 'AMR by ST';
     case 'sentericaints':
@@ -57,11 +61,11 @@ export const graphCards = [
     component: <DistributionGraph />,
   },
   {
-    title: 'ST distribution',
+    title: 'ST trends',
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['kpneumo'],
+    organisms: ['kpneumo',...onlyEcolis],
     component: <DistributionGraph />,
   },
   {
@@ -70,7 +74,7 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: amrLikeOrganisms,
+    organisms: nonEcolis,
     component: <DistributionGraph />,
   },
   // {
