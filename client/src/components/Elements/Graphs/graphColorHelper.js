@@ -80,7 +80,7 @@ export const getColorForDrug = (drug) => {
       return '#54C2FF';
 
     case 'XDR':
-    case 'Extensively Drug Resistant (XDR)':
+    case 'Extensively drug resistant (XDR)':
       return '#000';
 
     case 'MDR':
