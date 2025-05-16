@@ -251,6 +251,12 @@ export const Map = () => {
       'Lineage prevalence',
     ].includes(mapView);
   }
+  //Removed "drugAcronymsOpposite" to avoid confusion with the Selected drugs name from dropdown,
+  //as user see the drugs full name from selector and now we also have N+ to avoid long headings
+  function formatSelectionList(arr, limit = 5) {
+    if (arr.length <= limit) return arr.join(', ');
+    return `${arr.slice(0, limit).join(', ')} +${arr.length - limit}`;
+  }  
 
   return (
     <Card className={classes.card}>
@@ -259,10 +265,8 @@ export const Map = () => {
           Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
         {mapView !== 'No. Samples' ? (
-          <Typography variant="caption">
-            {mapView}:{' '}
-            {drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join(',')] ||
-              prevalenceMapViewOptionsSelected.join(',')}
+          <Typography variant="subtitle2">
+            {mapView}: {formatSelectionList(prevalenceMapViewOptionsSelected)}
           </Typography>
         ) : null}
         <div className={classes.mapWrapper}>
