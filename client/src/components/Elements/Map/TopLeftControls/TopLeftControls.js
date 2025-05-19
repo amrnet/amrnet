@@ -26,7 +26,7 @@ import {
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
 import { useEffect, useState } from 'react';
-import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { amrLikeOrganisms, amrLikeOrganismsExceptEcoli } from '../../../../util/organismsCards';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -132,7 +132,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </ToggleButtonGroup>
             </div>
           )}
-          {!amrLikeOrganisms.includes(organism) ? null : (
+          {!amrLikeOrganismsExceptEcoli.includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}

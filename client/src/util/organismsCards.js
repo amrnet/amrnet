@@ -158,4 +158,7 @@ export const organismsCards = [
 export const onlyEcolis = ['decoli', 'ecoli'];
 export const nonEcolis = ['senterica', 'shige', 'sentericaints'];
 export const amrLikeOrganisms = [...onlyEcolis, ...nonEcolis];
+// created another constant to avoid confusion and create issues with existing code
+// used only to exclude ecoli from the amrLikeOrganisms where ever  needed
+export const amrLikeOrganismsExceptEcoli = ['decoli', ...nonEcolis];
 
