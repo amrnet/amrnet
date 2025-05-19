@@ -15,7 +15,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { statKeys, mapStatKeysKP } from '../../../../util/drugClassesRules';
 import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
-import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { amrLikeOrganisms, amrLikeOrganismsExceptEcoli} from '../../../../util/organismsCards';
 
 const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
@@ -84,10 +84,10 @@ export const TopRightControls2 = () => {
       return 'Select Drug';
     }
 
-    if (amrLikeOrganisms.includes(organism)) {
+    if (amrLikeOrganismsExceptEcoli.includes(organism)) {
       return 'Select Lineage';
     }
-    if (['kpneumo'].includes(organism)) {
+    if (['kpneumo','ecoli'].includes(organism)) {
       return 'Select ST';
     }
 
@@ -99,10 +99,10 @@ export const TopRightControls2 = () => {
       return `${open ? 'Close' : 'Open'} drug selector`;
     }
 
-    if (amrLikeOrganisms.includes(organism)) {
+    if (amrLikeOrganismsExceptEcoli.includes(organism)) {
       return `${open ? 'Close' : 'Open'} lineage selector`;
     }
-    if (['kpneumo'].includes(organism)) {
+    if (['kpneumo','ecoli'].includes(organism)) {
       return `${open ? 'Close' : 'Open'} ST selector`;
     }
 

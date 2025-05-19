@@ -1,4 +1,4 @@
-import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { amrLikeOrganisms, organismsCards , amrLikeOrganismsExceptEcoli} from './organismsCards';
 
 // List of legends for the map and in which organisms they appear
 export const mapLegends = [
@@ -44,7 +44,7 @@ export const mapLegends = [
   {
     value: 'ST prevalence',
     label: 'ST prevalence',
-    organisms: ['kpneumo'],
+    organisms: ['kpneumo', "ecoli"],
   },
   {
     value: 'Resistance prevalence',
@@ -54,7 +54,7 @@ export const mapLegends = [
   {
     value: 'Lineage prevalence',
     label: 'Lineage prevalence',
-    organisms: amrLikeOrganisms,
+    organisms: amrLikeOrganismsExceptEcoli,
   },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
