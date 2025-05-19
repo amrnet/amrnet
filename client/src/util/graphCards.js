@@ -13,7 +13,6 @@ function getHeatMapsTitle(organism) {
     case 'decoli':
       return 'AMR by pathotype';
     case 'kpneumo':
-      return 'AMR by ST';
     case 'ecoli':
       return 'AMR by ST';
     case 'sentericaints':
