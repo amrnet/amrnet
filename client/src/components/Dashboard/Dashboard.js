@@ -186,6 +186,9 @@ export const DashboardPage = () => {
     responseData.forEach((x) => {
       const country = getCountryDisplayName(x.COUNTRY_ONLY);
       countriesSet.add(country);
+      if(['ecoli'].includes(organism))
+        genotypesSet.add(x.GENOTYPE1);
+      else
       genotypesSet.add(x.GENOTYPE);
       yearsSet.add(x.DATE);
       if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);

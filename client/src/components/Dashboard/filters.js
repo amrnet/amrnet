@@ -42,7 +42,7 @@ export function filterData({
   };
 
   const newData = data.filter((x) => checkDataset(x) && checkTime(x) && checkLineages(x));
-  const genotypes = [...new Set(newData.map((x) => x.GENOTYPE))];
+  const genotypes = [...new Set(newData.map((x) => (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE)))];
 
   if (organism === 'styphi') {
     genotypes.sort((a, b) => a.localeCompare(b));
@@ -60,7 +60,7 @@ export function filterData({
     genomesCount = countryData.length;
     listPMID = [...new Set(countryData.map((x) => x.PMID))];
 
-    const countryGenotypes = [...new Set(countryData.map((x) => x.GENOTYPE))];
+    const countryGenotypes = [...new Set(countryData.map((x) => (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE)))];
     genotypesCount = countryGenotypes.length;
   }
 
@@ -300,7 +300,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
 
     const generateStats = (statKey, dataKey = 'GENOTYPE') => {
       const statMap = itemData.reduce((acc, item) => {
-        const stat = item[dataKey];
+        const stat = (organism === 'ecoli' ? item['GENOTYPE1'] : item[dataKey]);
         acc[stat] = (acc[stat] || 0) + 1;
         return acc;
       }, {});
@@ -341,7 +341,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     generateStats('GENOTYPE');
 
     //
-    if (['shige', 'decoli', 'ecoli'].includes(organism)) {
+    if (['shige', 'decoli'].includes(organism)) {
       stats['PATHOTYPE'] = { items: [], count: 0 };
       generateStats('PATHOTYPE', organism === 'ecoli' ? 'Pathovar' : 'Pathotype');
     }
@@ -426,7 +426,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
     // Calculate genotype stats
     const genotypeStats = yearData.reduce((acc, x) => {
-      const genotype = x.GENOTYPE;
+      const genotype = (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE);
       acc[genotype] = (acc[genotype] || 0) + 1;
       return acc;
     }, {});
@@ -709,7 +709,7 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
 
   // Genotypes
   const genotypesDrugsData = genotypes.map((genotype) => {
-    const genotypeData = data.filter((x) => x.GENOTYPE === genotype);
+    const genotypeData = data.filter((x) => (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE) === genotype);
     const response = {
       name: genotype,
       totalCount: genotypeData.length,

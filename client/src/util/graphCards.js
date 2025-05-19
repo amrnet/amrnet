@@ -11,10 +11,10 @@ import { amrLikeOrganisms, onlyEcolis, nonEcolis, organismsCards } from './organ
 function getHeatMapsTitle(organism) {
   switch (organism) {
    
-    case 'ecoli':
     case 'decoli':
       return 'AMR by pathotype';
     case 'kpneumo':
+    case 'ecoli':
       return 'AMR by ST';
     case 'sentericaints':
       return 'AMR by lineage';
