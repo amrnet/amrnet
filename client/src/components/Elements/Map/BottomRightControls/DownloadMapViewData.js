@@ -48,9 +48,15 @@ export const DownloadMapViewData = ({ value }) => {
   } else if (organism === 'decoli') {
     firstName = 'Diarrheagenic';
     secondName = 'E. coli';
+  }else if (organism === 'ecoli') {
+    firstName = 'Escherichia';
+    secondName = 'coli';
   } else if (organism === 'sentericaints') {
     firstName = 'Invasive';
     secondName = 'non-typhoidal Salmonella';
+  }else{
+    firstName = 'Salmonella';
+    secondName = 'enterica';
   }
 
   const downloadCSV = () => {
