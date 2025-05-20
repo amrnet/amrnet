@@ -32,6 +32,7 @@ import {
   getNgonoTexts,
   getIntsTexts,
   getSentericaintsTexts,
+  getShigeTexts
 } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import {
@@ -500,9 +501,11 @@ export const DownloadData = () => {
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
       } else if (organism === 'shige') {
-        // texts = getSentericaintsTexts();
-        firstName = 'shigella';
-        secondName = 'gonorrhoeae';
+        texts = getShigeTexts();
+        firstName = 'Shigella';
+        secondName = '+ EIEC';
+        secondword = 305;
+        firstWord = 257;
       } else if (organism === 'senterica') {
         texts = getSentericaintsTexts();
         firstName = 'Salmonella';
@@ -926,6 +929,57 @@ export const DownloadData = () => {
         doc.setFont(undefined, 'normal');
         doc.text(texts[18], 183, 395, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+      } else if (organism === 'shige') {
+        // Info
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[1], 55, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[3], 16, 155, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // // Add a yellow background //WARNING
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 165, pageWidth - 20, 60, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[3], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[4], 65, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[5], 85, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[6], 115, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
+           // Variable definitions
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[8], 16, 245, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 265, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[10], 16, 275, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[11], 16, 325, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[12], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+
+        // // Abbreviations
+        // doc.setFont(undefined, 'bold');
+        // doc.text(texts[13], 16, 315, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[14], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[15], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[16], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('qnr', 16, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[17], 32, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[18], 183, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+
       } else {
         console.log('No Report available for this organism');
       }
@@ -1310,7 +1364,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={!['styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'].includes(organism)}
+        disabled={['ecoli'].includes(organism)} //'styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'
       >
         Download PDF
       </LoadingButton>
