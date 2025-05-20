@@ -32,7 +32,8 @@ import {
   getNgonoTexts,
   getIntsTexts,
   getSentericaintsTexts,
-  getShigeTexts
+  getShigeTexts,
+  getDEcoliTexts
 } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import {
@@ -510,6 +511,16 @@ export const DownloadData = () => {
         texts = getSentericaintsTexts();
         firstName = 'Salmonella';
         secondName = 'enterica';
+      }else if (organism === 'ecoli') {
+        texts = getSentericaintsTexts();
+        firstName = 'Salmonella';
+        secondName = 'enterica';
+      }else if (organism === 'decoli') {
+        texts = getDEcoliTexts();
+        firstName = 'Diarrheagenic E.';
+        secondName = 'coli';
+        secondword = 340;
+        firstWord = 281;
       } else {
         texts = getIntsTexts();
         firstName = 'Invasive non-typhoidal';
@@ -524,9 +535,9 @@ export const DownloadData = () => {
       drawHeader({ document: doc, pageWidth });
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
       doc.text('AMRnet Report for', amrnetHeading, 44, { align: 'center' });
-      if (organism === 'styphi' || organism === 'senterica') doc.setFont(undefined, 'bolditalic');
-      doc.text(firstName, firstWord, 44, { align: 'center' });
-      if (organism === 'kpneumo' || organism === 'ngono' || organism === 'sentericaints' || organism === 'senterica')
+      if (organism === 'styphi' || organism === 'senterica' || organism === 'shige') doc.setFont(undefined, 'bolditalic');
+        doc.text(firstName, firstWord, 44, { align: 'center' });
+      if (organism === 'kpneumo' || organism === 'ngono' || organism === 'sentericaints' || organism === 'senterica' || organism === 'decoli')
         doc.setFont(undefined, 'bolditalic');
       else doc.setFont(undefined, 'bold');
       doc.text(secondName, secondword, 44, { align: 'center' });
@@ -979,8 +990,48 @@ export const DownloadData = () => {
         // doc.setFont(undefined, 'normal');
         // doc.text(texts[18], 183, 395, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+      }else if (organism === 'decoli') {
+        // Info
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[1], 85, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 100, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
 
-      } else {
+        doc.text(texts[5], 16, 175, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 16, 205, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 245, pageWidth - 20, 65, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[10], 16, 265, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[11], 65, 265, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        // Abbreviations
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[13], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[15], 60, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[16], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 102, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[18], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+
+      }else {
         console.log('No Report available for this organism');
       }
 
