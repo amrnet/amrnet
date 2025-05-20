@@ -46,12 +46,12 @@ const xOptionsByOrganism = [
   {
     label: 'Genotype',
     value: 'genotype',
-    organisms: ['styphi', 'ngono', 'kpneumo'],
+    organisms: ['styphi', 'ngono', 'kpneumo', 'ecoli'],
   },
   {
     label: 'Pathotype',
     value: 'pathotype',
-    organisms: ['shige', 'decoli', 'ecoli'],
+    organisms: ['shige', 'decoli'],
   },
   {
     label: 'Lineage',
