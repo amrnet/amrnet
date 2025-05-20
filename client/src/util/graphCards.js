@@ -19,7 +19,7 @@ function getHeatMapsTitle(organism) {
     case 'sentericaints':
       return 'AMR by lineage';
     default:
-      return '';
+      return 'AMR by Genotype';
   }
 }
 
