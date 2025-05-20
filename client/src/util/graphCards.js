@@ -89,16 +89,6 @@ export const graphCards = [
   //   organisms: ['sentericaints'],
   //   component: <FrequenciesGraph />,
   // },
-  
-  {
-    title: 'AMR markers by ST',
-    description: ['Top Genotypes (up to 10)'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'RDWG',
-    organisms: ['kpneumo'],
-    component: <DeterminantsGraph />,
-  },
-  
   {
     title: getTrendstitle('kpneumo'),
     description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
@@ -106,14 +96,6 @@ export const graphCards = [
     id: 'RDT',
     organisms: ['kpneumo'],
     component: <TrendsGraph />,
-  },
-  {
-    title: 'AMR markers by genotype',
-    description: ['Top Genotypes (up to 10)'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'RDWG',
-    organisms: ['styphi', 'ngono'],
-    component: <DeterminantsGraph />,
   },
   {
     title: getTrendstitle('ngono'),
@@ -173,6 +155,22 @@ export const graphCards = [
   //   component: <BubbleHeatmapGraph2 />,
   // },
   ...heatmapCards,
+  {
+    title: 'AMR markers by ST',
+    description: ['Top Genotypes (up to 10)'],
+    icon: <StackedBarChart color="primary" />,
+    id: 'RDWG',
+    organisms: ['kpneumo'],
+    component: <DeterminantsGraph />,
+  },
+  {
+    title: 'AMR markers by genotype',
+    description: ['Top Genotypes (up to 10)'],
+    icon: <StackedBarChart color="primary" />,
+    id: 'RDWG',
+    organisms: ['styphi', 'ngono'],
+    component: <DeterminantsGraph />,
+  },
 ];
 
 export const continentGraphCard = {

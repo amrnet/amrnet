@@ -7,7 +7,6 @@ import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/color
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
-import { getColorForDrug } from '../../Graphs/graphColorHelper';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
@@ -122,7 +121,7 @@ export const TopRightControls = () => {
   function getMDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return 'MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
+        return 'MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
       case 'ngono':
         return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:
@@ -244,8 +243,8 @@ export const TopRightControls = () => {
                     <Box
                       className={classes.legendColorBox}
                       style={{
-                        backgroundColor: getStepBoxColor(step, index)
-                          // mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
+                        backgroundColor: getStepBoxColor(step, index),
+                        // mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
                       }}
                     />
                     <span className={classes.legendText}>{step}</span>

@@ -1,6 +1,7 @@
 import { Download } from '@mui/icons-material';
 import { useAppSelector } from '../../../../stores/hooks';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
+import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
 
 export const DownloadMapViewData = ({ value }) => {
   const mapData = useAppSelector((state) => state.map.mapData);
@@ -78,8 +79,9 @@ export const DownloadMapViewData = ({ value }) => {
             return;
           }
           // if( !item === 'H58'){
-          HeaderList.push(`${item}`);
-          HeaderList.push(`${item} %`);
+          const itemLabel = ngonoSusceptibleRule(item, organism) || drugAcronymsOpposite[item] || item;
+          HeaderList.push(itemLabel);
+          HeaderList.push(`${itemLabel} %`);
           // }
         });
       }
