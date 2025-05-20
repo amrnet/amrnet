@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amrnet"
+version = "1.0.2"
+description = "AMRnet dashboard"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Louise Cerdeira", email = "lcerdeira@gmail.com"},
+    {name = "Vandana Sharma", email = "vandana.sharma@lshtm.ac.uk"},
+    {name = "Kathryn Holt", email = "kat.holt@lshtm.ac.uk"},
+    ]
+classifiers = [
+    "License :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Intended Audience :: Science/Research"
+]
+[project.urls]
+homepage = "https://www.amrnet.org/"
+documentation = "https://amrnet.readthedocs.io/"
+repository = "https://github.com/amrnet/amrnet/"
