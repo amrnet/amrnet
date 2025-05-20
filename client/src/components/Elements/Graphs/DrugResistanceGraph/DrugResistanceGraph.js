@@ -129,7 +129,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   function getMDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return 'MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
+        return 'MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
       case 'ngono':
         return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Card, CardContent, Typography, useMediaQuery } from '@mui/material';
 import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup } from 'react-simple-maps';
 import { useStyles } from './MapMUI';
@@ -17,6 +16,7 @@ import { BottomRightControls } from './BottomRightControls';
 import { Ngmast } from './Ng_mast/Ngmast';
 import { statKeys } from '../../../util/drugClassesRules';
 import { drugAcronymsOpposite, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../util/drugs';
+import { useMemo } from 'react';
 
 const statKey = {
   MDR: 'MDR',
@@ -93,8 +93,8 @@ export const Map = () => {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     H58: `${countryStats.H58.percentage}%`,
-                    'Multi-drug Resistant (MDR)': `${countryStats.MDR.percentage}%`,
-                    'Extensively Drug Resistant (XDR)': `${countryStats.XDR.percentage}%`,
+                    'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
+                    'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
                     CipNS: `${combinedPercentage.toFixed(2)}%`,
@@ -112,8 +112,8 @@ export const Map = () => {
                 ? {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
-                    'Multi-drug Resistant (MDR)': `${countryStats.MDR.percentage}%`,
-                    'Extensively Drug Resistant (XDR)': `${countryStats.XDR.percentage}%`,
+                    'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
+                    'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
                     Azithromycin: `${countryStats.Azithromycin.percentage}%`,
                     Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
                     Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
@@ -252,19 +252,25 @@ export const Map = () => {
     ].includes(mapView);
   }
 
+  const mapViewLegend = useMemo(() => {
+    const prevalenceView = `${prevalenceMapViewOptionsSelected?.slice(0, 5).join(', ')}${
+      prevalenceMapViewOptionsSelected?.length > 5 ? ` +${prevalenceMapViewOptionsSelected?.length - 5} other(s)` : ''
+    }`;
+
+    return `${mapView}: ${
+      ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(', '), organism) ||
+      drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join(', ')] ||
+      prevalenceView
+    }`;
+  }, [mapView, organism, prevalenceMapViewOptionsSelected]);
+
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h5" fontWeight={'bold'}>
           Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
-        {mapView !== 'No. Samples' ? (
-          <Typography variant="caption">
-            {mapView}:{' '}
-            {drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join(',')] ||
-              prevalenceMapViewOptionsSelected.join(',')}
-          </Typography>
-        ) : null}
+        {mapView !== 'No. Samples' ? <Typography variant="caption">{mapViewLegend}</Typography> : null}
         <div className={classes.mapWrapper}>
           <ComposableMap
             className={classes.composableMap}

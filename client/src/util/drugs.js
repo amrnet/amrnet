@@ -29,8 +29,8 @@ export const drugsSTLegendsOnly = [
   'Tetracyclines',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
-  'Extensively Drug Resistant (XDR)',
-  'Multi-drug Resistant (MDR)',
+  'Extensively drug resistant (XDR)',
+  'Multidrug resistant (MDR)',
 ];
 
 export const defaultDrugsForDrugResistanceGraphST = [
@@ -69,8 +69,8 @@ export const drugsNG = [
 //   'Penicillin',
 //   'Spectinomycin',
 //   'Susceptible to cat I/II drugs',
-//   'Extensively Drug Resistant (XDR)',
-//   'Multi-drug Resistant (MDR)',
+//   'Extensively drug resistant (XDR)',
+//   'Multidrug resistant (MDR)',
 // ];
 
 // List of N. gono drug classes default
@@ -159,29 +159,35 @@ export const drugAcronyms = {
   Pansusceptible: 'PAN',
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
+  //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap
+  Carbapenems: 'CARB',
+  Carbapenemase: 'CARB',
 };
 
 export const drugAcronymsOpposite = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
-  CARB: 'Carbapenems',
+  //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap (tooltip)
+  CARB: 'Carbapenemase',
   AZM: 'Azithromycin',
-  ESBL: 'Extended-Spectrum Beta-Lactamase',
+  // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
   CipR: 'Ciprofloxacin (resistant)',
-  MDR: 'Multi-drug Resistant (MDR)',
-  XDR: 'Extensively Drug Resistant (XDR)',
+  MDR: 'Multidrug resistant (MDR)',
+  XDR: 'Extensively drug resistant (XDR)',
   SUS: 'Susceptible to cat I/II drugs',
+  AzithR: 'Azithromycin',
 };
 
 export const drugAcronymsOpposite2 = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
-  CARB: 'Carbapenems',
-  Carb: 'Carbapenems',
+  // Implemneted for Consistency
+  CARB: 'Carbapenemase',
+  Carb: 'Carbapenemase',
   AZM: 'Azithromycin',
-  ESBL: 'Extended-Spectrum Beta-Lactamase',
+  // ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin (resistant)',
   AzithR: 'Azithromycin',
-  MDR: 'Multi-drug Resistant (MDR)',
-  XDR: 'Extensively Drug Resistant (XDR)',
+  MDR: 'Multidrug resistant (MDR)',
+  XDR: 'Extensively drug resistant (XDR)',
 };
 
 export const ciproAcronyms = {

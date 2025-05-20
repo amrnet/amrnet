@@ -194,8 +194,14 @@ export const DashboardPage = () => {
       if (['sentericaints', 'senterica'].includes(organism)) {
         pathovarSet.add(x.SISTR1_Serovar);
       }
-      if (['shige', 'decoli', 'ecoli'].includes(organism)) {
+      if (['shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathotype);
+      }
+      //For E. coli, we need to add the Pathovar instead of the Pathotype 
+      // because the Pathotype is not present in E.coli data
+      // and the Pathovar is the one that is used in the database
+      if (['ecoli'].includes(organism)) {
+        pathovarSet.add(x.Pathovar);
       }
     });
 

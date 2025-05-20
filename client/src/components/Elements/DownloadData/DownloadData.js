@@ -1235,7 +1235,8 @@ export const DownloadData = () => {
             xSpace: 90,
             // twoPages: isKlebe
           });
-        } else if (cards[index].id === 'CVM') {
+    // id= convergence-graph for AMR/virulence (Kleb) ,
+        } else if (cards[index].id === 'convergence-graph') {
           // console.log("convergenceColourPallete",topColorSlice)
           drawLegend({
             document: doc,

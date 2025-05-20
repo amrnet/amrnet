@@ -10,6 +10,7 @@ import download from 'downloadjs';
 import LogoImg from '../../../../assets/img/logo-prod.png';
 import { mapLegends } from '../../../../util/mapLegends';
 import { DownloadMapViewData } from './DownloadMapViewData';
+import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
 
 export const BottomRightControls = () => {
   const classes = useStyles();
@@ -80,9 +81,9 @@ export const BottomRightControls = () => {
           ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
         } else if (organism === 'ecoli') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.65, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
         } else if (organism === 'decoli') {
           ctx.font = 'bolder 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.565, 80);
@@ -150,7 +151,14 @@ export const BottomRightControls = () => {
         }
         if (mapView === 'Resistance prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected Resistance: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
+            ctx.fillText(
+              'Selected Resistance: ' +
+                (ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
+                  drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
+                  prevalenceMapViewOptionsSelected.join()),
+              canvas.width / 2,
+              370,
+            );
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText('Selected Resistance: ' + genotypesText, canvas.width / 2, 370);
@@ -231,7 +239,7 @@ export const BottomRightControls = () => {
     <div className={classes.bottomRightControls}>
       <Tooltip title="Download Data" placement="top">
         <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none' || loading}>
-          <DownloadMapViewData fontSize="inherit" value="map"/>
+          <DownloadMapViewData fontSize="inherit" value="map" />
         </IconButton>
       </Tooltip>
       <Tooltip title="Download Map as PNG" placement="top">

@@ -43,13 +43,14 @@ export const UserGuidePage = () => {
           <Typography variant="body2" className={classes.paragraph}>
             Filters set in this panel apply not only to the map, but to all plots on the page.{' '}
             <span className={classes.paragraphBold}>Clicking on a country in the map</span> also functions as a filter,
-            so that subsequent plots reflect data for the selected country only. Per-country values displayed in the map can be downloaded by clicking the downward-arrow button in the bottom-right of the map panel.
+            so that subsequent plots reflect data for the selected country only. Per-country values displayed in the map
+            can be downloaded by clicking the downward-arrow button in the bottom-right of the map panel.
           </Typography>
           <br />
           <br />
           <img className={classes.img} srcSet={map} src={map} alt={'map'} loading="lazy" />
           <br />
-          
+
           <img className={classes.img} srcSet={filter} src={filter} alt={'Filter'} loading="lazy" />
           <br />
           <br />
@@ -165,7 +166,7 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
-              <span className={classes.paragraphBold}>MDR:</span> multi-drug resistant (resistant to ampicillin,
+              <span className={classes.paragraphBold}>MDR:</span> multidrug resistant (resistant to ampicillin,
               chloramphenicol, and trimethoprim-sulfamethoxazole)
             </li>
             <li>
@@ -242,9 +243,15 @@ export const UserGuidePage = () => {
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>No acquired resistance</span> no resistance determinants identified besides a wildtype beta-lactamase SHV allele associated with intrinsic resistance to ampicillin (i.e. not an ESBL or inhibitor-resistant variant of SHV, see {' '}
-              <a href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294" target="_blank" rel="noreferrer">
-              Tsang et al 2024
+              <span className={classes.paragraphBold}>No acquired resistance</span> no resistance determinants
+              identified besides a wildtype beta-lactamase SHV allele associated with intrinsic resistance to ampicillin
+              (i.e. not an ESBL or inhibitor-resistant variant of SHV, see{' '}
+              <a
+                href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Tsang et al 2024
               </a>
               )
             </li>
@@ -336,9 +343,8 @@ export const UserGuidePage = () => {
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>Pansusceptible</span> - No determinants found
-              for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category
-              II).
+              <span className={classes.paragraphBold}>Pansusceptible</span> - No determinants found for Azithromycin,
+              Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category II).
             </li>
           </Typography>
 
@@ -348,7 +354,7 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
-              <span className={classes.paragraphBold}>MDR:</span> multi-drug resistant (Resistant to one of Azithromycin
+              <span className={classes.paragraphBold}>MDR:</span> multidrug resistant (Resistant to one of Azithromycin
               / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin /
               Spectinomycin [category II representatives])
             </li>
