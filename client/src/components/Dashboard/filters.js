@@ -26,7 +26,7 @@ export function filterData({
       return true;
     }
 
-    if (['sentericaints', 'senterica'].includes(organism)) {
+    if (['sentericaints'].includes(organism)) {
       return (selectedLineages ?? []).some((selected) =>
         item.SISTR1_Serovar.toLowerCase().includes(selected.toLowerCase()),
       );

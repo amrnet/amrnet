@@ -195,7 +195,7 @@ export const DashboardPage = () => {
       if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
       if ('PMID' in x) PMIDSet.add(x['PMID']);
 
-      if (['sentericaints', 'senterica'].includes(organism)) {
+      if (['sentericaints'].includes(organism)) {
         pathovarSet.add(x.SISTR1_Serovar);
       }
       if (['shige', 'decoli'].includes(organism)) {
