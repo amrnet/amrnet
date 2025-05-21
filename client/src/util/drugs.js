@@ -166,6 +166,7 @@ export const drugAcronyms = {
 
 export const drugAcronymsOpposite = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
+   CIP: 'Ciprofloxacin (non-susceptible)',
   //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap (tooltip)
   CARB: 'Carbapenemase',
   AZM: 'Azithromycin',
@@ -179,6 +180,7 @@ export const drugAcronymsOpposite = {
 
 export const drugAcronymsOpposite2 = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
+  CIP: 'Ciprofloxacin (non-susceptible)',
   // Implemneted for Consistency
   CARB: 'Carbapenemase',
   Carb: 'Carbapenemase',

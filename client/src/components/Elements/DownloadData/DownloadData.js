@@ -33,7 +33,8 @@ import {
   getIntsTexts,
   getSentericaintsTexts,
   getShigeTexts,
-  getDEcoliTexts
+  getDEcoliTexts,
+  getEcoliTexts,
 } from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import {
@@ -512,9 +513,9 @@ export const DownloadData = () => {
         firstName = 'Salmonella';
         secondName = 'enterica';
       }else if (organism === 'ecoli') {
-        texts = getSentericaintsTexts();
-        firstName = 'Salmonella';
-        secondName = 'enterica';
+        texts = getEcoliTexts();
+        firstName = 'Escherichia';
+        secondName = 'coli';
       }else if (organism === 'decoli') {
         texts = getDEcoliTexts();
         firstName = 'Diarrheagenic E.';

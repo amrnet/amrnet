@@ -28,19 +28,19 @@ import { useAppSelector } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesKP, statKeys } from '../../../../util/drugClassesRules';
+import { statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 
-const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
-  return {
-    value: `kp-markers-${drug.toLowerCase()}`,
-    label: `${drug} resistance markers`,
-  };
-});
+// const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
+//   return {
+//     value: `kp-markers-${drug.toLowerCase()}`,
+//     label: `${drug} resistance markers`,
+//   };
+// });
 
 const xOptionsByOrganism = [
   {
@@ -63,7 +63,7 @@ const xOptionsByOrganism = [
 export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [xAxisType, setXAxisType] = useState('');
-  const [yAxisType, setYAxisType] = useState('resistance');
+   const [yAxisType /*setYAxisType*/] = useState('resistance');
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -185,13 +185,13 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
     [yAxisType],
   );
 
-  function handleChangeXAxisType(event) {
-    setXAxisType(event.target.value);
-  }
+  // function handleChangeXAxisType(event) {
+  //   setXAxisType(event.target.value);
+  // }
 
-  function handleChangeYAxisType(event) {
-    setYAxisType(event.target.value);
-  }
+  // function handleChangeYAxisType(event) {
+  //   setYAxisType(event.target.value);
+  // }
 
   function handleChangeXAxisSelected({ event = null, all = false }) {
     if (!all) {
@@ -278,7 +278,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                   key={`heatmap-graph-${index}`}
                   width={yAxisWidth + 65 * yAxisSelected.length}
                   height={index === 0 ? 105 : 65}
-                  style={{ marginTop: index === 0 ? 40 : 0 }}
+                  style={{ paddingTop: index === 0 ? 40 : 0 }}
                 >
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
