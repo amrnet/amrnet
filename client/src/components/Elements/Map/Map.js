@@ -52,7 +52,6 @@ export const Map = () => {
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
 
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
@@ -83,9 +82,10 @@ export const Map = () => {
     if (countryData !== undefined) {
       switch (mapView) {
         case 'No. Samples':
-          // const combinedPercentage =
-          //   (countryStats[statKey['CipR']].percentage || 0) + (countryStats[statKey['CipNS']].percentage || 0);
-
+          let combinedPercentage;
+          if (organism === 'styphi')
+            combinedPercentage =
+              (countryStats[statKey['CipR']].percentage || 0) + (countryStats[statKey['CipNS']].percentage || 0);
           Object.assign(tooltip, {
             content:
               organism === 'styphi'
@@ -97,7 +97,7 @@ export const Map = () => {
                     'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
                     AzithR: `${countryStats.AzithR.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
-                    CipNS: `${countryStats.CipNS.percentage}%`,
+                    CipNS: `${combinedPercentage.toFixed(2)}%`,
                     Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
                   }
                 : organism === 'kpneumo'
@@ -105,7 +105,7 @@ export const Map = () => {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carbapenemase: `${countryStats.Carbapenemase.percentage}%`,
+                    Carbapenems: `${countryStats.Carb.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : organism === 'ngono'
@@ -264,22 +264,11 @@ export const Map = () => {
     }`;
   }, [mapView, organism, prevalenceMapViewOptionsSelected]);
 
-  const globalLabel = useMemo(() => {
-    if (organism === 'shige' && selectedLineages.length === 1) {
-      if (selectedLineages[0].includes('S.')) {
-        return <i>{selectedLineages[0]}</i>;
-      }
-
-      return selectedLineages[0];
-    }
-    return globalOverviewLabel.label;
-  }, [globalOverviewLabel.label, organism, selectedLineages]);
-
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h5" fontWeight={'bold'}>
-          Global Overview of {organism === 'none' ? '' : globalLabel}
+          Global Overview of {organism === 'none' ? '' : globalOverviewLabel.label}
         </Typography>
         {mapView !== 'No. Samples' ? <Typography variant="caption">{mapViewLegend}</Typography> : null}
         <div className={classes.mapWrapper}>

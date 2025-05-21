@@ -944,7 +944,7 @@ export const drugRulesINTS = [
   },
 ];
 
-// Used for ints and senterica
+// Used for ints, shige, ecoli, decoli and senterica
 export const statKeysINTS = [
   {
     name: 'Pansusceptible',
@@ -953,28 +953,6 @@ export const statKeysINTS = [
   },
   { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'CipNS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
-  // { name: 'CipR', column: 'QUINOLONE', key: '-', resistanceView: true },
-  { name: 'AzithR', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
-  { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
-  { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
-  { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
-  { name: 'Gentamicin', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
-  { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
-  { name: 'Tetracycline', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
-  { name: 'Tigecycline', column: 'TETRACYCLINE', key: 'TIGECYCLINE', resistanceView: true },
-  { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
-  // { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
-];
-
-// Used for shige, ecoli and decoli
-export const statKeysECOLI = [
-  {
-    name: 'Pansusceptible',
-    column: drugRulesINTS.find((x) => x.key === 'Pansusceptible').requirements.map((x) => x.columnID),
-    key: '-',
-  },
-  { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
-  { name: 'CIP', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
   // { name: 'CipR', column: 'QUINOLONE', key: '-', resistanceView: true },
   { name: 'AzithR', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
@@ -1001,9 +979,9 @@ export const statKeys = {
   ngono: statKeysNG,
   kpneumo: statKeysKP,
   sentericaints: statKeysINTS,
-  shige: statKeysECOLI,
+  shige: statKeysINTS,
   senterica: statKeysINTS,
-  ecoli: statKeysECOLI,
-  decoli: statKeysECOLI,
+  ecoli: statKeysINTS,
+  decoli: statKeysINTS,
   others: statKeysOthers,
 };

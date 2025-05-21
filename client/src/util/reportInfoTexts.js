@@ -193,11 +193,71 @@ export function getIntsTexts() {
   ];
 }
 export function getDEcoliTexts() {
-  return [];
+  return [
+    'Diarrheagenic E.',
+    'coli',
+    'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick',
+    '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using MLST. , cgMLST and hierarchical clustering. The logic used by Enterobase to classify E. coli genomes to pathotypes is shown here. Pathotypes included in the diarrheagenic E. coli dashboard are:',
+    '* Shiga toxin-producing E. coli (STEC)',
+    '* Enterohemorrhagic E. coli (EHEC)',
+    '* Enterotoxigenic E. coli (ETEC)',
+    '* Enteropathogenic E. coli (EPEC)',
+    '* Enteroinvasive E. coli (EIEC)',
+
+    'The last update was made in May 14th 2025.',
+
+
+    'WARNING:',
+    'The E. coli data used in AMRnet are not yet curated for purpose-of-sampling, and therefore' ,
+    'reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard. ',
+
+    'Variable definitions',
+    'Lineages',
+    'are labeled by the pathovar followed by the (7-locus) ST.',
+    'AMR determinants',
+    'Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet',
+    'imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in refgenes (https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000832).',
+
+    // 'Abbreviations',
+    // `1. MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)`,
+    // `2. XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)`,
+    // `3. Ciprofloxacin NS, ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more`,
+    // `genes or mutations in`,
+    // `)`,
+    // `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
+  ];
+
 }
 
 export function getShigeTexts() {
-  return [];
+  return [
+    'Shigella',
+    'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick.ac.uk/),',
+    'which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using 7-gene MLST. The last update was made in May 14th 2025.',
+
+    // 'For information about Salmonella Typhi, please see the Typhi dashboard.',
+
+    'WARNING:',
+    'The ',
+    'Shigella',
+    ' + EIEC data used in AMRnet are not yet curated for purpose-of-sampling, and ',
+    'therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard. ',
+
+    'Variable definitions',
+    'Lineages',
+    'The logic used by Enterobase to classify genomes as Shigella or EIEC are detailed here. Shigella sonnei are monophyletic and labelled as lineage ‘S. sonnei’. For other Shigella, lineages are labeled by the species followed by the HC400 (HierCC) cluster ID (as this nomenclature has been shown to mirror the paraphyletic lineage structure of Shigella). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).',
+    'AMR determinants',
+    'Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in refgenes.',
+
+    // 'Abbreviations',
+    // `1. MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)`,
+    // `2. XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)`,
+    // `3. Ciprofloxacin NS, ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more`,
+    // `genes or mutations in`,
+    // `)`,
+    // `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
+  ];
+
 }
 
 export function getSentericaintsTexts() {

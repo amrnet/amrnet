@@ -264,11 +264,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   function getSpace() {
     switch (organism) {
       case 'shige':
+        return 110;
       case 'sentericaints':
-      case 'decoli':
-      case 'ecoli':
-      case 'kpneumo':
-      case 'styphi':
         return 70;
       default:
         return 50;
@@ -381,7 +378,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   key={`bubble-graph-${index}`}
                   width={yAxisWidth + 65 * yAxisSelected.length}
                   height={index === 0 ? 105 : 65}
-                  style={{ paddingTop: index === 0 ? getSpace() : 0 }}
+                  style={{ marginTop: index === 0 ? getSpace() : 0 }}
                 >
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
