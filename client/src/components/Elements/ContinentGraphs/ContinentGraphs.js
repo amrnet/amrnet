@@ -204,7 +204,8 @@ export const ContinentGraphs = () => {
                   {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
                   {
                     <div>
-                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal})
+                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal}),
+                      and regions/countries with N≥20 passing these filters
                     </div>
                   }
                 </Typography>

@@ -128,12 +128,18 @@ export const TopRightControls2 = () => {
   );
 
   function getOptionDisabled(option) {
-    if (isResPrevalence)
-      return prevalenceMapViewOptionsSelected.length >= 1 && !prevalenceMapViewOptionsSelected.includes(option);
-    return prevalenceMapViewOptionsSelected.length >= 10 && !prevalenceMapViewOptionsSelected.includes(option);
+    if (!isResPrevalence)
+      return prevalenceMapViewOptionsSelected.length >= 10 && !prevalenceMapViewOptionsSelected.includes(option);
+
+    return false;
   }
 
   function handleAutocompleteChange(_, newValue) {
+    if (isResPrevalence && newValue.length > 0) {
+      dispatch(setPrevalenceMapViewOptionsSelected([newValue[newValue.length - 1]]));
+      return;
+    }
+
     if (prevalenceMapViewOptionsSelected.length === 10 && newValue.length > 10) {
       return;
     }

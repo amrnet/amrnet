@@ -209,12 +209,31 @@ export const Graphs = () => {
       const ctx = canvas.getContext('2d');
       // console.log('kkkmmmgraph', currentCard.id, document.getElementById('CVM'));
       const graph = document.getElementById(currentCard.id);
+
+      // Store original styles (only usef for HSG2)
+      const originalOverflow = graph.style.overflow;
+      const originalWidth = graph.style.width;
+
+      if (currentCard.id === 'HSG2') {
+        // Temporarily expand the graph to its full scrollable width
+        graph.style.overflow = 'visible';
+        graph.style.width = graph.scrollWidth + 'px';
+
+        await new Promise((resolve) => setTimeout(resolve, 200)); // allow layout update
+      }
+
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
 
       graphImg.src = await domtoimage.toPng(graph, { quality: 0.1, bgcolor: 'white' });
 
       await graphImgPromise;
+
+      if (currentCard.id === 'HSG2') {
+        // Restore original styles
+        graph.style.overflow = originalOverflow;
+        graph.style.width = originalWidth;
+      }
 
       let heightFactor = 0,
         drugClassesBars,

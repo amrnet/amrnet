@@ -48,15 +48,9 @@ export const DownloadMapViewData = ({ value }) => {
   } else if (organism === 'decoli') {
     firstName = 'Diarrheagenic';
     secondName = 'E. coli';
-  }else if (organism === 'ecoli') {
-    firstName = 'Escherichia';
-    secondName = 'coli';
   } else if (organism === 'sentericaints') {
     firstName = 'Invasive';
     secondName = 'non-typhoidal Salmonella';
-  }else{
-    firstName = 'Salmonella';
-    secondName = 'enterica';
   }
 
   const downloadCSV = () => {
@@ -107,23 +101,21 @@ export const DownloadMapViewData = ({ value }) => {
             mapView === 'Lineage prevalence'
           ) {
             const GenotypeORNgmast = mapView === 'NG-MAST prevalence' ? item.stats?.NGMAST : item.stats?.GENOTYPE;
-            const foundGenotypes = new Set();
-            GenotypeORNgmast?.items.forEach((genotypeItem) => {
-              if (mapViewOptionSelected.includes(genotypeItem.name)) {
-                foundGenotypes.add(genotypeItem.name);
-
-                const count = genotypeItem.count || 0;
-                const percentage = count < 20 ? 'insufficient' : ((count / GenotypeORNgmast.sum) * 100).toFixed(2); // Prevent division by zero
-
-                rowData.push(count);
-                rowData.push(percentage);
-              }
-            });
+            const foundGenotypes = GenotypeORNgmast?.items.map((x) => x.name);
             mapViewOptionSelected.forEach((headerItem) => {
-              if (!foundGenotypes.has(headerItem)) {
-                rowData.push(0);
-                rowData.push('insufficient');
+              if (!foundGenotypes.includes(headerItem)) {
+                rowData.push(0); // count
+                rowData.push(0); // percentage
+                return;
               }
+
+              const item = GenotypeORNgmast?.items.find((x) => x.name === headerItem);
+
+              const count = item.count || 0;
+              const percentage = ((count / GenotypeORNgmast.sum) * 100).toFixed(2); // Prevent division by zero
+
+              rowData.push(count);
+              rowData.push(percentage);
             });
           } else {
             Object.keys(item.stats).forEach((key) => {
@@ -140,9 +132,9 @@ export const DownloadMapViewData = ({ value }) => {
 
                 let percentage;
                 if (key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE') {
-                  percentage = count < 20 ? 'insufficient' : ((count / stat.sum) * 100).toFixed(2);
+                  percentage = ((count / stat.sum) * 100).toFixed(2);
                 } else {
-                  percentage = count < 20 ? 'insufficient' : stat.percentage;
+                  percentage = stat.percentage;
                 }
                 rowData.push(count);
                 rowData.push(percentage);
