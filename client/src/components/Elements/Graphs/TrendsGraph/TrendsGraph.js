@@ -155,6 +155,8 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     dispatch(setTopGenotypeSlice(topGT));
 
     genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
+      if(year.totalCount < 10) //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
+        return
       const value = {
         name: year.name,
         totalCount: year.totalCount,
