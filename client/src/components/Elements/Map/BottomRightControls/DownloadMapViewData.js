@@ -96,7 +96,7 @@ export const DownloadMapViewData = ({ value }) => {
       const headers = HeaderList.join(',');
       // Create CSV rows dynamically
       const rows = mapData
-        .filter((item) => Object.keys(item).length > 0)
+        .filter((item) => Object.keys(item).length > 0 && item.count >= 20) //Filter data which is used to plot and include count greater and equal to 20 on MapView
         .map((item) => {
           let rowData = [item.name, item.count || ''];
 
@@ -176,7 +176,7 @@ export const DownloadMapViewData = ({ value }) => {
 
       // Build data rows
       const rows = drugsYearData
-        .filter((item) => item.count >= 1) // Optional: filter low-count rows
+        .filter((item) => item.count >= 1 && item.count >= 10) //Filter data which is used to plot and include count greater and equal to 10 on AMR Trends
         .map((item) => {
           const row = [actualRegion, actualCountry, item.name, item.count];
           drugKeys.forEach((drug) => {
@@ -479,7 +479,7 @@ export const DownloadMapViewData = ({ value }) => {
 
       // Create CSV rows dynamically
       const rows = genotypesAndDrugsYearData[trendsGraphDrugClass]
-        .filter((item) => Object.keys(item).length > 0)
+        .filter((item) => Object.keys(item).length > 0 && item.totalCount >= 10) //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
         .map((item) => {
           let rowData = [actualRegion, actualCountry, item.name, item.totalCount || ''];
 
@@ -558,7 +558,7 @@ export const DownloadMapViewData = ({ value }) => {
     }
   };
 
-  const downloadCSVForCVM = () => {
+  const downloadCSVForBG = () => { // Rename the function used to Download BubbleGeographicGraph HeatMap
     // Helper: Extract clean yAxisKey and capitalize first letter
     const getYAxisKey = (type) => {
       const parts = type.split('-');
@@ -631,6 +631,7 @@ export const DownloadMapViewData = ({ value }) => {
     // Step 4: Build rows
     dataSource.forEach((item) => {
       // const regionName = actualRegion || '';
+      if (item.totalCount < 20 || item.count < 20) return; //Filter data which is used to plot and include count greater and equal to 20 in Heatmap (geo comp)
       const country = item.name || ''; // Or region.country
       const totalCount = item.totalCount || item.count || 0;
 
@@ -699,10 +700,10 @@ export const DownloadMapViewData = ({ value }) => {
         return downloadCSVForHM();
       case 'RDT':
         return downloadCSVForRDT();
-      case 'CVM':
+      case 'convergence-graph': // convergence graph plot was missing the download data
         return downloadCSVForCG();
       case 'BG':
-        return downloadCSVForCVM();
+        return downloadCSVForBG();  // Rename the function used to Download BubbleGeographicGraph HeatMap
       default:
         return downloadCSV();
     }

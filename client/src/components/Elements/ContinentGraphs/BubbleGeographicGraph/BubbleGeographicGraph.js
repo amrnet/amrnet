@@ -172,7 +172,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const xAxisOptions = useMemo(() => {
     switch (xAxisType) {
       case 'country':
-        return countriesForFilter.filter((country) => mapData.find((x) => x.name === country)?.count > 20);
+        return countriesForFilter.filter((country) => mapData.find((x) => x.name === country)?.count >= 20); // data to plot should include count greater and equal to 20
       case 'region':
         return Object.keys(economicRegions).sort();
       default:
