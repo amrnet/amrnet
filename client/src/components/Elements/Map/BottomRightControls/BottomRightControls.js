@@ -193,10 +193,10 @@ export const BottomRightControls = () => {
           case 'Genotype prevalence':
           case 'Lineage prevalence':
           case 'ST prevalence':
-          case 'Resistance prevalence':
           case 'Sublineage prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
+          case 'Resistance prevalence':
           default:
             legendImg.src = 'legends/MapView_Others.png';
             break;
