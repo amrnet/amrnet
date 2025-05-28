@@ -170,13 +170,14 @@ export const Map = () => {
               genotypes2.push(genotype);
             }
           });
-          genotypes1.forEach((genotype) => {
-            if (prevalenceMapViewOptionsSelected.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count} (${(
-                (genotype.count / countryStats.GENOTYPE.sum) *
-                100
-              ).toFixed(2)} %)`;
-          });
+          if (countryData.count >= 20 && genotypes2.length > 0) 
+            genotypes1.forEach((genotype) => {
+              if (prevalenceMapViewOptionsSelected.includes(genotype.name))
+                tooltip.content[genotype.name] = `${genotype.count} (${(
+                  (genotype.count / countryStats.GENOTYPE.sum) *
+                  100
+                ).toFixed(2)} %)`;
+            });
           if (genotypes2.length > 0) {
             let sumCount = 0;
             for (const genotype of genotypes2) {
