@@ -165,7 +165,7 @@ export const DownloadMapViewData = ({ value }) => {
     const headers = HeaderList.join(',');
     generateCSV(headers, rows, 'Map');
   };
-
+  
   const downloadCSVForDRT = () => {
     if (Array.isArray(drugsYearData) && drugsYearData.length > 0) {
       const HeaderList = ['Region', 'Country', 'Year', 'Total Count'];
