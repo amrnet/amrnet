@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     rowGap: '4px',
   },
+  font: {
+    fontSize: 'small !important',
+    marginRight: '0px !important',
+  },
   label: {
     display: 'flex',
     flexDirection: 'row',

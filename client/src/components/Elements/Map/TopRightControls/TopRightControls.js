@@ -7,7 +7,10 @@ import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/color
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
-
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Collapse } from '@mui/material';
+import { useState, useMemo } from 'react';
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
 const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
@@ -38,6 +41,7 @@ const mapViewsWithZeroPercentOption = [
 export const TopRightControls = () => {
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
+  const [open, setOpen] = useState(true);
 
   const dispatch = useAppDispatch();
   const mapData = useAppSelector((state) => state.map.mapData);
@@ -62,7 +66,9 @@ export const TopRightControls = () => {
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
-
+  function handleClick() {
+    setOpen((prev) => !prev);
+  }
   function getDominantGenotypeSteps(genotype) {
     if (organism === 'styphi') {
       return genotypes;
@@ -132,129 +138,139 @@ export const TopRightControls = () => {
   function getMapLegends() {
     return mapLegends.filter((legend) => legend.organisms.includes(organism));
   }
+  const label = useMemo(() => {
+    return `${open ? 'Close' : 'Open'} colour by country selector`;
+  }, [open]);
 
   return (
     <div className={`${classes.topRightControls} ${matches ? classes.bp700 : ''}`}>
-      <Card elevation={3} className={classes.card}>
-        <CardContent className={classes.cardContent}>
-          {/* <div className={classes.mapViewWrapper}>
-            <Typography gutterBottom variant="caption">
-              Select map view
-            </Typography>
-            <ToggleButtonGroup
-              value={mapColoredBy}
-              exclusive
-              size="small"
-              onChange={handleChangeMapColoredBy}
+      <FormControlLabel
+        className={classes.font}
+        control={<Switch checked={open} onChange={handleClick} size="small" />}
+        label={<Typography className={classes.font}>{label}</Typography>}
+      />
+      <Collapse in={open}>
+        <Card elevation={3} className={classes.card}>
+          <CardContent className={classes.cardContent}>
+            {/* <div className={classes.mapViewWrapper}>
+              <Typography gutterBottom variant="caption">
+                Select map view
+              </Typography>
+              <ToggleButtonGroup
+                value={mapColoredBy}
+                exclusive
+                size="small"
+                onChange={handleChangeMapColoredBy}
+                disabled={organism === 'none'}
+                fullWidth
+                className={classes.toggleGroup}
+              >
+                <ToggleButton value="country" color="primary">
+                  Country
+                </ToggleButton>
+                <ToggleButton value="region" color="primary">
+                  Region
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </div> */}
+            <div className={classes.label}>
+              <Typography variant="caption">Colour country by</Typography>
+              <Tooltip
+                title="Percentage frequency data is shown only for countries with
+            N≥20 genomes"
+                placement="top"
+              >
+                <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+              </Tooltip>
+            </div>
+            <Select
+              variant="standard"
+              value={mapView}
+              onChange={handleChangeMapView}
+              inputProps={{ className: classes.selectInput }}
+              MenuProps={{ classes: { list: classes.selectMenu } }}
               disabled={organism === 'none'}
-              fullWidth
-              className={classes.toggleGroup}
             >
-              <ToggleButton value="country" color="primary">
-                Country
-              </ToggleButton>
-              <ToggleButton value="region" color="primary">
-                Region
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </div> */}
-          <div className={classes.label}>
-            <Typography variant="caption">Colour country by</Typography>
-            <Tooltip
-              title="Percentage frequency data is shown only for countries with
-          N≥20 genomes"
-              placement="top"
-            >
-              <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-            </Tooltip>
-          </div>
-          <Select
-            variant="standard"
-            value={mapView}
-            onChange={handleChangeMapView}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {getMapLegends().map((legend, index) => {
-              let legendLabel;
-              if (legend.label === 'Extensively drug resistant (XDR)') {
-                legendLabel = (
-                  <Tooltip title={getXDRDefinition()} placement="top">
-                    <span>Extensively drug resistant (XDR)</span>
-                  </Tooltip>
+              {getMapLegends().map((legend, index) => {
+                let legendLabel;
+                if (legend.label === 'Extensively drug resistant (XDR)') {
+                  legendLabel = (
+                    <Tooltip title={getXDRDefinition()} placement="top">
+                      <span>Extensively drug resistant (XDR)</span>
+                    </Tooltip>
+                  );
+                } else if (legend.label === 'Multidrug resistant (MDR)') {
+                  legendLabel = (
+                    <Tooltip title={getMDRDefinition()} placement="top">
+                      <span>Multidrug resistant (MDR)</span>
+                    </Tooltip>
+                  );
+                } else if (legend.label === 'Lineage prevalence') {
+                  legendLabel = (
+                    <Tooltip title="Lineage prevalence" placement="top">
+                      <span>Lineage prevalence</span>
+                    </Tooltip>
+                  );
+                } else {
+                  legendLabel = legend.label;
+                }
+                return (
+                  <MenuItem key={index + 'mapview'} value={legend.value}>
+                    {legendLabel}
+                  </MenuItem>
                 );
-              } else if (legend.label === 'Multidrug resistant (MDR)') {
-                legendLabel = (
-                  <Tooltip title={getMDRDefinition()} placement="top">
-                    <span>Multidrug resistant (MDR)</span>
-                  </Tooltip>
-                );
-              } else if (legend.label === 'Lineage prevalence') {
-                legendLabel = (
-                  <Tooltip title="Lineage prevalence" placement="top">
-                    <span>Lineage prevalence</span>
-                  </Tooltip>
-                );
-              } else {
-                legendLabel = legend.label;
-              }
-              return (
-                <MenuItem key={index + 'mapview'} value={legend.value}>
-                  {legendLabel}
-                </MenuItem>
-              );
-            })}
-          </Select>
-          {organism !== 'none' && mapData.length > 0 && (
-            <div className={classes.legendWrapper}>
-              <div className={classes.legend}>
-                <Box className={classes.legendColorBox} style={{ backgroundColor: lightGrey }} />
-                <span className={classes.legendText}>Insufficient data</span>
-              </div>
-              {hasZeroPercentOption() && (
+              })}
+            </Select>
+            {organism !== 'none' && mapData.length > 0 && (
+              <div className={classes.legendWrapper}>
                 <div className={classes.legend}>
-                  <Box className={classes.legendColorBox} style={{ backgroundColor: darkGrey }} />
-                  <span className={classes.legendText}>0%</span>
+                  <Box className={classes.legendColorBox} style={{ backgroundColor: lightGrey }} />
+                  <span className={classes.legendText}>Insufficient data</span>
                 </div>
-              )}
-              {excludedViews.includes(mapView) ? (
-                <div key={`step-1`} className={classes.legend}>
-                  <Box
-                    className={classes.legendColorBox}
-                    style={{
-                      height: '50px',
-                      marginTop: '2px',
-                      backgroundImage: 'linear-gradient( #FAAD8F, #FA694A, #DD2C24, #A20F17)',
-                    }}
-                  />
-                  <span className={classes.legendText}>
-                    <div style={{ textAlign: 'left', height: '50px' }}>
-                      <div>1%</div>
-                      <br />
-                      <br />
-                      <div>100%</div>
-                    </div>
-                  </span>
-                </div>
-              ) : (
-                getSteps().map((step, index) => (
-                  <div key={`step-${index}`} className={classes.legend}>
+                {hasZeroPercentOption() && (
+                  <div className={classes.legend}>
+                    <Box className={classes.legendColorBox} style={{ backgroundColor: darkGrey }} />
+                    <span className={classes.legendText}>0%</span>
+                  </div>
+                )}
+                {excludedViews.includes(mapView) ? (
+                  <div key={`step-1`} className={classes.legend}>
                     <Box
                       className={classes.legendColorBox}
                       style={{
-                        backgroundColor: getStepBoxColor(step, index),
-                        // mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
+                        height: '50px',
+                        marginTop: '2px',
+                        backgroundImage: 'linear-gradient( #FAAD8F, #FA694A, #DD2C24, #A20F17)',
                       }}
                     />
-                    <span className={classes.legendText}>{step}</span>
+                    <span className={classes.legendText}>
+                      <div style={{ textAlign: 'left', height: '50px' }}>
+                        <div>1%</div>
+                        <br />
+                        <br />
+                        <div>100%</div>
+                      </div>
+                    </span>
                   </div>
-                ))
-              )}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                ) : (
+                  getSteps().map((step, index) => (
+                    <div key={`step-${index}`} className={classes.legend}>
+                      <Box
+                        className={classes.legendColorBox}
+                        style={{
+                          backgroundColor: getStepBoxColor(step, index),
+                          // mapView === 'Resistance prevalence' ? getColorForDrug(step) : getStepBoxColor(step, index),
+                        }}
+                      />
+                      <span className={classes.legendText}>{step}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </Collapse>
     </div>
   );
 };
