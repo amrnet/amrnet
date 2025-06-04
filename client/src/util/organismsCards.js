@@ -71,10 +71,10 @@ export const organismsCards = [
   {
     label: (
       <span>
-        Diarrheagenic <i>E. coli</i>
+        <i> E. coli</i> (diarrheagenic)
       </span>
     ),
-    stringLabel: 'Diarrheagenic E. coli',
+    stringLabel: 'E. coli (diarrheagenic) ',
     value: 'decoli',
     abbr: 'DEC',
     img: decoli,

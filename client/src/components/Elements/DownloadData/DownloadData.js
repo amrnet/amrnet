@@ -250,8 +250,8 @@ export const DownloadData = () => {
       firstName = 'Shigella';
       secondName = '+ EIEC';
     } else if (organism === 'decoli') {
-      firstName = 'Diarrheagenic';
-      secondName = 'E. coli';
+      firstName = 'E. coli';
+      secondName = '(diarrheagenic)';
     } else if (organism === 'sentericaints') {
       firstName = 'Invasive';
       secondName = 'non-typhoidal Salmonella';
@@ -518,10 +518,10 @@ export const DownloadData = () => {
         secondName = 'coli';
       }else if (organism === 'decoli') {
         texts = getDEcoliTexts();
-        firstName = 'Diarrheagenic E.';
-        secondName = 'coli';
-        secondword = 340;
-        firstWord = 281;
+        firstName = 'E. coli';
+        secondName = '(diarrheagenic)';
+        secondword = 320;
+        firstWord = 255;
       } else {
         texts = getIntsTexts();
         firstName = 'Invasive non-typhoidal';
@@ -993,13 +993,13 @@ export const DownloadData = () => {
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       }else if (organism === 'decoli') {
         // Info
-        doc.setFont(undefined, 'italic');
-        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[1], 85, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[1], 40, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'italic');
-        doc.text(texts[2], 100, 105, { align: 'justify', maxWidth: pageWidth - 36 });
-        // doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 102, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
         doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
 

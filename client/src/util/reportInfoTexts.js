@@ -219,10 +219,10 @@ export function getIntsTexts() {
 }
 export function getDEcoliTexts() {
   return [
-    'Diarrheagenic E.',
-    'coli',
+    'E.coli',
+    '(diarrheagenic)',
     'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick',
-    '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using MLST. , cgMLST and hierarchical clustering. The logic used by Enterobase to classify E. coli genomes to pathotypes is shown here. Pathotypes included in the diarrheagenic E. coli dashboard are:',
+    '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using MLST. , cgMLST and hierarchical clustering. The logic used by Enterobase to classify E. coli genomes to pathotypes is shown here. Pathotypes included in the E. coli (diarrheagenic) dashboard are:',
     '* Shiga toxin-producing E. coli (STEC)',
     '* Enterohemorrhagic E. coli (EHEC)',
     '* Enterotoxigenic E. coli (ETEC)',
