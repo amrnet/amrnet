@@ -7,7 +7,17 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 0,
     right: 0,
-
+    '&$bp700': {
+      position: 'relative',
+    },
+  },
+  topRightControlsClose: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    margin: '2px',
     '&$bp700': {
       position: 'relative',
     },

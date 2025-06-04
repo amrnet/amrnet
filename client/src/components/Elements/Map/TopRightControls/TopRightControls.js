@@ -1,5 +1,5 @@
-import { InfoOutlined } from '@mui/icons-material';
-import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import { InfoOutlined, Public } from '@mui/icons-material';
+import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography, useMediaQuery, IconButton } from '@mui/material';
 import { useStyles } from './TopRightControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setMapView } from '../../../../stores/slices/mapSlice.ts';
@@ -7,8 +7,7 @@ import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/color
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapLegends } from '../../../../util/mapLegends';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { Close } from '@mui/icons-material';
 import { Collapse } from '@mui/material';
 import { useState, useMemo } from 'react';
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
@@ -144,11 +143,24 @@ export const TopRightControls = () => {
 
   return (
     <div className={`${classes.topRightControls} ${matches ? classes.bp700 : ''}`}>
-      <FormControlLabel
-        className={classes.font}
-        control={<Switch checked={open} onChange={handleClick} size="small" />}
-        label={<Typography className={classes.font}>{label}</Typography>}
-      />
+      <Tooltip title={label} placement="top">
+        <span>
+        {!open ? 
+          <Public
+            color="primary"
+            onClick={handleClick}
+            className={classes.topRightControlsClose}
+          >
+          </Public>:
+          <Close
+            color="primary"
+            onClick={handleClick}
+            className={classes.topRightControlsClose}
+          >
+          </Close>
+        }
+        </span>
+      </Tooltip>
       <Collapse in={open}>
         <Card elevation={3} className={classes.card}>
           <CardContent className={classes.cardContent}>

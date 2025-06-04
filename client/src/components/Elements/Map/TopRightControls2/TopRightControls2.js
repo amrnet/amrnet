@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
 import { Collapse } from '@mui/material';
 import Switch from '@mui/material/Switch';
+import { Close } from '@mui/icons-material';
+import ViewAgendaIcon from '@mui/icons-material/ViewAgenda';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -147,12 +149,25 @@ export const TopRightControls2 = () => {
   }
 
   return (
-    <Box className={`${classes.topRightControls}`}>
-      <FormControlLabel
-        className={classes.font}
-        control={<Switch checked={open} onChange={handleClick} size="small" />}
-        label={<Typography className={classes.font}>{label}</Typography>}
-      />
+    <div className={`${classes.topRightControls2}`}>
+      <Tooltip title={label} placement="top">
+          <span>
+          {!open ? 
+            <ViewAgendaIcon
+              color="primary"
+              onClick={handleClick}
+              className={classes.topRightControls2Close}
+            >
+            </ViewAgendaIcon>:
+            <Close
+              color="primary"
+              onClick={handleClick}
+              className={classes.topRightControls2Close}
+            >
+            </Close>
+          }
+          </span>
+      </Tooltip>
       <Collapse in={open}>
         <Card elevation={3} className={classes.card}>
           <CardContent className={classes.frequenciesGraph}>
@@ -207,6 +222,6 @@ export const TopRightControls2 = () => {
           </CardContent>
         </Card>
       </Collapse>
-    </Box>
+    </div>
   );
 };
