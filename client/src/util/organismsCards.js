@@ -99,7 +99,7 @@ export const organismsCards = [
     stringLabel: 'Staphylococcus aureus',
     value: 'aureus',
     abbr: 'S. aureus',
-    img: saureus,
+    // img: saureus,
     disabled: true,
   },
   {
@@ -111,7 +111,7 @@ export const organismsCards = [
     stringLabel: 'Acinetobacter baumanii',
     value: 'baumanii',
     abbr: 'A. baumanii',
-    img: abaumannii,
+    // img: abaumannii,
     disabled: true,
   },
   {
@@ -123,7 +123,7 @@ export const organismsCards = [
     stringLabel: 'Pseudomonas aeruginosa',
     value: 'aeru',
     abbr: 'P. aeruginosa',
-    img: paeruginosa,
+    // img: paeruginosa,
     disabled: true,
   },
   {
@@ -135,7 +135,7 @@ export const organismsCards = [
     stringLabel: 'Haemophilus influenza',
     value: 'influ',
     abbr: 'H. influenza',
-    img: hinfluenza,
+    // img: hinfluenza,
     disabled: true,
   },
   {
@@ -147,7 +147,7 @@ export const organismsCards = [
     stringLabel: 'Streptococcus pneumoniae',
     value: 'spneumo',
     abbr: 'S. pneumoniae',
-    img: spneumoniae,
+    // img: spneumoniae,
     disabled: true,
   },
 ];
