@@ -6,7 +6,7 @@ import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
 import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
-import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { amrLikeOrganismsExceptEcoli, organismsCards } from './organismsCards';
 
 function getHeatMapsTitle(organism) {
   switch (organism) {
@@ -73,7 +73,16 @@ export const graphCards = [
     description: [''],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: amrLikeOrganisms,
+    organisms: amrLikeOrganismsExceptEcoli,
+    component: <DistributionGraph />,
+  },
+  {
+    //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
+    title: 'ST trends',
+    description: [''],
+    icon: <StackedBarChart color="primary" />,
+    id: 'GD',
+    organisms: ['ecoli'],
     component: <DistributionGraph />,
   },
   // {
