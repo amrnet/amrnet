@@ -1,5 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, CardContent, Divider, FormGroup, MenuItem, Select, Switch, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Box,
+  CardContent,
+  Divider,
+  FormGroup,
+  IconButton,
+  MenuItem,
+  Select,
+  Switch,
+  Tab,
+  Tabs,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './TrendsGraphMUI';
 import {
   Bar,
@@ -25,17 +38,21 @@ import {
   setMaxSliderValueKP_GE,
   setTopGenesSlice,
   setTopGenotypeSlice,
+  setStarttimeRDT,
+  setEndtimeRDT,
 } from '../../../../stores/slices/graphSlice';
 import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
-import { FormControlLabel } from '@material-ui/core';
+import { Card, FormControlLabel } from '@material-ui/core';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
-export const TrendsGraph = () => {
+export const TrendsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -57,6 +74,7 @@ export const TrendsGraph = () => {
   const currentSliderValueKP_GT = useAppSelector((state) => state.graph.currentSliderValueKP_GT);
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -67,6 +85,15 @@ export const TrendsGraph = () => {
     setCurrentTooltip(null);
   }, [currentSliderValueKP_GE, currentSliderValueKP_GT]);
 
+  const dataViewOptionsGenomes = [
+    { label: 'Number of Genomes', value: 'number' },
+    { label: 'Percentage of Genomes', value: 'percentage' },
+  ];
+
+  const dataViewOptionsGenotype = [
+    { label: 'Number of Genotype', value: 'number' },
+    { label: 'Percentage of Genotype', value: 'percentage' },
+  ];
   function getDrugClasses() {
     if (organism === 'none') {
       return [];
@@ -129,6 +156,9 @@ export const TrendsGraph = () => {
     dispatch(setTopGenotypeSlice(topGT));
 
     genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
+      if (year.totalCount < 10)
+        //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
+        return;
       const value = {
         name: year.name,
         totalCount: year.totalCount,
@@ -258,6 +288,16 @@ export const TrendsGraph = () => {
     }
   });
   useEffect(() => {
+    if (slicedData.length > 0) {
+      // Dispatch initial values based on the default range (full range)
+      const startValue = slicedData[0]?.name; // First value in the data
+      const endValue = slicedData[slicedData.length - 1]?.name; // Last value in the data
+      dispatch(setStarttimeRDT(startValue));
+      dispatch(setEndtimeRDT(endValue));
+    }
+  }, [slicedData, dispatch]);
+
+  useEffect(() => {
     if (canGetData) {
       setPlotChart(() => {
         return (
@@ -282,7 +322,7 @@ export const TrendsGraph = () => {
                 yAxisId="left"
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                  Number of Genomes
+                  {dataViewOptionsGenomes.find((option) => option.value === trendsGraphView).label}
                 </Label>
               </YAxis>
               <YAxis
@@ -295,10 +335,21 @@ export const TrendsGraph = () => {
                 orientation="right"
               >
                 <Label angle={90} position="insideRight" className={classes.graphLabel}>
-                  Number of Genotypes
+                  {dataViewOptionsGenotype.find((option) => option.value === trendsGraphView).label}
                 </Label>
               </YAxis>
-              {(slicedData ?? []).length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
+              {(slicedData ?? []).length > 0 && (
+                <Brush
+                  dataKey="name"
+                  height={20}
+                  stroke={'rgb(31, 187, 211)'}
+                  onChange={(brushRange) => {
+                    console.log('okoko', slicedData[brushRange.startIndex]?.name);
+                    dispatch(setStarttimeRDT(slicedData[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeRDT(slicedData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                  }}
+                />
+              )}
 
               {organism !== 'none' && (
                 <Legend
@@ -399,57 +450,13 @@ export const TrendsGraph = () => {
 
   return (
     <CardContent className={classes.trendsGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.selectPreWrapper}>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select drug class</Typography>
-            <Select
-              value={trendsGraphDrugClass}
-              onChange={handleChangeDrugClass}
-              inputProps={{ className: classes.selectInput }}
-              MenuProps={{ classes: { list: classes.selectMenu } }}
-              disabled={organism === 'none'}
-            >
-              {getDrugClasses().map((option, index) => {
-                return (
-                  <MenuItem key={index + 'trends-drug-classes'} value={option}>
-                    {option}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
-          {/* <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} /> */}
-        </div>
-        <div className={classes.selectPreWrapper}>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">Data view</Typography>
-            <Select
-              value={trendsGraphView}
-              onChange={handleChangeDataView}
-              inputProps={{ className: classes.selectInput }}
-              MenuProps={{ classes: { list: classes.selectMenu } }}
-              disabled={organism === 'none'}
-            >
-              {dataViewOptions.map((option, index) => {
-                return (
-                  <MenuItem key={index + 'trends-dataview'} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
-          {/* <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} /> */}
-        </div>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDT">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
-          <SliderSizes value={'KP_GT'} disabled={!switchLines} />
-          <SliderSizes value={'KP_GE'} />
+        <div className={classes.rightSide}>
+          <SliderSizes value={'KP_GT'} disabled={!switchLines} style={{ width: '100%' }} />
+          <SliderSizes value={'KP_GE'} style={{ width: '100%' }} />
 
           {/* <div className={classes.rightSide}> */}
           <FormGroup className={classes.formGroup}>
@@ -501,6 +508,67 @@ export const TrendsGraph = () => {
           </div>
         </div>
       </div>
+      {showFilter && !canFilterData && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={classes.selectsWrapper}>
+                <SelectCountry />
+                <div className={classes.selectPreWrapper}>
+                  <div className={classes.selectWrapper}>
+                    <Typography variant="caption">Select drug class</Typography>
+                    <Select
+                      value={trendsGraphDrugClass}
+                      onChange={handleChangeDrugClass}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      {getDrugClasses().map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'trends-drug-classes'} value={option}>
+                            {option}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  {/* <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} /> */}
+                </div>
+                <div className={classes.selectPreWrapper}>
+                  <div className={classes.selectWrapper}>
+                    <Typography variant="caption">Data view</Typography>
+                    <Select
+                      value={trendsGraphView}
+                      onChange={handleChangeDataView}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      {dataViewOptions.map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'trends-dataview'} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  {/* <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} /> */}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

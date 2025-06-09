@@ -1,4 +1,3 @@
-import { Card, CardContent, Typography } from '@mui/material';
 export function getSalmonellaTexts(date) {
   const lastUpdated = 'January 24th 2024';
   const githubRepo = 'https://github.com/typhoidgenomics/TyphiNET';
@@ -21,7 +20,7 @@ export function getSalmonellaTexts(date) {
     `Travel-associated cases are attributed to the country of travel, not the country of isolation, as described in ${ingleEtAlPaper}.`,
     `Antimicrobial resistance determinants are described in ${typhiPathogenwatchPaper}.`,
     `Abbreviations`,
-    `1. MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)`,
+    `1. MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)`,
     `2. XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)`,
     `3. Ciprofloxacin NS, ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more genes or mutations in ${careyEtAlPaper})`,
     `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see ${careyEtAlPaper})`,
@@ -103,7 +102,7 @@ export function getNgonoTexts() {
     `Antimicrobial resistance determinants - These are identified by Pathogenwatch using an inhouse dictionary developed and maintained in consultation with an expert advisory group, as described by Sánchez-Busó et al (2021), Genome Medicine (${gonoPaper5}).`,
     `AMR determinants within genotypes - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of Sánchez-Busó et al (2021), Genome Medicine (${gonoPaper5}).`,
     `Abbreviations`,
-    `1. MDR, multi-drug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])`,
+    `1. MDR, multidrug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])`,
     `2. XDR, extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])`,
     `Note these definitions are based on those defined in the European CDC Response Plan, modified to use the specific representatives of category I and II antibiotic classes that we have available in the dashboard. `,
     `(${gonoPaper6})`,

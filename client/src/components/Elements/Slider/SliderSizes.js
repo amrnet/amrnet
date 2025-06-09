@@ -91,7 +91,7 @@ export const SliderSizes = (props) => {
 
   const heading = useMemo(() => {
     function geno() {
-      if (organism === 'decoli' || organism === 'shige' || organism === 'sentericaints') return 'lineages';
+      if (organism === 'sentericaints') return 'lineage';
       if (organism === 'kpneumo') return 'ST';
       return 'genotype';
     }

@@ -32,8 +32,6 @@ html_theme = 'sphinx_book_theme'
 # html_favicon = 'favicon.ico'
 
 extensions = [
-    # 'ablog',
-    # 'myst_nb',
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
@@ -64,7 +62,7 @@ numfig = True
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-     "pst": ("https://pydata-sphinx-theme.readthedocs.io/en/latest/", None),
+     "pst": ("https://pydata-sphinx-theme.readthedocs.io/en/stable/", None),
 }
 intersphinx_disabled_domains = ['std']
 

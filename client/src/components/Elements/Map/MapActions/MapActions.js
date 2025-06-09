@@ -1,5 +1,5 @@
 import { Alert, CircularProgress, IconButton, Snackbar, Tooltip } from '@mui/material';
-import { useStyles } from './BottomRightControlsMUI';
+import { useStyles } from './MapActionsMUI';
 import { CameraAlt } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useState } from 'react';
@@ -10,8 +10,9 @@ import download from 'downloadjs';
 import LogoImg from '../../../../assets/img/logo-prod.png';
 import { mapLegends } from '../../../../util/mapLegends';
 import { DownloadMapViewData } from './DownloadMapViewData';
+import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
 
-export const BottomRightControls = () => {
+export const MapActions = () => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -24,8 +25,10 @@ export const BottomRightControls = () => {
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
+  const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
 
-  async function handleClick() {
+  async function handleClick(event) {
+    event.stopPropagation();
     setLoading(true);
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
 
@@ -59,10 +62,8 @@ export const BottomRightControls = () => {
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
-        if(organism === 'sentericaints')
-          ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
-        else
-          ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
+        if (organism === 'sentericaints') ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
+        else ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
         // ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
@@ -82,9 +83,9 @@ export const BottomRightControls = () => {
           ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
         } else if (organism === 'ecoli') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.65, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
         } else if (organism === 'decoli') {
           ctx.font = 'bolder 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.565, 80);
@@ -120,53 +121,60 @@ export const BottomRightControls = () => {
         ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 240);
         if (mapView === 'Genotype prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+            ctx.fillText('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 290);
+            ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 370);
           }
         }
         if (mapView === 'NG-MAST prevalence') {
-          if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
-          } else if (prevalenceMapViewOptionsSelected.length > 1) {
-            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 290);
+          if (customDropdownMapViewNG.length === 1) {
+            ctx.fillText('Selected NG-MAST TYPE: ' + customDropdownMapViewNG, canvas.width / 2, 370);
+          } else if (customDropdownMapViewNG.length > 1) {
+            const genotypesText = customDropdownMapViewNG.join(', ');
+            ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 370);
           }
         }
         if (mapView === 'Lineage prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected Lineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+            ctx.fillText('Selected Lineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 290);
+            ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 370);
           }
         }
         if (mapView === 'ST prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected ST: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+            ctx.fillText('Selected ST: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected ST: ' + genotypesText, canvas.width / 2, 290);
+            ctx.fillText('Selected ST: ' + genotypesText, canvas.width / 2, 370);
           }
         }
         if (mapView === 'Resistance prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected Resistance: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+            ctx.fillText(
+              'Selected Resistance: ' +
+                (ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
+                  drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
+                  prevalenceMapViewOptionsSelected.join()),
+              canvas.width / 2,
+              370,
+            );
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected Resistance: ' + genotypesText, canvas.width / 2, 290);
+            ctx.fillText('Selected Resistance: ' + genotypesText, canvas.width / 2, 370);
           }
         }
         if (mapView === 'Sublineage prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 290);
+            ctx.fillText('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected Sublineage: ' + genotypesText, canvas.width / 2, 290);
+            ctx.fillText('Selected Sublineage: ' + genotypesText, canvas.width / 2, 370);
           }
         }
-        ctx.drawImage(mapImg, 0, textHeight + 50, canvas.width, cHeight);
+        ctx.drawImage(mapImg, -100, textHeight + 150, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
         const legendImgPromise = imgOnLoadPromise(legendImg);
@@ -180,7 +188,7 @@ export const BottomRightControls = () => {
           case 'No. Samples':
             legendImg.src = 'legends/MapView_NoSamples.png';
             break;
-          case 'Sensitive to all drugs':
+          case 'Pansusceptible':
             legendImg.src = 'legends/MapView_Sensitive.png';
             break;
           case 'NG-MAST prevalence':
@@ -213,7 +221,7 @@ export const BottomRightControls = () => {
         const typhinetLogoPromise = imgOnLoadPromise(typhinetLogo);
         typhinetLogo.src = LogoImg;
         await typhinetLogoPromise;
-        ctx.drawImage(typhinetLogo, 25, 25, 500, 200);
+        ctx.drawImage(typhinetLogo, 25, 25);
 
         const base64 = canvas.toDataURL();
         await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.stringLabel}.png`);
@@ -230,20 +238,16 @@ export const BottomRightControls = () => {
   }
 
   return (
-    <div className={classes.bottomRightControls}>
-      <Tooltip title="Download Data" placement="right">
-        <span>
-          <IconButton color="primary" disabled={organism === 'none'}>
-            <DownloadMapViewData fontSize="inherit" />
-          </IconButton>
-        </span>
+    <div className={classes.mapActions}>
+      <Tooltip title="Download Data" placement="top">
+        <IconButton color="primary" disabled={organism === 'none' || loading}>
+          <DownloadMapViewData fontSize="inherit" value="map" />
+        </IconButton>
       </Tooltip>
-      <Tooltip title="Download Map as PNG" placement="left">
-        <span>
-          <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
-            {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
-          </IconButton>
-        </span>
+      <Tooltip title="Download Map as PNG" placement="top">
+        <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
+          {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
+        </IconButton>
       </Tooltip>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>

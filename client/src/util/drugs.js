@@ -1,3 +1,5 @@
+import { drugRulesINTS, drugRulesNG, drugRulesKP } from './drugClassesRules';
+
 // List of Salmonella drugs
 export const drugsST = [
   'Ampicillin/Amoxicillin',
@@ -8,12 +10,28 @@ export const drugsST = [
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'Sulphonamides',
-  'Susceptible',
+  'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
+  'XDR',
+  'MDR',
 ].sort((a, b) => a.localeCompare(b));
 
-export const drugsForDrugResistanceGraphST = [...drugsST, 'XDR', 'MDR'].sort((a, b) => a.localeCompare(b));
+export const drugsSTLegendsOnly = [
+  'Ampicillin/Amoxicillin',
+  'Azithromycin',
+  'Chloramphenicol',
+  'Ceftriaxone',
+  'Ciprofloxacin (non-susceptible)',
+  'Ciprofloxacin (resistant)',
+  'Sulphonamides',
+  'Pansusceptible',
+  'Tetracyclines',
+  'Trimethoprim',
+  'Trimethoprim-sulfamethoxazole',
+  'Extensively drug resistant (XDR)',
+  'Multidrug resistant (MDR)',
+];
 
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
@@ -21,7 +39,7 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'MDR',
-  'Susceptible',
+  'Pansusceptible',
   'Trimethoprim-sulfamethoxazole',
   'XDR',
 ];
@@ -35,11 +53,25 @@ export const drugsNG = [
   'Tetracycline',
   'Cefixime',
   'Penicillin',
-  'Susceptible',
+  'Pansusceptible',
   'Spectinomycin',
   'MDR',
   'XDR',
 ];
+
+// export const drugsNGLegensOnly = [
+//   'Azithromycin',
+//   'Ceftriaxone',
+//   'Ciprofloxacin',
+//   'Sulfonamides',
+//   'Tetracycline',
+//   'Cefixime',
+//   'Penicillin',
+//   'Spectinomycin',
+//   'Susceptible to cat I/II drugs',
+//   'Extensively drug resistant (XDR)',
+//   'Multidrug resistant (MDR)',
+// ];
 
 // List of N. gono drug classes default
 export const defaultDrugsForDrugResistanceGraphNG = [
@@ -48,7 +80,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
   'Ciprofloxacin',
   'Cefixime',
   'Penicillin',
-  'Susceptible',
+  'Pansusceptible',
   'Spectinomycin',
   'MDR',
   'XDR',
@@ -58,7 +90,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
 export const drugsKP = [
   'Aminoglycosides',
   'Carbapenems',
-  '3rd gen cephalosporins (3GCs)',
+  'ESBL',
   // '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   'Colistin',
   'Fluoroquinolones',
@@ -85,6 +117,9 @@ export const drugClassesST = [
   'Sulphonamides',
   'Tetracyclines',
   'Trimethoprim',
+  // 'Pansusceptible',
+  'MDR',
+  'XDR',
 ];
 
 // List of Klebsiella drug classes
@@ -94,10 +129,11 @@ export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
 export const drugClassesKP = ['Carbapenems', 'ESBL'];
 
 export const drugAcronyms = {
-  'Ampicillin/Amoxicillin': 'AMP/AMC',
+  'Ampicillin/Amoxicillin': 'AMP',
+  Ampicillin: 'AMP',
+  Azithromycin: 'AZM',
   Ceftriaxone: 'CRO',
-  Chloramphenicol: 'CLO',
-  CipNS: 'CIP',
+  Chloramphenicol: 'CHL',
   Sulphonamides: 'SUL',
   Sulfonamides: 'SUL',
   Tetracyclines: 'TET',
@@ -112,5 +148,73 @@ export const drugAcronyms = {
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
   Phenicols: 'PHE',
   Tigecycline: 'TGC',
-  ESBL: 'ESBL',
+  AzithR: 'AZM',
+  '3rd gen cephalosporins (3GCs)': '3GCs',
+  Sulfamethoxazole: 'SMX',
+  Gentamicin: 'GEN',
+  Cefixime: 'CFM',
+  Ciprofloxacin: 'CIP',
+  Penicillin: 'PEN',
+  Spectinomycin: 'SPT',
+  Pansusceptible: 'PAN',
+  'Susceptible to cat I/II drugs': 'SUS',
+  Susceptible: 'SUS',
+  //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap
+  Carbapenems: 'CARB',
+  Carbapenemase: 'CARB',
 };
+
+export const drugAcronymsOpposite = {
+  CipNS: 'Ciprofloxacin (non-susceptible)',
+  CIP: 'Ciprofloxacin (non-susceptible)',
+  //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap (tooltip)
+  CARB: 'Carbapenemase',
+  AZM: 'Azithromycin',
+  // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
+  CipR: 'Ciprofloxacin (resistant)',
+  MDR: 'Multidrug resistant (MDR)',
+  XDR: 'Extensively drug resistant (XDR)',
+  SUS: 'Susceptible to cat I/II drugs',
+  AzithR: 'Azithromycin',
+};
+
+export const drugAcronymsOpposite2 = {
+  CipNS: 'Ciprofloxacin (non-susceptible)',
+  CIP: 'Ciprofloxacin (non-susceptible)',
+  // Implemneted for Consistency
+  CARB: 'Carbapenemase',
+  Carb: 'Carbapenemase',
+  AZM: 'Azithromycin',
+  // ESBL: 'Extended-Spectrum Beta-Lactamase',
+  CipR: 'Ciprofloxacin (resistant)',
+  AzithR: 'Azithromycin',
+  MDR: 'Multidrug resistant (MDR)',
+  XDR: 'Extensively drug resistant (XDR)',
+};
+
+export const ciproAcronyms = {
+  'Ciprofloxacin NS': 'Ciprofloxacin (non-susceptible)',
+  'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
+};
+
+export const drugsINTS = drugRulesINTS.map((x) => x.key).sort((a, b) => a.localeCompare(b));
+export const drugsINTSLegendsOnly = drugRulesINTS.map((x) => x.legends || x.key).sort((a, b) => a.localeCompare(b));
+export const drugsNGLegensOnly = drugRulesNG.map((x) => x.legends || x.key);
+export const drugsKlebLegendsOnly = drugRulesKP.map((x) => x.key).sort((a, b) => a.localeCompare(b));
+// export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
+export function getDrugClasses(organism) {
+  switch (organism) {
+    case 'styphi':
+      return drugClassesST;
+    case 'kpneumo':
+      return drugClassesKP;
+    case 'ngono':
+      return drugClassesNG;
+    default:
+      return drugsINTS;
+  }
+}
+
+export function ngonoSusceptibleRule(name, organism) {
+  return name === 'Susceptible' && organism === 'ngono' ? 'Susceptible to cat I/II drugs' : null;
+}

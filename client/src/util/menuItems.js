@@ -11,22 +11,22 @@ export const menuItems = [
     link: '/',
     target: '_self',
   },
-  
+
   {
     key: 'about',
     label: 'About',
     labelHead: 'About',
     icon: <Info />,
     link: '#/about',
-    target: '_blank',
+    // target: '_blank',
   },
   {
     key: 'team',
     label: 'Team',
     labelHead: 'Team',
     icon: <Groups />,
-    link: '#about#team-section',
-    target: '_blank',
+    link: '#/about#team-section',
+    // target: '_blank',
   },
   {
     key: 'user-guide',
@@ -64,5 +64,5 @@ export const menuItems = [
     icon: <GitHub />,
     link: 'https://github.com/amrnet/amrnet',
     target: '_blank',
-  }
+  },
 ];

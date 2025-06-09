@@ -284,6 +284,18 @@ export const colorForDrugClassesST = {
     { name: 'dfrA18 + sul1 + sul2', color: '#fc9272' },
     { name: 'None', color: '#B9B9B9' },
   ],
+  MDR: [
+    { name: 'MDR', color: '#B80F0F' },
+    { name: 'Non-MDR', color: '#B9B9B9' },
+  ],
+  XDR: [
+    { name: 'XDR', color: '#000' },
+    { name: 'Non-XDR', color: '#B9B9B9' },
+  ],
+  Pansusceptible: [
+    { name: 'Pansusceptible (no AMR markers)', color: '#B9B9B9' },
+    { name: 'One or more AMR markers', color: '#000080' },
+  ],
 };
 
 // Colors for Klebsiella drug classes genes
