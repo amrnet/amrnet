@@ -1,14 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface CollapsesModel {
-  determinants: boolean;
-  distribution: boolean;
-  drugResistance: boolean;
-  frequencies: boolean;
-  trends: boolean;
-  KODiversity: boolean;
-  convergence: boolean;
   continent: boolean;
+  map: boolean;
+  all: boolean;
 }
 interface GraphState {
   countriesForFilter: Array<string>;
@@ -16,6 +11,8 @@ interface GraphState {
   genotypesYearData: Array<any>;
   drugsYearData: Array<any>;
   genotypesAndDrugsYearData: Array<any>;
+  countriesYearData: Array<any>;
+  regionsYearData: Array<any>;
   collapses: CollapsesModel;
   drugResistanceGraphView: Array<string>;
   frequenciesGraphView: string;
@@ -23,6 +20,7 @@ interface GraphState {
   prevalenceMapViewOptionsSelected: Array<string>;
   customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
+  genotypesInitialDrugsData: Array<any>;
   genotypesDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
@@ -48,33 +46,41 @@ interface GraphState {
   sliderListKP_GE: number;
   NGMAST: Array<any>;
   ngmastDrugsData: Array<any>;
-  drugsCountriesKPData: Object;
-  drugsRegionsKPData: Object;
-  uniqueCountryKPDrugs: Object;
-  uniqueRegionKPDrugs: Object;
+  drugsCountriesData: Object;
+  drugsRegionsData: Object;
   topGenesSlice: Array<any>;
   topGenotypeSlice: Array<any>;
   topColorSlice: Array<any>;
+  starttimeGD: number;
+  endtimeGD: number;
+  starttimeDRT: number;
+  endtimeDRT: number;
+  starttimeRDT: number;
+  endtimeRDT: number;
+  actualGenomesGD: number;
+  actualGenomesDRT: number;
+  actualGenomesRDT: number;
+  topXGenotype: Array<any>;
+  topXGenotypeRDWG: Array<any>;
+  download: boolean;
 }
 
 const initialState: GraphState = {
   collapses: {
-    determinants: false,
-    distribution: false,
-    drugResistance: false,
-    frequencies: false,
-    trends: false,
-    KODiversity: false,
-    convergence: false,
+    all: true,
     continent: false,
+    map: true,
   },
   countriesForFilter: [],
   genotypesYearData: [],
   drugsYearData: [],
   genotypesDrugsData: [],
+  genotypesInitialDrugsData: [],
   genotypesDrugClassesData: [],
   genotypesAndDrugsYearData: [],
-  distributionGraphView: 'number',
+  countriesYearData: [],
+  regionsYearData: [],
+  distributionGraphView: 'percentage',
   drugResistanceGraphView: [],
   frequenciesGraphView: 'percentage',
   frequenciesGraphSelectedGenotypes: [],
@@ -83,12 +89,12 @@ const initialState: GraphState = {
   determinantsGraphView: 'percentage',
   determinantsGraphDrugClass: '',
   trendsGraphDrugClass: '',
-  trendsGraphView: 'number',
+  trendsGraphView: 'percentage',
   KODiversityData: [],
   KODiversityGraphView: 'K_locus',
   convergenceData: [],
-  convergenceGroupVariable: 'COUNTRY_ONLY',
-  convergenceColourVariable: 'DATE',
+  convergenceGroupVariable: 'cgST',
+  convergenceColourVariable: 'cgST',
   convergenceColourPallete: {},
   currentSliderValue: 20,
   maxSliderValue: 0,
@@ -104,13 +110,23 @@ const initialState: GraphState = {
   sliderListKP_GE: 0,
   NGMAST: [],
   ngmastDrugsData: [],
-  drugsCountriesKPData: {},
-  drugsRegionsKPData: {},
-  uniqueCountryKPDrugs: {},
-  uniqueRegionKPDrugs: {},
+  drugsCountriesData: {},
+  drugsRegionsData: {},
   topGenesSlice: [],
   topGenotypeSlice: [],
   topColorSlice: [],
+  starttimeGD: 0,
+  endtimeGD: 0,
+  starttimeDRT: 0,
+  endtimeDRT: 0,
+  actualGenomesGD: 0,
+  actualGenomesDRT: 0,
+  starttimeRDT: 0,
+  endtimeRDT: 0,
+  actualGenomesRDT: 0,
+  topXGenotype: [],
+  topXGenotypeRDWG: [],
+  download: false,
 };
 
 export const graphSlice = createSlice({
@@ -153,6 +169,9 @@ export const graphSlice = createSlice({
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugsData = action.payload;
     },
+    setGenotypesInitialDrugsData: (state, action: PayloadAction<Array<any>>) => {
+      state.genotypesInitialDrugsData = action.payload;
+    },
     setDeterminantsGraphView: (state, action: PayloadAction<string>) => {
       state.determinantsGraphView = action.payload;
     },
@@ -164,6 +183,12 @@ export const graphSlice = createSlice({
     },
     setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesAndDrugsYearData = action.payload;
+    },
+    setCountriesYearData: (state, action: PayloadAction<Array<any>>) => {
+      state.countriesYearData = action.payload;
+    },
+    setRegionsYearData: (state, action: PayloadAction<Array<any>>) => {
+      state.regionsYearData = action.payload;
     },
     setTrendsGraphDrugClass: (state, action: PayloadAction<string>) => {
       state.trendsGraphDrugClass = action.payload;
@@ -231,18 +256,6 @@ export const graphSlice = createSlice({
     setNgmastDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.ngmastDrugsData = action.payload;
     },
-    setDrugsCountriesKPData: (state, action: PayloadAction<Object>) => {
-      state.drugsCountriesKPData = action.payload;
-    },
-    setDrugsRegionsKPData: (state, action: PayloadAction<Object>) => {
-      state.drugsRegionsKPData = action.payload;
-    },
-    setUniqueCountryKPDrugs: (state, action: PayloadAction<Object>) => {
-      state.uniqueCountryKPDrugs = action.payload;
-    },
-    setUniqueRegionKPDrugs: (state, action: PayloadAction<Object>) => {
-      state.uniqueRegionKPDrugs = action.payload;
-    },
     setTopGenesSlice: (state, action: PayloadAction<Array<any>>) => {
       state.topGenesSlice = action.payload;
     },
@@ -251,6 +264,48 @@ export const graphSlice = createSlice({
     },
     setTopColorSlice: (state, action: PayloadAction<Array<any>>) => {
       state.topColorSlice = action.payload;
+    },
+    setStarttimeGD: (state, action: PayloadAction<number>) => {
+      state.starttimeGD = action.payload;
+    },
+    setEndtimeGD: (state, action: PayloadAction<number>) => {
+      state.endtimeGD = action.payload;
+    },
+    setStarttimeDRT: (state, action: PayloadAction<number>) => {
+      state.starttimeDRT = action.payload;
+    },
+    setEndtimeDRT: (state, action: PayloadAction<number>) => {
+      state.endtimeDRT = action.payload;
+    },
+    setActualGenomesGD: (state, action: PayloadAction<number>) => {
+      state.actualGenomesGD = action.payload;
+    },
+    setActualGenomesDRT: (state, action: PayloadAction<number>) => {
+      state.actualGenomesDRT = action.payload;
+    },
+    setStarttimeRDT: (state, action: PayloadAction<number>) => {
+      state.starttimeRDT = action.payload;
+    },
+    setEndtimeRDT: (state, action: PayloadAction<number>) => {
+      state.endtimeRDT = action.payload;
+    },
+    setActualGenomesRDT: (state, action: PayloadAction<number>) => {
+      state.actualGenomesRDT = action.payload;
+    },
+    setDrugsCountriesData: (state, action: PayloadAction<Object>) => {
+      state.drugsCountriesData = action.payload;
+    },
+    setDrugsRegionsData: (state, action: PayloadAction<Object>) => {
+      state.drugsRegionsData = action.payload;
+    },
+    setTopXGenotype: (state, action: PayloadAction<Array<any>>) => {
+      state.topXGenotype = action.payload;
+    },
+    setTopXGenotypeRDWG: (state, action: PayloadAction<Array<any>>) => {
+      state.topXGenotypeRDWG = action.payload;
+    },
+    setDownload: (state, action: PayloadAction<boolean>) => {
+      state.download = action.payload;
     },
   },
 });
@@ -294,13 +349,26 @@ export const {
   setMaxSliderValueKP_GE,
   setCurrentSliderValueCM,
   setMaxSliderValueCM,
-  setDrugsCountriesKPData,
-  setDrugsRegionsKPData,
-  setUniqueCountryKPDrugs,
-  setUniqueRegionKPDrugs,
   setTopGenesSlice,
   setTopGenotypeSlice,
   setTopColorSlice,
+  setStarttimeGD,
+  setEndtimeGD,
+  setStarttimeDRT,
+  setEndtimeDRT,
+  setActualGenomesGD,
+  setActualGenomesDRT,
+  setStarttimeRDT,
+  setEndtimeRDT,
+  setActualGenomesRDT,
+  setDrugsCountriesData,
+  setDrugsRegionsData,
+  setCountriesYearData,
+  setRegionsYearData,
+  setTopXGenotype,
+  setTopXGenotypeRDWG,
+  setDownload,
+  setGenotypesInitialDrugsData,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

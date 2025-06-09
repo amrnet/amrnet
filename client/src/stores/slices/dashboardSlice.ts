@@ -14,6 +14,7 @@ interface DashboardState {
   organism: string;
   loadingData: boolean;
   actualCountry: string;
+  actualRegion: string;
   totalGenomes: number;
   totalGenotypes: number;
   actualGenomes: number;
@@ -48,6 +49,7 @@ const initialState: DashboardState = {
   organism: 'none',
   loadingData: false,
   actualCountry: 'All',
+  actualRegion: 'All',
   totalGenotypes: 0,
   totalGenomes: 0,
   actualGenomes: 0,
@@ -108,6 +110,9 @@ export const dashboardSlice = createSlice({
     },
     setActualCountry: (state, action: PayloadAction<string>) => {
       state.actualCountry = action.payload;
+    },
+    setActualRegion: (state, action: PayloadAction<string>) => {
+      state.actualRegion = action.payload;
     },
     setTotalGenotypes: (state, action: PayloadAction<number>) => {
       state.totalGenotypes = action.payload;
@@ -185,6 +190,7 @@ export const {
   setOrganism,
   setLoadingData,
   setActualCountry,
+  setActualRegion,
   setTotalGenotypes,
   setTotalGenomes,
   setActualGenomes,

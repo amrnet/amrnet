@@ -89,3 +89,15 @@ export const genotypes = [
   '4.3.1.3',
   '4.3.1.3.Bdq',
 ].sort((a, b) => a.localeCompare(b));
+
+export function getAxisLabel(organism) {
+  switch (organism) {
+    case 'decoli':
+    case 'shige':
+      return 'pathotypes';
+    case 'sentericaints':
+      return 'serotypes';
+    default:
+      return 'genotypes';
+  }
+}

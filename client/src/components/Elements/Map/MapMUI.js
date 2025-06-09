@@ -5,10 +5,34 @@ const useStyles = makeStyles((theme) => ({
   card: {
     '&.MuiCard-root': {
       borderRadius: '16px',
+      overflow: 'visible',
     },
   },
   cardContent: {
     textAlign: 'center',
+    position: 'relative',
+    borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+  },
+  cardActions: {
+    display: 'flex',
+    columnGap: '8px',
+    justifyContent: 'space-between',
+    padding: '16px !important',
+  },
+  titleWrapper: {
+    display: 'flex',
+    columnGap: '8px',
+  },
+  title: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  actionsWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    columnGap: '8px',
+  },
+  boxWrapper: {
     position: 'relative',
   },
   composableMap: {

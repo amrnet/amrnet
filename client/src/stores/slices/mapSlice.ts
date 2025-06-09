@@ -24,7 +24,7 @@ interface StatsModel {
   MDR: ItemsModel;
   XDR: ItemsModel;
   AzithR: ItemsModel;
-  Susceptible: ItemsModel;
+  Pansusceptible: ItemsModel;
   CipR: ItemsModel;
   CipNS: ItemsModel;
   NGMAST: ItemsModel;
@@ -46,6 +46,7 @@ interface MapState {
   mapData: Array<MapDataModel>;
   mapRegionData: Array<MapDataModel>;
   mapColoredBy: string;
+  yAxisType: string;
 }
 
 const initialState: MapState = {
@@ -60,6 +61,7 @@ const initialState: MapState = {
   mapData: [],
   mapRegionData: [],
   mapColoredBy: 'country',
+  yAxisType: 'resistance',
 };
 
 export const mapSlice = createSlice({
@@ -91,6 +93,9 @@ export const mapSlice = createSlice({
     setMapColoredBy: (state, action: PayloadAction<string>) => {
       state.mapColoredBy = action.payload;
     },
+    setYAxisType: (state, action: PayloadAction<string>) => {
+      state.yAxisType = action.payload;
+    },
   },
 });
 
@@ -103,6 +108,7 @@ export const {
   setMapData,
   setMapRegionData,
   setMapColoredBy,
+  setYAxisType
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

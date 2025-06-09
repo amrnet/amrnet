@@ -3,6 +3,7 @@ import { lightGrey } from '../../../util/colorHelper';
 export const getColorForDrug = (drug) => {
   switch (drug) {
     case 'Ampicillin/Amoxicillin':
+    case 'Ampicillin':
     case 'Aminoglycosides':
       return 'rgb(129,178,210)';
 
@@ -24,8 +25,10 @@ export const getColorForDrug = (drug) => {
 
     // case 'ESBL':
     case 'Ceftriaxone':
-    case 'Colistin':
       return '#DB90F0';
+
+    case 'Colistin':
+      return 'rgb(0, 163, 35)';
 
     // case 'Fluoroquinolones (CipI)':
     case 'Fosfomycin':
@@ -33,6 +36,7 @@ export const getColorForDrug = (drug) => {
       return '#98fb98';
 
     // case 'Fluoroquinolones (CipNS)':
+    case 'Ciprofloxacin (non-susceptible)':
     case 'Ciprofloxacin NS':
     case 'Ciprofloxacin':
     case 'Penicillins':
@@ -41,15 +45,19 @@ export const getColorForDrug = (drug) => {
 
     // case 'Fluoroquinolones (CipR)':
     case 'Ciprofloxacin R':
+    case 'Ciprofloxacin (resistant)':
     case 'Fluoroquinolones':
     case 'Penicillin':
       return '#9e9ac8';
 
     case 'Sulphonamides':
     case 'Sulfonamides':
+    case 'Sulfamethoxazole':
       return 'rgb(180,221,112)';
 
     case 'Susceptible':
+    case 'Pansusceptible':
+    case 'Susceptible to cat I/II drugs':
       return lightGrey;
 
     case 'Tetracyclines':
@@ -61,18 +69,22 @@ export const getColorForDrug = (drug) => {
       return 'rgb(102,102,255)';
 
     case 'β-lactamase inhibitors':
+    case 'Gentamicin':
       return '#F3AAB9';
 
     case 'Phenicols':
+    case 'Meropenem':
       return '#FBCFBA';
 
     case 'Tigecycline':
       return '#54C2FF';
 
     case 'XDR':
+    case 'Extensively drug resistant (XDR)':
       return '#000';
 
     case 'MDR':
+    case 'Multidrug resistant (MDR)':
       return '#B80F0F';
 
     default:

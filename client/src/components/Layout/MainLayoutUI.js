@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     gap: '16px',
     borderRadius: '16px',
     marginBottom: '16px',
+    zIndex: 1,
   },
   logo: {
     height: '100px',
