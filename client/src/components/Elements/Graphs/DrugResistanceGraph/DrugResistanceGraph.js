@@ -1,5 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, CardContent, Checkbox, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Checkbox,
+  IconButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './DrugResistanceGraphMUI';
 import {
   Brush,
@@ -14,16 +26,18 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDrugResistanceGraphView } from '../../../../stores/slices/graphSlice';
-import { drugsKP, drugsForDrugResistanceGraphST, drugsNG } from '../../../../util/drugs';
+import { setDrugResistanceGraphView, setStarttimeDRT, setEndtimeDRT } from '../../../../stores/slices/graphSlice';
+import { ciproAcronyms, drugAcronymsOpposite, drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
 import { useEffect, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
-import { InfoOutlined } from '@mui/icons-material';
+import { Close, InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
+import { SelectCountry } from '../../SelectCountry';
+import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
-export const DrugResistanceGraph = () => {
+export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -35,6 +49,7 @@ export const DrugResistanceGraph = () => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
+  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -50,7 +65,7 @@ export const DrugResistanceGraph = () => {
 
   function getData() {
     const exclusions = ['name', 'count'];
-    let drugDataPercentage = structuredClone(drugsYearData);
+    let drugDataPercentage = structuredClone(drugsYearData).filter((item) => item.count >= 10);
     drugDataPercentage = drugDataPercentage.map((item) => {
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
 
@@ -68,13 +83,16 @@ export const DrugResistanceGraph = () => {
       return [];
     }
     if (organism === 'styphi') {
-      return drugsForDrugResistanceGraphST;
+      return drugsST;
     }
     if (organism === 'kpneumo') {
       return drugsKP;
     }
     if (organism === 'ngono') {
       return drugsNG;
+    }
+    if (amrLikeOrganisms.includes(organism)) {
+      return drugsINTS;
     }
   }
   function getDrugsForLegends() {
@@ -112,7 +130,7 @@ export const DrugResistanceGraph = () => {
   function getMDRDefinition() {
     switch (organism) {
       case 'styphi':
-        return 'MDR, multi-drug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
+        return 'MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
       case 'ngono':
         return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:
@@ -122,7 +140,7 @@ export const DrugResistanceGraph = () => {
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Susceptible to class I/II drugs’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Susceptible to cat I/II drugs (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
       default:
         return;
     }
@@ -187,13 +205,23 @@ export const DrugResistanceGraph = () => {
   }
 
   useEffect(() => {
+    if (drugsYearData.length > 0) {
+      // Dispatch initial values based on the default range (full range)
+      const startValue = drugsYearData[0]?.name; // First value in the data
+      const endValue = drugsYearData[drugsYearData.length - 1]?.name; // Last value in the data
+      dispatch(setStarttimeDRT(startValue));
+      dispatch(setEndtimeDRT(endValue));
+    }
+  }, [drugsYearData, dispatch]);
+
+  useEffect(() => {
     if (canGetData) {
       const doc = document.getElementById('DRT');
       const lines = doc.getElementsByClassName('recharts-line');
 
       for (let index = 0; index < lines.length; index++) {
         const drug = drugResistanceGraphView[index];
-        const hasValue = getDrugs().includes(drug);
+        const hasValue = getDrugs()?.includes(drug);
         lines[index].style.display = hasValue ? 'block' : 'none';
       }
 
@@ -216,7 +244,17 @@ export const DrugResistanceGraph = () => {
                   Resistant (%)
                 </Label>
               </YAxis>
-              {drugsYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
+              {drugsYearData.length > 0 && (
+                <Brush
+                  dataKey="name"
+                  height={20}
+                  stroke={'rgb(31, 187, 211)'}
+                  onChange={(brushRange) => {
+                    dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                  }}
+                />
+              )}
 
               {organism !== 'none' && (
                 <Legend
@@ -231,23 +269,23 @@ export const DrugResistanceGraph = () => {
                           if (dataKey === 'XDR') {
                             dataKeyElement = (
                               <Tooltip title={getXDRDefinition()} placement="top">
-                                <span>XDR</span>
+                                <span>{drugAcronymsOpposite['XDR']}</span>
                               </Tooltip>
                             );
                           } else if (dataKey === 'MDR') {
                             dataKeyElement = (
                               <Tooltip title={getMDRDefinition()} placement="top">
-                                <span>MDR</span>
+                                <span>{drugAcronymsOpposite['MDR']}</span>
                               </Tooltip>
                             );
-                          } else if (dataKey === 'Susceptible') {
+                          } else if (dataKey === 'Pansusceptible' && organism === 'ngono') {
                             dataKeyElement = (
                               <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                <span>Susceptible</span>
+                                <span>Susceptible to cat I/II drugs</span>
                               </Tooltip>
                             );
                           } else {
-                            dataKeyElement = dataKey;
+                            dataKeyElement = ciproAcronyms[dataKey] || dataKey;
                           }
                           return (
                             <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
@@ -293,47 +331,6 @@ export const DrugResistanceGraph = () => {
 
   return (
     <CardContent className={classes.drugResistanceGraph}>
-      <div className={classes.selectWrapper}>
-        <div className={classes.labelWrapper}>
-          <Typography variant="caption">Select drugs/classes to display</Typography>
-          <Tooltip
-            title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
-            placement="top"
-          >
-            <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-          </Tooltip>
-        </div>
-        <Select
-          multiple
-          value={drugResistanceGraphView}
-          onChange={(event) => handleChangeDrugsView({ event })}
-          displayEmpty
-          disabled={organism === 'none'}
-          endAdornment={
-            <Button
-              variant="outlined"
-              className={classes.selectButton}
-              onClick={() => handleChangeDrugsView({ all: true })}
-              disabled={organism === 'none'}
-              color={drugResistanceGraphView.length === getDrugs().length ? 'error' : 'primary'}
-            >
-              {drugResistanceGraphView.length === getDrugs().length ? 'Clear All' : 'Select All'}
-            </Button>
-          }
-          inputProps={{ className: classes.selectInput }}
-          MenuProps={{
-            classes: { paper: classes.menuPaper, list: classes.selectMenu },
-          }}
-          renderValue={(selected) => <div>{`${selected.length} of ${getDrugs().length} selected`}</div>}
-        >
-          {getDrugs().map((drug, index) => (
-            <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
-              <Checkbox checked={drugResistanceGraphView.indexOf(drug) > -1} />
-              <ListItemText primary={drug} />
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="DRT">
           {plotChart}
@@ -362,10 +359,10 @@ export const DrugResistanceGraph = () => {
                         <span>MDR</span>
                       </Tooltip>
                     );
-                  } else if (item.label === 'Susceptible') {
+                  } else if (item.label === 'Pansusceptible' && organism === 'ngono') {
                     itemLabel = (
                       <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Susceptible</span>
+                        <span>Susceptible to cat I/II drugs</span>
                       </Tooltip>
                     );
                   } else {
@@ -398,6 +395,64 @@ export const DrugResistanceGraph = () => {
           )}
         </div>
       </div>
+      {showFilter && !canFilterData && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <SelectCountry />
+              <div className={classes.selectWrapper}>
+                <div className={classes.labelWrapper}>
+                  <Typography variant="caption">Select drugs/classes to display</Typography>
+                  <Tooltip
+                    title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
+                    placement="top"
+                  >
+                    <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                  </Tooltip>
+                </div>
+                <Select
+                  multiple
+                  value={drugResistanceGraphView}
+                  onChange={(event) => handleChangeDrugsView({ event })}
+                  displayEmpty
+                  disabled={organism === 'none'}
+                  endAdornment={
+                    <Button
+                      variant="outlined"
+                      className={classes.selectButton}
+                      onClick={() => handleChangeDrugsView({ all: true })}
+                      disabled={organism === 'none'}
+                      color={drugResistanceGraphView.length === getDrugs()?.length ? 'error' : 'primary'}
+                    >
+                      {drugResistanceGraphView.length === getDrugs()?.length ? 'Clear All' : 'Select All'}
+                    </Button>
+                  }
+                  inputProps={{ className: classes.selectInput }}
+                  MenuProps={{
+                    classes: { paper: classes.menuPaper, list: classes.selectMenu },
+                  }}
+                  renderValue={(selected) => <div>{`${selected.length} of ${getDrugs()?.length} selected`}</div>}
+                >
+                  {getDrugs()?.map((drug, index) => (
+                    <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
+                      <Checkbox checked={drugResistanceGraphView.indexOf(drug) > -1} />
+                      <ListItemText primary={drugAcronymsOpposite[drug] || ciproAcronyms[drug] || drug} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

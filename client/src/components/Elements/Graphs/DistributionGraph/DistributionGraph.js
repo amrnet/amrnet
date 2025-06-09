@@ -1,4 +1,4 @@
-import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './DistributionGraphMUI';
 import {
   Bar,
@@ -13,20 +13,28 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
-import { setColorPallete, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
-import { setDistributionGraphView, setResetBool } from '../../../../stores/slices/graphSlice.ts';
-import { getColorForGenotype, hoverColor, generatePalleteForGenotypes } from '../../../../util/colorHelper';
+import { setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
+import {
+  setDistributionGraphView,
+  setResetBool,
+  setEndtimeGD,
+  setStarttimeGD,
+  setTopXGenotype,
+} from '../../../../stores/slices/graphSlice.ts';
+import { getColorForGenotype, hoverColor } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
 import { setCaptureGD } from '../../../../stores/slices/dashboardSlice';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
 
 const dataViewOptions = [
-  { label: 'Number of ST', value: 'number' },
+  { label: 'Number per year', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
-export const DistributionGraph = () => {
+export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   // const [currentSliderValue, setCurrentSliderValue] = useState(20);
@@ -35,14 +43,15 @@ export const DistributionGraph = () => {
   const dispatch = useAppDispatch();
   const distributionGraphView = useAppSelector((state) => state.graph.distributionGraphView);
   const genotypesYearData = useAppSelector((state) => state.graph.genotypesYearData);
-  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
-  const [topXGenotypes, setTopXGenotypes] = useState([]);
+  // const [topXGenotypes, setTopXGenotypes] = useState([]);
+  const topXGenotype = useAppSelector((state) => state.graph.topXGenotype);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
+  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
 
   useEffect(() => {
     let cnt = 0;
@@ -57,7 +66,7 @@ export const DistributionGraph = () => {
       dispatch(setCaptureGD(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
+  }, [genotypesYearData, currentSliderValue]);
 
   useEffect(() => {
     dispatch(setResetBool(true));
@@ -86,22 +95,16 @@ export const DistributionGraph = () => {
         }
       });
     });
-    const mapArray = Array.from(mp); //[key, total_count], eg: ['4.3.1.1', 1995]
-    const filteredArr = mapArray.filter((item) => genotypesForFilter.includes(item[0]));
-    // Sort the array based on keys
-    filteredArr.sort((a, b) => b[1] - a[1]);
 
-    const slicedArray = filteredArr.slice(0, currentSliderValue).map(([key, value]) => key);
-    const slicedArrayWithOther = structuredClone(slicedArray);
-    const Other = 'Other';
-    const insertIndex = slicedArrayWithOther.length; // Index to insert "Other"
-    slicedArrayWithOther.splice(insertIndex, insertIndex, Other);
-// console.log("GD", slicedArrayWithOther);
-    dispatch(setGenotypesForFilterSelected(slicedArrayWithOther));
-    setTopXGenotypes(slicedArray);
-    dispatch(setColorPallete(generatePalleteForGenotypes(genotypesForFilter)));
+    const mapArray = Array.from(mp); //[key, total_count], eg: ['4.3.1.1', 1995]
+    mapArray.sort((a, b) => b[1] - a[1]); // Sort the array based on keys
+
+    const slicedArray = mapArray.slice(0, currentSliderValue).map(([key]) => key);
+
+    dispatch(setTopXGenotype(slicedArray));
+    dispatch(setGenotypesForFilterSelected([...slicedArray, 'Other']));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesForFilter, genotypesYearData, currentSliderValue]);
+  }, [currentSliderValue, genotypesYearData]);
 
   let newArray = []; //TODO: can be a global value in redux
   let newArrayPercentage = []; //TODO: can be a global value in redux
@@ -109,7 +112,7 @@ export const DistributionGraph = () => {
   newArray = genotypesYearData.map((item) => {
     let count = 0;
     for (const key in item) {
-      if (!topXGenotypes.includes(key) && !exclusions.includes(key)) {
+      if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
         count += item[key]; //adding count of all genotypes which are not in topX
       }
     }
@@ -161,7 +164,7 @@ export const DistributionGraph = () => {
           color: getGenotypeColor(key),
         };
       });
-      value.genotypes = value.genotypes.filter((item) => topXGenotypes.includes(item.label) || item.label === 'Other');
+      value.genotypes = value.genotypes.filter((item) => topXGenotype.includes(item.label) || item.label === 'Other');
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
     }
@@ -173,7 +176,18 @@ export const DistributionGraph = () => {
       dispatch(setResetBool(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topXGenotypes]);
+  }, [topXGenotype]);
+
+  useEffect(() => {
+    if (genotypesYearData.length > 0) {
+      // Dispatch initial values based on the default range (full range)
+      const startValue = genotypesYearData[0]?.name; // First value in the data
+      const endValue = genotypesYearData[genotypesYearData.length - 1]?.name; // Last value in the data
+      // console.log('startValue', startValue, endValue);
+      dispatch(setStarttimeGD(startValue));
+      dispatch(setEndtimeGD(endValue));
+    }
+  }, [genotypesYearData, dispatch]);
 
   useEffect(() => {
     if (canGetData) {
@@ -193,7 +207,17 @@ export const DistributionGraph = () => {
                   {dataViewOptions.find((option) => option.value === distributionGraphView).label}
                 </Label>
               </YAxis>
-              {genotypesYearData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
+              {genotypesYearData.length > 0 && (
+                <Brush
+                  dataKey="name"
+                  height={20}
+                  stroke={'rgb(31, 187, 211)'}
+                  onChange={(brushRange) => {
+                    dispatch(setStarttimeGD(genotypesYearData[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeGD(genotypesYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                  }}
+                />
+              )}
               <Legend
                 content={(props) => {
                   const { payload } = props;
@@ -224,7 +248,7 @@ export const DistributionGraph = () => {
                 }}
               />
 
-              {topXGenotypes.map((option, index) => (
+              {topXGenotype.map((option, index) => (
                 <Bar
                   key={`distribution-bar-${index}`}
                   dataKey={option}
@@ -240,35 +264,17 @@ export const DistributionGraph = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, distributionGraphView, topXGenotypes, currentSliderValue]);
+  }, [genotypesYearData, distributionGraphView, topXGenotype, currentSliderValue, colorPallete]);
 
   return (
     <CardContent className={classes.distributionGraph}>
-      <div className={classes.selectWrapper}>
-        <Typography variant="caption">Data view</Typography>
-        <Select
-          value={distributionGraphView}
-          onChange={handleChangeDataView}
-          inputProps={{ className: classes.selectInput }}
-          MenuProps={{ classes: { list: classes.selectMenu } }}
-          disabled={organism === 'none'}
-        >
-          {dataViewOptions.map((option, index) => {
-            return (
-              <MenuItem key={index + 'distribution-dataview'} value={option.value}>
-                {option.label}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="GD">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
+        <div className={classes.rightSide}>
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
-          <SliderSizes value={'GD'} sx={{ margin: '0px 10px 0px 10px' }} />
+          <SliderSizes value={'GD'} style={{ width: '100%' }} />
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
@@ -306,6 +312,41 @@ export const DistributionGraph = () => {
           </div>
         </div>
       </div>
+      {showFilter && !canFilterData && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <SelectCountry />
+              <div className={classes.selectWrapper}>
+                <Typography variant="caption">Data view</Typography>
+                <Select
+                  value={distributionGraphView}
+                  onChange={handleChangeDataView}
+                  inputProps={{ className: classes.selectInput }}
+                  MenuProps={{ classes: { list: classes.selectMenu } }}
+                  disabled={organism === 'none'}
+                >
+                  {dataViewOptions.map((option, index) => {
+                    return (
+                      <MenuItem key={index + 'distribution-dataview'} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

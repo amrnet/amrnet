@@ -1,4 +1,4 @@
-import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
 import {
   CartesianGrid,
@@ -24,8 +24,10 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 import { SliderSizes } from '../../Slider';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
 
-export const ConvergenceGraph = () => {
+export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -38,6 +40,7 @@ export const ConvergenceGraph = () => {
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const currentSliderValueCM = useAppSelector((state) => state.graph.currentSliderValueCM);
+  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -167,46 +170,9 @@ export const ConvergenceGraph = () => {
 
   return (
     <CardContent className={classes.convergenceGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.selectWrapper}>
-          <Typography variant="caption">Group variable</Typography>
-          <Select
-            value={convergenceGroupVariable}
-            onChange={handleChangeGroupVariable}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {variablesOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'convergence-group-variable'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div>
-        {/* <div className={classes.selectWrapper}>
-          <Typography variant="caption">Colour variable</Typography>
-          <Select
-            value={convergenceColourVariable}
-            onChange={handleChangeColourVariable}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {variablesOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'convergence-colour-variable'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div> */}
-      </div>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CVM">
+        {/* changed id="CVM" to id="convergence-graph", as 'CVM' is used as 'id' for The "Heatmap View",  */}
+        <div className={classes.graph} id="convergence-graph">
           {plotChart}
         </div>
         <div className={classes.rightSide}>
@@ -262,6 +228,61 @@ export const ConvergenceGraph = () => {
           </div>
         </div>
       </div>
+      {showFilter && !canFilterData && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={classes.selectsWrapper}>
+                <SelectCountry />
+                <div className={classes.selectWrapper}>
+                  <Typography variant="caption">Group variable</Typography>
+                  <Select
+                    value={convergenceGroupVariable}
+                    onChange={handleChangeGroupVariable}
+                    inputProps={{ className: classes.selectInput }}
+                    MenuProps={{ classes: { list: classes.selectMenu } }}
+                    disabled={organism === 'none'}
+                  >
+                    {variablesOptions.map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'convergence-group-variable'} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                {/* <div className={classes.selectWrapper}>
+          <Typography variant="caption">Colour variable</Typography>
+          <Select
+            value={convergenceColourVariable}
+            onChange={handleChangeColourVariable}
+            inputProps={{ className: classes.selectInput }}
+            MenuProps={{ classes: { list: classes.selectMenu } }}
+            disabled={organism === 'none'}
+          >
+            {variablesOptions.map((option, index) => {
+              return (
+                <MenuItem key={index + 'convergence-colour-variable'} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </div> */}
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

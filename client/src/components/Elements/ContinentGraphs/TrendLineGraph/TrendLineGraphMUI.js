@@ -1,128 +1,69 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  topRightControls: {
-    textAlign: 'end',
-    flexDirection: 'column',
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    marginTop: '200px',
-    width: '450px',
-    maxHeight: '300px',
-    alignItems: 'normal',
-    // overflowY: 'auto',
-    // width:'25%',
-    '@media (max-width: 1000px)': {
-      // width:
-    },
-    '@media (max-width: 700px)': {
-      position: 'relative',
-      marginTop: '0px',
-      width: '100%',
-    },
-    // '&$bp700': {
-    //   position: 'relative'
-    // }
-  },
-  font: {
-    // '&.MuiFormControlLabel-root': {
-    //   // borderRadius: '16px',
-    // },
-    fontSize: 'small !important',
-    marginRight: '0px !important',
-  },
-
-  dropdown: {
-    '& .MuiTypography-root': {
-      fontSize: '14px',
-      height: '20px',
-      padding: '0px',
-      // width:'20px',
-    },
-  },
-  checkbox: {
-    '& .MuiCheckbox-root': {
-      backgroundColor: 'blue',
-      color: 'red',
-      padding: '0px',
-      // width:'20px',
-    },
-  },
-  card: { borderRadius: '6px !important' },
-  cardContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    rowGap: '4px',
-  },
-  frequenciesGraph: {
+  trendLineGraph: {
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-    textAlign: 'justify',
   },
   selectsWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    rowGap: '4px',
+    rowGap: '8px',
+  },
+  selectPreWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+    width: '100%',
   },
   selectWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    rowGap: '8px',
+    flex: 1,
+    width: '100%',
+  },
+  selectInput: {
+    fontSize: '14px !important',
+    fontWeight: '600 !important',
+    padding: '8px 32px 8px 8px !important',
+  },
+  selectMenu: {
+    '& .MuiMenuItem-root': {
+      fontSize: '14px',
+    },
+    '& .MuiCheckbox-root': {
+      padding: '0px 8px 0px 0px',
+    },
   },
   labelWrapper: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: '8px',
+    paddingBottom: '4px',
   },
   labelTooltipIcon: {
     cursor: 'pointer',
   },
-  label: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: '8px',
-  },
-  dataViewSelectInput: {
+  multipleSelectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
     padding: '8px 32px 8px 8px !important',
-  },
-  dataViewSelectMenu: {
-    '& .MuiMenuItem-root': {
-      fontSize: '14px',
-    },
-  },
-  genotypesSelectInput: {
-    fontSize: '14px !important',
-    fontWeight: '600 !important',
-    padding: '8px 110px 8px 15px !important',
     marginRight: '-80px !important',
   },
-  genotypesSelectButton: {
+  selectButton: {
     height: '20px',
-    fontSize: '8px !important',
+    fontSize: '10px !important',
     padding: '3px 5px !important',
     whiteSpace: 'nowrap',
     position: 'absolute',
     right: '18px',
   },
-  genotypesMenuPaper: {
+  menuPaper: {
     maxHeight: '350px !important',
   },
-  genotypesSelectMenu: {
-    '& .MuiCheckbox-root': {
-      padding: '0px 8px 0px 0px',
-    },
-    '& .MuiTypography-root': {
-      fontSize: '14px',
-    },
-  },
   graphWrapper: {
-    paddingTop: '16px',
     display: 'flex',
     flexDirection: 'row',
     gap: '16px',
@@ -138,10 +79,6 @@ const useStyles = makeStyles((theme) => ({
     width: '70%',
 
     '@media (max-width: 1000px)': {
-      width: '100%',
-    },
-
-    '@media (max-width: 500px)': {
       width: '100%',
       height: '460px',
     },
@@ -171,11 +108,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '50%',
     minWidth: '10px',
   },
-  chartTooltipLabel: {
-    backgroundColor: '#fff',
-    padding: '8px',
-    border: 'solid rgba(0, 0, 0, 0.25) 1px',
-  },
   tooltipWrapper: {
     width: '30%',
     borderRadius: '6px',
@@ -187,6 +119,12 @@ const useStyles = makeStyles((theme) => ({
       height: '250px',
     },
   },
+  noYearSelected: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
   tooltip: {
     width: '100%',
     height: '100%',
@@ -195,11 +133,15 @@ const useStyles = makeStyles((theme) => ({
   },
   tooltipTitle: {
     display: 'flex',
+    flexDirection: 'column',
+    padding: '16px 16px 8px',
+    borderBottom: '1px solid #fff',
+  },
+  tooltipInfo: {
+    display: 'flex',
     flexDirection: 'row',
     columnGap: '8px',
     alignItems: 'flex-end',
-    padding: '16px 16px 8px',
-    borderBottom: '1px solid #fff',
   },
   tooltipContent: {
     display: 'grid',
@@ -229,11 +171,34 @@ const useStyles = makeStyles((theme) => ({
       overflowWrap: 'anywhere',
     },
   },
-  noGenotypeSelected: {
+  chartTooltipLabel: {
+    backgroundColor: '#fff',
+    padding: '8px',
+    border: 'solid rgba(0, 0, 0, 0.25) 1px',
+  },
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  noData: {
+    height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
   },
 }));
 

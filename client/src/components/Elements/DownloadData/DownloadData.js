@@ -10,15 +10,15 @@ import { PictureAsPdf, Storage, TableChart } from '@mui/icons-material';
 import { setPosition } from '../../../stores/slices/mapSlice';
 import jsPDF from 'jspdf';
 import LogoImg from '../../../assets/img/logo-prod.png';
-import EUFlagImg from '../../../assets/img/eu_flag.jpg';
+// import EUFlagImg from '../../../assets/img/eu_flag.jpg';
 import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { mapLegends } from '../../../util/mapLegends';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
-import { setCollapses } from '../../../stores/slices/graphSlice';
-import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
+import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
+// import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
   colorForDrugClassesKP,
@@ -26,8 +26,26 @@ import {
   colorForDrugClassesST,
   getColorForGenotype,
 } from '../../../util/colorHelper';
-import { getKlebsiellaTexts, getSalmonellaTexts, getNgonoTexts } from '../../../util/reportInfoTexts';
+import {
+  getKlebsiellaTexts,
+  getSalmonellaTexts,
+  getNgonoTexts,
+  getIntsTexts,
+  getSentericaintsTexts,
+  getShigeTexts,
+  getDEcoliTexts,
+  getEcoliTexts,
+} from '../../../util/reportInfoTexts';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
+import {
+  drugsNG,
+  drugsST,
+  drugsKP,
+  drugsSTLegendsOnly,
+  drugsNGLegensOnly,
+  drugsINTSLegendsOnly,
+  drugsKlebLegendsOnly,
+} from '../../../util/drugs';
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -207,7 +225,15 @@ export const DownloadData = () => {
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
   const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
-
+  const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
+  const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
+  const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
+  const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
+  const actualGenomesGD = useAppSelector((state) => state.graph.actualGenomesGD);
+  const actualGenomesDRT = useAppSelector((state) => state.graph.actualGenomesDRT);
+  const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
+  const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
+  const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -292,8 +318,7 @@ export const DownloadData = () => {
       .finally(() => {
         setLoadingCSV(false);
       });
-}
-
+  }
 
   function getOrganismCards() {
     return graphCards.filter((card) => card.organisms.includes(organism));
@@ -317,11 +342,13 @@ export const DownloadData = () => {
   function formatDate(date) {
     return moment(date).format('ddd MMM DD YYYY HH:mm');
   }
-
+  let Page = 0;
   function drawFooter({ document, pageHeight, pageWidth, date }) {
+    Page++;
     document.setFontSize(10);
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
     document.text(`Source: amrnet.org`, 16, pageHeight - 10, { align: 'left' });
+    document.text(`Page:${Page}`, pageWidth - 16, pageHeight - 10, { align: 'right' });
   }
 
   function drawHeader({ document, pageWidth }) {
@@ -436,14 +463,9 @@ export const DownloadData = () => {
     setLoadingPDF(true);
     dispatch(
       setCollapses({
-        determinants: true,
-        distribution: true,
-        drugResistance: true,
-        frequencies: true,
-        trends: true,
-        KODiversity: true,
-        convergence: true,
         continent: true,
+        all: true,
+        map: true,
       }),
     );
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
@@ -462,7 +484,12 @@ export const DownloadData = () => {
       doc.addImage(logo, 'PNG', 16, 36, logoWidth, 41, undefined, 'FAST');
 
       let texts;
-      let firstName, secondName, secondword;
+      let firstName,
+        secondName,
+        secondword = 330,
+        firstWord = 264,
+        fontSize = 16,
+        amrnetHeading = 177;
       if (organism === 'styphi') {
         texts = getSalmonellaTexts(date);
         firstName = 'Salmonella';
@@ -472,26 +499,55 @@ export const DownloadData = () => {
         texts = getKlebsiellaTexts();
         firstName = 'Klebsiella';
         secondName = 'pneumoniae';
-        secondword = 330;
       } else if (organism === 'ngono') {
         texts = getNgonoTexts();
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
-        secondword = 330;
-      }else {
-        texts = getNgonoTexts();
-        firstName = 'shigella';
-        secondName = 'gonorrhoeae';
-        secondword = 330;
+      } else if (organism === 'shige') {
+        texts = getShigeTexts();
+        firstName = 'Shigella';
+        secondName = '+ EIEC';
+        secondword = 305;
+        firstWord = 257;
+      } else if (organism === 'senterica') {
+        texts = getSentericaintsTexts();
+        firstName = 'Salmonella';
+        secondName = 'enterica';
+      } else if (organism === 'ecoli') {
+        texts = getEcoliTexts();
+        firstName = 'Escherichia';
+        secondName = 'coli';
+      } else if (organism === 'decoli') {
+        texts = getDEcoliTexts();
+        firstName = 'Diarrheagenic E.';
+        secondName = 'coli';
+        secondword = 340;
+        firstWord = 281;
+      } else {
+        texts = getIntsTexts();
+        firstName = 'Invasive non-typhoidal';
+        secondName = 'Salmonella';
+        amrnetHeading = 150;
+        firstWord = 242;
+        secondword = 318;
+        fontSize = 12;
       }
 
       // Title and Date
       drawHeader({ document: doc, pageWidth });
-      doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text('AMRnet Report for', 177, 44, { align: 'center' });
-      doc.setFont(undefined, 'bolditalic');
-      doc.text(firstName, 264, 44, { align: 'center' });
-      if (organism === 'kpneumo' || organism === 'ngono') doc.setFont(undefined, 'bolditalic');
+      doc.setFontSize(fontSize).setFont(undefined, 'bold');
+      doc.text('AMRnet Report for', amrnetHeading, 44, { align: 'center' });
+      if (organism === 'styphi' || organism === 'senterica' || organism === 'shige')
+        doc.setFont(undefined, 'bolditalic');
+      doc.text(firstName, firstWord, 44, { align: 'center' });
+      if (
+        organism === 'kpneumo' ||
+        organism === 'ngono' ||
+        organism === 'sentericaints' ||
+        organism === 'senterica' ||
+        organism === 'decoli'
+      )
+        doc.setFont(undefined, 'bolditalic');
       else doc.setFont(undefined, 'bold');
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
@@ -590,24 +646,24 @@ export const DownloadData = () => {
           drawHeader({ document: doc, pageWidth });
           doc.text(texts[26], 16, 40, { align: 'left', maxWidth: pageWidth - 36 });
         } else {
-          doc.text(texts[26], 16, 575 + pmidSpace - 10, { align: 'left', maxWidth: pageWidth - 36 });
-          drawFooter({ document: doc, pageHeight, pageWidth, date });
-          doc.addPage();
-          drawHeader({ document: doc, pageWidth });
+          doc.text(texts[26], 16, 585 + pmidSpace - 10, { align: 'left', maxWidth: pageWidth - 36 });
+          // drawFooter({ document: doc, pageHeight, pageWidth, date });
+          // doc.addPage();
+          // drawHeader({ document: doc, pageWidth });
         }
-        doc.setFont(undefined, 'bold');
-        doc.text(texts[27], 16, pageHeight - 90, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[28], 16, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'italic');
-        doc.text(texts[29], 136, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[30], 182, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[31], 16, pageHeight - 60, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'bold');
+        // doc.text(texts[27], 16, pageHeight - 90, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
-        const euFlag = new Image();
-        euFlag.src = EUFlagImg;
-        doc.addImage(euFlag, 'JPG', 322, pageHeight - 56.5, 12, 7, undefined, 'FAST');
+        // doc.text(texts[28], 16, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text(texts[29], 136, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[30], 182, pageHeight - 70, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[31], 16, pageHeight - 60, { align: 'left', maxWidth: pageWidth - 36 });
+        // // doc.setFont(undefined, 'normal');
+        // const euFlag = new Image();
+        // euFlag.src = EUFlagImg;
+        // doc.addImage(euFlag, 'JPG', 322, pageHeight - 56.5, 12, 7, undefined, 'FAST');
         // doc.text(texts[31], 16, pageHeight - 30, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'kpneumo') {
         // Info
@@ -746,9 +802,247 @@ export const DownloadData = () => {
         doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[25], 16, 76, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[26], 16, 116, { align: 'left', maxWidth: pageWidth - 36 });
-      }else {
-        console.log("shige....")
+      } else if (organism === 'sentericaints') {
+        // Info
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.text(texts[1], 16, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 109, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[3], 152, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 135, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.text(texts[5], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[6], 106, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[7], 153, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // Add a yellow background //WARNING
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 200, pageWidth - 20, 90, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[8], 16, 215, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[9], 16, 235, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        //Variable definitions
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[10], 16, 305, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 325, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[12], 55, 325, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[13], 16, 335, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[14], 16, 365, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[15], 96, 365, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[16], 16, 375, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // Abbreviations
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[17], 16, 405, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[18], 16, 425, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[19], 45, 425, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[20], 16, 435, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[21], 45, 435, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[22], 16, 445, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[23], 45, 445, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[24], 16, 455, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[25], 45, 455, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[26], 16, 465, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[27], 45, 465, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[28], 16, 475, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[29], 45, 475, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[30], 16, 485, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[31], 45, 485, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[32], 16, 495, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[33], 45, 495, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[34], 45, 505, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[35], 16, 515, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[36], 45, 515, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[37], 16, 525, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[38], 95, 525, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[39], 95, 535, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[40], 110, 535, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[41], 200, 535, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[42], 267, 535, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[43], 16, 545, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[44], 95, 545, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[45], 95, 555, { align: 'justify', maxWidth: pageWidth - 36 });
+        // const euFlag = new Image();
+        // euFlag.src = EUFlagImg;
+        // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
+      } else if (organism === 'senterica') {
+        // Info
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[1], 100, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[3], 16, 155, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // // Add a yellow background //WARNING
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 165, pageWidth - 20, 40, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[4], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[5], 65, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[6], 85, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[7], 165, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
+        // Variable definitions
+
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[10], 16, 245, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 275, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 295, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // Abbreviations
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[13], 16, 315, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[14], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[15], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[16], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text('qnr', 16, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 32, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[18], 183, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+      } else if (organism === 'shige') {
+        // Info
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[1], 55, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[3], 16, 155, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        // // Add a yellow background //WARNING
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 165, pageWidth - 20, 60, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[3], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[4], 65, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[5], 85, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[6], 115, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
+        // Variable definitions
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[8], 16, 245, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 265, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[10], 16, 275, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[11], 16, 325, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[12], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+
+        // // Abbreviations
+        // doc.setFont(undefined, 'bold');
+        // doc.text(texts[13], 16, 315, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[14], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[15], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[16], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('qnr', 16, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[17], 32, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[18], 183, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+      } else if (organism === 'decoli') {
+        // Info
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[1], 85, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 100, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.text(texts[5], 16, 175, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 16, 205, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 245, pageWidth - 20, 65, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[10], 16, 265, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[11], 65, 265, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        // Abbreviations
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[13], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[15], 60, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[16], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 102, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[18], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+      } else {
+        console.log('No Report available for this organism');
       }
+
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       // Map
@@ -756,10 +1050,10 @@ export const DownloadData = () => {
       drawHeader({ document: doc, pageWidth });
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
-      doc.setFontSize(16).setFont(undefined, 'bold');
-      doc.text('Global Overview of', 177, 44, { align: 'center' });
+      doc.setFontSize(fontSize).setFont(undefined, 'bold');
+      doc.text('Global Overview of', amrnetHeading, 44, { align: 'center' });
       doc.setFont(undefined, 'bolditalic');
-      doc.text(firstName, 264, 44, { align: 'center' });
+      doc.text(firstName, firstWord, 44, { align: 'center' });
       doc.setFont(undefined, 'bold');
       doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
@@ -781,15 +1075,15 @@ export const DownloadData = () => {
           doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'ST prevalence') {
           doc.text('Selected ST: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        }else if (mapView === 'Sublineage prevalence') {
+        } else if (mapView === 'Sublineage prevalence') {
           doc.text('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        }else if (mapView === 'Resistance prevalence') {
+        } else if (mapView === 'Resistance prevalence') {
           doc.text('Selected Resistance: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        } 
-      }else if (prevalenceMapViewOptionsSelected.length > 1) {
-          const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
-          doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
         }
+      } else if (prevalenceMapViewOptionsSelected.length > 1) {
+        const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
+        doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
+      }
       let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
         // scale: 4,
@@ -817,14 +1111,14 @@ export const DownloadData = () => {
       let legendWidth = 58.85;
 
       switch (mapView) {
-        case 'Dominant Genotype':
-          legendWidth = organism === 'styphi' ? 414.21 : 394.28;
-          mapLegend.src = `legends/MapView_DominantGenotype_${organism}.png`;
+        case 'Genotype prevalence':
+          // legendWidth = organism === 'styphi' ? 414.21 : 394.28;
+          mapLegend.src = `legends/MapView_prevalence.png`;
           break;
         case 'No. Samples':
           mapLegend.src = 'legends/MapView_NoSamples.png';
           break;
-        case 'Sensitive to all drugs':
+        case 'Pansusceptible':
           mapLegend.src = 'legends/MapView_Sensitive.png';
           break;
         default:
@@ -837,16 +1131,36 @@ export const DownloadData = () => {
         doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5, 105, legendWidth, 47, undefined, 'FAST');
       }
 
+      //Heatmap
+      doc.addPage();
+      drawHeader({ document: doc, pageWidth });
+      drawFooter({ document: doc, pageHeight, pageWidth, date });
+      doc.setFontSize(12).setFont(undefined, 'bold');
+      doc.text('Geographic Comparisons', 16, 44);
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(12);
+      doc.text(`Selected View: ${actualMapView}`, 16, 56);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 76);
+      const graphImgHeat = document.createElement('img');
+      const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
+      graphImgHeat.src = await domtoimage.toPng(document.getElementById('CVM'), { bgcolor: 'white' });
+      await graphImgPromiseHeat;
+      // console.log('graphImgHeat', graphImgHeat.width);
+      if (graphImgHeat.width > 3000) {
+        doc.addImage(graphImgHeat, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
+      } else {
+        doc.addImage(graphImgHeat, 'PNG', 16, 100, pageWidth - 80, 271, undefined, 'FAST');
+      }
+
       // Graphs
       const isKlebe = organism === 'kpneumo';
       const isNgono = organism === 'ngono';
 
-      const cards = getOrganismCards();
+      const cards = getOrganismCards().filter((card) => card.id !== 'HSG');
       const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
       let drugClassesFactor = 0;
-      if(drugClassesBars !== undefined)
-        drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
+      if (drugClassesBars !== undefined) drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 6);
 
       const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
@@ -861,6 +1175,7 @@ export const DownloadData = () => {
         ) {
           continue;
         }
+
         doc.addPage();
         drawHeader({ document: doc, pageWidth });
         drawFooter({ document: doc, pageHeight, pageWidth, date });
@@ -891,15 +1206,23 @@ export const DownloadData = () => {
         doc.setFontSize(10);
         doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 56);
         doc.setFontSize(12);
-        doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        // doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        if (cards[index].id === 'GD') doc.text(`Total: ${actualGenomesGD} genomes`, 16, 74);
+        else if (cards[index].id === 'DRT') doc.text(`Total: ${actualGenomesDRT} genomes`, 16, 74);
+        else if (cards[index].id === 'RDT') doc.text(`Total: ${actualGenomesRDT} genomes`, 16, 74);
+        else doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
         doc.text(`Country: ${actualCountry}`, 16, 86);
-        doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        // doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        if (cards[index].id === 'GD') doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
+        else if (cards[index].id === 'DRT') doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
+        else if (cards[index].id === 'RDT') doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
+        else doc.text(`Time eriod: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         doc.text(
           `Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`,
           16,
           110,
         );
-
+        dispatch(setDownload(true));
         const graphImg = document.createElement('img');
         const graphImgPromise = imgOnLoadPromise(graphImg);
         graphImg.src = await domtoimage.toPng(document.getElementById(cards[index].id), { bgcolor: 'white' });
@@ -909,10 +1232,14 @@ export const DownloadData = () => {
         } else {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
-
-        doc.setFillColor(255, 255, 255);
         const rectY = matches1000 ? 320 : 340;
-        doc.rect(0, rectY, pageWidth, 200, 'F');
+        if (cards[index].id === 'CVM') {
+          doc.setFillColor(255, 255, 255); // white
+          doc.rect(0, rectY + 60, pageWidth, 200, 'F'); // fill with white
+        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'CVM') {
+          doc.setFillColor(255, 255, 255); // white
+          doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
+        }
 
         doc.setFontSize(9);
         if (cards[index].id === 'RFWG') {
@@ -925,9 +1252,25 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'DRT') {
+          let legendDrugs;
+
+          switch (organism) {
+            case 'styphi':
+              legendDrugs = drugsSTLegendsOnly;
+              break;
+            case 'kpneumo':
+              legendDrugs = drugsKlebLegendsOnly;
+              break;
+            case 'ngono':
+              legendDrugs = drugsNGLegensOnly;
+              break;
+            default:
+              legendDrugs = drugsINTSLegendsOnly;
+              break;
+          }
           drawLegend({
             document: doc,
-            legendData: drugResistanceGraphView,
+            legendData: legendDrugs,
             factor: 8,
             rectY,
             xSpace: 200,
@@ -968,7 +1311,7 @@ export const DownloadData = () => {
             .filter((genotype) => topGenotypeSlice.includes(genotype))
             .map((genotype) => ({
               name: genotype,
-              color: getGenotypeColor(genotype)
+              color: getGenotypeColor(genotype),
             }));
 
           const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
@@ -989,7 +1332,7 @@ export const DownloadData = () => {
             id: 'RDT',
             document: doc,
             legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
-            factor: Math.ceil(legendGenotypes.length/6) ,
+            factor: Math.ceil(legendGenotypes.length / 6),
             rectY: isKlebe ? 6 * 18 : 6 * 6,
             xSpace: 60,
             threePages: false,
@@ -1005,13 +1348,14 @@ export const DownloadData = () => {
             xSpace: 90,
             // twoPages: isKlebe
           });
-        } else if (cards[index].id === 'CVM') {
+          // id= convergence-graph for AMR/virulence (Kleb) ,
+        } else if (cards[index].id === 'convergence-graph') {
           // console.log("convergenceColourPallete",topColorSlice)
           drawLegend({
             document: doc,
             legendData: Object.keys(topColorSlice),
             factor: variablesFactor,
-            rectY,
+            rectY: rectY,
             xSpace: isYersiniabactin ? 190 : 127,
             isVariable: true,
             factorMultiply: isYersiniabactin ? 2 : 3,
@@ -1027,6 +1371,7 @@ export const DownloadData = () => {
 
       doc.save(`AMRnet ${firstName} ${secondName} Report.pdf`);
     } catch (error) {
+      console.error('ERROR', error.message);
       setShowAlert(true);
     } finally {
       setLoadingPDF(false);
@@ -1053,7 +1398,7 @@ export const DownloadData = () => {
       Name = 'invasive-non-typhoidal-salmonella';
     }
     const url = `https://amrnet.readthedocs.io/en/staging/usage.html#${Name}`;
-    console.log("url",url)
+    // console.log('url', url);
     window.open(url, '_blank');
     // window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
   }
@@ -1078,11 +1423,16 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={organism !== 'styphi' && organism !== 'kpneumo' && organism !== 'ngono'}
+        disabled={['ecoli'].includes(organism)} //'styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'
       >
         Download PDF
       </LoadingButton>
-      <Button className={classes.button} variant="contained" onClick={() => handleClickDatabasePage()} startIcon={<Storage />}>
+      <Button
+        className={classes.button}
+        variant="contained"
+        onClick={() => handleClickDatabasePage()}
+        startIcon={<Storage />}
+      >
         See Database info
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>

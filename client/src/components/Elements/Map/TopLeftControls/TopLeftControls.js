@@ -26,10 +26,11 @@ import {
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
 import { useEffect, useState } from 'react';
+import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
-export const TopLeftControls = () => {
+export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }) => {
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
 
@@ -66,8 +67,17 @@ export const TopLeftControls = () => {
   }
 
   function handleChangeLineages(_, value) {
+    if (organism !== 'decoli' && value.length === 0) {
+      return;
+    }
+
     if (!value.includes('Clear All') && !value.includes('Select All')) {
-      setCurrentSelectedLineages(value);
+      if (organism === 'decoli') {
+        setCurrentSelectedLineages(value);
+        return;
+      }
+
+      setCurrentSelectedLineages([value[value.length - 1]]);
       return;
     }
 
@@ -100,10 +110,13 @@ export const TopLeftControls = () => {
   }
 
   return (
-    <div className={`${classes.topLeftControls} ${matches ? classes.bp700 : ''}`}>
+    <div className={`${classes.topLeftControls} ${matches && !closeButton ? classes.bp700 : ''}`} style={style}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <Typography variant="h6">Filters</Typography>
+          <div className={classes.titleWrapper}>
+            <Typography variant="h6">Global Filter</Typography>
+            {closeButton}
+          </div>
           <Typography variant="caption">Applied to all plots</Typography>
           {organism !== 'styphi' ? null : (
             <div className={classes.datasetWrapper}>
@@ -119,7 +132,7 @@ export const TopLeftControls = () => {
               </ToggleButtonGroup>
             </div>
           )}
-          {!['shige', 'decoli', 'sentericaints'].includes(organism) ? null : (
+          {!amrLikeOrganisms.filter((x) => x !== 'ecoli').includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}
@@ -128,13 +141,30 @@ export const TopLeftControls = () => {
                 multiple
                 disableCloseOnSelect
                 value={currentSelectedLineages}
-                options={[currentSelectedLineages.length === pathovar.length ? 'Clear All' : 'Select All', ...pathovar]}
+                options={
+                  currentSelectedLineages.length === pathovar.length
+                    ? ['Clear All', ...pathovar]
+                    : [...(organism === 'decoli' ? ['Select All'] : []), ...pathovar]
+                }
                 onChange={handleChangeLineages}
                 onClose={handleCloseLineages}
                 limitTags={1}
                 clearIcon={null}
                 renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
                 slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
+                getOptionDisabled={(option) => {
+                  if (organism === 'decoli') {
+                    return false;
+                  }
+
+                  if (['Clear All', 'Select All'].includes(option)) {
+                    return false;
+                  }
+
+                  if (currentSelectedLineages.length === pathovar.length) {
+                    return true;
+                  }
+                }}
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
                   const isAllButton = isAllOption(option);
