@@ -46,8 +46,8 @@ export const DownloadMapViewData = ({ value }) => {
     firstName = 'Shigella';
     secondName = '+ EIEC';
   } else if (organism === 'decoli') {
-    firstName = 'Diarrheagenic';
-    secondName = 'E. coli';
+    firstName = 'E. coli';
+    secondName = '(diarrheagenic)';
   }else if (organism === 'ecoli') {
     firstName = 'Escherichia';
     secondName = 'coli';

@@ -71,10 +71,10 @@ export const organismsCards = [
   {
     label: (
       <span>
-        Diarrheagenic <i>E. coli</i>
+        <i> E. coli</i> (diarrheagenic)
       </span>
     ),
-    stringLabel: 'Diarrheagenic E. coli',
+    stringLabel: 'E. coli (diarrheagenic) ',
     value: 'decoli',
     abbr: 'DEC',
     img: decoli,
@@ -152,4 +152,10 @@ export const organismsCards = [
   },
 ];
 
-export const amrLikeOrganisms = ['decoli', 'ecoli', 'shige', 'sentericaints'];
+export const onlyEcolis = ['decoli', 'ecoli'];
+export const nonEcolis = ['senterica', 'shige', 'sentericaints'];
+export const amrLikeOrganisms = [...onlyEcolis, ...nonEcolis];
+// created another constant to avoid confusion and create issues with existing code
+// used only to exclude ecoli from the amrLikeOrganisms where ever  needed
+export const amrLikeOrganismsExceptEcoli = ['decoli', ...nonEcolis];
+

@@ -2,7 +2,7 @@ import { useStyles } from './SelectCountryMUI';
 import { /*Card, CardContent,*/ MenuItem, Select /*Typography*/, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice';
-// import { useMemo } from 'react';
+import { useMemo } from 'react';
 
 export const SelectCountry = ({ hideAll = false }) => {
   const classes = useStyles();
@@ -24,9 +24,16 @@ export const SelectCountry = ({ hideAll = false }) => {
 
   function handleChangeCountry(event) {
     const country = event.target.value;
-    const region = Object.keys(economicRegions).find((key) => economicRegions[key].includes(country)) ?? 'All';
 
-    dispatch(setActualRegion(region));
+    // Try to find the region that includes the selected country
+    const matchingRegion = Object.keys(economicRegions).find((key) =>
+      economicRegions[key].includes(country)
+    );
+
+    // Only update the region if a match is found
+    if (matchingRegion) {
+      dispatch(setActualRegion(matchingRegion));
+    }
     dispatch(setActualCountry(country));
     dispatch(setCanFilterData(true));
   }

@@ -1,17 +1,29 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  topRightControls: {
-    textAlign: 'end',
+  topRightControls2: {
+    display: 'flex',
+    // textAlign: 'end',
     flexDirection: 'column',
     position: 'absolute',
     top: 0,
     right: 0,
     marginTop: '280px',
     width: '350px',
-    maxHeight: '300px',
-    alignItems: 'normal',
 
+    '@media (max-width: 700px)': {
+      position: 'relative',
+      marginTop: '0px',
+      width: '100%',
+    },
+  },
+  topRightControls2Close: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    margin: '2px',
     '@media (max-width: 700px)': {
       position: 'relative',
       marginTop: '0px',

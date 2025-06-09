@@ -483,10 +483,10 @@ export const UserGuidePage = () => {
           <br />
 
           <Typography variant="h6" className={classes.paragraph}>
-            Diarrheagenic<i> E. coli</i>
+            <i> E. coli</i>(Diarrheagenic)
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Diarrheagenic <i>E. coli</i> data in AMRnet are drawn from{' '}
+            <i> E. coli</i>(Diarrheagenic) data in AMRnet are drawn from{' '}
             <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
               Enterobase
             </a>
@@ -518,7 +518,7 @@ export const UserGuidePage = () => {
             >
               here
             </a>
-            . Pathotypes included in the diarrheagenic <i>E. coli</i> dashboard are:
+            . Pathotypes included in the <i> E. coli</i>(diarrheagenic) dashboard are:
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>

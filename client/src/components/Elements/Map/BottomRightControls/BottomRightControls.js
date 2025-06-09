@@ -86,10 +86,11 @@ export const BottomRightControls = () => {
           ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
         } else if (organism === 'decoli') {
           ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.565, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.525, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.63, 80);
-          ctx.fillText(labelSplit[2], canvas.width * 0.65, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.55, 80);
+          ctx.font = 'normal bold 50px Montserrat';
+          ctx.fillText(labelSplit[2], canvas.width * 0.625, 80);
         } else if (organism === 'shige') {
           ctx.font = 'italic bold 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
@@ -193,10 +194,10 @@ export const BottomRightControls = () => {
           case 'Genotype prevalence':
           case 'Lineage prevalence':
           case 'ST prevalence':
-          case 'Resistance prevalence':
           case 'Sublineage prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
+          case 'Resistance prevalence':
           default:
             legendImg.src = 'legends/MapView_Others.png';
             break;

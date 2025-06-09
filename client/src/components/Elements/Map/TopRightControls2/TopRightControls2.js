@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
 import { Collapse } from '@mui/material';
 import Switch from '@mui/material/Switch';
+import { Close } from '@mui/icons-material';
+import ViewAgendaIcon from '@mui/icons-material/ViewAgenda';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -13,7 +15,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { statKeys, mapStatKeysKP } from '../../../../util/drugClassesRules';
 import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
-import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { amrLikeOrganisms, amrLikeOrganismsExceptEcoli} from '../../../../util/organismsCards';
 
 const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
@@ -82,10 +84,10 @@ export const TopRightControls2 = () => {
       return 'Select Drug';
     }
 
-    if (amrLikeOrganisms.includes(organism)) {
+    if (amrLikeOrganismsExceptEcoli.includes(organism)) {
       return 'Select Lineage';
     }
-    if (['kpneumo'].includes(organism)) {
+    if (['kpneumo','ecoli'].includes(organism)) {
       return 'Select ST';
     }
 
@@ -97,10 +99,10 @@ export const TopRightControls2 = () => {
       return `${open ? 'Close' : 'Open'} drug selector`;
     }
 
-    if (amrLikeOrganisms.includes(organism)) {
+    if (amrLikeOrganismsExceptEcoli.includes(organism)) {
       return `${open ? 'Close' : 'Open'} lineage selector`;
     }
-    if (['kpneumo'].includes(organism)) {
+    if (['kpneumo','ecoli'].includes(organism)) {
       return `${open ? 'Close' : 'Open'} ST selector`;
     }
 
@@ -147,12 +149,25 @@ export const TopRightControls2 = () => {
   }
 
   return (
-    <Box className={`${classes.topRightControls}`}>
-      <FormControlLabel
-        className={classes.font}
-        control={<Switch checked={open} onChange={handleClick} size="small" />}
-        label={<Typography className={classes.font}>{label}</Typography>}
-      />
+    <div className={`${classes.topRightControls2}`}>
+      <Tooltip title={label} placement="top">
+          <span>
+          {!open ? 
+            <ViewAgendaIcon
+              color="primary"
+              onClick={handleClick}
+              className={classes.topRightControls2Close}
+            >
+            </ViewAgendaIcon>:
+            <Close
+              color="primary"
+              onClick={handleClick}
+              className={classes.topRightControls2Close}
+            >
+            </Close>
+          }
+          </span>
+      </Tooltip>
       <Collapse in={open}>
         <Card elevation={3} className={classes.card}>
           <CardContent className={classes.frequenciesGraph}>
@@ -207,6 +222,6 @@ export const TopRightControls2 = () => {
           </CardContent>
         </Card>
       </Collapse>
-    </Box>
+    </div>
   );
 };

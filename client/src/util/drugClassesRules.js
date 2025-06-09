@@ -127,8 +127,9 @@ export const statKeysKP = [
 ];
 
 export const mapStatKeysKP = [
-  // { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
+  
   { name: 'Carbapenemase', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
+  { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
   // {
   //   name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
   //   column: 'Bla_ESBL_inhR_acquired',
@@ -150,8 +151,8 @@ export const mapStatKeysKP = [
   { name: 'Phenicols', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   // { name: 'Sulfonamides', column: 'Phe_acquired', key: '-', resistanceView: true },
   // { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
-  // { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
-  // { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
+  { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
+  { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true }, //// TODO: need to update 'Trimethoprim-sulfamethoxazole column name
 ];
