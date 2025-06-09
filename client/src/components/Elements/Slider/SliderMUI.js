@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
   },
   sliderSize: {
-    margin: '0px 10px',
     '& .MuiSlider-valueLabel': {
       fontSize: 12,
       fontWeight: '600',

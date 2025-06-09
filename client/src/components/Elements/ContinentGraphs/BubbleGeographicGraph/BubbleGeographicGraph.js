@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  Card,
   CardContent,
   Checkbox,
   Divider,
+  IconButton,
   ListItemText,
   MenuItem,
   Select,
@@ -20,47 +22,75 @@ import {
   Scatter,
   ZAxis,
   Cell,
+  LabelList,
 } from 'recharts';
-import { useAppSelector } from '../../../../stores/hooks';
+import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesKP, statKeys } from '../../../../util/drugClassesRules';
-import { drugAcronyms } from '../../../../util/drugs';
+import { drugClassesRulesKP, drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
+import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
-import { longestVisualWidth } from '../../../../util/helpers';
-import { InfoOutlined } from '@mui/icons-material';
+import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
+import { Close, InfoOutlined } from '@mui/icons-material';
+import { setYAxisType } from '../../../../stores/slices/mapSlice';
+import { getAxisLabel } from '../../../../util/genotypes';
 
 const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
+  const label = drug === 'Carbapenems' ? 'Carbapenemases' : drug === 'ESBL' ? 'ESBLs' : drug;
   return {
+    organism: 'kpneumo',
+    key: drug,
     value: `kp-trends-${drug.toLowerCase()}`,
-    label: `${drug} resistant determinant trends`,
+    label: `${label}`,
   };
 });
 
-export const BubbleGeographicGraph = () => {
+const stYOptions = Object.keys(drugClassesRulesSTHeatMap).map((drug) => {
+  const label = drug === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drug;
+
+  return {
+    organism: 'styphi',
+    key: drug,
+    value: `st-trends-${drug.toLowerCase()}`,
+    label: `${label} resistant determinant`,
+  };
+});
+
+const allYOptions = kpYOptions.concat(stYOptions);
+
+export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [xAxisType, setXAxisType] = useState('country');
-  const [yAxisType, setYAxisType] = useState('resistance');
+  // const [yAxisType, setYAxisType] = useState('resistance');
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [plotChart, setPlotChart] = useState(() => {});
-
+  const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const mapData = useAppSelector((state) => state.map.mapData);
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-  // const uniqueCountryKPDrugs = useAppSelector((state) => state.graph.uniqueCountryKPDrugs);
-  // const uniqueRegionKPDrugs = useAppSelector((state) => state.graph.uniqueRegionKPDrugs);
-  const drugsRegionsKPData = useAppSelector((state) => state.graph.drugsRegionsKPData);
-  const drugsCountriesKPData = useAppSelector((state) => state.graph.drugsCountriesKPData);
+  const drugsRegionsData = useAppSelector((state) => state.graph.drugsRegionsData);
+  const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
+  const yAxisType = useAppSelector((state) => state.map.yAxisType);
+
+  useEffect(() => {
+    setXAxisType('country');
+    dispatch(setYAxisType('resistance'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [organism]);
+
+  const drugsData = useMemo(() => {
+    return xAxisType === 'country' ? drugsCountriesData : drugsRegionsData;
+  }, [drugsCountriesData, drugsRegionsData, xAxisType]);
 
   const resistanceOptions = useMemo(() => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
     const resistance = options
-      .filter((option) => option.heatmapView)
+      .filter((option) => option.resistanceView)
       .map((option) => option.name)
       .sort();
 
@@ -71,7 +101,6 @@ export const BubbleGeographicGraph = () => {
       .forEach((item) => {
         const stats = item.stats;
         if (!stats) return;
-        console.log(stats);
 
         resistance.forEach((drug) => {
           if (!(drug in drugs)) {
@@ -92,9 +121,9 @@ export const BubbleGeographicGraph = () => {
   }, [mapData, mapRegionData, organism, xAxisSelected, xAxisType]);
 
   const markersOptions = useMemo(() => {
-    const drugKey = yAxisType === 'kp-trends-carbapenems' ? 'Carbapenems' : 'ESBL';
+    const drugKey = allYOptions?.find((x) => x.value === yAxisType)?.key;
 
-    const data = xAxisType === 'country' ? drugsCountriesKPData[drugKey] : drugsRegionsKPData[drugKey];
+    const data = drugsData?.[drugKey];
     const filteredData = data?.filter((x) => xAxisSelected.includes(x.name)) ?? [];
     const drugs = {};
 
@@ -115,11 +144,11 @@ export const BubbleGeographicGraph = () => {
 
     return (
       Object.entries(drugs)
-
+        .filter((x) => x[1] > 0)
         .sort((a, b) => b[1] - a[1])
         .map((x) => x[0]) ?? []
     );
-  }, [drugsCountriesKPData, drugsRegionsKPData, xAxisSelected, xAxisType, yAxisType]);
+  }, [drugsData, xAxisSelected, yAxisType]);
 
   const genotypesEntries = useMemo(() => {
     const filteredData = (xAxisType === 'country' ? mapData : mapRegionData).filter((x) =>
@@ -144,13 +173,13 @@ export const BubbleGeographicGraph = () => {
   const xAxisOptions = useMemo(() => {
     switch (xAxisType) {
       case 'country':
-        return countriesForFilter;
+        return countriesForFilter.filter((country) => mapData.find((x) => x.name === country)?.count >= 20); // data to plot should include count greater and equal to 20
       case 'region':
         return Object.keys(economicRegions).sort();
       default:
         return [];
     }
-  }, [countriesForFilter, economicRegions, xAxisType]);
+  }, [countriesForFilter, economicRegions, mapData, xAxisType]);
 
   const yAxisOptions = useMemo(() => {
     switch (yAxisType) {
@@ -162,17 +191,14 @@ export const BubbleGeographicGraph = () => {
             .sort((a, b) => b[1] - a[1])
             .map((x) => x[0]) ?? []
         );
-      case 'kp-trends-carbapenems':
-      case 'kp-trends-esbl':
-        return markersOptions;
       default:
-        return [];
+        return markersOptions ?? [];
     }
   }, [genotypesEntries, markersOptions, resistanceOptions, yAxisType]);
 
   useEffect(() => {
     setXAxisSelected(
-      (xAxisType === 'country' ? mapData : mapRegionData)
+      (xAxisType === 'country' ? mapData.filter((x) => x.count > 20) : mapRegionData.filter((x) => x.name !== 'All'))
         .slice()
         .sort((a, b) => b.count - a.count)
         .slice(0, 10)
@@ -181,7 +207,7 @@ export const BubbleGeographicGraph = () => {
   }, [mapData, mapRegionData, xAxisType]);
 
   useEffect(() => {
-    setYAxisSelected(yAxisOptions.slice(0, 8));
+    setYAxisSelected(yAxisOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [yAxisOptions]);
 
@@ -192,7 +218,7 @@ export const BubbleGeographicGraph = () => {
   const getOptionLabel = useCallback(
     (item) => {
       if (yAxisType !== 'genotype') {
-        return item;
+        return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 
       return `${item} (total N=${genotypesEntries[item]})`;
@@ -205,7 +231,7 @@ export const BubbleGeographicGraph = () => {
   }
 
   function handleChangeYAxisType(event) {
-    setYAxisType(event.target.value);
+    dispatch(setYAxisType(event.target.value));
   }
 
   function handleChangeXAxisSelected({ event = null, all = false }) {
@@ -226,16 +252,71 @@ export const BubbleGeographicGraph = () => {
   function handleChangeYAxisSelected(event) {
     const newValue = event.target.value;
 
-    if (newValue.length <= 8) {
-      setYAxisSelected(newValue);
-    }
+    // if (newValue.length <= 8) {
+    //   setYAxisSelected(newValue);
+    // }
+    setYAxisSelected(newValue);
   }
 
   function clearYAxisSelected() {
     setYAxisSelected([]);
   }
 
+  function getSpace() {
+    switch (organism) {
+      case 'shige':
+      case 'sentericaints':
+      case 'decoli':
+      case 'ecoli':
+      case 'kpneumo':
+      case 'styphi':
+        return 70;
+      default:
+        return 50;
+    }
+  }
+  const getTitle = useCallback((value) => {
+    return drugAcronymsOpposite[value] ?? Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === value) ?? value;
+  }, []);
+
+  const countriesTooltipForRegion = useCallback(
+    (region, stat) => {
+      if (xAxisType === 'country') {
+        return null;
+      }
+
+      const countries = economicRegions[region];
+      const drug = Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === stat) ?? stat;
+      const regionCount = mapRegionData.find((x) => x.name === region).count;
+      const countriesData = mapData.filter((x) => countries.includes(x.name) && x.stats?.[drug]?.count > 0);
+
+      return (
+        <div>
+          <br />
+          {countriesData.map((country, index) => {
+            const drugCount = country.stats[drug].count;
+            const percentage = Number(((drugCount / regionCount) * 100).toFixed(2));
+
+            return (
+              <Typography fontSize="12px" key={`country-tooltip-${index}`}>
+                <Typography component="span" fontWeight={500} fontSize="12px" display="inline">
+                  {country.name}
+                </Typography>
+                {`: ${drugCount} (${percentage}%)`}
+              </Typography>
+            );
+          })}
+        </div>
+      );
+    },
+    [economicRegions, mapData, mapRegionData, xAxisType],
+  );
+
   const configuredMapData = useMemo(() => {
+    if (yAxisSelected.length === 0) {
+      return [];
+    }
+
     return (xAxisType === 'country' ? mapData : mapRegionData)
       .filter((item) => xAxisSelected.includes(item.name))
       .map((item) => {
@@ -245,8 +326,9 @@ export const BubbleGeographicGraph = () => {
           Object.entries(item.stats).forEach(([key, value]) => {
             if (resistanceOptions.includes(key) && yAxisSelected.includes(key)) {
               data.items.push({
-                itemName: drugAcronyms[key],
+                itemName: drugAcronyms[key] ?? key,
                 percentage: value.percentage,
+                count: value.count,
                 index: 1,
                 typeName: item.name,
               });
@@ -268,16 +350,15 @@ export const BubbleGeographicGraph = () => {
         }
 
         if (yAxisType.includes('trends')) {
-          const locationListData = xAxisType === 'country' ? drugsCountriesKPData : drugsRegionsKPData;
-          const locationDrugData =
-            yAxisType === 'kp-trends-carbapenems' ? locationListData['Carbapenems'] : locationListData['ESBL'];
-          const locationData = locationDrugData.find((x) => x.name === item.name);
+          const drugKey = allYOptions?.find((x) => x.value === yAxisType)?.key;
+          const locationDrugData = drugsData?.[drugKey];
+          const locationData = locationDrugData?.find((x) => x.name === item.name);
 
           yAxisSelected.forEach((drug) => {
             const drugCount = locationData ? locationData[drug] : 0;
 
             data.items.push({
-              itemName: drug.replace(' + ', '/'),
+              itemName: drug.replaceAll(' + ', '/'),
               percentage: drugCount ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2)) : 0,
               index: 1,
               typeName: item.name,
@@ -287,35 +368,53 @@ export const BubbleGeographicGraph = () => {
 
         return data;
       });
-  }, [
-    drugsCountriesKPData,
-    drugsRegionsKPData,
-    mapData,
-    mapRegionData,
-    resistanceOptions,
-    xAxisSelected,
-    xAxisType,
-    yAxisSelected,
-    yAxisType,
-  ]);
+  }, [drugsData, mapData, mapRegionData, resistanceOptions, xAxisSelected, xAxisType, yAxisSelected, yAxisType]);
 
   useEffect(() => {
     if (canGetData) {
       setPlotChart(() => {
         return (
           <>
-            {configuredMapData.map((item, index) => {
+            {configuredMapData?.map((item, index) => {
               return (
-                <ResponsiveContainer key={`bubble-graph-${index}`} width="100%" height={index === 0 ? 80 : 60}>
+                <ResponsiveContainer
+                  className={classes.graphContainer}
+                  key={`bubble-graph-${index}`}
+                  width={yAxisWidth + 65 * yAxisSelected.length}
+                  height={index === 0 ? 105 : 65}
+                  style={{ paddingTop: index === 0 ? getSpace() : 0 }}
+                >
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
-                    margin={{ bottom: index === 0 ? -20 : 0 }}
+                    margin={{ bottom: index === 0 ? -20 : 20 }}
                   >
                     <XAxis
                       type="category"
                       dataKey="itemName"
                       interval={0}
-                      tick={index === 0 ? { fontSize: '14px' } : false}
+                      tick={
+                        index === 0
+                          ? (props) => {
+                              const title = getTitle(props.payload.value);
+
+                              return (
+                                <Tooltip title={title} placement="top">
+                                  <text
+                                    x={props.x}
+                                    y={props.y}
+                                    fontSize="14px"
+                                    dy={-10}
+                                    textAnchor="start"
+                                    transform={`rotate(-45, ${props.x}, ${props.y})`}
+                                    fill="rgb(128,128,128)"
+                                  >
+                                    {truncateWord(props.payload.value)}
+                                  </text>
+                                </Tooltip>
+                              );
+                            }
+                          : false
+                      }
                       axisLine={false}
                       orientation="top"
                     />
@@ -332,21 +431,33 @@ export const BubbleGeographicGraph = () => {
                       width={yAxisWidth}
                     />
 
-                    <ZAxis type="number" dataKey="percentage" range={[600, 600]} />
+                    <ZAxis type="number" dataKey="percentage" range={[3500, 3500]} />
 
                     <ChartTooltip
                       cursor={{ fill: hoverColor }}
                       wrapperStyle={{ zIndex: 100 }}
+                      offset={40}
                       content={({ payload, active }) => {
                         if (payload !== null && active) {
+                          const title = getTitle(payload[0]?.payload.itemName);
+
                           return (
-                            <div className={classes.chartTooltipLabel}>
+                            <div
+                              className={classes.chartTooltipLabel}
+                              style={{ marginTop: index + 1 === configuredMapData.length ? -40 : index === 0 ? 40 : 0 }}
+                              // style={{
+                              //   marginTop: index === 0 ? 40 : index > configuredMapData.length - 4 ? -150 : 0,
+                              // }}
+                            >
                               <Typography variant="body1" fontWeight="500">
                                 {payload[0]?.payload.typeName}
                               </Typography>
                               <Typography variant="body2">
-                                {payload[0]?.payload.itemName}: {payload[0]?.payload.percentage}%
+                                {yAxisType !== 'resistance'
+                                  ? `${title}: ${payload[0]?.payload.percentage}%`
+                                  : `${title}: ${payload[0]?.payload.count} (${payload[0]?.payload.percentage}%)`}
                               </Typography>
+                              {countriesTooltipForRegion(payload[1]?.payload.typeName, payload[0]?.payload.itemName)}
                             </div>
                           );
                         }
@@ -354,7 +465,7 @@ export const BubbleGeographicGraph = () => {
                       }}
                     />
 
-                    <Scatter data={item.items}>
+                    <Scatter data={item.items} shape="square">
                       {item.items.map((option, index) => (
                         <Cell
                           name={option.drug}
@@ -362,6 +473,25 @@ export const BubbleGeographicGraph = () => {
                           fill={option.percentage === 0 ? darkGrey : differentColorScale(option.percentage, 'red')}
                         />
                       ))}
+                      <LabelList
+                        dataKey="percentage"
+                        fontSize={12}
+                        content={({ x, y, value, z }) => {
+                          return (
+                            <text
+                              x={x + 33}
+                              y={y + 38}
+                              textAnchor="middle"
+                              fontSize={15}
+                              fontWeight={600}
+                              fill={value === 0 || value > 25 ? '#fff' : '#000'}
+                              pointerEvents="none"
+                            >
+                              {value}
+                            </text>
+                          );
+                        }}
+                      />
                     </Scatter>
                   </ScatterChart>
                 </ResponsiveContainer>
@@ -376,121 +506,16 @@ export const BubbleGeographicGraph = () => {
 
   return (
     <CardContent className={classes.bubbleGeographicGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.selectPreWrapper}>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">X axis</Typography>
-            <Select
-              value={xAxisType}
-              onChange={handleChangeXAxisType}
-              inputProps={{ className: classes.selectInput }}
-              MenuProps={{ classes: { list: classes.selectMenu } }}
-              disabled={organism === 'none'}
-            >
-              <MenuItem value="country">Countries</MenuItem>
-              <MenuItem value="region">Economic regions</MenuItem>
-            </Select>
-          </div>
-          <div className={classes.selectWrapper}>
-            <div className={classes.labelWrapper}>
-              <Typography variant="caption">Select countries/regions</Typography>
-              <Tooltip title="Navigate by typing the first letter of the country/region." placement="top">
-                <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
-              </Tooltip>
-            </div>
-            <Select
-              multiple
-              value={xAxisSelected}
-              onChange={(event) => handleChangeXAxisSelected({ event })}
-              displayEmpty
-              disabled={organism === 'none'}
-              endAdornment={
-                <Button
-                  variant="outlined"
-                  className={classes.selectButton}
-                  onClick={() => handleChangeXAxisSelected({ all: true })}
-                  disabled={organism === 'none'}
-                  color={xAxisSelected.length === xAxisOptions.length ? 'error' : 'primary'}
-                >
-                  {xAxisSelected.length === xAxisOptions.length ? 'Clear All' : 'Select All'}
-                </Button>
-              }
-              inputProps={{ className: classes.multipleSelectInput }}
-              MenuProps={{
-                classes: { paper: classes.menuPaper, list: classes.selectMenu },
-              }}
-              renderValue={(selected) => <div>{`${selected.length} of ${xAxisOptions.length} selected`}</div>}
-            >
-              {xAxisOptions.map((option, index) => (
-                <MenuItem key={`geo-x-axis-option-${index}`} value={option}>
-                  <Checkbox checked={xAxisSelected.indexOf(option) > -1} />
-                  <ListItemText primary={option} />
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-        </div>
-        <div className={classes.selectPreWrapper}>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">Y axis</Typography>
-            <Select
-              value={yAxisType}
-              onChange={handleChangeYAxisType}
-              inputProps={{ className: classes.selectInput }}
-              MenuProps={{ classes: { list: classes.selectMenu } }}
-              disabled={organism === 'none'}
-            >
-              <MenuItem value="resistance">Resistance prevalence</MenuItem>
-              <MenuItem value="genotype">Genotype prevalence</MenuItem>
-              {organism === 'kpneumo' &&
-                kpYOptions.map((option, index) => (
-                  <MenuItem key={`y-kp-option-${index}`} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-            </Select>
-          </div>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select drugs/genotypes (up to 8)</Typography>
-            <Select
-              multiple
-              value={yAxisSelected}
-              onChange={handleChangeYAxisSelected}
-              displayEmpty
-              disabled={organism === 'none'}
-              endAdornment={
-                <Button
-                  variant="outlined"
-                  className={classes.selectButton}
-                  onClick={clearYAxisSelected}
-                  disabled={organism === 'none' || yAxisSelected.length === 0}
-                  color="error"
-                >
-                  Clear All
-                </Button>
-              }
-              inputProps={{ className: classes.multipleSelectInput }}
-              MenuProps={{
-                classes: { paper: classes.menuPaper, list: classes.selectMenu },
-              }}
-              renderValue={(selected) => <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>}
-            >
-              {yAxisOptions.map((option, index) => (
-                <MenuItem key={`geo-y-axis-option-${index}`} value={option}>
-                  <Checkbox checked={yAxisSelected.indexOf(option) > -1} />
-                  <ListItemText primary={getOptionLabel(option)} />
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-        </div>
-      </div>
-      <Divider className={classes.divider} />
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="CVM">
           {plotChart}
         </div>
       </div>
+      {(configuredMapData.length === 0 || yAxisSelected.length === 0) && (
+        <Box className={classes.nothingSelected}>
+          <Typography fontWeight={600}>No data to show</Typography>
+        </Box>
+      )}
       <Divider className={classes.divider} />
       <div className={classes.bottomLegend}>
         <div className={classes.legend}>
@@ -503,6 +528,137 @@ export const BubbleGeographicGraph = () => {
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Filters</Typography>
+                <Tooltip title="Hide Filters" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={classes.selectsWrapper}>
+                <div className={classes.selectPreWrapper}>
+                  <div className={classes.selectWrapper}>
+                    <Typography variant="caption">Rows</Typography>
+                    <Select
+                      value={xAxisType}
+                      onChange={handleChangeXAxisType}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      <MenuItem value="country">Countries</MenuItem>
+                      <MenuItem value="region">Regions</MenuItem>
+                    </Select>
+                  </div>
+                  <div className={classes.selectWrapper}>
+                    <div className={classes.labelWrapper}>
+                      <Typography variant="caption">Select countries/regions</Typography>
+                      <Tooltip title="Navigate by typing the first letter of the country/region." placement="top">
+                        <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                      </Tooltip>
+                    </div>
+                    <Select
+                      multiple
+                      value={xAxisSelected}
+                      onChange={(event) => handleChangeXAxisSelected({ event })}
+                      displayEmpty
+                      disabled={organism === 'none'}
+                      endAdornment={
+                        <Button
+                          variant="outlined"
+                          className={classes.selectButton}
+                          onClick={() => handleChangeXAxisSelected({ all: true })}
+                          disabled={organism === 'none'}
+                          color={xAxisSelected.length === xAxisOptions.length ? 'error' : 'primary'}
+                        >
+                          {xAxisSelected.length === xAxisOptions.length ? 'Clear All' : 'Select All'}
+                        </Button>
+                      }
+                      inputProps={{ className: classes.multipleSelectInput }}
+                      MenuProps={{
+                        classes: { paper: classes.menuPaper, list: classes.selectMenu },
+                      }}
+                      renderValue={(selected) => <div>{`${selected.length} of ${xAxisOptions.length} selected`}</div>}
+                    >
+                      {xAxisOptions.map((option, index) => (
+                        <MenuItem key={`geo-x-axis-option-${index}`} value={option}>
+                          <Checkbox checked={xAxisSelected.indexOf(option) > -1} />
+                          <ListItemText primary={option} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+                <div className={classes.selectPreWrapper}>
+                  <div className={classes.selectWrapper}>
+                    <Typography variant="caption">Columns</Typography>
+                    <Select
+                      value={yAxisType}
+                      onChange={handleChangeYAxisType}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      <MenuItem value="genotype">Genotype prevalence</MenuItem>
+                      <MenuItem value="resistance">Resistance prevalence</MenuItem>
+                      {organism === 'kpneumo' &&
+                        kpYOptions.map((option, index) => (
+                          <MenuItem key={`y-kp-option-${index}`} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      {organism === 'styphi' &&
+                        stYOptions.map((option, index) => (
+                          <MenuItem key={`y-st-option-${index}`} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </div>
+                  <div className={classes.selectWrapper}>
+                    <Typography variant="caption">Select drugs/{getAxisLabel(organism)}</Typography>
+                    <Select
+                      multiple
+                      value={yAxisSelected}
+                      onChange={handleChangeYAxisSelected}
+                      displayEmpty
+                      disabled={organism === 'none'}
+                      endAdornment={
+                        <Button
+                          variant="outlined"
+                          className={classes.selectButton}
+                          onClick={clearYAxisSelected}
+                          disabled={organism === 'none' || yAxisSelected.length === 0}
+                          color="error"
+                        >
+                          Clear All
+                        </Button>
+                      }
+                      inputProps={{ className: classes.multipleSelectInput }}
+                      MenuProps={{
+                        classes: { paper: classes.menuPaper, list: classes.selectMenu },
+                      }}
+                      renderValue={(selected) => <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>}
+                    >
+                      {yAxisOptions.sort().map((option, index) => (
+                        <MenuItem key={`geo-y-axis-option-${index}`} value={option}>
+                          <Checkbox checked={yAxisSelected.indexOf(option) > -1} />
+                          <ListItemText primary={getOptionLabel(option)} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };
