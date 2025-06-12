@@ -151,23 +151,24 @@ export const Map = () => {
             }
             percentCounterNG += genotype.count;
           });
-          genotypesNG.forEach((genotype) => {
-            if (customDropdownMapViewNG.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count} (${(
-                (genotype.count / percentCounterNG) *
-                100
-              ).toFixed(2)} %)`;
-          });
-          if (genotypesNG2.length > 0) {
-            let sumCount = 0;
-            for (const genotype of genotypesNG2) {
-              sumCount += genotype.count;
+          if (countryData.count >= 20 && genotypesNG2.length > 0) 
+            genotypesNG.forEach((genotype) => {
+              if (customDropdownMapViewNG.includes(genotype.name))
+                tooltip.content[genotype.name] = `${genotype.count} (${(
+                  (genotype.count / percentCounterNG) *
+                  100
+                ).toFixed(2)} %)`;
+            });
+            if (genotypesNG2.length > 0) {
+              let sumCount = 0;
+              for (const genotype of genotypesNG2) {
+                sumCount += genotype.count;
+              }
+              if (countryData.count >= 20 && genotypesNG2.length > 1)
+                tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount / percentCounterNG) * 100).toFixed(
+                  2,
+                )} %)`;
             }
-            if (countryData.count >= 20 && genotypesNG2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount / percentCounterNG) * 100).toFixed(
-                2,
-              )} %)`;
-          }
           break;
         case 'Genotype prevalence':
         case 'ST prevalence':
@@ -179,13 +180,14 @@ export const Map = () => {
               genotypes2.push(genotype);
             }
           });
-          genotypes1.forEach((genotype) => {
-            if (prevalenceMapViewOptionsSelected.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count} (${(
-                (genotype.count / countryStats.GENOTYPE.sum) *
-                100
-              ).toFixed(2)} %)`;
-          });
+          if (countryData.count >= 20 && genotypes2.length > 0) 
+            genotypes1.forEach((genotype) => {
+              if (prevalenceMapViewOptionsSelected.includes(genotype.name))
+                tooltip.content[genotype.name] = `${genotype.count} (${(
+                  (genotype.count / countryStats.GENOTYPE.sum) *
+                  100
+                ).toFixed(2)} %)`;
+            });
           if (genotypes2.length > 0) {
             let sumCount = 0;
             for (const genotype of genotypes2) {
@@ -199,11 +201,12 @@ export const Map = () => {
           }
           break;
         case 'Resistance prevalence':
+          if (countryData.count >= 20)
           prevalenceMapViewOptionsSelected.forEach((option) => {
             const stats = countryStats[option];
-            tooltip.content[
-              ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option
-            ] = `${stats.count} (${stats.percentage}%)`;
+              tooltip.content[
+                ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option
+              ] = `${stats.count} (${stats.percentage}%)`;
           });
           break;
         case 'H58 / Non-H58':
