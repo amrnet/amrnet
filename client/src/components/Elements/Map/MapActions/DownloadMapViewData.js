@@ -31,7 +31,6 @@ export const DownloadMapViewData = ({ value }) => {
   const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
   const yAxisType = useAppSelector((state) => state.map.yAxisType);
 
-  // console.log('convergenceData', convergenceData, convergenceGroupVariable);
   let firstName, secondName;
   if (organism === 'styphi') {
     firstName = 'Salmonella';
@@ -59,105 +58,106 @@ export const DownloadMapViewData = ({ value }) => {
     secondName = 'enterica';
   }
 
-  const downloadCSV = () => {
-    if (Array.isArray(mapData) && mapData.length > 0) {
-      let HeaderList = ['Country', 'Total number of Count'];
-      const mapViewOptionSelected =
-        mapView === 'NG-MAST prevalence' ? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
-
-      if (
-        mapView === 'Genotype prevalence' ||
-        mapView === 'ST prevalence' ||
-        mapView === 'NG-MAST prevalence' ||
-        mapView === 'Lineage prevalence'
-      ) {
-        mapViewOptionSelected.forEach((viewItem, index) => {
-          HeaderList.push(`${viewItem}`);
-          HeaderList.push(`${viewItem} %`);
-        });
-      } else {
-        Object.keys(mapData[0]?.stats).forEach((item) => {
-          if (
-            (mapView === 'Resistance prevalence' &&
-              (item === 'GENOTYPE' || item === 'NGMAST' || item === 'PATHOTYPE')) ||
-            item === 'H58'
-          ) {
-            return;
-          }
-          // if( !item === 'H58'){
-          const itemLabel = ngonoSusceptibleRule(item, organism) || drugAcronymsOpposite[item] || item;
-          HeaderList.push(itemLabel);
-          HeaderList.push(`${itemLabel} %`);
-          // }
-        });
-      }
-
-      // Create CSV header row
-      const headers = HeaderList.join(',');
-      // Create CSV rows dynamically
-      const rows = mapData
-        .filter((item) => Object.keys(item).length > 0 && item.count >= 20) //Filter data which is used to plot and include count greater and equal to 20 on MapView
-        .map((item) => {
-          let rowData = [item.name, item.count || ''];
-
-          if (
-            mapView === 'Genotype prevalence' ||
-            mapView === 'ST prevalence' ||
-            mapView === 'NG-MAST prevalence' ||
-            mapView === 'Lineage prevalence'
-          ) {
-            const GenotypeORNgmast = mapView === 'NG-MAST prevalence' ? item.stats?.NGMAST : item.stats?.GENOTYPE;
-            const foundGenotypes = GenotypeORNgmast?.items.map((x) => x.name);
-            mapViewOptionSelected.forEach((headerItem) => {
-              if (!foundGenotypes.includes(headerItem)) {
-                rowData.push(0); // count
-                rowData.push(0); // percentage
-                return;
-              }
-
-              const item = GenotypeORNgmast?.items.find((x) => x.name === headerItem);
-
-              const count = item.count || 0;
-              const percentage = ((count / GenotypeORNgmast.sum) * 100).toFixed(2); // Prevent division by zero
-
-              rowData.push(count);
-              rowData.push(percentage);
-            });
-          } else {
-            Object.keys(item.stats).forEach((key) => {
-              if (
-                (mapView === 'Resistance prevalence' &&
-                  (key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE')) ||
-                key === 'H58'
-              ) {
-                return;
-              }
-              const stat = item.stats[key];
-              if (stat) {
-                const count = stat.count || 0;
-
-                let percentage;
-                if (key === 'GENOTYPE' || key === 'NGMAST' || key === 'PATHOTYPE') {
-                  percentage = ((count / stat.sum) * 100).toFixed(2);
-                } else {
-                  percentage = stat.percentage;
-                }
-                rowData.push(count);
-                rowData.push(percentage);
-              } else {
-                console.warn(`Missing data for key: ${key}`);
-              }
-            });
-          }
-
-          return rowData.join(',');
-        });
-      generateCSV(headers, rows, 'Map');
-    } else {
+    const downloadCSV = () => {
+  
+    if (!Array.isArray(mapData) || mapData.length === 0) {
       console.log('MapData is not an array or is empty', mapData);
+      return;
     }
+  
+    let HeaderList = ['Country', 'Total number of Count'];
+    let uniqueGenotypes = [];
+  
+    const isINTsLineageView = organism === 'sentericaints' && mapView === 'Lineage prevalence';
+    const isGenotypeLikeView =
+      ['Genotype prevalence', 'ST prevalence', 'NG-MAST prevalence', 'Lineage prevalence'].includes(mapView);
+    const mapViewOptionSelected =
+      mapView === 'NG-MAST prevalence' ? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
+  
+    // Step 1: Build unique genotypes list
+    if (isINTsLineageView) {
+      const genotypeNames = mapData.flatMap(entry =>
+        entry?.stats?.GENOTYPE?.items?.map(item => item.name) || []
+      );
+      uniqueGenotypes = [...new Set(genotypeNames)];
+    }
+  
+    // Step 2: Build header
+    if (isINTsLineageView) {
+      uniqueGenotypes.forEach(name => HeaderList.push(name, `${name} %`));
+    }
+  
+    else if (isGenotypeLikeView) {
+      mapViewOptionSelected.forEach(name => HeaderList.push(name, `${name} %`));
+    } else {
+      Object.keys(mapData[0]?.stats || {}).forEach(key => {
+        if (
+          (mapView === 'Resistance prevalence' &&
+            ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)) ||
+          key === 'H58'
+        ) return;
+  
+        const itemLabel = ngonoSusceptibleRule(key, organism) || drugAcronymsOpposite[key] || key;
+        HeaderList.push(itemLabel, `${itemLabel} %`);
+      });
+    }
+  
+    // Step 3: Helper function to get count/percentage safely
+    const getStatValues = (itemsArray, sum, headerItem) => {
+      const statItem = itemsArray.find(x => x.name === headerItem);
+      const count = statItem?.count || 0;
+      const percentage = sum ? ((count / sum) * 100).toFixed(2) : '0.00';
+      return [count, percentage];
+    };
+  
+    // Step 4: Generate rows
+    const rows = mapData
+      .filter(item => Object.keys(item).length > 0 && item.count >= 20)
+      .map(item => {
+        const rowData = [item.name, item.count || ''];
+        const stats = item.stats || {};
+  
+        if (isGenotypeLikeView) {
+          const GenotypeData = mapView === 'NG-MAST prevalence' ? stats.NGMAST : stats.GENOTYPE;
+          const genotypeItems = GenotypeData?.items || [];
+          const sum = GenotypeData?.sum || 0;
+          const foundGenotypes = genotypeItems.map(x => x.name);
+  
+          const allHeaders = isINTsLineageView ? uniqueGenotypes : mapViewOptionSelected;
+          allHeaders.forEach(headerItem => {
+            if (!foundGenotypes.includes(headerItem)) {
+              rowData.push(0, 0);
+            } else {
+              rowData.push(...getStatValues(genotypeItems, sum, headerItem));
+            }
+          });
+        } else {
+          Object.entries(stats).forEach(([key, stat]) => {
+            if (
+              (mapView === 'Resistance prevalence' &&
+                ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)) ||
+              key === 'H58'
+            ) return;
+  
+            if (!stat) return rowData.push(0, 0);
+  
+            const count = stat.count || 0;
+            const percentage =
+              ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)
+                ? stat.sum ? ((count / stat.sum) * 100).toFixed(2) : '0.00'
+                : stat.percentage ?? '0.00';
+  
+            rowData.push(count, percentage);
+          });
+        }
+  
+        return rowData.join(',');
+      });
+  
+    const headers = HeaderList.join(',');
+    generateCSV(headers, rows, 'Map');
   };
-
+  
   const downloadCSVForDRT = () => {
     if (Array.isArray(drugsYearData) && drugsYearData.length > 0) {
       const HeaderList = ['Region', 'Country', 'Year', 'Total Count'];
