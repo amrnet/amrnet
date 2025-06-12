@@ -167,8 +167,9 @@ export const DownloadMapViewData = ({ value }) => {
       const drugKeys = Object.keys(sample).filter((key) => key !== 'name' && key !== 'count');
 
       drugKeys.forEach((drug) => {
-        HeaderList.push(drug);
-        HeaderList.push(`${drug} %`);
+        const itemLabel = ngonoSusceptibleRule(drug, organism);
+        HeaderList.push(itemLabel || drug);
+        HeaderList.push(`${itemLabel || drug} %`);
       });
 
       const headers = HeaderList.join(',');
@@ -531,8 +532,9 @@ export const DownloadMapViewData = ({ value }) => {
       
       // Add drug names along with percentage columns to the header
       sortedDrugs.forEach((drugName) => {
-        HeaderList.push(drugName); // Drug count column
-        HeaderList.push(`${drugName} %`); // Percentage column
+        const itemLabel = ngonoSusceptibleRule(drugName, organism);
+        HeaderList.push(itemLabel || drugName); // Drug count column
+        HeaderList.push(`${itemLabel || drugName} %`); // Percentage column
       });
 
       // Create CSV rows dynamically
@@ -630,9 +632,12 @@ export const DownloadMapViewData = ({ value }) => {
     const headerList = ['Country', 'Total Count'];
 
     // if (!(yAxisKey === 'Resistance' || yAxisKey === 'Genotype')) {
+    
     allDrugs.forEach((drug) => {
-      headerList.push(drug);
-      headerList.push(`${drug} %`);
+      const itemLabel = ngonoSusceptibleRule(drug, organism);
+        // headerList.push(itemLabel, `${itemLabel} %`);
+      headerList.push(itemLabel || drug);
+      headerList.push(`${itemLabel || drug} %`);
     });
     // }
 

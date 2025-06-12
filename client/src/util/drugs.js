@@ -216,5 +216,5 @@ export function getDrugClasses(organism) {
 }
 
 export function ngonoSusceptibleRule(name, organism) {
-  return name === 'Susceptible' && organism === 'ngono' ? 'Susceptible to cat I/II drugs' : null;
+  return (name === 'Susceptible' || name === 'Pansusceptible') && organism === 'ngono' ? 'Susceptible to cat I/II drugs' : null;
 }
