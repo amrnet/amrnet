@@ -180,6 +180,16 @@ export const ContinentGraphs = () => {
       setLoading(false);
     }
   }
+  function datasetStatemnet(){
+    switch (dataset) {
+      case 'Local':
+        return 'isolated locally in-country only';
+      case 'Travel':
+        return 'travel cases isolated out-of-country only';
+      default:
+        return ''
+    }
+  }
 
   return (
     <div className={classes.cardsWrapper}>
@@ -204,7 +214,7 @@ export const ContinentGraphs = () => {
                   {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
                   {
                     <div>
-                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal} {dataset !== 'All' ? `, ${dataset} only` : null}),
+                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal} ) {datasetStatemnet()},
                       and regions/countries with N≥20 passing these filters
                     </div>
                   }
