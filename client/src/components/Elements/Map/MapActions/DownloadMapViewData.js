@@ -523,9 +523,14 @@ export const DownloadMapViewData = ({ value }) => {
           });
         }
       });
-
+      const sortedDrugs = Array.from(allDrugs).sort((a, b) => {
+        if (a === 'Pansusceptible') return 1;  // always move 'Pansusceptible' down
+        if (b === 'Pansusceptible') return -1; // always move 'Pansusceptible' down
+        return a.localeCompare(b); // alphabetical sort
+      });
+      
       // Add drug names along with percentage columns to the header
-      allDrugs.forEach((drugName) => {
+      sortedDrugs.forEach((drugName) => {
         HeaderList.push(drugName); // Drug count column
         HeaderList.push(`${drugName} %`); // Percentage column
       });
@@ -538,7 +543,7 @@ export const DownloadMapViewData = ({ value }) => {
             let rowData = [actualRegion, actualCountry, obj.name]; // Start with genotype name
 
             // Loop through all drugs to add count and percentage
-            allDrugs.forEach((drugName) => {
+            sortedDrugs.forEach((drugName) => {
               const drugData = obj.drugs[drugName] || { count: 0, percentage: 0 };
               rowData.push(drugData.count); // Drug count
               rowData.push(drugData.percentage); // Drug percentage
@@ -584,7 +589,7 @@ export const DownloadMapViewData = ({ value }) => {
       }
     }
 
-    const allDrugsSet = new Set();
+    let allDrugsSet = new Set();
 
     // Step 2: Collect unique flat drug names (exclude 'GENOTYPE', 'name', 'totalCount', etc.)
     if (yAxisKey === 'Resistance')
@@ -614,7 +619,12 @@ export const DownloadMapViewData = ({ value }) => {
         });
       });
 
-    const allDrugs = Array.from(allDrugsSet).sort();
+    // const allDrugs = Array.from(sortedDrugs).sort();
+    const allDrugs = Array.from(allDrugsSet).sort((a, b) => {
+      if (a === 'Pansusceptible') return 1;  // always move 'Pansusceptible' down
+      if (b === 'Pansusceptible') return -1; // always move 'Pansusceptible' down
+      return a.localeCompare(b); // alphabetical sort
+    });
 
     // Step 3: Prepare headers
     const headerList = ['Country', 'Total Count'];
