@@ -1067,25 +1067,25 @@ export const DownloadData = () => {
       doc.text('Map', 16, 116);
       doc.setFont(undefined, 'normal');
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
-      doc.text(`Map View: ${actualMapView}`, 16, 128);
-      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
+      // doc.text(`Map View: ${actualMapView}`, 16, 128);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 128);
       if (prevalenceMapViewOptionsSelected.length === 1) {
         if (mapView === 'Genotype prevalence') {
-          doc.text('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 140);
         } else if (mapView === 'NG-MAST prevalence') {
-          doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 140);
         } else if (mapView === 'ST prevalence') {
-          doc.text('Selected ST: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 140);
         } else if (mapView === 'Sublineage prevalence') {
-          doc.text('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 140);
         } else if (mapView === 'Resistance prevalence') {
-          doc.text('Selected Resistance: ' +(ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
+          doc.text(`${actualMapView}:` +(ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
           drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
-          prevalenceMapViewOptionsSelected.join()), 16, 160);
+          prevalenceMapViewOptionsSelected.join()), 16, 140);
         }
       } else if (prevalenceMapViewOptionsSelected.length > 1) {
         const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
-        doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
+        doc.text(`${actualMapView}:` + genotypesText, 16, 140);
       }
       let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
