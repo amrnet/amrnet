@@ -18,6 +18,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
+import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../util/drugs';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
@@ -234,6 +235,8 @@ export const DownloadData = () => {
   const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
   const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
+  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
+
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -250,11 +253,14 @@ export const DownloadData = () => {
       firstName = 'Shigella';
       secondName = '+ EIEC';
     } else if (organism === 'decoli') {
-      firstName = 'Diarrheagenic';
-      secondName = 'E. coli';
+      firstName = 'Escherichia coli';
+      secondName = '(diarrheagenic)';
     } else if (organism === 'sentericaints') {
-      firstName = 'Invasive';
-      secondName = 'non-typhoidal Salmonella';
+      firstName = 'Salmonella';
+      secondName = '(invasive non-typhoidal)';
+    } else if (organism === 'senterica') { 
+      firstName = 'Salmonella enterica';
+      secondName = '(non-typhoidal)';
     }
     if (organism !== 'styphi') columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove];
     setLoadingCSV(true);
@@ -459,6 +465,19 @@ export const DownloadData = () => {
     }
   }
 
+  const getAxisLabel = ()=> {
+    switch (organism) {
+      case 'decoli':
+      case 'shige':
+        return 'Selected Pathotypes :';
+      case 'sentericaints':
+        return 'Selected Serotypes :';
+      case 'ecoli':
+        return 'Selected Genotypes :';
+      default:
+        return '';
+    }
+  }
   async function handleClickDownloadPDF() {
     setLoadingPDF(true);
     dispatch(
@@ -499,10 +518,16 @@ export const DownloadData = () => {
         texts = getKlebsiellaTexts();
         firstName = 'Klebsiella';
         secondName = 'pneumoniae';
+        amrnetHeading = 167;
+        secondword = 320;
+        firstWord = 254
       } else if (organism === 'ngono') {
         texts = getNgonoTexts();
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
+        amrnetHeading = 157;
+        secondword = 310;
+        firstWord = 244
       } else if (organism === 'shige') {
         texts = getShigeTexts();
         firstName = 'Shigella';
@@ -511,25 +536,29 @@ export const DownloadData = () => {
         firstWord = 257;
       } else if (organism === 'senterica') {
         texts = getSentericaintsTexts();
-        firstName = 'Salmonella';
-        secondName = 'enterica';
+        firstName = 'Salmonella enterica';
+        secondName = '(non-typhoidal)';
+        secondword = 340;
+        firstWord = 250;
+        amrnetHeading = 147;
       } else if (organism === 'ecoli') {
         texts = getEcoliTexts();
         firstName = 'Escherichia';
         secondName = 'coli';
       } else if (organism === 'decoli') {
         texts = getDEcoliTexts();
-        firstName = 'Diarrheagenic E.';
-        secondName = 'coli';
+        firstName = 'Escherichia coli';
+        secondName = '(diarrheagenic)';
         secondword = 340;
-        firstWord = 281;
+        firstWord = 250;
+        amrnetHeading = 147;
       } else {
         texts = getIntsTexts();
-        firstName = 'Invasive non-typhoidal';
-        secondName = 'Salmonella';
+        secondName = '(invasive non-typhoidal)';
+        firstName = 'Salmonella';
         amrnetHeading = 150;
-        firstWord = 242;
-        secondword = 318;
+        firstWord = 217;
+        secondword = 296;
         fontSize = 12;
       }
 
@@ -537,14 +566,13 @@ export const DownloadData = () => {
       drawHeader({ document: doc, pageWidth });
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
       doc.text('AMRnet Report for', amrnetHeading, 44, { align: 'center' });
-      if (organism === 'styphi' || organism === 'senterica' || organism === 'shige')
+      if (organism === 'styphi' || organism === 'senterica' || organism === 'shige' || organism === 'senterica')
         doc.setFont(undefined, 'bolditalic');
       doc.text(firstName, firstWord, 44, { align: 'center' });
       if (
         organism === 'kpneumo' ||
         organism === 'ngono' ||
         organism === 'sentericaints' ||
-        organism === 'senterica' ||
         organism === 'decoli'
       )
         doc.setFont(undefined, 'bolditalic');
@@ -805,12 +833,11 @@ export const DownloadData = () => {
       } else if (organism === 'sentericaints') {
         // Info
         doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
-
-        doc.text(texts[1], 16, 125, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text(texts[2], 109, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[1], 16, 125, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[3], 152, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[2], 65, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[3], 162, 125, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[4], 16, 135, { align: 'justify', maxWidth: pageWidth - 36 });
 
         doc.text(texts[5], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
@@ -1001,13 +1028,13 @@ export const DownloadData = () => {
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'decoli') {
         // Info
-        doc.setFont(undefined, 'italic');
-        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[1], 85, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[1], 80, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'italic');
-        doc.text(texts[2], 100, 105, { align: 'justify', maxWidth: pageWidth - 36 });
-        // doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 145, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
         doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
 
@@ -1066,23 +1093,26 @@ export const DownloadData = () => {
       doc.text('Map', 16, 116);
       doc.setFont(undefined, 'normal');
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
-      doc.text(`Map View: ${actualMapView}`, 16, 128);
-      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
+      // doc.text(`Map View: ${actualMapView}`, 16, 128);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 128);
+      doc.text(`${getAxisLabel()} `+ currentSelectedLineages.join(', ') , 16, 140);
       if (prevalenceMapViewOptionsSelected.length === 1) {
         if (mapView === 'Genotype prevalence') {
-          doc.text('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
         } else if (mapView === 'NG-MAST prevalence') {
-          doc.text('Selected NG-MAST TYPE: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
         } else if (mapView === 'ST prevalence') {
-          doc.text('Selected ST: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
         } else if (mapView === 'Sublineage prevalence') {
-          doc.text('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
         } else if (mapView === 'Resistance prevalence') {
-          doc.text('Selected Resistance: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text(`${actualMapView}:` +(ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
+          drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
+          prevalenceMapViewOptionsSelected.join()), 16, 152);
         }
       } else if (prevalenceMapViewOptionsSelected.length > 1) {
         const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
-        doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
+        doc.text(`${actualMapView}:` + genotypesText, 16, 152);
       }
       let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
@@ -1216,7 +1246,7 @@ export const DownloadData = () => {
         if (cards[index].id === 'GD') doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
         else if (cards[index].id === 'DRT') doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
         else if (cards[index].id === 'RDT') doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
-        else doc.text(`Time eriod: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        else doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         doc.text(
           `Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`,
           16,

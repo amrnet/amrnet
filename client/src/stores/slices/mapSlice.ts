@@ -47,6 +47,7 @@ interface MapState {
   mapRegionData: Array<MapDataModel>;
   mapColoredBy: string;
   yAxisType: string;
+  currentSelectedLineages: Array<string>;
 }
 
 const initialState: MapState = {
@@ -62,6 +63,7 @@ const initialState: MapState = {
   mapRegionData: [],
   mapColoredBy: 'country',
   yAxisType: 'resistance',
+  currentSelectedLineages: [],
 };
 
 export const mapSlice = createSlice({
@@ -96,6 +98,9 @@ export const mapSlice = createSlice({
     setYAxisType: (state, action: PayloadAction<string>) => {
       state.yAxisType = action.payload;
     },
+    setCurrentSelectedLineages: (state, action: PayloadAction<Array<any>>) => {
+      state.currentSelectedLineages = action.payload;
+    },
   },
 });
 
@@ -108,7 +113,8 @@ export const {
   setMapData,
   setMapRegionData,
   setMapColoredBy,
-  setYAxisType
+  setYAxisType,
+  setCurrentSelectedLineages
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

@@ -207,8 +207,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [mapData, mapRegionData, xAxisType]);
 
   useEffect(() => {
-    setYAxisSelected(yAxisOptions);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (yAxisOptions.length > 0) {
+      setYAxisSelected(yAxisOptions.slice(0, 20));
+    }else
+      setYAxisSelected(yAxisOptions);
   }, [yAxisOptions]);
 
   const yAxisWidth = useMemo(() => {
@@ -645,7 +647,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       }}
                       renderValue={(selected) => <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>}
                     >
-                      {yAxisOptions.sort().map((option, index) => (
+                      {yAxisOptions.map((option, index) => (
                         <MenuItem key={`geo-y-axis-option-${index}`} value={option}>
                           <Checkbox checked={yAxisSelected.indexOf(option) > -1} />
                           <ListItemText primary={getOptionLabel(option)} />

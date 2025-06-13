@@ -70,6 +70,9 @@ export const ContinentGraphs = () => {
   const dataset = useAppSelector((state) => state.map.dataset);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
+  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
+
 
   useEffect(() => {
     setShowFilter(!matches500);
@@ -164,9 +167,21 @@ export const ContinentGraphs = () => {
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
 
       ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
-
-      ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
-      ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
+      ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
+      const getAxisLabel = ()=> {
+        switch (organism) {
+          case 'decoli':
+          case 'shige':
+            return 'Selected Pathotypes :';
+          case 'sentericaints':
+            return 'Selected Serotypes: ';
+          case 'ecoli':
+            return 'Selected Genotypes: ';
+          default:
+            return '';
+        }
+      }
+      ctx.fillText(`${getAxisLabel()} `+ currentSelectedLineages.join(', ') , canvas.width / 2, 210);
 
       ctx.fillStyle = 'white';
       ctx.textAlign = 'start';
@@ -178,6 +193,16 @@ export const ContinentGraphs = () => {
       setShowAlert(true);
     } finally {
       setLoading(false);
+    }
+  }
+  function datasetStatemnet(){
+    switch (dataset) {
+      case 'Local':
+        return 'isolated locally in-country only';
+      case 'Travel':
+        return 'travel cases isolated out-of-country only';
+      default:
+        return ''
     }
   }
 
@@ -204,7 +229,7 @@ export const ContinentGraphs = () => {
                   {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
                   {
                     <div>
-                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal}),
+                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal} ) {datasetStatemnet()},
                       and regions/countries with N≥20 passing these filters
                     </div>
                   }
