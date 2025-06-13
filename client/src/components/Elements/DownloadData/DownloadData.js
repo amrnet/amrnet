@@ -469,9 +469,11 @@ export const DownloadData = () => {
     switch (organism) {
       case 'decoli':
       case 'shige':
-        return 'Selected Pathotypes';
+        return 'Selected Pathotypes :';
       case 'sentericaints':
-        return 'Selected Serotypes';
+        return 'Selected Serotypes :';
+      case 'ecoli':
+        return 'Selected Genotypes :';
       default:
         return '';
     }

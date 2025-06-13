@@ -172,14 +172,16 @@ export const ContinentGraphs = () => {
         switch (organism) {
           case 'decoli':
           case 'shige':
-            return 'Selected Pathotypes';
+            return 'Selected Pathotypes :';
           case 'sentericaints':
-            return 'Selected Serotypes';
+            return 'Selected Serotypes: ';
+          case 'ecoli':
+            return 'Selected Genotypes: ';
           default:
             return '';
         }
       }
-      ctx.fillText(`${getAxisLabel()}: `+ currentSelectedLineages.join(', ') , canvas.width / 2, 210);
+      ctx.fillText(`${getAxisLabel()} `+ currentSelectedLineages.join(', ') , canvas.width / 2, 210);
 
       ctx.fillStyle = 'white';
       ctx.textAlign = 'start';
