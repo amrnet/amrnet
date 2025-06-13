@@ -26,6 +26,8 @@ export const MapActions = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
+  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
 
   async function handleClick(event) {
     event.stopPropagation();
@@ -117,8 +119,11 @@ export const MapActions = () => {
         const actualMapView = mapLegends.find((x) => x.value === mapView).label;
 
         // ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
-        ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 190);
+        
         ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 140);
+        ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
+        ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 240);
+        ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 290);
         if (mapView === 'Genotype prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
             ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
