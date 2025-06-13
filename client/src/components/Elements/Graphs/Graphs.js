@@ -92,6 +92,8 @@ export const Graphs = () => {
   const loadingData = useAppSelector((state) => state.dashboard.loadingData);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
   const downloadForPDF = useAppSelector((state) => state.graph.download);
+  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
+  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
 
   const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
@@ -123,6 +125,18 @@ export const Graphs = () => {
 
   function getGenotypeColor(genotype) {
     return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+  }
+
+  const getAxisLabel = ()=> {
+    switch (organism) {
+      case 'decoli':
+      case 'shige':
+        return 'Selected Pathotypes';
+      case 'sentericaints':
+        return 'Selected Serotypes';
+      default:
+        return '';
+    }
   }
 
   function getDrugClassesBars() {
@@ -283,8 +297,9 @@ export const Graphs = () => {
       ctx.fillText(currentCard.description.join(' / '), canvas.width / 2, 72);
 
       ctx.font = '14px Montserrat';
-      ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
-      ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
+      ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 95);
+      ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 115);
+      ctx.fillText(`${getAxisLabel()}: `+ currentSelectedLineages.join(', '), canvas.width / 2, 135);
       if (currentCard.id === 'GD') {
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
@@ -294,7 +309,10 @@ export const Graphs = () => {
       } else if (currentCard.id === 'RDT') {
         ctx.fillText(`Time period: ${starttimeRDT} to ${endtimeRDT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesRDT} genomes`, canvas.width / 2, 172);
-      } else ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+      } else {
+        ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+        ctx.fillText(`Total ${actualGenomes} genomes`, canvas.width / 2, 172);
+      }
 
       // ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);

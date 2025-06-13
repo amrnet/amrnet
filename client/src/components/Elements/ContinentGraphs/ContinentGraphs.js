@@ -70,6 +70,9 @@ export const ContinentGraphs = () => {
   const dataset = useAppSelector((state) => state.map.dataset);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
+  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
+
 
   useEffect(() => {
     setShowFilter(!matches500);
@@ -164,9 +167,19 @@ export const ContinentGraphs = () => {
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
 
       ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
-
-      ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
-      ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
+      ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
+      const getAxisLabel = ()=> {
+        switch (organism) {
+          case 'decoli':
+          case 'shige':
+            return 'Selected Pathotypes';
+          case 'sentericaints':
+            return 'Selected Serotypes';
+          default:
+            return '';
+        }
+      }
+      ctx.fillText(`${getAxisLabel()}: `+ currentSelectedLineages.join(', ') , canvas.width / 2, 210);
 
       ctx.fillStyle = 'white';
       ctx.textAlign = 'start';
