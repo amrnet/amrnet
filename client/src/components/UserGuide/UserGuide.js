@@ -483,10 +483,10 @@ export const UserGuidePage = () => {
           <br />
 
           <Typography variant="h6" className={classes.paragraph}>
-            Diarrheagenic<i> E. coli</i>
+            <i> Escherichia coli</i>(Diarrheagenic)
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Diarrheagenic <i>E. coli</i> data in AMRnet are drawn from{' '}
+            <i> Escherichia coli</i>(Diarrheagenic) data in AMRnet are drawn from{' '}
             <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
               Enterobase
             </a>
@@ -518,7 +518,7 @@ export const UserGuidePage = () => {
             >
               here
             </a>
-            . Pathotypes included in the diarrheagenic <i>E. coli</i> dashboard are:
+            . Pathotypes included in the <i> Escherichia coli</i>(diarrheagenic) dashboard are:
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
@@ -586,7 +586,7 @@ export const UserGuidePage = () => {
           <Divider />
           <br />
           <Typography variant="h6" className={classes.paragraph}>
-            Invasive Non-Typhoidal <i>Salmonella</i>
+             <i>Salmonella</i> (invasive non-typhoidal)
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             Salmonella (invasive non-typhoidal) data in AMRnet are drawn from{' '}

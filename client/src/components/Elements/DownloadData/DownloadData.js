@@ -253,11 +253,14 @@ export const DownloadData = () => {
       firstName = 'Shigella';
       secondName = '+ EIEC';
     } else if (organism === 'decoli') {
-      firstName = 'Diarrheagenic';
-      secondName = 'E. coli';
+      firstName = 'Escherichia coli';
+      secondName = '(diarrheagenic)';
     } else if (organism === 'sentericaints') {
-      firstName = 'Invasive';
-      secondName = 'non-typhoidal Salmonella';
+      firstName = 'Salmonella';
+      secondName = '(invasive non-typhoidal)';
+    } else if (organism === 'senterica') { 
+      firstName = 'Salmonella enterica';
+      secondName = '(non-typhoidal)';
     }
     if (organism !== 'styphi') columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove];
     setLoadingCSV(true);
@@ -513,10 +516,16 @@ export const DownloadData = () => {
         texts = getKlebsiellaTexts();
         firstName = 'Klebsiella';
         secondName = 'pneumoniae';
+        amrnetHeading = 167;
+        secondword = 320;
+        firstWord = 254
       } else if (organism === 'ngono') {
         texts = getNgonoTexts();
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
+        amrnetHeading = 157;
+        secondword = 310;
+        firstWord = 244
       } else if (organism === 'shige') {
         texts = getShigeTexts();
         firstName = 'Shigella';
@@ -525,25 +534,29 @@ export const DownloadData = () => {
         firstWord = 257;
       } else if (organism === 'senterica') {
         texts = getSentericaintsTexts();
-        firstName = 'Salmonella';
-        secondName = 'enterica';
+        firstName = 'Salmonella enterica';
+        secondName = '(non-typhoidal)';
+        secondword = 340;
+        firstWord = 250;
+        amrnetHeading = 147;
       } else if (organism === 'ecoli') {
         texts = getEcoliTexts();
         firstName = 'Escherichia';
         secondName = 'coli';
       } else if (organism === 'decoli') {
         texts = getDEcoliTexts();
-        firstName = 'Diarrheagenic E.';
-        secondName = 'coli';
+        firstName = 'Escherichia coli';
+        secondName = '(diarrheagenic)';
         secondword = 340;
-        firstWord = 281;
+        firstWord = 250;
+        amrnetHeading = 147;
       } else {
         texts = getIntsTexts();
-        firstName = 'Invasive non-typhoidal';
-        secondName = 'Salmonella';
+        secondName = '(invasive non-typhoidal)';
+        firstName = 'Salmonella';
         amrnetHeading = 150;
-        firstWord = 242;
-        secondword = 318;
+        firstWord = 217;
+        secondword = 296;
         fontSize = 12;
       }
 
@@ -551,14 +564,13 @@ export const DownloadData = () => {
       drawHeader({ document: doc, pageWidth });
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
       doc.text('AMRnet Report for', amrnetHeading, 44, { align: 'center' });
-      if (organism === 'styphi' || organism === 'senterica' || organism === 'shige')
+      if (organism === 'styphi' || organism === 'senterica' || organism === 'shige' || organism === 'senterica')
         doc.setFont(undefined, 'bolditalic');
       doc.text(firstName, firstWord, 44, { align: 'center' });
       if (
         organism === 'kpneumo' ||
         organism === 'ngono' ||
         organism === 'sentericaints' ||
-        organism === 'senterica' ||
         organism === 'decoli'
       )
         doc.setFont(undefined, 'bolditalic');
@@ -819,12 +831,11 @@ export const DownloadData = () => {
       } else if (organism === 'sentericaints') {
         // Info
         doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
-
-        doc.text(texts[1], 16, 125, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
-        doc.text(texts[2], 109, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[1], 16, 125, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[3], 152, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[2], 65, 125, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[3], 162, 125, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[4], 16, 135, { align: 'justify', maxWidth: pageWidth - 36 });
 
         doc.text(texts[5], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
@@ -1015,13 +1026,13 @@ export const DownloadData = () => {
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'decoli') {
         // Info
-        doc.setFont(undefined, 'italic');
-        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[1], 85, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[1], 80, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'italic');
-        doc.text(texts[2], 100, 105, { align: 'justify', maxWidth: pageWidth - 36 });
-        // doc.setFont(undefined, 'normal');
+        doc.text(texts[2], 145, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
         doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
 
