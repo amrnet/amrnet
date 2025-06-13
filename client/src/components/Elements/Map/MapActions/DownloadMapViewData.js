@@ -89,7 +89,7 @@ export const DownloadMapViewData = ({ value }) => {
   
     else if (isGenotypeLikeView) {
       mapViewOptionSelected.forEach(name => HeaderList.push(name, `${name} %`));
-    } else {
+    } 
       Object.keys(mapData[0]?.stats || {}).forEach(key => {
         if (
           (mapView === 'Resistance prevalence' &&
@@ -100,7 +100,7 @@ export const DownloadMapViewData = ({ value }) => {
         const itemLabel = ngonoSusceptibleRule(key, organism) || drugAcronymsOpposite[key] || key;
         HeaderList.push(itemLabel, `${itemLabel} %`);
       });
-    }
+  
   
     // Step 3: Helper function to get count/percentage safely
     const getStatValues = (itemsArray, sum, headerItem) => {
@@ -131,7 +131,7 @@ export const DownloadMapViewData = ({ value }) => {
               rowData.push(...getStatValues(genotypeItems, sum, headerItem));
             }
           });
-        } else {
+        } 
           Object.entries(stats).forEach(([key, stat]) => {
             if (
               (mapView === 'Resistance prevalence' &&
@@ -149,7 +149,7 @@ export const DownloadMapViewData = ({ value }) => {
   
             rowData.push(count, percentage);
           });
-        }
+        
   
         return rowData.join(',');
       });
@@ -512,6 +512,7 @@ export const DownloadMapViewData = ({ value }) => {
   };
 
   const downloadCSVForHM = () => {
+    console.log('mapRegionData', mapRegionData)
     if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
       let HeaderList = ['Region', 'Country', 'Name']; // Initial headers
       let allDrugs = new Set(); // Store unique drug names
