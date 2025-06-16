@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
   menuPaper: {
     maxHeight: '350px !important',
   },
+  selectSearch: {
+    padding: '0px 16px !important',
+  },
 }));
 
 export { useStyles };

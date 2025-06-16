@@ -31,16 +31,16 @@ export function filterData({
         item.SISTR1_Serovar.toLowerCase().includes(selected.toLowerCase()),
       );
     }
-    //For E. coli, we need to add the Pathovar instead of the Pathotype 
+    //For E. coli, we need to add the Pathovar instead of the Pathotype
     // because the Pathotype is not present in E.coli data
     // and the Pathovar is the one that is used in the database
     if (['ecoli'].includes(organism)) {
-      return (selectedLineages ?? []).some((selected) => (item.Pathovar).toLowerCase().includes(selected.toLowerCase()));
+      return (selectedLineages ?? []).some((selected) => item.Pathovar.toLowerCase().includes(selected.toLowerCase()));
     }
 
-    return (selectedLineages ?? []).some((selected) => (item.Pathotype).toLowerCase().includes(selected.toLowerCase()));
+    return (selectedLineages ?? []).some((selected) => item.Pathotype.toLowerCase().includes(selected.toLowerCase()));
   };
-  //update here 
+  //update here
   const newData = data.filter((x) => checkDataset(x) && checkTime(x) && checkLineages(x));
   // const genotypes = [...new Set(newData.map((x) => x.GENOTYPE))];
   const genotypes = [...new Set(newData.map((x) => (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE)))];
@@ -62,7 +62,7 @@ export function filterData({
     //changed
     // const countryGenotypes = [...new Set(countryData.map((x) => x.GENOTYPE))];
     // genotypesCount = countryGenotypes.length;
-    const countryGenotypes = [...new Set(countryData.map((x) => (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE)))];
+    // const countryGenotypes = [...new Set(countryData.map((x) => (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE)))];
   }
 
   return {
@@ -303,7 +303,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       const statMap = itemData.reduce((acc, item) => {
         // changed here
         // const stat = item[dataKey];
-        const stat = (organism === 'ecoli' ? item['GENOTYPE1'] : item[dataKey]);
+        const stat = item[dataKey];
         acc[stat] = (acc[stat] || 0) + 1;
         return acc;
       }, {});
@@ -327,7 +327,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
                 itemData: dataWithGenFilter,
                 columnKey: column,
                 statsKey: key,
-                noItems: !['Carb', 'ESBL'].includes(name),
+                noItems: !['Carbapenems', 'ESBL'].includes(name),
                 organism,
               });
             }
@@ -341,13 +341,16 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     };
 
     // Genotype
-    generateStats('GENOTYPE');
+    generateStats('GENOTYPE', organism === 'ecoli' ? 'GENOTYPE1' : undefined);
 
     //
     // if (['shige', 'decoli', 'ecoli'].includes(organism)) {
-    if (['shige', 'decoli'].includes(organism)) { 
+    if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
       stats['PATHOTYPE'] = { items: [], count: 0 };
-      generateStats('PATHOTYPE', organism === 'ecoli' ? 'Pathovar' : 'Pathotype');
+      generateStats(
+        'PATHOTYPE',
+        organism === 'ecoli' ? 'Pathovar' : organism === 'sentericaints' ? 'SISTR1_Serovar' : 'Pathotype',
+      );
     }
 
     // Other stats
@@ -431,7 +434,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     // Calculate genotype stats
     const genotypeStats = yearData.reduce((acc, x) => {
       // const genotype = x.GENOTYPE;
-      const genotype = (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE);
+      const genotype = organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE;
       acc[genotype] = (acc[genotype] || 0) + 1;
       return acc;
     }, {});

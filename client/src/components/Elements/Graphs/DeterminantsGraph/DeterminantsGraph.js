@@ -393,8 +393,8 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>
-                <Typography variant="h6">Filters</Typography>
-                <Tooltip title="Hide Filters" placement="top">
+                <Typography variant="h6">Plotting options</Typography>
+                <Tooltip title="Hide plotting options" placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />
                   </IconButton>

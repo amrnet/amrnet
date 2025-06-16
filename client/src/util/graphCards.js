@@ -16,7 +16,7 @@ function getHeatMapsTitle(organism) {
     case 'kpneumo':
       return 'AMR by ST';
     case 'sentericaints':
-      return 'AMR by serotype';
+      return 'AMR by lineage';
     default:
       return 'AMR by genotype';
   }
@@ -42,29 +42,15 @@ const heatmapCards = organismsCards.map((organismCard) => ({
   component: <BubbleHeatmapGraph2 />,
 }));
 
-function getAMRTrendsTitle(organism) {
-  switch (organism) {
-    case 'shige':
-    case 'decoli':
-      return 'AMR Trends by pathotype';
-    case 'sentericaints':
-      return 'AMR Trends by serotype';
-    default:
-      return 'AMR Trends';
-  }
-}
-
-const AMRTrendsCards = organismsCards.map((organismCard) => ({
-  title: getAMRTrendsTitle(organismCard.value),
-  description: ['Data are plotted for years with N ≥ 10 genomes'],
-  icon: <Timeline color="primary" />,
-  id: 'DRT',
-  organisms: [organismCard.value],
-  component: <DrugResistanceGraph />,
-}));
-
 export const graphCards = [
-  ...AMRTrendsCards,
+  {
+    title: 'AMR Trends',
+    description: ['Data are plotted for years with N ≥ 10 genomes'],
+    icon: <Timeline color="primary" />,
+    id: 'DRT',
+    organisms: organismsCards.map((x) => x.value),
+    component: <DrugResistanceGraph />,
+  },
   {
     title: 'Genotype trends',
     description: [''],

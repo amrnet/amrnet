@@ -9,7 +9,7 @@ export const drugsST = [
   'Ceftriaxone',
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
-  'Sulphonamides',
+  'Sulfonamides',
   'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
@@ -24,7 +24,7 @@ export const drugsSTLegendsOnly = [
   'Ceftriaxone',
   'Ciprofloxacin (non-susceptible)',
   'Ciprofloxacin (resistant)',
-  'Sulphonamides',
+  'Sulfonamides',
   'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
@@ -50,7 +50,7 @@ export const drugsNG = [
   'Ceftriaxone',
   'Ciprofloxacin',
   'Sulfonamides',
-  'Tetracycline',
+  'Tetracyclines',
   'Cefixime',
   'Penicillin',
   'Pansusceptible',
@@ -100,7 +100,7 @@ export const drugsKP = [
   'Phenicols',
   // 'Sulfonamides',
   // 'Susceptible',
-  'Tetracycline',
+  'Tetracyclines',
   'Tigecycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
@@ -114,7 +114,7 @@ export const drugClassesST = [
   'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
   'Ciprofloxacin NS',
-  'Sulphonamides',
+  'Sulfonamides',
   'Tetracyclines',
   'Trimethoprim',
   // 'Pansusceptible',
@@ -129,26 +129,22 @@ export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
 export const drugClassesKP = ['Carbapenems', 'ESBL'];
 
 export const drugAcronyms = {
-  'Ampicillin/Amoxicillin': 'AMP',
+  'Ampicillin/Amoxicillin': 'AMP/AMX',
   Ampicillin: 'AMP',
   Azithromycin: 'AZM',
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CHL',
-  Sulphonamides: 'SUL',
   Sulfonamides: 'SUL',
   Tetracyclines: 'TET',
-  Tetracycline: 'TET',
   Trimethoprim: 'TMP',
   'Trimethoprim-sulfamethoxazole': 'SXT',
   Colistin: 'COL',
   Fosfomycin: 'FOS',
-  Carb: 'CARB',
   Aminoglycosides: 'AGLY',
   Fluoroquinolones: 'FLQ',
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
   Phenicols: 'PHE',
   Tigecycline: 'TGC',
-  AzithR: 'AZM',
   '3rd gen cephalosporins (3GCs)': '3GCs',
   Sulfamethoxazole: 'SMX',
   Gentamicin: 'GEN',
@@ -159,35 +155,27 @@ export const drugAcronyms = {
   Pansusceptible: 'PAN',
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
-  //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap
   Carbapenems: 'CARB',
-  Carbapenemase: 'CARB',
 };
 
 export const drugAcronymsOpposite = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
   CIP: 'Ciprofloxacin (non-susceptible)',
-  //Not sure if its Carbapenems or Carbapenemase, Implemented for Heatmap (tooltip)
-  CARB: 'Carbapenemase',
   AZM: 'Azithromycin',
   // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',
   SUS: 'Susceptible to cat I/II drugs',
-  AzithR: 'Azithromycin',
 };
 
 export const drugAcronymsOpposite2 = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
   CIP: 'Ciprofloxacin (non-susceptible)',
   // Implemneted for Consistency
-  CARB: 'Carbapenemase',
-  Carb: 'Carbapenemase',
   AZM: 'Azithromycin',
   // ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin (resistant)',
-  AzithR: 'Azithromycin',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',
 };
