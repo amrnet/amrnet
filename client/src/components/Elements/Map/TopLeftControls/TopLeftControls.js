@@ -25,8 +25,8 @@ import {
   setCanFilterData,
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
-import { useEffect, useState } from 'react';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { useEffect, useState } from 'react';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -67,11 +67,24 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
     dispatch(setCanFilterData(true));
   }
 
-  function handleChangeLineages(_, value) {
-    if (organism !== 'decoli' && value.length === 0) {
+  function handleChangeLineages(_, newValue) {
+    if (newValue === null) {
       return;
     }
 
+    dispatch(setSelectedLineages(newValue === 'all' ? pathovar : [newValue]));
+    dispatch(setCanFilterData(true));
+  }
+
+  function isDisabled() {
+    return organism !== 'styphi';
+  }
+
+  function isAllOption(option) {
+    return ['Clear All', 'Select All'].includes(option);
+  }
+
+  function handleChangeMultiLineages(_, value) {
     if (!value.includes('Clear All') && !value.includes('Select All')) {
       if (organism === 'decoli') {
         dispatch(setCurrentSelectedLineages(value));
@@ -102,14 +115,6 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
     }
   }
 
-  function isDisabled() {
-    return organism !== 'styphi';
-  }
-
-  function isAllOption(option) {
-    return ['Clear All', 'Select All'].includes(option);
-  }
-
   return (
     <div className={`${classes.topLeftControls} ${matches && !closeButton ? classes.bp700 : ''}`} style={style}>
       <Card elevation={3} className={classes.card}>
@@ -136,82 +141,106 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
           {!amrLikeOrganisms.filter((x) => x !== 'ecoli').includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
-                {organism === 'sentericaints' ? 'Select serotypes' : 'Select pathotype'}
+                {organism === 'sentericaints' ? 'Select serotype' : 'Select pathotype'}
               </Typography>
-              <Autocomplete
-                multiple
-                disableCloseOnSelect
-                value={currentSelectedLineages}
-                options={
-                  currentSelectedLineages.length === pathovar.length
-                    ? ['Clear All', ...pathovar]
-                    : [...(organism === 'decoli' ? ['Select All'] : []), ...pathovar]
-                }
-                onChange={handleChangeLineages}
-                onClose={handleCloseLineages}
-                limitTags={1}
-                clearIcon={null}
-                renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
-                slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
-                getOptionDisabled={(option) => {
-                  if (organism === 'decoli') {
-                    return false;
+              {organism === 'decoli' ? (
+                <Autocomplete
+                  multiple
+                  disableCloseOnSelect
+                  value={currentSelectedLineages}
+                  options={
+                    currentSelectedLineages.length === pathovar.length
+                      ? ['Clear All', ...pathovar]
+                      : [...(organism === 'decoli' ? ['Select All'] : []), ...pathovar]
                   }
+                  onChange={handleChangeMultiLineages}
+                  onClose={handleCloseLineages}
+                  limitTags={1}
+                  clearIcon={null}
+                  renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
+                  slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
+                  getOptionDisabled={(option) => {
+                    if (organism === 'decoli') {
+                      return false;
+                    }
 
-                  if (['Clear All', 'Select All'].includes(option)) {
-                    return false;
-                  }
+                    if (['Clear All', 'Select All'].includes(option)) {
+                      return false;
+                    }
 
-                  if (currentSelectedLineages.length === pathovar.length) {
-                    return true;
-                  }
-                }}
-                renderOption={(props, option, { selected }) => {
-                  const { key, ...optionProps } = props;
-                  const isAllButton = isAllOption(option);
+                    if (currentSelectedLineages.length === pathovar.length) {
+                      return true;
+                    }
+                  }}
+                  renderOption={(props, option, { selected }) => {
+                    const { key, ...optionProps } = props;
+                    const isAllButton = isAllOption(option);
 
-                  return (
-                    // eslint-disable-next-line jsx-a11y/role-supports-aria-props
-                    <li
-                      key={key}
-                      {...optionProps}
-                      aria-selected={isAllButton ? false : selected}
-                      className={`${optionProps.className} ${classes.lineageLi}`}
+                    return (
+                      // eslint-disable-next-line jsx-a11y/role-supports-aria-props
+                      <li
+                        key={key}
+                        {...optionProps}
+                        aria-selected={isAllButton ? false : selected}
+                        className={`${optionProps.className} ${classes.lineageLi}`}
+                      >
+                        {!isAllButton && (
+                          <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                            sx={{ marginRight: '8px', padding: 0 }}
+                            checked={selected}
+                          />
+                        )}
+                        {option}
+                      </li>
+                    );
+                  }}
+                  renderTags={(value, getTagProps) => (
+                    <Box sx={{ maxHeight: 80, overflowY: 'auto' }}>
+                      {value.map((option, index) => (
+                        <Chip key={index} label={option} {...getTagProps({ index })} onDelete={undefined} />
+                      ))}
+                    </Box>
+                  )}
+                  sx={{
+                    '@media (min-width: 700px)': {
+                      maxWidth: '165px',
+                    },
+                    '& .MuiAutocomplete-tag': {
+                      maxHeight: 30,
+                    },
+                    '& .MuiAutocomplete-inputRoot': {
+                      paddingRight: '0px !important',
+                    },
+                    '& .MuiAutocomplete-inputRoot .MuiAutocomplete-input': {
+                      width: '100% !important',
+                    },
+                  }}
+                />
+              ) : (
+                <ToggleButtonGroup
+                  value={selectedLineages.length === pathovar.length ? 'all' : selectedLineages[0]}
+                  size="small"
+                  onChange={handleChangeLineages}
+                  orientation="vertical"
+                  exclusive
+                >
+                  <ToggleButton value="all" color="primary" className={classes.toggleButton}>
+                    All
+                  </ToggleButton>
+                  {pathovar.map((option, index) => (
+                    <ToggleButton
+                      key={`dataset-${index}`}
+                      value={option}
+                      color="primary"
+                      className={classes.toggleButton}
                     >
-                      {!isAllButton && (
-                        <Checkbox
-                          icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                          checkedIcon={<CheckBoxIcon fontSize="small" />}
-                          sx={{ marginRight: '8px', padding: 0 }}
-                          checked={selected}
-                        />
-                      )}
                       {option}
-                    </li>
-                  );
-                }}
-                renderTags={(value, getTagProps) => (
-                  <Box sx={{ maxHeight: 80, overflowY: 'auto' }}>
-                    {value.map((option, index) => (
-                      <Chip key={index} label={option} {...getTagProps({ index })} onDelete={undefined} />
-                    ))}
-                  </Box>
-                )}
-                sx={{
-                  '@media (min-width: 700px)': {
-                    maxWidth: '165px',
-                  },
-                  '& .MuiAutocomplete-tag': {
-                    maxHeight: 30,
-                  },
-                  '& .MuiAutocomplete-inputRoot': {
-                    paddingRight: '0px !important',
-                  },
-                  '& .MuiAutocomplete-inputRoot .MuiAutocomplete-input': {
-                    width: '100% !important',
-                  },
-                }}
-              />
+                    </ToggleButton>
+                  ))}
+                </ToggleButtonGroup>
+              )}
             </div>
           )}
           <div className={classes.yearsWrapper}>

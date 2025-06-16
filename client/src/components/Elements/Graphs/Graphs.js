@@ -544,7 +544,7 @@ export const Graphs = () => {
               </>
             )}
             {collapses['all'] && (
-              <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
+              <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
                 <span>
                   <IconButton color="primary" onClick={(event) => handleClickFilter(event)}>
                     {showFilter ? <FilterListOff /> : <FilterList />}

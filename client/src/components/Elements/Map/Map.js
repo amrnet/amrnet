@@ -31,7 +31,6 @@ const statKey = {
   MDR: 'MDR',
   'H58 / Non-H58': 'H58',
   XDR: 'XDR',
-  AzithR: 'AzithR',
   CipNS: 'CipNS',
   CipR: 'CipR',
   Pansusceptible: 'Pansusceptible',
@@ -41,7 +40,7 @@ const statKey = {
   Azithromycin: 'Azithromycin',
   //TODO check this variable
   Ceftriaxone: 'Ceftriaxone',
-  Carb: 'Carb',
+  Carbapenems: 'Carbapenems',
 };
 
 export const Map = () => {
@@ -104,7 +103,7 @@ export const Map = () => {
                     H58: `${countryStats.H58.percentage}%`,
                     'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
                     'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
-                    AzithR: `${countryStats.AzithR.percentage}%`,
+                    Azithromycin: `${countryStats.Azithromycin.percentage}%`,
                     CipR: `${countryStats.CipR.percentage}%`,
                     CipNS: `${countryStats.CipNS.percentage}%`,
                     Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
@@ -114,7 +113,7 @@ export const Map = () => {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carbapenemase: `${countryStats.Carbapenemase.percentage}%`,
+                    Carbapenems: `${countryStats.Carbapenems.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`,
                   }
                 : organism === 'ngono'
@@ -154,7 +153,7 @@ export const Map = () => {
           if (countryData.count >= 20 && genotypesNG2.length > 0) 
             genotypesNG.forEach((genotype) => {
               if (customDropdownMapViewNG.includes(genotype.name))
-                tooltip.content[genotype.name] = `${genotype.count} (${(
+                tooltip.content[genotype.name] = `${genotype.count}/${percentCounterNG} (${(
                   (genotype.count / percentCounterNG) *
                   100
                 ).toFixed(2)} %)`;
@@ -183,7 +182,7 @@ export const Map = () => {
           if (countryData.count >= 20 && genotypes2.length > 0) 
             genotypes1.forEach((genotype) => {
               if (prevalenceMapViewOptionsSelected.includes(genotype.name))
-                tooltip.content[genotype.name] = `${genotype.count} (${(
+                tooltip.content[genotype.name] = `${genotype.count}/${countryStats.GENOTYPE.sum} (${(
                   (genotype.count / countryStats.GENOTYPE.sum) *
                   100
                 ).toFixed(2)} %)`;
@@ -194,7 +193,7 @@ export const Map = () => {
               sumCount += genotype.count;
             }
             if (countryData.count >= 20 && genotypes2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount} (${(
+              tooltip.content['All selected genotypes'] = `${sumCount}/${countryStats.GENOTYPE.sum} (${(
                 (sumCount / countryStats.GENOTYPE.sum) *
                 100
               ).toFixed(2)} %)`;
@@ -204,25 +203,25 @@ export const Map = () => {
           if (countryData.count >= 20)
           prevalenceMapViewOptionsSelected.forEach((option) => {
             const stats = countryStats[option];
-              tooltip.content[
-                ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option
-              ] = `${stats.count} (${stats.percentage}%)`;
+
+            tooltip.content[
+              ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option
+            ] = `${stats.count}/${countryData.count} (${stats.percentage}%)`;
           });
           break;
         case 'H58 / Non-H58':
         case 'MDR':
         case 'Pansusceptible':
         case 'XDR':
-        case 'AzithR':
         case 'Azithromycin':
         case 'Ciprofloxacin':
         case 'Ceftriaxone':
         case 'CipR':
         case 'ESBL':
         case 'ESBL_category':
-        case 'Carb':
+        case 'Carbapenems':
           if (showTooltip) {
-            tooltip.content[mapView === 'Carb' ? 'Carbapenems' : statKey[mapView]] = {
+            tooltip.content[statKey[mapView]] = {
               count: countryStats[statKey[mapView]].count,
               percentage: `${countryStats[statKey[mapView]].percentage}%`,
             };
@@ -479,14 +478,13 @@ export const Map = () => {
                           case 'H58 / Non-H58':
                           case 'MDR':
                           case 'XDR':
-                          case 'AzithR':
                           case 'Azithromycin':
                           case 'Ciprofloxacin':
                           case 'CipR':
                           case 'ESBL_category':
                           case 'Ceftriaxone':
                           case 'ESBL':
-                          case 'Carb':
+                          case 'Carbapenems':
                             count = countryStats[statKey[mapView]]?.count;
                             if (countryData.count >= 20 && count > 0) {
                               if (mapView === 'Pansusceptible') {

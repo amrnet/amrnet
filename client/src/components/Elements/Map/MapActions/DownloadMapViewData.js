@@ -30,6 +30,7 @@ export const DownloadMapViewData = ({ value }) => {
   // const drugsRegionsData = useAppSelector((state) => state.graph.drugsRegionsData);
   const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
   const yAxisType = useAppSelector((state) => state.map.yAxisType);
+  const yAxisTypeTrend = useAppSelector((state) => state.map.yAxisTypeTrend);
 
   let firstName, secondName;
   if (organism === 'styphi') {
@@ -266,8 +267,8 @@ export const DownloadMapViewData = ({ value }) => {
         'MDR %',
         'Pansusceptible',
         'Pansusceptible %',
-        'Sulphonamides',
-        'Sulphonamides %',
+        'Sulfonamides',
+        'Sulfonamides %',
         'Tetracyclines',
         'Tetracyclines %',
         'Trimethoprim',
@@ -310,7 +311,7 @@ export const DownloadMapViewData = ({ value }) => {
           const PanCount = item?.Pansusceptible || 0;
           const PanPerCount = PanCount < 20 ? '0' : ((PanCount / item.totalCount) * 100).toFixed(2) || 0;
 
-          const SulCount = item?.Sulphonamides || 0;
+          const SulCount = item?.Sulfonamides || 0;
           const SulPerCount = SulCount < 20 ? '0' : ((SulCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const TetCount = item?.Tetracyclines || 0;
@@ -574,28 +575,28 @@ export const DownloadMapViewData = ({ value }) => {
       return key.charAt(0).toUpperCase() + key.slice(1);
     };
 
-    const yAxisKey = getYAxisKey(yAxisType);
-
     // Step 1: Get correct dataSource
     let dataSource;
-    if (yAxisKey === 'Resistance' || yAxisKey === 'Genotype') {
+    if (yAxisType === 'resistance' || yAxisType === 'genotype') {
       dataSource = mapData;
     } else {
+      const yAxisTrendKey = getYAxisKey(yAxisTypeTrend);
       const matchedKey = Object.keys(drugsCountriesData || {}).find(
-        (key) => key.toLowerCase() === yAxisKey.toLowerCase(),
+        (key) => key.toLowerCase() === yAxisTrendKey.toLowerCase(),
       );
-      if (matchedKey) {
-        dataSource = drugsCountriesData[matchedKey];
-      } else {
-        console.warn('No matching key found for:', yAxisKey);
+
+      if (!matchedKey) {
+        console.warn('No matching key found for:', yAxisTrendKey);
         return;
       }
+
+      dataSource = drugsCountriesData[matchedKey];
     }
 
     let allDrugsSet = new Set();
 
     // Step 2: Collect unique flat drug names (exclude 'GENOTYPE', 'name', 'totalCount', etc.)
-    if (yAxisKey === 'Resistance')
+    if (yAxisType === 'resistance') {
       dataSource.forEach((region) => {
         if (region.stats) {
           Object.entries(region.stats).forEach(([drugName, value]) => {
@@ -605,7 +606,7 @@ export const DownloadMapViewData = ({ value }) => {
           });
         }
       });
-    else if (yAxisKey === 'Genotype') {
+    } else if (yAxisType === 'genotype') {
       dataSource.forEach((region) => {
         if (region.stats?.GENOTYPE?.items) {
           region.stats.GENOTYPE.items.forEach((item) => {
@@ -653,14 +654,14 @@ export const DownloadMapViewData = ({ value }) => {
 
       const row = [country, totalCount];
       // console.log('allDrugs', allDrugs);
-      if (!(yAxisKey === 'Resistance' || yAxisKey === 'Genotype')) {
+      if (!(yAxisType === 'resistance' || yAxisType === 'genotype')) {
         allDrugs.forEach((drug) => {
           const count = item[drug] || 0;
           const percentage = totalCount ? ((count / totalCount) * 100).toFixed(2) : 0;
           row.push(count);
           row.push(percentage);
         });
-      } else if (yAxisKey === 'Resistance')
+      } else if (yAxisType === 'resistance')
         allDrugs.forEach((drug) => {
           const drugData = item.stats?.[drug];
           const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
@@ -668,7 +669,7 @@ export const DownloadMapViewData = ({ value }) => {
           row.push(count);
           row.push(percentage);
         });
-      else if (yAxisKey === 'Genotype') {
+      else if (yAxisType === 'genotype') {
         allDrugs.forEach((genotype) => {
           const match = item.stats?.GENOTYPE?.items?.find((g) => g.name === genotype);
           const count = match?.count || 0;
@@ -683,7 +684,11 @@ export const DownloadMapViewData = ({ value }) => {
 
     // Step 5: Export CSV
     const headers = headerList.join(',');
-    generateCSV(headers, rows, `Geographic Comparisons (${yAxisType})`);
+    generateCSV(
+      headers,
+      rows,
+      `Geographic Comparisons (${yAxisType}${yAxisType === 'determinant' ? '-' + yAxisTypeTrend : ''})`,
+    );
   };
 
   function generateCSV(headers, rows, name) {

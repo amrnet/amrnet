@@ -33,36 +33,71 @@ import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Close, InfoOutlined } from '@mui/icons-material';
-import { setYAxisType } from '../../../../stores/slices/mapSlice';
-import { getAxisLabel } from '../../../../util/genotypes';
+import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
+import { organismsCards } from '../../../../util/organismsCards';
 
-const kpYOptions = Object.keys(drugClassesRulesKP).map((drug) => {
-  const label = drug === 'Carbapenems' ? 'Carbapenemases' : drug === 'ESBL' ? 'ESBLs' : drug;
-  return {
-    organism: 'kpneumo',
-    key: drug,
-    value: `kp-trends-${drug.toLowerCase()}`,
-    label: `${label}`,
-  };
-});
+const kpTrendOptions = Object.keys(drugClassesRulesKP)
+  .map((drug) => {
+    const label = drug === 'ESBL' ? 'ESBLs' : drug;
+    return {
+      organism: 'kpneumo',
+      key: drug,
+      value: `kp-trends-${drug.toLowerCase()}`,
+      label: label,
+    };
+  })
+  .sort((a, b) => a.key.localeCompare(b.key));
 
-const stYOptions = Object.keys(drugClassesRulesSTHeatMap).map((drug) => {
-  const label = drug === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drug;
+const stTrendOptions = Object.keys(drugClassesRulesSTHeatMap)
+  .map((drug) => {
+    const label = drug === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drug;
 
-  return {
-    organism: 'styphi',
-    key: drug,
-    value: `st-trends-${drug.toLowerCase()}`,
-    label: `${label} resistant determinant`,
-  };
-});
+    return {
+      organism: 'styphi',
+      key: drug,
+      value: `st-trends-${drug.toLowerCase()}`,
+      label: label,
+    };
+  })
+  .sort((a, b) => a.key.localeCompare(b.key));
 
-const allYOptions = kpYOptions.concat(stYOptions);
+const allTrendOptions = kpTrendOptions.concat(stTrendOptions);
+
+const yOptions = [
+  {
+    value: 'genotype',
+    label: 'Genotype prevalence',
+    organisms: organismsCards.map((x) => x.value).filter((x) => !['sentericaints'].includes(x)),
+  },
+  {
+    value: 'genotype',
+    label: 'Lineage prevalence',
+    organisms: ['sentericaints'],
+  },
+  {
+    value: 'resistance',
+    label: 'Resistance prevalence',
+  },
+  {
+    value: 'determinant',
+    label: 'Resistant determinant',
+    organisms: ['styphi', 'kpneumo'],
+  },
+  {
+    value: 'pathotype',
+    label: 'Pathotype prevalence',
+    organisms: ['shige', 'decoli'],
+  },
+  {
+    value: 'serotype',
+    label: 'Serotype prevalence',
+    organisms: ['sentericaints'],
+  },
+].sort((a, b) => a.label.localeCompare(b.label));
 
 export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [xAxisType, setXAxisType] = useState('country');
-  // const [yAxisType, setYAxisType] = useState('resistance');
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -71,11 +106,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const mapData = useAppSelector((state) => state.map.mapData);
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
-  const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const drugsRegionsData = useAppSelector((state) => state.graph.drugsRegionsData);
   const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
   const yAxisType = useAppSelector((state) => state.map.yAxisType);
+  const yAxisTypeTrend = useAppSelector((state) => state.map.yAxisTypeTrend);
 
   useEffect(() => {
     setXAxisType('country');
@@ -121,7 +156,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [mapData, mapRegionData, organism, xAxisSelected, xAxisType]);
 
   const markersOptions = useMemo(() => {
-    const drugKey = allYOptions?.find((x) => x.value === yAxisType)?.key;
+    const drugKey = allTrendOptions?.find((x) => x.value === yAxisTypeTrend)?.key;
 
     const data = drugsData?.[drugKey];
     const filteredData = data?.filter((x) => xAxisSelected.includes(x.name)) ?? [];
@@ -148,53 +183,66 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         .sort((a, b) => b[1] - a[1])
         .map((x) => x[0]) ?? []
     );
-  }, [drugsData, xAxisSelected, yAxisType]);
+  }, [drugsData, xAxisSelected, yAxisTypeTrend]);
 
-  const genotypesEntries = useMemo(() => {
+  const GLPSColumn = useMemo(
+    () => (['serotype', 'pathotype'].includes(yAxisType) ? 'PATHOTYPE' : 'GENOTYPE'),
+    [yAxisType],
+  );
+
+  const GLPSEntries = useMemo(() => {
     const filteredData = (xAxisType === 'country' ? mapData : mapRegionData).filter((x) =>
       xAxisSelected.includes(x.name),
     );
-    const genotypes = {};
+    const items = {};
 
     filteredData.forEach((obj) => {
-      obj.stats.GENOTYPE.items.forEach((item) => {
-        if (!(item.name in genotypes)) {
-          genotypes[item.name] = item.count;
+      obj.stats?.[GLPSColumn].items.forEach((item) => {
+        if (!(item.name in items)) {
+          items[item.name] = item.count;
           return;
         }
 
-        genotypes[item.name] += item.count;
+        items[item.name] += item.count;
       });
     });
 
-    return genotypes;
-  }, [mapData, mapRegionData, xAxisSelected, xAxisType]);
+    return items;
+  }, [GLPSColumn, mapData, mapRegionData, xAxisSelected, xAxisType]);
 
   const xAxisOptions = useMemo(() => {
     switch (xAxisType) {
       case 'country':
-        return countriesForFilter.filter((country) => mapData.find((x) => x.name === country)?.count >= 20); // data to plot should include count greater and equal to 20
+        return mapData
+          .filter((x) => x.count >= 20)
+          .map((x) => x.name)
+          .sort(); // data to plot should include count greater and equal to 20
       case 'region':
-        return Object.keys(economicRegions).sort();
+        return mapRegionData.map((x) => x.name).sort();
       default:
         return [];
     }
-  }, [countriesForFilter, economicRegions, mapData, xAxisType]);
+  }, [mapData, mapRegionData, xAxisType]);
 
   const yAxisOptions = useMemo(() => {
     switch (yAxisType) {
       case 'resistance':
-        return resistanceOptions;
-      case 'genotype':
+        return resistanceOptions.sort((a, b) =>
+          (drugAcronymsOpposite[drugAcronyms[a] ?? a] ?? a).localeCompare(
+            drugAcronymsOpposite[drugAcronyms[b] ?? b] ?? b,
+          ),
+        );
+      case 'determinant':
+        return markersOptions.sort() ?? [];
+      default:
         return (
-          Object.entries(genotypesEntries)
+          Object.entries(GLPSEntries)
             .sort((a, b) => b[1] - a[1])
+            .slice(0, 20)
             .map((x) => x[0]) ?? []
         );
-      default:
-        return markersOptions ?? [];
     }
-  }, [genotypesEntries, markersOptions, resistanceOptions, yAxisType]);
+  }, [GLPSEntries, markersOptions, resistanceOptions, yAxisType]);
 
   useEffect(() => {
     setXAxisSelected(
@@ -219,21 +267,43 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   const getOptionLabel = useCallback(
     (item) => {
-      if (yAxisType !== 'genotype') {
+      if (!['genotype', 'serotype', 'pathotype'].includes(yAxisType)) {
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 
-      return `${item} (total N=${genotypesEntries[item]})`;
+      return `${item} (total N=${GLPSEntries[item]})`;
     },
-    [genotypesEntries, yAxisType],
+    [GLPSEntries, yAxisType],
   );
+
+  const yAxisLabel = useMemo(() => {
+    switch (yAxisType) {
+      case 'resistance':
+        return 'drugs';
+      case 'determinant':
+        return 'determinants';
+      case 'genotype':
+        return organism === 'sentericaints' ? 'lineages' : 'genotypes';
+      default:
+        return organism === 'sentericaints' ? 'serotypes' : 'pathotypes';
+    }
+  }, [organism, yAxisType]);
 
   function handleChangeXAxisType(event) {
     setXAxisType(event.target.value);
   }
 
   function handleChangeYAxisType(event) {
-    dispatch(setYAxisType(event.target.value));
+    const value = event.target.value;
+    dispatch(setYAxisType(value));
+
+    if (value === 'determinant') {
+      dispatch(setYAxisTypeTrend(allTrendOptions.filter((x) => x.organism === organism)[0].value));
+    }
+  }
+
+  function handleChangeYAxisTypeTrend(event) {
+    dispatch(setYAxisTypeTrend(event.target.value));
   }
 
   function handleChangeXAxisSelected({ event = null, all = false }) {
@@ -277,6 +347,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         return 50;
     }
   }
+
   const getTitle = useCallback((value) => {
     return drugAcronymsOpposite[value] ?? Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === value) ?? value;
   }, []);
@@ -288,7 +359,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       }
 
       const countries = economicRegions[region];
-      const drug = Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === stat) ?? stat;
+      const drug =
+        organism === 'ngono' && stat === 'SUS'
+          ? 'Susceptible'
+          : Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === stat) ?? stat;
       const regionCount = mapRegionData.find((x) => x.name === region).count;
       const countriesData = mapData.filter((x) => countries.includes(x.name) && x.stats?.[drug]?.count > 0);
 
@@ -311,7 +385,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         </div>
       );
     },
-    [economicRegions, mapData, mapRegionData, xAxisType],
+    [economicRegions, mapData, mapRegionData, organism, xAxisType],
   );
 
   const configuredMapData = useMemo(() => {
@@ -330,7 +404,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
               data.items.push({
                 itemName: drugAcronyms[key] ?? key,
                 percentage: value.percentage,
-                count: value.count,
+                count: `${value.count}/${item.count}`,
                 index: 1,
                 typeName: item.name,
               });
@@ -338,21 +412,22 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           });
         }
 
-        if (yAxisType === 'genotype') {
-          yAxisSelected.forEach((genotype) => {
-            const gen = item.stats.GENOTYPE.items.find((g) => g.name === genotype);
+        if (['genotype', 'serotype', 'pathotype'].includes(yAxisType)) {
+          yAxisSelected.forEach((selected) => {
+            const gen = item?.stats?.[GLPSColumn].items.find((g) => g.name === selected);
 
             data.items.push({
-              itemName: genotype,
+              itemName: selected,
               percentage: gen ? Number(((gen.count / item.count) * 100).toFixed(2)) : 0,
               index: 1,
-              typeName: item.name,
+              typeName: item?.name,
+              count: `${gen?.count || 0}/${item.count}`,
             });
           });
         }
 
-        if (yAxisType.includes('trends')) {
-          const drugKey = allYOptions?.find((x) => x.value === yAxisType)?.key;
+        if (yAxisType === 'determinant') {
+          const drugKey = allTrendOptions?.find((x) => x.value === yAxisTypeTrend)?.key;
           const locationDrugData = drugsData?.[drugKey];
           const locationData = locationDrugData?.find((x) => x.name === item.name);
 
@@ -364,13 +439,25 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
               percentage: drugCount ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2)) : 0,
               index: 1,
               typeName: item.name,
+              count: `${drugCount || 0}/${locationData.totalCount}`,
             });
           });
         }
 
         return data;
       });
-  }, [drugsData, mapData, mapRegionData, resistanceOptions, xAxisSelected, xAxisType, yAxisSelected, yAxisType]);
+  }, [
+    GLPSColumn,
+    drugsData,
+    mapData,
+    mapRegionData,
+    resistanceOptions,
+    xAxisSelected,
+    xAxisType,
+    yAxisSelected,
+    yAxisType,
+    yAxisTypeTrend,
+  ]);
 
   useEffect(() => {
     if (canGetData) {
@@ -442,7 +529,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       content={({ payload, active }) => {
                         if (payload !== null && active) {
                           const title = getTitle(payload[0]?.payload.itemName);
-
                           return (
                             <div
                               className={classes.chartTooltipLabel}
@@ -455,11 +541,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                                 {payload[0]?.payload.typeName}
                               </Typography>
                               <Typography variant="body2">
-                                {yAxisType !== 'resistance'
-                                  ? `${title}: ${payload[0]?.payload.percentage}%`
-                                  : `${title}: ${payload[0]?.payload.count} (${payload[0]?.payload.percentage}%)`}
+                                {`${title}: ${payload[0]?.payload.count} (${payload[0]?.payload.percentage}%)`}
                               </Typography>
-                              {countriesTooltipForRegion(payload[1]?.payload.typeName, payload[0]?.payload.itemName)}
+                              {Number(payload[0]?.payload.count.split('/')[0]) > 0 &&
+                                countriesTooltipForRegion(payload[1]?.payload.typeName, payload[0]?.payload.itemName)}
                             </div>
                           );
                         }
@@ -606,24 +691,51 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      <MenuItem value="genotype">Genotype prevalence</MenuItem>
-                      <MenuItem value="resistance">Resistance prevalence</MenuItem>
-                      {organism === 'kpneumo' &&
-                        kpYOptions.map((option, index) => (
-                          <MenuItem key={`y-kp-option-${index}`} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                      {organism === 'styphi' &&
-                        stYOptions.map((option, index) => (
-                          <MenuItem key={`y-st-option-${index}`} value={option.value}>
+                      {yOptions
+                        .filter((option) => !option.organisms || option.organisms.includes(organism))
+                        .map((option, index) => (
+                          <MenuItem key={`y-col-option-${index}`} value={option.value}>
                             {option.label}
                           </MenuItem>
                         ))}
                     </Select>
                   </div>
+                  {yAxisType === 'determinant' && (
+                    <div className={classes.selectWrapper}>
+                      <Typography variant="caption">Select trend</Typography>
+                      <Select
+                        value={yAxisTypeTrend}
+                        onChange={handleChangeYAxisTypeTrend}
+                        inputProps={{ className: classes.selectInput }}
+                        MenuProps={{ classes: { list: classes.selectMenu } }}
+                        disabled={organism === 'none'}
+                      >
+                        {organism === 'kpneumo' &&
+                          kpTrendOptions.map((option, index) => (
+                            <MenuItem key={`y-kp-option-${index}`} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        {organism === 'styphi' &&
+                          stTrendOptions.map((option, index) => (
+                            <MenuItem key={`y-st-option-${index}`} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </div>
+                  )}
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Select drugs/{getAxisLabel(organism)}</Typography>
+                    {['resistance', 'determinant'].includes(yAxisType) ? (
+                      <Typography variant="caption">Select {yAxisLabel}</Typography>
+                    ) : (
+                      <div className={classes.labelWrapper}>
+                        <Typography variant="caption">Select {yAxisLabel}</Typography>
+                        <Tooltip title={`Only show top 20 ${yAxisLabel}`} placement="top">
+                          <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                        </Tooltip>
+                      </div>
+                    )}
                     <Select
                       multiple
                       value={yAxisSelected}
