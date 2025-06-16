@@ -174,7 +174,7 @@ export function getIntsTexts() {
     '.warwick.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus, assigns lineages using MLST, cgMLST and hierarchical clustering, and assigns serotypes using SISTR. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for >90% of iNTS), and identifies lineages thereof using MLST. Last update: May 14th 2025 ',
     'For information about',
     'Salmonella',
-    'Typhi and iNTS, please see the Typhi dashboard.',
+    'Typhi, please see the Typhi dashboard.',
     'WARNING:',
     'The iNTS data used in AMRnet have not yet been curated to include information on purpose of sampling, and therefore reflect the biases of global sequencing efforts, which may be skewed towards sequencing drug-resistant organisms and/or those isolated during outbreaks. Data curation efforts are ongoing; however, until then, please be careful when drawing inferences about generalisability of the data featured in the dashboard.',
 
