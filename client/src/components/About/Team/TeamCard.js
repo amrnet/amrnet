@@ -4,6 +4,7 @@ import LC from '../../../assets/img/Team/LC.jpeg';
 import VS from '../../../assets/img/Team/VS.jpeg';
 import MC from '../../../assets/img/Team/MC.jpeg';
 import MM from '../../../assets/img/Team/MM.jpeg';
+import EB from '../../../assets/img/Team/EB.jpeg';
 
 export const teamCards = [
   {
@@ -20,11 +21,7 @@ export const teamCards = [
   },
   {
     name: 'Dr Louise Cerdeira',
-    post: (
-      <>
-        Lead Software Engineer
-      </>
-    ),
+    post: 'Lead Software Engineer',
     img: LC,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/teixeira-cerdeira.louise',
   },
@@ -45,5 +42,11 @@ export const teamCards = [
     post: 'Bioinformatics',
     img: MM,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/maranga.mary',
+  },
+    {
+    name: 'Dr Ebenezer Foster-Nyarko',
+    post: 'Enterics expert',
+    img: EB,
+    redirect: 'https://www.lshtm.ac.uk/aboutus/people/foster-nyarko.ebenn',
   },
 ];

@@ -256,7 +256,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     setYAxisSelected(yAxisOptions);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [yAxisOptions]);
 
   const yAxisWidth = useMemo(() => {
