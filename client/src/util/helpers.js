@@ -17,3 +17,9 @@ export function truncateWord(word, maxLength = 13) {
   }
   return word;
 }
+
+export function getRange(start, end) {
+  const step = start <= end ? 1 : -1; // Handle ascending or descending
+  const length = Math.abs(end - start) + 1;
+  return Array.from({ length }, (_, i) => start + i * step);
+}

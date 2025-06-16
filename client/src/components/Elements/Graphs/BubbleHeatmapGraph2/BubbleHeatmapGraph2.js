@@ -126,7 +126,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   }, [organism, selectedCRData?.stats]);
 
   const markersOptions = useMemo(() => {
-    const drugKey = yAxisType === 'kp-markers-carbapenems' ? 'Carb' : 'ESBL';
+    const drugKey = yAxisType === 'kp-markers-carbapenems' ? 'Carbapenems' : 'ESBL';
 
     return (
       selectedCRData?.stats[drugKey]?.items
@@ -256,7 +256,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
         }
 
         if (yAxisType.includes('markers')) {
-          const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carb']?.items;
+          const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carbapenems']?.items;
 
           yAxisSelected.forEach((gene) => {
             const currentGene = drugGenes.find((dg) => dg.name === gene);
@@ -431,8 +431,8 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>
-                <Typography variant="h6">Filters</Typography>
-                <Tooltip title="Hide Filters" placement="top">
+                <Typography variant="h6">Plotting options</Typography>
+                <Tooltip title="Hide plotting options" placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />
                   </IconButton>

@@ -220,7 +220,7 @@ export const colorForDrugClassesST = {
     { name: 'blaTEM-1D', color: '#addd8e' },
     { name: 'None', color: '#B9B9B9' },
   ],
-  Sulphonamides: [
+  Sulfonamides: [
     { name: 'None', color: '#B9B9B9' },
     { name: 'sul1', color: '#fd8d3c' },
     { name: 'sul1 + sul2', color: '#B4DD70' },

@@ -23,7 +23,7 @@ interface StatsModel {
   H58: ItemsModel;
   MDR: ItemsModel;
   XDR: ItemsModel;
-  AzithR: ItemsModel;
+  Azithromycin: ItemsModel;
   Pansusceptible: ItemsModel;
   CipR: ItemsModel;
   CipNS: ItemsModel;
@@ -47,6 +47,7 @@ interface MapState {
   mapRegionData: Array<MapDataModel>;
   mapColoredBy: string;
   yAxisType: string;
+  yAxisTypeTrend: string;
 }
 
 const initialState: MapState = {
@@ -62,6 +63,7 @@ const initialState: MapState = {
   mapRegionData: [],
   mapColoredBy: 'country',
   yAxisType: 'resistance',
+  yAxisTypeTrend: '',
 };
 
 export const mapSlice = createSlice({
@@ -96,6 +98,9 @@ export const mapSlice = createSlice({
     setYAxisType: (state, action: PayloadAction<string>) => {
       state.yAxisType = action.payload;
     },
+    setYAxisTypeTrend: (state, action: PayloadAction<string>) => {
+      state.yAxisTypeTrend = action.payload;
+    },
   },
 });
 
@@ -108,7 +113,8 @@ export const {
   setMapData,
   setMapRegionData,
   setMapColoredBy,
-  setYAxisType
+  setYAxisType,
+  setYAxisTypeTrend,
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

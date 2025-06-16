@@ -102,7 +102,11 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     const slicedArray = mapArray.slice(0, currentSliderValue).map(([key]) => key);
 
     dispatch(setTopXGenotype(slicedArray));
-    dispatch(setGenotypesForFilterSelected([...slicedArray, 'Other']));
+    dispatch(
+      setGenotypesForFilterSelected(
+        currentSliderValue === slicedArray.length ? slicedArray : [...slicedArray, 'Other'],
+      ),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSliderValue, genotypesYearData]);
 
@@ -140,6 +144,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   function handleChangeDataView(event) {
     dispatch(setDistributionGraphView(event.target.value));
   }
+
   function handleClickChart(event) {
     setCurrentEventSelected(event);
     const data = newArray.find((item) => item.name === event?.activeLabel);
@@ -164,11 +169,15 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           color: getGenotypeColor(key),
         };
       });
-      value.genotypes = value.genotypes.filter((item) => topXGenotype.includes(item.label) || item.label === 'Other');
+      value.genotypes = value.genotypes.filter(
+        (item) => topXGenotype.includes(item.label) || (item.label === 'Other' && item.count > 0),
+      );
+
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
     }
   }
+
   useEffect(() => {
     if (!resetBool) handleClickChart(currentEventSelected);
     else {
@@ -191,11 +200,13 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (canGetData) {
+      const data = getData();
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
             <BarChart
-              data={getData()}
+              data={data}
               cursor={isTouchDevice() ? 'default' : 'pointer'}
               onClick={handleClickChart}
               maxBarSize={70}
@@ -226,6 +237,16 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                       {payload.map((entry, index) => {
                         if (!genotypesYearData.length) return null;
                         const { dataKey, color } = entry;
+
+                        if (dataKey === 'Other') {
+                          const hasData = data.some((d) => {
+                            const value = d[dataKey];
+                            return value !== undefined && value !== null && value !== 0;
+                          });
+
+                          if (!hasData) return null;
+                        }
+
                         return (
                           <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>
                             <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
@@ -317,8 +338,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>
-                <Typography variant="h6">Filters</Typography>
-                <Tooltip title="Hide Filters" placement="top">
+                <Typography variant="h6">Plotting options</Typography>
+                <Tooltip title="Hide plotting options" placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />
                   </IconButton>

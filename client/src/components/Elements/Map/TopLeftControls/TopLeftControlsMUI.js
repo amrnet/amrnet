@@ -52,12 +52,14 @@ const useStyles = makeStyles((theme) => ({
   menuPaper: {
     maxHeight: '350px !important',
   },
-  lineageLi: { paddingLeft: '8px !important', paddingRight: '8px !important' },
   titleWrapper: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  toggleButton: {
+    justifyContent: 'flex-start !important',
   },
   bp700: {},
 }));

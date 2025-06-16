@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Button,
@@ -28,7 +27,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView, setStarttimeDRT, setEndtimeDRT } from '../../../../stores/slices/graphSlice';
 import { ciproAcronyms, drugAcronymsOpposite, drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
 import { Close, InfoOutlined } from '@mui/icons-material';
@@ -36,6 +35,7 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
 import { SelectCountry } from '../../SelectCountry';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { getRange } from '../../../../util/helpers';
 
 export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -61,22 +61,26 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     } else {
       dispatch(setCaptureDRT(true));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drugsYearData]);
 
-  function getData() {
+  const trendsData = useMemo(() => {
     const exclusions = ['name', 'count'];
-    let drugDataPercentage = structuredClone(drugsYearData).filter((item) => item.count >= 10);
-    drugDataPercentage = drugDataPercentage.map((item) => {
+    const drugsDataPercentages = structuredClone(drugsYearData).filter((item) => item.count >= 10);
+
+    return drugsDataPercentages.map((item) => {
       const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
 
       keys.forEach((key) => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
+
+      if (typeof item.name === 'number') {
+        item.name = item.name.toString();
+      }
       return item;
     });
-
-    return drugDataPercentage;
-  }
+  }, [drugsYearData]);
 
   function getDrugs() {
     if (organism === 'none') {
@@ -95,6 +99,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       return drugsINTS;
     }
   }
+
   function getDrugsForLegends() {
     if (organism === 'none') {
       return [];
@@ -127,6 +132,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         return;
     }
   }
+
   function getMDRDefinition() {
     switch (organism) {
       case 'styphi':
@@ -137,6 +143,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         return;
     }
   }
+
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
@@ -145,6 +152,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         return;
     }
   }
+
   function handleChangeDrugsView({ event = null, all = false }) {
     setCurrentTooltip(null);
     let newValues = [];
@@ -167,7 +175,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   }
 
   function handleClickChart(event) {
-    const data = drugsYearData.find((item) => item.name === event?.activeLabel);
+    const year = event?.activeLabel;
+    const data = drugsYearData.find((item) => item.name.toString() === year?.toString());
 
     if (data && drugResistanceGraphView.length > 0) {
       const currentData = structuredClone(data);
@@ -201,6 +210,12 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
+    } else if (year) {
+      setCurrentTooltip({
+        name: year,
+        count: 0,
+        drugs: [],
+      });
     }
   }
 
@@ -225,10 +240,32 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         lines[index].style.display = hasValue ? 'block' : 'none';
       }
 
+      // Get data
+      const data = trendsData.slice();
+
+      if (data.length > 0) {
+        // Add missing years between the select time to show continuous scale
+        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
+        const years = data.map((x) => x.name);
+        const keys = Object.keys(data[0]).filter((key) => !['name', 'count'].includes(key));
+
+        allYears.forEach((year) => {
+          if (!years.includes(year)) {
+            data.push({
+              name: year,
+              count: 0,
+              ...Object.fromEntries(keys.map((key) => [key, 0])),
+            });
+          }
+        });
+
+        data.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <LineChart data={getData()} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
+            <LineChart data={data} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 tickCount={20}
@@ -250,6 +287,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   height={20}
                   stroke={'rgb(31, 187, 211)'}
                   onChange={(brushRange) => {
+                    setCurrentTooltip(null);
                     dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
                     dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
                   }}
@@ -400,8 +438,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>
-                <Typography variant="h6">Filters</Typography>
-                <Tooltip title="Hide Filters" placement="top">
+                <Typography variant="h6">Plotting options</Typography>
+                <Tooltip title="Hide plotting options" placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />
                   </IconButton>
