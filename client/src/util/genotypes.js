@@ -96,7 +96,7 @@ export function getAxisLabel(organism) {
     case 'shige':
       return 'pathotypes';
     case 'sentericaints':
-      return 'serotypes';
+      return 'lineages';
     default:
       return 'genotypes';
   }

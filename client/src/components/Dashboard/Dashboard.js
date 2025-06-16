@@ -717,9 +717,9 @@ export const DashboardPage = () => {
       <MainLayout>
         <Note />
         <Map />
-        <ContinentGraphs />
         {/* <SelectCountry /> */}
         <Graphs />
+        <ContinentGraphs />
         <DownloadData />
         {/* <Footer /> */}
         <ResetButton data={data} />
