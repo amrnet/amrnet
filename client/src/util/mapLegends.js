@@ -1,4 +1,4 @@
-import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { organismsCards } from './organismsCards';
 
 // List of legends for the map and in which organisms they appear
 export const mapLegends = [
@@ -39,7 +39,7 @@ export const mapLegends = [
   {
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
-    organisms: ['styphi', 'ngono','senterica'],
+    organisms: organismsCards.map((x) => x.value).filter((x) => !['sentericaints', 'kpneumo'].includes(x)),
   },
   {
     value: 'ST prevalence',
@@ -54,7 +54,7 @@ export const mapLegends = [
   {
     value: 'Lineage prevalence',
     label: 'Lineage prevalence',
-    organisms: amrLikeOrganisms,
+    organisms: ['sentericaints'],
   },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
