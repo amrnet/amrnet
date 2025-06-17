@@ -44,7 +44,7 @@ export const teamCards = [
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/maranga.mary',
   },
     {
-    name: 'Dr Ebenezer Foster-Nyarko',
+    name: 'Dr E. Foster-Nyarko',
     post: 'Enterics expert',
     img: EB,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/foster-nyarko.ebenn',

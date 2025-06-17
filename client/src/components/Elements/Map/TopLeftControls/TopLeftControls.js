@@ -18,7 +18,7 @@ import {
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDataset } from '../../../../stores/slices/mapSlice.ts';
+import { setDataset, setCurrentSelectedLineages } from '../../../../stores/slices/mapSlice.ts';
 import {
   setActualTimeFinal,
   setActualTimeInitial,
@@ -27,14 +27,15 @@ import {
 } from '../../../../stores/slices/dashboardSlice';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { useEffect, useState } from 'react';
-import { decoli } from '../../../../assets/organisms';
+
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
-export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }) => {
+export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting options' }) => {
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
-  const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
+  // currentSelectedLineages is created in redux to make it available for PDF and PNG exports
+  // const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
 
   const dispatch = useAppDispatch();
   const dataset = useAppSelector((state) => state.map.dataset);
@@ -44,10 +45,11 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   const pathovar = useAppSelector((state) => state.dashboard.pathovar);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
+  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
 
   useEffect(() => {
-    setCurrentSelectedLineages(selectedLineages);
-  }, [selectedLineages]);
+    dispatch(setCurrentSelectedLineages(selectedLineages));
+  }, [selectedLineages, dispatch]);
 
   function handleChange(_event, newValue) {
     if (newValue !== null) {
@@ -85,17 +87,22 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
 
   function handleChangeMultiLineages(_, value) {
     if (!value.includes('Clear All') && !value.includes('Select All')) {
-      setCurrentSelectedLineages(value);
+      if (organism === 'decoli') {
+        dispatch(setCurrentSelectedLineages(value));
+        return;
+      }
+
+      dispatch(setCurrentSelectedLineages([value[value.length - 1]]));
       return;
     }
 
     if (value.includes('Clear All')) {
-      setCurrentSelectedLineages([]);
+      dispatch(setCurrentSelectedLineages([]));
       return;
     }
 
     if (value.includes('Select All')) {
-      setCurrentSelectedLineages(pathovar);
+      dispatch(setCurrentSelectedLineages(pathovar));
     }
   }
 
