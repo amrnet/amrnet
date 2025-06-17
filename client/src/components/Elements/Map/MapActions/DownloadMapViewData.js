@@ -655,12 +655,7 @@ export const DownloadMapViewData = ({ value }) => {
         });
       });
 
-    // const allDrugs = Array.from(sortedDrugs).sort();
-    const allDrugs = Array.from(allDrugsSet).sort((a, b) => {
-      if (a === 'Pansusceptible') return 1; // always move 'Pansusceptible' down
-      if (b === 'Pansusceptible') return -1; // always move 'Pansusceptible' down
-      return a.localeCompare(b); // alphabetical sort
-    });
+    const allDrugs = Array.from(allDrugsSet).sort();
 
     // Step 3: Prepare headers
     const headerList = ['Country', 'Total Count'];
