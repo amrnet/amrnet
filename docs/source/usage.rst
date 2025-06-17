@@ -130,7 +130,7 @@ Individual pathogen details
 - **No acquired resistance**: no resistance determinants identified besides a wildtype beta-lactamase SHV allele associated with intrinsic resistance to ampicillin (i.e. not an ESBL or inhibitor-resistant variant of SHV, see `Tsang et al 2024 <https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294>`_.
 
 Escherichia *coli* (diarrheagenic)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Escherichia *coli* (diarrheagenic) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. The logic used by Enterobase to classify E. *coli* genomes to pathotypes is shown `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__. Pathotypes included in the E. *coli* (diarrheagenic) dashboard are:
 

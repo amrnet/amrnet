@@ -269,7 +269,7 @@ export const DownloadData = () => {
     } else if (organism === 'sentericaints') {
       firstName = 'Salmonella';
       secondName = '(invasive non-typhoidal)';
-    } else if (organism === 'senterica') {
+    } else if (organism === 'senterica') { 
       firstName = 'Salmonella enterica';
       secondName = '(non-typhoidal)';
     }
@@ -534,14 +534,14 @@ export const DownloadData = () => {
         secondName = 'pneumoniae';
         amrnetHeading = 167;
         secondword = 320;
-        firstWord = 254;
+        firstWord = 254
       } else if (organism === 'ngono') {
         texts = getNgonoTexts();
         firstName = 'Neisseria';
         secondName = 'gonorrhoeae';
         amrnetHeading = 157;
         secondword = 310;
-        firstWord = 244;
+        firstWord = 244
       } else if (organism === 'shige') {
         texts = getShigeTexts();
         firstName = 'Shigella';
@@ -564,7 +564,7 @@ export const DownloadData = () => {
         firstName = 'Escherichia coli';
         secondName = '(diarrheagenic)';
         secondword = 340;
-        firstWord = 240;
+        firstWord = 250;
         amrnetHeading = 147;
       } else {
         texts = getIntsTexts();
@@ -580,14 +580,13 @@ export const DownloadData = () => {
       drawHeader({ document: doc, pageWidth });
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
       doc.text('AMRnet Report for', amrnetHeading, 44, { align: 'center' });
-      if (organism === 'styphi' || organism === 'senterica' || organism === 'shige')
+      if (organism === 'styphi' || organism === 'senterica' || organism === 'shige' || organism === 'senterica')
         doc.setFont(undefined, 'bolditalic');
       doc.text(firstName, firstWord, 44, { align: 'center' });
       if (
         organism === 'kpneumo' ||
         organism === 'ngono' ||
         organism === 'sentericaints' ||
-        organism === 'senterica' ||
         organism === 'decoli'
       )
         doc.setFont(undefined, 'bolditalic');
@@ -1054,11 +1053,13 @@ export const DownloadData = () => {
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'decoli') {
         // Info
-        doc.setFont(undefined, 'italic');
         doc.setFont(undefined, 'normal');
         doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
         doc.text(texts[1], 80, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
         doc.text(texts[2], 145, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
         doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
 
