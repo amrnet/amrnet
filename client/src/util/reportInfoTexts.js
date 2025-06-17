@@ -168,15 +168,15 @@ export function getEcoliTexts() {
 export function getIntsTexts() {
   return [
     'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation',
-    'Invasive non-typhoidal',
     'Salmonella',
-    ' (iNTS) data in AMRnet are drawn from Enterobase (https://enterobase',
-    '.warwick.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus, assigns lineages using MLST, cgMLST and hierarchical clustering, and assigns serotypes using SISTR. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for >90% of iNTS), and identifies lineages thereof using MLST. Last update: May 14th 2025 ',
+    '(invasive non-typhoidal)',
+    'data visualised in AMRnet are drawn from Enterobase (https://enterobase',
+    '.warwick.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus, assigns lineages using MLST, cgMLST and hierarchical clustering, and assigns serotypes using SISTR. The Salmonella (invasive non-typhoidal) dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for >90% of Salmonella (invasive non-typhoidal) genomes in the dashboard), and identifies lineages thereof using MLST. Last update: May 14th 2025 ',
     'For information about',
     'Salmonella',
     'Typhi, please see the Typhi dashboard.',
     'WARNING:',
-    'The iNTS data used in AMRnet have not yet been curated to include information on purpose of sampling, and therefore reflect the biases of global sequencing efforts, which may be skewed towards sequencing drug-resistant organisms and/or those isolated during outbreaks. Data curation efforts are ongoing; however, until then, please be careful when drawing inferences about generalisability of the data featured in the dashboard.',
+    'The Salmonella (invasive non-typhoidal) data used in AMRnet have not yet been curated to include information on purpose of sampling, and therefore reflect the biases of global sequencing efforts, which may be skewed towards sequencing drug-resistant organisms and/or those isolated during outbreaks. Data curation efforts are ongoing; however, until then, please be careful when drawing inferences about generalisability of the data featured in the dashboard.',
 
     'Variable definitions',
     'Lineages',
@@ -219,10 +219,10 @@ export function getIntsTexts() {
 }
 export function getDEcoliTexts() {
   return [
-    'Diarrheagenic E.',
-    'coli',
-    'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick',
-    '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using MLST. , cgMLST and hierarchical clustering. The logic used by Enterobase to classify E. coli genomes to pathotypes is shown here. Pathotypes included in the diarrheagenic E. coli dashboard are:',
+    'Escherichia coli',
+    '(diarrheagenic)',
+    'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick.ac.uk/),',
+    'which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using MLST. , cgMLST and hierarchical clustering. The logic used by Enterobase to classify E. coli genomes to pathotypes is shown here. Pathotypes included in the E. coli (diarrheagenic) dashboard are:',
     '* Shiga toxin-producing E. coli (STEC)',
     '* Enterohemorrhagic E. coli (EHEC)',
     '* Enterotoxigenic E. coli (ETEC)',

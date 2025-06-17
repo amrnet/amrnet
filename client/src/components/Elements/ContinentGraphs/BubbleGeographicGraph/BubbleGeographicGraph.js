@@ -255,7 +255,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [mapData, mapRegionData, xAxisType]);
 
   useEffect(() => {
-    setYAxisSelected(yAxisOptions);
+    if (yAxisOptions.length > 0) {
+       setYAxisSelected(yAxisOptions.slice(0, 20));
+    }else
+       setYAxisSelected(yAxisOptions);
   }, [yAxisOptions]);
 
   const yAxisWidth = useMemo(() => {

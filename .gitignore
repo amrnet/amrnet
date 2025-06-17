@@ -3,13 +3,6 @@ node_modules/
 /.pnp
 .pnp.js
 client/build/
-.DS_Store
-.env.local
-.env.development.local
-.env.development
-.env.test.local
-.env.production.local
-.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -17,12 +10,11 @@ yarn.lock
 package-lock.json
 .vscode/
 
-
-
 # Created by https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,jupyternotebooks
 
 ### JupyterNotebooks ###
+# Jupyter Notebook
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
@@ -32,6 +24,7 @@ package-lock.json
 # IPython
 profile_default/
 ipython_config.py
+# IPython
 
 # Remove previous ipynb_checkpoints
 #   git rm -r .ipynb_checkpoints/
@@ -113,10 +106,6 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
-
-# Jupyter Notebook
-
-# IPython
 
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
