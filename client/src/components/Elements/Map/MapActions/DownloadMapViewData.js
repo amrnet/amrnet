@@ -540,7 +540,6 @@ export const DownloadMapViewData = ({ value }) => {
   };
 
   const downloadCSVForHM = () => {
-    console.log('mapRegionData', mapRegionData);
     if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
       let HeaderList = ['Region', 'Country', 'Name']; // Initial headers
       let allDrugs = new Set(); // Store unique drug names
