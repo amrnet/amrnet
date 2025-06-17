@@ -235,6 +235,8 @@ export const DownloadData = () => {
   const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
   const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
+  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
+
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -460,6 +462,17 @@ export const DownloadData = () => {
     }
   }
 
+  const getAxisLabel = ()=> {
+    switch (organism) {
+      case 'decoli':
+      case 'shige':
+        return 'Selected Pathotypes';
+      case 'sentericaints':
+        return 'Selected Serotypes';
+      default:
+        return '';
+    }
+  }
   async function handleClickDownloadPDF() {
     setLoadingPDF(true);
     dispatch(
@@ -1069,23 +1082,24 @@ export const DownloadData = () => {
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       // doc.text(`Map View: ${actualMapView}`, 16, 128);
       doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 128);
+      doc.text(`${getAxisLabel()} `+ currentSelectedLineages.join(', ') , 16, 140);
       if (prevalenceMapViewOptionsSelected.length === 1) {
         if (mapView === 'Genotype prevalence') {
-          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 140);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
         } else if (mapView === 'NG-MAST prevalence') {
-          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 140);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
         } else if (mapView === 'ST prevalence') {
-          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 140);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
         } else if (mapView === 'Sublineage prevalence') {
-          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 140);
+          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
         } else if (mapView === 'Resistance prevalence') {
           doc.text(`${actualMapView}:` +(ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
           drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
-          prevalenceMapViewOptionsSelected.join()), 16, 140);
+          prevalenceMapViewOptionsSelected.join()), 16, 152);
         }
       } else if (prevalenceMapViewOptionsSelected.length > 1) {
         const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
-        doc.text(`${actualMapView}:` + genotypesText, 16, 140);
+        doc.text(`${actualMapView}:` + genotypesText, 16, 152);
       }
       let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
@@ -1219,7 +1233,7 @@ export const DownloadData = () => {
         if (cards[index].id === 'GD') doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
         else if (cards[index].id === 'DRT') doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
         else if (cards[index].id === 'RDT') doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
-        else doc.text(`Time eriod: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
+        else doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         doc.text(
           `Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`,
           16,
