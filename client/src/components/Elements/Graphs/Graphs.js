@@ -131,9 +131,11 @@ export const Graphs = () => {
     switch (organism) {
       case 'decoli':
       case 'shige':
-        return 'Selected Pathotypes';
+        return 'Selected Pathotypes :';
       case 'sentericaints':
-        return 'Selected Serotypes';
+        return 'Selected Serotypes :';
+      case 'ecoli':
+        return 'Selected Genotypes :';
       default:
         return '';
     }
@@ -299,7 +301,7 @@ export const Graphs = () => {
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 95);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 115);
-      ctx.fillText(`${getAxisLabel()}: `+ currentSelectedLineages.join(', '), canvas.width / 2, 135);
+      ctx.fillText(`${getAxisLabel()} `+ currentSelectedLineages.join(', '), canvas.width / 2, 135);
       if (currentCard.id === 'GD') {
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
