@@ -934,11 +934,6 @@ export const drugRulesINTS = [
 
 // Used for ints and senterica
 export const statKeysINTS = [
-  {
-    name: 'Pansusceptible',
-    column: drugRulesINTS.find((x) => x.key === 'Pansusceptible').requirements.map((x) => x.columnID),
-    key: '-',
-  },
   { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'CipNS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
   // { name: 'CipR', column: 'QUINOLONE', key: '-', resistanceView: true },
@@ -951,6 +946,11 @@ export const statKeysINTS = [
   { name: 'Tetracyclines', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
   { name: 'Tigecycline', column: 'TETRACYCLINE', key: 'TIGECYCLINE', resistanceView: true },
   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
+  {
+    name: 'Pansusceptible',
+    column: drugRulesINTS.find((x) => x.key === 'Pansusceptible').requirements.map((x) => x.columnID),
+    key: '-',
+  },
   // { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
 ];
 
