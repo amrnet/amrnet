@@ -4,6 +4,7 @@ import csv from 'csv-parser';
 import fs from 'fs';
 import * as Tools from '../../services/services.js';
 import { client } from '../../config/db2.js';
+import rateLimit from 'express-rate-limit';
 
 const dbAndCollectionNames = {
   styphi: { dbName: 'styphi', collectionName: 'merge_rawdata_st' },
@@ -328,7 +329,13 @@ router.get('/getDataForSenterica', async function (req, res, next) {
   }
 });
 
-router.get('/getDataForSentericaints', async function (req, res, next) {
+const sentericaintsLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: { error: 'Too many requests, please try again later.' },
+});
+
+router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['sentericaints'];
   try {
     const result = await client
