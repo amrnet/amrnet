@@ -80,10 +80,9 @@ Individual pathogen details
 
 **Variable definitions**
 
-- **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, and sublineages (defined from core-genome MLST, as described `here <https://doi.org/10.1093/molbev/msac135>`__), maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_
+- **Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, and sublineages (defined from core-genome MLST, as described `here <https://doi.org/10.1093/molbev/msac135>`__), maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_.
 - **AMR determinants** are called using `Kleborate v3 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`__. Fluoroquinolone resistance is defined as presence of an acquired qnr/qep gene OR a mutation in the quinolone-resistance determining regions of gyrA or parC.
-- **No acquired resistance**: no resistance determinants identified besides a wildtype beta-lactamase SHV allele associated with intrinsic resistance to ampicillin (i.e. not an ESBL or inhibitor-resistant variant of SHV, see `Tsang et al 2024 <https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294>`_
-
+- **No acquired resistance**: no resistance determinants identified besides a wildtype beta-lactamase SHV allele associated with intrinsic resistance to ampicillin (i.e. not an ESBL or inhibitor-resistant variant of SHV, see `Tsang et al 2024 <https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294>`_.
 **Abbreviations**
 
 - **ESBL**: extended-spectrum beta-lactamase
