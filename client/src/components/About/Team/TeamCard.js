@@ -43,7 +43,7 @@ export const teamCards = [
     img: MM,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/maranga.mary',
   },
-  {
+    {
     name: 'Dr E. Foster-Nyarko',
     post: 'Enterics expert',
     img: EB,
