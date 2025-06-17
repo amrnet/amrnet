@@ -211,6 +211,22 @@ Example code to download the data and save in JSON:
                 "filter": {"DATE": "2015"}
             }' > output.json
 
+Example code to download the data and save in JSON:
+
+
+.. code-block:: bash
+
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_TOKEN_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"<dataSource_NAME>"
+                "filter": {"DATE": "2015"}
+            }' > output.json
+            
 .. note::
 
     To test your cURL requests, you can use the online tool `Run Curl Commands Online <https://reqbin.com/curl>`_. This tool provides a convenient way to execute and test your cURL commands directly in your web browser without needing to install any additional software.
