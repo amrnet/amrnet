@@ -483,10 +483,10 @@ export const UserGuidePage = () => {
           <br />
 
           <Typography variant="h6" className={classes.paragraph}>
-            Diarrheagenic<i> E. coli</i>
+           <i>Escherichia coli</i>(Diarrheagenic)
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Diarrheagenic <i>E. coli</i> data in AMRnet are drawn from{' '}
+            <i>Escherichia coli</i>(Diarrheagenic) data in AMRnet are drawn from{' '}
             <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
               Enterobase
             </a>
@@ -518,7 +518,7 @@ export const UserGuidePage = () => {
             >
               here
             </a>
-            . Pathotypes included in the diarrheagenic <i>E. coli</i> dashboard are:
+            . Pathotypes included in the <i>Escherichia coli</i>(Diarrheagenic) dashboard are:
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
@@ -586,7 +586,7 @@ export const UserGuidePage = () => {
           <Divider />
           <br />
           <Typography variant="h6" className={classes.paragraph}>
-            Invasive Non-Typhoidal <i>Salmonella</i>
+            <i>Salmonella</i> (invasive non-typhoidal)
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             Salmonella (invasive non-typhoidal) data in AMRnet are drawn from{' '}
@@ -613,10 +613,10 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1371/journal.pone.0147101" target="_blank" rel="noreferrer">
               SISTR
             </a>
-            . he iNTS dashboard currently includes invasive lineages of serovar Typhimurium or Enteritidis (which
+            . he <i>Salmonella</i> (invasive non-typhoidal) data in the dashboard currently includes invasive lineages of serovar Typhimurium or Enteritidis (which
             account for{' '}
             <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target="_blank" rel="noreferrer">
-              &gt;90% of iNTS
+              &gt;90% of <i>Salmonella</i> (invasive non-typhoidal) strains in the USA
             </a>
             ), based on HierCC 150 clusters. Last update: 24 January 2024.
           </Typography>
@@ -626,7 +626,7 @@ export const UserGuidePage = () => {
             WARNING:
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            The iNTS data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases
+            The <i>Salmonella</i> (invasive non-typhoidal) data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases
             of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data
             curation efforts are ongoing however until then, please be careful when interpreting the data in the
             dashboard.

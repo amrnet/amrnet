@@ -90,66 +90,6 @@ export const organismsCards = [
     abbr: 'E. coli',
     img: ecoli,
   },
-  // {
-  //   label: (
-  //     <span>
-  //       <i>Staphylococcus aureus</i>
-  //     </span>
-  //   ),
-  //   stringLabel: 'Staphylococcus aureus',
-  //   value: 'aureus',
-  //   abbr: 'S. aureus',
-  //   // img: saureus,
-  //   disabled: true,
-  // },
-  // {
-  //   label: (
-  //     <span>
-  //       <i>Acinetobacter baumanii</i>
-  //     </span>
-  //   ),
-  //   stringLabel: 'Acinetobacter baumanii',
-  //   value: 'baumanii',
-  //   abbr: 'A. baumanii',
-  //   // img: abaumannii,
-  //   disabled: true,
-  // },
-  // {
-  //   label: (
-  //     <span>
-  //       <i>Pseudomonas aeruginosa</i>
-  //     </span>
-  //   ),
-  //   stringLabel: 'Pseudomonas aeruginosa',
-  //   value: 'aeru',
-  //   abbr: 'P. aeruginosa',
-  //   // img: paeruginosa,
-  //   disabled: true,
-  // },
-  // {
-  //   label: (
-  //     <span>
-  //       <i>Haemophilus influenza</i>
-  //     </span>
-  //   ),
-  //   stringLabel: 'Haemophilus influenza',
-  //   value: 'influ',
-  //   abbr: 'H. influenza',
-  //   // img: hinfluenza,
-  //   disabled: true,
-  // },
-  // {
-  //   label: (
-  //     <span>
-  //       <i>Streptococcus pneumoniae</i>
-  //     </span>
-  //   ),
-  //   stringLabel: 'Streptococcus pneumoniae',
-  //   value: 'spneumo',
-  //   abbr: 'S. pneumoniae',
-  //   // img: spneumoniae,
-  //   disabled: true,
-  // },
 ];
 
-export const amrLikeOrganisms = ['decoli', 'ecoli', 'shige', 'sentericaints'];
+export const amrLikeOrganisms = ['decoli', 'shige', 'sentericaints'];

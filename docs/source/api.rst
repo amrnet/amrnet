@@ -62,11 +62,12 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
 
 .. note:: **Organism name for downloading files from AWS:** 
-    Diarrheagenic E. coli as ``decoli``; 
+    Escherichia coli (diarrheagenic) as ``decoli``; 
     Escherichia coli as ``ecoli``; 
     Klebsiella pneumoniae as ``kpneumo``; 
     Neisseria gonorrhoeae as ``ngono``; 
-    Invasive non-typhoidal Salmonella as ``sentericaints``; 
+    Salmonella (invasive non-typhoidal) as ``sentericaints``; 
+    Salmonella (non-typhoidal) as ``senterica``; 
     Shigella as ``shige``; 
     Salmonella Typhi as ``styphi``
 
@@ -200,6 +201,20 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
                 "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
             }'
+Example code to download the data and save in JSON:
+
+
+.. code-block:: bash
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_TOKEN_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"<dataSource_NAME>"
+                "filter": {"DATE": "2015"}
+            }' > output.json
 
 .. note::
 
