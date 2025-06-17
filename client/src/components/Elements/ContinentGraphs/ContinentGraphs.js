@@ -186,7 +186,7 @@ export const ContinentGraphs = () => {
           default:
             return '';
         }
-      };
+      }
 
       ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 210);
       ctx.fillStyle = 'white';
