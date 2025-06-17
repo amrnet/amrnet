@@ -370,7 +370,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>
-                <Typography variant="h6">Filters</Typography>
+                <Typography variant="h6">Plotting options</Typography>
                 <Tooltip title="Hide Filters" placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />

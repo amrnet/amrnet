@@ -26,6 +26,10 @@ export const MapActions = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
+  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
+  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
+
 
   async function handleClick(event) {
     event.stopPropagation();
@@ -87,11 +91,11 @@ export const MapActions = () => {
           ctx.font = 'italic bold 50px Montserrat';
           ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
         } else if (organism === 'decoli') {
-          ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.565, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.63, 80);
-          ctx.fillText(labelSplit[2], canvas.width * 0.65, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
+          ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
+          ctx.font = 'bolder bold 50px Montserrat';
+          ctx.fillText(labelSplit[2], canvas.width * 0.70, 80);
         } else if (organism === 'shige') {
           ctx.font = 'italic bold 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
@@ -99,11 +103,11 @@ export const MapActions = () => {
           ctx.fillText(labelSplit[1], canvas.width * 0.585, 80);
           ctx.fillText(labelSplit[2], canvas.width * 0.61, 80);
         } else if (organism === 'sentericaints') {
-          ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.465, 80);
-          ctx.fillText(labelSplit[1], canvas.width * 0.555, 80);
           ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[2], canvas.width * 0.655, 80);
+          ctx.fillText(labelSplit[0], canvas.width * 0.48, 80);
+          ctx.font = 'bolder bold 50px Montserrat';
+          ctx.fillText(labelSplit[1], canvas.width * 0.56, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.65, 80);
         } else {
           ctx.font = 'italic bold 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
@@ -116,62 +120,79 @@ export const MapActions = () => {
 
         const actualMapView = mapLegends.find((x) => x.value === mapView).label;
 
-        ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
-        ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 190);
-        ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 240);
+        // ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
+        
+        ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 140);
+        ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
+        ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 240);
+        ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 290);
+        const getAxisLabel = ()=> {
+          switch (organism) {
+            case 'decoli':
+            case 'shige':
+              return 'Selected Pathotypes :';
+            case 'sentericaints':
+              return 'Selected Serotypes :';
+            case 'ecoli':
+              return 'Selected Genotypes :';
+            default:
+              return '';
+          }
+        }
+        ctx.fillText(`${getAxisLabel()} `+ currentSelectedLineages.join(', ') , canvas.width / 2, 340);
         if (mapView === 'Genotype prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected Genotypes: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected Genotypes: ' + genotypesText, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
           }
         }
         if (mapView === 'NG-MAST prevalence') {
           if (customDropdownMapViewNG.length === 1) {
-            ctx.fillText('Selected NG-MAST TYPE: ' + customDropdownMapViewNG, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + customDropdownMapViewNG, canvas.width / 2, 390);
           } else if (customDropdownMapViewNG.length > 1) {
             const genotypesText = customDropdownMapViewNG.join(', ');
-            ctx.fillText('Selected NG-MAST TYPE: ' + genotypesText, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
           }
         }
         if (mapView === 'Lineage prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected Lineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected Lineage: ' + genotypesText, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
           }
         }
         if (mapView === 'ST prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected ST: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected ST: ' + genotypesText, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
           }
         }
         if (mapView === 'Resistance prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
             ctx.fillText(
-              'Selected Resistance: ' +
+              `${actualMapView}: ` +
                 (ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
                   drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
                   prevalenceMapViewOptionsSelected.join()),
               canvas.width / 2,
-              370,
+              390,
             );
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected Resistance: ' + genotypesText, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
           }
         }
         if (mapView === 'Sublineage prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText('Selected Sublineage: ' + genotypesText, canvas.width / 2, 370);
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
           }
         }
         ctx.drawImage(mapImg, -100, textHeight + 150, canvas.width, cHeight);
@@ -195,10 +216,10 @@ export const MapActions = () => {
           case 'Genotype prevalence':
           case 'Lineage prevalence':
           case 'ST prevalence':
-          case 'Resistance prevalence':
           case 'Sublineage prevalence':
             legendImg.src = 'legends/MapView_prevalence.png';
             break;
+          case 'Resistance prevalence':
           default:
             legendImg.src = 'legends/MapView_Others.png';
             break;
