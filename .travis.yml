@@ -1,8 +1,13 @@
 language: node_js
-node_js: '14'
+node_js: '16'
 branches:
   only:
     - master
 cache:
   directories:
     - node_modules
+python:
+  - "3.12"
+install:
+  - pip install -r requirements.txt
+  - pip install -r docs/requirements.txt
