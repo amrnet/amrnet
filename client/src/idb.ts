@@ -57,82 +57,81 @@ const OBJECT_STORES = [
   'unr',
 ];
 
-// Initialize the database
+// Initialize the database (singleton pattern)
+let dbPromise: ReturnType<typeof openDB> | null = null;
+
 export const initDB = async () => {
-  return await openDB(DB_NAME, DB_VERSION, {
-    upgrade(db) {
-      // Convert db.objectStoreNames to an array so it can be iterated
-      const currentStores = Array.from(db.objectStoreNames);
+  if (!dbPromise) {
+    dbPromise = openDB(DB_NAME, DB_VERSION, {
+      upgrade(db) {
+        // Remove all existing object stores if needed (essentially clearing the cache)
+        Array.from(db.objectStoreNames).forEach((storeName) => {
+          db.deleteObjectStore(storeName);
+        });
 
-      // Remove all existing object stores if needed (essentially clearing the cache)
-      currentStores.forEach((storeName) => {
-        db.deleteObjectStore(storeName); // Delete the entire store
-      });
-
-      // Recreate object stores with the updated schema
-      OBJECT_STORES.forEach((store) => {
-        // Add new stores with updated schema, including the new key if needed
-        db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
-      });
-    },
-  });
+        // Recreate object stores with the updated schema
+        OBJECT_STORES.forEach((store) => {
+          db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
+        });
+      },
+    });
+  }
+  return dbPromise;
 };
 
-// Helper function to get the object store
-const getStore = async (storeName: OrganismStore) => {
-  const db = await initDB();
-  return db.transaction(storeName, 'readwrite').objectStore(storeName);
+// Helper function to get the database instance
+const getDB = async () => {
+  return await initDB();
 };
 
 // Add an item to a specific store
 export const addItem = async (storeName: OrganismStore, item: any): Promise<IDBValidKey> => {
-  const store = await getStore(storeName);
-  return store.put(item);
+  const db = await getDB();
+  return db.put(storeName, item);
 };
+
+const isValidStore = (storeName: string): boolean => OBJECT_STORES.includes(storeName);
 
 // Get all items from a specific store
 export const getItems = async (storeName: OrganismStore): Promise<any> => {
-  const store = await getStore(storeName);
-  return store.getAll();
+  if (!isValidStore(storeName)) {
+    throw new Error(`Invalid object store name: ${storeName}`);
+  }
+  const db = await getDB();
+  return db.getAll(storeName);
 };
 
 // Get a single item by its ID
 export const getItem = async (storeName: OrganismStore, id: number): Promise<any> => {
-  const store = await getStore(storeName);
-  return store.get(id);
+  const db = await getDB();
+  return db.get(storeName, id);
 };
 
 // Delete an item by its ID
 export const deleteItem = async (storeName: OrganismStore, id: number): Promise<void> => {
-  const store = await getStore(storeName);
-  return store.delete(id);
+  const db = await getDB();
+  return db.delete(storeName, id);
 };
 
 export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>, clearStore: boolean = true) => {
-  const store = await getStore(storeName);
+  const db = await getDB();
+  const tx = db.transaction(storeName, 'readwrite');
+  const store = tx.objectStore(storeName);
 
-  // Start a transaction for the specified store
-  const tx = store.transaction;
-
-  // Clear all existing data from the store
   if (clearStore) {
     await store.clear();
   }
 
-  // Add all items in the transaction
-  items.forEach((item) => {
-    store.put(item); // Use put instead of add
-  });
+  for (const item of items) {
+    await store.put(item);
+  }
 
-  // Complete the transaction
   await tx.done;
 };
 
 export const hasItems = async (storeName: OrganismStore): Promise<boolean> => {
-  const store = await getStore(storeName);
-
-  // Use count to determine if there are any items
-  const count = await store.count();
+  const db = await getDB();
+  const count = await db.count(storeName);
   return count > 0;
 };
 
@@ -143,7 +142,9 @@ export const filterItems = async (
   endDate?: number,
 ): Promise<any[]> => {
   try {
-    const store = await getStore(storeName);
+    const db = await getDB();
+    const tx = db.transaction(storeName, 'readonly');
+    const store = tx.objectStore(storeName);
     const index = store.index('travelDateIndex');
 
     let range: IDBKeyRange | undefined;
@@ -156,18 +157,12 @@ export const filterItems = async (
       range = IDBKeyRange.bound([null, startDate], [null, endDate], true, false);
     } else {
       // If no DATE range is provided, return all items
-      range = IDBKeyRange.lowerBound([null]);
+      range = undefined;
     }
 
-    // Open cursor on the composite index with the range
-    const cursorRequest = index.openCursor(range);
     const results: any[] = [];
-
-    // Await the cursor request
-    let currentCursor = await cursorRequest;
-    while (currentCursor) {
-      results.push(currentCursor.value);
-      currentCursor = await cursorRequest;
+    for await (const cursor of index.iterate(range)) {
+      results.push(cursor.value);
     }
 
     return results;
