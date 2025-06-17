@@ -1,7 +1,7 @@
 import { useStyles } from './NoteMUI';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import { useAppSelector } from '../../../stores/hooks';
-import LogoImg from '../../../assets/img/logo-typhinet-prod.png';
+import LogoImg from '../../../assets/img/logo-amrnet-prod.png';
 // import Button from '@mui/material/Button';
 
 export const Note = () => {

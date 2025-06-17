@@ -1,5 +1,4 @@
 // import connectDB from './config/db.js';
-import connectDB from './config/db2.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
 import generateFileClean from './routes/api/generateDataClean.js';
 import api from './routes/api/api.js';
@@ -11,6 +10,7 @@ import emailRouter from './routes/api/email.js';
 import path, { dirname } from 'path';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
+import connectDB from './config/db.js';
 import bodyParser from 'body-parser';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -53,5 +53,7 @@ app.use('/', function (req, res) {
   res.sendFile(path.join(__dirname, './client/build/index.html'));
 });
 
-// Start the API server, listen method to run project on http://localhost:8080
-app.listen(PORT, console.log(`App is running in ${process.env.NODE_ENV} mode on port ${PORT}`));
+// Start the API server and log a message when it's ready
+app.listen(PORT, () => {
+  console.log(`Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`);
+});

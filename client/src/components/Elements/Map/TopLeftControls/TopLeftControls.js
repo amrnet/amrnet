@@ -35,7 +35,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
   // currentSelectedLineages is created in redux to make it available for PDF and PNG exports
-  // const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
+  //const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
 
   const dispatch = useAppDispatch();
   const dataset = useAppSelector((state) => state.map.dataset);
@@ -48,8 +48,8 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
   const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
 
   useEffect(() => {
-    dispatch(setCurrentSelectedLineages(selectedLineages));
-  }, [selectedLineages, dispatch]);
+    (setCurrentSelectedLineages(selectedLineages));
+  }, [selectedLineages, ]);
 
   function handleChange(_event, newValue) {
     if (newValue !== null) {
