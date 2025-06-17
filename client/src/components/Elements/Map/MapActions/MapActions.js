@@ -238,11 +238,11 @@ export const MapActions = () => {
           ctx.drawImage(legendImg, canvas.width - canvas.width / 6, 0, legendWidth, legendHeight);
         }
 
-        const typhinetLogo = document.createElement('img');
-        const typhinetLogoPromise = imgOnLoadPromise(typhinetLogo);
-        typhinetLogo.src = LogoImg;
-        await typhinetLogoPromise;
-        ctx.drawImage(typhinetLogo, 25, 25);
+        const amrnetLogo = document.createElement('img');
+        const amrnetLogoPromise = imgOnLoadPromise(amrnetLogo);
+        amrnetLogo.src = LogoImg;
+        await amrnetLogoPromise;
+        ctx.drawImage(amrnetLogo, 25, 25);
 
         const base64 = canvas.toDataURL();
         await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.stringLabel}.png`);

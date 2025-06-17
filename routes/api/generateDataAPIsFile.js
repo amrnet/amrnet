@@ -5,7 +5,7 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as Tools from '../../services/services.js';
-import { client } from '../../config/db2.js';
+import { client } from '../../config/db.js';
 import pkg from 'csv-writer';
 
 const { createObjectCsvWriter: createCsvWriter } = pkg;
