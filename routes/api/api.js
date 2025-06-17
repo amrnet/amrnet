@@ -3,7 +3,7 @@ const router = express.Router();
 import csv from 'csv-parser';
 import fs from 'fs';
 import * as Tools from '../../services/services.js';
-import { client } from '../../config/db2.js';
+import { client } from '../../config/db.js';
 
 const dbAndCollectionNames = {
   styphi: { dbName: 'styphi', collectionName: 'merge_rawdata_st' },
