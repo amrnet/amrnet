@@ -27,6 +27,7 @@ import {
 } from '../../../../stores/slices/dashboardSlice';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { useEffect, useState } from 'react';
+import { decoli } from '../../../../assets/organisms';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -122,7 +123,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               <Typography gutterBottom variant="caption">
                 Select dataset
               </Typography>
-              <ToggleButtonGroup value={dataset} exclusive size="small" onChange={handleChange} disabled={isDisabled()}>
+              <ToggleButtonGroup value={dataset} onChange={handleChange} disabled={isDisabled()}>
                 {datasetOptions.map((option, index) => (
                   <ToggleButton key={`dataset-${index}`} value={option} color="primary">
                     {option}
@@ -131,11 +132,8 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </ToggleButtonGroup>
             </div>
           )}
-          {!amrLikeOrganisms.filter((x) => x !== 'ecoli').includes(organism) ? null : (
-            <div className={classes.datasetWrapper}>
-              <Typography gutterBottom variant="caption">
-                {organism === 'sentericaints' ? 'Select serotype' : 'Select pathotype'}
-              </Typography>
+          {!amrLikeOrganisms.includes(organism) ? null : (
+            <div className={classes.datasetWrapper}>              
               {organism === 'decoli' ? (
                 <Autocomplete
                   multiple
@@ -148,19 +146,14 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                   }
                   onChange={handleChangeMultiLineages}
                   onClose={handleCloseLineages}
-                  limitTags={1}
+                  limitTags={-1}
                   clearIcon={null}
                   renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
-                  slotProps={{ popper: { placement: 'bottom-start', style: { width: 'fit-content' } } }}
+                  slotProps={{ popper: { placement: 'bottom-start', style: { width: 'auto' } } }}
                   getOptionDisabled={(option) => {
-                    if (organism === 'decoli') {
-                      return false;
-                    }
-
                     if (['Clear All', 'Select All'].includes(option)) {
                       return false;
                     }
-
                     if (currentSelectedLineages.length === pathovar.length) {
                       return true;
                     }
@@ -168,7 +161,6 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                   renderOption={(props, option, { selected }) => {
                     const { key, ...optionProps } = props;
                     const isAllButton = isAllOption(option);
-
                     return (
                       // eslint-disable-next-line jsx-a11y/role-supports-aria-props
                       <li
@@ -212,27 +204,29 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                   }}
                 />
               ) : (
-                <ToggleButtonGroup
-                  value={selectedLineages.length === pathovar.length ? 'all' : selectedLineages[0]}
-                  size="small"
-                  onChange={handleChangeLineages}
-                  orientation="vertical"
-                  exclusive
-                >
-                  <ToggleButton value="all" color="primary" className={classes.toggleButton}>
-                    All
-                  </ToggleButton>
-                  {pathovar.map((option, index) => (
-                    <ToggleButton
-                      key={`dataset-${index}`}
-                      value={option}
-                      color="primary"
-                      className={classes.toggleButton}
-                    >
-                      {option}
-                    </ToggleButton>
-                  ))}
-                </ToggleButtonGroup>
+                <>
+                  <Typography gutterBottom variant="caption">
+                    Select {organism === 'shige' ? 'pathotype' : 'serotype'}
+                  </Typography>
+                  <ToggleButtonGroup
+                    value={selectedLineages[0]}
+                    size="small"
+                    onChange={handleChangeLineages}
+                    orientation="vertical"
+                    exclusive
+                  >
+                    {pathovar.map((option, index) => (
+                      <ToggleButton
+                        key={`dataset-${index}`}
+                        value={option}
+                        color="primary"
+                        className={classes.toggleButton}
+                      >
+                        {option}
+                      </ToggleButton>
+                    ))}
+                  </ToggleButtonGroup>
+                </>
               )}
             </div>
           )}
