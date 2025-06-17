@@ -75,7 +75,8 @@
     "web-vitals": "^2.1.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^3.11.1"
+    "webpack-dev-server": "^3.11.1",
+    "express-rate-limit": "^7.5.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
