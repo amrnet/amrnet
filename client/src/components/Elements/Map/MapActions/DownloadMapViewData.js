@@ -46,17 +46,17 @@ export const DownloadMapViewData = ({ value }) => {
     firstName = 'Shigella';
     secondName = '+ EIEC';
   } else if (organism === 'decoli') {
-    firstName = 'Diarrheagenic';
-    secondName = 'E. coli';
+    firstName = 'Escherichia coli';
+    secondName = '(diarrheagenic)';
   } else if (organism === 'ecoli') {
     firstName = 'Escherichia';
     secondName = 'coli';
   } else if (organism === 'sentericaints') {
-    firstName = 'Invasive';
-    secondName = 'non-typhoidal Salmonella';
-  } else {
     firstName = 'Salmonella';
-    secondName = 'enterica';
+    secondName = '(invasive non-typhoidal)';
+  } else {
+    firstName = 'Salmonella enterica';
+    secondName = '(non-typhoidal)';
   }
 
     const downloadCSV = () => {

@@ -62,11 +62,11 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
 
 .. note:: **Organism name for downloading files from AWS:** 
-    Diarrheagenic E. coli as ``decoli``; 
+    Escherichia coli (diarrheagenic) as ``decoli``; 
     Escherichia coli as ``ecoli``; 
     Klebsiella pneumoniae as ``kpneumo``; 
     Neisseria gonorrhoeae as ``ngono``; 
-    Invasive non-typhoidal Salmonella as ``sentericaints``; 
+    Salmonella (invasive non-typhoidal) as ``sentericaints``; 
     Shigella as ``shige``; 
     Salmonella Typhi as ``styphi``
 
