@@ -18,6 +18,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
+import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../util/drugs';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
@@ -1078,7 +1079,9 @@ export const DownloadData = () => {
         } else if (mapView === 'Sublineage prevalence') {
           doc.text('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, 16, 160);
         } else if (mapView === 'Resistance prevalence') {
-          doc.text('Selected Resistance: ' + prevalenceMapViewOptionsSelected, 16, 160);
+          doc.text('Selected Resistance: ' +(ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
+          drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
+          prevalenceMapViewOptionsSelected.join()), 16, 160);
         }
       } else if (prevalenceMapViewOptionsSelected.length > 1) {
         const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
