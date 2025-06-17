@@ -56,6 +56,11 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 ..     :align: center
 ..     :alt: api
 
+.. .. figure:: assets/apigui2.png
+..     :width: 100%
+..     :align: center
+..     :alt: api
+
 1. Download data via bucket
 ---------------------------
 
@@ -200,6 +205,7 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
                 "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
             }'
+
 
 Example code to download the data and save in JSON:
 
