@@ -54,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '18px',
     },
 
+    '& $total': {
+      fontWeight: 500,
+    },
+
     '& $tooltipInfo': {
       display: 'flex',
       flexDirection: 'column',
@@ -80,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     rowGap: '16px',
   },
   country: {},
+  total: {},
   tooltipInfo: {},
   info: {},
   color: {},

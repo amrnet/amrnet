@@ -5,7 +5,7 @@ import { client } from '../../config/db.js';
 import { exec } from 'child_process';
 import merge_rawdata_st from '../../models/AggregatePipeline/Styphi/merge_rawdata_st.js';
 import merge_rawdata_kp from '../../models/AggregatePipeline/Kpneumo/merge_rawdata_kp.js';
-import merge_rawdata_ng from "../../models/AggregatePipeline/ngono/merge_rawdata_ng.js";
+import merge_rawdata_ng from '../../models/AggregatePipeline/ngono/merge_rawdata_ng.js';
 
 router.get('/typhidata', async (req, res) => {
   //console.log('i m in');

@@ -84,6 +84,7 @@ export const Map = () => {
   function handleOnMouseEnter({ geo, countryStats, countryData, smallerThan20 = false, showTooltip = false }) {
     const tooltip = {
       name: countryData?.name ?? (mapColoredBy === 'country' ? geo.properties.NAME : 'No region found'),
+      total: null,
       content: {},
       smallerThan20,
     };
@@ -150,12 +151,13 @@ export const Map = () => {
             }
             percentCounterNG += genotype.count;
           });
+          tooltip.total = percentCounterNG;
           genotypesNG.forEach((genotype) => {
             if (customDropdownMapViewNG.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count}/${percentCounterNG} (${(
+              tooltip.content[genotype.name] = `${genotype.count} (${(
                 (genotype.count / percentCounterNG) *
                 100
-              ).toFixed(2)} %)`;
+              ).toFixed(2)}%)`;
           });
           if (genotypesNG2.length > 0) {
             let sumCount = 0;
@@ -165,25 +167,30 @@ export const Map = () => {
             if (countryData.count >= 20 && genotypesNG2.length > 1)
               tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount / percentCounterNG) * 100).toFixed(
                 2,
-              )} %)`;
+              )}%)`;
           }
           break;
         case 'Genotype prevalence':
         case 'ST prevalence':
         case 'Lineage prevalence':
-          const genotypes1 = countryStats.GENOTYPE.items;
+        case 'Serotype prevalence':
+        case 'Pathotype prevalence':
+          const column = ['Serotype prevalence', 'Pathotype prevalence'].includes(mapView) ? 'PATHOTYPE' : 'GENOTYPE';
+
+          const genotypes1 = countryStats[column].items;
           let genotypes2 = [];
           genotypes1.forEach((genotype) => {
             if (prevalenceMapViewOptionsSelected.includes(genotype.name)) {
               genotypes2.push(genotype);
             }
           });
+          tooltip.total = countryStats[column].sum;
           genotypes1.forEach((genotype) => {
             if (prevalenceMapViewOptionsSelected.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count}/${countryStats.GENOTYPE.sum} (${(
-                (genotype.count / countryStats.GENOTYPE.sum) *
+              tooltip.content[genotype.name] = `${genotype.count} (${(
+                (genotype.count / countryStats[column].sum) *
                 100
-              ).toFixed(2)} %)`;
+              ).toFixed(2)}%)`;
           });
           if (genotypes2.length > 0) {
             let sumCount = 0;
@@ -191,19 +198,20 @@ export const Map = () => {
               sumCount += genotype.count;
             }
             if (countryData.count >= 20 && genotypes2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount}/${countryStats.GENOTYPE.sum} (${(
-                (sumCount / countryStats.GENOTYPE.sum) *
+              tooltip.content['All selected genotypes'] = `${sumCount} (${(
+                (sumCount / countryStats[column].sum) *
                 100
-              ).toFixed(2)} %)`;
+              ).toFixed(2)}%)`;
           }
           break;
         case 'Resistance prevalence':
           prevalenceMapViewOptionsSelected.forEach((option) => {
             const stats = countryStats[option];
 
+            tooltip.total = countryData.count;
             tooltip.content[
               ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option
-            ] = `${stats.count}/${countryData.count} (${stats.percentage}%)`;
+            ] = `${stats.count} (${stats.percentage}%)`;
           });
           break;
         case 'H58 / Non-H58':
@@ -252,6 +260,8 @@ export const Map = () => {
     return ![
       'Dominant Genotype',
       'Genotype prevalence',
+      'Serotype prevalence',
+      'Pathotype prevalence',
       'ST prevalence',
       'Resistance prevalence',
       'No. Samples',
@@ -415,8 +425,14 @@ export const Map = () => {
                           case 'Genotype prevalence':
                           case 'Lineage prevalence':
                           case 'ST prevalence':
+                          case 'Serotype prevalence':
+                          case 'Pathotype prevalence':
+                            const column = ['Serotype prevalence', 'Pathotype prevalence'].includes(mapView)
+                              ? 'PATHOTYPE'
+                              : 'GENOTYPE';
+
                             let percentCounter = 0;
-                            const genotypes1 = countryStats.GENOTYPE.items;
+                            const genotypes1 = countryStats[column].items;
                             let genotypes2 = [];
                             genotypes1.forEach((genotype) => {
                               if (prevalenceMapViewOptionsSelected.includes(genotype.name)) genotypes2.push(genotype);
@@ -572,6 +588,12 @@ export const Map = () => {
             {tooltipContent && (
               <div className={classes.tooltipMap}>
                 <span className={classes.country}>{tooltipContent.name}</span>
+                {tooltipContent.total !== null && (
+                  <>
+                    <span className={classes.total}>Total: {tooltipContent.total}</span>
+                    <br />
+                  </>
+                )}
                 <div className={classes.tooltipInfo}>
                   {Object.keys(tooltipContent.content).map((key, index) => {
                     return (

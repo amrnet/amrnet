@@ -48,7 +48,9 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const mapData = useAppSelector((state) => state.map.mapData);
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
-  const genotypesAndDrugsYearData = useAppSelector((state) => state.graph.genotypesAndDrugsYearData);
+  const genotypesAndDrugsYearData = useAppSelector(
+    (state) => state.graph.genotypesAndDrugsYearData,
+  );
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
 
   const [drugClass, setDrugClass] = useState(getDrugClasses(organism)?.[0] || '');
@@ -62,8 +64,8 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   }, [geoType, regionsYearData, drugClass, countriesYearData]);
 
   const linesWithZero = useMemo(() => {
-    return (geoType === 'country' ? countriesForFilter : Object.keys(economicRegions)).filter((key) =>
-      currentData?.some((item) => item[key] && item[key] !== 0),
+    return (geoType === 'country' ? countriesForFilter : Object.keys(economicRegions)).filter(
+      (key) => currentData?.some((item) => item[key] && item[key] !== 0),
     );
   }, [countriesForFilter, currentData, economicRegions, geoType]);
 
@@ -83,7 +85,10 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
         const genes = [];
         genotypesAndDrugsYearData[drugClass]?.forEach((year) => {
           Object.keys(year).forEach((key) => {
-            if (['name', 'totalCount', 'resistantCount', 'None'].includes(key) || genotypesForFilter.includes(key)) {
+            if (
+              ['name', 'totalCount', 'resistantCount', 'None'].includes(key) ||
+              genotypesForFilter.includes(key)
+            ) {
               return;
             }
 
@@ -130,7 +135,10 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
 
   const getColor = useCallback(
     (item) => {
-      return (geoType === 'country' ? mapData : mapRegionData)?.find((x) => x?.name === item)?.color || lightGrey;
+      return (
+        (geoType === 'country' ? mapData : mapRegionData)?.find((x) => x?.name === item)?.color ||
+        lightGrey
+      );
     },
     [geoType, mapData, mapRegionData],
   );
@@ -230,7 +238,11 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <LineChart data={geneData} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
+            <LineChart
+              data={geneData}
+              cursor={isTouchDevice() ? 'default' : 'pointer'}
+              onClick={handleClickChart}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 tickCount={20}
@@ -256,7 +268,9 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                   {`Number of genomes (${drugAcronyms[drugClass] ?? drugClass})`}
                 </Label>
               </YAxis>
-              {currentData?.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
+              {currentData?.length > 0 && (
+                <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />
+              )}
 
               {organism !== 'none' && (
                 <Legend
@@ -270,8 +284,14 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                           if (!currentData?.length || !geoSelected.includes(dataKey)) return null;
 
                           return (
-                            <div key={`geo-trend-line-legend-${index}`} className={classes.legendItemWrapper}>
-                              <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                            <div
+                              key={`geo-trend-line-legend-${index}`}
+                              className={classes.legendItemWrapper}
+                            >
+                              <Box
+                                className={classes.colorCircle}
+                                style={{ backgroundColor: color }}
+                              />
                               <Typography variant="caption">{dataKey}</Typography>
                             </div>
                           );
@@ -371,7 +391,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
             <CardContent>
               <div className={classes.titleWrapper}>
                 <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide Filters" placement="top">
+                <Tooltip title="Hide plotting options" placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />
                   </IconButton>
@@ -391,7 +411,9 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                       {getDrugClasses(organism).map((option, index) => {
                         return (
                           <MenuItem key={index + 'trend-line-drug-classes'} value={option}>
-                            {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drugAcronymsOpposite[option] || option}
+                            {option === 'Ciprofloxacin NS'
+                              ? 'Ciprofloxacin'
+                              : drugAcronymsOpposite[option] || option}
                           </MenuItem>
                         );
                       })}
@@ -435,7 +457,11 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                         title="Navigate by typing the first letter of the country/region. The data is only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual info, there are no data points to show."
                         placement="top"
                       >
-                        <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                        <InfoOutlined
+                          color="action"
+                          fontSize="small"
+                          className={classes.labelTooltipIcon}
+                        />
                       </Tooltip>
                     </div>
                     <Select
@@ -459,7 +485,9 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={(selected) => <div>{`${selected.length} of ${geoOptions.length} selected`}</div>}
+                      renderValue={(selected) => (
+                        <div>{`${selected.length} of ${geoOptions.length} selected`}</div>
+                      )}
                     >
                       {geoOptions.map((option, index) => (
                         <MenuItem key={`geo-x-axis-option-${index}`} value={option}>

@@ -63,4 +63,14 @@ export const mapLegends = [
     label: 'No. Samples',
     organisms: organismsCards.map((x) => x.value),
   },
+  {
+    value: 'Serotype prevalence',
+    label: 'Serotype prevalence',
+    organisms: ['sentericaints'],
+  },
+  {
+    value: 'Pathotype prevalence',
+    label: 'Pathotype prevalence',
+    organisms: ['shige', 'decoli'],
+  },
 ];

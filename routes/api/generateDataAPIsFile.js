@@ -60,22 +60,41 @@ router.post('/download', function (req, res, next) {
       // const desiredOrder = ['NAME','DATE', ...header];
       // Remove 'NAME' and 'DATE' if they exist in the original position
       let nameField;
-      if(organism === 'shige' || organism === 'decoli')
-      nameField = 'Name'
-      else
-      nameField = 'NAME'
+      if (organism === 'shige' || organism === 'decoli') nameField = 'Name';
+      else nameField = 'NAME';
 
-      const filteredHeaderList = headerList.filter(fieldName => fieldName !== nameField && fieldName !== 'DATE' && fieldName !== 'COUNTRY' && fieldName !== 'COUNTRY_ONLY' && fieldName !== 'PMID' && fieldName !== 'GENOTYPE');
+      const filteredHeaderList = headerList.filter(
+        (fieldName) =>
+          fieldName !== nameField &&
+          fieldName !== 'DATE' &&
+          fieldName !== 'COUNTRY' &&
+          fieldName !== 'COUNTRY_ONLY' &&
+          fieldName !== 'PMID' &&
+          fieldName !== 'GENOTYPE',
+      );
 
       let rearrangedHeaderList;
-      if(organism === 'styphi' || organism === 'ngono')
-      rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY','PMID','GENOTYPE', ...filteredHeaderList];
+      if (organism === 'styphi' || organism === 'ngono')
+        rearrangedHeaderList = [
+          nameField,
+          'DATE',
+          'COUNTRY_ONLY',
+          'PMID',
+          'GENOTYPE',
+          ...filteredHeaderList,
+        ];
       else
-      rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY','GENOTYPE', ...filteredHeaderList];
+        rearrangedHeaderList = [
+          nameField,
+          'DATE',
+          'COUNTRY_ONLY',
+          'GENOTYPE',
+          ...filteredHeaderList,
+        ];
 
       // Add 'NAME' and 'DATE' to the beginning of the filtered list
       // const rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY',pmidField,'GENOTYPE', ...filteredHeaderList];
-     
+
       const headerL = rearrangedHeaderList.map((fieldName) => ({
         id: fieldName,
         title: fieldName,

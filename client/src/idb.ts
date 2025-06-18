@@ -1,9 +1,17 @@
 import { openDB } from 'idb';
 
-type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
+type OrganismStore =
+  | 'styphi'
+  | 'kpneumo'
+  | 'ngono'
+  | 'ecoli'
+  | 'decoli'
+  | 'shige'
+  | 'sentericaints'
+  | 'senterica';
 
 const DB_NAME = 'organismsData';
-const DB_VERSION = 32;
+const DB_VERSION = 33;
 
 const OBJECT_STORES = [
   'styphi',
@@ -113,7 +121,11 @@ export const deleteItem = async (storeName: OrganismStore, id: number): Promise<
   return db.delete(storeName, id);
 };
 
-export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>, clearStore: boolean = true) => {
+export const bulkAddItems = async (
+  storeName: OrganismStore,
+  items: Array<any>,
+  clearStore: boolean = true,
+) => {
   const db = await getDB();
   const tx = db.transaction(storeName, 'readwrite');
   const store = tx.objectStore(storeName);

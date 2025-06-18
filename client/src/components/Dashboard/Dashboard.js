@@ -68,7 +68,7 @@ import {
   setActualGenomesGD,
   setActualGenomesDRT,
   setActualGenomesRDT,
-  setGenotypesInitialDrugsData,
+  setPathotypesDrugsData,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -115,6 +115,7 @@ export const DashboardPage = () => {
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const yearsForFilter = useAppSelector((state) => state.dashboard.years);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
+  const pathovarForFilter = useAppSelector((state) => state.dashboard.pathovar);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
@@ -265,21 +266,38 @@ export const DashboardPage = () => {
 
       // Get genotypes data
       getStoreOrGenerateData(`${organism}_genotype`, () => {
-        const dt = getGenotypesData({ data: responseData, genotypes, organism, years, countries, regions: ecRegions });
+        const dt = getGenotypesData({
+          data: responseData,
+          genotypes,
+          organism,
+          years,
+          countries,
+          regions: ecRegions,
+          pathotypes: pathovar,
+        });
         return [
           dt.genotypesDrugsData,
+          dt.pathotypesDrugsData,
           dt.genotypesDrugClassesData,
           dt.countriesDrugClassesData,
           dt.regionsDrugClassesData,
         ];
-      }).then(([genotypesDrugsData, genotypesDrugClassesData, countriesDrugClassesData, regionsDrugClassesData]) => {
-        dispatch(setGenotypesDrugsData(genotypesDrugsData));
-        dispatch(setGenotypesInitialDrugsData(genotypesDrugsData));
-        dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
-        dispatch(setGenotypesDrugClassesData(genotypesDrugClassesData));
-        dispatch(setCountriesYearData(countriesDrugClassesData));
-        dispatch(setRegionsYearData(regionsDrugClassesData));
-      }),
+      }).then(
+        ([
+          genotypesDrugsData,
+          pathotypesDrugsData,
+          genotypesDrugClassesData,
+          countriesDrugClassesData,
+          regionsDrugClassesData,
+        ]) => {
+          dispatch(setGenotypesDrugsData(genotypesDrugsData));
+          dispatch(setPathotypesDrugsData(pathotypesDrugsData));
+          dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+          dispatch(setGenotypesDrugClassesData(genotypesDrugClassesData));
+          dispatch(setCountriesYearData(countriesDrugClassesData));
+          dispatch(setRegionsYearData(regionsDrugClassesData));
+        },
+      ),
 
       // Get ngmast data
       organism === 'ngono'
@@ -626,8 +644,10 @@ export const DashboardPage = () => {
         countries: countriesForFilter,
         regions: economicRegions,
         dataForGeographic: filters.data,
+        pathotypes: pathovarForFilter,
       });
       dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
+      dispatch(setPathotypesDrugsData(genotypesData.pathotypesDrugsData));
       dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
       dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
       dispatch(setCountriesYearData(genotypesData.countriesDrugClassesData));
