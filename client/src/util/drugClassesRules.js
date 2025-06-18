@@ -32,7 +32,12 @@ export const statKeysST = [
   { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true },
   { name: 'Ampicillin/Amoxicillin', column: 'blaTEM-1D', key: '1', resistanceView: true },
 
-  { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
+  {
+    name: 'Chloramphenicol',
+    column: 'chloramphenicol_category',
+    key: 'ChlR',
+    resistanceView: true,
+  },
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
   // { name: 'Multidrug resistant (MDR)', column: 'MDR', key: 'MDR', resistanceView: true },
   // { name: 'Sulphonamides', column: 'sul_any', key: '1', resistanceView: true },
@@ -133,7 +138,12 @@ export const mapStatKeysKP = [
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-', resistanceView: true },
   { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
-  { name: 'Fluoroquinolones', column: ['Flq_acquired', 'Flq_mutations'], key: '-', resistanceView: true },
+  {
+    name: 'Fluoroquinolones',
+    column: ['Flq_acquired', 'Flq_mutations'],
+    key: '-',
+    resistanceView: true,
+  },
   { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true },
   // { name: 'Phenicols', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
@@ -153,7 +163,12 @@ export const drugRulesNG = [
   { key: 'Tetracyclines', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Pansusceptible', columnID: ['Susceptible'], values: ['1'], legends: 'Susceptible to cat I/II drugs' },
+  {
+    key: 'Pansusceptible',
+    columnID: ['Susceptible'],
+    values: ['1'],
+    legends: 'Susceptible to cat I/II drugs',
+  },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
   { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
   { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
@@ -901,8 +916,18 @@ export const drugRulesINTS = [
     columnID: 'PHENICOL',
     values: ['CHLORAMPHENICOL'],
   },
-  { key: 'Ciprofloxacin R', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin (resistant)' },
-  { key: 'Ciprofloxacin NS', columnID: 'QUINOLONE', values: ['-'], legends: 'Ciprofloxacin (non-susceptible)' },
+  // {
+  //   key: 'Ciprofloxacin R',
+  //   columnID: 'QUINOLONE',
+  //   values: ['QUINOLONE'],
+  //   legends: 'Ciprofloxacin (resistant)',
+  // },
+  {
+    key: 'Ciprofloxacin NS',
+    columnID: 'QUINOLONE',
+    values: ['QUINOLONE'],
+    legends: 'Ciprofloxacin (non-susceptible)',
+  },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
   { key: 'Gentamicin', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Meropenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
@@ -941,14 +966,21 @@ export const statKeysINTS = [
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
-  { name: 'Gentamicin', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
+  {
+    name: 'Gentamicin',
+    column: 'AMINOGLYCOSIDE',
+    key: ['GENTAMICIN', 'AMINOGLYCOSIDE'],
+    resistanceView: true,
+  },
   { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
   { name: 'Tetracyclines', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
   { name: 'Tigecycline', column: 'TETRACYCLINE', key: 'TIGECYCLINE', resistanceView: true },
   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
   {
     name: 'Pansusceptible',
-    column: drugRulesINTS.find((x) => x.key === 'Pansusceptible').requirements.map((x) => x.columnID),
+    column: drugRulesINTS
+      .find((x) => x.key === 'Pansusceptible')
+      .requirements.map((x) => x.columnID),
     key: '-',
   },
   // { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
@@ -956,22 +988,28 @@ export const statKeysINTS = [
 
 // Used for shige, ecoli and decoli
 export const statKeysECOLI = [
-  
   { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
-  { name: 'Ciprofloxacin', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
+  { name: 'CipNS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
   // { name: 'CipR', column: 'QUINOLONE', key: '-', resistanceView: true },
   { name: 'Azithromycin', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
-  { name: 'Gentamicin', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
+  {
+    name: 'Gentamicin',
+    column: 'AMINOGLYCOSIDE',
+    key: ['GENTAMICIN', 'AMINOGLYCOSIDE'],
+    resistanceView: true,
+  },
   { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
   { name: 'Tetracyclines', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
   { name: 'Tigecycline', column: 'TETRACYCLINE', key: 'TIGECYCLINE', resistanceView: true },
   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
   {
     name: 'Pansusceptible',
-    column: drugRulesINTS.find((x) => x.key === 'Pansusceptible').requirements.map((x) => x.columnID),
+    column: drugRulesINTS
+      .find((x) => x.key === 'Pansusceptible')
+      .requirements.map((x) => x.columnID),
     key: '-',
   },
   // { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },

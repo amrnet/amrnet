@@ -28,7 +28,11 @@ import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesKP, drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
+import {
+  drugClassesRulesKP,
+  drugClassesRulesSTHeatMap,
+  statKeys,
+} from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { differentColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
@@ -218,7 +222,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           .map((x) => x.name)
           .sort(); // data to plot should include count greater and equal to 20
       case 'region':
-        return mapRegionData.map((x) => x.name).sort();
+        return mapRegionData
+          .filter((x) => x.count >= 20)
+          .map((x) => x.name)
+          .sort();
       default:
         return [];
     }
@@ -246,7 +253,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     setXAxisSelected(
-      (xAxisType === 'country' ? mapData.filter((x) => x.count > 20) : mapRegionData.filter((x) => x.name !== 'All'))
+      (xAxisType === 'country'
+        ? mapData.filter((x) => x.count > 20)
+        : mapRegionData.filter((x) => x.name !== 'All')
+      )
         .slice()
         .sort((a, b) => b.count - a.count)
         .slice(0, 10)
@@ -255,14 +265,14 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [mapData, mapRegionData, xAxisType]);
 
   useEffect(() => {
-    if (yAxisOptions.length > 0) {
-       setYAxisSelected(yAxisOptions.slice(0, 20));
-    }else
-       setYAxisSelected(yAxisOptions);
+    setYAxisSelected(yAxisOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [yAxisOptions]);
 
   const yAxisWidth = useMemo(() => {
-    return longestVisualWidth((xAxisSelected ?? []).map((x) => (x === 'United States of America' ? 'USA' : x)));
+    return longestVisualWidth(
+      (xAxisSelected ?? []).map((x) => (x === 'United States of America' ? 'USA' : x)),
+    );
   }, [xAxisSelected]);
 
   const getOptionLabel = useCallback(
@@ -349,7 +359,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }
 
   const getTitle = useCallback((value) => {
-    return drugAcronymsOpposite[value] ?? Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === value) ?? value;
+    return (
+      drugAcronymsOpposite[value] ??
+      Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === value) ??
+      value
+    );
   }, []);
 
   const countriesTooltipForRegion = useCallback(
@@ -364,7 +378,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           ? 'Susceptible'
           : Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === stat) ?? stat;
       const regionCount = mapRegionData.find((x) => x.name === region).count;
-      const countriesData = mapData.filter((x) => countries.includes(x.name) && x.stats?.[drug]?.count > 0);
+      const countriesData = mapData.filter(
+        (x) => countries.includes(x.name) && x.stats?.[drug]?.count > 0,
+      );
 
       return (
         <div>
@@ -396,7 +412,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     return (xAxisType === 'country' ? mapData : mapRegionData)
       .filter((item) => xAxisSelected.includes(item.name))
       .map((item) => {
-        const data = { name: item.name === 'United States of America' ? 'USA' : item.name, items: [] };
+        const data = {
+          name: item.name === 'United States of America' ? 'USA' : item.name,
+          items: [],
+        };
 
         if (yAxisType === 'resistance') {
           Object.entries(item.stats).forEach(([key, value]) => {
@@ -436,7 +455,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
             data.items.push({
               itemName: drug.replaceAll(' + ', '/'),
-              percentage: drugCount ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2)) : 0,
+              percentage: drugCount
+                ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2))
+                : 0,
               index: 1,
               typeName: item.name,
               count: `${drugCount || 0}/${locationData.totalCount}`,
@@ -532,7 +553,14 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           return (
                             <div
                               className={classes.chartTooltipLabel}
-                              style={{ marginTop: index + 1 === configuredMapData.length ? -40 : index === 0 ? 40 : 0 }}
+                              style={{
+                                marginTop:
+                                  index + 1 === configuredMapData.length
+                                    ? -40
+                                    : index === 0
+                                    ? 40
+                                    : 0,
+                              }}
                               // style={{
                               //   marginTop: index === 0 ? 40 : index > configuredMapData.length - 4 ? -150 : 0,
                               // }}
@@ -544,7 +572,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                                 {`${title}: ${payload[0]?.payload.count} (${payload[0]?.payload.percentage}%)`}
                               </Typography>
                               {Number(payload[0]?.payload.count.split('/')[0]) > 0 &&
-                                countriesTooltipForRegion(payload[1]?.payload.typeName, payload[0]?.payload.itemName)}
+                                countriesTooltipForRegion(
+                                  payload[1]?.payload.typeName,
+                                  payload[0]?.payload.itemName,
+                                )}
                             </div>
                           );
                         }
@@ -557,7 +588,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         <Cell
                           name={option.drug}
                           key={`bubble-cell-${index}`}
-                          fill={option.percentage === 0 ? darkGrey : differentColorScale(option.percentage, 'red')}
+                          fill={
+                            option.percentage === 0
+                              ? darkGrey
+                              : differentColorScale(option.percentage, 'red')
+                          }
                         />
                       ))}
                       <LabelList
@@ -621,7 +656,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
             <CardContent>
               <div className={classes.titleWrapper}>
                 <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide Filters" placement="top">
+                <Tooltip title="Hide plotting options" placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />
                   </IconButton>
@@ -645,8 +680,15 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">Select countries/regions</Typography>
-                      <Tooltip title="Navigate by typing the first letter of the country/region." placement="top">
-                        <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                      <Tooltip
+                        title="Navigate by typing the first letter of the country/region."
+                        placement="top"
+                      >
+                        <InfoOutlined
+                          color="action"
+                          fontSize="small"
+                          className={classes.labelTooltipIcon}
+                        />
                       </Tooltip>
                     </div>
                     <Select
@@ -663,14 +705,18 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           disabled={organism === 'none'}
                           color={xAxisSelected.length === xAxisOptions.length ? 'error' : 'primary'}
                         >
-                          {xAxisSelected.length === xAxisOptions.length ? 'Clear All' : 'Select All'}
+                          {xAxisSelected.length === xAxisOptions.length
+                            ? 'Clear All'
+                            : 'Select All'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
                       MenuProps={{
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={(selected) => <div>{`${selected.length} of ${xAxisOptions.length} selected`}</div>}
+                      renderValue={(selected) => (
+                        <div>{`${selected.length} of ${xAxisOptions.length} selected`}</div>
+                      )}
                     >
                       {xAxisOptions.map((option, index) => (
                         <MenuItem key={`geo-x-axis-option-${index}`} value={option}>
@@ -692,7 +738,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       disabled={organism === 'none'}
                     >
                       {yOptions
-                        .filter((option) => !option.organisms || option.organisms.includes(organism))
+                        .filter(
+                          (option) => !option.organisms || option.organisms.includes(organism),
+                        )
                         .map((option, index) => (
                           <MenuItem key={`y-col-option-${index}`} value={option.value}>
                             {option.label}
@@ -732,7 +780,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       <div className={classes.labelWrapper}>
                         <Typography variant="caption">Select {yAxisLabel}</Typography>
                         <Tooltip title={`Only show top 20 ${yAxisLabel}`} placement="top">
-                          <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                          <InfoOutlined
+                            color="action"
+                            fontSize="small"
+                            className={classes.labelTooltipIcon}
+                          />
                         </Tooltip>
                       </div>
                     )}
@@ -757,7 +809,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={(selected) => <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>}
+                      renderValue={(selected) => (
+                        <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>
+                      )}
                     >
                       {yAxisOptions.map((option, index) => (
                         <MenuItem key={`geo-y-axis-option-${index}`} value={option}>

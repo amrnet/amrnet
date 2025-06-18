@@ -269,7 +269,10 @@ router.get('/getDataForEcoli', async function (req, res, next) {
           $lookup: {
             from: 'ecoli-output-full',
             let: { nameField: '$Name' },
-            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
+            pipeline: [
+              { $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } },
+              { $project: fieldsToProject },
+            ],
             as: 'extraData',
           },
         },
@@ -319,7 +322,10 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
           $lookup: {
             from: 'ecoli-output-full',
             let: { nameField: '$Name' },
-            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
+            pipeline: [
+              { $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } },
+              { $project: fieldsToProject },
+            ],
             as: 'extraData',
           },
         },
@@ -369,7 +375,10 @@ router.get('/getDataForShige', async function (req, res, next) {
           $lookup: {
             from: 'ecoli-output-full',
             let: { nameField: '$Name' },
-            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
+            pipeline: [
+              { $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } },
+              { $project: fieldsToProject },
+            ],
             as: 'extraData',
           },
         },
@@ -419,7 +428,10 @@ router.get('/getDataForSenterica', async function (req, res, next) {
           $lookup: {
             from: 'senterica-output-full',
             let: { nameField: '$name' },
-            pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }, { $project: fieldsToProject }],
+            pipeline: [
+              { $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } },
+              { $project: fieldsToProject },
+            ],
             as: 'extraData',
           },
         },
@@ -469,7 +481,10 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
           $lookup: {
             from: 'senterica-output-full',
             let: { nameField: '$NAME' },
-            pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }, { $project: fieldsToProject }],
+            pipeline: [
+              { $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } },
+              { $project: fieldsToProject },
+            ],
             as: 'extraData',
           },
         },
@@ -503,7 +518,10 @@ router.get('/getCollectionCounts', async function (req, res, next) {
   try {
     // Perform asynchronous counting of documents in parallel across databases
     const countPromises = Object.values(dbAndCollectionNames).map(({ dbName, collectionName }) => {
-      return client.db(dbName).collection(collectionName).countDocuments({ 'dashboard view': 'Include' });
+      return client
+        .db(dbName)
+        .collection(collectionName)
+        .countDocuments({ 'dashboard view': 'Include' });
     });
 
     // Wait for all counts to resolve

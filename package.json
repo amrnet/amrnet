@@ -5,7 +5,7 @@
   "description": "AMRnet server",
   "main": "server.js",
   "type": "module",
-  "scripts": { 
+  "scripts": {
     "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
@@ -15,7 +15,7 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "@mui/styles": "^5.16.7", 
+    "@mui/styles": "^5.16.7",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.6.2",
     "babel-jest": "^29.7.0",
@@ -81,7 +81,7 @@
     "webpack-dev-server": "^5.1.0"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.19", 
+    "autoprefixer": "^10.4.19",
     "browser-sync": "^3.0.2",
     "concurrently": "^6.5.1",
     "cz-conventional-changelog": "^3.3.0",

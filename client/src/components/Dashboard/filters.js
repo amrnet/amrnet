@@ -682,7 +682,16 @@ function getYearsLocationData({ yearData, items, rule, type = 'country', drugCla
 }
 
 // Get data for frequencies and determinants graphs
-export function getGenotypesData({ data, genotypes, organism, years, countries, regions, dataForGeographic }) {
+export function getGenotypesData({
+  data,
+  genotypes,
+  pathotypes,
+  organism,
+  years,
+  countries,
+  regions,
+  dataForGeographic,
+}) {
   const genotypesDrugClassesData = {};
   const countriesDrugClassesData = {};
   const regionsDrugClassesData = {};
@@ -830,6 +839,45 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
     genotypesDrugClassesData[key] = genotypesDrugClassesData[key].slice(0, 10);
   });
 
+  // Genotypes
+  const pathotypesDrugsData = !amrLikeOrganisms.includes(organism)
+    ? []
+    : pathotypes.map((pathotype) => {
+        // const genotypeData = data.filter((x) => x.GENOTYPE === genotype);
+        const column = organism === 'sentericaints' ? 'SISTR1_Serovar' : 'Pathotype';
+        const pathotypeData = data.filter((x) => x[column] === pathotype);
+        const response = {
+          name: pathotype,
+          totalCount: pathotypeData.length,
+          resistantCount: 0,
+        };
+
+        drugRulesINTS.forEach((rule) => {
+          const drugData = pathotypeData.filter((x) => {
+            if ('requirements' in rule) {
+              return rule.requirements.every((req) =>
+                req.values.some(
+                  (value) =>
+                    (amrLikeOrganisms.includes(organism) && x[req.columnID]?.includes(value)) ||
+                    x[req.columnID] === value,
+                ),
+              );
+            }
+
+            return rule.values.some(
+              (value) =>
+                (amrLikeOrganisms.includes(organism) && x[rule.columnID]?.includes(value)) ||
+                x[rule.columnID] === value,
+            );
+          });
+          response[rule.key] = drugData.length;
+        });
+
+        response.resistantCount = response.totalCount - response['Pansusceptible'];
+        return response;
+      });
+  pathotypesDrugsData.sort((a, b) => b.totalCount - a.totalCount);
+
   // Years
   years.forEach((year) => {
     const yearData = (dataForGeographic || data).filter((x) => x.DATE.toString() === year.toString());
@@ -931,7 +979,13 @@ export function getGenotypesData({ data, genotypes, organism, years, countries, 
     }
   });
 
-  return { genotypesDrugsData, genotypesDrugClassesData, countriesDrugClassesData, regionsDrugClassesData };
+  return {
+    genotypesDrugsData,
+    pathotypesDrugsData,
+    genotypesDrugClassesData,
+    countriesDrugClassesData,
+    regionsDrugClassesData,
+  };
 }
 
 // Get data for NG_MAST MapView
