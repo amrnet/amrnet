@@ -5,17 +5,23 @@ import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/dru
 
 export const DownloadMapViewData = ({ value }) => {
   const mapData = useAppSelector((state) => state.map.mapData);
-  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
+  const prevalenceMapViewOptionsSelected = useAppSelector(
+    (state) => state.graph.prevalenceMapViewOptionsSelected,
+  );
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const drugsYearData = useAppSelector((state) => state.graph.drugsYearData);
   const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
   const genotypesDrugClassesData = useAppSelector((state) => state.graph.genotypesDrugClassesData);
-  const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
+  const determinantsGraphDrugClass = useAppSelector(
+    (state) => state.graph.determinantsGraphDrugClass,
+  );
   const genotypesYearData = useAppSelector((state) => state.graph.genotypesYearData);
   const topXGenotype = useAppSelector((state) => state.graph.topXGenotype);
   const topXGenotypeRDWG = useAppSelector((state) => state.graph.topXGenotypeRDWG);
-  const genotypesAndDrugsYearData = useAppSelector((state) => state.graph.genotypesAndDrugsYearData);
+  const genotypesAndDrugsYearData = useAppSelector(
+    (state) => state.graph.genotypesAndDrugsYearData,
+  );
   const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
   const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
@@ -59,106 +65,108 @@ export const DownloadMapViewData = ({ value }) => {
     secondName = '(non-typhoidal)';
   }
 
-    const downloadCSV = () => {
-  
+  const downloadCSV = () => {
     if (!Array.isArray(mapData) || mapData.length === 0) {
       console.log('MapData is not an array or is empty', mapData);
       return;
     }
-  
+
     let HeaderList = ['Country', 'Total number of Count'];
     let uniqueGenotypes = [];
-  
+
     const isINTsLineageView = organism === 'sentericaints' && mapView === 'Lineage prevalence';
-    const isGenotypeLikeView =
-      ['Genotype prevalence', 'ST prevalence', 'NG-MAST prevalence', 'Lineage prevalence'].includes(mapView);
+    const isGenotypeLikeView = [
+      'Genotype prevalence',
+      'ST prevalence',
+      'NG-MAST prevalence',
+      'Lineage prevalence',
+    ].includes(mapView);
     const mapViewOptionSelected =
       mapView === 'NG-MAST prevalence' ? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
-  
+
     // Step 1: Build unique genotypes list
     if (isINTsLineageView) {
-      const genotypeNames = mapData.flatMap(entry =>
-        entry?.stats?.GENOTYPE?.items?.map(item => item.name) || []
+      const genotypeNames = mapData.flatMap(
+        (entry) => entry?.stats?.GENOTYPE?.items?.map((item) => item.name) || [],
       );
       uniqueGenotypes = [...new Set(genotypeNames)];
     }
-  
+
     // Step 2: Build header
     if (isINTsLineageView) {
-      uniqueGenotypes.forEach(name => HeaderList.push(name, `${name} %`));
+      uniqueGenotypes.forEach((name) => HeaderList.push(name, `${name} %`));
+    } else if (isGenotypeLikeView) {
+      mapViewOptionSelected.forEach((name) => HeaderList.push(name, `${name} %`));
     }
-  
-    else if (isGenotypeLikeView) {
-      mapViewOptionSelected.forEach(name => HeaderList.push(name, `${name} %`));
-    } 
-      Object.keys(mapData[0]?.stats || {}).forEach(key => {
-        if (
-          (mapView === 'Resistance prevalence' &&
-            ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)) ||
-          key === 'H58'
-        ) return;
-  
-        const itemLabel = ngonoSusceptibleRule(key, organism) || drugAcronymsOpposite[key] || key;
-        HeaderList.push(itemLabel, `${itemLabel} %`);
-      });
-  
-  
+    Object.keys(mapData[0]?.stats || {}).forEach((key) => {
+      if (
+        (mapView === 'Resistance prevalence' &&
+          ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)) ||
+        key === 'H58'
+      )
+        return;
+
+      const itemLabel = ngonoSusceptibleRule(key, organism) || drugAcronymsOpposite[key] || key;
+      HeaderList.push(itemLabel, `${itemLabel} %`);
+    });
+
     // Step 3: Helper function to get count/percentage safely
     const getStatValues = (itemsArray, sum, headerItem) => {
-      const statItem = itemsArray.find(x => x.name === headerItem);
+      const statItem = itemsArray.find((x) => x.name === headerItem);
       const count = statItem?.count || 0;
       const percentage = sum ? ((count / sum) * 100).toFixed(2) : '0.00';
       return [count, percentage];
     };
-  
+
     // Step 4: Generate rows
     const rows = mapData
-      .filter(item => Object.keys(item).length > 0 && item.count >= 20)
-      .map(item => {
+      .filter((item) => Object.keys(item).length > 0 && item.count >= 20)
+      .map((item) => {
         const rowData = [item.name, item.count || ''];
         const stats = item.stats || {};
-  
+
         if (isGenotypeLikeView) {
           const GenotypeData = mapView === 'NG-MAST prevalence' ? stats.NGMAST : stats.GENOTYPE;
           const genotypeItems = GenotypeData?.items || [];
           const sum = GenotypeData?.sum || 0;
-          const foundGenotypes = genotypeItems.map(x => x.name);
-  
+          const foundGenotypes = genotypeItems.map((x) => x.name);
+
           const allHeaders = isINTsLineageView ? uniqueGenotypes : mapViewOptionSelected;
-          allHeaders.forEach(headerItem => {
+          allHeaders.forEach((headerItem) => {
             if (!foundGenotypes.includes(headerItem)) {
               rowData.push(0, 0);
             } else {
               rowData.push(...getStatValues(genotypeItems, sum, headerItem));
             }
           });
-        } 
-          Object.entries(stats).forEach(([key, stat]) => {
-            if (
-              (mapView === 'Resistance prevalence' &&
-                ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)) ||
-              key === 'H58'
-            ) return;
-  
-            if (!stat) return rowData.push(0, 0);
-  
-            const count = stat.count || 0;
-            const percentage =
-              ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)
-                ? stat.sum ? ((count / stat.sum) * 100).toFixed(2) : '0.00'
-                : stat.percentage ?? '0.00';
-  
-            rowData.push(count, percentage);
-          });
-        
-  
+        }
+        Object.entries(stats).forEach(([key, stat]) => {
+          if (
+            (mapView === 'Resistance prevalence' &&
+              ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)) ||
+            key === 'H58'
+          )
+            return;
+
+          if (!stat) return rowData.push(0, 0);
+
+          const count = stat.count || 0;
+          const percentage = ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)
+            ? stat.sum
+              ? ((count / stat.sum) * 100).toFixed(2)
+              : '0.00'
+            : stat.percentage ?? '0.00';
+
+          rowData.push(count, percentage);
+        });
+
         return rowData.join(',');
       });
-  
+
     const headers = HeaderList.join(',');
     generateCSV(headers, rows, 'Map');
   };
-  
+
   const downloadCSVForDRT = () => {
     if (Array.isArray(drugsYearData) && drugsYearData.length > 0) {
       const HeaderList = ['Region', 'Country', 'Year', 'Total Count'];
@@ -288,43 +296,56 @@ export const DownloadMapViewData = ({ value }) => {
         .filter((item) => Object.keys(item).length > 0)
         .map((item) => {
           const AMPCount = item?.['Ampicillin/Amoxicillin'] || 0;
-          const AMPPerCount = AMPCount < 20 ? '0' : ((AMPCount / item.totalCount) * 100).toFixed(2) || 0;
+          const AMPPerCount =
+            AMPCount < 20 ? '0' : ((AMPCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const AzithCount = item?.Azithromycin || 0;
-          const AzithPerCount = AzithCount < 20 ? '0' : ((AzithCount / item.totalCount) * 100).toFixed(2) || 0;
+          const AzithPerCount =
+            AzithCount < 20 ? '0' : ((AzithCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const CROCount = item?.Ceftriaxone || 0;
-          const CROPerCount = CROCount < 20 ? '0' : ((CROCount / item.totalCount) * 100).toFixed(2) || 0;
+          const CROPerCount =
+            CROCount < 20 ? '0' : ((CROCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const ChlCount = item?.Chloramphenicol || 0;
-          const ChlPerCount = ChlCount < 20 ? '0' : ((ChlCount / item.totalCount) * 100).toFixed(2) || 0;
+          const ChlPerCount =
+            ChlCount < 20 ? '0' : ((ChlCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const CipNSCount = item?.['Ciprofloxacin NS'] || 0;
-          const CipNSPerCount = CipNSCount < 20 ? '0' : ((CipNSCount / item.totalCount) * 100).toFixed(2) || 0;
+          const CipNSPerCount =
+            CipNSCount < 20 ? '0' : ((CipNSCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const CipRCount = item?.['Ciprofloxacin R'] || 0;
-          const CipRPerCount = CipRCount < 20 ? '0' : ((CipRCount / item.totalCount) * 100).toFixed(2) || 0;
+          const CipRPerCount =
+            CipRCount < 20 ? '0' : ((CipRCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const MDRCount = item?.MDR || 0;
-          const MDRPerCount = MDRCount < 20 ? '0' : ((MDRCount / item.totalCount) * 100).toFixed(2) || 0;
+          const MDRPerCount =
+            MDRCount < 20 ? '0' : ((MDRCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const PanCount = item?.Pansusceptible || 0;
-          const PanPerCount = PanCount < 20 ? '0' : ((PanCount / item.totalCount) * 100).toFixed(2) || 0;
+          const PanPerCount =
+            PanCount < 20 ? '0' : ((PanCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const SulCount = item?.Sulfonamides || 0;
-          const SulPerCount = SulCount < 20 ? '0' : ((SulCount / item.totalCount) * 100).toFixed(2) || 0;
+          const SulPerCount =
+            SulCount < 20 ? '0' : ((SulCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const TetCount = item?.Tetracyclines || 0;
-          const TetPerCount = TetCount < 20 ? '0' : ((TetCount / item.totalCount) * 100).toFixed(2) || 0;
+          const TetPerCount =
+            TetCount < 20 ? '0' : ((TetCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const TriCount = item?.Trimethoprim || 0;
-          const TriPerCount = TriCount < 20 ? '0' : ((TriCount / item.totalCount) * 100).toFixed(2) || 0;
+          const TriPerCount =
+            TriCount < 20 ? '0' : ((TriCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const TriSulCount = item?.['Trimethoprim-sulfamethoxazole'] || 0;
-          const TriSulPerCount = TriSulCount < 20 ? '0' : ((TriSulCount / item.totalCount) * 100).toFixed(2) || 0;
+          const TriSulPerCount =
+            TriSulCount < 20 ? '0' : ((TriSulCount / item.totalCount) * 100).toFixed(2) || 0;
 
           const XDRCount = item?.XDR || 0;
-          const XDRPerCount = XDRCount < 20 ? '0' : ((XDRCount / item.totalCount) * 100).toFixed(2) || 0;
+          const XDRPerCount =
+            XDRCount < 20 ? '0' : ((XDRCount / item.totalCount) * 100).toFixed(2) || 0;
 
           return [
             item.name,
@@ -394,7 +415,8 @@ export const DownloadMapViewData = ({ value }) => {
           if (Array.isArray(topXGenotypeRDWG) && topXGenotypeRDWG.length > 0) {
             topXGenotypeRDWG.forEach((genotype) => {
               const count = item?.[genotype] || 0;
-              const percentage = count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
+              const percentage =
+                count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
 
               rowData.push(count);
               rowData.push(percentage);
@@ -456,7 +478,10 @@ export const DownloadMapViewData = ({ value }) => {
   const downloadCSVForRDT = () => {
     // console.log("its working", value, Object.keys(genotypesAndDrugsYearData), genotypesAndDrugsYearData, trendsGraphDrugClass, genotypesForFilter);
 
-    if (genotypesAndDrugsYearData && Object.keys(genotypesAndDrugsYearData[trendsGraphDrugClass]).length > 0) {
+    if (
+      genotypesAndDrugsYearData &&
+      Object.keys(genotypesAndDrugsYearData[trendsGraphDrugClass]).length > 0
+    ) {
       // console.log('RDT', genotypesAndDrugsYearData[trendsGraphDrugClass]);
 
       let HeaderList = ['Region', 'Country', 'Name', 'Total number of Count'];
@@ -487,7 +512,8 @@ export const DownloadMapViewData = ({ value }) => {
           if (Array.isArray(topGenesSlice) && topGenesSlice.length > 0) {
             topGenesSlice.forEach((gen) => {
               const count = item?.[gen] || 0;
-              const percentage = count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
+              const percentage =
+                count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
 
               rowData.push(count);
               rowData.push(percentage);
@@ -496,7 +522,8 @@ export const DownloadMapViewData = ({ value }) => {
           if (Array.isArray(topGenotypeSlice) && topGenotypeSlice.length > 0) {
             topGenotypeSlice.forEach((genotype) => {
               const count = item?.[genotype] || 0;
-              const percentage = count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
+              const percentage =
+                count < 20 ? '0' : ((count / item.totalCount) * 100).toFixed(2) || 0;
 
               rowData.push(count);
               rowData.push(percentage);
@@ -513,7 +540,7 @@ export const DownloadMapViewData = ({ value }) => {
   };
 
   const downloadCSVForHM = () => {
-    console.log('mapRegionData', mapRegionData)
+    console.log('mapRegionData', mapRegionData);
     if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
       let HeaderList = ['Region', 'Country', 'Name']; // Initial headers
       let allDrugs = new Set(); // Store unique drug names
@@ -527,11 +554,11 @@ export const DownloadMapViewData = ({ value }) => {
         }
       });
       const sortedDrugs = Array.from(allDrugs).sort((a, b) => {
-        if (a === 'Pansusceptible') return 1;  // always move 'Pansusceptible' down
+        if (a === 'Pansusceptible') return 1; // always move 'Pansusceptible' down
         if (b === 'Pansusceptible') return -1; // always move 'Pansusceptible' down
         return a.localeCompare(b); // alphabetical sort
       });
-      
+
       // Add drug names along with percentage columns to the header
       sortedDrugs.forEach((drugName) => {
         const itemLabel = ngonoSusceptibleRule(drugName, organism);
@@ -617,7 +644,12 @@ export const DownloadMapViewData = ({ value }) => {
     } else
       dataSource.forEach((entry) => {
         Object.entries(entry).forEach(([key, value]) => {
-          if (key !== 'GENOTYPE' && key !== 'name' && key !== 'totalCount' && typeof value === 'number') {
+          if (
+            key !== 'GENOTYPE' &&
+            key !== 'name' &&
+            key !== 'totalCount' &&
+            typeof value === 'number'
+          ) {
             allDrugsSet.add(key);
           }
         });
@@ -625,7 +657,7 @@ export const DownloadMapViewData = ({ value }) => {
 
     // const allDrugs = Array.from(sortedDrugs).sort();
     const allDrugs = Array.from(allDrugsSet).sort((a, b) => {
-      if (a === 'Pansusceptible') return 1;  // always move 'Pansusceptible' down
+      if (a === 'Pansusceptible') return 1; // always move 'Pansusceptible' down
       if (b === 'Pansusceptible') return -1; // always move 'Pansusceptible' down
       return a.localeCompare(b); // alphabetical sort
     });
@@ -634,10 +666,10 @@ export const DownloadMapViewData = ({ value }) => {
     const headerList = ['Country', 'Total Count'];
 
     // if (!(yAxisKey === 'Resistance' || yAxisKey === 'Genotype')) {
-    
+
     allDrugs.forEach((drug) => {
       const itemLabel = ngonoSusceptibleRule(drug, organism);
-        // headerList.push(itemLabel, `${itemLabel} %`);
+      // headerList.push(itemLabel, `${itemLabel} %`);
       headerList.push(itemLabel || drug);
       headerList.push(`${itemLabel || drug} %`);
     });
@@ -665,7 +697,8 @@ export const DownloadMapViewData = ({ value }) => {
         allDrugs.forEach((drug) => {
           const drugData = item.stats?.[drug];
           const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
-          const percentage = drugData && typeof drugData.percentage === 'number' ? drugData.percentage : 0;
+          const percentage =
+            drugData && typeof drugData.percentage === 'number' ? drugData.percentage : 0;
           row.push(count);
           row.push(percentage);
         });
@@ -687,7 +720,9 @@ export const DownloadMapViewData = ({ value }) => {
     generateCSV(
       headers,
       rows,
-      `Geographic Comparisons (${yAxisType}${yAxisType === 'determinant' ? '-' + yAxisTypeTrend : ''})`,
+      `Geographic Comparisons (${yAxisType}${
+        yAxisType === 'determinant' ? '-' + yAxisTypeTrend : ''
+      })`,
     );
   };
 

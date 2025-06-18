@@ -24,12 +24,13 @@ export const MapActions = () => {
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
-  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
+  const prevalenceMapViewOptionsSelected = useAppSelector(
+    (state) => state.graph.prevalenceMapViewOptionsSelected,
+  );
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
-
+  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
 
   async function handleClick(event) {
     event.stopPropagation();
@@ -66,7 +67,8 @@ export const MapActions = () => {
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
-        if (organism === 'sentericaints') ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
+        if (organism === 'sentericaints')
+          ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
         else ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
@@ -95,7 +97,7 @@ export const MapActions = () => {
           ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
           ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
           ctx.font = 'bolder bold 50px Montserrat';
-          ctx.fillText(labelSplit[2], canvas.width * 0.70, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.7, 80);
         } else if (organism === 'shige') {
           ctx.font = 'italic bold 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
@@ -121,12 +123,16 @@ export const MapActions = () => {
         const actualMapView = mapLegends.find((x) => x.value === mapView).label;
 
         // ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
-        
-        ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 140);
+
+        ctx.fillText(
+          'Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal,
+          canvas.width / 2,
+          140,
+        );
         ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 240);
         ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 290);
-        const getAxisLabel = ()=> {
+        const getAxisLabel = () => {
           switch (organism) {
             case 'decoli':
             case 'shige':
@@ -138,11 +144,15 @@ export const MapActions = () => {
             default:
               return '';
           }
-        }
-        ctx.fillText(`${getAxisLabel()} `+ currentSelectedLineages.join(', ') , canvas.width / 2, 340);
+        };
+        ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 340);
         if (mapView === 'Genotype prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
+            ctx.fillText(
+              `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
+              canvas.width / 2,
+              390,
+            );
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
@@ -158,7 +168,11 @@ export const MapActions = () => {
         }
         if (mapView === 'Lineage prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
+            ctx.fillText(
+              `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
+              canvas.width / 2,
+              390,
+            );
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
@@ -166,7 +180,11 @@ export const MapActions = () => {
         }
         if (mapView === 'ST prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
+            ctx.fillText(
+              `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
+              canvas.width / 2,
+              390,
+            );
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
@@ -189,7 +207,11 @@ export const MapActions = () => {
         }
         if (mapView === 'Sublineage prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
+            ctx.fillText(
+              `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
+              canvas.width / 2,
+              390,
+            );
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
@@ -267,7 +289,11 @@ export const MapActions = () => {
       </Tooltip>
       <Tooltip title="Download Map as PNG" placement="top">
         <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
-          {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
+          {loading ? (
+            <CircularProgress color="primary" size={25} />
+          ) : (
+            <CameraAlt fontSize="inherit" />
+          )}
         </IconButton>
       </Tooltip>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>

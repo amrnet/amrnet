@@ -150,9 +150,8 @@ export function getEcoliTexts() {
 
     'The last update was made in May 14th 2025.',
 
-
     'WARNING:',
-    'The E. coli data used in AMRnet are not yet curated for purpose-of-sampling, and therefore' ,
+    'The E. coli data used in AMRnet are not yet curated for purpose-of-sampling, and therefore',
     'reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard. ',
 
     'Variable definitions',
@@ -161,7 +160,6 @@ export function getEcoliTexts() {
     'AMR determinants',
     'Enterobase identifies AMR determinants using NCBI’s AMRFinderPlus. AMRnet',
     'imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in refgenes (https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000832).',
-
   ];
 }
 
@@ -231,9 +229,8 @@ export function getDEcoliTexts() {
 
     'The last update was made in May 14th 2025.',
 
-
     'WARNING:',
-    'The E. coli data used in AMRnet are not yet curated for purpose-of-sampling, and therefore' ,
+    'The E. coli data used in AMRnet are not yet curated for purpose-of-sampling, and therefore',
     'reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard. ',
 
     'Variable definitions',
@@ -251,7 +248,6 @@ export function getDEcoliTexts() {
     // `)`,
     // `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
   ];
-
 }
 
 export function getShigeTexts() {
@@ -282,7 +278,6 @@ export function getShigeTexts() {
     // `)`,
     // `4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)`,
   ];
-
 }
 
 export function getSentericaintsTexts() {
