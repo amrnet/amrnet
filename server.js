@@ -30,7 +30,10 @@ const PORT = process.env.PORT || 8080;
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Token, Authorization');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Token, Authorization',
+  );
   next();
 });
 
@@ -55,5 +58,7 @@ app.use('/', function (req, res) {
 
 // Start the API server and log a message when it's ready
 app.listen(PORT, () => {
-  console.log(`Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`);
+  console.log(
+    `Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`,
+  );
 });

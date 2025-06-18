@@ -16,7 +16,14 @@ import {
 } from '@mui/material';
 import { useStyles } from './GraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
+import {
+  CameraAlt,
+  ExpandLess,
+  ExpandMore,
+  FilterList,
+  FilterListOff,
+  StackedBarChart,
+} from '@mui/icons-material';
 import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
@@ -60,25 +67,33 @@ export const Graphs = () => {
   const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-  const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
+  const determinantsGraphDrugClass = useAppSelector(
+    (state) => state.graph.determinantsGraphDrugClass,
+  );
   const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
   const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
-  const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
+  const convergenceColourVariable = useAppSelector(
+    (state) => state.graph.convergenceColourVariable,
+  );
   const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
   const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
   const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
   const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
   const captureGD = useAppSelector((state) => state.dashboard.captureGD);
-  const genotypesForFilterSelected = useAppSelector((state) => state.dashboard.genotypesForFilterSelected);
+  const genotypesForFilterSelected = useAppSelector(
+    (state) => state.dashboard.genotypesForFilterSelected,
+  );
   const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
   const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
   const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
-  const genotypesForFilterSelectedRD = useAppSelector((state) => state.dashboard.genotypesForFilterSelectedRD);
+  const genotypesForFilterSelectedRD = useAppSelector(
+    (state) => state.dashboard.genotypesForFilterSelectedRD,
+  );
   const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
   const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
   const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
@@ -93,10 +108,13 @@ export const Graphs = () => {
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
   const downloadForPDF = useAppSelector((state) => state.graph.download);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
-  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
+  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
 
   const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
-  const organismCards = useMemo(() => graphCards.filter((card) => card.organisms.includes(organism)), [organism]);
+  const organismCards = useMemo(
+    () => graphCards.filter((card) => card.organisms.includes(organism)),
+    [organism],
+  );
   useEffect(() => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
@@ -121,12 +139,18 @@ export const Graphs = () => {
     return showFilter && !loadingData && !loadingMap;
   }, [loadingData, loadingMap, showFilter]);
 
-  const currentCard = useMemo(() => organismCards.find((x) => x.id === currentTab), [currentTab, organismCards]);
+  const currentCard = useMemo(
+    () => organismCards.find((x) => x.id === currentTab),
+    [currentTab, organismCards],
+  );
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi'
+      ? getColorForGenotype(genotype)
+      : colorPallete[genotype] || '#F5F4F6';
   }
-  const getAxisLabel = ()=> {
+
+  const getAxisLabel = () => {
     switch (organism) {
       case 'decoli':
       case 'shige':
@@ -138,7 +162,8 @@ export const Graphs = () => {
       default:
         return '';
     }
-  }
+  };
+
   function getDrugClassesBars() {
     switch (organism) {
       case 'styphi':
@@ -203,7 +228,10 @@ export const Graphs = () => {
       alert('No genotype selected to download or no data to download');
       return;
     }
-    if ((currentCard.id === 'RDWG' && captureRDWG === false) || (currentCard.id === 'GD' && captureGD === false)) {
+    if (
+      (currentCard.id === 'RDWG' && captureRDWG === false) ||
+      (currentCard.id === 'GD' && captureGD === false)
+    ) {
       setLoading(false);
       alert('No data to download');
       return;
@@ -271,7 +299,8 @@ export const Graphs = () => {
         heightFactor += variablesFactor * 22;
       }
       ///TODO: improve the code below as its hardcode
-      if (currentCard.id === 'HSG2') canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
+      if (currentCard.id === 'HSG2')
+        canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
       else canvas.width = 922;
       // console.log('canvas.width', canvas.width, graphImg.width);
       canvas.height = graphImg.height + 220 + (currentCard.id === 'RDT' ? 250 : heightFactor);
@@ -299,7 +328,7 @@ export const Graphs = () => {
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 95);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 115);
-      ctx.fillText(`${getAxisLabel()} `+ currentSelectedLineages.join(', '), canvas.width / 2, 135);
+      ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 135);
       if (currentCard.id === 'GD') {
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
@@ -310,18 +339,33 @@ export const Graphs = () => {
         ctx.fillText(`Time period: ${starttimeRDT} to ${endtimeRDT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesRDT} genomes`, canvas.width / 2, 172);
       } else {
-        ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+        ctx.fillText(
+          `Time period: ${actualTimeInitial} to ${actualTimeFinal}`,
+          canvas.width / 2,
+          154,
+        );
         ctx.fillText(`Total ${actualGenomes} genomes`, canvas.width / 2, 172);
       }
       // ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
-      if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
-      if (currentCard.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
-      if (currentCard.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
+      if (currentCard.id === 'RDWG')
+        ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
+      if (currentCard.id === 'RDT')
+        ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
+      if (currentCard.id === 'KO')
+        ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
       if (currentCard.id === 'CVM') {
-        const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
-        const colour = variablesOptions.find((option) => option.value === convergenceColourVariable).label;
-        ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
+        const group = variablesOptions.find(
+          (option) => option.value === convergenceGroupVariable,
+        ).label;
+        const colour = variablesOptions.find(
+          (option) => option.value === convergenceColourVariable,
+        ).label;
+        ctx.fillText(
+          `Group variable: ${group} / Colour variable: ${colour}`,
+          canvas.width / 2,
+          198,
+        );
       }
 
       ctx.fillStyle = 'white';
@@ -371,7 +415,9 @@ export const Graphs = () => {
           isDrug: true,
         });
       } else if (currentCard.id === 'RDWG') {
-        const legendDataRD = drugClassesBars.filter((value) => genotypesForFilterSelectedRD.includes(value.name));
+        const legendDataRD = drugClassesBars.filter((value) =>
+          genotypesForFilterSelectedRD.includes(value.name),
+        );
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
@@ -451,7 +497,10 @@ export const Graphs = () => {
       }
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel} - ${currentCard.title}.png`);
+      await download(
+        base64,
+        `AMRnet - ${globalOverviewLabel.stringLabel} - ${currentCard.title}.png`,
+      );
     } catch {
       setShowAlert(true);
     } finally {
@@ -541,7 +590,10 @@ export const Graphs = () => {
               </>
             )}
             {collapses['all'] && (
-              <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
+              <Tooltip
+                title={showFilter ? 'Hide plotting options' : 'Show plotting options'}
+                placement="top"
+              >
                 <span>
                   <IconButton color="primary" onClick={(event) => handleClickFilter(event)}>
                     {showFilter ? <FilterListOff /> : <FilterList />}
@@ -590,8 +642,16 @@ export const Graphs = () => {
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    position: downloadForPDF ? 'absolute' : currentTab === card.id ? 'relative' : 'absolute',
-                    visibility: downloadForPDF ? 'visible' : currentTab === card.id ? 'visible' : 'hidden',
+                    position: downloadForPDF
+                      ? 'absolute'
+                      : currentTab === card.id
+                      ? 'relative'
+                      : 'absolute',
+                    visibility: downloadForPDF
+                      ? 'visible'
+                      : currentTab === card.id
+                      ? 'visible'
+                      : 'hidden',
                     top: 0,
                     left: 0,
                     width: '100%',
