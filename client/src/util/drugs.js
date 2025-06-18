@@ -186,9 +186,13 @@ export const ciproAcronyms = {
 };
 
 export const drugsINTS = drugRulesINTS.map((x) => x.key).sort((a, b) => a.localeCompare(b));
-export const drugsINTSLegendsOnly = drugRulesINTS.map((x) => x.legends || x.key).sort((a, b) => a.localeCompare(b));
+export const drugsINTSLegendsOnly = drugRulesINTS
+  .map((x) => x.legends || x.key)
+  .sort((a, b) => a.localeCompare(b));
 export const drugsNGLegensOnly = drugRulesNG.map((x) => x.legends || x.key);
-export const drugsKlebLegendsOnly = drugRulesKP.map((x) => x.key).sort((a, b) => a.localeCompare(b));
+export const drugsKlebLegendsOnly = drugRulesKP
+  .map((x) => x.key)
+  .sort((a, b) => a.localeCompare(b));
 // export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
 export function getDrugClasses(organism) {
   switch (organism) {
@@ -204,5 +208,7 @@ export function getDrugClasses(organism) {
 }
 
 export function ngonoSusceptibleRule(name, organism) {
-  return (name === 'Susceptible' || name === 'Pansusceptible') && organism === 'ngono' ? 'Susceptible to cat I/II drugs' : null;
+  return (name === 'Susceptible' || name === 'Pansusceptible') && organism === 'ngono'
+    ? 'Susceptible to cat I/II drugs'
+    : null;
 }

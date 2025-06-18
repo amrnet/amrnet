@@ -69,9 +69,9 @@ export const ContinentGraphs = () => {
   const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const dataset = useAppSelector((state) => state.map.dataset);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
-  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
-  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
+  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
+
   useEffect(() => {
     setShowFilter(!matches500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,7 +81,10 @@ export const ContinentGraphs = () => {
     return showFilter && !loadingData && !loadingMap;
   }, [loadingData, loadingMap, showFilter]);
 
-  const filteredTABS = useMemo(() => TABS.filter((tab) => !tab.notShow.includes(organism)), [organism]);
+  const filteredTABS = useMemo(
+    () => TABS.filter((tab) => !tab.notShow.includes(organism)),
+    [organism],
+  );
 
   function handleCloseAlert() {
     setShowAlert(false);
@@ -164,22 +167,28 @@ export const ContinentGraphs = () => {
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
 
-      ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
+      ctx.fillText(
+        `Time period: ${actualTimeInitial} to ${actualTimeFinal}`,
+        canvas.width / 2,
+        154,
+      );
       ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
-        const getAxisLabel = ()=> {
-          switch (organism) {
-            case 'decoli':
-            case 'shige':
-              return 'Selected Pathotypes :';
-            case 'sentericaints':
-              return 'Selected Serotypes: ';
-            case 'ecoli':
-              return 'Selected Genotypes: ';
-            default:
-              return '';
-          }
+
+      const getAxisLabel = () => {
+        switch (organism) {
+          case 'decoli':
+          case 'shige':
+            return 'Selected Pathotypes :';
+          case 'sentericaints':
+            return 'Selected Serotypes: ';
+          case 'ecoli':
+            return 'Selected Genotypes: ';
+          default:
+            return '';
         }
-      ctx.fillText(`${getAxisLabel()} `+ currentSelectedLineages.join(', ') , canvas.width / 2, 210);
+      };
+
+      ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 210);
       ctx.fillStyle = 'white';
       ctx.textAlign = 'start';
       ctx.font = '12px Montserrat';
@@ -192,14 +201,14 @@ export const ContinentGraphs = () => {
       setLoading(false);
     }
   }
-  function datasetStatemnet(){
+  function datasetStatemnet() {
     switch (dataset) {
       case 'Local':
         return 'isolated locally in-country only';
       case 'Travel':
         return 'travel cases isolated out-of-country only';
       default:
-        return ''
+        return '';
     }
   }
   return (
@@ -222,10 +231,14 @@ export const ContinentGraphs = () => {
               </Typography>
               {collapses['continent'] && (
                 <Typography fontSize="10px" component="span">
-                  {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
+                  {currentTab.includes('TL') && (
+                    <div>Data are plotted for years with N ≥ 10 genomes</div>
+                  )}
                   {
                     <div>
-                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal}) {datasetStatemnet()}, and regions/countries with N≥20 passing these filters.
+                      Data are restricted to the Global filters selected (Year {actualTimeInitial} -{' '}
+                      {actualTimeFinal}) {datasetStatemnet()}, and regions/countries with N≥20
+                      passing these filters.
                     </div>
                   }
                 </Typography>
@@ -236,13 +249,21 @@ export const ContinentGraphs = () => {
             {collapses['continent'] && (
               <>
                 <Tooltip title="Download Data" placement="top">
-                  <IconButton className={classes.actionButton} color="primary" disabled={organism === 'none'}>
+                  <IconButton
+                    className={classes.actionButton}
+                    color="primary"
+                    disabled={organism === 'none'}
+                  >
                     <DownloadMapViewData fontSize="inherit" value={currentTab} />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Download Chart as PNG" placement="top">
                   <span>
-                    <IconButton color="primary" onClick={(event) => handleClick(event)} disabled={organism === 'none'}>
+                    <IconButton
+                      color="primary"
+                      onClick={(event) => handleClick(event)}
+                      disabled={organism === 'none'}
+                    >
                       {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
                     </IconButton>
                   </span>

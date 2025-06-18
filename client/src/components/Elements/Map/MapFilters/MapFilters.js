@@ -23,7 +23,10 @@ import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { mapStatKeysKP, statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
-import { setCustomDropdownMapViewNG, setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
+import {
+  setCustomDropdownMapViewNG,
+  setPrevalenceMapViewOptionsSelected,
+} from '../../../../stores/slices/graphSlice';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
@@ -32,6 +35,8 @@ const noSamplesSteps = ['1 - 9', '10 - 19', '20 - 99', '100 - 299', '>= 300'];
 const gradientStyle = ['0.01% - 25.00% ', '25.01 - 50.00%', '50.01% - 75.00%', '75.01% - 100.00%'];
 const excludedViews = [
   'Genotype prevalence',
+  'Serotype prevalence',
+  'Pathotype prevalence',
   'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence',
@@ -47,6 +52,8 @@ const mapViewsWithZeroPercentOption = [
   'ESBL',
   'Carbapenems',
   'Genotype prevalence',
+  'Serotype prevalence',
+  'Pathotype prevalence',
   'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence',
@@ -57,7 +64,8 @@ const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST',
   kpneumo: 'Sequence type are labelled as 7-locus MLST',
   shige: 'Lineages are labelled as Species + HC400 cluster',
-  sentericaints: 'Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster',
+  sentericaints:
+    'Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster',
 };
 
 export const MapFilters = ({ showFilter, setShowFilter }) => {
@@ -70,8 +78,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   const mapData = useAppSelector((state) => state.map.mapData);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const genotypesInitialDrugsData = useAppSelector((state) => state.graph.genotypesInitialDrugsData);
-  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
+  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
+  const pathotypesDrugsData = useAppSelector((state) => state.graph.pathotypesDrugsData);
+  const prevalenceMapViewOptionsSelected = useAppSelector(
+    (state) => state.graph.prevalenceMapViewOptionsSelected,
+  );
   const ngmastDrugData = useAppSelector((state) => state.graph.ngmastDrugsData);
   const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
   const loadingMap = useAppSelector((state) => state.map.loadingMap);
@@ -79,13 +90,18 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
   const isResPrevalence = useMemo(() => mapView === 'Resistance prevalence', [mapView]);
   const isNGMASTPrevalence = useMemo(() => mapView === 'NG-MAST prevalence', [mapView]);
+  const isPathSerPrevalence = useMemo(
+    () => ['Serotype prevalence', 'Pathotype prevalence'].includes(mapView),
+    [mapView],
+  );
 
   const optionsSelected = useMemo(() => {
     return isNGMASTPrevalence ? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
   }, [customDropdownMapViewNG, isNGMASTPrevalence, prevalenceMapViewOptionsSelected]);
 
   const resistanceOptions = useMemo(() => {
-    const options = organism === 'kpneumo' ? mapStatKeysKP : statKeys[organism] ?? statKeys['others'];
+    const options =
+      organism === 'kpneumo' ? mapStatKeysKP : statKeys[organism] ?? statKeys['others'];
 
     return options.filter(({ resistanceView }) => resistanceView).map(({ name }) => name);
   }, [organism]);
@@ -95,21 +111,47 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       return ngmastDrugData.slice(0, 20).map((data) => data.name);
     }
 
-    return genotypesInitialDrugsData.slice(0, 20).map((data) => data.name);
-  }, [genotypesInitialDrugsData, isNGMASTPrevalence, ngmastDrugData]);
+    return (isPathSerPrevalence ? pathotypesDrugsData : genotypesDrugsData)
+      .filter((x) => x.totalCount > 0)
+      .slice(0, 20)
+      .map((data) => data.name);
+  }, [
+    genotypesDrugsData,
+    isNGMASTPrevalence,
+    isPathSerPrevalence,
+    ngmastDrugData,
+    pathotypesDrugsData,
+  ]);
 
   const filteredNonResistanceOptions = useMemo(() => {
-    return nonResistanceOptions.filter((option) => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
+    return nonResistanceOptions.filter((option) =>
+      option.toLowerCase().includes(genotypeSearch.toLowerCase()),
+    );
   }, [genotypeSearch, nonResistanceOptions]);
 
   useEffect(() => {
     if (isResPrevalence) {
-      dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
+      dispatch(
+        setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []),
+      );
     } else {
-      dispatch(setPrevalenceMapViewOptionsSelected(genotypesInitialDrugsData.slice(0, 1).map((x) => x.name)));
+      dispatch(
+        setPrevalenceMapViewOptionsSelected(
+          (isPathSerPrevalence ? pathotypesDrugsData : genotypesDrugsData)
+            .filter((x) => x.totalCount > 0)
+            .slice(0, 1)
+            .map((x) => x.name),
+        ),
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesInitialDrugsData, isResPrevalence, resistanceOptions]);
+  }, [
+    genotypesDrugsData,
+    isPathSerPrevalence,
+    isResPrevalence,
+    pathotypesDrugsData,
+    resistanceOptions,
+  ]);
 
   useEffect(() => {
     dispatch(setCustomDropdownMapViewNG(ngmastDrugData.slice(0, 1).map((x) => x.name)));
@@ -117,7 +159,9 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   }, [ngmastDrugData]);
 
   const currentMapLegends = useMemo(() => {
-    return mapLegends.filter((legend) => legend.organisms.includes(organism));
+    return mapLegends
+      .filter((legend) => legend.organisms.includes(organism))
+      .sort((a, b) => a.label.localeCompare(b.label));
   }, [organism]);
 
   const hasZeroPercentOption = useMemo(() => {
@@ -134,6 +178,8 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
         return organism === 'styphi' ? genotypes : genotypesForFilter;
       case 'NG-MAST prevalence':
       case 'Genotype prevalence':
+      case 'Serotype prevalence':
+      case 'Pathotype prevalence':
       case 'Lineage prevalence':
         return gradientStyle;
       case '':
@@ -166,6 +212,10 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   }, [organism]);
 
   const nonResPrevalenceLabel = useMemo(() => {
+    if (isPathSerPrevalence) {
+      return organism === 'sentericaints' ? 'serotypes' : 'pathotypes';
+    }
+
     if (['sentericaints'].includes(organism)) {
       return 'lineages';
     }
@@ -174,21 +224,23 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     return 'genotypes';
-  }, [organism]);
+  }, [isPathSerPrevalence, organism]);
 
   const nonResPrevalenceTooltip = useMemo(() => {
-    const text = `Select up to 15 to display. Only show top 20 ${nonResPrevalenceLabel}.`;
+    const text = `Only show top 20 ${nonResPrevalenceLabel}.`;
 
-    if (Object.keys(INFO_ICON_TEXTS).includes(organism)) {
+    if (!isPathSerPrevalence && Object.keys(INFO_ICON_TEXTS).includes(organism)) {
       return `${INFO_ICON_TEXTS[organism]}. ${text}`;
     }
 
     return text;
-  }, [nonResPrevalenceLabel, organism]);
+  }, [isPathSerPrevalence, nonResPrevalenceLabel, organism]);
 
   const getGenotypeColor = useCallback(
     (genotype) => {
-      return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+      return organism === 'styphi'
+        ? getColorForGenotype(genotype)
+        : colorPallete[genotype] || '#F5F4F6';
     },
     [colorPallete, organism],
   );
@@ -229,9 +281,13 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
   const getNonResOptionLabel = useCallback(
     (item) => {
-      const matchingItem = (isNGMASTPrevalence ? ngmastDrugData : genotypesInitialDrugsData).find(
-        (g) => g.name === item,
-      );
+      const matchingItem = (
+        isNGMASTPrevalence
+          ? ngmastDrugData
+          : isPathSerPrevalence
+          ? pathotypesDrugsData
+          : genotypesDrugsData
+      ).find((g) => g.name === item);
       const totalCount = matchingItem?.totalCount ?? 0;
       const pansusceptibleCount = matchingItem?.Pansusceptible ?? 0;
       const susceptiblePercentage = totalCount > 0 ? (pansusceptibleCount / totalCount) * 100 : 0;
@@ -242,12 +298,19 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
       return `${item} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Pansusceptible)`;
     },
-    [genotypesInitialDrugsData, isNGMASTPrevalence, ngmastDrugData, organism],
+    [
+      genotypesDrugsData,
+      isNGMASTPrevalence,
+      isPathSerPrevalence,
+      ngmastDrugData,
+      organism,
+      pathotypesDrugsData,
+    ],
   );
 
   const getOptionDisabled = useCallback(
     (option) => {
-      return optionsSelected.length >= 15 && !optionsSelected.includes(option);
+      return optionsSelected.length >= 20 && !optionsSelected.includes(option);
     },
     [optionsSelected],
   );
@@ -261,22 +324,31 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     dispatch(setPrevalenceMapViewOptionsSelected([event.target.value]));
   }
 
-  function handleNonResistanceChange(event) {
-    if (isNGMASTPrevalence) {
-      dispatch(setCustomDropdownMapViewNG(event.target.value));
+  function handleNonResistanceChange({ event = null, all = false }) {
+    if (!all) {
+      if (isNGMASTPrevalence) {
+        dispatch(setCustomDropdownMapViewNG(event.target.value));
+        return;
+      }
+
+      dispatch(setPrevalenceMapViewOptionsSelected(event.target.value));
       return;
     }
 
-    dispatch(setPrevalenceMapViewOptionsSelected(event.target.value));
-  }
-
-  function clearNonResSelected() {
-    if (isNGMASTPrevalence) {
-      dispatch(setCustomDropdownMapViewNG([]));
+    if (filteredNonResistanceOptions.length === optionsSelected.length) {
+      dispatch(
+        isNGMASTPrevalence
+          ? setCustomDropdownMapViewNG([])
+          : setPrevalenceMapViewOptionsSelected([]),
+      );
       return;
     }
 
-    dispatch(setPrevalenceMapViewOptionsSelected([]));
+    dispatch(
+      isNGMASTPrevalence
+        ? setCustomDropdownMapViewNG(filteredNonResistanceOptions)
+        : setPrevalenceMapViewOptionsSelected(filteredNonResistanceOptions),
+    );
   }
 
   function hangleChangeSearch(event) {
@@ -299,7 +371,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
         <CardContent>
           <div className={classes.titleWrapper}>
             <Typography variant="h6">Plotting options</Typography>
-            <Tooltip title="Hide filters" placement="top">
+            <Tooltip title="Hide plotting options" placement="top">
               <IconButton onClick={() => setShowFilter(false)}>
                 <Close fontSize="small" />
               </IconButton>
@@ -314,7 +386,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                     title="Percentage frequency data is shown only for countries with N≥20 genomes except 'No. Samples'"
                     placement="top"
                   >
-                    <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                    <InfoOutlined
+                      color="action"
+                      fontSize="small"
+                      className={classes.labelTooltipIcon}
+                    />
                   </Tooltip>
                 </div>
                 <Select
@@ -335,12 +411,18 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                 {organism !== 'none' && mapData.length > 0 && (
                   <div className={classes.legendWrapper}>
                     <div className={classes.legend}>
-                      <Box className={classes.legendColorBox} style={{ backgroundColor: lightGrey }} />
+                      <Box
+                        className={classes.legendColorBox}
+                        style={{ backgroundColor: lightGrey }}
+                      />
                       <span className={classes.legendText}>Insufficient data</span>
                     </div>
                     {hasZeroPercentOption && (
                       <div className={classes.legend}>
-                        <Box className={classes.legendColorBox} style={{ backgroundColor: darkGrey }} />
+                        <Box
+                          className={classes.legendColorBox}
+                          style={{ backgroundColor: darkGrey }}
+                        />
                         <span className={classes.legendText}>0%</span>
                       </div>
                     )}
@@ -386,8 +468,15 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                     <>
                       <div className={classes.labelWrapper}>
                         <Typography variant="caption">Select Drug</Typography>
-                        <Tooltip title="Select one drug category to display its prevalence" placement="top">
-                          <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                        <Tooltip
+                          title="Select one drug category to display its prevalence"
+                          placement="top"
+                        >
+                          <InfoOutlined
+                            color="action"
+                            fontSize="small"
+                            className={classes.labelTooltipIcon}
+                          />
                         </Tooltip>
                       </div>
                       <Select
@@ -399,7 +488,9 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                       >
                         {resistanceOptions.map((option, index) => (
                           <MenuItem key={index + 'resistance-option'} value={option}>
-                            {ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option}
+                            {ngonoSusceptibleRule(option, organism) ||
+                              drugAcronymsOpposite2[option] ||
+                              option}
                           </MenuItem>
                         ))}
                       </Select>
@@ -409,24 +500,34 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                       <div className={classes.labelWrapper}>
                         <Typography variant="caption">{`Select ${nonResPrevalenceLabel}`}</Typography>
                         <Tooltip title={nonResPrevalenceTooltip} placement="top">
-                          <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                          <InfoOutlined
+                            color="action"
+                            fontSize="small"
+                            className={classes.labelTooltipIcon}
+                          />
                         </Tooltip>
                       </div>
                       <Select
                         multiple
                         value={optionsSelected}
-                        onChange={handleNonResistanceChange}
+                        onChange={(event) => handleNonResistanceChange({ event })}
                         displayEmpty
                         disabled={organism === 'none'}
                         endAdornment={
                           <Button
                             variant="outlined"
                             className={classes.selectButton}
-                            onClick={clearNonResSelected}
+                            onClick={() => handleNonResistanceChange({ all: true })}
                             disabled={organism === 'none' || optionsSelected.length === 0}
-                            color="error"
+                            color={
+                              filteredNonResistanceOptions.length === optionsSelected.length
+                                ? 'error'
+                                : 'primary'
+                            }
                           >
-                            Clear All
+                            {filteredNonResistanceOptions.length === optionsSelected.length
+                              ? 'Clear All'
+                              : 'Select All'}
                           </Button>
                         }
                         inputProps={{ className: classes.multipleSelectInput }}
@@ -464,7 +565,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                           />
                         </Box>
                         {filteredNonResistanceOptions.map((option, index) => (
-                          <MenuItem key={`non-res-option-${index}`} value={option} disabled={getOptionDisabled(option)}>
+                          <MenuItem
+                            key={`non-res-option-${index}`}
+                            value={option}
+                            disabled={getOptionDisabled(option)}
+                          >
                             <Checkbox checked={optionsSelected.indexOf(option) > -1} />
                             <ListItemText primary={getNonResOptionLabel(option)} />
                           </MenuItem>

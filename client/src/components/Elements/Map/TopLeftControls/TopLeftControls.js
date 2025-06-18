@@ -18,7 +18,7 @@ import {
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDataset, setCurrentSelectedLineages } from '../../../../stores/slices/mapSlice.ts';
+import { setDataset } from '../../../../stores/slices/mapSlice.ts';
 import {
   setActualTimeFinal,
   setActualTimeInitial,
@@ -28,14 +28,12 @@ import {
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { useEffect, useState } from 'react';
 
-
 const datasetOptions = ['All', 'Local', 'Travel'];
 
-export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting options' }) => {
+export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }) => {
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
-  // currentSelectedLineages is created in redux to make it available for PDF and PNG exports
-  //const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
+  const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
 
   const dispatch = useAppDispatch();
   const dataset = useAppSelector((state) => state.map.dataset);
@@ -45,11 +43,10 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
   const pathovar = useAppSelector((state) => state.dashboard.pathovar);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
-  const currentSelectedLineages = useAppSelector((state) => state.map.currentSelectedLineages);
 
   useEffect(() => {
-    (setCurrentSelectedLineages(selectedLineages));
-  }, [selectedLineages, ]);
+    setCurrentSelectedLineages(selectedLineages);
+  }, [selectedLineages]);
 
   function handleChange(_event, newValue) {
     if (newValue !== null) {
@@ -73,7 +70,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
       return;
     }
 
-    dispatch(setSelectedLineages(newValue === 'all' ? pathovar : [newValue]));
+    dispatch(setSelectedLineages([newValue]));
     dispatch(setCanFilterData(true));
   }
 
@@ -85,24 +82,23 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
     return ['Clear All', 'Select All'].includes(option);
   }
 
-  function handleChangeMultiLineages(_, value) {
-    if (!value.includes('Clear All') && !value.includes('Select All')) {
-      if (organism === 'decoli') {
-        dispatch(setCurrentSelectedLineages(value));
-        return;
-      }
+  function handleChangeMultiLineages(event, value) {
+    if (event.type === 'keydown') {
+      return;
+    }
 
-      dispatch(setCurrentSelectedLineages([value[value.length - 1]]));
+    if (!value.includes('Clear All') && !value.includes('Select All')) {
+      setCurrentSelectedLineages(value);
       return;
     }
 
     if (value.includes('Clear All')) {
-      dispatch(setCurrentSelectedLineages([]));
+      setCurrentSelectedLineages([]);
       return;
     }
 
     if (value.includes('Select All')) {
-      dispatch(setCurrentSelectedLineages(pathovar));
+      setCurrentSelectedLineages(pathovar);
     }
   }
 
@@ -117,7 +113,10 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
   }
 
   return (
-    <div className={`${classes.topLeftControls} ${matches && !closeButton ? classes.bp700 : ''}`} style={style}>
+    <div
+      className={`${classes.topLeftControls} ${matches && !closeButton ? classes.bp700 : ''}`}
+      style={style}
+    >
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.titleWrapper}>
@@ -130,7 +129,13 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
               <Typography gutterBottom variant="caption">
                 Select dataset
               </Typography>
-              <ToggleButtonGroup value={dataset} onChange={handleChange} disabled={isDisabled()}>
+              <ToggleButtonGroup
+                value={dataset}
+                exclusive
+                size="small"
+                onChange={handleChange}
+                disabled={isDisabled()}
+              >
                 {datasetOptions.map((option, index) => (
                   <ToggleButton key={`dataset-${index}`} value={option} color="primary">
                     {option}
@@ -139,8 +144,11 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
               </ToggleButtonGroup>
             </div>
           )}
-          {!amrLikeOrganisms.includes(organism) ? null : (
-            <div className={classes.datasetWrapper}>              
+          {!amrLikeOrganisms.filter((x) => x !== 'ecoli').includes(organism) ? null : (
+            <div className={classes.datasetWrapper}>
+              <Typography gutterBottom variant="caption">
+                {organism === 'sentericaints' ? 'Select serotype' : 'Select pathotype'}
+              </Typography>
               {organism === 'decoli' ? (
                 <Autocomplete
                   multiple
@@ -149,21 +157,17 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
                   options={
                     currentSelectedLineages.length === pathovar.length
                       ? ['Clear All', ...pathovar]
-                      : [...(organism === 'decoli' ? ['Select All'] : []), ...pathovar]
+                      : ['Select All', ...pathovar]
                   }
                   onChange={handleChangeMultiLineages}
                   onClose={handleCloseLineages}
-                  limitTags={-1}
+                  limitTags={1}
                   clearIcon={null}
-                  renderInput={(params) => <TextField {...params} variant="standard" placeholder="Select..." />}
-                  slotProps={{ popper: { placement: 'bottom-start', style: { width: 'auto' } } }}
-                  getOptionDisabled={(option) => {
-                    if (['Clear All', 'Select All'].includes(option)) {
-                      return false;
-                    }
-                    if (currentSelectedLineages.length === pathovar.length) {
-                      return true;
-                    }
+                  renderInput={(params) => (
+                    <TextField {...params} variant="standard" placeholder="Select..." />
+                  )}
+                  slotProps={{
+                    popper: { placement: 'bottom-start', style: { width: 'fit-content' } },
                   }}
                   renderOption={(props, option, { selected }) => {
                     const { key, ...optionProps } = props;
@@ -191,7 +195,12 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
                   renderTags={(value, getTagProps) => (
                     <Box sx={{ maxHeight: 80, overflowY: 'auto' }}>
                       {value.map((option, index) => (
-                        <Chip key={index} label={option} {...getTagProps({ index })} onDelete={undefined} />
+                        <Chip
+                          key={index}
+                          label={option}
+                          {...getTagProps({ index })}
+                          onDelete={undefined}
+                        />
                       ))}
                     </Box>
                   )}
@@ -212,11 +221,8 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Plotting o
                 />
               ) : (
                 <>
-                  <Typography gutterBottom variant="caption">
-                    Select {organism === 'shige' ? 'pathotype' : 'serotype'}
-                  </Typography>
                   <ToggleButtonGroup
-                    value={selectedLineages[0]}
+                    value={selectedLineages.length === pathovar.length ? '' : selectedLineages[0]}
                     size="small"
                     onChange={handleChangeLineages}
                     orientation="vertical"

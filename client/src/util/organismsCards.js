@@ -20,7 +20,7 @@ export const organismsCards = [
     ),
     stringLabel: 'Salmonella (invasive non-typhoidal)',
     value: 'sentericaints',
-    abbr: 'iNTS',
+    abbr: 'Salmonella (iNT)',
     img: ints,
   },
   {
@@ -31,7 +31,7 @@ export const organismsCards = [
     ),
     stringLabel: 'Salmonella enterica (non-typhoidal)',
     value: 'senterica',
-    abbr: 'S. enterica',
+    abbr: 'S. enterica (NT)',
     img: senterica,
   },
   {
@@ -76,7 +76,7 @@ export const organismsCards = [
     ),
     stringLabel: 'Escherichia coli (diarrheagenic)',
     value: 'decoli',
-    abbr: 'DEC',
+    abbr: 'E. coli (DEC)',
     img: decoli,
   },
   {
@@ -92,4 +92,4 @@ export const organismsCards = [
   },
 ];
 
-export const amrLikeOrganisms = ['decoli', 'shige', 'sentericaints'];
+export const amrLikeOrganisms = ['decoli', 'ecoli', 'shige', 'sentericaints'];

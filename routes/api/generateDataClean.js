@@ -8,7 +8,9 @@ router.post('/newdoctyphi', function (req, res, next) {
   let collection, collection2, localFilePath;
 
   collection2 = client.db('styphi').collection('merge_rawdata_st');
-  console.log('I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)');
+  console.log(
+    'I am trying to update a collection: merge_rawdata_st, with new query method (w/o aggregare functions)',
+  );
 
   collection2.find().forEach(function (doc) {
     const empty = ['NA', 'Not Provided', '', '-', undefined, null];
@@ -59,7 +61,9 @@ router.post('/newdoctyphi', function (req, res, next) {
       '10209_5_36_LaoUI2001_2002',
       '10209_5_60_LaoUI3396_2003',
     ];
-    var curate = (curate_223.indexOf(doc['NAME']) !== -1 ? '2.2.3' : doc['GENOTYPHI GENOTYPE']).toString();
+    var curate = (
+      curate_223.indexOf(doc['NAME']) !== -1 ? '2.2.3' : doc['GENOTYPHI GENOTYPE']
+    ).toString();
 
     const name = [
       '9953_5_76_LaoLNT1480_2010',
@@ -182,7 +186,12 @@ router.post('/newdoctyphi', function (req, res, next) {
       co_trim = '0';
     }
     // console.log("sul_any,dfra_any, co_trim : ", sul_any,dfra_any, co_trim);
-    if (doc['tetA(A)'] == '1' || doc['tetA(B)'] == '1' || doc['tetA(C)'] == '1' || doc['tetA(D)'] == '1') {
+    if (
+      doc['tetA(A)'] == '1' ||
+      doc['tetA(B)'] == '1' ||
+      doc['tetA(C)'] == '1' ||
+      doc['tetA(D)'] == '1'
+    ) {
       tetracycline_category = 'TetR';
     } else {
       tetracycline_category = 'TetS';
@@ -425,7 +434,8 @@ router.post('/newdoctyphi', function (req, res, next) {
     var genusID = empty.indexOf(doc['Genus ID']) !== -1 ? '-' : doc['Genus ID'];
     var genusName = empty.indexOf(doc['Genus Name']) !== -1 ? '-' : doc['Genus Name'];
     var referenceID = empty.indexOf(doc['Reference ID']) !== -1 ? '-' : doc['Reference ID'];
-    var matchingHashes = empty.indexOf(doc['Matching Hashes']) !== -1 ? '-' : doc['Matching Hashes'];
+    var matchingHashes =
+      empty.indexOf(doc['Matching Hashes']) !== -1 ? '-' : doc['Matching Hashes'];
     var organismName = empty.indexOf(doc['Organism Name']) !== -1 ? '-' : doc['Organism Name'];
     var version = empty.indexOf(doc['Version']) !== -1 ? '-' : doc['Version'];
     var genomeID = empty.indexOf(doc['Genome ID']) !== -1 ? '-' : doc['Genome ID'];
@@ -437,22 +447,29 @@ router.post('/newdoctyphi', function (req, res, next) {
     var contact = empty.indexOf(doc['CONTACT']) !== -1 ? '-' : doc['CONTACT'];
     var tgcID = empty.indexOf(doc['TGC ID']) !== -1 ? '-' : doc['TGC ID'];
     var age = empty.indexOf(doc['AGE']) !== -1 ? '-' : doc['AGE'];
-    var pourposeOfSampling = empty.indexOf(doc['PURPOSE OF SAMPLING']) !== -1 ? '-' : doc['PURPOSE OF SAMPLING'];
+    var pourposeOfSampling =
+      empty.indexOf(doc['PURPOSE OF SAMPLING']) !== -1 ? '-' : doc['PURPOSE OF SAMPLING'];
     var source = empty.indexOf(doc['SOURCE']) !== -1 ? '-' : doc['SOURCE'];
     var symptomStatus = empty.indexOf(doc['SYMPTOM STATUS']) !== -1 ? '-' : doc['SYMPTOM STATUS'];
     var location = empty.indexOf(doc['LOCATION']) !== -1 ? '-' : doc['LOCATION'];
     var biosample = empty.indexOf(doc['BIOSAMPLE']) !== -1 ? '-' : doc['BIOSAMPLE'];
-    var projectAccession = empty.indexOf(doc['PROJECT ACCESSION']) !== -1 ? '-' : doc['PROJECT ACCESSION'];
+    var projectAccession =
+      empty.indexOf(doc['PROJECT ACCESSION']) !== -1 ? '-' : doc['PROJECT ACCESSION'];
     var lab = empty.indexOf(doc['LAB']) !== -1 ? '-' : doc['LAB'];
-    var countryIsolated = empty.indexOf(doc['COUNTRY ISOLATED']) !== -1 ? '-' : doc['COUNTRY ISOLATED'];
+    var countryIsolated =
+      empty.indexOf(doc['COUNTRY ISOLATED']) !== -1 ? '-' : doc['COUNTRY ISOLATED'];
     var pmid = empty.indexOf(doc['PMID']) !== -1 ? '-' : doc['PMID'];
-    var travelAssociated = empty.indexOf(doc['TRAVEL ASSOCIATED']) !== -1 ? '-' : doc['TRAVEL ASSOCIATED'];
+    var travelAssociated =
+      empty.indexOf(doc['TRAVEL ASSOCIATED']) !== -1 ? '-' : doc['TRAVEL ASSOCIATED'];
 
-    var countryOnly = empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
+    var countryOnly =
+      empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
     var regionInCounty = empty.indexOf(doc['LOCATION']) !== -1 ? '-' : doc['LOCATION'];
-    var countyOrigin = empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
+    var countyOrigin =
+      empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
     var travelCountry = empty.indexOf(doc['TRAVEL COUNTRY']) !== -1 ? '-' : doc['TRAVEL COUNTRY'];
-    var countyOfOrigin = empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
+    var countyOfOrigin =
+      empty.indexOf(doc['COUNTRY OF ORIGIN']) !== -1 ? '-' : doc['COUNTRY OF ORIGIN'];
     var accuracy = empty.indexOf(doc['ACCURACY']) !== -1 ? '-' : doc['ACCURACY'];
     var latitude = empty.indexOf(doc['LATITUDE']) !== -1 ? '-' : doc['LATITUDE'];
     var longitude = empty.indexOf(doc['LONGITUDE']) !== -1 ? '-' : doc['LONGITUDE'];
@@ -561,7 +578,9 @@ router.post('/newdockleb', function (req, res, next) {
   let collection, collection2, localFilePath;
 
   collection2 = client.db('kpneumo').collection('merge_rawdata_kp');
-  console.log('I am trying to update a collection: merge_rawdata_kp, with new query method (w/o aggregare functions)');
+  console.log(
+    'I am trying to update a collection: merge_rawdata_kp, with new query method (w/o aggregare functions)',
+  );
 
   var dView, kLocus, oLocus, location;
   collection2.find().forEach(function (doc) {
@@ -605,7 +624,8 @@ router.post('/newdockleb', function (req, res, next) {
           COUNTRY_ONLY: countryOnly,
           LATITUDE: latitude,
           LONGITUDE: longitude,
-          LOCATION: doc['City'] && doc['City']['region'] !== undefined ? doc['City']['region'] : '-',
+          LOCATION:
+            doc['City'] && doc['City']['region'] !== undefined ? doc['City']['region'] : '-',
           K_locus_identity: kLocus,
           K_locus_identity: kLocus,
           O_locus_identity: oLocus,
