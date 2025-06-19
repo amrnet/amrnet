@@ -201,7 +201,7 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
                 "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
             }'
-Example code to download the data and save in JSON:
+    Example code to download the data and save in JSON:
 
 
 .. code-block:: bash
@@ -216,7 +216,8 @@ Example code to download the data and save in JSON:
                 "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
             }' >> output.json
-Example code to download the data and save in CSV:
+    Example code to download the data and save in CSV:
+
 
 .. note::
 
