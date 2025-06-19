@@ -17,6 +17,9 @@ package-lock.json
 .env.production.local
 .env
 
+# VScode workspace
+amrnet.code-workspace
+
 ### JupyterNotebooks ###
 # Jupyter Notebook
 # gitignore template for Jupyter Notebooks
