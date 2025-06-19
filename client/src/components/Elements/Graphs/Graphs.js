@@ -572,6 +572,7 @@ export const Graphs = () => {
                     className={classes.actionButton}
                     color="primary"
                     disabled={organism === 'none' || loading}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <DownloadMapViewData fontSize="inherit" value={currentCard?.id} />
                   </IconButton>
