@@ -3,7 +3,7 @@
 # -- Project information
 
 project = 'AMRnet'
-copyright = '2024, Louise Cerdeira, Vandana Sharma, Kathryn Holt'
+copyright = '2023, Louise Cerdeira, Vandana Sharma, Zoe Dyson, Kathryn Holt'
 
 release = '0.2'
 version = '1.0.0'
