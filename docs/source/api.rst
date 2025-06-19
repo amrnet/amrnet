@@ -183,7 +183,7 @@ Example code to download the data with filters **DATE** and **COUNTRY** for an o
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>"
-                "filter": {"$and": [{"DATE": "2015"},{"COUNTRY": "United Kingdom"}]}
+                "filter": {"$and": [{"DATE": "2015"}, {"COUNTRY": "United Kingdom"}]}
             }'
 
 Example code to download the data with only one filter e.g. **DATE** for an organism:
