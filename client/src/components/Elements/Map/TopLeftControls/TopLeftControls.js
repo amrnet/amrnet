@@ -33,7 +33,8 @@ const datasetOptions = ['All', 'Local', 'Travel'];
 export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }) => {
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
-  const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
+  // currentSelectedLineages is created in redux to make it available for PDF and PNG exports
+  // const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
 
   const dispatch = useAppDispatch();
   const dataset = useAppSelector((state) => state.map.dataset);
@@ -44,9 +45,9 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   const organism = useAppSelector((state) => state.dashboard.organism);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
 
-  useEffect(() => {
-    setCurrentSelectedLineages(selectedLineages);
-  }, [selectedLineages]);
+  // useEffect(() => {
+  //   dispatch(setSelectedLineages(selectedLineages));
+  // }, [selectedLineages]);
 
   function handleChange(_event, newValue) {
     if (newValue !== null) {
@@ -88,26 +89,31 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
     }
 
     if (!value.includes('Clear All') && !value.includes('Select All')) {
-      setCurrentSelectedLineages(value);
+      if (organism === 'decoli') {
+        dispatch(setSelectedLineages(value));
+        return;
+      }
+
+      dispatch(setSelectedLineages([value[value.length - 1]]));
       return;
     }
 
     if (value.includes('Clear All')) {
-      setCurrentSelectedLineages([]);
+      dispatch(setSelectedLineages([]));
       return;
     }
 
     if (value.includes('Select All')) {
-      setCurrentSelectedLineages(pathovar);
+      dispatch(setSelectedLineages(pathovar));
     }
   }
 
   function handleCloseLineages(_) {
     if (
-      currentSelectedLineages.length !== selectedLineages.length ||
-      currentSelectedLineages.some((item) => !selectedLineages.includes(item))
+      selectedLineages.length !== selectedLineages.length ||
+      selectedLineages.some((item) => !selectedLineages.includes(item))
     ) {
-      dispatch(setSelectedLineages(currentSelectedLineages));
+      dispatch(setSelectedLineages(selectedLineages));
       dispatch(setCanFilterData(true));
     }
   }
@@ -155,9 +161,9 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 <Autocomplete
                   multiple
                   disableCloseOnSelect
-                  value={currentSelectedLineages}
+                  value={selectedLineages}
                   options={
-                    currentSelectedLineages.length === pathovar.length
+                    selectedLineages.length === pathovar.length
                       ? ['Clear All', ...pathovar]
                       : ['Select All', ...pathovar]
                   }
