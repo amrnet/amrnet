@@ -259,7 +259,11 @@ export const MapActions = () => {
 
   return (
     <div className={classes.mapActions}>
-      <Tooltip title="Download Data" placement="top">
+      <Tooltip 
+        title="Download Data" 
+        placement="top" 
+        onClick={(e) => e.stopPropagation()}
+      >
         <IconButton color="primary" disabled={organism === 'none' || loading}>
           <DownloadMapViewData fontSize="inherit" value="map" />
         </IconButton>

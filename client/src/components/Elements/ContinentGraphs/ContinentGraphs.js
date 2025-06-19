@@ -253,6 +253,7 @@ export const ContinentGraphs = () => {
                     className={classes.actionButton}
                     color="primary"
                     disabled={organism === 'none'}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <DownloadMapViewData fontSize="inherit" value={currentTab} />
                   </IconButton>
