@@ -1,5 +1,6 @@
 import { Home, Info, MenuBook, GitHub, Groups, Storage } from '@mui/icons-material';
 import EmailIcon from '@mui/icons-material/Email';
+import PolicyIcon from '@mui/icons-material/Policy';
 
 // List of drawer menu items
 export const menuItems = [
@@ -49,6 +50,14 @@ export const menuItems = [
   //   label: 'Documentation',
   //   icon: <Description />
   // },
+  {
+    key: 'api',
+    label: 'Data Rights',
+    labelHead: 'Data Rights',
+    icon: <PolicyIcon />,
+    link: 'https://amrnet.readthedocs.io/en/staging/api.html',
+    target: '_blank',
+  },
   {
     key: 'contact',
     label: 'Contact',

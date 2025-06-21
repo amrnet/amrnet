@@ -64,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '14px',
     },
   },
+  labelTooltipIcon: {
+    cursor: 'pointer',
+  },
 }));
 
 export { useStyles };

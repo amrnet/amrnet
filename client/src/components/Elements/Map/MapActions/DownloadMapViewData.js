@@ -72,36 +72,29 @@ export const DownloadMapViewData = ({ value }) => {
     }
 
     let HeaderList = ['Country', 'Total number of Count'];
-    let uniqueGenotypes = [];
 
-    const isINTsLineageView = organism === 'sentericaints' && mapView === 'Lineage prevalence';
-    const isGenotypeLikeView = [
-      'Genotype prevalence',
-      'ST prevalence',
-      'NG-MAST prevalence',
-      'Lineage prevalence',
-    ].includes(mapView);
+    const isPathotypeLikeView =
+      (mapView === 'Serotype prevalence' && organism === 'senterica') ||
+      (mapView === 'Pathotype prevalence' && organism === 'ecoli');
+    const isSerotypeLikeView =
+      mapView === 'Serotype prevalence' && ['decoli', 'ecoli', 'shige'].includes(organism);
+    // const isGenotypeLikeView = [
+    //   'Genotype prevalence',
+    //   'ST prevalence',
+    //   'NG-MAST prevalence',
+    //   'Lineage prevalence',
+    // ].includes(mapView);
+
     const mapViewOptionSelected =
       mapView === 'NG-MAST prevalence' ? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
 
-    // Step 1: Build unique genotypes list
-    if (isINTsLineageView) {
-      const genotypeNames = mapData.flatMap(
-        (entry) => entry?.stats?.GENOTYPE?.items?.map((item) => item.name) || [],
-      );
-      uniqueGenotypes = [...new Set(genotypeNames)];
-    }
+    // Step 1: Build header
+    mapViewOptionSelected.forEach((name) => HeaderList.push(name, `${name} %`));
 
-    // Step 2: Build header
-    if (isINTsLineageView) {
-      uniqueGenotypes.forEach((name) => HeaderList.push(name, `${name} %`));
-    } else if (isGenotypeLikeView) {
-      mapViewOptionSelected.forEach((name) => HeaderList.push(name, `${name} %`));
-    }
     Object.keys(mapData[0]?.stats || {}).forEach((key) => {
       if (
         (mapView === 'Resistance prevalence' &&
-          ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)) ||
+          ['GENOTYPE', 'NGMAST', 'PATHOTYPE', 'SEROTYPE'].includes(key)) ||
         key === 'H58'
       )
         return;
@@ -125,25 +118,31 @@ export const DownloadMapViewData = ({ value }) => {
         const rowData = [item.name, item.count || ''];
         const stats = item.stats || {};
 
-        if (isGenotypeLikeView) {
-          const GenotypeData = mapView === 'NG-MAST prevalence' ? stats.NGMAST : stats.GENOTYPE;
-          const genotypeItems = GenotypeData?.items || [];
-          const sum = GenotypeData?.sum || 0;
-          const foundGenotypes = genotypeItems.map((x) => x.name);
+        const data =
+          mapView === 'NG-MAST prevalence'
+            ? stats.NGMAST
+            : isPathotypeLikeView
+            ? stats.PATHOTYPE
+            : isSerotypeLikeView
+            ? stats.SEROTYPE
+            : stats.GENOTYPE;
+        const items = data?.items || [];
+        const sum = data?.sum || 0;
+        const foundGenotypes = items.map((x) => x.name);
 
-          const allHeaders = isINTsLineageView ? uniqueGenotypes : mapViewOptionSelected;
-          allHeaders.forEach((headerItem) => {
-            if (!foundGenotypes.includes(headerItem)) {
-              rowData.push(0, 0);
-            } else {
-              rowData.push(...getStatValues(genotypeItems, sum, headerItem));
-            }
-          });
-        }
+        const allHeaders = mapViewOptionSelected;
+        allHeaders.forEach((headerItem) => {
+          if (!foundGenotypes.includes(headerItem)) {
+            rowData.push(0, 0);
+          } else {
+            rowData.push(...getStatValues(items, sum, headerItem));
+          }
+        });
+
         Object.entries(stats).forEach(([key, stat]) => {
           if (
             (mapView === 'Resistance prevalence' &&
-              ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)) ||
+              ['GENOTYPE', 'NGMAST', 'PATHOTYPE', 'SEROTYPE'].includes(key)) ||
             key === 'H58'
           )
             return;
@@ -151,7 +150,7 @@ export const DownloadMapViewData = ({ value }) => {
           if (!stat) return rowData.push(0, 0);
 
           const count = stat.count || 0;
-          const percentage = ['GENOTYPE', 'NGMAST', 'PATHOTYPE'].includes(key)
+          const percentage = ['GENOTYPE', 'NGMAST', 'PATHOTYPE', 'SEROTYPE'].includes(key)
             ? stat.sum
               ? ((count / stat.sum) * 100).toFixed(2)
               : '0.00'
@@ -239,7 +238,6 @@ export const DownloadMapViewData = ({ value }) => {
         .filter((item) => Object.keys(item).length > 0)
         .map((item) => {
           const row = [actualRegion, actualCountry, item.name];
-          // console.log('item', item);
           convergenceKey.forEach((items) => {
             const count = item[items] || 0;
             row.push(count);
@@ -255,7 +253,6 @@ export const DownloadMapViewData = ({ value }) => {
 
   const downloadCSVForRFWG = () => {
     if (Array.isArray(genotypesDrugsData) && genotypesDrugsData.length > 0) {
-      // console.log('RFWG', genotypesDrugsData);
       const HeaderList = [
         'Genotype',
         'Total number of Count',
@@ -387,12 +384,10 @@ export const DownloadMapViewData = ({ value }) => {
   };
 
   const downloadCSVForRDWG = () => {
-    // console.log('its working', value, genotypesDrugsData);
     if (
       Array.isArray(genotypesDrugClassesData[determinantsGraphDrugClass]) &&
       genotypesDrugClassesData[determinantsGraphDrugClass].length > 0
     ) {
-      // console.log('RFWG', genotypesDrugClassesData[determinantsGraphDrugClass], topXGenotypeRDWG);
       let HeaderList = ['Region', 'Country', 'Name', 'Total number of Count'];
 
       // Dynamically add genotype headers
@@ -434,8 +429,6 @@ export const DownloadMapViewData = ({ value }) => {
 
   const downloadCSVForGD = () => {
     if (Array.isArray(genotypesYearData) && genotypesYearData.length > 0) {
-      // console.log('GD', genotypesYearData, topXGenotype);
-
       let HeaderList = ['Region', 'Country', 'Year', 'Total number of Count'];
 
       // Dynamically add genotype headers
@@ -476,14 +469,10 @@ export const DownloadMapViewData = ({ value }) => {
 
   // TODO
   const downloadCSVForRDT = () => {
-    // console.log("its working", value, Object.keys(genotypesAndDrugsYearData), genotypesAndDrugsYearData, trendsGraphDrugClass, genotypesForFilter);
-
     if (
       genotypesAndDrugsYearData &&
       Object.keys(genotypesAndDrugsYearData[trendsGraphDrugClass]).length > 0
     ) {
-      // console.log('RDT', genotypesAndDrugsYearData[trendsGraphDrugClass]);
-
       let HeaderList = ['Region', 'Country', 'Name', 'Total number of Count'];
 
       // Dynamically add genotype headers
@@ -540,7 +529,6 @@ export const DownloadMapViewData = ({ value }) => {
   };
 
   const downloadCSVForHM = () => {
-    console.log('mapRegionData', mapRegionData);
     if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
       let HeaderList = ['Region', 'Country', 'Name']; // Initial headers
       let allDrugs = new Set(); // Store unique drug names
@@ -604,7 +592,7 @@ export const DownloadMapViewData = ({ value }) => {
 
     // Step 1: Get correct dataSource
     let dataSource;
-    if (yAxisType === 'resistance' || yAxisType === 'genotype') {
+    if (['resistance', 'genotype', 'pathotype', 'serotype'].includes(yAxisType)) {
       dataSource = mapData;
     } else {
       const yAxisTrendKey = getYAxisKey(yAxisTypeTrend);
@@ -637,6 +625,14 @@ export const DownloadMapViewData = ({ value }) => {
       dataSource.forEach((region) => {
         if (region.stats?.GENOTYPE?.items) {
           region.stats.GENOTYPE.items.forEach((item) => {
+            allDrugsSet.add(item.name);
+          });
+        }
+      });
+    } else if (['pathotype', 'serotype'].includes(yAxisType)) {
+      dataSource.forEach((region) => {
+        if (region.stats?.PATHOTYPE?.items) {
+          region.stats.PATHOTYPE.items.forEach((item) => {
             allDrugsSet.add(item.name);
           });
         }
@@ -685,15 +681,7 @@ export const DownloadMapViewData = ({ value }) => {
       const totalCount = item.totalCount || item.count || 0;
 
       const row = [country, totalCount];
-      // console.log('allDrugs', allDrugs);
-      if (!(yAxisType === 'resistance' || yAxisType === 'genotype')) {
-        allDrugs.forEach((drug) => {
-          const count = item[drug] || 0;
-          const percentage = totalCount ? ((count / totalCount) * 100).toFixed(2) : 0;
-          row.push(count);
-          row.push(percentage);
-        });
-      } else if (yAxisType === 'resistance')
+      if (yAxisType === 'resistance')
         allDrugs.forEach((drug) => {
           const drugData = item.stats?.[drug];
           const count = drugData && typeof drugData.count === 'number' ? drugData.count : 0;
@@ -706,6 +694,21 @@ export const DownloadMapViewData = ({ value }) => {
         allDrugs.forEach((genotype) => {
           const match = item.stats?.GENOTYPE?.items?.find((g) => g.name === genotype);
           const count = match?.count || 0;
+          const percentage = totalCount ? ((count / totalCount) * 100).toFixed(2) : 0;
+          row.push(count);
+          row.push(percentage);
+        });
+      } else if (['pathotype', 'serotype'].includes(yAxisType)) {
+        allDrugs.forEach((pathotype) => {
+          const match = item.stats?.PATHOTYPE?.items?.find((g) => g.name === pathotype);
+          const count = match?.count || 0;
+          const percentage = totalCount ? ((count / totalCount) * 100).toFixed(2) : 0;
+          row.push(count);
+          row.push(percentage);
+        });
+      } else {
+        allDrugs.forEach((drug) => {
+          const count = item[drug] || 0;
           const percentage = totalCount ? ((count / totalCount) * 100).toFixed(2) : 0;
           row.push(count);
           row.push(percentage);
@@ -764,5 +767,12 @@ export const DownloadMapViewData = ({ value }) => {
         return downloadCSV();
     }
   };
-  return <Download onClick={functionValue} />;
+  return (
+    <Download
+      onClick={(e) => {
+        e.stopPropagation();
+        functionValue();
+      }}
+    />
+  );
 };

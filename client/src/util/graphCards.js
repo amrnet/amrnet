@@ -10,9 +10,6 @@ import { amrLikeOrganisms, organismsCards } from './organismsCards';
 
 function getHeatMapsTitle(organism) {
   switch (organism) {
-    case 'decoli':
-    case 'shige':
-      return 'AMR by pathotype';
     case 'kpneumo':
       return 'AMR by ST';
     case 'sentericaints':
@@ -53,7 +50,7 @@ export const graphCards = [
   },
   {
     title: 'Genotype trends',
-    description: [''],
+    description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
     organisms: ['styphi', 'ngono', ...amrLikeOrganisms.filter((x) => x !== 'sentericaints')],
@@ -61,7 +58,7 @@ export const graphCards = [
   },
   {
     title: 'ST distribution',
-    description: [''],
+    description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
     organisms: ['kpneumo'],
@@ -70,7 +67,7 @@ export const graphCards = [
   {
     //TODO: add this chart above because this chart is a distribution chart, which means is the same plot, only the title will change(same id as well)
     title: 'Lineage trends',
-    description: [''],
+    description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
     organisms: ['sentericaints'],
@@ -94,7 +91,7 @@ export const graphCards = [
   // },
   {
     title: getTrendstitle('kpneumo'),
-    description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
+    description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
     id: 'RDT',
     organisms: ['kpneumo'],
@@ -102,7 +99,7 @@ export const graphCards = [
   },
   {
     title: getTrendstitle('ngono'),
-    description: ['Top Genotypes (up to 10)', 'Data are plotted for years with N ≥ 10 genomes'],
+    description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
     id: 'RDT',
     organisms: ['ngono'],
@@ -178,8 +175,12 @@ export const graphCards = [
 
 export const continentGraphCard = {
   title: 'Geographic Comparisons',
-  description: [''],
   icon: <BubbleChart color="primary" />,
-  id: 'CGC',
   organisms: organismsCards.map((x) => x.value),
+};
+
+export const continentPGraphCard = {
+  title: 'Pathotype Comparisons',
+  icon: <BubbleChart color="primary" />,
+  organisms: ['shige', 'decoli', 'sentericaints'],
 };

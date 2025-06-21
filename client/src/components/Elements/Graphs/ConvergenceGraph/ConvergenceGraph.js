@@ -1,4 +1,13 @@
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  IconButton,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
 import {
   CartesianGrid,
@@ -124,7 +133,10 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                     <div className={classes.legendWrapper}>
                       {Object.keys(topColours).map((key, index) => {
                         return (
-                          <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
+                          <div
+                            key={`convergence-legend-${index}`}
+                            className={classes.legendItemWrapper}
+                          >
                             <Box
                               className={classes.colorCircle}
                               style={{
@@ -144,7 +156,9 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active }) => {
                   if (payload !== null && active) {
-                    return <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>;
+                    return (
+                      <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>
+                    );
                   }
                   return null;
                 }}
@@ -243,7 +257,9 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectWrapper}>
-                  <Typography variant="caption">Group variable</Typography>
+                  <div className={classes.labelWrapper}>
+                    <Typography variant="caption">Group variable</Typography>
+                  </div>
                   <Select
                     value={convergenceGroupVariable}
                     onChange={handleChangeGroupVariable}

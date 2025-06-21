@@ -29,8 +29,15 @@ import {
   setSelectedLineages,
   setEconomicRegions,
   setActualRegion,
+  setSerotype,
 } from '../../stores/slices/dashboardSlice.ts';
-import { setDataset, setMapData, setMapRegionData, setMapView, setPosition } from '../../stores/slices/mapSlice.ts';
+import {
+  setDataset,
+  setMapData,
+  setMapRegionData,
+  setMapView,
+  setPosition,
+} from '../../stores/slices/mapSlice.ts';
 import { Graphs } from '../Elements/Graphs';
 import {
   setCollapses,
@@ -65,14 +72,11 @@ import {
   setDrugsRegionsData,
   setCountriesYearData,
   setRegionsYearData,
-  setActualGenomesGD,
-  setActualGenomesDRT,
-  setActualGenomesRDT,
   setPathotypesDrugsData,
+  setSerotypesDrugsData,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
-  filterBrushData,
   getYearsData,
   getMapData,
   getGenotypesData,
@@ -93,6 +97,7 @@ import {
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
+import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
@@ -116,16 +121,17 @@ export const DashboardPage = () => {
   const yearsForFilter = useAppSelector((state) => state.dashboard.years);
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
   const pathovarForFilter = useAppSelector((state) => state.dashboard.pathovar);
+  const serotypeForFilter = useAppSelector((state) => state.dashboard.serotype);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
-  const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
-  const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
-  const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
-  const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
-  const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
-  const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
+  // const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
+  // const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
+  // const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
+  // const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
+  // const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
+  // const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
   // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
@@ -148,7 +154,11 @@ export const DashboardPage = () => {
     }
 
     const organismData = await handleGetData();
-    await bulkAddItems(storeName, storeName.includes('convergence') ? [organismData] : organismData, clearStore);
+    await bulkAddItems(
+      storeName,
+      storeName.includes('convergence') ? [organismData] : organismData,
+      clearStore,
+    );
 
     return organismData;
   }
@@ -184,6 +194,7 @@ export const DashboardPage = () => {
     const countriesSet = new Set();
     const PMIDSet = new Set();
     const pathovarSet = new Set();
+    const serotypeSet = new Set();
 
     responseData.forEach((x) => {
       const country = getCountryDisplayName(x.COUNTRY_ONLY);
@@ -207,6 +218,12 @@ export const DashboardPage = () => {
       if (['ecoli'].includes(organism)) {
         pathovarSet.add(x.Pathovar);
       }
+      if (['senterica'].includes(organism)) {
+        pathovarSet.add(x.serotype);
+      }
+      if (['decoli', 'ecoli', 'shige'].includes(organism)) {
+        serotypeSet.add(x.Serotype);
+      }
     });
 
     const genotypes = Array.from(genotypesSet);
@@ -215,12 +232,14 @@ export const DashboardPage = () => {
     const countries = Array.from(countriesSet);
     const PMID = Array.from(PMIDSet);
     const pathovar = Array.from(pathovarSet);
+    const serotype = Array.from(serotypeSet);
 
     // Sort values
     genotypes.sort((a, b) => a.localeCompare(b));
     years.sort();
     countries.sort();
     pathovar.sort();
+    serotype.sort();
 
     if (pathovar.length > 0) {
       dispatch(setSelectedLineages(pathovar));
@@ -235,6 +254,7 @@ export const DashboardPage = () => {
     dispatch(setPMID(PMID));
     dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
+    dispatch(setSerotype(serotype));
 
     // Set regions
     Object.keys(ecRegions).forEach((key) => {
@@ -274,10 +294,12 @@ export const DashboardPage = () => {
           countries,
           regions: ecRegions,
           pathotypes: pathovar,
+          serotypes: serotype,
         });
         return [
           dt.genotypesDrugsData,
           dt.pathotypesDrugsData,
+          dt.serotypesDrugsData,
           dt.genotypesDrugClassesData,
           dt.countriesDrugClassesData,
           dt.regionsDrugClassesData,
@@ -286,13 +308,17 @@ export const DashboardPage = () => {
         ([
           genotypesDrugsData,
           pathotypesDrugsData,
+          serotypesDrugsData,
           genotypesDrugClassesData,
           countriesDrugClassesData,
           regionsDrugClassesData,
         ]) => {
           dispatch(setGenotypesDrugsData(genotypesDrugsData));
           dispatch(setPathotypesDrugsData(pathotypesDrugsData));
-          dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+          dispatch(setSerotypesDrugsData(serotypesDrugsData));
+          dispatch(
+            setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)),
+          );
           dispatch(setGenotypesDrugClassesData(genotypesDrugClassesData));
           dispatch(setCountriesYearData(countriesDrugClassesData));
           dispatch(setRegionsYearData(regionsDrugClassesData));
@@ -383,7 +409,11 @@ export const DashboardPage = () => {
               data: dt.data,
             };
           }).then((convergenceData) => {
-            dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+            dispatch(
+              setConvergenceColourPallete(
+                generatePalleteForGenotypes(convergenceData.colourVariables),
+              ),
+            );
             dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
             dispatch(setConvergenceData(convergenceData.data));
           })
@@ -464,6 +494,7 @@ export const DashboardPage = () => {
       dispatch(
         setCollapses({
           continent: false,
+          continentP: false,
           all: true,
           map: true,
         }),
@@ -602,7 +633,9 @@ export const DashboardPage = () => {
         false,
       );
 
-      dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+      dispatch(
+        setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)),
+      );
       dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
       dispatch(setConvergenceData(convergenceData.data));
     } else {
@@ -634,7 +667,11 @@ export const DashboardPage = () => {
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
       dispatch(setMapData(getMapData({ data: filters.data, items: countriesForFilter, organism })));
-      dispatch(setMapRegionData(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })));
+      dispatch(
+        setMapRegionData(
+          getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' }),
+        ),
+      );
 
       const genotypesData = getGenotypesData({
         data: filteredData,
@@ -645,10 +682,16 @@ export const DashboardPage = () => {
         regions: economicRegions,
         dataForGeographic: filters.data,
         pathotypes: pathovarForFilter,
+        serotypes: serotypeForFilter,
       });
       dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
       dispatch(setPathotypesDrugsData(genotypesData.pathotypesDrugsData));
-      dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+      dispatch(setSerotypesDrugsData(genotypesData.serotypesDrugsData));
+      dispatch(
+        setFrequenciesGraphSelectedGenotypes(
+          genotypesData.genotypesDrugsData.slice(0, 5).map((x) => x.name),
+        ),
+      );
       dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
       dispatch(setCountriesYearData(genotypesData.countriesDrugClassesData));
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
@@ -678,7 +721,9 @@ export const DashboardPage = () => {
             data: dt.data,
           };
         });
-        dispatch(setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)));
+        dispatch(
+          setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)),
+        );
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
       }
@@ -704,33 +749,36 @@ export const DashboardPage = () => {
     dispatch(setCanFilterData(false));
   }
 
-  useEffect(() => {
-    const fetchDataAndFilter = async () => {
-      try {
-        const data = await getItems(organism);
-        if (data.length > 0) {
-          const filters = filterBrushData({
-            data,
-            dataset,
-            actualCountry,
-            starttimeGD,
-            endtimeGD,
-            starttimeDRT,
-            endtimeDRT,
-            starttimeRDT,
-            endtimeRDT,
-          });
-          dispatch(setActualGenomesGD(filters.genomesCountGD));
-          dispatch(setActualGenomesDRT(filters.genomesCountDRT));
-          dispatch(setActualGenomesRDT(filters.genomesCountRDT));
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchDataAndFilter();
-  }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT]);
+  /* COMMENTED DUO TO RETURNING AN ERROR ON THE CONSOLE EVERYTIME THE WEBSITE IS OPEN, NEED TO DO A RE-EVALUACTION
+  AND FIX THE FUNCTIONS THAT USED THE VARIABLES SET HERE
+  THOSE VALUES ARE BEING USED ON Graphs.js ON THE Download Chart as PNG BUTTON AND ON DownloadData.js TO GENERATE
+  THE PDF */
+  // useEffect(() => {
+  //   const fetchDataAndFilter = async () => {
+  //     try {
+  //       const data = await getItems(organism);
+  //       if (data.length > 0) {
+  //         const filters = filterBrushData({
+  //           data,
+  //           dataset,
+  //           actualCountry,
+  //           starttimeGD,
+  //           endtimeGD,
+  //           starttimeDRT,
+  //           endtimeDRT,
+  //           starttimeRDT,
+  //           endtimeRDT,
+  //         });
+  //         dispatch(setActualGenomesGD(filters.genomesCountGD));
+  //         dispatch(setActualGenomesDRT(filters.genomesCountDRT));
+  //         dispatch(setActualGenomesRDT(filters.genomesCountRDT));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+  //   fetchDataAndFilter();
+  // }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT]);
 
   return (
     <>
@@ -740,6 +788,7 @@ export const DashboardPage = () => {
         {/* <SelectCountry /> */}
         <Graphs />
         <ContinentGraphs />
+        <ContinentPathotypeGraphs />
         <DownloadData />
         {/* <Footer /> */}
         <ResetButton data={data} />

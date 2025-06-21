@@ -132,6 +132,7 @@ export const MapActions = () => {
         ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 240);
         ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 290);
+
         const getAxisLabel = () => {
           switch (organism) {
             case 'decoli':
@@ -139,14 +140,24 @@ export const MapActions = () => {
               return 'Selected Pathotypes :';
             case 'sentericaints':
               return 'Selected Serotypes :';
-            case 'ecoli':
-              return 'Selected Genotypes :';
             default:
               return '';
           }
         };
-        ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 340);
-        if (mapView === 'Genotype prevalence') {
+        if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
+          ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 340);
+        }
+
+        const prevalenceMapViews = [
+          'Genotype prevalence',
+          'Lineage prevalence',
+          'ST prevalence',
+          'Sublineage prevalence',
+          'Pathotype prevalence',
+          'Serotype prevalence',
+        ];
+
+        if (prevalenceMapViews.includes(mapView)) {
           if (prevalenceMapViewOptionsSelected.length === 1) {
             ctx.fillText(
               `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
@@ -166,30 +177,6 @@ export const MapActions = () => {
             ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
           }
         }
-        if (mapView === 'Lineage prevalence') {
-          if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(
-              `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
-              canvas.width / 2,
-              390,
-            );
-          } else if (prevalenceMapViewOptionsSelected.length > 1) {
-            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
-          }
-        }
-        if (mapView === 'ST prevalence') {
-          if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(
-              `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
-              canvas.width / 2,
-              390,
-            );
-          } else if (prevalenceMapViewOptionsSelected.length > 1) {
-            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
-          }
-        }
         if (mapView === 'Resistance prevalence') {
           if (prevalenceMapViewOptionsSelected.length === 1) {
             ctx.fillText(
@@ -197,18 +184,6 @@ export const MapActions = () => {
                 (ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
                   drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
                   prevalenceMapViewOptionsSelected.join()),
-              canvas.width / 2,
-              390,
-            );
-          } else if (prevalenceMapViewOptionsSelected.length > 1) {
-            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
-          }
-        }
-        if (mapView === 'Sublineage prevalence') {
-          if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(
-              `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
               canvas.width / 2,
               390,
             );
