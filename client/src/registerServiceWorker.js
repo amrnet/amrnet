@@ -40,7 +40,13 @@ function registerValidSW(swUrl) {
       };
     })
     .catch((error) => {
-      console.error('Error during service worker registration:', error);
+      // This occurs when the app is served over HTTP instead of HTTPS
+      // The browser prevents service workers from being registered on insecure origins.
+      if (error.name === 'SecurityError' && window.location.protocol === 'http:') {
+        console.error('Error during service worker registration: Service workers can only be registered over HTTPS or on localhost.', error);
+      } else {
+        console.error('Error during service worker registration:', error);
+      }
     });
 }
 
@@ -70,7 +76,7 @@ function checkValidServiceWorker(swUrl) {
 }
 
 export default function register() {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
@@ -82,18 +88,21 @@ export default function register() {
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-
-      if (!isLocalhost) {
-        // Is not local host. Just register service worker
-        registerValidSW(swUrl);
-      } else {
-        // This is running on localhost. Lets check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl);
+      
+      if (process.env.NODE_ENV === 'production') {
+        if (!isLocalhost) {
+          // Is not local host. Just register service worker
+          registerValidSW(swUrl);
+        } else {
+          // This is running on localhost. Lets check if a service worker still exists or not.
+          checkValidServiceWorker(swUrl);
+        }
+      } else { // Development mode
+        console.log('Service Worker registration skipped in development mode.');
       }
     });
   }
 }
-
 export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((registration) => {
