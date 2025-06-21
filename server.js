@@ -1,3 +1,4 @@
+# File: server.js
 // import connectDB from './config/db.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
 import generateFileClean from './routes/api/generateDataClean.js';
@@ -11,7 +12,7 @@ import path, { dirname } from 'path';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
-import bodyParser from 'body-parser';
+// REMOVED: import bodyParser from 'body-parser';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -22,7 +23,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(bodyParser.json({ limit: '400mb' }));
+// REMOVED: app.use(bodyParser.json({ limit: '400mb' }));
 
 const PORT = process.env.PORT || 8080;
 
@@ -39,7 +40,7 @@ app.use(function (req, res, next) {
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({ limit: '400mb' })); // ADDED: limit option
 app.use(cookieParser());
 
 // Define routes API here
@@ -57,7 +58,7 @@ app.use('/', function (req, res) {
 });
 
 // Start the API server and log a message when it's ready
-const server = app.listen(process.env.PORT || 5000, () => {
+const server = app.listen(PORT, () => { // CHANGED: Used PORT constant
   const port = server.address().port;
   console.log(`Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`,
   );
