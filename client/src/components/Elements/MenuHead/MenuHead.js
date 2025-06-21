@@ -1,8 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { menuItems } from '../../../util/menuItems';
 import { useStyles } from './MenuHeadMUI';
-import { Button, Toolbar } from '@mui/material';
+import { Button, Toolbar, Tooltip } from '@mui/material';
 import { useCallback, useEffect, useMemo } from 'react';
+
+const ICON_BUTTONS = ['GitHub', 'Contact', 'Data Rights'];
 
 export const MenuHead = () => {
   const classes = useStyles();
@@ -47,15 +49,19 @@ export const MenuHead = () => {
       <Toolbar className={classes.toolbar}>
         {currentMenuItems.map((item, index) => {
           return (
-            <Button
+            <Tooltip
               key={`toolbar-item-${index}`}
-              className={classes.item}
-              href={item.link}
-              target={target(item)}
-              onClick={() => handleClick(item)}
+              title={ICON_BUTTONS.includes(item.label) ? item.label : undefined}
             >
-              {item.label === 'GitHub' ? item.icon : item.label === 'Contact' ? item.icon : item.label}
-            </Button>
+              <Button
+                className={classes.item}
+                href={item.link}
+                target={target(item)}
+                onClick={() => handleClick(item)}
+              >
+                {ICON_BUTTONS.includes(item.label) ? item.icon : item.label}
+              </Button>
+            </Tooltip>
           );
         })}
       </Toolbar>

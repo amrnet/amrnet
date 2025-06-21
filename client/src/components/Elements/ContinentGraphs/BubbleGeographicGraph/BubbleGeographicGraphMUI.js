@@ -148,9 +148,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     backgroundColor: 'lightgoldenrodyellow',
   },
-  // graphContainer: {
-  //   minWidth: '1000px !important',
-  // },
+  selectSearch: {
+    padding: '0px 16px !important',
+  },
 }));
 
 export { useStyles };

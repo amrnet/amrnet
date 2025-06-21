@@ -498,6 +498,7 @@ export const DownloadData = () => {
         continent: true,
         all: true,
         map: true,
+        continentP: true,
       }),
     );
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));

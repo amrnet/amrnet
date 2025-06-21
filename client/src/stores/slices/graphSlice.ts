@@ -4,6 +4,7 @@ interface CollapsesModel {
   continent: boolean;
   map: boolean;
   all: boolean;
+  continentP: boolean;
 }
 interface GraphState {
   countriesForFilter: Array<string>;
@@ -21,6 +22,7 @@ interface GraphState {
   customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
   pathotypesDrugsData: Array<any>;
+  serotypesDrugsData: Array<any>;
   genotypesDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
@@ -70,12 +72,14 @@ const initialState: GraphState = {
     all: true,
     continent: false,
     map: true,
+    continentP: false,
   },
   countriesForFilter: [],
   genotypesYearData: [],
   drugsYearData: [],
   genotypesDrugsData: [],
   pathotypesDrugsData: [],
+  serotypesDrugsData: [],
   genotypesDrugClassesData: [],
   genotypesAndDrugsYearData: [],
   countriesYearData: [],
@@ -171,6 +175,9 @@ export const graphSlice = createSlice({
     },
     setPathotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.pathotypesDrugsData = action.payload;
+    },
+    setSerotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
+      state.serotypesDrugsData = action.payload;
     },
     setDeterminantsGraphView: (state, action: PayloadAction<string>) => {
       state.determinantsGraphView = action.payload;
@@ -324,6 +331,7 @@ export const {
   setCustomDropdownMapViewNG,
   setGenotypesDrugsData,
   setPathotypesDrugsData,
+  setSerotypesDrugsData,
   setDeterminantsGraphView,
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,

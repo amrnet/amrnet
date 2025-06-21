@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     flex: 1,
     width: '100%',
+    textAlign: 'start',
   },
   labelWrapper: {
     display: 'flex',
@@ -92,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
   },
   selectSearch: {
     padding: '0px 16px !important',
+  },
+  warningGenotypes: {
+    padding: '0px 16px !important',
+    backgroundColor: 'rgb(211, 211, 211)',
   },
 }));
 
