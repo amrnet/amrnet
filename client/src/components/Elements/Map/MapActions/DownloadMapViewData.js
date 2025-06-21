@@ -166,7 +166,7 @@ export const DownloadMapViewData = ({ value }) => {
     const headers = HeaderList.join(',');
     generateCSV(headers, rows, 'Map');
   };
-
+  
   const downloadCSVForDRT = () => {
     if (Array.isArray(drugsYearData) && drugsYearData.length > 0) {
       const HeaderList = ['Region', 'Country', 'Year', 'Total Count'];
@@ -540,7 +540,6 @@ export const DownloadMapViewData = ({ value }) => {
   };
 
   const downloadCSVForHM = () => {
-    console.log('mapRegionData', mapRegionData);
     if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
       let HeaderList = ['Region', 'Country', 'Name']; // Initial headers
       let allDrugs = new Set(); // Store unique drug names
@@ -655,12 +654,7 @@ export const DownloadMapViewData = ({ value }) => {
         });
       });
 
-    // const allDrugs = Array.from(sortedDrugs).sort();
-    const allDrugs = Array.from(allDrugsSet).sort((a, b) => {
-      if (a === 'Pansusceptible') return 1; // always move 'Pansusceptible' down
-      if (b === 'Pansusceptible') return -1; // always move 'Pansusceptible' down
-      return a.localeCompare(b); // alphabetical sort
-    });
+    const allDrugs = Array.from(allDrugsSet).sort();
 
     // Step 3: Prepare headers
     const headerList = ['Country', 'Total Count'];

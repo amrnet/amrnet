@@ -186,7 +186,7 @@ export const ContinentGraphs = () => {
           default:
             return '';
         }
-      };
+      }
 
       ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 210);
       ctx.fillStyle = 'white';
@@ -253,6 +253,7 @@ export const ContinentGraphs = () => {
                     className={classes.actionButton}
                     color="primary"
                     disabled={organism === 'none'}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <DownloadMapViewData fontSize="inherit" value={currentTab} />
                   </IconButton>

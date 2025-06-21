@@ -97,7 +97,7 @@ export const MapActions = () => {
           ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
           ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
           ctx.font = 'bolder bold 50px Montserrat';
-          ctx.fillText(labelSplit[2], canvas.width * 0.7, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.70, 80);
         } else if (organism === 'shige') {
           ctx.font = 'italic bold 50px Montserrat';
           ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
@@ -106,6 +106,10 @@ export const MapActions = () => {
           ctx.fillText(labelSplit[2], canvas.width * 0.61, 80);
         } else if (organism === 'sentericaints') {
           ctx.font = 'italic bold 50px Montserrat';
+          ctx.fillText(labelSplit[0], canvas.width * 0.48, 80);
+          ctx.font = 'bolder bold 50px Montserrat';
+          ctx.fillText(labelSplit[1], canvas.width * 0.56, 80);
+          ctx.fillText(labelSplit[2], canvas.width * 0.65, 80);
           ctx.fillText(labelSplit[0], canvas.width * 0.48, 80);
           ctx.font = 'bolder bold 50px Montserrat';
           ctx.fillText(labelSplit[1], canvas.width * 0.56, 80);
@@ -282,7 +286,11 @@ export const MapActions = () => {
 
   return (
     <div className={classes.mapActions}>
-      <Tooltip title="Download Data" placement="top">
+      <Tooltip 
+        title="Download Data" 
+        placement="top" 
+        onClick={(e) => e.stopPropagation()}
+      >
         <IconButton color="primary" disabled={organism === 'none' || loading}>
           <DownloadMapViewData fontSize="inherit" value="map" />
         </IconButton>
