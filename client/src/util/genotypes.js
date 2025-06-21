@@ -92,11 +92,10 @@ export const genotypes = [
 
 export function getAxisLabel(organism) {
   switch (organism) {
-    case 'decoli':
-    case 'shige':
-      return 'pathotypes';
     case 'sentericaints':
       return 'lineages';
+    case 'kpneumo':
+      return 'STs';
     default:
       return 'genotypes';
   }

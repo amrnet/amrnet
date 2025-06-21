@@ -1,9 +1,12 @@
 # Configuration file for the Sphinx documentation builder.
+import os
+from urllib.request import urlopen
+from pathlib import Path
 
 # -- Project information
 
 project = 'AMRnet'
-copyright = '2023, Louise Cerdeira, Vandana Sharma, Zoe Dyson, Kathryn Holt'
+copyright = '2024, Louise Cerdeira, Vandana Sharma, Kathryn Holt'
 
 release = '0.2'
 version = '1.0.0'

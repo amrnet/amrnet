@@ -4,33 +4,33 @@ import { drugRulesINTS, drugRulesNG, drugRulesKP } from './drugClassesRules';
 export const drugsST = [
   'Ampicillin/Amoxicillin',
   'Azithromycin',
-  'Chloramphenicol',
-  'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
+  'Chloramphenicol',
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
-  'Sulfonamides',
-  'Pansusceptible',
-  'Tetracyclines',
-  'Trimethoprim',
   'XDR',
   'MDR',
-].sort((a, b) => a.localeCompare(b));
+  'Sulfonamides',
+  'Tetracyclines',
+  'Trimethoprim',
+  'Trimethoprim-sulfamethoxazole',
+  'Pansusceptible',
+];
 
 export const drugsSTLegendsOnly = [
   'Ampicillin/Amoxicillin',
   'Azithromycin',
-  'Chloramphenicol',
   'Ceftriaxone',
+  'Chloramphenicol',
   'Ciprofloxacin (non-susceptible)',
   'Ciprofloxacin (resistant)',
+  'Extensively drug resistant (XDR)',
+  'Multidrug resistant (MDR)',
   'Sulfonamides',
-  'Pansusceptible',
   'Tetracyclines',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
-  'Extensively drug resistant (XDR)',
-  'Multidrug resistant (MDR)',
+  'Pansusceptible',
 ];
 
 export const defaultDrugsForDrugResistanceGraphST = [
@@ -38,25 +38,25 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'Ceftriaxone',
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
-  'MDR',
-  'Pansusceptible',
-  'Trimethoprim-sulfamethoxazole',
   'XDR',
+  'MDR',
+  'Trimethoprim-sulfamethoxazole',
+  'Pansusceptible',
 ];
 
 // List of N. gono drug classes
 export const drugsNG = [
   'Azithromycin',
+  'Cefixime',
   'Ceftriaxone',
   'Ciprofloxacin',
+  'XDR',
+  'MDR',
+  'Penicillin',
+  'Spectinomycin',
   'Sulfonamides',
   'Tetracyclines',
-  'Cefixime',
-  'Penicillin',
   'Pansusceptible',
-  'Spectinomycin',
-  'MDR',
-  'XDR',
 ];
 
 // export const drugsNGLegensOnly = [
@@ -76,14 +76,14 @@ export const drugsNG = [
 // List of N. gono drug classes default
 export const defaultDrugsForDrugResistanceGraphNG = [
   'Azithromycin',
+  'Cefixime',
   'Ceftriaxone',
   'Ciprofloxacin',
-  'Cefixime',
-  'Penicillin',
-  'Pansusceptible',
-  'Spectinomycin',
-  'MDR',
   'XDR',
+  'MDR',
+  'Penicillin',
+  'Spectinomycin',
+  'Pansusceptible',
 ];
 
 // List of Klebsiella drugs
@@ -110,16 +110,16 @@ export const drugsKP = [
 export const drugClassesST = [
   'Ampicillin/Amoxicillin',
   'Azithromycin',
-  'Chloramphenicol',
-  'Trimethoprim-sulfamethoxazole',
   'Ceftriaxone',
   'Ciprofloxacin NS',
+  'Chloramphenicol',
+  'XDR',
+  'MDR',
   'Sulfonamides',
   'Tetracyclines',
   'Trimethoprim',
+  'Trimethoprim-sulfamethoxazole',
   // 'Pansusceptible',
-  'MDR',
-  'XDR',
 ];
 
 // List of Klebsiella drug classes
@@ -185,7 +185,7 @@ export const ciproAcronyms = {
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
-export const drugsINTS = drugRulesINTS.map((x) => x.key).sort((a, b) => a.localeCompare(b));
+export const drugsINTS = drugRulesINTS.map((x) => x.key);
 export const drugsINTSLegendsOnly = drugRulesINTS
   .map((x) => x.legends || x.key)
   .sort((a, b) => a.localeCompare(b));

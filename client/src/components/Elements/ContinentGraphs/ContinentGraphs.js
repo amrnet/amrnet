@@ -28,6 +28,7 @@ import download from 'downloadjs';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
+import { TrendLineGraph } from './TrendLineGraph';
 
 const TABS = [
   {
@@ -37,13 +38,13 @@ const TABS = [
     component: <BubbleGeographicGraph />,
     notShow: [],
   },
-  // {
-  //   label: 'Trend line',
-  //   value: 'TL',
-  //   disabled: false,
-  //   component: <TrendLineGraph />,
-  //   notShow: amrLikeOrganisms,
-  // },
+  {
+    label: 'Trend line',
+    value: 'TL',
+    disabled: false,
+    component: <TrendLineGraph />,
+    notShow: [],
+  },
   // {
   //   label: 'Trend line 2',
   //   value: 'TL2',

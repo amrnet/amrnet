@@ -1,4 +1,13 @@
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  IconButton,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './DistributionGraphMUI';
 import {
   Bar,
@@ -28,6 +37,7 @@ import { SliderSizes } from '../../Slider/SliderSizes';
 import { setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
+import { getRange } from '../../../../util/helpers';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -113,24 +123,28 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   let newArray = []; //TODO: can be a global value in redux
   let newArrayPercentage = []; //TODO: can be a global value in redux
   const exclusions = ['name', 'count'];
-  newArray = genotypesYearData.map((item) => {
-    let count = 0;
-    for (const key in item) {
-      if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
-        count += item[key]; //adding count of all genotypes which are not in topX
+  newArray = genotypesYearData
+    .map((item) => {
+      let count = 0;
+      for (const key in item) {
+        if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
+          count += item[key]; //adding count of all genotypes which are not in topX
+        }
       }
-    }
-    const newItem = { ...item, Other: count };
-    return newItem; //return item of genotypesYearData with additional filed 'Other' to newArray
-  });
+      const newItem = { ...item, Other: count };
+      return newItem; //return item of genotypesYearData with additional filed 'Other' to newArray
+    })
+    .filter((x) => x.count >= 10);
   let genotypeDataPercentage = structuredClone(newArray);
-  newArrayPercentage = genotypeDataPercentage.map((item) => {
-    const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
-    keys.forEach((key) => {
-      item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
-    });
-    return item;
-  });
+  newArrayPercentage = genotypeDataPercentage
+    .map((item) => {
+      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
+      keys.forEach((key) => {
+        item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
+      });
+      return item;
+    })
+    .filter((x) => x.count >= 10);
 
   function getData() {
     if (distributionGraphView === 'number') return newArray;
@@ -138,7 +152,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi'
+      ? getColorForGenotype(genotype)
+      : colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleChangeDataView(event) {
@@ -175,6 +191,12 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
       setCurrentTooltip(value);
       dispatch(setResetBool(false));
+    } else {
+      setCurrentTooltip({
+        name: event?.activeLabel,
+        count: 'Insufficient data',
+        genotypes: [],
+      });
     }
   }
 
@@ -200,7 +222,28 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (canGetData) {
+      // Get data
       const data = getData();
+
+      if (data.length > 0) {
+        // Add missing years between the select time to show continuous scale
+        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(
+          String,
+        );
+        const years = data.map((x) => x.name);
+
+        allYears.forEach((year) => {
+          if (!years.includes(year)) {
+            data.push({
+              name: year,
+              count: 0,
+              ...Object.fromEntries(topXGenotype.map((key) => [key, 0])),
+            });
+          }
+        });
+
+        data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
+      }
 
       setPlotChart(() => {
         return (
@@ -248,8 +291,14 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                         }
 
                         return (
-                          <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>
-                            <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                          <div
+                            key={`distribution-legend-${index}`}
+                            className={classes.legendItemWrapper}
+                          >
+                            <Box
+                              className={classes.colorCircle}
+                              style={{ backgroundColor: color }}
+                            />
                             <Typography variant="caption">{dataKey}</Typography>
                           </div>
                         );
@@ -347,7 +396,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               </div>
               <SelectCountry />
               <div className={classes.selectWrapper}>
-                <Typography variant="caption">Data view</Typography>
+                <div className={classes.labelWrapper}>
+                  <Typography variant="caption">Data view</Typography>
+                </div>
                 <Select
                   value={distributionGraphView}
                   onChange={handleChangeDataView}

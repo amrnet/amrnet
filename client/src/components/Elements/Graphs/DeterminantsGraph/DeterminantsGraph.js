@@ -1,5 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  IconButton,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './DeterminantsGraphMUI';
 import {
   Bar,
@@ -32,7 +41,10 @@ import {
 } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
-import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
+import {
+  setCaptureRDWG,
+  setGenotypesForFilterSelectedRD,
+} from '../../../../stores/slices/dashboardSlice';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 
@@ -61,7 +73,9 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const genotypesDrugClassesData = useAppSelector((state) => state.graph.genotypesDrugClassesData);
   const determinantsGraphView = useAppSelector((state) => state.graph.determinantsGraphView);
-  const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
+  const determinantsGraphDrugClass = useAppSelector(
+    (state) => state.graph.determinantsGraphDrugClass,
+  );
   const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
   const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
@@ -92,19 +106,28 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
       case 'styphi':
         if (colorForDrugClassesST[determinantsGraphDrugClass] !== undefined)
           return colorForDrugClassesST[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
+            (item) =>
+              topXGenotypeRDWG.includes(item.name) ||
+              item.label === 'Other' ||
+              item.label === 'None',
           );
         break;
       case 'kpneumo':
         if (colorForDrugClassesKP[determinantsGraphDrugClass] !== undefined)
           return colorForDrugClassesKP[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
+            (item) =>
+              topXGenotypeRDWG.includes(item.name) ||
+              item.label === 'Other' ||
+              item.label === 'None',
           );
         break;
       case 'ngono':
         if (colorForDrugClassesNG[determinantsGraphDrugClass] !== undefined)
           return colorForDrugClassesNG[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
+            (item) =>
+              topXGenotypeRDWG.includes(item.name) ||
+              item.label === 'Other' ||
+              item.label === 'None',
           );
         break;
       default:
@@ -122,7 +145,9 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
     return determinantsGraphView === 'number' ? undefined : [0, 100];
   }
 
-  let determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
+  let determinantsGraphDrugClassData = structuredClone(
+    genotypesDrugClassesData[determinantsGraphDrugClass] ?? [],
+  );
   useEffect(() => {
     let mp = new Map(); //mp = total count of a genotype in database(including all years)
     determinantsGraphDrugClassData.forEach((cur) => {
@@ -275,11 +300,13 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (canGetData) {
+      const chartData = getData();
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
             <BarChart
-              data={getData()}
+              data={chartData}
               cursor={isTouchDevice() ? 'default' : 'pointer'}
               onClick={handleClickChart}
               maxBarSize={40}
@@ -303,9 +330,25 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                       {payload.map((entry, index) => {
                         if (!captureRDWG) return null;
                         const { dataKey, color } = entry;
+
+                        if (dataKey === 'Other') {
+                          const hasData = chartData.some((d) => {
+                            const value = d[dataKey];
+                            return value !== undefined && value !== null && value !== 0;
+                          });
+
+                          if (!hasData) return null;
+                        }
+
                         return (
-                          <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>
-                            <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                          <div
+                            key={`distribution-legend-${index}`}
+                            className={classes.legendItemWrapper}
+                          >
+                            <Box
+                              className={classes.colorCircle}
+                              style={{ backgroundColor: color }}
+                            />
                             <Typography variant="caption">{dataKey}</Typography>
                           </div>
                         );
@@ -334,14 +377,19 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                   fill={option.color}
                 />
               ))}
-              <Bar dataKey={'Other'} stackId={0} fill={'#DCDCDC'} />
+              <Bar dataKey={'Other'} stackId={0} fill={'#F5F4F6'} />
             </BarChart>
           </ResponsiveContainer>
         );
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesDrugClassesData, determinantsGraphView, determinantsGraphDrugClass, topXGenotypeRDWG]);
+  }, [
+    genotypesDrugClassesData,
+    determinantsGraphView,
+    determinantsGraphDrugClass,
+    topXGenotypeRDWG,
+  ]);
 
   return (
     <CardContent className={classes.determinantsGraph}>
@@ -403,7 +451,9 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectWrapper}>
-                  <Typography variant="caption">Select drug/class</Typography>
+                  <div className={classes.labelWrapper}>
+                    <Typography variant="caption">Select drug/class</Typography>
+                  </div>
                   <Select
                     value={determinantsGraphDrugClass}
                     onChange={handleChangeDrugClass}
@@ -414,14 +464,18 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                     {getDrugClasses(organism).map((option, index) => {
                       return (
                         <MenuItem key={index + 'determinants-drug-classes'} value={option}>
-                          {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drugAcronymsOpposite[option] || option}
+                          {option === 'Ciprofloxacin NS'
+                            ? 'Ciprofloxacin'
+                            : drugAcronymsOpposite[option] || option}
                         </MenuItem>
                       );
                     })}
                   </Select>
                 </div>
                 <div className={classes.selectWrapper}>
-                  <Typography variant="caption">Data view</Typography>
+                  <div className={classes.labelWrapper}>
+                    <Typography variant="caption">Data view</Typography>
+                  </div>
                   <Select
                     value={determinantsGraphView}
                     onChange={handleChangeDataView}

@@ -208,7 +208,7 @@ export const colorForDrugClassesST = {
     { name: '3_QRDR (CipR)', color: '#cc0000' },
     { name: '3_QRDR + qnrB (CipR)', color: '#660000' },
     { name: '3_QRDR + qnrS (CipR)', color: 'black' },
-    { name: 'None (CipNS)', color: '#B9B9B9' },
+    { name: 'None', color: '#B9B9B9' },
   ],
   Chloramphenicol: [
     { name: 'catA1', color: '#9e9ac8' },
@@ -221,10 +221,10 @@ export const colorForDrugClassesST = {
     { name: 'None', color: '#B9B9B9' },
   ],
   Sulfonamides: [
-    { name: 'None', color: '#B9B9B9' },
     { name: 'sul1', color: '#fd8d3c' },
     { name: 'sul1 + sul2', color: '#B4DD70' },
     { name: 'sul2', color: '#ffeda0' },
+    { name: 'None', color: '#B9B9B9' },
   ],
   Trimethoprim: [
     { name: 'dfrA1', color: '#B4DD70' },
@@ -384,7 +384,6 @@ export const colorForDrugClassesKP = {
     { name: 'GES-2', color: '#e2dfe0' },
     { name: 'GES-9', color: '#dfe4dc' },
     { name: 'KPC-52 + SHV-12', color: '#dce9d8' },
-    { name: 'None', color: '#B9B9B9' },
     { name: 'OXA-163', color: '#daeed4' },
     { name: 'OXA-17', color: '#d3edcd' },
     { name: 'OXA-17 + SHV-12', color: '#c9e9c3' },
@@ -407,6 +406,7 @@ export const colorForDrugClassesKP = {
     { name: 'VEB-5', color: '#0f612a' },
     { name: 'VEB-6', color: '#0a5725' },
     { name: 'VEB-9', color: '#054e20' },
+    { name: 'None', color: '#B9B9B9' },
   ],
   Carbapenems: [
     { name: 'CTX-M-33', color: '#D1E5F0' },
@@ -483,7 +483,6 @@ export const colorForDrugClassesKP = {
     { name: 'NDM-7', color: '#9270DB' },
     { name: 'NDM-7 + OXA-232', color: '#9270DB' },
     { name: 'NDM-9', color: '#FC4E2A' },
-    { name: 'None', color: '#B9B9B9' },
     { name: 'OXA-162', color: '#556B2F' },
     { name: 'OXA-181', color: '#E31A1C' },
     { name: 'OXA-204', color: '#2166AC' },
@@ -506,6 +505,7 @@ export const colorForDrugClassesKP = {
     { name: 'VIM-33', color: '#67001F' },
     { name: 'VIM-4', color: '#4A0082' },
     { name: 'VIM-5', color: '#40004B' },
+    { name: 'None', color: '#B9B9B9' },
   ],
 };
 
