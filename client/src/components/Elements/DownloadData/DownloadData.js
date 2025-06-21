@@ -332,6 +332,7 @@ export const DownloadData = () => {
         // Update the filename to reflect TSV format
         download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
       })
+      .catch((error) => {console.error('Error downloading database:', error)})
       .finally(() => {
         setLoadingCSV(false);
       });
