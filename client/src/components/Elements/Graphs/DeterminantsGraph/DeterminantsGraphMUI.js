@@ -178,6 +178,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  labelWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: '8px',
+    paddingBottom: '4px',
+  },
 }));
 
 export { useStyles };

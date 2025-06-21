@@ -1,7 +1,18 @@
 import { useStyles } from './SelectCountryMUI';
-import { /*Card, CardContent,*/ MenuItem, Select /*Typography*/, Typography } from '@mui/material';
+import {
+  /*Card, CardContent,*/ MenuItem,
+  Select /*Typography*/,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice';
+import {
+  setActualCountry,
+  setActualRegion,
+  setCanFilterData,
+} from '../../../stores/slices/dashboardSlice';
+import { useMemo } from 'react';
+import { InfoOutlined } from '@mui/icons-material';
 // import { useMemo } from 'react';
 
 export const SelectCountry = ({ hideAll = false }) => {
@@ -15,6 +26,22 @@ export const SelectCountry = ({ hideAll = false }) => {
   // const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
+  const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
+  const mapData = useAppSelector((state) => state.map.mapData);
+
+  const filteredRegions = useMemo(() => {
+    return mapRegionData
+      .filter((x) => x.count >= 20 && x.name !== 'All')
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [mapRegionData]);
+
+  const filteredCountries = useMemo(() => {
+    const countries = actualRegion === 'All' ? countriesForFilter : economicRegions[actualRegion];
+
+    return mapData
+      .filter((x) => countries.includes(x.name))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [actualRegion, countriesForFilter, economicRegions, mapData]);
 
   function handleChangeRegion(event) {
     dispatch(setActualCountry('All'));
@@ -26,7 +53,8 @@ export const SelectCountry = ({ hideAll = false }) => {
     const country = event.target.value;
 
     if (!(actualRegion !== 'All' && country === 'All')) {
-      const region = Object.keys(economicRegions).find((key) => economicRegions[key].includes(country)) ?? 'All';
+      const region =
+        Object.keys(economicRegions).find((key) => economicRegions[key].includes(country)) ?? 'All';
       dispatch(setActualRegion(region));
     }
 
@@ -100,6 +128,9 @@ export const SelectCountry = ({ hideAll = false }) => {
     <div className={classes.selectWrapper}>
       <div className={classes.labelWrapper}>
         <Typography variant="caption">Select region</Typography>
+        <Tooltip title="Only show regions with N≥20 genomes." placement="top">
+          <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+        </Tooltip>
       </div>
       <Select
         value={actualRegion}
@@ -109,6 +140,12 @@ export const SelectCountry = ({ hideAll = false }) => {
           classes: { paper: classes.menuPaper, list: classes.selectMenu },
         }}
         disabled={organism === 'none'}
+        renderValue={(selected) => {
+          if (selected === 'All') {
+            return 'All regions';
+          }
+          return selected;
+        }}
       >
         {hideAll ? (
           <MenuItem value="All" disabled>
@@ -117,15 +154,13 @@ export const SelectCountry = ({ hideAll = false }) => {
         ) : (
           <MenuItem value="All">All regions</MenuItem>
         )}
-        {Object.keys(economicRegions)
-          .sort()
-          .map((country, index) => {
-            return (
-              <MenuItem key={index + 'mapview'} value={country}>
-                {country}
-              </MenuItem>
-            );
-          })}
+        {filteredRegions.map((region, index) => {
+          return (
+            <MenuItem key={index + 'mapview'} value={region.name}>
+              {region.name} (total N={region.count})
+            </MenuItem>
+          );
+        })}
       </Select>
       <div style={{ paddingTop: '8px' }}></div>
       <div className={classes.labelWrapper}>
@@ -139,18 +174,26 @@ export const SelectCountry = ({ hideAll = false }) => {
           classes: { paper: classes.menuPaper, list: classes.selectMenu },
         }}
         disabled={organism === 'none'}
+        renderValue={(selected) => {
+          if (selected === 'All') {
+            return actualRegion !== 'All' ? 'All countries in region' : 'All countries';
+          }
+          return selected;
+        }}
       >
         {hideAll ? (
           <MenuItem value="All" disabled>
             Select a country
           </MenuItem>
         ) : (
-          <MenuItem value="All">{actualRegion !== 'All' ? 'All countries in region' : 'All countries'}</MenuItem>
+          <MenuItem value="All">
+            {actualRegion !== 'All' ? 'All countries in region' : 'All countries'}
+          </MenuItem>
         )}
-        {(actualRegion === 'All' ? countriesForFilter : economicRegions[actualRegion]).map((country, index) => {
+        {filteredCountries.map((country, index) => {
           return (
-            <MenuItem key={index + 'mapview'} value={country}>
-              {country}
+            <MenuItem key={index + 'mapview'} value={country.name}>
+              {country.name} (total N={country.count})
             </MenuItem>
           );
         })}

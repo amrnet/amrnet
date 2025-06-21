@@ -25,8 +25,19 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDrugResistanceGraphView, setStarttimeDRT, setEndtimeDRT } from '../../../../stores/slices/graphSlice';
-import { ciproAcronyms, drugAcronymsOpposite, drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
+import {
+  setDrugResistanceGraphView,
+  setStarttimeDRT,
+  setEndtimeDRT,
+} from '../../../../stores/slices/graphSlice';
+import {
+  ciproAcronyms,
+  drugAcronymsOpposite,
+  drugsINTS,
+  drugsKP,
+  drugsNG,
+  drugsST,
+} from '../../../../util/drugs';
 import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -170,13 +181,13 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       } = event;
       newValues = value;
     }
-    newValues.sort((a, b) => a.localeCompare(b));
+    newValues.sort((a, b) => getDrugs().indexOf(a) - getDrugs().indexOf(b));
     dispatch(setDrugResistanceGraphView(newValues));
   }
 
   function handleClickChart(event) {
     const year = event?.activeLabel;
-    const data = drugsYearData.find((item) => item.name.toString() === year?.toString());
+    const data = trendsData?.find((item) => item.name.toString() === year?.toString());
 
     if (data && drugResistanceGraphView.length > 0) {
       const currentData = structuredClone(data);
@@ -210,10 +221,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
-    } else if (year) {
+    } else {
       setCurrentTooltip({
         name: year,
-        count: 0,
+        count: 'Insufficient data',
         drugs: [],
       });
     }
@@ -245,7 +256,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
       if (data.length > 0) {
         // Add missing years between the select time to show continuous scale
-        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
+        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(
+          String,
+        );
         const years = data.map((x) => x.name);
         const keys = Object.keys(data[0]).filter((key) => !['name', 'count'].includes(key));
 
@@ -259,13 +272,17 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
           }
         });
 
-        data.sort((a, b) => a.name.localeCompare(b.name));
+        data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
       }
 
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <LineChart data={data} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
+            <LineChart
+              data={data}
+              cursor={isTouchDevice() ? 'default' : 'pointer'}
+              onClick={handleClickChart}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 tickCount={20}
@@ -326,8 +343,14 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                             dataKeyElement = ciproAcronyms[dataKey] || dataKey;
                           }
                           return (
-                            <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
-                              <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                            <div
+                              key={`drug-resistance-legend-${index}`}
+                              className={classes.legendItemWrapper}
+                            >
+                              <Box
+                                className={classes.colorCircle}
+                                style={{ backgroundColor: color }}
+                              />
                               <Typography variant="caption">{dataKeyElement}</Typography>
                             </div>
                           );
@@ -453,7 +476,11 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                     title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
                     placement="top"
                   >
-                    <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                    <InfoOutlined
+                      color="action"
+                      fontSize="small"
+                      className={classes.labelTooltipIcon}
+                    />
                   </Tooltip>
                 </div>
                 <Select
@@ -468,21 +495,29 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                       className={classes.selectButton}
                       onClick={() => handleChangeDrugsView({ all: true })}
                       disabled={organism === 'none'}
-                      color={drugResistanceGraphView.length === getDrugs()?.length ? 'error' : 'primary'}
+                      color={
+                        drugResistanceGraphView.length === getDrugs()?.length ? 'error' : 'primary'
+                      }
                     >
-                      {drugResistanceGraphView.length === getDrugs()?.length ? 'Clear All' : 'Select All'}
+                      {drugResistanceGraphView.length === getDrugs()?.length
+                        ? 'Clear All'
+                        : 'Select All'}
                     </Button>
                   }
                   inputProps={{ className: classes.selectInput }}
                   MenuProps={{
                     classes: { paper: classes.menuPaper, list: classes.selectMenu },
                   }}
-                  renderValue={(selected) => <div>{`${selected.length} of ${getDrugs()?.length} selected`}</div>}
+                  renderValue={(selected) => (
+                    <div>{`${selected.length} of ${getDrugs()?.length} selected`}</div>
+                  )}
                 >
                   {getDrugs()?.map((drug, index) => (
                     <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
                       <Checkbox checked={drugResistanceGraphView.indexOf(drug) > -1} />
-                      <ListItemText primary={drugAcronymsOpposite[drug] || ciproAcronyms[drug] || drug} />
+                      <ListItemText
+                        primary={drugAcronymsOpposite[drug] || ciproAcronyms[drug] || drug}
+                      />
                     </MenuItem>
                   ))}
                 </Select>

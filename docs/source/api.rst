@@ -183,7 +183,7 @@ Example code to download the data with filters **DATE** and **COUNTRY** for an o
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>"
-                "filter": {"$and": [{"DATE": "2015"}, {"COUNTRY": "United Kingdom"}]}
+                "filter": {"$and": [{"DATE": "2015"},{"COUNTRY": "United Kingdom"}]}
             }'
 
 Example code to download the data with only one filter e.g. **DATE** for an organism:
@@ -201,11 +201,10 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
                 "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
             }'
-    Example code to download the data and save in JSON:
+Example code to download the data and save in JSON:
 
 
 .. code-block:: bash
-
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
@@ -215,9 +214,7 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
-            }' >> output.json
-    Example code to download the data and save in CSV:
-
+            }' > output.json
 
 .. note::
 
@@ -236,7 +233,6 @@ To download data using our API, please follow the given steps:
 
 b. Platform
 ***********
-
 .. note::
 
     Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API.
@@ -274,6 +270,8 @@ Steps to Import the Example ``cURL`` Command using Postman
    :width: 100%
    :align: center
    :alt: filter
+
+
 
 
 9. **Click "Send" to execute the request and view the response.** 

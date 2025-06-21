@@ -28,6 +28,8 @@ interface StatsModel {
   CipR: ItemsModel;
   CipNS: ItemsModel;
   NGMAST: ItemsModel;
+  PATHOTYPE?: ItemsModel;
+  SEROTYPE?: ItemsModel;
 }
 
 interface MapDataModel {

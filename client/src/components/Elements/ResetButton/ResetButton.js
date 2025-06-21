@@ -13,7 +13,6 @@ import {
 import { setDataset, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice';
 import {
-  setCollapses,
   setConvergenceColourPallete,
   setConvergenceColourVariable,
   setConvergenceGroupVariable,
@@ -58,13 +57,6 @@ export const ResetButton = () => {
 
   async function handleClick() {
     dispatch(setCanGetData(false));
-    dispatch(
-      setCollapses({
-        continent: false,
-        all: true,
-        map: true,
-      }),
-    );
 
     dispatch(setDataset('All'));
     dispatch(setActualTimeInitial(timeInitial));
@@ -88,7 +80,9 @@ export const ResetButton = () => {
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
-      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)));
+      dispatch(
+        setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)),
+      );
     } else {
       dispatch(setMapView('Resistance prevalence'));
       dispatch(setDrugResistanceGraphView(drugsKP));
