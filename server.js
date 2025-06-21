@@ -57,8 +57,8 @@ app.use('/', function (req, res) {
 });
 
 // Start the API server and log a message when it's ready
-app.listen(PORT, () => {
-  console.log(
-    `Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`,
+const server = app.listen(process.env.PORT || 5000, () => {
+  const port = server.address().port;
+  console.log(`Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`,
   );
 });
