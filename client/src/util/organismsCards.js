@@ -20,7 +20,7 @@ export const organismsCards = [
     ),
     stringLabel: 'Salmonella (invasive non-typhoidal)',
     value: 'sentericaints',
-    abbr: 'Salmonella (iNT)',
+    abbr: 'Salmonella (INT)',
     img: ints,
   },
   {
@@ -92,6 +92,6 @@ export const organismsCards = [
   },
 ];
 
-export const amrLikeOrganisms = ['decoli', 'ecoli', 'shige', 'sentericaints'];
+export const amrLikeOrganisms = ['decoli', 'ecoli', 'shige', 'sentericaints', 'senterica'];
 
 export const organismsWithLotsGenotypes = ['ecoli', 'decoli', 'senterica', 'kpneumo', 'ngono'];
