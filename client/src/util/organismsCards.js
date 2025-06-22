@@ -76,7 +76,7 @@ export const organismsCards = [
     ),
     stringLabel: 'Escherichia coli (diarrheagenic)',
     value: 'decoli',
-    abbr: 'E. coli (DEC)',
+    abbr: 'E. coli (diarrheagenic)',
     img: decoli,
   },
   {

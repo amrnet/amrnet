@@ -1,9 +1,10 @@
+# File: docs/source/api.rst
 Data access
 ===========
 
 The full sample-level data for each organism can be downloaded from the AMRnet dashboard itself, using the ‘Download database (CSV) format’ button at the bottom of the page. In addition, you can access AMRnet data via the API described below.
 
-**Architectures**: The API architectures have 2 options developed for the project which includes:
+**Architectures**: The API architectures have 2 options developed for the project which include:
 
 .. **OPTION 1:**
 
@@ -59,8 +60,6 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 1. Download data via bucket
 ---------------------------
 
-
-
 .. note:: **Organism name for downloading files from AWS:** 
     Escherichia coli (diarrheagenic) as ``decoli``; 
     Escherichia coli as ``ecoli``; 
@@ -70,7 +69,6 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
     Salmonella (non-typhoidal) as ``senterica``; 
     Shigella as ``shige``; 
     Salmonella Typhi as ``styphi``
-
 
 a. Data accessing using Browser
 ******************************************
@@ -150,7 +148,6 @@ Example:
 
         Organism Name: Escherichia coli
 
-
 2. You will receive email from us with all the necessary detailed. like: **API_TOKEN_KEY, collection, database, dataSource**.
 3. Once you received these details use the method below to download required data.
 4. To download data with specific COUNTRY and DATE add a **filter**.
@@ -172,7 +169,6 @@ Example code to download all the data for an organism:
 
 Example code to download the data with filters **DATE** and **COUNTRY** for an organism:
 
-
 .. code-block:: bash
 
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
@@ -182,13 +178,12 @@ Example code to download the data with filters **DATE** and **COUNTRY** for an o
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"<dataSource_NAME>"
+                "dataSource":"<dataSource_NAME>",
                 "filter": {"$and": [{"DATE": "2015"},{"COUNTRY": "United Kingdom"}]}
             }'
 
 Example code to download the data with only one filter e.g. **DATE** for an organism:
 
-
 .. code-block:: bash
 
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
@@ -198,7 +193,7 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"<dataSource_NAME>"
+                "dataSource":"<dataSource_NAME>",
                 "filter": {"DATE": "2015"}
             }'
 Example code to download the data and save in JSON:
@@ -212,14 +207,13 @@ Example code to download the data and save in JSON:
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"<dataSource_NAME>"
+                "dataSource":"<dataSource_NAME>",
                 "filter": {"DATE": "2015"}
             }' > output.json
 
 .. note::
 
     To test your cURL requests, you can use the online tool `Run Curl Commands Online <https://reqbin.com/curl>`_. This tool provides a convenient way to execute and test your cURL commands directly in your web browser without needing to install any additional software.
-
 
 a. Command line
 ***************
@@ -270,9 +264,6 @@ Steps to Import the Example ``cURL`` Command using Postman
    :width: 100%
    :align: center
    :alt: filter
-
-
-
 
 9. **Click "Send" to execute the request and view the response.** 
 
