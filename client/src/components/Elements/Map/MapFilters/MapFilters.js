@@ -192,9 +192,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   }, [ngmastDrugData]);
 
   const currentMapLegends = useMemo(() => {
-    return mapLegends
-      .filter((legend) => legend.organisms.includes(organism))
-      .sort((a, b) => a.label.localeCompare(b.label));
+    return mapLegends.filter((legend) => legend.organisms.includes(organism));
   }, [organism]);
 
   const hasZeroPercentOption = useMemo(() => {

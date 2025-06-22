@@ -37,6 +37,11 @@ export const mapLegends = [
   // { value: 'Pansusceptible', label: 'Pansusceptible', organisms: ['ngono'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
   {
+    value: 'Resistance prevalence',
+    label: 'Resistance prevalence',
+    organisms: organismsCards.map((x) => x.value),
+  },
+  {
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
     organisms: organismsCards
@@ -49,22 +54,12 @@ export const mapLegends = [
     organisms: ['kpneumo'],
   },
   {
-    value: 'Resistance prevalence',
-    label: 'Resistance prevalence',
-    organisms: organismsCards.map((x) => x.value),
-  },
-  {
     value: 'Lineage prevalence',
     label: 'Lineage prevalence',
     organisms: ['sentericaints'],
   },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
-  {
-    value: 'No. Samples',
-    label: 'No. Samples',
-    organisms: organismsCards.map((x) => x.value),
-  },
   {
     value: 'Serotype prevalence',
     label: 'Serotype prevalence',
@@ -74,5 +69,10 @@ export const mapLegends = [
     value: 'Pathotype prevalence',
     label: 'Pathotype prevalence',
     organisms: ['ecoli'],
+  },
+  {
+    value: 'No. Samples',
+    label: 'No. Samples',
+    organisms: organismsCards.map((x) => x.value),
   },
 ];
