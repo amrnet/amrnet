@@ -1,5 +1,3 @@
-# File: server.js
-// import connectDB from './config/db.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
 import generateFileClean from './routes/api/generateDataClean.js';
 import api from './routes/api/api.js';
