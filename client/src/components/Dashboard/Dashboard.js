@@ -468,14 +468,11 @@ export const DashboardPage = () => {
           dispatch(setTrendsGraphView('percentage'));
           break;
         case 'sentericaints':
-          dispatch(setMapView('Resistance prevalence'));
-          dispatch(setDrugResistanceGraphView(drugsINTS));
-          break;
         case 'ecoli':
         case 'decoli':
         case 'shige':
         case 'senterica':
-          dispatch(setMapView('Resistance prevalence'));
+          dispatch(setMapView(organism === 'senterica' ? 'No. Samples' : 'Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsINTS));
           break;
         default:
