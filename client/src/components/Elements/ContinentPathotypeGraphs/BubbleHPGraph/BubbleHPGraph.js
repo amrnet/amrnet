@@ -46,8 +46,8 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
 
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const mapData = useAppSelector((state) => state.map.mapData);
-  const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
+  const mapData = useAppSelector((state) => state.map.mapDataNoPathotype);
+  const mapRegionData = useAppSelector((state) => state.map.mapRegionDataNoPathotype);
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);

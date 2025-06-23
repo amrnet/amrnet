@@ -217,7 +217,8 @@ export function getCountryDisplayName(country) {
 function getMapStatsData({ itemData, columnKey, statsKey, noItems = false, organism }) {
   const totalLength = itemData.length;
   const columnDataMap = itemData.reduce((acc, item) => {
-    const key = item[columnKey];
+    const rawKey = item[columnKey];
+    const key = rawKey === undefined ? '-' : rawKey;
     acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {});
@@ -403,7 +404,12 @@ export function getMapData({ data, items, organism, type = 'country' }) {
           percentage: Number(((count / data.length) * 100).toFixed(2)),
         };
       } else {
-        stats[name] = getMapStatsData({ itemData, columnKey: column, statsKey: key, organism });
+        stats[name] = getMapStatsData({
+          itemData,
+          columnKey: column,
+          statsKey: key,
+          organism,
+        });
       }
     });
 
@@ -990,6 +996,7 @@ export function getGenotypesData({
 
     if (organism === 'styphi') {
       drugRulesST.forEach((rule) => {
+        drugClassResponse.resistantCount = 0;
         const countryDrugClass = getYearsLocationData({
           drugClassResponse: drugClassResponse,
           items: countries,
@@ -1011,6 +1018,7 @@ export function getGenotypesData({
       });
     } else if (organism === 'kpneumo') {
       Object.keys(drugClassesRulesKP).forEach((key) => {
+        drugClassResponse.resistantCount = 0;
         const countryDrugClass = getYearsLocationData({
           drugClassResponse: drugClassResponse,
           items: countries,
@@ -1033,6 +1041,7 @@ export function getGenotypesData({
     } else if (organism === 'ngono') {
       const drugClassesToInclude = ['Azithromycin', 'Ceftriaxone'];
       drugRulesNG.forEach((rule) => {
+        drugClassResponse.resistantCount = 0;
         if (drugClassesToInclude.includes(rule.key)) {
           const countryDrugClass = getYearsLocationData({
             drugClassResponse: drugClassResponse,
@@ -1056,6 +1065,7 @@ export function getGenotypesData({
       });
     } else {
       drugRulesINTS.forEach((rule) => {
+        drugClassResponse.resistantCount = 0;
         const countryDrugClass = getYearsLocationData({
           drugClassResponse: drugClassResponse,
           items: countries,

@@ -34,6 +34,7 @@ import {
   colorForDrugClassesNG,
   colorForDrugClassesKP,
   hoverColor,
+  lightGrey,
 } from '../../../../util/colorHelper';
 import {
   setTrendsGraphDrugClass,
@@ -240,7 +241,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
   function handleClickChart(event) {
     const data = slicedData.find((item) => item.name === event?.activeLabel);
 
-    if (data) {
+    if (data && data.totalCount > 0) {
       const currentData = structuredClone(data);
       const value = {
         name: currentData.name,
@@ -281,7 +282,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     } else {
       setCurrentTooltip({
         name: event?.activeLabel,
-        count: 'Insufficient data',
+        count: 'ID',
         genes: [],
         genotypes: [],
       });
@@ -331,6 +332,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
               ...Object.fromEntries(
                 [...topGenotypeSlice, 'Other Genotypes'].map((key) => [key, 0]),
               ),
+              'Insufficient data': trendsGraphView === 'number' ? 0 : 100,
             });
           }
         });
@@ -398,6 +400,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                   content={(props) => {
                     const { payload } = props;
                     let diviserIndex = topGenesSlice.length === 0 ? 0 : topGenesSlice.length + 1;
+                    diviserIndex += 1;
 
                     return (
                       <div className={classes.legendWrapper}>
@@ -474,6 +477,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                   );
                 },
               )}
+              <Bar yAxisId="left" dataKey={'Insufficient data'} stackId={0} fill={lightGrey} />
 
               {switchLines &&
                 [...topGenotypeSlice, 'Other Genotypes'].map((option, index) => (
@@ -528,35 +532,53 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                   <Typography variant="h5" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
-                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                  {currentTooltip.count !== 'ID' && (
+                    <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                  )}
                 </div>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <Tabs value={tooltipTab} onChange={handleChangeTooltipTab} variant="fullWidth">
-                    <Tab label="AMR" value="genes" />
-                    {switchLines && <Tab label="Types" value="genotypes" />}
-                  </Tabs>
-                </Box>
-                <div className={classes.tooltipContent}>
-                  {currentTooltip[tooltipTab].map((item, index) => {
-                    return (
-                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                        <Box
-                          className={classes.tooltipItemBox}
-                          style={{
-                            backgroundColor: item.color,
-                          }}
-                        />
-                        <div className={classes.tooltipItemStats}>
-                          <Typography variant="body2" fontWeight="500">
-                            {item.label}
-                          </Typography>
-                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                {currentTooltip.count === 'ID' ? (
+                  <div className={classes.insufficientData}>Insufficient data</div>
+                ) : (
+                  <>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                      <Tabs
+                        value={tooltipTab}
+                        onChange={handleChangeTooltipTab}
+                        variant="fullWidth"
+                      >
+                        <Tab label="AMR" value="genes" />
+                        {switchLines && <Tab label="Types" value="genotypes" />}
+                      </Tabs>
+                    </Box>
+                    <div className={classes.tooltipContent}>
+                      {currentTooltip[tooltipTab].map((item, index) => {
+                        return (
+                          <div
+                            key={`tooltip-content-${index}`}
+                            className={classes.tooltipItemWrapper}
+                          >
+                            <Box
+                              className={classes.tooltipItemBox}
+                              style={{
+                                backgroundColor: item.color,
+                              }}
+                            />
+                            <div className={classes.tooltipItemStats}>
+                              <Typography variant="body2" fontWeight="500">
+                                {item.label}
+                              </Typography>
+                              <Typography
+                                variant="caption"
+                                noWrap
+                              >{`N = ${item.count}`}</Typography>
+                              <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
               </div>
             ) : (
               <div className={classes.noYearSelected}>No year selected</div>
