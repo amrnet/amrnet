@@ -48,7 +48,7 @@ const kpTrendOptions = Object.keys(drugClassesRulesKP)
       organism: 'kpneumo',
       key: drug,
       value: `kp-trends-${drug.toLowerCase()}`,
-      label: label,
+      label: `${label} genes`,
     };
   })
   .sort((a, b) => a.key.localeCompare(b.key));
