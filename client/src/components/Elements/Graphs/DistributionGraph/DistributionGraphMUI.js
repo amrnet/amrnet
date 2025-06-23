@@ -103,6 +103,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '100%',
   },
+  insufficientData: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    color: 'red',
+    fontWeight: '600',
+  },
   tooltip: {
     width: '100%',
     height: '450px',
