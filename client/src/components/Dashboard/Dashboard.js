@@ -34,7 +34,9 @@ import {
 import {
   setDataset,
   setMapData,
+  setMapDataNoPathotype,
   setMapRegionData,
+  setMapRegionDataNoPathotype,
   setMapView,
   setPosition,
 } from '../../stores/slices/mapSlice.ts';
@@ -98,6 +100,7 @@ import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
 import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
+import { continentPGraphCard } from '../../util/graphCards';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
@@ -273,16 +276,16 @@ export const DashboardPage = () => {
         getMapData({ data: responseData, items: countries, organism }),
       ).then((mapData) => {
         dispatch(setMapData(mapData));
+        dispatch(setMapDataNoPathotype(mapData));
       }),
 
       // Get regions data
-      ['styphi', 'ngono', 'kpneumo', 'shige', 'decoli', 'ecoli', 'sentericaints'].includes(organism)
-        ? getStoreOrGenerateData(`${organism}_map_regions`, async () =>
-            getMapData({ data: responseData, items: ecRegions, organism, type: 'region' }),
-          ).then((mapData) => {
-            dispatch(setMapRegionData(mapData));
-          })
-        : Promise.resolve(),
+      getStoreOrGenerateData(`${organism}_map_regions`, async () =>
+        getMapData({ data: responseData, items: ecRegions, organism, type: 'region' }),
+      ).then((mapData) => {
+        dispatch(setMapRegionData(mapData));
+        dispatch(setMapRegionDataNoPathotype(mapData));
+      }),
 
       // Get genotypes data
       getStoreOrGenerateData(`${organism}_genotype`, () => {
@@ -509,6 +512,8 @@ export const DashboardPage = () => {
       dispatch(setActualCountry('All'));
       dispatch(setActualRegion('All'));
       dispatch(setMapData([]));
+      dispatch(setMapRegionDataNoPathotype([]));
+      dispatch(setMapDataNoPathotype([]));
       dispatch(setGenotypesYearData([]));
       dispatch(setDrugsYearData([]));
       dispatch(setGenotypesDrugsData([]));
@@ -663,12 +668,23 @@ export const DashboardPage = () => {
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
-      dispatch(setMapData(getMapData({ data: filters.data, items: countriesForFilter, organism })));
-      dispatch(
-        setMapRegionData(
-          getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' }),
-        ),
-      );
+
+      const mapData = getMapData({ data: filters.data, items: countriesForFilter, organism });
+      dispatch(setMapData(mapData));
+      const mapRegionData = getMapData({
+        data: filters.data,
+        items: economicRegions,
+        organism,
+        type: 'region',
+      });
+      dispatch(setMapRegionData(mapRegionData));
+
+      if (continentPGraphCard.organisms.includes(organism)) {
+        if (currentTimeInitial !== actualTimeInitial || currentTimeFinal !== actualTimeFinal) {
+          dispatch(setMapDataNoPathotype(mapData));
+          dispatch(setMapRegionDataNoPathotype(mapRegionData));
+        }
+      }
 
       const genotypesData = getGenotypesData({
         data: filteredData,

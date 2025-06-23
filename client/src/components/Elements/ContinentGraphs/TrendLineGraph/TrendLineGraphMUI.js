@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   selectPreWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px',
+    gap: '8px',
     width: '100%',
   },
   selectWrapper: {
@@ -125,6 +125,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '100%',
   },
+  insufficientData: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    color: 'red',
+    fontWeight: '600',
+  },
   tooltip: {
     width: '100%',
     height: '100%',
@@ -133,15 +141,20 @@ const useStyles = makeStyles((theme) => ({
   },
   tooltipTitle: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     padding: '16px 16px 8px',
     borderBottom: '1px solid #fff',
+    columnGap: '8px',
+    alignItems: 'flex-end',
   },
   tooltipInfo: {
     display: 'flex',
-    flexDirection: 'row',
-    columnGap: '8px',
-    alignItems: 'flex-end',
+    flexDirection: 'column',
+    padding: '8px 16px',
+    borderBottom: '1px solid #fff',
+    gap: '8px',
+    maxHeight: '100px',
+    overflowY: 'auto',
   },
   tooltipContent: {
     display: 'grid',

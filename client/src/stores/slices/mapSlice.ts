@@ -50,6 +50,8 @@ interface MapState {
   mapColoredBy: string;
   yAxisType: string;
   yAxisTypeTrend: string;
+  mapDataNoPathotype: Array<MapDataModel>;
+  mapRegionDataNoPathotype: Array<MapDataModel>;
 }
 
 const initialState: MapState = {
@@ -66,6 +68,8 @@ const initialState: MapState = {
   mapColoredBy: 'country',
   yAxisType: 'resistance',
   yAxisTypeTrend: '',
+  mapDataNoPathotype: [],
+  mapRegionDataNoPathotype: [],
 };
 
 export const mapSlice = createSlice({
@@ -103,6 +107,12 @@ export const mapSlice = createSlice({
     setYAxisTypeTrend: (state, action: PayloadAction<string>) => {
       state.yAxisTypeTrend = action.payload;
     },
+    setMapDataNoPathotype: (state, action: PayloadAction<Array<any>>) => {
+      state.mapDataNoPathotype = action.payload;
+    },
+    setMapRegionDataNoPathotype: (state, action: PayloadAction<Array<any>>) => {
+      state.mapRegionDataNoPathotype = action.payload;
+    },
   },
 });
 
@@ -117,6 +127,8 @@ export const {
   setMapColoredBy,
   setYAxisType,
   setYAxisTypeTrend,
+  setMapDataNoPathotype,
+  setMapRegionDataNoPathotype,
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

@@ -30,6 +30,12 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { hoverColor, lightGrey } from '../../../../util/colorHelper';
 import { Close, InfoOutlined } from '@mui/icons-material';
 import { drugAcronyms, drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
+import { getRange } from '../../../../util/helpers';
+
+const dataViewOptions = [
+  { label: 'Number per year', value: 'number' },
+  { label: 'Percentage per year', value: 'percentage' },
+];
 
 export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -37,6 +43,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   const [plotChart, setPlotChart] = useState(() => {});
   const [geoType, setGeoType] = useState('country');
   const [geoSelected, setGeoSelected] = useState([]);
+  const [dataView, setDataView] = useState('percentage');
 
   const countriesYearData = useAppSelector((state) => state.graph.countriesYearData);
   const regionsYearData = useAppSelector((state) => state.graph.regionsYearData);
@@ -44,8 +51,6 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
   const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
   const organism = useAppSelector((state) => state.dashboard.organism);
-  const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
-  const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const mapData = useAppSelector((state) => state.map.mapData);
   const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
   const genotypesAndDrugsYearData = useAppSelector(
@@ -58,16 +63,10 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
 
   const currentData = useMemo(() => {
     if (geoType === 'country') {
-      return countriesYearData?.[drugClass] || [];
+      return countriesYearData?.[drugClass]?.filter((x) => x.totalCount >= 10) || [];
     }
-    return regionsYearData?.[drugClass] || [];
+    return regionsYearData?.[drugClass]?.filter((x) => x.totalCount >= 10) || [];
   }, [geoType, regionsYearData, drugClass, countriesYearData]);
-
-  const linesWithZero = useMemo(() => {
-    return (geoType === 'country' ? countriesForFilter : Object.keys(economicRegions)).filter(
-      (key) => currentData?.some((item) => item[key] && item[key] !== 0),
-    );
-  }, [countriesForFilter, currentData, economicRegions, geoType]);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -110,17 +109,15 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   }, [geneOptions]);
 
   const geoOptions = useMemo(() => {
-    switch (geoType) {
-      case 'country':
-        return countriesForFilter.filter((x) => linesWithZero.includes(x));
-      case 'region':
-        return Object.keys(economicRegions)
-          .filter((x) => linesWithZero.includes(x))
-          .sort();
-      default:
-        return [];
-    }
-  }, [countriesForFilter, economicRegions, geoType, linesWithZero]);
+    const data = geoType === 'country' ? mapData : mapRegionData;
+
+    return data
+      .filter(
+        (x) => x.count >= 20 && currentData?.some((item) => item[x.name] && item[x.name] !== 0),
+      )
+      .map((x) => x.name)
+      .sort();
+  }, [currentData, geoType, mapData, mapRegionData]);
 
   useEffect(() => {
     setGeoSelected(
@@ -174,38 +171,67 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
     setDrugGene(event.target.value);
   }
 
+  function handleChangeDataView(event) {
+    setDataView(event.target.value);
+    setCurrentTooltip(null);
+  }
+
   const geneData = useMemo(() => {
     return currentData.map((item) => {
       const currentItem = { ...item };
       const keys = Object.keys(currentItem).filter(
         (key) => !['items', 'name', 'resistantCount', 'totalCount'].includes(key),
       );
+
       keys.forEach((key) => {
-        currentItem[key] = currentItem.items[key][drugGene] || 0;
+        const count = currentItem.items[key][drugGene === 'All' ? 'resistantCount' : drugGene] || 0;
+
+        if (dataView === 'percentage') {
+          currentItem[key] = Number(((count / item.totalCount) * 100).toFixed(2));
+          return;
+        }
+
+        currentItem[key] = count;
       });
       return currentItem;
     });
-  }, [currentData, drugGene]);
+  }, [currentData, dataView, drugGene]);
 
   function handleClickChart(event) {
     const data = geneData?.find((item) => item.name === event?.activeLabel);
-    if (data && geoSelected.length > 0) {
+
+    if (data && data.totalCount > 0 && geoSelected.length > 0) {
       const actualData = structuredClone(data);
 
       const value = {
         name: actualData.name,
         count: actualData.totalCount,
+        drugText: `${drugClass}: ${actualData.resistantCount} (${Number(
+          ((actualData.resistantCount / actualData.totalCount) * 100).toFixed(2),
+        )}%)`,
+        geneText: '',
         geo: [],
       };
       delete actualData.name;
-      delete actualData.count;
+      delete actualData.totalCount;
+      delete actualData.resistantCount;
 
+      const geneCount = {};
       Object.keys(actualData).forEach((key) => {
+        const count =
+          actualData.items[key]?.[drugGene === 'All' ? 'resistantCount' : drugGene] || 0;
+
+        if (drugGene === 'All') {
+          geneOptions.forEach((x) => {
+            geneCount[x] = (geneCount[x] || 0) + count;
+          });
+        } else {
+          geneCount[drugGene] = (geneCount[drugGene] || 0) + count;
+        }
+
         if (!geoSelected.includes(key)) {
           return;
         }
-
-        const count = actualData[key];
 
         if (!count || count === 0) {
           return;
@@ -220,7 +246,25 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
         value.geo.sort((a, b) => b.count - a.count);
       });
 
+      const count = geneCount[drugGene] || 0;
+      if (drugGene !== 'All') {
+        value.geneText = `${drugGene}: ${count} (${Number(
+          ((count / value.count) * 100).toFixed(2),
+        )}%)`;
+      } else {
+        value.geneText = geneOptions.map((gene) => {
+          const count = geneCount[gene] || 0;
+          return `${gene}: ${count} (${Number(((count / value.count) * 100).toFixed(2))}%)`;
+        });
+      }
+
       setCurrentTooltip(value);
+    } else {
+      setCurrentTooltip({
+        name: event?.activeLabel,
+        count: 'ID',
+        geo: [],
+      });
     }
   }
 
@@ -235,11 +279,37 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
         lines[index].style.display = hasValue ? 'block' : 'none';
       }
 
+      // Get data
+      const data = geneData.slice();
+
+      if (data.length > 0) {
+        // Add missing years between the select time to show continuous scale
+        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(
+          String,
+        );
+        const years = data.map((x) => x.name);
+        const keys = Object.keys(data[0]).filter(
+          (key) => !['name', 'resistantCount', 'totalCount', 'items'].includes(key),
+        );
+
+        allYears.forEach((year) => {
+          if (!years.includes(year)) {
+            data.push({
+              name: year,
+              totalCount: 0,
+              ...Object.fromEntries(keys.map((key) => [key, 0])),
+            });
+          }
+        });
+
+        data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
+      }
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
             <LineChart
-              data={geneData}
+              data={data}
               cursor={isTouchDevice() ? 'default' : 'pointer'}
               onClick={handleClickChart}
             >
@@ -256,13 +326,17 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                 tickCount={6}
                 padding={{ top: 20, bottom: 20 }}
                 allowDecimals={false}
-                domain={[
-                  (dataMin) => dataMin,
-                  (dataMax) => {
-                    const multiple = dataMax < 100 ? 25 : 50;
-                    return Math.ceil(dataMax / multiple) * multiple;
-                  },
-                ]}
+                domain={
+                  dataView === 'percentage'
+                    ? [0, 100]
+                    : [
+                        (dataMin) => dataMin,
+                        (dataMax) => {
+                          const multiple = dataMax < 100 ? 25 : 50;
+                          return Math.ceil(dataMax / multiple) * multiple;
+                        },
+                      ]
+                }
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   {`Number of genomes (${drugAcronyms[drugClass] ?? drugClass})`}
@@ -341,16 +415,24 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
           {currentTooltip ? (
             <div className={classes.tooltip}>
               <div className={classes.tooltipTitle}>
-                <div className={classes.tooltipInfo}>
-                  <Typography variant="h5" fontWeight="600">
-                    {currentTooltip.name}
-                  </Typography>
-                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
-                </div>
-                <Typography fontWeight={400} variant="subtitle2">
-                  {drugClass}
+                <Typography variant="h5" fontWeight="600">
+                  {currentTooltip.name}
                 </Typography>
-                <Typography variant="subtitle2">{drugGene}</Typography>
+                {currentTooltip.count !== 'ID' && (
+                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                )}
+              </div>
+              <div className={classes.tooltipInfo}>
+                <Typography fontWeight={400} variant="subtitle2">
+                  {currentTooltip.count !== 'ID' ? currentTooltip.drugText : drugClass}
+                </Typography>
+                <Typography variant="subtitle2">
+                  {currentTooltip.count !== 'ID'
+                    ? drugGene === 'All'
+                      ? currentTooltip.geneText.map((x) => <div>{x}</div>)
+                      : currentTooltip.geneText
+                    : drugGene}
+                </Typography>
               </div>
               {currentTooltip?.geo.length > 0 ? (
                 <div className={classes.tooltipContent}>
@@ -376,6 +458,8 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                     );
                   })}
                 </div>
+              ) : currentTooltip.count === 'ID' ? (
+                <div className={classes.insufficientData}>Insufficient data</div>
               ) : (
                 <Typography className={classes.noData}>No data to show</Typography>
               )}
@@ -400,7 +484,9 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectsWrapper}>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Select drug/class</Typography>
+                    <div className={classes.labelWrapper}>
+                      <Typography variant="caption">Select drug/class</Typography>
+                    </div>
                     <Select
                       value={drugClass}
                       onChange={handleChangeDrugClass}
@@ -420,7 +506,9 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Select gene</Typography>
+                    <div className={classes.labelWrapper}>
+                      <Typography variant="caption">Select gene</Typography>
+                    </div>
                     <Select
                       value={drugGene}
                       onChange={handleChangeDrugGene}
@@ -428,6 +516,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
+                      <MenuItem value="All">All genes</MenuItem>
                       {geneOptions.map((option, index) => {
                         return (
                           <MenuItem key={index + 'trend-line-genes'} value={option}>
@@ -438,7 +527,9 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">View Type</Typography>
+                    <div className={classes.labelWrapper}>
+                      <Typography variant="caption">View Type</Typography>
+                    </div>
                     <Select
                       value={geoType}
                       onChange={handleChangeGeoType}
@@ -495,6 +586,26 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                           <ListItemText primary={option} />
                         </MenuItem>
                       ))}
+                    </Select>
+                  </div>
+                  <div className={classes.selectWrapper}>
+                    <div className={classes.labelWrapper}>
+                      <Typography variant="caption">Data view</Typography>
+                    </div>
+                    <Select
+                      value={dataView}
+                      onChange={handleChangeDataView}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      {dataViewOptions.map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'distribution-dataview'} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        );
+                      })}
                     </Select>
                   </div>
                 </div>
