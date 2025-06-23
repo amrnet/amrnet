@@ -30,7 +30,7 @@ import {
   setStarttimeGD,
   setTopXGenotype,
 } from '../../../../stores/slices/graphSlice.ts';
-import { getColorForGenotype, hoverColor } from '../../../../util/colorHelper';
+import { getColorForGenotype, hoverColor, lightGrey } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
@@ -164,7 +164,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   function handleClickChart(event) {
     setCurrentEventSelected(event);
     const data = newArray.find((item) => item.name === event?.activeLabel);
-    if (data) {
+
+    if (data && data.count > 0) {
       const currentData = structuredClone(data);
 
       const value = {
@@ -194,7 +195,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     } else {
       setCurrentTooltip({
         name: event?.activeLabel,
-        count: 'Insufficient data',
+        count: 'ID',
         genotypes: [],
       });
     }
@@ -238,6 +239,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               name: year,
               count: 0,
               ...Object.fromEntries(topXGenotype.map((key) => [key, 0])),
+              'Insufficient data': distributionGraphView === 'number' ? 0 : 100,
             });
           }
         });
@@ -328,6 +330,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                 />
               ))}
               <Bar dataKey={'Other'} stackId={0} fill={getGenotypeColor('Other')} />
+              <Bar dataKey={'Insufficient data'} stackId={0} fill={lightGrey} />
             </BarChart>
           </ResponsiveContainer>
         );
@@ -352,29 +355,38 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   <Typography variant="h5" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
-                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                  {currentTooltip.count !== 'ID' && (
+                    <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                  )}
                 </div>
-                <div className={classes.tooltipContent}>
-                  {currentTooltip.genotypes.map((item, index) => {
-                    return (
-                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                        <Box
-                          className={classes.tooltipItemBox}
-                          style={{
-                            backgroundColor: item.color,
-                          }}
-                        />
-                        <div className={classes.tooltipItemStats}>
-                          <Typography variant="body2" fontWeight="500">
-                            {item.label}
-                          </Typography>
-                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                {currentTooltip.count === 'ID' ? (
+                  <div className={classes.insufficientData}>Insufficient data</div>
+                ) : (
+                  <div className={classes.tooltipContent}>
+                    {currentTooltip.genotypes.map((item, index) => {
+                      return (
+                        <div
+                          key={`tooltip-content-${index}`}
+                          className={classes.tooltipItemWrapper}
+                        >
+                          <Box
+                            className={classes.tooltipItemBox}
+                            style={{
+                              backgroundColor: item.color,
+                            }}
+                          />
+                          <div className={classes.tooltipItemStats}>
+                            <Typography variant="body2" fontWeight="500">
+                              {item.label}
+                            </Typography>
+                            <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                            <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             ) : (
               <div className={classes.noYearSelected2}>Click on a year to see detail</div>

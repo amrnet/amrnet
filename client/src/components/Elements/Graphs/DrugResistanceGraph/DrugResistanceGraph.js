@@ -224,7 +224,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     } else {
       setCurrentTooltip({
         name: year,
-        count: 'Insufficient data',
+        count: 'ID',
         drugs: [],
       });
     }
@@ -403,51 +403,57 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                 <Typography variant="h5" fontWeight="600">
                   {currentTooltip.name}
                 </Typography>
-                <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                {currentTooltip.count !== 'ID' && (
+                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                )}
               </div>
-              <div className={classes.tooltipContent}>
-                {currentTooltip.drugs.map((item, index) => {
-                  let itemLabel;
-                  if (item.label === 'XDR') {
-                    itemLabel = (
-                      <Tooltip title={getXDRDefinition()} placement="top">
-                        <span>XDR</span>
-                      </Tooltip>
-                    );
-                  } else if (item.label === 'MDR') {
-                    itemLabel = (
-                      <Tooltip title={getMDRDefinition()} placement="top">
-                        <span>MDR</span>
-                      </Tooltip>
-                    );
-                  } else if (item.label === 'Pansusceptible' && organism === 'ngono') {
-                    itemLabel = (
-                      <Tooltip title={getSusceptibleDefinition()} placement="top">
-                        <span>Susceptible to cat I/II drugs</span>
-                      </Tooltip>
-                    );
-                  } else {
-                    itemLabel = item.label;
-                  }
-                  return (
-                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                      <Box
-                        className={classes.tooltipItemBox}
-                        style={{
-                          backgroundColor: item.fill,
-                        }}
-                      />
-                      <div className={classes.tooltipItemStats}>
-                        <Typography variant="body2" fontWeight="500">
-                          {itemLabel}
-                        </Typography>
-                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                        <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+              {currentTooltip.count === 'ID' ? (
+                <div className={classes.insufficientData}>Insufficient data</div>
+              ) : (
+                <div className={classes.tooltipContent}>
+                  {currentTooltip.drugs.map((item, index) => {
+                    let itemLabel;
+                    if (item.label === 'XDR') {
+                      itemLabel = (
+                        <Tooltip title={getXDRDefinition()} placement="top">
+                          <span>XDR</span>
+                        </Tooltip>
+                      );
+                    } else if (item.label === 'MDR') {
+                      itemLabel = (
+                        <Tooltip title={getMDRDefinition()} placement="top">
+                          <span>MDR</span>
+                        </Tooltip>
+                      );
+                    } else if (item.label === 'Pansusceptible' && organism === 'ngono') {
+                      itemLabel = (
+                        <Tooltip title={getSusceptibleDefinition()} placement="top">
+                          <span>Susceptible to cat I/II drugs</span>
+                        </Tooltip>
+                      );
+                    } else {
+                      itemLabel = item.label;
+                    }
+                    return (
+                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                        <Box
+                          className={classes.tooltipItemBox}
+                          style={{
+                            backgroundColor: item.fill,
+                          }}
+                        />
+                        <div className={classes.tooltipItemStats}>
+                          <Typography variant="body2" fontWeight="500">
+                            {itemLabel}
+                          </Typography>
+                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           ) : (
             <div className={classes.noYearSelected}>
