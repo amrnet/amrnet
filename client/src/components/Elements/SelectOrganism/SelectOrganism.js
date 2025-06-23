@@ -25,6 +25,7 @@ export const SelectOrganism = () => {
     if (organism !== '') {
       const currentOrganism = sortedOrganismsCards.find((x) => x.value === organism);
       if (currentOrganism) {
+         document.title = `AMRnet - ${currentOrganism.abbr}`;
         dispatch(setGlobalOverviewLabel({ label: currentOrganism.label, stringLabel: currentOrganism.stringLabel }));
       }
     }
