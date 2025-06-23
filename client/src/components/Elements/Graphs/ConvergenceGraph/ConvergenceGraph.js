@@ -118,7 +118,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                 type="number"
                 dataKey="y"
                 allowDataOverflow={true}
-                domain={[0, 3]}
+                domain={[0, 4]}
                 padding={{ top: 20, bottom: 20 }}
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
