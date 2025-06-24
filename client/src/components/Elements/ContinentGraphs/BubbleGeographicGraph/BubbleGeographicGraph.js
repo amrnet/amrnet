@@ -72,12 +72,14 @@ const yOptions = [
   {
     value: 'genotype',
     label: 'Genotype prevalence',
-    organisms: organismsCards.map((x) => x.value).filter((x) => !['sentericaints'].includes(x)),
+    organisms: organismsCards
+      .map((x) => x.value)
+      .filter((x) => !['sentericaints', 'senterica'].includes(x)),
   },
   {
     value: 'genotype',
     label: 'Lineage prevalence',
-    organisms: ['sentericaints'],
+    organisms: ['sentericaints', 'senterica'],
   },
   {
     value: 'resistance',
@@ -96,7 +98,7 @@ const yOptions = [
   {
     value: 'serotype',
     label: 'Serotype prevalence',
-    organisms: ['sentericaints'],
+    organisms: ['sentericaints', 'senterica'],
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
@@ -251,11 +253,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       option.toLowerCase().includes(genotypeSearch.toLowerCase()),
     );
 
-    if (yAxisType !== 'genotype' || !organismHasLotsOfGenotypes) {
-      return filteredOptions;
+    if (yAxisType === 'serotype' || (yAxisType === 'genotype' && organismHasLotsOfGenotypes)) {
+      return filteredOptions.slice(0, 20);
     }
 
-    return filteredOptions.slice(0, 20);
+    return filteredOptions;
   }, [yAxisOptions, yAxisType, organismHasLotsOfGenotypes, genotypeSearch]);
 
   useEffect(() => {
@@ -273,7 +275,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     setYAxisSelected(
-      yAxisType === 'genotype' || (yAxisType === 'determinant' && organism === 'kpneumo')
+      ['genotype', 'serotype'].includes(yAxisType) ||
+        (yAxisType === 'determinant' && organism === 'kpneumo')
         ? yAxisOptions.slice(0, 10)
         : yAxisOptions,
     );
@@ -304,7 +307,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       case 'determinant':
         return 'determinants';
       case 'genotype':
-        return organism === 'sentericaints' ? 'lineages' : 'genotypes';
+        return ['sentericaints', 'senterica'].includes(organism) ? 'lineages' : 'genotypes';
       default:
         return organism === 'sentericaints' ? 'serotypes' : 'pathotypes';
     }

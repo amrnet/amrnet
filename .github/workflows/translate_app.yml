@@ -1,0 +1,54 @@
+```yaml
+
+name: Translate Web App Strings
+
+on:
+  workflow_dispatch: # Allows manual triggering
+  push:
+    branches:
+      - staging # Or your main development branch
+    paths:
+      - 'locales/en.json' # Trigger only if the source English file changes
+
+jobs:
+  translate_strings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # If creating a PR, you might need a PAT with write access
+          # token: ${{ secrets.GH_PAT }} # Uncomment if using GH_PAT for PRs
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install openai PyGithub # PyGithub for PR creation if needed
+
+      - name: Run Translation Script
+        env:
+          OPENAI_API_KEY: ${{ secrets.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 }}
+          GITHUB_TOKEN: ${{ secrets.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 }} # For basic commits, or use GH_PAT for PRs
+          REPO_FULL_NAME: ${{ github.amrnet/amrnet/ }} # e.g., amrnet/amrnet
+        run: python .github/scripts/translator.py
+
+      - name: Create Pull Request or Commit Changes
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }} # Use PAT if available for broader permissions
+          commit-message: "feat: Add/Update translations from 'en.json'"
+          branch: "chore/auto-translations" # Name of the branch to create
+          delete-branch: true
+          title: "Automated Translations Update"
+          body: |
+            Automated translations generated based on changes to `locales/en.json`.
+            Please review the changes.
+
+            Target Languages: French, Spanish, Portuguese, German, Italian, Japanese, Chinese.
+          labels: "translation, i18n, automated"
+          assignees: "${{ github.actor }}" # Assign PR to the person who triggered the workflow (e.g., via push)
+          # Add other options as needed, e.g., reviewers
+```

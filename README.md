@@ -13,21 +13,25 @@
 ![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet) 
 ![Open Issues](https://img.shields.io/github/issues-raw/amrnet/amrnet)
 [![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
-![GitHub](https://img.shields.io/github/contributors/amrnet/amrnet)s
-
+[![GitHub](https://img.shields.io/github/stars/amrnet/amrnet)]
+[![GitHub](https://img.shields.io/github/forks/amrnet/amrnet)]
+[![GitHub](https://img.shields.io/github/watchers/amrnet/amrnet)]
+[![GitHub](https://img.shields.io/github/contributors/amrnet/amrnet)]
 Visiting the [AMRnet dashboard](https://amrnetdev2-bda07af7e807.herokuapp.com/) for more informations.
 
 ## Installation (for software development purposes only)
 
-### 1. Prerequisites: Install Git, Node.js (with npm), and MongoDB
+### Step 1. Install GIT, NPM and MongoDB
 
-- **Git:** Download from [git-scm.com](https://git-scm.com/).
-- **Node.js and npm:** Download from [npmjs.com/get-npm](https://www.npmjs.com/get-npm) (npm is included with Node.js).
-- **MongoDB Community Server:** Download from [mongodb.com](https://www.mongodb.com/try/download/community?tck=docs_server).
+To install GIT, please visit [https://git-scm.com/](https://git-scm.com/).
 
-**Note:** While installing MongoDB, check the option to install MongoDB Compass. If not available during installation, download Compass separately from [mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass).
+To install NPM, please visit [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm).
 
-### 2. Install Yarn globally
+To install MongoDB, please visit [https://www.mongodb.com/try/download/community?tck=docs_server](https://www.mongodb.com/try/download/community?tck=docs_server).
+
+Note: While installing MongoDB, check the option to install MongoDB Compass. If there's no option, you can download it here: [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass).
+
+### Step 2. Install YARN with the command
 
 ```bash
 npm install -g yarn
