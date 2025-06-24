@@ -730,7 +730,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.bubbleGeographicGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CVM">
+      {/* Updated CVM to BG everywhere for Geo.Comp BubbleGraph to Match with TABS */}
+        <div className={classes.graph} id="BG">
           {plotChart}
         </div>
       </div>

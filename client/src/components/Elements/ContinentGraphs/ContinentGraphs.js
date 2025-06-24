@@ -72,7 +72,6 @@ export const ContinentGraphs = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
-  const downloadForPDF = useAppSelector((state) => state.graph.download);
 
   useEffect(() => {
     setShowFilter(!matches500);
@@ -115,8 +114,7 @@ export const ContinentGraphs = () => {
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-
-      const graph = document.getElementById('CVM');
+      const graph = document.getElementById(currentTab);
 
       // Store original styles
       const originalOverflow = graph.style.overflow;
@@ -145,7 +143,7 @@ export const ContinentGraphs = () => {
 
       canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
       console.log('canvas.width', canvas.width, graphImg.width);
-      canvas.height = graphImg.height + 220 + ('CVM' ? 250 : heightFactor);
+      canvas.height = graphImg.height + 220 + ('BG' ? 250 : heightFactor);
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 

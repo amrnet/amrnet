@@ -1267,7 +1267,7 @@ export const DownloadData = () => {
       pageWidth,
       pageHeight,
     });
-    await addImageToPDF({ doc, elementId: 'CVM', pageWidth });
+    await addImageToPDF({ doc, elementId: 'BG', pageWidth });
 
     // TL Map Page
     addStandardPage({
@@ -1339,7 +1339,7 @@ export const DownloadData = () => {
           case 'KO':
             title += `: ${KODiversityGraphView}`;
             break;
-          case 'CVM':
+          case 'BG':
             const group = variablesOptions.find(
               (option) => option.value === convergenceGroupVariable,
             ).label;
@@ -1392,10 +1392,10 @@ export const DownloadData = () => {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
         const rectY = matches1000 ? 320 : 340;
-        if (cards[index].id === 'CVM') {
+        if (cards[index].id === 'BG') {
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY + 60, pageWidth, 200, 'F'); // fill with white
-        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'CVM') {
+        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'BG') {
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
         }
