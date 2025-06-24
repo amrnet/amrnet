@@ -1,45 +1,32 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# ESLint is a tool for identifying and reporting on patterns
-# found in ECMAScript/JavaScript code.
-# More details at https://github.com/eslint/eslint
-# and https://eslint.org
-
 name: ESLint
 
 on:
   push:
-    # This workflow will run on pushes to both 'devrev' and 'main' branches
-    branches: [ "devrev", "main", "dev", "staging" ]
+    branches: [ "devrev", "main" ]
   pull_request:
-    # This workflow will run on pull requests targeting both 'devrev' and 'main'
-    # The branches below must be a subset of the branches above (or include them)
-    branches: [ "devrev", "main", "dev", "staging"  ]
+    branches: [ "devrev", "main" ]
   schedule:
-    # Runs every Monday at 17:43 UTC
     - cron: '43 17 * * 1'
 
 jobs:
   eslint:
-    name: Run eslint scanning
+    name: Run ESLint scanning
     runs-on: ubuntu-latest
     permissions:
       contents: read
       security-events: write
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      actions: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Install ESLint
         run: |
-          npm install eslint@8.35.0
-          npm install @typescript-eslint/parser@8.35.0 @typescript-eslint/eslint-plugin@8.35.0
+          npm install eslint@8.10.0
           npm install @microsoft/eslint-formatter-sarif@3.1.0
-      - name: Install dependencies
-        run: npm ci
+
       - name: Run ESLint
+        id: run_eslint
         env:
           SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
         run: |
@@ -48,24 +35,19 @@ jobs:
             --ext .js,.jsx,.ts,.tsx \
             --format @microsoft/eslint-formatter-sarif \
             --output-file eslint-results.sarif
-        continue-on-error: true # Allow the workflow to complete even if linting errors are found
-      
+        # Removed 'continue-on-error: true' here
+        # This will make the workflow fail immediately if eslint errors
+
       - name: Check if SARIF file exists (for debugging)
-        id: check_sarif
+        # This step will only run if 'Run ESLint' succeeds.
+        # If 'Run ESLint' fails, the workflow will stop before this.
         run: |
-          ls -la eslint-results.sarif || echo "eslint-results.sarif does NOT exist!"
-          # You can also add `cat eslint-results.sarif` here to see its content if it exists
-        continue-on-error: true # Allow this check to pass even if file not found
+          ls -la eslint-results.sarif || echo "eslint-results.sarif does NOT exist, as 'Run ESLint' must have failed."
+        # Keep continue-on-error: true here, as this is just a diagnostic step
 
       - name: Upload analysis results to GitHub
+        # This step will only run if 'Run ESLint' succeeded and created the file.
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: eslint-results.sarif
-          wait-for-processing: true
-
-      - name: Upload analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          # Confirm the path is correct relative to the repository root.
           sarif_file: eslint-results.sarif
           wait-for-processing: true
