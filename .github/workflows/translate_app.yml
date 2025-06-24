@@ -30,7 +30,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # For basic commits, or use GH_PAT for PRs
-          REPO_FULL_NAME: ${{ github.amrnet/amrnet/ }} # e.g., amrnet/amrnet
+          REPO_FULL_NAME: ${{ github.repository }} # Corrected: e.g., amrnet/amrnet
         run: python .github/scripts/translator.py
 
       - name: Create Pull Request or Commit Changes
