@@ -12,7 +12,7 @@ const dbAndCollectionNames = {
   ecoli: { dbName: 'ecoli', collectionName: 'merge_rawdata_ec' },
   decoli: { dbName: 'decoli', collectionName: 'merge_rawdata_dec' },
   shige: { dbName: 'shige', collectionName: 'merge_rawdata_sh' },
-  senterica: { dbName: 'senterica', collectionName: 'merge_rawdata_se' },
+  senterica: { dbName: 'senterica', collectionName: 'sentericatest' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
   unr: { dbName: 'unr', collectionName: 'unr' },
 };
@@ -412,7 +412,10 @@ router.get('/getDataForShige', async function (req, res, next) {
 router.get('/getDataForSenterica', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['senterica'];
   try {
-    // await client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName).createIndex({ name: 1 });
+    // await client
+    //   .db(dbAndCollection.dbName)
+    //   .collection(dbAndCollection.collectionName)
+    //   .createIndex({ NAME: 1 });
 
     // await client
     //   .db(dbAndCollection.dbName)
@@ -426,17 +429,23 @@ router.get('/getDataForSenterica', async function (req, res, next) {
         { $match: { 'dashboard view': 'Include' } },
         {
           $lookup: {
-            from: 'senterica-output-full',
-            let: { nameField: '$name' },
+            from: 'senterica-output-full_bkp',
+            let: { nameField: '$NAME' },
             pipeline: [
               { $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } },
-              { $project: fieldsToProject },
+              { $project: { ...fieldsToProject, 'SeqSero2 Serovar': 1 } },
             ],
             as: 'extraData',
           },
         },
         { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-        { $addFields: sentericaintsFieldsToAdd },
+        {
+          $addFields: {
+            ...sentericaintsFieldsToAdd,
+            SeqSero2_Serovar: '$extraData.SeqSero2 Serovar',
+            GENOTYPE: '$MLST_Achtman',
+          },
+        },
         { $project: { extraData: 0 } },
       ])
       .toArray();

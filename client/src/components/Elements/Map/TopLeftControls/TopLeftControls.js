@@ -144,7 +144,9 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </ToggleButtonGroup>
             </div>
           )}
-          {!amrLikeOrganisms.filter((x) => x !== 'ecoli').includes(organism) ? null : (
+          {!amrLikeOrganisms
+            .filter((x) => !['ecoli', 'senterica'].includes(x))
+            .includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotype' : 'Select pathotype'}

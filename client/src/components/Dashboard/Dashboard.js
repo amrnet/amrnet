@@ -200,15 +200,24 @@ export const DashboardPage = () => {
     const serotypeSet = new Set();
 
     responseData.forEach((x) => {
+      // country
       const country = getCountryDisplayName(x.COUNTRY_ONLY);
-      countriesSet.add(country);
-      //update here
-      if (['ecoli'].includes(organism)) genotypesSet.add(x.GENOTYPE1);
-      else genotypesSet.add(x.GENOTYPE);
+      if (country !== ' ') countriesSet.add(country);
+
+      // genotype
+      const genotypeKey = ['ecoli'].includes(organism) ? 'GENOTYPE1' : 'GENOTYPE';
+      if (genotypeKey in x) {
+        genotypesSet.add(x[genotypeKey]?.toString());
+      }
+
+      // year
       yearsSet.add(x.DATE);
+
+      // others
       if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
       if ('PMID' in x) PMIDSet.add(x['PMID']);
 
+      // pathovar and serotype
       if (['sentericaints'].includes(organism)) {
         pathovarSet.add(x.SISTR1_Serovar);
       }
@@ -222,7 +231,7 @@ export const DashboardPage = () => {
         pathovarSet.add(x.Pathovar);
       }
       if (['senterica'].includes(organism)) {
-        pathovarSet.add(x.serotype);
+        pathovarSet.add(x.SeqSero2_Serovar);
       }
       if (['decoli', 'ecoli', 'shige'].includes(organism)) {
         serotypeSet.add(x.Serotype);
@@ -475,7 +484,7 @@ export const DashboardPage = () => {
         case 'decoli':
         case 'shige':
         case 'senterica':
-          dispatch(setMapView(organism === 'senterica' ? 'No. Samples' : 'Resistance prevalence'));
+          dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsINTS));
           break;
         default:

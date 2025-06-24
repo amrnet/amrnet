@@ -32,21 +32,13 @@ export function filterData({
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
   };
   const checkLineages = (item) => {
-    if (!amrLikeOrganisms.includes(organism)) {
+    if (!['sentericaints', 'decoli', 'shige'].includes(organism)) {
       return true;
     }
 
     if (['sentericaints'].includes(organism)) {
       return (selectedLineages ?? []).some((selected) =>
         item.SISTR1_Serovar.toLowerCase().includes(selected.toLowerCase()),
-      );
-    }
-    //For E. coli, we need to add the Pathovar instead of the Pathotype
-    // because the Pathotype is not present in E.coli data
-    // and the Pathovar is the one that is used in the database
-    if (['ecoli'].includes(organism)) {
-      return (selectedLineages ?? []).some((selected) =>
-        item.Pathovar.toLowerCase().includes(selected.toLowerCase()),
       );
     }
 
@@ -333,8 +325,10 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       stats[statKey].count = Object.keys(statMap).length;
       stats[statKey].items = Object.entries(statMap)
         .map(([stat, count]) => {
-          const result = { name: stat, count, drugs: {} };
-          const dataWithGenFilter = itemData.filter((x) => x[dataKey] === stat);
+          const result = { name: stat.toString(), count, drugs: {} };
+          const dataWithGenFilter = itemData.filter(
+            (x) => x[dataKey].toString() === stat.toString(),
+          );
 
           statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key }) => {
             if (Array.isArray(column)) {
@@ -383,7 +377,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
           : organism === 'sentericaints'
           ? 'SISTR1_Serovar'
           : organism === 'senterica'
-          ? 'serotype'
+          ? 'SeqSero2_Serovar'
           : 'Pathotype',
       );
     }
@@ -784,7 +778,7 @@ export function getGenotypesData({
   const genotypesDrugsData = genotypes.map((genotype) => {
     // const genotypeData = data.filter((x) => x.GENOTYPE === genotype);
     const genotypeData = data.filter(
-      (x) => (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE) === genotype,
+      (x) => (organism === 'ecoli' ? x.GENOTYPE1 : x.GENOTYPE).toString() === genotype,
     );
     const response = {
       name: genotype,
@@ -910,7 +904,7 @@ export function getGenotypesData({
     ? []
     : pathotypes.map((pathotype) => {
         // const genotypeData = data.filter((x) => x.GENOTYPE === genotype);
-        const column = organism === 'ecoli' ? 'Pathovar' : 'serotype';
+        const column = organism === 'ecoli' ? 'Pathovar' : 'SeqSero2_Serovar';
         const pathotypeData = data.filter((x) => x[column] === pathotype);
         const response = {
           name: pathotype,
