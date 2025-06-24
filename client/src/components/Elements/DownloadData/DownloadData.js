@@ -1218,98 +1218,83 @@ export const DownloadData = () => {
         );
       }
 
-      //Heatmap
+      // Helper to add page with header/footer and optional title/metadata
+    function addStandardPage({ doc, title, subtitle1, subtitle2, date, pageWidth, pageHeight }) {
       doc.addPage();
       drawHeader({ document: doc, pageWidth });
       drawFooter({ document: doc, pageHeight, pageWidth, date });
       doc.setFontSize(12).setFont(undefined, 'bold');
-      doc.text('Geographic Comparisons', 16, 44);
+      doc.text(title, 16, 44);
       doc.setFont(undefined, 'normal');
       doc.setFontSize(12);
-      doc.text(`Selected View: ${actualMapView}`, 16, 56);
-      doc.text(
-        `Dataset: ${dataset}${
-          dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
-        }`,
-        16,
-        76,
-      );
-      const graphImgHeat = document.createElement('img');
-      const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
-      graphImgHeat.src = await domtoimage.toPng(document.getElementById('CVM'), {
+      if (subtitle1) doc.text(subtitle1, 16, 56);
+      if (subtitle2) doc.text(subtitle2, 16, 76);
+    }
+
+    // Helper to render image into PDF
+    async function addImageToPDF({ doc, elementId, x = 16, y = 100, pageWidth }) {
+      const img = document.createElement('img');
+      const imgLoad = imgOnLoadPromise(img);
+      img.src = await domtoimage.toPng(document.getElementById(elementId), {
         bgcolor: 'white',
       });
-      await graphImgPromiseHeat;
-      // console.log('graphImgHeat', graphImgHeat.width);
-      if (graphImgHeat.width > 3000) {
-        doc.addImage(graphImgHeat, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
-      } else {
-        doc.addImage(graphImgHeat, 'PNG', 16, 100, pageWidth - 80, 271, undefined, 'FAST');
-      }
+      await imgLoad;
 
-      //TLmap
-      doc.addPage();
-      drawHeader({ document: doc, pageWidth });
-      drawFooter({ document: doc, pageHeight, pageWidth, date });
-      doc.setFontSize(12).setFont(undefined, 'bold');
-      doc.text('Geographic Comparisons (TL)', 16, 44);
-      doc.setFont(undefined, 'normal');
-      doc.setFontSize(12);
-      doc.text(`Selected View: ${actualMapView}`, 16, 56);
-      doc.text(
-        `Dataset: ${dataset}${
-          dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
-        }`,
-        16,
-        76,
-      );
-      const graphImgTL = document.createElement('img');
-      const graphImgPromiseTL = imgOnLoadPromise(graphImgTL);
-      graphImgTL.src = await domtoimage.toPng(document.getElementById('TL'), {
-        bgcolor: 'white',
+      if (img.width > 3000) {
+        doc.addImage(img, 'PNG', x, y, undefined, undefined, undefined, 'FAST');
+      } else {
+        // Estimate height for smaller images
+        const aspectRatio = img.width / img.height;
+        const displayWidth = pageWidth - 80;
+        const displayHeight = displayWidth / aspectRatio;
+        doc.addImage(img, 'PNG', x, y, displayWidth, displayHeight, undefined, 'FAST');
+      }
+    }
+
+    // Main PDF logic
+    const commonSubtitle1 = `Selected View: ${actualMapView}`;
+    const commonSubtitle2 = `Dataset: ${dataset}${
+      dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
+    }`;
+
+    // Heatmap Page
+    addStandardPage({
+      doc,
+      title: 'Geographic Comparisons',
+      subtitle1: commonSubtitle1,
+      subtitle2: commonSubtitle2,
+      date,
+      pageWidth,
+      pageHeight,
+    });
+    await addImageToPDF({ doc, elementId: 'CVM', pageWidth });
+
+    // TL Map Page
+    addStandardPage({
+      doc,
+      title: 'Geographic Comparisons (TL)',
+      subtitle1: commonSubtitle1,
+      subtitle2: commonSubtitle2,
+      date,
+      pageWidth,
+      pageHeight,
+    });
+    await addImageToPDF({ doc, elementId: 'TL', pageWidth });
+
+    // Pathotype or Serotype Page
+    if (['ints', 'decoli', 'shige'].includes(organism)) {
+      addStandardPage({
+        doc,
+        title: organism === 'ints' ? 'Serotype Comparisons' : 'Pathotype Comparisons',
+        subtitle1: commonSubtitle1,
+        subtitle2: commonSubtitle2,
+        date,
+        pageWidth,
+        pageHeight,
       });
-      await graphImgPromiseTL;
-      // console.log('graphImgHeat', graphImgHeat.width);
-      if (graphImgTL.width > 3000) {
-        doc.addImage(graphImgTL, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
-      } else {
-        doc.addImage(graphImgTL, 'PNG', 16, 100, pageWidth - 80, 271, undefined, 'FAST');
-      }
+      await addImageToPDF({ doc, elementId: 'BHP', pageWidth });
+    }
 
-      //Pathotype
-      if(organism === 'ints' || organism === 'decoli' || organism === 'shige') {
-        doc.addPage();
-        drawHeader({ document: doc, pageWidth });
-        drawFooter({ document: doc, pageHeight, pageWidth, date });
-        doc.setFontSize(12).setFont(undefined, 'bold');
-        if(organism === 'ints')
-          doc.text('Serotype Comparisons', 16, 44);
-        else
-          doc.text('Pathotype Comparisons', 16, 44);
-        doc.setFont(undefined, 'normal');
-        doc.setFontSize(12);
-        doc.text(`Selected View: ${actualMapView}`, 16, 56);
-        doc.text(
-          `Dataset: ${dataset}${
-            dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
-          }`,
-          16,
-          76,
-        );
-        const graphImgPatho = document.createElement('img');
-        const graphImgPromisePatho = imgOnLoadPromise(graphImgPatho);
-        graphImgPatho.src = await domtoimage.toPng(document.getElementById('BHP'), {
-          bgcolor: 'white',
-        });
-        await graphImgPromisePatho;
-        // console.log('graphImgPatho', graphImgPatho.width, graphImgPatho.height);
-        // console.log('graphImgHeat', graphImgHeat.width);
-        if (graphImgPatho.width > 3000) {
-          doc.addImage(graphImgPatho, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
-        } else {
-          doc.addImage(graphImgPatho, 'PNG', 16, 100, pageWidth , graphImgPatho.height/2, undefined, 'FAST');
-        }
-      }
 
       // Graphs
       const isKlebe = organism === 'kpneumo';
