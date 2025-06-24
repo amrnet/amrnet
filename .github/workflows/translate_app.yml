@@ -11,12 +11,19 @@ on:
 jobs:
   translate_strings:
     runs-on: ubuntu-latest
+    # --- IMPORTANT FIX: Add permissions for the GitHub Token ---
+    permissions:
+      contents: write # Needed to create/commit files for the PR
+      pull-requests: write # Needed to create the pull request
+    # -----------------------------------------------------------
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # If creating a PR, you might need a PAT with write access
-          # token: ${{ secrets.GH_PAT }} # Uncomment if using GH_PAT for PRs
+          # If creating a PR with peter-evans/create-pull-request,
+          # this checkout step often needs a token that has write permissions.
+          # The default GITHUB_TOKEN (with job-level permissions) is usually sufficient.
+          # token: ${{ secrets.GH_PAT }} # Uncomment if using a Personal Access Token with broader scope
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -29,14 +36,16 @@ jobs:
       - name: Run Translation Script
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # For basic commits, or use GH_PAT for PRs
-          REPO_FULL_NAME: ${{ github.repository }} # Corrected: e.g., amrnet/amrnet
+          # GITHUB_TOKEN is automatically provided with permissions defined above
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_FULL_NAME: ${{ github.repository }} # Correct way to get owner/repo name
         run: python .github/scripts/translator.py
 
       - name: Create Pull Request or Commit Changes
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }} # Use PAT if available for broader permissions
+          # Uses the GITHUB_TOKEN (with enhanced permissions) or a specific GH_PAT if provided
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           commit-message: "feat: Add/Update translations from 'en.json'"
           branch: "chore/auto-translations" # Name of the branch to create
           delete-branch: true

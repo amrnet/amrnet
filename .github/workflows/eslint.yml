@@ -11,11 +11,14 @@ name: ESLint
 
 on:
   push:
-    branches: [ "devrev" ]
+    # This workflow will run on pushes to both 'devrev' and 'main' branches
+    branches: [ "devrev", "main", "dev", "staging" ]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "devrev" ]
+    # This workflow will run on pull requests targeting both 'devrev' and 'main'
+    # The branches below must be a subset of the branches above (or include them)
+    branches: [ "devrev", "main", "dev", "staging"  ]
   schedule:
+    # Runs every Monday at 17:43 UTC
     - cron: '43 17 * * 1'
 
 jobs:
@@ -38,13 +41,13 @@ jobs:
       - name: Run ESLint
         env:
           SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
-        run: | # Added the pipe character here to indicate multiline command
+        run: |
           npx eslint . \
             --config .eslintrc.js \
             --ext .js,.jsx,.ts,.tsx \
             --format @microsoft/eslint-formatter-sarif \
             --output-file eslint-results.sarif
-        continue-on-error: true
+        continue-on-error: true # Allow the workflow to complete even if linting errors are found
 
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v3
