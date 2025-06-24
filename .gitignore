@@ -1,6 +1,7 @@
 # dependencies
 node_modules/
 assets/datasets/
+assets/models/
 /.pnp
 .pnp.js
 client/build/
@@ -15,6 +16,7 @@ package-lock.json
 .env.development.local
 .env.development
 .env.test.local
+.env.test
 .env.production.local
 .env
 
