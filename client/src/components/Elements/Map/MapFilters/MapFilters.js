@@ -147,7 +147,10 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       option.toLowerCase().includes(genotypeSearch.toLowerCase()),
     );
 
-    if (isPathSerPrevalence || (!organismHasLotsOfGenotypes && !isSeroPrevalence)) {
+    if (
+      (isPathSerPrevalence && organism !== 'senterica') ||
+      (!organismHasLotsOfGenotypes && !isSeroPrevalence)
+    ) {
       return filteredOptions;
     }
 
@@ -157,6 +160,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     isPathSerPrevalence,
     isSeroPrevalence,
     nonResistanceOptions,
+    organism,
     organismHasLotsOfGenotypes,
   ]);
 
@@ -255,7 +259,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       return 'NG-MAST';
     }
 
-    if (['sentericaints'].includes(organism)) {
+    if (['sentericaints', 'senterica'].includes(organism)) {
       return 'lineages';
     }
     if (['kpneumo'].includes(organism)) {

@@ -8,10 +8,10 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
 .. **OPTION 1:**
 
-.. figure:: assets/apiauth1.png
-    :width: 100%
-    :align: center
-    :alt: api
+.. .. figure:: assets/apiauth1.png
+..    :width: 100%
+..    :align: center
+..    :alt: api
 
 .. .. figure:: assets/arrow.png
 ..    :width: 100%
@@ -108,7 +108,11 @@ b. Data accessing using Command line
 * Step 1: Open your terminal.
 * Step 2: Use the following command to download data from the provided URL:
 
-If you need to download a specific file from the URL, you would specify the file name in the URL. For example:
+.. code-block:: bash    
+    
+    curl -O https://amrnet.s3.amazonaws.com/
+
+Similarly, if you need to download a specific file from the URL, you would specify the file name in the URL. For example:
 
 .. code-block:: bash
 
@@ -163,7 +167,7 @@ Example code to download all the data for an organism:
             }'
 
 
-    Example code to download the data with filters **DATE** and **COUNTRY** for an organism:
+Example code to download the data with filters **DATE** and **COUNTRY** for an organism:
 
 .. code-block:: bash
 
@@ -192,8 +196,8 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
                 "dataSource":"<dataSource_NAME>",
                 "filter": {"DATE": "2015"}
             }'
-
 Example code to download the data and save in JSON:
+
 
 .. code-block:: bash
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
