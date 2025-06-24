@@ -20,33 +20,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install ESLint
-        run: |
-          npm install eslint@8.10.0
-          npm install @microsoft/eslint-formatter-sarif@3.1.0
+      - name: Install Node.js dependencies
+        # Assuming you use 'yarn' as indicated in your root package.json scripts.
+        # This will install all dependencies and devDependencies from your package.json,
+        # including the correct ESLint, TypeScript-ESLint, and Prettier versions.
+        run: yarn install # Or 'npm install' if you prefer npm in CI
 
       - name: Run ESLint
         id: run_eslint
         env:
           SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
         run: |
+          # Use npx to ensure the locally installed ESLint is used.
           npx eslint . \
             --config .eslintrc.js \
             --ext .js,.jsx,.ts,.tsx \
             --format @microsoft/eslint-formatter-sarif \
             --output-file eslint-results.sarif
-        # Removed 'continue-on-error: true' here
-        # This will make the workflow fail immediately if eslint errors
+        # This will now fail if ESLint has issues, which is what we want for debugging
 
       - name: Check if SARIF file exists (for debugging)
-        # This step will only run if 'Run ESLint' succeeds.
-        # If 'Run ESLint' fails, the workflow will stop before this.
         run: |
           ls -la eslint-results.sarif || echo "eslint-results.sarif does NOT exist, as 'Run ESLint' must have failed."
-        # Keep continue-on-error: true here, as this is just a diagnostic step
+        continue-on-error: true
 
       - name: Upload analysis results to GitHub
-        # This step will only run if 'Run ESLint' succeeded and created the file.
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: eslint-results.sarif
