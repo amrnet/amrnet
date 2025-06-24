@@ -35,7 +35,7 @@ import {
   statKeys,
 } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
-import { differentColorScale } from '../../Map/mapColorHelper';
+import { differentColorScale, mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
@@ -692,7 +692,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           fill={
                             option.percentage === 0
                               ? darkGrey
-                              : differentColorScale(option.percentage, 'red')
+                              : mixColorScale(option.percentage)
                           }
                         />
                       ))}

@@ -31,7 +31,7 @@ import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
-import { differentColorScale } from '../../Map/mapColorHelper';
+import { differentColorScale, mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 
@@ -368,7 +368,7 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
                           fill={
                             option.percentage === 0
                               ? darkGrey
-                              : differentColorScale(option.percentage, 'red')
+                              : mixColorScale(option.percentage)
                           }
                         />
                       ))}

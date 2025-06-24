@@ -105,10 +105,18 @@ const useStyles = makeStyles((theme) => ({
     height: '15px',
     width: '15px',
   },
+  // gradientBox: {
+  //   height: '15px',
+  //   width: '100px',
+  //   backgroundImage: 'linear-gradient(to right, #FAAD8F, #FA694A, #DD2C24, #A20F17)',
+  // },
   gradientBox: {
     height: '15px',
     width: '100px',
-    backgroundImage: 'linear-gradient(to right, #FAAD8F, #FA694A, #DD2C24, #A20F17)',
+    backgroundImage: `linear-gradient(to right, 
+      #FFE0B2 0%, 
+      #DD2C24 20%, 
+      #0288D1 100%)`,
   },
   divider: {
     paddingTop: '16px',

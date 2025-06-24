@@ -68,55 +68,56 @@ export const MapActions = () => {
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
         if (organism === 'sentericaints')
-          ctx.fillText('Global Overview of ', canvas.width * 0.36, 80);
-        else ctx.fillText('Global Overview of ', canvas.width * 0.44, 80);
+          ctx.fillText(`Global Overview of ${mapView}`, canvas.width * 0.5, 80);
+        else ctx.fillText(`Global Overview of ${mapView}`, canvas.width * 0.5, 80);
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
         // ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
 
         // Revert to the original font style for the remaining text
         // ctx.font = 'bolder 50px Montserrat';
-        const labelSplit = globalOverviewLabel.stringLabel.split(' ');
+        // const labelSplit = globalOverviewLabel.stringLabel.split(' ');
 
-        if (organism === 'styphi') {
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
-          ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.615, 80);
-        } else if (['kpneumo', 'ngono'].includes(organism)) {
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
-          ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
-        } else if (organism === 'ecoli') {
-          ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
-        } else if (organism === 'decoli') {
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
-          ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
-          ctx.font = 'bolder bold 50px Montserrat';
-          ctx.fillText(labelSplit[2], canvas.width * 0.7, 80);
-        } else if (organism === 'shige') {
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
-          ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.585, 80);
-          ctx.fillText(labelSplit[2], canvas.width * 0.61, 80);
-        } else if (organism === 'sentericaints') {
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.48, 80);
-          ctx.font = 'bolder bold 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.56, 80);
-          ctx.fillText(labelSplit[2], canvas.width * 0.65, 80);
-        } else {
-          ctx.font = 'italic bold 50px Montserrat';
-          ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
-          ctx.font = 'bolder 50px Montserrat';
-          ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
-        }
-
+        // if (organism === 'styphi') {
+        //   ctx.font = 'italic bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
+        //   ctx.font = 'bolder 50px Montserrat';
+        //   ctx.fillText(labelSplit[1], canvas.width * 0.615, 80);
+        // } else if (['kpneumo', 'ngono'].includes(organism)) {
+        //   ctx.font = 'italic bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
+        //   ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
+        // } else if (organism === 'ecoli') {
+        //   ctx.font = 'bolder 50px Montserrat';
+        //   ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
+        //   ctx.font = 'italic bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
+        // } else if (organism === 'decoli') {
+        //   ctx.font = 'italic bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[0], canvas.width * 0.56, 80);
+        //   ctx.fillText(labelSplit[1], canvas.width * 0.62, 80);
+        //   ctx.font = 'bolder bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[2], canvas.width * 0.7, 80);
+        // } else if (organism === 'shige') {
+        //   ctx.font = 'italic bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[0], canvas.width * 0.545, 80);
+        //   ctx.font = 'bolder 50px Montserrat';
+        //   ctx.fillText(labelSplit[1], canvas.width * 0.585, 80);
+        //   ctx.fillText(labelSplit[2], canvas.width * 0.61, 80);
+        // } else if (organism === 'sentericaints') {
+        //   ctx.font = 'italic bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[0], canvas.width * 0.48, 80);
+        //   ctx.font = 'bolder bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[1], canvas.width * 0.56, 80);
+        //   ctx.fillText(labelSplit[2], canvas.width * 0.65, 80);
+        // } else {
+        //   ctx.font = 'italic bold 50px Montserrat';
+        //   ctx.fillText(labelSplit[0], canvas.width * 0.55, 80);
+        //   ctx.font = 'bolder 50px Montserrat';
+        //   ctx.fillText(labelSplit[1], canvas.width * 0.64, 80);
+        // }
+        // ctx.font = 'italic bold 50px Montserrat';
+        // ctx.fillText(mapView, canvas.width * 0.59, 80);
         ctx.font = '35px Montserrat';
         ctx.textAlign = 'center';
 
@@ -132,6 +133,7 @@ export const MapActions = () => {
         ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 240);
         ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 290);
+        ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 337);
 
         const getAxisLabel = () => {
           switch (organism) {

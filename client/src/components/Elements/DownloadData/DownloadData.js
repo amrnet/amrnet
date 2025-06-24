@@ -1103,11 +1103,12 @@ export const DownloadData = () => {
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
-      doc.text('Global Overview of', amrnetHeading, 44, { align: 'center' });
-      doc.setFont(undefined, 'bolditalic');
-      doc.text(firstName, firstWord, 44, { align: 'center' });
-      doc.setFont(undefined, 'bold');
-      doc.text(secondName, secondword, 44, { align: 'center' });
+      // doc.text('Global Overview of', amrnetHeading, 44, { align: 'center' });
+      doc.text(`Global Overview of ${mapView}`, pageWidth/2, 44,{ align: 'center' });
+      // doc.setFont(undefined, 'bolditalic');
+      // doc.text(firstName, firstWord, 44, { align: 'center' });
+      // doc.setFont(undefined, 'bold');
+      // doc.text(secondName, secondword, 44, { align: 'center' });
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 60, { align: 'center' });
       doc.text(`Country: ${actualCountry}`, pageWidth / 2, 72, { align: 'center' });
