@@ -1247,6 +1247,70 @@ export const DownloadData = () => {
         doc.addImage(graphImgHeat, 'PNG', 16, 100, pageWidth - 80, 271, undefined, 'FAST');
       }
 
+      //TLmap
+      doc.addPage();
+      drawHeader({ document: doc, pageWidth });
+      drawFooter({ document: doc, pageHeight, pageWidth, date });
+      doc.setFontSize(12).setFont(undefined, 'bold');
+      doc.text('Geographic Comparisons (TL)', 16, 44);
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(12);
+      doc.text(`Selected View: ${actualMapView}`, 16, 56);
+      doc.text(
+        `Dataset: ${dataset}${
+          dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
+        }`,
+        16,
+        76,
+      );
+      const graphImgTL = document.createElement('img');
+      const graphImgPromiseTL = imgOnLoadPromise(graphImgTL);
+      graphImgTL.src = await domtoimage.toPng(document.getElementById('TL'), {
+        bgcolor: 'white',
+      });
+      await graphImgPromiseTL;
+      // console.log('graphImgHeat', graphImgHeat.width);
+      if (graphImgTL.width > 3000) {
+        doc.addImage(graphImgTL, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
+      } else {
+        doc.addImage(graphImgTL, 'PNG', 16, 100, pageWidth - 80, 271, undefined, 'FAST');
+      }
+
+      //Pathotype
+      if(organism === 'ints' || organism === 'decoli' || organism === 'shige') {
+        doc.addPage();
+        drawHeader({ document: doc, pageWidth });
+        drawFooter({ document: doc, pageHeight, pageWidth, date });
+        doc.setFontSize(12).setFont(undefined, 'bold');
+        if(organism === 'ints')
+          doc.text('Serotype Comparisons', 16, 44);
+        else
+          doc.text('Pathotype Comparisons', 16, 44);
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(12);
+        doc.text(`Selected View: ${actualMapView}`, 16, 56);
+        doc.text(
+          `Dataset: ${dataset}${
+            dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
+          }`,
+          16,
+          76,
+        );
+        const graphImgPatho = document.createElement('img');
+        const graphImgPromisePatho = imgOnLoadPromise(graphImgPatho);
+        graphImgPatho.src = await domtoimage.toPng(document.getElementById('BHP'), {
+          bgcolor: 'white',
+        });
+        await graphImgPromisePatho;
+        // console.log('graphImgPatho', graphImgPatho.width, graphImgPatho.height);
+        // console.log('graphImgHeat', graphImgHeat.width);
+        if (graphImgPatho.width > 3000) {
+          doc.addImage(graphImgPatho, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
+        } else {
+          doc.addImage(graphImgPatho, 'PNG', 16, 100, pageWidth , graphImgPatho.height/2, undefined, 'FAST');
+        }
+      }
+
       // Graphs
       const isKlebe = organism === 'kpneumo';
       const isNgono = organism === 'ngono';
