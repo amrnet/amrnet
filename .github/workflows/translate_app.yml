@@ -1,5 +1,3 @@
-```yaml
-
 name: Translate Web App Strings
 
 on:
@@ -51,4 +49,3 @@ jobs:
           labels: "translation, i18n, automated"
           assignees: "${{ github.actor }}" # Assign PR to the person who triggered the workflow (e.g., via push)
           # Add other options as needed, e.g., reviewers
-```
