@@ -53,11 +53,15 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['styphi', 'ngono', ...amrLikeOrganisms.filter((x) => x !== 'sentericaints')],
+    organisms: [
+      'styphi',
+      'ngono',
+      ...amrLikeOrganisms.filter((x) => !['sentericaints', 'senterica'].includes(x)),
+    ],
     component: <DistributionGraph />,
   },
   {
-    title: 'ST distribution',
+    title: 'ST trends',
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
@@ -70,7 +74,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['sentericaints'],
+    organisms: ['sentericaints', 'senterica'],
     component: <DistributionGraph />,
   },
   // {

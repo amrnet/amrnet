@@ -150,7 +150,7 @@ export const Map = () => {
                 : organism === 'kpneumo'
                 ? {
                     Samples: countryData.count,
-                    Genotypes: countryStats.GENOTYPE.count,
+                    STs: countryStats.GENOTYPE.count,
                     ESBL: `${countryStats.ESBL.percentage}%`,
                     Carbapenems: `${countryStats.Carbapenems.percentage}%`,
                     // Susceptible: `${countryStats.Susceptible.percentage}%`,
@@ -168,7 +168,8 @@ export const Map = () => {
                   }
                 : {
                     Samples: countryData.count,
-                    Genotypes: countryStats.GENOTYPE.count,
+                    [['sentericaints', 'senterica'].includes(organism) ? 'Lineages' : 'Genotypes']:
+                      countryStats.GENOTYPE.count,
                   },
           });
           break;

@@ -46,7 +46,7 @@ export const mapLegends = [
     label: 'Genotype prevalence',
     organisms: organismsCards
       .map((x) => x.value)
-      .filter((x) => !['sentericaints', 'kpneumo'].includes(x)),
+      .filter((x) => !['sentericaints', 'kpneumo', 'senterica'].includes(x)),
   },
   {
     value: 'ST prevalence',
@@ -56,7 +56,7 @@ export const mapLegends = [
   {
     value: 'Lineage prevalence',
     label: 'Lineage prevalence',
-    organisms: ['sentericaints'],
+    organisms: ['sentericaints', 'senterica'],
   },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
