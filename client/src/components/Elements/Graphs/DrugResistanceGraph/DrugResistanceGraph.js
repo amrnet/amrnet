@@ -187,9 +187,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   function handleClickChart(event) {
     const year = event?.activeLabel;
-    const data = trendsData?.find((item) => item.name.toString() === year?.toString());
+    const data = drugsYearData?.find((item) => item.name.toString() === year?.toString());
 
-    if (data && drugResistanceGraphView.length > 0) {
+    if (data && data.count >= 10 && drugResistanceGraphView.length > 0) {
       const currentData = structuredClone(data);
 
       const value = {
@@ -207,9 +207,6 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         }
 
         const count = currentData[key];
-        // if (count === 0) {
-        //   return;
-        // }
 
         value.drugs.push({
           label: key,

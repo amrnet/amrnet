@@ -91,7 +91,7 @@ export const SliderSizes = (props) => {
 
   const heading = useMemo(() => {
     function geno() {
-      if (organism === 'sentericaints') return 'lineage';
+      if (['sentericaints', 'senterica'].includes(organism)) return 'lineage';
       if (organism === 'kpneumo') return 'ST';
       return 'genotype';
     }
@@ -101,7 +101,9 @@ export const SliderSizes = (props) => {
     }
 
     if (props.value === 'CM') {
-      return `Individual ${variablesOptions.find((x) => x.value === convergenceGroupVariable).label} to colour`;
+      return `Individual ${
+        variablesOptions.find((x) => x.value === convergenceGroupVariable).label
+      } to colour`;
     }
 
     return 'Individual resistance determinants:';
@@ -115,13 +117,19 @@ export const SliderSizes = (props) => {
     if (props.value === 'GD') {
       newSliderValue = currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue;
     } else if (props.value === 'KP_GT') {
-      newSliderValue = currentSliderValueKP_GT < maxSliderValue ? currentSliderValueKP_GT : maxSliderValue;
+      newSliderValue =
+        currentSliderValueKP_GT < maxSliderValue ? currentSliderValueKP_GT : maxSliderValue;
     } else if (props.value === 'KP_GE') {
-      newSliderValue = currentSliderValueKP_GE < maxSliderValueKP_GE ? currentSliderValueKP_GE : maxSliderValueKP_GE;
+      newSliderValue =
+        currentSliderValueKP_GE < maxSliderValueKP_GE
+          ? currentSliderValueKP_GE
+          : maxSliderValueKP_GE;
     } else if (props.value === 'CM') {
-      newSliderValue = currentSliderValueCM < maxSliderValueCM ? currentSliderValueCM : maxSliderValueCM;
+      newSliderValue =
+        currentSliderValueCM < maxSliderValueCM ? currentSliderValueCM : maxSliderValueCM;
     } else {
-      newSliderValue = currentSliderValueRD < maxSliderValueRD ? currentSliderValueRD : maxSliderValueRD;
+      newSliderValue =
+        currentSliderValueRD < maxSliderValueRD ? currentSliderValueRD : maxSliderValueRD;
     }
 
     setSliderValue(newSliderValue);
