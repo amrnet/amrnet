@@ -72,6 +72,7 @@ export const ContinentGraphs = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
+  const downloadForPDF = useAppSelector((state) => state.graph.download);
 
   useEffect(() => {
     setShowFilter(!matches500);
@@ -304,12 +305,12 @@ export const ContinentGraphs = () => {
                 <Box
                   key={`card-${card.value}`}
                   sx={{
-                    visibility: currentTab === card.value ? 'visible' : 'hidden',
                     position: currentTab === card.value ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
                   }}
+                  zIndex={currentTab === card.value ? 1: -100}
                 >
                   {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
