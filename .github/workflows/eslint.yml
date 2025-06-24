@@ -32,12 +32,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Install ESLint
         run: |
           npm install eslint@8.10.0
+          npm install @typescript-eslint/parser@5.59.0 @typescript-eslint/eslint-plugin@5.59.0
           npm install @microsoft/eslint-formatter-sarif@3.1.0
-
+      - name: Install dependencies
+        run: npm ci
       - name: Run ESLint
         env:
           SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
