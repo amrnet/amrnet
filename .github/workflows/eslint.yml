@@ -49,9 +49,23 @@ jobs:
             --format @microsoft/eslint-formatter-sarif \
             --output-file eslint-results.sarif
         continue-on-error: true # Allow the workflow to complete even if linting errors are found
+      
+      - name: Check if SARIF file exists (for debugging)
+        id: check_sarif
+        run: |
+          ls -la eslint-results.sarif || echo "eslint-results.sarif does NOT exist!"
+          # You can also add `cat eslint-results.sarif` here to see its content if it exists
+        continue-on-error: true # Allow this check to pass even if file not found
 
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
+          sarif_file: eslint-results.sarif
+          wait-for-processing: true
+
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          # Confirm the path is correct relative to the repository root.
           sarif_file: eslint-results.sarif
           wait-for-processing: true
