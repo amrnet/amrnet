@@ -30,8 +30,8 @@ jobs:
 
       - name: Run Translation Script
         env:
-          OPENAI_API_KEY: ${{ secrets.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 }}
-          GITHUB_TOKEN: ${{ secrets.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 }} # For basic commits, or use GH_PAT for PRs
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # For basic commits, or use GH_PAT for PRs
           REPO_FULL_NAME: ${{ github.amrnet/amrnet/ }} # e.g., amrnet/amrnet
         run: python .github/scripts/translator.py
 
