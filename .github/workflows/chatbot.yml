@@ -27,7 +27,6 @@ jobs:
 
       - name: Run Chatbot Logic
         env:
-          repository: amrnet/amrnet
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
           ISSUE_NUMBER: ${{ github.event.issue.number }}
