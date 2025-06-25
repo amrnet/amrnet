@@ -119,7 +119,7 @@ html_theme_options = {
     ],
 }
 
-autosectionlabel_prefix_document = True
+# autosectionlabel_prefix_document = True
 # nb_execution_mode = "cache"
 # thebe_config = {
 #     "repository_url": "https://github.com/binder-examples/jupyter-stacks-datascience",
