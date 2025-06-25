@@ -1,4 +1,3 @@
-# File: docs/source/api.rst
 .. spelling::
 
    apiauth
@@ -27,52 +26,44 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
 **Architectures**: The API architectures have 2 options developed for the project which include:
 
+.. Commented out sections for API architecture options (uncomment if applicable and ensure consistency with the "2 options" statement)
 .. **OPTION 1:**
-
 .. .. figure:: assets/apiauth1.png
 ..    :width: 100%
 ..    :align: center
 ..    :alt: api
-
 .. .. figure:: assets/arrow.png
 ..    :width: 100%
 ..    :align: center
 ..    :alt: api
-
 .. .. figure:: assets/apiauth2.png
 ..     :width: 100%
 ..     :align: center
 ..     :alt: api
 
 .. **OPTION 2:**
-
 .. .. figure:: assets/apidatalake1.png
 ..    :width: 100%
 ..    :align: center
 ..    :alt: api
-
 .. .. figure:: assets/arrow.png
 ..    :width: 100%
 ..    :align: center
 ..    :alt: api
-
 .. .. figure:: assets/apidatalake2.png
 ..     :width: 100%
 ..     :align: center
 ..     :alt: api
 
 .. **OPTION 3:**
-
 .. .. figure:: assets/apigui1.png
 ..    :width: 100%
 ..    :align: center
 ..    :alt: api
-
 .. .. figure:: assets/arrow.png
 ..    :width: 100%
 ..    :align: center
 ..    :alt: api
-
 .. .. figure:: assets/apigui2.png
 ..     :width: 100%
 ..     :align: center
@@ -85,30 +76,30 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
     Organism name for downloading files from AWS:
 
-Escherichia coli (diarrheagenic) as ``decoli``
-Escherichia coli as ``ecoli``
-Klebsiella pneumoniae as ``kpneumo``
-Neisseria gonorrhoeae as ``ngono``
-Salmonella (invasive non-typhoidal) as ``sentericaints``
-Shigella as ``shige``
-Salmonella Typhi as ``styphi``
+    Escherichia coli (diarrheagenic) as ``decoli``
+    Escherichia coli as ``ecoli``
+    Klebsiella pneumoniae as ``kpneumo``
+    Neisseria gonorrhoeae as ``ngono``
+    Salmonella (invasive non-typhoidal) as ``sentericaints``
+    Shigella as ``shige``
+    Salmonella Typhi as ``styphi``
 
 a. Data accessing using Browser
 ******************************************
 
-i. Viewing Available Files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Viewing Available Files
+~~~~~~~~~~~~~~~~~~~~~~~
 * Step 1: Open a web browser (Chrome, Firefox, Safari, etc.).
 * Step 2: Navigate to the root bucket URL by clicking `https://amrnet.s3.amazonaws.com/ <https://amrnet.s3.amazonaws.com/>`_.
 * Step 3: This URL leads to an XML text representation listing all the files available in the Amazon S3 bucket. The XML format will display information about each file, such as its key (name), last modified date, size, etc.
 
-ii. Searching for a Specific Organism
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Searching for a Specific Organism
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Step 1: Use the search functionality of your browser (Ctrl-F on Windows/Linux or Cmd-F on Mac).
 * Step 2: Type the name of file based on the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism.
 
-iii. Downloading a File
-~~~~~~~~~~~~~~~~~~~~~~~~
+Downloading a File
+~~~~~~~~~~~~~~~~~~
 * Step 1: Once you find the ``<Key>`` field that contains the file name you are interested in, note down the file name.
 * Step 2: Open a new tab in your browser.
 * Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into the new tab's address bar.
@@ -117,7 +108,7 @@ iii. Downloading a File
 
 **OR**
 
-* Copy the URL below and modify the organism name added at the end **amrnet-** ``decoli`` **.csv** based on organism list given above.
+To download a specific file, you can construct the URL directly by appending the file name (e.g., **amrnet-** ``decoli`` **.csv**) to the base S3 URL, based on the organism list provided above.
 
 Example:
 
@@ -152,7 +143,7 @@ Example:
 c. Data accessing using Using S3cmd tool
 ***************************************************
 
-The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
+The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as Browse, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
 
 2. Download data via API
 ------------------------
@@ -232,11 +223,13 @@ Example code to download the data and save in JSON:
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>",
-                "filter": {"DATE": "2015"},
-                "> output.json"
-            }'
+                "filter": {"DATE": "2015"}
+            }' > output.json
 
 Example code to download the data and save in CSV:
+.. note::
+    This example assumes your API can return CSV, or you intend to save JSON to a .csv file and process it later.
+    If the API only returns JSON, saving to ``.json`` is more appropriate, and you can advise on JSON to CSV conversion tools.
 
 .. code-block:: bash
 
@@ -247,10 +240,10 @@ Example code to download the data and save in CSV:
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"<dataSource_NAME>"
-                "filter": {"DATE": "2015"},
-                "> output.csv"
-            }'
+                "dataSource":"<dataSource_NAME>",
+                "filter": {"DATE": "2015"}
+            }' > output.csv
+
 
 .. note::
 
