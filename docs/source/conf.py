@@ -50,7 +50,6 @@ extensions = [
     'sphinx_tabs.tabs',
     'sphinx_thebe',
     'sphinx_togglebutton'
-
 ]
 
 autosummary_generate = True
