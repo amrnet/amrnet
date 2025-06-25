@@ -6,10 +6,10 @@ from pathlib import Path
 # -- Project information
 
 project = 'AMRnet'
-copyright = '2024, Louise Cerdeira, Vandana Sharma, Kathryn Holt'
+copyright = '2023, Louise Cerdeira, Vandana Sharma, Megan Carey, Zoe Dyson, Kathryn Holt'
 
-release = '0.2'
-version = '1.0.0'
+release = '0.1'
+version = '1.2.0'
 
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
@@ -82,7 +82,7 @@ epub_show_urls = 'footnote'
 #     # "substitution",
 # ]
 
-html_title = 'AMRnet User Guide'
+# html_title = 'AMRnet User Guide'
 
 html_copy_source = True
 
