@@ -528,15 +528,17 @@ export const DownloadMapViewData = ({ value }) => {
     }
   };
 
-  const downloadCSVForHM = () => {
+  const downloadCSVForHM = (compName) => {
+    let COMPARISON;
+    if(compName === 'BHP') COMPARISON = 'PATHOTYPE';
+    else COMPARISON = 'GENOTYPE';
     if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
       let HeaderList = ['Region', 'Country', 'Name']; // Initial headers
       let allDrugs = new Set(); // Store unique drug names
-
       // Extract drug names dynamically from all items
       mapRegionData.forEach((item) => {
-        if (item.stats && item.stats.GENOTYPE && item.stats.GENOTYPE.items) {
-          Object.values(item.stats.GENOTYPE.items).forEach((obj) => {
+       if (item.stats && item.stats[COMPARISON] && item.stats[COMPARISON].items) {
+          Object.values(item.stats[COMPARISON].items).forEach((obj) => {
             Object.keys(obj.drugs).forEach((drugName) => allDrugs.add(drugName));
           });
         }
@@ -558,7 +560,7 @@ export const DownloadMapViewData = ({ value }) => {
       const rows = mapRegionData
         .filter((item) => Object.keys(item).length > 0 && item.name === actualRegion)
         .flatMap((item) => {
-          return Object.values(item.stats.GENOTYPE.items).map((obj) => {
+          return Object.values(item.stats[COMPARISON].items).map((obj) => {
             let rowData = [actualRegion, actualCountry, obj.name]; // Start with genotype name
 
             // Loop through all drugs to add count and percentage
@@ -651,12 +653,12 @@ export const DownloadMapViewData = ({ value }) => {
         });
       });
 
-    // const allDrugs = Array.from(sortedDrugs).sort();
-    const allDrugs = Array.from(allDrugsSet).sort((a, b) => {
-      if (a === 'Pansusceptible') return 1; // always move 'Pansusceptible' down
-      if (b === 'Pansusceptible') return -1; // always move 'Pansusceptible' down
-      return a.localeCompare(b); // alphabetical sort
-    });
+    const allDrugs = Array.from(allDrugsSet).sort();
+    // const allDrugs = Array.from(allDrugsSet).sort((a, b) => {
+    //   if (a === 'Pansusceptible') return 1; // always move 'Pansusceptible' down
+    //   if (b === 'Pansusceptible') return -1; // always move 'Pansusceptible' down
+    //   return a.localeCompare(b); // alphabetical sort
+    // });
 
     // Step 3: Prepare headers
     const headerList = ['Country', 'Total Count'];
@@ -752,7 +754,7 @@ export const DownloadMapViewData = ({ value }) => {
       case 'RFWG':
         return downloadCSVForRFWG();
       case 'RDWG':
-        return downloadCSVForRDWG();
+        return downloadCSVForRDWG('HSG2');
       case 'GD':
         return downloadCSVForGD();
       case 'HSG2':
@@ -762,7 +764,9 @@ export const DownloadMapViewData = ({ value }) => {
       case 'convergence-graph': // convergence graph plot was missing the download data
         return downloadCSVForCG();
       case 'BG':
-        return downloadCSVForBG(); // Rename the function used to Download BubbleGeographicGraph HeatMap
+        return downloadCSVForBG()// Rename the function used to Download BubbleGeographicGraph HeatMap
+      case 'BHP': // Pathotype HeatMap
+        return downloadCSVForHM('BHP');; // Rename the function used to Download BubbleGeographicGraph HeatMap
       default:
         return downloadCSV();
     }
