@@ -101,13 +101,18 @@ const useStyles = makeStyles((theme) => ({
     gap: '8px',
     alignItems: 'center',
   },
-  singleBox: {
+    singleBox: {
     height: '15px',
     width: '15px',
+  },
+  gradientBox: {
+    height: '15px',
+    width: '100px',
     backgroundImage: `linear-gradient(to right,
-      #FFE0B2 0%,
-      #DD2C24 20%,
-      #0288D1 100%)`,
+  #D3D3D3 0%,
+  #FFE0B2 1%,
+  #DD2C24 20%,
+  #0288D1 100%)`,
   },
   // gradientBox: {
   //   height: '15px',

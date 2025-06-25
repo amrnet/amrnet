@@ -30,7 +30,7 @@ import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { drugClassesRulesKP, statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
-import { differentColorScale } from '../../Map/mapColorHelper';
+import { differentColorScale, mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
@@ -353,7 +353,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                         <Cell
                           name={option.drug}
                           key={`bubble-cell-${index}`}
-                          fill={option.percentage === 0 ? darkGrey : differentColorScale(option.percentage, 'red')}
+                          fill={option.percentage === 0 ? darkGrey : mixColorScale(option.percentage)}
                         />
                       ))}
                       <LabelList
