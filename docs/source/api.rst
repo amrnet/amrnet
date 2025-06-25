@@ -1,24 +1,3 @@
-.. spelling::
-
-   apiauth
-   apidatalake
-   apigui
-   diarrheagenic
-   decoli
-   ecoli
-   Klebsiella
-   pneumoniae
-   kpneumo
-   Neisseria
-   gonorrhoeae
-   ngono
-   sentericaints
-   senterica
-   shige
-   Typhi
-   styphi
-   amrnet
-
 Data access
 ===========
 
@@ -26,48 +5,50 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
 **Architectures**: The API architectures have 2 options developed for the project which include:
 
-.. Commented out sections for API architecture options (uncomment if applicable and ensure consistency with the "2 options" statement)
-.. **OPTION 1:**
-.. .. figure:: assets/apiauth1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-.. .. figure:: assets/apiauth2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
+**OPTION 1:**
 
-.. **OPTION 2:**
-.. .. figure:: assets/apidatalake1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-.. .. figure:: assets/apidatalake2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
+.. figure:: assets/apiauth1.png
+   :width: 100%
+   :align: center
+   :alt: api
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+.. figure:: assets/apiauth2.png
+    :width: 100%
+    :align: center
+    :alt: api
 
-.. **OPTION 3:**
-.. .. figure:: assets/apigui1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-.. .. figure:: assets/apigui2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
+**OPTION 2:**
+
+.. figure:: assets/apidatalake1.png
+   :width: 100%
+   :align: center
+   :alt: api
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+.. figure:: assets/apidatalake2.png
+    :width: 100%
+    :align: center
+    :alt: api
+
+**OPTION 3:**
+
+.. figure:: assets/apigui1.png
+   :width: 100%
+   :align: center
+   :alt: api
+.. figure:: assets/arrow.png
+   :width: 100%
+   :align: center
+   :alt: api
+.. figure:: assets/apigui2.png
+    :width: 100%
+    :align: center
+    :alt: api
 
 1. Download data via bucket
 ---------------------------
@@ -76,13 +57,13 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
     Organism name for downloading files from AWS:
 
-    Escherichia coli (diarrheagenic) as ``decoli``
-    Escherichia coli as ``ecoli``
-    Klebsiella pneumoniae as ``kpneumo``
-    Neisseria gonorrhoeae as ``ngono``
-    Salmonella (invasive non-typhoidal) as ``sentericaints``
-    Shigella as ``shige``
-    Salmonella Typhi as ``styphi``
+1. Escherichia coli (diarrheagenic) as ``decoli``
+2. Escherichia coli as ``ecoli``
+3. Klebsiella pneumoniae as ``kpneumo``
+4. Neisseria gonorrhoeae as ``ngono``
+5. Salmonella (invasive non-typhoidal) as ``sentericaints``
+6. Shigella as ``shige``
+7. Salmonella Typhi as ``styphi``
 
 a. Data accessing using Browser
 ******************************************
@@ -227,6 +208,24 @@ Example code to download the data and save in JSON:
             }' > output.json
 
 Example code to download the data and save in CSV:
+
+.. note::
+    This example assumes your API can return CSV, or you intend to save JSON to a .csv file and process it later.
+    If the API only returns JSON, saving to ``.json`` is more appropriate, and you can advise on JSON to CSV conversion tools.
+
+.. code-block:: bash
+
+    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
+            --header 'Content-Type: application/json' \
+            --header 'Access-Control-Request-Headers: *' \
+            --header 'api-key: <API_TOKEN_KEY>' \
+            --data-raw '{
+                "collection":"<COLLECTION_NAME>",
+                "database":"<DATABASE_NAME>",
+                "dataSource":"<dataSource_NAME>",
+                "filter": {"DATE": "2015"}
+            }' > output.csv
+
 .. note::
     This example assumes your API can return CSV, or you intend to save JSON to a .csv file and process it later.
     If the API only returns JSON, saving to ``.json`` is more appropriate, and you can advise on JSON to CSV conversion tools.
