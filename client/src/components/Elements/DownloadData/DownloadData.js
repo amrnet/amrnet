@@ -1251,7 +1251,6 @@ export const DownloadData = () => {
       // graphImgHeat.src = await domtoimage.toPng(document.getElementById('CVM'), {
         bgcolor: 'white',
       });
-      await graphImgPromiseHeat;
       // console.log('graphImgHeat', graphImgHeat.width);
       await imgLoad;
         if (img.width > 3000) {
