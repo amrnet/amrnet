@@ -1,3 +1,4 @@
+# File: docs/source/api.rst
 Data access
 ===========
 
@@ -5,82 +6,86 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 
 **Architectures**: The API architectures have 2 options developed for the project which include:
 
-**OPTION 1:**
+.. **OPTION 1:**
 
-.. figure:: assets/apiauth1.png
-   :width: 100%
-   :align: center
-   :alt: api
-.. figure:: assets/arrow.png
-   :width: 100%
-   :align: center
-   :alt: api
-.. figure:: assets/apiauth2.png
-    :width: 100%
-    :align: center
-    :alt: api
+.. .. figure:: assets/apiauth1.png
+..    :width: 100%
+..    :align: center
+..    :alt: api
 
-**OPTION 2:**
+.. .. figure:: assets/arrow.png
+..    :width: 100%
+..    :align: center
+..    :alt: api
 
-.. figure:: assets/apidatalake1.png
-   :width: 100%
-   :align: center
-   :alt: api
-.. figure:: assets/arrow.png
-   :width: 100%
-   :align: center
-   :alt: api
-.. figure:: assets/apidatalake2.png
-    :width: 100%
-    :align: center
-    :alt: api
+.. .. figure:: assets/apiauth2.png
+..     :width: 100%
+..     :align: center
+..     :alt: api
 
-**OPTION 3:**
+.. **OPTION 2:**
 
-.. figure:: assets/apigui1.png
-   :width: 100%
-   :align: center
-   :alt: api
-.. figure:: assets/arrow.png
-   :width: 100%
-   :align: center
-   :alt: api
-.. figure:: assets/apigui2.png
-    :width: 100%
-    :align: center
-    :alt: api
+.. .. figure:: assets/apidatalake1.png
+..    :width: 100%
+..    :align: center
+..    :alt: api
+
+.. .. figure:: assets/arrow.png
+..    :width: 100%
+..    :align: center
+..    :alt: api
+
+.. .. figure:: assets/apidatalake2.png
+..     :width: 100%
+..     :align: center
+..     :alt: api
+
+.. **OPTION 3:**
+
+.. .. figure:: assets/apigui1.png
+..    :width: 100%
+..    :align: center
+..    :alt: api
+
+.. .. figure:: assets/arrow.png
+..    :width: 100%
+..    :align: center
+..    :alt: api
+
+.. .. figure:: assets/apigui2.png
+..     :width: 100%
+..     :align: center
+..     :alt: api
 
 1. Download data via bucket
 ---------------------------
 
-.. note::
-
-    Organism name for downloading files from AWS:
-
-1. Escherichia coli (diarrheagenic) as ``decoli``
-2. Escherichia coli as ``ecoli``
-3. Klebsiella pneumoniae as ``kpneumo``
-4. Neisseria gonorrhoeae as ``ngono``
-5. Salmonella (invasive non-typhoidal) as ``sentericaints``
-6. Shigella as ``shige``
-7. Salmonella Typhi as ``styphi``
+.. note:: **Organism name for downloading files from AWS:**
+    Escherichia coli (diarrheagenic) as ``decoli``;
+    Escherichia coli as ``ecoli``;
+    Klebsiella pneumoniae as ``kpneumo``;
+    Neisseria gonorrhoeae as ``ngono``;
+    Salmonella (invasive non-typhoidal) as ``sentericaints``;
+    Salmonella (non-typhoidal) as ``senterica``;
+    Shigella as ``shige``;
+    Salmonella Typhi as ``styphi``
 
 a. Data accessing using Browser
 ******************************************
 
-Viewing Available Files
-~~~~~~~~~~~~~~~~~~~~~~~
+i. Viewing Available Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Step 1: Open a web browser (Chrome, Firefox, Safari, etc.).
 * Step 2: Navigate to the root bucket URL by clicking `https://amrnet.s3.amazonaws.com/ <https://amrnet.s3.amazonaws.com/>`_.
 * Step 3: This URL leads to an XML text representation listing all the files available in the Amazon S3 bucket. The XML format will display information about each file, such as its key (name), last modified date, size, etc.
 
-Searching for a Specific Organism
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ii. Searching for a Specific Organism
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Step 1: Use the search functionality of your browser (Ctrl-F on Windows/Linux or Cmd-F on Mac).
 * Step 2: Type the name of file based on the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism.
 
-Downloading a File
-~~~~~~~~~~~~~~~~~~
+iii. Downloading a File
+~~~~~~~~~~~~~~~~~~~~~~~~
 * Step 1: Once you find the ``<Key>`` field that contains the file name you are interested in, note down the file name.
 * Step 2: Open a new tab in your browser.
 * Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into the new tab's address bar.
@@ -89,7 +94,7 @@ Downloading a File
 
 **OR**
 
-To download a specific file, you can construct the URL directly by appending the file name (e.g., **amrnet-** ``decoli`` **.csv**) to the base S3 URL, based on the organism list provided above.
+* Copy the URL below and modify the organism name added at the end **amrnet-** ``decoli`` **.csv** based on organism list given above.
 
 Example:
 
@@ -113,7 +118,6 @@ Similarly, if you need to download a specific file from the URL, you would speci
 
     curl -O https://amrnet.s3.amazonaws.com/filename
 
-
 Example:
 
 .. code-block:: bash
@@ -124,7 +128,7 @@ Example:
 c. Data accessing using Using S3cmd tool
 ***************************************************
 
-The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as Browse, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
+The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage.
 
 2. Download data via API
 ------------------------
@@ -161,7 +165,6 @@ Example code to download all the data for an organism:
                 "dataSource":"<dataSource_NAME>"
             }'
 
-
 Example code to download the data with filters **DATE** and **COUNTRY** for an organism:
 
 .. code-block:: bash
@@ -195,7 +198,6 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
 Example code to download the data and save in JSON:
 
 .. code-block:: bash
-
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
@@ -207,11 +209,7 @@ Example code to download the data and save in JSON:
                 "filter": {"DATE": "2015"}
             }' > output.json
 
-Example code to download the data and save in CSV:
-
-.. note::
-    This example assumes your API can return CSV, or you intend to save JSON to a .csv file and process it later.
-    If the API only returns JSON, saving to ``.json`` is more appropriate, and you can advise on JSON to CSV conversion tools.
+Example code to download the data and save in JSON
 
 .. code-block:: bash
 
@@ -222,27 +220,9 @@ Example code to download the data and save in CSV:
             --data-raw '{
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
-                "dataSource":"<dataSource_NAME>",
+                "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
-            }' > output.csv
-
-.. note::
-    This example assumes your API can return CSV, or you intend to save JSON to a .csv file and process it later.
-    If the API only returns JSON, saving to ``.json`` is more appropriate, and you can advise on JSON to CSV conversion tools.
-
-.. code-block:: bash
-
-    curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
-            --header 'Content-Type: application/json' \
-            --header 'Access-Control-Request-Headers: *' \
-            --header 'api-key: <API_TOKEN_KEY>' \
-            --data-raw '{
-                "collection":"<COLLECTION_NAME>",
-                "database":"<DATABASE_NAME>",
-                "dataSource":"<dataSource_NAME>",
-                "filter": {"DATE": "2015"}
-            }' > output.csv
-
+            }' > output.json
 
 .. note::
 
@@ -282,30 +262,30 @@ Steps to Import the Example ``cURL`` Command using Postman
    :align: center
    :alt: Import
 
-4. **Paste the cURL command in Import:**
+5. **Paste the cURL command in Import:**
 
 .. figure:: assets/curl_postman.png
    :width: 100%
    :align: center
    :alt: CURL
 
-5. Review the imported request details and add ``<API_TOKEN_KEY>`` in ``Headers`` in Postman.
-6. Replace database name and collection name based on data to download
-7. Add filters to get specific data in ``filter``
+6. Review the imported request details and add ``<API_TOKEN_KEY>`` in ``Headers`` in Postman.
+7. Replace database name and collection name based on data to download
+8. Add filters to get specific data in ``filter``
 
 .. figure:: assets/sample_postman.png
    :width: 100%
    :align: center
    :alt: filter
 
-8. **Click "Send" to execute the request and view the response.**
+9. **Click "Send" to execute the request and view the response.**
 
 .. figure:: assets/send_postman.png
    :width: 100%
    :align: center
    :alt: send
 
-9. **Save the response in file**
+10. **Save the response in file**
 
 .. figure:: assets/save_postman.png
    :width: 100%
