@@ -50,7 +50,7 @@ extensions = [
     'sphinx_tabs.tabs',
     'sphinx_thebe',
     'sphinx_togglebutton'
-    
+
 ]
 
 autosummary_generate = True
@@ -82,17 +82,17 @@ epub_show_urls = 'footnote'
 #     # "substitution",
 # ]
 
-# html_title = 'AMRnet User Guide'
+html_title = 'AMRnet User Guide'
 
 html_copy_source = True
 
 html_theme_options = {
     "path_to_docs": "docs",
     "repository_url": "https://github.com/amrnet/amrnet/",
-    "repository_branch": "https://github.com/amrnet/amrnet/tree/staging",
+    "repository_branch": "https://github.com/amrnet/amrnet/tree/devrev",
     "launch_buttons": {
         # "binderhub_url": "https://mybinder.org",
-        "colab_url": "https://colab.research.google.com/",
+        # "colab_url": "https://colab.research.google.com/",
         # "deepnote_url": "https://deepnote.com/",
         # "notebook_interface": "jupyterlab",
         # "thebe": True,
@@ -117,9 +117,7 @@ html_theme_options = {
             "icon": "fa-brands fa-github",
         },
     ],
-}   
-
-
+}
 
 autosectionlabel_prefix_document = True
 # nb_execution_mode = "cache"
