@@ -1,6 +1,6 @@
 {
   "name": "amrnet-client",
-  "version": "0.0.1",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -11,6 +11,7 @@
     "@mui/styles": "^5.15.11",
     "@reduxjs/toolkit": "^1.9.3",
     "axios": "^1.6.2",
+    "html2canvas": "1.4.1",
     "framer-motion": "^11.0.8",
     "idb": "^8.0.0",
     "moment": "^2.30.1",

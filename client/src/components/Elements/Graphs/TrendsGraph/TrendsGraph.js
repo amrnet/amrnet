@@ -48,7 +48,7 @@ import {
 } from '../../../../stores/slices/graphSlice';
 import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
-import { Card, FormControlLabel } from '@material-ui/core';
+import { Card, FormControlLabel } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 import { getRange } from '../../../../util/helpers';
