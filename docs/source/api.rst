@@ -1,61 +1,9 @@
-# File: docs/source/api.rst
 Data access
 ===========
 
 The full sample-level data for each organism can be downloaded from the AMRnet dashboard itself, using the ‘Download database (CSV) format’ button at the bottom of the page. In addition, you can access AMRnet data via the API described below.
 
 **Architectures**: The API architectures have 2 options developed for the project which include:
-
-.. **OPTION 1:**
-
-.. .. figure:: assets/apiauth1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/apiauth2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
-
-.. **OPTION 2:**
-
-.. .. figure:: assets/apidatalake1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/apidatalake2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
-
-.. **OPTION 3:**
-
-.. .. figure:: assets/apigui1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/apigui2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
 
 1. Download data via bucket
 ---------------------------

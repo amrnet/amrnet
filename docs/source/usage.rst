@@ -11,8 +11,6 @@ Dashboard overview
    :align: center
    :alt: header
 
-
-
 **Map**: Use the menu on the right to **select a variable to display per-country summary data** on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the **filters on the left** to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed otherwise, it will be coloured grey to indicate insufficient data are available.
 Filters set in this panel apply not only to the map, but to all plots on the page. **Clicking on a country in the map** also functions as a filter, so that subsequent plots reflect data for the selected country only. Per-country values displayed in the map can be downloaded by clicking the downward-arrow button from the map panel.
 
@@ -21,15 +19,10 @@ Filters set in this panel apply not only to the map, but to all plots on the pag
    :align: center
    :alt: map
 
-
-
-
 .. figure:: assets/filter.png
    :width: 100%
    :align: center
    :alt: filter
-
-
 
 **Detailed plots**: These are intended to show country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters. The heading below the map  that has been applied to all plots, and provides another opportunity to select a focus country. Below this are a series of tabs, one per available plot. **Click a tab title to open/close the plotting area**. The specific plots displayed will vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below).
 
@@ -43,10 +36,6 @@ Each plot has a dynamic legend to the right; click on an x-axis value to display
    :width: 100%
    :align: center
    :alt: downloads
-
-
-
-
 
 .. note::
    Please note PDF reports are not yet available for all organisms, they will be added in future updates.
@@ -103,7 +92,6 @@ Individual pathogen details
 - **AMR determinants within genotypes** - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of `Sánchez-Busó et al (2021) <https://doi.org/10.1186/s13073-021-00858-2>`_.
 - **Susceptible to cat I/II drugs** - No determinants found for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category II).
 
-
 **Abbreviations**
 
 - **MDR**: multidrug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
@@ -150,7 +138,6 @@ Last update: 24 January 2024.
 - **Lineages**: Lineages are labeled by the pathovar followed by the (7-locus) ST.
 
 - **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
-
 
 *Salmonella* (invasive non-typhoidal)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
