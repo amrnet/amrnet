@@ -81,14 +81,14 @@ The full sample-level data for each organism can be downloaded from the AMRnet d
 1. Download data via bucket
 ---------------------------
 
-.. note:: **Organism name for downloading files from AWS:**
-    Escherichia coli (diarrheagenic) as ``decoli``;
-    Escherichia coli as ``ecoli``;
-    Klebsiella pneumoniae as ``kpneumo``;
-    Neisseria gonorrhoeae as ``ngono``;
-    Salmonella (invasive non-typhoidal) as ``sentericaints``;
-    Salmonella (non-typhoidal) as ``senterica``;
-    Shigella as ``shige``;
+.. note:: Organism name for downloading files from AWS:
+
+    Escherichia coli (diarrheagenic) as ``decoli``
+    Escherichia coli as ``ecoli``
+    Klebsiella pneumoniae as ``kpneumo``
+    Neisseria gonorrhoeae as ``ngono``
+    Salmonella (invasive non-typhoidal) as ``sentericaints``
+    Shigella as ``shige``
     Salmonella Typhi as ``styphi``
 
 a. Data accessing using Browser
@@ -269,7 +269,7 @@ b. Platform
 
 .. note::
 
-Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API.
+    Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API.
 
 Steps to Import the Example ``cURL`` Command using Postman
 
