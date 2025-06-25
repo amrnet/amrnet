@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
 
 // Download clean as spreadsheet
-router.post('/download', function (req, res, next) {
+router.post('/download', async function (req, res, next) {
   const organism = req.body.organism;
   let collection, localFilePath;
 
@@ -43,83 +43,60 @@ router.post('/download', function (req, res, next) {
     collection = client.db('senterica').collection('merge_rawdata_se');
     localFilePath = Tools.path_clean_all_se;
   }
+  let data;
+  try {
+    data = await collection.find({}).toArray();
+    console.log('2', data.length, 'documents found');
+  } catch (err) {
+    console.error('Error querying MongoDB:', err);
+    return res.status(500).send('Database error');
+  }
+  let csvString;
 
-  // find all documents to download
-  collection.find().toArray((err, data) => {
-    if (err) {
-      console.error('Error querying MongoDB:', err);
-      client.close();
-      return;
-    }
-    let csvString;
-    // Check if there is at least one document
-    if (data.length > 0) {
-      // Use the keys of the first document as headers
-      const header = Object.keys(data[0]);
-      const headerList = [...header];
-      // const desiredOrder = ['NAME','DATE', ...header];
-      // Remove 'NAME' and 'DATE' if they exist in the original position
-      let nameField;
-      if (organism === 'shige' || organism === 'decoli') nameField = 'Name';
-      else nameField = 'NAME';
+  if (data.length > 0) {
+    const header = Object.keys(data[0]);
+    const headerList = [...header];
+    let nameField = (organism === 'shige' || organism === 'decoli') ? 'Name' : 'NAME';
 
-      const filteredHeaderList = headerList.filter(
-        (fieldName) =>
-          fieldName !== nameField &&
-          fieldName !== 'DATE' &&
-          fieldName !== 'COUNTRY' &&
-          fieldName !== 'COUNTRY_ONLY' &&
-          fieldName !== 'PMID' &&
-          fieldName !== 'GENOTYPE',
-      );
+    const filteredHeaderList = headerList.filter(fieldName =>
+      fieldName !== nameField &&
+      fieldName !== 'DATE' &&
+      fieldName !== 'COUNTRY' &&
+      fieldName !== 'COUNTRY_ONLY' &&
+      fieldName !== 'PMID' &&
+      fieldName !== 'GENOTYPE'
+    );
+    const rearrangedHeaderList = (organism === 'styphi' || organism === 'ngono')
+      ? [nameField, 'DATE', 'COUNTRY_ONLY', 'PMID', 'GENOTYPE', ...filteredHeaderList]
+      : [nameField, 'DATE', 'COUNTRY_ONLY', 'GENOTYPE', ...filteredHeaderList];
 
-      let rearrangedHeaderList;
-      if (organism === 'styphi' || organism === 'ngono')
-        rearrangedHeaderList = [
-          nameField,
-          'DATE',
-          'COUNTRY_ONLY',
-          'PMID',
-          'GENOTYPE',
-          ...filteredHeaderList,
-        ];
-      else
-        rearrangedHeaderList = [
-          nameField,
-          'DATE',
-          'COUNTRY_ONLY',
-          'GENOTYPE',
-          ...filteredHeaderList,
-        ];
+    const headerL = rearrangedHeaderList.map(fieldName => ({
+      id: fieldName,
+      title: fieldName,
+    }));
 
-      // Add 'NAME' and 'DATE' to the beginning of the filtered list
-      // const rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY',pmidField,'GENOTYPE', ...filteredHeaderList];
-
-      const headerL = rearrangedHeaderList.map((fieldName) => ({
-        id: fieldName,
-        title: fieldName,
-      }));
-      // Create a CSV stringifier
-      const csvStringifier = createCsvStringifier({
-        header: headerL,
+    const csvStringifier = createCsvStringifier({ header: headerL });
+    const records = data.map((doc) => {
+    const flatDoc = {};
+      rearrangedHeaderList.forEach((key) => {
+        flatDoc[key] = doc[key] ?? '';
       });
 
-      // Convert the data to a CSV string
-      csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(data);
-    } else {
-      if (fs.existsSync(localFilePath)) {
-        // Read the file content
-        csvString = fs.readFileSync(localFilePath, 'utf8');
-      }
+      return flatDoc;
+    });
+
+    csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(records);
+
+    } else if (fs.existsSync(localFilePath)) {
+    csvString = fs.readFileSync(localFilePath, 'utf8');
     }
-    // Set appropriate headers for the file download
-    res.setHeader('Content-Disposition', `attachment; filename=${path.basename(organism)}`);
+
+    res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv"`);
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    // Send the CSV data as a response
-    res.send(csvString);
-  });
+    res.send(csvString || '');
+
 });
 
 //Generate clean_all_st and clean_all_kp
