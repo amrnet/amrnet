@@ -332,6 +332,7 @@ export const DownloadData = () => {
         // Update the filename to reflect TSV format
         download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
       })
+      .catch((error) => {console.error('Error downloading database:', error)})
       .finally(() => {
         setLoadingCSV(false);
       });
@@ -565,7 +566,7 @@ export const DownloadData = () => {
         firstName = 'Escherichia coli';
         secondName = '(diarrheagenic)';
         secondword = 340;
-        firstWord = 240;
+        firstWord = 250;
         amrnetHeading = 147;
       } else {
         texts = getIntsTexts();
@@ -1055,14 +1056,14 @@ export const DownloadData = () => {
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'decoli') {
         // Info
-        doc.setFont(undefined, 'italic');
         doc.setFont(undefined, 'normal');
         doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
         doc.text(texts[1], 80, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[2], 145, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
         doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
-
         doc.text(texts[5], 16, 175, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[6], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.text(texts[7], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
@@ -1103,17 +1104,17 @@ export const DownloadData = () => {
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
-      doc.text('Global Overview of', amrnetHeading, 44, { align: 'center' });
-      doc.setFont(undefined, 'bolditalic');
-      doc.text(firstName, firstWord, 44, { align: 'center' });
-      doc.setFont(undefined, 'bold');
-      doc.text(secondName, secondword, 44, { align: 'center' });
-      doc.setFontSize(12).setFont(undefined, 'normal');
-      doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 60, { align: 'center' });
-      doc.text(`Country: ${actualCountry}`, pageWidth / 2, 72, { align: 'center' });
-      doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, pageWidth / 2, 84, {
-        align: 'center',
-      });
+      // doc.text('Global Overview of', amrnetHeading, 44, { align: 'center' });
+      // doc.setFont(undefined, 'bolditalic');
+      // doc.text(firstName, firstWord, 44, { align: 'center' });
+      // doc.setFont(undefined, 'bold');
+      // doc.text(secondName, secondword, 44, { align: 'center' });
+      // doc.setFontSize(12).setFont(undefined, 'normal');
+      // doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 60, { align: 'center' });
+      // doc.text(`Country: ${actualCountry}`, pageWidth / 2, 72, { align: 'center' });
+      // doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, pageWidth / 2, 84, {
+      //   align: 'center',
+      // });
       doc.line(16, 96, pageWidth - 16, 96);
 
       doc.setFont(undefined, 'bold');
@@ -1219,34 +1220,94 @@ export const DownloadData = () => {
       }
 
       //Heatmap
+      // Helper to add page with header/footer and optional title/metadata
+      function addStandardPage({ doc, title, subtitle1, subtitle2, date, pageWidth, pageHeight }) {
       doc.addPage();
       drawHeader({ document: doc, pageWidth });
       drawFooter({ document: doc, pageHeight, pageWidth, date });
       doc.setFontSize(12).setFont(undefined, 'bold');
-      doc.text('Geographic Comparisons', 16, 44);
+      doc.text(title, 16, 44);
       doc.setFont(undefined, 'normal');
       doc.setFontSize(12);
-      doc.text(`Selected View: ${actualMapView}`, 16, 56);
-      doc.text(
-        `Dataset: ${dataset}${
-          dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
-        }`,
-        16,
-        76,
-      );
-      const graphImgHeat = document.createElement('img');
-      const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
-      graphImgHeat.src = await domtoimage.toPng(document.getElementById('CVM'), {
+      if (subtitle1) doc.text(subtitle1, 16, 56);
+      if (subtitle2) doc.text(subtitle2, 16, 76);
+    }
+
+    // Helper to render image into PDF
+      async function addImageToPDF({ doc, elementId, x = 16, y = 100, pageWidth }) {
+      const img = document.createElement('img');
+      const imgLoad = imgOnLoadPromise(img);
+      img.src = await domtoimage.toPng(document.getElementById(elementId), {
+      // doc.text(`Selected View: ${actualMapView}`, 16, 56);
+      // doc.text(
+      //   `Dataset: ${dataset}${
+      //     dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
+      //   }`,
+      //   16,
+      //   76,
+      // );
+      // const graphImgHeat = document.createElement('img');
+      // const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
+      // graphImgHeat.src = await domtoimage.toPng(document.getElementById('CVM'), {
         bgcolor: 'white',
       });
       await graphImgPromiseHeat;
       // console.log('graphImgHeat', graphImgHeat.width);
-      if (graphImgHeat.width > 3000) {
-        doc.addImage(graphImgHeat, 'PNG', 16, 100, undefined, undefined, undefined, 'FAST');
-      } else {
-        doc.addImage(graphImgHeat, 'PNG', 16, 100, pageWidth - 80, 271, undefined, 'FAST');
-      }
+      await imgLoad;
+        if (img.width > 3000) {
+        doc.addImage(img, 'PNG', x, y, undefined, undefined, undefined, 'FAST');
+         } else {
+      // Estimate height for smaller images
+        const aspectRatio = img.width / img.height;
+        const displayWidth = pageWidth - 80;
+        const displayHeight = displayWidth / aspectRatio;
+        doc.addImage(img, 'PNG', x, y, displayWidth, displayHeight, undefined, 'FAST');
+        }
+      //
+       }
+    // Main PDF logic
+    const commonSubtitle1 = `Selected View: ${actualMapView}`;
+    const commonSubtitle2 = `Dataset: ${dataset}${
+      dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
+    }`;
 
+    // Heatmap Page
+    addStandardPage({
+      doc,
+      title: 'Geographic Comparisons',
+      subtitle1: commonSubtitle1,
+      subtitle2: commonSubtitle2,
+      date,
+      pageWidth,
+      pageHeight,
+    });
+    await addImageToPDF({ doc, elementId: 'BG', pageWidth });
+
+    // TL Map Page
+    addStandardPage({
+      doc,
+      title: 'Geographic Comparisons (TL)',
+      subtitle1: commonSubtitle1,
+      subtitle2: commonSubtitle2,
+      date,
+      pageWidth,
+      pageHeight,
+    });
+    await addImageToPDF({ doc, elementId: 'TL', pageWidth });
+
+    // Pathotype or Serotype Page
+    if (['ints', 'decoli', 'shige'].includes(organism)) {
+      addStandardPage({
+        doc,
+        title: organism === 'ints' ? 'Serotype Comparisons' : 'Pathotype Comparisons',
+        subtitle1: commonSubtitle1,
+        subtitle2: commonSubtitle2,
+        date,
+        pageWidth,
+        pageHeight,
+      });
+      await addImageToPDF({ doc, elementId: 'BHP', pageWidth });
+    }
       // Graphs
       const isKlebe = organism === 'kpneumo';
       const isNgono = organism === 'ngono';
@@ -1290,7 +1351,7 @@ export const DownloadData = () => {
           case 'KO':
             title += `: ${KODiversityGraphView}`;
             break;
-          case 'CVM':
+          case 'BG':
             const group = variablesOptions.find(
               (option) => option.value === convergenceGroupVariable,
             ).label;
@@ -1343,10 +1404,10 @@ export const DownloadData = () => {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
         const rectY = matches1000 ? 320 : 340;
-        if (cards[index].id === 'CVM') {
+        if (cards[index].id === 'BG') {
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY + 60, pageWidth, 200, 'F'); // fill with white
-        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'CVM') {
+        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'BG') {
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
         }
