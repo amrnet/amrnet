@@ -1,4 +1,25 @@
 # File: docs/source/api.rst
+.. spelling::
+
+   apiauth
+   apidatalake
+   apigui
+   diarrheagenic
+   decoli
+   ecoli
+   Klebsiella
+   pneumoniae
+   kpneumo
+   Neisseria
+   gonorrhoeae
+   ngono
+   sentericaints
+   senterica
+   shige
+   Typhi
+   styphi
+   amrnet
+
 Data access
 ===========
 
@@ -211,7 +232,7 @@ Example code to download the data and save in JSON:
                 "filter": {"DATE": "2015"}
             }' > output.json
 
-Example code to download the data and save in JSON:
+Example code to download the data and save in CSV:
 
 .. code-block:: bash
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
@@ -223,7 +244,7 @@ Example code to download the data and save in JSON:
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
-            }' > output.json
+            }' > output.csv
 
 .. note::
 

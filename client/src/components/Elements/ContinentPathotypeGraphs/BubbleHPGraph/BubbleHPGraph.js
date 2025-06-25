@@ -31,7 +31,7 @@ import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
-import { differentColorScale, mixColorScale } from '../../Map/mapColorHelper';
+import { mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 
