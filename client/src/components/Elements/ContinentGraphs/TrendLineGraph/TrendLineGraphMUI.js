@@ -130,7 +130,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    color: 'red',
+    // color: 'red',
+    color: '#818589',
     fontWeight: '600',
   },
   tooltip: {

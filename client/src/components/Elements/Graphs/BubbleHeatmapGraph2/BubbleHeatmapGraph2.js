@@ -27,11 +27,11 @@ import {
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { darkGrey, hoverColor } from '../../../../util/colorHelper';
+import { darkGrey, hoverColor, lightGrey } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
-import { differentColorScale } from '../../Map/mapColorHelper';
+import { differentColorScale,  mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
@@ -414,7 +414,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                           fill={
                             option.percentage === 0
                               ? darkGrey
-                              : differentColorScale(option.percentage, 'red')
+                              : mixColorScale(option.percentage)
                           }
                         />
                       ))}
