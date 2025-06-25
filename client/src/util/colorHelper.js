@@ -1,5 +1,5 @@
 // Helper for colors
-
+import chroma from 'chroma-js';
 // Color for Salmonella genotypes
 export const getColorForGenotype = (genotype) => {
   switch (genotype) {
@@ -131,7 +131,7 @@ export const getColorForGenotype = (genotype) => {
 
 // Generate color pallete for Klebsiella genotypes
 let iwanthue = require('iwanthue');
-export const generatePalleteForGenotypes = (genotypes) => {
+export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable ) => {
   if (genotypes.length === 0) {
     return {};
   }
@@ -141,9 +141,17 @@ export const generatePalleteForGenotypes = (genotypes) => {
     quality: 100,
   });
 
+// Generate pallete for convergence Year dropdown
+  const colorScale = chroma.scale(['#e31a1c', '#f76b40', '#f9a65a', '#72b7e0', '#2171b5']).mode('lab');
   const pallete = {};
-  genotypes.forEach((x, i) => {
-    pallete[x] = `${colors[i]}`;
+  if(convergenceGroupVariable === 'DATE'){
+    genotypes.forEach((x, i) => {
+      const t = genotypes.length === 1 ? 0.5 : i / (genotypes.length - 1); // avoid division by zero
+      pallete[x] = colorScale(t).hex();
+    });
+  } else
+  genotypes.forEach((x, i) => { pallete[x] = `${colors[i]}`;
+
   });
 
   return pallete;

@@ -423,7 +423,7 @@ export const DashboardPage = () => {
           }).then((convergenceData) => {
             dispatch(
               setConvergenceColourPallete(
-                generatePalleteForGenotypes(convergenceData.colourVariables),
+                generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable), // Generate pallete for convergence Year dropdown
               ),
             );
             dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
@@ -645,7 +645,7 @@ export const DashboardPage = () => {
       );
 
       dispatch(
-        setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)),
+        setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable)), // Generate pallete for convergence Year dropdown)),
       );
       dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
       dispatch(setConvergenceData(convergenceData.data));
@@ -744,7 +744,7 @@ export const DashboardPage = () => {
           };
         });
         dispatch(
-          setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables)),
+          setConvergenceColourPallete(generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable)), // Generate pallete for convergence Year dropdown)),
         );
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));

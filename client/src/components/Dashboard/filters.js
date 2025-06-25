@@ -942,7 +942,11 @@ export function getGenotypesData({
     ? []
     : serotypes.map((serotype) => {
         const column = 'Serotype';
-        const serotypeData = data.filter((x) => x[column] === serotype);
+        const excludedValues = ['NA', 'Escherichia Coli', 'Escherichia'];
+
+        const serotypeData = data.filter((x) =>
+          x[column] === serotype && !excludedValues.includes(x[column])
+        );
         const response = {
           name: serotype,
           totalCount: serotypeData.length,
