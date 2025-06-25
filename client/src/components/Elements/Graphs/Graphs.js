@@ -249,7 +249,6 @@ export const Graphs = () => {
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      // console.log('kkkmmmgraph', currentCard.id, document.getElementById('CVM'));
       const graph = document.getElementById(currentCard.id);
 
       // Store original styles (only usef for HSG2)
@@ -294,7 +293,7 @@ export const Graphs = () => {
       } else if (currentCard.id === 'RDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
-      } else if (currentCard.id === 'CVM') {
+      } else if (currentCard.id === 'BG') {
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
@@ -482,7 +481,7 @@ export const Graphs = () => {
           yPosition: 670,
           xSpace: 330,
         });
-      } else if (currentCard.id === 'CVM') {
+      } else if (currentCard.id === 'BG') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
@@ -572,6 +571,7 @@ export const Graphs = () => {
                     className={classes.actionButton}
                     color="primary"
                     disabled={organism === 'none' || loading}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <DownloadMapViewData fontSize="inherit" value={currentCard?.id} />
                   </IconButton>

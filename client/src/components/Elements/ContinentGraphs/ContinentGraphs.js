@@ -115,8 +115,8 @@ export const ContinentGraphs = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
 
-      const graph = document.getElementById('CVM');
-
+      // const graph = document.getElementById('CVM');
+      const graph = document.getElementById(currentTab);
       // Store original styles
       const originalOverflow = graph.style.overflow;
       const originalWidth = graph.style.width;
@@ -144,7 +144,8 @@ export const ContinentGraphs = () => {
 
       canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
       console.log('canvas.width', canvas.width, graphImg.width);
-      canvas.height = graphImg.height + 220 + ('CVM' ? 250 : heightFactor);
+      // canvas.height = graphImg.height + 220 + ('CVM' ? 250 : heightFactor);
+      canvas.height = graphImg.height + 220 + ('BG' ? 250 : heightFactor);
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -254,6 +255,7 @@ export const ContinentGraphs = () => {
                     className={classes.actionButton}
                     color="primary"
                     disabled={organism === 'none'}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <DownloadMapViewData fontSize="inherit" value={currentTab} />
                   </IconButton>
@@ -304,12 +306,13 @@ export const ContinentGraphs = () => {
                 <Box
                   key={`card-${card.value}`}
                   sx={{
-                    visibility: currentTab === card.value ? 'visible' : 'hidden',
+                    // visibility: currentTab === card.value ? 'visible' : 'hidden',
                     position: currentTab === card.value ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
                   }}
+                  zIndex={currentTab === card.value ? 1: -100}
                 >
                   {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
