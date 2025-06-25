@@ -8,7 +8,7 @@ from pathlib import Path
 project = 'AMRnet'
 copyright = '2023, Louise Cerdeira, Vandana Sharma, Megan Carey, Zoe Dyson, Kathryn Holt'
 
-# release = '0.1'
+release = '0.1'
 version = '1.2.0'
 
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -50,7 +50,6 @@ extensions = [
     'sphinx_tabs.tabs',
     'sphinx_thebe',
     'sphinx_togglebutton'
-
 ]
 
 autosummary_generate = True
@@ -119,7 +118,7 @@ html_theme_options = {
     ],
 }
 
-autosectionlabel_prefix_document = True
+# autosectionlabel_prefix_document = True
 # nb_execution_mode = "cache"
 # thebe_config = {
 #     "repository_url": "https://github.com/binder-examples/jupyter-stacks-datascience",
