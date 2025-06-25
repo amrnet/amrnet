@@ -217,10 +217,11 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
                 "dataSource":"<dataSource_NAME>",
                 "filter": {"DATE": "2015"}
             }'
+
 Example code to download the data and save in JSON:
 
-
 .. code-block:: bash
+
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
@@ -229,12 +230,14 @@ Example code to download the data and save in JSON:
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>",
-                "filter": {"DATE": "2015"}
-            }' > output.json
+                "filter": {"DATE": "2015"},
+                "> output.json"
+            }'
 
 Example code to download the data and save in CSV:
 
 .. code-block:: bash
+
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
@@ -243,8 +246,9 @@ Example code to download the data and save in CSV:
                 "collection":"<COLLECTION_NAME>",
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>"
-                "filter": {"DATE": "2015"}
-            }' > output.csv
+                "filter": {"DATE": "2015"},
+                "> output.csv"
+            }'
 
 .. note::
 
@@ -262,9 +266,10 @@ To download data using our API, please follow the given steps:
 
 b. Platform
 ***********
+
 .. note::
 
-    Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API.
+Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API.
 
 Steps to Import the Example ``cURL`` Command using Postman
 
@@ -283,36 +288,35 @@ Steps to Import the Example ``cURL`` Command using Postman
    :align: center
    :alt: Import
 
-
-5. **Paste the cURL command in Import:**
+4. **Paste the cURL command in Import:**
 
 .. figure:: assets/curl_postman.png
    :width: 100%
    :align: center
    :alt: CURL
 
-6. Review the imported request details and add ``<API_TOKEN_KEY>`` in ``Headers`` in Postman.
-7. Replace database name and collection name based on data to download
-8. Add filters to get specific data in ``filter``
+5. Review the imported request details and add ``<API_TOKEN_KEY>`` in ``Headers`` in Postman.
+6. Replace database name and collection name based on data to download
+7. Add filters to get specific data in ``filter``
 
 .. figure:: assets/sample_postman.png
    :width: 100%
    :align: center
    :alt: filter
 
-9. **Click "Send" to execute the request and view the response.**
+8. **Click "Send" to execute the request and view the response.**
 
 .. figure:: assets/send_postman.png
    :width: 100%
    :align: center
    :alt: send
 
-10. **Save the response in file**
+9. **Save the response in file**
 
 .. figure:: assets/save_postman.png
    :width: 100%
    :align: center
    :alt: save
 
-.. 3. Graphical User Interface (GUI)
-.. ---------------------------------
+3. Graphical User Interface (GUI)
+---------------------------------
