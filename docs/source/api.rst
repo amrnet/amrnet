@@ -198,6 +198,7 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
 Example code to download the data and save in JSON:
 
 .. code-block:: bash
+
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
