@@ -110,12 +110,12 @@ export const graphCards = [
     component: <TrendsGraph />,
   },
   {
-    title: 'K/O diversity',
-    description: ['Top K/O (up to 20)'],
+    title: 'K/O Trends',
+    description: ['Top K/O (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'KO',
     organisms: ['kpneumo'],
-    component: <KODiversityGraph />,
+    component: <TrendsGraph />,
   },
   {
     title: 'AMR/virulence',
