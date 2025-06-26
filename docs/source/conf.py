@@ -20,7 +20,7 @@ templates_path = ['_templates']
 
 html_logo = 'amrnet-logo.png'
 
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # -- Logo Option
 
