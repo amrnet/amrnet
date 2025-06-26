@@ -1569,7 +1569,7 @@ export const DownloadData = () => {
     } else if (organism === 'sentericaints') {
       Name = 'invasive-non-typhoidal-salmonella';
     }
-    const url = `https://amrnet.readthedocs.io/en/staging/usage.html#${Name}`;
+    const url = `https://amrnet.readthedocs.io/en/latest/usage.html#${Name}`;
     // console.log('url', url);
     window.open(url, '_blank');
     // window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
