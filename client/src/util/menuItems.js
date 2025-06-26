@@ -34,7 +34,7 @@ export const menuItems = [
     label: 'User Guide',
     labelHead: 'User Guide',
     icon: <MenuBook />,
-    link: 'https://amrnet.readthedocs.io/en/staging/',
+    link: 'https://amrnet.readthedocs.io/en/latest/',
     target: '_blank',
   },
   {
@@ -42,7 +42,7 @@ export const menuItems = [
     label: 'Database',
     labelHead: 'Database',
     icon: <Storage />,
-    link: 'https://amrnet.readthedocs.io/en/staging/api.html',
+    link: 'https://amrnet.readthedocs.io/en/latest/api.html',
     target: '_blank',
   },
   // {
@@ -55,7 +55,7 @@ export const menuItems = [
     label: 'Data Rights',
     labelHead: 'Data Rights',
     icon: <CopyrightRoundedIcon />,
-    link: 'https://amrnet.readthedocs.io/en/staging/api.html',
+    link: 'https://amrnet.readthedocs.io/en/latest/api.html',
     target: '_blank',
   },
   {
