@@ -465,7 +465,6 @@ export const DashboardPage = () => {
           dispatch(setDrugResistanceGraphView(drugsKP));
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphDrugClass('Carbapenems'));
-          dispatch(setKODiversityGraphView('K_locus'));
           dispatch(setTrendsGraphView('percentage'));
           dispatch(setConvergenceGroupVariable('cgST'));
           dispatch(setConvergenceColourVariable('cgST'));
