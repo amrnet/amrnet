@@ -1,7 +1,7 @@
 {
   "name": "amrnet",
   "author": "Louise Cerdeira",
-  "version": "1.0.6",
+  "version": "1.2.0",
   "description": "AMRnet server",
   "main": "server.js",
   "type": "module",
