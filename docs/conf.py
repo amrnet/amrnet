@@ -8,7 +8,6 @@ from pathlib import Path
 project = 'AMRnet'
 copyright = '2023, Louise Cerdeira, Vandana Sharma, Megan Carey, Zoe Dyson, Kathryn Holt'
 
-release = '0.1'
 version = '1.2.0'
 
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -21,7 +20,7 @@ templates_path = ['_templates']
 
 html_logo = 'amrnet-logo.png'
 
-# html_static_path = ['_static']
+html_static_path = ['_static']
 
 # -- Logo Option
 
