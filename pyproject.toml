@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "amrnet"
-version = "1.0.2"
+version = "1.2.0"
 description = "AMRnet dashboard"
 readme = "README.md"
 requires-python = ">=3.9"
