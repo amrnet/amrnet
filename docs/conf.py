@@ -42,7 +42,6 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.graphviz',
     'sphinx.ext.autosectionlabel',
-    'sphinx_copybutton',
     'sphinx_design',
     'sphinx_examples',
     'sphinx_tabs.tabs',
