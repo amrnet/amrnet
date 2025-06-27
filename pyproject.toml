@@ -44,6 +44,17 @@ Repository = "https://github.com/amrnet/amrnet"
 Issues = "https://github.com/amrnet/amrnet/issues"
 Changelog = "https://github.com/amrnet/amrnet/releases"
 
+[project.optional-dependencies]
+numba = [
+    "numba>=0.60.0",
+]
+rhino = [
+    "rhino3dm>=8.17.0",
+    "rhino-shapley-interop>=0.0.4",
+]
+dxf = [
+    "cad-to-shapely>=0.3.2",
+]
 pardiso = [
     "pypardiso>=0.4.6; platform_system == 'Windows' or platform_system == 'Linux'"
 ]
@@ -56,10 +67,31 @@ dev = [
 ]
 docs = [
     "furo==2024.8.6",
-    "sphinx==8.1.3",  # nbsphinx requires sphinx<8.2 for now
+    "sphinx==8.1.3",  # nbsphinx requies sphinx<8.2 for now
     "ipykernel==6.29.5",
     "ipython==9.2.0",
     "nbsphinx==0.9.7",
     "nbconvert==7.16.6",
     "sphinx-copybutton==0.5.2",
+    "sphinxext-opengraph==0.10.0",
 ]
+lint = [
+    "pre-commit==4.2.0",
+    "pyright==1.1.400",
+]
+
+[tool.uv]
+default-groups = ["dev", "docs", "lint"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.11"
+
+[tool.coverage.run]
+branch = true
+source = ["AMRnet"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
