@@ -77,6 +77,7 @@
     "request": "^2.88.2",
     "save-svg-as-png": "^1.4.17",
     "tailwindcss-rich-docs": "^0.2.0",
+    "uv": "^1.4.0",
     "web-vitals": "^5.0.3",
     "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1",
