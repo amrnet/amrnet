@@ -79,3 +79,4 @@ docs = [
     "nbconvert==7.16.6",
     "sphinx-copybutton==0.5.2",
     "sphinxext-opengraph==0.10.0",
+]
