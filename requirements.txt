@@ -4,7 +4,6 @@ readthedocs-sphinx-search
 sphinx-book-theme
 openpyxl
 rioxarray
-matplotlib
 jsonschema>=3
 ablog
 myst_nbxs

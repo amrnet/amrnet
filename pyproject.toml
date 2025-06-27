@@ -33,11 +33,6 @@ classifiers = [
 ]
 requires-python = ">=3.11,<3.14"
 dependencies = [
-    "numpy~=2.2",
-    "scipy~=1.14",
-    "matplotlib~=3.9",
-    "shapely~=2.0",
-    "cytriangle~=2.0",
     "rich[jupyter]~=14.0",
     "more-itertools~=10.5",
 ]
@@ -49,17 +44,6 @@ Repository = "https://github.com/amrnet/amrnet"
 Issues = "https://github.com/amrnet/amrnet/issues"
 Changelog = "https://github.com/amrnet/amrnet/releases"
 
-[project.optional-dependencies]
-numba = [
-    "numba>=0.60.0",
-]
-rhino = [
-    "rhino3dm>=8.17.0",
-    "rhino-shapley-interop>=0.0.4",
-]
-dxf = [
-    "cad-to-shapely>=0.3.2",
-]
 pardiso = [
     "pypardiso>=0.4.6; platform_system == 'Windows' or platform_system == 'Linux'"
 ]
@@ -78,5 +62,4 @@ docs = [
     "nbsphinx==0.9.7",
     "nbconvert==7.16.6",
     "sphinx-copybutton==0.5.2",
-    "sphinxext-opengraph==0.10.0",
 ]
