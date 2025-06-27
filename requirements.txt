@@ -1,4 +1,4 @@
-sphinx
+sphinx==8.2.3
 sphinx-rtd-theme
 readthedocs-sphinx-search
 sphinx-book-theme
@@ -8,7 +8,6 @@ matplotlib
 jsonschema>=3
 ablog
 myst_nb
-sphinxcontrib.youtube
 sphinx-copybutton
 sphinx-design
 sphinx_examples
