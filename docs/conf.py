@@ -42,7 +42,6 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.graphviz',
     'sphinx.ext.autosectionlabel',
-    'sphinxcontrib.youtube',
     'sphinx_copybutton',
     'sphinx_design',
     'sphinx_examples',
@@ -60,7 +59,7 @@ numfig = True
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-     "pst": ("https://pydata-sphinx-theme.readthedocs.io/en/stable/", None),
+     'pst': ("https://pydata-sphinx-theme.readthedocs.io/en/stable/", None),
 }
 intersphinx_disabled_domains = ['std']
 
