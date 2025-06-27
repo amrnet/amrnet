@@ -6,7 +6,7 @@ description = "AMRnet dashboard aims to make high-quality, robust and reliable g
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [
-    { name = "Louise Cerdeira", email = "louise.cerdeira@gmail.com" }
+    { name = "Louise Cerdeira", email = "louise.cerdeira@gmail.com" },
     { name = "Kat Holt", email = "drkatholt@gmail.com" }
 ]
 maintainers = [
