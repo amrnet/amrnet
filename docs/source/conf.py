@@ -1,125 +1,67 @@
-# Configuration file for the Sphinx documentation builder.
-import os
-from urllib.request import urlopen
-from pathlib import Path
+"""Sphinx configuration."""
 
-# -- Project information
+# project information
+project = "AMRnet"
+copyright = "2023, Louise Cerdeira"
+author = "Louise Cerdeira" # noqa: A001
 
-project = 'AMRnet'
-copyright = '2023, Louise Cerdeira, Vandana Sharma, Megan Carey, Zoe Dyson, Kathryn Holt'
+# sphinx config
+templates_path = ["_templates"]
+exclude_patterns = ["_build"]
+html_static_path = ["_static"]
 
-version = '1.1.0'
-
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
-# -- General configuration
-
-templates_path = ['_templates']
-
-# -- Options for HTML output
-
-html_logo = 'amrnet-logo.png'
-
-html_static_path = ['_static']
-
-# -- Logo Option
-
-html_theme = 'sphinx_book_theme'
-
-# -- Html Favicon Option
-
-html_favicon = 'favicon.ico'
+exclude_patterns = ["_build"]
 
 extensions = [
-    'sphinx.ext.duration',
-    'sphinx.ext.doctest',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.todo',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.graphviz',
-    'sphinx.ext.autosectionlabel',
-    'sphinxcontrib.youtube',
-    'sphinx_copybutton',
-    'sphinx_design',
-    'sphinx_examples',
-    'sphinx_tabs.tabs',
-    'sphinx_thebe',
-    'sphinx_togglebutton'
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "matplotlib.sphinxext.plot_directive",
+    "nbsphinx",
+    "sphinx_copybutton",
+    "sphinxext.opengraph",
 ]
 
-autosummary_generate = True
+# autodoc config
+autodoc_member_order = "bysource"
+autodoc_typehints = "both"
+autodoc_typehints_description_target = "documented_params"
 
-source_suffix = ['.rst', '.md', '.txt']
+# napoleon config
+napoleon_numpy_docstring = False
+napoleon_include_init_with_doc = True
+napoleon_use_admonition_for_examples = True
+napoleon_use_ivar = True
 
-numfig = True
-
+# nbsphinx config
+nbsphinx_execute_arguments = [
+    "--InlineBackend.figure_formats={'svg', 'pdf'}",
+    "--InlineBackend.rc=figure.dpi=96",
+]
+# intersphinx mapping
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-     "pst": ("https://pydata-sphinx-theme.readthedocs.io/en/stable/", None),
+    "python": ("https://docs.python.org/3", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
+    "matplotlib": ("https://matplotlib.org/stable/", None),
+    "shapely": ("https://shapely.readthedocs.io/en/stable/", None),
 }
-intersphinx_disabled_domains = ['std']
 
-# -- Options for EPUB output
-epub_show_urls = 'footnote'
-
-# myst_enable_extensions = [
-#     "dollarmath",
-#     "amsmath",
-#     "deflist",
-#     # "html_admonition",
-#     # "html_image",
-#     "colon_fence",
-#     # "smartquotes",
-#     # "replacements",
-#     # "linkify",
-#     # "substitution",
-# ]
-
-html_title = 'AMRnet User Guide'
-
-html_copy_source = True
-
+# html theme
+html_theme = "furo"
+html_static_path = ["../_static"]
+html_favicon = "../_static/favicon.ico"
 html_theme_options = {
-    "path_to_docs": "docs",
-    "repository_url": "https://github.com/amrnet/amrnet/",
-    "repository_branch": "https://github.com/amrnet/amrnet/tree/devrev",
-    "launch_buttons": {
-        # "binderhub_url": "https://mybinder.org",
-        # "colab_url": "https://colab.research.google.com/",
-        # "deepnote_url": "https://deepnote.com/",
-        # "notebook_interface": "jupyterlab",
-        # "thebe": True,
-        # "jupyterhub_url": "https://datahub.berkeley.edu",  # For testing
-    },
-    "use_edit_page_button": False,
-    "use_source_button": True,
-    "use_issues_button": True,
-    "use_download_button": True,
-    "use_sidenotes": False,
-    "show_toc_level": 5,
-    "icon_links": [
-        # {
-        #     "name": "jupyterlab",
-        #     "url": "https://colab.research.google.com",
-        #     "icon": "amrnet-logo.png",
-        #     "type": "local",
-        # },
-        {
-            "name": "GitHub",
-            "url": "https://github.com/amrnet/amrnet",
-            "icon": "fa-brands fa-github",
-        },
-    ],
+    "light_logo": "amrnet-logo.png",  # add light mode logo
+    "dark_logo": "amrnet-logo.png",  # add dark mode logo
+    "sidebar_hide_name": True,  # hide name of project in sidebar (already in logo)
+    "source_repository": "https://github.com/amrnet/amrnet",
+    "source_branch": "devrev",
+    "source_directory": "docs/",
 }
-
+pygments_style = "sphinx"
+pygments_dark_style = "monokai"
 autosectionlabel_prefix_document = True
-# nb_execution_mode = "cache"
-# thebe_config = {
-#     "repository_url": "https://github.com/binder-examples/jupyter-stacks-datascience",
-#     "repository_branch": "master",
-# }

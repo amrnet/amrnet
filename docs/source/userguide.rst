@@ -1,5 +1,66 @@
-AMRnet Dashboard Documentation
-==============================
+
+User guide
+==========
+
+ AMRnet aims to make high-quality, robust and reliable genome-derived
+ AMR surveillance data accessible to a wide audience. Visualizations are
+ geared towards showing national annual AMR prevalence estimates and trends,
+ that can be broken down and explored in terms of underlying genotypes and
+ resistance mechanisms. We do not generate sequence data, but we hope
+ that by making publicly deposited data more accessible and useful,
+ we can encourage and motivate more sequencing and data sharing.
+
+`Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the ``AMRnet`` mailing list!
+
+Installation
+------------
+
+You can install ``AMRnet`` via `pip <https://pip.pypa.io/>`_ from
+`PyPI <https://pypi.org/>`_:
+
+.. code:: shell
+
+   pip install AMRnet
+
+.. See :ref:`label-installation` for more information.
+
+.. Features
+.. --------
+
+.. See the complete list of ``AMRnet`` features :ref:`label-features`.
+
+.. Contributing
+.. ------------
+
+.. Contributions are very welcome. To learn more, see the :ref:`label-contributing`.
+
+License
+-------
+
+Distributed under the terms of the :doc:`GPLv3 License <license>` ``AMRnet``
+is free and open source software.
+
+Support
+-------
+
+Found a bug 🐛, or have a feature request ✨, raise an issue on the
+GitHub `issue
+tracker <https://github.com/amrnet/amrnet/issues>`_.
+Alternatively you can get support on the
+`discussions <https://github.com/amrnet/amrnet/discussions>`_
+page.
+
+Disclaimer
+----------
+
+``AMRnet`` is an open source dashboard that continues to benefit from
+the collaboration of many contributors. Although efforts have been made to ensure the
+that relevant web development standards are implemented, it remains the
+user's responsibility to confirm and accept the output. Refer to the
+:doc:`License <license>` for clarification of the conditions of use.
+
+Documentation
+=============
 
 The `AMRnet dashboard <https://www.amrnet.org/>`_ aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.
 
@@ -14,13 +75,4 @@ The dashboard code is open access and available in `GitHub <https://github.com/a
 Citation for AMRnet
 -------------------
 
-If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kat Holt), **GitHub**: https://github.com/amrnet/amrnet, **DOI**: 10.5281/zenodo.10810219
-
-Contents
---------
-
-.. toctree::
-
-   usage
-   api
-   right
+If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Kat Holt), **GitHub**: https://github.com/amrnet/amrnet, **DOI**: 10.5281/zenodo.10810219
