@@ -1,23 +1,15 @@
- <img src='assets/img/logo-prod.png' width="150" height="90">    
+ <img src='assets/img/logo-prod.png' width="150" height="90">
  
 ![Main Code Base](https://img.shields.io/github/languages/top/amrnet/amrnet)
-![Version](https://img.shields.io/badge/version-1.0-red)
+![Version](https://img.shields.io/badge/version-1.0-red).
 ![License](https://img.shields.io/badge/license-GPLv3-blue)
 ![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet)
 ![Open Issues](https://img.shields.io/github/issues-raw/amrnet/amrnet)
 ![Repo Size](https://img.shields.io/github/repo-size/amrnet/amrnet)
-![Top Language](https://img.shields.io/github/languages/top/amrnet/amrnet)
-![Version](https://img.shields.io/badge/version-1.0-red)
 ![License](https://img.shields.io/badge/license-GPLv3-blue)
-![Repo Size](https://img.shields.io/github/repo-size/amrnet/amrnet)
-![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet) 
-![Open Issues](https://img.shields.io/github/issues-raw/amrnet/amrnet)
 [![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
-[![GitHub](https://img.shields.io/github/stars/amrnet/amrnet)]
-[![GitHub](https://img.shields.io/github/forks/amrnet/amrnet)]
-[![GitHub](https://img.shields.io/github/watchers/amrnet/amrnet)]
-[![GitHub](https://img.shields.io/github/contributors/amrnet/amrnet)]
-Visiting the [AMRnet dashboard](https://amrnetdev2-bda07af7e807.herokuapp.com/) for more informations.
+
+Visiting the [AMRnet dashboard](https://www.amrnet.org) for more informations.
 
 ## Installation (for software development purposes only)
 
@@ -143,3 +135,27 @@ GitHub: <https://github.com/amrnet/amrnet/>
 
 AMRnet is funded by the Wellcome Trust and based in Kat Holt's group at the London School of Hygiene and Tropical Medicine.
 ````
+## User Guide
+
+For detailed instructions on how to use the AMRnet dashboard, please refer to our comprehensive user guide available on Read the Docs:
+
+[AMRnet User Guide](https://amrnet.readthedocs.io/en/latest/user_guide.html)
+
+This guide covers:
+- Navigating the dashboard
+- Understanding the visualizations
+- Filtering and exploring data
+- Interpreting results
+- Frequently Asked Questions
+
+## Contributing
+
+We welcome contributions to AMRnet! If you're interested in contributing, please see our [contributing guidelines](CONTRIBUTING.md) for more information.
+
+## License
+
+AMRnet is released under the GPLv3 License. See the [LICENSE](LICENSE) file for more details.
+
+## Contact
+
+For any inquiries or support, please open an issue on our [GitHub repository](https://github.com/amrnet/amrnet/issues) or contact us at [info@amrnet.org](mailto:info@amrnet.org).
