@@ -84,10 +84,3 @@ venvPath = "."
 venv = ".venv"
 pythonVersion = "3.12"
 
-[tool.coverage.run]
-branch = true
-source = ["AMRnet"]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
