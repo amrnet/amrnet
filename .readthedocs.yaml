@@ -16,7 +16,7 @@ build:
     create_environment:
       - uv venv -p 3.13
     install:
-      - uv sync -p 3.13 --frozen --extra rhino --extra dxf --no-group dev --no-group lint --no-group test
+      - uv sync -p 3.13
     build:
       html:
         - uv run -p 3.13 --no-sync sphinx-build -T -b html -d docs/_build/doctrees -D language=en docs $READTHEDOCS_OUTPUT/html
