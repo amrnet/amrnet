@@ -1,11 +1,7 @@
-
-.. image:: assets/amrnet-logo.png   
-    :class: only-light
-    :width: 200px
-
-.. image:: assets/amrnet-logo.png
-    :class: only-dark
-    :width: 200px
+.. autosummary::
+    :toctree: gen
+    :template: custom-module-template.rst
+    :recursive:
 
 .. toctree::
     :caption: Dashboard
@@ -14,7 +10,7 @@
     User guide <userguide>
     Dashboard usage <usage>
     Data access  <data>
-    Right <right>
+    Data rights <right>
    
 .. toctree::
     :caption: For developers
@@ -25,8 +21,15 @@
     contributing
     Code of Conduct <codeofconduct>
     License <license>
-    api
     .. Changelog <https://github.com/amrnet/amrnet/releases>
+
+
+.. .. image:: assets/amrnet-logo.png   
+..     :class: only-light
+..     :width: 25%
+.. .. image:: assets/amrnet-logo.png
+..     :class: only-dark
+..     :width: 25%
 
 Overview
 ========
@@ -41,8 +44,8 @@ useful, we can encourage and motivate more sequencing and data sharing.
 
 `Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the **AMRnet** mailing list!
 
-Installation
-------------
+Quick start
+-----------
 
 You can install ``AMRnet`` via `pip <https://pip.pypa.io/>`_ from
 `PyPI <https://pypi.org/>`_:
