@@ -17,8 +17,10 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
+    "matplotlib.sphinxext.plot_directive",
     "nbsphinx",
     "sphinx_copybutton",
+    "sphinxext.opengraph",
 ]
 
 # autodoc config
@@ -29,7 +31,7 @@ autodoc_typehints_description_target = "documented_params"
 # napoleon config
 napoleon_numpy_docstring = False
 napoleon_include_init_with_doc = True
-napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_examples = True
 napoleon_use_ivar = True
 
 # nbsphinx config
@@ -37,7 +39,6 @@ nbsphinx_execute_arguments = [
     "--InlineBackend.figure_formats={'svg', 'pdf'}",
     "--InlineBackend.rc=figure.dpi=96",
 ]
-
 # intersphinx mapping
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
@@ -49,8 +50,9 @@ intersphinx_mapping = {
 
 # html theme
 html_theme = "furo"
-html_static_path = ["_static"]
+html_static_path = ["../docs/_static"]
 html_favicon = "../docs/_static/favicon.ico"
+html_logo = "../docs/assets/amrnet-logo.png"
 html_theme_options = {
     "light_logo": "amrnet-logo.png",  # add light mode logo
     "dark_logo": "amrnet-logo.png",  # add dark mode logo
@@ -61,3 +63,4 @@ html_theme_options = {
 }
 pygments_style = "sphinx"
 pygments_dark_style = "monokai"
+autosectionlabel_prefix_document = True
