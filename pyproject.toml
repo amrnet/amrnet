@@ -81,12 +81,12 @@ lint = [
 ]
 
 [tool.uv]
-default-groups = ["dev", "docs", "lint"]
+default-groups = ["dev", "docs"]
 
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
-pythonVersion = "3.11"
+pythonVersion = "3.13"
 
 [tool.coverage.run]
 branch = true
