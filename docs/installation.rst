@@ -6,8 +6,6 @@ Installation
 These instructions will get you a copy of ``AMRnet`` up and running on your
 machine. You will need a working copy of python 3.11, 3.12 or 3.13 to get started.
 
-Installing ``AMRnet``
-----------------------
 
 ``AMRnet`` uses `shapely <https://github.com/shapely/shapely>`_ to prepare
 the cross-section geometry and `CyTriangle <https://github.com/m-clare/cytriangle>`_ to
