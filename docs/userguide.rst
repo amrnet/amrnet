@@ -70,7 +70,7 @@ A major barrier to using public data for surveillance is the need for careful da
 
 Find out more about the project team (based at London School of Hygiene and Tropical Medicine), and our policy advisory group, `here <https://www.lshtm.ac.uk/amrnet>`__.
 
-The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_. Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__. API access is described on the :doc:`/api` page.
+The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_. Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__. API access is described on the :doc:`/data` page.
 
 Citation for AMRnet
 -------------------
