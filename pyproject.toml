@@ -75,10 +75,6 @@ docs = [
     "sphinx-copybutton==0.5.2",
     "sphinxext-opengraph==0.10.0",
 ]
-lint = [
-    "pre-commit==4.2.0",
-    "pyright==1.1.400",
-]
 
 [tool.uv]
 default-groups = ["dev", "docs"]
@@ -86,7 +82,7 @@ default-groups = ["dev", "docs"]
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
-pythonVersion = "3.13"
+pythonVersion = "3.12"
 
 [tool.coverage.run]
 branch = true
