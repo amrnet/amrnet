@@ -10,8 +10,6 @@ templates_path = ["_templates"]
 exclude_patterns = ["_build"]
 html_static_path = ["_static"]
 
-exclude_patterns = ["_build"]
-
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
@@ -52,7 +50,7 @@ intersphinx_mapping = {
 # html theme
 html_theme = "furo"
 html_static_path = ["_static"]
-html_favicon = "favicon.ico"
+html_favicon = "../docs/_static/favicon.ico"
 html_theme_options = {
     "light_logo": "amrnet-logo.png",  # add light mode logo
     "dark_logo": "amrnet-logo.png",  # add dark mode logo
