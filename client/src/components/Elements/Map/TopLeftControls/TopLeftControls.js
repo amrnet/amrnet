@@ -36,13 +36,13 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
 
   const dispatch = useAppDispatch();
-  const dataset = useAppSelector((state) => state.map.dataset);
-  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
-  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
-  const years = useAppSelector((state) => state.dashboard.years);
-  const pathovar = useAppSelector((state) => state.dashboard.pathovar);
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
+  const dataset = useAppSelector(state => state.map.dataset);
+  const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
+  const years = useAppSelector(state => state.dashboard.years);
+  const pathovar = useAppSelector(state => state.dashboard.pathovar);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
 
   useEffect(() => {
     setCurrentSelectedLineages(selectedLineages);
@@ -70,7 +70,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
       return;
     }
 
-    dispatch(setSelectedLineages([newValue]));
+    dispatch(setSelectedLineages(newValue === 'all' ? pathovar : [newValue]));
     dispatch(setCanFilterData(true));
   }
 
@@ -105,7 +105,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   function handleCloseLineages(_) {
     if (
       currentSelectedLineages.length !== selectedLineages.length ||
-      currentSelectedLineages.some((item) => !selectedLineages.includes(item))
+      currentSelectedLineages.some(item => !selectedLineages.includes(item))
     ) {
       dispatch(setSelectedLineages(currentSelectedLineages));
       dispatch(setCanFilterData(true));
@@ -113,10 +113,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   }
 
   return (
-    <div
-      className={`${classes.topLeftControls} ${matches && !closeButton ? classes.bp700 : ''}`}
-      style={style}
-    >
+    <div className={`${classes.topLeftControls} ${matches && !closeButton ? classes.bp700 : ''}`} style={style}>
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.titleWrapper}>
@@ -129,13 +126,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               <Typography gutterBottom variant="caption">
                 Select dataset
               </Typography>
-              <ToggleButtonGroup
-                value={dataset}
-                exclusive
-                size="small"
-                onChange={handleChange}
-                disabled={isDisabled()}
-              >
+              <ToggleButtonGroup value={dataset} exclusive size="small" onChange={handleChange} disabled={isDisabled()}>
                 {datasetOptions.map((option, index) => (
                   <ToggleButton key={`dataset-${index}`} value={option} color="primary">
                     {option}
@@ -144,9 +135,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               </ToggleButtonGroup>
             </div>
           )}
-          {!amrLikeOrganisms
-            .filter((x) => !['ecoli', 'senterica'].includes(x))
-            .includes(organism) ? null : (
+          {!amrLikeOrganisms.filter(x => !['ecoli', 'senterica'].includes(x)).includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
                 {organism === 'sentericaints' ? 'Select serotype' : 'Select pathotype'}
@@ -165,9 +154,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                   onClose={handleCloseLineages}
                   limitTags={1}
                   clearIcon={null}
-                  renderInput={(params) => (
-                    <TextField {...params} variant="standard" placeholder="Select..." />
-                  )}
+                  renderInput={params => <TextField {...params} variant="standard" placeholder="Select..." />}
                   slotProps={{
                     popper: { placement: 'bottom-start', style: { width: 'fit-content' } },
                   }}
@@ -197,12 +184,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                   renderTags={(value, getTagProps) => (
                     <Box sx={{ maxHeight: 80, overflowY: 'auto' }}>
                       {value.map((option, index) => (
-                        <Chip
-                          key={index}
-                          label={option}
-                          {...getTagProps({ index })}
-                          onDelete={undefined}
-                        />
+                        <Chip key={index} label={option} {...getTagProps({ index })} onDelete={undefined} />
                       ))}
                     </Box>
                   )}
@@ -224,12 +206,15 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
               ) : (
                 <>
                   <ToggleButtonGroup
-                    value={selectedLineages.length === pathovar.length ? '' : selectedLineages[0]}
+                    value={selectedLineages.length === pathovar.length ? 'all' : selectedLineages[0]}
                     size="small"
                     onChange={handleChangeLineages}
                     orientation="vertical"
                     exclusive
                   >
+                    <ToggleButton value="all" color="primary" className={classes.toggleButton}>
+                      All
+                    </ToggleButton>
                     {pathovar.map((option, index) => (
                       <ToggleButton
                         key={`dataset-${index}`}
@@ -265,7 +250,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 disabled={organism === 'none'}
               >
                 {years
-                  .filter((year) => year <= actualTimeFinal)
+                  .filter(year => year <= actualTimeFinal)
                   .map((year, index) => {
                     return (
                       <MenuItem key={`initial-year-${index}`} value={year}>
@@ -295,7 +280,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 disabled={organism === 'none'}
               >
                 {years
-                  .filter((year) => year >= actualTimeInitial)
+                  .filter(year => year >= actualTimeInitial)
                   .map((year, index) => {
                     return (
                       <MenuItem key={`final-year-${index}`} value={year}>
