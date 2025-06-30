@@ -49,7 +49,6 @@ export const statKeysST = [
   { name: 'Tetracyclines', column: 'tetracycline_category', key: 'TetR', resistanceView: true },
   { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
   { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
-
   { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true },
 ];
 
@@ -123,11 +122,11 @@ export const statKeysKP = [
   // { name: 'β-lactamase inhibitors', column: 'Bla_Carb_acquired', key: '-', resistanceView: true},
   { name: 'Phenicols', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   // { name: 'Sulfonamides', column: 'Phe_acquired', key: '-', resistanceView: true},
-  // { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
   { name: 'Tetracyclines', column: 'Tet_acquired', key: '-', resistanceView: true },
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true }, //// TODO: need to update 'Trimethoprim-sulfamethoxazole column name
+  { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0', resistanceView: true },
 ];
 
 export const mapStatKeysKP = [
@@ -150,7 +149,7 @@ export const mapStatKeysKP = [
   // { name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors', column: 'Bla_ESBL_inhR_acquired', key: '-', resistanceView: true },
   // { name: 'β-lactamase inhibitors', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   // { name: 'Sulfonamides', column: 'Phe_acquired', key: '-', resistanceView: true },
-  // { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
+  { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0', resistanceView: true },
 ];
 
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG
@@ -964,7 +963,6 @@ export const statKeysINTS = [
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'CipNS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
-  // { name: 'CipR', column: 'QUINOLONE', key: '-', resistanceView: true },
   {
     name: 'Gentamicin',
     column: 'AMINOGLYCOSIDE',
@@ -977,9 +975,7 @@ export const statKeysINTS = [
   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
   {
     name: 'Pansusceptible',
-    column: drugRulesINTS
-      .find((x) => x.key === 'Pansusceptible')
-      .requirements.map((x) => x.columnID),
+    column: drugRulesINTS.find(x => x.key === 'Pansusceptible').requirements.map(x => x.columnID),
     key: '-',
     resistanceView: true,
   },
@@ -988,7 +984,6 @@ export const statKeysINTS = [
 
 // Used for shige, ecoli and decoli
 export const statKeysECOLI = [
-  // { name: 'CipR', column: 'QUINOLONE', key: '-', resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Azithromycin', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
@@ -1007,9 +1002,7 @@ export const statKeysECOLI = [
   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
   {
     name: 'Pansusceptible',
-    column: drugRulesINTS
-      .find((x) => x.key === 'Pansusceptible')
-      .requirements.map((x) => x.columnID),
+    column: drugRulesINTS.find(x => x.key === 'Pansusceptible').requirements.map(x => x.columnID),
     key: '-',
     resistanceView: true,
   },
