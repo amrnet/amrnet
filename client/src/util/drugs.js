@@ -104,6 +104,7 @@ export const drugsKP = [
   'Tigecycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
+  'Pansusceptible',
 ];
 
 // List of Salmonella Typhi drug classes
@@ -185,14 +186,10 @@ export const ciproAcronyms = {
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
-export const drugsINTS = drugRulesINTS.map((x) => x.key);
-export const drugsINTSLegendsOnly = drugRulesINTS
-  .map((x) => x.legends || x.key)
-  .sort((a, b) => a.localeCompare(b));
-export const drugsNGLegensOnly = drugRulesNG.map((x) => x.legends || x.key);
-export const drugsKlebLegendsOnly = drugRulesKP
-  .map((x) => x.key)
-  .sort((a, b) => a.localeCompare(b));
+export const drugsINTS = drugRulesINTS.map(x => x.key);
+export const drugsINTSLegendsOnly = drugRulesINTS.map(x => x.legends || x.key).sort((a, b) => a.localeCompare(b));
+export const drugsNGLegensOnly = drugRulesNG.map(x => x.legends || x.key);
+export const drugsKlebLegendsOnly = drugRulesKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
 // export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
 export function getDrugClasses(organism) {
   switch (organism) {
