@@ -29,7 +29,8 @@ interface StatsModel {
   CipNS: ItemsModel;
   NGMAST: ItemsModel;
   PATHOTYPE?: ItemsModel;
-  SEROTYPE?: ItemsModel;
+  O_PREV?: ItemsModel;
+  OH_PREV?: ItemsModel;
 }
 
 interface MapDataModel {
