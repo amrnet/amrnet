@@ -109,14 +109,16 @@ export const graphCards = [
     organisms: ['ngono'],
     component: <TrendsGraph />,
   },
-  {
-    title: 'K/O Trends',
-    description: ['Top K/O (up to 10)'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'KO',
-    organisms: ['kpneumo'],
-    component: <TrendsGraph />,
-  },
+  //SHOWING WRONG DATA FOR BLA PLOT
+  // ERROR IN PDF GENERATION
+  // {
+  //   title: 'K/O Trends',
+  //   description: ['Top K/O (up to 10)'],
+  //   icon: <StackedBarChart color="primary" />,
+  //   id: 'KO',
+  //   organisms: ['kpneumo'],
+  //   component: <TrendsGraph />,
+  // },
   {
     title: 'AMR/virulence',
     description: ['Top Genotypes (up to 30)'],
