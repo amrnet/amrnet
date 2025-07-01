@@ -60,6 +60,7 @@ export const ContinentGraphs = () => {
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
   const [showFilter, setShowFilter] = useState(!matches500);
   const [loading, setLoading] = useState(false);
+  const matches1000 = useMediaQuery('(max-width:1000px)');
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -72,7 +73,8 @@ export const ContinentGraphs = () => {
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
-
+  // coloredOptions is used to draw the legend in the Trend Line graph
+  const coloredOptions = useAppSelector((state) => state.graph.coloredOptions); 
   useEffect(() => {
     setShowFilter(!matches500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,6 +109,29 @@ export const ContinentGraphs = () => {
   if (!continentGraphCard.organisms.includes(organism)) {
     return null;
   }
+// This is a component that renders the continent graphs legends based on the selected organism
+function drawLegend({
+    legendData,
+    context,
+    factor,
+    mobileFactor,
+    yPosition,
+    xSpace,
+  }) {
+    legendData.forEach((legend, i) => {
+      const yFactor = (i % factor) * 24;
+      const xFactor = Math.floor(i / factor) * xSpace;
+      context.textAlign = 'left';
+      context.fillStyle =legend.color;
+      context.beginPath();
+      context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
+      context.fill();
+      context.closePath();
+      context.fillStyle = 'black';
+      context.fillText(legend.name,52 + xFactor + 12,yPosition + 4 - mobileFactor + yFactor,);
+    });
+  }
+
 
   async function handleClick(event) {
     event.stopPropagation();
@@ -115,7 +140,6 @@ export const ContinentGraphs = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
 
-      // const graph = document.getElementById('CVM');
       const graph = document.getElementById(currentTab);
       // Store original styles
       const originalOverflow = graph.style.overflow;
@@ -144,8 +168,7 @@ export const ContinentGraphs = () => {
 
       canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
       console.log('canvas.width', canvas.width, graphImg.width);
-      // canvas.height = graphImg.height + 220 + ('CVM' ? 250 : heightFactor);
-      canvas.height = graphImg.height + 220 + ('BG' ? 250 : heightFactor);
+      canvas.height = graphImg.height + 220 + ('BG' ? 250 : heightFactor); // BG is replaced from CVM for BubbleGeographicGraph
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -175,7 +198,27 @@ export const ContinentGraphs = () => {
         154,
       );
       ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
+      
+      // This is a component that renders the continent graphs legends based on the selected organism
 
+      if (currentTab === 'TL') {
+        ctx.fillStyle = 'white';
+        const whiteBoxY =  graphImg.height*0.73+220
+        ctx.fillRect(0, whiteBoxY, canvas.width, canvas.height);
+        const variablesFactor = Math.ceil(coloredOptions.length / 3);;
+        let heightFactor = 0;
+        heightFactor += variablesFactor * 22;
+
+        const mobileFactor = matches1000 ? 100 : 0;
+        drawLegend({
+          legendData: coloredOptions,
+          context: ctx,
+          factor: variablesFactor,
+          mobileFactor,
+          yPosition: 670,
+          xSpace: 270,
+        });
+      }
       const getAxisLabel = () => {
         switch (organism) {
           case 'decoli':

@@ -293,7 +293,7 @@ export const Graphs = () => {
       } else if (currentCard.id === 'RDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
-      } else if (currentCard.id === 'BG') {
+      } else if (currentCard.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
@@ -328,23 +328,26 @@ export const Graphs = () => {
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 95);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 115);
       ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 135);
-      if (currentCard.id === 'GD') {
-        ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
-        ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
-      } else if (currentCard.id === 'DRT') {
-        ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
-        ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);
-      } else if (currentCard.id === 'RDT') {
-        ctx.fillText(`Time period: ${starttimeRDT} to ${endtimeRDT}`, canvas.width / 2, 154);
-        ctx.fillText(`Total ${actualGenomesRDT} genomes`, canvas.width / 2, 172);
-      } else {
-        ctx.fillText(
-          `Time period: ${actualTimeInitial} to ${actualTimeFinal}`,
-          canvas.width / 2,
-          154,
-        );
-        ctx.fillText(`Total ${actualGenomes} genomes`, canvas.width / 2, 172);
-      }
+      
+      //  Refrence Dashboard comment line 773 : unable to use actualGenomesGD, actualGenomesDRT, actualGenomesRD
+      
+      // if (currentCard.id === 'GD') {
+      //   ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
+      //   ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
+      // } else if (currentCard.id === 'DRT') {
+      //   ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
+      //   ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);
+      // } else if (currentCard.id === 'RDT') {
+      //   ctx.fillText(`Time period: ${starttimeRDT} to ${endtimeRDT}`, canvas.width / 2, 154);
+      //   ctx.fillText(`Total ${actualGenomesRDT} genomes`, canvas.width / 2, 172);
+      // } else {
+        // ctx.fillText(
+        //   `Time period: ${actualTimeInitial} to ${actualTimeFinal}`,
+        //   canvas.width / 2,
+        //   154,
+        // );
+        // ctx.fillText(`Total ${actualGenomes} genomes`, canvas.width / 2, 172);
+      // }
       // ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
       if (currentCard.id === 'RDWG')
@@ -353,7 +356,7 @@ export const Graphs = () => {
         ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
       if (currentCard.id === 'KO')
         ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
-      if (currentCard.id === 'CVM') {
+      if (currentCard.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         const group = variablesOptions.find(
           (option) => option.value === convergenceGroupVariable,
         ).label;
@@ -481,7 +484,7 @@ export const Graphs = () => {
           yPosition: 670,
           xSpace: 330,
         });
-      } else if (currentCard.id === 'BG') {
+      } else if (currentCard.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({

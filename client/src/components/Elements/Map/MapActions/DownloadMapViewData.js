@@ -31,9 +31,9 @@ export const DownloadMapViewData = ({ value }) => {
   const mapView = useAppSelector((state) => state.map.mapView);
   const convergenceData = useAppSelector((state) => state.graph.convergenceData);
   const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
-  // const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
-  // const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-  // const drugsRegionsData = useAppSelector((state) => state.graph.drugsRegionsData);
+  const countriesYearData = useAppSelector((state) => state.graph.countriesYearData);
+  const drugClass = useAppSelector((state) => state.graph.drugClass);
+  const drugGene = useAppSelector((state) => state.graph.drugGene);
   const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
   const yAxisType = useAppSelector((state) => state.map.yAxisType);
   const yAxisTypeTrend = useAppSelector((state) => state.map.yAxisTypeTrend);
@@ -583,7 +583,7 @@ export const DownloadMapViewData = ({ value }) => {
     }
   };
 
-  const downloadCSVForBG = () => {
+  const downloadCSVForBG = () => { // BG is replaced from CVM for BubbleGeographicGraph
     // Rename the function used to Download BubbleGeographicGraph HeatMap
     // Helper: Extract clean yAxisKey and capitalize first letter
     const getYAxisKey = (type) => {
@@ -730,6 +730,54 @@ export const DownloadMapViewData = ({ value }) => {
       })`,
     );
   };
+//Trend Line HeatMap Data Download CSV
+  const downloadCSVForTL = () => {
+  if (!Array.isArray(countriesYearData[drugClass]) || countriesYearData[drugClass].length === 0) {
+    console.log('Invalid or empty countriesYearData');
+    return;
+  }
+  const Exclude = ['name', 'totalCount', 'resistantCount', 'items'];
+  const yearEntries = countriesYearData[drugClass];
+
+  // Step 1: Build year list
+  const allYears = yearEntries.map(entry => entry.name);
+
+  // Step 2: Build country list from first entry
+  const sampleEntry = yearEntries[0];
+  const countries = Object.keys(sampleEntry).filter(k => !Exclude.includes(k));
+
+  // Step 3: Prepare CSV headers
+  const header = ['Drug','Gene','Country', 'Total Count'];
+  allYears.forEach(year => {
+    header.push(year);
+    header.push(`${year} %`);
+  });
+
+  const rows = [];
+
+  // Step 4: Build each row per country
+  countries.forEach(country => {
+    let totalCount = 0;
+    const yearCounts = [];
+
+    yearEntries.forEach(entry => {
+      const year = entry.name;
+      const count = entry[country] || 0;
+      const yearTotal = entry.totalCount || 0;
+      const percentage = yearTotal > 0 ? ((count / yearTotal) * 100).toFixed(2) : '0.00';
+
+      totalCount += count;
+      yearCounts.push(count);
+      yearCounts.push(percentage);
+    });
+    if(totalCount < 10) return; // Filter out countries with totalCount < 10
+    const row = [drugClass, drugGene, country, totalCount, ...yearCounts];
+    rows.push(row.join(','));
+  });
+
+  generateCSV(header.join(','), rows, `TrendLine_HeatMap_${drugClass}`);
+};
+
 
   function generateCSV(headers, rows, name) {
     // Combine header and rows into CSV content
@@ -763,10 +811,12 @@ export const DownloadMapViewData = ({ value }) => {
         return downloadCSVForRDT();
       case 'convergence-graph': // convergence graph plot was missing the download data
         return downloadCSVForCG();
-      case 'BG':
+      case 'BG': // BG is replaced from CVM for BubbleGeographicGraph
         return downloadCSVForBG()// Rename the function used to Download BubbleGeographicGraph HeatMap
       case 'BHP': // Pathotype HeatMap
         return downloadCSVForHM('BHP');; // Rename the function used to Download BubbleGeographicGraph HeatMap
+      case 'TL': // TrendLine HeatMap
+        return downloadCSVForTL(); 
       default:
         return downloadCSV();
     }

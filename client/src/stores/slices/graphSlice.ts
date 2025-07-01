@@ -65,6 +65,9 @@ interface GraphState {
   topXGenotype: Array<any>;
   topXGenotypeRDWG: Array<any>;
   download: boolean;
+  drugClass: Array<any>;
+  drugGene: string;
+  coloredOptions: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -131,6 +134,9 @@ const initialState: GraphState = {
   topXGenotype: [],
   topXGenotypeRDWG: [],
   download: false,
+  drugClass: [],
+  drugGene: '',
+  coloredOptions: [],
 };
 
 export const graphSlice = createSlice({
@@ -314,6 +320,15 @@ export const graphSlice = createSlice({
     setDownload: (state, action: PayloadAction<boolean>) => {
       state.download = action.payload;
     },
+    setDrugClass: (state, action: PayloadAction<Array<any>>) => {
+      state.drugClass = action.payload;
+    },
+    setDrugGene: (state, action: PayloadAction<string>) => {
+      state.drugGene = action.payload;
+    },
+    setColoredOptions: (state, action: PayloadAction<Array<any>>) => {
+      state.coloredOptions = action.payload;
+    },
   },
 });
 
@@ -377,6 +392,10 @@ export const {
   setTopXGenotype,
   setTopXGenotypeRDWG,
   setDownload,
+  setDrugClass,
+  setDrugGene,
+  setColoredOptions
+
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
