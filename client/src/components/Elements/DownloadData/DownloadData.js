@@ -1328,32 +1328,33 @@ export const DownloadData = () => {
     });
     await addImageToPDF({ doc, elementId: 'BG', pageWidth }); // BG is replaced from CVM for BubbleGeographicGraph
 
-    // TL Map Page
-    addStandardPage({
-      doc,
-      title: 'Geographic Comparisons (Trend Line)',
-      subtitle1: commonSubtitle1,
-      subtitle2: commonSubtitle2,
-      date,
-      pageWidth,
-      pageHeight,
-    });
-    doc.text(`${drugClass} : ${drugGene} Gene`, 16, 66); // Add drug class and gene to the title
-    await addImageToPDF({ doc, elementId: 'TL', pageWidth });
+    // TL Map Page 
+    // Hidden for now from PDF, as we dont have a trend line map on the dashboard
+    // addStandardPage({
+    //   doc,
+    //   title: 'Geographic Comparisons (Trend Line)',
+    //   subtitle1: commonSubtitle1,
+    //   subtitle2: commonSubtitle2,
+    //   date,
+    //   pageWidth,
+    //   pageHeight,
+    // });
+    // doc.text(`${drugClass} : ${drugGene} Gene`, 16, 66); // Add drug class and gene to the title
+    // await addImageToPDF({ doc, elementId: 'TL', pageWidth });
 
-    // Trend Line Page Add a Legends
-    const whiteBoxY = 100 + ((displayHeight-20) * 0.73);
-    doc.setFillColor(255, 255, 255); // White color
-    doc.rect(10, whiteBoxY, pageWidth - 20, 140, 'F'); // Draw a filled rectangle as background
+    // // Trend Line Page Add a Legends
+    // const whiteBoxY = 100 + ((displayHeight-20) * 0.73);
+    // doc.setFillColor(255, 255, 255); // White color
+    // doc.rect(10, whiteBoxY, pageWidth - 20, 140, 'F'); // Draw a filled rectangle as background
     
-    drawLegend({
-      document: doc,
-      legendData: coloredOptions,
-      factor: 17, // Adjust factor based on the number of legend items
-      rectY:whiteBoxY,
-      xSpace: 80, // Space between legend items
-      isDrug: false,
-    });
+    // drawLegend({
+    //   document: doc,
+    //   legendData: coloredOptions,
+    //   factor: 17, // Adjust factor based on the number of legend items
+    //   rectY:whiteBoxY,
+    //   xSpace: 80, // Space between legend items
+    //   isDrug: false,
+    // });
 
     // Pathotype or Serotype Page 
     if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
