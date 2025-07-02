@@ -18,6 +18,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { graphCards } from '../../../util/graphCards';
 import domtoimage from 'dom-to-image';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
+import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
 import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../util/drugs';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
@@ -196,7 +197,7 @@ export const DownloadData = () => {
   const classes = useStyles();
   const matches1000 = useMediaQuery('(max-width:1000px)');
   const [loadingCSV, setLoadingCSV] = useState(false);
-  const [loadingPDF, setLoadingPDF] = useState(false);
+  // const [loadingPDF, setLoadingPDF] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -248,6 +249,13 @@ export const DownloadData = () => {
   const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
   const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
+  const coloredOptions = useAppSelector((state) => state.graph.coloredOptions);
+  const drugClass = useAppSelector((state) => state.graph.drugClass); // Drug class selected in the graph for PDF
+  const drugGene = useAppSelector((state) => state.graph.drugGene); // Drug gene selected in the graph for PDF
+  //loadingPDF:  Loading state for PDF generation and temp change the visibility of the Geo Comp HEat map 
+  // to show all the selected values to take a correct screenshot
+  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF); 
+
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -335,6 +343,7 @@ export const DownloadData = () => {
       .catch((error) => {console.error('Error downloading database:', error)})
       .finally(() => {
         setLoadingCSV(false);
+        dispatch(setLoadingPDF(false));
       });
   }
 
@@ -493,7 +502,7 @@ export const DownloadData = () => {
   };
 
   async function handleClickDownloadPDF() {
-    setLoadingPDF(true);
+    dispatch(setLoadingPDF(true));
     dispatch(
       setCollapses({
         continent: true,
@@ -554,13 +563,15 @@ export const DownloadData = () => {
         texts = getSentericaintsTexts();
         firstName = 'Salmonella enterica';
         secondName = '(non-typhoidal)';
-        secondword = 340;
-        firstWord = 250;
+        secondword = 360;
+        firstWord = 260;
         amrnetHeading = 147;
       } else if (organism === 'ecoli') {
         texts = getEcoliTexts();
         firstName = 'Escherichia';
         secondName = 'coli';
+        firstWord = 269; // Adjusted for E. coli
+        secondword = 315;
       } else if (organism === 'decoli') {
         texts = getDEcoliTexts();
         firstName = 'Escherichia coli';
@@ -1092,6 +1103,45 @@ export const DownloadData = () => {
         // doc.setFont(undefined, 'normal');
         doc.text(texts[18], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+      } else if (organism === 'ecoli') {
+        //TODO: Add the texts for E. coli
+        // Info
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[1], 80, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[2], 145, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 175, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 16, 205, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 245, pageWidth - 20, 65, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[10], 16, 265, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[11], 65, 265, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        // Abbreviations
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[13], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[15], 60, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[16], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 102, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[18], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       } else {
         console.log('No Report available for this organism');
       }
@@ -1099,28 +1149,26 @@ export const DownloadData = () => {
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       // Map
+      // Add 'Global Overview of {mapView}' title
+      const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       doc.addPage();
       drawHeader({ document: doc, pageWidth });
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
-      // doc.text('Global Overview of', amrnetHeading, 44, { align: 'center' });
-      // doc.setFont(undefined, 'bolditalic');
-      // doc.text(firstName, firstWord, 44, { align: 'center' });
-      // doc.setFont(undefined, 'bold');
-      // doc.text(secondName, secondword, 44, { align: 'center' });
-      // doc.setFontSize(12).setFont(undefined, 'normal');
-      // doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 60, { align: 'center' });
-      // doc.text(`Country: ${actualCountry}`, pageWidth / 2, 72, { align: 'center' });
-      // doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, pageWidth / 2, 84, {
-      //   align: 'center',
-      // });
+      doc.text(`Global Overview of ${actualMapView} `, pageWidth/2, 44, { align: 'center' });
+      //Rename Report heading based on new Org name
+      doc.setFontSize(12).setFont(undefined, 'normal');
+      doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 60, { align: 'center' });
+      doc.text(`Country: ${actualCountry}`, pageWidth / 2, 72, { align: 'center' });
+      doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, pageWidth / 2, 84, {
+        align: 'center',
+      });
       doc.line(16, 96, pageWidth - 16, 96);
 
       doc.setFont(undefined, 'bold');
       doc.text('Map', 16, 116);
       doc.setFont(undefined, 'normal');
-      const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       // doc.text(`Map View: ${actualMapView}`, 16, 128);
       // doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
       doc.text(
@@ -1221,6 +1269,7 @@ export const DownloadData = () => {
 
       //Heatmap
       // Helper to add page with header/footer and optional title/metadata
+      let displayHeight
       function addStandardPage({ doc, title, subtitle1, subtitle2, date, pageWidth, pageHeight }) {
       doc.addPage();
       drawHeader({ document: doc, pageWidth });
@@ -1248,22 +1297,19 @@ export const DownloadData = () => {
       // );
       // const graphImgHeat = document.createElement('img');
       // const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
-      // graphImgHeat.src = await domtoimage.toPng(document.getElementById('CVM'), {
+      // graphImgHeat.src = await domtoimage.toPng(document.getElementById('BG'), {
         bgcolor: 'white',
       });
-      // console.log('graphImgHeat', graphImgHeat.width);
+      
       await imgLoad;
-        if (img.width > 3000) {
-        doc.addImage(img, 'PNG', x, y, undefined, undefined, undefined, 'FAST');
-         } else {
-      // Estimate height for smaller images
+      
+        // Estimate height for all images
         const aspectRatio = img.width / img.height;
         const displayWidth = pageWidth - 80;
-        const displayHeight = displayWidth / aspectRatio;
-        doc.addImage(img, 'PNG', x, y, displayWidth, displayHeight, undefined, 'FAST');
-        }
+        displayHeight = displayWidth / aspectRatio;
+        doc.addImage(img, 'PNG', x, y, displayWidth-20, displayHeight-20, undefined, 'FAST');
       //
-       }
+    }
     // Main PDF logic
     const commonSubtitle1 = `Selected View: ${actualMapView}`;
     const commonSubtitle2 = `Dataset: ${dataset}${
@@ -1273,32 +1319,48 @@ export const DownloadData = () => {
     // Heatmap Page
     addStandardPage({
       doc,
-      title: 'Geographic Comparisons',
+      title: 'Geographic Comparisons (Heat Map)' ,
       subtitle1: commonSubtitle1,
       subtitle2: commonSubtitle2,
       date,
       pageWidth,
       pageHeight,
     });
-    await addImageToPDF({ doc, elementId: 'BG', pageWidth });
+    await addImageToPDF({ doc, elementId: 'BG', pageWidth }); // BG is replaced from CVM for BubbleGeographicGraph
 
-    // TL Map Page
-    addStandardPage({
-      doc,
-      title: 'Geographic Comparisons (TL)',
-      subtitle1: commonSubtitle1,
-      subtitle2: commonSubtitle2,
-      date,
-      pageWidth,
-      pageHeight,
-    });
-    await addImageToPDF({ doc, elementId: 'TL', pageWidth });
+    // TL Map Page 
+    // Hidden for now from PDF, as we dont have a trend line map on the dashboard
+    // addStandardPage({
+    //   doc,
+    //   title: 'Geographic Comparisons (Trend Line)',
+    //   subtitle1: commonSubtitle1,
+    //   subtitle2: commonSubtitle2,
+    //   date,
+    //   pageWidth,
+    //   pageHeight,
+    // });
+    // doc.text(`${drugClass} : ${drugGene} Gene`, 16, 66); // Add drug class and gene to the title
+    // await addImageToPDF({ doc, elementId: 'TL', pageWidth });
 
-    // Pathotype or Serotype Page
-    if (['ints', 'decoli', 'shige'].includes(organism)) {
+    // // Trend Line Page Add a Legends
+    // const whiteBoxY = 100 + ((displayHeight-20) * 0.73);
+    // doc.setFillColor(255, 255, 255); // White color
+    // doc.rect(10, whiteBoxY, pageWidth - 20, 140, 'F'); // Draw a filled rectangle as background
+    
+    // drawLegend({
+    //   document: doc,
+    //   legendData: coloredOptions,
+    //   factor: 17, // Adjust factor based on the number of legend items
+    //   rectY:whiteBoxY,
+    //   xSpace: 80, // Space between legend items
+    //   isDrug: false,
+    // });
+
+    // Pathotype or Serotype Page 
+    if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
       addStandardPage({
         doc,
-        title: organism === 'ints' ? 'Serotype Comparisons' : 'Pathotype Comparisons',
+        title: organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons',
         subtitle1: commonSubtitle1,
         subtitle2: commonSubtitle2,
         date,
@@ -1350,7 +1412,7 @@ export const DownloadData = () => {
           case 'KO':
             title += `: ${KODiversityGraphView}`;
             break;
-          case 'BG':
+          case 'BG': // BG is replaced from CVM for BubbleGeographicGraph
             const group = variablesOptions.find(
               (option) => option.value === convergenceGroupVariable,
             ).label;
@@ -1369,11 +1431,12 @@ export const DownloadData = () => {
         doc.setFontSize(10);
         doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 56);
         doc.setFontSize(12);
-        // doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
-        if (cards[index].id === 'GD') doc.text(`Total: ${actualGenomesGD} genomes`, 16, 74);
-        else if (cards[index].id === 'DRT') doc.text(`Total: ${actualGenomesDRT} genomes`, 16, 74);
-        else if (cards[index].id === 'RDT') doc.text(`Total: ${actualGenomesRDT} genomes`, 16, 74);
-        else doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        //  Refrence Dashboard comment line 773 : unable to use actualGenomesGD, actualGenomesDRT, actualGenomesRD
+        // if (cards[index].id === 'GD') doc.text(`Total: ${actualGenomesGD} genomes`, 16, 74);
+        // else if (cards[index].id === 'DRT') doc.text(`Total: ${actualGenomesDRT} genomes`, 16, 74);
+        // else if (cards[index].id === 'RDT') doc.text(`Total: ${actualGenomesRDT} genomes`, 16, 74);
+        // else doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
         doc.text(`Country: ${actualCountry}`, 16, 86);
         // doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         if (cards[index].id === 'GD')
@@ -1403,10 +1466,10 @@ export const DownloadData = () => {
           doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
         }
         const rectY = matches1000 ? 320 : 340;
-        if (cards[index].id === 'BG') {
+        if (cards[index].id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY + 60, pageWidth, 200, 'F'); // fill with white
-        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'BG') {
+        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
         }
@@ -1546,7 +1609,7 @@ export const DownloadData = () => {
       console.error('ERROR', error.message);
       setShowAlert(true);
     } finally {
-      setLoadingPDF(false);
+      dispatch(setLoadingPDF(false));
     }
   }
 
@@ -1595,7 +1658,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={['ecoli'].includes(organism)} //'styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'
+        // disabled={['ecoli'].includes(organism)} //'styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'
       >
         Download PDF
       </LoadingButton>

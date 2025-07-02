@@ -43,12 +43,12 @@ import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/org
 
 const kpTrendOptions = Object.keys(drugClassesRulesKP)
   .map((drug) => {
-    const label = drug === 'ESBL' ? 'ESBLs' : drug;
+    const label = drug === 'ESBL' ? 'ESBLs' : 'Carbapenemase'; // Added 'Carbapenemase' for KP trends in geo comp graphs
     return {
       organism: 'kpneumo',
       key: drug,
       value: `kp-trends-${drug.toLowerCase()}`,
-      label: label,
+      label: `${label} genes`, // Added 'genes' for KP trends in geo comp graphs
     };
   })
   .sort((a, b) => a.key.localeCompare(b.key));
@@ -120,6 +120,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const drugsCountriesData = useAppSelector((state) => state.graph.drugsCountriesData);
   const yAxisType = useAppSelector((state) => state.map.yAxisType);
   const yAxisTypeTrend = useAppSelector((state) => state.map.yAxisTypeTrend);
+  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
+  
 
   useEffect(() => {
     setXAxisType('country');
@@ -730,7 +732,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.bubbleGeographicGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CVM">
+      {/* // BG is replaced from CVM for BubbleGeographicGraph and overflow visible for Download PDF */}
+        <div className={classes.graph} style={loadingPDF ? { overflow: 'visible' } : undefined} id="BG"> 
           {plotChart}
         </div>
       </div>

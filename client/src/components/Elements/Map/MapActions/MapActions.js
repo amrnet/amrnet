@@ -125,21 +125,18 @@ export const MapActions = () => {
         ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 240);
         ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 290);
-        ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 337);
         const getAxisLabel = () => {
           switch (organism) {
             case 'decoli':
             case 'shige':
-              return 'Selected Pathotypes :';
+              return `Selected Pathotypes (Organism: ${globalOverviewLabel.stringLabel}) :`; //improve heading with Selected Pathotypes and Organism for Screenshots
             case 'sentericaints':
-              return 'Selected Serotypes :';
+              return `Selected Serotypes (Organism: ${globalOverviewLabel.stringLabel}):`;
             default:
-              return '';
+              return `Organism: ${globalOverviewLabel.stringLabel}`;
           }
         };
-        if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
           ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 340);
-        }
 
         const prevalenceMapViews = [
           'Genotype prevalence',
