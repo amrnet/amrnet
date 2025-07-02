@@ -1,13 +1,4 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  IconButton,
-  MenuItem,
-  Select,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
 import {
   CartesianGrid,
@@ -42,14 +33,14 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const convergenceData = useAppSelector((state) => state.graph.convergenceData);
-  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const convergenceData = useAppSelector(state => state.graph.convergenceData);
+  const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
-  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
-  const currentSliderValueCM = useAppSelector((state) => state.graph.currentSliderValueCM);
-  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
+  const convergenceColourPallete = useAppSelector(state => state.graph.convergenceColourPallete);
+  const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -67,7 +58,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   // }
 
   function handleClickChart(name) {
-    const data = convergenceData.find((item) => item.name === name);
+    const data = convergenceData.find(item => item.name === name);
 
     if (data) {
       const currentData = structuredClone(data);
@@ -82,7 +73,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const topColours = useMemo(() => {
     return Object.fromEntries(
       Object.entries(convergenceColourPallete).filter(([key]) =>
-        topConvergenceData.some((item) => item.colorLabel === key),
+        topConvergenceData.some(item => item.colorLabel === key),
       ),
     );
   }, [convergenceColourPallete, topConvergenceData]);
@@ -110,7 +101,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                 domain={[0, 5]}
                 padding={{ left: 20, right: 20 }}
               >
-                <Label position="insideBottom" className={classes.graphLabel}>
+                <Label position="bottom" className={classes.graphLabel}>
                   Mean virulence score
                 </Label>
               </XAxis>
@@ -134,10 +125,18 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                   const zMin = 50;
                   const zMax = 1000;
                   const zMid = Math.round((zMin + zMax) / 2);
-                  const sizeScale = (z) => 10 + 30 * ((z - zMin) / (zMax - zMin)); // adjust as needed
+                  const sizeScale = z => 10 + 30 * ((z - zMin) / (zMax - zMin)); // adjust as needed
 
                   return (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 8 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        marginTop: 44,
+                        marginLeft: 60,
+                      }}
+                    >
                       <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                           <svg width={sizeScale(zMin)} height={sizeScale(zMin)}>
@@ -176,7 +175,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                           <Typography variant="caption">{zMax}</Typography>
                         </div>
                       </div>
-                      <Typography variant="caption" style={{ marginTop: 20, textAlign: 'center', width: '80%' }}>
+                      <Typography variant="caption" style={{ marginTop: 4, textAlign: 'center', width: '80%' }}>
                         Number of items
                       </Typography>
                     </div>
@@ -188,9 +187,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active }) => {
                   if (payload !== null && active) {
-                    return (
-                      <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>
-                    );
+                    return <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>;
                   }
                   return null;
                 }}

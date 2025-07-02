@@ -27,6 +27,7 @@ interface DashboardState {
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
   genotypesForFilterSelectedRD: Array<string>;
+  genotypesForFilterDynamic: Array<string>;
   colorPallete: Object;
   listPMID: Array<string>;
   PMID: Array<string>;
@@ -45,8 +46,8 @@ const initialState: DashboardState = {
   canGetData: true,
   canFilterData: false,
   globalOverviewLabel: {
-    label: organismsCards.find((card) => card.value === 'styphi')?.label || '',
-    stringLabel: organismsCards.find((card) => card.value === 'styphi')?.stringLabel || '',
+    label: organismsCards.find(card => card.value === 'styphi')?.label || '',
+    stringLabel: organismsCards.find(card => card.value === 'styphi')?.stringLabel || '',
   },
   organism: 'none',
   loadingData: false,
@@ -64,6 +65,7 @@ const initialState: DashboardState = {
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
   genotypesForFilterSelectedRD: [],
+  genotypesForFilterDynamic: [],
   colorPallete: {},
   listPMID: [],
   PMID: [],
@@ -91,7 +93,7 @@ export const dashboardSlice = createSlice({
     setGlobalOverviewLabel: (state, action: PayloadAction<GlobalOverviewModel>) => {
       state.globalOverviewLabel = action.payload;
     },
-    removeOrganism: (state) => {
+    removeOrganism: state => {
       state.organism = 'none';
     },
     setOrganism: (state, action: PayloadAction<string>) => {
@@ -154,6 +156,9 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilterSelectedRD: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilterSelectedRD = action.payload;
     },
+    setGenotypesForFilterDynamic: (state, action: PayloadAction<Array<string>>) => {
+      state.genotypesForFilterDynamic = action.payload;
+    },
     setColorPallete: (state, action: PayloadAction<Object>) => {
       state.colorPallete = action.payload;
     },
@@ -213,6 +218,7 @@ export const {
   setGenotypesForFilter,
   setGenotypesForFilterSelected,
   setGenotypesForFilterSelectedRD,
+  setGenotypesForFilterDynamic,
   setColorPallete,
   setListPMID,
   setPMID,

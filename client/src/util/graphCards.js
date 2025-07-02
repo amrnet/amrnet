@@ -3,7 +3,7 @@ import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanc
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
 import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
 import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
-import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
+// import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
@@ -30,7 +30,7 @@ function getTrendstitle(organism) {
   }
 }
 
-const heatmapCards = organismsCards.map((organismCard) => ({
+const heatmapCards = organismsCards.map(organismCard => ({
   title: getHeatMapsTitle(organismCard.value),
   description: [''],
   icon: <BubbleChart color="primary" />,
@@ -45,7 +45,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: organismsCards.map((x) => x.value),
+    organisms: organismsCards.map(x => x.value),
     component: <DrugResistanceGraph />,
   },
   {
@@ -53,11 +53,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: [
-      'styphi',
-      'ngono',
-      ...amrLikeOrganisms.filter((x) => !['sentericaints', 'senterica'].includes(x)),
-    ],
+    organisms: ['styphi', 'ngono', ...amrLikeOrganisms.filter(x => !['sentericaints', 'senterica'].includes(x))],
     component: <DistributionGraph />,
   },
   {
@@ -182,7 +178,7 @@ export const graphCards = [
 export const continentGraphCard = {
   title: 'Geographic Comparisons',
   icon: <BubbleChart color="primary" />,
-  organisms: organismsCards.map((x) => x.value),
+  organisms: organismsCards.map(x => x.value),
 };
 
 export const continentPGraphCard = {

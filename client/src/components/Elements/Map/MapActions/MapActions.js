@@ -18,19 +18,17 @@ export const MapActions = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const mapView = useAppSelector((state) => state.map.mapView);
-  const dataset = useAppSelector((state) => state.map.dataset);
-  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
-  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
-  const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
-  const prevalenceMapViewOptionsSelected = useAppSelector(
-    (state) => state.graph.prevalenceMapViewOptionsSelected,
-  );
-  const customDropdownMapViewNG = useAppSelector((state) => state.graph.customDropdownMapViewNG);
-  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
-  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const mapView = useAppSelector(state => state.map.mapView);
+  const dataset = useAppSelector(state => state.map.dataset);
+  const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
+  const globalOverviewLabel = useAppSelector(state => state.dashboard.globalOverviewLabel);
+  const prevalenceMapViewOptionsSelected = useAppSelector(state => state.graph.prevalenceMapViewOptionsSelected);
+  const customDropdownMapViewNG = useAppSelector(state => state.graph.customDropdownMapViewNG);
+  const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
+  const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
+  const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
 
   async function handleClick(event) {
     event.stopPropagation();
@@ -43,7 +41,7 @@ export const MapActions = () => {
         backgroundColor: 'white',
         width: 1200,
         left: -200,
-      }).then(async (uri) => {
+      }).then(async uri => {
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext('2d');
 
@@ -67,8 +65,7 @@ export const MapActions = () => {
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
-        if (organism === 'sentericaints')
-        ctx.fillText(`Global Overview of ${mapView}`, canvas.width * 0.5, 80);
+        if (organism === 'sentericaints') ctx.fillText(`Global Overview of ${mapView}`, canvas.width * 0.5, 80);
         else ctx.fillText(`Global Overview of ${mapView}`, canvas.width * 0.5, 80);
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
@@ -120,15 +117,11 @@ export const MapActions = () => {
         ctx.font = '35px Montserrat';
         ctx.textAlign = 'center';
 
-        const actualMapView = mapLegends.find((x) => x.value === mapView).label;
+        const actualMapView = mapLegends.find(x => x.value === mapView).label;
 
         // ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
 
-        ctx.fillText(
-          'Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal,
-          canvas.width / 2,
-          140,
-        );
+        ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 140);
         ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
         ctx.fillText('Dataset: ' + dataset, canvas.width / 2, 240);
         ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 290);
@@ -152,15 +145,12 @@ export const MapActions = () => {
           'Sublineage prevalence',
           'Pathotype prevalence',
           'Serotype prevalence',
+          'O prevalence',
         ];
 
         if (prevalenceMapViews.includes(mapView)) {
           if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(
-              `${actualMapView}: ` + prevalenceMapViewOptionsSelected,
-              canvas.width / 2,
-              390,
-            );
+            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
           } else if (prevalenceMapViewOptionsSelected.length > 1) {
             const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
             ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
@@ -254,22 +244,14 @@ export const MapActions = () => {
 
   return (
     <div className={classes.mapActions}>
-      <Tooltip
-      title="Download Data"
-      placement="top"
-      onClick={(e) => e.stopPropagation()}
-      >
+      <Tooltip title="Download Data" placement="top" onClick={e => e.stopPropagation()}>
         <IconButton color="primary" disabled={organism === 'none' || loading}>
           <DownloadMapViewData fontSize="inherit" value="map" />
         </IconButton>
       </Tooltip>
       <Tooltip title="Download Map as PNG" placement="top">
         <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
-          {loading ? (
-            <CircularProgress color="primary" size={25} />
-          ) : (
-            <CameraAlt fontSize="inherit" />
-          )}
+          {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
         </IconButton>
       </Tooltip>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>

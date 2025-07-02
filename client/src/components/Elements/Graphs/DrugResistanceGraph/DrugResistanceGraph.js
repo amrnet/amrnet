@@ -25,19 +25,8 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import {
-  setDrugResistanceGraphView,
-  setStarttimeDRT,
-  setEndtimeDRT,
-} from '../../../../stores/slices/graphSlice';
-import {
-  ciproAcronyms,
-  drugAcronymsOpposite,
-  drugsINTS,
-  drugsKP,
-  drugsNG,
-  drugsST,
-} from '../../../../util/drugs';
+import { setDrugResistanceGraphView, setStarttimeDRT, setEndtimeDRT } from '../../../../stores/slices/graphSlice';
+import { ciproAcronyms, drugAcronymsOpposite, drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
 import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -54,13 +43,13 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
-  const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
-  const drugsYearData = useAppSelector((state) => state.graph.drugsYearData);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
-  const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
+  const drugResistanceGraphView = useAppSelector(state => state.graph.drugResistanceGraphView);
+  const drugsYearData = useAppSelector(state => state.graph.drugsYearData);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
+  const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -77,12 +66,12 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   const trendsData = useMemo(() => {
     const exclusions = ['name', 'count'];
-    const drugsDataPercentages = structuredClone(drugsYearData).filter((item) => item.count >= 10);
+    const drugsDataPercentages = structuredClone(drugsYearData).filter(item => item.count >= 10);
 
-    return drugsDataPercentages.map((item) => {
-      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
+    return drugsDataPercentages.map(item => {
+      const keys = Object.keys(item).filter(x => !exclusions.includes(x));
 
-      keys.forEach((key) => {
+      keys.forEach(key => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
 
@@ -187,7 +176,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   function handleClickChart(event) {
     const year = event?.activeLabel;
-    const data = drugsYearData?.find((item) => item.name.toString() === year?.toString());
+    const data = drugsYearData?.find(item => item.name.toString() === year?.toString());
 
     if (data && data.count >= 10 && drugResistanceGraphView.length > 0) {
       const currentData = structuredClone(data);
@@ -201,7 +190,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       delete currentData.name;
       delete currentData.count;
 
-      Object.keys(currentData).forEach((key) => {
+      Object.keys(currentData).forEach(key => {
         if (!drugResistanceGraphView.includes(key)) {
           return;
         }
@@ -212,7 +201,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          fill: event.activePayload.find((x) => x.name === key).stroke,
+          fill: event.activePayload.find(x => x.name === key).stroke,
         });
         value.drugs.sort((a, b) => b.count - a.count);
       });
@@ -253,18 +242,13 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
       if (data.length > 0) {
         // Add missing years between the select time to show continuous scale
-        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(
-          String,
-        );
-        const years = data.map((x) => x.name);
-        const keys = Object.keys(data[0]).filter((key) => !['name', 'count'].includes(key));
+        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
+        const years = data.map(x => x.name);
 
-        allYears.forEach((year) => {
+        allYears.forEach(year => {
           if (!years.includes(year)) {
             data.push({
               name: year,
-              count: 0,
-              ...Object.fromEntries(keys.map((key) => [key, 0])),
             });
           }
         });
@@ -275,11 +259,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <LineChart
-              data={data}
-              cursor={isTouchDevice() ? 'default' : 'pointer'}
-              onClick={handleClickChart}
-            >
+            <LineChart data={data} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 tickCount={20}
@@ -300,7 +280,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   dataKey="name"
                   height={20}
                   stroke={'rgb(31, 187, 211)'}
-                  onChange={(brushRange) => {
+                  onChange={brushRange => {
                     setCurrentTooltip(null);
                     dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
                     dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
@@ -310,7 +290,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
               {organism !== 'none' && (
                 <Legend
-                  content={(props) => {
+                  content={props => {
                     const { payload } = props;
                     return (
                       <div className={classes.legendWrapper}>
@@ -340,14 +320,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                             dataKeyElement = ciproAcronyms[dataKey] || dataKey;
                           }
                           return (
-                            <div
-                              key={`drug-resistance-legend-${index}`}
-                              className={classes.legendItemWrapper}
-                            >
-                              <Box
-                                className={classes.colorCircle}
-                                style={{ backgroundColor: color }}
-                              />
+                            <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
+                              <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
                               <Typography variant="caption">{dataKeyElement}</Typography>
                             </div>
                           );
@@ -479,17 +453,13 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                     title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
                     placement="top"
                   >
-                    <InfoOutlined
-                      color="action"
-                      fontSize="small"
-                      className={classes.labelTooltipIcon}
-                    />
+                    <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                   </Tooltip>
                 </div>
                 <Select
                   multiple
                   value={drugResistanceGraphView}
-                  onChange={(event) => handleChangeDrugsView({ event })}
+                  onChange={event => handleChangeDrugsView({ event })}
                   displayEmpty
                   disabled={organism === 'none'}
                   endAdornment={
@@ -498,29 +468,21 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                       className={classes.selectButton}
                       onClick={() => handleChangeDrugsView({ all: true })}
                       disabled={organism === 'none'}
-                      color={
-                        drugResistanceGraphView.length === getDrugs()?.length ? 'error' : 'primary'
-                      }
+                      color={drugResistanceGraphView.length === getDrugs()?.length ? 'error' : 'primary'}
                     >
-                      {drugResistanceGraphView.length === getDrugs()?.length
-                        ? 'Clear All'
-                        : 'Select All'}
+                      {drugResistanceGraphView.length === getDrugs()?.length ? 'Clear All' : 'Select All'}
                     </Button>
                   }
                   inputProps={{ className: classes.selectInput }}
                   MenuProps={{
                     classes: { paper: classes.menuPaper, list: classes.selectMenu },
                   }}
-                  renderValue={(selected) => (
-                    <div>{`${selected.length} of ${getDrugs()?.length} selected`}</div>
-                  )}
+                  renderValue={selected => <div>{`${selected.length} of ${getDrugs()?.length} selected`}</div>}
                 >
                   {getDrugs()?.map((drug, index) => (
                     <MenuItem key={`drug-resistance-option-${index}`} value={drug}>
                       <Checkbox checked={drugResistanceGraphView.indexOf(drug) > -1} />
-                      <ListItemText
-                        primary={drugAcronymsOpposite[drug] || ciproAcronyms[drug] || drug}
-                      />
+                      <ListItemText primary={drugAcronymsOpposite[drug] || ciproAcronyms[drug] || drug} />
                     </MenuItem>
                   ))}
                 </Select>

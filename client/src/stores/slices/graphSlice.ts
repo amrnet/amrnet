@@ -21,8 +21,6 @@ interface GraphState {
   prevalenceMapViewOptionsSelected: Array<string>;
   customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
-  pathotypesDrugsData: Array<any>;
-  serotypesDrugsData: Array<any>;
   genotypesDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
@@ -81,8 +79,6 @@ const initialState: GraphState = {
   genotypesYearData: [],
   drugsYearData: [],
   genotypesDrugsData: [],
-  pathotypesDrugsData: [],
-  serotypesDrugsData: [],
   genotypesDrugClassesData: [],
   genotypesAndDrugsYearData: [],
   countriesYearData: [],
@@ -178,12 +174,6 @@ export const graphSlice = createSlice({
     },
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugsData = action.payload;
-    },
-    setPathotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
-      state.pathotypesDrugsData = action.payload;
-    },
-    setSerotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
-      state.serotypesDrugsData = action.payload;
     },
     setDeterminantsGraphView: (state, action: PayloadAction<string>) => {
       state.determinantsGraphView = action.payload;
@@ -345,8 +335,6 @@ export const {
   setPrevalenceMapViewOptionsSelected,
   setCustomDropdownMapViewNG,
   setGenotypesDrugsData,
-  setPathotypesDrugsData,
-  setSerotypesDrugsData,
   setDeterminantsGraphView,
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,
