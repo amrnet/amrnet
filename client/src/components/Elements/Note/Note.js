@@ -80,9 +80,9 @@ export const Note = () => {
           <img src={LogoImg} alt="AMRnet" className={classes.logo} />
         ) : (
           // :organism === "ngono"? null
-          <Button className={classes.beta} variant="contained" href="#contained-buttons">
+          <div className={classes.beta} variant="contained" disableElevation>
             BETA
-          </Button>
+          </div>
         )}
         <Typography className={classes.note} variant="body1">
           {textNote()}
