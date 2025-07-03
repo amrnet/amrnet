@@ -87,7 +87,7 @@ const yOptions = [
   },
   {
     value: 'determinant',
-    label: 'Resistant determinant',
+    label: 'Resistant markers',
     organisms: ['styphi', 'kpneumo'],
   },
   {
