@@ -1463,16 +1463,45 @@ export const DownloadData = () => {
           bgcolor: 'white',
         });
         await graphImgPromise;
-        if (graphImg.width <= 700) {
-          doc.addImage(graphImg, 'PNG', 16, 130, undefined, undefined, undefined, 'FAST');
-        } else {
-          doc.addImage(graphImg, 'PNG', 16, 130, pageWidth - 80, 271, undefined, 'FAST');
+       // Plot re-size for PDF
+        const aspectRatio = graphImg.width / graphImg.height;
+        const isSmallImage = graphImg.width <= 700 && graphImg.height <= 700;
+
+        const topMargin = isSmallImage ? 70 : 120;
+        const bottomMargin = isSmallImage ? 70 : 30;
+        const leftMargin = 16;
+        const rightMargin = 16;
+        const scaleFactor = isSmallImage ? 0.8 : 1.0;
+
+        // Available space
+        const availableHeight = pageHeight - topMargin - bottomMargin;
+        const availableWidth = pageWidth - leftMargin - rightMargin;
+
+        // Start with full height
+        let displayHeight = availableHeight;
+        let displayWidth = displayHeight * aspectRatio;
+
+        // If too wide, fit width instead
+        if (displayWidth > availableWidth) {
+          displayWidth = availableWidth;
+          displayHeight = displayWidth / aspectRatio;
         }
-        const rectY = matches1000 ? 320 : 340;
-        if (cards[index].id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
-          doc.setFillColor(255, 255, 255); // white
-          doc.rect(0, rectY + 60, pageWidth, 200, 'F'); // fill with white
-        } else if (cards[index].id !== 'HSG2' && cards[index].id !== 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
+
+        // Apply scale factor (only reduces size if < 1.0)
+        displayWidth *= scaleFactor;
+        displayHeight *= scaleFactor;
+
+        // Position: center horizontally, and either center or top-align vertically
+        const xPosition = leftMargin + (availableWidth - displayWidth) / 2;
+        const yPosition = isSmallImage
+          ? topMargin + (availableHeight - displayHeight) / 2  // vertical center
+          : topMargin;  // top-align for large images
+
+        doc.addImage(graphImg, 'PNG', xPosition, yPosition, displayWidth, displayHeight, undefined, 'FAST');
+
+
+        const rectY = matches1000 ? 390 : 340;
+        if (cards[index].id !== 'HSG2' && cards[index].id !== 'BG' && cards[index].id !== 'BKOH'  && cards[index].id !== 'BAMRH') { // BG is replaced from CVM for BubbleGeographicGraph
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
         }
