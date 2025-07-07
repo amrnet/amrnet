@@ -92,6 +92,7 @@ export const drugRulesKP = [
   { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] },
   { key: 'Trimethoprim-sulfamethoxazole', columnIDs: ['Tmt_acquired'] },
+  { key: 'Pansusceptible', columnIDs: ['num_resistance_classes'] },
 ];
 
 export const statKeysKP = [
