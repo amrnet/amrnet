@@ -31,6 +31,8 @@ interface StatsModel {
   PATHOTYPE?: ItemsModel;
   O_PREV?: ItemsModel;
   OH_PREV?: ItemsModel;
+  CGST?: ItemsModel;
+  SUBLINEAGE?: ItemsModel;
 }
 
 interface MapDataModel {
@@ -46,6 +48,7 @@ interface MapState {
   mapView: string;
   tooltipContent: Object | null;
   dataset: string;
+  datasetKP: string;
   mapData: Array<MapDataModel>;
   mapRegionData: Array<MapDataModel>;
   mapColoredBy: string;
@@ -64,6 +67,7 @@ const initialState: MapState = {
   mapView: '',
   tooltipContent: null,
   dataset: '',
+  datasetKP: '',
   mapData: [],
   mapRegionData: [],
   mapColoredBy: 'country',
@@ -89,9 +93,11 @@ export const mapSlice = createSlice({
     setTooltipContent: (state, action: PayloadAction<Object | null>) => {
       state.tooltipContent = action.payload;
     },
-
     setDataset: (state, action: PayloadAction<string>) => {
       state.dataset = action.payload;
+    },
+    setDatasetKP: (state, action: PayloadAction<string>) => {
+      state.datasetKP = action.payload;
     },
     setMapData: (state, action: PayloadAction<Array<any>>) => {
       state.mapData = action.payload;
@@ -122,6 +128,7 @@ export const {
   setMapView,
   setTooltipContent,
   setDataset,
+  setDatasetKP,
   setLoadingMap,
   setMapData,
   setMapRegionData,

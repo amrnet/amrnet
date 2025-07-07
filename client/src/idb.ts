@@ -1,17 +1,9 @@
 import { openDB } from 'idb';
 
-type OrganismStore =
-  | 'styphi'
-  | 'kpneumo'
-  | 'ngono'
-  | 'ecoli'
-  | 'decoli'
-  | 'shige'
-  | 'sentericaints'
-  | 'senterica';
+type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
 const DB_NAME = 'organismsData';
-const DB_VERSION = 33;
+const DB_VERSION = 34;
 
 const OBJECT_STORES = [
   'styphi',
@@ -33,6 +25,7 @@ const OBJECT_STORES = [
   'kpneumo_genotype',
   'kpneumo_years',
   'kpneumo_ko',
+  'kpneumo_ko_years',
   'kpneumo_convergence',
   'kpneumo_map_regions',
   'kpneumo_drugs_countries',
@@ -73,12 +66,12 @@ export const initDB = async () => {
     dbPromise = openDB(DB_NAME, DB_VERSION, {
       upgrade(db) {
         // Remove all existing object stores if needed (essentially clearing the cache)
-        Array.from(db.objectStoreNames).forEach((storeName) => {
+        Array.from(db.objectStoreNames).forEach(storeName => {
           db.deleteObjectStore(storeName);
         });
 
         // Recreate object stores with the updated schema
-        OBJECT_STORES.forEach((store) => {
+        OBJECT_STORES.forEach(store => {
           db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
         });
       },
@@ -121,11 +114,7 @@ export const deleteItem = async (storeName: OrganismStore, id: number): Promise<
   return db.delete(storeName, id);
 };
 
-export const bulkAddItems = async (
-  storeName: OrganismStore,
-  items: Array<any>,
-  clearStore: boolean = true,
-) => {
+export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>, clearStore: boolean = true) => {
   const db = await getDB();
   const tx = db.transaction(storeName, 'readwrite');
   const store = tx.objectStore(storeName);
