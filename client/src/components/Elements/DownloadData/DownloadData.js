@@ -1104,43 +1104,46 @@ export const DownloadData = () => {
         doc.text(texts[18], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'ecoli') {
-        //TODO: Add the texts for E. coli
+        //Added texts for E. coli
         // Info
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'italic');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
         doc.text(texts[1], 80, 105, { align: 'justify', maxWidth: pageWidth - 36 });
-        doc.text(texts[2], 145, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[2], 100, 105, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
-        doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
-        doc.text(texts[5], 16, 175, { align: 'justify', maxWidth: pageWidth - 36 });
-        doc.text(texts[6], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
-        doc.text(texts[7], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
-        doc.text(texts[8], 16, 205, { align: 'justify', maxWidth: pageWidth - 36 });
-        doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
-
+        doc.text(texts[3], 135, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        //WARNING
+        // Add a yellow background
         doc.setFillColor(255, 253, 175); // Yellow color
-        doc.rect(10, 245, pageWidth - 20, 65, 'F'); // Draw a filled rectangle as background
+        doc.rect(10, 215, pageWidth - 20, 55, 'F'); // Draw a filled rectangle as background
         doc.setFont(undefined, 'bold');
-        doc.text(texts[10], 16, 265, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[11], 65, 265, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[12], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 245, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 32, 245, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 100, 245, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 255, { align: 'justify', maxWidth: pageWidth - 36 });
         // Abbreviations
         doc.setFont(undefined, 'bold');
-        doc.text(texts[13], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[14], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[10], 16, 285, { align: 'justify', maxWidth: pageWidth - 36 });
         doc.setFont(undefined, 'normal');
-        doc.text(texts[15], 60, 355, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'bold');
-        doc.text(texts[16], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.setFont(undefined, 'normal');
-        doc.text(texts[17], 102, 375, { align: 'left', maxWidth: pageWidth - 36 });
-        // doc.setFont(undefined, 'italic');
-        // doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[11], 16, 305, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 325, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[13], 16, 345, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 365, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.setFont(undefined, 'normal');
-        doc.text(texts[18], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[15], 60, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'bold');
+        // doc.text(texts[16], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        // doc.text(texts[17], 102, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        // // doc.setFont(undefined, 'italic');
+        // // doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // // doc.setFont(undefined, 'normal');
+        // doc.text(texts[18], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       } else {
         console.log('No Report available for this organism');
