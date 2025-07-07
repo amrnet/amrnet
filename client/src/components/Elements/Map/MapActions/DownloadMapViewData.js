@@ -466,7 +466,7 @@ export const DownloadMapViewData = ({ value }) => {
 
       // Create CSV rows dynamically
       const rows = data
-        .filter(item => Object.keys(item).length > 0)
+        .filter(item => Object.keys(item).length > 0 &item.count >= 10) // based on Summary KO plot subheading we plotted N>=10 only
         .map(item => {
           let rowData = [actualRegion, actualCountry, item.name, item.count || ''];
 
