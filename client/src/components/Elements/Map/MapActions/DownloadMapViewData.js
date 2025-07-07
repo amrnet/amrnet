@@ -673,8 +673,8 @@ export const DownloadMapViewData = ({ value }) => {
 
     if (data) {
       const headers = ['Region', 'Country', 'Name']; // Initial headers
-      const uniqueValues = getUniqueNames(data?.stats?.[COMPARISON]?.items || [], 'drugs', bubbleMarkersYAxisType);
-      uniqueValues.sort();
+      const items = getUniqueNames(data?.stats?.[COMPARISON]?.items || [], 'drugs', bubbleMarkersYAxisType);
+      const uniqueValues= items.filter(x => x !== '-').sort();      // removing '-' value from download data
 
       // Add items names along with percentage columns to the header
       uniqueValues.forEach(value => {
