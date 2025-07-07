@@ -12,7 +12,7 @@ export const Note = () => {
   // const dataset = useAppSelector((state) => state.map.dataset);
   // const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   // const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
-  const organism = useAppSelector((state) => state.dashboard.organism);
+  const organism = useAppSelector(state => state.dashboard.organism);
 
   const textNote = () => {
     if (organism === 'styphi') {
@@ -31,8 +31,7 @@ export const Note = () => {
     } else if (organism === 'ngono') {
       return (
         <span>
-          <i>N. gonorrhoeae</i> data represent national and regional surveillance projects, sourced
-          from{' '}
+          <i>N. gonorrhoeae</i> data represent national and regional surveillance projects, sourced from{' '}
           <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
             Pathogenwatch
           </a>
@@ -45,10 +44,9 @@ export const Note = () => {
           <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
             Pathogenwatch
           </a>{' '}
-          and represents unfiltered data deposited in Enterobase/NCBI/ENA. It includes diverse
-          sources of bacteria (not just human clinical infections) and is biased towards sequencing
-          of resistant strains. In future updates this will be mitigated using metadata curated by
-          the{' '}
+          and represents unfiltered data deposited in NCBI/ENA. It includes diverse sources of bacteria (not just human
+          clinical infections) and is biased towards sequencing of resistant strains. In future updates this will be
+          mitigated using metadata curated by the{' '}
           <a
             href="https://github.com/klebgenomics/KlebNET-Metadata-Repository-Database"
             target="_blank"
@@ -65,9 +63,8 @@ export const Note = () => {
           <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
             Enterobase
           </a>{' '}
-          and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a
-          bias towards sequencing of resistant strains and/or outbreaks. This will change in future
-          updates.
+          and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards
+          sequencing of resistant strains and/or outbreaks. This will change in future updates.
         </span>
       );
     }
