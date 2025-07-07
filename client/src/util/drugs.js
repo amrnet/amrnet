@@ -106,6 +106,7 @@ export const drugsKP = [
   'Trimethoprim-sulfamethoxazole',
   'Pansusceptible',
 ];
+export const markersDrugsKP = drugsKP.filter(x => !['Pansusceptible', 'Colistin', 'Fluoroquinolones'].includes(x));
 
 // List of Salmonella Typhi drug classes
 export const drugClassesST = [

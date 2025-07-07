@@ -31,9 +31,14 @@ import {
   setActualRegion,
   setSerotype,
   setGenotypesForFilterDynamic,
+  setColorPalleteCgST,
+  setColorPalleteSublineages,
+  setKOForFilterDynamic,
+  setColorPalleteKO,
 } from '../../stores/slices/dashboardSlice.ts';
 import {
   setDataset,
+  setDatasetKP,
   setMapData,
   setMapDataNoPathotype,
   setMapRegionData,
@@ -72,6 +77,18 @@ import {
   setDrugsRegionsData,
   setCountriesYearData,
   setRegionsYearData,
+  setCgSTYearData,
+  setSublineagesYearData,
+  setDistributionGraphVariable,
+  setKOTrendsGraphView,
+  setKOYearsData,
+  setCurrentSliderValueKOT,
+  setKOTrendsGraphPlotOption,
+  setBubbleHeatmapGraphVariable,
+  setBubbleKOHeatmapGraphVariable,
+  setBubbleMarkersHeatmapGraphVariable,
+  setBubbleKOYAxisType,
+  setBubbleMarkersYAxisType,
 } from '../../stores/slices/graphSlice.ts';
 import {
   filterData,
@@ -82,6 +99,7 @@ import {
   getKODiversityData,
   getConvergenceData,
   getDrugsCountriesData,
+  getKOYearsData,
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
@@ -90,6 +108,7 @@ import {
   defaultDrugsForDrugResistanceGraphST,
   defaultDrugsForDrugResistanceGraphNG,
   drugsINTS,
+  markersDrugsKP,
 } from '../../util/drugs';
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
@@ -99,7 +118,7 @@ import { continentPGraphCard } from '../../util/graphCards';
 
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
-  const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('DATE');
+  const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('cgST');
   // const [currentConvergenceColourVariable, setCurrentConvergenceColourVariable] = useState('DATE');
   const [currentTimeInitial, setCurrentTimeInitial] = useState('');
   const [currentTimeFinal, setCurrentTimeFinal] = useState('');
@@ -110,6 +129,7 @@ export const DashboardPage = () => {
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const organism = useAppSelector(state => state.dashboard.organism);
   const dataset = useAppSelector(state => state.map.dataset);
+  const datasetKP = useAppSelector(state => state.map.datasetKP);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
   const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
@@ -332,18 +352,60 @@ export const DashboardPage = () => {
           organism,
           getUniqueGenotypes: true,
         });
-        return [dt.genotypesData, dt.drugsData, dt.uniqueGenotypes, dt.genotypesAndDrugsData];
-      }).then(([genotypesData, drugsData, uniqueGenotypes, genotypesAndDrugsData]) => {
-        dispatch(setGenotypesYearData(genotypesData));
-        dispatch(setDrugsYearData(drugsData));
-        dispatch(setGenotypesAndDrugsYearData(genotypesAndDrugsData));
-        dispatch(setGenotypesForFilterDynamic(uniqueGenotypes));
+        return [
+          dt.genotypesData,
+          dt.drugsData,
+          dt.uniqueGenotypes,
+          dt.genotypesAndDrugsData,
+          dt.cgSTData,
+          dt.sublineageData,
+          dt.uniqueCgST,
+          dt.uniqueSublineages,
+        ];
+      }).then(
+        ([
+          genotypesData,
+          drugsData,
+          uniqueGenotypes,
+          genotypesAndDrugsData,
+          cgSTData,
+          sublineageData,
+          uniqueCgST,
+          uniqueSublineages,
+        ]) => {
+          dispatch(setGenotypesYearData(genotypesData));
+          dispatch(setDrugsYearData(drugsData));
+          dispatch(setGenotypesAndDrugsYearData(genotypesAndDrugsData));
+          dispatch(setGenotypesForFilterDynamic(uniqueGenotypes));
 
-        if (organism !== 'styphi') {
-          // dispatch(setGenotypesForFilter(uniqueGenotypes));
-          dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
-        }
-      }),
+          if (organism !== 'styphi') {
+            // dispatch(setGenotypesForFilter(uniqueGenotypes));
+            dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
+          }
+
+          if (organism === 'kpneumo') {
+            dispatch(setCgSTYearData(cgSTData));
+            dispatch(setSublineagesYearData(sublineageData));
+            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueCgST)));
+            dispatch(setColorPalleteSublineages(generatePalleteForGenotypes(uniqueSublineages)));
+          }
+        },
+      ),
+
+      ['kpneumo'].includes(organism)
+        ? getStoreOrGenerateData(`${organism}_ko_years`, () => {
+            const dt = getKOYearsData({ data: responseData, years });
+            return [dt.KOYearsData, dt.uniqueKO];
+          }).then(([KOYearsData, uniqueKO]) => {
+            dispatch(setKOYearsData(KOYearsData));
+            dispatch(setKOForFilterDynamic(uniqueKO));
+            const colorPalleteKO = {
+              O_locus: generatePalleteForGenotypes(uniqueKO['O_locus']),
+              K_locus: generatePalleteForGenotypes(uniqueKO['K_locus']),
+            };
+            dispatch(setColorPalleteKO(colorPalleteKO));
+          })
+        : Promise.resolve(),
 
       // Get drugs carb and esbl data for countries
       ['styphi', 'kpneumo'].includes(organism)
@@ -438,6 +500,7 @@ export const DashboardPage = () => {
           dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
           break;
         case 'kpneumo':
+          dispatch(setDatasetKP('All'));
           dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsKP));
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
@@ -445,7 +508,7 @@ export const DashboardPage = () => {
           dispatch(setTrendsGraphView('percentage'));
           dispatch(setConvergenceGroupVariable('cgST'));
           dispatch(setConvergenceColourVariable('cgST'));
-          setCurrentConvergenceGroupVariable('DATE');
+          setCurrentConvergenceGroupVariable('cgST');
           // setCurrentConvergenceColourVariable('DATE');
           break;
         case 'ngono':
@@ -491,6 +554,7 @@ export const DashboardPage = () => {
       dispatch(setActualGenomes(0));
       dispatch(setActualGenotypes(0));
       dispatch(setDataset(''));
+      dispatch(setDatasetKP(''));
       dispatch(setActualTimeInitial(''));
       dispatch(setActualTimeFinal(''));
       dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
@@ -512,9 +576,18 @@ export const DashboardPage = () => {
       dispatch(setFrequenciesGraphView('percentage'));
       dispatch(setDeterminantsGraphView('percentage'));
       dispatch(setDistributionGraphView('percentage'));
+      dispatch(setKOTrendsGraphView('percentage'));
+      dispatch(setKOTrendsGraphPlotOption('O_locus'));
+      dispatch(setDistributionGraphVariable('GENOTYPE'));
+      dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
+      dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
+      dispatch(setBubbleKOYAxisType('O_locus'));
+      dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
+      dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));
+      dispatch(setCurrentSliderValueKOT(20));
       dispatch(setSelectedLineages([]));
       dispatch(setCurrentSliderValueRD(maxSliderValueRD));
       dispatch(setCurrentSliderValueRD(20));
@@ -633,6 +706,7 @@ export const DashboardPage = () => {
       const filters = filterData({
         data: storeData,
         dataset,
+        datasetKP,
         actualTimeInitial,
         actualTimeFinal,
         organism,
@@ -700,6 +774,13 @@ export const DashboardPage = () => {
       dispatch(setGenotypesForFilterDynamic(yearsData.uniqueGenotypes));
 
       if (organism === 'kpneumo') {
+        dispatch(setCgSTYearData(yearsData.cgSTData));
+        dispatch(setSublineagesYearData(yearsData.sublineageData));
+
+        const { KOYearsData, uniqueKO } = getKOYearsData({ data: filteredData, years: yearsForFilter });
+        dispatch(setKOYearsData(KOYearsData));
+        dispatch(setKOForFilterDynamic(uniqueKO));
+
         const KODiversityData = getKODiversityData({ data: filteredData });
         dispatch(setKODiversityData(KODiversityData));
 

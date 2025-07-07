@@ -187,31 +187,24 @@ export const Map = () => {
         case 'O prevalence':
         case 'OH prevalence':
         case 'Pathotype prevalence':
-          const genotypes1 = countryStats[mapViewColumn]?.items;
-          let genotypes2 = [];
-          genotypes1.forEach(genotype => {
-            if (prevalenceMapViewOptionsSelected.includes(genotype.name)) {
-              genotypes2.push(genotype);
-            }
+          const genotypesPre = countryStats[mapViewColumn]?.items || [];
+          const totalSum = countryStats[mapViewColumn]?.sum || 0;
+          tooltip.total = totalSum;
+
+          const selectedGenotypes = genotypesPre.filter(g => prevalenceMapViewOptionsSelected.includes(g.name));
+
+          selectedGenotypes.slice(0, 10).forEach(genotype => {
+            const percent = ((genotype.count / totalSum) * 100).toFixed(2);
+            tooltip.content[genotype.name] = `${genotype.count} (${percent}%)`;
           });
-          tooltip.total = countryStats[mapViewColumn]?.sum;
-          genotypes1.forEach(genotype => {
-            if (prevalenceMapViewOptionsSelected.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count} (${(
-                (genotype.count / countryStats[mapViewColumn]?.sum) *
-                100
-              ).toFixed(2)}%)`;
-          });
-          if (genotypes2.length > 0) {
-            let sumCount = 0;
-            for (const genotype of genotypes2) {
-              sumCount += genotype.count;
+
+          if (selectedGenotypes.length > 0) {
+            const sumCount = selectedGenotypes.reduce((acc, g) => acc + g.count, 0);
+
+            if (countryData.count >= 20 && selectedGenotypes.length > 1) {
+              const percentSum = ((sumCount / totalSum) * 100).toFixed(2);
+              tooltip.content['All selected genotypes'] = `${sumCount} (${percentSum}%)`;
             }
-            if (countryData.count >= 20 && genotypes2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount} (${(
-                (sumCount / countryStats[mapViewColumn]?.sum) *
-                100
-              ).toFixed(2)}%)`;
           }
           break;
         case 'Resistance prevalence':

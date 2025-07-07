@@ -90,12 +90,14 @@ export const genotypes = [
   '4.3.1.3.Bdq',
 ].sort((a, b) => a.localeCompare(b));
 
-export function getAxisLabel(organism) {
+export function getAxisLabel(organism, variable = null) {
   switch (organism) {
     case 'sentericaints':
     case 'senterica':
       return 'lineages';
     case 'kpneumo':
+      if (variable === 'cgST') return 'cgSTs';
+      if (variable === 'Sublineage') return 'sublineages';
       return 'STs';
     default:
       return 'genotypes';

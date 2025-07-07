@@ -1,4 +1,5 @@
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
+import { variableGraphOptions } from '../../util/convergenceVariablesOptions';
 import { drugRulesST, drugRulesKP, drugRulesNG, statKeys, drugRulesINTS } from '../../util/drugClassesRules';
 import { drugClassesRulesST, drugClassesRulesKP, drugClassesRulesNG } from '../../util/drugClassesRules';
 import { amrLikeOrganisms } from '../../util/organismsCards';
@@ -9,6 +10,7 @@ import { amrLikeOrganisms } from '../../util/organismsCards';
 export function filterData({
   data,
   dataset,
+  datasetKP,
   actualTimeInitial,
   actualTimeFinal,
   organism,
@@ -18,6 +20,7 @@ export function filterData({
   selectedLineages,
 }) {
   const checkDataset = item => dataset === 'All' || item.TRAVEL === dataset.toLowerCase();
+  const checkDatasetKP = item => datasetKP === 'All' || item[drugClassesRulesKP[datasetKP]] !== '-';
   const checkTime = item => {
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
   };
@@ -40,7 +43,7 @@ export function filterData({
   let listPMID = [];
 
   // Filter
-  const newData = data.filter(x => checkDataset(x) && checkTime(x) && checkLineages(x));
+  const newData = data.filter(x => checkDataset(x) && checkDatasetKP(x) && checkTime(x) && checkLineages(x));
 
   // Set genotypes, genomes and PMID
   if (actualRegion !== 'All') {
@@ -214,6 +217,10 @@ function getMapStatsData({ itemData, columnKey, statsKey, noItems = false, organ
   });
 
   const statsList = items.filter(item => {
+    if (statsKey === null) {
+      return true;
+    }
+
     if (amrLikeOrganisms.includes(organism)) {
       if (Array.isArray(statsKey)) {
         return statsKey.some(x => item.name?.includes(x));
@@ -252,139 +259,167 @@ function getMapStatsData({ itemData, columnKey, statsKey, noItems = false, organ
   return addNames ? { ...response, names: stats.names } : response;
 }
 
+const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE', noDrugs = false) => {
+  const statMap = {};
+  const groupedItems = {};
+  const variableOptions = variableGraphOptions.filter(x => x.graph).map(x => x.mapValue);
+
+  // Group items by dataKey value (e.g., GENOTYPE)
+  for (const item of itemData) {
+    const stat = item[dataKey]?.toString();
+    if (!stat) continue;
+
+    statMap[stat] = (statMap[stat] || 0) + 1;
+    if (!groupedItems[stat]) groupedItems[stat] = [];
+    groupedItems[stat].push(item);
+  }
+
+  const orgKey = organism in statKeys ? organism : 'others';
+  stats[statKey].count = Object.keys(statMap).length;
+
+  const items = [];
+
+  for (const [stat, count] of Object.entries(statMap)) {
+    const result = { name: stat, count };
+    const dataWithGenFilter = groupedItems[stat];
+
+    if (organism === 'kpneumo' && variableOptions.includes(statKey)) {
+      result.ko = {
+        O_locus: getMapStatsData({ itemData: dataWithGenFilter, columnKey: 'O_locus', statsKey: null, organism }),
+        K_locus: getMapStatsData({ itemData: dataWithGenFilter, columnKey: 'K_locus', statsKey: null, organism }),
+      };
+    }
+
+    if (!noDrugs) {
+      result.drugs = {};
+
+      for (const { name, column, key } of statKeys[orgKey]) {
+        if (Array.isArray(column)) {
+          let drugCount = 0;
+          for (const x of dataWithGenFilter) {
+            if (column.some(id => x[id] !== '-')) {
+              drugCount++;
+            }
+          }
+          result.drugs[name] = {
+            items: [], // Still unused in your snippet
+            count: drugCount,
+            percentage: Number(((drugCount / dataWithGenFilter.length) * 100).toFixed(2)),
+          };
+        } else {
+          result.drugs[name] = getMapStatsData({
+            itemData: dataWithGenFilter,
+            columnKey: column,
+            statsKey: key,
+            noItems: organism !== 'kpneumo' || !variableOptions.includes(statKey) || name === 'Pansusceptible',
+            organism,
+          });
+        }
+      }
+    }
+
+    items.push(result);
+  }
+
+  // Sort and assign
+  items.sort((a, b) => b.count - a.count);
+  stats[statKey].items = items;
+
+  // Compute sum
+  stats[statKey].sum = items.reduce((sum, item) => sum + (item.count || 0), 0);
+};
+
 // Get country data for map component, the data includes the name, count and drug stats
 export function getMapData({ data, items, organism, type = 'country' }) {
   const mapData = [];
   const formattedItems = type === 'country' ? items : Object.keys({ ...items, All: '' }).sort();
   const pallete = generatePalleteForGenotypes(formattedItems);
 
-  // if (type !== 'country') {
-  //   data.forEach((x) => {
-  //     const country = getCountryDisplayName(x.COUNTRY_ONLY);
+  // Cache getCountryDisplayName and group by country
+  const countryCache = {};
+  const dataByCountry = {};
 
-  //     const isPartOfRegion = formattedItems
-  //       .filter((y) => y !== 'All')
-  //       .some((item) => {
-  //         return items[item].includes(country);
-  //       });
+  for (const entry of data) {
+    const rawCountry = entry.COUNTRY_ONLY;
+    const country = countryCache[rawCountry] ?? (countryCache[rawCountry] = getCountryDisplayName(rawCountry));
+    if (!dataByCountry[country]) dataByCountry[country] = [];
+    dataByCountry[country].push(entry);
+  }
 
-  //     if (!isPartOfRegion) {
-  //       console.log(country);
-  //     }
-  //   });
-  // }
-
-  formattedItems.forEach(item => {
-    const itemData = data.filter(x => {
-      const country = getCountryDisplayName(x.COUNTRY_ONLY);
-
-      if (type === 'country') {
-        return country === item;
+  // Convert region item lists to Sets for faster lookup
+  const itemSets = {};
+  if (type !== 'country') {
+    for (const item of formattedItems) {
+      if (item !== 'All') {
+        itemSets[item] = new Set(items[item]);
       }
-
-      if (item === 'All') {
-        return true;
-      }
-
-      return items[item].includes(country);
-    });
-
-    if (itemData.length === 0) {
-      return;
     }
+  }
+
+  for (const item of formattedItems) {
+    let itemData;
+
+    if (type === 'country') {
+      itemData = dataByCountry[item] || [];
+    } else if (item === 'All') {
+      itemData = data;
+    } else {
+      // Merge all countries in region
+      itemData = [];
+      for (const country of itemSets[item]) {
+        if (dataByCountry[country]) {
+          itemData.push(...dataByCountry[country]);
+        }
+      }
+    }
+
+    if (itemData.length === 0) continue;
 
     const stats = {
       GENOTYPE: { items: [], count: 0 },
     };
 
-    const generateStats = (statKey, dataKey = 'GENOTYPE', noDrugs = false) => {
-      const statMap = itemData.reduce((acc, item) => {
-        const stat = item[dataKey];
-        acc[stat] = (acc[stat] || 0) + 1;
-        return acc;
-      }, {});
+    generateStats(itemData, stats, organism, 'GENOTYPE', organism === 'ecoli' ? 'GENOTYPE1' : 'GENOTYPE');
 
-      stats[statKey].count = Object.keys(statMap).length;
-      stats[statKey].items = Object.entries(statMap)
-        .map(([stat, count]) => {
-          const result = { name: stat.toString(), count };
-          const dataWithGenFilter = itemData.filter(x => x[dataKey].toString() === stat.toString());
+    if (organism === 'kpneumo') {
+      stats['CGST'] = { items: [], count: 0 };
+      generateStats(itemData, stats, organism, 'CGST', 'cgST');
 
-          if (!noDrugs) {
-            result.drugs = {};
-            statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key }) => {
-              if (Array.isArray(column)) {
-                const count = dataWithGenFilter.filter(x => column.some(id => x[id] !== '-')).length;
-                result.drugs[name] = {
-                  items: [],
-                  count,
-                  percentage: Number(((count / dataWithGenFilter.length) * 100).toFixed(2)),
-                };
-              } else {
-                result.drugs[name] = getMapStatsData({
-                  itemData: dataWithGenFilter,
-                  columnKey: column,
-                  statsKey: key,
-                  noItems: !['Carbapenems', 'ESBL'].includes(name),
-                  organism,
-                });
-              }
-
-              // if (item === 'India' && name === 'Pansusceptible') {
-              //   console.log(stat, dataWithGenFilter, result.drugs[name]);
-              // }
-            });
-          }
-          return result;
-        })
-        .sort((a, b) => b.count - a.count);
-      stats[statKey].sum = stats[statKey].items.reduce((sum, item) => {
-        return sum + (item.count || 0); // Add the count of each item to the sum
-      }, 0);
-    };
-
-    // Genotype
-    generateStats('GENOTYPE', organism === 'ecoli' ? 'GENOTYPE1' : 'GENOTYPE');
-
-    // O prevalence
-    if (['shige', 'decoli', 'ecoli'].includes(organism)) {
-      stats['O_PREV'] = { items: [], count: 0 };
-      generateStats('O_PREV', 'Serotype');
-      stats['O_PREV'].items = stats['O_PREV'].items.filter(x => x.name !== '-');
+      stats['SUBLINEAGE'] = { items: [], count: 0 };
+      generateStats(itemData, stats, organism, 'SUBLINEAGE', 'Sublineage');
     }
 
-    // OH prevalence
     if (['shige', 'decoli', 'ecoli'].includes(organism)) {
-      stats['OH_PREV'] = { items: [], count: 0 };
-      generateStats('OH_PREV', 'Serotype');
-      stats['OH_PREV'].items = stats['OH_PREV'].items.filter(x => x.name !== '-');
+      for (const key of ['O_PREV', 'OH_PREV']) {
+        stats[key] = { items: [], count: 0 };
+        generateStats(itemData, stats, organism, key, 'Serotype');
+        stats[key].items = stats[key].items.filter(
+          x => !['-', 'NA', 'Escherichia Coli', 'Escherichia'].includes(x.name),
+        );
+      }
     }
 
-    // Pathotype / Serotype
     if (['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'].includes(organism)) {
       stats['PATHOTYPE'] = { items: [], count: 0 };
-      generateStats(
-        'PATHOTYPE',
+      const col =
         organism === 'ecoli'
           ? 'Pathovar'
           : organism === 'sentericaints'
           ? 'SISTR1_Serovar'
           : organism === 'senterica'
           ? 'SeqSero2_Serovar'
-          : 'Pathotype',
-      );
+          : 'Pathotype';
+      generateStats(itemData, stats, organism, 'PATHOTYPE', col);
     }
 
-    // Other stats
     statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key }) => {
       if (Array.isArray(column)) {
-        const count = itemData.filter(x => {
-          if (name === 'Pansusceptible') {
-            return column.every(id => x[id] === key);
-          }
+        const count = itemData.reduce((acc, x) => {
+          const match =
+            name === 'Pansusceptible' ? column.every(id => x[id] === key) : column.some(id => x[id] !== '-');
+          return acc + (match ? 1 : 0);
+        }, 0);
 
-          return column.some(id => x[id] !== '-');
-        }).length;
         stats[name] = {
           items: [],
           count,
@@ -396,15 +431,14 @@ export function getMapData({ data, items, organism, type = 'country' }) {
           columnKey: column,
           statsKey: key,
           organism,
-          addNames: true,
+          addNames: type === 'country',
         });
       }
     });
 
-    // NGMAST
     if (organism === 'ngono') {
       stats['NGMAST'] = { items: [], count: 0 };
-      generateStats('NGMAST', 'NG-MAST TYPE');
+      generateStats(itemData, stats, organism, 'NGMAST', 'NG-MAST TYPE');
     }
 
     mapData.push({
@@ -413,7 +447,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       stats,
       color: pallete[item],
     });
-  });
+  }
 
   return mapData;
 }
@@ -423,7 +457,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   const drugsData = [];
   const genotypesAndDrugsData = {};
   let uniqueGenotypes = [];
+  let uniqueCgST = [];
+  let uniqueSublineages = [];
   const genotypesAndDrugsDataUniqueGenotypes = {};
+  const cgSTData = [];
+  const sublineageData = [];
 
   // Initialize data structures based on organism type
   const initializeDataStructures = rules => {
@@ -453,6 +491,25 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       acc[genotype] = (acc[genotype] || 0) + 1;
       return acc;
     }, {});
+
+    // Calculate other genotype stats for Klebsiella
+    let cgSTStats = {};
+    let sublineageStats = {};
+    if (organism === 'kpneumo') {
+      cgSTStats = yearData.reduce((acc, x) => {
+        const cgST = x.cgST;
+        acc[cgST] = (acc[cgST] || 0) + 1;
+        return acc;
+      }, {});
+      cgSTData.push({ ...response, ...cgSTStats });
+
+      sublineageStats = yearData.reduce((acc, x) => {
+        const sublineage = x.Sublineage;
+        acc[sublineage] = (acc[sublineage] || 0) + 1;
+        return acc;
+      }, {});
+      sublineageData.push({ ...response, ...sublineageStats });
+    }
 
     // Initialize drugStats
     const drugStats = {};
@@ -542,7 +599,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     }
 
     if (getUniqueGenotypes) {
-      const sortedStats = Object.entries(genotypeStats)
+      const sortedStatsGenotypes = Object.entries(genotypeStats)
         .sort(([, a], [, b]) => b - a)
         .slice(0, 20)
         .reduce((acc, [genotype]) => {
@@ -550,7 +607,29 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           return acc;
         }, {});
 
-      uniqueGenotypes = uniqueGenotypes.concat(Object.keys(sortedStats));
+      uniqueGenotypes = uniqueGenotypes.concat(Object.keys(sortedStatsGenotypes));
+
+      if (organism === 'kpneumo') {
+        const sortedStatsCgST = Object.entries(cgSTStats)
+          .sort(([, a], [, b]) => b - a)
+          .slice(0, 20)
+          .reduce((acc, [cgST]) => {
+            acc[cgST] = cgSTStats[cgST];
+            return acc;
+          }, {});
+
+        uniqueCgST = uniqueCgST.concat(Object.keys(sortedStatsCgST));
+
+        const sortedStatsSublineages = Object.entries(sublineageStats)
+          .sort(([, a], [, b]) => b - a)
+          .slice(0, 20)
+          .reduce((acc, [sublineage]) => {
+            acc[sublineage] = sublineageStats[sublineage];
+            return acc;
+          }, {});
+
+        uniqueSublineages = uniqueSublineages.concat(Object.keys(sortedStatsSublineages));
+      }
     }
 
     return { ...response, ...genotypeStats };
@@ -558,6 +637,8 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
   if (getUniqueGenotypes) {
     uniqueGenotypes = [...new Set(uniqueGenotypes)].sort();
+    uniqueCgST = [...new Set(uniqueCgST)].sort();
+    uniqueSublineages = [...new Set(uniqueSublineages)].sort();
   }
 
   Object.keys(genotypesAndDrugsDataUniqueGenotypes).forEach(key => {
@@ -577,7 +658,61 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     drugsData,
     uniqueGenotypes,
     genotypesAndDrugsData,
+    cgSTData,
+    sublineageData,
+    uniqueCgST,
+    uniqueSublineages,
   };
+}
+
+export function getKOYearsData({ data, years }) {
+  const KOData = { O_locus: [], K_locus: [] };
+  const uniqueKO = { O_locus: [], K_locus: [] };
+
+  years.forEach(year => {
+    const yearData = data.filter(x => x.DATE.toString() === year.toString());
+    const count = yearData.length;
+    const response = { name: year, count };
+
+    if (count === 0) return response;
+
+    // Calculate stats
+    const oStats = yearData.reduce((acc, x) => {
+      acc[x['O_locus']] = (acc[x['O_locus']] || 0) + 1;
+      return acc;
+    }, {});
+
+    const kStats = yearData.reduce((acc, x) => {
+      acc[x['K_locus']] = (acc[x['K_locus']] || 0) + 1;
+      return acc;
+    }, {});
+
+    const sortedStatsO = Object.entries(oStats)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 20)
+      .reduce((acc, [item]) => {
+        acc[item] = oStats[item];
+        return acc;
+      }, {});
+    uniqueKO['O_locus'] = uniqueKO['O_locus'].concat(Object.keys(sortedStatsO));
+
+    const sortedStatsK = Object.entries(kStats)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 20)
+      .reduce((acc, [item]) => {
+        acc[item] = kStats[item];
+        return acc;
+      }, {});
+    uniqueKO['K_locus'] = uniqueKO['K_locus'].concat(Object.keys(sortedStatsK));
+
+    KOData['O_locus'].push({ ...response, ...oStats });
+    KOData['K_locus'].push({ ...response, ...kStats });
+  });
+
+  uniqueKO['O_locus'] = [...new Set(uniqueKO['O_locus'])].sort();
+  uniqueKO['K_locus'] = [...new Set(uniqueKO['K_locus'])].sort();
+
+  return { KOYearsData: KOData, uniqueKO };
 }
 
 export function getDrugsCountriesData({ data, items, organism, type = 'country' }) {
