@@ -255,6 +255,9 @@ export const DownloadData = () => {
   //loadingPDF:  Loading state for PDF generation and temp change the visibility of the Geo Comp HEat map 
   // to show all the selected values to take a correct screenshot
   const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF); 
+  const KOForFilterSelected = useAppSelector(state => state.dashboard.KOForFilterSelected);
+  const colorPalleteKO = useAppSelector(state => state.dashboard.colorPalleteKO);
+  const KOTrendsGraphPlotOption = useAppSelector(state => state.graph.KOTrendsGraphPlotOption);
 
 
   async function handleClickDownloadDatabase() {
@@ -1606,15 +1609,21 @@ export const DownloadData = () => {
           });
           drawHeader({ document: doc, pageWidth });
           drawFooter({ document: doc, pageHeight, pageWidth, date });
-        } else if (cards[index].id === 'KO') {
-          drawLegend({
-            document: doc,
-            legendData: colorsForKODiversityGraph,
-            factor: Math.ceil(colorsForKODiversityGraph.length / 4),
-            rectY,
-            xSpace: 90,
-            // twoPages: isKlebe
-          });
+        } else if (cards[index].id === 'KOT') {
+            const legendKOTColorMap = colorPalleteKO[KOTrendsGraphPlotOption] || {};
+            const legendKOT = KOForFilterSelected.map(key => ({
+              name: key,
+              color: legendKOTColorMap[key] || '#ccc', // fallback to grey if missing
+            }));
+
+            drawLegend({
+              document: doc,
+              legendData: [...legendKOT],
+              factor: Math.ceil(legendKOT.length / 4), // Adjust based on rows per column
+              rectY,
+              xSpace: 90,
+              // twoPages: isKlebe
+            });
           // id= convergence-graph for AMR/virulence (Kleb) ,
         } else if (cards[index].id === 'convergence-graph') {
           // console.log("convergenceColourPallete",topColorSlice)
