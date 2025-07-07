@@ -3,10 +3,12 @@
 Contributor Guide
 =================
 
-Thank you for your interest in improving this project. This project is open-source
-under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__.
->`__ and welcomes
-contributions in the form of bug reports, feature requests, and pull requests.
+.. raw:: html
+
+    <div class="justify-text">Thank you for your interest in improving this project. This project is open-source
+      under the <a href="https://opensource.org/licenses/GPL-3.0" target="_blank">GPL-3.0 license</a>. and welcomes
+      contributions in the form of bug reports, feature requests, and pull requests.
+   </div>
 
 Here is a list of important resources for contributors:
 
@@ -34,16 +36,23 @@ the issue.
 How to request a feature
 ------------------------
 
-Features that improve ``AMRnet`` can be suggested on the
-`Issue Tracker <https://github.com/amrnet/amrnet/issues>`__.
-It's a good idea to first submit the proposal as a feature request prior to submitting a
-pull request as this allows for the best coordination of efforts by preventing the
-duplication of work, and allows for feedback on your ideas.
+.. raw:: html
+
+    <div class="justify-text">Features that improve <span class="inline-code">AMRnet</span> can be suggested on the
+      <a href="https://github.com/amrnet/amrnet/issues" target="_blank">Issue Tracker </a>.
+      It's a good idea to first submit the proposal as a feature request prior to submitting a
+      pull request as this allows for the best coordination of efforts by preventing the
+      duplication of work, and allows for feedback on your ideas.
+   </div>
 
 How to set up your development environment
 ------------------------------------------
-``AMRnet`` uses ``uv`` for python project management. ``uv`` can be installed
-on using the standalone installer:
+
+.. raw:: html
+
+    <div class="justify-text"><span class="inline-code">AMRnet</span> uses <span class="inline-code">uv</span> for python project management. <span class="inline-code">uv</span> can be installed
+      on using the standalone installer:
+   </div>
 
 .. code:: shell
 
@@ -64,17 +73,22 @@ Installation instructions for other methods and Windows can be found
 
    uv sync
 
-Specific extras (e.g. ``numba``) can be installed with the ``--extra`` flag or all
-extras with the ``--all-extras`` flag:
+.. raw:: html
+
+    <div class="justify-text">Specific extras (e.g. <span class="inline-code">numba</span>) can be installed with the <span class="inline-code">--extra</span> flag or all
+      extras with the <span class="inline-code">--all-extras</span> flag:
+   </div>
 
 .. code:: shell
 
    uv sync --extra numba
    uv sync --all-extras
 
-If you want to build the documentation locally, you will need to install ``pandoc``. The
-`installation method <https://pandoc.org/installing.html>`__ depends on what OS you are
-running.
+.. raw:: html
+
+    <div class="justify-text">If you want to build the documentation locally, you will need to install <span class="inline-code">pandoc</span>. The
+   <a href="https://pandoc.org/installing.html" target="_blank">installation method </a> depends on what OS you are running.
+   </div>
 
 To run a script using the development virtual environment, you can run:
 
@@ -91,9 +105,12 @@ How to test the project
 Pre-commit
 ---------- 
 
-`Pre-commit <https://pre-commit.com/>`__ ensures code quality and consistency by running
-the ``ruff`` linter and formatter, stripping out execution cells in jupyter notebooks,
-and running several pre-commit hooks.
+.. raw:: html
+
+    <div class="justify-text"> <a href="https://pre-commit.com/" target="_blank">Pre-commit </a> ensures code quality and consistency by running
+      the <span class="inline-code">ruff</span> linter and formatter, stripping out execution cells in jupyter notebooks,
+      and running several pre-commit hooks.
+   </div>
 
 These can be run against all files in the project with:
 
@@ -133,10 +150,13 @@ can be run with:
    uv run pytest -m 'not benchmark_suite'
 
 
-If the code you are modifying may affect the performance of ``AMRnet``, it is
-recommended that you run the benchmarking tests to verify the performance before and
-after your changes. There are three different benchmarking suites: ``geometry``,
-``meshing`` and ``analysis``. These can be run like this:
+.. raw:: html
+
+    <div class="justify-text">If the code you are modifying may affect the performance of <span class="inline-code">AMRnet</span>, it is
+      recommended that you run the benchmarking tests to verify the performance before and
+      after your changes. There are three different benchmarking suites: ``geometry``,
+      <span class="inline-code">meshing</span> and <span class="inline-code">analysis</span>. These can be run like this:
+   </div>
 
 .. code:: shell
 
@@ -144,8 +164,10 @@ after your changes. There are three different benchmarking suites: ``geometry``,
    uv run pytest -m benchmark_mesh
    uv run pytest -m benchmark_analysis
 
-Note that a plot of the results can be generated by adding the ``--benchmark-histogram``
-option to the above commands.
+.. raw:: html
+
+    <div class="justify-text">Note that a plot of the results can be generated by adding the <span class="inline-code">--benchmark-histogram</span>option to the above commands.
+    </div>
 
 Documentation
 -------------
@@ -156,11 +178,13 @@ You can build the documentation locally with:
 
    uv run sphinx-build docs docs/_build
 
-Make sure that you have a recent version of ``pandoc`` installed so that the example
-notebooks can be generated.
 
-Note that all pull requests also build the documentation on Read the Docs, so building
-the documentation locally is not required.
+.. raw:: html
+
+    <div class="justify-text">Make sure that you have a recent version of <span class="inline-code">pandoc</span>nstalled so that the example notebooks can be generated.
+    <div class="spacer"></div>Note that all pull requests also build the documentation on Read the Docs, so building
+      the documentation locally is not required.
+    </div>
 
 How to submit changes
 ---------------------
@@ -170,11 +194,18 @@ to submit changes to this project.
 
 Your pull request needs to meet the following guidelines for acceptance:
 
--  The test suite, pre-commit and pyright checks must pass without errors and warnings.
--  Include unit tests. This project aims for a high code coverage.
--  If your changes add functionality, update the documentation
-   accordingly.
+.. raw:: html
+   
+   <div class="justify-text">
+      <ul>
+            <li>The test suite, pre-commit and pyright checks must pass without errors and warnings.</li>
+            <li>Include unit tests. This project aims for a high code coverage.</li>
+            <li>If your changes add functionality, update the documentation accordingly.</li>
+      </ul>
+   </div>
 
-It is recommended to open an issue before starting work on anything.
-This will allow a chance to talk it over with the owners and validate
-your approach.
+.. raw:: html
+   
+   <div class="justify-text">It is recommended to open an issue before starting work on anything.
+   This will allow a chance to talk it over with the owners and validate your approach.
+   </div>
