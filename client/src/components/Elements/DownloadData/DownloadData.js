@@ -250,6 +250,8 @@ export const DownloadData = () => {
   const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
   const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
   const coloredOptions = useAppSelector((state) => state.graph.coloredOptions);
+  const drugClass = useAppSelector((state) => state.graph.drugClass); // Drug class selected in the graph for PDF
+  const drugGene = useAppSelector((state) => state.graph.drugGene); // Drug gene selected in the graph for PDF
   //loadingPDF:  Loading state for PDF generation and temp change the visibility of the Geo Comp HEat map 
   // to show all the selected values to take a correct screenshot
   const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF); 
@@ -568,6 +570,8 @@ export const DownloadData = () => {
         texts = getEcoliTexts();
         firstName = 'Escherichia';
         secondName = 'coli';
+        firstWord = 269; // Adjusted for E. coli
+        secondword = 315;
       } else if (organism === 'decoli') {
         texts = getDEcoliTexts();
         firstName = 'Escherichia coli';
@@ -1062,6 +1066,45 @@ export const DownloadData = () => {
         // doc.text(texts[18], 183, 395, { align: 'left', maxWidth: pageWidth - 36 });
         // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'decoli') {
+        // Info
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'italic');
+        doc.text(texts[1], 80, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[2], 145, 105, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[3], 16, 115, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[4], 16, 165, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[5], 16, 175, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[6], 16, 185, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[7], 16, 195, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[8], 16, 205, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.text(texts[9], 16, 225, { align: 'justify', maxWidth: pageWidth - 36 });
+
+        doc.setFillColor(255, 253, 175); // Yellow color
+        doc.rect(10, 245, pageWidth - 20, 65, 'F'); // Draw a filled rectangle as background
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[10], 16, 265, { align: 'justify', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[11], 65, 265, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[12], 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
+        // Abbreviations
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[13], 16, 335, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[14], 16, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[15], 60, 355, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[16], 16, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[17], 102, 375, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'italic');
+        // doc.text('gyrA/parC/gyrB', 120, 395, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.setFont(undefined, 'normal');
+        doc.text(texts[18], 16, 385, { align: 'left', maxWidth: pageWidth - 36 });
+        // doc.text(texts[19], 16, 415, { align: 'left', maxWidth: pageWidth - 36 });
+      } else if (organism === 'ecoli') {
+        //TODO: Add the texts for E. coli
         // Info
         doc.setFont(undefined, 'normal');
         doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
@@ -1615,7 +1658,7 @@ export const DownloadData = () => {
         loading={loadingPDF}
         startIcon={<PictureAsPdf />}
         loadingPosition="start"
-        disabled={['ecoli'].includes(organism)} //'styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'
+        // disabled={['ecoli'].includes(organism)} //'styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'
       >
         Download PDF
       </LoadingButton>

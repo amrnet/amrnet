@@ -70,6 +70,8 @@ export const ContinentGraphs = () => {
   const globalOverviewLabel = useAppSelector(state => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
+  const drugClass = useAppSelector((state) => state.graph.drugClass); // Drug class selected in the graph for SS
+  const drugGene = useAppSelector((state) => state.graph.drugGene);// Drug gene selected in the graph for SS
   // coloredOptions is used to draw the legend in the Trend Line graph
   const coloredOptions = useAppSelector((state) => state.graph.coloredOptions); 
   useEffect(() => {
@@ -162,7 +164,7 @@ function drawLegend({
 
       canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
       console.log('canvas.width', canvas.width, graphImg.width);
-      canvas.height = graphImg.height + 220 + ('BG' ? 250 : heightFactor); // BG is replaced from CVM for BubbleGeographicGraph
+      canvas.height = graphImg.height + 520  +('BG' ? 250 : heightFactor); // BG is replaced from CVM for BubbleGeographicGraph
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -188,6 +190,7 @@ function drawLegend({
 
       ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
+      ctx.fillText(`${drugClass} : ${drugGene} Gene`, canvas.width / 2, 194); // Add drug class and gene to the title to PDF
       
       // This is a component that renders the continent graphs legends based on the selected organism
 
