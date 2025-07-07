@@ -1671,7 +1671,8 @@ export const DownloadData = () => {
         onClick={() => handleClickDatabasePage()}
         startIcon={<Storage />}
       >
-        See Database info
+      {/* Rename based on Feedback documnet 24 June */}
+        Info and Definitions 
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>

@@ -42,7 +42,7 @@ export const menuItems = [
     label: 'Database',
     labelHead: 'Database',
     icon: <Storage />,
-    link: 'https://amrnet.readthedocs.io/en/latest/data.html',
+    link: 'https://amrnet.readthedocs.io/en/latest/data.html', // relink to correct link
     target: '_blank',
   },
   // {
@@ -55,7 +55,7 @@ export const menuItems = [
     label: 'Data Rights',
     labelHead: 'Data Rights',
     icon: <CopyrightRoundedIcon />,
-    link: 'https://amrnet.readthedocs.io/en/latest/right.html',
+    link: 'https://amrnet.readthedocs.io/en/latest/right.html',  // relink to correct link
     target: '_blank',
   },
   {
