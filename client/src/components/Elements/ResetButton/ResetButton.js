@@ -10,7 +10,7 @@ import {
   setCanGetData,
   setSelectedLineages,
 } from '../../../stores/slices/dashboardSlice';
-import { setDataset, setMapView, setPosition } from '../../../stores/slices/mapSlice';
+import { setDataset, setDatasetKP, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import { setActualCountry } from '../../../stores/slices/dashboardSlice';
 import {
   setConvergenceColourPallete,
@@ -31,11 +31,21 @@ import {
   setCurrentSliderValue,
   setCurrentSliderValueKP_GT,
   setCurrentSliderValueKP_GE,
+  setDistributionGraphVariable,
+  setKOTrendsGraphView,
+  setCurrentSliderValueKOT,
+  setKOTrendsGraphPlotOption,
+  setBubbleHeatmapGraphVariable,
+  setBubbleKOHeatmapGraphVariable,
+  setBubbleKOYAxisType,
+  setBubbleMarkersHeatmapGraphVariable,
+  setBubbleMarkersYAxisType,
 } from '../../../stores/slices/graphSlice';
 import {
   drugsKP,
   defaultDrugsForDrugResistanceGraphST,
   defaultDrugsForDrugResistanceGraphNG,
+  markersDrugsKP,
 } from '../../../util/drugs';
 import { getNgmastData } from '../../Dashboard/filters';
 import { useIndexedDB } from '../../../context/IndexedDBContext';
@@ -46,19 +56,20 @@ export const ResetButton = () => {
   const matches500 = useMediaQuery('(max-width: 500px)');
 
   const dispatch = useAppDispatch();
-  const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
-  const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const pathovar = useAppSelector((state) => state.dashboard.pathovar);
-  const ngmast = useAppSelector((state) => state.graph.NGMAST);
-  const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
-  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
-  const loadingMap = useAppSelector((state) => state.map.loadingMap);
+  const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
+  const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const pathovar = useAppSelector(state => state.dashboard.pathovar);
+  const ngmast = useAppSelector(state => state.graph.NGMAST);
+  const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
+  const loadingData = useAppSelector(state => state.dashboard.loadingData);
+  const loadingMap = useAppSelector(state => state.map.loadingMap);
 
   async function handleClick() {
     dispatch(setCanGetData(false));
 
     dispatch(setDataset('All'));
+    dispatch(setDatasetKP('All'));
     dispatch(setActualTimeInitial(timeInitial));
     dispatch(setActualTimeFinal(timeFinal));
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
@@ -80,9 +91,7 @@ export const ResetButton = () => {
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
-      dispatch(
-        setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map((x) => x.name)),
-      );
+      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map(x => x.name)));
     } else {
       dispatch(setMapView('Resistance prevalence'));
       dispatch(setDrugResistanceGraphView(drugsKP));
@@ -95,6 +104,7 @@ export const ResetButton = () => {
       dispatch(setConvergenceColourPallete({}));
       dispatch(setCurrentSliderValueCM(20));
       dispatch(setCurrentSliderValue(20));
+      dispatch(setCurrentSliderValueKOT(20));
       dispatch(setCurrentSliderValueKP_GT(20));
       dispatch(setCurrentSliderValueKP_GE(20));
     }
@@ -106,6 +116,15 @@ export const ResetButton = () => {
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('percentage'));
+    dispatch(setKOTrendsGraphView('percentage'));
+    dispatch(setKOTrendsGraphPlotOption('O_locus'));
+    dispatch(setDistributionGraphVariable('GENOTYPE'));
+    dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
+    dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
+    dispatch(setBubbleKOYAxisType('O_locus'));
+    dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
+    dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
+
     if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));

@@ -9,6 +9,7 @@ import {
   setCurrentSliderValueKP_GT,
   setCurrentSliderValueKP_GE,
   setCurrentSliderValueCM,
+  setCurrentSliderValueKOT,
 } from '../../../stores/slices/graphSlice';
 import { useStyles } from './SliderMUI';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
@@ -16,9 +17,11 @@ import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 export const SliderSizes = props => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const currentSliderValue = useAppSelector(state => state.graph.currentSliderValue);
   const genotypesForFilterDynamic = useAppSelector(state => state.dashboard.genotypesForFilterDynamic);
+  const currentSliderValue = useAppSelector(state => state.graph.currentSliderValue);
   const maxSliderValue = useAppSelector(state => state.graph.maxSliderValue);
+  const currentSliderValueKOT = useAppSelector(state => state.graph.currentSliderValueKOT);
+  const maxSliderValueKOT = useAppSelector(state => state.graph.maxSliderValueKOT);
   const currentSliderValueRD = useAppSelector(state => state.graph.currentSliderValueRD);
   const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
   const currentSliderValueKP_GT = useAppSelector(state => state.graph.currentSliderValueKP_GT);
@@ -71,6 +74,11 @@ export const SliderSizes = props => {
       return;
     }
 
+    if (props.value === 'KOT') {
+      dispatch(setCurrentSliderValueKOT(newValue));
+      return;
+    }
+
     if (props.value === 'KP_GT') {
       dispatch(setCurrentSliderValueKP_GT(newValue));
       return;
@@ -90,6 +98,10 @@ export const SliderSizes = props => {
   };
 
   const heading = useMemo(() => {
+    if (props.label) {
+      return `Individual ${props.label} to colour:`;
+    }
+
     function geno() {
       if (['sentericaints', 'senterica'].includes(organism)) return 'lineage';
       if (organism === 'kpneumo') return 'ST';
@@ -105,7 +117,7 @@ export const SliderSizes = props => {
     }
 
     return 'Individual resistance determinants:';
-  }, [convergenceGroupVariable, organism, props.value]);
+  }, [convergenceGroupVariable, organism, props.label, props.value]);
 
   const [sliderValue, setSliderValue] = useState(0);
 
@@ -114,6 +126,8 @@ export const SliderSizes = props => {
 
     if (props.value === 'GD') {
       newSliderValue = currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue;
+    } else if (props.value === 'KOT') {
+      newSliderValue = currentSliderValueKOT < maxSliderValueKOT ? currentSliderValueKOT : maxSliderValueKOT;
     } else if (props.value === 'KP_GT') {
       newSliderValue = currentSliderValueKP_GT < maxSliderValue ? currentSliderValueKP_GT : maxSliderValue;
     } else if (props.value === 'KP_GE') {
@@ -136,11 +150,16 @@ export const SliderSizes = props => {
     currentSliderValueKP_GE,
     currentSliderValueKP_GT,
     currentSliderValueRD,
+    currentSliderValueKOT,
+    maxSliderValueKOT,
   ]);
 
   const maxValue = useMemo(() => {
     if (['GD', 'KP_GT'].includes(props.value)) {
       return maxSliderValue < 30 ? maxSliderValue : 30;
+    }
+    if (['KOT'].includes(props.value)) {
+      return maxSliderValueKOT < 30 ? maxSliderValueKOT : 30;
     }
     if (props.value === 'KP_GE') {
       return maxSliderValueKP_GE < 30 ? maxSliderValueKP_GE : 30;
@@ -150,7 +169,7 @@ export const SliderSizes = props => {
     }
 
     return maxSliderValueRD < 30 ? maxSliderValueRD : 30;
-  }, [maxSliderValue, maxSliderValueCM, maxSliderValueKP_GE, maxSliderValueRD, props.value]);
+  }, [maxSliderValue, maxSliderValueCM, maxSliderValueKOT, maxSliderValueKP_GE, maxSliderValueRD, props.value]);
 
   return (
     <div className={classes.sliderSize} style={props.style}>

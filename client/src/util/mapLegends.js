@@ -60,7 +60,7 @@ export const mapLegends = [
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
   {
     value: 'Serotype prevalence',
-    label: 'MLST 7 (ST prevalence)',
+    label: 'ST Prevalence (7-locus MLST)',
     organisms: ['senterica'],
   },
   {

@@ -244,11 +244,14 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         // Add missing years between the select time to show continuous scale
         const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
         const years = data.map(x => x.name);
+        const keys = Object.keys(data[0]).filter(key => !['name', 'count'].includes(key));
 
         allYears.forEach(year => {
           if (!years.includes(year)) {
             data.push({
               name: year,
+              count: 0,
+              ...Object.fromEntries(keys.map(key => [key, 0])),
             });
           }
         });

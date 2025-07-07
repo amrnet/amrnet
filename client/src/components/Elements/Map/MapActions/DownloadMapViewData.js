@@ -1,6 +1,6 @@
 import { Download } from '@mui/icons-material';
 import { useAppSelector } from '../../../../stores/hooks';
-import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
+import { variableGraphOptions, variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
 
 export const DownloadMapViewData = ({ value }) => {
@@ -25,12 +25,17 @@ export const DownloadMapViewData = ({ value }) => {
   const mapView = useAppSelector(state => state.map.mapView);
   const convergenceData = useAppSelector(state => state.graph.convergenceData);
   const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
-  // const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
-  // const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-  // const drugsRegionsData = useAppSelector((state) => state.graph.drugsRegionsData);
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
   const yAxisType = useAppSelector(state => state.map.yAxisType);
   const yAxisTypeTrend = useAppSelector(state => state.map.yAxisTypeTrend);
+  const KOYearsData = useAppSelector(state => state.graph.KOYearsData);
+  const KOTrendsGraphPlotOption = useAppSelector(state => state.graph.KOTrendsGraphPlotOption);
+  const topXKO = useAppSelector(state => state.graph.topXKO);
+  const bubbleHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleHeatmapGraphVariable);
+  const bubbleKOHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleKOHeatmapGraphVariable);
+  const bubbleKOYAxisType = useAppSelector(state => state.graph.bubbleKOYAxisType);
+  const bubbleMarkersHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleMarkersHeatmapGraphVariable);
+  const bubbleMarkersYAxisType = useAppSelector(state => state.graph.bubbleMarkersYAxisType);
 
   let firstName, secondName;
   if (organism === 'styphi') {
@@ -439,6 +444,48 @@ export const DownloadMapViewData = ({ value }) => {
     }
   };
 
+  const downloadCSVForKOT = () => {
+    const data = KOYearsData[KOTrendsGraphPlotOption];
+
+    if (Array.isArray(data) && data.length > 0) {
+      let HeaderList = ['Region', 'Country', 'Year', 'Total number of Count'];
+
+      // Dynamically add genotype headers
+      if (Array.isArray(topXKO) && topXKO.length > 0) {
+        topXKO.forEach(item => {
+          HeaderList.push(item);
+          HeaderList.push(`${item} %`);
+        });
+      }
+
+      // Create CSV header row
+      const headers = HeaderList.join(',');
+
+      // Create CSV rows dynamically
+      const rows = data
+        .filter(item => Object.keys(item).length > 0)
+        .map(item => {
+          let rowData = [actualRegion, actualCountry, item.name, item.count || ''];
+
+          if (Array.isArray(topXKO) && topXKO.length > 0) {
+            topXKO.forEach(ko => {
+              const count = item?.[ko] || 0;
+              const percentage = count < 20 ? '0' : ((count / item.count) * 100).toFixed(2) || 0;
+
+              rowData.push(count);
+              rowData.push(percentage);
+            });
+          }
+
+          return rowData.join(',');
+        });
+
+      generateCSV(headers, rows, 'KO trends');
+    } else {
+      console.log('KOYearsData is not an array or is empty', data);
+    }
+  };
+
   // TODO
   const downloadCSVForRDT = () => {
     if (genotypesAndDrugsYearData && Object.keys(genotypesAndDrugsYearData[trendsGraphDrugClass]).length > 0) {
@@ -497,8 +544,15 @@ export const DownloadMapViewData = ({ value }) => {
 
   const downloadCSVForHM = compName => {
     let COMPARISON;
-    if (compName === 'BHP') COMPARISON = 'PATHOTYPE';
-    else COMPARISON = 'GENOTYPE';
+    if (compName === 'BHP') {
+      COMPARISON = 'PATHOTYPE';
+    } else {
+      if (organism === 'kpneumo') {
+        COMPARISON = variableGraphOptions.find(x => x.value === bubbleHeatmapGraphVariable).mapValue;
+      } else {
+        COMPARISON = 'GENOTYPE';
+      }
+    }
     if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
       let HeaderList = ['Region', 'Country', 'Name']; // Initial headers
       let allDrugs = new Set(); // Store unique drug names
@@ -547,6 +601,107 @@ export const DownloadMapViewData = ({ value }) => {
       generateCSV(headers, rows, `AMR by genotype for (${actualRegion})`);
     } else {
       console.log('mapRegionData is not an array or is empty', mapRegionData);
+    }
+  };
+
+  function getUniqueNames(data, key, yAxis) {
+    const seen = new Set();
+
+    for (let i = 0; i < data.length; i++) {
+      const items = data[i][key]?.[yAxis]?.items;
+      if (!items) continue;
+
+      for (let j = 0; j < items.length; j++) {
+        const name = items[j].name;
+        if (name) {
+          seen.add(name);
+        }
+      }
+    }
+
+    return [...seen];
+  }
+
+  const downloadCSVForBKOH = () => {
+    const COMPARISON = variableGraphOptions.find(x => x.value === bubbleKOHeatmapGraphVariable).mapValue;
+    const data =
+      actualCountry === 'All'
+        ? mapRegionData.find(x => x.name === actualRegion)
+        : mapData.find(x => x.name === actualCountry);
+
+    if (data) {
+      const headers = ['Region', 'Country', 'Name']; // Initial headers
+      const uniqueValues = getUniqueNames(data?.stats?.[COMPARISON]?.items || [], 'ko', bubbleKOYAxisType);
+      uniqueValues.sort();
+
+      // Add items names along with percentage columns to the header
+      uniqueValues.forEach(value => {
+        headers.push(value); // Count column
+        headers.push(`${value} %`); // Percentage column
+      });
+
+      // Create CSV rows dynamically
+      const rows = [data].flatMap(item => {
+        return Object.values(item.stats[COMPARISON].items).map(obj => {
+          const rowData = [actualRegion, actualCountry, obj.name]; // Start with genotype name
+
+          // Loop through all drugs to add count and percentage
+          uniqueValues.forEach(value => {
+            const data = obj.ko[bubbleKOYAxisType].items.find(x => x.name === value) || { count: 0, percentage: 0 };
+            rowData.push(data.count); // Count
+            rowData.push(data.percentage); // Percentage
+          });
+          return rowData.join(',');
+        });
+      });
+
+      // Create CSV header row
+      generateCSV(headers.join(','), rows, `KO by genotype for (${actualRegion}-${actualCountry})`);
+    } else {
+      console.log('data was not found', data);
+    }
+  };
+
+  const downloadCSVForBAMRH = () => {
+    const COMPARISON = variableGraphOptions.find(x => x.value === bubbleMarkersHeatmapGraphVariable).mapValue;
+    const data =
+      actualCountry === 'All'
+        ? mapRegionData.find(x => x.name === actualRegion)
+        : mapData.find(x => x.name === actualCountry);
+
+    if (data) {
+      const headers = ['Region', 'Country', 'Name']; // Initial headers
+      const uniqueValues = getUniqueNames(data?.stats?.[COMPARISON]?.items || [], 'drugs', bubbleMarkersYAxisType);
+      uniqueValues.sort();
+
+      // Add items names along with percentage columns to the header
+      uniqueValues.forEach(value => {
+        headers.push(value); // Count column
+        headers.push(`${value} %`); // Percentage column
+      });
+
+      // Create CSV rows dynamically
+      const rows = [data].flatMap(item => {
+        return Object.values(item.stats[COMPARISON].items).map(obj => {
+          const rowData = [actualRegion, actualCountry, obj.name]; // Start with genotype name
+
+          // Loop through all drugs to add count and percentage
+          uniqueValues.forEach(value => {
+            const data = obj.drugs[bubbleMarkersYAxisType].items.find(x => x.name === value) || {
+              count: 0,
+              percentage: 0,
+            };
+            rowData.push(data.count); // Count
+            rowData.push(data.percentage); // Percentage
+          });
+          return rowData.join(',');
+        });
+      });
+
+      // Create CSV header row
+      generateCSV(headers.join(','), rows, `AMR markers by genotype for (${actualRegion}-${actualCountry})`);
+    } else {
+      console.log('data was not found', data);
     }
   };
 
@@ -716,8 +871,14 @@ export const DownloadMapViewData = ({ value }) => {
         return downloadCSVForRDWG('HSG2');
       case 'GD':
         return downloadCSVForGD();
+      case 'KOT':
+        return downloadCSVForKOT();
       case 'HSG2':
         return downloadCSVForHM();
+      case 'BKOH':
+        return downloadCSVForBKOH();
+      case 'BAMRH':
+        return downloadCSVForBAMRH();
       case 'RDT':
         return downloadCSVForRDT();
       case 'convergence-graph': // convergence graph plot was missing the download data
