@@ -41,7 +41,7 @@ export const menuItems = [
     label: 'Database',
     labelHead: 'Database',
     icon: <Storage />,
-    link: 'https://amrnet.readthedocs.io/en/latest/api.html',
+    link: 'https://amrnet.readthedocs.io/en/latest/data.html',
     target: '_blank',
   },
   // {
