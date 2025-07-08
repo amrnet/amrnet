@@ -75,7 +75,7 @@ export const AboutPage = () => {
             <a href="https://amrnet.readthedocs.io/en/latest" target="_blank" rel="noreferrer">
             user guide
             </a> and {' '}
-            <a href="https://amrnet.readthedocs.io/en/latest/api.html" target="_blank" rel="noreferrer">
+            <a href="https://amrnet.readthedocs.io/en/latest/data.html" target="_blank" rel="noreferrer">
             API
             </a>  to access the data. Issues and feature requests can be posted{' '}
             <a href="https://github.com/amrnet/amrnet/issues" target="_blank" rel="noreferrer">
@@ -98,7 +98,7 @@ export const AboutPage = () => {
             ,
             <span className={classes.paragraphBold}> DOI:</span> {' '}
             <a href="https://zenodo.org/doi/10.5281/zenodo.10810218" target="_blank" rel="noreferrer">
-            https://zenodo.org/doi/10.5281/zenodo.10810218 
+            https://zenodo.org/doi/10.5281/zenodo.10810218
             </a>
             <br/>
           </Typography>
