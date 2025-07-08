@@ -785,7 +785,7 @@ export const DownloadData = () => {
           doc.text('Selected Sublineage: ' + prevalenceMapViewOptionsSelected, 16, 160);
         }else if (mapView === 'Resistance prevalence') {
           doc.text('Selected Resistance: ' + prevalenceMapViewOptionsSelected, 16, 160);
-        } 
+        }
       }else if (prevalenceMapViewOptionsSelected.length > 1) {
           const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
           doc.text('Selected Genotypes: \n' + genotypesText, 16, 160);
@@ -1052,10 +1052,10 @@ export const DownloadData = () => {
     } else if (organism === 'sentericaints') {
       Name = 'invasive-non-typhoidal-salmonella';
     }
-    const url = `https://amrnet.readthedocs.io/en/staging/usage.html#${Name}`;
+    const url = `https://amrnet.readthedocs.io/en/latest/usage.html#${Name}`;
     console.log("url",url)
     window.open(url, '_blank');
-    // window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
+    // window.open('https://amrnet.readthedocs.io/en/latest/', '_blank');
   }
 
   return (
