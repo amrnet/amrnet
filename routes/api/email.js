@@ -1,8 +1,9 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
-import { escape } from 'he';
+import pkg from 'he';
 
 const router = express.Router();
+const { escape } = pkg;
 /* GET home page. */
 
 //Route POST to send an email body
