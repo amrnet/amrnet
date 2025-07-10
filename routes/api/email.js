@@ -1,6 +1,7 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
-import { escape } from 'he';
+import pkg from 'he';
+const { escape } = pkg;
 
 const router = express.Router();
 /* GET home page. */
