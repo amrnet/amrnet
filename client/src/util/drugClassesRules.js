@@ -904,6 +904,13 @@ export const drugClassesRulesNG = {
   ],
 };
 
+// TO DO: ADD RULES (USE GONO AS REFERENCE)
+export const drugClassesRulesINTS = {};
+export const drugClassesRulesSHIGE = {};
+export const drugClassesRulesDECOLI = {};
+export const drugClassesRulesECOLI = {};
+export const drugClassesRulesSENTERICA = {};
+
 // Sentericaints INTS
 export const drugRulesINTS = [
   { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
