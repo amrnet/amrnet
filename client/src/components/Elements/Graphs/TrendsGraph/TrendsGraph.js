@@ -319,8 +319,6 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
           if (!years.includes(year)) {
             data.push({
               name: year,
-              totalCount: 0,
-              ...Object.fromEntries([...topGenotypeSlice, 'Other Genotypes'].map(key => [key, 0])),
               'Insufficient data': trendsGraphView === 'number' ? 0 : 100,
             });
           }

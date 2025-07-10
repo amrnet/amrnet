@@ -16,7 +16,7 @@ Filters set in this panel apply not only to the map, but to all plots on the pag
    :align: center
    :alt: map
 
-**Summary plots**: This panel offers a series of summary plots. The default view is "AMR trends". **Click a plot title** in the rotating selector at the top of the panel, to choose a different plot. The specific plots available vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below). Summary plots are intended to show region- or country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters.  
+**Summary plots**: This panel offers a series of summary plots. The default view is "AMR trends". **Click a plot title** in the rotating selector at the top of the panel, to choose a different plot. The specific plots available vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below). Summary plots are intended to show region- or country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters.
 
 All plots are interactive. Use the **Plotting options** panel on the right to modify the region/country to display, or to select other options available for the current plot such as which variables to display, and whether to show **counts or percentages**.
 
@@ -147,8 +147,29 @@ Last update: 24 January 2024.
 
 - **Lineages**: The logic used by `Enterobase <https://doi.org/10.1101/gr.251678.119>`__ to classify genomes as *Shigella* or EIEC are detailed `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella>`__. *Shigella sonnei* are monophyletic and labelled as lineage ‘S. *sonnei*’. For other *Shigella*, lineages are labeled by the species followed by the HC400 (`HierCC <https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_) cluster ID (as this nomenclature has been `shown <https://doi.org/10.1038/s41467-022-28121-1>`_ to mirror the paraphyletic lineage structure of *Shigella*). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’).
 - **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`__ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
+- **No acquired resistance**: no resistance determinants identified besides a wildtype beta-lactamase SHV allele associated with intrinsic resistance to ampicillin (i.e. not an ESBL or inhibitor-resistant variant of SHV, see `Tsang et al 2024 <https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294>`_.
 
+Escherichia *coli* (diarrheagenic)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Escherichia *coli* (diarrheagenic) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. The logic used by Enterobase to classify E. *coli* genomes to pathotypes is shown `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__. Pathotypes included in the E. *coli* (diarrheagenic) dashboard are:
+
+- Shiga toxin-producing E. *coli* (STEC)
+- Enterohemorrhagic E. *coli* (EHEC)
+- Enterotoxigenic E. *coli* (ETEC)
+- Enteropathogenic E. *coli* (EPEC)
+- Enteroinvasive E. *coli* (EIEC)
+
+Last update: 24 January 2024.
+
+.. warning::
+   The E. *coli* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
+
+**Variable definitions**
+
+- **Lineages**: Lineages are labeled by the pathovar followed by the (7-locus) ST.
+
+- **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
 
 *Salmonella* (invasive non-typhoidal)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -165,12 +186,12 @@ The invasive non-typhoidal *Salmonella* (iNTS) dashboard is populated with data 
 
 - **Lineages**: Lineages are labeled by iTYM (invasive Typhimurium) or iENT (invasive Enteritidis) followed by the lineage name, defined from cgMLST as follows:
 
-  * iTYM ST19-L1: HC150-305
-  * iTYM ST19-L3: HC150=1547
-  * iTYM ST19-L4: HC150=48
-  * iTYM ST313-L1: HC150=9882
-  * iTYM ST313-L2: HC150=728 and HC50=728
-  * iENT CEAC: HC150=12675
-  * iENT WAC: HC150=2452
+  * iTYM ST19-L1: HC100-305
+  * iTYM ST19-L3: HC100=1547
+  * iTYM ST19-L4: HC100=48
+  * iTYM ST313-L1: HC200=9882
+  * iTYM ST313-L2: HC200=728 and HC50=728
+  * iENT CEAC: HC200=12675
+  * iENT WAC: HC200=2452
 
 - **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.

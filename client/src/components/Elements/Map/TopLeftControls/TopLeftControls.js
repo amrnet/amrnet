@@ -141,9 +141,6 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
           )}
           {organism !== 'kpneumo' ? null : (
             <div className={classes.datasetWrapper}>
-              <Typography gutterBottom variant="caption">
-                Select dataset
-              </Typography>
               <ToggleButtonGroup value={datasetKP} exclusive size="small" onChange={handleChangeKP}>
                 <ToggleButton value="All" color="primary">
                   ALL
