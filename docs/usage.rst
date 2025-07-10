@@ -172,12 +172,50 @@ Individual pathogen details
    These definitions are based on those defined in the `European CDC Response Plan <https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf>`_, modified to use the specific representatives of category I and II antibiotic classes that are available in the dashboard.
 
 
+*Escherichia coli*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Escherichia coli* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 24 January 2024.
+
+.. warning::
+   The *E. coli* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
+
+**Variable definitions**
+
+- **Lineages**: Lineages are labeled by 7-locus sequence type (ST).
+
+- **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
+
+
+*Escherichia coli* (diarrheagenic)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Enterobase classifies *E. coli* genomes to pathotypes using `this logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__. Pathotypes included in the *E. coli* (diarrheagenic) dashboard are:
+
+- Shiga toxin-producing *E. coli* (STEC)
+- Enterohemorrhagic *E. coli* (EHEC)
+- Enterotoxigenic *E. coli* (ETEC)
+- Enteropathogenic *E. coli* (EPEC)
+- Enteroinvasive *E. coli* (EIEC)
+
+Last update: 24 January 2024.
+
+.. warning::
+   The *E. coli* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
+
+**Variable definitions**
+
+- **Lineages**: Lineages are labeled by the pathovar followed by the (7-locus) ST.
+
+- **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_.
+
+
 *Shigella* + EIEC
 ~~~~~~~~~~~~~~~~~~
 
 .. raw:: html
    
-   <div class="justify-text"> <i>Shigella</i> and enteroinvasive E. <i>coli</i> (EIEC) data in AMRnet are drawn from <a href='https://enterobase.warwick.ac.uk/' target='_blank'>Enterobase</a>, which calls AMR genotypes using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">AMRFinderPlus</a> and assigns lineages using <a href='https://doi.org/10.1101/gr.251678.119' target='_blank'>cgMLST </a> and <a href="https://doi.org/10.1093/bioinformatics/btab234" target="_blank"> hierarchical clustering </a>. Last update: 24 May 2025.
+   <div class="justify-text"> <i>Shigella</i> and enteroinvasive E. <i>coli</i> (EIEC) data in AMRnet are drawn from <a href='https://enterobase.warwick.ac.uk/' target='_blank'>Enterobase</a>, which calls AMR genotypes using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">AMRFinderPlus</a> and assigns lineages using <a href='https://doi.org/10.1101/gr.251678.119' target='_blank'>cgMLST </a> and <a href="https://doi.org/10.1093/bioinformatics/btab234" target="_blank"> hierarchical clustering </a>. Last update: 24 January 2024.
 
 .. warning::
 
@@ -258,6 +296,9 @@ Last update: 24 May 2025.
    
    <div class="justify-text"><i>Salmonella</i> (invasive non-typhoidal) data in AMRnet are drawn from <a href='https://enterobase.warwick.ac.uk/' target='_blank'>Enterobase</a>, which calls AMR genotypes using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">AMRFinderPlus</a>, assigns lineages using MLST, <a href='https://doi.org/10.1101/gr.251678.119' target='_blank'>cgMLST </a> and <a href="https://doi.org/10.1093/bioinformatics/btab234" target="_blank">hierarchical clustering </a>, and assigns serotypes using <a href="https://doi.org/10.1371/journal.pone.0147101" target="_blank">SISTR </a>. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target='_blank'>>90% of iNTS </a>), and identifies lineages thereof using MLST. Last update: 24 May 2025.
 
+
+The invasive non-typhoidal *Salmonella* (iNTS) dashboard is populated with data from specific *Salmonella enterica* lineages that are associated with invasive disease in low-income countries; namely serotype Typhimurium (ST19, ST313 and sublineages thereof as defined by `Van Puyvelde et al <https://doi.org/10.1038/s41467-023-41152-6>`_) and Enteritidis (Central/Eastern and West African clades as defined by `Fong et al <https://doi.org/10.1099/mgen.0.001017>`_). Together these account for `>90% of iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_. Data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. Last update: 24 January 2024.
+
 .. warning::
    The iNTS data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
 
@@ -267,8 +308,15 @@ Last update: 24 May 2025.
 
    <div class="justify-text">
          <ul>
-               <li><b>Lineages</b>: Lineages are labeled by the serotype followed by the (7-locus) ST.</li>
-               <li><b>AMR determinants</b>: <a href='https://enterobase.warwick.ac.uk/' target='_blank'>Enterobase</a> identifies AMR determinants using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">AMRFinderPlus</a>. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in <a href="https://doi.org/10.1099/mgen.0.000832" target="_blank">refgenes </a>.</li>
+            <li><b>Lineages</b>: Lineages are labeled by iTYM (invasive Typhimurium) or iENT (invasive Enteritidis) followed by the lineage name, defined from cgMLST as follows:</li>
+            - iTYM ST19-L1: HC100-305 </br>
+            - iTYM ST19-L3: HC100=1547 </br>
+            - iTYM ST19-L4: HC100=48 
+            - iTYM ST313-L1: HC200=9882 </br>
+            - iTYM ST313-L2: HC200=728 and HC50=728 </br>
+            - iENT CEAC: HC200=12675 </br>
+            - iENT WAC: HC200=2452 </br>
+            <li><b>AMR determinants</b>: <a href='https://enterobase.warwick.ac.uk/' target='_blank'>Enterobase</a> identifies AMR determinants using NCBI’s <a href="https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/" target="_blank" rel="noreferrer">AMRFinderPlus</a>. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in <a href="https://doi.org/10.1099/mgen.0.000832" target="_blank">refgenes </a>.</ol>
          </ul>
    </div>
 
