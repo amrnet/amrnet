@@ -36,7 +36,7 @@ import {
   setKOForFilterDynamic,
   setColorPalleteKO,
 } from '../../stores/slices/dashboardSlice.ts';
-import {setActualGenomesGD, setActualGenomesDRT, setActualGenomesRDT} from '../../stores/slices/graphSlice';
+import {setActualGenomesGD, setActualGenomesDRT, setActualGenomesRDT, setActualGenomesKOT} from '../../stores/slices/graphSlice';
 import {
   setDataset,
   setDatasetKP,
@@ -152,6 +152,8 @@ export const DashboardPage = () => {
   const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
   const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
+  const startTimeKOT = useAppSelector((state) => state.graph.startTimeKOT);
+  const endTimeKOT = useAppSelector((state) => state.graph.endTimeKOT);
   // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
@@ -847,17 +849,20 @@ export const DashboardPage = () => {
             endtimeDRT,
             starttimeRDT,
             endtimeRDT,
+            startTimeKOT,
+            endTimeKOT,
           });
           dispatch(setActualGenomesGD(filters.genomesCountGD));
           dispatch(setActualGenomesDRT(filters.genomesCountDRT));
           dispatch(setActualGenomesRDT(filters.genomesCountRDT));
+          dispatch(setActualGenomesKOT(filters.genomesCountKOT)); // Added KOT Brush genome value based on start and end Time
         }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchDataAndFilter();
-  }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT]);
+  }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT, startTimeKOT, endTimeKOT]);
 
   return (
     <>

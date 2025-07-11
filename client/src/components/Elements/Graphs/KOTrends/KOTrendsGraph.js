@@ -286,8 +286,8 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
               height={20}
               stroke="rgb(31, 187, 211)"
               onChange={({ startIndex, endIndex }) => {
-                dispatch(setStartTimeKOT(currentData[startIndex]?.name));
-                dispatch(setEndTimeKOT(currentData[endIndex]?.name));
+                dispatch(setStartTimeKOT(data[startIndex]?.name)); // updated value based on Brush drag
+                dispatch(setEndTimeKOT(data[endIndex]?.name));
               }}
             />
           )}

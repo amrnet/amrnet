@@ -90,6 +90,7 @@ export const Graphs = () => {
   const endtimeDRT = useAppSelector(state => state.graph.endtimeDRT);
   const starttimeDRT = useAppSelector(state => state.graph.starttimeDRT);
   const actualGenomesGD = useAppSelector(state => state.graph.actualGenomesGD);
+  const actualGenomesKOT = useAppSelector(state => state.graph.actualGenomesKOT);
   const actualGenomesDRT = useAppSelector(state => state.graph.actualGenomesDRT);
   const starttimeRDT = useAppSelector(state => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
@@ -326,7 +327,7 @@ export const Graphs = () => {
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
       } else if (currentCard.id === 'KOT') {
         ctx.fillText(`Time period: ${startTimeKOT} to ${endTimeKOT}`, canvas.width / 2, 154);
-        ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
+        ctx.fillText(`Total ${actualGenomesKOT} genomes`, canvas.width / 2, 172);
       } else if (currentCard.id === 'DRT') {
         ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);

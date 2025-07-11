@@ -80,6 +80,7 @@ interface GraphState {
   actualGenomesGD: number;
   actualGenomesDRT: number;
   actualGenomesRDT: number;
+  actualGenomesKOT: number;  // Added KOT Brush genome value based on start and end Time
   topXGenotype: Array<any>;
   topXKO: Array<any>;
   topXGenotypeRDWG: Array<any>;
@@ -163,6 +164,7 @@ const initialState: GraphState = {
   starttimeRDT: 0,
   endtimeRDT: 0,
   actualGenomesRDT: 0,
+  actualGenomesKOT: 0,
   topXGenotype: [],
   topXKO: [],
   topXGenotypeRDWG: [],
@@ -368,6 +370,9 @@ export const graphSlice = createSlice({
     setActualGenomesDRT: (state, action: PayloadAction<number>) => {
       state.actualGenomesDRT = action.payload;
     },
+    setActualGenomesKOT: (state, action: PayloadAction<number>) => {
+      state.actualGenomesKOT = action.payload;
+    },
     setStarttimeRDT: (state, action: PayloadAction<number>) => {
       state.starttimeRDT = action.payload;
     },
@@ -458,6 +463,7 @@ export const {
   setEndtimeDRT,
   setActualGenomesGD,
   setActualGenomesDRT,
+  setActualGenomesKOT,
   setStarttimeRDT,
   setEndtimeRDT,
   setActualGenomesRDT,

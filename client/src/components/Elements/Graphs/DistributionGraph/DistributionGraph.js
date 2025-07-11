@@ -306,8 +306,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               height={20}
               stroke="rgb(31, 187, 211)"
               onChange={({ startIndex, endIndex }) => {
-                dispatch(setStarttimeGD(currentData[startIndex]?.name));
-                dispatch(setEndtimeGD(currentData[endIndex]?.name));
+                dispatch(setStarttimeGD(data[startIndex]?.name));  // updated value based on Brush drag
+                dispatch(setEndtimeGD(data[endIndex]?.name));
               }}
             />
           )}
