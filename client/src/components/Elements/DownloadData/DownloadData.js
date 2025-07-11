@@ -1437,12 +1437,10 @@ export const DownloadData = () => {
         doc.setFontSize(10);
         doc.text(cards[index].description.join(' / ').replaceAll('≥', '>='), 16, 56);
         doc.setFontSize(12);
-        doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
-        //  Refrence Dashboard comment line 773 : unable to use actualGenomesGD, actualGenomesDRT, actualGenomesRD
-        // if (cards[index].id === 'GD') doc.text(`Total: ${actualGenomesGD} genomes`, 16, 74);
-        // else if (cards[index].id === 'DRT') doc.text(`Total: ${actualGenomesDRT} genomes`, 16, 74);
-        // else if (cards[index].id === 'RDT') doc.text(`Total: ${actualGenomesRDT} genomes`, 16, 74);
-        // else doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
+        if (cards[index].id === 'GD') doc.text(`Total: ${actualGenomesGD} genomes`, 16, 74);
+        else if (cards[index].id === 'DRT') doc.text(`Total: ${actualGenomesDRT} genomes`, 16, 74);
+        else if (cards[index].id === 'RDT') doc.text(`Total: ${actualGenomesRDT} genomes`, 16, 74);
+        else doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
         doc.text(`Country: ${actualCountry}`, 16, 86);
         // doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         if (cards[index].id === 'GD')

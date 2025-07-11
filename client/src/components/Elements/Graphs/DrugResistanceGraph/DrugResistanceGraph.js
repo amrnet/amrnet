@@ -282,8 +282,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   stroke={'rgb(31, 187, 211)'}
                   onChange={brushRange => {
                     setCurrentTooltip(null);
-                    dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
-                    dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                    dispatch(setStarttimeDRT(data[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeDRT(data[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
                   }}
                 />
               )}
