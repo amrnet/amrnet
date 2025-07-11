@@ -387,10 +387,10 @@ export const Graphs = () => {
         drawLegend({
           legendData: legendDrugs,
           context: ctx,
-          factor: 4,
+          factor: 8,
           mobileFactor,
           yPosition: 670,
-          xSpace: 200,
+          xSpace: 400, // Max 14 drugs we have for DRT in any org so we can use factor 8 and space 400 to keep them apart 
           isDrug: true,
         });
       } else if (currentCard.id === 'RDWG') {
