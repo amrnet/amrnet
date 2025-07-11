@@ -33,7 +33,10 @@ const useStyles = makeStyles((theme) => ({
   },
   beta: {
     // width:"30px !important",
-    height: '40px',
+    height: 'fit-content',
+    borderRadius: '5px',
+    padding: '10px',
+
     backgroundColor: '#ededed !important',
     '@media (max-width: 500px)': {
       width: '100% !important',
