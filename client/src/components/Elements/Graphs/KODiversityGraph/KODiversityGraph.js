@@ -26,7 +26,7 @@ export const KODiversityGraph = () => {
   const resetBool = useAppSelector((state) => state.graph.resetBool);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
+    //dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [KODiversityData, dispatch]);
 
@@ -59,7 +59,7 @@ export const KODiversityGraph = () => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      //dispatch(setResetBool(false));
     }
   }
 
@@ -163,7 +163,7 @@ export const KODiversityGraph = () => {
       });
     });
     setCurrentTooltip(value);
-    dispatch(setResetBool(false));
+    //dispatch(setResetBool(false));
   }
 
   // Filter out "unknown" from the color options

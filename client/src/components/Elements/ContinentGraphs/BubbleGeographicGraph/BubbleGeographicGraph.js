@@ -36,7 +36,7 @@ import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
-
+import { setResetBool } from '../../../../stores/slices/graphSlice'
 const kpTrendOptions = Object.keys(drugClassesRulesKP)
   .map((drug) => {
     const label = drug === 'ESBL' ? 'ESBLs' : drug === 'Carbapenems'? 'Carbapenemase' : drug ; // Added 'Carbapenemase' for KP trends in geo comp graphs
@@ -115,13 +115,15 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const yAxisType = useAppSelector(state => state.map.yAxisType);
   const yAxisTypeTrend = useAppSelector(state => state.map.yAxisTypeTrend);
   const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
-  
+  const resetBool = useAppSelector(state => state.graph.resetBool);
+
 
   useEffect(() => {
     setXAxisType('country');
     dispatch(setYAxisType('resistance'));
+    dispatch(setResetBool(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [organism]);
+  }, [organism, resetBool]);
 
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
@@ -531,7 +533,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
           yAxisSelected.forEach(drug => {
             const drugCount = locationData ? locationData[drug] : 0;
-
+            console.log("data", data)
             data.items.push({
               itemName: drug.replaceAll(' + ', '/'),
               percentage: drugCount ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2)) : 0,

@@ -110,7 +110,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   }, [currentData, currentSliderValue]);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
+    //dispatch(setResetBool(true));
     setCurrentTooltip(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentData]);
@@ -230,7 +230,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       );
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      //dispatch(setResetBool(false));
     } else {
       setCurrentTooltip({
         name: event?.activeLabel,
@@ -244,7 +244,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     if (!resetBool) handleClickChart(currentEventSelected);
     else {
       setCurrentTooltip(null);
-      dispatch(setResetBool(true));
+      //dispatch(setResetBool(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topXGenotype]);
