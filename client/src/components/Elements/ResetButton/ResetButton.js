@@ -87,7 +87,6 @@ export const ResetButton = () => {
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
       dispatch(setCurrentSliderValue(20));// to reset the genotype trend slider value for styphi
       dispatch(setMapView('Resistance prevalence'));
-      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
       dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphView('percentage'));
