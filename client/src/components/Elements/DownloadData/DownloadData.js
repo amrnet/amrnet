@@ -1505,7 +1505,7 @@ export const DownloadData = () => {
         // const rectY = matches1000 ? 390 : 340;
         const rectY = (yPosition + (displayHeight)*0.73) // updated Legends position based on image height and Y position on PDF
         if (cards[index].id !== 'HSG2' && cards[index].id !== 'BG' && cards[index].id !== 'BKOH'  && cards[index].id !== 'BAMRH') { // BG is replaced from CVM for BubbleGeographicGraph
-          doc.setFillColor(255, 205, 205); // white
+          doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
         }
 
