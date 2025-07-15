@@ -129,14 +129,14 @@ export const MapActions = () => {
           switch (organism) {
             case 'decoli':
             case 'shige':
-              return `Selected Pathotypes (Organism: ${globalOverviewLabel.stringLabel}) :`; //improve heading with Selected Pathotypes and Organism for Screenshots
+              return `Selected Pathotypes (Organism: ${globalOverviewLabel.stringLabel}): ${selectedLineages.join(', ')} `; //improve heading with Selected Pathotypes and Organism for Screenshots
             case 'sentericaints':
-              return `Selected Serotypes (Organism: ${globalOverviewLabel.stringLabel}):`;
+              return `Selected Serotypes (Organism: ${globalOverviewLabel.stringLabel}): ${selectedLineages.join(', ')}`;
             default:
               return `Organism: ${globalOverviewLabel.stringLabel}`;
           }
         };
-          ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 340);
+          ctx.fillText(`${getAxisLabel()} `, canvas.width / 2, 340);
 
         const prevalenceMapViews = [
           'Genotype prevalence',
