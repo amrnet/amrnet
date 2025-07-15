@@ -47,6 +47,7 @@ import {
   defaultDrugsForDrugResistanceGraphST,
   defaultDrugsForDrugResistanceGraphNG,
   markersDrugsKP,
+  drugsINTS,
 } from '../../../util/drugs';
 import { getNgmastData } from '../../Dashboard/filters';
 import { useIndexedDB } from '../../../context/IndexedDBContext';
@@ -113,6 +114,9 @@ export const ResetButton = () => {
     if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
       dispatch(setSelectedLineages(pathovar));
     }
+    if (['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'].includes(organism)) {
+      dispatch(setDrugResistanceGraphView(drugsINTS));
+    }
 
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
@@ -130,6 +134,7 @@ export const ResetButton = () => {
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));
     dispatch(setCanFilterData(true));
+    dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
   }
 
   if (organism === 'none' || loadingData || loadingMap) {
