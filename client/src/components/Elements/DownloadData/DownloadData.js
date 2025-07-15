@@ -258,6 +258,7 @@ export const DownloadData = () => {
   const KOForFilterSelected = useAppSelector(state => state.dashboard.KOForFilterSelected);
   const colorPalleteKO = useAppSelector(state => state.dashboard.colorPalleteKO);
   const KOTrendsGraphPlotOption = useAppSelector(state => state.graph.KOTrendsGraphPlotOption);
+  const customDropdownMapViewNG = useAppSelector(state => state.graph.customDropdownMapViewNG);
 
 
   async function handleClickDownloadDatabase() {
@@ -381,6 +382,7 @@ export const DownloadData = () => {
     document.line(0, pageHeight - 26, pageWidth, pageHeight - 24);
     document.text(`Source: amrnet.org`, 16, pageHeight - 10, { align: 'left' });
     document.text(`Page:${Page}`, pageWidth - 16, pageHeight - 10, { align: 'right' });
+    document.setFontSize(12);
   }
 
   function drawHeader({ document, pageWidth }) {
@@ -1187,30 +1189,64 @@ export const DownloadData = () => {
       };
       
       doc.text(`${getAxisLabel()} `, 16, 140);
-      if (prevalenceMapViewOptionsSelected.length === 1) {
-        if (mapView === 'Genotype prevalence') {
-          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
-        } else if (mapView === 'NG-MAST prevalence') {
-          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
-        } else if (mapView === 'ST prevalence') {
-          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
-        } else if (mapView === 'Sublineage prevalence') {
-          doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
-        } else if (mapView === 'Resistance prevalence') {
-          doc.text(
-            `${actualMapView}:` +
-              (ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
-                drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
-                prevalenceMapViewOptionsSelected.join()),
-            16,
-            152,
-          );
+
+      // Improve PDF for long list of "prevalenceMapViews" 
+      const prevalenceMapViews = [
+          'Genotype prevalence',
+          'Lineage prevalence',
+          'ST prevalence',
+          'Sublineage prevalence',
+          'Pathotype prevalence',
+          'Serotype prevalence',
+          'O prevalence',
+          'OH prevalence',
+        ];
+      
+      let y = 162;
+        const maxLineLength = 98;
+        // Helper to draw wrapped text
+        // Improve code for {mapView}: {Prevelance list}
+        const drawWrappedText = (label, text) => {
+          const fullText = `${label}: ${text}`;
+          for (let i = 0; i < fullText.length; i += maxLineLength) {
+            const line = fullText.slice(i, i + maxLineLength);
+            doc.text(line, 16, y);
+            y += 10;
+
+            if (y > pageHeight - 30) {
+              doc.addPage();
+              drawHeader({ document: doc, pageWidth });
+              drawFooter({ document: doc, pageHeight, pageWidth, date });
+              y = 50; // Reset y to 30 at the top of the new page
+            }
+          }
+        };
+
+        
+        // Prevalence map views
+        if (prevalenceMapViews.includes(mapView)) {
+          const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+          drawWrappedText(mapView, genotypesText);
         }
-      } else if (prevalenceMapViewOptionsSelected.length > 1) {
-        const genotypesText = prevalenceMapViewOptionsSelected.join('\n');
-        doc.text(`${actualMapView}:` + genotypesText, 16, 152);
-      }
-      let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
+
+        // NG-MAST specific view
+        if (mapView === 'NG-MAST prevalence') {
+          const genotypesText = customDropdownMapViewNG.join(', ');
+          drawWrappedText(mapView, genotypesText);
+        }
+
+        // Resistance prevalence view
+        if (mapView === 'Resistance prevalence') {
+          const resolvedOptions =
+            ngonoSusceptibleRule(prevalenceMapViewOptionsSelected, organism) ||
+            drugAcronymsOpposite[prevalenceMapViewOptionsSelected] ||
+            prevalenceMapViewOptionsSelected;
+
+          const genotypesText = resolvedOptions.join(', ');
+          drawWrappedText(mapView, genotypesText);
+        }
+
+      // let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
         // scale: 4,
         backgroundColor: 'white',
@@ -1230,7 +1266,7 @@ export const DownloadData = () => {
         ctx.drawImage(mapImg, 0, 0, canvas.width, canvas.height);
 
         const img = canvas.toDataURL('image/png');
-        doc.addImage(img, 'PNG', 0, mapY, pageWidth, 223, undefined, 'FAST');
+        doc.addImage(img, 'PNG', 0, y+40, pageWidth, 223, undefined, 'FAST');
       });
 
       const mapLegend = new Image();
@@ -1256,7 +1292,7 @@ export const DownloadData = () => {
           mapLegend,
           'PNG',
           pageWidth / 2 - legendWidth / 2,
-          371,
+          y,
           legendWidth,
           47,
           undefined,
@@ -1267,7 +1303,7 @@ export const DownloadData = () => {
           mapLegend,
           'PNG',
           pageWidth - pageWidth / 5,
-          105,
+          y,
           legendWidth,
           47,
           undefined,
