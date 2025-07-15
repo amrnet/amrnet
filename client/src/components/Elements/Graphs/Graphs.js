@@ -369,25 +369,27 @@ export const Graphs = () => {
         });
       } else if ('DRT'.includes(currentCard.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        let legendDrugs;
+         // Dynamic Legends for DRT
+         
+        // let legendDrugs;
 
-        switch (organism) {
-          case 'styphi':
-            legendDrugs = drugsSTLegendsOnly;
-            break;
-          case 'kpneumo':
-            legendDrugs = drugsKlebLegendsOnly;
-            break;
-          case 'ngono':
-            legendDrugs = drugsNGLegensOnly;
-            break;
-          default:
-            legendDrugs = drugsINTSLegendsOnly;
-            break;
-        }
+        // switch (organism) {
+        //   case 'styphi':
+        //     legendDrugs = drugsSTLegendsOnly;
+        //     break;
+        //   case 'kpneumo':
+        //     legendDrugs = drugsKlebLegendsOnly;
+        //     break;
+        //   case 'ngono':
+        //     legendDrugs = drugsNGLegensOnly;
+        //     break;
+        //   default:
+        //     legendDrugs = drugsINTSLegendsOnly;
+        //     break;
+        // }
 
         drawLegend({
-          legendData: legendDrugs,
+          legendData: drugResistanceGraphView,
           context: ctx,
           factor: 8,
           mobileFactor,
