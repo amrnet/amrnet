@@ -143,11 +143,11 @@ export const Graphs = () => {
     switch (organism) {
       case 'decoli':
       case 'shige':
-        return 'Selected Pathotypes :';
+        return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
       case 'sentericaints':
-        return 'Selected Serotypes :';
-      case 'ecoli':
-        return 'Selected Genotypes :';
+        return `Selected Serotypes : ${selectedLineages.join(', ')}`;
+      // case 'ecoli':
+      //   return `Selected Genotypes : ${selectedLineages.join(', ')}`;
       default:
         return '';
     }
@@ -320,7 +320,7 @@ export const Graphs = () => {
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 95);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 115);
-      ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 135);
+      ctx.fillText(`${getAxisLabel()} `, canvas.width / 2, 135);
       //  Refrence Dashboard comment line 773 : unable to use actualGenomesGD, actualGenomesDRT, actualGenomesRD
       if (currentCard.id === 'GD') {
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);

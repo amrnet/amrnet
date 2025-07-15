@@ -490,19 +490,7 @@ export const DownloadData = () => {
       });
     }
   }
-  const getAxisLabel = () => {
-    switch (organism) {
-      case 'decoli':
-      case 'shige':
-        return 'Selected Pathotypes :';
-      case 'sentericaints':
-        return 'Selected Serotypes :';
-      case 'ecoli':
-        return 'Selected Genotypes :';
-      default:
-        return '';
-    }
-  };
+
 
   async function handleClickDownloadPDF() {
     dispatch(setLoadingPDF(true));
@@ -1184,7 +1172,21 @@ export const DownloadData = () => {
         16,
         128,
       );
-      doc.text(`${getAxisLabel()} ` + selectedLineages.join(', '), 16, 140);
+      const getAxisLabel = () => {
+        switch (organism) {
+          case 'decoli':
+          case 'shige':
+            return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
+          case 'sentericaints':
+            return `Selected Serotypes : ${selectedLineages.join(', ')}`;
+          // case 'ecoli':
+          //   return `Selected Genotypes : ${selectedLineages.join(', ')}`;
+          default:
+            return '';
+        }
+      };
+      
+      doc.text(`${getAxisLabel()} `, 16, 140);
       if (prevalenceMapViewOptionsSelected.length === 1) {
         if (mapView === 'Genotype prevalence') {
           doc.text(`${actualMapView}:` + prevalenceMapViewOptionsSelected, 16, 152);
