@@ -55,8 +55,11 @@ export const MapActions = () => {
         const textHeight = 250;
         const legendHeight = 350;
 
+        // const mapView = mapLegends.find(x => x.value === mapView).label;
+        const genotypesTextLength = (mapView + (mapView === 'NG-MAST prevalence'? customDropdownMapViewNG.join(', ') : prevalenceMapViewOptionsSelected.join(', ')) ).length;
+        
         canvas.width = cWidth;
-        canvas.height = cHeight + textHeight + legendHeight;
+        canvas.height = cHeight + textHeight + legendHeight + genotypesTextLength/5;
 
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -117,9 +120,8 @@ export const MapActions = () => {
         ctx.font = '35px Montserrat';
         ctx.textAlign = 'center';
 
-        const actualMapView = mapLegends.find(x => x.value === mapView).label;
 
-        // ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
+        // ctx.fillText('Map View: ' + mapView, canvas.width / 2, 140);
 
         ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 140);
         ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
@@ -146,40 +148,46 @@ export const MapActions = () => {
           'Pathotype prevalence',
           'Serotype prevalence',
           'O prevalence',
+          'OH prevalence',
         ];
+        let y = 390;
+        const maxLineLength = 190;
 
+        // Helper to draw wrapped text
+        // Improve code for {mapView}: {Prevelance list}
+        const drawWrappedText = (label, text) => {
+          const fullText = `${label}: ${text}`;
+          for (let i = 0; i < fullText.length; i += maxLineLength) {
+            const line = fullText.slice(i, i + maxLineLength);
+            ctx.fillText(line, canvas.width / 2, y);
+            y += 40;
+          }
+        };
+
+        // Prevalence map views
         if (prevalenceMapViews.includes(mapView)) {
-          if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
-          } else if (prevalenceMapViewOptionsSelected.length > 1) {
-            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
-          }
+          const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+          drawWrappedText(mapView, genotypesText);
         }
+
+        // NG-MAST specific view
         if (mapView === 'NG-MAST prevalence') {
-          if (customDropdownMapViewNG.length === 1) {
-            ctx.fillText(`${actualMapView}: ` + customDropdownMapViewNG, canvas.width / 2, 390);
-          } else if (customDropdownMapViewNG.length > 1) {
-            const genotypesText = customDropdownMapViewNG.join(', ');
-            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
-          }
+          const genotypesText = customDropdownMapViewNG.join(', ');
+          drawWrappedText(mapView, genotypesText);
         }
+
+        // Resistance prevalence view
         if (mapView === 'Resistance prevalence') {
-          if (prevalenceMapViewOptionsSelected.length === 1) {
-            ctx.fillText(
-              `${actualMapView}: ` +
-                (ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
-                  drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
-                  prevalenceMapViewOptionsSelected.join()),
-              canvas.width / 2,
-              390,
-            );
-          } else if (prevalenceMapViewOptionsSelected.length > 1) {
-            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
-          }
+          const resolvedOptions =
+            ngonoSusceptibleRule(prevalenceMapViewOptionsSelected, organism) ||
+            drugAcronymsOpposite[prevalenceMapViewOptionsSelected] ||
+            prevalenceMapViewOptionsSelected;
+
+          const genotypesText = resolvedOptions.join(', ');
+          drawWrappedText(mapView, genotypesText);
         }
-        ctx.drawImage(mapImg, -100, textHeight + 150, canvas.width, cHeight);
+
+        ctx.drawImage(mapImg, -100, y+ 20, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
         const legendImgPromise = imgOnLoadPromise(legendImg);
