@@ -89,13 +89,13 @@ export const DownloadMapViewData = ({ value }) => {
       mapView === 'NG-MAST prevalence' ? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
 
     // Step 1: Build header
-    mapViewOptionSelected.forEach(name => HeaderList.push(name, `${name} %`));
+    if(mapView !== 'No. Samples' && mapView !== 'Resistance prevalence')
+      mapViewOptionSelected.forEach(name => HeaderList.push(name, `${name} %`));
 
     const nonResColums = ['GENOTYPE', 'NGMAST', 'PATHOTYPE', 'O_PREV', 'OH_PREV'];
-
+    
     Object.keys(mapData[0]?.stats || {}).forEach(key => {
       if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
-
       const itemLabel = ngonoSusceptibleRule(key, organism) || drugAcronymsOpposite[key] || key;
       HeaderList.push(itemLabel, `${itemLabel} %`);
     });
@@ -130,13 +130,14 @@ export const DownloadMapViewData = ({ value }) => {
         const foundGenotypes = items.map(x => x.name);
 
         const allHeaders = mapViewOptionSelected;
-        allHeaders.forEach(headerItem => {
-          if (!foundGenotypes.includes(headerItem)) {
-            rowData.push(0, 0);
-          } else {
-            rowData.push(...getStatValues(items, sum, headerItem));
-          }
-        });
+        if(mapView !== 'No. Samples' && mapView !== 'Resistance prevalence')
+          allHeaders.forEach(headerItem => {
+            if (!foundGenotypes.includes(headerItem)) {
+              rowData.push(0, 0);
+            } else {
+              rowData.push(...getStatValues(items, sum, headerItem));
+            }
+          });
 
         Object.entries(stats).forEach(([key, stat]) => {
           if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
