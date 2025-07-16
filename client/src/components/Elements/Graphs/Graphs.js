@@ -90,6 +90,7 @@ export const Graphs = () => {
   const endtimeDRT = useAppSelector(state => state.graph.endtimeDRT);
   const starttimeDRT = useAppSelector(state => state.graph.starttimeDRT);
   const actualGenomesGD = useAppSelector(state => state.graph.actualGenomesGD);
+  const actualGenomesKOT = useAppSelector(state => state.graph.actualGenomesKOT);
   const actualGenomesDRT = useAppSelector(state => state.graph.actualGenomesDRT);
   const starttimeRDT = useAppSelector(state => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
@@ -100,6 +101,7 @@ export const Graphs = () => {
   const downloadForPDF = useAppSelector(state => state.graph.download);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
 
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
@@ -107,7 +109,7 @@ export const Graphs = () => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
     }
-  }, [organismCards]);
+  }, [organismCards, resetBool]);
 
   useEffect(() => {
     const runAsync = async () => {
@@ -141,11 +143,11 @@ export const Graphs = () => {
     switch (organism) {
       case 'decoli':
       case 'shige':
-        return 'Selected Pathotypes :';
+        return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
       case 'sentericaints':
-        return 'Selected Serotypes :';
-      case 'ecoli':
-        return 'Selected Genotypes :';
+        return `Selected Serotypes : ${selectedLineages.join(', ')}`;
+      // case 'ecoli':
+      //   return `Selected Genotypes : ${selectedLineages.join(', ')}`;
       default:
         return '';
     }
@@ -284,7 +286,7 @@ export const Graphs = () => {
       } else if (currentCard.id === 'RDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
-      } else if (currentCard.id === 'BG') {
+      } else if (currentCard.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
@@ -318,13 +320,14 @@ export const Graphs = () => {
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 95);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 115);
-      ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 135);
+      ctx.fillText(`${getAxisLabel()} `, canvas.width / 2, 135);
+      //  Refrence Dashboard comment line 773 : unable to use actualGenomesGD, actualGenomesDRT, actualGenomesRD
       if (currentCard.id === 'GD') {
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
       } else if (currentCard.id === 'KOT') {
         ctx.fillText(`Time period: ${startTimeKOT} to ${endTimeKOT}`, canvas.width / 2, 154);
-        ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
+        ctx.fillText(`Total ${actualGenomesKOT} genomes`, canvas.width / 2, 172);
       } else if (currentCard.id === 'DRT') {
         ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);
@@ -340,7 +343,7 @@ export const Graphs = () => {
       if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
       if (currentCard.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
       if (currentCard.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
-      if (currentCard.id === 'CVM') {
+      if (currentCard.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         const group = variablesOptions.find(option => option.value === convergenceGroupVariable).label;
         const colour = variablesOptions.find(option => option.value === convergenceColourVariable).label;
         ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
@@ -366,30 +369,32 @@ export const Graphs = () => {
         });
       } else if ('DRT'.includes(currentCard.id)) {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        let legendDrugs;
+         // Dynamic Legends for DRT
+         
+        // let legendDrugs;
 
-        switch (organism) {
-          case 'styphi':
-            legendDrugs = drugsSTLegendsOnly;
-            break;
-          case 'kpneumo':
-            legendDrugs = drugsKlebLegendsOnly;
-            break;
-          case 'ngono':
-            legendDrugs = drugsNGLegensOnly;
-            break;
-          default:
-            legendDrugs = drugsINTSLegendsOnly;
-            break;
-        }
+        // switch (organism) {
+        //   case 'styphi':
+        //     legendDrugs = drugsSTLegendsOnly;
+        //     break;
+        //   case 'kpneumo':
+        //     legendDrugs = drugsKlebLegendsOnly;
+        //     break;
+        //   case 'ngono':
+        //     legendDrugs = drugsNGLegensOnly;
+        //     break;
+        //   default:
+        //     legendDrugs = drugsINTSLegendsOnly;
+        //     break;
+        // }
 
         drawLegend({
-          legendData: legendDrugs,
+          legendData: drugResistanceGraphView,
           context: ctx,
-          factor: 4,
+          factor: 8,
           mobileFactor,
           yPosition: 670,
-          xSpace: 200,
+          xSpace: 400, // Max 14 drugs we have for DRT in any org so we can use factor 8 and space 400 to keep them apart 
           isDrug: true,
         });
       } else if (currentCard.id === 'RDWG') {
@@ -470,7 +475,7 @@ export const Graphs = () => {
           yPosition: 670,
           xSpace: 330,
         });
-      } else if (currentCard.id === 'BG') {
+      } else if (currentCard.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({

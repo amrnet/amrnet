@@ -25,7 +25,7 @@ import {
   Cell,
   LabelList,
 } from 'recharts';
-import { useAppSelector } from '../../../../stores/hooks';
+import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -34,15 +34,18 @@ import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
+import {setResetBool} from '../../../../stores/slices/graphSlice';
 
 export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [regionSelected, setRegionSelected] = useState('All');
   const [countrySelected, setCountrySelected] = useState('All');
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const [plotChart, setPlotChart] = useState(() => {});
+  const [resetCounter, setResetCounter] = useState(0);
 
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
@@ -51,6 +54,7 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
 
   const selectLabel = useMemo(
     () => (organism === 'sentericaints' ? 'serotypes' : 'pathotypes'),
@@ -263,146 +267,155 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
       });
   }, [organism, selectedCRData, xAxisSelected, yAxisSelected]);
 
-  useEffect(() => {
-    if (canGetData) {
-      setPlotChart(() => {
+useEffect(() => {
+  if (canGetData) {
+    setPlotChart(() => {
         return (
           <>
-            {configuredMapData?.map((item, index) => {
-              return (
-                <ResponsiveContainer
-                  key={`heatmap-graph-${index}`}
-                  width={yAxisWidth + 65 * yAxisSelected.length}
-                  height={index === 0 ? 105 : 65}
-                  style={{ paddingTop: index === 0 ? 40 : 0 }}
-                >
-                  <ScatterChart
-                    cursor={isTouchDevice() ? 'default' : 'pointer'}
-                    margin={{ bottom: index === 0 ? -20 : 20 }}
-                  >
-                    <XAxis
-                      type="category"
-                      dataKey="itemName"
-                      interval={0}
-                      tick={
-                        index === 0
-                          ? (props) => {
-                              const title = getTitle(props.payload.value);
+                {configuredMapData?.map((item, index) => {
+                  return (
+                    <ResponsiveContainer
+                      key={`heatmap-graph-${index}`}
+                      width={yAxisWidth + 65 * yAxisSelected.length}
+                      height={index === 0 ? 105 : 65}
+                      style={{ paddingTop: index === 0 ? 40 : 0 }}
+                    >
+                      <ScatterChart
+                        cursor={isTouchDevice() ? 'default' : 'pointer'}
+                        margin={{ bottom: index === 0 ? -20 : 20 }}
+                      >
+                        <XAxis
+                          type="category"
+                          dataKey="itemName"
+                          interval={0}
+                          tick={
+                            index === 0
+                              ? (props) => {
+                                  const title = getTitle(props.payload.value);
 
+                                  return (
+                                    <Tooltip title={title} placement="top">
+                                      <text
+                                        x={props.x}
+                                        y={props.y}
+                                        fontSize="14px"
+                                        dy={-10}
+                                        textAnchor="start"
+                                        transform={`rotate(-45, ${props.x}, ${props.y})`}
+                                        fill="rgb(128,128,128)"
+                                      >
+                                        {props.payload.value}
+                                      </text>
+                                    </Tooltip>
+                                  );
+                                }
+                              : false
+                          }
+                          axisLine={false}
+                          orientation="top"
+                        />
+
+                        <YAxis
+                          type="number"
+                          dataKey="index"
+                          name={item.name.toLowerCase()}
+                          tick={false}
+                          tickLine={false}
+                          axisLine={false}
+                          domain={[1, 1]}
+                          label={{ value: item.name, position: 'insideRight' }}
+                          width={yAxisWidth}
+                        />
+
+                        <ZAxis type="number" dataKey="percentage" range={[3500, 3500]} />
+
+                        <ChartTooltip
+                          cursor={{ fill: hoverColor }}
+                          wrapperStyle={{ zIndex: 100 }}
+                          offset={40}
+                          content={({ payload, active }) => {
+                            if (payload !== null && active) {
+                              const title = getTitle(payload[0]?.payload.itemName);
                               return (
-                                <Tooltip title={title} placement="top">
-                                  <text
-                                    x={props.x}
-                                    y={props.y}
-                                    fontSize="14px"
-                                    dy={-10}
-                                    textAnchor="start"
-                                    transform={`rotate(-45, ${props.x}, ${props.y})`}
-                                    fill="rgb(128,128,128)"
-                                  >
-                                    {props.payload.value}
-                                  </text>
-                                </Tooltip>
+                                <div
+                                  className={classes.chartTooltipLabel}
+                                  style={{
+                                    marginTop:
+                                      index + 1 === configuredMapData.length
+                                        ? -40
+                                        : index === 0
+                                        ? 40
+                                        : 0,
+                                  }}
+                                >
+                                  <Typography variant="body1" fontWeight="500">
+                                    {payload[0]?.payload.typeName}
+                                  </Typography>
+                                  <Typography variant="caption" fontWeight="500">
+                                    Total: {payload[0]?.payload.total}
+                                  </Typography>
+                                  <Typography variant="body2">
+                                    {`${title}: ${payload[0]?.payload.count} (${payload[0]?.payload.percentage}%)`}
+                                  </Typography>
+                                </div>
                               );
                             }
-                          : false
-                      }
-                      axisLine={false}
-                      orientation="top"
-                    />
-
-                    <YAxis
-                      type="number"
-                      dataKey="index"
-                      name={item.name.toLowerCase()}
-                      tick={false}
-                      tickLine={false}
-                      axisLine={false}
-                      domain={[1, 1]}
-                      label={{ value: item.name, position: 'insideRight' }}
-                      width={yAxisWidth}
-                    />
-
-                    <ZAxis type="number" dataKey="percentage" range={[3500, 3500]} />
-
-                    <ChartTooltip
-                      cursor={{ fill: hoverColor }}
-                      wrapperStyle={{ zIndex: 100 }}
-                      offset={40}
-                      content={({ payload, active }) => {
-                        if (payload !== null && active) {
-                          const title = getTitle(payload[0]?.payload.itemName);
-                          return (
-                            <div
-                              className={classes.chartTooltipLabel}
-                              style={{
-                                marginTop:
-                                  index + 1 === configuredMapData.length
-                                    ? -40
-                                    : index === 0
-                                    ? 40
-                                    : 0,
-                              }}
-                            >
-                              <Typography variant="body1" fontWeight="500">
-                                {payload[0]?.payload.typeName}
-                              </Typography>
-                              <Typography variant="caption" fontWeight="500">
-                                Total: {payload[0]?.payload.total}
-                              </Typography>
-                              <Typography variant="body2">
-                                {`${title}: ${payload[0]?.payload.count} (${payload[0]?.payload.percentage}%)`}
-                              </Typography>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-
-                    <Scatter data={item.items} shape="square">
-                      {item.items.map((option, index) => (
-                        <Cell
-                          name={option.drug}
-                          key={`bubble-cell-${index}`}
-                          fill={
-                            option.percentage === 0
-                              ? darkGrey
-                              : mixColorScale(option.percentage)
-                          }
+                            return null;
+                          }}
                         />
-                      ))}
-                      <LabelList
-                        dataKey="percentage"
-                        fontSize={12}
-                        content={({ x, y, value, z }) => {
-                          return (
-                            <text
-                              x={x + 33}
-                              y={y + 38}
-                              textAnchor="middle"
-                              fontSize={15}
-                              fontWeight={600}
-                              fill={value === 0 || value > 25 ? '#fff' : '#000'}
-                              pointerEvents="none"
-                            >
-                              {value}
-                            </text>
-                          );
-                        }}
-                      />
-                    </Scatter>
-                  </ScatterChart>
-                </ResponsiveContainer>
-              );
-            })}
+
+                        <Scatter data={item.items} shape="square">
+                          {item.items.map((option, index) => (
+                            <Cell
+                              name={option.drug}
+                              key={`bubble-cell-${index}`}
+                              fill={
+                                option.percentage === 0
+                                  ? darkGrey
+                                  : mixColorScale(option.percentage)
+                              }
+                            />
+                          ))}
+                          <LabelList
+                            dataKey="percentage"
+                            fontSize={12}
+                            content={({ x, y, value, z }) => {
+                              return (
+                                <text
+                                  x={x + 33}
+                                  y={y + 38}
+                                  textAnchor="middle"
+                                  fontSize={15}
+                                  fontWeight={600}
+                                  fill={value === 0 || value > 25 ? '#fff' : '#000'}
+                                  pointerEvents="none"
+                                >
+                                  {value}
+                                </text>
+                              );
+                            }}
+                          />
+                        </Scatter>
+                      </ScatterChart>
+                    </ResponsiveContainer>
+                  );
+                })}
           </>
         );
-      });
+          });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [configuredMapData, yAxisWidth]);
+}, [configuredMapData, yAxisWidth, canGetData, resetCounter]); // Add resetCounter here too
 
+useEffect(() => {
+  if(resetBool){
+    setRegionSelected('All');
+    setCountrySelected('All');
+    setXAxisSelected(xAxisOptions?.slice(0, 10) || []);
+    setYAxisSelected(yAxisOptions || []);
+    setResetCounter(prev => prev + 1); // This will cascade through all effects
+    dispatch(setResetBool(false));
+  }
+}, [resetBool, xAxisOptions, yAxisOptions, resetCounter])
   return (
     <CardContent className={classes.bubbleHeatmapGraph}>
       <div className={classes.graphWrapper}>

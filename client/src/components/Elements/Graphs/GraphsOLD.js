@@ -192,7 +192,7 @@ export const Graphs = () => {
       } else if (card.id === 'RDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
-      } else if (card.id === 'CVM') {
+      } else if (card.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
       }
@@ -227,7 +227,7 @@ export const Graphs = () => {
       if (card.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
       if (card.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
       if (card.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
-      if (card.id === 'CVM') {
+      if (card.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         const group = variablesOptions.find((option) => option.value === convergenceGroupVariable).label;
         const colour = variablesOptions.find((option) => option.value === convergenceColourVariable).label;
         ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
@@ -328,7 +328,7 @@ export const Graphs = () => {
           yPosition: 670,
           xSpace: 330,
         });
-      } else if (card.id === 'CVM') {
+      } else if (card.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({

@@ -9,9 +9,10 @@ import {
   setCanFilterData,
   setCanGetData,
   setSelectedLineages,
+  setActualCountry
 } from '../../../stores/slices/dashboardSlice';
 import { setDataset, setDatasetKP, setMapView, setPosition } from '../../../stores/slices/mapSlice';
-import { setActualCountry } from '../../../stores/slices/dashboardSlice';
+import { setResetBool } from '../../../stores/slices/graphSlice';
 import {
   setConvergenceColourPallete,
   setConvergenceColourVariable,
@@ -46,6 +47,7 @@ import {
   defaultDrugsForDrugResistanceGraphST,
   defaultDrugsForDrugResistanceGraphNG,
   markersDrugsKP,
+  drugsINTS,
 } from '../../../util/drugs';
 import { getNgmastData } from '../../Dashboard/filters';
 import { useIndexedDB } from '../../../context/IndexedDBContext';
@@ -66,6 +68,7 @@ export const ResetButton = () => {
   const loadingMap = useAppSelector(state => state.map.loadingMap);
 
   async function handleClick() {
+    dispatch(setResetBool(true))
     dispatch(setCanGetData(false));
 
     dispatch(setDataset('All'));
@@ -83,11 +86,10 @@ export const ResetButton = () => {
       dispatch(setMapView('Resistance prevalence'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-    } else if (organism === 'ngono') {
+      dispatch(setCurrentSliderValue(20));// to reset the genotype trend slider value for styphi
       dispatch(setMapView('Resistance prevalence'));
-      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
-      dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
-      dispatch(setTrendsGraphDrugClass('Azithromycin'));
+      // dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+      // dispatch(setTrendsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
@@ -112,6 +114,9 @@ export const ResetButton = () => {
     if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
       dispatch(setSelectedLineages(pathovar));
     }
+    if (['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'].includes(organism)) {
+      dispatch(setDrugResistanceGraphView(drugsINTS));
+    }
 
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
@@ -125,10 +130,15 @@ export const ResetButton = () => {
     dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
     dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
 
-    if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+    if (organism === 'ngono') {
+      dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
+      dispatch(setTrendsGraphDrugClass('Azithromycin'));
+    }
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));
     dispatch(setCanFilterData(true));
+    
   }
 
   if (organism === 'none' || loadingData || loadingMap) {

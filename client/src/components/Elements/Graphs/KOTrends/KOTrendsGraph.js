@@ -91,7 +91,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
   }, [currentData, currentSliderValueKOT]);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
+    //dispatch(setResetBool(true));
     setCurrentTooltip(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentData]);
@@ -209,7 +209,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
       );
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      //dispatch(setResetBool(false));
     } else {
       setCurrentTooltip({
         name: event?.activeLabel,
@@ -223,7 +223,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     if (!resetBool) handleClickChart(currentEventSelected);
     else {
       setCurrentTooltip(null);
-      dispatch(setResetBool(true));
+      //dispatch(setResetBool(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTopXKO]);
@@ -286,8 +286,8 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
               height={20}
               stroke="rgb(31, 187, 211)"
               onChange={({ startIndex, endIndex }) => {
-                dispatch(setStartTimeKOT(currentData[startIndex]?.name));
-                dispatch(setEndTimeKOT(currentData[endIndex]?.name));
+                dispatch(setStartTimeKOT(data[startIndex]?.name)); // updated value based on Brush drag
+                dispatch(setEndTimeKOT(data[endIndex]?.name));
               }}
             />
           )}
