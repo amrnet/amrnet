@@ -2,6 +2,7 @@ import { Download } from '@mui/icons-material';
 import { useAppSelector } from '../../../../stores/hooks';
 import { variableGraphOptions, variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
+import { mapStatKeysKP, statKeys } from '../../../../util/drugClassesRules';
 
 export const DownloadMapViewData = ({ value }) => {
   const mapData = useAppSelector(state => state.map.mapData);
@@ -96,7 +97,15 @@ export const DownloadMapViewData = ({ value }) => {
     
     Object.keys(mapData[0]?.stats || {}).forEach(key => {
       if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
-      const itemLabel = ngonoSusceptibleRule(key, organism) || drugAcronymsOpposite[key] || key;
+
+      const itemLabel = organism === 'kpneumo'
+        ? mapStatKeysKP
+            .filter(stat => stat.name && key.includes(stat.name))
+            .map(stat => stat.name)
+        : key;
+
+      //Skip if kpneumo and no matching names
+      if (organism === 'kpneumo' && itemLabel.length === 0) return;
       HeaderList.push(itemLabel, `${itemLabel} %`);
     });
 
@@ -140,19 +149,28 @@ export const DownloadMapViewData = ({ value }) => {
           });
 
         Object.entries(stats).forEach(([key, stat]) => {
-          if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
+        if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
 
-          if (!stat) return rowData.push(0, 0);
+        // For kpneumo: skip keys that don't match any stat.name
+        if (organism === 'kpneumo') {
+          const matchedNames = mapStatKeysKP
+            .filter(stat => stat.name && key.includes(stat.name))
+            .map(stat => stat.name);
 
-          const count = stat.count || 0;
-          const percentage = nonResColums.includes(key)
-            ? stat.sum
-              ? ((count / stat.sum) * 100).toFixed(2)
-              : '0.00'
-            : stat.percentage ?? '0.00';
+          if (matchedNames.length === 0) return; // Skip if no matches
+        }
 
-          rowData.push(count, percentage);
-        });
+        if (!stat) return rowData.push(0, 0);
+
+        const count = stat.count || 0;
+        const percentage = nonResColums.includes(key)
+          ? stat.sum
+            ? ((count / stat.sum) * 100).toFixed(2)
+            : '0.00'
+          : stat.percentage ?? '0.00';
+
+        rowData.push(count, percentage);
+      });
 
         return rowData.join(',');
       });
