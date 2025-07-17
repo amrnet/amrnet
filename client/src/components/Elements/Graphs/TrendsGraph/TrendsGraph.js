@@ -30,7 +30,7 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { colorForDrugClassesNG, colorForDrugClassesKP, hoverColor, lightGrey } from '../../../../util/colorHelper';
+import { colorForDrugClassesNG, hoverColor, lightGrey, colorForMarkers } from '../../../../util/colorHelper';
 import {
   setTrendsGraphDrugClass,
   setTrendsGraphView,
@@ -41,7 +41,7 @@ import {
   setStarttimeRDT,
   setEndtimeRDT,
 } from '../../../../stores/slices/graphSlice';
-import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
+import { drugClassesNG, markersDrugsKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
 import { Card, FormControlLabel } from '@mui/material';
 import { Close } from '@mui/icons-material';
@@ -100,7 +100,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
       return [];
     }
     if (organism === 'kpneumo') {
-      return drugClassesKP;
+      return markersDrugsKP;
     }
 
     return drugClassesNG;
@@ -108,10 +108,6 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
 
   function getDomain(max = null) {
     return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
-  }
-
-  function getColors() {
-    return organism === 'kpneumo' ? colorForDrugClassesKP : colorForDrugClassesNG;
   }
 
   const slicedData = useMemo(() => {
@@ -313,7 +309,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
       if (data.length > 0) {
         // Add missing years between the select time to show continuous scale
         const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
-        const years = data.map(x => x.name);
+        const years = data.map(x => x.name.toString());
 
         allYears.forEach(year => {
           if (!years.includes(year)) {
@@ -412,8 +408,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                                     className={classes.colorCircle}
                                     style={{
                                       backgroundColor: color,
-                                      borderRadius:
-                                        index < getColors()[trendsGraphDrugClass]?.length ? undefined : '50%',
+                                      borderRadius: index < diviserIndex ? undefined : '50%',
                                     }}
                                   />
                                   <Typography variant="caption">{dataKey}</Typography>
@@ -442,8 +437,18 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
               />
 
               {[...(topGenesSlice || []).filter(x => x !== 'None'), 'Other Genes', 'None'].map((option, index) => {
-                const colorObj = getColors()[trendsGraphDrugClass]?.find(x => x.name === option);
-                const fillColor = colorObj ? (colorObj.name === 'None' ? lightGrey : colorObj.color) : '#F5F4F6';
+                let fillColor = '#F5F4F6';
+
+                if (option === 'Other Genes') {
+                  fillColor = '#F5F4F6';
+                } else if (option === 'None') {
+                  fillColor = lightGrey;
+                } else if (organism === 'ngono') {
+                  const colorObj = colorForDrugClassesNG[trendsGraphDrugClass]?.find(x => x.name === option);
+                  if (colorObj) fillColor = colorObj.color;
+                } else if (organism === 'kpneumo') {
+                  fillColor = colorForMarkers[index];
+                }
 
                 return (
                   <Bar
@@ -581,7 +586,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      {getDrugClasses().map((option, index) => {
+                      {getDrugClasses()?.map((option, index) => {
                         return (
                           <MenuItem key={index + 'trends-drug-classes'} value={option}>
                             {option}
