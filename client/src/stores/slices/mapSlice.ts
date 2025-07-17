@@ -67,7 +67,7 @@ const initialState: MapState = {
   mapView: '',
   tooltipContent: null,
   dataset: '',
-  datasetKP: '',
+  datasetKP: 'All',
   mapData: [],
   mapRegionData: [],
   mapColoredBy: 'country',

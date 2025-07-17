@@ -29,15 +29,15 @@ import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesKP, drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
-import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
+import { drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
+import { drugAcronyms, drugAcronymsOpposite, markersDrugsKP } from '../../../../util/drugs';
 import { mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 
-const kpTrendOptions = Object.keys(drugClassesRulesKP)
+const kpTrendOptions = markersDrugsKP
   .map(drug => {
     const label = drug === 'ESBL' ? 'ESBLs' : drug;
     return {
@@ -536,7 +536,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
               index: 1,
               typeName: item.name,
               count: drugCount || 0,
-              total: locationData.totalCount,
+              total: locationData?.totalCount || 0,
               parent: drugKey,
             });
           });
