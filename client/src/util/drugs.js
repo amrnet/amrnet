@@ -1,4 +1,4 @@
-import { drugRulesINTS, drugRulesNG, drugRulesKP } from './drugClassesRules';
+import { drugRulesINTS, drugRulesNG, drugRulesKP, statKeysKP } from './drugClassesRules';
 
 // List of Salmonella drugs
 export const drugsST = [
@@ -87,26 +87,8 @@ export const defaultDrugsForDrugResistanceGraphNG = [
 ];
 
 // List of Klebsiella drugs
-export const drugsKP = [
-  'Aminoglycosides',
-  'Carbapenems',
-  'ESBL',
-  // '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
-  'Colistin',
-  'Fluoroquinolones',
-  'Fosfomycin',
-  // 'Penicillins',
-  // 'β-lactamase inhibitors',
-  'Phenicols',
-  // 'Sulfonamides',
-  // 'Susceptible',
-  'Tetracyclines',
-  'Tigecycline',
-  'Trimethoprim',
-  'Trimethoprim-sulfamethoxazole',
-  'Pansusceptible',
-];
-export const markersDrugsKP = drugsKP.filter(x => !['Pansusceptible', 'Colistin', 'Fluoroquinolones'].includes(x));
+export const drugsKP = statKeysKP.map(x => x.name);
+export const markersDrugsKP = drugsKP.filter(x => !['Pansusceptible'].includes(x));
 
 // List of Salmonella Typhi drug classes
 export const drugClassesST = [
@@ -126,9 +108,6 @@ export const drugClassesST = [
 
 // List of Klebsiella drug classes
 export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
-
-// List of Klebsiella drug classes
-export const drugClassesKP = ['Carbapenems', 'ESBL'];
 
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMX',
@@ -197,7 +176,7 @@ export function getDrugClasses(organism) {
     case 'styphi':
       return drugClassesST;
     case 'kpneumo':
-      return drugClassesKP;
+      return markersDrugsKP;
     case 'ngono':
       return drugClassesNG;
     default:
