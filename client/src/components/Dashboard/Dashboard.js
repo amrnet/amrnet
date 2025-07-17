@@ -71,7 +71,6 @@ import {
   setCurrentSliderValue,
   setCurrentSliderValueRD,
   setCurrentSliderValueCM,
-  setNgmast,
   setMaxSliderValueCM,
   setDrugsCountriesData,
   setDrugsRegionsData,
@@ -203,7 +202,7 @@ export const DashboardPage = () => {
 
     // Get mapped values
     const genotypesSet = new Set();
-    const ngmastSet = new Set();
+    // const ngmastSet = new Set();
     const yearsSet = new Set();
     const countriesSet = new Set();
     const PMIDSet = new Set();
@@ -225,7 +224,7 @@ export const DashboardPage = () => {
       yearsSet.add(x.DATE);
 
       // others
-      if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
+      // if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
       if ('PMID' in x) PMIDSet.add(x['PMID']);
 
       // pathovar and serotype
@@ -242,7 +241,8 @@ export const DashboardPage = () => {
         pathovarSet.add(x.Pathovar);
       }
       if (['senterica'].includes(organism)) {
-        pathovarSet.add(x.SeqSero2_Serovar);
+        // pathovarSet.add(x.SeqSero2_Serovar);
+        pathovarSet.add(x['SISTR1 Serovar']);
       }
       if (['decoli', 'ecoli', 'shige'].includes(organism)) {
         serotypeSet.add(x.Serotype);
@@ -250,7 +250,7 @@ export const DashboardPage = () => {
     });
 
     const genotypes = Array.from(genotypesSet);
-    const ngmast = Array.from(ngmastSet);
+    // const ngmast = Array.from(ngmastSet);
     const years = Array.from(yearsSet);
     const countries = Array.from(countriesSet);
     const PMID = Array.from(PMIDSet);
@@ -275,7 +275,7 @@ export const DashboardPage = () => {
     dispatch(setYears(years));
     dispatch(setCountriesForFilter(countries));
     dispatch(setPMID(PMID));
-    dispatch(setNgmast(ngmast));
+    // dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
     dispatch(setSerotype(serotype));
 
@@ -554,7 +554,7 @@ export const DashboardPage = () => {
       dispatch(setActualGenomes(0));
       dispatch(setActualGenotypes(0));
       dispatch(setDataset(''));
-      dispatch(setDatasetKP(''));
+      dispatch(setDatasetKP('All'));
       dispatch(setActualTimeInitial(''));
       dispatch(setActualTimeFinal(''));
       dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
@@ -585,7 +585,7 @@ export const DashboardPage = () => {
       dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
       dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
       dispatch(setConvergenceColourPallete({}));
-      dispatch(setNgmast([]));
+      // dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));
       dispatch(setCurrentSliderValueKOT(20));
       dispatch(setSelectedLineages([]));
@@ -809,6 +809,7 @@ export const DashboardPage = () => {
         const { drugsData: drugsDataC } = getDrugsCountriesData({
           data: filteredData,
           items: countriesForFilter,
+          organism,
         });
         dispatch(setDrugsCountriesData(drugsDataC));
 
@@ -816,6 +817,7 @@ export const DashboardPage = () => {
           data: filteredData,
           items: economicRegions,
           type: 'region',
+          organism,
         });
         dispatch(setDrugsRegionsData(drugsDataR));
       }

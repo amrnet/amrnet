@@ -1,7 +1,7 @@
 // Helper for colors
 import chroma from 'chroma-js';
 // Color for Salmonella genotypes
-export const getColorForGenotype = (genotype) => {
+export const getColorForGenotype = genotype => {
   switch (genotype) {
     case '0':
     case '0.0.1':
@@ -131,7 +131,7 @@ export const getColorForGenotype = (genotype) => {
 
 // Generate color pallete for Klebsiella genotypes
 let iwanthue = require('iwanthue');
-export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable ) => {
+export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable) => {
   if (genotypes.length === 0) {
     return {};
   }
@@ -141,25 +141,25 @@ export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable 
     quality: 100,
   });
 
-// Generate pallete for convergence Year dropdown
+  // Generate pallete for convergence Year dropdown
   const colorScale = chroma.scale(['#e31a1c', '#f76b40', '#f9a65a', '#72b7e0', '#2171b5']).mode('lab');
   const pallete = {};
-  if(convergenceGroupVariable === 'DATE'){
+  if (convergenceGroupVariable === 'DATE') {
     genotypes.forEach((x, i) => {
       const t = genotypes.length === 1 ? 0.5 : i / (genotypes.length - 1); // avoid division by zero
       pallete[x] = colorScale(t).hex();
     });
   } else
-  genotypes.forEach((x, i) => { pallete[x] = `${colors[i]}`;
-
-  });
+    genotypes.forEach((x, i) => {
+      pallete[x] = `${colors[i]}`;
+    });
 
   return pallete;
 };
 
 //TODO: implement to all organisms
 // Generate color pallete for Klebsiella genes, not being used at the moment
-export const generatePalleteForGenes = (genes) => {
+export const generatePalleteForGenes = genes => {
   var Rainbow = require('rainbowvis.js');
   const rainbow = new Rainbow();
   rainbow.setNumberRange(0, genes.length);
@@ -516,6 +516,126 @@ export const colorForDrugClassesKP = {
     { name: 'None', color: '#B9B9B9' },
   ],
 };
+
+export const colorForMarkers = [
+  '#543005',
+  '#8c510a',
+  '#f8961e',
+  '#f9844a',
+  '#f9c74f',
+  '#90be6d',
+  '#43aa8b',
+  '#4d908e',
+  '#577590',
+  '#277da1',
+  '#582f0e',
+  '#7f4f24',
+  '#936639',
+  '#a68a64',
+  '#b6ad90',
+  '#a4ac86',
+  '#656d4a',
+  '#414833',
+  '#333d29',
+  '#661d72',
+  '#70257c',
+  '#782f86',
+  '#7f3c8d',
+  '#854994',
+  '#8c559c',
+  '#9262a3',
+  '#996fab',
+  '#a079b1',
+  '#a883b8',
+  '#af8dbf',
+  '#b797c5',
+  '#bea0cc',
+  '#c6aad1',
+  '#ccb2d6',
+  '#d3bbdb',
+  '#dac4df',
+  '#e1cce4',
+  '#e7d5e8',
+  '#e4dae4',
+  '#e2dfe0',
+  '#dfe4dc',
+  '#dce9d8',
+  '#daeed4',
+  '#d3edcd',
+  '#c9e9c3',
+  '#c0e6ba',
+  '#b6e2b0',
+  '#addea7',
+  '#a2d99d',
+  '#94d191',
+  '#86c886',
+  '#78c07a',
+  '#6ab86e',
+  '#5caf63',
+  '#50a65a',
+  '#459c53',
+  '#39924b',
+  '#2d8843',
+  '#227e3b',
+  '#197435',
+  '#146a30',
+  '#0f612a',
+  '#0a5725',
+  '#054e20',
+  '#D1E5F0',
+  '#FDDBC7',
+  '#E7D4E8',
+  '#F6E8C3',
+  '#D9F0D3',
+  '#FDE0EF',
+  '#92C5DE',
+  '#DFC27D',
+  '#FFB6C1',
+  '#F1B6DA',
+  '#A6DBA0',
+  '#80CDC1',
+  '#00FFFF',
+  '#ADDD8E',
+  '#C2A5CF',
+  '#F4A582',
+  '#6BAED6',
+  '#21BCF9',
+  '#00FA99',
+  '#FEB24C',
+  '#FFD500',
+  '#BC8F8F',
+  '#9ACD32',
+  '#FFA300',
+  '#FD8D3C',
+  '#5AAE61',
+  '#DE77AE',
+  '#6495ED',
+  '#41AB5D',
+  '#35978F',
+  '#BF812D',
+  '#0088AF',
+  '#9970AB',
+  '#D6604D',
+  '#9270DB',
+  '#FC4E2A',
+  '#556B2F',
+  '#E31A1C',
+  '#2166AC',
+  '#1B7837',
+  '#C51B7D',
+  '#01665E',
+  '#88419D',
+  '#B2182B',
+  '#08519C',
+  '#8E0152',
+  '#810F7C',
+  '#00441B',
+  '#0000CD',
+  '#08306B',
+  '#67001F',
+  '#4A0082',
+  '#40004B',
+];
 
 // Color variables
 export const lightGrey = '#D3D3D3';

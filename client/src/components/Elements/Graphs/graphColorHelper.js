@@ -1,6 +1,6 @@
 import { lightGrey } from '../../../util/colorHelper';
 
-export const getColorForDrug = (drug) => {
+export const getColorForDrug = drug => {
   switch (drug) {
     case 'Ampicillin/Amoxicillin':
     case 'Ampicillin':
@@ -38,6 +38,7 @@ export const getColorForDrug = (drug) => {
     // case 'Fluoroquinolones (CipNS)':
     case 'Ciprofloxacin (non-susceptible)':
     case 'Ciprofloxacin NS':
+    case 'Ciprofloxacin S':
     case 'Ciprofloxacin':
     case 'Penicillins':
     case 'CipNS':
@@ -46,9 +47,14 @@ export const getColorForDrug = (drug) => {
     // case 'Fluoroquinolones (CipR)':
     case 'Ciprofloxacin R':
     case 'Ciprofloxacin (resistant)':
+      return '#9e9ac8';
+
+    case 'Ciprofloxacin I':
+      return '#DE77AE';
+
     case 'Fluoroquinolones':
     case 'Penicillin':
-      return '#9e9ac8';
+      return '#9ACD32';
 
     case 'Sulphonamides':
     case 'Sulfonamides':

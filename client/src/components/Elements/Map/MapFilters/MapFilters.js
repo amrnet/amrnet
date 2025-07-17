@@ -21,7 +21,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
-import { mapStatKeysKP, statKeys } from '../../../../util/drugClassesRules';
+import { statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
 import { setCustomDropdownMapViewNG, setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
@@ -125,7 +125,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   }, [customDropdownMapViewNG, isNGMASTPrevalence, prevalenceMapViewOptionsSelected]);
 
   const resistanceOptions = useMemo(() => {
-    const options = organism === 'kpneumo' ? mapStatKeysKP : statKeys[organism] ?? statKeys['others'];
+    const options = statKeys[organism] ?? statKeys['others'];
 
     return options.filter(({ resistanceView }) => resistanceView).map(({ name }) => name);
   }, [organism]);
