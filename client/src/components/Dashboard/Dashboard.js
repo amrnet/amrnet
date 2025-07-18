@@ -2,7 +2,6 @@
 import { MainLayout } from '../Layout';
 import { Note } from '../Elements/Note';
 import { Map } from '../Elements/Map';
-import { API_ENDPOINT } from '../../constants';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DownloadData } from '../Elements/DownloadData';
@@ -478,7 +477,7 @@ export const DashboardPage = () => {
 
     try {
       const organismData = await getStoreOrGenerateData(storeName, async () => {
-        const response = await axios.get(`${API_ENDPOINT}filters/${endpoint}`, {
+        const response = await axios.get(`/api/filters/${endpoint}`, {
           maxContentLength: Infinity,
           maxBodyLength: Infinity,
         });
@@ -486,7 +485,7 @@ export const DashboardPage = () => {
       });
 
       const regions = await getStoreOrGenerateData('unr', async () => {
-        return (await axios.get(`${API_ENDPOINT}filters/getUNR`)).data;
+        return (await axios.get('/api/filters/getUNR')).data;
       });
 
       await getInfoFromData(organismData, regions);

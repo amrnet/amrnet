@@ -110,8 +110,8 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
   }
 
-  const slicedData = useMemo(() => {
-    const slicedDataArray = [];
+  // Step 1: Pure calculation of counts and sorted keys.
+  const processedData = useMemo(() => {
     const genotypes = {};
     const genes = {};
 
@@ -124,38 +124,52 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
         if (genotypesForFilter.includes(key)) {
           if (key in genotypes) {
             genotypes[key] += year[key];
-            return;
+          } else {
+            genotypes[key] = year[key];
           }
-
-          genotypes[key] = year[key];
           return;
         }
 
         if (key in genes) {
           genes[key] += year[key];
-          return;
+        } else {
+          genes[key] = year[key];
         }
-
-        genes[key] = year[key];
       });
     });
-
-    dispatch(setMaxSliderValueKP_GE(Object.keys(genes).length));
 
     const sortedGenotypeKeys = Object.keys(genotypes).sort((a, b) => genotypes[b] - genotypes[a]);
     const sortedGeneKeys = Object.keys(genes).sort((a, b) => genes[b] - genes[a]);
 
+    return { genes, sortedGenotypeKeys, sortedGeneKeys };
+  }, [genotypesAndDrugsYearData, trendsGraphDrugClass, genotypesForFilter]);
+
+  // Step 2: Perform side effects (dispatching to Redux) after calculation.
+  useEffect(() => {
+    if (!processedData) return;
+
+    const { genes, sortedGeneKeys, sortedGenotypeKeys } = processedData;
+
+    // This is a side effect and belongs in useEffect
+    dispatch(setMaxSliderValueKP_GE(Object.keys(genes).length));
+
     const topGT = sortedGenotypeKeys.slice(0, currentSliderValueKP_GT);
     const topGE = sortedGeneKeys.slice(0, currentSliderValueKP_GE);
-    // setTopGenotypes(topGT);
-    // setTopGenes(topGE);
+
+    // These are also side effects
     dispatch(setTopGenesSlice(topGE));
     dispatch(setTopGenotypeSlice(topGT));
+  }, [processedData, currentSliderValueKP_GE, currentSliderValueKP_GT, dispatch]);
+
+  // Step 3: Calculate the final data for the chart based on Redux state.
+  const slicedData = useMemo(() => {
+    const slicedDataArray = [];
 
     genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach(year => {
-      if (year.totalCount < 10)
+      if (year.totalCount < 10) {
         //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
         return;
+      }
       const value = {
         name: year.name,
         totalCount: year.totalCount,
@@ -169,7 +183,8 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
           return;
         }
 
-        if (topGT.includes(key) || topGE.includes(key)) {
+        // Use topGenotypeSlice and topGenesSlice from Redux store
+        if (topGenotypeSlice.includes(key) || topGenesSlice.includes(key)) {
           value[key] = year[key];
           return;
         }
@@ -186,13 +201,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     });
 
     return slicedDataArray;
-  }, [
-    currentSliderValueKP_GE,
-    currentSliderValueKP_GT,
-    genotypesAndDrugsYearData,
-    genotypesForFilter,
-    trendsGraphDrugClass,
-  ]);
+  }, [genotypesAndDrugsYearData, trendsGraphDrugClass, genotypesForFilter, topGenesSlice, topGenotypeSlice]);
 
   function getData() {
     if (trendsGraphView === 'number') {

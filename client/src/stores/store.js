@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import appReducer from './slices/appSlice';
-import deashboardReducer from './slices/dashboardSlice';
+import dashboardReducer from './slices/dashboardSlice';
 import mapReducer from './slices/mapSlice';
 import graphReducer from './slices/graphSlice';
 
 export const store = configureStore({
   reducer: {
     app: appReducer,
-    dashboard: deashboardReducer,
+    dashboard: dashboardReducer,
     map: mapReducer,
     graph: graphReducer,
   },

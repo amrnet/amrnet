@@ -430,13 +430,20 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   MenuProps={{ classes: { list: classes.selectMenu } }}
                   disabled={organism === 'none'}
                 >
-                  {currentMapLegends.map((legend, index) => (
-                    <MenuItem key={index + 'mapview'} value={legend.value}>
-                      <Tooltip title={getLegendTitle(legend.label)} placement="top">
-                        {legend.label}
-                      </Tooltip>
-                    </MenuItem>
-                  ))}
+                  {currentMapLegends.map((legend, index) => {
+                    const tooltipTitle = getLegendTitle(legend.label);
+                    return (
+                      <MenuItem key={index + 'mapview'} value={legend.value}>
+                        {tooltipTitle ? (
+                          <Tooltip title={tooltipTitle} placement="top">
+                            <span>{legend.label}</span>
+                          </Tooltip>
+                        ) : (
+                          legend.label
+                        )}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
                 {organism !== 'none' && mapData.length > 0 && (
                   <div className={classes.legendWrapper}>
