@@ -100,6 +100,7 @@ export const Graphs = () => {
   const downloadForPDF = useAppSelector(state => state.graph.download);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
 
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
@@ -107,7 +108,7 @@ export const Graphs = () => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
     }
-  }, [organismCards]);
+  }, [organismCards, resetBool]);
 
   useEffect(() => {
     const runAsync = async () => {

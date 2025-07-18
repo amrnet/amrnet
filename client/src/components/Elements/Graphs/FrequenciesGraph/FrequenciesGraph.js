@@ -86,7 +86,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   }, [frequenciesGraphSelectedGenotypes, frequenciesGraphView]);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
+    //dispatch(setResetBool(true));
     setCurrentTooltip(null);
     dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
   }, [genotypesDrugsData]);
@@ -209,14 +209,14 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      //dispatch(setResetBool(false));
     }
   }
 
   useEffect(() => {
     if (resetBool) {
       setCurrentTooltip(null);
-      dispatch(setResetBool(true));
+      //dispatch(setResetBool(true));
     }
   });
 

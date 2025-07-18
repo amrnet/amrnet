@@ -71,7 +71,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const bubbleHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleHeatmapGraphVariable);
-
+  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
   const xOptions = useMemo(() => {
@@ -444,7 +444,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.bubbleHeatmapGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="HSG2">
+        <div className={classes.graph} tyle={loadingPDF ? { overflow: 'visible' } : undefined} id="HSG2">
           {plotChart}
         </div>
       </div>
