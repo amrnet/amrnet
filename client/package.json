@@ -2,6 +2,7 @@
   "name": "amrnet-client",
   "version": "1.2.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
@@ -27,7 +28,7 @@
     "react-simple-maps": "^2.3.0",
     "react-toastify": "^10.0.4",
     "react-tooltip": "^4.2.10",
-    "recharts": "^2.5.0",
+    "recharts": "^2.12.7",
     "rodal": "^1.8.1",
     "swiper": "^11.2.2",
     "web-vitals": "^3.5.2"
@@ -36,9 +37,9 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -60,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",

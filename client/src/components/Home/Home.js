@@ -7,7 +7,6 @@ import { MainLayout } from '../Layout';
 import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography, useMediaQuery } from '@mui/material';
 import { organismsCards } from '../../util/organismsCards';
 import axios from 'axios';
-import { API_ENDPOINT } from '../../constants';
 
 export const HomePage = () => {
   const classes = useStyles();
@@ -27,7 +26,7 @@ export const HomePage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get(`${API_ENDPOINT}filters/getCollectionCounts`);
+      const response = await axios.get('/api/filters/getCollectionCounts');
       setOrganismCounts(response.data);
     } catch (error) {
       console.log('error while getting collections count:', error);

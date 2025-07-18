@@ -46,6 +46,105 @@ const sentericaintsFieldsToAdd = {
   NITROIMIDAZOLE: '$extraData.NITROIMIDAZOLE',
 };
 
+const kpneumoFieldsToIgnore = {
+  Amrnet_id: 0,
+  Amrnet_version: 0,
+  Amrnetdb_date: 0,
+  Amrnetdb_version: 0,
+  Pathogenwatch_id: 0,
+  'MLST (7-locus)': 0,
+  'Genome Length': 0,
+  'non-ATCG': 0,
+  'GC Content': 0,
+  'LIN code': 0,
+  'Clonal Group': 0,
+  latitude: 0,
+  longitude: 0,
+  day: 0,
+  month: 0,
+  'Environmental sample': 0,
+  'Sample accession': 0,
+  'Study accession': 0,
+  'Secondary sample accession': 0,
+  'Purpose of Sampling': 0,
+  'Experiment accession': 0,
+  'Collection date': 0,
+  'Run accession': 0,
+  contig_count: 0,
+  N50: 0,
+  largest_contig: 0,
+  total_size: 0,
+  gapA: 0,
+  infB: 0,
+  mdh: 0,
+  pgi: 0,
+  phoE: 0,
+  rpoB: 0,
+  tonB: 0,
+  YbST: 0,
+  ybtS: 0,
+  ybtX: 0,
+  ybtQ: 0,
+  ybtP: 0,
+  ybtA: 0,
+  irp2: 0,
+  irp1: 0,
+  ybtU: 0,
+  ybtT: 0,
+  ybtE: 0,
+  fyuA: 0,
+  CbST: 0,
+  Colibactin: 0,
+  clbA: 0,
+  clbB: 0,
+  clbC: 0,
+  clbD: 0,
+  clbE: 0,
+  clbF: 0,
+  clbG: 0,
+  clbH: 0,
+  clbI: 0,
+  clbL: 0,
+  clbM: 0,
+  clbN: 0,
+  clbO: 0,
+  clbP: 0,
+  clbQ: 0,
+  AbST: 0,
+  iucA: 0,
+  iucB: 0,
+  iucC: 0,
+  iucD: 0,
+  iutA: 0,
+  SmST: 0,
+  Salmochelin: 0,
+  iroB: 0,
+  iroC: 0,
+  iroD: 0,
+  iroN: 0,
+  RmST: 0,
+  rmpA: 0,
+  rmpD: 0,
+  rmpC: 0,
+  Ciprofloxacin_profile_support: 0,
+  Ciprofloxacin_profile: 0,
+  Ciprofloxacin_MIC_prediction: 0,
+  wzi: 0,
+  K_type: 0,
+  K_locus_confidence: 0,
+  O_type: 0,
+  O_locus_confidence: 0,
+  Contig: 0,
+  'Match ID': 0,
+  Group: 0,
+  'Inc Match': 0,
+  'Contig Start': 0,
+  'Contig End': 0,
+  'Reference Start': 0,
+  'Reference End': 0,
+  _id: 0,
+};
+
 const fieldsToProject = Object.keys(sentericaintsFieldsToAdd).reduce(
   (acc, key) => ({ ...acc, [key]: 1 }),
   { NAME: 1 }, // always include NAME for matching
@@ -76,15 +175,16 @@ router.get('/getDataForSTyphi', async function (req, res, next) {
       .collection(dbAndCollection.collectionName)
       .find({ 'dashboard view': 'Include' })
       .toArray();
-    console.log(`Found ${result.length} documents for STyphi.`);
+    console.log(`[STyphi API] Found ${result.length} documents for STyphi.`);
     if (result.length > 0) {
       return res.json(result);
     }
+    console.warn("[STyphi API] No documents found in the database, falling back to CSV.");
     // Fallback to CSV if no data in DB
     return readCsvFallback(Tools.path_clean_st, res);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error(`[STyphi API] Error retrieving data for STyphi: ${error.message}`);
+    res.status(500).json({ error: `Failed to retrieve STyphi data: ${error.message}` });
   }
 });
 
@@ -96,8 +196,14 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
+      .find(
+        { 'dashboard view': 'Include' },
+        {
+          projection: kpneumoFieldsToIgnore,
+        },
+      )
       .toArray();
+
     console.log(`Found ${result.length} documents for Kpneumo.`);
     return res.json(result);
   } catch (error) {

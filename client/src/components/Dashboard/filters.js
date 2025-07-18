@@ -33,7 +33,7 @@ export function filterData({
 
     const columnID = statKeysKP.find(x => x.name === datasetKP).column;
     if (Array.isArray(columnID)) return columnID.some(x => item[x] !== '-');
-    return columnID !== '-';
+    return item[columnID] !== '-';
   };
   const checkTime = item => {
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
