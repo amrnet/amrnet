@@ -2,8 +2,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { MainLayout } from '../Layout';
 import { useStyles } from './AboutMUI';
 import { Team } from './Team/Team';
-import { Sponsors } from './Sponsors/Sponsors';
-
+// import { Sponsors } from './Sponsors/Sponsors';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
