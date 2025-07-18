@@ -1422,25 +1422,28 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'DRT') {
-          let legendDrugs;
 
-          switch (organism) {
-            case 'styphi':
-              legendDrugs = drugsSTLegendsOnly;
-              break;
-            case 'kpneumo':
-              legendDrugs = drugsKlebLegendsOnly;
-              break;
-            case 'ngono':
-              legendDrugs = drugsNGLegensOnly;
-              break;
-            default:
-              legendDrugs = drugsINTSLegendsOnly;
-              break;
-          }
+          // Dynamic Legends for DRT
+          
+          // let legendDrugs;
+
+          // switch (organism) {
+          //   case 'styphi':
+          //     legendDrugs = drugsSTLegendsOnly;
+          //     break;
+          //   case 'kpneumo':
+          //     legendDrugs = drugsKlebLegendsOnly;
+          //     break;
+          //   case 'ngono':
+          //     legendDrugs = drugsNGLegensOnly;
+          //     break;
+          //   default:
+          //     legendDrugs = drugsINTSLegendsOnly;
+          //     break;
+          // }
           drawLegend({
             document: doc,
-            legendData: legendDrugs,
+            legendData: drugResistanceGraphView,
             factor: 8,
             rectY,
             xSpace: 200,

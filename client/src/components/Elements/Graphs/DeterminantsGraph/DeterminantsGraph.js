@@ -83,8 +83,9 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
     }
   }, [genotypesDrugClassesData, determinantsGraphDrugClass, actualCountry]);
   useEffect(() => {
-    dispatch(setResetBool(true));
+    // dispatch(setResetBool(true));
     setCurrentTooltip(null);
+    // dispatch(setResetBool(false));
   }, [genotypesDrugClassesData]);
 
   function getDrugClassesBars() {
@@ -261,15 +262,16 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      // dispatch(setResetBool(false));
     }
   }, [topXGenotypeRDWG, currentEventSelected.activeLabel, currentSliderValueRD]);
 
   useEffect(() => {
     if (!resetBool) handleClickChart(currentEventSelected);
     else {
+      // dispatch(setResetBool(true));
       setCurrentTooltip(null);
-      dispatch(setResetBool(true));
+      // dispatch(setResetBool(false));
     }
   }, [topXGenotypeRDWG, currentSliderValueRD]);
 

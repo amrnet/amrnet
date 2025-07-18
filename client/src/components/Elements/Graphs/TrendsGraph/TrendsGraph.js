@@ -78,7 +78,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
+    //dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesAndDrugsYearData]);
 
@@ -285,7 +285,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
         genotypes: [],
       });
     }
-    dispatch(setResetBool(false));
+    //dispatch(setResetBool(false));
   }
 
   function handleSwitchLines(event) {
@@ -297,7 +297,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     if (resetBool) {
       setCurrentTooltip(null);
-      dispatch(setResetBool(true));
+      //dispatch(setResetBool(true));
     }
   });
   useEffect(() => {
