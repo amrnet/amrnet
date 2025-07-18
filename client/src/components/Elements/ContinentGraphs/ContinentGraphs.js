@@ -170,17 +170,17 @@ export const ContinentGraphs = () => {
         switch (organism) {
           case 'decoli':
           case 'shige':
-            return 'Selected Pathotypes :';
+            return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
           case 'sentericaints':
-            return 'Selected Serotypes: ';
-          case 'ecoli':
-            return 'Selected Genotypes: ';
+            return `Selected Serotypes : ${selectedLineages.join(', ')}`;
+          // case 'ecoli':
+          //   return `Selected Genotypes : ${selectedLineages.join(', ')}`;
           default:
             return '';
         }
       };
 
-      ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 210);
+      ctx.fillText(`${getAxisLabel()} `, canvas.width / 2, 210);
       ctx.fillStyle = 'white';
       ctx.textAlign = 'start';
       ctx.font = '12px Montserrat';

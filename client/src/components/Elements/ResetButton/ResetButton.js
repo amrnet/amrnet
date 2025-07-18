@@ -9,9 +9,10 @@ import {
   setCanFilterData,
   setCanGetData,
   setSelectedLineages,
+  setActualCountry
 } from '../../../stores/slices/dashboardSlice';
 import { setDataset, setDatasetKP, setMapView, setPosition } from '../../../stores/slices/mapSlice';
-import { setActualCountry } from '../../../stores/slices/dashboardSlice';
+import { setResetBool } from '../../../stores/slices/graphSlice';
 import {
   setConvergenceColourPallete,
   setConvergenceColourVariable,
@@ -66,6 +67,7 @@ export const ResetButton = () => {
   const loadingMap = useAppSelector(state => state.map.loadingMap);
 
   async function handleClick() {
+    dispatch(setResetBool(true))
     dispatch(setCanGetData(false));
 
     dispatch(setDataset('All'));
@@ -83,7 +85,7 @@ export const ResetButton = () => {
       dispatch(setMapView('Resistance prevalence'));
       dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-    } else if (organism === 'ngono') {
+      dispatch(setCurrentSliderValue(20));// to reset the genotype trend slider value for styphi
       dispatch(setMapView('Resistance prevalence'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
       dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
