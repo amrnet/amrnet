@@ -2,8 +2,8 @@
 
 # project information
 project = "AMRnet"
-copyright = "2023, Louise Cerdeira"
-author = "Louise Cerdeira" # noqa: A001
+copyright = "2023, The AMRnet Team"
+author = "The AMRnet Team" # noqa: A001
 
 # sphinx config
 templates_path = ["_templates"]
