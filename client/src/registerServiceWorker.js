@@ -21,22 +21,24 @@ function registerValidSW(swUrl) {
     .then((registration) => {
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              // At this point, the old content will have been purged and
-              // the fresh content will have been added to the cache.
-              // It's the perfect time to display a "New content is
-              // available; please refresh." message in your web app.
-              console.log('New content is available; please refresh.');
-            } else {
-              // At this point, everything has been pre-cached.
-              // It's the perfect time to display a
-              // "Content is cached for offline use." message.
-              console.log('Content is cached for offline use.');
+        if (installingWorker) {
+          installingWorker.onstatechange = () => {
+            if (installingWorker.state === 'installed') {
+              if (navigator.serviceWorker.controller) {
+                // At this point, the old content will have been purged and
+                // the fresh content will have been added to the cache.
+                // It's the perfect time to display a "New content is
+                // available; please refresh." message in your web app.
+                console.log('New content is available; please refresh.');
+              } else {
+                // At this point, everything has been pre-cached.
+                // It's the perfect time to display a
+                // "Content is cached for offline use." message.
+                console.log('Content is cached for offline use.');
+              }
             }
-          }
-        };
+          };
+        }
       };
     })
     .catch((error) => {
@@ -55,9 +57,11 @@ function checkValidServiceWorker(swUrl) {
   fetch(swUrl)
     .then((response) => {
       // Ensure service worker exists, and that we really are getting a JS file.
+      const contentType = response.headers.get('content-type');
       if (
         response.status === 404 ||
-        response.headers.get('content-type').indexOf('javascript') === -1
+        !contentType ||
+        contentType.indexOf('javascript') === -1
       ) {
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then((registration) => {
@@ -78,17 +82,21 @@ function checkValidServiceWorker(swUrl) {
 export default function register() {
   if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
+    if (!process.env.PUBLIC_URL) {
+      console.warn('Service Worker registration skipped: PUBLIC_URL is undefined.');
+      return;
+    }
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebookincubator/create-react-app/issues/2374
-      return;
+      const swUrl = `${process.env.PUBLIC_URL.replace(/\/$/, '')}/service-worker.js`;
     }
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-      
+
       if (process.env.NODE_ENV === 'production') {
         if (!isLocalhost) {
           // Is not local host. Just register service worker
