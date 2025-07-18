@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
-  bubbleHeatmapGraph: {
+const useStyles = makeStyles(theme => ({
+  bubbleMarkersHeatmapGraph: {
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
@@ -68,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
   graph: {
     height: '100%',
     width: '100%',
+    overflowX: 'auto',
+    overflowY: 'hidden',
 
     '@media (max-width: 1000px)': {
       width: '100%',
@@ -75,6 +77,10 @@ const useStyles = makeStyles((theme) => ({
 
     '@media (max-width: 500px)': {
       width: '100%',
+    },
+
+    '& .recharts-surface': {
+      overflow: 'visible',
     },
   },
   chartTooltipLabel: {
@@ -103,10 +109,10 @@ const useStyles = makeStyles((theme) => ({
     height: '15px',
     width: '100px',
     backgroundImage: `linear-gradient(to right,
-      #D3D3D3 0%,
-      #FFE0B2 1%,
-      #DD2C24 20%,
-      #0288D1 100%)`,
+   #FFE0B2 0%,
+   #DD2C24 20%,
+   #0288D1 100%)`,
+    // backgroundImage: 'linear-gradient(to right, #FAAD8F, #FA694A, #DD2C24, #A20F17)',
   },
   divider: {
     paddingTop: '16px',
@@ -145,6 +151,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  selectSearch: {
+    padding: '0px 16px !important',
   },
 }));
 

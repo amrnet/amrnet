@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   mapWrapper: { position: 'relative' },
   card: {
     '&.MuiCard-root': {
@@ -62,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
+      maxWidth: 300,
+      justifyContent: 'flex-start',
 
       '& $info': {
         display: 'flex',
@@ -73,6 +75,10 @@ const useStyles = makeStyles((theme) => ({
           height: '10px',
           marginRight: '4px',
           border: '1px solid #f5f4f6',
+        },
+
+        '& $keyInfo': {
+          textAlign: 'start',
         },
       },
     },
@@ -88,6 +94,7 @@ const useStyles = makeStyles((theme) => ({
   tooltipInfo: {},
   info: {},
   color: {},
+  keyInfo: {},
 }));
 
 export { useStyles };

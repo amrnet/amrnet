@@ -1422,25 +1422,28 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'DRT') {
-          let legendDrugs;
 
-          switch (organism) {
-            case 'styphi':
-              legendDrugs = drugsSTLegendsOnly;
-              break;
-            case 'kpneumo':
-              legendDrugs = drugsKlebLegendsOnly;
-              break;
-            case 'ngono':
-              legendDrugs = drugsNGLegensOnly;
-              break;
-            default:
-              legendDrugs = drugsINTSLegendsOnly;
-              break;
-          }
+          // Dynamic Legends for DRT
+          
+          // let legendDrugs;
+
+          // switch (organism) {
+          //   case 'styphi':
+          //     legendDrugs = drugsSTLegendsOnly;
+          //     break;
+          //   case 'kpneumo':
+          //     legendDrugs = drugsKlebLegendsOnly;
+          //     break;
+          //   case 'ngono':
+          //     legendDrugs = drugsNGLegensOnly;
+          //     break;
+          //   default:
+          //     legendDrugs = drugsINTSLegendsOnly;
+          //     break;
+          // }
           drawLegend({
             document: doc,
-            legendData: legendDrugs,
+            legendData: drugResistanceGraphView,
             factor: 8,
             rectY,
             xSpace: 200,
@@ -1569,7 +1572,7 @@ export const DownloadData = () => {
     } else if (organism === 'sentericaints') {
       Name = 'invasive-non-typhoidal-salmonella';
     }
-    const url = `https://amrnet.readthedocs.io/en/staging/usage.html#${Name}`;
+    const url = `https://amrnet.readthedocs.io/en/latest/usage.html#${Name}`;
     // console.log('url', url);
     window.open(url, '_blank');
     // window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');

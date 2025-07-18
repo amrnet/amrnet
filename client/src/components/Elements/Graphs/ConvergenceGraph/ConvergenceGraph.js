@@ -1,13 +1,4 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  IconButton,
-  MenuItem,
-  Select,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
 import {
   CartesianGrid,
@@ -42,14 +33,14 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const convergenceData = useAppSelector((state) => state.graph.convergenceData);
-  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const convergenceData = useAppSelector(state => state.graph.convergenceData);
+  const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
-  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
-  const currentSliderValueCM = useAppSelector((state) => state.graph.currentSliderValueCM);
-  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
+  const convergenceColourPallete = useAppSelector(state => state.graph.convergenceColourPallete);
+  const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -67,7 +58,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   // }
 
   function handleClickChart(name) {
-    const data = convergenceData.find((item) => item.name === name);
+    const data = convergenceData.find(item => item.name === name);
 
     if (data) {
       const currentData = structuredClone(data);
@@ -82,7 +73,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const topColours = useMemo(() => {
     return Object.fromEntries(
       Object.entries(convergenceColourPallete).filter(([key]) =>
-        topConvergenceData.some((item) => item.colorLabel === key),
+        topConvergenceData.some(item => item.colorLabel === key),
       ),
     );
   }, [convergenceColourPallete, topConvergenceData]);
@@ -127,26 +118,66 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
               </YAxis>
               <ZAxis type="number" dataKey="z" range={[50, 1000]} />
 
+              {/* Hide the color/gradient legend and show only the size legend, centered */}
               <Legend
                 content={() => {
+                  // Circle size legend (for ZAxis)
+                  const zMin = 50;
+                  const zMax = 1000;
+                  const zMid = Math.round((zMin + zMax) / 2);
+                  const sizeScale = z => 10 + 30 * ((z - zMin) / (zMax - zMin)); // adjust as needed
+
                   return (
-                    <div className={classes.legendWrapper}>
-                      {Object.keys(topColours).map((key, index) => {
-                        return (
-                          <div
-                            key={`convergence-legend-${index}`}
-                            className={classes.legendItemWrapper}
-                          >
-                            <Box
-                              className={classes.colorCircle}
-                              style={{
-                                backgroundColor: convergenceColourPallete[key],
-                              }}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        marginTop: 44,
+                        marginLeft: 60,
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                          <svg width={sizeScale(zMin)} height={sizeScale(zMin)}>
+                            <circle
+                              cx={sizeScale(zMin) / 2}
+                              cy={sizeScale(zMin) / 2}
+                              r={sizeScale(zMin) / 2}
+                              fill="#888"
+                              opacity={0.5}
                             />
-                            <Typography variant="caption">{key}</Typography>
-                          </div>
-                        );
-                      })}
+                          </svg>
+                          <Typography variant="caption">{zMin}</Typography>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                          <svg width={sizeScale(zMid)} height={sizeScale(zMid)}>
+                            <circle
+                              cx={sizeScale(zMid) / 2}
+                              cy={sizeScale(zMid) / 2}
+                              r={sizeScale(zMid) / 2}
+                              fill="#888"
+                              opacity={0.5}
+                            />
+                          </svg>
+                          <Typography variant="caption">{zMid}</Typography>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                          <svg width={sizeScale(zMax)} height={sizeScale(zMax)}>
+                            <circle
+                              cx={sizeScale(zMax) / 2}
+                              cy={sizeScale(zMax) / 2}
+                              r={sizeScale(zMax) / 2}
+                              fill="#888"
+                              opacity={0.5}
+                            />
+                          </svg>
+                          <Typography variant="caption">{zMax}</Typography>
+                        </div>
+                      </div>
+                      <Typography variant="caption" style={{ marginTop: 4, textAlign: 'center', width: '80%' }}>
+                        Number of items
+                      </Typography>
                     </div>
                   );
                 }}
@@ -156,23 +187,30 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active }) => {
                   if (payload !== null && active) {
-                    return (
-                      <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>
-                    );
+                    return <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>;
                   }
                   return null;
                 }}
               />
 
               <Scatter name="combinations" data={topConvergenceData}>
-                {topConvergenceData.map((option, index) => (
-                  <Cell
-                    name={option.name}
-                    onClick={() => handleClickChart(option.name)}
-                    key={`combination-cell-${index}`}
-                    fill={convergenceColourPallete[option.colorLabel]}
-                  />
-                ))}
+                {topConvergenceData.map((option, index) => {
+                  // Create a grey gradient based on index or value
+                  // We'll use a scale from #e0e0e0 (light) to #333333 (dark)
+                  const total = topConvergenceData.length > 1 ? topConvergenceData.length - 1 : 1;
+                  const t = index / total;
+                  // Interpolate between 224 and 51 for R, G, B
+                  const grey = Math.round(224 + (51 - 224) * t);
+                  const color = `rgb(${grey},${grey},${grey})`;
+                  return (
+                    <Cell
+                      name={option.name}
+                      onClick={() => handleClickChart(option.name)}
+                      key={`combination-cell-${index}`}
+                      fill={color}
+                    />
+                  );
+                })}
               </Scatter>
             </ScatterChart>
           </ResponsiveContainer>
@@ -210,7 +248,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                       }}
                     />
                     <div className={classes.tooltipItemStats}>
-                      <Typography variant="body2" fontWeight="500">
+                      <Typography variant="body2" fontWeight="00">
                         Mean virulence score
                       </Typography>
                       <Typography variant="caption" noWrap>

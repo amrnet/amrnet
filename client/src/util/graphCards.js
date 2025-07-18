@@ -3,15 +3,16 @@ import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanc
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
 import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
 import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
-import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
+// import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
+import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
+import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
 
 function getHeatMapsTitle(organism) {
   switch (organism) {
-    case 'kpneumo':
-      return 'AMR by ST';
     case 'sentericaints':
       return 'AMR by lineage';
     default:
@@ -19,18 +20,7 @@ function getHeatMapsTitle(organism) {
   }
 }
 
-function getTrendstitle(organism) {
-  switch (organism) {
-    case 'kpneumo':
-      return 'Bla trends';
-    case 'ngono':
-      return 'Marker trends';
-    default:
-      return '';
-  }
-}
-
-const heatmapCards = organismsCards.map((organismCard) => ({
+const heatmapCards = organismsCards.map(organismCard => ({
   title: getHeatMapsTitle(organismCard.value),
   description: [''],
   icon: <BubbleChart color="primary" />,
@@ -45,7 +35,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'DRT',
-    organisms: organismsCards.map((x) => x.value),
+    organisms: organismsCards.map(x => x.value),
     component: <DrugResistanceGraph />,
   },
   {
@@ -56,16 +46,9 @@ export const graphCards = [
     organisms: [
       'styphi',
       'ngono',
-      ...amrLikeOrganisms.filter((x) => !['sentericaints', 'senterica'].includes(x)),
+      'kpneumo',
+      ...amrLikeOrganisms.filter(x => !['sentericaints', 'senterica'].includes(x)),
     ],
-    component: <DistributionGraph />,
-  },
-  {
-    title: 'ST trends',
-    description: ['Data are plotted for years with N ≥ 10 genomes'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'GD',
-    organisms: ['kpneumo'],
     component: <DistributionGraph />,
   },
   {
@@ -76,6 +59,14 @@ export const graphCards = [
     id: 'GD',
     organisms: ['sentericaints', 'senterica'],
     component: <DistributionGraph />,
+  },
+  {
+    title: 'KO trends',
+    description: ['Data are plotted for years with N ≥ 10 genomes'],
+    icon: <StackedBarChart color="primary" />,
+    id: 'KOT',
+    organisms: ['kpneumo'],
+    component: <KOTrendsGraph />,
   },
   // {
   //   title: 'Resistance frequencies within genotypes',
@@ -94,7 +85,7 @@ export const graphCards = [
   //   component: <FrequenciesGraph />,
   // },
   {
-    title: getTrendstitle('kpneumo'),
+    title: 'Bla trends',
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
     id: 'RDT',
@@ -102,7 +93,7 @@ export const graphCards = [
     component: <TrendsGraph />,
   },
   {
-    title: getTrendstitle('ngono'),
+    title: 'Marker trends',
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <MultilineChart color="primary" />,
     id: 'RDT',
@@ -110,12 +101,12 @@ export const graphCards = [
     component: <TrendsGraph />,
   },
   {
-    title: 'K/O diversity',
-    description: ['Top K/O (up to 20)'],
+    title: 'K/O Trends',
+    description: ['Top K/O (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'KO',
-    organisms: [''],
-    component: <KODiversityGraph />,
+    organisms: [],
+    component: <TrendsGraph />,
   },
   {
     title: 'AMR/virulence',
@@ -160,12 +151,20 @@ export const graphCards = [
   // },
   ...heatmapCards,
   {
-    title: 'AMR markers by ST',
-    description: ['Top Genotypes (up to 10)'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'RDWG',
+    title: 'KO by genotype',
+    description: [''],
+    icon: <BubbleChart color="primary" />,
+    id: 'BKOH',
     organisms: ['kpneumo'],
-    component: <DeterminantsGraph />,
+    component: <BubbleKOHeatmapGraph />,
+  },
+  {
+    title: 'AMR markers by genotype',
+    description: [''],
+    icon: <StackedBarChart color="primary" />,
+    id: 'BAMRH',
+    organisms: ['kpneumo'],
+    component: <BubbleMarkersHeatmapGraph />,
   },
   {
     title: 'AMR markers by genotype',
@@ -180,7 +179,7 @@ export const graphCards = [
 export const continentGraphCard = {
   title: 'Geographic Comparisons',
   icon: <BubbleChart color="primary" />,
-  organisms: organismsCards.map((x) => x.value),
+  organisms: organismsCards.map(x => x.value),
 };
 
 export const continentPGraphCard = {

@@ -39,14 +39,12 @@ export const mapLegends = [
   {
     value: 'Resistance prevalence',
     label: 'Resistance prevalence',
-    organisms: organismsCards.map((x) => x.value),
+    organisms: organismsCards.map(x => x.value),
   },
   {
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
-    organisms: organismsCards
-      .map((x) => x.value)
-      .filter((x) => !['sentericaints', 'kpneumo', 'senterica'].includes(x)),
+    organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'kpneumo', 'senterica'].includes(x)),
   },
   {
     value: 'ST prevalence',
@@ -62,8 +60,8 @@ export const mapLegends = [
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
   {
     value: 'Serotype prevalence',
-    label: 'Serotype prevalence',
-    organisms: ['senterica', 'ecoli', 'decoli', 'shige'],
+    label: 'ST Prevalence (7-locus MLST)',
+    organisms: ['senterica'],
   },
   {
     value: 'Pathotype prevalence',
@@ -71,8 +69,18 @@ export const mapLegends = [
     organisms: ['ecoli'],
   },
   {
+    value: 'O prevalence',
+    label: 'O prevalence',
+    organisms: ['ecoli', 'decoli', 'shige'],
+  },
+  {
+    value: 'OH prevalence',
+    label: 'Oh prevalence',
+    organisms: ['ecoli', 'decoli', 'shige'],
+  },
+  {
     value: 'No. Samples',
     label: 'No. Samples',
-    organisms: organismsCards.map((x) => x.value),
+    organisms: organismsCards.map(x => x.value),
   },
 ];

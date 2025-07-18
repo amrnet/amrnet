@@ -1,13 +1,4 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  IconButton,
-  MenuItem,
-  Select,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './DistributionGraphMUI';
 import {
   Bar,
@@ -29,15 +20,17 @@ import {
   setEndtimeGD,
   setStarttimeGD,
   setTopXGenotype,
+  setDistributionGraphVariable,
 } from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, lightGrey } from '../../../../util/colorHelper';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
 import { setCaptureGD } from '../../../../stores/slices/dashboardSlice';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
-import { getRange } from '../../../../util/helpers';
+import { arraysEqual, getRange } from '../../../../util/helpers';
+import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -47,26 +40,64 @@ const dataViewOptions = [
 export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
-  // const [currentSliderValue, setCurrentSliderValue] = useState(20);
-  const [plotChart, setPlotChart] = useState(() => {});
+  const [currentEventSelected, setCurrentEventSelected] = useState([]);
 
   const dispatch = useAppDispatch();
-  const distributionGraphView = useAppSelector((state) => state.graph.distributionGraphView);
-  const genotypesYearData = useAppSelector((state) => state.graph.genotypesYearData);
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
-  const resetBool = useAppSelector((state) => state.graph.resetBool);
-  // const [topXGenotypes, setTopXGenotypes] = useState([]);
-  const topXGenotype = useAppSelector((state) => state.graph.topXGenotype);
-  const [currentEventSelected, setCurrentEventSelected] = useState([]);
-  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
+  const distributionGraphView = useAppSelector(state => state.graph.distributionGraphView);
+  const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
+  const genotypesYearData = useAppSelector(state => state.graph.genotypesYearData);
+  const cgSTYearData = useAppSelector(state => state.graph.cgSTYearData);
+  const sublineagesYearData = useAppSelector(state => state.graph.sublineagesYearData);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const colorPallete = useAppSelector(state => state.dashboard.colorPallete);
+  const colorPalleteCgST = useAppSelector(state => state.dashboard.colorPalleteCgST);
+  const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const currentSliderValue = useAppSelector(state => state.graph.currentSliderValue);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
+  const topXGenotype = useAppSelector(state => state.graph.topXGenotype);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
+
+  const currentData = useMemo(() => {
+    if (organism !== 'kpneumo') {
+      return genotypesYearData;
+    }
+
+    return distributionGraphVariable === 'Sublineage'
+      ? sublineagesYearData
+      : distributionGraphVariable === 'cgST'
+      ? cgSTYearData
+      : genotypesYearData;
+  }, [cgSTYearData, distributionGraphVariable, genotypesYearData, organism, sublineagesYearData]);
+
+  const currentColorPallete = useMemo(() => {
+    if (organism !== 'kpneumo') {
+      return colorPallete;
+    }
+
+    return distributionGraphVariable === 'Sublineage'
+      ? colorPalleteSublineages
+      : distributionGraphVariable === 'cgST'
+      ? colorPalleteCgST
+      : colorPallete;
+  }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
+
+  const sliderLabel = useMemo(() => {
+    if (organism !== 'kpneumo') {
+      return undefined;
+    }
+
+    return distributionGraphVariable === 'Sublineage'
+      ? 'sublineage'
+      : distributionGraphVariable === 'cgST'
+      ? 'cgST'
+      : 'ST';
+  }, [distributionGraphVariable, organism]);
 
   useEffect(() => {
     let cnt = 0;
     // eslint-disable-next-line array-callback-return
-    newArray.map((item) => {
+    newArray.map(item => {
       cnt += item.count;
     });
 
@@ -76,13 +107,13 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       dispatch(setCaptureGD(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, currentSliderValue]);
+  }, [currentData, currentSliderValue]);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
+    //dispatch(setResetBool(true));
     setCurrentTooltip(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData]);
+  }, [currentData]);
 
   function getDomain() {
     return distributionGraphView === 'number' ? undefined : [0, 100];
@@ -92,78 +123,86 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   //   setCurrentSliderValue(value);
   //  };
 
-  useEffect(() => {
-    let mp = new Map(); //mp = total count of a genotype in database(including all years)
-    genotypesYearData.forEach((cur) => {
-      Object.keys(cur).forEach((it) => {
-        if (it !== 'name' && it !== 'count') {
-          if (mp.has(it)) {
-            mp.set(it, mp.get(it) + cur[it]);
-          } else {
-            mp.set(it, cur[it]);
-          }
+  const computedTopXGenotype = useMemo(() => {
+    const map = new Map();
+    currentData.forEach(cur => {
+      Object.keys(cur).forEach(key => {
+        if (key !== 'name' && key !== 'count') {
+          map.set(key, (map.get(key) || 0) + cur[key]);
         }
       });
     });
 
-    const mapArray = Array.from(mp); //[key, total_count], eg: ['4.3.1.1', 1995]
-    mapArray.sort((a, b) => b[1] - a[1]); // Sort the array based on keys
+    return Array.from(map)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, currentSliderValue)
+      .map(([key]) => key);
+  }, [currentData, currentSliderValue]);
 
-    const slicedArray = mapArray.slice(0, currentSliderValue).map(([key]) => key);
-
-    dispatch(setTopXGenotype(slicedArray));
-    dispatch(
-      setGenotypesForFilterSelected(
-        currentSliderValue === slicedArray.length ? slicedArray : [...slicedArray, 'Other'],
-      ),
-    );
+  useEffect(() => {
+    if (!arraysEqual(computedTopXGenotype, topXGenotype)) {
+      dispatch(setTopXGenotype(computedTopXGenotype));
+      dispatch(
+        setGenotypesForFilterSelected(
+          currentSliderValue === computedTopXGenotype.length
+            ? computedTopXGenotype
+            : [...computedTopXGenotype, 'Other'],
+        ),
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSliderValue, genotypesYearData]);
+  }, [computedTopXGenotype]);
 
-  let newArray = []; //TODO: can be a global value in redux
-  let newArrayPercentage = []; //TODO: can be a global value in redux
-  const exclusions = ['name', 'count'];
-  newArray = genotypesYearData
-    .map((item) => {
-      let count = 0;
-      for (const key in item) {
-        if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
-          count += item[key]; //adding count of all genotypes which are not in topX
+  const { newArray, newArrayPercentage } = useMemo(() => {
+    const exclusions = ['name', 'count'];
+
+    const baseArray = currentData
+      .map(item => {
+        const filteredItems = {};
+        let count = 0;
+
+        for (const key in item) {
+          if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
+            count += item[key];
+          }
+
+          if (organism !== 'styphi' && key in currentColorPallete && !exclusions.includes(key)) {
+            filteredItems[key] = item[key];
+          }
         }
-      }
-      const newItem = { ...item, Other: count };
-      return newItem; //return item of genotypesYearData with additional filed 'Other' to newArray
-    })
-    .filter((x) => x.count >= 10);
-  let genotypeDataPercentage = structuredClone(newArray);
-  newArrayPercentage = genotypeDataPercentage
-    .map((item) => {
-      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
-      keys.forEach((key) => {
-        item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
-      });
-      return item;
-    })
-    .filter((x) => x.count >= 10);
 
-  function getData() {
-    if (distributionGraphView === 'number') return newArray;
-    return newArrayPercentage;
-  }
+        return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: count };
+      })
+      .filter(x => x.count >= 10);
+
+    const percentageArray = structuredClone(baseArray)
+      .map(item => {
+        const keys = Object.keys(item).filter(k => !exclusions.includes(k));
+        keys.forEach(key => {
+          item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
+        });
+        return item;
+      })
+      .filter(x => x.count >= 10);
+
+    return { newArray: baseArray, newArrayPercentage: percentageArray };
+  }, [currentColorPallete, currentData, organism, topXGenotype]);
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi'
-      ? getColorForGenotype(genotype)
-      : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : currentColorPallete[genotype] || '#F5F4F6';
   }
 
   function handleChangeDataView(event) {
     dispatch(setDistributionGraphView(event.target.value));
   }
 
+  function handleChangeVariable(event) {
+    dispatch(setDistributionGraphVariable(event.target.value));
+  }
+
   function handleClickChart(event) {
     setCurrentEventSelected(event);
-    const data = newArray.find((item) => item.name === event?.activeLabel);
+    const data = newArray.find(item => item.name === event?.activeLabel);
 
     if (data && data.count > 0) {
       const currentData = structuredClone(data);
@@ -177,21 +216,21 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       delete currentData.name;
       delete currentData.count;
 
-      value.genotypes = Object.keys(currentData).map((key) => {
+      value.genotypes = Object.keys(currentData).map(key => {
         const count = currentData[key];
         return {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: getGenotypeColor(key),
+          color: key === 'Other' ? lightGrey : getGenotypeColor(key),
         };
       });
       value.genotypes = value.genotypes.filter(
-        (item) => topXGenotype.includes(item.label) || (item.label === 'Other' && item.count > 0),
+        item => topXGenotype.includes(item.label) || (item.label === 'Other' && item.count > 0),
       );
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      //dispatch(setResetBool(false));
     } else {
       setCurrentTooltip({
         name: event?.activeLabel,
@@ -205,149 +244,124 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     if (!resetBool) handleClickChart(currentEventSelected);
     else {
       setCurrentTooltip(null);
-      dispatch(setResetBool(true));
+      //dispatch(setResetBool(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topXGenotype]);
 
   useEffect(() => {
-    if (genotypesYearData.length > 0) {
+    if (currentData.length > 0) {
       // Dispatch initial values based on the default range (full range)
-      const startValue = genotypesYearData[0]?.name; // First value in the data
-      const endValue = genotypesYearData[genotypesYearData.length - 1]?.name; // Last value in the data
+      const startValue = currentData[0]?.name; // First value in the data
+      const endValue = currentData[currentData.length - 1]?.name; // Last value in the data
       // console.log('startValue', startValue, endValue);
       dispatch(setStarttimeGD(startValue));
       dispatch(setEndtimeGD(endValue));
     }
-  }, [genotypesYearData, dispatch]);
+  }, [currentData, dispatch]);
 
-  useEffect(() => {
-    if (canGetData) {
-      // Get data
-      const data = getData();
+  const chartJSX = useMemo(() => {
+    if (!canGetData) return null;
 
-      if (data.length > 0) {
-        // Add missing years between the select time to show continuous scale
-        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(
-          String,
-        );
-        const years = data.map((x) => x.name);
+    const rawData = distributionGraphView === 'number' ? newArray : newArrayPercentage;
+    const data = [...rawData]; // clone so we can safely mutate
 
-        allYears.forEach((year) => {
-          if (!years.includes(year)) {
-            data.push({
-              name: year,
-              count: 0,
-              ...Object.fromEntries(topXGenotype.map((key) => [key, 0])),
-              'Insufficient data': distributionGraphView === 'number' ? 0 : 100,
-            });
-          }
-        });
+    if (data.length > 0) {
+      const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
+      const existingYears = data.map(d => d.name.toString());
 
-        data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
-      }
+      allYears.forEach(year => {
+        if (!existingYears.includes(year)) {
+          data.push({
+            name: year,
+            count: 0,
+            ...Object.fromEntries(topXGenotype.map(key => [key, 0])),
+            'Insufficient data': distributionGraphView === 'number' ? 0 : 100,
+          });
+        }
+      });
 
-      setPlotChart(() => {
-        return (
-          <ResponsiveContainer width="100%">
-            <BarChart
-              data={data}
-              cursor={isTouchDevice() ? 'default' : 'pointer'}
-              onClick={handleClickChart}
-              maxBarSize={70}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
-              <YAxis domain={getDomain()} allowDataOverflow={true} allowDecimals={false}>
-                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                  {dataViewOptions.find((option) => option.value === distributionGraphView).label}
-                </Label>
-              </YAxis>
-              {genotypesYearData.length > 0 && (
-                <Brush
-                  dataKey="name"
-                  height={20}
-                  stroke={'rgb(31, 187, 211)'}
-                  onChange={(brushRange) => {
-                    dispatch(setStarttimeGD(genotypesYearData[brushRange.startIndex]?.name));
-                    dispatch(setEndtimeGD(genotypesYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
-                  }}
-                />
-              )}
-              <Legend
-                content={(props) => {
-                  const { payload } = props;
+      data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
+    }
+
+    return (
+      <ResponsiveContainer width="100%">
+        <BarChart
+          data={data}
+          cursor={isTouchDevice() ? 'default' : 'pointer'}
+          onClick={handleClickChart}
+          maxBarSize={70}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
+          <YAxis domain={getDomain()} allowDataOverflow allowDecimals={false}>
+            <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
+              {dataViewOptions.find(opt => opt.value === distributionGraphView)?.label}
+            </Label>
+          </YAxis>
+
+          {currentData.length > 0 && (
+            <Brush
+              dataKey="name"
+              height={20}
+              stroke="rgb(31, 187, 211)"
+              onChange={({ startIndex, endIndex }) => {
+                dispatch(setStarttimeGD(currentData[startIndex]?.name));
+                dispatch(setEndtimeGD(currentData[endIndex]?.name));
+              }}
+            />
+          )}
+
+          <Legend
+            content={({ payload }) => (
+              <div className={classes.legendWrapper}>
+                {payload.map((entry, index) => {
+                  const { dataKey, color } = entry;
+
+                  if (dataKey === 'Other') {
+                    const hasData = data.some(d => d[dataKey] !== 0);
+                    if (!hasData) return null;
+                  }
+
                   return (
-                    <div className={classes.legendWrapper}>
-                      {payload.map((entry, index) => {
-                        if (!genotypesYearData.length) return null;
-                        const { dataKey, color } = entry;
-
-                        if (dataKey === 'Other') {
-                          const hasData = data.some((d) => {
-                            const value = d[dataKey];
-                            return value !== undefined && value !== null && value !== 0;
-                          });
-
-                          if (!hasData) return null;
-                        }
-
-                        return (
-                          <div
-                            key={`distribution-legend-${index}`}
-                            className={classes.legendItemWrapper}
-                          >
-                            <Box
-                              className={classes.colorCircle}
-                              style={{ backgroundColor: color }}
-                            />
-                            <Typography variant="caption">{dataKey}</Typography>
-                          </div>
-                        );
-                      })}
+                    <div key={`legend-${dataKey}`} className={classes.legendItemWrapper}>
+                      <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                      <Typography variant="caption">{dataKey}</Typography>
                     </div>
                   );
-                }}
-              />
+                })}
+              </div>
+            )}
+          />
 
-              <ChartTooltip
-                cursor={genotypesYearData !== 0 ? { fill: hoverColor } : false}
-                content={({ payload, active, label }) => {
-                  if (payload !== null && active) {
-                    return <div className={classes.chartTooltipLabel}>{label}</div>;
-                  }
-                  return null;
-                }}
-              />
+          <ChartTooltip
+            cursor={currentData !== 0 ? { fill: hoverColor } : false}
+            content={({ payload, active, label }) =>
+              active && payload ? <div className={classes.chartTooltipLabel}>{label}</div> : null
+            }
+          />
 
-              {topXGenotype.map((option, index) => (
-                <Bar
-                  key={`distribution-bar-${index}`}
-                  dataKey={option}
-                  name={option}
-                  stackId={0}
-                  fill={getGenotypeColor(option)}
-                />
-              ))}
-              <Bar dataKey={'Other'} stackId={0} fill={getGenotypeColor('Other')} />
-              <Bar dataKey={'Insufficient data'} stackId={0} fill={lightGrey} />
-            </BarChart>
-          </ResponsiveContainer>
-        );
-      });
-    }
+          {topXGenotype.map((genotype, index) => (
+            <Bar key={`bar-${genotype}`} dataKey={genotype} stackId={0} fill={getGenotypeColor(genotype)} />
+          ))}
+
+          <Bar dataKey="Other" stackId={0} fill={lightGrey} />
+          <Bar dataKey="Insufficient data" stackId={0} fill={getGenotypeColor('Other')} />
+        </BarChart>
+      </ResponsiveContainer>
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesYearData, distributionGraphView, topXGenotype, currentSliderValue, colorPallete]);
+  }, [currentData, distributionGraphView, topXGenotype, currentSliderValue, currentColorPallete]);
 
   return (
     <CardContent className={classes.distributionGraph}>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="GD">
-          {plotChart}
+          {chartJSX}
         </div>
         <div className={classes.rightSide}>
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
-          <SliderSizes value={'GD'} style={{ width: '100%' }} />
+          <SliderSizes value={'GD'} style={{ width: '100%' }} label={sliderLabel} />
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
@@ -365,10 +379,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   <div className={classes.tooltipContent}>
                     {currentTooltip.genotypes.map((item, index) => {
                       return (
-                        <div
-                          key={`tooltip-content-${index}`}
-                          className={classes.tooltipItemWrapper}
-                        >
+                        <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
                           <Box
                             className={classes.tooltipItemBox}
                             style={{
@@ -427,6 +438,28 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   })}
                 </Select>
               </div>
+              {organism === 'kpneumo' && (
+                <div className={classes.selectWrapper}>
+                  <div className={classes.labelWrapper}>
+                    <Typography variant="caption">Select variable</Typography>
+                  </div>
+                  <Select
+                    value={distributionGraphVariable}
+                    onChange={handleChangeVariable}
+                    inputProps={{ className: classes.selectInput }}
+                    MenuProps={{ classes: { list: classes.selectMenu } }}
+                    disabled={organism === 'none'}
+                  >
+                    {variableGraphOptions.map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'distribution-variable'} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+              )}
             </CardContent>
           </Card>
         </Box>

@@ -6,10 +6,26 @@ interface CollapsesModel {
   all: boolean;
   continentP: boolean;
 }
+
+interface KOYearsDataModel {
+  O_locus: [];
+  K_locus: [];
+}
 interface GraphState {
   countriesForFilter: Array<string>;
   distributionGraphView: string;
+  KOTrendsGraphView: string;
+  KOTrendsGraphPlotOption: string;
+  distributionGraphVariable: string;
+  bubbleHeatmapGraphVariable: string;
+  bubbleKOHeatmapGraphVariable: string;
+  bubbleKOYAxisType: string;
+  bubbleMarkersHeatmapGraphVariable: string;
+  bubbleMarkersYAxisType: string;
   genotypesYearData: Array<any>;
+  cgSTYearData: Array<any>;
+  sublineagesYearData: Array<any>;
+  KOYearsData: KOYearsDataModel;
   drugsYearData: Array<any>;
   genotypesAndDrugsYearData: Array<any>;
   countriesYearData: Array<any>;
@@ -21,8 +37,6 @@ interface GraphState {
   prevalenceMapViewOptionsSelected: Array<string>;
   customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
-  pathotypesDrugsData: Array<any>;
-  serotypesDrugsData: Array<any>;
   genotypesDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
@@ -36,6 +50,8 @@ interface GraphState {
   convergenceColourPallete: Object;
   currentSliderValue: number;
   maxSliderValue: number;
+  currentSliderValueKOT: number;
+  maxSliderValueKOT: number;
   currentSliderValueRD: number;
   maxSliderValueRD: number;
   currentSliderValueKP_GT: number;
@@ -55,6 +71,8 @@ interface GraphState {
   topColorSlice: Array<any>;
   starttimeGD: number;
   endtimeGD: number;
+  startTimeKOT: number;
+  endTimeKOT: number;
   starttimeDRT: number;
   endtimeDRT: number;
   starttimeRDT: number;
@@ -63,6 +81,7 @@ interface GraphState {
   actualGenomesDRT: number;
   actualGenomesRDT: number;
   topXGenotype: Array<any>;
+  topXKO: Array<any>;
   topXGenotypeRDWG: Array<any>;
   download: boolean;
 }
@@ -76,15 +95,24 @@ const initialState: GraphState = {
   },
   countriesForFilter: [],
   genotypesYearData: [],
+  cgSTYearData: [],
+  sublineagesYearData: [],
+  KOYearsData: { K_locus: [], O_locus: [] },
   drugsYearData: [],
   genotypesDrugsData: [],
-  pathotypesDrugsData: [],
-  serotypesDrugsData: [],
   genotypesDrugClassesData: [],
   genotypesAndDrugsYearData: [],
   countriesYearData: [],
   regionsYearData: [],
   distributionGraphView: 'percentage',
+  KOTrendsGraphView: 'percentage',
+  KOTrendsGraphPlotOption: 'O_locus',
+  distributionGraphVariable: 'GENOTYPE',
+  bubbleHeatmapGraphVariable: 'GENOTYPE',
+  bubbleKOHeatmapGraphVariable: 'GENOTYPE',
+  bubbleKOYAxisType: 'O_locus',
+  bubbleMarkersHeatmapGraphVariable: 'GENOTYPE',
+  bubbleMarkersYAxisType: '',
   drugResistanceGraphView: [],
   frequenciesGraphView: 'percentage',
   frequenciesGraphSelectedGenotypes: [],
@@ -102,6 +130,8 @@ const initialState: GraphState = {
   convergenceColourPallete: {},
   currentSliderValue: 20,
   maxSliderValue: 0,
+  currentSliderValueKOT: 20,
+  maxSliderValueKOT: 0,
   currentSliderValueRD: 20,
   maxSliderValueRD: 0,
   currentSliderValueKP_GT: 20,
@@ -121,6 +151,8 @@ const initialState: GraphState = {
   topColorSlice: [],
   starttimeGD: 0,
   endtimeGD: 0,
+  startTimeKOT: 0,
+  endTimeKOT: 0,
   starttimeDRT: 0,
   endtimeDRT: 0,
   actualGenomesGD: 0,
@@ -129,6 +161,7 @@ const initialState: GraphState = {
   endtimeRDT: 0,
   actualGenomesRDT: 0,
   topXGenotype: [],
+  topXKO: [],
   topXGenotypeRDWG: [],
   download: false,
 };
@@ -149,11 +182,44 @@ export const graphSlice = createSlice({
     setGenotypesYearData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesYearData = action.payload;
     },
+    setCgSTYearData: (state, action: PayloadAction<Array<any>>) => {
+      state.cgSTYearData = action.payload;
+    },
+    setSublineagesYearData: (state, action: PayloadAction<Array<any>>) => {
+      state.sublineagesYearData = action.payload;
+    },
+    setKOYearsData: (state, action: PayloadAction<KOYearsDataModel>) => {
+      state.KOYearsData = action.payload;
+    },
     setDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
       state.drugsYearData = action.payload;
     },
     setDistributionGraphView: (state, action: PayloadAction<string>) => {
       state.distributionGraphView = action.payload;
+    },
+    setKOTrendsGraphView: (state, action: PayloadAction<string>) => {
+      state.KOTrendsGraphView = action.payload;
+    },
+    setKOTrendsGraphPlotOption: (state, action: PayloadAction<string>) => {
+      state.KOTrendsGraphPlotOption = action.payload;
+    },
+    setDistributionGraphVariable: (state, action: PayloadAction<string>) => {
+      state.distributionGraphVariable = action.payload;
+    },
+    setBubbleHeatmapGraphVariable: (state, action: PayloadAction<string>) => {
+      state.bubbleHeatmapGraphVariable = action.payload;
+    },
+    setBubbleKOHeatmapGraphVariable: (state, action: PayloadAction<string>) => {
+      state.bubbleKOHeatmapGraphVariable = action.payload;
+    },
+    setBubbleKOYAxisType: (state, action: PayloadAction<string>) => {
+      state.bubbleKOYAxisType = action.payload;
+    },
+    setBubbleMarkersHeatmapGraphVariable: (state, action: PayloadAction<string>) => {
+      state.bubbleMarkersHeatmapGraphVariable = action.payload;
+    },
+    setBubbleMarkersYAxisType: (state, action: PayloadAction<string>) => {
+      state.bubbleMarkersYAxisType = action.payload;
     },
     setDrugResistanceGraphView: (state, action: PayloadAction<Array<string>>) => {
       state.drugResistanceGraphView = action.payload;
@@ -172,12 +238,6 @@ export const graphSlice = createSlice({
     },
     setGenotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugsData = action.payload;
-    },
-    setPathotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
-      state.pathotypesDrugsData = action.payload;
-    },
-    setSerotypesDrugsData: (state, action: PayloadAction<Array<any>>) => {
-      state.serotypesDrugsData = action.payload;
     },
     setDeterminantsGraphView: (state, action: PayloadAction<string>) => {
       state.determinantsGraphView = action.payload;
@@ -221,14 +281,20 @@ export const graphSlice = createSlice({
     setConvergenceColourPallete: (state, action: PayloadAction<Object>) => {
       state.convergenceColourPallete = action.payload;
     },
-    setCurrentSliderValue: (state, action: PayloadAction<number>) => {
-      state.currentSliderValue = action.payload;
-    },
     setResetBool: (state, action: PayloadAction<boolean>) => {
       state.resetBool = action.payload;
     },
+    setCurrentSliderValue: (state, action: PayloadAction<number>) => {
+      state.currentSliderValue = action.payload;
+    },
     setMaxSliderValue: (state, action: PayloadAction<number>) => {
       state.maxSliderValue = action.payload;
+    },
+    setCurrentSliderValueKOT: (state, action: PayloadAction<number>) => {
+      state.currentSliderValueKOT = action.payload;
+    },
+    setMaxSliderValueKOT: (state, action: PayloadAction<number>) => {
+      state.maxSliderValueKOT = action.payload;
     },
     setCurrentSliderValueRD: (state, action: PayloadAction<number>) => {
       state.currentSliderValueRD = action.payload;
@@ -278,6 +344,12 @@ export const graphSlice = createSlice({
     setEndtimeGD: (state, action: PayloadAction<number>) => {
       state.endtimeGD = action.payload;
     },
+    setStartTimeKOT: (state, action: PayloadAction<number>) => {
+      state.startTimeKOT = action.payload;
+    },
+    setEndTimeKOT: (state, action: PayloadAction<number>) => {
+      state.endTimeKOT = action.payload;
+    },
     setStarttimeDRT: (state, action: PayloadAction<number>) => {
       state.starttimeDRT = action.payload;
     },
@@ -308,6 +380,9 @@ export const graphSlice = createSlice({
     setTopXGenotype: (state, action: PayloadAction<Array<any>>) => {
       state.topXGenotype = action.payload;
     },
+    setTopXKO: (state, action: PayloadAction<Array<any>>) => {
+      state.topXKO = action.payload;
+    },
     setTopXGenotypeRDWG: (state, action: PayloadAction<Array<any>>) => {
       state.topXGenotypeRDWG = action.payload;
     },
@@ -320,6 +395,7 @@ export const graphSlice = createSlice({
 export const {
   setCountriesForFilter,
   setDistributionGraphView,
+  setKOTrendsGraphView,
   setGenotypesYearData,
   setDrugsYearData,
   setCollapse,
@@ -330,8 +406,6 @@ export const {
   setPrevalenceMapViewOptionsSelected,
   setCustomDropdownMapViewNG,
   setGenotypesDrugsData,
-  setPathotypesDrugsData,
-  setSerotypesDrugsData,
   setDeterminantsGraphView,
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,
@@ -363,6 +437,8 @@ export const {
   setTopColorSlice,
   setStarttimeGD,
   setEndtimeGD,
+  setStartTimeKOT,
+  setEndTimeKOT,
   setStarttimeDRT,
   setEndtimeDRT,
   setActualGenomesGD,
@@ -377,6 +453,19 @@ export const {
   setTopXGenotype,
   setTopXGenotypeRDWG,
   setDownload,
+  setCgSTYearData,
+  setSublineagesYearData,
+  setDistributionGraphVariable,
+  setTopXKO,
+  setCurrentSliderValueKOT,
+  setMaxSliderValueKOT,
+  setKOYearsData,
+  setKOTrendsGraphPlotOption,
+  setBubbleHeatmapGraphVariable,
+  setBubbleKOHeatmapGraphVariable,
+  setBubbleMarkersHeatmapGraphVariable,
+  setBubbleKOYAxisType,
+  setBubbleMarkersYAxisType,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
