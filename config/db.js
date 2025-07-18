@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 let URI = process.env.MONGO_URI;
-export const client = new MongoClient(URI, {useUnifiedTopology: true});
+export const client = new MongoClient(URI);
 
 // Connection to MongoDB
 const connectDB = async () => {

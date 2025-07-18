@@ -25,7 +25,7 @@ import {
   Cell,
   LabelList,
 } from 'recharts';
-import { useAppSelector } from '../../../../stores/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -37,6 +37,8 @@ import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 import { getAxisLabel } from '../../../../util/genotypes';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
+import { setBubbleHeatmapGraphVariable } from '../../../../stores/slices/graphSlice';
+import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
 
 const xOptionsByOrganism = [
   {
@@ -60,21 +62,20 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const [plotChart, setPlotChart] = useState(() => {});
 
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const mapData = useAppSelector((state) => state.map.mapData);
-  const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
-  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-  const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
-  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
-
-  const organismHasLotsOfGenotypes = useMemo(
-    () => organismsWithLotsGenotypes.includes(organism),
-    [organism],
-  );
+  const dispatch = useAppDispatch();
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const mapData = useAppSelector(state => state.map.mapData);
+  const mapRegionData = useAppSelector(state => state.map.mapRegionData);
+  const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
+  const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
+  const bubbleHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleHeatmapGraphVariable);
+  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
+  const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
   const xOptions = useMemo(() => {
-    return xOptionsByOrganism.filter((x) => x.organisms.includes(organism));
+    return xOptionsByOrganism.filter(x => x.organisms.includes(organism));
   }, [organism]);
 
   useEffect(() => {
@@ -83,18 +84,16 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
 
   const selectedCRData = useMemo(() => {
     return (actualCountry !== 'All' ? mapData : mapRegionData).find(
-      (x) => x.name === (actualCountry !== 'All' ? actualCountry : actualRegion),
+      x => x.name === (actualCountry !== 'All' ? actualCountry : actualRegion),
     );
   }, [actualCountry, actualRegion, mapData, mapRegionData]);
 
   const resistanceOptions = useMemo(() => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
-    const resistance = options
-      .filter((option) => option.resistanceView)
-      .map((option) => option.name);
+    const resistance = options.filter(option => option.resistanceView).map(option => option.name);
     const drugs = {};
 
-    resistance.forEach((drug) => {
+    resistance.forEach(drug => {
       const stats = selectedCRData?.stats;
 
       if (!stats) return;
@@ -109,8 +108,8 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
 
     return (
       Object.entries(drugs)
-        .filter((x) => x[1] > 0)
-        .map((x) => x[0]) ?? []
+        .filter(x => x[1] > 0)
+        .map(x => x[0]) ?? []
     );
   }, [organism, selectedCRData?.stats]);
 
@@ -119,28 +118,32 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
 
     return (
       selectedCRData?.stats[drugKey]?.items
-        .filter((x) => x.name !== '-')
+        .filter(x => x.name !== '-')
         .sort((a, b) => b.count - a.count)
-        .map((x) => x.name) ?? []
+        .map(x => x.name) ?? []
     );
   }, [selectedCRData?.stats, yAxisType]);
 
-  const xAxisOptions = useMemo(() => {
+  const statColumn = useMemo(() => {
     switch (xAxisType) {
       case 'genotype':
-        if (!selectedCRData) return [];
-        return selectedCRData?.stats.GENOTYPE?.items?.map((x) => x.name) ?? [];
+        if (organism === 'kpneumo') {
+          return variableGraphOptions.find(x => x.value === bubbleHeatmapGraphVariable).mapValue;
+        }
+        return 'GENOTYPE';
       case 'pathotype':
-        return selectedCRData?.stats.PATHOTYPE?.items?.map((x) => x.name) ?? [];
+        return 'PATHOTYPE';
       default:
-        return [];
+        return '';
     }
-  }, [selectedCRData, xAxisType]);
+  }, [bubbleHeatmapGraphVariable, organism, xAxisType]);
+
+  const xAxisOptions = useMemo(() => {
+    return selectedCRData?.stats[statColumn]?.items?.map(x => x.name) ?? [];
+  }, [selectedCRData?.stats, statColumn]);
 
   const filteredXAxisOptions = useMemo(() => {
-    const filteredOptions = xAxisOptions.filter((option) =>
-      option.toLowerCase().includes(genotypeSearch.toLowerCase()),
-    );
+    const filteredOptions = xAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
 
     if (!organismHasLotsOfGenotypes) {
       return filteredOptions;
@@ -174,18 +177,16 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   }, [xAxisSelected]);
 
   const getOptionLabel = useCallback(
-    (item) => {
-      const totalCount =
-        selectedCRData?.stats[xAxisType?.toUpperCase()].items.find((x) => x.name === item)?.count ??
-        0;
+    item => {
+      const totalCount = selectedCRData?.stats[statColumn].items.find(x => x.name === item)?.count ?? 0;
 
       return `${item} (total N=${totalCount})`;
     },
-    [selectedCRData, xAxisType],
+    [selectedCRData?.stats, statColumn],
   );
 
   const getOptionLabelY = useCallback(
-    (item) => {
+    item => {
       if (yAxisType === 'resistance') {
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
@@ -236,12 +237,12 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
     setGenotypeSearch('');
   }
 
-  const getTitle = useCallback((value) => {
-    return (
-      drugAcronymsOpposite[value] ??
-      Object.keys(drugAcronyms).find((key) => drugAcronyms[key] === value) ??
-      value
-    );
+  function handleChangeVariable(event) {
+    dispatch(setBubbleHeatmapGraphVariable(event.target.value));
+  }
+
+  const getTitle = useCallback(value => {
+    return drugAcronymsOpposite[value] ?? Object.keys(drugAcronyms).find(key => drugAcronyms[key] === value) ?? value;
   }, []);
 
   const configuredMapData = useMemo(() => {
@@ -249,9 +250,9 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
       return [];
     }
 
-    return selectedCRData?.stats[xAxisType.toUpperCase()]?.items
-      ?.filter((item) => xAxisSelected?.includes(item.name))
-      .map((item) => {
+    return selectedCRData?.stats[statColumn]?.items
+      ?.filter(item => xAxisSelected?.includes(item.name))
+      .map(item => {
         const itemData = { name: item.name, items: [] };
 
         if (yAxisType === 'resistance') {
@@ -270,13 +271,13 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
 
           itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
 
-          const moveToStart = (name) => {
-            const i = itemData.items.findIndex((x) => x.itemName === name);
+          const moveToStart = name => {
+            const i = itemData.items.findIndex(x => x.itemName === name);
             if (i >= 0) itemData.items.unshift(...itemData.items.splice(i, 1));
           };
 
-          const moveToEnd = (name) => {
-            const i = itemData.items.findIndex((x) => x.itemName === name);
+          const moveToEnd = name => {
+            const i = itemData.items.findIndex(x => x.itemName === name);
             if (i >= 0) itemData.items.push(...itemData.items.splice(i, 1));
           };
 
@@ -290,8 +291,8 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
         if (yAxisType.includes('markers')) {
           const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carbapenems']?.items;
 
-          yAxisSelected.forEach((gene) => {
-            const currentGene = drugGenes.find((dg) => dg.name === gene);
+          yAxisSelected.forEach(gene => {
+            const currentGene = drugGenes.find(dg => dg.name === gene);
 
             itemData.items.push({
               itemName: (currentGene?.name ?? gene).replace(' + ', '/'),
@@ -305,7 +306,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
 
         return itemData;
       });
-  }, [organism, selectedCRData, xAxisSelected, xAxisType, yAxisSelected, yAxisType]);
+  }, [organism, selectedCRData, statColumn, xAxisSelected, yAxisSelected, yAxisType]);
 
   useEffect(() => {
     if (canGetData) {
@@ -330,7 +331,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                       interval={0}
                       tick={
                         index === 0
-                          ? (props) => {
+                          ? props => {
                               const title = getTitle(props.payload.value);
 
                               return (
@@ -380,12 +381,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                             <div
                               className={classes.chartTooltipLabel}
                               style={{
-                                marginTop:
-                                  index + 1 === configuredMapData.length
-                                    ? -40
-                                    : index === 0
-                                    ? 40
-                                    : 0,
+                                marginTop: index + 1 === configuredMapData.length ? -40 : index === 0 ? 40 : 0,
                               }}
                             >
                               <Typography variant="body1" fontWeight="500">
@@ -411,11 +407,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                         <Cell
                           name={option.drug}
                           key={`bubble-cell-${index}`}
-                          fill={
-                            option.percentage === 0
-                              ? darkGrey
-                              : mixColorScale(option.percentage)
-                          }
+                          fill={option.percentage === 0 ? darkGrey : mixColorScale(option.percentage)}
                         />
                       ))}
                       <LabelList
@@ -452,7 +444,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.bubbleHeatmapGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="HSG2">
+        <div className={classes.graph} tyle={loadingPDF ? { overflow: 'visible' } : undefined} id="HSG2">
           {plotChart}
         </div>
       </div>
@@ -488,26 +480,47 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectPreWrapper}>
+                  {organism === 'kpneumo' && (
+                    <div className={classes.selectWrapper}>
+                      <div className={classes.labelWrapper}>
+                        <Typography variant="caption">Select genotype</Typography>
+                      </div>
+                      <Select
+                        value={bubbleHeatmapGraphVariable}
+                        onChange={handleChangeVariable}
+                        inputProps={{ className: classes.selectInput }}
+                        MenuProps={{ classes: { list: classes.selectMenu } }}
+                        disabled={organism === 'none'}
+                      >
+                        {variableGraphOptions.map((option, index) => {
+                          return (
+                            <MenuItem key={index + 'bubble-heatmap-variable'} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  )}
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select {getAxisLabel(organism)}</Typography>
+                      <Typography variant="caption">
+                        Select {getAxisLabel(organism, bubbleHeatmapGraphVariable)}
+                      </Typography>
                       <Tooltip
                         title={`If the total ${getAxisLabel(
                           organism,
+                          bubbleHeatmapGraphVariable,
                         )} are too many, only the first 20 options are shown at a time`}
                         placement="top"
                       >
-                        <InfoOutlined
-                          color="action"
-                          fontSize="small"
-                          className={classes.labelTooltipIcon}
-                        />
+                        <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
                     </div>
                     <Select
                       multiple
                       value={xAxisSelected}
-                      onChange={(event) => handleChangeXAxisSelected({ event })}
+                      onChange={event => handleChangeXAxisSelected({ event })}
                       displayEmpty
                       disabled={organism === 'none'}
                       endAdornment={
@@ -526,21 +539,17 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                         disableAutoFocusItem: true,
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={(selected) => (
-                        <div>{`${selected?.length} of ${xAxisOptions?.length} selected`}</div>
-                      )}
+                      renderValue={selected => <div>{`${selected?.length} of ${xAxisOptions?.length} selected`}</div>}
                       onClose={clearSearch}
                     >
                       <Box
                         className={classes.selectSearch}
-                        onClick={(e) => e.stopPropagation()}
-                        onKeyDown={(e) => e.stopPropagation()}
+                        onClick={e => e.stopPropagation()}
+                        onKeyDown={e => e.stopPropagation()}
                       >
                         <TextField
                           variant="standard"
-                          placeholder={
-                            organismHasLotsOfGenotypes ? 'Search for more...' : 'Search...'
-                          }
+                          placeholder={organismHasLotsOfGenotypes ? 'Search for more...' : 'Search...'}
                           fullWidth
                           value={genotypeSearch}
                           onChange={hangleChangeSearch}
@@ -574,7 +583,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                     <Select
                       multiple
                       value={yAxisSelected}
-                      onChange={(event) => handleChangeYAxisSelected({ event })}
+                      onChange={event => handleChangeYAxisSelected({ event })}
                       displayEmpty
                       disabled={organism === 'none'}
                       endAdornment={
@@ -583,22 +592,16 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                           className={classes.selectButton}
                           onClick={() => handleChangeYAxisSelected({ all: true })}
                           disabled={organism === 'none'}
-                          color={
-                            yAxisSelected?.length === yAxisOptions?.length ? 'error' : 'primary'
-                          }
+                          color={yAxisSelected?.length === yAxisOptions?.length ? 'error' : 'primary'}
                         >
-                          {yAxisSelected?.length === yAxisOptions?.length
-                            ? 'Clear All'
-                            : 'Select All'}
+                          {yAxisSelected?.length === yAxisOptions?.length ? 'Clear All' : 'Select All'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
                       MenuProps={{
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={(selected) => (
-                        <div>{`${selected?.length} of ${yAxisOptions.length} selected`}</div>
-                      )}
+                      renderValue={selected => <div>{`${selected?.length} of ${yAxisOptions.length} selected`}</div>}
                     >
                       {yAxisOptions.map((option, index) => (
                         <MenuItem key={`geo-y-axis-option-${index}`} value={option}>

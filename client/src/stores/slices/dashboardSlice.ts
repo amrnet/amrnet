@@ -7,6 +7,16 @@ interface GlobalOverviewModel {
   stringLabel: string;
 }
 
+interface ColorPalleteKOModel {
+  O_locus: Object;
+  K_locus: Object;
+}
+
+interface UniqueKOModel {
+  O_locus: Array<any>;
+  K_locus: Array<any>;
+}
+
 interface DashboardState {
   canGetData: boolean;
   canFilterData: boolean;
@@ -27,13 +37,20 @@ interface DashboardState {
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
   genotypesForFilterSelectedRD: Array<string>;
+  KOForFilterSelected: Array<string>;
+  genotypesForFilterDynamic: Array<string>;
+  KOForFilterDynamic: UniqueKOModel;
   colorPallete: Object;
+  colorPalleteCgST: Object;
+  colorPalleteSublineages: Object;
+  colorPalleteKO: ColorPalleteKOModel;
   listPMID: Array<string>;
   PMID: Array<string>;
   captureDRT: boolean;
   captureRFWG: boolean;
   captureRDWG: boolean;
   captureGD: boolean;
+  captureKOT: boolean;
   selectedLineages: Array<string>;
   pathovar: Array<string>;
   serotype: Array<string>;
@@ -44,8 +61,8 @@ const initialState: DashboardState = {
   canGetData: true,
   canFilterData: false,
   globalOverviewLabel: {
-    label: organismsCards.find((card) => card.value === 'styphi')?.label || '',
-    stringLabel: organismsCards.find((card) => card.value === 'styphi')?.stringLabel || '',
+    label: organismsCards.find(card => card.value === 'styphi')?.label || '',
+    stringLabel: organismsCards.find(card => card.value === 'styphi')?.stringLabel || '',
   },
   organism: 'none',
   loadingData: false,
@@ -63,13 +80,20 @@ const initialState: DashboardState = {
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
   genotypesForFilterSelectedRD: [],
+  KOForFilterSelected: [],
+  genotypesForFilterDynamic: [],
+  KOForFilterDynamic: { K_locus: [], O_locus: [] },
   colorPallete: {},
+  colorPalleteCgST: {},
+  colorPalleteSublineages: {},
+  colorPalleteKO: { K_locus: {}, O_locus: {} },
   listPMID: [],
   PMID: [],
   captureDRT: true,
   captureRFWG: true,
   captureRDWG: true,
   captureGD: true,
+  captureKOT: true,
   selectedLineages: [],
   pathovar: [],
   economicRegions: {},
@@ -89,7 +113,7 @@ export const dashboardSlice = createSlice({
     setGlobalOverviewLabel: (state, action: PayloadAction<GlobalOverviewModel>) => {
       state.globalOverviewLabel = action.payload;
     },
-    removeOrganism: (state) => {
+    removeOrganism: state => {
       state.organism = 'none';
     },
     setOrganism: (state, action: PayloadAction<string>) => {
@@ -152,8 +176,26 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilterSelectedRD: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilterSelectedRD = action.payload;
     },
+    setKOForFilterSelected: (state, action: PayloadAction<Array<string>>) => {
+      state.KOForFilterSelected = action.payload;
+    },
+    setGenotypesForFilterDynamic: (state, action: PayloadAction<Array<string>>) => {
+      state.genotypesForFilterDynamic = action.payload;
+    },
+    setKOForFilterDynamic: (state, action: PayloadAction<UniqueKOModel>) => {
+      state.KOForFilterDynamic = action.payload;
+    },
     setColorPallete: (state, action: PayloadAction<Object>) => {
       state.colorPallete = action.payload;
+    },
+    setColorPalleteCgST: (state, action: PayloadAction<Object>) => {
+      state.colorPalleteCgST = action.payload;
+    },
+    setColorPalleteSublineages: (state, action: PayloadAction<Object>) => {
+      state.colorPalleteSublineages = action.payload;
+    },
+    setColorPalleteKO: (state, action: PayloadAction<ColorPalleteKOModel>) => {
+      state.colorPalleteKO = action.payload;
     },
     setListPMID: (state, action: PayloadAction<Array<string>>) => {
       state.listPMID = action.payload;
@@ -172,6 +214,9 @@ export const dashboardSlice = createSlice({
     },
     setCaptureGD: (state, action: PayloadAction<boolean>) => {
       state.captureGD = action.payload;
+    },
+    setCaptureKOT: (state, action: PayloadAction<boolean>) => {
+      state.captureKOT = action.payload;
     },
     setSelectedLineages: (state, action: PayloadAction<Array<string>>) => {
       state.selectedLineages = action.payload;
@@ -208,6 +253,7 @@ export const {
   setGenotypesForFilter,
   setGenotypesForFilterSelected,
   setGenotypesForFilterSelectedRD,
+  setGenotypesForFilterDynamic,
   setColorPallete,
   setListPMID,
   setPMID,
@@ -220,6 +266,12 @@ export const {
   setPathovar,
   setEconomicRegions,
   setSerotype,
+  setColorPalleteCgST,
+  setColorPalleteSublineages,
+  setKOForFilterDynamic,
+  setColorPalleteKO,
+  setCaptureKOT,
+  setKOForFilterSelected,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

@@ -4,12 +4,9 @@ readthedocs-sphinx-search
 sphinx-book-theme
 openpyxl
 rioxarray
-matplotlib
 jsonschema>=3
 ablog
-myst_nb
-sphinxcontrib.youtube
-sphinx-copybutton
+myst_nbxs
 sphinx-design
 sphinx_examples
 sphinx-tabs

@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   bubbleGeographicGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     gap: '8px',
     alignItems: 'center',
   },
-    singleBox: {
+  singleBox: {
     height: '15px',
     width: '15px',
   },
@@ -160,7 +160,6 @@ const useStyles = makeStyles((theme) => ({
   selectSearch: {
     padding: '0px 16px !important',
   },
-
 }));
 
 export { useStyles };

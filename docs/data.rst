@@ -1,82 +1,9 @@
-# File: docs/source/api.rst
-.. spelling::
-
-   apiauth
-   apidatalake
-   apigui
-   diarrheagenic
-   decoli
-   ecoli
-   Klebsiella
-   pneumoniae
-   kpneumo
-   Neisseria
-   gonorrhoeae
-   ngono
-   sentericaints
-   senterica
-   shige
-   Typhi
-   styphi
-   amrnet
-
 Data access
 ===========
 
 The full sample-level data for each organism can be downloaded from the AMRnet dashboard itself, using the ‘Download database (CSV) format’ button at the bottom of the page. In addition, you can access AMRnet data via the API described below.
 
 **Architectures**: The API architectures have 2 options developed for the project which include:
-
-.. **OPTION 1:**
-
-.. .. figure:: assets/apiauth1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/apiauth2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
-
-.. **OPTION 2:**
-
-.. .. figure:: assets/apidatalake1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/apidatalake2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
-
-.. **OPTION 3:**
-
-.. .. figure:: assets/apigui1.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/arrow.png
-..    :width: 100%
-..    :align: center
-..    :alt: api
-
-.. .. figure:: assets/apigui2.png
-..     :width: 100%
-..     :align: center
-..     :alt: api
 
 1. Download data via bucket
 ---------------------------
@@ -139,7 +66,6 @@ Similarly, if you need to download a specific file from the URL, you would speci
 
     curl -O https://amrnet.s3.amazonaws.com/filename
 
-
 Example:
 
 .. code-block:: bash
@@ -187,7 +113,6 @@ Example code to download all the data for an organism:
                 "dataSource":"<dataSource_NAME>"
             }'
 
-
 Example code to download the data with filters **DATE** and **COUNTRY** for an organism:
 
 .. code-block:: bash
@@ -217,10 +142,11 @@ Example code to download the data with only one filter e.g. **DATE** for an orga
                 "dataSource":"<dataSource_NAME>",
                 "filter": {"DATE": "2015"}
             }'
+
 Example code to download the data and save in JSON:
 
-
 .. code-block:: bash
+
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
@@ -232,9 +158,10 @@ Example code to download the data and save in JSON:
                 "filter": {"DATE": "2015"}
             }' > output.json
 
-Example code to download the data and save in CSV:
+Example code to download the data and save in JSON
 
 .. code-block:: bash
+
     curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
             --header 'Content-Type: application/json' \
             --header 'Access-Control-Request-Headers: *' \
@@ -244,7 +171,7 @@ Example code to download the data and save in CSV:
                 "database":"<DATABASE_NAME>",
                 "dataSource":"<dataSource_NAME>"
                 "filter": {"DATE": "2015"}
-            }' > output.csv
+            }' > output.json
 
 .. note::
 
@@ -262,6 +189,7 @@ To download data using our API, please follow the given steps:
 
 b. Platform
 ***********
+
 .. note::
 
     Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API.
@@ -271,7 +199,7 @@ Steps to Import the Example ``cURL`` Command using Postman
 1. Open `Postman <https://www.postman.com/>`_.
 2. Sign In with your credentials and "discover what a postman can do"
 
-.. figure:: assets/login_postman.png
+.. figure::  assets/login_postman.png
    :width: 100%
    :align: center
    :alt: Login
@@ -282,7 +210,6 @@ Steps to Import the Example ``cURL`` Command using Postman
    :width: 100%
    :align: center
    :alt: Import
-
 
 5. **Paste the cURL command in Import:**
 
@@ -314,5 +241,5 @@ Steps to Import the Example ``cURL`` Command using Postman
    :align: center
    :alt: save
 
-.. 3. Graphical User Interface (GUI)
-.. ---------------------------------
+3. Graphical User Interface (GUI)
+---------------------------------
