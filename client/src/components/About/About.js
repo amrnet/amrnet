@@ -88,8 +88,8 @@ export const AboutPage = () => {
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga,
-            Megan Carey, Zoe Dyson, Kat Holt),
+            If you use the AMRnet website or code, please cite AMRnet (Vandana Sharma, Mary Maranga, Megan Carey, Zoe
+            Dyson, Kat Holt),
             <span className={classes.paragraphBold}> GitHub: </span> {' '}
             <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
             https://github.com/amrnet/amrnet
