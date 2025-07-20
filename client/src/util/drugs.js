@@ -1,4 +1,4 @@
-import { drugRulesINTS, drugRulesNG, drugRulesKP, statKeysKP } from './drugClassesRules';
+import { drugRulesINTS, drugRulesNG, drugRulesKP, statKeysKP, statKeysECOLI } from './drugClassesRules';
 
 // List of Salmonella drugs
 export const drugsST = [
@@ -88,7 +88,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
 
 // List of Klebsiella drugs
 export const drugsKP = statKeysKP.map(x => x.name);
-export const markersDrugsKP = drugsKP.filter(x => !['Pansusceptible'].includes(x));
+export const markersDrugsKP = [...drugsKP.filter(x => !['Pansusceptible'].includes(x)), 'SHV', 'Omp'].sort();
 
 // List of Salmonella Typhi drug classes
 export const drugClassesST = [
@@ -167,6 +167,7 @@ export const ciproAcronyms = {
 };
 
 export const drugsINTS = drugRulesINTS.map(x => x.key);
+export const drugsECOLI = statKeysECOLI.map(x => x.name);
 export const drugsINTSLegendsOnly = drugRulesINTS.map(x => x.legends || x.key).sort((a, b) => a.localeCompare(b));
 export const drugsNGLegensOnly = drugRulesNG.map(x => x.legends || x.key);
 export const drugsKlebLegendsOnly = drugRulesKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
@@ -179,8 +180,11 @@ export function getDrugClasses(organism) {
       return markersDrugsKP;
     case 'ngono':
       return drugClassesNG;
-    default:
+    case 'senterica':
+    case 'sentericaints':
       return drugsINTS;
+    default:
+      return drugsECOLI;
   }
 }
 

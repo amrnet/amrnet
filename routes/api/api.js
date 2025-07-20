@@ -9,9 +9,9 @@ const dbAndCollectionNames = {
   styphi: { dbName: 'styphi', collectionName: 'amrnetdb_styphi' },
   kpneumo: { dbName: 'kpneumo', collectionName: 'amrnetdb_kpneumo' },
   ngono: { dbName: 'ngono', collectionName: 'merge_rawdata_ng' },
-  ecoli: { dbName: 'ecoli', collectionName: 'merge_rawdata_ec' },
-  decoli: { dbName: 'decoli', collectionName: 'merge_rawdata_dec' },
-  shige: { dbName: 'shige', collectionName: 'merge_rawdata_sh' },
+  ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
+  decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
+  shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
   senterica: { dbName: 'senterica', collectionName: 'sentericatest' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
   unr: { dbName: 'unr', collectionName: 'unr' },
@@ -244,18 +244,23 @@ router.get('/getDataForEcoli', async function (req, res, next) {
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
       .aggregate([
-        { $match: { 'dashboard view': 'Include' } },
+        { $match: { 'dashboard view': 'include' } },
         {
-          $lookup: {
-            from: 'ecoli-output-full',
-            let: { nameField: '$Name' },
-            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
-            as: 'extraData',
+          $addFields: {
+            GENOTYPE: {
+              $cond: {
+                if: { $ne: ['$ST', null] },
+                then: '$ST',
+                else: 'Unknown',
+              },
+            },
           },
         },
-        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-        { $addFields: sentericaintsFieldsToAdd },
-        { $project: { extraData: 0 } },
+        {
+          $project: {
+            ST: 0, // remove original field if renaming
+          },
+        },
       ])
       .toArray();
 
@@ -280,20 +285,7 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .aggregate([
-        { $match: { 'dashboard view': 'Include' } },
-        {
-          $lookup: {
-            from: 'ecoli-output-full',
-            let: { nameField: '$Name' },
-            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
-            as: 'extraData',
-          },
-        },
-        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-        { $addFields: sentericaintsFieldsToAdd },
-        { $project: { extraData: 0 } },
-      ])
+      .find({ 'dashboard view': 'include' })
       .toArray();
 
     console.log(`Found ${result.length} documents for DEcoli.`);
@@ -317,20 +309,7 @@ router.get('/getDataForShige', async function (req, res, next) {
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .aggregate([
-        { $match: { 'dashboard view': 'Include' } },
-        {
-          $lookup: {
-            from: 'ecoli-output-full',
-            let: { nameField: '$Name' },
-            pipeline: [{ $match: { $expr: { $eq: ['$strain_name', '$$nameField'] } } }, { $project: fieldsToProject }],
-            as: 'extraData',
-          },
-        },
-        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-        { $addFields: sentericaintsFieldsToAdd },
-        { $project: { extraData: 0 } },
-      ])
+      .find({ 'dashboard view': 'include' })
       .toArray();
 
     console.log(`Found ${result.length} documents for Shige.`);
@@ -425,8 +404,11 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
 router.get('/getCollectionCounts', async function (req, res, next) {
   try {
     // Perform asynchronous counting of documents in parallel across databases
-    const countPromises = Object.values(dbAndCollectionNames).map(({ dbName, collectionName }) => {
-      return client.db(dbName).collection(collectionName).countDocuments({ 'dashboard view': 'Include' });
+    const countPromises = Object.entries(dbAndCollectionNames).map(([key, { dbName, collectionName }]) => {
+      return client
+        .db(dbName)
+        .collection(collectionName)
+        .countDocuments({ 'dashboard view': ['shige', 'decoli', 'ecoli'].includes(key) ? 'include' : 'Include' });
     });
 
     // Wait for all counts to resolve
