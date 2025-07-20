@@ -29,6 +29,7 @@ import {
   colorForDrugClassesST,
   colorForDrugClassesNG,
   hoverColor,
+  colorForMarkers,
 } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
