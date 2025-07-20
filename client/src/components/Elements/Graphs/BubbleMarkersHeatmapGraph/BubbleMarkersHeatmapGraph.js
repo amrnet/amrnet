@@ -36,7 +36,7 @@ import { SelectCountry } from '../../SelectCountry';
 import { getAxisLabel } from '../../../../util/genotypes';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
-import { markersDrugsKP } from '../../../../util/drugs';
+import { drugAcronyms, drugAcronymsOpposite, markersDrugsKP } from '../../../../util/drugs';
 import { setBubbleMarkersHeatmapGraphVariable, setBubbleMarkersYAxisType } from '../../../../stores/slices/graphSlice';
 
 export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
@@ -161,7 +161,15 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    setYAxisSelected([]);
+    if (
+      yAxisSelected.length === filteredYAxisOptions.length ||
+      yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+    ) {
+      setYAxisSelected([]);
+      return;
+    }
+
+    setYAxisSelected(filteredYAxisOptions);
   }
 
   function handleChangeSearch(event) {
@@ -498,7 +506,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                     >
                       {markersDrugsKP.map((option, index) => (
                         <MenuItem key={`bubbler-markers-y-axis-type-${index}`} value={option}>
-                          {option}
+                          {drugAcronymsOpposite[drugAcronyms[option] ?? option] ?? option}
                         </MenuItem>
                       ))}
                     </Select>
@@ -522,9 +530,17 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                           className={classes.selectButton}
                           onClick={() => handleChangeYAxisSelected({ all: true })}
                           disabled={organism === 'none'}
-                          color="error"
+                          color={
+                            yAxisSelected.length === filteredYAxisOptions.length ||
+                            yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+                              ? 'error'
+                              : 'primary'
+                          }
                         >
-                          Clear All
+                          {yAxisSelected.length === filteredYAxisOptions.length ||
+                          yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+                            ? 'Clear All'
+                            : 'Select 20'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
