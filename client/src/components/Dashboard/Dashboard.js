@@ -107,6 +107,7 @@ import {
   defaultDrugsForDrugResistanceGraphNG,
   drugsINTS,
   markersDrugsKP,
+  drugsECOLI,
 } from '../../util/drugs';
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
@@ -214,7 +215,7 @@ export const DashboardPage = () => {
       if (country !== ' ') countriesSet.add(country);
 
       // genotype
-      const genotypeKey = ['ecoli'].includes(organism) ? 'GENOTYPE1' : 'GENOTYPE';
+      const genotypeKey = 'GENOTYPE';
       if (genotypeKey in x) {
         genotypesSet.add(x[genotypeKey]?.toString());
       }
@@ -230,13 +231,7 @@ export const DashboardPage = () => {
       if (['sentericaints'].includes(organism)) {
         pathovarSet.add(x.SISTR1_Serovar);
       }
-      if (['shige', 'decoli'].includes(organism)) {
-        pathovarSet.add(x.Pathotype);
-      }
-      //For E. coli, we need to add the Pathovar instead of the Pathotype
-      // because the Pathotype is not present in E.coli data
-      // and the Pathovar is the one that is used in the database
-      if (['ecoli'].includes(organism)) {
+      if (['ecoli', 'shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathovar);
       }
       if (['senterica'].includes(organism)) {
@@ -518,12 +513,17 @@ export const DashboardPage = () => {
           dispatch(setTrendsGraphView('percentage'));
           break;
         case 'sentericaints':
-        case 'ecoli':
-        case 'decoli':
-        case 'shige':
         case 'senterica':
           dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsINTS));
+          dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+          break;
+        case 'ecoli':
+        case 'decoli':
+        case 'shige':
+          dispatch(setMapView('Resistance prevalence'));
+          dispatch(setDrugResistanceGraphView(drugsECOLI));
+          dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
           break;
         default:
           break;
