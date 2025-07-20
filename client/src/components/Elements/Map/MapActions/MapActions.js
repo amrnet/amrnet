@@ -120,8 +120,9 @@ export const MapActions = () => {
         ctx.font = '35px Montserrat';
         ctx.textAlign = 'center';
 
+        const actualMapView = mapLegends.find(x => x.value === mapView).label;
 
-        // ctx.fillText('Map View: ' + mapView, canvas.width / 2, 140);
+        // ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
 
         ctx.fillText('Time Period: ' + actualTimeInitial + ' to ' + actualTimeFinal, canvas.width / 2, 140);
         ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 190);
@@ -169,27 +170,40 @@ export const MapActions = () => {
 
         // Prevalence map views
         if (prevalenceMapViews.includes(mapView)) {
-          const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-          drawWrappedText(mapView, genotypesText);
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
+          }
         }
 
         // NG-MAST specific view
         if (mapView === 'NG-MAST prevalence') {
-          const genotypesText = customDropdownMapViewNG.join(', ');
-          drawWrappedText(mapView, genotypesText);
+          if (customDropdownMapViewNG.length === 1) {
+            ctx.fillText(`${actualMapView}: ` + customDropdownMapViewNG, canvas.width / 2, 390);
+          } else if (customDropdownMapViewNG.length > 1) {
+            const genotypesText = customDropdownMapViewNG.join(', ');
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
+          }
         }
 
         // Resistance prevalence view
         if (mapView === 'Resistance prevalence') {
-          const resolvedOptions =
-            ngonoSusceptibleRule(prevalenceMapViewOptionsSelected, organism) ||
-            drugAcronymsOpposite[prevalenceMapViewOptionsSelected] ||
-            prevalenceMapViewOptionsSelected;
-
-          const genotypesText = resolvedOptions.join(', ');
-          drawWrappedText(mapView, genotypesText);
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText(
+              `${actualMapView}: ` +
+                (ngonoSusceptibleRule(prevalenceMapViewOptionsSelected.join(), organism) ||
+                  drugAcronymsOpposite[prevalenceMapViewOptionsSelected.join()] ||
+                  prevalenceMapViewOptionsSelected.join()),
+              canvas.width / 2,
+              390,
+            );
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
+          }
         }
-
         ctx.drawImage(mapImg, -100, y+ 20, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');

@@ -171,7 +171,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
-    organisms: ['styphi', 'ngono'],
+    organisms: ['styphi', 'ngono', 'shige', 'ecoli', 'decoli'],
     component: <DeterminantsGraph />,
   },
 ];
