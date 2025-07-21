@@ -36,6 +36,7 @@ import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
+import { setResetBool } from '../../../../stores/slices/graphSlice';
 
 const kpTrendOptions = markersDrugsKP
   .map(drug => {
@@ -116,6 +117,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const yAxisTypeTrend = useAppSelector(state => state.map.yAxisTypeTrend);
   const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
   const resetBool = useAppSelector(state => state.graph.resetBool);
+
   useEffect(() => {
     setXAxisType('country');
     dispatch(setYAxisType('resistance'));
