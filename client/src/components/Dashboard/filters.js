@@ -98,6 +98,8 @@ export function filterBrushData({
   endtimeDRT,
   starttimeRDT,
   endtimeRDT,
+  startTimeKOT,
+  endTimeKOT
 }) {
   const filterByDataset = item => dataset === 'All' || item.TRAVEL === dataset.toLowerCase();
   const filterByTimeRange = (item, start, end) => item.DATE >= start && item.DATE <= end;
@@ -118,6 +120,7 @@ export function filterBrushData({
   let newDataGD = filterData(starttimeGD, endtimeGD);
   let newDataDRT = filterData(starttimeDRT, endtimeDRT);
   let newDataRDT = filterData(starttimeRDT, endtimeRDT);
+  let newDataKOT = filterData(startTimeKOT, endTimeKOT);
   // console.log('newDataRDT', starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
   if (actualCountry !== 'All') {
     // const filterByCountry = newData.filter((x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry);
@@ -125,12 +128,14 @@ export function filterBrushData({
     newDataGD = newDataGD.filter(filterByCountry);
     newDataDRT = newDataDRT.filter(filterByCountry);
     newDataRDT = newDataRDT.filter(filterByCountry);
+    newDataKOT = newDataKOT.filter(filterByCountry);
   }
 
   return {
     genomesCountGD: newDataGD.length,
     genomesCountDRT: newDataDRT.length,
     genomesCountRDT: newDataRDT.length,
+    genomesCountKOT: newDataKOT.length,
   };
 }
 

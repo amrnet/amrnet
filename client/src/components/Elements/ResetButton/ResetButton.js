@@ -47,6 +47,7 @@ import {
   defaultDrugsForDrugResistanceGraphST,
   defaultDrugsForDrugResistanceGraphNG,
   markersDrugsKP,
+  drugsINTS,
 } from '../../../util/drugs';
 import { getNgmastData } from '../../Dashboard/filters';
 import { useIndexedDB } from '../../../context/IndexedDBContext';
@@ -87,9 +88,9 @@ export const ResetButton = () => {
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
       dispatch(setCurrentSliderValue(20));// to reset the genotype trend slider value for styphi
       dispatch(setMapView('Resistance prevalence'));
-      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
-      dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
-      dispatch(setTrendsGraphDrugClass('Azithromycin'));
+      // dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
+      // dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+      // dispatch(setTrendsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
@@ -110,9 +111,11 @@ export const ResetButton = () => {
       dispatch(setCurrentSliderValueKP_GT(20));
       dispatch(setCurrentSliderValueKP_GE(20));
     }
-
     if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
       dispatch(setSelectedLineages(pathovar));
+    }
+    if (['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'].includes(organism)) {
+      dispatch(setDrugResistanceGraphView(drugsINTS));
     }
 
     dispatch(setFrequenciesGraphView('percentage'));
@@ -127,7 +130,11 @@ export const ResetButton = () => {
     dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
     dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
 
-    if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+    if (organism === 'ngono') {
+    dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+    dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
+    dispatch(setTrendsGraphDrugClass('Azithromycin'));
+    }
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));
     dispatch(setCanFilterData(true));
