@@ -59,10 +59,12 @@ html_sidebars = {
 }
 # html theme
 html_theme = "furo"
-html_static_path = ["../docs/_static"]
+# html_static_path = ["../docs/_static"]
 html_favicon = "../docs/_static/favicon.ico"
 html_logo = "../docs/assets/amrnet-logo.png"
-html_css_files = ["../docs/assets/custom.css"]
+# html_css_files = "../docs/assets/custom.css"
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
 html_theme_options = {
     # "light_logo": "amrnet-logo.png",  # add light mode logo
     # "dark_logo": "amrnet-logo.png",  # add dark mode logo

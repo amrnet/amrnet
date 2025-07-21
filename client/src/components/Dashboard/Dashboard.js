@@ -35,6 +35,7 @@ import {
   setKOForFilterDynamic,
   setColorPalleteKO,
 } from '../../stores/slices/dashboardSlice.ts';
+import { setActualGenomesGD, setActualGenomesDRT, setActualGenomesRDT, setActualGenomesKOT } from '../../stores/slices/graphSlice';
 import {
   setDataset,
   setDatasetKP,
@@ -98,6 +99,7 @@ import {
   getConvergenceData,
   getDrugsCountriesData,
   getKOYearsData,
+  filterBrushData
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
@@ -143,13 +145,13 @@ export const DashboardPage = () => {
   const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
-  // const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
-  // const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
-  // const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
-  // const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
-  // const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
-  // const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
-  // Get info either from indexedDB or mongoDB
+  const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
+  const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
+  const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
+  const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
+  const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
+  const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
+ // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
     const storeHasItems = await hasItems(storeName);
@@ -829,33 +831,37 @@ export const DashboardPage = () => {
   AND FIX THE FUNCTIONS THAT USED THE VARIABLES SET HERE
   THOSE VALUES ARE BEING USED ON Graphs.js ON THE Download Chart as PNG BUTTON AND ON DownloadData.js TO GENERATE
   THE PDF */
-  // useEffect(() => {
-  //   const fetchDataAndFilter = async () => {
-  //     try {
-  //       const data = await getItems(organism);
-  //       if (data.length > 0) {
-  //         const filters = filterBrushData({
-  //           data,
-  //           dataset,
-  //           actualCountry,
-  //           starttimeGD,
-  //           endtimeGD,
-  //           starttimeDRT,
-  //           endtimeDRT,
-  //           starttimeRDT,
-  //           endtimeRDT,
-  //         });
-  //         dispatch(setActualGenomesGD(filters.genomesCountGD));
-  //         dispatch(setActualGenomesDRT(filters.genomesCountDRT));
-  //         dispatch(setActualGenomesRDT(filters.genomesCountRDT));
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-  //   fetchDataAndFilter();
-  // }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT]);
-
+  useEffect(() => {
+    if(organism === 'none') // To handle the error caused by this function (mentioned in above comment above)
+      return                // due to passing "organism === 'none'"
+    const fetchDataAndFilter = async () => {
+      try {
+        const data = await getItems(organism);
+        if (data.length > 0) {
+          const filters = filterBrushData({
+            data,
+            dataset,
+            actualCountry,
+            starttimeGD,
+            endtimeGD,
+            starttimeDRT,
+            endtimeDRT,
+            starttimeRDT,
+            endtimeRDT,
+            startTimeKOT,
+            endTimeKOT,
+          });
+          dispatch(setActualGenomesGD(filters.genomesCountGD));
+          dispatch(setActualGenomesDRT(filters.genomesCountDRT));
+          dispatch(setActualGenomesRDT(filters.genomesCountRDT));
+          dispatch(setActualGenomesKOT(filters.genomesCountKOT)); // Added KOT Brush genome value based on start and end Time
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchDataAndFilter();
+  }, [dataset, starttimeGD, endtimeGD, starttimeDRT, endtimeDRT, starttimeRDT, endtimeRDT, startTimeKOT, endTimeKOT]);
   return (
     <>
       <MainLayout>

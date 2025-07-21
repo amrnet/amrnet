@@ -444,7 +444,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.bubbleHeatmapGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} tyle={loadingPDF ? { overflow: 'visible' } : undefined} id="HSG2">
+        <div className={classes.graph} style={loadingPDF ? { overflow: 'visible' } : undefined} id="HSG2">
           {plotChart}
         </div>
       </div>
