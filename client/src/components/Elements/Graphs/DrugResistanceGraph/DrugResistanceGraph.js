@@ -26,7 +26,15 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setDrugResistanceGraphView, setStarttimeDRT, setEndtimeDRT } from '../../../../stores/slices/graphSlice';
-import { ciproAcronyms, drugAcronymsOpposite, drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
+import {
+  ciproAcronyms,
+  drugAcronymsOpposite,
+  drugsECOLI,
+  drugsINTS,
+  drugsKP,
+  drugsNG,
+  drugsST,
+} from '../../../../util/drugs';
 import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
 import { getColorForDrug } from '../graphColorHelper';
@@ -34,7 +42,6 @@ import { Close, InfoOutlined } from '@mui/icons-material';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
 import { SelectCountry } from '../../SelectCountry';
-import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { getRange } from '../../../../util/helpers';
 
 export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
@@ -95,8 +102,11 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     if (organism === 'ngono') {
       return drugsNG;
     }
-    if (amrLikeOrganisms.includes(organism)) {
+    if (['senterica', 'sentericaints'].includes(organism)) {
       return drugsINTS;
+    }
+    if (['ecoli', 'decoli', 'shige'].includes(organism)) {
+      return drugsECOLI;
     }
   }
 

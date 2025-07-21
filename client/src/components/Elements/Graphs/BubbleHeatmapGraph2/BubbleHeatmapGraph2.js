@@ -72,7 +72,6 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const bubbleHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleHeatmapGraphVariable);
   const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF); 
-
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
   const xOptions = useMemo(() => {

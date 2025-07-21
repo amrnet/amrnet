@@ -166,6 +166,16 @@ export const MapActions = () => {
 
         // Prevalence map views
         if (prevalenceMapViews.includes(mapView)) {
+          if (prevalenceMapViewOptionsSelected.length === 1) {
+            ctx.fillText(`${actualMapView}: ` + prevalenceMapViewOptionsSelected, canvas.width / 2, 390);
+          } else if (prevalenceMapViewOptionsSelected.length > 1) {
+            const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+            ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
+          }
+        };
+
+        // Prevalence map views
+        if (prevalenceMapViews.includes(mapView)) {
           const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
           drawWrappedText(mapView, genotypesText);
         }
@@ -186,7 +196,6 @@ export const MapActions = () => {
           const genotypesText = resolvedOptions.join(', ');
           drawWrappedText(mapView, genotypesText);
         }
-
         ctx.drawImage(mapImg, -100, y+ 20, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');

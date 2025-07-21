@@ -1,10 +1,17 @@
-Data Right
+Data Usage
 ==========
 
 .. raw:: html
 
     <div class="justify-text">
-        The <a href="https://www.amrnet.org/" target="_blank" class="bold-text">AMRnet dashboard</a> aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.
+
+        The <a href="https://www.amrnet.org/" target="_blank" class="bold-text">AMRnet dashboard</a> retrieves and processes publicly accessible data from `Pathogenwatch <https://pathogen.watch/>`_ and `Enterobase <https://enterobase.warwick.ac.uk/>`_. Additionally, aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing. All data is public domain and there are no usage restrictions, however we ask that if you use the `dashboard <https://www.amrnet.org/>`_ or data downloads, you provide appropriate attribution to:
+
+1. AMRnet (citation below)
+2. The relevant data source platform (Pathogenwatch or Enterobase, depending on the pathogen)
+3. The relevant primary data sources, if you are focusing on data from a specific country or set of studies. (Individual genome accessions, bioprojects, and pubmed identifiers for each genome can be found in the AMRnet database downloads.)
+
+
     </div>
 
 .. raw:: html

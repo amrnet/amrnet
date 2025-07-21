@@ -2,7 +2,6 @@
 import { MainLayout } from '../Layout';
 import { Note } from '../Elements/Note';
 import { Map } from '../Elements/Map';
-import { API_ENDPOINT } from '../../constants';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DownloadData } from '../Elements/DownloadData';
@@ -72,7 +71,6 @@ import {
   setCurrentSliderValue,
   setCurrentSliderValueRD,
   setCurrentSliderValueCM,
-  setNgmast,
   setMaxSliderValueCM,
   setDrugsCountriesData,
   setDrugsRegionsData,
@@ -111,6 +109,7 @@ import {
   defaultDrugsForDrugResistanceGraphNG,
   drugsINTS,
   markersDrugsKP,
+  drugsECOLI,
 } from '../../util/drugs';
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
@@ -207,7 +206,7 @@ export const DashboardPage = () => {
 
     // Get mapped values
     const genotypesSet = new Set();
-    const ngmastSet = new Set();
+    // const ngmastSet = new Set();
     const yearsSet = new Set();
     const countriesSet = new Set();
     const PMIDSet = new Set();
@@ -220,7 +219,7 @@ export const DashboardPage = () => {
       if (country !== ' ') countriesSet.add(country);
 
       // genotype
-      const genotypeKey = ['ecoli'].includes(organism) ? 'GENOTYPE1' : 'GENOTYPE';
+      const genotypeKey = 'GENOTYPE';
       if (genotypeKey in x) {
         genotypesSet.add(x[genotypeKey]?.toString());
       }
@@ -229,24 +228,19 @@ export const DashboardPage = () => {
       yearsSet.add(x.DATE);
 
       // others
-      if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
+      // if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
       if ('PMID' in x) PMIDSet.add(x['PMID']);
 
       // pathovar and serotype
       if (['sentericaints'].includes(organism)) {
         pathovarSet.add(x.SISTR1_Serovar);
       }
-      if (['shige', 'decoli'].includes(organism)) {
-        pathovarSet.add(x.Pathotype);
-      }
-      //For E. coli, we need to add the Pathovar instead of the Pathotype
-      // because the Pathotype is not present in E.coli data
-      // and the Pathovar is the one that is used in the database
-      if (['ecoli'].includes(organism)) {
+      if (['ecoli', 'shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathovar);
       }
       if (['senterica'].includes(organism)) {
-        pathovarSet.add(x.SeqSero2_Serovar);
+        // pathovarSet.add(x.SeqSero2_Serovar);
+        pathovarSet.add(x['SISTR1 Serovar']);
       }
       if (['decoli', 'ecoli', 'shige'].includes(organism)) {
         serotypeSet.add(x.Serotype);
@@ -254,7 +248,7 @@ export const DashboardPage = () => {
     });
 
     const genotypes = Array.from(genotypesSet);
-    const ngmast = Array.from(ngmastSet);
+    // const ngmast = Array.from(ngmastSet);
     const years = Array.from(yearsSet);
     const countries = Array.from(countriesSet);
     const PMID = Array.from(PMIDSet);
@@ -279,7 +273,7 @@ export const DashboardPage = () => {
     dispatch(setYears(years));
     dispatch(setCountriesForFilter(countries));
     dispatch(setPMID(PMID));
-    dispatch(setNgmast(ngmast));
+    // dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
     dispatch(setSerotype(serotype));
 
@@ -482,7 +476,7 @@ export const DashboardPage = () => {
 
     try {
       const organismData = await getStoreOrGenerateData(storeName, async () => {
-        const response = await axios.get(`${API_ENDPOINT}filters/${endpoint}`, {
+        const response = await axios.get(`/api/filters/${endpoint}`, {
           maxContentLength: Infinity,
           maxBodyLength: Infinity,
         });
@@ -490,7 +484,7 @@ export const DashboardPage = () => {
       });
 
       const regions = await getStoreOrGenerateData('unr', async () => {
-        return (await axios.get(`${API_ENDPOINT}filters/getUNR`)).data;
+        return (await axios.get('/api/filters/getUNR')).data;
       });
 
       await getInfoFromData(organismData, regions);
@@ -523,12 +517,17 @@ export const DashboardPage = () => {
           dispatch(setTrendsGraphView('percentage'));
           break;
         case 'sentericaints':
-        case 'ecoli':
-        case 'decoli':
-        case 'shige':
         case 'senterica':
           dispatch(setMapView('Resistance prevalence'));
           dispatch(setDrugResistanceGraphView(drugsINTS));
+          dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+          break;
+        case 'ecoli':
+        case 'decoli':
+        case 'shige':
+          dispatch(setMapView('Resistance prevalence'));
+          dispatch(setDrugResistanceGraphView(drugsECOLI));
+          dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
           break;
         default:
           break;
@@ -558,7 +557,7 @@ export const DashboardPage = () => {
       dispatch(setActualGenomes(0));
       dispatch(setActualGenotypes(0));
       dispatch(setDataset(''));
-      dispatch(setDatasetKP(''));
+      dispatch(setDatasetKP('All'));
       dispatch(setActualTimeInitial(''));
       dispatch(setActualTimeFinal(''));
       dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
@@ -589,7 +588,7 @@ export const DashboardPage = () => {
       dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
       dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
       dispatch(setConvergenceColourPallete({}));
-      dispatch(setNgmast([]));
+      // dispatch(setNgmast([]));
       dispatch(setCurrentSliderValue(20));
       dispatch(setCurrentSliderValueKOT(20));
       dispatch(setSelectedLineages([]));
@@ -813,6 +812,7 @@ export const DashboardPage = () => {
         const { drugsData: drugsDataC } = getDrugsCountriesData({
           data: filteredData,
           items: countriesForFilter,
+          organism,
         });
         dispatch(setDrugsCountriesData(drugsDataC));
 
@@ -820,6 +820,7 @@ export const DashboardPage = () => {
           data: filteredData,
           items: economicRegions,
           type: 'region',
+          organism,
         });
         dispatch(setDrugsRegionsData(drugsDataR));
       }

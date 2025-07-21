@@ -30,7 +30,7 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { colorForDrugClassesNG, colorForDrugClassesKP, hoverColor, lightGrey } from '../../../../util/colorHelper';
+import { colorForDrugClassesNG, hoverColor, lightGrey, colorForMarkers } from '../../../../util/colorHelper';
 import {
   setTrendsGraphDrugClass,
   setTrendsGraphView,
@@ -41,7 +41,7 @@ import {
   setStarttimeRDT,
   setEndtimeRDT,
 } from '../../../../stores/slices/graphSlice';
-import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
+import { drugClassesNG, markersDrugsKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
 import { Card, FormControlLabel } from '@mui/material';
 import { Close } from '@mui/icons-material';
@@ -100,7 +100,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
       return [];
     }
     if (organism === 'kpneumo') {
-      return drugClassesKP;
+      return markersDrugsKP;
     }
 
     return drugClassesNG;
@@ -110,12 +110,8 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
   }
 
-  function getColors() {
-    return organism === 'kpneumo' ? colorForDrugClassesKP : colorForDrugClassesNG;
-  }
-
-  const slicedData = useMemo(() => {
-    const slicedDataArray = [];
+  // Step 1: Pure calculation of counts and sorted keys.
+  const processedData = useMemo(() => {
     const genotypes = {};
     const genes = {};
 
@@ -128,38 +124,52 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
         if (genotypesForFilter.includes(key)) {
           if (key in genotypes) {
             genotypes[key] += year[key];
-            return;
+          } else {
+            genotypes[key] = year[key];
           }
-
-          genotypes[key] = year[key];
           return;
         }
 
         if (key in genes) {
           genes[key] += year[key];
-          return;
+        } else {
+          genes[key] = year[key];
         }
-
-        genes[key] = year[key];
       });
     });
-
-    dispatch(setMaxSliderValueKP_GE(Object.keys(genes).length));
 
     const sortedGenotypeKeys = Object.keys(genotypes).sort((a, b) => genotypes[b] - genotypes[a]);
     const sortedGeneKeys = Object.keys(genes).sort((a, b) => genes[b] - genes[a]);
 
+    return { genes, sortedGenotypeKeys, sortedGeneKeys };
+  }, [genotypesAndDrugsYearData, trendsGraphDrugClass, genotypesForFilter]);
+
+  // Step 2: Perform side effects (dispatching to Redux) after calculation.
+  useEffect(() => {
+    if (!processedData) return;
+
+    const { genes, sortedGeneKeys, sortedGenotypeKeys } = processedData;
+
+    // This is a side effect and belongs in useEffect
+    dispatch(setMaxSliderValueKP_GE(Object.keys(genes).length));
+
     const topGT = sortedGenotypeKeys.slice(0, currentSliderValueKP_GT);
     const topGE = sortedGeneKeys.slice(0, currentSliderValueKP_GE);
-    // setTopGenotypes(topGT);
-    // setTopGenes(topGE);
+
+    // These are also side effects
     dispatch(setTopGenesSlice(topGE));
     dispatch(setTopGenotypeSlice(topGT));
+  }, [processedData, currentSliderValueKP_GE, currentSliderValueKP_GT, dispatch]);
+
+  // Step 3: Calculate the final data for the chart based on Redux state.
+  const slicedData = useMemo(() => {
+    const slicedDataArray = [];
 
     genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach(year => {
-      if (year.totalCount < 10)
+      if (year.totalCount < 10) {
         //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
         return;
+      }
       const value = {
         name: year.name,
         totalCount: year.totalCount,
@@ -173,7 +183,8 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
           return;
         }
 
-        if (topGT.includes(key) || topGE.includes(key)) {
+        // Use topGenotypeSlice and topGenesSlice from Redux store
+        if (topGenotypeSlice.includes(key) || topGenesSlice.includes(key)) {
           value[key] = year[key];
           return;
         }
@@ -190,13 +201,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     });
 
     return slicedDataArray;
-  }, [
-    currentSliderValueKP_GE,
-    currentSliderValueKP_GT,
-    genotypesAndDrugsYearData,
-    genotypesForFilter,
-    trendsGraphDrugClass,
-  ]);
+  }, [genotypesAndDrugsYearData, trendsGraphDrugClass, genotypesForFilter, topGenesSlice, topGenotypeSlice]);
 
   function getData() {
     if (trendsGraphView === 'number') {
@@ -313,7 +318,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
       if (data.length > 0) {
         // Add missing years between the select time to show continuous scale
         const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
-        const years = data.map(x => x.name);
+        const years = data.map(x => x.name.toString());
 
         allYears.forEach(year => {
           if (!years.includes(year)) {
@@ -412,8 +417,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                                     className={classes.colorCircle}
                                     style={{
                                       backgroundColor: color,
-                                      borderRadius:
-                                        index < getColors()[trendsGraphDrugClass]?.length ? undefined : '50%',
+                                      borderRadius: index < diviserIndex ? undefined : '50%',
                                     }}
                                   />
                                   <Typography variant="caption">{dataKey}</Typography>
@@ -442,8 +446,18 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
               />
 
               {[...(topGenesSlice || []).filter(x => x !== 'None'), 'Other Genes', 'None'].map((option, index) => {
-                const colorObj = getColors()[trendsGraphDrugClass]?.find(x => x.name === option);
-                const fillColor = colorObj ? (colorObj.name === 'None' ? lightGrey : colorObj.color) : '#F5F4F6';
+                let fillColor = '#F5F4F6';
+
+                if (option === 'Other Genes') {
+                  fillColor = '#F5F4F6';
+                } else if (option === 'None') {
+                  fillColor = lightGrey;
+                } else if (organism === 'ngono') {
+                  const colorObj = colorForDrugClassesNG[trendsGraphDrugClass]?.find(x => x.name === option);
+                  if (colorObj) fillColor = colorObj.color;
+                } else if (organism === 'kpneumo') {
+                  fillColor = colorForMarkers[index];
+                }
 
                 return (
                   <Bar
@@ -581,7 +595,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      {getDrugClasses().map((option, index) => {
+                      {getDrugClasses()?.map((option, index) => {
                         return (
                           <MenuItem key={index + 'trends-drug-classes'} value={option}>
                             {option}

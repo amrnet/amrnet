@@ -29,17 +29,16 @@ import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesKP, drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
-import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
+import { drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
+import { drugAcronyms, drugAcronymsOpposite, markersDrugsKP } from '../../../../util/drugs';
 import { mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
-import { setResetBool } from '../../../../stores/slices/graphSlice'
-const kpTrendOptions = Object.keys(drugClassesRulesKP)
-  .map((drug) => {
-    const label = drug === 'ESBL' ? 'ESBLs' : drug === 'Carbapenems'? 'Carbapenemase' : drug ; // Added 'Carbapenemase' for KP trends in geo comp graphs
+const kpTrendOptions = markersDrugsKP
+  .map(drug => {
+    const label = drug === 'ESBL' ? 'ESBLs' : drug;
     return {
       organism: 'kpneumo',
       key: drug,
@@ -102,7 +101,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [genotypeSearch, setGenotypeSearch] = useState('');
-  const [plotChart, setPlotChart] = useState(() => {});
+  const [plotChart, setPlotChart] = useState(null);
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
@@ -254,8 +253,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     setXAxisSelected(
       (xAxisType === 'country'
-        ? mapData.filter(x => x.count > 20)
-        : mapRegionData.filter(x => x.count > 20 && x.name !== 'All')
+        ? mapData.filter(x => x.count >= 20)
+        : mapRegionData.filter(x => x.count >= 20 && x.name !== 'All')
       )
         .slice()
         .sort((a, b) => b.count - a.count)
@@ -270,8 +269,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         ? yAxisOptions.slice(0, 10)
         : yAxisOptions,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yAxisOptions]);
+  }, [yAxisOptions, yAxisType, organism]);
 
   const yAxisWidth = useMemo(() => {
     return longestVisualWidth((xAxisSelected ?? []).map(x => (x === 'United States of America' ? 'USA' : x)));
@@ -356,10 +354,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    setYAxisSelected(yAxisOptions?.slice());
+    setYAxisSelected(filteredYAxisOptions?.slice());
   }
 
-  function hangleChangeSearch(event) {
+  function handleChangeSearch(event) {
     event.stopPropagation();
     setGenotypeSearch(event.target.value);
   }
@@ -540,7 +538,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
               index: 1,
               typeName: item.name,
               count: drugCount || 0,
-              total: locationData.totalCount,
+              total: locationData?.totalCount || 0,
               parent: drugKey,
             });
           });
@@ -580,36 +578,38 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
                     margin={{ bottom: index === 0 ? -20 : 20 }}
                   >
-                    <XAxis
-                      type="category"
-                      dataKey="itemName"
-                      interval={0}
-                      tick={
-                        index === 0
-                          ? props => {
-                              const title = getTitle(props.payload.value);
+                    // For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer for rotated, truncated labels.
+                    // For other charts, no custom tick renderer is used.
+                                        <XAxis
+                                          type="category"
+                                          dataKey="itemName"
+                                          interval={0}
+                                          tick={
+                                            index === 0
+                                              ? props => {
+                                                  const title = getTitle(props.payload.value);
 
-                              return (
-                                <Tooltip title={title} placement="top">
-                                  <text
-                                    x={props.x}
-                                    y={props.y}
-                                    fontSize="14px"
-                                    dy={-10}
-                                    textAnchor="start"
-                                    transform={`rotate(-45, ${props.x}, ${props.y})`}
-                                    fill="rgb(128,128,128)"
-                                  >
-                                    {truncateWord(props.payload.value)}
-                                  </text>
-                                </Tooltip>
-                              );
-                            }
-                          : false
-                      }
-                      axisLine={false}
-                      orientation="top"
-                    />
+                                                  return (
+                                                    <Tooltip title={title} placement="top">
+                                                      <text
+                                                        x={props.x}
+                                                        y={props.y}
+                                                        fontSize="14px"
+                                                        dy={-10}
+                                                        textAnchor="start"
+                                                        transform={`rotate(-45, ${props.x}, ${props.y})`}
+                                                        fill="rgb(128,128,128)"
+                                                      >
+                                                        {truncateWord(props.payload.value)}
+                                                      </text>
+                                                    </Tooltip>
+                                                  );
+                                                }
+                                              : false
+                                          }
+                                          axisLine={false}
+                                          orientation="top"
+                                        />
 
                     <YAxis
                       type="number"
@@ -699,8 +699,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         );
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [configuredMapData, yAxisWidth]);
+  }, [configuredMapData, yAxisWidth, canGetData, classes, getTitle, truncateWord, hoverColor, mixColorScale, countriesTooltipForRegion]);
 
   return (
     <CardContent className={classes.bubbleGeographicGraph}>
@@ -877,7 +876,13 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         disableAutoFocusItem: true,
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={selected => <div>{`${selected.length} of ${yAxisOptions.length} selected`}</div>}
+                      renderValue={selected => (
+                        <div>
+                          {Array.isArray(selected) && selected.length > 0
+                            ? `${selected.length} of ${yAxisOptions.length} selected`
+                            : 'No options selected'}
+                        </div>
+                      )}
                       onClose={clearSearch}
                     >
                       <Box
@@ -892,7 +897,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           }
                           fullWidth
                           value={genotypeSearch}
-                          onChange={hangleChangeSearch}
+                          onChange={handleChangeSearch}
                           InputProps={
                             genotypeSearch === ''
                               ? undefined
