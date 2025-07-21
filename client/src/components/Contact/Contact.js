@@ -3,7 +3,7 @@ import { useStyles } from './ContactMUI';
 import TextField from '@mui/material/TextField';
 import { API_ENDPOINT } from '../../constants';
 import { Card, CardContent } from '@mui/material';
-// import { Footer } from '../Elements/Footer';
+import { Footer } from '../Elements/Footer';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import { useState } from 'react';
 import axios from 'axios';

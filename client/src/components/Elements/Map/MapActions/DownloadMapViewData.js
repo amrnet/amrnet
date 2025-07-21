@@ -2,6 +2,7 @@ import { Download } from '@mui/icons-material';
 import { useAppSelector } from '../../../../stores/hooks';
 import { variableGraphOptions, variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
+import { mapStatKeysKP, statKeys } from '../../../../util/drugClassesRules';
 
 export const DownloadMapViewData = ({ value }) => {
   const mapData = useAppSelector(state => state.map.mapData);
@@ -36,6 +37,9 @@ export const DownloadMapViewData = ({ value }) => {
   const bubbleKOYAxisType = useAppSelector(state => state.graph.bubbleKOYAxisType);
   const bubbleMarkersHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleMarkersHeatmapGraphVariable);
   const bubbleMarkersYAxisType = useAppSelector(state => state.graph.bubbleMarkersYAxisType);
+  const countriesYearData = useAppSelector((state) => state.graph.countriesYearData);
+  const drugClass = useAppSelector((state) => state.graph.drugClass);
+  const drugGene = useAppSelector((state) => state.graph.drugGene);
 
   let firstName, secondName;
   if (organism === 'styphi') {
@@ -93,7 +97,15 @@ export const DownloadMapViewData = ({ value }) => {
     
     Object.keys(mapData[0]?.stats || {}).forEach(key => {
       if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
-      const itemLabel = ngonoSusceptibleRule(key, organism) || drugAcronymsOpposite[key] || key;
+
+      const itemLabel = organism === 'kpneumo'
+        ? mapStatKeysKP
+            .filter(stat => stat.name && key.includes(stat.name))
+            .map(stat => stat.name)
+        : key;
+
+      //Skip if kpneumo and no matching names
+      if (organism === 'kpneumo' && itemLabel.length === 0) return;
       HeaderList.push(itemLabel, `${itemLabel} %`);
     });
 
@@ -137,19 +149,28 @@ export const DownloadMapViewData = ({ value }) => {
           });
 
         Object.entries(stats).forEach(([key, stat]) => {
-          if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
+        if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
 
-          if (!stat) return rowData.push(0, 0);
+        // For kpneumo: skip keys that don't match any stat.name
+        if (organism === 'kpneumo') {
+          const matchedNames = mapStatKeysKP
+            .filter(stat => stat.name && key.includes(stat.name))
+            .map(stat => stat.name);
 
-          const count = stat.count || 0;
-          const percentage = nonResColums.includes(key)
-            ? stat.sum
-              ? ((count / stat.sum) * 100).toFixed(2)
-              : '0.00'
-            : stat.percentage ?? '0.00';
+          if (matchedNames.length === 0) return; // Skip if no matches
+        }
 
-          rowData.push(count, percentage);
-        });
+        if (!stat) return rowData.push(0, 0);
+
+        const count = stat.count || 0;
+        const percentage = nonResColums.includes(key)
+          ? stat.sum
+            ? ((count / stat.sum) * 100).toFixed(2)
+            : '0.00'
+          : stat.percentage ?? '0.00';
+
+        rowData.push(count, percentage);
+      });
 
         return rowData.join(',');
       });
@@ -464,7 +485,7 @@ export const DownloadMapViewData = ({ value }) => {
 
       // Create CSV rows dynamically
       const rows = data
-        .filter(item => Object.keys(item).length > 0)
+        .filter(item => Object.keys(item).length > 0 &item.count >= 10) // based on Summary KO plot subheading we plotted N>=10 only
         .map(item => {
           let rowData = [actualRegion, actualCountry, item.name, item.count || ''];
 
@@ -604,7 +625,6 @@ export const DownloadMapViewData = ({ value }) => {
       console.log('mapRegionData is not an array or is empty', mapRegionData);
     }
   };
-
   function getUniqueNames(data, key, yAxis) {
     const seen = new Set();
 
@@ -672,8 +692,8 @@ export const DownloadMapViewData = ({ value }) => {
 
     if (data) {
       const headers = ['Region', 'Country', 'Name']; // Initial headers
-      const uniqueValues = getUniqueNames(data?.stats?.[COMPARISON]?.items || [], 'drugs', bubbleMarkersYAxisType);
-      uniqueValues.sort();
+      const items = getUniqueNames(data?.stats?.[COMPARISON]?.items || [], 'drugs', bubbleMarkersYAxisType);
+      const uniqueValues= items.filter(x => x !== '-').sort();      // removing '-' value from download data
 
       // Add items names along with percentage columns to the header
       uniqueValues.forEach(value => {
@@ -845,6 +865,54 @@ export const DownloadMapViewData = ({ value }) => {
       `Geographic Comparisons (${yAxisType}${yAxisType === 'determinant' ? '-' + yAxisTypeTrend : ''})`,
     );
   };
+//Trend Line HeatMap Data Download CSV
+  const downloadCSVForTL = () => {
+  if (!Array.isArray(countriesYearData[drugClass]) || countriesYearData[drugClass].length === 0) {
+    console.log('Invalid or empty countriesYearData');
+    return;
+  }
+  const Exclude = ['name', 'totalCount', 'resistantCount', 'items'];
+  const yearEntries = countriesYearData[drugClass];
+
+  // Step 1: Build year list
+  const allYears = yearEntries.map(entry => entry.name);
+
+  // Step 2: Build country list from first entry
+  const sampleEntry = yearEntries[0];
+  const countries = Object.keys(sampleEntry).filter(k => !Exclude.includes(k));
+
+  // Step 3: Prepare CSV headers
+  const header = ['Drug','Gene','Country', 'Total Count'];
+  allYears.forEach(year => {
+    header.push(year);
+    header.push(`${year} %`);
+  });
+
+  const rows = [];
+
+  // Step 4: Build each row per country
+  countries.forEach(country => {
+    let totalCount = 0;
+    const yearCounts = [];
+
+    yearEntries.forEach(entry => {
+      const year = entry.name;
+      const count = entry[country] || 0;
+      const yearTotal = entry.totalCount || 0;
+      const percentage = yearTotal > 0 ? ((count / yearTotal) * 100).toFixed(2) : '0.00';
+
+      totalCount += count;
+      yearCounts.push(count);
+      yearCounts.push(percentage);
+    });
+    if(totalCount < 10) return; // Filter out countries with totalCount < 10
+    const row = [drugClass, drugGene, country, totalCount, ...yearCounts];
+    rows.push(row.join(','));
+  });
+
+  generateCSV(header.join(','), rows, `TrendLine_HeatMap_${drugClass}`);
+};
+
 
   function generateCSV(headers, rows, name) {
     // Combine header and rows into CSV content
@@ -884,10 +952,12 @@ export const DownloadMapViewData = ({ value }) => {
         return downloadCSVForRDT();
       case 'convergence-graph': // convergence graph plot was missing the download data
         return downloadCSVForCG();
-      case 'BG':
+      case 'BG': // BG is replaced from CVM for BubbleGeographicGraph
         return downloadCSVForBG(); // Rename the function used to Download BubbleGeographicGraph HeatMap
       case 'BHP': // Pathotype HeatMap
         return downloadCSVForHM('BHP'); // Rename the function used to Download BubbleGeographicGraph HeatMap
+      case 'TL': // TrendLine HeatMap
+        return downloadCSVForTL(); 
       default:
         return downloadCSV();
     }
