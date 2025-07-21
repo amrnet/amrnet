@@ -55,7 +55,7 @@ export const menuItems = [
     label: 'Data Rights',
     labelHead: 'Data Rights',
     icon: <CopyrightRoundedIcon />,
-    link: 'https://amrnet.readthedocs.io/en/latest/data.html',
+    link: 'https://amrnet.readthedocs.io/en/latest/right.html',  // relink to correct link to Data Rights
     target: '_blank',
   },
   {

@@ -138,21 +138,34 @@ export function getNgonoTexts() {
 
 export function getEcoliTexts() {
   return [
-    'Diarrheagenic E.',
-    'coli',
-    'data visualised in AMRnet are drawn from Enterobase (https://enterobase.warwick',
-    '.ac.uk/), which calls AMR genotypes using NCBI’s AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/) and assigns lineages using MLST. , cgMLST and hierarchical clustering. The logic used by Enterobase to classify E. coli genomes to pathotypes is shown here. Pathotypes included in the diarrheagenic E. coli dashboard are:',
-    '* Shiga toxin-producing E. coli (STEC)',
+    'Escherichia coli',
+    ' and',
+    'Shigella ',
+    'data visualized in AMRnet are sourced from Enterobase (https://enterobase.warwick.ac.uk/)',
+    'Sequence types (STs) are assigned in silico via the Achtman MLST scheme, with novel STs',
+    'created as needed, and unique core-genome MLST types derived from 2,513 loci. Pathovars',
+    'are predicted by hierarchical clustering, while phylogroups are determined using',
+    'ClermontTyper (v. 5 July 2019) and EzClermont (v. 25 August 2018). O:H serotypes (lipopolysaccharide + flagellar antigen combinations)',
+    'and fimH alleles (v. 1 May 2017) are called with EcTyper and FimTyper, respectively. Antimicrobial-resistance genotypes are detected using NCBI’s',
+    'AMRFinderPlus (https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/). and virulence factors are identified via BlastFrost.',
+    'For full details on pathovar prediction, MLST schemas, and other genotyping workflows, see the Enterobase documentation (https://enterobase.warwick.ac.uk/docs/).','* Shiga toxin-producing E. coli (STEC)',
+
     '* Enterohemorrhagic E. coli (EHEC)',
     '* Enterotoxigenic E. coli (ETEC)',
     '* Enteropathogenic E. coli (EPEC)',
     '* Enteroinvasive E. coli (EIEC)',
 
-    'The last update was made in May 14th 2025.',
-
+    'The last update was made in May 22nd 2025.'
     'WARNING:',
-    'The E. coli data used in AMRnet are not yet curated for purpose-of-sampling, and therefore',
-    'reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard. ',
+    'The',
+    'Escherichia coli data used in AMRnet are not yet curated for purpose-of-sampling, and therefore ',
+    'reflect the biases of global sequencing efforts.',
+
+    'Abbreviations:',
+    '1. MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)',
+    '2. XDR, extensively drug resistant (MDR plus resistant to fluoroquinolones and third-generation cephalosporins)',
+    '3. Ciprofloxacin NS, ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more qnr genes or mutations in gyrA/parC/gyrB)',
+    '4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to the presence of multiple mutations and/or genes',
 
     'Variable definitions',
     'Lineages',
