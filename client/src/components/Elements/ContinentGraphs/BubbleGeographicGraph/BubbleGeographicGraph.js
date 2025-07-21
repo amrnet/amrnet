@@ -114,12 +114,14 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
   const yAxisType = useAppSelector(state => state.map.yAxisType);
   const yAxisTypeTrend = useAppSelector(state => state.map.yAxisTypeTrend);
-
+  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
   useEffect(() => {
     setXAxisType('country');
     dispatch(setYAxisType('resistance'));
-  }, [organism, dispatch]);
-
+    dispatch(setResetBool(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [organism, resetBool]);
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
   const drugsData = useMemo(() => {
@@ -527,7 +529,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
           yAxisSelected.forEach(drug => {
             const drugCount = locationData ? locationData[drug] : 0;
-
+            console.log("data", data)
             data.items.push({
               itemName: drug.replaceAll(' + ', '/'),
               percentage: drugCount ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2)) : 0,
@@ -700,10 +702,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.bubbleGeographicGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CVM">
+         {/* // BG is replaced from CVM for BubbleGeographicGraph and overflow visible for Download PDF */}
+        <div className={classes.graph} style={loadingPDF ? { overflow: 'visible' } : undefined} id="BG">
           {plotChart}
+          </div>
         </div>
-      </div>
       {(configuredMapData.length === 0 || yAxisSelected.length === 0) && (
         <Box className={classes.nothingSelected}>
           <Typography fontWeight={600}>No data to show</Typography>
