@@ -80,12 +80,13 @@ export const KODiversityGraph = () => {
     new Set([
       ...(KODiversityData.K_locus ?? []).map((d) => d.name),
       ...(KODiversityData.O_locus ?? []).map((d) => d.name),
+       ...(KODiversityData.O_type ?? []).map((d) => d.name),
     ])
   ).sort();
 
   // Find max value for normalization
   let maxValue = 0;
-  [...(KODiversityData.K_locus ?? []), ...(KODiversityData.O_locus ?? [])].forEach((d) => {
+  [...(KODiversityData.K_locus ?? []), ...(KODiversityData.O_type ?? []), ...(KODiversityData.O_locus ?? [])].forEach((d) => {
     Object.keys(d).forEach((k) => {
       if (k !== 'name' && k !== 'count') {
         if (d[k] > maxValue) maxValue = d[k];
@@ -113,6 +114,16 @@ export const KODiversityGraph = () => {
     } else {
       o = {};
     }
+    // Filter out "unknown" from O_type
+    let ot = (KODiversityData.O_type ?? []).find((d) => d.name === year);
+    if (ot) {
+      ot = Object.fromEntries(
+        Object.entries(ot).filter(([key]) => key !== 'unknown')
+      );
+    } else {
+      ot = {};
+    }
+
     const merged = { name: year };
     // K locus: left (negative values for mirror effect)
     colorsForKODiversityGraph.forEach((option) => {
@@ -139,7 +150,7 @@ export const KODiversityGraph = () => {
   function handleBarClick(data, index, type, key) {
     // type: 'K_locus' or 'O_locus'
     // key: e.g. 'K_XYZ' or 'O_XYZ'
-    const locus = type === 'K_locus' ? 'K_locus' : 'O_locus';
+    const locus = type === 'K_locus' ? 'K_locus' : type === 'O_locus' ? 'O_locus' : 'O_type';
     const year = data.name;
     const original = (KODiversityData[locus] ?? []).find((d) => d.name === year);
     if (!original) return;
@@ -252,6 +263,17 @@ export const KODiversityGraph = () => {
                 fill={option.color}
                 yAxisId="right"
                 onClick={(data, idx) => handleBarClick(data, idx, 'O_locus', `O_${option.name}`)}
+              />
+            ))}
+                        {filteredColors.map((option, index) => (
+              <Bar
+                key={`KODiversity-bar-OT-${index}`}
+                dataKey={`O_${option.name}`}
+                name={`O type: ${option.name}`}
+                stackId="OT"
+                fill={option.color}
+                yAxisId="right"
+                onClick={(data, idx) => handleBarClick(data, idx, 'O_type', `O_${option.name}`)}
               />
             ))}
           </BarChart>

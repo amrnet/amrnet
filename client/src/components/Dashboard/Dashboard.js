@@ -400,6 +400,7 @@ export const DashboardPage = () => {
             const colorPalleteKO = {
               O_locus: generatePalleteForGenotypes(uniqueKO['O_locus']),
               K_locus: generatePalleteForGenotypes(uniqueKO['K_locus']),
+              O_type: generatePalleteForGenotypes(uniqueKO['O_type']),
             };
             dispatch(setColorPalleteKO(colorPalleteKO));
           })
@@ -438,9 +439,9 @@ export const DashboardPage = () => {
       organism === 'kpneumo'
         ? getStoreOrGenerateData(`${organism}_ko`, () => {
             const dt = getKODiversityData({ data: responseData });
-            return [dt.K_locus, dt.O_locus];
-          }).then(([K_locus, O_locus]) => {
-            dispatch(setKODiversityData({ K_locus, O_locus }));
+            return [dt.K_locus, dt.O_locus, dt.O_type];
+          }).then(([K_locus, O_locus, O_type]) => {
+            dispatch(setKODiversityData({ K_locus, O_locus, O_type }));
           })
         : Promise.resolve(),
 

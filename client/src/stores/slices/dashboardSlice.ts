@@ -10,11 +10,13 @@ interface GlobalOverviewModel {
 interface ColorPalleteKOModel {
   O_locus: Object;
   K_locus: Object;
+  O_type: Object;
 }
 
 interface UniqueKOModel {
   O_locus: Array<any>;
   K_locus: Array<any>;
+  O_type: Array<any>;
 }
 
 interface DashboardState {
@@ -83,11 +85,11 @@ const initialState: DashboardState = {
   genotypesForFilterSelectedRD: [],
   KOForFilterSelected: [],
   genotypesForFilterDynamic: [],
-  KOForFilterDynamic: { K_locus: [], O_locus: [] },
+  KOForFilterDynamic: { K_locus: [], O_locus: [], O_type: [] },
   colorPallete: {},
   colorPalleteCgST: {},
   colorPalleteSublineages: {},
-  colorPalleteKO: { K_locus: {}, O_locus: {} },
+  colorPalleteKO: { K_locus: {}, O_locus: {}, O_type: {} },
   listPMID: [],
   PMID: [],
   captureDRT: true,
