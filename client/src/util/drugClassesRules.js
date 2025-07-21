@@ -135,8 +135,8 @@ export const statKeysKP = [
 ];
 
 export const statKeysKPOnlyMarkers = [
-  { name: 'SHV', column: 'SHV_mutations', key: '-' },
-  { name: 'Omp', column: 'Omp_mutations', key: '-' },
+  { name: 'SHV mutation', column: 'SHV_mutations', key: '-' },
+  { name: 'Porin mutation', column: 'Omp_mutations', key: '-' },
 ];
 
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG

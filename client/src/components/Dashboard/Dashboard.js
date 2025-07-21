@@ -151,6 +151,8 @@ export const DashboardPage = () => {
   const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
   const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
+  const startTimeKOT = useAppSelector((state) => state.graph.startTimeKOT);
+  const endTimeKOT = useAppSelector((state) => state.graph.endTimeKOT);
  // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
