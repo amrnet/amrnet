@@ -2,7 +2,7 @@ import { Download } from '@mui/icons-material';
 import { useAppSelector } from '../../../../stores/hooks';
 import { variableGraphOptions, variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
-import { mapStatKeysKP, statKeys } from '../../../../util/drugClassesRules';
+import { StatKeysKP, statKeys } from '../../../../util/drugClassesRules';
 
 export const DownloadMapViewData = ({ value }) => {
   const mapData = useAppSelector(state => state.map.mapData);
@@ -94,12 +94,12 @@ export const DownloadMapViewData = ({ value }) => {
       mapViewOptionSelected.forEach(name => HeaderList.push(name, `${name} %`));
 
     const nonResColums = ['GENOTYPE', 'NGMAST', 'PATHOTYPE', 'O_PREV', 'OH_PREV'];
-    
+
     Object.keys(mapData[0]?.stats || {}).forEach(key => {
       if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
 
       const itemLabel = organism === 'kpneumo'
-        ? mapStatKeysKP
+        ? StatKeysKP
             .filter(stat => stat.name && key.includes(stat.name))
             .map(stat => stat.name)
         : key;
@@ -153,7 +153,7 @@ export const DownloadMapViewData = ({ value }) => {
 
         // For kpneumo: skip keys that don't match any stat.name
         if (organism === 'kpneumo') {
-          const matchedNames = mapStatKeysKP
+          const matchedNames = StatKeysKP
             .filter(stat => stat.name && key.includes(stat.name))
             .map(stat => stat.name);
 
@@ -957,7 +957,7 @@ export const DownloadMapViewData = ({ value }) => {
       case 'BHP': // Pathotype HeatMap
         return downloadCSVForHM('BHP'); // Rename the function used to Download BubbleGeographicGraph HeatMap
       case 'TL': // TrendLine HeatMap
-        return downloadCSVForTL(); 
+        return downloadCSVForTL();
       default:
         return downloadCSV();
     }
