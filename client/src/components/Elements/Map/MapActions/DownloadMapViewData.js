@@ -2,7 +2,7 @@ import { Download } from '@mui/icons-material';
 import { useAppSelector } from '../../../../stores/hooks';
 import { variableGraphOptions, variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
-import { StatKeysKP, statKeys } from '../../../../util/drugClassesRules';
+import { statKeysKP, statKeys } from '../../../../util/drugClassesRules';
 
 export const DownloadMapViewData = ({ value }) => {
   const mapData = useAppSelector(state => state.map.mapData);
@@ -99,7 +99,7 @@ export const DownloadMapViewData = ({ value }) => {
       if ((mapView === 'Resistance prevalence' && nonResColums.includes(key)) || key === 'H58') return;
 
       const itemLabel = organism === 'kpneumo'
-        ? StatKeysKP
+        ? statKeysKP
             .filter(stat => stat.name && key.includes(stat.name))
             .map(stat => stat.name)
         : key;
@@ -153,7 +153,7 @@ export const DownloadMapViewData = ({ value }) => {
 
         // For kpneumo: skip keys that don't match any stat.name
         if (organism === 'kpneumo') {
-          const matchedNames = StatKeysKP
+          const matchedNames = statKeysKP
             .filter(stat => stat.name && key.includes(stat.name))
             .map(stat => stat.name);
 
