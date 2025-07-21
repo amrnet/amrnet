@@ -55,6 +55,7 @@ interface DashboardState {
   pathovar: Array<string>;
   serotype: Array<string>;
   economicRegions: Object;
+  loadingPDF: boolean;
 }
 
 const initialState: DashboardState = {
@@ -98,6 +99,7 @@ const initialState: DashboardState = {
   pathovar: [],
   economicRegions: {},
   serotype: [],
+  loadingPDF:false
 };
 
 export const dashboardSlice = createSlice({
@@ -230,6 +232,9 @@ export const dashboardSlice = createSlice({
     setEconomicRegions: (state, action: PayloadAction<Object>) => {
       state.economicRegions = action.payload;
     },
+    setLoadingPDF: (state, action: PayloadAction<boolean>) => {
+      state.loadingPDF = action.payload;
+    },
   },
 });
 
@@ -272,6 +277,7 @@ export const {
   setColorPalleteKO,
   setCaptureKOT,
   setKOForFilterSelected,
+  setLoadingPDF
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

@@ -80,10 +80,14 @@ interface GraphState {
   actualGenomesGD: number;
   actualGenomesDRT: number;
   actualGenomesRDT: number;
+  actualGenomesKOT: number;  // Added KOT Brush genome value based on start and end Time
   topXGenotype: Array<any>;
   topXKO: Array<any>;
   topXGenotypeRDWG: Array<any>;
   download: boolean;
+  drugClass: Array<any>;
+  drugGene: string;
+  coloredOptions: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -160,10 +164,14 @@ const initialState: GraphState = {
   starttimeRDT: 0,
   endtimeRDT: 0,
   actualGenomesRDT: 0,
+  actualGenomesKOT: 0,
   topXGenotype: [],
   topXKO: [],
   topXGenotypeRDWG: [],
   download: false,
+  drugClass: [],
+  drugGene: '',
+  coloredOptions: [],
 };
 
 export const graphSlice = createSlice({
@@ -362,6 +370,9 @@ export const graphSlice = createSlice({
     setActualGenomesDRT: (state, action: PayloadAction<number>) => {
       state.actualGenomesDRT = action.payload;
     },
+    setActualGenomesKOT: (state, action: PayloadAction<number>) => {
+      state.actualGenomesKOT = action.payload;
+    },
     setStarttimeRDT: (state, action: PayloadAction<number>) => {
       state.starttimeRDT = action.payload;
     },
@@ -388,6 +399,15 @@ export const graphSlice = createSlice({
     },
     setDownload: (state, action: PayloadAction<boolean>) => {
       state.download = action.payload;
+    },
+    setDrugClass: (state, action: PayloadAction<Array<any>>) => {
+      state.drugClass = action.payload;
+    },
+    setDrugGene: (state, action: PayloadAction<string>) => {
+      state.drugGene = action.payload;
+    },
+    setColoredOptions: (state, action: PayloadAction<Array<any>>) => {
+      state.coloredOptions = action.payload;
     },
   },
 });
@@ -443,6 +463,7 @@ export const {
   setEndtimeDRT,
   setActualGenomesGD,
   setActualGenomesDRT,
+  setActualGenomesKOT,
   setStarttimeRDT,
   setEndtimeRDT,
   setActualGenomesRDT,
@@ -466,6 +487,10 @@ export const {
   setBubbleMarkersHeatmapGraphVariable,
   setBubbleKOYAxisType,
   setBubbleMarkersYAxisType,
+  setDrugClass,
+  setDrugGene,
+  setColoredOptions
+
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
