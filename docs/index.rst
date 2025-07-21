@@ -33,14 +33,17 @@
 
 Overview
 ========
+.. raw:: html
 
-**AMRnet** aims to make high-quality, robust and reliable genome-derived
-AMR Surveillance data accessible to a wide audience. Visualizations
-are geared towards showing national annual AMR prevalence estimates
-and trends, that can be broken down and explored in terms of underlying
-genotypes and resistance mechanisms. We do not generate sequence data,
-but we hope that by making publicly deposited data more accessible and
-useful, we can encourage and motivate more sequencing and data sharing.
+    <div class="justify-text">
+        <span class="bold-text">AMRnet</span> aims to make high-quality, robust and reliable genome-derived
+        AMR Surveillance data accessible to a wide audience. Visualizations
+        are geared towards showing national annual AMR prevalence estimates
+        and trends, that can be broken down and explored in terms of underlying
+        genotypes and resistance mechanisms. We do not generate sequence data,
+        but we hope that by making publicly deposited data more accessible and
+        useful, we can encourage and motivate more sequencing and data sharing.
+    </div>
 
 `Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the **AMRnet** mailing list!
 
@@ -84,13 +87,17 @@ page.
 
 Disclaimer
 ----------
+.. raw:: html
 
-**AMRnet** is an open source dashboard that continues to benefit from the
-collaboration of many contributors. Although efforts have been made
-to ensure the that relevant web development standards are implemented,
-it remains the user’s responsibility to confirm and accept the output.
-Refer to the :doc:`License <license>` for clarification of the conditions
-of use.
+    <div class="justify-text">
+        <span class="bold-text">AMRnet</span> is an open source dashboard that continues to benefit from the
+        collaboration of many contributors. Although efforts have been made
+        to ensure the that relevant web development standards are implemented,
+        it remains the user’s responsibility to confirm and accept the output.
+        Refer to the :doc:`License <license>` for clarification of the conditions
+        of use.
+    </div>
 
 Acknowledgements
 ----------------
+
