@@ -155,7 +155,7 @@ export function getEcoliTexts() {
     '* Enteropathogenic E. coli (EPEC)',
     '* Enteroinvasive E. coli (EIEC)',
 
-    'The last update was made in May 22nd 2025.'
+    'The last update was made in May 22nd 2025.',
     'WARNING:',
     'The',
     'Escherichia coli data used in AMRnet are not yet curated for purpose-of-sampling, and therefore ',
