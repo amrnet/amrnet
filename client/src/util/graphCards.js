@@ -63,6 +63,14 @@ export const graphCards = [
   //   organisms: ['sentericaints'],
   //   component: <FrequenciesGraph />,
   // },
+    {
+    title: 'AMR markers by genotype',
+    description: [''],
+    icon: <StackedBarChart color="primary" />,
+    id: 'BAMRH',
+    organisms: ['kpneumo'],
+    component: <BubbleMarkersHeatmapGraph />,
+  },
   {
     title: 'AMR marker trends',
     description: ['Data are plotted for years with N ≥ 10 genomes'],
@@ -121,14 +129,6 @@ export const graphCards = [
   // },
   ...heatmapCards,
 
-  {
-    title: 'AMR markers by genotype',
-    description: [''],
-    icon: <StackedBarChart color="primary" />,
-    id: 'BAMRH',
-    organisms: ['kpneumo'],
-    component: <BubbleMarkersHeatmapGraph />,
-  },
   {
     title: 'AMR markers by genotype',
     description: ['Top Genotypes (up to 10)'],
