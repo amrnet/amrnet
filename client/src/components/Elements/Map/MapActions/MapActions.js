@@ -57,7 +57,7 @@ export const MapActions = () => {
 
         // const mapView = mapLegends.find(x => x.value === mapView).label;
         const genotypesTextLength = (mapView + (mapView === 'NG-MAST prevalence'? customDropdownMapViewNG.join(', ') : prevalenceMapViewOptionsSelected.join(', ')) ).length;
-        
+
         canvas.width = cWidth;
         canvas.height = cHeight + textHeight + legendHeight + genotypesTextLength/5;
 
@@ -152,7 +152,7 @@ export const MapActions = () => {
           'Pathotype prevalence',
           'Serotype prevalence',
           'O prevalence',
-          'OH prevalence',
+          'H prevalence',
         ];
         let y = 390;
         const maxLineLength = 190;

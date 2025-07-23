@@ -10,7 +10,6 @@ interface CollapsesModel {
 interface KOYearsDataModel {
   O_locus: [];
   K_locus: [];
-  O_type: [];
 }
 interface GraphState {
   countriesForFilter: Array<string>;
@@ -102,7 +101,7 @@ const initialState: GraphState = {
   genotypesYearData: [],
   cgSTYearData: [],
   sublineagesYearData: [],
-  KOYearsData: { K_locus: [], O_locus: [], O_type: [] },
+  KOYearsData: { K_locus: [], O_locus: [] },
   drugsYearData: [],
   genotypesDrugsData: [],
   genotypesDrugClassesData: [],

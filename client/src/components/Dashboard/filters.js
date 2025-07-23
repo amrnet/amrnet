@@ -340,7 +340,6 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
       result.ko = {
         O_locus: getMapStatsData({ itemData: dataWithGenFilter, columnKey: 'O_locus', statsKey: null, organism }),
         K_locus: getMapStatsData({ itemData: dataWithGenFilter, columnKey: 'K_locus', statsKey: null, organism }),
-        O_type: getMapStatsData({ itemData: dataWithGenFilter, columnKey: 'O_type', statsKey: null, organism }),
       };
     }
 
@@ -714,8 +713,8 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 }
 
 export function getKOYearsData({ data, years }) {
-  const KOData = { O_locus: [], K_locus: [], O_type: [] };
-  const uniqueKO = { O_locus: [], K_locus: [], O_type: [] };
+  const KOData = { O_locus: [], K_locus: [] };
+  const uniqueKO = { O_locus: [], K_locus: [] };
 
   years.forEach(year => {
     const yearData = data.filter(x => x.DATE.toString() === year.toString());
@@ -741,19 +740,11 @@ export function getKOYearsData({ data, years }) {
       return acc;
     }, {});
 
-      const OtStats = yearData.reduce((acc, x) => {
-      const o = x['O_type'];
-      if (o !== '-') {
-        acc[o] = (acc[o] || 0) + 1;
-      }
-      return acc;
-    }, {});
-
-    const sortedStatsO = Object.entries(OtStats)
+    const sortedStatsO = Object.entries(oStats)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 20)
       .reduce((acc, [item]) => {
-        acc[item] = OtStats[item];
+        acc[item] = oStats[item];
         return acc;
       }, {});
     uniqueKO['O_locus'] = uniqueKO['O_locus'].concat(Object.keys(sortedStatsO));
@@ -765,25 +756,14 @@ export function getKOYearsData({ data, years }) {
         acc[item] = kStats[item];
         return acc;
       }, {});
-
-    const sortedStatsOt = Object.entries(OtStats)
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, 20)
-      .reduce((acc, [item]) => {
-        acc[item] = OtStats[item];
-        return acc;
-      }, {});
-
-    uniqueKO['O_type'] = uniqueKO['O_type'].concat(Object.keys(sortedStatsOt));
+    uniqueKO['K_locus'] = uniqueKO['K_locus'].concat(Object.keys(sortedStatsK));
 
     KOData['O_locus'].push({ ...response, ...oStats });
     KOData['K_locus'].push({ ...response, ...kStats });
-    KOData['O_type'].push({ ...response, ...OtStats });
   });
 
   uniqueKO['O_locus'] = [...new Set(uniqueKO['O_locus'])].sort();
   uniqueKO['K_locus'] = [...new Set(uniqueKO['K_locus'])].sort();
-  uniqueKO['O_type'] = [...new Set(uniqueKO['O_type'])].sort();
 
   return { KOYearsData: KOData, uniqueKO };
 }
@@ -1269,7 +1249,6 @@ export function getKODiversityData({ data }) {
   const KODiversityData = {
     K_locus: [],
     O_locus: [],
-    O_type: [],
   };
 
   // Function to calculate counts

@@ -479,9 +479,8 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      <MenuItem value="O_locus"> O locus</MenuItem>
-                      <MenuItem value="K_locus"> K locus</MenuItem>
-                      <MenuItem value="O_type"> O type</MenuItem>
+                      <MenuItem value="O_locus"> O_locus</MenuItem>
+                      <MenuItem value="K_locus"> K_locus</MenuItem>
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>

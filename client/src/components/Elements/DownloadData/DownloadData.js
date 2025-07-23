@@ -252,9 +252,9 @@ export const DownloadData = () => {
   const coloredOptions = useAppSelector((state) => state.graph.coloredOptions);
   const drugClass = useAppSelector((state) => state.graph.drugClass); // Drug class selected in the graph for PDF
   const drugGene = useAppSelector((state) => state.graph.drugGene); // Drug gene selected in the graph for PDF
-  //loadingPDF:  Loading state for PDF generation and temp change the visibility of the Geo Comp HEat map 
+  //loadingPDF:  Loading state for PDF generation and temp change the visibility of the Geo Comp HEat map
   // to show all the selected values to take a correct screenshot
-  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF); 
+  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
   const KOForFilterSelected = useAppSelector(state => state.dashboard.KOForFilterSelected);
   const colorPalleteKO = useAppSelector(state => state.dashboard.colorPalleteKO);
   const KOTrendsGraphPlotOption = useAppSelector(state => state.graph.KOTrendsGraphPlotOption);
@@ -492,7 +492,19 @@ export const DownloadData = () => {
       });
     }
   }
-
+  const getAxisLabel = () => {
+    switch (organism) {
+      case 'decoli':
+      case 'shige':
+        return 'Selected Pathotypes :';
+      case 'sentericaints':
+        return 'Selected Serotypes :';
+      case 'ecoli':
+        return 'Selected Genotypes :';
+      default:
+        return '';
+    }
+  };
 
   async function handleClickDownloadPDF() {
     dispatch(setLoadingPDF(true));
@@ -1187,10 +1199,10 @@ export const DownloadData = () => {
             return '';
         }
       };
-      
+
       doc.text(`${getAxisLabel()} `, 16, 140);
 
-      // Improve PDF for long list of "prevalenceMapViews" 
+      // Improve PDF for long list of "prevalenceMapViews"
       const prevalenceMapViews = [
           'Genotype prevalence',
           'Lineage prevalence',
@@ -1201,7 +1213,7 @@ export const DownloadData = () => {
           'O prevalence',
           'OH prevalence',
         ];
-      
+
       let y = 162;
         const maxLineLength = 98;
         // Helper to draw wrapped text
@@ -1222,7 +1234,7 @@ export const DownloadData = () => {
           }
         };
 
-        
+
         // Prevalence map views
         if (prevalenceMapViews.includes(mapView)) {
           const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
@@ -1292,7 +1304,7 @@ export const DownloadData = () => {
           mapLegend,
           'PNG',
           pageWidth / 2 - legendWidth / 2,
-          y,
+          371,
           legendWidth,
           47,
           undefined,
@@ -1344,9 +1356,9 @@ export const DownloadData = () => {
       // graphImgHeat.src = await domtoimage.toPng(document.getElementById('BG'), {
         bgcolor: 'white',
       });
-      
+
       await imgLoad;
-      
+
         // Estimate height for all images
         const aspectRatio = img.width / img.height;
         const displayWidth = pageWidth - 80;
@@ -1363,7 +1375,7 @@ export const DownloadData = () => {
     // Heatmap Page
     addStandardPage({
       doc,
-      title: 'Geographic Comparisons (Heat Map)' ,
+      title: 'Geographic Comparisons (Heatmap)' ,
       subtitle1: commonSubtitle1,
       subtitle2: commonSubtitle2,
       date,
@@ -1372,7 +1384,7 @@ export const DownloadData = () => {
     });
     await addImageToPDF({ doc, elementId: 'BG', pageWidth }); // BG is replaced from CVM for BubbleGeographicGraph
 
-    // TL Map Page 
+    // TL Map Page
     // Hidden for now from PDF, as we dont have a trend line map on the dashboard
     // addStandardPage({
     //   doc,
@@ -1390,7 +1402,7 @@ export const DownloadData = () => {
     // const whiteBoxY = 100 + ((displayHeight-20) * 0.73);
     // doc.setFillColor(255, 255, 255); // White color
     // doc.rect(10, whiteBoxY, pageWidth - 20, 140, 'F'); // Draw a filled rectangle as background
-    
+
     // drawLegend({
     //   document: doc,
     //   legendData: coloredOptions,
@@ -1400,7 +1412,7 @@ export const DownloadData = () => {
     //   isDrug: false,
     // });
 
-    // Pathotype or Serotype Page 
+    // Pathotype or Serotype Page
     if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
       addStandardPage({
         doc,
@@ -1558,7 +1570,7 @@ export const DownloadData = () => {
         } else if (cards[index].id === 'DRT') {
 
           // Dynamic Legends for DRT
-          
+
           // let legendDrugs;
 
           // switch (organism) {
@@ -1749,7 +1761,7 @@ export const DownloadData = () => {
         startIcon={<Storage />}
       >
       {/* Rename based on Feedback documnet 24 June */}
-        Info and Definitions 
+        Info and Definitions
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
