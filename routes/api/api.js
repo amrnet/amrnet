@@ -197,7 +197,7 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
       .find(
-        { 'dashboard view': 'Include' },
+        { 'Dashboard view': 'Include' },
         {
           projection: kpneumoFieldsToIgnore,
         },
