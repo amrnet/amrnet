@@ -38,18 +38,18 @@ export const HomePage = () => {
   return (
     <MainLayout>
       <Card className={classes.card}>
-        <CardContent className={classes.cardContent}>
-          {/* <Typography variant="body4" fontWeight="500" align="justify" className={classes.title}> */}
-            {/* AMRnet displays antimicrobial resistance data derived from genomic surveillance, for priority organisms.
-            Click an organism below to view its data dashboard. */}
-          {/* </Typography> */}
-        </CardContent>
+        {/* <CardContent className={classes.cardContent}>
+          <Typography variant="body4" fontWeight="500" align="justify" className={classes.title}>
+            AMRnet displays antimicrobial resistance data derived from genomic surveillance, for priority organisms.
+            Click an organism below to view its data dashboard.
+          </Typography>
+        </CardContent> */}
 
         <CardContent className={classes.organisms}>
           <Grid container>
             {organismsCards
-              .filter((organism) => !organism.disabled)
-              .map((organism) => (
+              .filter(organism => !organism.disabled)
+              .map(organism => (
                 <Grid item xs={12} sm={4} md={3} key={organism.value} style={{ padding: matches600 ? '2px 16px' : '' }}>
                   <Link className={classes.organismLink} to={`/dashboard?organism=${organism.value}`} target="_blank">
                     <Card
@@ -86,7 +86,7 @@ export const HomePage = () => {
                           {organism.label}
                         </Typography>
                         <Typography sx={{ fontSize: 'smaller' }}>
-                          Genomes: {loading ? <CircularProgress size="1rem" /> : organismCounts[organism.value] ?? 0}
+                          Genomes: {loading ? <CircularProgress size="1rem" /> : (organismCounts[organism.value] ?? 0)}
                         </Typography>
                       </div>
                     </Card>

@@ -60,15 +60,19 @@ export const Map = () => {
   const customDropdownMapViewNG = useAppSelector(state => state.graph.customDropdownMapViewNG);
   const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
   const collapses = useAppSelector(state => state.graph.collapses);
+  const datasetKP = useAppSelector(state => state.map.datasetKP);
+  const dataset = useAppSelector(state => state.map.dataset);
+  const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
+  const pathovar = useAppSelector(state => state.dashboard.pathovar);
 
   const mapViewColumn = useMemo(() => {
     return mapView === 'O prevalence'
       ? 'O_PREV'
-      : mapView === 'OH prevalence'
-      ? 'OH_PREV'
-      : ['Serotype prevalence', 'Pathotype prevalence'].includes(mapView)
-      ? 'PATHOTYPE'
-      : 'GENOTYPE';
+      : mapView === 'H prevalence'
+        ? 'OH_PREV'
+        : ['Serotype prevalence', 'Pathotype prevalence'].includes(mapView)
+          ? 'PATHOTYPE'
+          : 'GENOTYPE';
   }, [mapView]);
 
   function getGenotypeColor(genotype) {
@@ -119,29 +123,29 @@ export const Map = () => {
                     Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
                   }
                 : organism === 'kpneumo'
-                ? {
-                    Samples: countryData.count,
-                    STs: countryStats.GENOTYPE.count,
-                    ESBL: `${countryStats.ESBL.percentage}%`,
-                    Carbapenems: `${countryStats.Carbapenems.percentage}%`,
-                    // Susceptible: `${countryStats.Susceptible.percentage}%`,
-                  }
-                : organism === 'ngono'
-                ? {
-                    Samples: countryData.count,
-                    Genotypes: countryStats.GENOTYPE.count,
-                    'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
-                    'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
-                    Azithromycin: `${countryStats.Azithromycin.percentage}%`,
-                    Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
-                    Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
-                    // Susceptible: `${countryStats.Susceptible.percentage}%`,
-                  }
-                : {
-                    Samples: countryData.count,
-                    [['sentericaints', 'senterica'].includes(organism) ? 'Lineages' : 'Genotypes']:
-                      countryStats.GENOTYPE.count,
-                  },
+                  ? {
+                      Samples: countryData.count,
+                      STs: countryStats.GENOTYPE.count,
+                      ESBL: `${countryStats.ESBL.percentage}%`,
+                      Carbapenems: `${countryStats.Carbapenems.percentage}%`,
+                      // Susceptible: `${countryStats.Susceptible.percentage}%`,
+                    }
+                  : organism === 'ngono'
+                    ? {
+                        Samples: countryData.count,
+                        Genotypes: countryStats.GENOTYPE.count,
+                        'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
+                        'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
+                        Azithromycin: `${countryStats.Azithromycin.percentage}%`,
+                        Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
+                        Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
+                        // Susceptible: `${countryStats.Susceptible.percentage}%`,
+                      }
+                    : {
+                        Samples: countryData.count,
+                        [['sentericaints', 'senterica'].includes(organism) ? 'Lineages' : 'Genotypes']:
+                          countryStats.GENOTYPE.count,
+                      },
           });
           break;
         case 'Dominant Genotype':
@@ -175,7 +179,7 @@ export const Map = () => {
               sumCount += genotype.count;
             }
             if (countryData.count >= 20 && genotypesNG2.length > 1)
-              tooltip.content['All selected genotypes'] = `${sumCount} (${((sumCount / percentCounterNG) * 100).toFixed(
+              tooltip.content['All selected items'] = `${sumCount} (${((sumCount / percentCounterNG) * 100).toFixed(
                 2,
               )}%)`;
           }
@@ -185,7 +189,7 @@ export const Map = () => {
         case 'Lineage prevalence':
         case 'Serotype prevalence':
         case 'O prevalence':
-        case 'OH prevalence':
+        case 'H prevalence':
         case 'Pathotype prevalence':
           const genotypesPre = countryStats[mapViewColumn]?.items || [];
           const totalSum = countryStats[mapViewColumn]?.sum || 0;
@@ -203,7 +207,7 @@ export const Map = () => {
 
             if (countryData.count >= 20 && selectedGenotypes.length > 1) {
               const percentSum = ((sumCount / totalSum) * 100).toFixed(2);
-              tooltip.content['All selected genotypes'] = `${sumCount} (${percentSum}%)`;
+              tooltip.content['All selected items'] = `${sumCount} (${percentSum}%)`;
             }
           }
           break;
@@ -277,6 +281,7 @@ export const Map = () => {
       'Genotype prevalence',
       'Serotype prevalence',
       'O prevalence',
+      'H prevalence',
       'Pathotype prevalence',
       'ST prevalence',
       'Resistance prevalence',
@@ -314,6 +319,22 @@ export const Map = () => {
     }`;
   }, [customDropdownMapViewNG, mapView, organism, prevalenceMapViewOptionsSelected]);
 
+  const globalOverviewLabel = useMemo(() => {
+    let dataview = '';
+
+    if (organism === 'kpneumo' && datasetKP !== 'All') {
+      dataview = ` (${datasetKP === 'ESBL' ? datasetKP : 'CARB'}+)`;
+    }
+    if (organism === 'styphi' && dataset !== 'All') {
+      dataview = ` (${dataset})`;
+    }
+    if (['sentericaints', 'shige', 'decoli'].includes(organism) && selectedLineages.length !== pathovar.length) {
+      dataview = ` (${selectedLineages.join(', ')})`;
+    }
+
+    return `Global Overview${dataview}: ${mapView}`;
+  }, [organism, datasetKP, dataset, selectedLineages, mapView]);
+
   return (
     <Card className={classes.card}>
       <CardActions
@@ -328,7 +349,7 @@ export const Map = () => {
           <Public color="primary" />
           <div className={classes.title}>
             <Typography fontSize="18px" fontWeight="500">
-              Global Overview: {mapView}
+              {globalOverviewLabel}
             </Typography>
             {collapses['map'] && (
               <Typography fontSize="10px" component="span">
@@ -444,7 +465,7 @@ export const Map = () => {
                           case 'Serotype prevalence':
                           case 'Pathotype prevalence':
                           case 'O prevalence':
-                          case 'OH prevalence':
+                          case 'H prevalence':
                             let percentCounter = 0;
                             const genotypes1 = countryStats[mapViewColumn]?.items;
                             let genotypes2 = [];

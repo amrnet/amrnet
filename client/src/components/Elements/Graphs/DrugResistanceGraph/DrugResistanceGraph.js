@@ -208,7 +208,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         const count = currentData[key];
 
         value.drugs.push({
-          label: key,
+          label: ciproAcronyms[key] || key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
           fill: event.activePayload.find(x => x.name === key).stroke,
@@ -250,9 +250,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       // Get data
       const data = trendsData.slice();
 
+      let allYears = [];
       if (data.length > 0) {
         // Add missing years between the select time to show continuous scale
-        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
+        allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
         const years = data.map(x => x.name);
 
         allYears.forEach(year => {
@@ -290,6 +291,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   dataKey="name"
                   height={20}
                   stroke={'rgb(31, 187, 211)'}
+                  startIndex={allYears.findIndex(x => x === '2000') || 0}
                   onChange={brushRange => {
                     setCurrentTooltip(null);
                     dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));

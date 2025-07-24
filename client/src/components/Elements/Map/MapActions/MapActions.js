@@ -56,10 +56,15 @@ export const MapActions = () => {
         const legendHeight = 350;
 
         // const mapView = mapLegends.find(x => x.value === mapView).label;
-        const genotypesTextLength = (mapView + (mapView === 'NG-MAST prevalence'? customDropdownMapViewNG.join(', ') : prevalenceMapViewOptionsSelected.join(', ')) ).length;
-        
+        const genotypesTextLength = (
+          mapView +
+          (mapView === 'NG-MAST prevalence'
+            ? customDropdownMapViewNG.join(', ')
+            : prevalenceMapViewOptionsSelected.join(', '))
+        ).length;
+
         canvas.width = cWidth;
-        canvas.height = cHeight + textHeight + legendHeight + genotypesTextLength/5;
+        canvas.height = cHeight + textHeight + legendHeight + genotypesTextLength / 5;
 
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -152,7 +157,7 @@ export const MapActions = () => {
           'Pathotype prevalence',
           'Serotype prevalence',
           'O prevalence',
-          'OH prevalence',
+          'H prevalence',
         ];
         let y = 390;
         const maxLineLength = 190;
@@ -204,7 +209,7 @@ export const MapActions = () => {
             ctx.fillText(`${actualMapView}: ` + genotypesText, canvas.width / 2, 390);
           }
         }
-        ctx.drawImage(mapImg, -100, y+ 20, canvas.width, cHeight);
+        ctx.drawImage(mapImg, -100, y + 20, canvas.width, cHeight);
 
         const legendImg = document.createElement('img');
         const legendImgPromise = imgOnLoadPromise(legendImg);

@@ -94,4 +94,4 @@ export const organismsCards = [
 
 export const amrLikeOrganisms = ['decoli', 'ecoli', 'shige', 'sentericaints', 'senterica'];
 
-export const organismsWithLotsGenotypes = ['ecoli', 'decoli', 'senterica', 'kpneumo', 'ngono'];
+export const organismsWithLotsGenotypes = ['ecoli', 'decoli', 'senterica', 'kpneumo', 'ngono', 'shige'];
