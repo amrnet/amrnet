@@ -132,7 +132,6 @@ const kpneumoFieldsToIgnore = {
   wzi: 0,
   K_type: 0,
   K_locus_confidence: 0,
-  O_type: 0,
   O_locus_confidence: 0,
   Contig: 0,
   'Match ID': 0,
@@ -173,13 +172,13 @@ router.get('/getDataForSTyphi', async function (req, res, next) {
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
+      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' } })
       .toArray();
     console.log(`[STyphi API] Found ${result.length} documents for STyphi.`);
     if (result.length > 0) {
       return res.json(result);
     }
-    console.warn("[STyphi API] No documents found in the database, falling back to CSV.");
+    console.warn('[STyphi API] No documents found in the database, falling back to CSV.');
     // Fallback to CSV if no data in DB
     return readCsvFallback(Tools.path_clean_st, res);
   } catch (error) {
@@ -197,7 +196,7 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
       .find(
-        { 'dashboard view': 'Include' },
+        { 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } },
         {
           projection: kpneumoFieldsToIgnore,
         },
@@ -220,7 +219,7 @@ router.get('/getDataForNgono', async function (req, res, next) {
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'Include' })
+      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' } })
       .toArray();
     console.log(`Found ${result.length} documents for Ngono.`);
     if (result.length > 0) {
@@ -244,15 +243,16 @@ router.get('/getDataForEcoli', async function (req, res, next) {
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
       .aggregate([
-        { $match: { 'dashboard view': 'include' } },
+        {
+          $match: {
+            'dashboard view': { $regex: /^include$/, $options: 'i' },
+            ST: { $ne: null },
+          },
+        },
         {
           $addFields: {
             GENOTYPE: {
-              $cond: {
-                if: { $ne: ['$ST', null] },
-                then: '$ST',
-                else: 'Unknown',
-              },
+              $concat: ['ST', { $toString: '$ST' }],
             },
           },
         },
@@ -285,7 +285,7 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'include' })
+      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' } })
       .toArray();
 
     console.log(`Found ${result.length} documents for DEcoli.`);
@@ -309,7 +309,21 @@ router.get('/getDataForShige', async function (req, res, next) {
     const result = await client
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': 'include' })
+      .aggregate([
+        {
+          $match: {
+            'dashboard view': { $regex: /^include$/, $options: 'i' },
+            GENOTYPE: { $ne: null },
+          },
+        },
+        {
+          $addFields: {
+            GENOTYPE: {
+              $concat: ['ST', { $toString: '$GENOTYPE' }],
+            },
+          },
+        },
+      ])
       .toArray();
 
     console.log(`Found ${result.length} documents for Shige.`);
@@ -334,7 +348,7 @@ router.get('/getDataForSenterica', async function (req, res, next) {
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
       .aggregate([
-        { $match: { 'dashboard view': 'Include' } },
+        { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
         {
           $addFields: {
             GENOTYPE: {
@@ -376,7 +390,7 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
       .aggregate([
-        { $match: { 'dashboard view': 'Include' } },
+        { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
         {
           $lookup: {
             from: 'senterica-output-full',
@@ -408,7 +422,10 @@ router.get('/getCollectionCounts', async function (req, res, next) {
       return client
         .db(dbName)
         .collection(collectionName)
-        .countDocuments({ 'dashboard view': ['shige', 'decoli', 'ecoli'].includes(key) ? 'include' : 'Include' });
+        .countDocuments({
+          'dashboard view': { $regex: /^include$/, $options: 'i' },
+          $or: [{ GENOTYPE: { $ne: null } }, { ST: { $ne: null } }, { MLST_Achtman: { $ne: null } }],
+        });
     });
 
     // Wait for all counts to resolve

@@ -88,7 +88,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     [mapView],
   );
   const isOPrevalence = useMemo(() => mapView === 'O prevalence', [mapView]);
-  const isOHPrevalence = useMemo(() => mapView === 'OH prevalence', [mapView]);
+  const isOHPrevalence = useMemo(() => mapView === 'H prevalence', [mapView]);
 
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
@@ -96,12 +96,12 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     const column = isNGMASTPrevalence
       ? 'NGMAST'
       : isPathSerPrevalence
-      ? 'PATHOTYPE'
-      : isOPrevalence
-      ? 'O_PREV'
-      : isOHPrevalence
-      ? 'OH_PREV'
-      : 'GENOTYPE';
+        ? 'PATHOTYPE'
+        : isOPrevalence
+          ? 'O_PREV'
+          : isOHPrevalence
+            ? 'OH_PREV'
+            : 'GENOTYPE';
     const items = {};
 
     mapData.forEach(obj => {
@@ -230,7 +230,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     if (isOHPrevalence) {
-      return 'OH';
+      return 'H';
     }
 
     if (isPathSerPrevalence) {
