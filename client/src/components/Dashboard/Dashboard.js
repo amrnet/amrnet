@@ -35,7 +35,12 @@ import {
   setKOForFilterDynamic,
   setColorPalleteKO,
 } from '../../stores/slices/dashboardSlice.ts';
-import { setActualGenomesGD, setActualGenomesDRT, setActualGenomesRDT, setActualGenomesKOT } from '../../stores/slices/graphSlice';
+import {
+  setActualGenomesGD,
+  setActualGenomesDRT,
+  setActualGenomesRDT,
+  setActualGenomesKOT,
+} from '../../stores/slices/graphSlice';
 import {
   setDataset,
   setDatasetKP,
@@ -99,7 +104,7 @@ import {
   getConvergenceData,
   getDrugsCountriesData,
   getKOYearsData,
-  filterBrushData
+  filterBrushData,
 } from './filters';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
@@ -145,15 +150,15 @@ export const DashboardPage = () => {
   const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
-  const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
-  const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
-  const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
-  const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
-  const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
-  const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
-  const startTimeKOT = useAppSelector((state) => state.graph.startTimeKOT);
-  const endTimeKOT = useAppSelector((state) => state.graph.endTimeKOT);
- // Get info either from indexedDB or mongoDB
+  const endtimeGD = useAppSelector(state => state.graph.endtimeGD);
+  const starttimeGD = useAppSelector(state => state.graph.starttimeGD);
+  const endtimeDRT = useAppSelector(state => state.graph.endtimeDRT);
+  const starttimeDRT = useAppSelector(state => state.graph.starttimeDRT);
+  const starttimeRDT = useAppSelector(state => state.graph.starttimeRDT);
+  const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
+  const startTimeKOT = useAppSelector(state => state.graph.startTimeKOT);
+  const endTimeKOT = useAppSelector(state => state.graph.endTimeKOT);
+  // Get info either from indexedDB or mongoDB
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
     const storeHasItems = await hasItems(storeName);
@@ -400,6 +405,7 @@ export const DashboardPage = () => {
             const colorPalleteKO = {
               O_locus: generatePalleteForGenotypes(uniqueKO['O_locus']),
               K_locus: generatePalleteForGenotypes(uniqueKO['K_locus']),
+              O_type: generatePalleteForGenotypes(uniqueKO['O_type']),
             };
             dispatch(setColorPalleteKO(colorPalleteKO));
           })
@@ -435,14 +441,14 @@ export const DashboardPage = () => {
         : Promise.resolve(),
 
       // Get KO diversity data
-      organism === 'kpneumo'
-        ? getStoreOrGenerateData(`${organism}_ko`, () => {
-            const dt = getKODiversityData({ data: responseData });
-            return [dt.K_locus, dt.O_locus];
-          }).then(([K_locus, O_locus]) => {
-            dispatch(setKODiversityData({ K_locus, O_locus }));
-          })
-        : Promise.resolve(),
+      // organism === 'kpneumo'
+      //   ? getStoreOrGenerateData(`${organism}_ko`, () => {
+      //       const dt = getKODiversityData({ data: responseData });
+      //       return [dt.K_locus, dt.O_locus];
+      //     }).then(([K_locus, O_locus]) => {
+      //       dispatch(setKODiversityData({ K_locus, O_locus }));
+      //     })
+      //   : Promise.resolve(),
 
       // Get convergence data
       organism === 'kpneumo'
@@ -723,8 +729,8 @@ export const DashboardPage = () => {
         actualRegion === 'All'
           ? countriesForFilter
           : actualCountry !== 'All'
-          ? [actualCountry]
-          : economicRegions[actualRegion];
+            ? [actualCountry]
+            : economicRegions[actualRegion];
       const filteredData = filters.data.filter(x => filteredCountries.includes(getCountryDisplayName(x.COUNTRY_ONLY)));
 
       dispatch(setActualGenomes(filters.genomesCount));
@@ -834,8 +840,9 @@ export const DashboardPage = () => {
   THOSE VALUES ARE BEING USED ON Graphs.js ON THE Download Chart as PNG BUTTON AND ON DownloadData.js TO GENERATE
   THE PDF */
   useEffect(() => {
-    if(organism === 'none') // To handle the error caused by this function (mentioned in above comment above)
-      return                // due to passing "organism === 'none'"
+    if (organism === 'none')
+      // To handle the error caused by this function (mentioned in above comment above)
+      return; // due to passing "organism === 'none'"
     const fetchDataAndFilter = async () => {
       try {
         const data = await getItems(organism);

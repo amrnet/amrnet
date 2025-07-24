@@ -82,10 +82,10 @@ export const drugRulesKP = [
   //   columnIDs: ['Bla_ESBL_inhR_acquired'],
   // },
   // { key: 'Ciprofloxacin S', columnIDs: ['Ciprofloxacin_prediction'], value: 'wildtype S' },
-  { key: 'CipR', columnIDs: ['Ciprofloxacin_prediction'], value: 'nonwildtype R' },
+  { key: 'Ciprofloxacin R', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   // { key: 'Ciprofloxacin I', columnIDs: ['Ciprofloxacin_prediction'], value: 'nonwildtype I' },
   { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
-  { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
+  // { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
   // { key: 'Penicillins', columnIDs: ['Bla_chr'] },
   // { key: 'β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired'] },
@@ -98,8 +98,8 @@ export const drugRulesKP = [
 ];
 
 export const drugRulesKPOnlyMarkers = [
-  { key: 'SHV', columnIDs: ['SHV_mutations'] },
-  { key: 'Omp', columnIDs: ['Omp_mutations'] },
+  { key: 'SHV mutations', columnIDs: ['SHV_mutations'] },
+  { key: 'Porin mutations', columnIDs: ['Omp_mutations'] },
 ];
 
 export const statKeysKP = [
@@ -107,7 +107,7 @@ export const statKeysKP = [
   { name: 'Carbapenems', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
   // { name: 'Ciprofloxacin S', column: 'Ciprofloxacin_prediction', key: 'wildtype S', resistanceView: true },
-  { name: 'CipR', column: 'Ciprofloxacin_prediction', key: 'nonwildtype R', resistanceView: true },
+  { name: 'Ciprofloxacin R', column: ['Flq_acquired', 'Flq_mutations'], key: '-', resistanceView: true },
   // { name: 'Ciprofloxacin I', column: 'Ciprofloxacin_prediction', key: 'nonwildtype I', resistanceView: true },
   {
     name: 'ESBL',
@@ -116,12 +116,12 @@ export const statKeysKP = [
     resistanceView: true,
   },
   // { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-', resistanceView: true },
-  {
-    name: 'Fluoroquinolones',
-    column: ['Flq_acquired', 'Flq_mutations'],
-    key: '-',
-    resistanceView: true,
-  },
+  // {
+  //   name: 'Fluoroquinolones',
+  //   column: ['Flq_acquired', 'Flq_mutations'],
+  //   key: '-',
+  //   resistanceView: true,
+  // },
   { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true },
   // { name: 'Penicillins', column: 'Bla_chr', key: '-', resistanceView: true },
   // { name: 'β-lactamase inhibitors', column: 'Bla_Carb_acquired', key: '-', resistanceView: true},
@@ -130,13 +130,13 @@ export const statKeysKP = [
   { name: 'Tetracyclines', column: 'Tet_acquired', key: '-', resistanceView: true },
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
-  { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true }, //// TODO: need to update 'Trimethoprim-sulfamethoxazole column name
-  { name: 'Pansusceptible', column: 'resistance_score', key: '0', resistanceView: true },
+  { name: 'Trimethoprim-sulfamethoxazole', column: ['Tmt_acquired', 'Sul_acquired'], key: '-', resistanceView: true }, //// TODO: need to update 'Trimethoprim-sulfamethoxazole column name
+  { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0', resistanceView: true },
 ];
 
 export const statKeysKPOnlyMarkers = [
-  { name: 'SHV mutation', column: 'SHV_mutations', key: '-' },
-  { name: 'Porin mutation', column: 'Omp_mutations', key: '-' },
+  { name: 'SHV mutations', column: 'SHV_mutations', key: '-' },
+  { name: 'Porin mutations', column: 'Omp_mutations', key: '-' },
 ];
 
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG

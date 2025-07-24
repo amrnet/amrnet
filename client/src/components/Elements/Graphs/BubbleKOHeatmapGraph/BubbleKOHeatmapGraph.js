@@ -55,7 +55,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const bubbleKOHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleKOHeatmapGraphVariable);
   const bubbleKOYAxisType = useAppSelector(state => state.graph.bubbleKOYAxisType);
-  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
   const selectedCRData = useMemo(() => {
@@ -479,8 +479,9 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      <MenuItem value="O_locus"> O_locus</MenuItem>
-                      <MenuItem value="K_locus"> K_locus</MenuItem>
+                      <MenuItem value="O_locus">O_locus</MenuItem>
+                      <MenuItem value="K_locus">K_locus</MenuItem>
+                      <MenuItem value="O_type">O_type</MenuItem>
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>

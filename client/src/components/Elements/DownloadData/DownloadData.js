@@ -201,65 +201,54 @@ export const DownloadData = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-  const listPIMD = useAppSelector((state) => state.dashboard.listPMID);
-  const PMID = useAppSelector((state) => state.dashboard.PMID);
-  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
-  const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
-  const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
-  const mapView = useAppSelector((state) => state.map.mapView);
-  const dataset = useAppSelector((state) => state.map.dataset);
-  const determinantsGraphDrugClass = useAppSelector(
-    (state) => state.graph.determinantsGraphDrugClass,
-  );
-  const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
-  const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
-  const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
-  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
-  const convergenceColourVariable = useAppSelector(
-    (state) => state.graph.convergenceColourVariable,
-  );
-  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
-  const prevalenceMapViewOptionsSelected = useAppSelector(
-    (state) => state.graph.prevalenceMapViewOptionsSelected,
-  );
-  const drugResistanceGraphView = useAppSelector((state) => state.graph.drugResistanceGraphView);
-  const captureDRT = useAppSelector((state) => state.dashboard.captureDRT);
-  const captureRFWG = useAppSelector((state) => state.dashboard.captureRFWG);
-  const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
-  const captureGD = useAppSelector((state) => state.dashboard.captureGD);
-  const genotypesForFilterSelected = useAppSelector(
-    (state) => state.dashboard.genotypesForFilterSelected,
-  );
-  const genotypesForFilterSelectedRD = useAppSelector(
-    (state) => state.dashboard.genotypesForFilterSelectedRD,
-  );
-  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
-  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
-  const topColorSlice = useAppSelector((state) => state.graph.topColorSlice);
-  const endtimeGD = useAppSelector((state) => state.graph.endtimeGD);
-  const starttimeGD = useAppSelector((state) => state.graph.starttimeGD);
-  const endtimeDRT = useAppSelector((state) => state.graph.endtimeDRT);
-  const starttimeDRT = useAppSelector((state) => state.graph.starttimeDRT);
-  const actualGenomesGD = useAppSelector((state) => state.graph.actualGenomesGD);
-  const actualGenomesDRT = useAppSelector((state) => state.graph.actualGenomesDRT);
-  const starttimeRDT = useAppSelector((state) => state.graph.starttimeRDT);
-  const endtimeRDT = useAppSelector((state) => state.graph.endtimeRDT);
-  const actualGenomesRDT = useAppSelector((state) => state.graph.actualGenomesRDT);
-  const selectedLineages = useAppSelector((state) => state.dashboard.selectedLineages);
-  const coloredOptions = useAppSelector((state) => state.graph.coloredOptions);
-  const drugClass = useAppSelector((state) => state.graph.drugClass); // Drug class selected in the graph for PDF
-  const drugGene = useAppSelector((state) => state.graph.drugGene); // Drug gene selected in the graph for PDF
-  //loadingPDF:  Loading state for PDF generation and temp change the visibility of the Geo Comp HEat map 
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
+  const listPIMD = useAppSelector(state => state.dashboard.listPMID);
+  const PMID = useAppSelector(state => state.dashboard.PMID);
+  const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
+  const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
+  const mapView = useAppSelector(state => state.map.mapView);
+  const dataset = useAppSelector(state => state.map.dataset);
+  const determinantsGraphDrugClass = useAppSelector(state => state.graph.determinantsGraphDrugClass);
+  const trendsGraphDrugClass = useAppSelector(state => state.graph.trendsGraphDrugClass);
+  const KODiversityGraphView = useAppSelector(state => state.graph.KODiversityGraphView);
+  const colorPallete = useAppSelector(state => state.dashboard.colorPallete);
+  const genotypesForFilter = useAppSelector(state => state.dashboard.genotypesForFilter);
+  const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
+  const convergenceColourVariable = useAppSelector(state => state.graph.convergenceColourVariable);
+  const convergenceColourPallete = useAppSelector(state => state.graph.convergenceColourPallete);
+  const prevalenceMapViewOptionsSelected = useAppSelector(state => state.graph.prevalenceMapViewOptionsSelected);
+  const drugResistanceGraphView = useAppSelector(state => state.graph.drugResistanceGraphView);
+  const captureDRT = useAppSelector(state => state.dashboard.captureDRT);
+  const captureRFWG = useAppSelector(state => state.dashboard.captureRFWG);
+  const captureRDWG = useAppSelector(state => state.dashboard.captureRDWG);
+  const captureGD = useAppSelector(state => state.dashboard.captureGD);
+  const genotypesForFilterSelected = useAppSelector(state => state.dashboard.genotypesForFilterSelected);
+  const genotypesForFilterSelectedRD = useAppSelector(state => state.dashboard.genotypesForFilterSelectedRD);
+  const topGenesSlice = useAppSelector(state => state.graph.topGenesSlice);
+  const topGenotypeSlice = useAppSelector(state => state.graph.topGenotypeSlice);
+  const topColorSlice = useAppSelector(state => state.graph.topColorSlice);
+  const endtimeGD = useAppSelector(state => state.graph.endtimeGD);
+  const starttimeGD = useAppSelector(state => state.graph.starttimeGD);
+  const endtimeDRT = useAppSelector(state => state.graph.endtimeDRT);
+  const starttimeDRT = useAppSelector(state => state.graph.starttimeDRT);
+  const actualGenomesGD = useAppSelector(state => state.graph.actualGenomesGD);
+  const actualGenomesDRT = useAppSelector(state => state.graph.actualGenomesDRT);
+  const starttimeRDT = useAppSelector(state => state.graph.starttimeRDT);
+  const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
+  const actualGenomesRDT = useAppSelector(state => state.graph.actualGenomesRDT);
+  const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
+  const coloredOptions = useAppSelector(state => state.graph.coloredOptions);
+  const drugClass = useAppSelector(state => state.graph.drugClass); // Drug class selected in the graph for PDF
+  const drugGene = useAppSelector(state => state.graph.drugGene); // Drug gene selected in the graph for PDF
+  //loadingPDF:  Loading state for PDF generation and temp change the visibility of the Geo Comp Heatmap
   // to show all the selected values to take a correct screenshot
-  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF); 
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   const KOForFilterSelected = useAppSelector(state => state.dashboard.KOForFilterSelected);
   const colorPalleteKO = useAppSelector(state => state.dashboard.colorPalleteKO);
   const KOTrendsGraphPlotOption = useAppSelector(state => state.graph.KOTrendsGraphPlotOption);
   const customDropdownMapViewNG = useAppSelector(state => state.graph.customDropdownMapViewNG);
-
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -289,7 +278,7 @@ export const DownloadData = () => {
     setLoadingCSV(true);
     await axios
       .post(`${API_ENDPOINT}file/download`, { organism })
-      .then((res) => {
+      .then(res => {
         let indexes = [];
         let csv = res.data.split('\n');
         let lines = [];
@@ -344,7 +333,9 @@ export const DownloadData = () => {
         // Update the filename to reflect TSV format
         download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
       })
-      .catch((error) => {console.error('Error downloading database:', error)})
+      .catch(error => {
+        console.error('Error downloading database:', error);
+      })
       .finally(() => {
         setLoadingCSV(false);
         dispatch(setLoadingPDF(false));
@@ -352,13 +343,11 @@ export const DownloadData = () => {
   }
 
   function getOrganismCards() {
-    return graphCards.filter((card) => card.organisms.includes(organism));
+    return graphCards.filter(card => card.organisms.includes(organism));
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi'
-      ? getColorForGenotype(genotype)
-      : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
   }
 
   function getDrugClassesBars() {
@@ -446,10 +435,10 @@ export const DownloadData = () => {
         isGenotype
           ? getGenotypeColor(legend)
           : isDrug
-          ? getColorForDrug(legend)
-          : isVariable
-          ? convergenceColourPallete[legend]
-          : legend.color,
+            ? getColorForDrug(legend)
+            : isVariable
+              ? convergenceColourPallete[legend]
+              : legend.color,
       );
       document.circle(50 + xFactor, rectY + 10 + yFactor, 2.5, 'F');
 
@@ -478,10 +467,10 @@ export const DownloadData = () => {
           isGenotype
             ? getGenotypeColor(legend)
             : isDrug
-            ? getColorForDrug(legend)
-            : isVariable
-            ? convergenceColourPallete[legend]
-            : legend.color,
+              ? getColorForDrug(legend)
+              : isVariable
+                ? convergenceColourPallete[legend]
+                : legend.color,
         );
         document.circle(50 + xFactor, 34 + yFactor, 2.5, 'F');
         document.text(
@@ -492,7 +481,6 @@ export const DownloadData = () => {
       });
     }
   }
-
 
   async function handleClickDownloadPDF() {
     dispatch(setLoadingPDF(true));
@@ -507,8 +495,7 @@ export const DownloadData = () => {
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
 
     try {
-      if (genotypesForFilter.length <= 0)
-        return console.log('No data available to generate report');
+      if (genotypesForFilter.length <= 0) return console.log('No data available to generate report');
       const doc = new jsPDF({ unit: 'px', format: 'a4' });
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
@@ -603,7 +590,7 @@ export const DownloadData = () => {
       doc.text(date, pageWidth / 2, 68, { align: 'center' });
 
       if (organism === 'styphi') {
-        let list = PMID.filter((value) => value !== '-');
+        let list = PMID.filter(value => value !== '-');
         let pmidSpace, dynamicText;
         if (actualCountry === 'All') {
           pmidSpace = 50;
@@ -612,7 +599,7 @@ export const DownloadData = () => {
           )}.`;
           // pmidSpace = 50;
         } else {
-          list = listPIMD.filter((value) => value !== '-');
+          list = listPIMD.filter(value => value !== '-');
           dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(
             ', ',
           )}.`;
@@ -622,8 +609,7 @@ export const DownloadData = () => {
 
           // Find the appropriate pmidSpace based on textWidth
           pmidSpace =
-            pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) ||
-            pmidSpaces[pmidSpaces.length - 1];
+            pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
         }
         doc.text(dynamicText, 16, 275, { align: 'left', maxWidth: pageWidth - 36 });
 
@@ -790,15 +776,13 @@ export const DownloadData = () => {
         // euFlag.src = EUFlagImg;
         // doc.addImage(euFlag, 'JPG',173,pageHeight-38, 12, 7, undefined,'FAST');
       } else if (organism === 'ngono') {
-        let list = PMID.filter((value) => value !== '-');
+        let list = PMID.filter(value => value !== '-');
         let pmidSpace, dynamicText;
         if (actualCountry === 'All') {
           pmidSpace = 0;
-          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(
-            ', ',
-          )}.`;
+          dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(', ')}.`;
         } else {
-          list = listPIMD.filter((value) => value !== '-');
+          list = listPIMD.filter(value => value !== '-');
           dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(
             ', ',
           )}.`;
@@ -809,8 +793,7 @@ export const DownloadData = () => {
 
         // Find the appropriate pmidSpace based on textWidth
         pmidSpace =
-          pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) ||
-          pmidSpaces[pmidSpaces.length - 1];
+          pmidSpaces.find((space, index) => textWidth <= widthRanges[index]) || pmidSpaces[pmidSpaces.length - 1];
 
         doc.text(dynamicText, 16, 265, { align: 'left', maxWidth: pageWidth - 36 });
         doc.text(texts[0], 16, 105, { align: 'left', maxWidth: pageWidth - 36 });
@@ -1146,13 +1129,13 @@ export const DownloadData = () => {
 
       // Map
       // Add 'Global Overview of {mapView}' title
-      const actualMapView = mapLegends.find((x) => x.value === mapView).label;
+      const actualMapView = mapLegends.find(x => x.value === mapView).label;
       doc.addPage();
       drawHeader({ document: doc, pageWidth });
       drawFooter({ document: doc, pageHeight, pageWidth, date });
 
       doc.setFontSize(fontSize).setFont(undefined, 'bold');
-      doc.text(`Global Overview of ${actualMapView} `, pageWidth/2, 44, { align: 'center' });
+      doc.text(`Global Overview of ${actualMapView} `, pageWidth / 2, 44, { align: 'center' });
       //Rename Report heading based on new Org name
       doc.setFontSize(12).setFont(undefined, 'normal');
       doc.text(`Total: ${actualGenomes} genomes`, pageWidth / 2, 60, { align: 'center' });
@@ -1167,13 +1150,7 @@ export const DownloadData = () => {
       doc.setFont(undefined, 'normal');
       // doc.text(`Map View: ${actualMapView}`, 16, 128);
       // doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
-      doc.text(
-        `Dataset: ${dataset}${
-          dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
-        }`,
-        16,
-        128,
-      );
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 128);
       const getAxisLabel = () => {
         switch (organism) {
           case 'decoli':
@@ -1187,64 +1164,63 @@ export const DownloadData = () => {
             return '';
         }
       };
-      
+
       doc.text(`${getAxisLabel()} `, 16, 140);
 
-      // Improve PDF for long list of "prevalenceMapViews" 
+      // Improve PDF for long list of "prevalenceMapViews"
       const prevalenceMapViews = [
-          'Genotype prevalence',
-          'Lineage prevalence',
-          'ST prevalence',
-          'Sublineage prevalence',
-          'Pathotype prevalence',
-          'Serotype prevalence',
-          'O prevalence',
-          'OH prevalence',
-        ];
-      
+        'Genotype prevalence',
+        'Lineage prevalence',
+        'ST prevalence',
+        'Sublineage prevalence',
+        'Pathotype prevalence',
+        'Serotype prevalence',
+        'O prevalence',
+        'H prevalence',
+      ];
+
       let y = 162;
-        const maxLineLength = 98;
-        // Helper to draw wrapped text
-        // Improve code for {mapView}: {Prevelance list}
-        const drawWrappedText = (label, text) => {
-          const fullText = `${label}: ${text}`;
-          for (let i = 0; i < fullText.length; i += maxLineLength) {
-            const line = fullText.slice(i, i + maxLineLength);
-            doc.text(line, 16, y);
-            y += 10;
+      const maxLineLength = 98;
+      // Helper to draw wrapped text
+      // Improve code for {mapView}: {Prevelance list}
+      const drawWrappedText = (label, text) => {
+        const fullText = `${label}: ${text}`;
+        for (let i = 0; i < fullText.length; i += maxLineLength) {
+          const line = fullText.slice(i, i + maxLineLength);
+          doc.text(line, 16, y);
+          y += 10;
 
-            if (y > pageHeight - 30) {
-              doc.addPage();
-              drawHeader({ document: doc, pageWidth });
-              drawFooter({ document: doc, pageHeight, pageWidth, date });
-              y = 50; // Reset y to 30 at the top of the new page
-            }
+          if (y > pageHeight - 30) {
+            doc.addPage();
+            drawHeader({ document: doc, pageWidth });
+            drawFooter({ document: doc, pageHeight, pageWidth, date });
+            y = 50; // Reset y to 30 at the top of the new page
           }
-        };
-
-        
-        // Prevalence map views
-        if (prevalenceMapViews.includes(mapView)) {
-          const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
-          drawWrappedText(mapView, genotypesText);
         }
+      };
 
-        // NG-MAST specific view
-        if (mapView === 'NG-MAST prevalence') {
-          const genotypesText = customDropdownMapViewNG.join(', ');
-          drawWrappedText(mapView, genotypesText);
-        }
+      // Prevalence map views
+      if (prevalenceMapViews.includes(mapView)) {
+        const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+        drawWrappedText(mapView, genotypesText);
+      }
 
-        // Resistance prevalence view
-        if (mapView === 'Resistance prevalence') {
-          const resolvedOptions =
-            ngonoSusceptibleRule(prevalenceMapViewOptionsSelected, organism) ||
-            drugAcronymsOpposite[prevalenceMapViewOptionsSelected] ||
-            prevalenceMapViewOptionsSelected;
+      // NG-MAST specific view
+      if (mapView === 'NG-MAST prevalence') {
+        const genotypesText = customDropdownMapViewNG.join(', ');
+        drawWrappedText(mapView, genotypesText);
+      }
 
-          const genotypesText = resolvedOptions.join(', ');
-          drawWrappedText(mapView, genotypesText);
-        }
+      // Resistance prevalence view
+      if (mapView === 'Resistance prevalence') {
+        const resolvedOptions =
+          ngonoSusceptibleRule(prevalenceMapViewOptionsSelected, organism) ||
+          drugAcronymsOpposite[prevalenceMapViewOptionsSelected] ||
+          prevalenceMapViewOptionsSelected;
+
+        const genotypesText = resolvedOptions.join(', ');
+        drawWrappedText(mapView, genotypesText);
+      }
 
       // let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       await svgAsPngUri(document.getElementById('global-overview-map'), {
@@ -1252,7 +1228,7 @@ export const DownloadData = () => {
         backgroundColor: 'white',
         width: 1200,
         left: -200,
-      }).then(async (uri) => {
+      }).then(async uri => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -1266,7 +1242,7 @@ export const DownloadData = () => {
         ctx.drawImage(mapImg, 0, 0, canvas.width, canvas.height);
 
         const img = canvas.toDataURL('image/png');
-        doc.addImage(img, 'PNG', 0, y+40, pageWidth, 223, undefined, 'FAST');
+        doc.addImage(img, 'PNG', 0, y + 40, pageWidth, 223, undefined, 'FAST');
       });
 
       const mapLegend = new Image();
@@ -1288,152 +1264,130 @@ export const DownloadData = () => {
           break;
       }
       if (mapView === 'Dominant Genotype') {
-        doc.addImage(
-          mapLegend,
-          'PNG',
-          pageWidth / 2 - legendWidth / 2,
-          y,
-          legendWidth,
-          47,
-          undefined,
-          'FAST',
-        );
+        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, y, legendWidth, 47, undefined, 'FAST');
       } else {
-        doc.addImage(
-          mapLegend,
-          'PNG',
-          pageWidth - pageWidth / 5,
-          y,
-          legendWidth,
-          47,
-          undefined,
-          'FAST',
-        );
+        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5, y, legendWidth, 47, undefined, 'FAST');
       }
 
       //Heatmap
       // Helper to add page with header/footer and optional title/metadata
-      let displayHeight
+      let displayHeight;
       function addStandardPage({ doc, title, subtitle1, subtitle2, date, pageWidth, pageHeight }) {
-      doc.addPage();
-      drawHeader({ document: doc, pageWidth });
-      drawFooter({ document: doc, pageHeight, pageWidth, date });
-      doc.setFontSize(12).setFont(undefined, 'bold');
-      doc.text(title, 16, 44);
-      doc.setFont(undefined, 'normal');
-      doc.setFontSize(12);
-      if (subtitle1) doc.text(subtitle1, 16, 56);
-      if (subtitle2) doc.text(subtitle2, 16, 76);
-    }
+        doc.addPage();
+        drawHeader({ document: doc, pageWidth });
+        drawFooter({ document: doc, pageHeight, pageWidth, date });
+        doc.setFontSize(12).setFont(undefined, 'bold');
+        doc.text(title, 16, 44);
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(12);
+        if (subtitle1) doc.text(subtitle1, 16, 56);
+        if (subtitle2) doc.text(subtitle2, 16, 76);
+      }
 
-    // Helper to render image into PDF
+      // Helper to render image into PDF
       async function addImageToPDF({ doc, elementId, x = 16, y = 100, pageWidth }) {
-      const img = document.createElement('img');
-      const imgLoad = imgOnLoadPromise(img);
-      img.src = await domtoimage.toPng(document.getElementById(elementId), {
-      // doc.text(`Selected View: ${actualMapView}`, 16, 56);
-      // doc.text(
-      //   `Dataset: ${dataset}${
-      //     dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
-      //   }`,
-      //   16,
-      //   76,
-      // );
-      // const graphImgHeat = document.createElement('img');
-      // const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
-      // graphImgHeat.src = await domtoimage.toPng(document.getElementById('BG'), {
-        bgcolor: 'white',
-      });
-      
-      await imgLoad;
-      
+        const img = document.createElement('img');
+        const imgLoad = imgOnLoadPromise(img);
+        img.src = await domtoimage.toPng(document.getElementById(elementId), {
+          // doc.text(`Selected View: ${actualMapView}`, 16, 56);
+          // doc.text(
+          //   `Dataset: ${dataset}${
+          //     dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
+          //   }`,
+          //   16,
+          //   76,
+          // );
+          // const graphImgHeat = document.createElement('img');
+          // const graphImgPromiseHeat = imgOnLoadPromise(graphImgHeat);
+          // graphImgHeat.src = await domtoimage.toPng(document.getElementById('BG'), {
+          bgcolor: 'white',
+        });
+
+        await imgLoad;
+
         // Estimate height for all images
         const aspectRatio = img.width / img.height;
         const displayWidth = pageWidth - 80;
         displayHeight = displayWidth / aspectRatio;
-        doc.addImage(img, 'PNG', x, y, displayWidth-20, displayHeight-20, undefined, 'FAST');
-      //
-    }
-    // Main PDF logic
-    const commonSubtitle1 = `Selected View: ${actualMapView}`;
-    const commonSubtitle2 = `Dataset: ${dataset}${
-      dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
-    }`;
+        doc.addImage(img, 'PNG', x, y, displayWidth - 20, displayHeight - 20, undefined, 'FAST');
+        //
+      }
+      // Main PDF logic
+      const commonSubtitle1 = `Selected View: ${actualMapView}`;
+      const commonSubtitle2 = `Dataset: ${dataset}${
+        dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
+      }`;
 
-    // Heatmap Page
-    addStandardPage({
-      doc,
-      title: 'Geographic Comparisons (Heat Map)' ,
-      subtitle1: commonSubtitle1,
-      subtitle2: commonSubtitle2,
-      date,
-      pageWidth,
-      pageHeight,
-    });
-    await addImageToPDF({ doc, elementId: 'BG', pageWidth }); // BG is replaced from CVM for BubbleGeographicGraph
-
-    // TL Map Page 
-    // Hidden for now from PDF, as we dont have a trend line map on the dashboard
-    // addStandardPage({
-    //   doc,
-    //   title: 'Geographic Comparisons (Trend Line)',
-    //   subtitle1: commonSubtitle1,
-    //   subtitle2: commonSubtitle2,
-    //   date,
-    //   pageWidth,
-    //   pageHeight,
-    // });
-    // doc.text(`${drugClass} : ${drugGene} Gene`, 16, 66); // Add drug class and gene to the title
-    // await addImageToPDF({ doc, elementId: 'TL', pageWidth });
-
-    // // Trend Line Page Add a Legends
-    // const whiteBoxY = 100 + ((displayHeight-20) * 0.73);
-    // doc.setFillColor(255, 255, 255); // White color
-    // doc.rect(10, whiteBoxY, pageWidth - 20, 140, 'F'); // Draw a filled rectangle as background
-    
-    // drawLegend({
-    //   document: doc,
-    //   legendData: coloredOptions,
-    //   factor: 17, // Adjust factor based on the number of legend items
-    //   rectY:whiteBoxY,
-    //   xSpace: 80, // Space between legend items
-    //   isDrug: false,
-    // });
-
-    // Pathotype or Serotype Page 
-    if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
+      // Heatmap Page
       addStandardPage({
         doc,
-        title: organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons',
+        title: 'Geographic Comparisons (Heatmap)',
         subtitle1: commonSubtitle1,
         subtitle2: commonSubtitle2,
         date,
         pageWidth,
         pageHeight,
       });
-      await addImageToPDF({ doc, elementId: 'BHP', pageWidth });
-    }
+      await addImageToPDF({ doc, elementId: 'BG', pageWidth }); // BG is replaced from CVM for BubbleGeographicGraph
+
+      // TL Map Page
+      // Hidden for now from PDF, as we dont have a trend line map on the dashboard
+      // addStandardPage({
+      //   doc,
+      //   title: 'Geographic Comparisons (Trend Line)',
+      //   subtitle1: commonSubtitle1,
+      //   subtitle2: commonSubtitle2,
+      //   date,
+      //   pageWidth,
+      //   pageHeight,
+      // });
+      // doc.text(`${drugClass} : ${drugGene} Gene`, 16, 66); // Add drug class and gene to the title
+      // await addImageToPDF({ doc, elementId: 'TL', pageWidth });
+
+      // // Trend Line Page Add a Legends
+      // const whiteBoxY = 100 + ((displayHeight-20) * 0.73);
+      // doc.setFillColor(255, 255, 255); // White color
+      // doc.rect(10, whiteBoxY, pageWidth - 20, 140, 'F'); // Draw a filled rectangle as background
+
+      // drawLegend({
+      //   document: doc,
+      //   legendData: coloredOptions,
+      //   factor: 17, // Adjust factor based on the number of legend items
+      //   rectY:whiteBoxY,
+      //   xSpace: 80, // Space between legend items
+      //   isDrug: false,
+      // });
+
+      // Pathotype or Serotype Page
+      if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
+        addStandardPage({
+          doc,
+          title: organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons',
+          subtitle1: commonSubtitle1,
+          subtitle2: commonSubtitle2,
+          date,
+          pageWidth,
+          pageHeight,
+        });
+        await addImageToPDF({ doc, elementId: 'BHP', pageWidth });
+      }
       // Graphs
       const isKlebe = organism === 'kpneumo';
       const isNgono = organism === 'ngono';
 
-      const cards = getOrganismCards().filter((card) => card.id !== 'HSG');
-      const legendDrugs =
-        organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
+      const cards = getOrganismCards().filter(card => card.id !== 'HSG');
+      const legendDrugs = organism === 'styphi' ? drugsST : organism === 'kpneumo' ? drugsKP : drugsNG;
       const drugClassesBars = getDrugClassesBars();
       let drugClassesFactor = 0;
       if (drugClassesBars !== undefined) drugClassesFactor = Math.ceil(drugClassesBars.length / 3);
       const genotypesFactor = Math.ceil(genotypesForFilterSelected.length / 6);
 
       const isYersiniabactin = convergenceColourVariable === 'Yersiniabactin';
-      const variablesFactor = Math.ceil(
-        Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3),
-      );
+      const variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / (isYersiniabactin ? 2 : 3));
 
       for (let index = 0; index < cards.length; index++) {
         if (
-          (cards[index].id === 'DRT' &&
-            (drugResistanceGraphView.length === 0 || captureDRT === false)) ||
+          (cards[index].id === 'DRT' && (drugResistanceGraphView.length === 0 || captureDRT === false)) ||
           (cards[index].id === 'RFWG' && captureRFWG === false) ||
           (cards[index].id === 'RDWG' && captureRDWG === false) ||
           (cards[index].id === 'GD' && captureGD === false)
@@ -1457,12 +1411,8 @@ export const DownloadData = () => {
             title += `: ${KODiversityGraphView}`;
             break;
           case 'BG': // BG is replaced from CVM for BubbleGeographicGraph
-            const group = variablesOptions.find(
-              (option) => option.value === convergenceGroupVariable,
-            ).label;
-            const colour = variablesOptions.find(
-              (option) => option.value === convergenceColourVariable,
-            ).label;
+            const group = variablesOptions.find(option => option.value === convergenceGroupVariable).label;
+            const colour = variablesOptions.find(option => option.value === convergenceColourVariable).label;
             title += `: ${group} x ${colour}`;
             break;
           default:
@@ -1481,17 +1431,12 @@ export const DownloadData = () => {
         else doc.text(`Total: ${actualGenomes} genomes`, 16, 74);
         doc.text(`Country: ${actualCountry}`, 16, 86);
         // doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
-        if (cards[index].id === 'GD')
-          doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
-        else if (cards[index].id === 'DRT')
-          doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
-        else if (cards[index].id === 'RDT')
-          doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
+        if (cards[index].id === 'GD') doc.text(`Time period: ${starttimeGD} to ${endtimeGD}`, 16, 98);
+        else if (cards[index].id === 'DRT') doc.text(`Time period: ${starttimeDRT} to ${endtimeDRT}`, 16, 98);
+        else if (cards[index].id === 'RDT') doc.text(`Time period: ${starttimeRDT} to ${endtimeRDT}`, 16, 98);
         else doc.text(`Time Period: ${actualTimeInitial} to ${actualTimeFinal}`, 16, 98);
         doc.text(
-          `Dataset: ${dataset}${
-            dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
-          }`,
+          `Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`,
           16,
           110,
         );
@@ -1502,7 +1447,7 @@ export const DownloadData = () => {
           bgcolor: 'white',
         });
         await graphImgPromise;
-       // Plot re-size for PDF
+        // Plot re-size for PDF
         const aspectRatio = graphImg.width / graphImg.height;
         const isSmallImage = graphImg.width <= 700 && graphImg.height <= 700;
 
@@ -1533,14 +1478,20 @@ export const DownloadData = () => {
         // Position: center horizontally, and either center or top-align vertically
         const xPosition = leftMargin + (availableWidth - displayWidth) / 2;
         const yPosition = isSmallImage
-          ? topMargin + (availableHeight - displayHeight) / 2  // vertical center
-          : topMargin;  // top-align for large images
+          ? topMargin + (availableHeight - displayHeight) / 2 // vertical center
+          : topMargin; // top-align for large images
 
         doc.addImage(graphImg, 'PNG', xPosition, yPosition, displayWidth, displayHeight, undefined, 'FAST');
 
         // const rectY = matches1000 ? 390 : 340;
-        const rectY = (yPosition + (displayHeight)*0.73) // updated Legends position based on image height and Y position on PDF
-        if (cards[index].id !== 'HSG2' && cards[index].id !== 'BG' && cards[index].id !== 'BKOH'  && cards[index].id !== 'BAMRH') { // BG is replaced from CVM for BubbleGeographicGraph
+        const rectY = yPosition + displayHeight * 0.73; // updated Legends position based on image height and Y position on PDF
+        if (
+          cards[index].id !== 'HSG2' &&
+          cards[index].id !== 'BG' &&
+          cards[index].id !== 'BKOH' &&
+          cards[index].id !== 'BAMRH'
+        ) {
+          // BG is replaced from CVM for BubbleGeographicGraph
           doc.setFillColor(255, 255, 255); // white
           doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
         }
@@ -1556,9 +1507,8 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'DRT') {
-
           // Dynamic Legends for DRT
-          
+
           // let legendDrugs;
 
           // switch (organism) {
@@ -1584,9 +1534,7 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'RDWG') {
-          const legendDataRD = drugClassesBars.filter((value) =>
-            genotypesForFilterSelectedRD.includes(value.name),
-          );
+          const legendDataRD = drugClassesBars.filter(value => genotypesForFilterSelectedRD.includes(value.name));
           // console.log("..../", genotypesForFilterSelectedRD, legendDataRD)
           drawLegend({
             document: doc,
@@ -1617,13 +1565,13 @@ export const DownloadData = () => {
           }
         } else if (cards[index].id === 'RDT') {
           const legendGenotypes = genotypesForFilter
-            .filter((genotype) => topGenotypeSlice.includes(genotype))
-            .map((genotype) => ({
+            .filter(genotype => topGenotypeSlice.includes(genotype))
+            .map(genotype => ({
               name: genotype,
               color: getGenotypeColor(genotype),
             }));
 
-          const legendGens = drugClassesBars.filter((value) => topGenesSlice.includes(value.name));
+          const legendGens = drugClassesBars.filter(value => topGenesSlice.includes(value.name));
 
           drawLegend({
             id: 'RDT',
@@ -1649,20 +1597,20 @@ export const DownloadData = () => {
           drawHeader({ document: doc, pageWidth });
           drawFooter({ document: doc, pageHeight, pageWidth, date });
         } else if (cards[index].id === 'KOT') {
-            const legendKOTColorMap = colorPalleteKO[KOTrendsGraphPlotOption] || {};
-            const legendKOT = KOForFilterSelected.map(key => ({
-              name: key,
-              color: legendKOTColorMap[key] || '#ccc', // fallback to grey if missing
-            }));
+          const legendKOTColorMap = colorPalleteKO[KOTrendsGraphPlotOption] || {};
+          const legendKOT = KOForFilterSelected.map(key => ({
+            name: key,
+            color: legendKOTColorMap[key] || '#ccc', // fallback to grey if missing
+          }));
 
-            drawLegend({
-              document: doc,
-              legendData: [...legendKOT],
-              factor: Math.ceil(legendKOT.length / 4), // Adjust based on rows per column
-              rectY,
-              xSpace: 90,
-              // twoPages: isKlebe
-            });
+          drawLegend({
+            document: doc,
+            legendData: [...legendKOT],
+            factor: Math.ceil(legendKOT.length / 4), // Adjust based on rows per column
+            rectY,
+            xSpace: 90,
+            // twoPages: isKlebe
+          });
           // id= convergence-graph for AMR/virulence (Kleb) ,
         } else if (cards[index].id === 'convergence-graph') {
           // console.log("convergenceColourPallete",topColorSlice)
@@ -1748,8 +1696,8 @@ export const DownloadData = () => {
         onClick={() => handleClickDatabasePage()}
         startIcon={<Storage />}
       >
-      {/* Rename based on Feedback documnet 24 June */}
-        Info and Definitions 
+        {/* Rename based on Feedback documnet 24 June */}
+        Info and Definitions
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
