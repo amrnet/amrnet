@@ -23,7 +23,7 @@ import {
   setTopXGenotypeRDWG,
 } from '../../../../stores/slices/graphSlice';
 import { drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   colorForDrugClassesKP,
   colorForDrugClassesST,
@@ -84,35 +84,34 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
     }
   }, [genotypesDrugClassesData, determinantsGraphDrugClass, actualCountry]);
   useEffect(() => {
-    // dispatch(setResetBool(true));
+    dispatch(setResetBool(true));
     setCurrentTooltip(null);
-    // dispatch(setResetBool(false));
   }, [genotypesDrugClassesData]);
 
-  function getDrugClassesBars() {
+  const drugClassesBars = useMemo(() => {
     switch (organism) {
       case 'styphi':
         if (colorForDrugClassesST[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesST[determinantsGraphDrugClass].filter(
-            item => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesST[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       case 'kpneumo':
         if (colorForDrugClassesKP[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesKP[determinantsGraphDrugClass].filter(
-            item => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesKP[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       case 'ngono':
         if (colorForDrugClassesNG[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesNG[determinantsGraphDrugClass].filter(
-            item => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesNG[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       default:
-        return [];
+        return topXGenotypeRDWG
+          .filter(x => x !== 'None')
+          .map((x, i) => {
+            return { name: x, color: colorForMarkers[i] };
+          })
+          .concat([{ name: 'None', color: '#B9B9B9' }]);
     }
-  }
+  }, [determinantsGraphDrugClass, organism, topXGenotypeRDWG]);
+
   let data = 0;
   useEffect(() => {
     if (genotypesDrugClassesData[determinantsGraphDrugClass] !== undefined) {
@@ -211,20 +210,6 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   function handleClickChart(event) {
     setCurrentEventSelected(event);
   }
-  //TODO: Check this fuction to work for all organisms
-  function getColorForDrug(drug) {
-    const colorForDrugClasses =
-      organism === 'styphi'
-        ? colorForDrugClassesST
-        : organism === 'kpneumo'
-        ? colorForDrugClassesKP
-        : colorForDrugClassesNG;
-    const drugClassColors = colorForDrugClasses[determinantsGraphDrugClass];
-    // Find the color for the specific drug from the drug class colors
-    const drugColorObject = drugClassColors.find(item => drug === item.name);
-    const drugColor = drugColorObject ? drugColorObject.color : '#DCDCDC'; // If drugColorObject exists, extract color, otherwise set to empty string
-    return drugColor;
-  }
 
   useEffect(() => {
     const data = newArray.find(item => item.name === currentEventSelected?.activeLabel);
@@ -253,7 +238,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: getColorForDrug(key),
+          color: drugClassesBars?.find(x => x.name === key)?.color || '#DCDCDC',
         });
 
         // value.drugClasses = value.drugClasses.sort((a, b) => a.label.localeCompare(b.label));
@@ -263,16 +248,15 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
-      // dispatch(setResetBool(false));
+      dispatch(setResetBool(false));
     }
   }, [topXGenotypeRDWG, currentEventSelected.activeLabel, currentSliderValueRD]);
 
   useEffect(() => {
     if (!resetBool) handleClickChart(currentEventSelected);
     else {
-      // dispatch(setResetBool(true));
       setCurrentTooltip(null);
-      // dispatch(setResetBool(false));
+      dispatch(setResetBool(true));
     }
   }, [topXGenotypeRDWG, currentSliderValueRD]);
 
@@ -340,7 +324,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                 }}
               />
 
-              {getDrugClassesBars()?.map((option, index) => (
+              {drugClassesBars?.map((option, index) => (
                 <Bar
                   key={`determinants-bar-${index}`}
                   dataKey={option.name}

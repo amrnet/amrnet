@@ -1,4 +1,11 @@
-import { drugRulesINTS, drugRulesNG, drugRulesKP, statKeysKP, statKeysECOLI } from './drugClassesRules';
+import {
+  drugRulesINTS,
+  drugRulesNG,
+  drugRulesKP,
+  statKeysKP,
+  statKeysECOLI,
+  statKeysKPOnlyMarkers,
+} from './drugClassesRules';
 
 // List of Salmonella drugs
 export const drugsST = [
@@ -88,7 +95,10 @@ export const defaultDrugsForDrugResistanceGraphNG = [
 
 // List of Klebsiella drugs
 export const drugsKP = statKeysKP.map(x => x.name);
-export const markersDrugsKP = [...drugsKP.filter(x => !['Pansusceptible'].includes(x)), 'SHV', 'Omp'].sort();
+export const markersDrugsKP = [
+  ...drugsKP.filter(x => !['Pansusceptible'].includes(x)),
+  ...statKeysKPOnlyMarkers.map(x => x.name),
+].sort();
 
 // List of Salmonella Typhi drug classes
 export const drugClassesST = [
@@ -137,6 +147,8 @@ export const drugAcronyms = {
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
   Carbapenems: 'CARB',
+  'Ciprofloxacin R': 'CipR',
+  Penicillins: 'PCN',
 };
 
 export const drugAcronymsOpposite = {
@@ -182,9 +194,9 @@ export function getDrugClasses(organism) {
       return drugClassesNG;
     case 'senterica':
     case 'sentericaints':
-      return drugsINTS;
+      return drugsINTS.filter(x => x !== 'Pansusceptible');
     default:
-      return drugsECOLI;
+      return drugsECOLI.filter(x => x !== 'Pansusceptible');
   }
 }
 

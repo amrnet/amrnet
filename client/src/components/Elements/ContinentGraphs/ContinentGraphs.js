@@ -70,10 +70,10 @@ export const ContinentGraphs = () => {
   const globalOverviewLabel = useAppSelector(state => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
-  const drugClass = useAppSelector((state) => state.graph.drugClass); // Drug class selected in the graph for SS
-  const drugGene = useAppSelector((state) => state.graph.drugGene);// Drug gene selected in the graph for SS
+  const drugClass = useAppSelector(state => state.graph.drugClass); // Drug class selected in the graph for SS
+  const drugGene = useAppSelector(state => state.graph.drugGene); // Drug gene selected in the graph for SS
   // coloredOptions is used to draw the legend in the Trend Line graph
-  const coloredOptions = useAppSelector((state) => state.graph.coloredOptions); 
+  const coloredOptions = useAppSelector(state => state.graph.coloredOptions);
   useEffect(() => {
     setShowFilter(!matches500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,29 +105,21 @@ export const ContinentGraphs = () => {
   if (!continentGraphCard.organisms.includes(organism)) {
     return null;
   }
-// This is a component that renders the continent graphs legends based on the selected organism
-function drawLegend({
-    legendData,
-    context,
-    factor,
-    mobileFactor,
-    yPosition,
-    xSpace,
-  }) {
+  // This is a component that renders the continent graphs legends based on the selected organism
+  function drawLegend({ legendData, context, factor, mobileFactor, yPosition, xSpace }) {
     legendData.forEach((legend, i) => {
       const yFactor = (i % factor) * 24;
       const xFactor = Math.floor(i / factor) * xSpace;
       context.textAlign = 'left';
-      context.fillStyle =legend.color;
+      context.fillStyle = legend.color;
       context.beginPath();
       context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
       context.fillStyle = 'black';
-      context.fillText(legend.name,52 + xFactor + 12,yPosition + 4 - mobileFactor + yFactor,);
+      context.fillText(legend.name, 52 + xFactor + 12, yPosition + 4 - mobileFactor + yFactor);
     });
   }
-
 
   async function handleClick(event) {
     event.stopPropagation();
@@ -163,8 +155,8 @@ function drawLegend({
       // canvas.width = 1200;
 
       canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
-      console.log('canvas.width', canvas.width, graphImg.width);
-      canvas.height = graphImg.height + 520  +('BG' ? 250 : heightFactor); // BG is replaced from CVM for BubbleGeographicGraph
+      // console.log('canvas.width', canvas.width, graphImg.width);
+      canvas.height = graphImg.height + 520 + ('BG' ? 250 : heightFactor); // BG is replaced from CVM for BubbleGeographicGraph
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -191,14 +183,14 @@ function drawLegend({
       ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
       ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
       ctx.fillText(`${drugClass} : ${drugGene} Gene`, canvas.width / 2, 194); // Add drug class and gene to the title to PDF
-      
+
       // This is a component that renders the continent graphs legends based on the selected organism
 
       if (currentTab === 'TL') {
         ctx.fillStyle = 'white';
-        const whiteBoxY =  graphImg.height*0.73+220
+        const whiteBoxY = graphImg.height * 0.73 + 220;
         ctx.fillRect(0, whiteBoxY, canvas.width, canvas.height);
-        const variablesFactor = Math.ceil(coloredOptions.length / 3);;
+        const variablesFactor = Math.ceil(coloredOptions.length / 3);
         let heightFactor = 0;
         heightFactor += variablesFactor * 22;
 

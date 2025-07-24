@@ -10,6 +10,7 @@ interface CollapsesModel {
 interface KOYearsDataModel {
   O_locus: [];
   K_locus: [];
+  O_type: [];
 }
 interface GraphState {
   countriesForFilter: Array<string>;
@@ -80,7 +81,7 @@ interface GraphState {
   actualGenomesGD: number;
   actualGenomesDRT: number;
   actualGenomesRDT: number;
-  actualGenomesKOT: number;  // Added KOT Brush genome value based on start and end Time
+  actualGenomesKOT: number; // Added KOT Brush genome value based on start and end Time
   topXGenotype: Array<any>;
   topXKO: Array<any>;
   topXGenotypeRDWG: Array<any>;
@@ -101,7 +102,7 @@ const initialState: GraphState = {
   genotypesYearData: [],
   cgSTYearData: [],
   sublineagesYearData: [],
-  KOYearsData: { K_locus: [], O_locus: [] },
+  KOYearsData: { K_locus: [], O_locus: [], O_type: [] },
   drugsYearData: [],
   genotypesDrugsData: [],
   genotypesDrugClassesData: [],
@@ -489,8 +490,7 @@ export const {
   setBubbleMarkersYAxisType,
   setDrugClass,
   setDrugGene,
-  setColoredOptions
-
+  setColoredOptions,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

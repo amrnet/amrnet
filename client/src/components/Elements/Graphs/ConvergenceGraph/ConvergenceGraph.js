@@ -201,7 +201,10 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                   const t = index / total;
                   // Interpolate between 224 and 51 for R, G, B
                   const grey = Math.round(224 + (51 - 224) * t);
-                  const color = `rgb(${grey},${grey},${grey})`;
+                  const color =
+                    convergenceGroupVariable === 'DATE'
+                      ? `rgb(${grey},${grey},${grey})`
+                      : convergenceColourPallete[option.colorLabel];
                   return (
                     <Cell
                       name={option.name}

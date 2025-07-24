@@ -39,6 +39,7 @@ const dataViewOptions = [
 const plotOptions = [
   { label: 'O_locus', value: 'O_locus' },
   { label: 'K_locus', value: 'K_locus' },
+  { label: 'O_type', value: 'O_type' },
 ];
 
 export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
@@ -66,7 +67,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
   );
 
   const sliderLabel = useMemo(() => {
-    return KOTrendsGraphPlotOption === 'O_locus' ? 'O' : 'K';
+    return KOTrendsGraphPlotOption === 'O_locus' ? 'O' : KOTrendsGraphPlotOption === 'K_locus' ? 'K' : 'O type';
   }, [KOTrendsGraphPlotOption]);
 
   useEffect(() => {

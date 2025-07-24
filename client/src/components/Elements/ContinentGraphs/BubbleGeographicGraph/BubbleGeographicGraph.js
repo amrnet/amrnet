@@ -115,13 +115,13 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
   const yAxisType = useAppSelector(state => state.map.yAxisType);
   const yAxisTypeTrend = useAppSelector(state => state.map.yAxisTypeTrend);
-  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   const resetBool = useAppSelector(state => state.graph.resetBool);
 
   useEffect(() => {
     setXAxisType('country');
     dispatch(setYAxisType('resistance'));
-    dispatch(setResetBool(false))
+    dispatch(setResetBool(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organism, resetBool]);
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
@@ -395,7 +395,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       const item =
         organism === 'ngono' && stat === 'SUS'
           ? 'Susceptible'
-          : Object.keys(drugAcronyms).find(key => drugAcronyms[key] === stat) ?? stat;
+          : (Object.keys(drugAcronyms).find(key => drugAcronyms[key] === stat) ?? stat);
       // const regionCount = mapRegionData.find((x) => x.name === region).count;
 
       const items = [];
@@ -531,7 +531,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
           yAxisSelected.forEach(drug => {
             const drugCount = locationData ? locationData[drug] : 0;
-            console.log("data", data)
             data.items.push({
               itemName: drug.replaceAll(' + ', '/'),
               percentage: drugCount ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2)) : 0,
@@ -578,39 +577,38 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
                     margin={{ bottom: index === 0 ? -20 : 20 }}
                   >
-                    // For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer for rotated, truncated labels.
-                    // For other charts, no custom tick renderer is used.
-                                        <XAxis
-                                          type="category"
-                                          dataKey="itemName"
-                                          interval={0}
-                                          tick={
-                                            index === 0
-                                              ? props => {
-                                                  const title = getTitle(props.payload.value);
+                    // For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer
+                    for rotated, truncated labels. // For other charts, no custom tick renderer is used.
+                    <XAxis
+                      type="category"
+                      dataKey="itemName"
+                      interval={0}
+                      tick={
+                        index === 0
+                          ? props => {
+                              const title = getTitle(props.payload.value);
 
-                                                  return (
-                                                    <Tooltip title={title} placement="top">
-                                                      <text
-                                                        x={props.x}
-                                                        y={props.y}
-                                                        fontSize="14px"
-                                                        dy={-10}
-                                                        textAnchor="start"
-                                                        transform={`rotate(-45, ${props.x}, ${props.y})`}
-                                                        fill="rgb(128,128,128)"
-                                                      >
-                                                        {truncateWord(props.payload.value)}
-                                                      </text>
-                                                    </Tooltip>
-                                                  );
-                                                }
-                                              : false
-                                          }
-                                          axisLine={false}
-                                          orientation="top"
-                                        />
-
+                              return (
+                                <Tooltip title={title} placement="top">
+                                  <text
+                                    x={props.x}
+                                    y={props.y}
+                                    fontSize="14px"
+                                    dy={-10}
+                                    textAnchor="start"
+                                    transform={`rotate(-45, ${props.x}, ${props.y})`}
+                                    fill="rgb(128,128,128)"
+                                  >
+                                    {truncateWord(props.payload.value)}
+                                  </text>
+                                </Tooltip>
+                              );
+                            }
+                          : false
+                      }
+                      axisLine={false}
+                      orientation="top"
+                    />
                     <YAxis
                       type="number"
                       dataKey="index"
@@ -622,9 +620,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       label={{ value: item.name, position: 'insideRight' }}
                       width={yAxisWidth}
                     />
-
                     <ZAxis type="number" dataKey="percentage" range={[3500, 3500]} />
-
                     <ChartTooltip
                       cursor={{ fill: hoverColor }}
                       wrapperStyle={{ zIndex: 100 }}
@@ -662,7 +658,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         return null;
                       }}
                     />
-
                     <Scatter data={item.items} shape="square">
                       {item.items.map((option, index) => (
                         <Cell
@@ -699,16 +694,26 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         );
       });
     }
-  }, [configuredMapData, yAxisWidth, canGetData, classes, getTitle, truncateWord, hoverColor, mixColorScale, countriesTooltipForRegion]);
+  }, [
+    configuredMapData,
+    yAxisWidth,
+    canGetData,
+    classes,
+    getTitle,
+    truncateWord,
+    hoverColor,
+    mixColorScale,
+    countriesTooltipForRegion,
+  ]);
 
   return (
     <CardContent className={classes.bubbleGeographicGraph}>
       <div className={classes.graphWrapper}>
-         {/* // BG is replaced from CVM for BubbleGeographicGraph and overflow visible for Download PDF */}
+        {/* // BG is replaced from CVM for BubbleGeographicGraph and overflow visible for Download PDF */}
         <div className={classes.graph} style={loadingPDF ? { overflow: 'visible' } : undefined} id="BG">
           {plotChart}
-          </div>
         </div>
+      </div>
       {(configuredMapData.length === 0 || yAxisSelected.length === 0) && (
         <Box className={classes.nothingSelected}>
           <Typography fontWeight={600}>No data to show</Typography>
