@@ -14,7 +14,6 @@ import {
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
 import {
-  setResetBool,
   setKOTrendsGraphView,
   setTopXKO,
   setStartTimeKOT,
@@ -247,8 +246,9 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     const rawData = KOTrendsGraphView === 'number' ? newArray : newArrayPercentage;
     const data = [...rawData]; // clone so we can safely mutate
 
+    let allYears = [];
     if (data.length > 0) {
-      const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
+      allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
       const existingYears = data.map(d => d.name.toString());
 
       allYears.forEach(year => {
@@ -286,6 +286,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
               dataKey="name"
               height={20}
               stroke="rgb(31, 187, 211)"
+              startIndex={allYears.findIndex(x => x === '2000') || 0}
               onChange={({ startIndex, endIndex }) => {
                 dispatch(setStartTimeKOT(currentData[startIndex]?.name));
                 dispatch(setEndTimeKOT(currentData[endIndex]?.name));

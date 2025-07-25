@@ -977,7 +977,7 @@ export const statKeysECOLI = (() => {
     { name: 'Aminoglycosides', column: 'Aminoglycoside', key: '-', resistanceView: true },
     { name: 'Carbapenems', column: 'Carbapenemase', key: '-', resistanceView: true },
     { name: 'Ceftriaxone', column: 'ESBL', key: '-', resistanceView: true },
-    { name: 'CipNS', column: 'Quinolone', key: '-', resistanceView: true },
+    { name: 'Ciprofloxacin', column: 'Quinolone', key: '-', resistanceView: true },
     { name: 'Colistin', column: 'Colistin', key: '-', resistanceView: true },
     { name: 'Fosfomycin', column: 'Fosfomycin', key: '-', resistanceView: true },
     { name: 'Penicillins', column: 'Penicllin', key: '-', resistanceView: true },

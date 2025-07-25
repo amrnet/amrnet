@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CardContent, Divider, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
 import {
   CartesianGrid,
@@ -85,6 +85,8 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (canGetData) {
+      console.log(topConvergenceData);
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
@@ -105,13 +107,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                   Mean virulence score
                 </Label>
               </XAxis>
-              <YAxis
-                type="number"
-                dataKey="y"
-                allowDataOverflow={true}
-                domain={[0, 4]}
-                padding={{ top: 20, bottom: 20 }}
-              >
+              <YAxis type="number" dataKey="y" allowDataOverflow={true} padding={{ top: 20, bottom: 20 }}>
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Mean resistance score
                 </Label>
@@ -125,60 +121,49 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                   const zMin = 50;
                   const zMax = 1000;
                   const zMid = Math.round((zMin + zMax) / 2);
+                  const zValues = [zMin, zMid, zMax];
                   const sizeScale = z => 10 + 30 * ((z - zMin) / (zMax - zMin)); // adjust as needed
 
                   return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        marginTop: 44,
-                        marginLeft: 60,
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          <svg width={sizeScale(zMin)} height={sizeScale(zMin)}>
-                            <circle
-                              cx={sizeScale(zMin) / 2}
-                              cy={sizeScale(zMin) / 2}
-                              r={sizeScale(zMin) / 2}
-                              fill="#888"
-                              opacity={0.5}
-                            />
-                          </svg>
-                          <Typography variant="caption">{zMin}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          <svg width={sizeScale(zMid)} height={sizeScale(zMid)}>
-                            <circle
-                              cx={sizeScale(zMid) / 2}
-                              cy={sizeScale(zMid) / 2}
-                              r={sizeScale(zMid) / 2}
-                              fill="#888"
-                              opacity={0.5}
-                            />
-                          </svg>
-                          <Typography variant="caption">{zMid}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          <svg width={sizeScale(zMax)} height={sizeScale(zMax)}>
-                            <circle
-                              cx={sizeScale(zMax) / 2}
-                              cy={sizeScale(zMax) / 2}
-                              r={sizeScale(zMax) / 2}
-                              fill="#888"
-                              opacity={0.5}
-                            />
-                          </svg>
-                          <Typography variant="caption">{zMax}</Typography>
-                        </div>
-                      </div>
-                      <Typography variant="caption" style={{ marginTop: 4, textAlign: 'center', width: '80%' }}>
-                        Number of items
-                      </Typography>
-                    </div>
+                    <Box display="flex" alignItems="center" gap={4} justifyContent="center" mt={5} ml={8}>
+                      <Box display="flex" flexDirection="column" alignItems="center">
+                        <Box display="flex" alignItems="center" gap={3}>
+                          {zValues.map((z, index) => {
+                            const size = sizeScale(z);
+                            const radius = size / 2;
+
+                            return (
+                              <Box key={index} display="flex" flexDirection="column" alignItems="center">
+                                <svg width={size} height={size}>
+                                  <circle cx={radius} cy={radius} r={radius} fill="#888" opacity={0.5} />
+                                </svg>
+                                <Typography variant="caption">{z}</Typography>
+                              </Box>
+                            );
+                          })}
+                        </Box>
+                        <Typography variant="caption" sx={{ mt: 0.5, textAlign: 'center' }}>
+                          Number of items
+                        </Typography>
+                      </Box>
+
+                      {convergenceGroupVariable === 'DATE' && (
+                        <>
+                          <Divider orientation="vertical" flexItem />
+
+                          <Box display="flex" flexDirection="column">
+                            <Box display="flex" gap={1}>
+                              <Typography fontSize="0.75rem">0%</Typography>
+                              <Box className={classes.gradientBox} />
+                              <Typography fontSize="0.75rem">100%</Typography>
+                            </Box>
+                            <Typography variant="caption" sx={{ mt: 0.5, textAlign: 'center' }}>
+                              Gradient
+                            </Typography>
+                          </Box>
+                        </>
+                      )}
+                    </Box>
                   );
                 }}
               />

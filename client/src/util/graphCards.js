@@ -10,6 +10,7 @@ import { amrLikeOrganisms, organismsCards } from './organismsCards';
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
+import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
 
 function getHeatMapsTitle(organism) {
   switch (organism) {
@@ -39,6 +40,14 @@ export const graphCards = [
     component: <DrugResistanceGraph />,
   },
   ...heatmapCards,
+  {
+    title: 'AMR marker trends',
+    description: ['Data are plotted for years with N ≥ 10 genomes'],
+    icon: <Timeline color="primary" />,
+    id: 'RDT',
+    organisms: ['ngono', 'kpneumo'],
+    component: <MarkerTrendsGraph />,
+  },
   {
     title: 'AMR markers by genotype',
     description: ['Top Genotypes (up to 10)'],
