@@ -577,8 +577,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
                     margin={{ bottom: index === 0 ? -20 : 20 }}
                   >
-                    // For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer
-                    for rotated, truncated labels. // For other charts, no custom tick renderer is used.
+                    {/* For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer
+                    for rotated, truncated labels. // For other charts, no custom tick renderer is used. */}
                     <XAxis
                       type="category"
                       dataKey="itemName"

@@ -16,7 +16,6 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
 import { setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
 import {
   setDistributionGraphView,
-  setResetBool,
   setEndtimeGD,
   setStarttimeGD,
   setTopXGenotype,
@@ -66,8 +65,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     return distributionGraphVariable === 'Sublineage'
       ? sublineagesYearData
       : distributionGraphVariable === 'cgST'
-      ? cgSTYearData
-      : genotypesYearData;
+        ? cgSTYearData
+        : genotypesYearData;
   }, [cgSTYearData, distributionGraphVariable, genotypesYearData, organism, sublineagesYearData]);
 
   const currentColorPallete = useMemo(() => {
@@ -78,8 +77,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     return distributionGraphVariable === 'Sublineage'
       ? colorPalleteSublineages
       : distributionGraphVariable === 'cgST'
-      ? colorPalleteCgST
-      : colorPallete;
+        ? colorPalleteCgST
+        : colorPallete;
   }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
 
   const sliderLabel = useMemo(() => {
@@ -90,8 +89,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     return distributionGraphVariable === 'Sublineage'
       ? 'sublineage'
       : distributionGraphVariable === 'cgST'
-      ? 'cgST'
-      : 'ST';
+        ? 'cgST'
+        : 'ST';
   }, [distributionGraphVariable, organism]);
 
   useEffect(() => {
@@ -266,8 +265,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     const rawData = distributionGraphView === 'number' ? newArray : newArrayPercentage;
     const data = [...rawData]; // clone so we can safely mutate
 
+    let allYears = [];
     if (data.length > 0) {
-      const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
+      allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
       const existingYears = data.map(d => d.name.toString());
 
       allYears.forEach(year => {
@@ -305,6 +305,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               dataKey="name"
               height={20}
               stroke="rgb(31, 187, 211)"
+              startIndex={allYears.findIndex(x => x === '2000') || 0}
               onChange={({ startIndex, endIndex }) => {
                 dispatch(setStarttimeGD(currentData[startIndex]?.name));
                 dispatch(setEndtimeGD(currentData[endIndex]?.name));
