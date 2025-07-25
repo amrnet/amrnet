@@ -40,7 +40,6 @@ export const getColorForDrug = drug => {
     case 'Ciprofloxacin NS':
     case 'Ciprofloxacin S':
     case 'Ciprofloxacin':
-    case 'Penicillins':
     case 'CipNS':
       return 'rgb(255,236,120)';
 
@@ -50,6 +49,7 @@ export const getColorForDrug = drug => {
       return '#9e9ac8';
 
     case 'Ciprofloxacin I':
+    case 'Penicillins':
       return '#DE77AE';
 
     case 'Fluoroquinolones':

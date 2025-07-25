@@ -1459,7 +1459,7 @@ function getKPDrugClassData({ drugKey, dataToFilter, notKP = false }) {
   let resistantCount = 0;
 
   dataToFilter.forEach(x => {
-    const columnsValues = columnIDs.map(id => x[id]);
+    const columnsValues = columnIDs.map(id => x[id]).filter(x => !['ND'].includes(x));
 
     if (columnsValues.every(value => value === '-')) return;
     if (!notKP && 'value' in rules && columnsValues.every(value => value !== rules?.value)) return;
