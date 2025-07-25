@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
-  convergenceGraph: {
+  markerTrendsGraph: {
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
@@ -11,9 +11,15 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     rowGap: '8px',
   },
+  selectPreWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    columnGap: '20px',
+  },
   selectWrapper: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
   },
   selectInput: {
     fontSize: '14px !important',
@@ -41,14 +47,15 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     width: '70%',
 
-    // '@media (max-width: 1000px)': {
-    //   width: '100%',
-    // },
-
     '@media (max-width: 1000px)': {
       width: '100%',
       height: '460px',
     },
+
+    // '@media (max-width: 500px)': {
+    //   width: '100%',
+    //   height: '460px'
+    // }
   },
   graphLabel: {
     textAnchor: 'middle',
@@ -62,7 +69,7 @@ const useStyles = makeStyles(theme => ({
     gap: '4px',
     padding: '8px 0px 4px',
     marginLeft: '60px',
-    marginTop: '20px',
+    marginRight: '60px',
   },
   legendItemWrapper: {
     display: 'flex',
@@ -70,15 +77,12 @@ const useStyles = makeStyles(theme => ({
     columnGap: '4px',
     paddingRight: '8px',
   },
-  chartTooltipLabel: {
-    backgroundColor: '#fff',
-    padding: '8px',
-    border: 'solid rgba(0, 0, 0, 0.25) 1px',
+  legendDivider: {
+    marginRight: '8px !important',
   },
   colorCircle: {
     height: '10px',
     width: '10px',
-    borderRadius: '50%',
     minWidth: '10px',
   },
   tooltipWrapper: {
@@ -92,6 +96,30 @@ const useStyles = makeStyles(theme => ({
       height: '300px',
     },
   },
+  noYearSelected: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  insufficientData: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    color: 'red',
+    fontWeight: '600',
+  },
+  // sliderCont: {
+  //   width: '30%',
+  //   overflowY: 'auto',
+  //   overflowX: 'hidden',
+  //   '@media (max-width: 1000px)': {
+  //     width: '100%',
+  //     overflowY: 'hidden',
+  //     overflowX: 'hidden',
+  //   },
+  // },
   tooltip: {
     width: '100%',
     height: '100%',
@@ -105,14 +133,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'flex-end',
     padding: '16px 16px 8px',
     borderBottom: '1px solid #fff',
-  },
-  tooltipContent: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(12, 1fr)',
-    flexWrap: 'wrap',
-    gap: '16px',
-    padding: '16px',
-    overflowY: 'auto',
   },
   tooltipItemWrapper: {
     display: 'flex',
@@ -134,11 +154,24 @@ const useStyles = makeStyles(theme => ({
       overflowWrap: 'anywhere',
     },
   },
-  noBubbleSelected: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
+  chartTooltipLabel: {
+    backgroundColor: '#fff',
+    padding: '8px',
+    border: 'solid rgba(0, 0, 0, 0.25) 1px',
+  },
+  tooltipSubTitle: {
+    padding: '16px 0px',
+  },
+  tooltipContent: {
+    padding: '16px !important',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(12, 1fr)',
+    flexWrap: 'wrap',
+    gap: '16px',
+    overflowY: 'auto',
+  },
+  formGroup: {
+    paddingLeft: '12px',
   },
   rightSide: {
     display: 'flex',
@@ -174,11 +207,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     columnGap: '8px',
     paddingBottom: '4px',
-  },
-  gradientBox: {
-    height: '15px',
-    width: '100px',
-    backgroundImage: 'linear-gradient(to right, #e0e0e0, #333333)',
   },
 }));
 
