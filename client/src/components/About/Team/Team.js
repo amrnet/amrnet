@@ -8,7 +8,7 @@ export const Team = () => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} id="team-section">
       <CardContent className={classes.cardContent}>
         <Typography variant="h5" className={classes.heading}>
           Team
@@ -50,10 +50,10 @@ export const Team = () => {
                     image={card.img}
                   />
                   <CardContent className={classes.swiperCardContent}>
-                    <Typography gutterBottom variant="h6" component="div">
+                    <Typography gutterBottom variant="button text" component="div" sx={{ fontWeight: '500' }}>
                       {card.name}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.7rem'}}>
                       {card.post}
                     </Typography>
                   </CardContent>

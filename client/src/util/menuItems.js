@@ -18,7 +18,7 @@ export const menuItems = [
     label: 'About',
     labelHead: 'About',
     icon: <Info />,
-    link: '#/about',
+    link: '#/about#about-section',
     // target: '_blank',
   },
   {
