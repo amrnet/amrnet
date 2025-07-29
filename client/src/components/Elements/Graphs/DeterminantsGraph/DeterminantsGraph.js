@@ -84,7 +84,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
     }
   }, [genotypesDrugClassesData, determinantsGraphDrugClass, actualCountry]);
   useEffect(() => {
-    dispatch(setResetBool(true));
+    // dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesDrugClassesData]);
 
@@ -248,7 +248,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      // dispatch(setResetBool(false));
     }
   }, [topXGenotypeRDWG, currentEventSelected.activeLabel, currentSliderValueRD]);
 
