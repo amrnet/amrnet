@@ -98,7 +98,7 @@ export const Graphs = () => {
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const loadingData = useAppSelector(state => state.dashboard.loadingData);
   const loadingMap = useAppSelector(state => state.map.loadingMap);
-  const downloadForPDF = useAppSelector(state => state.graph.download);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
   const resetBool = useAppSelector(state => state.graph.resetBool);
@@ -113,13 +113,13 @@ export const Graphs = () => {
 
   useEffect(() => {
     const runAsync = async () => {
-      if (downloadForPDF) {
+      if (loadingPDF) {
         dispatch(setDownload(false));
       }
     };
     runAsync();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [downloadForPDF]);
+  }, [loadingPDF]);
 
   useEffect(() => {
     setShowFilter(true);
