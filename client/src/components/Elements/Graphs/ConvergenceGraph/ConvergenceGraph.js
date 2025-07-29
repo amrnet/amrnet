@@ -85,7 +85,6 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (canGetData) {
-      console.log(topConvergenceData);
 
       setPlotChart(() => {
         return (
@@ -115,7 +114,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
               <ZAxis type="number" dataKey="z" range={[50, 1000]} />
 
               {/* Hide the color/gradient legend and show only the size legend, centered */}
-              <Legend
+              {/* <Legend
                 content={() => {
                   // Circle size legend (for ZAxis)
                   const zMin = 50;
@@ -166,6 +165,27 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                     </Box>
                   );
                 }}
+              /> */}
+              <Legend
+                content={() => {
+                  return (
+                    <div className={classes.legendWrapper}>
+                      {Object.keys(topColours).map((key, index) => {
+                        return (
+                          <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
+                            <Box
+                              className={classes.colorCircle}
+                              style={{
+                                backgroundColor: convergenceColourPallete[key],
+                              }}
+                            />
+                            <Typography variant="caption">{key}</Typography>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                }}
               />
 
               <ChartTooltip
@@ -182,14 +202,11 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                 {topConvergenceData.map((option, index) => {
                   // Create a grey gradient based on index or value
                   // We'll use a scale from #e0e0e0 (light) to #333333 (dark)
-                  const total = topConvergenceData.length > 1 ? topConvergenceData.length - 1 : 1;
+                  {/* const total = topConvergenceData.length > 1 ? topConvergenceData.length - 1 : 1;
                   const t = index / total;
                   // Interpolate between 224 and 51 for R, G, B
-                  const grey = Math.round(224 + (51 - 224) * t);
-                  const color =
-                    convergenceGroupVariable === 'DATE'
-                      ? `rgb(${grey},${grey},${grey})`
-                      : convergenceColourPallete[option.colorLabel];
+                  const grey = Math.round(224 + (51 - 224) * t); */}
+                  const color = convergenceColourPallete[option.colorLabel];
                   return (
                     <Cell
                       name={option.name}
