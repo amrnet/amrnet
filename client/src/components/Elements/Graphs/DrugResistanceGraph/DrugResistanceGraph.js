@@ -231,7 +231,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       // Dispatch initial values based on the default range (full range)
       const startValue = drugsYearData[0]?.name; // First value in the data
       const endValue = drugsYearData[drugsYearData.length - 1]?.name; // Last value in the data
-      dispatch(setStarttimeDRT(startValue));
+      dispatch(setStarttimeDRT('2000'));
       dispatch(setEndtimeDRT(endValue));
     }
   }, [drugsYearData, dispatch]);
@@ -294,8 +294,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   startIndex={allYears.findIndex(x => x === '2000') || 0}
                   onChange={brushRange => {
                     setCurrentTooltip(null);
-                    dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
-                    dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                    dispatch(setStarttimeDRT(data[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeDRT(data[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
                   }}
                 />
               )}

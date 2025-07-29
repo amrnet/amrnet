@@ -261,7 +261,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       // Dispatch initial values based on the default range (full range)
       const startValue = slicedData[0]?.name; // First value in the data
       const endValue = slicedData[slicedData.length - 1]?.name; // Last value in the data
-      dispatch(setStarttimeRDT(startValue));
+      dispatch(setStarttimeRDT('2000'));
       dispatch(setEndtimeRDT(endValue));
     }
   }, [slicedData, dispatch]);
