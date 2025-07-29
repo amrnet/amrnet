@@ -25,7 +25,7 @@ import {
   Cell,
   LabelList,
 } from 'recharts';
-import { useAppSelector } from '../../../../stores/hooks';
+import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -34,15 +34,18 @@ import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
+import {setResetBool} from '../../../../stores/slices/graphSlice';
 
 export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [regionSelected, setRegionSelected] = useState('All');
   const [countrySelected, setCountrySelected] = useState('All');
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const [plotChart, setPlotChart] = useState(() => {});
+  const [resetCounter, setResetCounter] = useState(0);
 
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
@@ -51,6 +54,7 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
   const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
   const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
   const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
 
   const selectLabel = useMemo(
     () => (organism === 'sentericaints' ? 'serotypes' : 'pathotypes'),
@@ -400,8 +404,18 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
         );
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [configuredMapData, yAxisWidth]);
+  }, [configuredMapData, yAxisWidth, canGetData, resetCounter]);
+
+useEffect(() => {
+  if(resetBool){
+    setRegionSelected('All');
+    setCountrySelected('All');
+    setXAxisSelected(xAxisOptions?.slice(0, 10) || []);
+    setYAxisSelected(yAxisOptions || []);
+    setResetCounter(prev => prev + 1); // This will cascade through all effects
+    dispatch(setResetBool(false));
+  }
+}, [resetBool, xAxisOptions, yAxisOptions, resetCounter])
 
   return (
     <CardContent className={classes.bubbleHeatmapGraph}>
