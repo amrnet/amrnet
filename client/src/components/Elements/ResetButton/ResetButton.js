@@ -48,6 +48,7 @@ import {
   defaultDrugsForDrugResistanceGraphNG,
   markersDrugsKP,
   drugsINTS,
+  drugsECOLI,
 } from '../../../util/drugs';
 import { getNgmastData } from '../../Dashboard/filters';
 import { useIndexedDB } from '../../../context/IndexedDBContext';
@@ -116,8 +117,12 @@ export const ResetButton = () => {
     }
     if (['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'].includes(organism)) {
       dispatch(setDrugResistanceGraphView(drugsINTS));
+      dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
     }
-
+    if (['decoli','ecoli', 'shige'].includes(organism)) {
+      dispatch(setDrugResistanceGraphView(drugsECOLI));
+    }
+    
     dispatch(setFrequenciesGraphView('percentage'));
     dispatch(setDeterminantsGraphView('percentage'));
     dispatch(setDistributionGraphView('percentage'));
@@ -134,6 +139,7 @@ export const ResetButton = () => {
     dispatch(setCurrentSliderValueRD(maxSliderValueRD));
     dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
     dispatch(setTrendsGraphDrugClass('Azithromycin'));
+    dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
     }
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));
