@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography , Divider} from '@mui/material';
 import { MainLayout } from '../Layout';
 import { useStyles } from './AboutMUI';
 import { Team } from './Team/Team';
@@ -12,8 +12,13 @@ export const AboutPage = () => {
 
   return (
     <MainLayout>
-      <Card className={classes.card}>
+      <Card className={classes.card} id="about-section">
         <CardContent className={classes.cardContent}>
+          <Typography variant="h5" className={classes.heading}>
+            About
+          </Typography>
+          <Divider />
+          <br />
           <Typography variant="body1" className={classes.paragraph}>
             The AMRnet dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data
             accessible to a wide audience. Visualisations are geared towards showing national annual AMR prevalence
