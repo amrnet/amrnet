@@ -18,7 +18,7 @@ export const MenuHead = () => {
 
   const target = useCallback(
     item => {
-      return page === 'about' && item.key === 'team' ? '_self' : item.target;
+      return page === 'about' && (item.key === 'team' || item.key === 'about') ? '_self' : item.target;
     },
     [page],
   );
@@ -26,6 +26,8 @@ export const MenuHead = () => {
   const handleClick = item => {
     if (item.key === 'team') {
       scrollToHash('team-section');
+    } else if (item.key === 'about') {
+      scrollToHash('about-section');
     }
   };
 
@@ -36,8 +38,10 @@ export const MenuHead = () => {
   };
 
   useEffect(() => {
-    scrollToHash('team-section');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      scrollToHash(id);
+    }
   }, [location]);
 
   return (

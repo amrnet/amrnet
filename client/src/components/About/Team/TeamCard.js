@@ -8,7 +8,7 @@ import EB from '../../../assets/img/Team/EB.jpeg';
 
 export const teamCards = [
   {
-    name: 'Prof Kat Holt',
+    name: 'Prof Kathryn Holt',
     post: 'Principal Investigator',
     img: KH,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/holt.kathryn',
@@ -44,7 +44,7 @@ export const teamCards = [
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/maranga.mary',
   },
   {
-    name: 'Dr E. Foster-Nyarko',
+    name: 'Dr Ebenezer Foster-Nyarko',
     post: 'Enterics expert',
     img: EB,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/foster-nyarko.ebenn',
