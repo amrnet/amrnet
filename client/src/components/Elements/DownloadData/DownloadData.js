@@ -277,7 +277,7 @@ export const DownloadData = () => {
     if (organism !== 'styphi') columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove];
     setLoadingCSV(true);
     await axios
-      .post(`${API_ENDPOINT}file/download`, { organism })
+      .post(`/api/file/download`, { organism })
       .then(res => {
         let indexes = [];
         let csv = res.data.split('\n');
