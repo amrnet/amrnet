@@ -254,7 +254,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       const startValue = currentData[0]?.name; // First value in the data
       const endValue = currentData[currentData.length - 1]?.name; // Last value in the data
       // console.log('startValue', startValue, endValue);
-      dispatch(setStarttimeGD(startValue));
+      dispatch(setStarttimeGD('2000'));
       dispatch(setEndtimeGD(endValue));
     }
   }, [currentData, dispatch]);
@@ -307,8 +307,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               stroke="rgb(31, 187, 211)"
               startIndex={allYears.findIndex(x => x === '2000') || 0}
               onChange={({ startIndex, endIndex }) => {
-                dispatch(setStarttimeGD(currentData[startIndex]?.name));
-                dispatch(setEndtimeGD(currentData[endIndex]?.name));
+                dispatch(setStarttimeGD(data[startIndex]?.name));  // updated value based on Brush drag
+                dispatch(setEndtimeGD(data[endIndex]?.name));
               }}
             />
           )}
