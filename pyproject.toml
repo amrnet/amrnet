@@ -7,11 +7,11 @@ readme = "README.md"
 license = {file = "LICENSE"}
 authors = [
     { name = "Louise Cerdeira", email = "louise.cerdeira@gmail.com" },
-    { name = "Kat Holt", email = "drkatholt@gmail.com" }
+    { name = "Kathryn Holt", email = "drkatholt@gmail.com" }
 ]
 maintainers = [
    { name = "Louise Cerdeira", email = "louise.cerdeira@gmail.com" },
-   { name = "Vandana Sharma", email = "vandanasharma@gmail.comm" }
+   { name = "Vandana Sharma", email = "vandana.sharma18519@gmail.com" }
 ]
 keywords = [
     "AMR",
