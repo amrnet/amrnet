@@ -14,6 +14,7 @@ export const MenuHead = () => {
 
   const currentMenuItems = useMemo(() => {
     return menuItems.filter(item => item.key !== '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const target = useCallback(
@@ -29,6 +30,10 @@ export const MenuHead = () => {
     } else if (item.key === 'about') {
       scrollToHash('about-section');
     }
+
+    if (item.key === 'about') {
+      scrollToTop();
+    }
   };
 
   const scrollToHash = id => {
@@ -36,6 +41,10 @@ export const MenuHead = () => {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  function scrollToTop() {
+    document.getElementById('main-layout')?.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   useEffect(() => {
     if (location.hash) {

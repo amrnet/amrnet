@@ -1,5 +1,5 @@
 import { useStyles } from './NoteMUI';
-import { Card, CardContent, Typography, Button } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import { useAppSelector } from '../../../stores/hooks';
 import LogoImg from '../../../assets/img/logo-amrnet-prod.png';
 // import Button from '@mui/material/Button';
@@ -78,7 +78,7 @@ export const Note = () => {
         ) : (
           // :organism === "ngono"? null
           // Removed unwanted link form button
-          <div className={classes.beta} variant="contained" disableElevation>
+          <div className={classes.beta}>
             BETA
           </div>
         )}

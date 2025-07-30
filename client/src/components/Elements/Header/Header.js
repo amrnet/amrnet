@@ -71,9 +71,9 @@ export const Header = () => {
             </div>
             {((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && <MenuHead />}
             {(!isDashboardPage || isHomePage) && matches200 && (
-              <Link to="https://www.lshtm.ac.uk/amrnet">
+              <a href="https://www.lshtm.ac.uk/amrnet" target="_blank" rel="noopener noreferrer">
                 <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
-              </Link>
+              </a>
             )}
             {/* {!isHomePage && !isDashboardPage && !matches500 && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>

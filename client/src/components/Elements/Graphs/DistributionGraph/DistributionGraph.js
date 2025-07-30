@@ -39,7 +39,7 @@ const dataViewOptions = [
 export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
-  const [currentEventSelected, setCurrentEventSelected] = useState([]);
+  // const [currentEventSelected, setCurrentEventSelected] = useState([]);
 
   const dispatch = useAppDispatch();
   const distributionGraphView = useAppSelector(state => state.graph.distributionGraphView);
@@ -53,7 +53,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
   const currentSliderValue = useAppSelector(state => state.graph.currentSliderValue);
-  const resetBool = useAppSelector(state => state.graph.resetBool);
+  // const resetBool = useAppSelector(state => state.graph.resetBool);
   const topXGenotype = useAppSelector(state => state.graph.topXGenotype);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
@@ -200,7 +200,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   }
 
   function handleClickChart(event) {
-    setCurrentEventSelected(event);
+    // setCurrentEventSelected(event);
     const data = newArray.find(item => item.name === event?.activeLabel);
 
     if (data && data.count > 0) {
@@ -240,11 +240,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   }
 
   useEffect(() => {
-    if (!resetBool) handleClickChart(currentEventSelected);
-    else {
-      setCurrentTooltip(null);
-      //dispatch(setResetBool(true));
-    }
+    setCurrentTooltip(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topXGenotype]);
 
@@ -316,8 +312,12 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           <Legend
             content={({ payload }) => (
               <div className={classes.legendWrapper}>
-                {payload.map((entry, index) => {
+                {payload.map(entry => {
                   const { dataKey, color } = entry;
+
+                  if (dataKey === 'Insufficient data') {
+                    return null;
+                  }
 
                   if (dataKey === 'Other') {
                     const hasData = data.some(d => d[dataKey] !== 0);
@@ -353,6 +353,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentData, distributionGraphView, topXGenotype, currentSliderValue, currentColorPallete]);
+
+  // console.log(currentTooltip);
 
   return (
     <CardContent className={classes.distributionGraph}>

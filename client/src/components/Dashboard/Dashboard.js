@@ -683,14 +683,14 @@ export const DashboardPage = () => {
   ]);
 
   async function updateDataOnFilters() {
+    const storeData = await getItems(organism);
+
     if (organism === 'kpneumo' && convergenceGroupVariable !== currentConvergenceGroupVariable) {
       setCurrentConvergenceGroupVariable(convergenceGroupVariable);
 
       const convergenceData = await getStoreOrGenerateData(
         `${organism}_convergence`,
         async () => {
-          const storeData = await getItems(organism);
-
           const dt = getConvergenceData({
             data: storeData,
             groupVariable: convergenceGroupVariable,
@@ -708,13 +708,11 @@ export const DashboardPage = () => {
       dispatch(
         setConvergenceColourPallete(
           generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable),
-        ), // Generate pallete for convergence Year dropdown)),
+        ),
       );
       dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
       dispatch(setConvergenceData(convergenceData.data));
     } else {
-      const storeData = await getItems(organism);
-
       const filters = filterData({
         data: storeData,
         dataset,
@@ -734,104 +732,122 @@ export const DashboardPage = () => {
           : actualCountry !== 'All'
             ? [actualCountry]
             : economicRegions[actualRegion];
+
       const filteredData = filters.data.filter(x => filteredCountries.includes(getCountryDisplayName(x.COUNTRY_ONLY)));
 
+      // Update general metadata
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
 
-      const mapData = getMapData({ data: filters.data, items: countriesForFilter, organism });
-      dispatch(setMapData(mapData));
-      const mapRegionData = getMapData({
-        data: filters.data,
-        items: economicRegions,
-        organism,
-        type: 'region',
-      });
-      dispatch(setMapRegionData(mapRegionData));
+      // Prepare data in parallel
+      const [
+        mapData,
+        mapRegionData,
+        genotypesData,
+        yearsData,
+        koData,
+        koDiversityData,
+        convergenceData,
+        drugsCountriesData,
+        drugsRegionsData,
+      ] = await Promise.all([
+        Promise.resolve(getMapData({ data: filters.data, items: countriesForFilter, organism })),
+        Promise.resolve(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })),
+        Promise.resolve(
+          getGenotypesData({
+            data: filteredData,
+            genotypes: genotypesForFilter,
+            organism,
+            years: yearsForFilter,
+            countries: countriesForFilter,
+            regions: economicRegions,
+            dataForGeographic: filters.data,
+            pathotypes: pathovarForFilter,
+            serotypes: serotypeForFilter,
+          }),
+        ),
+        Promise.resolve(
+          getYearsData({
+            data: filteredData,
+            years: yearsForFilter,
+            organism,
+            getUniqueGenotypes: true,
+          }),
+        ),
+        organism === 'kpneumo'
+          ? Promise.resolve(getKOYearsData({ data: filteredData, years: yearsForFilter }))
+          : Promise.resolve({ KOYearsData: [], uniqueKO: [] }),
+        organism === 'kpneumo' ? Promise.resolve(getKODiversityData({ data: filteredData })) : Promise.resolve([]),
+        organism === 'kpneumo'
+          ? getStoreOrGenerateData(`${organism}_convergence`, () => {
+              const dt = getConvergenceData({
+                data: filteredData,
+                groupVariable: convergenceGroupVariable,
+                colourVariable: convergenceGroupVariable,
+              });
+              return {
+                name: `${convergenceGroupVariable}_${convergenceGroupVariable}`,
+                colourVariables: dt.colourVariables,
+                data: dt.data,
+              };
+            })
+          : Promise.resolve({ data: [], colourVariables: [] }),
+        ['styphi', 'kpneumo'].includes(organism)
+          ? Promise.resolve(getDrugsCountriesData({ data: filteredData, items: countriesForFilter, organism }))
+          : Promise.resolve({ drugsData: [] }),
+        ['styphi', 'kpneumo'].includes(organism)
+          ? Promise.resolve(
+              getDrugsCountriesData({ data: filteredData, items: economicRegions, type: 'region', organism }),
+            )
+          : Promise.resolve({ drugsData: [] }),
+      ]);
 
-      if (continentPGraphCard.organisms.includes(organism)) {
-        if (currentTimeInitial !== actualTimeInitial || currentTimeFinal !== actualTimeFinal) {
-          dispatch(setMapDataNoPathotype(mapData));
-          dispatch(setMapRegionDataNoPathotype(mapRegionData));
-        }
+      // Dispatch map data
+      dispatch(setMapData(mapData));
+      dispatch(setMapRegionData(mapRegionData));
+      if (
+        continentPGraphCard.organisms.includes(organism) &&
+        (currentTimeInitial !== actualTimeInitial || currentTimeFinal !== actualTimeFinal)
+      ) {
+        dispatch(setMapDataNoPathotype(mapData));
+        dispatch(setMapRegionDataNoPathotype(mapRegionData));
       }
 
-      const genotypesData = getGenotypesData({
-        data: filteredData,
-        genotypes: genotypesForFilter,
-        organism,
-        years: yearsForFilter,
-        countries: countriesForFilter,
-        regions: economicRegions,
-        dataForGeographic: filters.data,
-        pathotypes: pathovarForFilter,
-        serotypes: serotypeForFilter,
-      });
+      // Dispatch genotypes and time-based data
       dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
       dispatch(setFrequenciesGraphSelectedGenotypes(genotypesData.genotypesDrugsData.slice(0, 5).map(x => x.name)));
       dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
       dispatch(setCountriesYearData(genotypesData.countriesDrugClassesData));
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
 
-      const yearsData = getYearsData({
-        data: filteredData,
-        years: yearsForFilter,
-        organism,
-        getUniqueGenotypes: true,
-      });
       dispatch(setGenotypesYearData(yearsData.genotypesData));
       dispatch(setDrugsYearData(yearsData.drugsData));
       dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
       dispatch(setGenotypesForFilterDynamic(yearsData.uniqueGenotypes));
 
+      // Dispatch KO and convergence data (kpneumo only)
       if (organism === 'kpneumo') {
         dispatch(setCgSTYearData(yearsData.cgSTData));
         dispatch(setSublineagesYearData(yearsData.sublineageData));
 
-        const { KOYearsData, uniqueKO } = getKOYearsData({ data: filteredData, years: yearsForFilter });
-        dispatch(setKOYearsData(KOYearsData));
-        dispatch(setKOForFilterDynamic(uniqueKO));
+        dispatch(setKOYearsData(koData.KOYearsData));
+        dispatch(setKOForFilterDynamic(koData.uniqueKO));
+        dispatch(setKODiversityData(koDiversityData));
 
-        const KODiversityData = getKODiversityData({ data: filteredData });
-        dispatch(setKODiversityData(KODiversityData));
-
-        const convergenceData = await getStoreOrGenerateData(`${organism}_convergence`, () => {
-          const dt = getConvergenceData({
-            data: filteredData,
-            groupVariable: convergenceGroupVariable,
-            colourVariable: convergenceGroupVariable,
-          });
-          return {
-            name: `${convergenceGroupVariable}_${convergenceGroupVariable}`,
-            colourVariables: dt.colourVariables,
-            data: dt.data,
-          };
-        });
         dispatch(
           setConvergenceColourPallete(
             generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable),
-          ), // Generate pallete for convergence Year dropdown)),
+          ),
         );
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
       }
 
+      // Dispatch drug countries resistance data
       if (['styphi', 'kpneumo'].includes(organism)) {
-        const { drugsData: drugsDataC } = getDrugsCountriesData({
-          data: filteredData,
-          items: countriesForFilter,
-          organism,
-        });
-        dispatch(setDrugsCountriesData(drugsDataC));
-
-        const { drugsData: drugsDataR } = getDrugsCountriesData({
-          data: filteredData,
-          items: economicRegions,
-          type: 'region',
-          organism,
-        });
-        dispatch(setDrugsRegionsData(drugsDataR));
+        dispatch(setDrugsCountriesData(drugsCountriesData.drugsData));
+        dispatch(setDrugsRegionsData(drugsRegionsData.drugsData));
       }
     }
 
