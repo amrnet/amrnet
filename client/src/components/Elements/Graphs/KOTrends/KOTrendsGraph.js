@@ -234,7 +234,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
       const startValue = currentData[0]?.name; // First value in the data
       const endValue = currentData[currentData.length - 1]?.name; // Last value in the data
       // console.log('startValue', startValue, endValue);
-      dispatch(setStartTimeKOT(startValue));
+      dispatch(setStartTimeKOT('2000'));
       dispatch(setEndTimeKOT(endValue));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -288,8 +288,8 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
               stroke="rgb(31, 187, 211)"
               startIndex={allYears.findIndex(x => x === '2000') || 0}
               onChange={({ startIndex, endIndex }) => {
-                dispatch(setStartTimeKOT(currentData[startIndex]?.name));
-                dispatch(setEndTimeKOT(currentData[endIndex]?.name));
+                dispatch(setStartTimeKOT(data[startIndex]?.name)); // updated value based on Brush drag
+                dispatch(setEndTimeKOT(data[endIndex]?.name));
               }}
             />
           )}

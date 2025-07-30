@@ -19,28 +19,28 @@ router.post('/download', async function (req, res, next) {
   let collection, localFilePath;
 
   if (organism === 'styphi') {
-    collection = client.db('styphi').collection('merge_rawdata_st');
+    collection = client.db('styphi').collection('amrnetdb_styphi');
     localFilePath = Tools.path_clean_all_st;
   } else if (organism === 'kpneumo') {
-    collection = client.db('kpneumo').collection('merge_rawdata_kp');
+    collection = client.db('kpneumo').collection('amrnetdb_kpneumo');
     localFilePath = Tools.path_clean_all_kp;
   } else if (organism === 'ngono') {
     collection = client.db('ngono').collection('merge_rawdata_ng');
     localFilePath = Tools.path_clean_all_ng;
   } else if (organism === 'ecoli') {
-    collection = client.db('ecoli').collection('merge_rawdata_ec');
+    collection = client.db('ecoli').collection('amrnetdb_ecoli');
     localFilePath = Tools.path_clean_all_ec;
   } else if (organism === 'decoli') {
-    collection = client.db('decoli').collection('merge_rawdata_dec');
+    collection = client.db('decoli').collection('amrnetdb_decoli');
     localFilePath = Tools.path_clean_all_ec;
   } else if (organism === 'shige') {
-    collection = client.db('shige').collection('merge_rawdata_sh');
+    collection = client.db('shige').collection('amrnetdb_shige');
     localFilePath = Tools.path_clean_all_sh;
   } else if (organism === 'sentericaints') {
-    collection = client.db('sentericaints').collection('merge_rawdata_seints');
+    collection = client.db('sentericaints').collection('merge_rawdata_sients');
     localFilePath = Tools.path_clean_all_sh;
   } else {
-    collection = client.db('senterica').collection('merge_rawdata_se');
+    collection = client.db('senterica').collection('sentericatest');
     localFilePath = Tools.path_clean_all_se;
   }
   let data;
@@ -105,13 +105,13 @@ router.get('/generate/:organism', async function (req, res, next) {
   let collection, folderName, fileName, ext, collection_ext;
 
   if (organism === 'styphi') {
-    collection = client.db('styphi').collection('merge_rawdata_st');
+    collection = client.db('styphi').collection('amrnetdb_styphi');
     folderName = 'styphi';
     ext = 'st';
     collection_ext = 'st';
     fileName = 'cleanAll_st.csv';
   } else if (organism === 'kpneumo') {
-    collection = client.db('kpneumo').collection('merge_rawdata_kp');
+    collection = client.db('kpneumo').collection('amrnetdb_kpneumo');
     folderName = 'kpneumo';
     ext = 'kp';
     collection_ext = 'kp';
@@ -123,31 +123,31 @@ router.get('/generate/:organism', async function (req, res, next) {
     collection_ext = 'ng';
     fileName = 'cleanAll_ng.csv';
   } else if (organism === 'ecoli') {
-    collection = client.db('ecoli').collection('merge_rawdata_ec');
+    collection = client.db('ecoli').collection('amrnetdb_ecoli');
     folderName = 'ecoli';
     ext = 'ec';
     collection_ext = 'ec';
     fileName = 'cleanAll_ec.csv';
   } else if (organism === 'decoli') {
-    collection = client.db('decoli').collection('merge_rawdata_dec');
+    collection = client.db('decoli').collection('amrnetdb_decoli');
     folderName = 'decoli';
     ext = 'dec';
     collection_ext = 'dec';
     fileName = 'cleanAll_dec.csv';
   } else if (organism === 'shige') {
-    collection = client.db('shige').collection('merge_rawdata_sh');
+    collection = client.db('shige').collection('amrnetdb_shige');
     folderName = 'shige';
     ext = 'sh';
     collection_ext = 'sh';
     fileName = 'cleanAll_sh.csv';
   } else if (organism === 'sentericaints') {
-    collection = client.db('sentericaints').collection('merge_rawdata_seints');
+    collection = client.db('sentericaints').collection('merge_rawdata_sients');
     folderName = 'sentericaints';
     ext = 'seints';
     collection_ext = 'seints';
     fileName = 'cleanAll_seints.csv';
   } else {
-    collection = client.db('senterica').collection('merge_rawdata_se');
+    collection = client.db('senterica').collection('sentericatest');
     folderName = 'senterica';
     ext = 'se';
     collection_ext = 'se';

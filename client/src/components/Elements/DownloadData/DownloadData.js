@@ -27,6 +27,7 @@ import {
   colorForDrugClassesNG,
   colorForDrugClassesST,
   getColorForGenotype,
+  colorForMarkers
 } from '../../../util/colorHelper';
 import {
   getKlebsiellaTexts,
@@ -277,7 +278,7 @@ export const DownloadData = () => {
     if (organism !== 'styphi') columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove];
     setLoadingCSV(true);
     await axios
-      .post(`${API_ENDPOINT}file/download`, { organism })
+      .post(`/api/file/download`, { organism })
       .then(res => {
         let indexes = [];
         let csv = res.data.split('\n');
@@ -406,6 +407,7 @@ export const DownloadData = () => {
     xSpace,
     twoPages = false,
     threePages = false,
+    isGen = false,
     factorMultiply = organism === 'ngono' ? 6 : 3,
   }) {
     let firstLegendData = legendData.slice();
@@ -438,7 +440,11 @@ export const DownloadData = () => {
             ? getColorForDrug(legend)
             : isVariable
               ? convergenceColourPallete[legend]
-              : legend.color,
+              : isGen
+                ? i === firstLegendData.length - 1
+                ? '#F5F4F6'
+                : colorForMarkers[i]
+                : legend.color,
       );
       document.circle(50 + xFactor, rectY + 10 + yFactor, 2.5, 'F');
 
@@ -1157,6 +1163,7 @@ export const DownloadData = () => {
           case 'shige':
             return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
           case 'sentericaints':
+          case 'kpneumo':
             return `Selected Serotypes : ${selectedLineages.join(', ')}`;
           // case 'ecoli':
           //   return `Selected Genotypes : ${selectedLineages.join(', ')}`;
@@ -1407,10 +1414,10 @@ export const DownloadData = () => {
           case 'RDT':
             title += `: ${trendsGraphDrugClass}`;
             break;
-          case 'KO':
+          case 'KOT':
             title += `: ${KODiversityGraphView}`;
             break;
-          case 'BG': // BG is replaced from CVM for BubbleGeographicGraph
+          case 'convergence-graph': // BG is replaced from CVM for BubbleGeographicGraph
             const group = variablesOptions.find(option => option.value === convergenceGroupVariable).label;
             const colour = variablesOptions.find(option => option.value === convergenceColourVariable).label;
             title += `: ${group} x ${colour}`;
@@ -1545,7 +1552,7 @@ export const DownloadData = () => {
             // twoPages: isKlebe,
           });
 
-          if (isKlebe || isNgono) {
+          if (isNgono) {
             drawHeader({ document: doc, pageWidth });
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
@@ -1559,43 +1566,42 @@ export const DownloadData = () => {
             isGenotype: true,
             twoPages: isNgono && genotypesForFilterSelected.length > 156,
           });
-          if (isKlebe || isNgono) {
+          if ( isNgono) {
             drawHeader({ document: doc, pageWidth });
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         } else if (cards[index].id === 'RDT') {
-          const legendGenotypes = genotypesForFilter
-            .filter(genotype => topGenotypeSlice.includes(genotype))
-            .map(genotype => ({
-              name: genotype,
-              color: getGenotypeColor(genotype),
-            }));
+          // const legendGenotypes = genotypesForFilter
+          //   .filter(genotype => topGenotypeSlice.includes(genotype))
+          //   .map(genotype => ({
+          //     name: genotype,
+          //     color: getGenotypeColor(genotype),
+          //   }));
 
           const legendGens = drugClassesBars.filter(value => topGenesSlice.includes(value.name));
-
           drawLegend({
             id: 'RDT',
             document: doc,
-            legendData: [{ name: 'GENES: ', color: 'white' }, ...legendGens],
-            factor: drugClassesFactor,
+            legendData: [ ...legendGens],
+            factor: legendGens.length/4,
             rectY,
-            xSpace: 127,
-            twoPages: true,
+            xSpace: 110,
+            isGen: true,
           });
-          drawHeader({ document: doc, pageWidth });
-          drawFooter({ document: doc, pageHeight, pageWidth, date });
+          // drawHeader({ document: doc, pageWidth });
+          // drawFooter({ document: doc, pageHeight, pageWidth, date });
 
-          drawLegend({
-            id: 'RDT',
-            document: doc,
-            legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
-            factor: Math.ceil(legendGenotypes.length / 6),
-            rectY: isKlebe ? 6 * 18 : 6 * 6,
-            xSpace: 60,
-            threePages: false,
-          });
-          drawHeader({ document: doc, pageWidth });
-          drawFooter({ document: doc, pageHeight, pageWidth, date });
+          // drawLegend({
+          //   id: 'RDT',
+          //   document: doc,
+          //   legendData: [{ name: 'GENOTYPES: ', color: 'white' }, ...legendGenotypes],
+          //   factor: Math.ceil(legendGenotypes.length / 6),
+          //   rectY: isKlebe ? 6 * 18 : 6 * 6,
+          //   xSpace: 60,
+          //   threePages: false,
+          // });
+          // drawHeader({ document: doc, pageWidth });
+          // drawFooter({ document: doc, pageHeight, pageWidth, date });
         } else if (cards[index].id === 'KOT') {
           const legendKOTColorMap = colorPalleteKO[KOTrendsGraphPlotOption] || {};
           const legendKOT = KOForFilterSelected.map(key => ({
@@ -1616,7 +1622,7 @@ export const DownloadData = () => {
           // console.log("convergenceColourPallete",topColorSlice)
           drawLegend({
             document: doc,
-            legendData: Object.keys(topColorSlice),
+            legendData: Object.keys(convergenceColourPallete),
             factor: variablesFactor,
             rectY: rectY,
             xSpace: isYersiniabactin ? 190 : 127,
@@ -1625,10 +1631,10 @@ export const DownloadData = () => {
             // twoPages: isKlebe,
           });
 
-          if (isKlebe) {
-            drawHeader({ document: doc, pageWidth });
-            drawFooter({ document: doc, pageHeight, pageWidth, date });
-          }
+          // if (isKlebe) {
+          //   drawHeader({ document: doc, pageWidth });
+          //   drawFooter({ document: doc, pageHeight, pageWidth, date });
+          // }
         }
       }
 

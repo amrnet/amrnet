@@ -3,4 +3,6 @@
 Features
 ========
 
-Add unique features
+.. container:: justify-text
+
+    Add unique features
