@@ -694,6 +694,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         );
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     configuredMapData,
     yAxisWidth,
