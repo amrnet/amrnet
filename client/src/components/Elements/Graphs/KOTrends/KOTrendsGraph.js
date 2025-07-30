@@ -297,8 +297,12 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
           <Legend
             content={({ payload }) => (
               <div className={classes.legendWrapper}>
-                {payload.map((entry, index) => {
+                {payload.map(entry => {
                   const { dataKey, color } = entry;
+
+                  if (dataKey === 'Insufficient data') {
+                    return null;
+                  }
 
                   if (dataKey === 'Other') {
                     const hasData = data.some(d => !!d[dataKey]);

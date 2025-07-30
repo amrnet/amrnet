@@ -16,7 +16,7 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { colorForDrugClassesNG, hoverColor, lightGrey, colorForMarkers } from '../../../../util/colorHelper';
+import { colorForDrugClassesNG, hoverColor, colorForMarkers } from '../../../../util/colorHelper';
 import {
   setTrendsGraphDrugClass,
   setTrendsGraphView,
@@ -236,7 +236,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
         };
 
         value.genes.push(item);
-        value.genes.sort((a, b) => a.label.localeCompare(b.label));
+        value.genes.sort((a, b) => {
+          if (a.label === 'None') return 1;
+          if (b.label === 'None') return -1;
+          return a.label.localeCompare(b.label);
+        });
       });
 
       setCurrentTooltip(value);
@@ -309,6 +313,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                 allowDecimals={false}
                 domain={getDomain()}
                 allowDataOverflow={true}
+                scale="sqrt"
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   {dataViewOptionsGenomes.find(option => option.value === trendsGraphView).label}
@@ -385,7 +390,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                 if (option === 'Other Genes') {
                   fillColor = '#F5F4F6';
                 } else if (option === 'None') {
-                  fillColor = lightGrey;
+                  fillColor = '#B9B9B9';
                 } else if (organism === 'ngono') {
                   const colorObj = colorForDrugClassesNG[trendsGraphDrugClass]?.find(x => x.name === option);
                   if (colorObj) fillColor = colorObj.color;
