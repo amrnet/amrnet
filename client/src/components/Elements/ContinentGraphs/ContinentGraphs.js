@@ -210,6 +210,7 @@ export const ContinentGraphs = () => {
           case 'shige':
             return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
           case 'sentericaints':
+          case 'kpneumo':
             return `Selected Serotypes : ${selectedLineages.join(', ')}`;
           // case 'ecoli':
           //   return `Selected Genotypes : ${selectedLineages.join(', ')}`;

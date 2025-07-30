@@ -33,70 +33,71 @@
 
 Overview
 ========
-.. raw:: html
+.. container:: justify-text
 
-    <div class="justify-text">
-        <span class="bold-text">AMRnet</span> aims to make high-quality, robust and reliable genome-derived
-        AMR Surveillance data accessible to a wide audience. Visualizations
-        are geared towards showing national annual AMR prevalence estimates
-        and trends, that can be broken down and explored in terms of underlying
-        genotypes and resistance mechanisms. We do not generate sequence data,
-        but we hope that by making publicly deposited data more accessible and
-        useful, we can encourage and motivate more sequencing and data sharing.
-    </div>
+    **AMRnet** aims to make high-quality, robust and reliable genome-derived
+    AMR Surveillance data accessible to a wide audience. Visualizations
+    are geared towards showing national annual AMR prevalence estimates
+    and trends, that can be broken down and explored in terms of underlying
+    genotypes and resistance mechanisms. We do not generate sequence data,
+    but we hope that by making publicly deposited data more accessible and
+    useful, we can encourage and motivate more sequencing and data sharing.
 
-`Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the **AMRnet** mailing list!
+    `Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the **AMRnet** mailing list!
 
 Quick start
 -----------
+.. container:: justify-text
 
-You can install ``AMRnet`` via `pip <https://pip.pypa.io/>`_ from
-`PyPI <https://pypi.org/>`_:
+    You can install ``AMRnet`` via `pip <https://pip.pypa.io/>`_ from
+    `PyPI <https://pypi.org/>`_:
 
-.. code:: shell
+    .. code:: shell
 
-   pip install AMRnet
+    pip install AMRnet
 
-See :ref:`label-installation` for more information.
+    See :ref:`label-installation` for more information.
 
 Features
 --------
+.. container:: justify-text 
 
-See the complete list of ``AMRnet`` features :ref:`here<label-features>`.
+    See the complete list of ``AMRnet`` features :ref:`here<label-features>`.
 
 Contributing
 ------------
+.. container:: justify-text
 
-Contributions are very welcome. To learn more, see the :ref:`Contributor Guide<label-contributing>`.
+    Contributions are very welcome. To learn more, see the :ref:`Contributor Guide<label-contributing>`.
 
 License
 -------
+.. container:: justify-text
 
-Distributed under the terms of the :doc:`GPLv3 License <license>` ``AMRnet``
-is free and open source software.
+    Distributed under the terms of the :doc:`GPLv3 License <license>` ``AMRnet``
+    is free and open source software.
 
 Support
 -------
+.. container:: justify-text
 
-Found a bug 🐛, or have a feature request ✨, raise an issue on the
-GitHub `issue
-tracker <https://github.com/amrnet/amrnet/issues>`_.
-Alternatively you can get support on the
-`discussions <https://github.com/amrnet/amrnet/discussions>`_
-page.
+    Found a bug 🐛, or have a feature request ✨, raise an issue on the
+    GitHub `issue
+    tracker <https://github.com/amrnet/amrnet/issues>`_.
+    Alternatively you can get support on the
+    `discussions <https://github.com/amrnet/amrnet/discussions>`_
+    page.
 
 Disclaimer
 ----------
-.. raw:: html
+.. container:: justify-text
 
-    <div class="justify-text">
-        <span class="bold-text">AMRnet</span> is an open source dashboard that continues to benefit from the
-        collaboration of many contributors. Although efforts have been made
-        to ensure the that relevant web development standards are implemented,
-        it remains the user’s responsibility to confirm and accept the output.
-        Refer to the :doc:`License <license>` for clarification of the conditions
-        of use.
-    </div>
+    **AMRnet** is an open source dashboard that continues to benefit from the
+    collaboration of many contributors. Although efforts have been made
+    to ensure the that relevant web development standards are implemented,
+    it remains the user’s responsibility to confirm and accept the output.
+    Refer to the :doc:`License <license>` for clarification of the conditions
+    of use.
 
 Acknowledgements
 ----------------

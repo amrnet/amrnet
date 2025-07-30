@@ -179,12 +179,11 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
 
   function handleChangeDrugClass(event) {
     setCurrentTooltip(null);
-    // setDrugClass(event.target.value);
+    dispatch(setDrugClass(event.target.value));// CHECK
   }
 
   function handleChangeDrugGene(event) {
     setCurrentTooltip(null);
-    // setDrugGene(event.target.value);
     dispatch(setDrugGene(event.target.value));
   }
 
