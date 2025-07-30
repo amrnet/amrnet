@@ -157,9 +157,6 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                               <Box className={classes.gradientBox} />
                               <Typography fontSize="0.75rem">100%</Typography>
                             </Box>
-                            <Typography variant="caption" sx={{ mt: 0.5, textAlign: 'center' }}>
-                              Gradient
-                            </Typography>
                           </Box>
                         </>
                       )}

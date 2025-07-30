@@ -333,6 +333,7 @@ export const Map = () => {
     }
 
     return `Global Overview${dataview}: ${mapView}`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organism, datasetKP, dataset, selectedLineages, mapView]);
 
   return (
