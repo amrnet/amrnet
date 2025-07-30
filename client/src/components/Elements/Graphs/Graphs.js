@@ -37,6 +37,7 @@ import {
   colorForDrugClassesNG,
   colorForDrugClassesST,
   getColorForGenotype,
+  colorForMarkers
 } from '../../../util/colorHelper';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
@@ -98,7 +99,7 @@ export const Graphs = () => {
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const loadingData = useAppSelector(state => state.dashboard.loadingData);
   const loadingMap = useAppSelector(state => state.map.loadingMap);
-  const downloadForPDF = useAppSelector(state => state.graph.download);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
   const resetBool = useAppSelector(state => state.graph.resetBool);
@@ -114,13 +115,13 @@ export const Graphs = () => {
 
   useEffect(() => {
     const runAsync = async () => {
-      if (downloadForPDF) {
+      if (loadingPDF) {
         dispatch(setDownload(false));
       }
     };
     runAsync();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [downloadForPDF]);
+  }, [loadingPDF]);
 
   useEffect(() => {
     setShowFilter(true);
@@ -146,6 +147,7 @@ export const Graphs = () => {
       case 'shige':
         return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
       case 'sentericaints':
+      case 'kpneumo':
         return `Selected Serotypes : ${selectedLineages.join(', ')}`;
       case 'ecoli':
         return `Selected Genotypes : ${selectedLineages.join(', ')}`;
@@ -158,8 +160,8 @@ export const Graphs = () => {
     switch (organism) {
       case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
-      case 'kpneumo':
-        return colorForDrugClassesKP[determinantsGraphDrugClass];
+      // case 'kpneumo':
+      //   return colorForDrugClassesKP[determinantsGraphDrugClass];
       case 'ngono':
         return colorForDrugClassesNG[determinantsGraphDrugClass];
       default:
@@ -176,6 +178,7 @@ export const Graphs = () => {
     isGenotype = false,
     isDrug = false,
     isVariable = false,
+    isGen = false,
     xSpace,
   }) {
     legendData.forEach((legend, i) => {
@@ -185,17 +188,19 @@ export const Graphs = () => {
       context.fillStyle = isGenotype
         ? getColor(legend)
         : isDrug
-          ? getColorForDrug(legend)
-          : isVariable
-            ? convergenceColourPallete[legend]
-            : legend.color;
+        ? getColorForDrug(legend)
+        : isVariable
+        ? convergenceColourPallete[legend]
+        : isGen
+        ? colorForMarkers[i-1]
+        : legend.color;
       context.beginPath();
       context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
       context.fillStyle = 'black';
       context.fillText(
-        isGenotype || isDrug || isVariable ? legend : legend.name,
+        isGenotype || isDrug || isVariable || isGen? legend : legend.name,
         61 + xFactor,
         yPosition + 4 - mobileFactor + yFactor,
       );
@@ -287,7 +292,7 @@ export const Graphs = () => {
       } else if (currentCard.id === 'RDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
-      } else if (currentCard.id === 'BG') {
+      } else if (currentCard.id === 'convergence-graph') {
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
         // BG is replaced from CVM for BubbleGeographicGraph
@@ -332,7 +337,6 @@ export const Graphs = () => {
       } else if (currentCard.id === 'KOT') {
         ctx.fillText(`Time period: ${startTimeKOT} to ${endTimeKOT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesKOT} genomes`, canvas.width / 2, 172);
-        ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
       } else if (currentCard.id === 'DRT') {
         ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);
@@ -348,7 +352,7 @@ export const Graphs = () => {
       if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
       if (currentCard.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
       if (currentCard.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
-      if (currentCard.id === 'BG') {
+      if (currentCard.id === 'convergence-graph') {
         const group = variablesOptions.find(option => option.value === convergenceGroupVariable).label;
         const colour = variablesOptions.find(option => option.value === convergenceColourVariable).label;
         ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
@@ -446,31 +450,31 @@ export const Graphs = () => {
 
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
-        ctx.fillStyle = 'black';
-        ctx.fillText('GENES:', 50, 675);
+        ctx.fillStyle = '#F5F4F6'
+        // ctx.fillText('GENES:', 50, 675);
         drawLegend({
-          legendData: legendGens,
+          legendData: topGenesSlice,
           context: ctx,
-          factor: legendGens.length / 4,
+          factor: topGenesSlice.length / 4,
           mobileFactor,
           yPosition: 695,
           xSpace: 238,
+          isGen: true
         });
 
-        ctx.fillStyle = 'black';
-        ctx.fillText('GENOTYPES:', 50, 900);
-        drawLegend({
-          legendData: legendGenotypes,
-          context: ctx,
-          factor: Math.ceil(legendGenotypes.length / 8),
-          mobileFactor,
-          yPosition: 930,
-          isGenotype: true,
-          xSpace: 87,
-        });
+        // ctx.fillStyle = 'black';
+        // ctx.fillText('GENOTYPES:', 50, 900);
+        // drawLegend({
+        //   legendData: legendGenotypes,
+        //   context: ctx,
+        //   factor: Math.ceil(legendGenotypes.length / 8),
+        //   mobileFactor,
+        //   yPosition: 930,
+        //   isGenotype: true,
+        //   xSpace: 87,
+        // });
       } else if (currentCard.id === 'KO') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-
         drawLegend({
           legendData: colorsForKODiversityGraph,
           context: ctx,
@@ -479,12 +483,12 @@ export const Graphs = () => {
           yPosition: 670,
           xSpace: 330,
         });
-      } else if (currentCard.id === 'BG') {
-        // BG is replaced from CVM for BubbleGeographicGraph
+      } else if (currentCard.id === 'convergence-graph') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        const legendData = Object.keys(convergenceColourPallete); 
 
         drawLegend({
-          legendData: Object.keys(topColorSlice),
+          legendData,
           context: ctx,
           factor: variablesFactor,
           mobileFactor,
@@ -637,19 +641,31 @@ export const Graphs = () => {
         <Collapse in={collapses['all']} timeout="auto">
           <Box className={classes.boxWrapper}>
             {organismCards.map(card => {
+              const isActive = currentTab === card.id;
+              const shouldRender = loadingPDF || isActive;
+
               return (
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    position: downloadForPDF ? 'absolute' : safeCurrentTab === card.id ? 'relative' : 'absolute',
-                    visibility: downloadForPDF ? 'visible' : safeCurrentTab === card.id ? 'visible' : 'hidden',
+                    position: loadingPDF ? 'relative' : isActive ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    zIndex: downloadForPDF === true ? 1 : 0,
+                    // Set all cards active when loadingPDF is true to avoid flickering and update PDF
+                    ...(loadingPDF
+                      ? {
+                          opacity: isActive ? 1 : 0,
+                          height: isActive ? 'auto' : 0,
+                          overflow: 'hidden',
+                        }
+                      : {
+                          visibility: isActive ? 'visible' : 'hidden',
+                        }),
                   }}
                 >
-                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  {shouldRender &&
+                    cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
               );
             })}

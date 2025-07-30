@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography , Divider} from '@mui/material';
 import { MainLayout } from '../Layout';
 import { useStyles } from './AboutMUI';
 import { Team } from './Team/Team';
@@ -25,8 +25,13 @@ export const AboutPage = () => {
 
   return (
     <MainLayout>
-      <Card className={classes.card}>
+      <Card className={classes.card} id="about-section">
         <CardContent className={classes.cardContent}>
+          <Typography variant="h5" className={classes.heading}>
+            About
+          </Typography>
+          <Divider />
+          <br />
           <Typography variant="body1" className={classes.paragraph}>
             The AMRnet dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data
             accessible to a wide audience. Visualisations are geared towards showing national annual AMR prevalence
@@ -105,9 +110,9 @@ export const AboutPage = () => {
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            If you use the AMRnet website or code, please cite AMRnet (Vandana Sharma, Mary Maranga, Megan Carey, Zoe
-            Dyson, Kat Holt),
-            <span className={classes.paragraphBold}> GitHub: </span>{' '}
+            If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe
+            Dyson, Kathryn Holt),
+            <span className={classes.paragraphBold}> GitHub: </span> {' '}
             <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
               https://github.com/amrnet/amrnet
             </a>

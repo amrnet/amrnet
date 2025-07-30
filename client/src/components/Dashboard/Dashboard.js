@@ -270,6 +270,9 @@ export const DashboardPage = () => {
     if (pathovar.length > 0) {
       dispatch(setSelectedLineages(pathovar));
     }
+    if( organism == 'kpneumo' ){
+      dispatch(setSelectedLineages(['ESBL+', 'CARB+']));
+    }
 
     // Set values
     dispatch(setTotalGenotypes(genotypes.length));
