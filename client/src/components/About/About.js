@@ -6,9 +6,22 @@ import { Team } from './Team/Team';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const AboutPage = () => {
   const classes = useStyles();
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash?.replace('#', '');
+    if (hash) {
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location]);
 
   return (
     <MainLayout>
@@ -40,7 +53,8 @@ export const AboutPage = () => {
             <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>{' '}
-            (to call AMR determinants and lineages from sequence data). Additional organisms have been added, using data sourced from{' '}
+            (to call AMR determinants and lineages from sequence data). Additional organisms have been added, using data
+            sourced from{' '}
             <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
               Pathogenwatch
             </a>
@@ -49,7 +63,8 @@ export const AboutPage = () => {
               {' '}
               Enterobase
             </a>
-            , however these dashboards are in beta mode as data curation is still ongoing. More organisms will be added throughout 2025.
+            , however these dashboards are in beta mode as data curation is still ongoing. More organisms will be added
+            throughout 2025.
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
@@ -75,13 +90,15 @@ export const AboutPage = () => {
             <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
               GitHub
             </a>
-            . along with {' '}
+            . along with{' '}
             <a href="https://amrnet.readthedocs.io/en/latest" target="_blank" rel="noreferrer">
-            user guide
-            </a> and {' '}
+              user guide
+            </a>{' '}
+            and{' '}
             <a href="https://amrnet.readthedocs.io/en/latest/data.html" target="_blank" rel="noreferrer">
-            API
-            </a>  to access the data. Issues and feature requests can be posted{' '}
+              API
+            </a>{' '}
+            to access the data. Issues and feature requests can be posted{' '}
             <a href="https://github.com/amrnet/amrnet/issues" target="_blank" rel="noreferrer">
               here
             </a>
@@ -97,17 +114,16 @@ export const AboutPage = () => {
             Dyson, Kathryn Holt),
             <span className={classes.paragraphBold}> GitHub: </span> {' '}
             <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
-            https://github.com/amrnet/amrnet
+              https://github.com/amrnet/amrnet
             </a>
-            ,
-            <span className={classes.paragraphBold}> DOI:</span> {' '}
+            ,<span className={classes.paragraphBold}> DOI:</span>{' '}
             <a href="https://zenodo.org/doi/10.5281/zenodo.10810218" target="_blank" rel="noreferrer">
-            https://zenodo.org/doi/10.5281/zenodo.10810218
+              https://zenodo.org/doi/10.5281/zenodo.10810218
             </a>
-            <br/>
+            <br />
           </Typography>
-          <br/>
-          <Typography variant="caption text" >
+          <br />
+          <Typography variant="caption text">
             The project is funded by the Wellcome Trust (grant 226432/Z/22/Z).
           </Typography>
         </CardContent>

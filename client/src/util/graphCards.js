@@ -154,12 +154,12 @@ export const graphCards = [
 
 export const continentGraphCard = {
   title: 'Geographic Comparisons',
-  icon: <BubbleChart color="primary" />,
+  icon: <ViewModule color="primary" />,
   organisms: organismsCards.map(x => x.value),
 };
 
 export const continentPGraphCard = {
   title: 'Pathotype Comparisons',
-  icon: <BubbleChart color="primary" />,
+  icon: <ViewModule color="primary" />,
   organisms: ['shige', 'decoli', 'sentericaints'],
 };
