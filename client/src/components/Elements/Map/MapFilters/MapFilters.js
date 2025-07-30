@@ -22,7 +22,7 @@ import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/color
 import { genotypes } from '../../../../util/genotypes';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { statKeys } from '../../../../util/drugClassesRules';
-import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
+import { ciproAcronyms, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
 import { setCustomDropdownMapViewNG, setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 
@@ -125,9 +125,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   }, [customDropdownMapViewNG, isNGMASTPrevalence, prevalenceMapViewOptionsSelected]);
 
   const resistanceOptions = useMemo(() => {
-    const options = statKeys[organism] ?? statKeys['others'];
+    const options = statKeys?.[organism] ?? statKeys?.['others'] ?? [];
 
-    return options.filter(({ resistanceView }) => resistanceView).map(({ name }) => name);
+    return options
+      .filter(({ resistanceView, name }) => resistanceView && name !== 'Pansusceptible')
+      .map(({ name }) => ciproAcronyms[name] || name);
   }, [organism]);
 
   const nonResistanceOptions = useMemo(() => {

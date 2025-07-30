@@ -1,6 +1,5 @@
 import { Home, Info, MenuBook, GitHub, Groups, Storage } from '@mui/icons-material';
 import EmailIcon from '@mui/icons-material/Email';
-import CopyrightRoundedIcon from '@mui/icons-material/CopyrightRounded';
 
 // List of drawer menu items
 export const menuItems = [

@@ -241,10 +241,15 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
           color: drugClassesBars?.find(x => x.name === key)?.color || '#DCDCDC',
         });
 
-        // value.drugClasses = value.drugClasses.sort((a, b) => a.label.localeCompare(b.label));
-        value.drugClasses = value.drugClasses
-          .sort((a, b) => a.label.localeCompare(b.label))
-          .filter(item => topXGenotypeRDWG.includes(item.label) || item.label === 'Other');
+        value.drugClasses = value.drugClasses.filter(
+          item => topXGenotypeRDWG.includes(item.label) || item.label === 'Other',
+        );
+
+        value.drugClasses.sort((a, b) => {
+          if (a.label === 'None') return 1;
+          if (b.label === 'None') return -1;
+          return a.label.localeCompare(b.label);
+        });
       });
 
       setCurrentTooltip(value);

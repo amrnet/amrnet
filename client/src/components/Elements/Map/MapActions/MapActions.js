@@ -160,18 +160,18 @@ export const MapActions = () => {
           'H prevalence',
         ];
         let y = 390;
-        const maxLineLength = 190;
+        // const maxLineLength = 190;
 
         // Helper to draw wrapped text
         // Improve code for {mapView}: {Prevelance list}
-        const drawWrappedText = (label, text) => {
-          const fullText = `${label}: ${text}`;
-          for (let i = 0; i < fullText.length; i += maxLineLength) {
-            const line = fullText.slice(i, i + maxLineLength);
-            ctx.fillText(line, canvas.width / 2, y);
-            y += 40;
-          }
-        };
+        // const drawWrappedText = (label, text) => {
+        //   const fullText = `${label}: ${text}`;
+        //   for (let i = 0; i < fullText.length; i += maxLineLength) {
+        //     const line = fullText.slice(i, i + maxLineLength);
+        //     ctx.fillText(line, canvas.width / 2, y);
+        //     y += 40;
+        //   }
+        // };
 
         // Prevalence map views
         if (prevalenceMapViews.includes(mapView)) {

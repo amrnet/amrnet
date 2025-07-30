@@ -27,7 +27,7 @@ import {
   drugsST,
   drugsKP,
   drugsSTLegendsOnly,
-  drugsNGLegensOnly,
+  drugsNGLegendsOnly,
   drugsINTSLegendsOnly,
   drugsKlebLegendsOnly,
 } from '../../../util/drugs';
@@ -50,7 +50,7 @@ export const Graphs = () => {
   // const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currentTab, setCurrentTab] = useState('');
+  const [currentTab, setCurrentTab] = useState('DRT'); // Initialize with valid default
   const [showFilter, setShowFilter] = useState(true);
 
   const dispatch = useAppDispatch();
@@ -105,6 +105,7 @@ export const Graphs = () => {
 
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
+
   useEffect(() => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
@@ -146,7 +147,7 @@ export const Graphs = () => {
         return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
       case 'sentericaints':
         return `Selected Serotypes : ${selectedLineages.join(', ')}`;
-     case 'ecoli':
+      case 'ecoli':
         return `Selected Genotypes : ${selectedLineages.join(', ')}`;
       default:
         return '';
@@ -184,10 +185,10 @@ export const Graphs = () => {
       context.fillStyle = isGenotype
         ? getColor(legend)
         : isDrug
-        ? getColorForDrug(legend)
-        : isVariable
-        ? convergenceColourPallete[legend]
-        : legend.color;
+          ? getColorForDrug(legend)
+          : isVariable
+            ? convergenceColourPallete[legend]
+            : legend.color;
       context.beginPath();
       context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
@@ -478,7 +479,8 @@ export const Graphs = () => {
           yPosition: 670,
           xSpace: 330,
         });
-      } else if (currentCard.id === 'BG') { // BG is replaced from CVM for BubbleGeographicGraph
+      } else if (currentCard.id === 'BG') {
+        // BG is replaced from CVM for BubbleGeographicGraph
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
@@ -525,6 +527,12 @@ export const Graphs = () => {
   //   }
   // };
 
+  // Add validation to ensure currentTab is always valid
+  const safeCurrentTab = useMemo(() => {
+    const validTabs = organismCards.map(card => card.id);
+    return validTabs.includes(currentTab) ? currentTab : (validTabs[0] || 'DRT');
+  }, [currentTab, organismCards]);
+
   return (
     <div className={classes.cardsWrapper}>
       <Card className={classes.card}>
@@ -545,8 +553,8 @@ export const Graphs = () => {
                 {actualCountry !== 'All'
                   ? `${actualCountry} (${actualRegion})`
                   : actualRegion === 'All'
-                  ? 'All Regions'
-                  : actualRegion}
+                    ? 'All Regions'
+                    : actualRegion}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
@@ -597,7 +605,7 @@ export const Graphs = () => {
         </CardActions>
         {collapses['all'] && (
           <Tabs
-            value={currentTab}
+            value={safeCurrentTab}
             onChange={handleChangeTab}
             variant="scrollable"
             scrollButtons
@@ -633,8 +641,8 @@ export const Graphs = () => {
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    position: downloadForPDF ? 'absolute' : currentTab === card.id ? 'relative' : 'absolute',
-                    visibility: downloadForPDF ? 'visible' : currentTab === card.id ? 'visible' : 'hidden',
+                    position: downloadForPDF ? 'absolute' : safeCurrentTab === card.id ? 'relative' : 'absolute',
+                    visibility: downloadForPDF ? 'visible' : safeCurrentTab === card.id ? 'visible' : 'hidden',
                     top: 0,
                     left: 0,
                     width: '100%',
