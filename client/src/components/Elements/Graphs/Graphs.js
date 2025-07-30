@@ -27,7 +27,7 @@ import {
   drugsST,
   drugsKP,
   drugsSTLegendsOnly,
-  drugsNGLegensOnly,
+  drugsNGLegendsOnly,
   drugsINTSLegendsOnly,
   drugsKlebLegendsOnly,
 } from '../../../util/drugs';
@@ -51,7 +51,7 @@ export const Graphs = () => {
   // const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currentTab, setCurrentTab] = useState('');
+  const [currentTab, setCurrentTab] = useState('DRT'); // Initialize with valid default
   const [showFilter, setShowFilter] = useState(true);
 
   const dispatch = useAppDispatch();
@@ -106,6 +106,7 @@ export const Graphs = () => {
 
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
+
   useEffect(() => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
@@ -148,8 +149,8 @@ export const Graphs = () => {
       case 'sentericaints':
       case 'kpneumo':
         return `Selected Serotypes : ${selectedLineages.join(', ')}`;
-    //  case 'ecoli':
-    //     return `Selected Genotypes : ${selectedLineages.join(', ')}`;
+      case 'ecoli':
+        return `Selected Genotypes : ${selectedLineages.join(', ')}`;
       default:
         return '';
     }
@@ -530,6 +531,12 @@ export const Graphs = () => {
   //   }
   // };
 
+  // Add validation to ensure currentTab is always valid
+  const safeCurrentTab = useMemo(() => {
+    const validTabs = organismCards.map(card => card.id);
+    return validTabs.includes(currentTab) ? currentTab : (validTabs[0] || 'DRT');
+  }, [currentTab, organismCards]);
+
   return (
     <div className={classes.cardsWrapper}>
       <Card className={classes.card}>
@@ -550,8 +557,8 @@ export const Graphs = () => {
                 {actualCountry !== 'All'
                   ? `${actualCountry} (${actualRegion})`
                   : actualRegion === 'All'
-                  ? 'All Regions'
-                  : actualRegion}
+                    ? 'All Regions'
+                    : actualRegion}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
@@ -602,7 +609,7 @@ export const Graphs = () => {
         </CardActions>
         {collapses['all'] && (
           <Tabs
-            value={currentTab}
+            value={safeCurrentTab}
             onChange={handleChangeTab}
             variant="scrollable"
             scrollButtons

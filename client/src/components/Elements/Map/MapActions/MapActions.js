@@ -50,10 +50,7 @@ export const MapActions = () => {
         selectedLineages,
       });
     }
-
-
-
-
+  
   function handleCloseAlert() {
     setShowAlert(false);
   }
