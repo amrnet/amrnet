@@ -138,7 +138,15 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    setXAxisSelected([]);
+    if (
+      xAxisSelected.length === filteredXAxisOptions.length ||
+      xAxisSelected.some(x => !xAxisSelected.slice(0, 20).includes(x))
+    ) {
+      setXAxisSelected([]);
+      return;
+    }
+
+    setXAxisSelected(filteredXAxisOptions);
   }
 
   function handleChangeYAxisSelected({ event = null, all = false }) {
@@ -421,9 +429,17 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                           className={classes.selectButton}
                           onClick={() => handleChangeXAxisSelected({ all: true })}
                           disabled={organism === 'none'}
-                          color="error"
+                          color={
+                            xAxisSelected.length === filteredXAxisOptions.length ||
+                            xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
+                              ? 'error'
+                              : 'primary'
+                          }
                         >
-                          Clear All
+                          {xAxisSelected.length === filteredXAxisOptions.length ||
+                          xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
+                            ? 'Clear All'
+                            : 'Select 20'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
