@@ -164,7 +164,7 @@ export const ResetButton = () => {
           </IconButton>
         </span>
       </Tooltip>
-      <Tooltip title="Reset Configurations" placement="left">
+      <Tooltip title="Reset Application" placement="left">
         <span>
           <Fab
             color="primary"
