@@ -501,7 +501,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                     <>
                       <div className={classes.labelWrapper}>
                         <Typography variant="caption">Select Drugs</Typography>
-                        <Tooltip title="Select one or more drug categories to display its prevalence" placement="top">
+                        <Tooltip title="Choose one or more drug categories to see their prevalence. Selecting multiple categories shows only their shared prevalence" placement="top">
                           <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                         </Tooltip>
                       </div>
