@@ -500,7 +500,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   {mapView === 'Resistance prevalence' ? (
                     <>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select Drugs</Typography>
+                        <Typography variant="caption">Select drugs</Typography>
                         <Tooltip title="Choose one or more drug categories to see their prevalence. Selecting multiple categories shows only their shared prevalence" placement="top">
                           <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                         </Tooltip>
