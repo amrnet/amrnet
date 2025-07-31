@@ -74,6 +74,7 @@ export const ContinentGraphs = () => {
   const drugGene = useAppSelector(state => state.graph.drugGene); // Drug gene selected in the graph for SS
   // coloredOptions is used to draw the legend in the Trend Line graph
   const coloredOptions = useAppSelector(state => state.graph.coloredOptions);
+  const yAxisType = useAppSelector(state => state.map.yAxisType);
   useEffect(() => {
     setShowFilter(!matches500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -225,7 +226,7 @@ export const ContinentGraphs = () => {
       ctx.font = '12px Montserrat';
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}.png`);
+      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}_Geographic_Comparisons_${yAxisType}_prevalence .png`);
     } catch {
       setShowAlert(true);
     } finally {
