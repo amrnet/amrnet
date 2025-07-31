@@ -3,7 +3,7 @@ AMRnet
 
 .. container:: justify-text
 
-   The `AMRnet<https://www.amrnet.org/>`_ aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.
+   The `AMRnet <https://www.amrnet.org/>`_ aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.
 
    We started with Salmonella Typhi, built on our `TyphiNET <https://www.typhi.net>`_ dashboard which uses data curated by the `Global Typhoid Genomics Consortium <http://typhoidgenomics.org>`_ (to improve data quality and identify which datasets are suitable for inclusion) and analysed in `Pathogenwatch <http://pathogen.watch>`_ (to call AMR determinants and lineages from sequence data). Dashboards are now available for Klebsiella pneumoniae, Neisseria gonorrhoeae, non-typhoidal Salmonella, E. coli and Shigella using data sourced from the `Pathogenwatch <http://pathogen.watch>`_ and `Enterobase <https://enterobase.warwick.ac.uk/>`_ platforms. In the future, we hope to add additional organisms, sourced from these and other platforms.
 
@@ -18,7 +18,7 @@ Citation for AMRnet
 
 .. container:: justify-text
 
-   If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Kat Holt), **GitHub**: https://github.com/amrnet/amrnet, **DOI**: 10.5281/zenodo.10810219
+   If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Kathryn Holt), **GitHub**: https://github.com/amrnet/amrnet, **DOI**: 10.5281/zenodo.10810219
 
 
 
@@ -33,17 +33,6 @@ Dashboard code
 
          pip install AMRnet
 
-      .. See :ref:`label-installation` for more information.
-
-      .. Features
-      .. --------
-
-      .. See the complete list of ``AMRnet`` features :ref:`label-features`.
-
-      .. Contributing
-      .. ------------
-
-      .. Contributions are very welcome. To learn more, see the :ref:`label-contributing`.
 
 License
 -------
@@ -61,7 +50,7 @@ Support
    GitHub `issue
    tracker <https://github.com/amrnet/amrnet/issues>`_.
    Alternatively you can get support on the
-   `discussions <https://github.com/amrnet/amrnet/discussions>`
+   `discussions <https://github.com/amrnet/amrnet/discussions>`_
    page.
 
 Disclaimer
