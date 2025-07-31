@@ -499,7 +499,7 @@ export const Graphs = () => {
       }
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel} - ${currentCard.title}.png`);
+      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}_${currentCard.title}.png`);
     } catch {
       setShowAlert(true);
     } finally {
