@@ -162,7 +162,7 @@ export const ContinentPathotypeGraphs = () => {
       ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}.png`);
+      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}_Pathotype_comparisons.png`);
     } catch {
       setShowAlert(true);
     } finally {

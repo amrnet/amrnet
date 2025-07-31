@@ -173,7 +173,7 @@ export const DownloadMapViewData = ({ value }) => {
       });
 
     const headers = HeaderList.join(',');
-    generateCSV(headers, rows, 'Map');
+    generateCSV(headers, rows, mapView);
   };
 
   const downloadCSVForDRT = () => {
@@ -617,7 +617,7 @@ export const DownloadMapViewData = ({ value }) => {
       // Create CSV header row
       let headers = HeaderList.join(',');
 
-      generateCSV(headers, rows, `AMR by genotype for (${actualRegion})`);
+      generateCSV(headers, rows, compName === 'BHP' ? `${COMPARISON} comparison for ${actualRegion} region`:`AMR by genotype for ${actualRegion} region`);
     } else {
       console.log('mapRegionData is not an array or is empty', mapRegionData);
     }
@@ -859,7 +859,7 @@ export const DownloadMapViewData = ({ value }) => {
     generateCSV(
       headers,
       rows,
-      `Geographic Comparisons (${yAxisType}${yAxisType === 'determinant' ? '-' + yAxisTypeTrend : ''})`,
+      `Geographic_Comparisons_${yAxisType}${yAxisType === 'determinant' ? '-' + yAxisTypeTrend : ''}_prevalence`,
     );
   };
   //Trend Line HeatMap Data Download CSV
@@ -921,7 +921,7 @@ export const DownloadMapViewData = ({ value }) => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `${firstName} ${secondName} ${name} data.csv`);
+    link.setAttribute('download', `${firstName}_${secondName}_${name}_data.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
