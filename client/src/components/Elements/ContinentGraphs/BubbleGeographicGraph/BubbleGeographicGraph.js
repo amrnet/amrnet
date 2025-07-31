@@ -291,7 +291,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       case 'resistance':
         return 'drugs';
       case 'determinant':
-        return 'determinants';
+        return 'markers';
       case 'genotype':
         return ['sentericaints', 'senterica'].includes(organism) ? 'lineages' : 'genotypes';
       default:
@@ -832,7 +832,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   {yAxisType === 'determinant' && (
                     <div className={classes.selectWrapper}>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select trend</Typography>
+                        <Typography variant="caption">Select drugs</Typography>
                       </div>
                       <Select
                         value={yAxisTypeTrend}
