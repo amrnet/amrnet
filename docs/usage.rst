@@ -11,6 +11,7 @@ Dashboard overview
 
    **Map**: Use the **Plotting options** panel on the right to **select a variable to display per-country summary data** on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the **Global filters** panel on the left to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed otherwise, it will be coloured grey to indicate insufficient data are available.
    Filters set in this panel apply not only to the map, but to all plots on the page. **Clicking on a country in the map** also functions as a filter, so that the **Summary plots** in the panels below reflect data for the selected country only. Per-country values displayed in the map can be downloaded by clicking the downward-arrow button at the top right of the panel. A static image (PNG format) of the current map view can be downloaded by clicking the camera icon.
+   
    .. figure:: assets/map.png
       :width: 100%
       :align: center
@@ -28,10 +29,11 @@ Dashboard overview
    
    .. added summary plots figure
 
-.. figure::  assets/Summary.png
-   :width: 100%
-   :align: center
-   :alt: summary
+   .. figure::  assets/Summary.png
+      :width: 100%
+      :align: center
+      :alt: summary
+
    **Downloads**: At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’). Please note PDF reports are not yet available for all organisms, they will be added in future updates.
 
    .. figure::  assets/downloads.png

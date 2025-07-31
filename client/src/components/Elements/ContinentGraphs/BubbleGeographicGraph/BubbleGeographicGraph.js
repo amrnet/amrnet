@@ -291,7 +291,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       case 'resistance':
         return 'drugs';
       case 'determinant':
-        return 'determinants';
+        return 'markers';
       case 'genotype':
         return ['sentericaints', 'senterica'].includes(organism) ? 'lineages' : 'genotypes';
       default:
@@ -349,12 +349,20 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    if (!showSelectAll) {
+    // if (!showSelectAll) {
+    //   setYAxisSelected([]);
+    //   return;
+    // }
+
+    if (
+      yAxisSelected.length === filteredYAxisOptions.length ||
+      yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+    ) {
       setYAxisSelected([]);
       return;
     }
 
-    setYAxisSelected(filteredYAxisOptions?.slice());
+    setYAxisSelected(filteredYAxisOptions);
   }
 
   function handleChangeSearch(event) {
@@ -824,7 +832,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   {yAxisType === 'determinant' && (
                     <div className={classes.selectWrapper}>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select trend</Typography>
+                        <Typography variant="caption">Select drugs</Typography>
                       </div>
                       <Select
                         value={yAxisTypeTrend}
@@ -872,9 +880,17 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           className={classes.selectButton}
                           onClick={() => handleChangeYAxisSelected({ all: true })}
                           disabled={organism === 'none'}
-                          color={!showSelectAll ? 'error' : 'primary'}
+                          color={
+                            yAxisSelected.length === filteredYAxisOptions.length ||
+                            yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+                              ? 'error'
+                              : 'primary'
+                          }
                         >
-                          {!showSelectAll ? 'Clear All' : 'Select All'}
+                          {yAxisSelected.length === filteredYAxisOptions.length ||
+                          yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+                            ? 'Clear All'
+                            : 'Select 20'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}

@@ -257,7 +257,7 @@ import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/dru
         ctx.drawImage(amrnetLogo, 25, 25);
 
         const base64 = canvas.toDataURL();
-        await download(base64, `AMRnet - Global Overview ${globalOverviewLabel.stringLabel}.png`);
+        await download(base64, `AMRnet - Global Overview of ${mapView}_${globalOverviewLabel.stringLabel}.png`);
       });
     } catch (error) {
       setShowAlert(true);
