@@ -243,7 +243,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const filteredYAxisOptions = useMemo(() => {
     const filteredOptions = yAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
 
-    if (yAxisType === 'serotype' || (yAxisType === 'genotype' && organismHasLotsOfGenotypes)) {
+    if (yAxisType === 'serotype' ||  yAxisType === 'determinant' || (yAxisType === 'genotype' && organismHasLotsOfGenotypes)) {
       return filteredOptions.slice(0, 20);
     }
 
@@ -362,7 +362,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    setYAxisSelected(filteredYAxisOptions);
+    setYAxisSelected(filteredYAxisOptions?.slice());
   }
 
   function handleChangeSearch(event) {
