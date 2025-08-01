@@ -27,6 +27,20 @@ import { SliderSizes } from '../../Slider';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 
+const GRADIENT_COLORS = {
+  LIGHT_GREY: 224, // #e0e0e0
+  DARK_GREY: 51,   // #333333
+};
+
+const calculateGreyGradient = (index, total) => {
+  const normalizedPosition = total > 1 ? index / (total - 1) : 0;
+  const greyValue = Math.round(
+    GRADIENT_COLORS.LIGHT_GREY +
+    (GRADIENT_COLORS.DARK_GREY - GRADIENT_COLORS.LIGHT_GREY) * normalizedPosition
+  );
+  return `rgb(${greyValue},${greyValue},${greyValue})`;
+};
+
 export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
@@ -84,14 +98,17 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   }, [topColours]);
 
   useEffect(() => {
-    if (canGetData) {
+    console.log('🐛 Debug Values:');
+    console.log('convergenceGroupVariable:', convergenceGroupVariable);
+    console.log('topConvergenceData length:', topConvergenceData.length);
+    console.log('convergenceColourPallete:', convergenceColourPallete);
 
+    if (canGetData) {
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
             <ScatterChart cursor={isTouchDevice() ? 'default' : 'pointer'}>
               <CartesianGrid strokeDasharray="3 3" />
-              {/* <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} /> */}
               <XAxis
                 dataKey="x"
                 allowDecimals={false}
@@ -113,15 +130,13 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
               </YAxis>
               <ZAxis type="number" dataKey="z" range={[50, 1000]} />
 
-              {/* Hide the color/gradient legend and show only the size legend, centered */}
-              {/* <Legend
+              <Legend
                 content={() => {
-                  // Circle size legend (for ZAxis)
                   const zMin = 50;
                   const zMax = 1000;
                   const zMid = Math.round((zMin + zMax) / 2);
                   const zValues = [zMin, zMid, zMax];
-                  const sizeScale = z => 10 + 30 * ((z - zMin) / (zMax - zMin)); // adjust as needed
+                  const sizeScale = z => 10 + 30 * ((z - zMin) / (zMax - zMin));
 
                   return (
                     <Box display="flex" alignItems="center" gap={4} justifyContent="center" mt={5} ml={8}>
@@ -146,44 +161,50 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                         </Typography>
                       </Box>
 
-                      {convergenceGroupVariable === 'DATE' && (
+                      {/* Only show gradient legend when DATE is selected AND there's actual data */}
+                      {convergenceGroupVariable === 'DATE' && topConvergenceData.length > 0 && (
                         <>
                           <Divider orientation="vertical" flexItem />
-
-                          <Box display="flex" flexDirection="column">
-                            <Box display="flex" gap={1}>
-                              <Typography fontSize="0.75rem">0%</Typography>
+                          <Box display="flex" flexDirection="column" alignItems="center">
+                            <Box display="flex" alignItems="center" gap={1}>
+                              <Typography fontSize="0.75rem">Earliest</Typography>
                               <Box className={classes.gradientBox} />
-                              <Typography fontSize="0.75rem">100%</Typography>
+                              <Typography fontSize="0.75rem">Latest</Typography>
                             </Box>
+                            <Typography variant="caption" sx={{ mt: 0.5, textAlign: 'center' }}>
+                              Date progression
+                            </Typography>
                           </Box>
                         </>
                       )}
                     </Box>
                   );
                 }}
-              /> */}
-              <Legend
-                content={() => {
-                  return (
-                    <div className={classes.legendWrapper}>
-                      {Object.keys(topColours).map((key, index) => {
-                        return (
-                          <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
-                            <Box
-                              className={classes.colorCircle}
-                              style={{
-                                backgroundColor: convergenceColourPallete[key],
-                              }}
-                            />
-                            <Typography variant="caption">{key}</Typography>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                }}
               />
+
+              {convergenceGroupVariable !== 'DATE' && (
+                <Legend
+                  content={() => {
+                    return (
+                      <div className={classes.legendWrapper}>
+                        {Object.keys(topColours).map((key, index) => {
+                          return (
+                            <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
+                              <Box
+                                className={classes.colorCircle}
+                                style={{
+                                  backgroundColor: convergenceColourPallete[key],
+                                }}
+                              />
+                              <Typography variant="caption">{key}</Typography>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  }}
+                />
+              )}
 
               <ChartTooltip
                 cursor={{ fill: hoverColor }}
@@ -197,13 +218,10 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
 
               <Scatter name="combinations" data={topConvergenceData}>
                 {topConvergenceData.map((option, index) => {
-                  // Create a grey gradient based on index or value
-                  // We'll use a scale from #e0e0e0 (light) to #333333 (dark)
-                  {/* const total = topConvergenceData.length > 1 ? topConvergenceData.length - 1 : 1;
-                  const t = index / total;
-                  // Interpolate between 224 and 51 for R, G, B
-                  const grey = Math.round(224 + (51 - 224) * t); */}
-                  const color = convergenceColourPallete[option.colorLabel];
+                  const color = convergenceGroupVariable === 'DATE'
+                    ? calculateGreyGradient(index, topConvergenceData.length)
+                    : convergenceColourPallete[option.colorLabel];
+
                   return (
                     <Cell
                       name={option.name}
@@ -219,8 +237,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
         );
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topConvergenceData]);
+  }, [topConvergenceData, convergenceGroupVariable, convergenceColourPallete, topColours, classes]); // Added missing dependencies
 
   return (
     <CardContent className={classes.convergenceGraph}>

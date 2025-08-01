@@ -1,9 +1,9 @@
-import { openDB } from 'idb';
+import { openDB, IDBPDatabase } from 'idb';
 
 type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
 const DB_NAME = 'amrnetdb';
-const DB_VERSION = 35;
+const DB_VERSION = 36;
 
 const OBJECT_STORES = [
   'styphi',
@@ -59,7 +59,7 @@ const OBJECT_STORES = [
 ];
 
 // Initialize the database (singleton pattern)
-let dbPromise: ReturnType<typeof openDB> | null = null;
+let dbPromise: Promise<IDBPDatabase> | null = null;
 
 export const initDB = async () => {
   if (!dbPromise) {
@@ -72,7 +72,9 @@ export const initDB = async () => {
 
         // Recreate object stores with the updated schema
         OBJECT_STORES.forEach(store => {
-          db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
+          if (!db.objectStoreNames.contains(store)) {
+            db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
+          }
         });
       },
     });
@@ -84,6 +86,9 @@ export const initDB = async () => {
 const getDB = async () => {
   return await initDB();
 };
+// Validate store name
+const isValidStore = (storeName: string): storeName is OrganismStore =>
+  OBJECT_STORES.includes(storeName);
 
 // Add an item to a specific store
 export const addItem = async (storeName: OrganismStore, item: any): Promise<IDBValidKey> => {
@@ -91,43 +96,73 @@ export const addItem = async (storeName: OrganismStore, item: any): Promise<IDBV
   return db.put(storeName, item);
 };
 
-const isValidStore = (storeName: string): boolean => OBJECT_STORES.includes(storeName);
+// const isValidStore = (storeName: string): boolean => OBJECT_STORES.includes(storeName);
 
 // Get all items from a specific store
 export const getItems = async (storeName: OrganismStore): Promise<any> => {
   if (!isValidStore(storeName)) {
-    throw new Error(`Invalid object store name: ${storeName}`);
+    console.warn(`Invalid object store name: ${storeName}`);
+    return [];
   }
-  const db = await getDB();
-  return db.getAll(storeName);
+  // const db = await getDB();
+  // return db.getAll(storeName);
+    try {
+    const db = await getDB();
+    return await db.getAll(storeName);
+  } catch (error) {
+    console.error(`Error getting items from ${storeName}:`, error);
+    return [];
+  }
 };
 
 // Get a single item by its ID
 export const getItem = async (storeName: OrganismStore, id: number): Promise<any> => {
-  const db = await getDB();
-  return db.get(storeName, id);
+  // const db = await getDB();
+  // return db.get(storeName, id);
+    try {
+    const db = await getDB();
+    return await db.get(storeName, id);
+  } catch (error) {
+    console.error(`Error getting item ${id} from ${storeName}:`, error);
+    return null;
+  }
 };
 
 // Delete an item by its ID
 export const deleteItem = async (storeName: OrganismStore, id: number): Promise<void> => {
-  const db = await getDB();
-  return db.delete(storeName, id);
+  // const db = await getDB();
+  // return db.delete(storeName, id);
+    try {
+    const db = await getDB();
+    await db.delete(storeName, id);
+  } catch (error) {
+    console.error(`Error deleting item ${id} from ${storeName}:`, error);
+  }
 };
 
-export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>, clearStore: boolean = true) => {
-  const db = await getDB();
-  const tx = db.transaction(storeName, 'readwrite');
-  const store = tx.objectStore(storeName);
-
-  if (clearStore) {
-    await store.clear();
+export const bulkAddItems = async (storeName: string, items: Array<any>, clearStore: boolean = true) => {
+  if (!isValidStore(storeName)) {
+    console.warn(`Invalid object store name: ${storeName}`);
+    return;
   }
 
-  for (const item of items) {
-    await store.put(item);
-  }
+  try {
+    const db = await getDB();
+    const tx = db.transaction(storeName, 'readwrite');
+    const store = tx.objectStore(storeName);
 
-  await tx.done;
+    if (clearStore) {
+      await store.clear();
+    }
+
+    for (const item of items) {
+      await store.put(item);
+    }
+
+    await tx.done;
+      } catch (error) {
+    console.error(`Error bulk adding items to ${storeName}:`, error);
+  }
 };
 
 export const hasItems = async (storeName: OrganismStore): Promise<boolean> => {
@@ -169,6 +204,6 @@ export const filterItems = async (
     return results;
   } catch (error) {
     console.error('Error filtering items:', error);
-    throw error;
+    return [];
   }
 };

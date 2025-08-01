@@ -176,9 +176,11 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: '4px',
   },
   gradientBox: {
-    height: '15px',
-    width: '100px',
-    backgroundImage: 'linear-gradient(to right, #e0e0e0, #333333)',
+    width: '60px',
+    height: '12px',
+    background: 'linear-gradient(to right, #e0e0e0, #333333)',
+    border: '1px solid #ddd',
+    borderRadius: '2px',
   },
 }));
 
