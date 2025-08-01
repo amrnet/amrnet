@@ -258,9 +258,13 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
         allYears.forEach(year => {
           if (!years.includes(year)) {
-            data.push({
-              name: year,
-            });
+            // Only add empty years if there are actual drugs selected to show
+            const hasSelectedDrugs = drugResistanceGraphView.length > 0;
+            if (hasSelectedDrugs) {
+              data.push({
+                name: year,
+              });
+            }
           }
         });
 

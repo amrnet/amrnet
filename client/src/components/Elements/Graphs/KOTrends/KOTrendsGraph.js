@@ -253,12 +253,16 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
 
       allYears.forEach(year => {
         if (!existingYears.includes(year)) {
-          data.push({
-            name: year,
-            count: 0,
-            ...Object.fromEntries(topXKO.map(key => [key, 0])),
-            'Insufficient data': KOTrendsGraphView === 'number' ? 0 : 100,
-          });
+          // Only add "Insufficient data" if there are actual filtered results
+          const hasFilteredData = topXKO.length > 0;
+          if (hasFilteredData) {
+            data.push({
+              name: year,
+              count: 0,
+              ...Object.fromEntries(topXKO.map(key => [key, 0])),
+              'Insufficient data': KOTrendsGraphView === 'number' ? 0 : 100,
+            });
+          }
         }
       });
 

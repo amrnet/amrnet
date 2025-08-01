@@ -45,7 +45,7 @@ import {
   drugsST,
   drugsKP,
   drugsSTLegendsOnly,
-  drugsNGLegensOnly,
+  drugsNGLegendsOnly,
   drugsINTSLegendsOnly,
   drugsKlebLegendsOnly,
 } from '../../../util/drugs';
@@ -1526,7 +1526,7 @@ export const DownloadData = () => {
           //     legendDrugs = drugsKlebLegendsOnly;
           //     break;
           //   case 'ngono':
-          //     legendDrugs = drugsNGLegensOnly;
+          //     legendDrugs = drugsNGLegendsOnly;
           //     break;
           //   default:
           //     legendDrugs = drugsINTSLegendsOnly;

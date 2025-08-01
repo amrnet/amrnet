@@ -485,7 +485,7 @@ export const DashboardPage = () => {
 
     try {
       const organismData = await getStoreOrGenerateData(storeName, async () => {
-        const response = await axios.get(`/api/filters/${endpoint}`, {
+        const response = await axios.get(`/api/${endpoint}`, {
           maxContentLength: Infinity,
           maxBodyLength: Infinity,
         });
@@ -493,7 +493,7 @@ export const DashboardPage = () => {
       });
 
       const regions = await getStoreOrGenerateData('unr', async () => {
-        return (await axios.get('/api/filters/getUNR')).data;
+        return (await axios.get('/api/getUNR')).data;
       });
 
       await getInfoFromData(organismData, regions);
