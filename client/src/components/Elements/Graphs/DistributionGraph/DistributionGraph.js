@@ -271,7 +271,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       allYears.forEach(year => {
         if (!existingYears.includes(year)) {
           // Find index of item to remove
-          const index = data.findIndex(d => d.name === year);
+          const index = data.findIndex(d => d.name == year); // to match with string and number types
           if (index !== -1) {
             data.splice(index, 1); // Remove existing entry in-place
           }
@@ -289,7 +289,6 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
     }
     // console.log('allYears', allYears, data);
-
     return (
       <ResponsiveContainer width="100%">
         <BarChart
