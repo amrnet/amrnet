@@ -244,9 +244,10 @@ router.get('/getDataForSenterica', async function (req, res, next) {
       .db(dbAndCollection.dbName)
       .collection(dbAndCollection.collectionName)
       .aggregate([
-        { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
+        // { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
+        {$match: { 'dashboard view': 'Include' }}, // Using exact match for performance
         {
-          $addFields: {
+          $project: {
             GENOTYPE: {
               $cond: {
                 if: { $ne: ['$MLST_Achtman', null] },
@@ -254,11 +255,21 @@ router.get('/getDataForSenterica', async function (req, res, next) {
                 else: 'Unknown',
               },
             },
-          },
-        },
-        {
-          $project: {
-            MLST_Achtman: 0, // remove original field if renaming
+            
+            AMINOGLYCOSIDE: 1,
+            "BETA-LACTAM": 1,
+            SULFONAMIDE: 1,
+            TETRACYCLINE: 1,
+            NAME: 1,
+            DATE: 1,
+            COUNTRY_ONLY: 1,
+            "SISTR1 Serovar": 1,
+            // "dashboard view": 0,
+            QUINOLONE: 1,
+            TRIMETHOPRIM: 1,
+            PHENICOL: 1,
+            MACROLIDE: 1,
+            COLISTIN: 1,
           },
         },
       ])
