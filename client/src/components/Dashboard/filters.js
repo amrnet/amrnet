@@ -1365,10 +1365,12 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
   let colourVariables = [];
 
   // Function to get unique values
-  // const getUniqueValues = (key) => [...new Set(data.map((x) => getVariableValue(x, key)))];
+  const getUniqueValues = (key) => [...new Set(data.map((x) => getVariableValue(x, key)))];
 
   // Define function for genotype or others
-  const unique = getUniqueValuesWithHighestCount(data, groupVariable);
+  const unique = groupVariable === 'DATE'
+    ? getUniqueValues(groupVariable).sort((a, b) => a - b) // Sort dates numerically
+    : getUniqueValuesWithHighestCount(data, groupVariable);
 
   // Check if groupVariable and colourVariable are the same
   if (groupVariable === colourVariable) {
@@ -1376,21 +1378,26 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
     colourVariables = [...unique];
   } else {
     // Get unique values for variablesCombinations and colourVariables
-    // variablesCombinations = unique.flatMap((groupVal) =>
-    //   getUniqueValues(colourVariable).map((colourVal) => `${groupVal} - ${colourVal}`),
-    // );
-    // colourVariables = getUniqueValues(colourVariable);
+    variablesCombinations = unique.flatMap((groupVal) =>
+      getUniqueValues(colourVariable).map((colourVal) => `${groupVal} - ${colourVal}`),
+    );
+    colourVariables = getUniqueValues(colourVariable);
   }
 
   // Map combinations to data
   const combinationDataMap = variablesCombinations.reduce((acc, combination) => {
-    const [groupVal, colourVal] = combination.split(' - ');
+    // Handle both single values and combined values
+    const isCombinable = groupVariable !== colourVariable && typeof combination === 'string' && combination.includes(' - ');
 
-    acc[combination] = data.filter(x =>
-      groupVariable === colourVariable
-        ? getVariableValue(x, groupVariable) === combination
-        : getVariableValue(x, groupVariable) === groupVal && getVariableValue(x, colourVariable) === colourVal,
-    );
+    if (isCombinable) {
+      const [groupVal, colourVal] = combination.split(' - ');
+      acc[combination] = data.filter(x =>
+        getVariableValue(x, groupVariable) === groupVal && getVariableValue(x, colourVariable) === colourVal
+      );
+    } else {
+      // When groupVariable === colourVariable, combination is a single value
+      acc[combination] = data.filter(x => getVariableValue(x, groupVariable) === combination);
+    }
 
     return acc;
   }, {});
@@ -1401,8 +1408,10 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
     const count = combinedData.length;
 
     if (count > 0) {
-      const splitCombination = combination.split(' - ');
-      const colorLabel = splitCombination.length > 1 ? splitCombination[1] : combination;
+      // Handle colorLabel for both single and combined values
+      const isCombinable = groupVariable !== colourVariable && typeof combination === 'string' && combination.includes(' - ');
+      const colorLabel = isCombinable ? combination.split(' - ')[1] : combination;
+
       const avgVirulenceScore = (
         combinedData.reduce((total, obj) => Number(obj.virulence_score) + total, 0) / count
       ).toFixed(2);
@@ -1421,8 +1430,13 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
   });
 
   convergenceData.sort((a, b) => b.z - a.z);
+
   // Sort colourVariables based on the type of colourVariable
-  colourVariables.sort((a, b) => (colourVariable === 'YEAR' ? b - a : a.localeCompare(b)));
+  if (colourVariable === 'DATE') {
+    colourVariables.sort((a, b) => a - b); // Sort dates numerically
+  } else {
+    colourVariables.sort((a, b) => a.localeCompare(b));
+  }
 
   // Return convergenceData and colourVariables
   return { data: convergenceData, colourVariables };

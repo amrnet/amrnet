@@ -3,7 +3,7 @@ const { MongoClient } = pkg;
 import dotenv from 'dotenv';
 
 dotenv.config();
-let URI = process.env.MONGO_URI;
+let URI = process.env.MONGODB_URI;
 export const client = new MongoClient(URI);
 
 // Connection to MongoDB

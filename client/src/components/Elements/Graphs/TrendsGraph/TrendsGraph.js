@@ -322,10 +322,14 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
 
         allYears.forEach(year => {
           if (!years.includes(year)) {
-            data.push({
-              name: year,
-              'Insufficient data': trendsGraphView === 'number' ? 0 : 100,
-            });
+            // Only add "Insufficient data" if there are actual filtered results
+            const hasFilteredData = (topGenesSlice && topGenesSlice.length > 0) || (topGenotypeSlice && topGenotypeSlice.length > 0);
+            if (hasFilteredData) {
+              data.push({
+                name: year,
+                'Insufficient data': trendsGraphView === 'number' ? 0 : 100,
+              });
+            }
           }
         });
 
