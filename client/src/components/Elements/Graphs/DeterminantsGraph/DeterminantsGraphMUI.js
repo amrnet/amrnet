@@ -185,6 +185,14 @@ const useStyles = makeStyles((theme) => ({
     columnGap: '8px',
     paddingBottom: '4px',
   },
+  insufficientData: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    color: 'red',
+    fontWeight: '600',
+  },
 }));
 
 export { useStyles };
