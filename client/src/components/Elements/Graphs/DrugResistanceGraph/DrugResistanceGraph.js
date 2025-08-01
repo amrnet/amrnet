@@ -58,11 +58,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const organism = useAppSelector(state => state.dashboard.organism);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
-  useEffect(() => {
-    setCurrentTooltip(null);
-  }, [drugsYearData]);
 
   useEffect(() => {
+    setCurrentTooltip(null);
     if (drugsYearData.length <= 0) {
       dispatch(setCaptureDRT(false));
     } else {
@@ -217,7 +215,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
-    } else {
+    } else if (year === undefined) {
+      setCurrentTooltip(null);
+    }else {
       setCurrentTooltip({
         name: year,
         count: 'ID',
