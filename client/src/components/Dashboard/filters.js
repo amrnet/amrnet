@@ -60,7 +60,7 @@ export function filterData({
   let listPMID = [];
 
   // Filter
-  const newData = data.filter(x => checkDataset(x) && checkDatasetKP(x) && checkTime(x) && checkLineages(x));
+  const newData = data.filter(x => checkDataset(x) && checkDatasetKP(x) && checkLineages(x)); // && checkTime(x)) is not required here and it fix the Global Flirter issue of Wrong year
 
   // Set genotypes, genomes and PMID
   if (actualRegion !== 'All') {
