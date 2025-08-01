@@ -144,10 +144,10 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     const slicedDataArray = [];
 
     yearsData?.forEach(year => {
-      if (year.totalCount < 10) {
-        //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
-        return;
-      }
+      // if (year.totalCount < 10) {
+      //   //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
+      //   return;
+      // }
       const value = {
         name: year.name,
         totalCount: year.totalCount,
@@ -209,7 +209,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   function handleClickChart(event) {
     const data = slicedData.find(item => item.name === event?.activeLabel);
 
-    if (data && data.totalCount > 0) {
+    if (data && data.totalCount >= 10) {
       const currentData = structuredClone(data);
       const value = {
         name: currentData.name,
@@ -244,7 +244,9 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
-    } else {
+    } else if (event?.activeLabel === undefined || event?.activeLabel === null) {
+      setCurrentTooltip(null);
+    }else {
       setCurrentTooltip({
         name: event?.activeLabel,
         count: 'ID',
@@ -283,14 +285,14 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
 
         allYears.forEach(year => {
           if (!years.includes(year)) {
-            // Only add "Insufficient data" if there are actual filtered results
-            const hasFilteredData = topGenesSlice && topGenesSlice.length > 0;
-            if (hasFilteredData) {
-              data.push({
-                name: year,
-                'Insufficient data': trendsGraphView === 'number' ? 0 : 100,
-              });
+            const index = data.findIndex(d => d.name === year);
+            if (index !== -1) {
+              data.splice(index, 1); // Remove existing entry in-place
             }
+            data.push({
+              name: year,
+              'Insufficient data': trendsGraphView === 'number' ? 0 : 100,
+            });
           }
         });
 
