@@ -172,7 +172,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
         return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: count };
       })
-      .filter(x => x.count >= 10);
+      // .filter(x => x.count >= 10);
 
     const percentageArray = structuredClone(baseArray)
       .map(item => {
@@ -182,7 +182,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         });
         return item;
       })
-      .filter(x => x.count >= 10);
+      // .filter(x => x.count >= 10);
 
     return { newArray: baseArray, newArrayPercentage: percentageArray };
   }, [currentColorPallete, currentData, organism, topXGenotype]);
@@ -203,7 +203,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     // setCurrentEventSelected(event);
     const data = newArray.find(item => item.name === event?.activeLabel);
 
-    if (data && data.count > 0) {
+    if (data && data.count >= 10) {
       const currentData = structuredClone(data);
 
       const value = {
@@ -264,26 +264,29 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     let allYears = [];
     if (data.length > 0) {
       allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
-      const existingYears = data.map(d => d.name.toString());
+      const existingYears = data.filter(d => d.count >= 10).map(d => d.name.toString());
 
       allYears.forEach(year => {
         if (!existingYears.includes(year)) {
-          // Only add "Insufficient data" if there are actual filtered results
-          // Don't show it when no filters are applied
-          const hasFilteredData = topXGenotype.length > 0;
-          if (hasFilteredData) {
-            data.push({
-              name: year,
-              count: 0,
-              ...Object.fromEntries(topXGenotype.map(key => [key, 0])),
-              'Insufficient data': distributionGraphView === 'number' ? 0 : 100,
-            });
+          // Find index of item to remove
+          const index = data.findIndex(d => d.name === year);
+          if (index !== -1) {
+            data.splice(index, 1); // Remove existing entry in-place
           }
+
+          // Push new entry
+          data.push({
+            name: year,
+            count: 0,
+            ...Object.fromEntries(topXGenotype.map(key => [key, 0])),
+            'Insufficient data': distributionGraphView === 'number' ? 0 : 100,
+          });
         }
       });
 
       data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
     }
+    // console.log('allYears', allYears, data);
 
     return (
       <ResponsiveContainer width="100%">

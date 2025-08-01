@@ -152,7 +152,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
 
         return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: count };
       })
-      .filter(x => x.count >= 10);
+      // .filter(x => x.count >= 10);
 
     const percentageArray = structuredClone(baseArray)
       .map(item => {
@@ -162,7 +162,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
         });
         return item;
       })
-      .filter(x => x.count >= 10);
+      // .filter(x => x.count >= 10);
 
     return { newArray: baseArray, newArrayPercentage: percentageArray };
   }, [colorPallete, currentData, organism, topXKO]);
@@ -183,7 +183,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     setCurrentEventSelected(event);
     const data = newArray.find(item => item.name === event?.activeLabel);
 
-    if (data && data.count > 0) {
+    if (data && data.count >= 10) {
       const currentData = structuredClone(data);
 
       const value = {
@@ -249,20 +249,20 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     let allYears = [];
     if (data.length > 0) {
       allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
-      const existingYears = data.map(d => d.name.toString());
+      const existingYears = data.filter(d => d.count >= 10).map(d => d.name.toString());
 
       allYears.forEach(year => {
         if (!existingYears.includes(year)) {
-          // Only add "Insufficient data" if there are actual filtered results
-          const hasFilteredData = topXKO.length > 0;
-          if (hasFilteredData) {
-            data.push({
-              name: year,
-              count: 0,
-              ...Object.fromEntries(topXKO.map(key => [key, 0])),
-              'Insufficient data': KOTrendsGraphView === 'number' ? 0 : 100,
-            });
-          }
+          const index = data.findIndex(d => d.name === year);
+            if (index !== -1) {
+              data.splice(index, 1); // Remove existing entry in-place
+            }
+          data.push({
+            name: year,
+            count: 0,
+            ...Object.fromEntries(topXKO.map(key => [key, 0])),
+            'Insufficient data': KOTrendsGraphView === 'number' ? 0 : 100,
+          });
         }
       });
 
