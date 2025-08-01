@@ -356,7 +356,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
         <div className={classes.rightSide}>
           <SliderSizes style={{ width: '100%' }} />
           <div className={classes.tooltipWrapper}>
-            {currentTooltip ? (
+            {currentTooltip?.count > 0 ? (
               <div className={classes.tooltip}>
                 <div className={classes.tooltipTitle}>
                   <Typography variant="h5" fontWeight="600">
@@ -386,9 +386,11 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                   })}
                 </div>
               </div>
+            ) : currentTooltip?.count === 0 ? (
+              <div className={classes.insufficientData}>Insufficient data</div>
             ) : (
               <div className={classes.noGenotypeSelected}>No genotype selected</div>
-            )}
+          )}
           </div>
         </div>
       </div>
