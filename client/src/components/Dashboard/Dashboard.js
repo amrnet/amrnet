@@ -734,8 +734,8 @@ export const DashboardPage = () => {
             : economicRegions[actualRegion];
 
       const filteredData = filters.data.filter(x => filteredCountries.includes(getCountryDisplayName(x.COUNTRY_ONLY)));
-
-      // Update general metadata
+      const uniqueDates = [...new Set(filteredData.map(x => x.DATE))].sort(); // Get unique years from the filtered data
+      dispatch(setYears(uniqueDates));                                        // to Set the years for the Global Filters based on Datasets and lineages
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
