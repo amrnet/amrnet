@@ -58,11 +58,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const organism = useAppSelector(state => state.dashboard.organism);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
-  useEffect(() => {
-    setCurrentTooltip(null);
-  }, [drugsYearData]);
 
   useEffect(() => {
+    setCurrentTooltip(null);
     if (drugsYearData.length <= 0) {
       dispatch(setCaptureDRT(false));
     } else {
@@ -73,7 +71,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   const trendsData = useMemo(() => {
     const exclusions = ['name', 'count'];
-    const drugsDataPercentages = structuredClone(drugsYearData).filter(item => item.count >= 10);
+    const drugsDataPercentages = structuredClone(drugsYearData);
 
     return drugsDataPercentages.map(item => {
       const keys = Object.keys(item).filter(x => !exclusions.includes(x));
@@ -217,7 +215,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       });
 
       setCurrentTooltip(value);
-    } else {
+    } else if (year === undefined) {
+      setCurrentTooltip(null);
+    }else {
       setCurrentTooltip({
         name: year,
         count: 'ID',
@@ -254,17 +254,17 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       if (data.length > 0) {
         // Add missing years between the select time to show continuous scale
         allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
-        const years = data.map(x => x.name);
+        const years = data.filter(d => d.count >= 10).map(x => x.name);
 
         allYears.forEach(year => {
           if (!years.includes(year)) {
-            // Only add empty years if there are actual drugs selected to show
-            const hasSelectedDrugs = drugResistanceGraphView.length > 0;
-            if (hasSelectedDrugs) {
-              data.push({
-                name: year,
-              });
+            const index = data.findIndex(d => d.name === year);
+            if (index !== -1) {
+              data.splice(index, 1); // Remove existing entry in-place
             }
+            data.push({
+              name: year,
+            });
           }
         });
 
@@ -466,7 +466,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.labelWrapper}>
                   <Typography variant="caption">Select drugs/classes to display</Typography>
                   <Tooltip
-                    title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual frequencies, there are no data points to show."
+                    title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficient per year to calculate annual frequencies, there are no data points to show."
                     placement="top"
                   >
                     <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
