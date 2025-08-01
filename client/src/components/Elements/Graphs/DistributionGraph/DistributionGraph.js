@@ -230,7 +230,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
       setCurrentTooltip(value);
       //dispatch(setResetBool(false));
-    } else {
+    } else if (event?.activeLabel === undefined || event?.activeLabel === null) {
+      setCurrentTooltip(null);
+    }else {
       setCurrentTooltip({
         name: event?.activeLabel,
         count: 'ID',
