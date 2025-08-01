@@ -1,5 +1,5 @@
  <img src='assets/img/logo-prod.png' width="150" height="90">
- 
+
 ![Main Code Base](https://img.shields.io/github/languages/top/amrnet/amrnet)
 ![Version](https://img.shields.io/badge/version-1.0-red).
 ![License](https://img.shields.io/badge/license-GPLv3-blue)
@@ -103,18 +103,18 @@ npm install
 #### 6. Inside the project folder, create a file named `.env`. Inside it, copy the following code
 
 ```sh
-MONGO_URI= (see item 7 from the manual)
-MONGO_URI_ATLAS=(see item 7 from manual to access MongoDB Atlas cloud)
+MONGODB_URI= (see item 7 from the manual)
+MONGODB_URI_ATLAS=(see item 7 from manual to access MongoDB Atlas cloud)
 ````
 
-#### 7. When opening MongoDB Compass, you will see a white box with a connection string. Copy this string and paste it on the variable `MONGO_URI`. After clicking the `Connect` button
+#### 7. When opening MongoDB Compass, you will see a white box with a connection string. Copy this string and paste it on the variable `MONGODB_URI`. After clicking the `Connect` button
 
-### 7. Obtain Local MongoDB Connection String (for `MONGO_URI`)
+### 7. Obtain Local MongoDB Connection String (for `MONGODB_URI`)
 
 1.  Open MongoDB Compass.
 2.  When connecting to your local MongoDB instance, Compass will use or show a connection string. This typically looks like `mongodb://localhost:27017` or `mongodb://127.0.0.1:27017`.
 3.  Copy this local connection string.
-4.  Paste it as the value for `MONGO_URI` in your `.env` file.
+4.  Paste it as the value for `MONGODB_URI` in your `.env` file.
 
 #### 8. Finally, inside the project folder, run the command and wait for the program to open on your browser
 

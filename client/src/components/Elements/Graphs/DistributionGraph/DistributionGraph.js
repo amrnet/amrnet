@@ -268,12 +268,17 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
       allYears.forEach(year => {
         if (!existingYears.includes(year)) {
-          data.push({
-            name: year,
-            count: 0,
-            ...Object.fromEntries(topXGenotype.map(key => [key, 0])),
-            'Insufficient data': distributionGraphView === 'number' ? 0 : 100,
-          });
+          // Only add "Insufficient data" if there are actual filtered results
+          // Don't show it when no filters are applied
+          const hasFilteredData = topXGenotype.length > 0;
+          if (hasFilteredData) {
+            data.push({
+              name: year,
+              count: 0,
+              ...Object.fromEntries(topXGenotype.map(key => [key, 0])),
+              'Insufficient data': distributionGraphView === 'number' ? 0 : 100,
+            });
+          }
         }
       });
 

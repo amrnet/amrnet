@@ -78,11 +78,11 @@ def get_repo_overview():
             print(f"Read {len(summary_lines)} lines from README.md.")
             return "\n".join(summary_lines)
         except Exception as e:
-            print(f"Error reading README.md: {e}")
-            return "AMRNet is a project focused on Adaptive Mesh Refinement. (Error reading README.md)."
+            print(f"Error reading README.md: {e}") # Return a more accurate fallback description
+            return "AMRNet is a web application for visualizing and analyzing Antimicrobial Resistance (AMR) data. (Error reading README.md)."
     else:
         print(f"README.md not found at {readme_path}.")
-        return "AMRNet is a project focused on Adaptive Mesh Refinement. (README.md not found for more details)."
+        return "AMRNet is a web application for visualizing and analyzing Antimicrobial Resistance (AMR) data. (README.md not found for more details)."
 
 def get_file_content(file_path):
     """Fetches the content of a specific file from the repository."""
@@ -152,7 +152,7 @@ def post_comment_to_issue(repo_obj, issue_num, comment_body):
 
 def main():
     print(f"Raw comment body: {COMMENT_BODY}")
-    
+
     # Remove the bot's mention from the query
     user_query = COMMENT_BODY.replace(BOT_USERNAME, "").strip()
     print(f"Cleaned user query: '{user_query}'")

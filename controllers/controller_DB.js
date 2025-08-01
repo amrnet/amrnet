@@ -9,7 +9,7 @@ import LZString from 'lz-string';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
-let URI = process.env.MONGO_URI;
+let URI = process.env.MONGODB_URI;
 
 const exec = promisify(execCallback);
 const router = express.Router();

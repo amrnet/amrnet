@@ -200,7 +200,7 @@ export const Graphs = () => {
       context.closePath();
       context.fillStyle = 'black';
       context.fillText(
-        isGenotype || isDrug || isVariable || isGen? legend : legend.name,
+        isGenotype || isDrug || isVariable || isGen ? legend : legend.name,
         61 + xFactor,
         yPosition + 4 - mobileFactor + yFactor,
       );
@@ -389,7 +389,7 @@ export const Graphs = () => {
         //     legendDrugs = drugsKlebLegendsOnly;
         //     break;
         //   case 'ngono':
-        //     legendDrugs = drugsNGLegensOnly;
+        //     legendDrugs = drugsNGLegendsOnly;
         //     break;
         //   default:
         //     legendDrugs = drugsINTSLegendsOnly;
@@ -485,7 +485,7 @@ export const Graphs = () => {
         });
       } else if (currentCard.id === 'convergence-graph') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        const legendData = Object.keys(convergenceColourPallete); 
+        const legendData = Object.keys(convergenceColourPallete);
 
         drawLegend({
           legendData,
@@ -497,6 +497,7 @@ export const Graphs = () => {
           isVariable: true,
         });
       }
+
 
       const base64 = canvas.toDataURL();
       await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}_${currentCard.title}.png`);

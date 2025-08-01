@@ -26,7 +26,7 @@ export const HomePage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get('/api/filters/getCollectionCounts');
+      const response = await axios.get('/api/getCollectionCounts');
       setOrganismCounts(response.data);
     } catch (error) {
       console.log('error while getting collections count:', error);
