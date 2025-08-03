@@ -594,7 +594,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select drugs/genes</Typography>
+                      <Typography variant="caption">Select drug</Typography>
                     </div>
                     <Select
                       multiple
