@@ -49,7 +49,7 @@ export const graphCards = [
     component: <MarkerTrendsGraph />,
   },
   {
-    title: 'AMR markers by genotype',
+    title: 'AMR marker by genotype',
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
@@ -57,7 +57,7 @@ export const graphCards = [
     component: <DeterminantsGraph />,
   },
   {
-    title: 'AMR markers by genotype',
+    title: 'AMR marker by genotype',
     description: [''],
     icon: <ViewModule color="primary" />,
     id: 'BAMRH',
@@ -82,7 +82,8 @@ export const graphCards = [
       'styphi',
       'ngono',
       'kpneumo',
-      ...amrLikeOrganisms.filter(x => !['sentericaints', 'senterica'].includes(x)),
+      'senterica',
+      ...amrLikeOrganisms.filter(x => !['sentericaints'].includes(x)),
     ],
     component: <DistributionGraph />,
   },
@@ -91,7 +92,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['sentericaints', 'senterica'],
+    organisms: ['sentericaints'],
     component: <DistributionGraph />,
   },
   {
@@ -161,5 +162,5 @@ export const continentGraphCard = {
 export const continentPGraphCard = {
   title: 'Pathotype Comparisons',
   icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli', 'sentericaints'],
+  organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
 };
