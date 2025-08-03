@@ -122,7 +122,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
       case 'styphi':
         return 'XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)';
       case 'ngono':
-        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
+        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Benzylpenicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
       default:
         return;
     }
@@ -132,7 +132,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
       case 'styphi':
         return 'MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
       case 'ngono':
-        return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
+        return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Benzylpenicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:
         return;
     }
@@ -140,7 +140,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   function getSusceptibleDefinition() {
     switch (organism) {
       case 'ngono':
-        return 'Pansusceptible’ (sensitive to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Penicillin, Spectinomycin)';
+        return 'Pansusceptible’ (Susceptible to Azithromycin, Ceftriaxone, Ciprofloxacin, Cefixime, Benzylpenicillin, Spectinomycin)';
       default:
         return;
     }

@@ -11,6 +11,8 @@ import path, { dirname } from 'path';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
+import compression from 'compression';
+
 // REMOVED: import bodyParser from 'body-parser';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -22,6 +24,22 @@ dotenv.config();
 connectDB();
 
 const app = express();
+// Use compression middleware to compress responses
+app.use(compression({
+  // Only compress responses that are larger than this threshold
+  threshold: 1024, // 1KB
+  // Compression level (0-9, where 9 is best compression but slowest)
+  level: 6,
+  // Only compress certain content types
+  filter: (req, res) => {
+    // Don't compress if the request includes a cache-control: no-transform directive
+    if (req.headers['cache-control'] && req.headers['cache-control'].includes('no-transform')) {
+      return false;
+    }
+    // Fallback to standard filter function
+    return compression.filter(req, res);
+  }
+}));
 // REMOVED: app.use(bodyParser.json({ limit: '400mb' }));
 
 // Middleware

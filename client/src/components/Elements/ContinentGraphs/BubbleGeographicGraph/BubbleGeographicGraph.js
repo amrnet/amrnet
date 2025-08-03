@@ -756,7 +756,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Rows</Typography>
+                      <Typography variant="caption">Select region/country</Typography>
+                      <Tooltip title="Only show regions with N≥20 genomes." placement="top">
+                        <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                      </Tooltip>
                     </div>
                     <Select
                       value={xAxisType}
@@ -765,8 +768,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      <MenuItem value="country">Countries</MenuItem>
-                      <MenuItem value="region">Regions</MenuItem>
+                      <MenuItem value="country">Country</MenuItem>
+                      <MenuItem value="region">Region</MenuItem>
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>
