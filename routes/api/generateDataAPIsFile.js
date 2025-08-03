@@ -7,13 +7,14 @@ import { fileURLToPath } from 'url';
 import * as Tools from '../../services/services.js';
 import { client } from '../../config/db.js';
 import pkg from 'csv-writer';
+import zlib from 'zlib';
 
 const { createObjectCsvWriter: createCsvWriter } = pkg;
 const { createObjectCsvStringifier: createCsvStringifier } = pkg;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
 
-// Download clean as spreadsheet
+// Download clean as spreadsheet with compression
 router.post('/download', async function (req, res, next) {
   const organism = req.body.organism;
   let collection, localFilePath;
@@ -25,7 +26,7 @@ router.post('/download', async function (req, res, next) {
     collection = client.db('kpneumo').collection('amrnetdb_kpneumo');
     localFilePath = Tools.path_clean_all_kp;
   } else if (organism === 'ngono') {
-    collection = client.db('ngono').collection('merge_rawdata_ng');
+    collection = client.db('ngono').collection('amrnetdb_ngono');
     localFilePath = Tools.path_clean_all_ng;
   } else if (organism === 'ecoli') {
     collection = client.db('ecoli').collection('amrnetdb_ecoli');
@@ -51,6 +52,7 @@ router.post('/download', async function (req, res, next) {
     console.error('Error querying MongoDB:', err);
     return res.status(500).send('Database error');
   }
+
   let csvString;
 
   if (data.length > 0) {
@@ -91,12 +93,26 @@ router.post('/download', async function (req, res, next) {
     csvString = fs.readFileSync(localFilePath, 'utf8');
     }
 
-    res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv"`);
-    res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Check if client accepts gzip compression
+    const acceptsGzip = req.headers['accept-encoding'] && req.headers['accept-encoding'].includes('gzip');
 
-    res.send(csvString || '');
+    if (acceptsGzip && csvString && csvString.length > 1024) {
+      // Compress the CSV data
+      const compressed = zlib.gzipSync(csvString);
 
+      res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv.gz"`);
+      res.setHeader('Content-Type', 'application/gzip');
+      res.setHeader('Content-Encoding', 'gzip');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+
+      res.send(compressed);
+    } else {
+      res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv"`);
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+
+      res.send(csvString || '');
+    }
 });
 
 //Generate clean_all_st and clean_all_kp
@@ -117,7 +133,7 @@ router.get('/generate/:organism', async function (req, res, next) {
     collection_ext = 'kp';
     fileName = 'cleanAll_kp.csv';
   } else if (organism === 'ngono') {
-    collection = client.db('ngono').collection('merge_rawdata_ng');
+    collection = client.db('ngono').collection('amrnetdb_ngono');
     folderName = 'ngono';
     ext = 'ng';
     collection_ext = 'ng';
