@@ -245,7 +245,7 @@ export const colorForDrugClassesST = {
     { name: 'dfrA18', color: '#66c2a4' },
     { name: 'None', color: '#B9B9B9' },
   ],
-  Tetracyclines: [
+  Tetracycline: [
     { name: 'tetA(A)', color: 'rgb(174,227,154)' },
     { name: 'tetA(B)', color: '#D7AEF7' },
     { name: 'tetA(C)', color: '#FFEC78' },
@@ -608,21 +608,30 @@ export const hoverColor = '#D2F1F6';
 // Colors for N. gono drug classes genes
 export const colorForDrugClassesNG = {
   Ceftriaxone: [
-    { name: 'CefR1', color: '#f9c74f' },
+    { name: 'penA.A501P + penA.G545T + penA.I312M + penA.V316T', color: '#f9c74f' },
+    { name: 'penA.A501V + penA.G542S + penA.insV346D', color: '#f9844a' },
     { name: 'None', color: '#B9B9B9' },
   ],
   Azithromycin: [
     { name: '23S_a2045g + mtrR_proDel', color: '#D1E5F0' },
-    { name: '23S_rDNA_a2045g + mtrR_G45D', color: '#FDDBC7' },
-    { name: 'mtrR_G45D + mtrC_loss + 23S_a2045g', color: '#E7D4E8' },
-    { name: '23S_c2597t + mtrR_proDel', color: '#F6E8C3' },
+    { name: '23S_rDNA_a2045g + mtrR_G45D', color: '#A20F17' },
+    { name: 'mtrR_G45D + mtrC_loss + 23S_a2045g', color: '#3811e7ff' },
+    { name: '23S_c2597t + mtrR_proDel', color: '#f53f0dff' },
     { name: '23S_c2597t + mtrR_A39T', color: '#67001F' },
     { name: '23S_c2597t + mtrR_G45D', color: '#4A0082' },
     { name: '23S_c2597t', color: '#20004D' },
     { name: '23S_rDNA_c2597t + mtrC_loss', color: '#054e20' },
     { name: 'mtrC_loss + mtrD_mos2', color: '#f9c74f' },
     { name: 'mtrD_mos2 + mtr_mos2', color: '#f9844a' },
-    { name: 'mtr_mos2', color: '#543005' },
+    { name: 'mtr_mos2', color: '#ef9d38ff' },
+    { name: 'None', color: '#B9B9B9' },
+  ],
+    Cefixime: [
+    { name: 'penA.A501P + penA.G545T + penA.I312M + penA.V316T', color: '#f9c74f' },
+    { name: 'penA.A501V + penA.G542S + penA.insV346D', color: '#4A0082' },
+    { name: 'penA.A501P + penA.G545T + penA.I312M + penA.V316T', color: '#f9844a' },
+    { name: 'penA.A501V + penA.G542S + penA.insV346D', color: '#f53f0dff' },
+    { name: 'penA.A501P + penA.G545T + penA.I312M + penA.V316T', color: '#054e20' },
     { name: 'None', color: '#B9B9B9' },
   ],
 };

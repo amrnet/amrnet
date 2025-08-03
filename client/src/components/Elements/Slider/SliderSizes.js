@@ -116,7 +116,7 @@ export const SliderSizes = props => {
       return `Individual ${variablesOptions.find(x => x.value === convergenceGroupVariable).label} to colour`;
     }
 
-    return 'Individual resistance determinants:';
+    return 'Individual resistance marker to colour:';
   }, [convergenceGroupVariable, organism, props.label, props.value]);
 
   const [sliderValue, setSliderValue] = useState(0);

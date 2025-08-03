@@ -18,7 +18,7 @@ export const drugsST = [
   'XDR',
   'MDR',
   'Sulfonamides',
-  'Tetracyclines',
+  'Tetracycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
   'Pansusceptible',
@@ -34,7 +34,7 @@ export const drugsSTLegendsOnly = [
   'Extensively drug resistant (XDR)',
   'Multidrug resistant (MDR)',
   'Sulfonamides',
-  'Tetracyclines',
+  'Tetracycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
   'Pansusceptible',
@@ -51,7 +51,7 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'Pansusceptible',
 ];
 
-// List of N. gono drug classes
+//List of N. gono drug classes
 export const drugsNG = [
   'Azithromycin',
   'Cefixime',
@@ -59,10 +59,10 @@ export const drugsNG = [
   'Ciprofloxacin',
   'XDR',
   'MDR',
-  'Penicillin',
+  'Benzylpenicillin',
   'Spectinomycin',
   'Sulfonamides',
-  'Tetracyclines',
+  'Tetracycline',
   'Pansusceptible',
 ];
 
@@ -88,7 +88,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
   'Ciprofloxacin',
   'XDR',
   'MDR',
-  'Penicillin',
+  'Benzylpenicillin',
   'Spectinomycin',
   'Pansusceptible',
 ];
@@ -110,14 +110,14 @@ export const drugClassesST = [
   'XDR',
   'MDR',
   'Sulfonamides',
-  'Tetracyclines',
+  'Tetracycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
   // 'Pansusceptible',
 ];
 
-// List of Klebsiella drug classes
-export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
+// List of NG drug classes
+export const drugClassesNG = ['Azithromycin', 'Ceftriaxone', 'Cefixime'];
 
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMX',
@@ -126,7 +126,7 @@ export const drugAcronyms = {
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CHL',
   Sulfonamides: 'SUL',
-  Tetracyclines: 'TET',
+  Tetracycline: 'TET',
   Trimethoprim: 'TMP',
   'Trimethoprim-sulfamethoxazole': 'SXT',
   Colistin: 'COL',
@@ -141,7 +141,7 @@ export const drugAcronyms = {
   Gentamicin: 'GEN',
   Cefixime: 'CFM',
   Ciprofloxacin: 'CIP',
-  Penicillin: 'PEN',
+  Benzylpenicillin: 'PEN',
   Spectinomycin: 'SPT',
   Pansusceptible: 'PAN',
   'Susceptible to cat I/II drugs': 'SUS',
@@ -151,9 +151,11 @@ export const drugAcronyms = {
   Penicillins: 'PCN',
 };
 
+
 export const drugAcronymsOpposite = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
-  CIP: 'Ciprofloxacin (non-susceptible)',
+  CIP: 'Ciprofloxacin',
+  // CIP: 'Ciprofloxacin (non-susceptible)',
   AZM: 'Azithromycin',
   // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
   CipR: 'Ciprofloxacin (resistant)',
@@ -164,8 +166,7 @@ export const drugAcronymsOpposite = {
 
 export const drugAcronymsOpposite2 = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
-  CIP: 'Ciprofloxacin (non-susceptible)',
-  // Implemneted for Consistency
+  CIP: 'Ciprofloxacin',
   AZM: 'Azithromycin',
   // ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin (resistant)',
@@ -184,6 +185,7 @@ export const drugsINTSLegendsOnly = drugRulesINTS.map(x => x.legends || x.key).s
 export const drugsNGLegendsOnly = drugRulesNG.map(x => x.legends || x.key);
 export const drugsKlebLegendsOnly = drugRulesKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
 // export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
+
 export function getDrugClasses(organism) {
   switch (organism) {
     case 'styphi':
