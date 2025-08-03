@@ -1,4 +1,5 @@
 import { openDB, IDBPDatabase } from 'idb';
+import * as compressJson from 'compress-json';
 
 type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
@@ -90,13 +91,30 @@ const getDB = async () => {
 const isValidStore = (storeName: string): storeName is OrganismStore =>
   OBJECT_STORES.includes(storeName);
 
+// Add compression utility function
+export const decompressResponse = async (response: Response) => {
+  const data = await response.json();
+
+  // Check if the response was compressed with compress-json
+  const compressionType = response.headers.get('X-Compression');
+
+  if (compressionType === 'compress-json') {
+    try {
+      return compressJson.decompress(data);
+    } catch (error) {
+      console.warn('Failed to decompress response, using as-is:', error);
+      return data;
+    }
+  }
+
+  return data;
+};
+
 // Add an item to a specific store
 export const addItem = async (storeName: OrganismStore, item: any): Promise<IDBValidKey> => {
   const db = await getDB();
   return db.put(storeName, item);
 };
-
-// const isValidStore = (storeName: string): boolean => OBJECT_STORES.includes(storeName);
 
 // Get all items from a specific store
 export const getItems = async (storeName: OrganismStore): Promise<any> => {
@@ -104,9 +122,7 @@ export const getItems = async (storeName: OrganismStore): Promise<any> => {
     console.warn(`Invalid object store name: ${storeName}`);
     return [];
   }
-  // const db = await getDB();
-  // return db.getAll(storeName);
-    try {
+  try {
     const db = await getDB();
     return await db.getAll(storeName);
   } catch (error) {
@@ -117,9 +133,7 @@ export const getItems = async (storeName: OrganismStore): Promise<any> => {
 
 // Get a single item by its ID
 export const getItem = async (storeName: OrganismStore, id: number): Promise<any> => {
-  // const db = await getDB();
-  // return db.get(storeName, id);
-    try {
+  try {
     const db = await getDB();
     return await db.get(storeName, id);
   } catch (error) {
@@ -130,9 +144,7 @@ export const getItem = async (storeName: OrganismStore, id: number): Promise<any
 
 // Delete an item by its ID
 export const deleteItem = async (storeName: OrganismStore, id: number): Promise<void> => {
-  // const db = await getDB();
-  // return db.delete(storeName, id);
-    try {
+  try {
     const db = await getDB();
     await db.delete(storeName, id);
   } catch (error) {
@@ -160,7 +172,7 @@ export const bulkAddItems = async (storeName: string, items: Array<any>, clearSt
     }
 
     await tx.done;
-      } catch (error) {
+  } catch (error) {
     console.error(`Error bulk adding items to ${storeName}:`, error);
   }
 };
