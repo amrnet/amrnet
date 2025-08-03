@@ -443,7 +443,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Select genotypes/pathotypes</Typography>
+                    <Typography variant="caption">Select genotype/pathotype</Typography>
                     <Select
                       multiple
                       value={xAxisSelected}
@@ -496,7 +496,7 @@ export const BubbleHeatmapGraph = ({ showFilter, setShowFilter }) => {
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>
-                    <Typography variant="caption">Select drugs/genes (up to 8)</Typography>
+                    <Typography variant="caption">Select drugs (up to 8)</Typography>
                     <Select
                       multiple
                       value={yAxisSelected}

@@ -393,7 +393,7 @@ export const UserGuidePage = () => {
             </li>
             <li>
               <span className={classes.paragraphBold}>Pansusceptible</span> - No determinants found
-              for Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin,
+              for Azithromycin, Ceftriaxone, Cefixime (category I) or Benzylpenicillin, Ciprofloxacin,
               Spectinomycin (category II).
             </li>
           </Typography>
@@ -406,12 +406,12 @@ export const UserGuidePage = () => {
             <li>
               <span className={classes.paragraphBold}>MDR:</span> multidrug resistant (Resistant to
               one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or
-              more of Penicillin / Ciprofloxacin / Spectinomycin [category II representatives])
+              more of Benzylpenicillin / Ciprofloxacin / Spectinomycin [category II representatives])
             </li>
             <li>
               <span className={classes.paragraphBold}>XDR:</span> extensively drug resistant
               (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I
-              representatives], plus three of Penicillin / Ciprofloxacin / Spectinomycin [category
+              representatives], plus three of Benzylpenicillin / Ciprofloxacin / Spectinomycin [category
               II representatives])
             </li>
           </Typography>
