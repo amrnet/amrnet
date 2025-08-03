@@ -21,7 +21,7 @@ connectDB().catch(console.error);
 const dbAndCollectionNames = {
   styphi: { dbName: 'styphi', collectionName: 'amrnetdb_styphi' },
   kpneumo: { dbName: 'kpneumo', collectionName: 'amrnetdb_kpneumo' },
-  ngono: { dbName: 'ngono', collectionName: 'merge_rawdata_ng' },
+  ngono: { dbName: 'ngono', collectionName: 'amrnetdb_ngono' },
   ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
   decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
   shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
@@ -255,7 +255,7 @@ router.get('/getDataForSenterica', async function (req, res, next) {
                 else: 'Unknown',
               },
             },
-            
+
             AMINOGLYCOSIDE: 1,
             "BETA-LACTAM": 1,
             SULFONAMIDE: 1,
