@@ -4,16 +4,22 @@ export const getColorForDrug = drug => {
   switch (drug) {
     case 'Ampicillin/Amoxicillin':
     case 'Ampicillin':
+    case 'Penicillin':
+    case 'Penicillins':
+    case 'Benzylpenicillin':
+      return '#DE77AE';
+
     case 'Aminoglycosides':
       return 'rgb(129,178,210)';
 
-    case 'Azithromycin':
-    case 'AzithR':
     case 'Carbapenems':
     case 'Carb':
       return 'rgb(144,211,199)';
 
-    case 'Chloramphenicol':
+    case 'Azithromycin':
+    case 'AzithR':
+      return 'rgba(38, 161, 139, 1)';
+
     case '3rd gen cephalosporins (3GCs)':
     case 'ESBL':
       return 'rgb(249,129,117)';
@@ -30,32 +36,33 @@ export const getColorForDrug = drug => {
     case 'Colistin':
       return 'rgb(0, 163, 35)';
 
-    // case 'Fluoroquinolones (CipI)':
-    case 'Fosfomycin':
+    // case 'Cefixime':
     case 'Cefixime':
+      return '#0b08d3ff';
+
+    // case 'Fosfomycin':
+    case 'Fosfomycin':
       return '#98fb98';
 
     // case 'Fluoroquinolones (CipNS)':
     case 'Ciprofloxacin (non-susceptible)':
     case 'Ciprofloxacin NS':
     case 'Ciprofloxacin S':
-    case 'Ciprofloxacin':
+      return '#f56207ff';
+
     case 'CipNS':
-      return 'rgb(255,236,120)';
+      return 'rgba(201, 184, 70, 1)';
 
     // case 'Fluoroquinolones (CipR)':
     case 'Ciprofloxacin R':
     case 'Ciprofloxacin (resistant)':
-    case 'Penicillin':
+    case 'Ciprofloxacin':
       return '#9e9ac8';
 
-    case 'Ciprofloxacin I':
-    case 'Penicillins':
-      return '#DE77AE';
 
     case 'Fluoroquinolones':
-    // case 'Penicillin':
-      return '#9ACD32';
+    case 'Fluoroquinolone':
+      return '#c5a514ff';
 
     case 'Sulphonamides':
     case 'Sulfonamides':
@@ -80,8 +87,9 @@ export const getColorForDrug = drug => {
       return '#F3AAB9';
 
     case 'Phenicols':
+    case 'Chloramphenicol':
     case 'Meropenem':
-      return '#FBCFBA';
+      return '#28b936ff';
 
     case 'Tigecycline':
       return '#54C2FF';
