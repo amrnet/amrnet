@@ -1,75 +1,143 @@
 {
+  "appTitle": "AMRnet",
+  "welcomeMessage": "Bienvenido al panel de AMRnet",
   "dashboard": {
-    "title": "Panel de Control",
-    "filters": "Filtros",
-    "organism": "Organismo",
-    "select_organism": "Seleccionar organismo",
-    "all_organisms": "Todos los organismos",
-    "region": "Región",
-    "select_region": "Seleccionar región",
-    "drug": "Medicamento",
-    "select_drug": "Seleccionar medicamento",
-    "year": "Año",
-    "select_year": "Seleccionar año",
-    "apply_filters": "Aplicar filtros",
-    "clear_filters": "Limpiar filtros",
-    "loading": "Cargando...",
-    "no_data": "No hay datos disponibles",
-    "resistance_rate": "Tasa de resistencia",
-    "sample_size": "Tamaño de muestra",
-    "export": "Exportar",
-    "download_data": "Descargar datos",
-    "download_chart": "Descargar gráfico"
+    "title": "Panel de AMRnet",
+    "description": "Esta es la página principal del panel de AMRnet. Aquí puedes ver y gestionar varios aspectos del sistema."
   },
   "navigation": {
     "home": "Inicio",
-    "dashboard": "Panel",
     "about": "Acerca de",
-    "database": "Base de Datos",
-    "documentation": "Documentación",
+    "team": "Equipo",
     "contact": "Contacto",
-    "admin": "Admin",
-    "team": "Equipo"
+    "database": "Base de Datos",
+    "userguide": "Guía de Usuario"
   },
-  "forms": {
+  "about": {
+    "title": "Acerca de",
+    "pageTitle": "Acerca de AMRnet",
+    "subtitle": "Red de Vigilancia de Resistencia Antimicrobiana",
+    "paragraph1": "El panel de AMRnet tiene como objetivo hacer accesibles a una amplia audiencia datos de vigilancia de RAM derivados del genoma de alta calidad, robustos y confiables. Las visualizaciones están orientadas a mostrar estimaciones anuales nacionales de prevalencia de RAM y tendencias a lo largo del tiempo, que pueden desglosarse y explorarse en términos de genotipos subyacentes y mecanismos de resistencia. No generamos datos de secuencia, pero esperamos que al hacer más accesibles y útiles los datos depositados públicamente, podamos alentar y motivar más secuenciación e intercambio de datos.",
+    "paragraph2": {
+      "intro": "Comenzamos con Salmonella Typhi y desarrollamos nuestro panel",
+      "typhiNet": "TyphiNET",
+      "middle1": "que utiliza datos que han sido curados por el",
+      "globalTyphoid": "Consorcio Global de Genómica de Tifoidea",
+      "middle2": "(para mejorar la calidad de los datos e identificar qué conjuntos de datos son adecuados para inclusión) y analizados en",
+      "pathogenwatch1": "Pathogenwatch",
+      "middle3": "(para identificar determinantes de RAM y linajes a partir de datos de secuencia). Se han añadido organismos adicionales, utilizando datos obtenidos de",
+      "pathogenwatch2": "Pathogenwatch",
+      "middle4": ", y",
+      "enterobase": "Enterobase",
+      "end": ", sin embargo estos paneles están en modo beta ya que la curación de datos aún está en curso. Se añadirán más organismos a lo largo de 2025."
+    },
+    "paragraph3": {
+      "text": "Una barrera importante para usar datos públicos para vigilancia es la necesidad de una curaduría cuidadosa de datos para identificar qué conjuntos de datos son relevantes para inclusión en estimaciones agrupadas de prevalencia de RAM y genotipo. Este tipo de curaduría puede beneficiar a una amplia gama de usuarios y planeamos trabajar con comunidades adicionales específicas de organismos para curar datos, y contribuir a esfuerzos más amplios sobre estándares de metadatos. Por favor póngase en contacto si le gustaría trabajar con nosotros (",
+      "contact": "amrnetdashboard@gmail.com",
+      "end": ")"
+    },
+    "paragraph4": {
+      "text": "Obtenga más información sobre el equipo del proyecto (con base en London School of Hygiene and Tropical Medicine), y nuestro grupo asesor de políticas,",
+      "linkText": "aquí",
+      "end": "."
+    },
+    "paragraph5": {
+      "intro": "El código del panel es de acceso abierto y está disponible en",
+      "github": "GitHub",
+      "middle1": ". junto con",
+      "userGuide": "guía de usuario",
+      "middle2": "y",
+      "api": "API",
+      "middle3": "para acceder a los datos. Los problemas y solicitudes de características se pueden publicar",
+      "issues": "aquí",
+      "end": "."
+    },
+    "citation": {
+      "title": "Cita para AMRnet",
+      "intro": "Si utiliza el sitio web o código de AMRnet, por favor cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kathryn Holt),",
+      "githubLabel": "GitHub:",
+      "githubUrl": "https://github.com/amrnet/amrnet",
+      "doiLabel": "DOI:",
+      "doiUrl": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+    },
+    "funding": "El proyecto está financiado por el Wellcome Trust (subvención 226432/Z/22/Z).",
+    "links": {
+      "typhiNet": "https://www.typhi.net",
+      "globalTyphoidGenomics": "http://typhoidgenomics.org",
+      "pathogenWatch": "http://pathogen.watch",
+      "enterobase": "https://enterobase.warwick.ac.uk/",
+      "contact": "mailto:amrnetdashboard@gmail.com",
+      "teamInfo": "https://www.lshtm.ac.uk/amrnet",
+      "github": "https://github.com/amrnet/amrnet",
+      "userGuide": "https://amrnet.readthedocs.io/en/latest",
+      "api": "https://amrnet.readthedocs.io/en/latest/data.html",
+      "issues": "https://github.com/amrnet/amrnet/issues",
+      "githubRepo": "https://github.com/amrnet/amrnet",
+      "doi": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+    }
+  },
+  "formValidation": {
+    "requiredField": "Este campo es obligatorio.",
+    "invalidEmail": "Por favor, ingrese una dirección de correo electrónico válida."
+  },
+  "notifications": {
+    "success": "¡Operación exitosa!",
+    "error": "Ocurrió un error. Por favor, inténtelo de nuevo."
+  },
+  "buttons": {
     "submit": "Enviar",
     "cancel": "Cancelar",
     "save": "Guardar",
-    "delete": "Eliminar",
     "edit": "Editar",
-    "add": "Añadir",
-    "search": "Buscar",
-    "filter": "Filtrar",
-    "sort": "Ordenar",
-    "refresh": "Actualizar"
+    "delete": "Eliminar",
+    "view": "Ver"
   },
-  "buttons": {
-    "learn_more": "Saber Más",
-    "get_started": "Comenzar",
-    "view_details": "Ver Detalles",
-    "back": "Atrás",
-    "next": "Siguiente",
-    "previous": "Anterior",
-    "close": "Cerrar",
-    "open": "Abrir"
+  "table": {
+    "noData": "No hay datos disponibles.",
+    "rowsPerPage": "Filas por página:",
+    "of": "de"
   },
-  "notifications": {
-    "success": "Éxito",
-    "error": "Error",
-    "warning": "Advertencia",
-    "info": "Información",
-    "data_loaded": "Datos cargados exitosamente",
-    "data_error": "Error al cargar datos",
-    "filter_applied": "Filtros aplicados",
-    "export_success": "Exportación exitosa",
-    "export_error": "Error en la exportación"
+  "login": {
+    "title": "Iniciar sesión en AMRnet",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "loginButton": "Iniciar sesión",
+    "forgotPassword": "¿Olvidó la contraseña?",
+    "registerPrompt": "¿No tiene una cuenta?",
+    "registerLink": "Regístrese aquí"
+  },
+  "register": {
+    "title": "Registrarse en AMRnet",
+    "username": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "registerButton": "Registrarse",
+    "loginPrompt": "¿Ya tiene una cuenta?",
+    "loginLink": "Inicie sesión aquí"
+  },
+  "team": {
+    "post": {
+      "Principal Investigator": "Investigador Principal",
+      "Genomic Epidemiologist": "Epidemiólogo Genómico",
+      "Lead Software Engineer/Computational Biologist": "Ingeniero de Software Principal/Biólogo Computacional",
+      "Software Engineer": "Ingeniero de Software",
+      "Policy Engagement": "Compromiso Político",
+      "Bioinformatician": "Bioinformático",
+      "Enterics Expert": "Experto en Entéricos"
+    }
+  },
+  "profile": {
+    "title": "Perfil de Usuario",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "role": "Rol",
+    "lastLogin": "Último inicio de sesión"
   },
   "settings": {
+    "title": "Configuración",
     "language": "Idioma",
     "theme": "Tema",
-    "preferences": "Preferencias",
-    "account": "Cuenta",
-    "logout": "Cerrar Sesión",
-    "login": "Iniciar Sesión"
+    "notifications": "Notificaciones"
   }
 }
