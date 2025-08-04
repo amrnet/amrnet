@@ -1,18 +1,47 @@
-import express from 'express';
-import { MongoClient } from 'mongodb';
-import { getMongoClientOptions } from '../../config/db.js';
-import fs from 'fs';
 import csv from 'csv-parser';
+import express from 'express';
+import fs from 'fs';
+import { MongoClient } from 'mongodb';
+import { getMongoConfig } from '../../config/db.js';
 
 const router = express.Router();
 
-// MongoDB client setup with Fixie proxy support
+// MongoDB client setup for production deployment
 let client;
+let connectionAttempts = 0;
+const MAX_CONNECTION_ATTEMPTS = 3;
+
 const connectDB = async () => {
   if (!client) {
-    const clientOptions = getMongoClientOptions();
-    client = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017', clientOptions);
-    await client.connect();
+    const { uri, options } = getMongoConfig();
+    client = new MongoClient(uri, options);
+
+    for (let attempt = 1; attempt <= MAX_CONNECTION_ATTEMPTS; attempt++) {
+      try {
+        console.log(`API routes: Connection attempt ${attempt}/${MAX_CONNECTION_ATTEMPTS}`);
+        await client.connect();
+
+        // Test connection
+        await client.db("admin").command({ ping: 1 });
+        console.log('✅ API routes: MongoDB connection established');
+        connectionAttempts = 0; // Reset on success
+        break;
+
+      } catch (error) {
+        console.error(`❌ API routes: Connection attempt ${attempt} failed:`, error.message);
+
+        if (attempt === MAX_CONNECTION_ATTEMPTS) {
+          console.error('🚨 API routes: Max connection attempts reached');
+          client = null; // Reset client for next request
+          throw new Error(`MongoDB connection failed after ${MAX_CONNECTION_ATTEMPTS} attempts: ${error.message}`);
+        }
+
+        // Wait before retrying (exponential backoff)
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(`⏳ Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
   }
   return client;
 };

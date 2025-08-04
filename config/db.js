@@ -1,61 +1,80 @@
+import dotenv from 'dotenv';
 import pkg from 'mongodb';
 const { MongoClient } = pkg;
-import dotenv from 'dotenv';
 
 dotenv.config();
 
 /**
- * Generate MongoDB client options with Fixie proxy support
- * @returns {object} MongoDB client options
+ * Generate MongoDB URI and client options for Heroku deployment
+ * MongoDB Atlas works well with Heroku without requiring Fixie proxy
+ * @returns {object} MongoDB configuration
  */
-const getMongoClientOptions = () => {
+const getMongoConfig = () => {
+  let mongoUri = process.env.MONGODB_URI;
+
+  // Basic MongoDB options optimized for Atlas and Heroku
   const options = {
-    serverSelectionTimeoutMS: 5000,
-    connectTimeoutMS: 10000,
+    serverSelectionTimeoutMS: 30000,
+    connectTimeoutMS: 30000,
     maxPoolSize: 10,
-    minPoolSize: 5,
+    minPoolSize: 2,
+    retryWrites: true,
+    w: 'majority',
+    // Use IPv4 first as Heroku sometimes has IPv6 issues
+    family: 4
   };
 
-  // Check if Fixie SOCKS5 proxy is available (for Heroku)
-  if (process.env.FIXIE_URL) {
-    try {
-      const fixieUrl = new URL(process.env.FIXIE_URL);
-
-      console.log('Configuring MongoDB connection with Fixie SOCKS5 proxy...');
-
-      options.proxyHost = fixieUrl.hostname;
-      options.proxyPort = parseInt(fixieUrl.port, 10);
-      options.proxyUsername = fixieUrl.username;
-      options.proxyPassword = fixieUrl.password;
-
-      console.log(`Proxy configured: ${fixieUrl.hostname}:${fixieUrl.port}`);
-    } catch (error) {
-      console.warn('Failed to parse FIXIE_URL, proceeding without proxy:', error.message);
-    }
+  if (process.env.NODE_ENV === 'production') {
+    console.log('Production environment detected - using optimized MongoDB Atlas settings');
+    // Increase timeouts for production environment
+    options.serverSelectionTimeoutMS = 60000;
+    options.connectTimeoutMS = 60000;
+    options.socketTimeoutMS = 60000;
   } else {
-    console.log('No Fixie proxy detected, using direct MongoDB connection');
+    console.log('Development environment - using standard MongoDB settings');
   }
 
-  return options;
+  return { uri: mongoUri, options };
 };
 
-let URI = process.env.MONGODB_URI;
-const clientOptions = getMongoClientOptions();
+const { uri: URI, options: clientOptions } = getMongoConfig();
 export const client = new MongoClient(URI, clientOptions);
 
 // Connection to MongoDB
 const connectDB = async () => {
   try {
+    console.log('Attempting to connect to MongoDB...');
     await client.connect();
-    console.log('Successfully connected to MongoDB');
-    if (process.env.FIXIE_URL) {
-      console.log('MongoDB connection established via Fixie SOCKS5 proxy');
-    }
+
+    // Test the connection with admin ping
+    await client.db("admin").command({ ping: 1 });
+    console.log('✅ Successfully connected to MongoDB Atlas');
+
+    // Log connection info for debugging
+    const admin = client.db('admin');
+    const serverStatus = await admin.command({ serverStatus: 1 });
+    console.log(`Connected to MongoDB ${serverStatus.version} on ${serverStatus.host}`);
+
   } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1);
+    console.error('❌ MongoDB connection failed:', error.message);
+
+    // Provide helpful debugging information
+    if (process.env.NODE_ENV === 'production') {
+      console.error('🔍 Production troubleshooting:');
+      console.error('  1. Check MongoDB Atlas network access (0.0.0.0/0 should be allowed for Heroku)');
+      console.error('  2. Verify database user permissions');
+      console.error('  3. Check if MONGODB_URI environment variable is set correctly');
+    }
+
+    // In production, don't exit - let the app handle gracefully
+    if (process.env.NODE_ENV !== 'production') {
+      process.exit(1);
+    } else {
+      // In production, we'll try to reconnect on the next request
+      throw error;
+    }
   }
 };
 
-export { getMongoClientOptions };
+export { getMongoConfig };
 export default connectDB;
