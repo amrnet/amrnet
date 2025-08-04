@@ -97,7 +97,7 @@ c. Data accessing using Using S3cmd tool
 ------------------------
 .. container:: justify-text
 
-        1. Send an email to amrnet.api@gmail.com requesting an API token.
+        1. Send an email to amrnetdashboard@gmail.com requesting an API token.
 
         Example:
 

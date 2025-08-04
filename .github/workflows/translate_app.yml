@@ -4,9 +4,12 @@ on:
   workflow_dispatch: # Allows manual triggering
   push:
     branches:
-      - staging # Or your main development branch
+      - devrev-final # Updated to match current branch
+      - main
+      - staging
     paths:
-      - 'locales/en.json' # Trigger only if the source English file changes
+      - 'client/locales/en.json' # Updated path to match actual location
+      - 'client/src/locales/en.json' # Also watch the src version if it exists
 
 jobs:
   translate_strings:
@@ -19,11 +22,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          # If creating a PR with peter-evans/create-pull-request,
-          # this checkout step often needs a token that has write permissions.
-          # The default GITHUB_TOKEN (with job-level permissions) is usually sufficient.
-          # token: ${{ secrets.GH_PAT }} # Uncomment if using a Personal Access Token with broader scope
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -39,22 +37,31 @@ jobs:
           # GITHUB_TOKEN is automatically provided with permissions defined above
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_FULL_NAME: ${{ github.repository }} # Correct way to get owner/repo name
-        run: python .github/scripts/translator.py
+        run: python .github/scripts/translator_improved.py
 
       - name: Create Pull Request or Commit Changes
         uses: peter-evans/create-pull-request@v6
         with:
-          # Uses the GITHUB_TOKEN (with enhanced permissions) or a specific GH_PAT if provided
-          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+          # Uses the GITHUB_TOKEN (with enhanced permissions)
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "feat: Add/Update translations from 'en.json'"
-          branch: "chore/auto-translations" # Name of the branch to create
+          branch: "chore/auto-translations-${{ github.run_number }}" # Unique branch name
           delete-branch: true
           title: "Automated Translations Update"
           body: |
-            Automated translations generated based on changes to `locales/en.json`.
-            Please review the changes.
+            Automated translations generated based on changes to English locale files.
+            Please review the changes before merging.
 
-            Target Languages: French, Spanish, Portuguese, German, Italian, Japanese, Chinese.
-          labels: "translation, i18n, automated"
-          assignees: "${{ github.actor }}" # Assign PR to the person who triggered the workflow (e.g., via push)
-          # Add other options as needed, e.g., reviewers
+            **Target Languages:** French, Spanish, Portuguese
+
+            **Files updated:**
+            - client/locales/*.json
+            - client/src/locales/*.json (if applicable)
+
+            **Workflow run:** ${{ github.run_number }}
+            **Triggered by:** ${{ github.actor }}
+          labels: |
+            translation
+            i18n
+            automated
+          assignees: ${{ github.actor }} # Assign PR to the person who triggered the workflow

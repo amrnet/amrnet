@@ -8,10 +8,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const AboutPage = () => {
   const classes = useStyles();
   const location = useLocation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const hash = location.hash?.replace('#', '');
@@ -28,103 +30,94 @@ export const AboutPage = () => {
       <Card className={classes.card} id="about-section">
         <CardContent className={classes.cardContent}>
           <Typography variant="h5" className={classes.heading}>
-            About
+            {t('about.title')}
           </Typography>
           <Divider />
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            The AMRnet dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data
-            accessible to a wide audience. Visualisations are geared towards showing national annual AMR prevalence
-            estimates and trends over time, which can be broken down and explored in terms of underlying genotypes and
-            resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data
-            more accessible and useful, we can encourage and motivate more sequencing and data sharing.
+            {t('about.paragraph1')}
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            We started with Salmonella Typhi and built on our{' '}
-            <a href="https://www.typhi.net" target="_blank" rel="noreferrer">
-              TyphiNET
+            {t('about.paragraph2.intro')}{' '}
+            <a href={t('about.links.typhiNet')} target="_blank" rel="noreferrer">
+              {t('about.paragraph2.typhiNet')}
             </a>{' '}
-            dashboard which uses data that have been curated by the{' '}
-            <a href="http://typhoidgenomics.org" target="_blank" rel="noreferrer">
-              Global Typhoid Genomics Consortium
+            {t('about.paragraph2.middle1')}{' '}
+            <a href={t('about.links.globalTyphoidGenomics')} target="_blank" rel="noreferrer">
+              {t('about.paragraph2.globalTyphoid')}
             </a>{' '}
-            (to improve data quality and identify which datasets are suitable for inclusion) and analysed in{' '}
-            <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
-              Pathogenwatch
+            {t('about.paragraph2.middle2')}{' '}
+            <a href={t('about.links.pathogenWatch')} target="_blank" rel="noreferrer">
+              {t('about.paragraph2.pathogenwatch1')}
             </a>{' '}
-            (to call AMR determinants and lineages from sequence data). Additional organisms have been added, using data
-            sourced from{' '}
-            <a href="http://pathogen.watch" target="_blank" rel="noreferrer">
-              Pathogenwatch
+            {t('about.paragraph2.middle3')}{' '}
+            <a href={t('about.links.pathogenWatch')} target="_blank" rel="noreferrer">
+              {t('about.paragraph2.pathogenwatch2')}
             </a>
-            , and
-            <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
+            {t('about.paragraph2.middle4')}
+            <a href={t('about.links.enterobase')} target="_blank" rel="noreferrer">
               {' '}
-              Enterobase
+              {t('about.paragraph2.enterobase')}
             </a>
-            , however these dashboards are in beta mode as data curation is still ongoing. More organisms will be added
-            throughout 2025.
+            {t('about.paragraph2.end')}
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            A major barrier to using public data for surveillance is the need for careful data curation in order to
-            identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This
-            kind of curation can benefit a wide range of users and we plan to work with additional organism-specific
-            communities to curate data, and to contribute to wider efforts around metadata standards. Please get in
-            touch if you would like to work with us (
-            <a href="mailto:amrnetdashboard@gmail.com">amrnetdashboard@gmail.com</a>)
+            {t('about.paragraph3.text')}
+            <a href={t('about.links.contact')}>
+              {t('about.paragraph3.contact')}
+            </a>
+            {t('about.paragraph3.end')}
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            Find out more about the project team (based at London School of Hygiene and Tropical Medicine), and our
-            policy advisory group,{' '}
-            <a href="https://www.lshtm.ac.uk/amrnet" target="_blank" rel="noreferrer">
-              here
+            {t('about.paragraph4.text')}{' '}
+            <a href={t('about.links.teamInfo')} target="_blank" rel="noreferrer">
+              {t('about.paragraph4.linkText')}
             </a>
-            .
+            {t('about.paragraph4.end')}
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            The dashboard code is open access and available in{' '}
-            <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
-              GitHub
+            {t('about.paragraph5.intro')}{' '}
+            <a href={t('about.links.github')} target="_blank" rel="noreferrer">
+              {t('about.paragraph5.github')}
             </a>
-            . along with{' '}
-            <a href="https://amrnet.readthedocs.io/en/latest" target="_blank" rel="noreferrer">
-              user guide
+            {t('about.paragraph5.middle1')}{' '}
+            <a href={t('about.links.userGuide')} target="_blank" rel="noreferrer">
+              {t('about.paragraph5.userGuide')}
             </a>{' '}
-            and{' '}
-            <a href="https://amrnet.readthedocs.io/en/latest/data.html" target="_blank" rel="noreferrer">
-              API
+            {t('about.paragraph5.middle2')}{' '}
+            <a href={t('about.links.api')} target="_blank" rel="noreferrer">
+              {t('about.paragraph5.api')}
             </a>{' '}
-            to access the data. Issues and feature requests can be posted{' '}
-            <a href="https://github.com/amrnet/amrnet/issues" target="_blank" rel="noreferrer">
-              here
+            {t('about.paragraph5.middle3')}{' '}
+            <a href={t('about.links.issues')} target="_blank" rel="noreferrer">
+              {t('about.paragraph5.issues')}
             </a>
-            .
+            {t('about.paragraph5.end')}
           </Typography>
           <br />
           <Typography variant="h6" className={classes.paragraph}>
-            Citation for AMRnet
+            {t('about.citation.title')}
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
-            If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe
-            Dyson, Kathryn Holt),
-            <span className={classes.paragraphBold}> GitHub: </span> {' '}
-            <a href="https://github.com/amrnet/amrnet" target="_blank" rel="noreferrer">
-              https://github.com/amrnet/amrnet
+            {t('about.citation.intro')}
+            <span className={classes.paragraphBold}> {t('about.citation.githubLabel')} </span>{' '}
+            <a href={t('about.citation.githubUrl')} target="_blank" rel="noreferrer">
+              {t('about.citation.githubUrl')}
             </a>
-            ,<span className={classes.paragraphBold}> DOI:</span>{' '}
-            <a href="https://zenodo.org/doi/10.5281/zenodo.10810218" target="_blank" rel="noreferrer">
-              https://zenodo.org/doi/10.5281/zenodo.10810218
+            ,<span className={classes.paragraphBold}> {t('about.citation.doiLabel')}</span>{' '}
+            <a href={t('about.citation.doiUrl')} target="_blank" rel="noreferrer">
+              {t('about.citation.doiUrl')}
             </a>
             <br />
           </Typography>
           <br />
           <Typography variant="caption text">
-            The project is funded by the Wellcome Trust (grant 226432/Z/22/Z).
+            {t('about.funding')}
           </Typography>
         </CardContent>
       </Card>

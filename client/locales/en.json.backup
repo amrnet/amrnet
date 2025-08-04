@@ -1,0 +1,180 @@
+{
+  "appTitle": "AMRnet",
+  "welcomeMessage": "Welcome to AMRnet dashboard",
+  "dashboard": {
+    "title": "AMRnet Dashboard ",
+    "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system."
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "team": "Team",
+    "contact": "Contact",
+    "database": "Database",
+    "userguide": "User Guide"
+  },
+  "about": {
+    "title": "About AMRnet",
+    "subtitle": "Antimicrobial Resistance Surveillance Network",
+    "mission": {
+      "title": "Our Mission",
+      "description": "AMRnet is dedicated to advancing global antimicrobial resistance (AMR) surveillance through innovative data collection, analysis, and visualization technologies. We provide researchers, healthcare professionals, and public health authorities with the tools and insights needed to combat the growing threat of antimicrobial resistance."
+    },
+    "features": {
+      "title": "Key Features",
+      "dataVisualization": {
+        "title": "Interactive Data Visualization",
+        "description": "Explore antimicrobial resistance patterns through intuitive maps, charts, and graphs that make complex genomic data accessible and actionable."
+      },
+      "globalSurveillance": {
+        "title": "Global Surveillance Network",
+        "description": "Access comprehensive AMR data from multiple countries and regions, enabling comparative analysis and trend identification across different populations."
+      },
+      "genomicAnalysis": {
+        "title": "Genomic Analysis Tools",
+        "description": "Leverage advanced genomic analysis capabilities to understand resistance mechanisms, track transmission patterns, and identify emerging threats."
+      },
+      "realTimeData": {
+        "title": "Real-time Data Access",
+        "description": "Stay up-to-date with the latest AMR surveillance data through our continuously updated database and real-time reporting features."
+      }
+    },
+    "impact": {
+      "title": "Global Impact",
+      "description": "AMRnet serves as a critical resource for the global health community, supporting evidence-based decision making, policy development, and research initiatives aimed at preserving the effectiveness of antimicrobial treatments for future generations.",
+      "statistics": {
+        "countries": "Countries covered",
+        "isolates": "Bacterial isolates analyzed", 
+        "researchers": "Active researchers",
+        "publications": "Scientific publications supported"
+      }
+    },
+    "technology": {
+      "title": "Technology Platform",
+      "description": "Built on cutting-edge web technologies and cloud infrastructure, AMRnet provides scalable, secure, and high-performance access to antimicrobial resistance data and analysis tools.",
+      "features": [
+        "Cloud-based infrastructure for global accessibility",
+        "Advanced data security and privacy protection",
+        "Mobile-responsive design for field research",
+        "API access for programmatic data integration",
+        "Multi-language support for international collaboration"
+      ]
+    },
+    "collaboration": {
+      "title": "International Collaboration",
+      "description": "AMRnet is built through partnerships with leading research institutions, public health organizations, and surveillance networks worldwide. Our collaborative approach ensures comprehensive coverage and standardized methodologies across different regions and healthcare systems."
+    }
+  },
+    },
+    "features": {
+      "title": "Key Features",
+      "dataVisualization": {
+        "title": "Interactive Data Visualization",
+        "description": "Explore antimicrobial resistance patterns through intuitive maps, charts, and graphs that make complex genomic data accessible and actionable."
+      },
+      "globalSurveillance": {
+        "title": "Global Surveillance Network",
+        "description": "Access comprehensive AMR data from multiple countries and regions, enabling comparative analysis and trend identification across different populations."
+      },
+      "genomicAnalysis": {
+        "title": "Genomic Analysis Tools",
+        "description": "Leverage advanced genomic analysis capabilities to understand resistance mechanisms, track transmission patterns, and identify emerging threats."
+      },
+      "realTimeData": {
+        "title": "Real-time Data Access",
+        "description": "Stay up-to-date with the latest AMR surveillance data through our continuously updated database and real-time reporting features."
+      }
+    },
+    "impact": {
+      "title": "Global Impact",
+      "description": "AMRnet serves as a critical resource for the global health community, supporting evidence-based decision making, policy development, and research initiatives aimed at preserving the effectiveness of antimicrobial treatments for future generations.",
+      "statistics": {
+        "countries": "Countries covered",
+        "isolates": "Bacterial isolates analyzed", 
+        "researchers": "Active researchers",
+        "publications": "Scientific publications supported"
+      }
+    },
+    "technology": {
+      "title": "Technology Platform",
+      "description": "Built on cutting-edge web technologies and cloud infrastructure, AMRnet provides scalable, secure, and high-performance access to antimicrobial resistance data and analysis tools.",
+      "features": [
+        "Cloud-based infrastructure for global accessibility",
+        "Advanced data security and privacy protection",
+        "Mobile-responsive design for field research",
+        "API access for programmatic data integration",
+        "Multi-language support for international collaboration"
+      ]
+    },
+    "collaboration": {
+      "title": "International Collaboration",
+      "description": "AMRnet is built through partnerships with leading research institutions, public health organizations, and surveillance networks worldwide. Our collaborative approach ensures comprehensive coverage and standardized methodologies across different regions and healthcare systems."
+    }
+  }, "AMRnet",
+  "welcomeMessage": "Welcome to AMRnet dashboard",
+  "dashboard": {
+    "title": "AMRnet Dashboard ",
+    "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system."
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About Us",
+    "team": "Team",
+    "contact": "Contact",
+    "database": "Database",
+    "userguide": "User Guide"
+  },
+  "formValidation": {
+    "requiredField": "This field is required.",
+    "invalidEmail": "Please enter a valid email address."
+  },
+  "notifications": {
+    "success": "Operation successful!",
+    "error": "An error occurred. Please try again."
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View"
+  },
+  "table": {
+    "noData": "No data available.",
+    "rowsPerPage": "Rows per page:",
+    "of": "of"
+  },
+  "login": {
+    "title": "Login to AMRnet",
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Login",
+    "forgotPassword": "Forgot Password?",
+    "registerPrompt": "Don't have an account?",
+    "registerLink": "Register here"
+  },
+  "register": {
+    "title": "Register for AMRnet",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "registerButton": "Register",
+    "loginPrompt": "Already have an account?",
+    "loginLink": "Login here"
+  },
+  "profile": {
+    "title": "User Profile",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "lastLogin": "Last Login"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "notifications": "Notifications"
+  }
+}

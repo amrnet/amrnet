@@ -3,15 +3,22 @@ import { Card, CardContent, Typography, CardMedia, Divider } from '@mui/material
 import { teamCards } from './TeamCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
+import { useTranslation } from 'react-i18next';
 
 export const Team = () => {
   const classes = useStyles();
+  const { t, i18n } = useTranslation();
+
+  const getTranslatedPost = (post) => {
+    const teamPosts = i18n.getResourceBundle(i18n.language, 'translation')?.team?.post;
+    return teamPosts?.[post] || post;
+  };
 
   return (
     <Card className={classes.card} id="team-section">
       <CardContent className={classes.cardContent}>
         <Typography variant="h5" className={classes.heading}>
-          Team
+          {t('navigation.team')}
         </Typography>
         <Divider />
         <Swiper
@@ -54,7 +61,7 @@ export const Team = () => {
                       {card.name}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.7rem'}}>
-                      {card.post}
+                      {getTranslatedPost(card.post)}
                     </Typography>
                   </CardContent>
                 </Card>

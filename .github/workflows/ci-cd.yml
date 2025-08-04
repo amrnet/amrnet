@@ -2,13 +2,13 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 env:
-  NODE_VERSION: '18'
-  PYTHON_VERSION: '3.9'
+  NODE_VERSION: "18.20.4"
+  PYTHON_VERSION: "3.12"
 
 jobs:
   # Frontend testing and linting
@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: 📦 Install root dependencies
         run: npm ci
@@ -112,7 +112,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: 📦 Install dependencies
         run: |
@@ -154,7 +154,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: 📦 Install dependencies
         run: |
@@ -177,7 +177,7 @@ jobs:
         with:
           working-directory: client
           start: npm run start
-          wait-on: 'http://localhost:3000'
+          wait-on: "http://localhost:3000"
           wait-on-timeout: 120
 
       - name: 📊 Upload Cypress screenshots
@@ -287,7 +287,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          channel: '#deployments'
+          channel: "#deployments"
           webhook_url: ${{ secrets.SLACK_WEBHOOK }}
         if: always()
 
