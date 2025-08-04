@@ -8,9 +8,10 @@ We take the security of AMRnet seriously. If you believe you have found a securi
 
 **DO NOT** create a public GitHub issue for security vulnerabilities.
 
-Instead, please email us at: **security@amrnet.org**
+Instead, please email us at: [security@amrnet.org](mailto:security@amrnet.org)
 
 Include the following information:
+
 - Description of the vulnerability
 - Steps to reproduce the issue
 - Potential impact assessment
@@ -26,7 +27,8 @@ Include the following information:
 ### Scope
 
 This security policy applies to:
-- Main AMRnet application (https://amrnet.org)
+
+- Main AMRnet application ([https://amrnet.org](https://amrnet.org))
 - API endpoints and services
 - Related infrastructure and services
 
@@ -118,6 +120,7 @@ git status  # Should NOT show .env files
    - Update all environments with new credentials
 
 2. **Git History Cleanup**
+
    ```bash
    # Remove sensitive files from git history
    git filter-branch --force --index-filter \
@@ -202,8 +205,8 @@ AMRnet follows industry best practices and standards:
 
 ### Contact Information
 
-- **Security Issues**: security@amrnet.org
-- **General Questions**: info@amrnet.org
+- **Security Issues**: [security@amrnet.org](mailto:security@amrnet.org)
+- **General Questions**: [info@amrnet.org](mailto:info@amrnet.org)
 - **Emergency Contact**: [See CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
