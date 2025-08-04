@@ -1,22 +1,105 @@
 import express from 'express';
 import { MongoClient } from 'mongodb';
+import { getMongoClientOptions } from '../../config/db.js';
 import fs from 'fs';
 import csv from 'csv-parser';
 
 const router = express.Router();
 
-// MongoDB client setup
+// MongoDB client setup with Fixie proxy support
 let client;
 const connectDB = async () => {
   if (!client) {
-    client = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017');
+    const clientOptions = getMongoClientOptions();
+    client = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017', clientOptions);
     await client.connect();
   }
   return client;
 };
 
-// Initialize client on module load
-connectDB().catch(console.error);
+// Helper function to get data with timeout protection
+const getDataWithTimeout = async (dbName, collectionName, query) => {
+  try {
+    // Ensure client is connected
+    const connectedClient = await Promise.race([
+      connectDB(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Database connection timeout')), 10000)
+      )
+    ]);
+
+    // Execute query with timeout
+    const result = await Promise.race([
+      connectedClient.db(dbName).collection(collectionName).find(query).toArray(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Query timeout')), 15000)
+      )
+    ]);
+
+    return result;
+  } catch (error) {
+    console.error(`Error retrieving data from ${collectionName}:`, error.message);
+    throw error;
+  }
+};
+
+// Helper function for aggregation with timeout protection
+const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) => {
+  try {
+    // Ensure client is connected
+    const connectedClient = await Promise.race([
+      connectDB(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Database connection timeout')), 10000)
+      )
+    ]);
+
+    // Execute aggregation with timeout
+    const result = await Promise.race([
+      connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Aggregation timeout')), 15000)
+      )
+    ]);
+
+    return result;
+  } catch (error) {
+    console.error(`Error running aggregation on ${collectionName}:`, error.message);
+    throw error;
+  }
+};
+
+// Helper function for counting documents with timeout protection
+const getCollectionCountWithTimeout = async (dbName, collectionName, query) => {
+  try {
+    // Ensure client is connected
+    const connectedClient = await Promise.race([
+      connectDB(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Database connection timeout')), 10000)
+      )
+    ]);
+
+    // Execute count with timeout
+    const count = await Promise.race([
+      connectedClient.db(dbName).collection(collectionName).countDocuments(query),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Count timeout')), 15000)
+      )
+    ]);
+
+    return count;
+  } catch (error) {
+    console.error(`Error counting documents in ${collectionName}:`, error.message);
+    throw error;
+  }
+};
+
+// Initialize client on module load with timeout handling
+connectDB().catch(error => {
+  console.warn('API routes: MongoDB connection failed:', error.message);
+  console.log('API routes will attempt to reconnect on first request');
+});
 
 const dbAndCollectionNames = {
   styphi: { dbName: 'styphi', collectionName: 'amrnetdb_styphi' },
@@ -113,11 +196,11 @@ const readCsvFallback = (filePath, res) => {
 router.get('/getDataForSTyphi', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['styphi'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' } })
-      .toArray();
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      { 'dashboard view': { $regex: /^include$/, $options: 'i' } }
+    );
 
     console.log(`[STyphi API] Found ${result.length} documents for STyphi.`);
 
@@ -139,11 +222,11 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
 
   const dbAndCollection = dbAndCollectionNames['kpneumo'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } })
-      .toArray();
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      { 'dashboard view': 'include' , GENOTYPE: { $ne: null } }
+    );
 
     console.log(`Found ${result.length} documents for Kpneumo.`);
     return res.json(result);
@@ -156,11 +239,11 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
 router.get('/getDataForNgono', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['ngono'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' } })
-      .toArray();
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      { 'dashboard view': { $regex: /^include$/, $options: 'i' } }
+    );
 
     console.log(`Found ${result.length} documents for Ngono.`);
     if (result.length > 0) {
@@ -177,11 +260,11 @@ router.get('/getDataForNgono', async function (req, res, next) {
 router.get('/getDataForEcoli', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['ecoli'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } })
-      .toArray();
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      { 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } }
+    );
 
     console.log(`Found ${result.length} documents for Ecoli.`);
     if (result.length > 0) {
@@ -198,11 +281,11 @@ router.get('/getDataForEcoli', async function (req, res, next) {
 router.get('/getDataForDEcoli', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['decoli'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } })
-      .toArray();
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      { 'dashboard view': 'include', GENOTYPE: { $ne: null } }
+    );
 
     console.log(`Found ${result.length} documents for DEcoli.`);
     if (result.length > 0) {
@@ -219,11 +302,11 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
 router.get('/getDataForShige', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['shige'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } })
-      .toArray();
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      { 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } }
+    );
 
     console.log(`Found ${result.length} documents for Shige.`);
     if (result.length > 0) {
@@ -240,40 +323,42 @@ router.get('/getDataForShige', async function (req, res, next) {
 router.get('/getDataForSenterica', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['senterica'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .aggregate([
-        // { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
-        {$match: { 'dashboard view': 'Include' }}, // Using exact match for performance
-        {
-          $project: {
-            GENOTYPE: {
-              $cond: {
-                if: { $ne: ['$MLST_Achtman', null] },
-                then: '$MLST_Achtman',
-                else: 'Unknown',
-              },
+    const pipeline = [
+      // { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
+      {$match: { 'dashboard view': 'Include' }}, // Using exact match for performance
+      {
+        $project: {
+          GENOTYPE: {
+            $cond: {
+              if: { $ne: ['$MLST_Achtman', null] },
+              then: '$MLST_Achtman',
+              else: 'Unknown',
             },
-
-            AMINOGLYCOSIDE: 1,
-            "BETA-LACTAM": 1,
-            SULFONAMIDE: 1,
-            TETRACYCLINE: 1,
-            NAME: 1,
-            DATE: 1,
-            COUNTRY_ONLY: 1,
-            "SISTR1 Serovar": 1,
-            // "dashboard view": 0,
-            QUINOLONE: 1,
-            TRIMETHOPRIM: 1,
-            PHENICOL: 1,
-            MACROLIDE: 1,
-            COLISTIN: 1,
           },
+
+          AMINOGLYCOSIDE: 1,
+          "BETA-LACTAM": 1,
+          SULFONAMIDE: 1,
+          TETRACYCLINE: 1,
+          NAME: 1,
+          DATE: 1,
+          COUNTRY_ONLY: 1,
+          "SISTR1 Serovar": 1,
+          // "dashboard view": 0,
+          QUINOLONE: 1,
+          TRIMETHOPRIM: 1,
+          PHENICOL: 1,
+          MACROLIDE: 1,
+          COLISTIN: 1,
         },
-      ])
-      .toArray();
+      },
+    ];
+
+    const result = await getAggregatedDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      pipeline
+    );
 
     console.log(`Found ${result.length} documents for Senterica.`);
     if (result.length > 0) {
@@ -290,27 +375,29 @@ router.get('/getDataForSenterica', async function (req, res, next) {
 router.get('/getDataForSentericaints', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['sentericaints'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .aggregate([
-        { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
-        {
-          $lookup: {
-            from: 'senterica-output-full',
-            let: { nameField: '$NAME' },
-            pipeline: [
-              { $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } },
-              { $project: fieldsToProject }
-            ],
-            as: 'extraData',
-          },
+    const pipeline = [
+      { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
+      {
+        $lookup: {
+          from: 'senterica-output-full',
+          let: { nameField: '$NAME' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } },
+            { $project: fieldsToProject }
+          ],
+          as: 'extraData',
         },
-        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-        { $addFields: sentericaintsFieldsToAdd },
-        { $project: { extraData: 0 } },
-      ])
-      .toArray();
+      },
+      { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+      { $addFields: sentericaintsFieldsToAdd },
+      { $project: { extraData: 0 } },
+    ];
+
+    const result = await getAggregatedDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      pipeline
+    );
 
     console.log(`Found ${result.length} documents for Sentericaints.`);
     if (result.length > 0) {
@@ -327,11 +414,11 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
 router.get('/getUNR', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['unr'];
   try {
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find({})
-      .toArray();
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      {}
+    );
 
     console.log(`Found ${result.length} documents for UNR.`);
     return res.json(result);
@@ -345,13 +432,14 @@ router.get('/getCollectionCounts', async function (req, res, next) {
   try {
     // Perform asynchronous counting of documents in parallel across databases
     const countPromises = Object.entries(dbAndCollectionNames).map(([key, { dbName, collectionName }]) => {
-      return client
-        .db(dbName)
-        .collection(collectionName)
-        .countDocuments({
+      return getCollectionCountWithTimeout(
+        dbName,
+        collectionName,
+        {
           'dashboard view': { $regex: /^include$/, $options: 'i' },
           $or: [{ GENOTYPE: { $ne: null } }, { ST: { $ne: null } }, { MLST_Achtman: { $ne: null } }],
-        });
+        }
+      );
     });
 
     // Wait for all counts to resolve

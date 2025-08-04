@@ -44,6 +44,29 @@ import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
 import { SelectCountry } from '../../SelectCountry';
 import { getRange } from '../../../../util/helpers';
 
+/**
+ * DrugResistanceGraph - Interactive line chart for visualizing drug resistance trends
+ *
+ * This component displays temporal trends of antimicrobial resistance across multiple drugs
+ * for a selected organism. Features include:
+ * - Multi-drug selection with dropdown interface
+ * - Interactive line chart with hover tooltips
+ * - Brush selection for temporal filtering
+ * - Auto-selection for paginated organisms
+ * - Drug-specific color coding
+ *
+ * @component
+ * @param {Object} props - Component properties
+ * @param {boolean} props.showFilter - Whether to show the filter interface
+ * @param {Function} props.setShowFilter - Function to toggle filter visibility
+ * @example
+ * return (
+ *   <DrugResistanceGraph
+ *     showFilter={true}
+ *     setShowFilter={setShowFilter}
+ *   />
+ * )
+ */
 export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
@@ -58,7 +81,6 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const organism = useAppSelector(state => state.dashboard.organism);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
-
   useEffect(() => {
     setCurrentTooltip(null);
     if (drugsYearData.length <= 0) {
@@ -67,7 +89,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       dispatch(setCaptureDRT(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [drugsYearData]);
+  }, [drugsYearData, organism]);
 
   const trendsData = useMemo(() => {
     const exclusions = ['name', 'count'];
@@ -91,34 +113,33 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     if (organism === 'none') {
       return [];
     }
+    let drugs = [];
     if (organism === 'styphi') {
-      return drugsST;
+      drugs = drugsST;
+    } else if (organism === 'kpneumo') {
+      drugs = drugsKP;
+    } else if (organism === 'ngono') {
+      drugs = drugsNG;
+    } else if (['senterica', 'sentericaints'].includes(organism)) {
+      drugs = drugsINTS;
+    } else if (['ecoli', 'decoli', 'shige'].includes(organism)) {
+      drugs = drugsECOLI;
     }
-    if (organism === 'kpneumo') {
-      return drugsKP;
-    }
-    if (organism === 'ngono') {
-      return drugsNG;
-    }
-    if (['senterica', 'sentericaints'].includes(organism)) {
-      return drugsINTS;
-    }
-    if (['ecoli', 'decoli', 'shige'].includes(organism)) {
-      return drugsECOLI;
-    }
+
+    return drugs;
   }
 
   function getDrugsForLegends() {
     if (organism === 'none') {
       return [];
     }
-    // if (organism === 'typhi') {
-    return drugResistanceGraphView;
-    // }
-    // return drugsKP;
-  }
 
-  //TODO: check the comment above code duplicate
+    // Filter drugResistanceGraphView to only include drugs that have data
+    const dataKeys = drugsYearData.length > 0 ? Object.keys(drugsYearData[0]).filter(key => !['name', 'count'].includes(key)) : [];
+    const filteredView = drugResistanceGraphView.filter(drug => dataKeys.includes(drug));
+
+    return filteredView;
+  }  //TODO: check the comment above code duplicate
 
   // function getDrugsForLegends() {
   //   if (organism === 'none') {
@@ -217,7 +238,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       setCurrentTooltip(value);
     } else if (year === undefined) {
       setCurrentTooltip(null);
-    }else {
+    } else {
       setCurrentTooltip({
         name: year,
         count: 'ID',
@@ -236,7 +257,21 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     }
   }, [drugsYearData, dispatch]);
 
+  // Effect to ensure all drugs are selected by default for paginated organisms
   useEffect(() => {
+    // Handle auto-selection for paginated organisms (kpneumo, ecoli, decoli)
+    if (['kpneumo', 'ecoli', 'decoli'].includes(organism) && drugsYearData.length > 0) {
+      const dataKeys = Object.keys(drugsYearData[0]).filter(key => !['name', 'count'].includes(key));
+      const availableDrugs = getDrugs().filter(drug => dataKeys.includes(drug));
+
+      // Auto-select all available drugs that have data
+      if (availableDrugs.length > 0 && (drugResistanceGraphView.length === 0 ||
+          availableDrugs.length !== drugResistanceGraphView.length ||
+          !availableDrugs.every(drug => drugResistanceGraphView.includes(drug)))) {
+        dispatch(setDrugResistanceGraphView(availableDrugs));
+      }
+    }
+  }, [organism, drugsYearData.length, drugResistanceGraphView.length, dispatch]);  useEffect(() => {
     if (canGetData) {
       const doc = document.getElementById('DRT');
       const lines = doc.getElementsByClassName('recharts-line');
@@ -254,14 +289,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       if (data.length > 0) {
         // Add missing years between the select time to show continuous scale
         allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
-        const years = data.filter(d => d.count >= 10).map(x => x.name);
+        const years = data.map(x => x.name);
 
         allYears.forEach(year => {
           if (!years.includes(year)) {
-            const index = data.findIndex(d => d.name === year);
-            if (index !== -1) {
-              data.splice(index, 1); // Remove existing entry in-place
-            }
             data.push({
               name: year,
             });
@@ -274,8 +305,17 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <LineChart data={data} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
-              <CartesianGrid strokeDasharray="3 3" />
+            <LineChart
+              data={data}
+              cursor={isTouchDevice() ? 'default' : 'pointer'}
+              onClick={handleClickChart}
+              margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="#e0e0e0"
+                strokeOpacity={0.8}
+              />
               <XAxis
                 tickCount={20}
                 allowDecimals={false}
@@ -298,8 +338,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   startIndex={allYears.findIndex(x => x === '2000') || 0}
                   onChange={brushRange => {
                     setCurrentTooltip(null);
-                    dispatch(setStarttimeDRT(data[brushRange.startIndex]?.name));
-                    dispatch(setEndtimeDRT(data[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                    dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
                   }}
                 />
               )}
@@ -369,6 +409,35 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   activeDot={timeInitial === timeFinal ? true : false}
                 />
               ))}
+            </LineChart>
+          </ResponsiveContainer>
+        );
+      });
+    } else {
+      // Fallback when canGetData is false - still show basic chart structure with grid
+      setPlotChart(() => {
+        return (
+          <ResponsiveContainer width="100%">
+            <LineChart
+              data={[]}
+              margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="#e0e0e0"
+                strokeOpacity={0.8}
+              />
+              <XAxis
+                tickCount={20}
+                allowDecimals={false}
+                padding={{ left: 20, right: 20 }}
+                tick={{ fontSize: 14 }}
+              />
+              <YAxis tickCount={6} padding={{ top: 20, bottom: 20 }} allowDecimals={false}>
+                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
+                  Resistant (%)
+                </Label>
+              </YAxis>
             </LineChart>
           </ResponsiveContainer>
         );

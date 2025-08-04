@@ -3,6 +3,8 @@ import { useStyles } from './DownloadDataMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import axios from 'axios';
 import download from 'downloadjs';
+/* eslint-disable no-unused-vars */
+/* eslint-disable prefer-const */
 import { API_ENDPOINT } from '../../../constants';
 import { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';

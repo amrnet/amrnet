@@ -3,14 +3,29 @@ import { menuItems } from '../../../util/menuItems';
 import { useStyles } from './MenuHeadMUI';
 import { Button, Toolbar, Tooltip } from '@mui/material';
 import { useCallback, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ICON_BUTTONS = ['GitHub', 'Contact', 'Data Rights'];
 
 export const MenuHead = () => {
   const classes = useStyles();
   const location = useLocation();
+  const { t } = useTranslation();
 
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
+
+  const getTranslatedLabel = (item) => {
+    const labelMap = {
+      'Home': t('navigation.home'),
+      'About': t('navigation.about'),
+      'Team': t('navigation.team'),
+      'User Guide': 'User Guide', // Keep in English as it's technical
+      'Database': t('navigation.database'),
+      'Contact': t('navigation.contact'),
+      'GitHub': 'GitHub' // Keep in English
+    };
+    return labelMap[item.label] || item.label;
+  };
 
   const currentMenuItems = useMemo(() => {
     return menuItems.filter(item => item.key !== '');
@@ -57,10 +72,11 @@ export const MenuHead = () => {
     <div className={classes.menuHead}>
       <Toolbar className={classes.toolbar}>
         {currentMenuItems.map((item, index) => {
+          const translatedLabel = getTranslatedLabel(item);
           return (
-            <Tooltip key={`toolbar-item-${index}`} title={ICON_BUTTONS.includes(item.label) ? item.label : undefined}>
+            <Tooltip key={`toolbar-item-${index}`} title={ICON_BUTTONS.includes(item.label) ? translatedLabel : undefined}>
               <Button className={classes.item} href={item.link} target={target(item)} onClick={() => handleClick(item)}>
-                {ICON_BUTTONS.includes(item.label) ? item.icon : item.label}
+                {ICON_BUTTONS.includes(item.label) ? item.icon : translatedLabel}
               </Button>
             </Tooltip>
           );

@@ -8,10 +8,13 @@
   "scripts": {
     "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
     "start:prod": "node server.js",
-    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
+    "start:backend": "node server.js",
+    "start:dev": "concurrently \"nodemon server.js --ignore 'client/*'\" \"yarn client\"",
+    "start:dev-script": "./start-dev.sh",
     "install": "cd client && npm install",
-    "client": "cd client && yarn start",
-    "build": "cd client && yarn build"
+    "client": "cd client && npm run start:no-lint",
+    "build": "cd client && yarn build",
+    "heroku-postbuild": "yarn install && cd client && yarn install && yarn build"
   },
   "license": "GPL-3.0",
   "dependencies": {

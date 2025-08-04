@@ -28,8 +28,8 @@ import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 
 const GRADIENT_COLORS = {
-  LIGHT_GREY: 224, // #e0e0e0
-  DARK_GREY: 51,   // #333333
+  LIGHT_GREY: 200, // #c8c8c8 - lighter
+  DARK_GREY: 30,   // #1e1e1e - darker for better contrast
 };
 
 const calculateGreyGradient = (index, total) => {
@@ -220,7 +220,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                 {topConvergenceData.map((option, index) => {
                   const color = convergenceGroupVariable === 'DATE'
                     ? calculateGreyGradient(index, topConvergenceData.length)
-                    : convergenceColourPallete[option.colorLabel];
+                    : convergenceColourPallete[option.colorLabel] || '#F5F4F6'; // Add fallback color
 
                   return (
                     <Cell
