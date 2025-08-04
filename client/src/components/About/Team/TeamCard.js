@@ -21,7 +21,7 @@ export const teamCards = [
   },
   {
     name: 'Dr Louise Cerdeira',
-    post: 'Lead Software Engineer',
+    post: 'Lead Software Engineer/Computational Biologist',
     img: LC,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/teixeira-cerdeira.louise',
   },
@@ -39,13 +39,13 @@ export const teamCards = [
   },
   {
     name: 'Dr Mary Maranga',
-    post: 'Bioinformatics',
+    post: 'Bioinformatician',
     img: MM,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/maranga.mary',
   },
   {
     name: 'Dr Ebenezer Foster-Nyarko',
-    post: 'Enterics expert',
+    post: 'Enterics Expert',
     img: EB,
     redirect: 'https://www.lshtm.ac.uk/aboutus/people/foster-nyarko.ebenn',
   },

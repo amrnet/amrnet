@@ -18,7 +18,7 @@ Our Pledge
 Our Standards
 -------------
 .. container:: justify-text
-   
+
    Examples of behavior that contributes to a positive environment for our
    community include:
 
@@ -45,7 +45,7 @@ Our Standards
 Enforcement Responsibilities
 ----------------------------
 .. container:: justify-text
-   
+
    Community leaders are responsible for clarifying and enforcing our
    standards of acceptable behavior and will take appropriate and fair
    corrective action in response to any behavior that they deem
@@ -69,10 +69,10 @@ Scope
 Enforcement
 -----------
 .. container:: justify-text
-   
+
    Instances of abusive, harassing, or otherwise unacceptable behavior may
    be reported to the community leaders responsible for enforcement at
-   robbie.vanleeuwen@gmail.com. All complaints will be reviewed and
+   amrnetdashboard@gmail.com. All complaints will be reviewed and
    investigated promptly and fairly.
 
    All community leaders are obligated to respect the privacy and security
@@ -81,7 +81,7 @@ Enforcement
 Enforcement Guidelines
 ----------------------
 .. container:: justify-text
-   
+
    Community leaders will follow these Community Impact Guidelines in
    determining the consequences for any action they deem in violation of
    this Code of Conduct:
@@ -89,7 +89,7 @@ Enforcement Guidelines
 1. Correction
 ~~~~~~~~~~~~~
 .. container:: justify-text
-   
+
    **Community Impact**: Use of inappropriate language or other behavior
    deemed unprofessional or unwelcome in the community.
 
@@ -101,7 +101,7 @@ Enforcement Guidelines
 2. Warning
 ~~~~~~~~~~
 .. container:: justify-text
-   
+
    **Community Impact**: A violation through a single incident or series of
    actions.
 
@@ -115,7 +115,7 @@ Enforcement Guidelines
 3. Temporary Ban
 ~~~~~~~~~~~~~~~~
 .. container:: justify-text
-   
+
    **Community Impact**: A serious violation of community standards,
    including sustained inappropriate behavior.
 
@@ -129,7 +129,7 @@ Enforcement Guidelines
 4. Permanent Ban
 ~~~~~~~~~~~~~~~~
 .. container:: justify-text
-   
+
    **Community Impact**: Demonstrating a pattern of violation of community
    standards, including sustained inappropriate behavior, harassment of an
    individual, or aggression toward or disparagement of classes of
@@ -141,7 +141,7 @@ Enforcement Guidelines
 Attribution
 -----------
 .. container:: justify-text
-   
+
    This Code of Conduct is adapted from the `Contributor
    Covenant <https://www.contributor-covenant.org>`__, version 2.1,
    available at
