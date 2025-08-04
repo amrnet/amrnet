@@ -1,7 +1,7 @@
 {
   "name": "amrnet",
   "author": "Louise Cerdeira",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "AMRnet server",
   "main": "server.js",
   "type": "module",
@@ -115,7 +115,7 @@
     "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=20.0.0",
+    "node": "22.8.0",
     "yarn": "^1.22.20"
   },
   "config": {
