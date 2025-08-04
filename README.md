@@ -1,19 +1,19 @@
-# AMRnet - Antimicrobial Resistance Dashboard
 
-<div align="center">
-  <img src="assets/img/logo-prod.png" alt="AMRnet Logo" width="200" height="120">
+![AMRnet Logo](assets/img/logo-prod.png)
 
-  [![GitHub version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/amrnet/amrnet)
-  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-  [![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet)](https://github.com/amrnet/amrnet/commits/main)
-  [![Issues](https://img.shields.io/github/issues/amrnet/amrnet)](https://github.com/amrnet/amrnet/issues)
-  [![Stars](https://img.shields.io/github/stars/amrnet/amrnet)](https://github.com/amrnet/amrnet/stargazers)
-  [![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
+[![GitHub version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/amrnet/amrnet)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet)](https://github.com/amrnet/amrnet/commits/main)
+[![Issues](https://img.shields.io/github/issues/amrnet/amrnet)](https://github.com/amrnet/amrnet/issues)
+[![Stars](https://img.shields.io/github/stars/amrnet/amrnet)](https://github.com/amrnet/amrnet/stargazers)
+[![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
 
-  **Making genome-derived AMR surveillance data accessible worldwide**
+<p align="center">
+  <em><b>Making genome-derived AMR surveillance data accessible worldwide</b></em>
+</p>
 
-  [🌐 Live Dashboard](https://www.amrnet.org) | [📖 Documentation](https://amrnet.readthedocs.io) | [🚀 Quick Start](#quick-start) | [💬 Community](https://github.com/amrnet/amrnet/discussions)
-</div>
+**🔗 Quick Links:** [🌐 Live Dashboard](https://www.amrnet.org) • [📖 Documentation](https://amrnet.readthedocs.io) • [🚀 Quick Start](#-quick-start) • [💬 Community](https://github.com/amrnet/amrnet/discussions)
+
 
 ## 🎯 Overview
 
@@ -71,22 +71,13 @@ npm run start:dev
 
 Visit `http://localhost:3000` to see the application running locally.
 
-**📚 Need more details?** Check our [Installation Guide](https://amrnet.readthedocs.io/en/latest/installation.html) and [Developer Guide](DEVELOPER_GUIDE.md).
-````
-
-#### 4. Inside the project folder run this command to install the server dependencies
-
-````sh
-### 4. Install Server Dependencies
-In the project root folder (`amrnet`), run:
-```bash
-npm install
+**📚 Need more details?** Check our [Installation Guide](https://amrnet.readthedocs.io/en/latest/installation.html) and [Developer Guide](./tutorial/developer_guide.md).
 
 ## 🏗️ Architecture
 
 AMRnet is built with modern web technologies for performance and scalability:
 
-```
+```text
 Frontend (React 18)
 ├── 🎨 Material-UI Components
 ├── 📊 Recharts Visualizations
@@ -231,12 +222,12 @@ We welcome contributions from the global AMR surveillance community!
 
 ### How to Cite
 
-If you use AMRnet data or visualizations in your work, please cite:
+If you use **AMRnet** data or visualizations in your work, please cite:
 
 ```bibtex
 @software{amrnet2024,
   title = {AMRnet: Global Antimicrobial Resistance Surveillance Dashboard},
-  author = {Holt, Kathryn E. and {AMRnet Team}},
+  author = {Cerdeira, L, Sharma, V, Holt, Kathryn E. and {AMRnet Team}},
   year = {2024},
   url = {https://www.amrnet.org},
   doi = {10.5281/zenodo.10810218}
@@ -267,12 +258,6 @@ AMRnet is proudly funded by:
 - **🎓 London School of Hygiene & Tropical Medicine** - Institutional support
 - **🤝 Global Partnership** - International collaboration network
 
-### Principal Investigator
-
-**Professor Kathryn E. Holt**
-*London School of Hygiene & Tropical Medicine*
-*Department of Infection Biology*
-
 ### Acknowledgments
 
 We gratefully acknowledge:
@@ -289,10 +274,10 @@ We gratefully acknowledge:
 
 | Type | Resource | Response Time |
 |------|----------|---------------|
-| **🐛 Bugs** | [GitHub Issues](https://github.com/amrnet/amrnet/issues) | 1-3 days |
-| **💡 Features** | [GitHub Discussions](https://github.com/amrnet/amrnet/discussions) | 3-7 days |
-| **📧 General** | info@amrnet.org | 5-10 days |
-| **📖 Documentation** | [Read the Docs](https://amrnet.readthedocs.io) | Self-service |
+| 🐛 **Bugs** | [GitHub Issues](https://github.com/amrnet/amrnet/issues) | 1-3 days |
+| 💡 **Features** | [GitHub Discussions](https://github.com/amrnet/amrnet/discussions) | 3-7 days |
+| 📧 **General** | [info@amrnet.org](mailto:info@amrnet.org) | 5-10 days |
+| 📖 **Documentation** | [Read the Docs](https://amrnet.readthedocs.io) | Self-service |
 
 ### Community Guidelines
 
@@ -306,12 +291,10 @@ We're committed to fostering an inclusive, welcoming community:
 
 ---
 
-<div align="center">
+## � Contact & Links
 
-  **AMRnet** - Powered by the global health community
+**AMRnet** - Powered by the global health community
 
-  [🌐 Dashboard](https://www.amrnet.org) • [📖 Docs](https://amrnet.readthedocs.io) • [💻 GitHub](https://github.com/amrnet/amrnet) • [📧 Contact](mailto:info@amrnet.org)
+[🌐 Dashboard](https://www.amrnet.org) • [📖 Docs](https://amrnet.readthedocs.io) • [💻 GitHub](https://github.com/amrnet/amrnet) • [📧 Contact](mailto:amrnetdashboard@gmail.com)
 
-  *Making AMR surveillance data accessible to everyone, everywhere*
-
-</div>
+> Making AMR surveillance data accessible to everyone, everywhere

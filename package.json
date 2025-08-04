@@ -14,7 +14,7 @@
     "install": "cd client && npm install",
     "client": "cd client && npm run start:no-lint",
     "build": "cd client && yarn build",
-    "heroku-postbuild": "yarn install && cd client && yarn install && yarn build"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "license": "GPL-3.0",
   "dependencies": {
