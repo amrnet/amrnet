@@ -8,10 +8,6 @@ API Reference
 
     AMRnet provides a comprehensive RESTful API for programmatic access to all antimicrobial resistance surveillance data. The API supports multiple data formats, filtering options, and authentication methods to suit different use cases.
 
-.. contents:: Table of Contents
-   :local:
-   :depth: 2
-
 Quick Start
 ===========
 

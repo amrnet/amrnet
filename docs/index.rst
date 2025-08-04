@@ -26,7 +26,12 @@
 
     Installation <installation>
     Features <feature>
-    Developer Guide <../DEVELOPER_GUIDE>
+    Performance Optimization <performance>
+    Deployment Guide <deployment>
+    Security Guide <security>
+    Internationalization <internationalization>
+    Troubleshooting <troubleshooting>
+    Developer Guide <../tutorial/developer_guide>
     contributing
     Code of Conduct <codeofconduct>
     License <license>
@@ -58,14 +63,19 @@ Quick start
 -----------
 .. container:: justify-text
 
-    You can install ``AMRnet`` via `pip <https://pip.pypa.io/>`_ from
-    `PyPI <https://pypi.org/>`_:
+    **For Users:** Visit the live dashboard at `AMRnet.org <https://www.amrnet.org>`_
 
-    .. code:: shell
+    **For Developers:** Get started with local development:
 
-    pip install AMRnet
+    .. code-block:: shell
 
-    See :ref:`label-installation` for more information.
+        git clone https://github.com/amrnet/amrnet.git
+        cd amrnet
+        npm install
+        cd client && npm install && cd ..
+        npm run start:dev
+
+    See :ref:`label-installation` for complete installation instructions.
 
 Features
 --------
@@ -110,4 +120,3 @@ Disclaimer
 
 Acknowledgements
 ----------------
-
