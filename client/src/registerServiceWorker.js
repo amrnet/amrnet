@@ -41,7 +41,7 @@ function registerValidSW(swUrl) {
         }
       };
     })
-    .catch((error) => {
+    .catch((_error) => {
       // This occurs when the app is served over HTTP instead of HTTPS
       // The browser prevents service workers from being registered on insecure origins.
       if (error.name === 'SecurityError' && window.location.protocol === 'http:') {

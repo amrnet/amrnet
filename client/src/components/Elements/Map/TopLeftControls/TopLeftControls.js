@@ -60,7 +60,6 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
     if (newValue !== null) {
       dispatch(setDatasetKP(newValue));
       dispatch(setCanFilterData(true));
-      dispatch(setSelectedLineages( newValue === 'ESBL'? ['ESBL+'] : ['CARB+']));
     }
   }
 

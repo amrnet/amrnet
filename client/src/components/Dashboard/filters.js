@@ -1,23 +1,57 @@
+/**
+ * @fileoverview Data filtering and processing utilities for AMRnet Dashboard
+ *
+ * This module contains functions for filtering, processing, and transforming
+ * genomic antimicrobial resistance data for visualization purposes.
+ *
+ * Key functionalities:
+ * - Data filtering by dataset, time range, geography, and lineages
+ * - Map data generation for geographic visualization
+ * - Temporal data aggregation for trend analysis
+ * - Genotype and drug resistance data processing
+ * - Convergence analysis for K. pneumoniae
+ *
+ * @author AMRnet Team
+ * @version 1.1.0
+ */
+
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { variableGraphOptions } from '../../util/convergenceVariablesOptions';
 import {
   drugRulesST,
-  drugRulesKP,
   drugRulesNG,
+  drugRulesKP,
   statKeys,
   drugRulesINTS,
   statKeysKP,
   statKeysECOLI,
   drugRulesKPOnlyMarkers,
   statKeysKPOnlyMarkers,
+  drugClassesRulesST,
+  drugClassesRulesNG,
 } from '../../util/drugClassesRules';
-import { drugClassesRulesST, drugClassesRulesNG } from '../../util/drugClassesRules';
 import { markersDrugsKP } from '../../util/drugs';
 import { amrLikeOrganisms } from '../../util/organismsCards';
 
-// This filter is called after either dataset, initialYear, finalYear or country changes and if reset button is pressed.
-// And it returns the data filtered by the variables said before, also the list of unique genotypes, count of genotypes
-// and count of genomes.
+/**
+ * Filter organism data based on multiple criteria
+ *
+ * This function applies filtering based on dataset, time range, geographic location,
+ * and organism-specific lineages. It returns filtered data along with summary statistics.
+ *
+ * @param {Object} params - Filter parameters
+ * @param {Array} params.data - Raw organism data to filter
+ * @param {string} [params.dataset='All'] - Dataset filter (All, community, travel)
+ * @param {string} [params.datasetKP='All'] - K. pneumoniae specific dataset filter
+ * @param {string} params.actualTimeInitial - Start year for temporal filtering
+ * @param {string} params.actualTimeFinal - End year for temporal filtering
+ * @param {string} params.organism - Organism identifier
+ * @param {string} params.actualCountry - Country filter
+ * @param {string} params.actualRegion - Economic region filter
+ * @param {Object} params.economicRegions - Economic regions mapping
+ * @param {Array} params.selectedLineages - Selected lineages for filtering
+ * @returns {Object} Filtered data with statistics
+ */
 export function filterData({
   data,
   dataset,
@@ -60,7 +94,7 @@ export function filterData({
   let listPMID = [];
 
   // Filter
-  const newData = data.filter(x => checkDataset(x) && checkDatasetKP(x) && checkLineages(x)); // && checkTime(x)) is not required here and it fix the Global Flirter issue of Wrong year
+  const newData = data.filter(x => checkDataset(x) && checkDatasetKP(x) && checkTime(x) && checkLineages(x));
 
   // Set genotypes, genomes and PMID
   if (actualRegion !== 'All') {
@@ -85,6 +119,28 @@ export function filterData({
   };
 }
 
+/**
+ * Filter data for brush interactions across different graph types
+ *
+ * Applies filtering based on dataset and organism type, with time range
+ * filtering specific to different graph components (GD, DRT, RDT, KOT).
+ *
+ * @param {Object} params - Filter parameters for brush data
+ * @param {Array} params.data - Raw organism data to filter
+ * @param {string} params.dataset - Dataset filter
+ * @param {string} params.organism - Organism identifier
+ * @param {string} params.actualCountry - Country filter
+ * @param {Array} params.selectedLineages - Selected lineages for filtering
+ * @param {string} params.starttimeGD - Start time for genotype distribution
+ * @param {string} params.endtimeGD - End time for genotype distribution
+ * @param {string} params.starttimeDRT - Start time for drug resistance trends
+ * @param {string} params.endtimeDRT - End time for drug resistance trends
+ * @param {string} params.starttimeRDT - Start time for resistance determinants
+ * @param {string} params.endtimeRDT - End time for resistance determinants
+ * @param {string} params.startTimeKOT - Start time for KO trends
+ * @param {string} params.endTimeKOT - End time for KO trends
+ * @returns {Object} Filtered genome counts for each graph type
+ */
 export function filterBrushData({
   data,
   dataset,
@@ -120,7 +176,6 @@ export function filterBrushData({
   let newDataDRT = filterData(starttimeDRT, endtimeDRT);
   let newDataRDT = filterData(starttimeRDT, endtimeRDT);
   let newDataKOT = filterData(startTimeKOT, endTimeKOT);
-  // console.log('newDataRDT', starttimeRDT, starttimeDRT, newDataRDT, newDataDRT);
   if (actualCountry !== 'All') {
     // const filterByCountry = newData.filter((x) => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry);
     const filterByCountry = x => getCountryDisplayName(x.COUNTRY_ONLY) === actualCountry;
@@ -140,7 +195,9 @@ export function filterBrushData({
 
 //TODO: change for the mongo
 // Adjust the country names to its correct name
-export function getCountryDisplayName(country) {
+//TODO: change for the mongo
+// Adjust the country names to its correct name
+function getCountryDisplayName(country) {
   const trimmed = country.trim();
 
   switch (trimmed) {
@@ -160,7 +217,7 @@ export function getCountryDisplayName(country) {
       return 'Central African Rep.';
     case 'Ivory Coast':
     case "Cote d'Ivoire":
-    case 'Côte d’Ivoire':
+    case "Côte d'Ivoire":
       return "Côte d'Ivoire";
     case 'East Timor':
       return 'Timor-Leste';
@@ -214,6 +271,9 @@ export function getCountryDisplayName(country) {
   }
 }
 
+// Export at the top level
+export { getCountryDisplayName };
+
 // Get specific drug count, percentage and al its types for the map component
 function getMapStatsData({
   itemData,
@@ -262,7 +322,7 @@ function getMapStatsData({
     }
   }
 
-  const items = Object.entries(columnDataMap).map(([name, { count, names }]) => {
+  const items = Object.entries(columnDataMap).map(([name, { count, names: _names }]) => {
     const percentage = (count / totalLength) * 100;
     return { name, count, percentage: Number(percentage.toFixed(2)) };
   });
@@ -376,8 +436,31 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
   stats[statKey].sum = items.reduce((sum, item) => sum + (item.count || 0), 0);
 };
 
-// Get country data for map component, the data includes the name, count and drug stats
+/**
+ * Generate map visualization data for countries or regions
+ *
+ * Processes organism data to create geographic visualization data including
+ * sample counts and drug resistance statistics for map display.
+ *
+ * @param {Object} params - Map data parameters
+ * @param {Array} params.data - Organism data array
+ * @param {Array|Object} params.items - Countries array or regions object to process
+ * @param {string} params.organism - Organism identifier
+ * @param {string} [params.type='country'] - Type of geographic aggregation ('country' or 'region')
+ * @returns {Array} Map data with resistance statistics for visualization
+ */
 export function getMapData({ data, items, organism, type = 'country' }) {
+  // Add validation for required parameters
+  // if (!data || !Array.isArray(data)) {
+  //   console.warn('getMapData: data is not a valid array');
+  //   return [];
+  // }
+
+  // if (!items || (!Array.isArray(items) && typeof items !== 'object')) {
+  //   console.warn('getMapData: items is not a valid array or object');
+  //   return [];
+  // }
+
   const mapData = [];
   const formattedItems = type === 'country' ? items : Object.keys({ ...items, All: '' }).sort();
   const pallete = generatePalleteForGenotypes(formattedItems);
@@ -487,6 +570,17 @@ export function getMapData({ data, items, organism, type = 'country' }) {
 
 // Retrieves data for years, genotypes, drugs, and unique genotypes based on the provided parameters.
 export function getYearsData({ data, years, organism, getUniqueGenotypes = false }) {
+  // // Add validation for required parameters
+  // if (!data || !Array.isArray(data)) {
+  //   console.warn('getYearsData: data is not a valid array');
+  //   return { genotypesData: [], drugsData: [], genotypesAndDrugsData: {}, uniqueGenotypes: [] };
+  // }
+
+  // if (!years || !Array.isArray(years)) {
+  //   console.warn('getYearsData: years is not a valid array');
+  //   return { genotypesData: [], drugsData: [], genotypesAndDrugsData: {}, uniqueGenotypes: [] };
+  // }
+
   const drugsData = [];
   const genotypesAndDrugsData = {};
   let uniqueGenotypes = [];
@@ -519,7 +613,6 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
     // Calculate genotype stats
     const genotypeStats = yearData.reduce((acc, x) => {
-      // const genotype = x.GENOTYPE;
       const genotype = x.GENOTYPE;
       acc[genotype] = (acc[genotype] || 0) + 1;
       return acc;
@@ -531,6 +624,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     if (organism === 'kpneumo') {
       cgSTStats = yearData.reduce((acc, x) => {
         const cgST = x.cgST;
+        // if (cgST && cgST !== '-' && cgST !== null && cgST !== undefined && cgST !== '' && cgST.toString().trim() !== '') {
+        //   acc[cgST] = (acc[cgST] || 0) + 1;
+        // }
         acc[cgST] = (acc[cgST] || 0) + 1;
         return acc;
       }, {});
@@ -538,6 +634,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
       sublineageStats = yearData.reduce((acc, x) => {
         const sublineage = x.Sublineage;
+        // if (sublineage && sublineage !== '-' && sublineage !== null && sublineage !== undefined && sublineage !== '' && sublineage.toString().trim() !== '') {
+        //   acc[sublineage] = (acc[sublineage] || 0) + 1;
+        // }
         acc[sublineage] = (acc[sublineage] || 0) + 1;
         return acc;
       }, {});
@@ -805,25 +904,28 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
         }
 
         if (organism === 'styphi') {
-          drugClassesRulesST[key].forEach(classRule => {
-            const classRuleName = classRule.name;
+          // Only process if the key exists in drugClassesRulesST
+          if (drugClassesRulesST[key]) {
+            drugClassesRulesST[key].forEach(classRule => {
+              const classRuleName = classRule.name;
 
-            if (classRuleName === 'None') {
-              return;
-            }
+              if (classRuleName === 'None') {
+                return;
+              }
 
-            drugClass[classRuleName] = itemData.filter(x => {
-              return classRule.rules.every(r =>
-                key === 'Pansusceptible' && !classRule.susceptible
-                  ? x[r.columnID]?.toString() !== r.value.toString()
-                  : x[r.columnID]?.toString() === r.value.toString(),
-              );
-            }).length;
+              drugClass[classRuleName] = itemData.filter(x => {
+                return classRule.rules.every(r =>
+                  key === 'Pansusceptible' && !classRule.susceptible
+                    ? x[r.columnID]?.toString() !== r.value.toString()
+                    : x[r.columnID]?.toString() === r.value.toString(),
+                );
+              }).length;
 
-            if (classRule.susceptible) {
-              drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
-            }
-          });
+              if (classRule.susceptible) {
+                drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
+              }
+            });
+          }
         }
 
         const item = { ...response, ...drugClass, totalCount: count };
@@ -896,6 +998,17 @@ export function getGenotypesData({
   regions,
   dataForGeographic,
 }) {
+  // // Add validation for required parameters
+  // if (!data || !Array.isArray(data)) {
+  //   console.warn('getGenotypesData: data is not a valid array');
+  //   return { genotypesDrugsData: [], genotypesDrugClassesData: {} };
+  // }
+
+  // if (!genotypes || !Array.isArray(genotypes)) {
+  //   console.warn('getGenotypesData: genotypes is not a valid array');
+  //   return { genotypesDrugsData: [], genotypesDrugClassesData: {} };
+  // }
+
   const genotypesDrugClassesData = {};
   const countriesDrugClassesData = {};
   const regionsDrugClassesData = {};
@@ -947,25 +1060,29 @@ export function getGenotypesData({
           response['Ciprofloxacin NS'] = response['Ciprofloxacin NS'] + response['Ciprofloxacin R'];
         }
 
-        const drugClass = { ...drugClassResponse };
+        // Only process drug classes if the rule key exists in drugClassesRulesST
+        if (drugClassesRulesST[rule.key]) {
+          const drugClass = { ...drugClassResponse };
 
-        drugClassesRulesST[rule.key].forEach(classRule => {
-          const classRuleName = classRule.name;
+          drugClassesRulesST[rule.key].forEach(classRule => {
+            const classRuleName = classRule.name;
 
-          drugClass[classRuleName] = genotypeData.filter(x => {
-            return classRule.rules.every(r =>
-              rule.key === 'Pansusceptible' && !classRule.susceptible
-                ? x[r.columnID]?.toString() !== r.value.toString()
-                : x[r.columnID]?.toString() === r.value.toString(),
-            );
-          }).length;
+            drugClass[classRuleName] = genotypeData.filter(x => {
+              return classRule.rules.every(r =>
+                rule.key === 'Pansusceptible' && !classRule.susceptible
+                  ? x[r.columnID]?.toString() !== r.value.toString()
+                  : x[r.columnID]?.toString() === r.value.toString(),
+              );
+            }).length;
 
-          if (classRule.susceptible) {
-            drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
-          }
-        });
+            if (classRule.susceptible) {
+              drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
+            }
+          });
 
-        genotypesDrugClassesData[rule.key].push(drugClass);
+          genotypesDrugClassesData[rule.key].push(drugClass);
+        }
+
       });
     } else if (organism === 'kpneumo') {
       drugRulesKP.forEach(rule => {
@@ -996,7 +1113,7 @@ export function getGenotypesData({
         const drugData = genotypeData.filter(x => rule.values.includes(x[rule.columnID]));
         response[rule.key] = drugData.length;
 
-        const drugClassesToInclude = ['Azithromycin', 'Ceftriaxone'];
+        const drugClassesToInclude = ['Azithromycin', 'Ceftriaxone', 'Cefixime'];
 
         if (drugClassesToInclude.includes(rule.key)) {
           const drugClass = { ...drugClassResponse };
@@ -1185,6 +1302,17 @@ export function getNgmastData({ data, ngmast, organism }) {
     return { ngmastDrugClassesData: {}, ngmastDrugData: [] };
   }
 
+  // // Add validation for required parameters
+  // if (!data || !Array.isArray(data)) {
+  //   console.warn('getNgmastData: data is not a valid array');
+  //   return { ngmastDrugClassesData: {}, ngmastDrugData: [] };
+  // }
+
+  // if (!ngmast || !Array.isArray(ngmast)) {
+  //   console.warn('getNgmastData: ngmast is not a valid array');
+  //   return { ngmastDrugClassesData: {}, ngmastDrugData: [] };
+  // }
+
   // Initialize ngmastDrugClassesData based on drugClassesRulesNG
   const ngmastDrugClassesData = {};
   Object.keys(drugClassesRulesNG).forEach(key => {
@@ -1245,6 +1373,12 @@ export function getNgmastData({ data, ngmast, organism }) {
 
 // Define getKODiversityData function
 export function getKODiversityData({ data }) {
+  // Add data validation
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    console.warn('⚠️ [DEBUG] getKODiversityData: Invalid or empty data provided');
+    return { K_locus: [], O_locus: [] };
+  }
+
   // Initialize KODiversityData object
   const KODiversityData = {
     K_locus: [],
@@ -1253,6 +1387,12 @@ export function getKODiversityData({ data }) {
 
   // Function to calculate counts
   const calculateCounts = diversityData => {
+    // // Add validation for diversityData
+    // if (!Array.isArray(diversityData)) {
+    //   console.warn('calculateCounts: diversityData is not an array');
+    //   return { Carbapenems: 0, ESBL: 0, 'Aerobactin(iuc)': 0, rmpADC: 0, None: 0 };
+    // }
+
     const counts = {
       // MDR: 0,
       // Hv: 0,
@@ -1303,6 +1443,8 @@ export function getKODiversityData({ data }) {
       };
     });
 
+    // Filter out unknownData and add it to KODiversityData
+    // Add validation to ensure name exists and is a string before calling includes
     // Filter out unknownData and add it to KODiversityData
     const unknownData = keyData.filter(x => x.name.includes('unknown'));
     const knownData = keyData.filter(x => !x.name.includes('unknown'));
@@ -1365,12 +1507,10 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
   let colourVariables = [];
 
   // Function to get unique values
-  const getUniqueValues = (key) => [...new Set(data.map((x) => getVariableValue(x, key)))];
+  // const getUniqueValues = (key) => [...new Set(data.map((x) => getVariableValue(x, key)))];
 
   // Define function for genotype or others
-  const unique = groupVariable === 'DATE'
-    ? getUniqueValues(groupVariable).sort((a, b) => a - b) // Sort dates numerically
-    : getUniqueValuesWithHighestCount(data, groupVariable);
+  const unique = getUniqueValuesWithHighestCount(data, groupVariable);
 
   // Check if groupVariable and colourVariable are the same
   if (groupVariable === colourVariable) {
@@ -1378,26 +1518,21 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
     colourVariables = [...unique];
   } else {
     // Get unique values for variablesCombinations and colourVariables
-    variablesCombinations = unique.flatMap((groupVal) =>
-      getUniqueValues(colourVariable).map((colourVal) => `${groupVal} - ${colourVal}`),
-    );
-    colourVariables = getUniqueValues(colourVariable);
+    // variablesCombinations = unique.flatMap((groupVal) =>
+    //   getUniqueValues(colourVariable).map((colourVal) => `${groupVal} - ${colourVal}`),
+    // );
+    // colourVariables = getUniqueValues(colourVariable);
   }
 
   // Map combinations to data
   const combinationDataMap = variablesCombinations.reduce((acc, combination) => {
-    // Handle both single values and combined values
-    const isCombinable = groupVariable !== colourVariable && typeof combination === 'string' && combination.includes(' - ');
+    const [groupVal, colourVal] = combination.split(' - ');
 
-    if (isCombinable) {
-      const [groupVal, colourVal] = combination.split(' - ');
-      acc[combination] = data.filter(x =>
-        getVariableValue(x, groupVariable) === groupVal && getVariableValue(x, colourVariable) === colourVal
-      );
-    } else {
-      // When groupVariable === colourVariable, combination is a single value
-      acc[combination] = data.filter(x => getVariableValue(x, groupVariable) === combination);
-    }
+    acc[combination] = data.filter(x =>
+      groupVariable === colourVariable
+        ? getVariableValue(x, groupVariable) === combination
+        : getVariableValue(x, groupVariable) === groupVal && getVariableValue(x, colourVariable) === colourVal,
+    );
 
     return acc;
   }, {});
@@ -1408,10 +1543,8 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
     const count = combinedData.length;
 
     if (count > 0) {
-      // Handle colorLabel for both single and combined values
-      const isCombinable = groupVariable !== colourVariable && typeof combination === 'string' && combination.includes(' - ');
-      const colorLabel = isCombinable ? combination.split(' - ')[1] : combination;
-
+      const splitCombination = combination.split(' - ');
+      const colorLabel = splitCombination.length > 1 ? splitCombination[1] : combination;
       const avgVirulenceScore = (
         combinedData.reduce((total, obj) => Number(obj.virulence_score) + total, 0) / count
       ).toFixed(2);
@@ -1430,13 +1563,8 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
   });
 
   convergenceData.sort((a, b) => b.z - a.z);
-
   // Sort colourVariables based on the type of colourVariable
-  if (colourVariable === 'DATE') {
-    colourVariables.sort((a, b) => a - b); // Sort dates numerically
-  } else {
-    colourVariables.sort((a, b) => a.localeCompare(b));
-  }
+  colourVariables.sort((a, b) => (colourVariable === 'YEAR' ? b - a : a.localeCompare(b)));
 
   // Return convergenceData and colourVariables
   return { data: convergenceData, colourVariables };
@@ -1469,6 +1597,23 @@ function getKPDrugClassData({ drugKey, dataToFilter, notKP = false }) {
     columnIDs.push(...drug.columnIDs);
     rules = drug;
   }
+  //   const statKey = statKeysECOLI.find(x => x.name === drugKey);
+  //   if (!statKey) {
+  //     console.warn(`⚠️ [DEBUG] getKPDrugClassData: No statKey found for ${drugKey} in statKeysECOLI`);
+  //     return { None: dataToFilter.length, resistantCount: 0 };
+  //   }
+  //   columnIDs.push(statKey.column);
+  // } else {
+  //   const drug = drugsKP.concat(drugRulesKPOnlyMarkers).find(x => x.key === drugKey);
+  //   if (!drug) {
+  //     console.warn(`⚠️ [DEBUG] getKPDrugClassData: No drug rule found for ${drugKey} in drugRulesKP/drugRulesKPOnlyMarkers`);
+  //     return { None: dataToFilter.length, resistantCount: 0 };
+  //   }
+  //   if (!drug.columnIDs) {
+  //     console.warn(`⚠️ [DEBUG] getKPDrugClassData: Drug rule for ${drugKey} has no columnIDs property`, drug);
+  //     return { None: dataToFilter.length, resistantCount: 0 };
+  //   }
+
 
   let resistantCount = 0;
 

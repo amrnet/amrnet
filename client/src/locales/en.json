@@ -1,0 +1,69 @@
+{
+  "appTitle": "AMRnet",
+  "welcomeMessage": "Welcome to AMRnet dashboard",
+  "dashboard": {
+    "title": "AMRnet Dashboard ",
+    "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system."
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "team": "Team",
+    "contact": "Contact",
+    "database": "Database",
+    "userguide": "User Guide"
+  },
+  "formValidation": {
+    "requiredField": "This field is required.",
+    "invalidEmail": "Please enter a valid email address."
+  },
+  "notifications": {
+    "success": "Operation successful!",
+    "error": "An error occurred. Please try again."
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View"
+  },
+  "table": {
+    "noData": "No data available.",
+    "rowsPerPage": "Rows per page:",
+    "of": "of"
+  },
+  "login": {
+    "title": "Login to AMRnet",
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Login",
+    "forgotPassword": "Forgot Password?",
+    "registerPrompt": "Don't have an account?",
+    "registerLink": "Register here"
+  },
+  "register": {
+    "title": "Register for AMRnet",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "registerButton": "Register",
+    "loginPrompt": "Already have an account?",
+    "loginLink": "Login here"
+  },
+  "profile": {
+    "title": "User Profile",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "lastLogin": "Last Login"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "notifications": "Notifications"
+  }
+}

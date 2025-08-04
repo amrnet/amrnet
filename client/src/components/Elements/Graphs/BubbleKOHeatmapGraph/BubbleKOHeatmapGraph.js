@@ -65,7 +65,8 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [actualCountry, actualRegion, mapData, mapRegionData]);
 
   const statColumn = useMemo(() => {
-    return variableGraphOptions.find(x => x.value === bubbleKOHeatmapGraphVariable).mapValue;
+    const foundOption = variableGraphOptions.find(x => x.value === bubbleKOHeatmapGraphVariable);
+    return foundOption?.mapValue || null;
   }, [bubbleKOHeatmapGraphVariable]);
 
   const yAxisOptions = useMemo(() => {
@@ -92,7 +93,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [selectedCRData?.stats, statColumn, bubbleKOYAxisType]);
 
   const xAxisOptions = useMemo(() => {
-    return selectedCRData?.stats[statColumn]?.items?.map(x => x.name) ?? [];
+    return statColumn ? selectedCRData?.stats[statColumn]?.items?.map(x => x.name) ?? [] : [];
   }, [selectedCRData?.stats, statColumn]);
 
   const filteredXAxisOptions = useMemo(() => {
@@ -119,7 +120,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
 
   const getOptionLabel = useCallback(
     item => {
-      const totalCount = selectedCRData?.stats[statColumn].items.find(x => x.name === item)?.count ?? 0;
+      const totalCount = statColumn ? selectedCRData?.stats[statColumn]?.items?.find(x => x.name === item)?.count ?? 0 : 0;
 
       return `${item} (total N=${totalCount})`;
     },
@@ -184,7 +185,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }
 
   const configuredMapData = useMemo(() => {
-    if (!selectedCRData || yAxisSelected.length === 0) {
+    if (!selectedCRData || yAxisSelected.length === 0 || !statColumn) {
       return [];
     }
 

@@ -3,20 +3,11 @@
 export const drugRulesST = [
   { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
-  {
-    key: 'Chloramphenicol',
-    columnID: 'chloramphenicol_category',
-    values: ['ChlR'],
-  },
+  { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  {
-    key: 'Ciprofloxacin NS',
-    columnID: 'cip_pred_pheno',
-    values: ['CipNS'],
-    legends: 'Ciprofloxacin (non-susceptible)',
-  },
-  // { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)'  },
+  { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'], legends: 'Ciprofloxacin (non-susceptible)' },
+  { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)'  },
   { key: 'Sulfonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracycline', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
@@ -29,33 +20,18 @@ export const statKeysST = [
   { name: 'Ampicillin/Amoxicillin', column: 'blaTEM-1D', key: '1', resistanceView: true },
   { name: 'Azithromycin', column: 'azith_pred_pheno', key: 'AzithR', resistanceView: true },
   { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true },
-  {
-    name: 'Chloramphenicol',
-    column: 'chloramphenicol_category',
-    key: 'ChlR',
-    resistanceView: true,
-  },
+  { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
   { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
   { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR', resistanceView: true },
   { name: 'XDR', column: 'XDR', key: 'XDR', resistanceView: true },
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
   { name: 'MDR', column: 'MDR', key: 'MDR', resistanceView: true },
-  // { name: 'Multidrug resistant (MDR)', column: 'MDR', key: 'MDR', resistanceView: true },
-  // { name: 'Sulphonamides', column: 'sul_any', key: '1', resistanceView: true },
-  // { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true },
-  // { name: 'Tetracycline', column: 'tetracycline_category', key: 'TetR', resistanceView: true },
-  // { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
   { name: 'Sulfonamides', column: 'sul_any', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'tetracycline_category', key: 'TetR', resistanceView: true },
   { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
   { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
   { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true },
 ];
-
-// export const drugRulesForDrugResistanceGraphNG = [
-//   { key: 'MDR', columnID: 'MDR', values: ['1'] },
-//   { key: 'XDR', columnID: 'XDR', values: ['1'] }
-// ];
 
 export const drugRulesForDrugResistanceGraphNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
@@ -77,20 +53,11 @@ export const drugRulesKP = [
   { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
   { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
   { key: 'ESBL', columnIDs: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'] },
-  // {
-  //   key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
-  //   columnIDs: ['Bla_ESBL_inhR_acquired'],
-  // },
-  // { key: 'Ciprofloxacin S', columnIDs: ['Ciprofloxacin_prediction'], value: 'wildtype S' },
   { key: 'Ciprofloxacin R', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
-  // { key: 'Ciprofloxacin I', columnIDs: ['Ciprofloxacin_prediction'], value: 'nonwildtype I' },
   { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
-  // { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
-  // { key: 'Penicillins', columnIDs: ['Bla_chr'] },
-  // { key: 'β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired'] },
   { key: 'Phenicols', columnIDs: ['Phe_acquired'] },
-  // { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
+  { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
   { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
   { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] },
@@ -106,37 +73,21 @@ export const statKeysKP = [
   { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
   { name: 'Carbapenems', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
-  // { name: 'Ciprofloxacin S', column: 'Ciprofloxacin_prediction', key: 'wildtype S', resistanceView: true },
   { name: 'Ciprofloxacin R', column: ['Flq_acquired', 'Flq_mutations'], key: '-', resistanceView: true },
-  // { name: 'Ciprofloxacin I', column: 'Ciprofloxacin_prediction', key: 'nonwildtype I', resistanceView: true },
-  {
-    name: 'ESBL',
-    column: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'],
-    key: '-',
-    resistanceView: true,
-  },
-  // { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-', resistanceView: true },
-  // {
-  //   name: 'Fluoroquinolones',
-  //   column: ['Flq_acquired', 'Flq_mutations'],
-  //   key: '-',
-  //   resistanceView: true,
-  // },
+  { name: 'ESBL', column: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'], key: '-', resistanceView: true },
   { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true },
-  // { name: 'Penicillins', column: 'Bla_chr', key: '-', resistanceView: true },
-  // { name: 'β-lactamase inhibitors', column: 'Bla_Carb_acquired', key: '-', resistanceView: true},
   { name: 'Phenicols', column: 'Phe_acquired', key: '-', resistanceView: true },
-  // { name: 'Sulfonamides', column: 'Phe_acquired', key: '-', resistanceView: true},
+  { name: 'Sulfonamides', column: 'Sul_acquired', key: '-', resistanceView: true },
   { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
-  { name: 'Trimethoprim-sulfamethoxazole', column: ['Tmt_acquired', 'Sul_acquired'], key: '-', resistanceView: true }, //// TODO: need to update 'Trimethoprim-sulfamethoxazole column name
+  { name: 'Trimethoprim-sulfamethoxazole', column: ['Tmt_acquired', 'Sul_acquired'], key: '-', resistanceView: true },
   { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0', resistanceView: true },
 ];
 
 export const statKeysKPOnlyMarkers = [
-  { name: 'SHV mutations', column: 'SHV_mutations', key: '-' },
-  { name: 'Porin mutations', column: 'Omp_mutations', key: '-' },
+  { name: 'SHV mutations', columnID: ['SHV_mutations'] },
+  { name: 'Porin mutations', columnID: ['Omp_mutations'] },
 ];
 
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG
@@ -148,15 +99,10 @@ export const drugRulesNG = [
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Benzylpenicillin', columnID: ['Penicillin'], values: ['1'] },
-  {
-    key: 'Pansusceptible',
-    columnID: ['Susceptible'],
-    values: ['1'],
-    legends: 'Susceptible to cat I/II drugs',
-  },
+  { key: 'Pansusceptible', columnID: ['Susceptible'], values: ['1'], legends: 'Susceptible to cat I/II drugs' },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
-  { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
-  { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
+  // { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
+  // { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
 ];
 
 export const statKeysNG = [

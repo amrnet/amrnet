@@ -183,7 +183,7 @@ export const drugsINTS = drugRulesINTS.map(x => x.key);
 export const drugsECOLI = statKeysECOLI.map(x => x.name);
 export const drugsINTSLegendsOnly = drugRulesINTS.map(x => x.legends || x.key).sort((a, b) => a.localeCompare(b));
 export const drugsNGLegendsOnly = drugRulesNG.map(x => x.legends || x.key);
-export const drugsKlebLegendsOnly = drugRulesKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
+export const drugsKlebLegendsOnly = drugsKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
 // export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
 
 export function getDrugClasses(organism) {

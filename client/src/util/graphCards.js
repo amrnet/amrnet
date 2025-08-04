@@ -1,9 +1,9 @@
-import { BubbleChart, StackedBarChart, Timeline, ViewModule } from '@mui/icons-material';
+import { BubbleChart, StackedBarChart, Timeline, ViewModule, BarChart } from '@mui/icons-material';
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
 import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
-// import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
-// import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
+import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
+import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
@@ -11,6 +11,7 @@ import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
+import { FrequenciesGraph } from '../components/Elements/Graphs/FrequenciesGraph';
 
 function getHeatMapsTitle(organism) {
   switch (organism) {
@@ -82,8 +83,8 @@ export const graphCards = [
       'styphi',
       'ngono',
       'kpneumo',
-      'senterica',
-      ...amrLikeOrganisms.filter(x => !['sentericaints'].includes(x)),
+      // 'senterica',
+      ...amrLikeOrganisms.filter(x => !['sentericaints', 'senterica'].includes(x)),
     ],
     component: <DistributionGraph />,
   },
@@ -92,7 +93,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <StackedBarChart color="primary" />,
     id: 'GD',
-    organisms: ['sentericaints'],
+    organisms: ['sentericaints', 'senterica'],
     component: <DistributionGraph />,
   },
   {
@@ -162,5 +163,5 @@ export const continentGraphCard = {
 export const continentPGraphCard = {
   title: 'Pathotype Comparisons',
   icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
+  organisms: ['shige', 'decoli', 'sentericaints'],
 };

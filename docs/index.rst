@@ -6,25 +6,34 @@
 .. toctree::
     :caption: Dashboard
     :hidden:
-    
+
     User guide <userguide>
     Dashboard usage <usage>
     Data access  <data>
     Data rights <right>
-   
+
+.. toctree::
+    :caption: API & Integration
+    :hidden:
+
+    API Reference <api>
+    FARM Stack GUI <gui>
+    Data Dictionary <data>
+
 .. toctree::
     :caption: For developers
     :hidden:
 
     Installation <installation>
     Features <feature>
+    Developer Guide <../DEVELOPER_GUIDE>
     contributing
     Code of Conduct <codeofconduct>
     License <license>
     .. Changelog <https://github.com/amrnet/amrnet/releases>
 
 
-.. .. image:: assets/amrnet-logo.png   
+.. .. image:: assets/amrnet-logo.png
 ..     :class: only-light
 ..     :width: 25%
 .. .. image:: assets/amrnet-logo.png
@@ -60,7 +69,7 @@ Quick start
 
 Features
 --------
-.. container:: justify-text 
+.. container:: justify-text
 
     See the complete list of ``AMRnet`` features :ref:`here<label-features>`.
 

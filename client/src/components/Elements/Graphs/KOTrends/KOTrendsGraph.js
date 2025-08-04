@@ -108,7 +108,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     const map = new Map();
     currentData.forEach(cur => {
       Object.keys(cur).forEach(key => {
-        if (key !== 'name' && key !== 'count') {
+        if (key !== 'name' && key !== 'count' && key != null && key !== undefined && key !== '' && key !== '-' && key.toString().trim() !== '') {
           map.set(key, (map.get(key) || 0) + cur[key]);
         }
       });
@@ -117,7 +117,8 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     return Array.from(map)
       .sort((a, b) => b[1] - a[1])
       .slice(0, currentSliderValueKOT)
-      .map(([key]) => key);
+      .map(([key]) => key)
+      .filter(key => key != null && key !== undefined && key !== '' && key !== '-' && key.toString().trim() !== '');
   }, [currentData, currentSliderValueKOT]);
 
   useEffect(() => {
@@ -141,18 +142,18 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
         let count = 0;
 
         for (const key in item) {
-          if (!topXKO.includes(key) && !exclusions.includes(key)) {
+          if (!topXKO.includes(key) && !exclusions.includes(key) && key != null && key !== undefined && key !== '-' && key.toString().trim() !== '') {
             count += item[key];
           }
 
-          if (organism !== 'styphi' && key in colorPallete && !exclusions.includes(key)) {
+          if (organism !== 'styphi' && key in colorPallete && !exclusions.includes(key) && key != null && key !== undefined && key !== '-' && key.toString().trim() !== '') {
             filteredItems[key] = item[key];
           }
         }
 
         return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: count };
       })
-      // .filter(x => x.count >= 10);
+      .filter(x => x.count >= 10);
 
     const percentageArray = structuredClone(baseArray)
       .map(item => {
@@ -162,7 +163,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
         });
         return item;
       })
-      // .filter(x => x.count >= 10);
+      .filter(x => x.count >= 10);
 
     return { newArray: baseArray, newArrayPercentage: percentageArray };
   }, [colorPallete, currentData, organism, topXKO]);
@@ -183,7 +184,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     setCurrentEventSelected(event);
     const data = newArray.find(item => item.name === event?.activeLabel);
 
-    if (data && data.count >= 10) {
+    if (data && data.count >0) {
       const currentData = structuredClone(data);
 
       const value = {
@@ -251,14 +252,14 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     let allYears = [];
     if (data.length > 0) {
       allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
-      const existingYears = data.filter(d => d.count >= 10).map(d => d.name.toString());
+      const existingYears = data.map(d => d.name.toString());
 
       allYears.forEach(year => {
         if (!existingYears.includes(year)) {
-          const index = data.findIndex(d => d.name === year);
-            if (index !== -1) {
-              data.splice(index, 1); // Remove existing entry in-place
-            }
+          // const index = data.findIndex(d => d.name === year);
+          //   if (index !== -1) {
+          //     data.splice(index, 1); // Remove existing entry in-place
+          //   }
           data.push({
             name: year,
             count: 0,
@@ -294,8 +295,8 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
               stroke="rgb(31, 187, 211)"
               startIndex={allYears.findIndex(x => x === '2000') || 0}
               onChange={({ startIndex, endIndex }) => {
-                dispatch(setStartTimeKOT(data[startIndex]?.name)); // updated value based on Brush drag
-                dispatch(setEndTimeKOT(data[endIndex]?.name));
+                dispatch(setStartTimeKOT(currentData[startIndex]?.name));
+                dispatch(setEndTimeKOT(currentData[endIndex]?.name));
               }}
             />
           )}
@@ -306,7 +307,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
                 {payload.map(entry => {
                   const { dataKey, color } = entry;
 
-                  if (dataKey === 'Insufficient data') {
+                  if (dataKey === 'Insufficient data' || dataKey == null || dataKey === undefined || dataKey === '' || dataKey === '-' || dataKey.toString().trim() === '') {
                     return null;
                   }
 
@@ -333,9 +334,11 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
             }
           />
 
-          {topXKO.map((genotype, index) => (
-            <Bar key={`bar-${genotype}`} dataKey={genotype} stackId={0} fill={getColor(genotype)} />
-          ))}
+          {topXKO
+            .filter(genotype => genotype != null && genotype !== undefined && genotype !== '' && genotype !== '-' && genotype.toString().trim() !== '')
+            .map((genotype) => (
+              <Bar key={`bar-${genotype}`} dataKey={genotype} stackId={0} fill={getColor(genotype)} />
+            ))}
 
           <Bar dataKey="Other" stackId={0} fill={lightGrey} />
           <Bar dataKey="Insufficient data" stackId={0} fill={getColor('Other')} />
