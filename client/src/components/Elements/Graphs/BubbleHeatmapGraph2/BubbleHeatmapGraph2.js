@@ -128,7 +128,12 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
     switch (xAxisType) {
       case 'genotype':
         if (organism === 'kpneumo') {
-          return variableGraphOptions.find(x => x.value === bubbleHeatmapGraphVariable).mapValue;
+          const variableOption = variableGraphOptions.find(x => x.value === bubbleHeatmapGraphVariable);
+          if (!variableOption) {
+            console.warn(`BubbleHeatmapGraph2: bubbleHeatmapGraphVariable '${bubbleHeatmapGraphVariable}' not found in variableGraphOptions. Falling back to 'GENOTYPE'.`);
+            return 'GENOTYPE';
+          }
+          return variableOption.mapValue;
         }
         return 'GENOTYPE';
       case 'pathotype':

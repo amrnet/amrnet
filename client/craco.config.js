@@ -5,6 +5,10 @@
   webpack-dev-server that is triggered by react-scripts.
 */
 module.exports = {
+  eslint: {
+    enable: process.env.REACT_APP_ESLINT_ENABLE === 'true',
+    mode: process.env.REACT_APP_ESLINT_ENABLE === 'true' ? 'extends' : 'file',
+  },
   devServer: devServerConfig => {
     /*
       The 'onBeforeSetupMiddleware' and 'onAfterSetupMiddleware' options are deprecated.

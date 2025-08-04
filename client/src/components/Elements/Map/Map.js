@@ -114,31 +114,31 @@ export const Map = () => {
                 ? {
                     Samples: countryData.count,
                     Genotypes: countryStats.GENOTYPE.count,
-                    H58: `${countryStats.H58.percentage}%`,
-                    'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
-                    'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
-                    Azithromycin: `${countryStats.Azithromycin.percentage}%`,
-                    CipR: `${countryStats.CipR.percentage}%`,
-                    CipNS: `${countryStats.CipNS.percentage}%`,
-                    Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
+                    // H58: `${countryStats.H58.percentage}%`,
+                    // 'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
+                    // 'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
+                    // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
+                    // CipR: `${countryStats.CipR.percentage}%`,
+                    // CipNS: `${countryStats.CipNS.percentage}%`,
+                    // Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
                   }
                 : organism === 'kpneumo'
                   ? {
                       Samples: countryData.count,
                       STs: countryStats.GENOTYPE.count,
-                      ESBL: `${countryStats.ESBL.percentage}%`,
-                      Carbapenems: `${countryStats.Carbapenems.percentage}%`,
+                      // ESBL: `${countryStats.ESBL.percentage}%`,
+                      // Carbapenems: `${countryStats.Carbapenems.percentage}%`,
                       // Susceptible: `${countryStats.Susceptible.percentage}%`,
                     }
                   : organism === 'ngono'
                     ? {
                         Samples: countryData.count,
                         Genotypes: countryStats.GENOTYPE.count,
-                        'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
-                        'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
-                        Azithromycin: `${countryStats.Azithromycin.percentage}%`,
-                        Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
-                        Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
+                        // 'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
+                        // 'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
+                        // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
+                        // Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
+                        // Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
                         // Susceptible: `${countryStats.Susceptible.percentage}%`,
                       }
                     : {

@@ -1,6 +1,6 @@
 {
   "appTitle": "AMRnet",
-  "welcomeMessage": "Welcome to AMRnet dashboard",  
+  "welcomeMessage": "Welcome to AMRnet dashboard",
   "dashboard": {
     "title": "AMRnet Dashboard ",
     "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system."
@@ -8,6 +8,7 @@
   "navigation": {
     "home": "Home",
     "about": "About Us",
+    "team": "Team",
     "contact": "Contact",
     "database": "Database",
     "userguide": "User Guide"

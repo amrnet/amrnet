@@ -6,12 +6,14 @@ import { removeOrganism } from '../../stores/slices/dashboardSlice';
 import { MainLayout } from '../Layout';
 import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography, useMediaQuery } from '@mui/material';
 import { organismsCards } from '../../util/organismsCards';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 export const HomePage = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const matches600 = useMediaQuery('(max-width: 600px)');
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [organismCounts, setOrganismCounts] = useState({});
@@ -37,14 +39,7 @@ export const HomePage = () => {
 
   return (
     <MainLayout>
-      <Card className={classes.card} style={{ padding: matches600 ? '8px 0px' : '' }}>
-        {/* <CardContent className={classes.cardContent}>
-          <Typography variant="body4" fontWeight="500" align="justify" className={classes.title}>
-            AMRnet displays antimicrobial resistance data derived from genomic surveillance, for priority organisms.
-            Click an organism below to view its data dashboard.
-          </Typography>
-        </CardContent> */}
-
+      <Card className={classes.card} style={{ padding: matches600 ? '0px 0px' : '' }}>
         <CardContent className={classes.organisms}>
           <Grid container>
             {organismsCards

@@ -1,0 +1,50 @@
+{
+  "name": "amrnet-optimization-scripts",
+  "version": "1.0.0",
+  "description": "Performance optimization and deployment readiness scripts for AMRnet Heroku/Atlas stack",
+  "scripts": {
+    "optimize:check": "node scripts/heroku-atlas-optimizer.js",
+    "optimize:deploy": "node scripts/deployment-readiness.js",
+    "test:performance": "node scripts/performance-test.js",
+    "serve:optimized": "node server.js",
+    "build:optimized": "cd client && npm run build && cd ..",
+    "heroku:prepare": "npm run build:optimized && npm run optimize:check"
+  },
+  "optimizations": {
+    "backend": {
+      "compression": "✅ Enabled with 6-level compression",
+      "field-projection": "✅ Optimized MongoDB queries",
+      "parallel-endpoints": "✅ Organism-specific API routes",
+      "caching": "✅ Request deduplication and memory caching"
+    },
+    "frontend": {
+      "parallel-loading": "✅ Promise.all for concurrent requests",
+      "on-demand-filtering": "✅ Load filters only when needed",
+      "data-optimization": "✅ Minimal field requests",
+      "performance-monitoring": "✅ Atlas/Heroku specific metrics"
+    },
+    "heroku-specific": {
+      "compression-middleware": "✅ Express compression enabled",
+      "memory-efficiency": "✅ Smart caching to reduce Atlas queries",
+      "timeout-handling": "✅ Request timeout optimization",
+      "dyno-monitoring": "✅ Performance metrics logging"
+    }
+  },
+  "performance-targets": {
+    "payload-reduction": "60-80% (from 75MB baseline)",
+    "response-time": "<2s for chart data",
+    "cache-hit-rate": ">70% for repeated requests",
+    "atlas-latency": "<100ms (same region)",
+    "memory-usage": "<512MB per dyno"
+  },
+  "deployment-checklist": [
+    "✅ Compression middleware configured",
+    "✅ Optimized API endpoints created",
+    "✅ Frontend parallel loading implemented",
+    "✅ Caching layer added",
+    "✅ Performance monitoring enabled",
+    "⏳ Heroku/Atlas region proximity verified",
+    "⏳ Performance targets validated",
+    "⏳ Production deployment tested"
+  ]
+}
