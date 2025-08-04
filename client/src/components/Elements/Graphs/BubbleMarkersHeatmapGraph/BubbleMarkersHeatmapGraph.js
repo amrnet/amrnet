@@ -67,7 +67,8 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [actualCountry, actualRegion, mapData, mapRegionData]);
 
   const statColumn = useMemo(() => {
-    return variableGraphOptions.find(x => x.value === bubbleMarkersHeatmapGraphVariable).mapValue;
+    const foundOption = variableGraphOptions.find(x => x.value === bubbleMarkersHeatmapGraphVariable);
+    return foundOption?.mapValue || null;
   }, [bubbleMarkersHeatmapGraphVariable]);
 
   const yAxisOptions = useMemo(() => {
@@ -100,7 +101,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [yAxisOptions, markerSearch]);
 
   const xAxisOptions = useMemo(() => {
-    return selectedCRData?.stats[statColumn]?.items?.map(x => x.name) ?? [];
+    return statColumn ? selectedCRData?.stats[statColumn]?.items?.map(x => x.name) ?? [] : [];
   }, [selectedCRData?.stats, statColumn]);
 
   const filteredXAxisOptions = useMemo(() => {
@@ -127,7 +128,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
 
   const getOptionLabel = useCallback(
     item => {
-      const totalCount = selectedCRData?.stats[statColumn].items.find(x => x.name === item)?.count ?? 0;
+      const totalCount = statColumn ? selectedCRData?.stats[statColumn]?.items?.find(x => x.name === item)?.count ?? 0 : 0;
 
       return `${item} (total N=${totalCount})`;
     },
@@ -209,7 +210,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }
 
   const configuredMapData = useMemo(() => {
-    if (!selectedCRData || yAxisSelected.length === 0) {
+    if (!selectedCRData || yAxisSelected.length === 0 || !statColumn) {
       return [];
     }
 

@@ -4,8 +4,10 @@ import { Note } from '../Elements/Note';
 import { Map } from '../Elements/Map';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { loadOrganismQuickly } from '../../utils/quickPaginationFix';
 import { DownloadData } from '../Elements/DownloadData';
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
+// import optimizedDataService from '../../services/optimizedDataService'; // Unused import
 import {
   setActualCountry,
   setActualGenomes,
@@ -26,6 +28,7 @@ import {
   setOrganism,
   setPathovar,
   setSelectedLineages,
+  setAvailableDrugs,
   setEconomicRegions,
   setActualRegion,
   setSerotype,
@@ -116,13 +119,40 @@ import {
   markersDrugsKP,
   drugsECOLI,
 } from '../../util/drugs';
+import { drugRulesKP } from '../../util/drugClassesRules';
 import { useIndexedDB } from '../../context/IndexedDBContext';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
 import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
 import { continentPGraphCard } from '../../util/graphCards';
-import { genotypes } from '../../util/genotypes';
+import GenotypeLoadingIndicator from '../Elements/GenotypeLoadingIndicator';
+import smartDataProcessor from '../../services/smartDataProcessor';
+import { isPlainObject } from '@reduxjs/toolkit';
 
+// The optimized data service is already imported as an instance
+// No need to create a new instance
+
+/**
+ * DashboardPage - Main dashboard component for AMRnet application
+ *
+ * This component manages the entire dashboard interface including:
+ * - Organism data loading and processing
+ * - Map visualization and data filtering
+ * - Graph generation and display
+ * - State management for filters and selections
+ *
+ * Features:
+ * - Progressive data loading for large datasets
+ * - IndexedDB caching for performance
+ * - Organism-specific configurations
+ * - Real-time data filtering and updates
+ *
+ * @component
+ * @example
+ * return (
+ *   <DashboardPage />
+ * )
+ */
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
   const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('cgST');
@@ -159,7 +189,18 @@ export const DashboardPage = () => {
   const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
   const startTimeKOT = useAppSelector(state => state.graph.startTimeKOT);
   const endTimeKOT = useAppSelector(state => state.graph.endTimeKOT);
-  // Get info either from indexedDB or mongoDB
+
+  // Add missing variables
+  const mapView = useAppSelector(state => state.map.mapView);
+
+  /**
+   * Get info either from indexedDB or mongoDB
+   *
+   * @param {string} storeName - Name of the data store
+   * @param {Function} handleGetData - Function to retrieve data if not cached
+   * @param {boolean} clearStore - Whether to clear the store before adding new data
+   * @returns {Promise<any>} Retrieved or generated data
+   */
   async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
     // Check if organism data is already in indexedDB
     const storeHasItems = await hasItems(storeName);
@@ -186,8 +227,20 @@ export const DashboardPage = () => {
     return organismData;
   }
 
-  // This function is only called once, after the csv is read. It gets all the static and dynamic data
-  // that came from the csv file and sets all the data the organism needs to show
+  /**
+   * Process and initialize data for a specific organism
+   *
+   * This function is called once after CSV data is loaded and sets up all the static
+   * and dynamic data that the organism needs for visualization including:
+   * - Genotype, country, and temporal filtering options
+   * - Map data generation for countries and regions
+   * - Drug resistance and convergence analysis
+   * - Color palettes and visualization settings
+   *
+   * @param {Array} responseData - Raw organism data from CSV/API
+   * @param {Array} regions - Geographic regions data
+   * @returns {Promise<void>}
+   */
   async function getInfoFromData(responseData, regions) {
     const dataLength = responseData.length;
 
@@ -222,44 +275,58 @@ export const DashboardPage = () => {
     responseData.forEach(x => {
       // country
       const country = getCountryDisplayName(x.COUNTRY_ONLY);
-      if (country !== ' ') countriesSet.add(country);
+      if (country && country !== ' ' && country !== '') {
+        countriesSet.add(country);
+      }
 
       // genotype
       const genotypeKey = 'GENOTYPE';
-      if (genotypeKey in x) {
+      if (genotypeKey in x && x[genotypeKey] && x[genotypeKey] !== '') {
         genotypesSet.add(x[genotypeKey]?.toString());
       }
 
       // year
-      yearsSet.add(x.DATE);
+      if (x.DATE && x.DATE !== '') {
+        yearsSet.add(x.DATE);
+      }
 
       // others
       // if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
-      if ('PMID' in x) PMIDSet.add(x['PMID']);
+      if ('PMID' in x && x['PMID'] && x['PMID'] !== '') {
+        PMIDSet.add(x['PMID']);
+      }
 
       // pathovar and serotype
       if (['sentericaints'].includes(organism)) {
-        pathovarSet.add(x.SISTR1_Serovar);
+        if (x.SISTR1_Serovar && x.SISTR1_Serovar !== '') {
+          pathovarSet.add(x.SISTR1_Serovar);
+        }
       }
       if (['ecoli', 'shige', 'decoli'].includes(organism)) {
-        pathovarSet.add(x.Pathovar);
+        if (x.Pathovar && x.Pathovar !== '') {
+          pathovarSet.add(x.Pathovar);
+        }
       }
       if (['senterica'].includes(organism)) {
         // pathovarSet.add(x.SeqSero2_Serovar);
-        pathovarSet.add(x['SISTR1 Serovar']);
+        if (x['SISTR1 Serovar'] && x['SISTR1 Serovar'] !== '') {
+          pathovarSet.add(x['SISTR1 Serovar']);
+        }
       }
       if (['decoli', 'ecoli', 'shige'].includes(organism)) {
-        serotypeSet.add(x.Serotype);
+        if (x.Serotype && x.Serotype !== '') {
+          serotypeSet.add(x.Serotype);
+        }
       }
     });
 
-    const genotypes = Array.from(genotypesSet);
+    const genotypes = Array.from(genotypesSet).filter(Boolean);
     // const ngmast = Array.from(ngmastSet);
-    const years = Array.from(yearsSet);
-    const countries = Array.from(countriesSet);
-    const PMID = Array.from(PMIDSet);
-    const pathovar = Array.from(pathovarSet);
-    const serotype = Array.from(serotypeSet);
+    const years = Array.from(yearsSet).filter(Boolean);
+    const countries = Array.from(countriesSet).filter(Boolean);
+    const PMID = Array.from(PMIDSet).filter(Boolean);
+    const pathovar = Array.from(pathovarSet).filter(Boolean);
+    const serotype = Array.from(serotypeSet).filter(Boolean);
 
     // Sort values
     genotypes.sort((a, b) => a.localeCompare(b));
@@ -271,7 +338,7 @@ export const DashboardPage = () => {
     if (pathovar.length > 0) {
       dispatch(setSelectedLineages(pathovar));
     }
-    if( organism == 'kpneumo' ){
+    if( organism === 'kpneumo' ){
       dispatch(setSelectedLineages(['ESBL+', 'CARB+']));
     }
 
@@ -285,6 +352,21 @@ export const DashboardPage = () => {
     // dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
     dispatch(setSerotype(serotype));
+
+    // Set available drugs based on organism
+    const organismDrugMap = {
+      styphi: defaultDrugsForDrugResistanceGraphST,
+      ngono: defaultDrugsForDrugResistanceGraphNG,
+      kpneumo: drugsKP,
+      senterica: drugsINTS,
+      sentericaints: drugsINTS,
+      ecoli: drugsECOLI,
+      decoli: drugsECOLI,
+      shige: drugsECOLI,
+    };
+
+    const availableDrugs = organismDrugMap[organism] || [];
+    dispatch(setAvailableDrugs(availableDrugs));
 
     // Set regions
     Object.keys(ecRegions).forEach(key => {
@@ -384,10 +466,13 @@ export const DashboardPage = () => {
           dispatch(setDrugsYearData(drugsData));
           dispatch(setGenotypesAndDrugsYearData(genotypesAndDrugsData));
           dispatch(setGenotypesForFilterDynamic(uniqueGenotypes));
-          if (organism !== 'styphi' && organism !== 'senterica') {
-            // dispatch(setGenotypesForFilter(uniqueGenotypes));
+          // Only set color palette for non-paginated organisms
+          // Paginated organisms (kpneumo, decoli, ecoli) will have their color palette
+          // set by the progressiveGenotypeLoader after all data is processed
+          if (organism !== 'styphi' && organism !== 'senterica' && !['kpneumo', 'decoli', 'ecoli'].includes(organism)) {
             dispatch(setColorPallete(generatePalleteForGenotypes(genotypes)));
-          }if (organism === 'senterica') {
+          }
+          if (organism === 'senterica') {
             dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
           }
 
@@ -481,16 +566,315 @@ export const DashboardPage = () => {
     ]);
   }
 
-  // This function gets the organism data and set specific filters accordingly to it
-  async function getData({ storeName, endpoint }) {
+  /**
+   * Load organism data using pagination to prevent browser freezing
+   *
+   * This method is optimized for large datasets (kpneumo, ecoli, decoli)
+   * that can cause browser performance issues when loaded all at once.
+   *
+   * @param {string} organism - Organism identifier (e.g., 'kpneumo', 'ecoli')
+   * @returns {Promise<void>}
+   */
+  async function getDataWithPagination(organism) {
+    dispatch(setLoadingData(true));
+    const startTime = performance.now();
+
+    try {
+      const organismData = await loadOrganismQuickly(organism, (message) => {
+        // Progress message logging removed for production
+      });
+
+      // Store organism data in IndexedDB
+      await bulkAddItems(organism, organismData);
+
+      // Get regions data
+      const regions = await getStoreOrGenerateData('unr', async () => {
+        return (await axios.get('/api/getUNR')).data;
+      });
+
+      // Process the data
+      await getInfoFromData(organismData, regions);
+
+      // Set organism-specific configurations
+      dispatch(setDataset('All'));
+      setOrganismSpecificConfig(organism, true); // true = isPaginated
+
+      const endTime = performance.now();
+
+    } catch (error) {
+      console.error(`Error loading ${organism}:`, error);
+      // Fallback to original method
+      const endpoint = organism === 'kpneumo' ? 'getDataForKpneumo' :
+                     organism === 'ecoli' ? 'getDataForEcoli' : 'getDataForDEcoli';
+      getData({ storeName: organism, endpoint });
+    } finally {
+      dispatch(setLoadingData(false));
+    }
+  }
+
+  // Quick fix for freezing organisms using pagination
+  async function getDataQuick(organism) {
+    dispatch(setLoadingData(true));
+    const startTime = performance.now();
+
+    try {
+      console.log(`🚀 [QUICK FIX] Starting quick load for ${organism}`);
+
+      const organismData = await loadOrganismQuickly(organism, (message) => {
+        console.log(`⏳ [QUICK FIX] ${message}`);
+      });
+
+      // CRITICAL FIX: Store organism data in IndexedDB (was missing)
+      console.log(`💾 [QUICK FIX] Storing ${organism} data in IndexedDB (${organismData.length} records)`);
+      await bulkAddItems(organism, organismData);
+
+      // Get regions data
+      const regions = await getStoreOrGenerateData('unr', async () => {
+        return (await axios.get('/api/getUNR')).data;
+      });
+
+      // Process the data
+      await getInfoFromData(organismData, regions);
+
+      // Set organism configs
+      dispatch(setDataset('All'));
+      setOrganismSpecificConfig(organism, true); // true = isPaginated
+
+      const endTime = performance.now();
+      console.log(`✅ [QUICK FIX] ${organism} loaded in ${Math.round(endTime - startTime)}ms`);
+
+    } catch (error) {
+      console.error(`❌ [QUICK FIX] Error loading ${organism}:`, error);
+      // Fallback to original
+      const endpoint = organism === 'kpneumo' ? 'getDataForKpneumo' :
+                       organism === 'ecoli' ? 'getDataForEcoli' : 'getDataForDEcoli';
+      getData({ storeName: organism, endpoint });
+    } finally {
+      dispatch(setLoadingData(false));
+    }
+  }
+
+  // Progressive data loading to prevent browser freezing
+  async function getDataProgressive(organism) {
+    const clientStartTime = performance.now();
     dispatch(setLoadingData(true));
 
     try {
+      console.log(`� [PROGRESSIVE] Starting progressive load for ${organism}`);
+
+      // Temporary placeholder - ProgressiveDataLoader not implemented
+      const ProgressiveDataLoader = class {
+        async loadOrganismData() {
+          throw new Error('Progressive loading not implemented yet');
+        }
+      };
+
+      const loader = new ProgressiveDataLoader();
+
+      await loader.loadOrganismData(organism, {
+        onProgress: (progress) => {
+          console.log(`⏳ [PROGRESSIVE] ${progress.stage}: ${progress.message} (${progress.percentage}%)`);
+
+          // Update UI with partial data as it loads
+          if (progress.data) {
+            if (progress.data.mapData) {
+              // Load map data immediately - DISABLED: getMapData function call parameters mismatch
+              /*
+              const mapData = getMapData({
+                data: progress.data.mapData,
+                mapView: mapView,
+                genotypesForFilter: genotypesForFilter,
+                drugsForFilter: drugsForFilter,
+                actualTimeInitial: actualTimeInitial,
+                actualTimeFinal: actualTimeFinal,
+                actualCountry: actualCountry,
+                actualRegion: actualRegion,
+                actualDataset: actualDataset,
+                sampleSizeThreshold: sampleSizeThreshold
+              });
+              dispatch(setMapData(mapData));
+              */
+              console.log(`🗺️ [PROGRESSIVE] Map data updated with ${progress.data.mapData.length} records`);
+            }
+
+            if (progress.data.partialData) {
+              // Update filters and UI with partial data
+              const currentData = progress.data.partialData;
+              updateFiltersWithData(currentData);
+              console.log(`� [PROGRESSIVE] UI updated with ${currentData.length} records`);
+            }
+          }
+        },
+
+        onComplete: async (result) => {
+          console.log(`✅ [PROGRESSIVE] Complete! ${result.totalRecords} records loaded`);
+
+          // Get regions data
+          const regions = await getStoreOrGenerateData('unr', async () => {
+            return (await axios.get('/api/getUNR')).data;
+          });
+
+          // Final data processing
+          await getInfoFromData(result.data, regions);
+
+          const clientEndTime = performance.now();
+          const totalDuration = Math.round(clientEndTime - clientStartTime);
+          console.log(`✅ [PROGRESSIVE] Total loading time for ${organism}: ${totalDuration}ms`);
+        },
+
+        onError: (error) => {
+          console.error(`❌ [PROGRESSIVE] Error loading ${organism}:`, error);
+          // Fallback to original loading method
+          console.log(`🔄 [PROGRESSIVE] Falling back to original loading method...`);
+          getData({ storeName: organism, endpoint: getEndpointForOrganism(organism) });
+        }
+      });
+
+      // Set organism-specific configurations
+      dispatch(setDataset('All'));
+      setOrganismSpecificConfig(organism, false); // false = not paginated
+
+    } catch (error) {
+      console.error(`❌ [PROGRESSIVE] Error in progressive loading:`, error);
+      // Fallback to original method
+      getData({ storeName: organism, endpoint: getEndpointForOrganism(organism) });
+    } finally {
+      dispatch(setLoadingData(false));
+    }
+  }
+
+  // Helper function to get endpoint for organism
+  function getEndpointForOrganism(organism) {
+    const endpoints = {
+      'styphi': 'getDataForSTyphi',
+      'kpneumo': 'optimized/getDataForKpneumo',
+      'ngono': 'getDataForNgono',
+      'ecoli': 'optimized/getDataForEcoli',
+      'decoli': 'optimized/getDataForDEcoli',
+      'shige': 'getDataForShige',
+      'senterica': 'getDataForSenterica',
+      'sentericaints': 'getDataForSentericaints'
+    };
+    return endpoints[organism] || 'getDataForSTyphi';
+  }
+
+  // Helper function to update filters with partial data
+  function updateFiltersWithData(data) {
+    if (!data || data.length === 0) return;
+
+    // Extract basic filter data
+    const countries = [...new Set(data.map(item => item.Country || item.COUNTRY_ONLY).filter(Boolean))];
+    const years = [...new Set(data.map(item => item.Year || item.DATE).filter(Boolean))];
+    const genotypes = [...new Set(data.map(item => item.GENOTYPE).filter(Boolean))];
+
+    // Update Redux state with partial data
+    dispatch(setCountriesForFilter(countries.sort()));
+    dispatch(setYears(years.sort()));
+    dispatch(setGenotypesForFilter(genotypes.sort()));
+  }
+
+  /**
+   * Configure organism-specific settings for visualization
+   *
+   * Sets appropriate defaults for each organism including:
+   * - Map view mode (sample count vs resistance prevalence)
+   * - Drug resistance graph selections
+   * - Determinants graph drug classes
+   *
+   * @param {string} organism - Organism identifier
+   * @param {boolean} isPaginated - Whether organism uses paginated loading
+   */
+  function setOrganismSpecificConfig(organism, isPaginated = false) {
+    switch (organism) {
+      case 'styphi':
+        dispatch(setMapView('Resistance prevalence'));
+        if (!isPaginated) {
+          dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
+        }
+        dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
+        break;
+      case 'kpneumo':
+        // dispatch(setDatasetKP('All'));
+        dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
+        // Don't set drug selection for paginated organisms - let auto-selection effect handle it
+        if (!isPaginated) {
+          dispatch(setDrugResistanceGraphView(markersDrugsKP));
+          dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
+          dispatch(setTrendsGraphDrugClass('Carbapenems'));
+          dispatch(setTrendsGraphView('percentage'));
+          dispatch(setConvergenceGroupVariable('cgST'));
+          dispatch(setConvergenceColourVariable('cgST'));
+          dispatch(setCurrentConvergenceGroupVariable('cgST'));
+        }
+          dispatch(setDistributionGraphView('genotype'));
+          dispatch(setDistributionGraphVariable('genotype'));
+          dispatch(setKOTrendsGraphView('K_locus'));
+          dispatch(setKOTrendsGraphPlotOption('K_locus'));
+          dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
+          dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
+          dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
+          dispatch(setBubbleKOYAxisType('K_locus'));
+          dispatch(setBubbleMarkersYAxisType('K_locus'));
+        break;
+      case 'ngono':
+        dispatch(setMapView('Resistance prevalence'));
+        if (!isPaginated) {
+          dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
+        }
+        dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+        dispatch(setTrendsGraphDrugClass('Azithromycin'));
+        dispatch(setTrendsGraphView('percentage'));
+        break;
+      case 'sentericaints':
+      case 'senterica':
+        dispatch(setMapView('Resistance prevalence'));
+        if (!isPaginated) {
+          dispatch(setDrugResistanceGraphView(drugsINTS));
+        }
+        dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+        break;
+      case 'ecoli':
+        dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
+        break;
+      case 'decoli':
+        dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
+        break;
+      case 'shige':
+        if (!isPaginated) {
+          dispatch(setMapView('No. Samples'));
+          // Don't set drug selection for paginated organisms - let auto-selection effect handle it
+          dispatch(setDrugResistanceGraphView(drugsECOLI));
+          dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  // Original getData function kept as fallback
+  async function getData({ storeName, endpoint }) {
+    const clientStartTime = performance.now();
+    dispatch(setLoadingData(true));
+
+    try {
+      console.log(`📊 [CLIENT] Loading data for ${storeName} using endpoint: ${endpoint}...`);
+
       const organismData = await getStoreOrGenerateData(storeName, async () => {
+        console.log(`🌐 [CLIENT] Fetching from API: /api/${endpoint}`);
+        const apiStartTime = performance.now();
+
         const response = await axios.get(`/api/${endpoint}`, {
           maxContentLength: Infinity,
           maxBodyLength: Infinity,
         });
+
+        const apiEndTime = performance.now();
+        const apiDuration = Math.round(apiEndTime - apiStartTime);
+        const dataSize = JSON.stringify(response.data).length;
+
+        console.log(`📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.data.length} records`);
+
         return response.data;
       });
 
@@ -498,55 +882,58 @@ export const DashboardPage = () => {
         return (await axios.get('/api/getUNR')).data;
       });
 
+      const dataProcessingStart = performance.now();
       await getInfoFromData(organismData, regions);
+      const dataProcessingEnd = performance.now();
 
-      // Set all filters that need to be set after the data has been acquired
+      console.log(`⚙️ [CLIENT] Data processing: ${Math.round(dataProcessingEnd - dataProcessingStart)}ms`);
+
+      // Set organism-specific configurations
       dispatch(setDataset('All'));
-      switch (organism) {
-        case 'styphi':
-          dispatch(setMapView('Resistance prevalence'));
-          dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-          dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
-          break;
-        case 'kpneumo':
-          dispatch(setDatasetKP('All'));
-          dispatch(setMapView('Resistance prevalence'));
-          dispatch(setDrugResistanceGraphView(drugsKP));
-          dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-          dispatch(setTrendsGraphDrugClass('Carbapenems'));
-          dispatch(setTrendsGraphView('percentage'));
-          dispatch(setConvergenceGroupVariable('cgST'));
-          dispatch(setConvergenceColourVariable('cgST'));
-          setCurrentConvergenceGroupVariable('cgST');
-          // setCurrentConvergenceColourVariable('DATE');
-          break;
-        case 'ngono':
-          dispatch(setMapView('Resistance prevalence'));
-          dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
-          dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
-          dispatch(setTrendsGraphDrugClass('Azithromycin'));
-          dispatch(setTrendsGraphView('percentage'));
-          break;
-        case 'sentericaints':
-        case 'senterica':
-          dispatch(setMapView('Resistance prevalence'));
-          dispatch(setDrugResistanceGraphView(drugsINTS));
-          dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
-          break;
-        case 'ecoli':
-        case 'decoli':
-        case 'shige':
-          dispatch(setMapView('Resistance prevalence'));
-          dispatch(setDrugResistanceGraphView(drugsECOLI));
-          dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
-          break;
-        default:
-          break;
-      }
+      setOrganismSpecificConfig(organism, false); // false = not paginated
+
+      const clientEndTime = performance.now();
+      const totalDuration = Math.round(clientEndTime - clientStartTime);
+      console.log(`✅ [CLIENT] Total loading time for ${storeName}: ${totalDuration}ms`);
+
+    } catch (error) {
+      console.error('❌ [CLIENT] Error in getData:', error);
     } finally {
       dispatch(setLoadingData(false));
     }
   }
+
+  // Load essential graph data for immediate display (lightweight operations)
+  const loadEssentialGraphData = async (partialData, organism, ecRegions) => {
+    try {
+      console.log(`📊 Loading essential graph data with ${partialData.length} records...`);
+
+      // Generate basic map data from first chunk
+      const mapData = getMapData({
+        data: partialData,
+        items: Object.keys(ecRegions),
+        organism
+      });
+
+      dispatch(setMapData(mapData));
+      dispatch(setMapDataNoPathotype(mapData));
+
+      // Generate basic region map data
+      const mapRegionData = getMapData({
+        data: partialData,
+        items: ecRegions,
+        organism,
+        type: 'region'
+      });
+
+      dispatch(setMapRegionData(mapRegionData));
+      dispatch(setMapRegionDataNoPathotype(mapRegionData));
+
+      console.log(`✅ Essential graph data loaded`);
+    } catch (error) {
+      console.error('Error in loadEssentialGraphData:', error);
+    }
+  };
 
   // This useEffect is called everytime the organism changes, it resets all data and filters and
   // call the function to read the specific organism csv
@@ -607,22 +994,23 @@ export const DashboardPage = () => {
       dispatch(setCurrentSliderValueRD(20));
       dispatch(setCurrentSliderValueCM(20));
 
-      // Get data from organism
+      // Get data from organism - QUICK FIX for freezing
       switch (organism) {
         case 'styphi':
           getData({ storeName: organism, endpoint: 'getDataForSTyphi' });
           break;
         case 'kpneumo':
-          getData({ storeName: organism, endpoint: 'getDataForKpneumo' });
+        console.log('🚀 QUICK FIX: Using pagination for K. pneumoniae');
+          getDataQuick(organism);
           break;
         case 'ngono':
           getData({ storeName: organism, endpoint: 'getDataForNgono' });
           break;
         case 'ecoli':
-          getData({ storeName: organism, endpoint: 'getDataForEcoli' });
+          getDataQuick(organism);
           break;
         case 'decoli':
-          getData({ storeName: organism, endpoint: 'getDataForDEcoli' });
+          getDataQuick(organism);
           break;
         case 'shige':
           getData({ storeName: organism, endpoint: 'getDataForShige' });
@@ -635,6 +1023,25 @@ export const DashboardPage = () => {
           break;
         default:
           break;
+      }
+
+      // SAFETY FALLBACK: Always set drug options for paginated organisms
+      // This ensures dropdowns have options even if data loading fails
+      const organismDrugMap = {
+        styphi: defaultDrugsForDrugResistanceGraphST,
+        ngono: defaultDrugsForDrugResistanceGraphNG,
+        kpneumo: drugsKP,
+        senterica: drugsINTS,
+        sentericaints: drugsINTS,
+        ecoli: drugsECOLI,
+        decoli: drugsECOLI,
+        shige: drugsECOLI,
+      };
+
+      const fallbackDrugs = organismDrugMap[organism] || [];
+      if (fallbackDrugs.length > 0) {
+        console.log(`🔧 [FALLBACK] Setting fallback drugs for ${organism}:`, fallbackDrugs);
+        dispatch(setAvailableDrugs(fallbackDrugs));
       }
     } else {
       const organismParam = getURLparam('organism');
@@ -856,14 +1263,15 @@ export const DashboardPage = () => {
     dispatch(setCanFilterData(false));
   }
 
-  /* COMMENTED DUO TO RETURNING AN ERROR ON THE CONSOLE EVERYTIME THE WEBSITE IS OPEN, NEED TO DO A RE-EVALUACTION
+  /* COMMENTED DUE TO RETURNING AN ERROR ON THE CONSOLE EVERYTIME THE WEBSITE IS OPEN, NEED TO DO A RE-EVALUATION
   AND FIX THE FUNCTIONS THAT USED THE VARIABLES SET HERE
   THOSE VALUES ARE BEING USED ON Graphs.js ON THE Download Chart as PNG BUTTON AND ON DownloadData.js TO GENERATE
   THE PDF */
   useEffect(() => {
-    if (organism === 'none')
+    if (organism === 'none') {
       // To handle the error caused by this function (mentioned in above comment above)
       return; // due to passing "organism === 'none'"
+    }
     const fetchDataAndFilter = async () => {
       try {
         const data = await getItems(organism);
@@ -906,6 +1314,7 @@ export const DashboardPage = () => {
         <ResetButton data={data} />
       </MainLayout>
       <FloatingGlobalFilters />
+      <GenotypeLoadingIndicator />
     </>
   );
 };

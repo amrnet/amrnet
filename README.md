@@ -1,93 +1,77 @@
- <img src='assets/img/logo-prod.png' width="150" height="90">
+# AMRnet - Antimicrobial Resistance Dashboard
 
-![Main Code Base](https://img.shields.io/github/languages/top/amrnet/amrnet)
-![Version](https://img.shields.io/badge/version-1.0-red).
-![License](https://img.shields.io/badge/license-GPLv3-blue)
-![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet)
-![Open Issues](https://img.shields.io/github/issues-raw/amrnet/amrnet)
-![Repo Size](https://img.shields.io/github/repo-size/amrnet/amrnet)
-![License](https://img.shields.io/badge/license-GPLv3-blue)
-[![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
+<div align="center">
+  <img src="assets/img/logo-prod.png" alt="AMRnet Logo" width="200" height="120">
 
-Visiting the [AMRnet dashboard](https://www.amrnet.org) for more informations.
+  [![GitHub version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/amrnet/amrnet)
+  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+  [![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet)](https://github.com/amrnet/amrnet/commits/main)
+  [![Issues](https://img.shields.io/github/issues/amrnet/amrnet)](https://github.com/amrnet/amrnet/issues)
+  [![Stars](https://img.shields.io/github/stars/amrnet/amrnet)](https://github.com/amrnet/amrnet/stargazers)
+  [![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
 
-## Installation (for software development purposes only)
+  **Making genome-derived AMR surveillance data accessible worldwide**
 
-### Step 1. Install GIT, NPM and MongoDB
+  [🌐 Live Dashboard](https://www.amrnet.org) | [📖 Documentation](https://amrnet.readthedocs.io) | [🚀 Quick Start](#quick-start) | [💬 Community](https://github.com/amrnet/amrnet/discussions)
+</div>
 
-To install GIT, please visit [https://git-scm.com/](https://git-scm.com/).
+## 🎯 Overview
 
-To install NPM, please visit [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm).
+AMRnet is a comprehensive web-based platform that transforms complex antimicrobial resistance (AMR) genomic surveillance data into accessible, interactive visualizations. Our mission is to democratize access to high-quality AMR data for researchers, public health professionals, and policymakers worldwide.
 
-To install MongoDB, please visit [https://www.mongodb.com/try/download/community?tck=docs_server](https://www.mongodb.com/try/download/community?tck=docs_server).
+### ✨ Key Features
 
-Note: While installing MongoDB, check the option to install MongoDB Compass. If there's no option, you can download it here: [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass).
+- **🗺️ Interactive Global Maps** - Visualize resistance patterns across countries and regions
+- **📊 Trend Analysis** - Track resistance changes over time with dynamic graphs
+- **🔍 Advanced Filtering** - Explore data by organism, drug, genotype, and geography
+- **🌍 Multi-Language Support** - Available in English, French, Portuguese, and Spanish
+- **📱 Responsive Design** - Optimized for desktop, tablet, and mobile devices
+- **📁 Data Export** - Download filtered datasets for further analysis
+- **🔌 API Access** - Programmatic access to all data with comprehensive documentation
 
-### Step 2. Install YARN with the command
+### 🦠 Supported Organisms
+
+| Organism | Scientific Name | Key Features |
+|----------|----------------|--------------|
+| **S. Typhi** | *Salmonella* Typhi | Typhoid fever surveillance |
+| **K. pneumoniae** | *Klebsiella pneumoniae* | Healthcare-associated infections |
+| **N. gonorrhoeae** | *Neisseria gonorrhoeae* | Gonorrhea resistance monitoring |
+| **E. coli** | *Escherichia coli* | ESBL and carbapenemase tracking |
+| **Shigella** | *Shigella* spp. | Dysentery and MDR monitoring |
+| **Salmonella** | *Salmonella enterica* | Non-typhoidal Salmonella surveillance |
+
+## 🚀 Quick Start
+
+### For Users
+
+1. **🌐 Visit the Dashboard**: Go to [amrnet.org](https://www.amrnet.org)
+2. **🦠 Select an Organism**: Choose from our supported organisms
+3. **🔍 Apply Filters**: Customize your view by geography, time, and resistance
+4. **📊 Explore Visualizations**: Interact with maps and graphs
+5. **📥 Export Data**: Download results for your analysis
+
+### For Developers
 
 ```bash
-npm install -g yarn
+# Clone the repository
+git clone https://github.com/amrnet/amrnet.git
+cd amrnet
+
+# Install dependencies
+npm install
+cd client && npm install && cd ..
+
+# Set up environment
+cp .env.example .env
+# Edit .env with your MongoDB connection string
+
+# Start development servers
+npm run start:dev
 ```
 
-## Table of Contents
+Visit `http://localhost:3000` to see the application running locally.
 
-- [Installation](#installation)
-- [User guide](#user-guide)
-- [Citing](#citing)
-- [Funding & acknowledgements](#funding-acknowledgements)
-
-## Description
-
-The AMRnet dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.
-
-We started with Salmonella Typhi, built on our TyphiNET dashboard which uses data curated by the Global Typhoid Genomics Consortium (to improve data quality and identify which datasets are suitable for inclusion) and analysed in Pathogenwatch (to call AMR determinants and lineages from sequence data). More organisms will be added throughout 2024-25, using data sourced from analysis platforms such as Pathogenwatch, Enterobase, and potentially others.
-
--Visiting the AMRnet dashboard for more informations.
-Visit the AMRnet dashboard for more information.
-
-## Installation (for software development purposes only)
-
-#### 1. Install
-
-#### 1. Install <a href="https://git-scm.com/">GIT</a>, <a href="https://www.npmjs.com/get-npm">NPM</a> and <a href="https://www.mongodb.com/try/download/community?tck=docs_server">MongoDB</a>
-
-Context:
-
-````markdown
-### 1. Prerequisites: Install Git, Node.js (with npm), and MongoDB
-
-Visiting the [AMRnet dashboard](https://amrnetdev2-bda07af7e807.herokuapp.com/) for more informations.
-
-- **Git:** Download from [git-scm.com](https://git-scm.com/).
-- **Node.js and npm:** Download from [npmjs.com/get-npm](https://www.npmjs.com/get-npm) (npm is included with Node.js).
-- **MongoDB Community Server:** Download from [mongodb.com](https://www.mongodb.com/try/download/community?tck=docs_server).
-
-**Note:** While installing MongoDB, check the option to install MongoDB Compass. If not available during installation, download Compass separately from [mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass).
-
-## Installation (for software development purposes only)
-
-#### 1. Install <a href="https://git-scm.com/">GIT</a>, <a href="https://www.npmjs.com/get-npm">NPM</a> and <a href="https://www.mongodb.com/try/download/community?tck=docs_server">MongoDB</a>
-
-Note: While installing MongoDB, check the option to install MongoDB Compass. If there's no option, you can download it here:` <a href="https://www.mongodb.com/try/download/compass">MongoDB Compass</a>
-
-#### 2. Install YARN with the command
-
-<a href="https://git-scm.com/">GIT</a>, <a href="https://www.npmjs.com/get-npm">NPM</a> and <a href="https://www.mongodb.com/try/download/community?tck=docs_server">MongoDB</a>
-
-Note: While installing MongoDB, check the option to install MongoDB Compass. If there's no option, you can download it here:` <a href="https://www.mongodb.com/try/download/compass">MongoDB Compass</a>
-
-#### 2. Install YARN with the command
-
-````sh
-### 2. Install Yarn globally
-```bash
-npm install -g yarn
-
-#### 3. On the command line, run the commands
-
-```sh
-git clone https://github.com/amrnet/amrnet
-````
+**📚 Need more details?** Check our [Installation Guide](https://amrnet.readthedocs.io/en/latest/installation.html) and [Developer Guide](DEVELOPER_GUIDE.md).
 ````
 
 #### 4. Inside the project folder run this command to install the server dependencies
@@ -98,64 +82,236 @@ In the project root folder (`amrnet`), run:
 ```bash
 npm install
 
-#### 5. Inside the folder `/client`, run the previous command to install the client dependencies
+## 🏗️ Architecture
 
-#### 6. Inside the project folder, create a file named `.env`. Inside it, copy the following code
+AMRnet is built with modern web technologies for performance and scalability:
 
-```sh
-MONGODB_URI= (see item 7 from the manual)
-MONGODB_URI_ATLAS=(see item 7 from manual to access MongoDB Atlas cloud)
-````
+```
+Frontend (React 18)
+├── 🎨 Material-UI Components
+├── 📊 Recharts Visualizations
+├── 🗺️ React Simple Maps
+├── 🔄 Redux State Management
+└── 🌍 i18next Internationalization
 
-#### 7. When opening MongoDB Compass, you will see a white box with a connection string. Copy this string and paste it on the variable `MONGODB_URI`. After clicking the `Connect` button
+Backend (Node.js/Express)
+├── 🛡️ Express.js REST API
+├── 📊 MongoDB Database
+├── 🔍 Advanced Aggregation Pipelines
+├── 📁 CSV Data Processing
+└── 🚀 Performance Optimization
 
-### 7. Obtain Local MongoDB Connection String (for `MONGODB_URI`)
+Infrastructure
+├── 🐳 Docker Containers
+├── ☁️ MongoDB Atlas Cloud Database
+├── 🌐 CDN for Global Distribution
+└── 📝 Comprehensive Logging
+```
 
-1.  Open MongoDB Compass.
-2.  When connecting to your local MongoDB instance, Compass will use or show a connection string. This typically looks like `mongodb://localhost:27017` or `mongodb://127.0.0.1:27017`.
-3.  Copy this local connection string.
-4.  Paste it as the value for `MONGODB_URI` in your `.env` file.
+## 📖 Documentation
 
-#### 8. Finally, inside the project folder, run the command and wait for the program to open on your browser
+| Resource | Description | Link |
+|----------|-------------|------|
+| **User Guide** | Complete dashboard usage instructions | [📖 Read the Docs](https://amrnet.readthedocs.io/en/latest/userguide.html) |
+| **API Documentation** | RESTful API reference and examples | [🔌 API Docs](https://amrnet.readthedocs.io/en/latest/api.html) |
+| **Developer Guide** | Adding new organisms and contributing | [🛠️ Dev Guide](DEVELOPER_GUIDE.md) |
+| **Data Dictionary** | Data structure and field definitions | [📊 Data Docs](https://amrnet.readthedocs.io/en/latest/data.html) |
 
-````sh
-### 8. Run the Application
-From the project root folder, run the command and wait for the program to open in your browser:
+## 🛠️ Installation
+
+### Prerequisites
+
+- **Node.js** 18+ with npm
+- **MongoDB** 6.0+ (local or Atlas cloud)
+- **Git** for version control
+
+### Development Setup
+
+1. **Clone and Install**:
+   ```bash
+   git clone https://github.com/amrnet/amrnet.git
+   cd amrnet
+   npm install
+   ```
+
+2. **Client Dependencies**:
+   ```bash
+   cd client
+   npm install
+   cd ..
+   ```
+
+3. **Environment Configuration**:
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` with your configuration:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/amrnet
+   NODE_ENV=development
+   PORT=3000
+   ```
+
+4. **Start Development Servers**:
+   ```bash
+   npm run start:dev
+   ```
+
+The application will be available at `http://localhost:3000` with hot reloading enabled.
+
+### Production Deployment
+
+For production deployment instructions, see our [Deployment Guide](https://amrnet.readthedocs.io/en/latest/deployment.html).
+
+## 🔌 API Access
+
+AMRnet provides a comprehensive RESTful API for programmatic access to all data.
+
+### Quick Examples
+
 ```bash
-yarn start: prod
+# Get all S. Typhi data
+curl "https://api.amrnet.org/styphi"
 
-## Citing
+# Filter by country and year
+curl "https://api.amrnet.org/styphi?country=BGD&year_start=2020"
 
-If you use data/metadata from the AMRnet dashboard, or the analysis based on these data, please cite:
+# Get summary statistics
+curl "https://api.amrnet.org/styphi/summary"
+```
 
-DOI: <https://zenodo.org/doi/10.5281/zenodo.10810218>
-GitHub: <https://github.com/amrnet/amrnet/>
+### Python Integration
 
-## Funding & acknowledgements
+```python
+import requests
+import pandas as pd
 
-AMRnet is funded by the Wellcome Trust and based in Kat Holt's group at the London School of Hygiene and Tropical Medicine.
-````
-## User Guide
+# Fetch AMR data
+response = requests.get('https://api.amrnet.org/styphi',
+                       params={'country': 'USA', 'limit': 1000})
+data = response.json()
 
-For detailed instructions on how to use the AMRnet dashboard, please refer to our comprehensive user guide available on Read the Docs:
+# Convert to DataFrame
+df = pd.DataFrame(data['data'])
+print(f"Retrieved {len(df)} samples")
+```
 
-[AMRnet User Guide](https://amrnet.readthedocs.io/en/latest/user_guide.html)
+**📚 Full API Documentation**: [amrnet.readthedocs.io/api](https://amrnet.readthedocs.io/en/latest/api.html)
 
-This guide covers:
-- Navigating the dashboard
-- Understanding the visualizations
-- Filtering and exploring data
-- Interpreting results
-- Frequently Asked Questions
+## 🤝 Contributing
 
-## Contributing
+We welcome contributions from the global AMR surveillance community!
 
-We welcome contributions to AMRnet! If you're interested in contributing, please see our [contributing guidelines](CONTRIBUTING.md) for more information.
+### Ways to Contribute
 
-## License
+- **🐛 Report Bugs**: [Create an issue](https://github.com/amrnet/amrnet/issues/new?template=bug_report.md)
+- **💡 Suggest Features**: [Request features](https://github.com/amrnet/amrnet/issues/new?template=feature_request.md)
+- **🔧 Submit Code**: [Fork and create pull requests](https://github.com/amrnet/amrnet/fork)
+- **📖 Improve Documentation**: Help us make docs better
+- **🦠 Add Organisms**: Follow our [Developer Guide](DEVELOPER_GUIDE.md)
 
-AMRnet is released under the GPLv3 License. See the [LICENSE](LICENSE) file for more details.
+### Development Workflow
 
-## Contact
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
-For any inquiries or support, please open an issue on our [GitHub repository](https://github.com/amrnet/amrnet/issues) or contact us at [info@amrnet.org](mailto:info@amrnet.org).
+### Code Standards
+
+- **ESLint**: Follow our JavaScript style guide
+- **Prettier**: Code formatting consistency
+- **JSDoc**: Document all functions and components
+- **Testing**: Include unit tests for new features
+
+**📋 Full Contributing Guide**: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## 📜 Citation & Licensing
+
+### How to Cite
+
+If you use AMRnet data or visualizations in your work, please cite:
+
+```bibtex
+@software{amrnet2024,
+  title = {AMRnet: Global Antimicrobial Resistance Surveillance Dashboard},
+  author = {Holt, Kathryn E. and {AMRnet Team}},
+  year = {2024},
+  url = {https://www.amrnet.org},
+  doi = {10.5281/zenodo.10810218}
+}
+```
+
+**DOI**: [10.5281/zenodo.10810218](https://zenodo.org/doi/10.5281/zenodo.10810218)
+
+### License
+
+AMRnet is released under the **GNU General Public License v3.0** (GPL-3.0).
+
+- ✅ **Use** - Commercial and non-commercial use allowed
+- ✅ **Modify** - Create derivative works and modifications
+- ✅ **Distribute** - Share original and modified versions
+- ⚠️ **Share Alike** - Derivatives must use GPL-3.0 license
+- ⚠️ **Disclose Source** - Source code must be made available
+
+See [LICENSE](LICENSE) for full details.
+
+## 🎯 Funding & Acknowledgments
+
+### Primary Funding
+
+AMRnet is proudly funded by:
+
+- **🏛️ Wellcome Trust** - Core platform development and maintenance
+- **🎓 London School of Hygiene & Tropical Medicine** - Institutional support
+- **🤝 Global Partnership** - International collaboration network
+
+### Principal Investigator
+
+**Professor Kathryn E. Holt**
+*London School of Hygiene & Tropical Medicine*
+*Department of Infection Biology*
+
+### Acknowledgments
+
+We gratefully acknowledge:
+
+- **Global Typhoid Genomics Consortium** - Data curation and expertise
+- **Pathogenwatch Team** - Bioinformatics pipeline support
+- **EnteroBase Contributors** - Database infrastructure
+- **Open Source Community** - Technology stack and tools
+- **International Collaborators** - Data sharing and validation
+
+## 🆘 Support & Community
+
+### Getting Help
+
+| Type | Resource | Response Time |
+|------|----------|---------------|
+| **🐛 Bugs** | [GitHub Issues](https://github.com/amrnet/amrnet/issues) | 1-3 days |
+| **💡 Features** | [GitHub Discussions](https://github.com/amrnet/amrnet/discussions) | 3-7 days |
+| **📧 General** | info@amrnet.org | 5-10 days |
+| **📖 Documentation** | [Read the Docs](https://amrnet.readthedocs.io) | Self-service |
+
+### Community Guidelines
+
+We're committed to fostering an inclusive, welcoming community:
+
+- **🤝 Be Respectful** - Treat all community members with courtesy
+- **🎯 Stay On Topic** - Keep discussions relevant to AMR surveillance
+- **📚 Help Others** - Share knowledge and assist newcomers
+- **🔍 Search First** - Check existing issues before creating new ones
+- **📝 Be Clear** - Provide detailed bug reports and feature requests
+
+---
+
+<div align="center">
+
+  **AMRnet** - Powered by the global health community
+
+  [🌐 Dashboard](https://www.amrnet.org) • [📖 Docs](https://amrnet.readthedocs.io) • [💻 GitHub](https://github.com/amrnet/amrnet) • [📧 Contact](mailto:info@amrnet.org)
+
+  *Making AMR surveillance data accessible to everyone, everywhere*
+
+</div>

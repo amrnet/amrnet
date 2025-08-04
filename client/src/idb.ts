@@ -4,7 +4,7 @@ import * as compressJson from 'compress-json';
 type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
 
 const DB_NAME = 'amrnetdb';
-const DB_VERSION = 39;
+const DB_VERSION = 36;
 
 const OBJECT_STORES = [
   'styphi',
@@ -25,7 +25,7 @@ const OBJECT_STORES = [
   'kpneumo_map',
   'kpneumo_genotype',
   'kpneumo_years',
-  // 'kpneumo_ko',
+  'kpneumo_ko',
   'kpneumo_ko_years',
   'kpneumo_convergence',
   'kpneumo_map_regions',
@@ -33,7 +33,7 @@ const OBJECT_STORES = [
   'kpneumo_drugs_regions',
   'ngono_map',
   'ngono_genotype',
-  // 'ngono_ngmast',
+  'ngono_ngmast',
   'ngono_years',
   'ngono_map_regions',
   'ecoli_map',
@@ -111,7 +111,7 @@ export const decompressResponse = async (response: Response) => {
 };
 
 // Add an item to a specific store
-export const addItem = async (storeName: OrganismStore, item: any): Promise<IDBValidKey> => {
+export const addItem = async (storeName: OrganismStore, item: any): Promise<any> => {
   const db = await getDB();
   return db.put(storeName, item);
 };

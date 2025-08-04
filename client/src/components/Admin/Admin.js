@@ -271,7 +271,7 @@ export const AdminPage = () => {
           return false;
         }
       })
-      .catch((error) => {
+      .catch((_error) => {
         if (showPopup) {
           handleCheckChanges('Could not check for changes. Try again later.');
         }
@@ -381,7 +381,7 @@ export const AdminPage = () => {
   // Reset all changes made on the table
   async function resetChanges() {
     setSearch('');
-    let aux = JSON.parse(JSON.stringify(filters));
+    const aux = JSON.parse(JSON.stringify(filters));
     for (const key in aux) {
       aux[key] = '';
     }

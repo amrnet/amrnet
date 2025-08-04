@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ],
+  "rules": {
+    "no-console": ["warn", {
+      "allow": ["warn", "error"]
+    }],
+    "no-debugger": "error",
+    "no-alert": "warn",
+    "prefer-const": "error",
+    "no-unused-vars": ["error", {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_"
+    }],
+    "no-duplicate-imports": "error",
+    "no-unreachable": "error",
+    "no-undef": "error",
+    "react/jsx-no-comment-textnodes": "error",
+    "react/no-unescaped-entities": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/__tests__/**/*", "**/*.test.*", "**/*.spec.*"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
+}

@@ -58,6 +58,7 @@ interface DashboardState {
   serotype: Array<string>;
   economicRegions: Object;
   loadingPDF: boolean;
+  availableDrugs: Array<string>;
 }
 
 const initialState: DashboardState = {
@@ -102,6 +103,7 @@ const initialState: DashboardState = {
   economicRegions: {},
   serotype: [],
   loadingPDF: false,
+  availableDrugs: [],
 };
 
 export const dashboardSlice = createSlice({
@@ -237,6 +239,9 @@ export const dashboardSlice = createSlice({
     setLoadingPDF: (state, action: PayloadAction<boolean>) => {
       state.loadingPDF = action.payload;
     },
+    setAvailableDrugs: (state, action: PayloadAction<Array<string>>) => {
+      state.availableDrugs = action.payload;
+    },
   },
 });
 
@@ -280,6 +285,7 @@ export const {
   setCaptureKOT,
   setKOForFilterSelected,
   setLoadingPDF,
+  setAvailableDrugs,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

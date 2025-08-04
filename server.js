@@ -1,6 +1,7 @@
 import generateFile from './routes/api/generateDataAPIsFile.js';
 import generateFileClean from './routes/api/generateDataClean.js';
 import api from './routes/api/api.js';
+import optimized from './routes/api/optimized.js';
 import combine_files from './routes/api/combine_files.js';
 import mongo_controller from './controllers/controller_DB.js';
 import express from 'express';
@@ -12,6 +13,7 @@ import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
 import compression from 'compression';
+import performanceMonitor from './middleware/performanceMonitor.js';
 
 // REMOVED: import bodyParser from 'body-parser';
 
@@ -43,6 +45,7 @@ app.use(compression({
 // REMOVED: app.use(bodyParser.json({ limit: '400mb' }));
 
 // Middleware
+app.use(performanceMonitor); // Add performance monitoring first
 app.use(cors());
 app.use(express.json({ limit: '400mb' })); // ADDED: limit option
 app.use(express.urlencoded({ extended: true }));
@@ -61,6 +64,7 @@ app.use(function (req, res, next) {
 
 // Define routes API here
 app.use('/api', api);
+app.use('/api/optimized', optimized);
 app.use('/api/email', emailRouter);
 app.use('/api/file', generateFile);
 app.use('/api/data', generateFileClean);
@@ -77,8 +81,6 @@ app.use('/', function (req, res) {
 const PORT = process.env.PORT || 3000;
 
 // Start the API server and log a message when it's ready
-const server = app.listen(PORT, () => { // CHANGED: Used PORT constant
-  const port = server.address().port;
-  console.log(`Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`,
-  );
+const server = app.listen(PORT, () => {
+  console.log(`Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`);
 });
