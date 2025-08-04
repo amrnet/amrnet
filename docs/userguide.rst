@@ -22,16 +22,32 @@ Citation for AMRnet
 
 
 
-Dashboard code
-==============
+Dashboard Development
+=====================
 .. container:: justify-text
 
-   If you want to install the AMRnet code to develop your own dashboard instances, you can install ``AMRnet`` via `pip <https://pip.pypa.io/>`_ from
-   `PyPI <https://pypi.org/>`_:
+   If you want to install the AMRnet code to develop your own dashboard instances,
+   follow the installation instructions in the :doc:`Installation Guide <installation>`.
 
-      .. code:: shell
+   **Quick Start:**
 
-         pip install AMRnet
+   .. code-block:: shell
+
+      # Clone the repository
+      git clone https://github.com/amrnet/amrnet.git
+      cd amrnet
+
+      # Install dependencies
+      npm install
+      cd client && npm install && cd ..
+
+      # Set up environment
+      cp .env.example .env
+
+      # Start development servers
+      npm run start:dev
+
+   The application will be available at ``http://localhost:3000`` for development.
 
 
 License
