@@ -15,342 +15,403 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/es/LC_MESSAGES/deployment.po\n"
-"X-Crowdin-File-ID: 34\n"
+"X-Crowdin-File: /devrev-final/docs/locale/es/LC_MESSAGES/feature.po\n"
+"X-Crowdin-File-ID: 36\n"
 
-#: ../../deployment.rst:4
-msgid "Deployment Guide"
+#: ../../feature.rst:4
+msgid "Features"
 msgstr ""
 
-#: ../../deployment.rst:8
-msgid "This guide covers deployment strategies for AMRnet, including local development, staging environments, and production deployment on various platforms."
+#: ../../feature.rst:8
+msgid "AMRnet provides a comprehensive suite of features designed to make antimicrobial resistance (AMR) genomic surveillance data accessible and actionable for researchers, public health professionals, and policymakers worldwide."
 msgstr ""
 
-#: ../../deployment.rst:12
-msgid "Environment Setup"
+#: ../../feature.rst:13
+msgid "Interactive Visualizations"
 msgstr ""
 
-#: ../../deployment.rst:16
-msgid "AMRnet supports multiple deployment environments with different configurations:"
+#: ../../feature.rst:15
+msgid "**🗺️ Interactive Global Maps** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:19
-msgid "Development Environment"
+#: ../../feature.rst:18
+msgid "Visualize resistance patterns across countries and regions"
 msgstr ""
 
-#: ../../deployment.rst:23
-msgid "For local development with hot reloading and debugging:"
+#: ../../feature.rst:19
+msgid "Color-coded prevalence data with geographic distribution"
 msgstr ""
 
-#: ../../deployment.rst:38
-msgid "**Environment Variables (.env):**"
+#: ../../feature.rst:20
+msgid "Clickable countries for detailed filtering"
 msgstr ""
 
-#: ../../deployment.rst:52
-msgid "**Start Development Servers:**"
+#: ../../feature.rst:21
+msgid "Export capabilities for static maps (PNG format)"
 msgstr ""
 
-#: ../../deployment.rst:64
-msgid "Staging Environment"
+#: ../../feature.rst:22
+msgid "Responsive design that works on all devices"
 msgstr ""
 
-#: ../../deployment.rst:68
-msgid "For testing production builds locally:"
+#: ../../feature.rst:24
+msgid "**📊 Dynamic Trend Analysis** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:79
-msgid "Production Deployment"
+#: ../../feature.rst:27
+msgid "Track resistance changes over time with interactive graphs"
 msgstr ""
 
-#: ../../deployment.rst:82
-msgid "Heroku Deployment"
+#: ../../feature.rst:28
+msgid "Multiple chart types: line charts, bar charts, and scatter plots"
 msgstr ""
 
-#: ../../deployment.rst:86
-msgid "AMRnet is optimized for Heroku deployment with automatic build processes:"
+#: ../../feature.rst:29
+msgid "Temporal filtering by year, month, or custom date ranges"
 msgstr ""
 
-#: ../../deployment.rst:88
-msgid "**1. Heroku App Setup:**"
+#: ../../feature.rst:30
+msgid "Real-time data updates as filters are applied"
 msgstr ""
 
-#: ../../deployment.rst:101
-msgid "**2. Environment Configuration:**"
+#: ../../feature.rst:31
+msgid "Downloadable chart data and static images"
 msgstr ""
 
-#: ../../deployment.rst:110
-msgid "**3. Deployment:**"
+#: ../../feature.rst:33
+msgid "**🔍 Advanced Data Exploration** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:122
-msgid "**Heroku Configuration Files:**"
+#: ../../feature.rst:36
+msgid "Multi-dimensional filtering by organism, drug, genotype, and geography"
 msgstr ""
 
-#: ../../deployment.rst:124
-msgid "**Procfile:**"
+#: ../../feature.rst:37
+msgid "Dynamic legends with click-to-filter functionality"
 msgstr ""
 
-#: ../../deployment.rst:130
-msgid "**package.json (heroku-postbuild script):**"
+#: ../../feature.rst:38
+msgid "Cross-chart filtering that updates all visualizations simultaneously"
 msgstr ""
 
-#: ../../deployment.rst:141
-msgid "MongoDB Atlas Configuration"
+#: ../../feature.rst:39
+msgid "Custom aggregation options (counts vs. percentages)"
 msgstr ""
 
-#: ../../deployment.rst:145
-msgid "For production database deployment:"
+#: ../../feature.rst:40
+msgid "Real-time data validation and error handling"
 msgstr ""
 
-#: ../../deployment.rst:147
-msgid "**1. Atlas Cluster Setup:**"
+#: ../../feature.rst:43
+msgid "Supported Organisms"
 msgstr ""
 
-#: ../../deployment.rst:149
-msgid "Create MongoDB Atlas account"
+#: ../../feature.rst:45
+msgid "**🦠 Comprehensive Pathogen Coverage** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:150
-msgid "Create new cluster (M0 free tier for testing)"
+#: ../../feature.rst:48
+msgid "AMRnet supports surveillance data for eight major pathogens:"
 msgstr ""
 
-#: ../../deployment.rst:151
-msgid "Configure network access (whitelist your IPs)"
+#: ../../feature.rst:50
+msgid "**Salmonella Typhi** (*S.* Typhi) - Typhoid fever surveillance with H58 lineage tracking"
 msgstr ""
 
-#: ../../deployment.rst:152
-msgid "Create database user with read/write permissions"
+#: ../../feature.rst:51
+msgid "**Klebsiella pneumoniae** (*K. pneumoniae*) - Healthcare-associated infections and carbapenemase monitoring"
 msgstr ""
 
-#: ../../deployment.rst:154
-msgid "**2. Connection Configuration:**"
+#: ../../feature.rst:52
+msgid "**Neisseria gonorrhoeae** (*N. gonorrhoeae*) - Gonorrhea resistance monitoring with WHO surveillance data"
 msgstr ""
 
-#: ../../deployment.rst:161
-msgid "**3. Production Optimizations:**"
+#: ../../feature.rst:53
+msgid "**Escherichia coli** (*E. coli*) - ESBL and carbapenemase tracking, STEC surveillance"
 msgstr ""
 
-#: ../../deployment.rst:179
-msgid "Docker Deployment"
+#: ../../feature.rst:54
+msgid "**Diarrheagenic E. coli** (*dEcoli*) - Specialized diarrheal disease surveillance"
 msgstr ""
 
-#: ../../deployment.rst:183
-msgid "For containerized deployment:"
+#: ../../feature.rst:55
+msgid "**Shigella** (*Shigella* spp.) - Dysentery and MDR monitoring with serotype tracking"
 msgstr ""
 
-#: ../../deployment.rst:185
-msgid "**Dockerfile:**"
+#: ../../feature.rst:56
+msgid "**Salmonella enterica** (*S. enterica*) - Non-typhoidal Salmonella surveillance"
 msgstr ""
 
-#: ../../deployment.rst:214
-msgid "**docker-compose.yml:**"
+#: ../../feature.rst:57
+msgid "**Salmonella enterica INTS** - Invasive non-typhoidal Salmonella tracking"
 msgstr ""
 
-#: ../../deployment.rst:240
-msgid "**Deployment Commands:**"
+#: ../../feature.rst:60
+msgid "Internationalization"
 msgstr ""
 
-#: ../../deployment.rst:251
-msgid "AWS Deployment"
+#: ../../feature.rst:62
+msgid "**🌍 Multi-Language Support** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:255
-msgid "For AWS deployment using Elastic Beanstalk:"
+#: ../../feature.rst:65
+msgid "**English** (Default) - Comprehensive interface language"
 msgstr ""
 
-#: ../../deployment.rst:257
-msgid "**1. EB CLI Setup:**"
+#: ../../feature.rst:66
+msgid "**French** - Professional French translations with proper terminology"
 msgstr ""
 
-#: ../../deployment.rst:270
-msgid "**2. Configuration Files:**"
+#: ../../feature.rst:67
+msgid "**Portuguese (Brazil)** - Brazilian Portuguese with local conventions"
 msgstr ""
 
-#: ../../deployment.rst:272
-msgid "**.ebextensions/01_node_command.config:**"
+#: ../../feature.rst:68
+msgid "**Spanish** - International Spanish translations"
 msgstr ""
 
-#: ../../deployment.rst:282
-msgid "**3. Deploy:**"
+#: ../../feature.rst:69
+msgid "Visual flag-based language switcher"
 msgstr ""
 
-#: ../../deployment.rst:293
-msgid "Performance Optimization"
+#: ../../feature.rst:70
+msgid "Persistent language selection across sessions"
 msgstr ""
 
-#: ../../deployment.rst:297
-msgid "Production deployment optimizations for better performance:"
+#: ../../feature.rst:71
+msgid "Right-to-left language support ready"
 msgstr ""
 
-#: ../../deployment.rst:300
-msgid "Build Optimizations"
+#: ../../feature.rst:74
+msgid "User Experience"
 msgstr ""
 
-#: ../../deployment.rst:304
-msgid "**Client Build Configuration:**"
+#: ../../feature.rst:76
+msgid "**📱 Responsive Design** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:321
-msgid "Server Optimizations"
+#: ../../feature.rst:79
+msgid "Optimized for desktop, tablet, and mobile devices"
 msgstr ""
 
-#: ../../deployment.rst:325
-msgid "**Express.js Production Configuration:**"
+#: ../../feature.rst:80
+msgid "Touch-friendly interface for mobile users"
 msgstr ""
 
-#: ../../deployment.rst:352
-msgid "Database Optimizations"
+#: ../../feature.rst:81
+msgid "Adaptive layouts that work across screen sizes"
 msgstr ""
 
-#: ../../deployment.rst:356
-msgid "**MongoDB Production Indexes:**"
+#: ../../feature.rst:82
+msgid "Progressive web app capabilities"
 msgstr ""
 
-#: ../../deployment.rst:366
-msgid "Monitoring and Logging"
+#: ../../feature.rst:83
+msgid "Offline data caching for improved performance"
 msgstr ""
 
-#: ../../deployment.rst:370
-msgid "Production monitoring setup for performance and error tracking:"
+#: ../../feature.rst:85
+msgid "**🚀 Performance Optimization** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:373
-msgid "Application Monitoring"
+#: ../../feature.rst:88
+msgid "Lazy loading of data and components"
 msgstr ""
 
-#: ../../deployment.rst:377
-msgid "**Winston Logging Configuration:**"
+#: ../../feature.rst:89
+msgid "Intelligent caching to reduce server load"
 msgstr ""
 
-#: ../../deployment.rst:404
-msgid "**Performance Monitoring Middleware:**"
+#: ../../feature.rst:90
+#, python-format
+msgid "Compressed data transfer (up to 96% size reduction)"
 msgstr ""
 
-#: ../../deployment.rst:430
-msgid "Error Tracking"
+#: ../../feature.rst:91
+msgid "Parallel data loading for faster initial page loads"
 msgstr ""
 
-#: ../../deployment.rst:434
-msgid "**Sentry Integration:**"
+#: ../../feature.rst:92
+msgid "Background processing for large datasets"
 msgstr ""
 
-#: ../../deployment.rst:450
-msgid "Health Checks"
+#: ../../feature.rst:95
+msgid "Data Access & Export"
 msgstr ""
 
-#: ../../deployment.rst:454
-msgid "**Application Health Endpoint:**"
+#: ../../feature.rst:97
+msgid "**📁 Flexible Data Export** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:480
-msgid "Backup and Recovery"
+#: ../../feature.rst:100
+msgid "Download filtered datasets in CSV format"
 msgstr ""
 
-#: ../../deployment.rst:484
-msgid "Data backup strategies for production environments:"
+#: ../../feature.rst:101
+msgid "Export static visualizations (PNG, SVG)"
 msgstr ""
 
-#: ../../deployment.rst:487
-msgid "Database Backups"
+#: ../../feature.rst:102
+msgid "Generate PDF reports with current dashboard state"
 msgstr ""
 
-#: ../../deployment.rst:491
-msgid "**MongoDB Atlas Automated Backups:**"
+#: ../../feature.rst:103
+msgid "Custom data selection with field-level control"
 msgstr ""
 
-#: ../../deployment.rst:493
-msgid "Atlas provides automated backups with point-in-time recovery"
+#: ../../feature.rst:104
+msgid "Batch export capabilities for multiple organisms"
 msgstr ""
 
-#: ../../deployment.rst:494
-msgid "Configure backup schedule and retention policies"
+#: ../../feature.rst:106
+msgid "**🔌 API Access** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:495
-msgid "Test backup restoration procedures regularly"
+#: ../../feature.rst:109
+msgid "RESTful API with comprehensive documentation"
 msgstr ""
 
-#: ../../deployment.rst:497
-msgid "**Manual Backup Scripts:**"
+#: ../../feature.rst:110
+msgid "Programmatic access to all dashboard data"
 msgstr ""
 
-#: ../../deployment.rst:523
-msgid "Application Backups"
+#: ../../feature.rst:111
+msgid "Rate limiting and authentication for production use"
 msgstr ""
 
-#: ../../deployment.rst:527
-msgid "**Code and Configuration Backup:**"
+#: ../../feature.rst:112
+msgid "OpenAPI/Swagger documentation"
 msgstr ""
 
-#: ../../deployment.rst:536
-msgid "Security Considerations"
+#: ../../feature.rst:113
+msgid "SDK libraries for common programming languages"
 msgstr ""
 
-#: ../../deployment.rst:540
-msgid "Security best practices for production deployment:"
+#: ../../feature.rst:116
+msgid "Advanced Features"
 msgstr ""
 
-#: ../../deployment.rst:543
-msgid "Environment Security"
+#: ../../feature.rst:118
+msgid "**🔬 Scientific Analysis Tools** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:547
-msgid "**Secure Environment Variables:**"
+#: ../../feature.rst:121
+msgid "Statistical trend analysis with confidence intervals"
 msgstr ""
 
-#: ../../deployment.rst:557
-msgid "**Network Security:**"
+#: ../../feature.rst:122
+msgid "Geographic clustering and hotspot identification"
 msgstr ""
 
-#: ../../deployment.rst:571
-msgid "Database Security"
+#: ../../feature.rst:123
+msgid "Phylogenetic data integration where available"
 msgstr ""
 
-#: ../../deployment.rst:575
-msgid "**MongoDB Security:**"
+#: ../../feature.rst:124
+msgid "Resistance mechanism tracking (genotypic vs. phenotypic)"
 msgstr ""
 
-#: ../../deployment.rst:577
-msgid "Enable authentication and authorization"
+#: ../../feature.rst:125
+msgid "Outbreak detection and monitoring capabilities"
 msgstr ""
 
-#: ../../deployment.rst:578
-msgid "Use SSL/TLS for connections"
+#: ../../feature.rst:127
+msgid "**🛡️ Data Quality & Security** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:579
-msgid "Implement IP whitelisting"
+#: ../../feature.rst:130
+msgid "Comprehensive data validation and quality checks"
 msgstr ""
 
-#: ../../deployment.rst:580
-msgid "Regular security updates"
+#: ../../feature.rst:131
+msgid "Secure data transmission with HTTPS encryption"
 msgstr ""
 
-#: ../../deployment.rst:581
-msgid "Audit logging for database access"
+#: ../../feature.rst:132
+msgid "User authentication and authorization"
 msgstr ""
 
-#: ../../deployment.rst:584
-msgid "Troubleshooting"
+#: ../../feature.rst:133
+msgid "Audit logging for data access and modifications"
 msgstr ""
 
-#: ../../deployment.rst:588
-msgid "Common deployment issues and solutions:"
+#: ../../feature.rst:134
+msgid "Privacy-compliant data handling procedures"
 msgstr ""
 
-#: ../../deployment.rst:590
-msgid "**Build Failures:**"
+#: ../../feature.rst:136
+msgid "**🔄 Real-time Updates** .. container:: justify-text"
 msgstr ""
 
-#: ../../deployment.rst:604
-msgid "**Database Connection Issues:**"
+#: ../../feature.rst:139
+msgid "Automatic data synchronization from surveillance networks"
 msgstr ""
 
-#: ../../deployment.rst:614
-msgid "**Performance Issues:**"
+#: ../../feature.rst:140
+msgid "Version control for datasets with change tracking"
 msgstr ""
 
-#: ../../deployment.rst:625
-msgid "**Memory Issues:**"
+#: ../../feature.rst:141
+msgid "Notification system for data updates"
+msgstr ""
+
+#: ../../feature.rst:142
+msgid "Backward compatibility for historical data access"
+msgstr ""
+
+#: ../../feature.rst:143
+msgid "Data provenance tracking and metadata management"
+msgstr ""
+
+#: ../../feature.rst:146
+msgid "Integration Capabilities"
+msgstr ""
+
+#: ../../feature.rst:148
+msgid "**🌐 External System Integration** .. container:: justify-text"
+msgstr ""
+
+#: ../../feature.rst:151
+msgid "NCBI pathogen database connectivity"
+msgstr ""
+
+#: ../../feature.rst:152
+msgid "WHO surveillance network integration"
+msgstr ""
+
+#: ../../feature.rst:153
+msgid "ECDC/CDC data pipeline compatibility"
+msgstr ""
+
+#: ../../feature.rst:154
+msgid "Laboratory information system (LIS) connectors"
+msgstr ""
+
+#: ../../feature.rst:155
+msgid "Automated data validation and quality scoring"
+msgstr ""
+
+#: ../../feature.rst:157
+msgid "**📊 Analytics & Reporting** .. container:: justify-text"
+msgstr ""
+
+#: ../../feature.rst:160
+msgid "Customizable dashboard views for different user types"
+msgstr ""
+
+#: ../../feature.rst:161
+msgid "Automated report generation with scheduling"
+msgstr ""
+
+#: ../../feature.rst:162
+msgid "Key performance indicator (KPI) tracking"
+msgstr ""
+
+#: ../../feature.rst:163
+msgid "Comparative analysis between regions and time periods"
+msgstr ""
+
+#: ../../feature.rst:164
+msgid "Statistical significance testing for trend analysis"
 msgstr ""
 
