@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: amrnet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-05 01:46\n"
+"PO-Revision-Date: 2025-08-05 01:47\n"
 "Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: French\n"
@@ -15,350 +15,262 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/es/LC_MESSAGES/contributing.po\n"
-"X-Crowdin-File-ID: 30\n"
+"X-Crowdin-File: /devrev-final/docs/locale/es/LC_MESSAGES/data.po\n"
+"X-Crowdin-File-ID: 32\n"
 
-#: ../../contributing.rst:4 ../../contributing.rst:49
-msgid "Contributor Guide"
+#: ../../data.rst:2
+msgid "Data access"
 msgstr ""
 
-#: ../../contributing.rst:7
-msgid "Thank you for your interest in improving this project. This project is open-source under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__. and welcomes contributions in the form of bug reports, feature requests, and pull requests."
+#: ../../data.rst:6
+msgid "The full sample-level data for each organism can be downloaded from the AMRnet dashboard itself, using the ‘Download database (CSV) format’ button at the bottom of the page. In addition, you can access AMRnet data via the API described below."
 msgstr ""
 
-#: ../../contributing.rst:12 ../../contributing.rst:57
-msgid "Here is a list of important resources for contributors:"
+#: ../../data.rst:8
+msgid "**Architectures**: The API architectures have 2 options developed for the project which include:"
 msgstr ""
 
-#: ../../contributing.rst:14
-msgid "`Source Code <https://github.com/amrnet>`__"
+#: ../../data.rst:11
+msgid "1. Download data via bucket"
 msgstr ""
 
-#: ../../contributing.rst:15 ../../contributing.rst:60
-msgid "`Documentation <https://amrnet.readthedocs.io/>`__"
+#: ../../data.rst:15
+msgid "**Organism name for downloading files from AWS:** Escherichia coli (diarrheagenic) as ``decoli``; Escherichia coli as ``ecoli``; Klebsiella pneumoniae as ``kpneumo``; Neisseria gonorrhoeae as ``ngono``; Salmonella (invasive non-typhoidal) as ``sentericaints``; Salmonella (non-typhoidal) as ``senterica``; Shigella as ``shige``; Salmonella Typhi as ``styphi``"
 msgstr ""
 
-#: ../../contributing.rst:16 ../../contributing.rst:61
-msgid "`Issue Tracker <https://github.com/amrnet/amrnet/issues>`__"
+#: ../../data.rst:26
+msgid "a. Data accessing using Browser"
 msgstr ""
 
-#: ../../contributing.rst:17 ../../contributing.rst:63
-msgid ":doc:`Code of Conduct <codeofconduct>`"
+#: ../../data.rst:29
+msgid "i. Viewing Available Files"
 msgstr ""
 
-#: ../../contributing.rst:20
-msgid "How to report a bug"
+#: ../../data.rst:33
+msgid "Step 1: Open a web browser (Chrome, Firefox, Safari, etc.)."
 msgstr ""
 
-#: ../../contributing.rst:23
-msgid "Report bugs on the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__."
+#: ../../data.rst:34
+msgid "Step 2: Navigate to the root bucket URL by clicking `https://amrnet.s3.amazonaws.com/ <https://amrnet.s3.amazonaws.com/>`_."
 msgstr ""
 
-#: ../../contributing.rst:25
-msgid "When filing an issue, make sure to answer these questions:"
+#: ../../data.rst:35
+msgid "Step 3: This URL leads to an XML text representation listing all the files available in the Amazon S3 bucket. The XML format will display information about each file, such as its key (name), last modified date, size, etc."
 msgstr ""
 
-#: ../../contributing.rst:27
-msgid "Which operating system and Python version are you using?"
+#: ../../data.rst:38
+msgid "ii. Searching for a Specific Organism"
 msgstr ""
 
-#: ../../contributing.rst:28
-msgid "Which version of this project are you using?"
+#: ../../data.rst:42
+msgid "Step 1: Use the search functionality of your browser (Ctrl-F on Windows/Linux or Cmd-F on Mac)."
 msgstr ""
 
-#: ../../contributing.rst:29
-msgid "What did you do?"
+#: ../../data.rst:43
+msgid "Step 2: Type the name of file based on the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism."
 msgstr ""
 
-#: ../../contributing.rst:30
-msgid "What did you expect to see?"
+#: ../../data.rst:46
+msgid "iii. Downloading a File"
 msgstr ""
 
-#: ../../contributing.rst:31
-msgid "What did you see instead?"
+#: ../../data.rst:49
+msgid "Step 1: Once you find the ``<Key>`` field that contains the file name you are interested in, note down the file name."
 msgstr ""
 
-#: ../../contributing.rst:33
-msgid "The best way to get your bug fixed is to provide a test case, and/or steps to reproduce the issue."
+#: ../../data.rst:50
+msgid "Step 2: Open a new tab in your browser."
 msgstr ""
 
-#: ../../contributing.rst:37
-msgid "How to request a feature"
+#: ../../data.rst:51
+msgid "Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into the new tab's address bar."
 msgstr ""
 
-#: ../../contributing.rst:40
-msgid "Features that improve ``AMRnet`` can be suggested on the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__. It's a good idea to first submit the proposal as a feature request prior to submitting a pull request as this allows for the best coordination of efforts by preventing the duplication of work, and allows for feedback on your ideas."
+#: ../../data.rst:52
+msgid "Step 4: Append a slash ``/`` to the end of the URL, followed by the contents of the ``<Key>`` field (file name)."
 msgstr ""
 
-#: ../../contributing.rst:52
-msgid "Thank you for your interest in contributing to AMRnet! 🎉 We welcome contributions from researchers, developers, and public health professionals worldwide. This project is open-source under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__ and welcomes contributions in the form of bug reports, feature requests, and pull requests."
+#: ../../data.rst:53
+msgid "Step 5: Press Enter, and your browser should automatically start downloading the file. This method has been tested to work in Chrome, Firefox, and Safari."
 msgstr ""
 
-#: ../../contributing.rst:59
-msgid "`Source Code <https://github.com/amrnet/amrnet>`__"
+#: ../../data.rst:55
+msgid "**OR**"
 msgstr ""
 
-#: ../../contributing.rst:62
-msgid "`Discussions <https://github.com/amrnet/amrnet/discussions>`__"
+#: ../../data.rst:57
+msgid "Copy the URL below and modify the organism name added at the end **amrnet-** ``decoli`` **.csv** based on organism list given above."
 msgstr ""
 
-#: ../../contributing.rst:66
-msgid "Quick Start"
+#: ../../data.rst:59 ../../data.rst:82 ../../data.rst:102
+msgid "Example:"
 msgstr ""
 
-#: ../../contributing.rst:69
-msgid "Ready to contribute? Here's how to set up AMRnet for local development:"
+#: ../../data.rst:66
+msgid "b. Data accessing using Command line"
 msgstr ""
 
-#: ../../contributing.rst:71
-msgid "**Fork** the repository on GitHub"
+#: ../../data.rst:69
+msgid "Step 1: Open your terminal."
 msgstr ""
 
-#: ../../contributing.rst:72
-msgid "**Clone** your fork locally"
+#: ../../data.rst:70
+msgid "Step 2: Use the following command to download data from the provided URL:"
 msgstr ""
 
-#: ../../contributing.rst:73
-msgid "**Create** a feature branch for your changes"
+#: ../../data.rst:76
+msgid "Similarly, if you need to download a specific file from the URL, you would specify the file name in the URL. For example:"
 msgstr ""
 
-#: ../../contributing.rst:74
-msgid "**Make** your changes and test them"
+#: ../../data.rst:90
+msgid "c. Data accessing using Using S3cmd tool"
 msgstr ""
 
-#: ../../contributing.rst:75
-msgid "**Submit** a pull request"
+#: ../../data.rst:94
+msgid "The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage."
 msgstr ""
 
-#: ../../contributing.rst:78
-msgid "Types of Contributions"
+#: ../../data.rst:97
+msgid "2. Download data via API"
 msgstr ""
 
-#: ../../contributing.rst:81
-msgid "Bug Reports"
+#: ../../data.rst:100
+msgid "Send an email to amrnetdashboard@gmail.com requesting an API token."
 msgstr ""
 
-#: ../../contributing.rst:84
-msgid "Help us improve by reporting bugs using our `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__."
+#: ../../data.rst:114
+msgid "You will receive email from us with all the necessary detailed. like: **API_TOKEN_KEY, collection, database, dataSource**."
 msgstr ""
 
-#: ../../contributing.rst:86
-msgid "**Before reporting a bug:** - Search existing issues to avoid duplicates - Test with the latest version - Check if the issue occurs in different browsers"
+#: ../../data.rst:115
+msgid "Once you received these details use the method below to download required data."
 msgstr ""
 
-#: ../../contributing.rst:91
-msgid "**When filing a bug report, please include:** - Which operating system and browser you're using - Which version of AMRnet you're using - Steps to reproduce the issue - What you expected to happen - What actually happened - Screenshots if applicable"
+#: ../../data.rst:116
+msgid "To download data with specific COUNTRY and DATE add a **filter**."
 msgstr ""
 
-#: ../../contributing.rst:100
-msgid "Feature Requests"
+#: ../../data.rst:118
+msgid "Example code to download all the data for an organism:"
 msgstr ""
 
-#: ../../contributing.rst:103
-msgid "We welcome feature suggestions that improve AMRnet's functionality for AMR surveillance."
+#: ../../data.rst:132
+msgid "Example code to download the data with filters **DATE** and **COUNTRY** for an organism:"
 msgstr ""
 
-#: ../../contributing.rst:105
-msgid "**Good feature requests include:** - Clear description of the problem being solved - Specific use cases from public health or research perspectives - Consideration of different user types (researchers, policymakers, etc.)"
+#: ../../data.rst:147
+msgid "Example code to download the data with only one filter e.g. **DATE** for an organism:"
 msgstr ""
 
-#: ../../contributing.rst:111
-msgid "Documentation Improvements"
+#: ../../data.rst:162
+msgid "Example code to download the data and save in JSON:"
 msgstr ""
 
-#: ../../contributing.rst:114
-msgid "Documentation improvements are always welcome, including: - Fixing typos or clarifying instructions - Adding examples or use cases - Translating content to other languages - Creating tutorials or guides"
+#: ../../data.rst:177
+msgid "Example code to download the data and save in JSON"
 msgstr ""
 
-#: ../../contributing.rst:121
-msgid "How to set up your development environment"
+#: ../../data.rst:194
+msgid "To test your cURL requests, you can use the online tool `Run Curl Commands Online <https://reqbin.com/curl>`_. This tool provides a convenient way to execute and test your cURL commands directly in your web browser without needing to install any additional software."
 msgstr ""
 
-#: ../../contributing.rst:124
-msgid "Prerequisites"
+#: ../../data.rst:197
+msgid "a. Command line"
 msgstr ""
 
-#: ../../contributing.rst:127
-msgid "Before you begin, ensure you have:"
+#: ../../data.rst:201
+msgid "To download data using our API, please follow the given steps:"
 msgstr ""
 
-#: ../../contributing.rst:129
-msgid "**Node.js** 18+ with npm"
+#: ../../data.rst:203
+msgid "Once you have API token, Replace ``<API_TOKEN_KEY>`` in the following command with the actual API token you received."
 msgstr ""
 
-#: ../../contributing.rst:130
-msgid "**Python** 3.8+ (for data processing)"
+#: ../../data.rst:204
+msgid "Determine the specific database and collection you need data from."
 msgstr ""
 
-#: ../../contributing.rst:131
-msgid "**MongoDB** 6.0+ (local or Atlas)"
+#: ../../data.rst:205
+msgid "Open your command line interface (CLI) or terminal and execute the following **curl** command to download data."
 msgstr ""
 
-#: ../../contributing.rst:132
-msgid "**Git** for version control"
+#: ../../data.rst:206
+msgid "If you want to save the response data to a file, you can use the -o option with curl. This command will save the response data to a file named data.json in the current directory."
 msgstr ""
 
-#: ../../contributing.rst:135
-msgid "Initial Setup"
+#: ../../data.rst:209
+msgid "b. Platform"
 msgstr ""
 
-#: ../../contributing.rst:155
-msgid "The application will be available at ``http://localhost:3000`` with the API at ``http://localhost:8080``."
+#: ../../data.rst:214
+msgid "Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API."
 msgstr ""
 
-#: ../../contributing.rst:158
-msgid "Code Quality Standards"
+#: ../../data.rst:216
+msgid "Steps to Import the Example ``cURL`` Command using Postman"
 msgstr ""
 
-#: ../../contributing.rst:161
-msgid "Linting and Formatting"
+#: ../../data.rst:218
+msgid "Open `Postman <https://www.postman.com/>`_."
 msgstr ""
 
-#: ../../contributing.rst:164
-msgid "AMRnet uses ESLint and Prettier to maintain code quality:"
+#: ../../data.rst:219
+msgid "Sign In with your credentials and \"discover what a postman can do\""
 msgstr ""
 
-#: ../../contributing.rst:178
-msgid "Testing"
+#: ../../data.rst:221
+msgid "Login"
 msgstr ""
 
-#: ../../contributing.rst:181
-msgid "Always include tests with your contributions:"
+#: ../../data.rst:226
+msgid "**Click the \"Import\" button.**"
 msgstr ""
 
-#: ../../contributing.rst:195
-msgid "Git Hooks"
+#: ../../data.rst:228
+msgid "Import"
 msgstr ""
 
-#: ../../contributing.rst:198
-msgid "Pre-commit hooks automatically run linting and formatting: - Configured via ``.editorconfig`` and ``.prettierrc.json`` - Ensures consistent code style across all contributions"
+#: ../../data.rst:233
+msgid "**Paste the cURL command in Import:**"
 msgstr ""
 
-#: ../../contributing.rst:203
-msgid "Development Workflow"
+#: ../../data.rst:235
+msgid "CURL"
 msgstr ""
 
-#: ../../contributing.rst:206
-msgid "Branch Naming"
+#: ../../data.rst:240
+msgid "Review the imported request details and add ``<API_TOKEN_KEY>`` in ``Headers`` in Postman."
 msgstr ""
 
-#: ../../contributing.rst:209
-msgid "Use descriptive branch names: - ``feature/add-organism-filtering`` - ``bugfix/map-rendering-issue`` - ``docs/update-installation-guide``"
+#: ../../data.rst:241
+msgid "Replace database name and collection name based on data to download"
 msgstr ""
 
-#: ../../contributing.rst:215
-msgid "Commit Messages"
+#: ../../data.rst:242
+msgid "Add filters to get specific data in ``filter``"
 msgstr ""
 
-#: ../../contributing.rst:218
-msgid "Follow conventional commit format: - ``feat: add new organism filtering capability`` - ``fix: resolve map rendering issue on mobile`` - ``docs: update installation instructions``"
+#: ../../data.rst:244
+msgid "filter"
 msgstr ""
 
-#: ../../contributing.rst:224
-msgid "Code Review Process"
+#: ../../data.rst:249
+msgid "**Click \"Send\" to execute the request and view the response.**"
 msgstr ""
 
-#: ../../contributing.rst:227
-msgid "All contributions go through code review: 1. Create a pull request with clear description 2. Automated tests must pass 3. Code review by maintainers 4. Address feedback and update as needed 5. Merge once approved"
+#: ../../data.rst:251
+msgid "send"
 msgstr ""
 
-#: ../../contributing.rst:235
-msgid "Specific Contribution Areas"
+#: ../../data.rst:256
+msgid "**Save the response in file**"
 msgstr ""
 
-#: ../../contributing.rst:238
-msgid "Frontend Development"
+#: ../../data.rst:258
+msgid "save"
 msgstr ""
 
-#: ../../contributing.rst:241
-msgid "**Technologies:** React 18, Material-UI, Redux, Recharts"
-msgstr ""
-
-#: ../../contributing.rst:243
-msgid "**Key areas for contribution:** - New visualization components - Mobile responsiveness improvements - Accessibility enhancements - Performance optimizations"
-msgstr ""
-
-#: ../../contributing.rst:250
-msgid "Backend Development"
-msgstr ""
-
-#: ../../contributing.rst:253
-msgid "**Technologies:** Node.js, Express.js, MongoDB"
-msgstr ""
-
-#: ../../contributing.rst:255
-msgid "**Key areas for contribution:** - API endpoint optimization - Database query improvements - Data validation and processing - Security enhancements"
-msgstr ""
-
-#: ../../contributing.rst:262
-msgid "Data Processing"
-msgstr ""
-
-#: ../../contributing.rst:265
-msgid "**Technologies:** Python, pandas, NumPy"
-msgstr ""
-
-#: ../../contributing.rst:267
-msgid "**Key areas for contribution:** - New organism data parsers - Data quality validation - Statistical analysis functions - Export format support"
-msgstr ""
-
-#: ../../contributing.rst:274
-msgid "Documentation"
-msgstr ""
-
-#: ../../contributing.rst:277
-msgid "**Areas needing help:** - User guides and tutorials - API documentation - Developer onboarding - Multi-language translations"
-msgstr ""
-
-#: ../../contributing.rst:284
-msgid "How to submit changes"
-msgstr ""
-
-#: ../../contributing.rst:287
-msgid "Open a `pull request <https://github.com/amrnet/amrnet/pulls>`__ to submit changes to this project."
-msgstr ""
-
-#: ../../contributing.rst:290
-msgid "**Your pull request should:** - Include a clear description of changes - Pass all automated tests - Include relevant tests for new functionality - Update documentation if needed - Follow the project's coding standards"
-msgstr ""
-
-#: ../../contributing.rst:297
-msgid "**Pull request template includes:** - Description of changes - Type of change (bugfix, feature, docs, etc.) - Testing checklist - Screenshots for UI changes"
-msgstr ""
-
-#: ../../contributing.rst:304
-msgid "Community Guidelines"
-msgstr ""
-
-#: ../../contributing.rst:307
-msgid "Be respectful and inclusive"
-msgstr ""
-
-#: ../../contributing.rst:308
-msgid "Provide constructive feedback"
-msgstr ""
-
-#: ../../contributing.rst:309
-msgid "Focus on the scientific and public health mission"
-msgstr ""
-
-#: ../../contributing.rst:310
-msgid "Help newcomers get started"
-msgstr ""
-
-#: ../../contributing.rst:311
-msgid "Follow our :doc:`Code of Conduct <codeofconduct>`"
-msgstr ""
-
-#: ../../contributing.rst:314
-msgid "Getting Help"
-msgstr ""
-
-#: ../../contributing.rst:317
-msgid "**Need assistance?** - Check existing `Issues <https://github.com/amrnet/amrnet/issues>`__ - Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`__ - Review the :doc:`Installation Guide <installation>` - Read the `Developer Guide <../tutorial/developer_guide.md>`__"
-msgstr ""
-
-#: ../../contributing.rst:323
-msgid "**For urgent issues:** - Security vulnerabilities: See our Security Policy - Critical bugs: Use the Issue Tracker with \"urgent\" label"
+#: ../../data.rst:264
+msgid "3. Graphical User Interface (GUI)"
 msgstr ""
 
