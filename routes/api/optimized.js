@@ -895,7 +895,7 @@ router.get('/getDataForEcoli', async function (req, res, next) {
   }
 });
 
-// Optimized streaming endpoint for D. E. coli
+// Optimized streaming endpoint for E. coli (diarrheagenic)
 router.get('/getDataForDEcoli', async function (req, res, next) {
   const startTime = performance.now();
   const dbAndCollection = dbAndCollectionNames['decoli'];

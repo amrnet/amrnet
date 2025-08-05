@@ -134,6 +134,89 @@
     "role": "Role",
     "lastLogin": "Last Login"
   },
+  "tutorial": {
+    "userTypes": {
+      "clinician": {
+        "title": "Healthcare Professional",
+        "description": "Doctor, nurse, or clinical microbiologist"
+      },
+      "publicHealth": {
+        "title": "Public Health Official",
+        "description": "Epidemiologist, policy maker, or surveillance coordinator"
+      },
+      "researcher": {
+        "title": "Researcher/Student",
+        "description": "Academic researcher, student, or educator"
+      },
+      "general": {
+        "title": "General User",
+        "description": "Learning about antimicrobial resistance"
+      }
+    },
+    "steps": {
+      "welcome": {
+        "label": "Welcome to AMRnet",
+        "title": "Understanding AMRnet",
+        "description": "AMRnet is your window into global antimicrobial resistance patterns",
+        "whatIs": {
+          "title": "What is AMRnet?",
+          "content": "AMRnet visualizes antimicrobial resistance patterns in bacteria worldwide. Think of it as a 'weather map' for antibiotic resistance."
+        },
+        "whyImportant": {
+          "title": "Why is this important?",
+          "content": "Understanding resistance patterns helps healthcare providers choose effective treatments and public health officials track resistance trends."
+        }
+      },
+      "organism": {
+        "label": "Understanding Pathogens"
+      },
+      "navigation": {
+        "label": "Navigating the Dashboard",
+        "title": "Dashboard Layout",
+        "description": "Learn how to use the interactive map and controls",
+        "map": {
+          "title": "The World Map",
+          "content": "Countries are colored by resistance levels: Green = low resistance, Red = high resistance, Grey = insufficient data"
+        },
+        "filters": {
+          "title": "Filter Panel (Left)",
+          "content": "Use filters to focus on specific time periods, regions, or bacterial strains"
+        },
+        "variables": {
+          "title": "Variable Selection (Right)",
+          "content": "Choose which resistance patterns or bacterial strains to display on the map"
+        }
+      },
+      "interpretation": {
+        "label": "Interpreting Data",
+        "title": "Understanding the Results",
+        "description": "Learn how to read and interpret the visualizations",
+        "colors": {
+          "title": "Color Coding",
+          "content": "Darker colors indicate higher resistance rates. Always check the legend for exact percentages."
+        },
+        "confidence": {
+          "title": "Data Confidence",
+          "content": "Countries with ≥20 samples are most reliable. Be cautious with smaller sample sizes."
+        },
+        "trends": {
+          "title": "Time Trends",
+          "content": "Use time series graphs to see if resistance is increasing, decreasing, or stable over time."
+        }
+      }
+    },
+    "chatbot": {
+      "greeting": "Hi! I'm AMRnet Assistant 🤖 I'm here to help you understand antimicrobial resistance data.",
+      "typeSelection": "To get started, could you tell me what best describes you?",
+      "helpMessage": "I'm here to help! You can ask me about how to use the map, understand resistance patterns, or interpret data for your role.",
+      "quickTips": {
+        "title": "Quick Start Tips",
+        "tip1": "Start with your region of interest",
+        "tip2": "Check sample sizes for reliability",
+        "tip3": "Look for trends over time"
+      }
+    }
+  },
   "settings": {
     "title": "Settings",
     "language": "Language",

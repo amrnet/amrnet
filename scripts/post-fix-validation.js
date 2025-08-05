@@ -29,7 +29,7 @@ async function validateFix() {
       expectation: 'Fast loading (~2s)'
     },
     {
-      name: 'D. E. coli (should be fast)',
+      name: 'E. coli (diarrheagenic) (should be fast)',
       url: `${API_BASE}/optimized/map/decoli`,
       expectation: 'Fast loading (~2s)'
     },
@@ -65,7 +65,7 @@ async function validateFix() {
   console.log('   1. Open http://localhost:3000 in your browser');
   console.log('   2. Navigate to E. coli organism');
   console.log('   3. Verify it loads without freezing');
-  console.log('   4. Check that K. pneumoniae and D. E. coli load quickly');
+  console.log('   4. Check that K. pneumoniae and E. coli (diarrheagenic) load quickly');
 
   console.log('\n💡 Expected Results:');
   console.log('   ✅ No more 2-minute load times');
