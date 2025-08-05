@@ -15,178 +15,350 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/codeofconduct.po\n"
-"X-Crowdin-File-ID: 64\n"
+"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/contributing.po\n"
+"X-Crowdin-File-ID: 66\n"
 
-#: ../../codeofconduct.rst:2
-msgid "Code of Conduct"
+#: ../../contributing.rst:4 ../../contributing.rst:49
+msgid "Contributor Guide"
 msgstr ""
 
-#: ../../codeofconduct.rst:5
-msgid "Our Pledge"
+#: ../../contributing.rst:7
+msgid "Thank you for your interest in improving this project. This project is open-source under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__. and welcomes contributions in the form of bug reports, feature requests, and pull requests."
 msgstr ""
 
-#: ../../codeofconduct.rst:8
-msgid "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation."
+#: ../../contributing.rst:12 ../../contributing.rst:57
+msgid "Here is a list of important resources for contributors:"
 msgstr ""
 
-#: ../../codeofconduct.rst:15
-msgid "We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community."
+#: ../../contributing.rst:14
+msgid "`Source Code <https://github.com/amrnet>`__"
 msgstr ""
 
-#: ../../codeofconduct.rst:19
-msgid "Our Standards"
+#: ../../contributing.rst:15 ../../contributing.rst:60
+msgid "`Documentation <https://amrnet.readthedocs.io/>`__"
 msgstr ""
 
-#: ../../codeofconduct.rst:22
-msgid "Examples of behavior that contributes to a positive environment for our community include:"
+#: ../../contributing.rst:16 ../../contributing.rst:61
+msgid "`Issue Tracker <https://github.com/amrnet/amrnet/issues>`__"
 msgstr ""
 
-#: ../../codeofconduct.rst:25
-msgid "Demonstrating empathy and kindness toward other people"
+#: ../../contributing.rst:17 ../../contributing.rst:63
+msgid ":doc:`Code of Conduct <codeofconduct>`"
 msgstr ""
 
-#: ../../codeofconduct.rst:26
-msgid "Being respectful of differing opinions, viewpoints, and experiences"
+#: ../../contributing.rst:20
+msgid "How to report a bug"
 msgstr ""
 
-#: ../../codeofconduct.rst:27
-msgid "Giving and gracefully accepting constructive feedback"
+#: ../../contributing.rst:23
+msgid "Report bugs on the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__."
 msgstr ""
 
-#: ../../codeofconduct.rst:28
-msgid "Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience"
+#: ../../contributing.rst:25
+msgid "When filing an issue, make sure to answer these questions:"
 msgstr ""
 
-#: ../../codeofconduct.rst:30
-msgid "Focusing on what is best not just for us as individuals, but for the overall community"
+#: ../../contributing.rst:27
+msgid "Which operating system and Python version are you using?"
 msgstr ""
 
-#: ../../codeofconduct.rst:33
-msgid "Examples of unacceptable behavior include:"
+#: ../../contributing.rst:28
+msgid "Which version of this project are you using?"
 msgstr ""
 
-#: ../../codeofconduct.rst:35
-msgid "The use of sexualized language or imagery, and sexual attention or advances of any kind"
+#: ../../contributing.rst:29
+msgid "What did you do?"
 msgstr ""
 
-#: ../../codeofconduct.rst:37
-msgid "Trolling, insulting or derogatory comments, and personal or political attacks"
+#: ../../contributing.rst:30
+msgid "What did you expect to see?"
 msgstr ""
 
-#: ../../codeofconduct.rst:39
-msgid "Public or private harassment"
+#: ../../contributing.rst:31
+msgid "What did you see instead?"
 msgstr ""
 
-#: ../../codeofconduct.rst:40
-msgid "Publishing others' private information, such as a physical or email address, without their explicit permission"
+#: ../../contributing.rst:33
+msgid "The best way to get your bug fixed is to provide a test case, and/or steps to reproduce the issue."
 msgstr ""
 
-#: ../../codeofconduct.rst:42
-msgid "Other conduct which could reasonably be considered inappropriate in a professional setting"
+#: ../../contributing.rst:37
+msgid "How to request a feature"
 msgstr ""
 
-#: ../../codeofconduct.rst:46
-msgid "Enforcement Responsibilities"
+#: ../../contributing.rst:40
+msgid "Features that improve ``AMRnet`` can be suggested on the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__. It's a good idea to first submit the proposal as a feature request prior to submitting a pull request as this allows for the best coordination of efforts by preventing the duplication of work, and allows for feedback on your ideas."
 msgstr ""
 
-#: ../../codeofconduct.rst:49
-msgid "Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful."
+#: ../../contributing.rst:52
+msgid "Thank you for your interest in contributing to AMRnet! 🎉 We welcome contributions from researchers, developers, and public health professionals worldwide. This project is open-source under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__ and welcomes contributions in the form of bug reports, feature requests, and pull requests."
 msgstr ""
 
-#: ../../codeofconduct.rst:54
-msgid "Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate."
+#: ../../contributing.rst:59
+msgid "`Source Code <https://github.com/amrnet/amrnet>`__"
 msgstr ""
 
-#: ../../codeofconduct.rst:60
-msgid "Scope"
+#: ../../contributing.rst:62
+msgid "`Discussions <https://github.com/amrnet/amrnet/discussions>`__"
 msgstr ""
 
-#: ../../codeofconduct.rst:63
-msgid "This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event."
+#: ../../contributing.rst:66
+msgid "Quick Start"
 msgstr ""
 
-#: ../../codeofconduct.rst:70
-msgid "Enforcement"
+#: ../../contributing.rst:69
+msgid "Ready to contribute? Here's how to set up AMRnet for local development:"
 msgstr ""
 
-#: ../../codeofconduct.rst:73
-msgid "Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at amrnetdashboard@gmail.com. All complaints will be reviewed and investigated promptly and fairly."
+#: ../../contributing.rst:71
+msgid "**Fork** the repository on GitHub"
 msgstr ""
 
-#: ../../codeofconduct.rst:78
-msgid "All community leaders are obligated to respect the privacy and security of the reporter of any incident."
+#: ../../contributing.rst:72
+msgid "**Clone** your fork locally"
 msgstr ""
 
-#: ../../codeofconduct.rst:82
-msgid "Enforcement Guidelines"
+#: ../../contributing.rst:73
+msgid "**Create** a feature branch for your changes"
 msgstr ""
 
-#: ../../codeofconduct.rst:85
-msgid "Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:"
+#: ../../contributing.rst:74
+msgid "**Make** your changes and test them"
 msgstr ""
 
-#: ../../codeofconduct.rst:90
-msgid "1. Correction"
+#: ../../contributing.rst:75
+msgid "**Submit** a pull request"
 msgstr ""
 
-#: ../../codeofconduct.rst:93
-msgid "**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community."
+#: ../../contributing.rst:78
+msgid "Types of Contributions"
 msgstr ""
 
-#: ../../codeofconduct.rst:96
-msgid "**Consequence**: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested."
+#: ../../contributing.rst:81
+msgid "Bug Reports"
 msgstr ""
 
-#: ../../codeofconduct.rst:102
-msgid "2. Warning"
+#: ../../contributing.rst:84
+msgid "Help us improve by reporting bugs using our `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__."
 msgstr ""
 
-#: ../../codeofconduct.rst:105
-msgid "**Community Impact**: A violation through a single incident or series of actions."
+#: ../../contributing.rst:86
+msgid "**Before reporting a bug:** - Search existing issues to avoid duplicates - Test with the latest version - Check if the issue occurs in different browsers"
 msgstr ""
 
-#: ../../codeofconduct.rst:108
-msgid "**Consequence**: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban."
+#: ../../contributing.rst:91
+msgid "**When filing a bug report, please include:** - Which operating system and browser you're using - Which version of AMRnet you're using - Steps to reproduce the issue - What you expected to happen - What actually happened - Screenshots if applicable"
 msgstr ""
 
-#: ../../codeofconduct.rst:116
-msgid "3. Temporary Ban"
+#: ../../contributing.rst:100
+msgid "Feature Requests"
 msgstr ""
 
-#: ../../codeofconduct.rst:119
-msgid "**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior."
+#: ../../contributing.rst:103
+msgid "We welcome feature suggestions that improve AMRnet's functionality for AMR surveillance."
 msgstr ""
 
-#: ../../codeofconduct.rst:122
-msgid "**Consequence**: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban."
+#: ../../contributing.rst:105
+msgid "**Good feature requests include:** - Clear description of the problem being solved - Specific use cases from public health or research perspectives - Consideration of different user types (researchers, policymakers, etc.)"
 msgstr ""
 
-#: ../../codeofconduct.rst:130
-msgid "4. Permanent Ban"
+#: ../../contributing.rst:111
+msgid "Documentation Improvements"
 msgstr ""
 
-#: ../../codeofconduct.rst:133
-msgid "**Community Impact**: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals."
+#: ../../contributing.rst:114
+msgid "Documentation improvements are always welcome, including: - Fixing typos or clarifying instructions - Adding examples or use cases - Translating content to other languages - Creating tutorials or guides"
 msgstr ""
 
-#: ../../codeofconduct.rst:138
-msgid "**Consequence**: A permanent ban from any sort of public interaction within the community."
+#: ../../contributing.rst:121
+msgid "How to set up your development environment"
 msgstr ""
 
-#: ../../codeofconduct.rst:142
-msgid "Attribution"
+#: ../../contributing.rst:124
+msgid "Prerequisites"
 msgstr ""
 
-#: ../../codeofconduct.rst:145
-msgid "This Code of Conduct is adapted from the `Contributor Covenant <https://www.contributor-covenant.org>`__, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html."
+#: ../../contributing.rst:127
+msgid "Before you begin, ensure you have:"
 msgstr ""
 
-#: ../../codeofconduct.rst:150
-msgid "Community Impact Guidelines were inspired by `Mozilla's code of conduct enforcement ladder <https://github.com/mozilla/diversity>`__."
+#: ../../contributing.rst:129
+msgid "**Node.js** 18+ with npm"
 msgstr ""
 
-#: ../../codeofconduct.rst:153
-msgid "For answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+#: ../../contributing.rst:130
+msgid "**Python** 3.8+ (for data processing)"
+msgstr ""
+
+#: ../../contributing.rst:131
+msgid "**MongoDB** 6.0+ (local or Atlas)"
+msgstr ""
+
+#: ../../contributing.rst:132
+msgid "**Git** for version control"
+msgstr ""
+
+#: ../../contributing.rst:135
+msgid "Initial Setup"
+msgstr ""
+
+#: ../../contributing.rst:155
+msgid "The application will be available at ``http://localhost:3000`` with the API at ``http://localhost:8080``."
+msgstr ""
+
+#: ../../contributing.rst:158
+msgid "Code Quality Standards"
+msgstr ""
+
+#: ../../contributing.rst:161
+msgid "Linting and Formatting"
+msgstr ""
+
+#: ../../contributing.rst:164
+msgid "AMRnet uses ESLint and Prettier to maintain code quality:"
+msgstr ""
+
+#: ../../contributing.rst:178
+msgid "Testing"
+msgstr ""
+
+#: ../../contributing.rst:181
+msgid "Always include tests with your contributions:"
+msgstr ""
+
+#: ../../contributing.rst:195
+msgid "Git Hooks"
+msgstr ""
+
+#: ../../contributing.rst:198
+msgid "Pre-commit hooks automatically run linting and formatting: - Configured via ``.editorconfig`` and ``.prettierrc.json`` - Ensures consistent code style across all contributions"
+msgstr ""
+
+#: ../../contributing.rst:203
+msgid "Development Workflow"
+msgstr ""
+
+#: ../../contributing.rst:206
+msgid "Branch Naming"
+msgstr ""
+
+#: ../../contributing.rst:209
+msgid "Use descriptive branch names: - ``feature/add-organism-filtering`` - ``bugfix/map-rendering-issue`` - ``docs/update-installation-guide``"
+msgstr ""
+
+#: ../../contributing.rst:215
+msgid "Commit Messages"
+msgstr ""
+
+#: ../../contributing.rst:218
+msgid "Follow conventional commit format: - ``feat: add new organism filtering capability`` - ``fix: resolve map rendering issue on mobile`` - ``docs: update installation instructions``"
+msgstr ""
+
+#: ../../contributing.rst:224
+msgid "Code Review Process"
+msgstr ""
+
+#: ../../contributing.rst:227
+msgid "All contributions go through code review: 1. Create a pull request with clear description 2. Automated tests must pass 3. Code review by maintainers 4. Address feedback and update as needed 5. Merge once approved"
+msgstr ""
+
+#: ../../contributing.rst:235
+msgid "Specific Contribution Areas"
+msgstr ""
+
+#: ../../contributing.rst:238
+msgid "Frontend Development"
+msgstr ""
+
+#: ../../contributing.rst:241
+msgid "**Technologies:** React 18, Material-UI, Redux, Recharts"
+msgstr ""
+
+#: ../../contributing.rst:243
+msgid "**Key areas for contribution:** - New visualization components - Mobile responsiveness improvements - Accessibility enhancements - Performance optimizations"
+msgstr ""
+
+#: ../../contributing.rst:250
+msgid "Backend Development"
+msgstr ""
+
+#: ../../contributing.rst:253
+msgid "**Technologies:** Node.js, Express.js, MongoDB"
+msgstr ""
+
+#: ../../contributing.rst:255
+msgid "**Key areas for contribution:** - API endpoint optimization - Database query improvements - Data validation and processing - Security enhancements"
+msgstr ""
+
+#: ../../contributing.rst:262
+msgid "Data Processing"
+msgstr ""
+
+#: ../../contributing.rst:265
+msgid "**Technologies:** Python, pandas, NumPy"
+msgstr ""
+
+#: ../../contributing.rst:267
+msgid "**Key areas for contribution:** - New organism data parsers - Data quality validation - Statistical analysis functions - Export format support"
+msgstr ""
+
+#: ../../contributing.rst:274
+msgid "Documentation"
+msgstr ""
+
+#: ../../contributing.rst:277
+msgid "**Areas needing help:** - User guides and tutorials - API documentation - Developer onboarding - Multi-language translations"
+msgstr ""
+
+#: ../../contributing.rst:284
+msgid "How to submit changes"
+msgstr ""
+
+#: ../../contributing.rst:287
+msgid "Open a `pull request <https://github.com/amrnet/amrnet/pulls>`__ to submit changes to this project."
+msgstr ""
+
+#: ../../contributing.rst:290
+msgid "**Your pull request should:** - Include a clear description of changes - Pass all automated tests - Include relevant tests for new functionality - Update documentation if needed - Follow the project's coding standards"
+msgstr ""
+
+#: ../../contributing.rst:297
+msgid "**Pull request template includes:** - Description of changes - Type of change (bugfix, feature, docs, etc.) - Testing checklist - Screenshots for UI changes"
+msgstr ""
+
+#: ../../contributing.rst:304
+msgid "Community Guidelines"
+msgstr ""
+
+#: ../../contributing.rst:307
+msgid "Be respectful and inclusive"
+msgstr ""
+
+#: ../../contributing.rst:308
+msgid "Provide constructive feedback"
+msgstr ""
+
+#: ../../contributing.rst:309
+msgid "Focus on the scientific and public health mission"
+msgstr ""
+
+#: ../../contributing.rst:310
+msgid "Help newcomers get started"
+msgstr ""
+
+#: ../../contributing.rst:311
+msgid "Follow our :doc:`Code of Conduct <codeofconduct>`"
+msgstr ""
+
+#: ../../contributing.rst:314
+msgid "Getting Help"
+msgstr ""
+
+#: ../../contributing.rst:317
+msgid "**Need assistance?** - Check existing `Issues <https://github.com/amrnet/amrnet/issues>`__ - Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`__ - Review the :doc:`Installation Guide <installation>` - Read the `Developer Guide <../tutorial/developer_guide.md>`__"
+msgstr ""
+
+#: ../../contributing.rst:323
+msgid "**For urgent issues:** - Security vulnerabilities: See our Security Policy - Critical bugs: Use the Issue Tracker with \"urgent\" label"
 msgstr ""
 
