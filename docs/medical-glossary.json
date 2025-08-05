@@ -15,154 +15,174 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/pt/LC_MESSAGES/index.po\n"
-"X-Crowdin-File-ID: 112\n"
+"X-Crowdin-File: /devrev-final/docs/locale/pt/LC_MESSAGES/installation.po\n"
+"X-Crowdin-File-ID: 114\n"
 
-#: ../../index.rst:6
-msgid "User Tutorial"
-msgstr ""
-
-#: ../../index.rst:6
-msgid "User guide"
-msgstr ""
-
-#: ../../index.rst:6
-msgid "Dashboard usage"
-msgstr ""
-
-#: ../../index.rst:6
-msgid "Data access"
-msgstr ""
-
-#: ../../index.rst:6
-msgid "Data rights"
-msgstr ""
-
-#: ../../index.rst:6
-msgid "User Resources"
-msgstr ""
-
-#: ../../index.rst:16
-msgid "API Reference"
-msgstr ""
-
-#: ../../index.rst:16
-msgid "FARM Stack GUI"
-msgstr ""
-
-#: ../../index.rst:16
-msgid "Data Dictionary"
-msgstr ""
-
-#: ../../index.rst:16
-msgid "API & Integration"
-msgstr ""
-
-#: ../../index.rst:24
+#: ../../installation.rst:4
 msgid "Installation"
 msgstr ""
 
-#: ../../index.rst:24 ../../index.rst:82
-msgid "Features"
+#: ../../installation.rst:7
+msgid "These instructions will get you a copy of ``AMRnet`` up and running on your machine for development and testing purposes. AMRnet is a full-stack web application built with Node.js, React, and MongoDB."
 msgstr ""
 
-#: ../../index.rst:24
-msgid "Performance Optimization"
+#: ../../installation.rst:12
+msgid "Prerequisites"
 msgstr ""
 
-#: ../../index.rst:24
-msgid "Deployment Guide"
+#: ../../installation.rst:15
+msgid "Before installing AMRnet, make sure you have the following software installed:"
 msgstr ""
 
-#: ../../index.rst:24
-msgid "Security Guide"
+#: ../../installation.rst:17
+msgid "**Node.js**: v18.20.4 or higher (specified in ``.nvmrc``)"
 msgstr ""
 
-#: ../../index.rst:24
-msgid "Internationalization"
+#: ../../installation.rst:18
+msgid "**npm**: Latest version (comes with Node.js)"
 msgstr ""
 
-#: ../../index.rst:24
+#: ../../installation.rst:19
+msgid "**Python**: v3.8+ (for data processing components)"
+msgstr ""
+
+#: ../../installation.rst:20
+msgid "**Git**: Latest version for version control"
+msgstr ""
+
+#: ../../installation.rst:21
+msgid "**MongoDB**: v6.0+ (local installation or MongoDB Atlas cloud database)"
+msgstr ""
+
+#: ../../installation.rst:23
+msgid "You can check your installed versions with:"
+msgstr ""
+
+#: ../../installation.rst:33
+msgid "Quick Start"
+msgstr ""
+
+#: ../../installation.rst:36
+msgid "Follow these steps to get AMRnet running locally:"
+msgstr ""
+
+#: ../../installation.rst:38
+msgid "**1. Clone the Repository**"
+msgstr ""
+
+#: ../../installation.rst:45
+msgid "**2. Install Dependencies**"
+msgstr ""
+
+#: ../../installation.rst:55
+msgid "**3. Environment Configuration**"
+msgstr ""
+
+#: ../../installation.rst:65
+msgid "**4. Start Development Servers**"
+msgstr ""
+
+#: ../../installation.rst:76
+msgid "**5. Access the Application**"
+msgstr ""
+
+#: ../../installation.rst:78
+msgid "Open your browser and navigate to ``http://localhost:3000`` to see the AMRnet dashboard."
+msgstr ""
+
+#: ../../installation.rst:81
+msgid "Development Setup"
+msgstr ""
+
+#: ../../installation.rst:84
+msgid "For detailed development setup, including code quality tools and best practices:"
+msgstr ""
+
+#: ../../installation.rst:87
+msgid "Node.js Version Management"
+msgstr ""
+
+#: ../../installation.rst:90
+msgid "AMRnet uses Node.js v18.20.4. If you use nvm (Node Version Manager):"
+msgstr ""
+
+#: ../../installation.rst:102
+msgid "Python Dependencies"
+msgstr ""
+
+#: ../../installation.rst:105
+msgid "For data processing components and documentation building:"
+msgstr ""
+
+#: ../../installation.rst:116
+msgid "Environment Variables"
+msgstr ""
+
+#: ../../installation.rst:119
+msgid "Configure your ``.env`` file with the following variables:"
+msgstr ""
+
+#: ../../installation.rst:136
+msgid "Production Build"
+msgstr ""
+
+#: ../../installation.rst:139
+msgid "To build AMRnet for production deployment:"
+msgstr ""
+
+#: ../../installation.rst:149
+msgid "The built application will be served from the ``client/build`` directory."
+msgstr ""
+
+#: ../../installation.rst:152
+msgid "Docker Installation"
+msgstr ""
+
+#: ../../installation.rst:155
+msgid "AMRnet can also be run using Docker:"
+msgstr ""
+
+#: ../../installation.rst:165
+msgid "Make sure to replace ``your_mongodb_uri`` with your actual MongoDB connection string."
+msgstr ""
+
+#: ../../installation.rst:168
 msgid "Troubleshooting"
 msgstr ""
 
-#: ../../index.rst:24
-msgid "Code of Conduct"
+#: ../../installation.rst:171
+msgid "**Common Installation Issues:**"
 msgstr ""
 
-#: ../../index.rst:24 ../../index.rst:94
-msgid "License"
+#: ../../installation.rst:173
+msgid "**Node version mismatch**: Use ``nvm use`` to switch to the correct version"
 msgstr ""
 
-#: ../../index.rst:24
-msgid ".. Changelog"
+#: ../../installation.rst:174
+msgid "**Package conflicts**: Delete ``node_modules`` and run ``npm install`` again"
 msgstr ""
 
-#: ../../index.rst:24
-msgid "For developers"
+#: ../../installation.rst:175
+msgid "**Port conflicts**: Make sure ports 3000 and 8080 are available"
 msgstr ""
 
-#: ../../index.rst:50
-msgid "Overview"
+#: ../../installation.rst:176
+msgid "**MongoDB connection**: Verify your MongoDB service is running or Atlas credentials are correct"
 msgstr ""
 
-#: ../../index.rst:53
-msgid "**AMRnet** aims to make high-quality, robust and reliable genome-derived AMR Surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing."
+#: ../../installation.rst:178
+msgid "**Getting Help:**"
 msgstr ""
 
-#: ../../index.rst:61
-msgid "`Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the **AMRnet** mailing list!"
+#: ../../installation.rst:180
+msgid "Check the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`_"
 msgstr ""
 
-#: ../../index.rst:64
-msgid "Quick start"
+#: ../../installation.rst:181
+msgid "Review the `Development Guide <../tutorial/development.md>`_"
 msgstr ""
 
-#: ../../index.rst:67
-msgid "**For Users:** Visit the live dashboard at `AMRnet.org <https://www.amrnet.org>`_"
-msgstr ""
-
-#: ../../index.rst:69
-msgid "**For Developers:** Get started with local development:"
-msgstr ""
-
-#: ../../index.rst:79
-msgid "See :ref:`label-installation` for complete installation instructions."
-msgstr ""
-
-#: ../../index.rst:85
-msgid "See the complete list of ``AMRnet`` features :ref:`here<label-features>`."
-msgstr ""
-
-#: ../../index.rst:88
-msgid "Contributing"
-msgstr ""
-
-#: ../../index.rst:91
-msgid "Contributions are very welcome. To learn more, see the :ref:`Contributor Guide<label-contributing>`."
-msgstr ""
-
-#: ../../index.rst:97
-msgid "Distributed under the terms of the :doc:`GPLv3 License <license>` ``AMRnet`` is free and open source software."
-msgstr ""
-
-#: ../../index.rst:101
-msgid "Support"
-msgstr ""
-
-#: ../../index.rst:104
-msgid "Found a bug 🐛, or have a feature request ✨, raise an issue on the GitHub `issue tracker <https://github.com/amrnet/amrnet/issues>`_. Alternatively you can get support on the `discussions <https://github.com/amrnet/amrnet/discussions>`_ page."
-msgstr ""
-
-#: ../../index.rst:112
-msgid "Disclaimer"
-msgstr ""
-
-#: ../../index.rst:115
-msgid "**AMRnet** is an open source dashboard that continues to benefit from the collaboration of many contributors. Although efforts have been made to ensure the that relevant web development standards are implemented, it remains the user’s responsibility to confirm and accept the output. Refer to the :doc:`License <license>` for clarification of the conditions of use."
-msgstr ""
-
-#: ../../index.rst:123
-msgid "Acknowledgements"
+#: ../../installation.rst:182
+msgid "Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`_"
 msgstr ""
 
