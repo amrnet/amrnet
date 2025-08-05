@@ -15,402 +15,381 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/security.po\n"
-"X-Crowdin-File-ID: 88\n"
+"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/troubleshooting.po\n"
+"X-Crowdin-File-ID: 90\n"
 
-#: ../../security.rst:4
-msgid "Security Guide"
+#: ../../troubleshooting.rst:4
+msgid "Troubleshooting Guide"
 msgstr ""
 
-#: ../../security.rst:8
-msgid "AMRnet implements comprehensive security measures to protect user data and ensure the integrity of antimicrobial resistance surveillance information. This guide covers security policies, best practices, and implementation details."
+#: ../../troubleshooting.rst:8
+msgid "This comprehensive troubleshooting guide covers common issues encountered when developing, deploying, and maintaining AMRnet. The solutions are based on real-world problems and their tested fixes."
 msgstr ""
 
-#: ../../security.rst:13
-msgid "Security Policy"
+#: ../../troubleshooting.rst:13
+msgid "Performance Issues"
 msgstr ""
 
-#: ../../security.rst:17
-msgid "AMRnet follows industry-standard security practices for web applications handling sensitive healthcare and research data."
+#: ../../troubleshooting.rst:16
+msgid "Slow Data Loading (2+ Minute Load Times)"
 msgstr ""
 
-#: ../../security.rst:21
-msgid "Vulnerability Reporting"
+#: ../../troubleshooting.rst:20
+msgid "**Symptoms:** - E. coli data taking 3+ minutes to load - K. pneumoniae taking 2+ minutes - Browser freezing during data fetch - Large payload sizes (75MB+)"
 msgstr ""
 
-#: ../../security.rst:25
-msgid "**🚨 Responsible Disclosure Process**"
+#: ../../troubleshooting.rst:26
+msgid "**Diagnosis Script:**"
 msgstr ""
 
-#: ../../security.rst:27
-msgid "If you discover a security vulnerability, please follow these steps:"
+#: ../../troubleshooting.rst:33
+msgid "**Root Causes:** - Unoptimized MongoDB queries returning all fields - Large datasets (227K+ documents for E. coli) - Single monolithic API calls - Lack of pagination or progressive loading"
 msgstr ""
 
-#: ../../security.rst:29
-msgid "**DO NOT** create a public GitHub issue"
+#: ../../troubleshooting.rst:39 ../../troubleshooting.rst:98
+#: ../../troubleshooting.rst:262
+msgid "**Solutions:**"
 msgstr ""
 
-#: ../../security.rst:30
-msgid "**Email security report** to: amrnetdashboard@gmail.com"
+#: ../../troubleshooting.rst:41
+msgid "**Use Optimized Endpoints:**"
 msgstr ""
 
-#: ../../security.rst:31
-msgid "**Include detailed information**: - Description of the vulnerability - Steps to reproduce the issue - Potential impact assessment - Suggested fixes (if available)"
+#: ../../troubleshooting.rst:51
+msgid "**Implement Pagination for Large Datasets:**"
 msgstr ""
 
-#: ../../security.rst:37
-msgid "**Response Timeline:**"
+#: ../../troubleshooting.rst:63
+msgid "**Use Parallel Loading:**"
 msgstr ""
 
-#: ../../security.rst:39
-msgid "**24 hours**: Initial acknowledgment"
+#: ../../troubleshooting.rst:74
+msgid "**Performance Validation:**"
 msgstr ""
 
-#: ../../security.rst:40
-msgid "**72 hours**: Preliminary assessment and severity classification"
+#: ../../troubleshooting.rst:82
+msgid "Browser Freezing on Large Datasets"
 msgstr ""
 
-#: ../../security.rst:41
-msgid "**7 days**: Detailed response with fix timeline"
+#: ../../troubleshooting.rst:86
+msgid "**Symptoms:** - Browser becomes unresponsive - UI freezes during data processing - \"Page Unresponsive\" warnings"
 msgstr ""
 
-#: ../../security.rst:42
-msgid "**30 days**: Target resolution for critical vulnerabilities"
+#: ../../troubleshooting.rst:91 ../../troubleshooting.rst:207
+#: ../../troubleshooting.rst:350
+msgid "**Diagnosis:**"
 msgstr ""
 
-#: ../../security.rst:45
-msgid "Supported Versions"
+#: ../../troubleshooting.rst:100
+msgid "**Progressive Genotype Loading:**"
 msgstr ""
 
-#: ../../security.rst:49
-msgid "Security updates are provided for:"
+#: ../../troubleshooting.rst:124
+msgid "**Web Workers for Heavy Processing:**"
 msgstr ""
 
-#: ../../security.rst:51
-msgid "Version Support"
+#: ../../troubleshooting.rst:137 ../../troubleshooting.rst:285
+#: ../../troubleshooting.rst:388
+msgid "**Validation:**"
 msgstr ""
 
-#: ../../security.rst:55
-msgid "Version"
+#: ../../troubleshooting.rst:145
+msgid "Development Issues"
 msgstr ""
 
-#: ../../security.rst:56
-msgid "Supported"
+#: ../../troubleshooting.rst:148
+msgid "ESLint Errors and Warnings"
 msgstr ""
 
-#: ../../security.rst:57
-msgid "1.1.x"
+#: ../../troubleshooting.rst:152
+msgid "**Symptoms:** - Build failures due to linting errors - Unused variable warnings - Import/export errors"
 msgstr ""
 
-#: ../../security.rst:58 ../../security.rst:60
-msgid "✅ Yes"
+#: ../../troubleshooting.rst:157
+msgid "**Quick Fix:**"
 msgstr ""
 
-#: ../../security.rst:59
-msgid "1.0.x"
+#: ../../troubleshooting.rst:164
+msgid "**Manual Fixes:**"
 msgstr ""
 
-#: ../../security.rst:61
-msgid "< 1.0"
+#: ../../troubleshooting.rst:175
+msgid "**Common Issues and Fixes:**"
 msgstr ""
 
-#: ../../security.rst:62
-msgid "❌ No"
+#: ../../troubleshooting.rst:198
+msgid "MongoDB Connection Issues"
 msgstr ""
 
-#: ../../security.rst:65
-msgid "Application Security"
+#: ../../troubleshooting.rst:202
+msgid "**Symptoms:** - \"Failed to load resource: 500 Internal Server Error\" - Connection timeouts - Authentication failures"
 msgstr ""
 
-#: ../../security.rst:69
-msgid "AMRnet implements multiple layers of security controls:"
+#: ../../troubleshooting.rst:214
+msgid "**Common Solutions:**"
 msgstr ""
 
-#: ../../security.rst:72
-msgid "Environment Security"
+#: ../../troubleshooting.rst:216
+msgid "**Check Environment Variables:**"
 msgstr ""
 
-#: ../../security.rst:76
-msgid "**Environment Variable Protection:**"
+#: ../../troubleshooting.rst:224
+msgid "**Fix Connection String Format:**"
 msgstr ""
 
-#: ../../security.rst:92
-msgid "**Secure Configuration Example:**"
+#: ../../troubleshooting.rst:231
+msgid "**Test Connection with Retry Logic:**"
 msgstr ""
 
-#: ../../security.rst:120
-msgid "Database Security"
+#: ../../troubleshooting.rst:253
+msgid "Server Startup Issues"
 msgstr ""
 
-#: ../../security.rst:124
-msgid "**MongoDB Security Configuration:**"
+#: ../../troubleshooting.rst:257
+msgid "**Symptoms:** - Server not starting on correct port - \"EADDRINUSE\" port errors - Import/export syntax errors"
 msgstr ""
 
-#: ../../security.rst:153
-msgid "**Data Sanitization:**"
+#: ../../troubleshooting.rst:264
+msgid "**Port Configuration:**"
 msgstr ""
 
-#: ../../security.rst:178
-msgid "API Security"
+#: ../../troubleshooting.rst:271
+msgid "**Kill Existing Processes:**"
 msgstr ""
 
-#: ../../security.rst:182
-msgid "**Authentication and Authorization:**"
+#: ../../troubleshooting.rst:278
+msgid "**Use Minimal Test Server:**"
 msgstr ""
 
-#: ../../security.rst:214
-msgid "**CORS Configuration:**"
+#: ../../troubleshooting.rst:293
+msgid "Deployment Issues"
 msgstr ""
 
-#: ../../security.rst:239
-msgid "Frontend Security"
+#: ../../troubleshooting.rst:296
+msgid "Heroku Deployment Failures"
 msgstr ""
 
-#: ../../security.rst:243
-msgid "**Content Security Policy:**"
+#: ../../troubleshooting.rst:300
+msgid "**Symptoms:** - Build failures during deployment - Memory limit exceeded - Slow response times"
 msgstr ""
 
-#: ../../security.rst:255
-msgid "**XSS Prevention:**"
+#: ../../troubleshooting.rst:305
+msgid "**Pre-deployment Check:**"
 msgstr ""
 
-#: ../../security.rst:283
-msgid "Data Privacy"
+#: ../../troubleshooting.rst:312 ../../troubleshooting.rst:395
+msgid "**Common Fixes:**"
 msgstr ""
 
-#: ../../security.rst:287
-msgid "AMRnet implements privacy-by-design principles for handling surveillance data:"
+#: ../../troubleshooting.rst:314
+msgid "**Environment Variables:**"
 msgstr ""
 
-#: ../../security.rst:290
-msgid "Data Classification"
+#: ../../troubleshooting.rst:322
+msgid "**Optimize for Heroku:**"
 msgstr ""
 
-#: ../../security.rst:294
-msgid "**Public Data:** - Aggregated surveillance statistics - Country-level prevalence data - Publicly available research datasets"
+#: ../../troubleshooting.rst:329
+msgid "**Build Script Issues:**"
 msgstr ""
 
-#: ../../security.rst:299
-msgid "**Restricted Data:** - Individual sample identifiers (when present) - Detailed geographic coordinates - Unpublished research data"
+#: ../../troubleshooting.rst:341
+msgid "MongoDB Atlas Performance"
 msgstr ""
 
-#: ../../security.rst:304
-msgid "**Prohibited Data:** - Personal health information (PHI) - Patient identifiers - Clinical details beyond resistance patterns"
+#: ../../troubleshooting.rst:345
+msgid "**Symptoms:** - High latency connections - Timeout errors - Poor query performance"
 msgstr ""
 
-#: ../../security.rst:310
-msgid "Privacy Controls"
+#: ../../troubleshooting.rst:357
+msgid "**Optimizations:**"
 msgstr ""
 
-#: ../../security.rst:314
-msgid "**Data Minimization:**"
+#: ../../troubleshooting.rst:359
+msgid "1. **Region Proximity:** - Ensure Heroku and Atlas are in same region - Use ``us-east-1`` for both services"
 msgstr ""
 
-#: ../../security.rst:330
-msgid "**Anonymization:**"
+#: ../../troubleshooting.rst:363
+msgid "**Connection Pooling:**"
 msgstr ""
 
-#: ../../security.rst:355
-msgid "Secure Development"
+#: ../../troubleshooting.rst:376
+msgid "Translation and Internationalization"
 msgstr ""
 
-#: ../../security.rst:359
-msgid "Security practices for development and deployment:"
+#: ../../troubleshooting.rst:379
+msgid "Translation Workflow Issues"
 msgstr ""
 
-#: ../../security.rst:362
-msgid "Code Security"
+#: ../../troubleshooting.rst:383
+msgid "**Symptoms:** - Missing translation keys - Translation workflow not triggering - JSON syntax errors"
 msgstr ""
 
-#: ../../security.rst:366
-msgid "**Dependency Management:**"
+#: ../../troubleshooting.rst:397
+msgid "**File Structure:**"
 msgstr ""
 
-#: ../../security.rst:379
-msgid "**Security Linting:**"
+#: ../../troubleshooting.rst:411
+msgid "**JSON Validation:**"
 msgstr ""
 
-#: ../../security.rst:398
-msgid "Git Security"
+#: ../../troubleshooting.rst:418
+msgid "**GitHub Workflow:**"
 msgstr ""
 
-#: ../../security.rst:402
-msgid "**Secure Repository Practices:**"
+#: ../../troubleshooting.rst:430
+msgid "Code Quality Issues"
 msgstr ""
 
-#: ../../security.rst:419
-msgid "**Secrets Management:**"
+#: ../../troubleshooting.rst:433
+msgid "Cleanup and Maintenance"
 msgstr ""
 
-#: ../../security.rst:440
-msgid "Deployment Security"
+#: ../../troubleshooting.rst:437
+msgid "**Symptoms:** - Excessive console.log statements - Commented-out code - Unused files and dependencies"
 msgstr ""
 
-#: ../../security.rst:444
-msgid "Security configurations for production deployment:"
+#: ../../troubleshooting.rst:442
+msgid "**Automated Cleanup:**"
 msgstr ""
 
-#: ../../security.rst:447
-msgid "Server Security"
+#: ../../troubleshooting.rst:452
+msgid "**Manual Cleanup:**"
 msgstr ""
 
-#: ../../security.rst:451
-msgid "**Security Headers:**"
+#: ../../troubleshooting.rst:463
+msgid "Security Issues"
 msgstr ""
 
-#: ../../security.rst:484
-msgid "Infrastructure Security"
+#: ../../troubleshooting.rst:467
+msgid "**Symptoms:** - Exposed credentials in repository - Security warnings - Vulnerable dependencies"
 msgstr ""
 
-#: ../../security.rst:488
-msgid "**HTTPS Configuration:**"
+#: ../../troubleshooting.rst:472
+msgid "**Immediate Actions:**"
 msgstr ""
 
-#: ../../security.rst:511
-msgid "Monitoring and Incident Response"
+#: ../../troubleshooting.rst:485
+msgid "**Prevention:**"
 msgstr ""
 
-#: ../../security.rst:515
-msgid "Continuous security monitoring and incident response procedures:"
+#: ../../troubleshooting.rst:495
+msgid "Performance Optimization"
 msgstr ""
 
-#: ../../security.rst:518
-msgid "Security Monitoring"
+#: ../../troubleshooting.rst:498
+msgid "Monitoring and Validation"
 msgstr ""
 
-#: ../../security.rst:522
-msgid "**Logging and Alerting:**"
+#: ../../troubleshooting.rst:502
+msgid "**Real-time Monitoring:**"
 msgstr ""
 
-#: ../../security.rst:550
-msgid "**Intrusion Detection:**"
+#: ../../troubleshooting.rst:509
+msgid "**Load Testing:**"
 msgstr ""
 
-#: ../../security.rst:575
-msgid "Incident Response"
+#: ../../troubleshooting.rst:516
+msgid "**Performance Benchmarks:**"
 msgstr ""
 
-#: ../../security.rst:579
-msgid "**Response Procedures:**"
+#: ../../troubleshooting.rst:523
+msgid "**Expected Results:** - K. pneumoniae: <2s load time - E. coli: <7s with pagination - E. coli (diarrheagenic): <3s load time - Payload reduction: 60-90%"
 msgstr ""
 
-#: ../../security.rst:581
-msgid "**Detection**: Automated monitoring alerts security team"
+#: ../../troubleshooting.rst:530
+msgid "Diagnostic Scripts Reference"
 msgstr ""
 
-#: ../../security.rst:582
-msgid "**Assessment**: Determine severity and scope of incident"
+#: ../../troubleshooting.rst:534
+msgid "**Quick Diagnostics:**"
 msgstr ""
 
-#: ../../security.rst:583
-msgid "**Containment**: Isolate affected systems if necessary"
+#: ../../troubleshooting.rst:547
+msgid "**Comprehensive Analysis:**"
 msgstr ""
 
-#: ../../security.rst:584
-msgid "**Investigation**: Analyze logs and determine root cause"
+#: ../../troubleshooting.rst:560
+msgid "**Status Checks:**"
 msgstr ""
 
-#: ../../security.rst:585
-msgid "**Recovery**: Restore normal operations"
+#: ../../troubleshooting.rst:571
+msgid "Emergency Procedures"
 msgstr ""
 
-#: ../../security.rst:586
-msgid "**Lessons Learned**: Update security measures based on findings"
+#: ../../troubleshooting.rst:574
+msgid "Critical Performance Issues"
 msgstr ""
 
-#: ../../security.rst:589
-msgid "Security Testing"
+#: ../../troubleshooting.rst:578
+msgid "**If users report 2+ minute load times:**"
 msgstr ""
 
-#: ../../security.rst:593
-msgid "Regular security testing ensures ongoing protection:"
+#: ../../troubleshooting.rst:580
+msgid "**Immediate Response:**"
 msgstr ""
 
-#: ../../security.rst:596
-msgid "Automated Testing"
+#: ../../troubleshooting.rst:587
+msgid "**Verify Fix:**"
 msgstr ""
 
-#: ../../security.rst:600
-msgid "**Security Test Suite:**"
+#: ../../troubleshooting.rst:593
+msgid "**Monitor Results:**"
 msgstr ""
 
-#: ../../security.rst:627
-msgid "Penetration Testing"
+#: ../../troubleshooting.rst:600
+msgid "Server Down Emergency"
 msgstr ""
 
-#: ../../security.rst:631
-msgid "**Regular Security Assessments:**"
+#: ../../troubleshooting.rst:604
+msgid "**If server is unresponsive:**"
 msgstr ""
 
-#: ../../security.rst:633
-msgid "Quarterly vulnerability scans"
+#: ../../troubleshooting.rst:606
+msgid "**Start Minimal Server:**"
 msgstr ""
 
-#: ../../security.rst:634
-msgid "Annual penetration testing by third-party security firms"
+#: ../../troubleshooting.rst:612
+msgid "**Check Logs:**"
 msgstr ""
 
-#: ../../security.rst:635
-msgid "Continuous security monitoring"
+#: ../../troubleshooting.rst:618
+msgid "**Restart with Fixed Configuration:**"
 msgstr ""
 
-#: ../../security.rst:636
-msgid "Bug bounty program for responsible disclosure"
+#: ../../troubleshooting.rst:625
+msgid "Getting Help"
 msgstr ""
 
-#: ../../security.rst:639
-msgid "Best Practices Checklist"
+#: ../../troubleshooting.rst:629
+msgid "**When to Use Each Script:**"
 msgstr ""
 
-#: ../../security.rst:643
-msgid "**Development Security Checklist:**"
+#: ../../troubleshooting.rst:631
+msgid "**Performance Issues**: ``organism-performance-debugger.js``"
 msgstr ""
 
-#: ../../security.rst:645
-msgid "✅ **Environment Security** - [ ] Never commit secrets to version control - [ ] Use secure environment variable management - [ ] Implement proper secret rotation"
+#: ../../troubleshooting.rst:632
+msgid "**Deployment Problems**: ``deployment-readiness.js``"
 msgstr ""
 
-#: ../../security.rst:650
-msgid "✅ **Application Security** - [ ] Input validation and sanitization - [ ] Output encoding to prevent XSS - [ ] SQL injection prevention - [ ] Authentication and authorization"
+#: ../../troubleshooting.rst:633
+msgid "**MongoDB Issues**: ``test-fixie-connection.js``"
 msgstr ""
 
-#: ../../security.rst:656
-msgid "✅ **Infrastructure Security** - [ ] HTTPS enforcement - [ ] Security headers implementation - [ ] Regular dependency updates - [ ] Database access controls"
+#: ../../troubleshooting.rst:634
+msgid "**Code Quality**: ``cleanup_script.sh``"
 msgstr ""
 
-#: ../../security.rst:662
-msgid "✅ **Monitoring and Response** - [ ] Security event logging - [ ] Intrusion detection systems - [ ] Incident response procedures - [ ] Regular security assessments"
+#: ../../troubleshooting.rst:635
+msgid "**Translation Issues**: ``test-translation-setup.sh``"
 msgstr ""
 
-#: ../../security.rst:669
-msgid "Contact Information"
+#: ../../troubleshooting.rst:637
+msgid "**Community Support:** - GitHub Issues: https://github.com/amrnet/amrnet/issues - Discussions: https://github.com/amrnet/amrnet/discussions - Email: amrnetdashboard@gmail.com"
 msgstr ""
 
-#: ../../security.rst:673
-msgid "**Security Team Contact:**"
-msgstr ""
-
-#: ../../security.rst:675
-msgid "**Email**: amrnetdashboard@gmail.com"
-msgstr ""
-
-#: ../../security.rst:676
-msgid "**PGP Key**: Available upon request"
-msgstr ""
-
-#: ../../security.rst:677
-msgid "**Response Time**: 24 hours for initial acknowledgment"
-msgstr ""
-
-#: ../../security.rst:679
-msgid "**For General Security Questions:**"
-msgstr ""
-
-#: ../../security.rst:681
-msgid "**GitHub Discussions**: https://github.com/amrnet/amrnet/discussions"
-msgstr ""
-
-#: ../../security.rst:682
-msgid "**Documentation**: https://amrnet.readthedocs.io"
+#: ../../troubleshooting.rst:642
+msgid "**Emergency Contacts:** - Critical bugs: GitHub Issues with \"urgent\" label - Security issues: amrnetdashboard@gmail.com"
 msgstr ""
 
