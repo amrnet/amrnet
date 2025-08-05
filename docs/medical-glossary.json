@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amrnet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-05 00:07+0100\n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
 "PO-Revision-Date: 2025-08-05 01:47\n"
 "Last-Translator: \n"
 "Language: fr\n"
@@ -15,349 +15,154 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/es/LC_MESSAGES/gui.po\n"
-"X-Crowdin-File-ID: 38\n"
+"X-Crowdin-File: /devrev-final/docs/locale/es/LC_MESSAGES/index.po\n"
+"X-Crowdin-File-ID: 40\n"
 
-#: ../../gui.rst:9
-msgid "AMRnet's next-generation interface is built with the FARM (FastAPI + React + MongoDB) stack, providing a modern, responsive, and highly interactive user experience for antimicrobial resistance data exploration and analysis."
+#: ../../index.rst:6
+msgid "User Tutorial"
 msgstr ""
 
-#: ../../gui.rst:13
-msgid "Table of Contents"
+#: ../../index.rst:6
+msgid "User guide"
 msgstr ""
 
-#: ../../gui.rst:16
+#: ../../index.rst:6
+msgid "Dashboard usage"
+msgstr ""
+
+#: ../../index.rst:6
+msgid "Data access"
+msgstr ""
+
+#: ../../index.rst:6
+msgid "Data rights"
+msgstr ""
+
+#: ../../index.rst:6
+msgid "User Resources"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "API Reference"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "FARM Stack GUI"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "Data Dictionary"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "API & Integration"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Installation"
+msgstr ""
+
+#: ../../index.rst:24 ../../index.rst:82
+msgid "Features"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Performance Optimization"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Deployment Guide"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Security Guide"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Internationalization"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Troubleshooting"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Code of Conduct"
+msgstr ""
+
+#: ../../index.rst:24 ../../index.rst:94
+msgid "License"
+msgstr ""
+
+#: ../../index.rst:24
+msgid ".. Changelog"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "For developers"
+msgstr ""
+
+#: ../../index.rst:50
 msgid "Overview"
 msgstr ""
 
-#: ../../gui.rst:20
-msgid "The FARM stack GUI represents a significant evolution of the AMRnet platform, offering:"
+#: ../../index.rst:53
+msgid "**AMRnet** aims to make high-quality, robust and reliable genome-derived AMR Surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing."
 msgstr ""
 
-#: ../../gui.rst:22
-msgid "**⚡ Performance**: 3x faster load times with server-side rendering"
+#: ../../index.rst:61
+msgid "`Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the **AMRnet** mailing list!"
 msgstr ""
 
-#: ../../gui.rst:23
-msgid "**🎨 Modern UI**: Material Design 3.0 with dark/light theme support"
+#: ../../index.rst:64
+msgid "Quick start"
 msgstr ""
 
-#: ../../gui.rst:24
-msgid "**📱 Responsive**: Mobile-first design that works on all devices"
+#: ../../index.rst:67
+msgid "**For Users:** Visit the live dashboard at `AMRnet.org <https://www.amrnet.org>`_"
 msgstr ""
 
-#: ../../gui.rst:25
-msgid "**🔄 Real-time**: Live data updates and collaborative features"
+#: ../../index.rst:69
+msgid "**For Developers:** Get started with local development:"
 msgstr ""
 
-#: ../../gui.rst:26
-msgid "**🌍 Accessibility**: WCAG 2.1 AA compliant interface"
+#: ../../index.rst:79
+msgid "See :ref:`label-installation` for complete installation instructions."
 msgstr ""
 
-#: ../../gui.rst:27
-msgid "**🚀 Progressive**: Offline capabilities with service workers"
+#: ../../index.rst:85
+msgid "See the complete list of ``AMRnet`` features :ref:`here<label-features>`."
 msgstr ""
 
-#: ../../gui.rst:30
-msgid "Technology Stack"
-msgstr ""
-
-#: ../../gui.rst:33
-msgid "Frontend Architecture"
-msgstr ""
-
-#: ../../gui.rst:37
-msgid "The React frontend leverages modern development practices and cutting-edge libraries:"
-msgstr ""
-
-#: ../../gui.rst:39
-msgid "**Core Technologies:**"
-msgstr ""
-
-#: ../../gui.rst:52
-msgid "**Key Libraries:**"
-msgstr ""
-
-#: ../../gui.rst:54
-msgid "**Next.js 14**: Server-side rendering and app router"
-msgstr ""
-
-#: ../../gui.rst:55
-msgid "**TypeScript**: Type-safe development"
-msgstr ""
-
-#: ../../gui.rst:56
-msgid "**Tailwind CSS**: Utility-first styling"
-msgstr ""
-
-#: ../../gui.rst:57
-msgid "**Framer Motion**: Smooth animations and transitions"
-msgstr ""
-
-#: ../../gui.rst:58
-msgid "**React Query**: Server state management"
-msgstr ""
-
-#: ../../gui.rst:59
-msgid "**Zustand**: Client state management"
-msgstr ""
-
-#: ../../gui.rst:60
-msgid "**React Hook Form**: Form handling with validation"
-msgstr ""
-
-#: ../../gui.rst:61
-msgid "**Recharts**: Advanced data visualizations"
-msgstr ""
-
-#: ../../gui.rst:62
-msgid "**Mapbox GL**: Interactive geographic mapping"
-msgstr ""
-
-#: ../../gui.rst:64
-msgid "**Component Architecture:**"
-msgstr ""
-
-#: ../../gui.rst:95
-msgid "Backend Infrastructure"
-msgstr ""
-
-#: ../../gui.rst:99
-msgid "The FastAPI backend provides high-performance APIs with automatic documentation:"
-msgstr ""
-
-#: ../../gui.rst:101
-msgid "**FastAPI Application:**"
-msgstr ""
-
-#: ../../gui.rst:138
-msgid "**MongoDB Integration:**"
-msgstr ""
-
-#: ../../gui.rst:169
-msgid "Key Features"
-msgstr ""
-
-#: ../../gui.rst:172
-msgid "Interactive Dashboard Components"
-msgstr ""
-
-#: ../../gui.rst:174
-msgid "**Organism Selector:**"
-msgstr ""
-
-#: ../../gui.rst:230
-msgid "**Real-time Resistance Chart:**"
-msgstr ""
-
-#: ../../gui.rst:324
-msgid "**Interactive Geographic Map:**"
-msgstr ""
-
-#: ../../gui.rst:424
-msgid "Advanced Analytics Interface"
-msgstr ""
-
-#: ../../gui.rst:426
-msgid "**Statistical Analysis Dashboard:**"
-msgstr ""
-
-#: ../../gui.rst:503
-msgid "**API Explorer Interface:**"
-msgstr ""
-
-#: ../../gui.rst:633
-msgid "Real-time Features"
-msgstr ""
-
-#: ../../gui.rst:636
-msgid "WebSocket Integration"
-msgstr ""
-
-#: ../../gui.rst:640
-msgid "The FARM stack GUI leverages WebSocket connections for real-time data updates and collaborative features:"
-msgstr ""
-
-#: ../../gui.rst:642
-msgid "**Real-time Data Streaming:**"
-msgstr ""
-
-#: ../../gui.rst:696
-msgid "**Frontend WebSocket Hook:**"
-msgstr ""
-
-#: ../../gui.rst:768
-msgid "Progressive Web App Features"
-msgstr ""
-
-#: ../../gui.rst:770
-msgid "**Service Worker Configuration:**"
-msgstr ""
-
-#: ../../gui.rst:809
-msgid "**Offline Data Management:**"
-msgstr ""
-
-#: ../../gui.rst:894
-msgid "Accessibility Features"
-msgstr ""
-
-#: ../../gui.rst:898
-msgid "The FARM stack GUI prioritizes accessibility to ensure the platform is usable by all researchers, regardless of their abilities:"
-msgstr ""
-
-#: ../../gui.rst:900
-msgid "**WCAG 2.1 AA Compliance:**"
-msgstr ""
-
-#: ../../gui.rst:993
-msgid "**Screen Reader Support:**"
-msgstr ""
-
-#: ../../gui.rst:1101
-msgid "Deployment and Performance"
-msgstr ""
-
-#: ../../gui.rst:1105
-msgid "The FARM stack is optimized for production deployment with modern DevOps practices:"
-msgstr ""
-
-#: ../../gui.rst:1107
-msgid "**Docker Configuration:**"
-msgstr ""
-
-#: ../../gui.rst:1143
-msgid "**Performance Optimization:**"
-msgstr ""
-
-#: ../../gui.rst:1186
-msgid "Getting Started"
-msgstr ""
-
-#: ../../gui.rst:1189
-msgid "Development Setup"
-msgstr ""
-
-#: ../../gui.rst:1193
-msgid "Set up the FARM stack development environment:"
-msgstr ""
-
-#: ../../gui.rst:1195
-msgid "**1. Clone and Install Dependencies:**"
-msgstr ""
-
-#: ../../gui.rst:1211
-msgid "**2. Environment Configuration:**"
-msgstr ""
-
-#: ../../gui.rst:1225
-msgid "**3. Start Development Servers:**"
-msgstr ""
-
-#: ../../gui.rst:1237
-msgid "**4. Access the Application:**"
-msgstr ""
-
-#: ../../gui.rst:1239
-msgid "**Frontend**: http://localhost:3000"
-msgstr ""
-
-#: ../../gui.rst:1240
-msgid "**Backend API**: http://localhost:8000"
-msgstr ""
-
-#: ../../gui.rst:1241
-msgid "**API Documentation**: http://localhost:8000/docs"
-msgstr ""
-
-#: ../../gui.rst:1244
-msgid "Production Deployment"
-msgstr ""
-
-#: ../../gui.rst:1248
-msgid "Deploy using Docker Compose for production:"
-msgstr ""
-
-#: ../../gui.rst:1304
-msgid "Support and Community"
-msgstr ""
-
-#: ../../gui.rst:1308
-msgid "Get help with the FARM stack implementation:"
-msgstr ""
-
-#: ../../gui.rst:1311
-msgid "Resources"
-msgstr ""
-
-#: ../../gui.rst:1313
-msgid "**📖 Component Library**: Storybook documentation at `storybook.amrnet.org <https://storybook.amrnet.org>`_"
-msgstr ""
-
-#: ../../gui.rst:1314
-msgid "**🎨 Design System**: Figma design tokens and components"
-msgstr ""
-
-#: ../../gui.rst:1315
-msgid "**🧪 Testing Guide**: Jest and Cypress testing patterns"
-msgstr ""
-
-#: ../../gui.rst:1316
-msgid "**🚀 Deployment Guide**: Production deployment best practices"
-msgstr ""
-
-#: ../../gui.rst:1319
+#: ../../index.rst:88
 msgid "Contributing"
 msgstr ""
 
-#: ../../gui.rst:1323
-msgid "Contribute to the FARM stack development:"
+#: ../../index.rst:91
+msgid "Contributions are very welcome. To learn more, see the :ref:`Contributor Guide<label-contributing>`."
 msgstr ""
 
-#: ../../gui.rst:1325
-msgid "**Frontend Issues**: React components, UI/UX improvements"
+#: ../../index.rst:97
+msgid "Distributed under the terms of the :doc:`GPLv3 License <license>` ``AMRnet`` is free and open source software."
 msgstr ""
 
-#: ../../gui.rst:1326
-msgid "**Backend Issues**: FastAPI endpoints, performance optimization"
+#: ../../index.rst:101
+msgid "Support"
 msgstr ""
 
-#: ../../gui.rst:1327
-msgid "**Documentation**: User guides and API documentation"
+#: ../../index.rst:104
+msgid "Found a bug 🐛, or have a feature request ✨, raise an issue on the GitHub `issue tracker <https://github.com/amrnet/amrnet/issues>`_. Alternatively you can get support on the `discussions <https://github.com/amrnet/amrnet/discussions>`_ page."
 msgstr ""
 
-#: ../../gui.rst:1328
-msgid "**Testing**: Unit tests, integration tests, e2e tests"
+#: ../../index.rst:112
+msgid "Disclaimer"
 msgstr ""
 
-#: ../../gui.rst:1330
-msgid "**Development Workflow:**"
+#: ../../index.rst:115
+msgid "**AMRnet** is an open source dashboard that continues to benefit from the collaboration of many contributors. Although efforts have been made to ensure the that relevant web development standards are implemented, it remains the user’s responsibility to confirm and accept the output. Refer to the :doc:`License <license>` for clarification of the conditions of use."
 msgstr ""
 
-#: ../../gui.rst:1349
-msgid "Future Roadmap"
+#: ../../index.rst:123
+msgid "Acknowledgements"
 msgstr ""
-
-#: ../../gui.rst:1353
-msgid "Planned enhancements for the FARM stack GUI:"
-msgstr ""
-
-#: ../../gui.rst:1355
-msgid "**Q1 2025:** - 🤖 AI-powered data insights and recommendations - 📱 Native mobile applications (React Native) - 🔍 Advanced search with natural language queries - 📊 Custom dashboard builder interface"
-msgstr ""
-
-#: ../../gui.rst:1361
-msgid "**Q2 2025:** - 🌐 Multi-language support expansion (Chinese, Arabic, Hindi) - 🔒 Advanced security features (2FA, SSO integration) - 📈 Machine learning model explanations - 🎮 Gamification for data exploration"
-msgstr ""
-
-#: ../../gui.rst:1367
-msgid "**Q3 2025:** - 🗣️ Voice interface for accessibility - 🔗 Enhanced data integration (HL7 FHIR, SNOMED CT) - 📋 Collaborative workspaces and sharing - 🎯 Personalized research recommendations"
-msgstr ""
-
-#: ../../gui.rst:1373
-msgid "**Long-term Vision:** - Virtual reality data exploration environments - Blockchain-based data provenance tracking - Quantum computing integration for complex analyses - Global real-time surveillance network integration"
-msgstr ""
-
-#~ msgid "FARM Stack GUI Guide"
-#~ msgstr ""
 
