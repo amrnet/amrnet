@@ -110,7 +110,7 @@ Individual pathogen details
 
 
 *Escherichia coli*
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -152,7 +152,7 @@ Individual pathogen details
 
 
 *Shigella* + EIEC
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 

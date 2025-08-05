@@ -250,7 +250,7 @@ MongoDB Connection Issues
         };
 
 Server Startup Issues
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -338,7 +338,7 @@ Heroku Deployment Failures
         }
 
 MongoDB Atlas Performance
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -460,7 +460,7 @@ Cleanup and Maintenance
         find . -name "*.js" | xargs grep -l "^[[:space:]]*//.*TODO"
 
 Security Issues
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -484,7 +484,7 @@ Security Issues
 
     **Prevention:**
 
-    .. code-block:: gitignore
+    .. code-block:: text
 
         # .gitignore
         .env
@@ -523,7 +523,7 @@ Monitoring and Validation
     **Expected Results:**
     - K. pneumoniae: <2s load time
     - E. coli: <7s with pagination
-    - D. E. coli: <3s load time
+    - E. coli (diarrheagenic): <3s load time
     - Payload reduction: 60-90%
 
 Diagnostic Scripts Reference
@@ -597,7 +597,7 @@ Critical Performance Issues
         node scripts/monitor-performance.js
 
 Server Down Emergency
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -641,4 +641,4 @@ Getting Help
 
     **Emergency Contacts:**
     - Critical bugs: GitHub Issues with "urgent" label
-    - Security issues: security@amrnet.org
+    - Security issues: amrnetdashboard@gmail.com

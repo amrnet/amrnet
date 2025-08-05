@@ -1,0 +1,42 @@
+# Read the Docs Configuration for AMRnet
+# This file configures multi-language documentation with professional translation support
+
+version: 2
+
+# Build configuration
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "3.11"
+  jobs:
+    post_create_environment:
+      - pip install --upgrade pip setuptools wheel
+      - pip install -r docs/requirements.txt
+
+# Python configuration
+python:
+  install:
+    - requirements: docs/requirements.txt
+    - method: pip
+      path: .
+
+# Sphinx configuration
+sphinx:
+  builder: html
+  configuration: docs/conf.py
+  fail_on_warning: false
+
+# Format configuration
+formats:
+  - pdf
+  - epub
+
+# Search configuration
+search:
+  ranking:
+    api.rst: 2
+    tutorial.rst: 3
+    userguide.rst: 3
+  ignore:
+    - locale/
+    - _build/

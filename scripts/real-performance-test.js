@@ -67,7 +67,7 @@ async function testRealPerformance() {
   }
 
   console.log('💡 SUMMARY:');
-  console.log('   - K. pneumoniae & D. E. coli should load smoothly');
+  console.log('   - K. pneumoniae & E. coli (diarrheagenic) should load smoothly');
   console.log('   - E. coli needs pagination or progressive rendering to prevent freezing');
   console.log('   - All organisms now use optimized field projections (60-90% smaller payloads)');
   console.log('   - Backend performance is dramatically improved vs original endpoints');
