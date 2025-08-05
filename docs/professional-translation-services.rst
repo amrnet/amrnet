@@ -1,6 +1,6 @@
-=====================================
+==================================
 Professional Translation Services
-=====================================
+==================================
 
 .. container:: justify-text
 
@@ -23,7 +23,7 @@ Weblate Integration
 **Weblate** is an open-source, web-based translation platform ideal for collaborative translation projects.
 
 Setup Configuration
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 1. **Create Weblate Project**
 
@@ -209,7 +209,7 @@ Lokalise Integration
 **Lokalise** offers advanced automation and enterprise-grade translation management.
 
 Configuration Setup
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: yaml
 
@@ -348,10 +348,10 @@ Terminology Management
            return contexts.get(term, "Standard medical term")
 
 Quality Assurance Workflows
-============================
+===========================
 
 Automated Quality Checks
--------------------------
+------------------------
 
 .. code-block:: python
 
@@ -533,7 +533,7 @@ Deployment Integration
 ======================
 
 Read the Docs Configuration
-----------------------------
+---------------------------
 
 .. code-block:: yaml
 

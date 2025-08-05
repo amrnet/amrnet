@@ -1,8 +1,8 @@
 .. _label-api:
 
-===============
+==============
 API Reference
-=============
+==============
 
 .. container:: justify-text
 
