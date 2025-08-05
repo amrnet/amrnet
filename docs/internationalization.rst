@@ -1,7 +1,7 @@
 .. _label-internationalization:
 
 Internationalization (i18n)
-============================
+===========================
 
 .. container:: justify-text
 
@@ -83,7 +83,7 @@ Technical Architecture
         export default i18n;
 
 Translation Structure
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -118,7 +118,7 @@ Translation Structure
         }
 
 Language Switcher Component
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -254,7 +254,7 @@ Cultural Adaptation
     - Universal Spanish conventions for global accessibility
 
 Technical Considerations
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -316,7 +316,7 @@ Translation Workflow
         # Or use automated translation workflow
 
 Translation Guidelines
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -353,7 +353,7 @@ Translation Guidelines
         }
 
 Automated Translation
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. container::ifyGitHub Workflow:**
 
@@ -380,14 +380,14 @@ Automated Translation
                 uses: peter-evans/create-pull-request@v5
 
 Accessibility and Internationalization
----------------------------------------
+--------------------------------------
 
 .. container:: justify-text
 
     Ensuring accessibility across all supported languages:
 
 Screen Reader Support
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -426,7 +426,7 @@ Screen Reader Support
         }
 
 Keyboard Navigation
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -502,7 +502,7 @@ Testing Internationalization
     Ensuring translation quality and functionality:
 
 Automated Testing
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -563,7 +563,7 @@ Future Enhancements
     Planned improvements for internationalization:
 
 Additional Languages
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -574,7 +574,7 @@ Additional Languages
     - Russian (Русский) for Eastern European users
 
 Advanced Features
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -585,7 +585,7 @@ Advanced Features
     - Regional data presentation preferences
 
 Community Contributions
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 

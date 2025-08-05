@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 // Real-time monitoring script for AMRNet performance
-import { performance } from 'perf_hooks';
 
 console.log(`
 🔍 AMRNet Real-Time Performance Monitor
@@ -14,7 +13,7 @@ This script will monitor your application's performance in real-time.
 
 1. E. coli loading: ~3 minutes (180,000ms)
 2. K. pneumoniae loading: ~2 minutes (120,000ms)
-3. D. E. coli loading: ~1 minute (60,000ms)
+3. E. coli (diarrheagenic) loading: ~1 minute (60,000ms)
 
 🚀 OPTIMIZATIONS IMPLEMENTED:
 -----------------------------

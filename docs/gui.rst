@@ -2,7 +2,7 @@
 
 =====================
 FARM Stack GUI Guide
-=====================
+====================
 
 .. container:: justify-text
 
@@ -27,10 +27,10 @@ Overview
     - **🚀 Progressive**: Offline capabilities with service workers
 
 Technology Stack
-=================
+================
 
 Frontend Architecture
-----------------------
+---------------------
 
 .. container:: justify-text
 
@@ -173,7 +173,7 @@ Interactive Dashboard Components
 
 **Organism Selector:**
 
-.. code-block:: tsx
+.. code-block:: typescript
 
     // src/components/molecules/OrganismSelector.tsx
     import React, { useState } from 'react';
@@ -229,7 +229,7 @@ Interactive Dashboard Components
 
 **Real-time Resistance Chart:**
 
-.. code-block:: tsx
+.. code-block:: typescript
 
     // src/components/organisms/ResistanceChart.tsx
     import React, { useEffect, useState } from 'react';
@@ -323,7 +323,7 @@ Interactive Dashboard Components
 
 **Interactive Geographic Map:**
 
-.. code-block:: tsx
+.. code-block:: typescript
 
     // src/components/organisms/GeographicMap.tsx
     import React, { useRef, useEffect, useState } from 'react';
@@ -425,7 +425,7 @@ Advanced Analytics Interface
 
 **Statistical Analysis Dashboard:**
 
-.. code-block:: tsx
+.. code-block:: typescript
 
     // src/components/pages/AnalyticsDashboard.tsx
     import React, { useState } from 'react';
@@ -502,7 +502,7 @@ Advanced Analytics Interface
 
 **API Explorer Interface:**
 
-.. code-block:: tsx
+.. code-block:: typescript
 
     // src/components/pages/APIExplorer.tsx
     import React, { useState } from 'react';
@@ -899,7 +899,7 @@ Accessibility Features
 
 **WCAG 2.1 AA Compliance:**
 
-.. code-block:: tsx
+.. code-block:: typescript
 
     // src/components/atoms/AccessibleButton.tsx
     import React, { forwardRef } from 'react';
@@ -992,7 +992,7 @@ Accessibility Features
 
 **Screen Reader Support:**
 
-.. code-block:: tsx
+.. code-block:: typescript
 
     // src/components/molecules/DataTable.tsx
     import React from 'react';

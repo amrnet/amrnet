@@ -3,3 +3,24 @@ sphinx-copybutton
 sphinx-design
 sphinx-inline-tabs
 sphinx-tabs
+sphinx-intl
+babel
+
+# Professional translation services dependencies
+aiohttp>=3.8.0
+pyyaml>=6.0
+polib>=1.1.0
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+
+# Translation platform CLIs (installed via package managers)
+# crowdin-cli (npm install -g @crowdin/cli)
+# lokalise-cli (via install script)
+
+# Medical terminology validation
+jsonschema>=4.0.0
+click>=8.0.0
+
+# Quality assurance and reporting
+matplotlib>=3.5.0
+pandas>=1.5.0

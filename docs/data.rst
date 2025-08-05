@@ -23,10 +23,10 @@ Data access
         Salmonella Typhi as ``styphi``
 
 a. Data accessing using Browser
-******************************************
+*******************************
 
 i. Viewing Available Files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -35,7 +35,7 @@ i. Viewing Available Files
     * Step 3: This URL leads to an XML text representation listing all the files available in the Amazon S3 bucket. The XML format will display information about each file, such as its key (name), last modified date, size, etc.
 
 ii. Searching for a Specific Organism
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -43,7 +43,7 @@ ii. Searching for a Specific Organism
     * Step 2: Type the name of file based on the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism.
 
 iii. Downloading a File
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 .. container:: justify-text
 
     * Step 1: Once you find the ``<Key>`` field that contains the file name you are interested in, note down the file name.
@@ -63,7 +63,7 @@ iii. Downloading a File
         https://amrnet.s3.amazonaws.com/amrnet-latest/amrnet-decoli.csv
 
 b. Data accessing using Command line
-************************************************
+************************************
 .. container:: justify-text
 
     * Step 1: Open your terminal.
@@ -87,7 +87,7 @@ b. Data accessing using Command line
 
 
 c. Data accessing using Using S3cmd tool
-***************************************************
+****************************************
 
 .. container:: justify-text
 

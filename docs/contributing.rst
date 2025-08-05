@@ -43,8 +43,6 @@ How to request a feature
    pull request as this allows for the best coordination of efforts by preventing the
    duplication of work, and allows for feedback on your ideas.
 
-.. _label-contributing:
-
 Contributor Guide
 =================
 .. container:: justify-text
@@ -235,7 +233,7 @@ Specific Contribution Areas
 ---------------------------
 
 Frontend Development
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 .. container:: justify-text
 
    **Technologies:** React 18, Material-UI, Redux, Recharts

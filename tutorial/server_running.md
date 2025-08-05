@@ -18,7 +18,7 @@ The backend server is now running successfully on **port 8080**!
 3. Check that the pagination fixes are working for:
    - K. pneumoniae: http://localhost:3000/#/kpneumo
    - E. coli: http://localhost:3000/#/ecoli
-   - D. E. coli: http://localhost:3000/#/decoli
+   - E. coli (diarrheagenic): http://localhost:3000/#/decoli
 
 ### Performance Monitoring:
 The server includes performance monitoring middleware that will log:
