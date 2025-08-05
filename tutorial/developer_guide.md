@@ -1572,7 +1572,7 @@ For additional support or questions:
 
 - **GitHub Issues**: [amrnet/amrnet/issues](https://github.com/amrnet/amrnet/issues)
 - **Developer Discord**: [Link to Discord channel]
-- **Email**: developers@amrnet.org
+- **Email**: amrnetdashboard@gmail.com
 - **Documentation**: [amrnet.readthedocs.io](https://amrnet.readthedocs.io)
 
 ---

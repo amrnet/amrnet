@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * Performance Debugger for K. pneumoniae, D. E. coli, and E. coli
+ * Performance Debugger for K. pneumoniae, E. coli (diarrheagenic), and E. coli
  *
  * Analyzes why these organisms are taking 2+ minutes to load and identifies optimizations
  */
 
+import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 import { getMongoClientOptions } from '../config/db.js';
-import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -317,7 +317,7 @@ class OrganismPerformanceDebugger {
    */
   async runAnalysis() {
     console.log('🔍 AMRnet Organism Performance Analysis');
-    console.log('Debugging 2-minute load times for K. pneumoniae, D. E. coli, and E. coli');
+    console.log('Debugging 2-minute load times for K. pneumoniae, E. coli (diarrheagenic), and E. coli');
     console.log('='.repeat(80) + '\n');
 
     await this.analyzeDataVolume();

@@ -296,7 +296,7 @@ We are committed to providing a welcoming and inclusive environment. Please read
 
 - **GitHub Issues**: Bug reports and feature requests
 - **GitHub Discussions**: General questions and ideas
-- **Email**: info@amrnet.org for sensitive matters
+- **Email**: amrnetdashboard@gmail.com for sensitive matters
 
 ### Being Respectful
 
@@ -381,7 +381,7 @@ Major contributors may be:
 
 ### Questions About Contributing
 
-- Email: contribute@amrnet.org
+- Email: amrnetdashboard@gmail.com
 - GitHub: @amrnet/core-team
 - Discussions: [GitHub Discussions](https://github.com/amrnet/amrnet/discussions)
 
