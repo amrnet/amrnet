@@ -1,10 +1,10 @@
 Dashboard Architecture
-====================
+======================
 
 AMRnet is built using a modern, scalable MERN stack architecture designed to handle large-scale genomic surveillance data. This page provides both high-level overview and detailed component architecture diagrams.
 
 Architecture Overview
--------------------
+---------------------
 
 AMRnet employs a four-layer architecture optimized for performance, scalability, and user experience:
 
@@ -14,12 +14,12 @@ AMRnet employs a four-layer architecture optimized for performance, scalability,
 4. **User Access** - Multi-modal access via web interface and RESTful API
 
 Interactive Architecture Diagrams
---------------------------------
+---------------------------------
 
 We provide two complementary views of the AMRnet architecture:
 
 Macro Architecture View
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The macro view provides a high-level overview of the four main architectural layers:
 
@@ -34,7 +34,7 @@ The macro view provides a high-level overview of the four main architectural lay
    </div>
 
 Detailed Component View
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The expanded view shows detailed data flow and individual components:
 
@@ -49,10 +49,10 @@ The expanded view shows detailed data flow and individual components:
    </div>
 
 Platform Capabilities
---------------------
+---------------------
 
 Technical Performance
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 AMRnet delivers enterprise-grade performance with significant optimizations:
 
@@ -62,7 +62,7 @@ AMRnet delivers enterprise-grade performance with significant optimizations:
 * **10,000+ API requests per hour** capacity
 
 Data Coverage
-~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 Our platform provides comprehensive AMR surveillance data:
 
@@ -72,10 +72,10 @@ Our platform provides comprehensive AMR surveillance data:
 * **4 languages** supported (English, Spanish, French, Portuguese)
 
 Architecture Components
-----------------------
+-----------------------
 
 Frontend Layer
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 **React 18 Application**
   Modern React application with hooks, state management, and optimized rendering
@@ -90,7 +90,7 @@ Frontend Layer
   Mobile-first approach with progressive web app capabilities
 
 Backend Layer
-~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 **Node.js v18.20.4 Server**
   Express.js server with optimized endpoints and comprehensive middleware
@@ -105,7 +105,7 @@ Backend Layer
   Helmet security, CORS protection, API authentication, and OAuth2 support
 
 Database Layer
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
 
 **MongoDB Atlas**
   Cloud-hosted MongoDB with automated backups and horizontal scaling
@@ -120,7 +120,7 @@ Database Layer
   Server-side processing for efficient data filtering and analysis
 
 Infrastructure Layer
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 **Heroku Platform**
   Cloud deployment with auto-scaling and continuous integration
@@ -135,10 +135,10 @@ Infrastructure Layer
   Automated testing, building, and deployment through GitHub Actions
 
 Data Sources Integration
------------------------
+------------------------
 
 Public Genomic Databases
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Pathogenwatch**
   * Salmonella Typhi with AMR predictions
@@ -168,7 +168,7 @@ Performance Optimizations
 The AMRnet platform incorporates numerous performance enhancements:
 
 Data Optimization
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 * **Optimized API endpoints** (``/api/optimized/*``) with parallel processing
 * **Field projection** to minimize data transfer
@@ -176,7 +176,7 @@ Data Optimization
 * **Connection pooling** for database efficiency
 
 Frontend Optimization
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 * **Code splitting** and lazy loading for faster initial loads
 * **Service workers** for offline functionality
@@ -184,7 +184,7 @@ Frontend Optimization
 * **Progressive web app** features for mobile experience
 
 Deployment Features
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 * **Auto-scaling** based on traffic demands
 * **Health monitoring** with automated alerts
@@ -197,7 +197,7 @@ Quality Assurance
 Our architecture ensures data quality and system reliability:
 
 Data Quality
-~~~~~~~~~~~
+~~~~~~~~~~~~
 
 * **Source validation** from trusted genomic databases
 * **Harmonization** of country names, regions, and date formats
@@ -205,7 +205,7 @@ Data Quality
 * **Version control** maintaining data provenance
 
 System Reliability
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 * **Automated testing** with comprehensive test suites
 * **Continuous monitoring** of system performance

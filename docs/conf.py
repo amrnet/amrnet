@@ -44,6 +44,9 @@ highlight_options = {
     'stripnl': False
 }
 
+# Suppress syntax highlighting warnings for better build output
+suppress_warnings = ['misc.highlighting_failure']
+
 # autodoc config
 autodoc_member_order = "bysource"
 autodoc_typehints = "both"
