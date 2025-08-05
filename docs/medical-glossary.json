@@ -15,174 +15,298 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/installation.po\n"
-"X-Crowdin-File-ID: 78\n"
+"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/internationalization.po\n"
+"X-Crowdin-File-ID: 80\n"
 
-#: ../../installation.rst:4
-msgid "Installation"
+#: ../../internationalization.rst:4
+msgid "Internationalization (i18n)"
 msgstr ""
 
-#: ../../installation.rst:7
-msgid "These instructions will get you a copy of ``AMRnet`` up and running on your machine for development and testing purposes. AMRnet is a full-stack web application built with Node.js, React, and MongoDB."
+#: ../../internationalization.rst:8
+msgid "AMRnet supports multiple languages to make antimicrobial resistance surveillance data accessible to users worldwide. This guide covers the internationalization implementation, supported languages, and how to contribute translations."
 msgstr ""
 
-#: ../../installation.rst:12
-msgid "Prerequisites"
+#: ../../internationalization.rst:13
+msgid "Supported Languages"
 msgstr ""
 
-#: ../../installation.rst:15
-msgid "Before installing AMRnet, make sure you have the following software installed:"
+#: ../../internationalization.rst:17
+msgid "AMRnet currently supports four languages with comprehensive translations:"
 msgstr ""
 
-#: ../../installation.rst:17
-msgid "**Node.js**: v18.20.4 or higher (specified in ``.nvmrc``)"
+#: ../../internationalization.rst:19
+msgid "**🇺🇸 English (US)** - Default language (en)"
 msgstr ""
 
-#: ../../installation.rst:18
-msgid "**npm**: Latest version (comes with Node.js)"
+#: ../../internationalization.rst:20
+msgid "**🇫🇷 French (France)** - Professional French translations (fr)"
 msgstr ""
 
-#: ../../installation.rst:19
-msgid "**Python**: v3.8+ (for data processing components)"
+#: ../../internationalization.rst:21
+msgid "**🇧🇷 Portuguese (Brazil)** - Brazilian Portuguese with local conventions (pt)"
 msgstr ""
 
-#: ../../installation.rst:20
-msgid "**Git**: Latest version for version control"
+#: ../../internationalization.rst:22
+msgid "**🇪🇸 Spanish** - International Spanish translations (es)"
 msgstr ""
 
-#: ../../installation.rst:21
-msgid "**MongoDB**: v6.0+ (local installation or MongoDB Atlas cloud database)"
+#: ../../internationalization.rst:25
+msgid "Language Implementation"
 msgstr ""
 
-#: ../../installation.rst:23
-msgid "You can check your installed versions with:"
+#: ../../internationalization.rst:29
+msgid "AMRnet uses `react-i18next <https://react.i18next.com/>`_ for comprehensive internationalization support:"
 msgstr ""
 
-#: ../../installation.rst:33
-msgid "Quick Start"
+#: ../../internationalization.rst:33
+msgid "Technical Architecture"
 msgstr ""
 
-#: ../../installation.rst:36
-msgid "Follow these steps to get AMRnet running locally:"
+#: ../../internationalization.rst:37
+msgid "**Core Dependencies:**"
 msgstr ""
 
-#: ../../installation.rst:38
-msgid "**1. Clone the Repository**"
+#: ../../internationalization.rst:48
+msgid "**Configuration (client/src/i18n.js):**"
 msgstr ""
 
-#: ../../installation.rst:45
-msgid "**2. Install Dependencies**"
+#: ../../internationalization.rst:86
+msgid "Translation Structure"
 msgstr ""
 
-#: ../../installation.rst:55
-msgid "**3. Environment Configuration**"
+#: ../../internationalization.rst:90
+msgid "Translation files are organized hierarchically for maintainability:"
 msgstr ""
 
-#: ../../installation.rst:65
-msgid "**4. Start Development Servers**"
+#: ../../internationalization.rst:121
+msgid "Language Switcher Component"
 msgstr ""
 
-#: ../../installation.rst:76
-msgid "**5. Access the Application**"
+#: ../../internationalization.rst:125
+msgid "**Visual Language Selector:**"
 msgstr ""
 
-#: ../../installation.rst:78
-msgid "Open your browser and navigate to ``http://localhost:3000`` to see the AMRnet dashboard."
+#: ../../internationalization.rst:178
+msgid "Usage in Components"
 msgstr ""
 
-#: ../../installation.rst:81
-msgid "Development Setup"
+#: ../../internationalization.rst:182
+msgid "**Basic Translation Usage:**"
 msgstr ""
 
-#: ../../installation.rst:84
-msgid "For detailed development setup, including code quality tools and best practices:"
+#: ../../internationalization.rst:203
+msgid "**Parameterized Translations:**"
 msgstr ""
 
-#: ../../installation.rst:87
-msgid "Node.js Version Management"
+#: ../../internationalization.rst:229
+msgid "Translation Quality"
 msgstr ""
 
-#: ../../installation.rst:90
-msgid "AMRnet uses Node.js v18.20.4. If you use nvm (Node Version Manager):"
+#: ../../internationalization.rst:232
+msgid "Cultural Adaptation"
 msgstr ""
 
-#: ../../installation.rst:102
-msgid "Python Dependencies"
+#: ../../internationalization.rst:236
+msgid "Each language implementation considers cultural and regional preferences:"
 msgstr ""
 
-#: ../../installation.rst:105
-msgid "For data processing components and documentation building:"
+#: ../../internationalization.rst:238
+msgid "**French Translations:** - Formal \"vous\" form throughout the interface - Proper French medical and scientific terminology - Standard French punctuation and spacing rules - Accent marks and special characters properly implemented"
 msgstr ""
 
-#: ../../installation.rst:116
-msgid "Environment Variables"
+#: ../../internationalization.rst:244
+msgid "**Portuguese (Brazil) Translations:** - Brazilian Portuguese conventions and expressions - Local terminology preferences for medical concepts - Culturally appropriate formal/informal language balance - Brazilian number and date formatting"
 msgstr ""
 
-#: ../../installation.rst:119
-msgid "Configure your ``.env`` file with the following variables:"
+#: ../../internationalization.rst:250
+msgid "**Spanish Translations:** - International Spanish terminology (not region-specific) - Professional tone appropriate for scientific content - Standard Spanish medical and technical vocabulary - Universal Spanish conventions for global accessibility"
 msgstr ""
 
-#: ../../installation.rst:136
-msgid "Production Build"
+#: ../../internationalization.rst:257
+msgid "Technical Considerations"
 msgstr ""
 
-#: ../../installation.rst:139
-msgid "To build AMRnet for production deployment:"
+#: ../../internationalization.rst:261
+msgid "**Text Expansion/Contraction:** - UI components accommodate text length variations (±30%) - Responsive design ensures proper layout in all languages - Button and menu sizing adapts to translated content - Tooltip and help text properly positioned"
 msgstr ""
 
-#: ../../installation.rst:149
-msgid "The built application will be served from the ``client/build`` directory."
+#: ../../internationalization.rst:267
+msgid "**Special Characters and Encoding:** - UTF-8 encoding support for all special characters - Proper font selection for accented characters - Right-to-left language support ready (for future languages) - Input validation handles international characters"
 msgstr ""
 
-#: ../../installation.rst:152
-msgid "Docker Installation"
+#: ../../internationalization.rst:274
+msgid "Contributing Translations"
 msgstr ""
 
-#: ../../installation.rst:155
-msgid "AMRnet can also be run using Docker:"
+#: ../../internationalization.rst:277
+msgid "Translation Workflow"
 msgstr ""
 
-#: ../../installation.rst:165
-msgid "Make sure to replace ``your_mongodb_uri`` with your actual MongoDB connection string."
+#: ../../internationalization.rst:281
+msgid "**For Developers:**"
 msgstr ""
 
-#: ../../installation.rst:168
-msgid "Troubleshooting"
+#: ../../internationalization.rst:283
+msgid "**Add New Translation Keys:**"
 msgstr ""
 
-#: ../../installation.rst:171
-msgid "**Common Installation Issues:**"
+#: ../../internationalization.rst:296
+msgid "**Update Component Usage:**"
 msgstr ""
 
-#: ../../installation.rst:173
-msgid "**Node version mismatch**: Use ``nvm use`` to switch to the correct version"
+#: ../../internationalization.rst:311
+msgid "**Update All Language Files:**"
 msgstr ""
 
-#: ../../installation.rst:174
-msgid "**Package conflicts**: Delete ``node_modules`` and run ``npm install`` again"
+#: ../../internationalization.rst:319
+msgid "Translation Guidelines"
 msgstr ""
 
-#: ../../installation.rst:175
-msgid "**Port conflicts**: Make sure ports 3000 and 8080 are available"
+#: ../../internationalization.rst:323
+msgid "**For Translators:**"
 msgstr ""
 
-#: ../../installation.rst:176
-msgid "**MongoDB connection**: Verify your MongoDB service is running or Atlas credentials are correct"
+#: ../../internationalization.rst:325
+msgid "**Context Understanding:** - Review the AMRnet dashboard to understand context - Consider the scientific and medical nature of content - Maintain professional tone appropriate for healthcare professionals"
 msgstr ""
 
-#: ../../installation.rst:178
-msgid "**Getting Help:**"
+#: ../../internationalization.rst:330
+msgid "**Terminology Consistency:** - Use standard medical/scientific terminology - Maintain consistency with existing translations - Prefer internationally recognized terms when available"
 msgstr ""
 
-#: ../../installation.rst:180
-msgid "Check the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`_"
+#: ../../internationalization.rst:335
+msgid "**Technical Constraints:** - Keep button text concise (max 20 characters recommended) - Consider text expansion in menu items - Test UI layout with your translations"
 msgstr ""
 
-#: ../../installation.rst:181
-msgid "Review the `Development Guide <../tutorial/development.md>`_"
+#: ../../internationalization.rst:340
+msgid "**Translation Template:**"
 msgstr ""
 
-#: ../../installation.rst:182
-msgid "Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`_"
+#: ../../internationalization.rst:356
+msgid "Automated Translation"
+msgstr ""
+
+#: ../../internationalization.rst:383
+msgid "Accessibility and Internationalization"
+msgstr ""
+
+#: ../../internationalization.rst:387
+msgid "Ensuring accessibility across all supported languages:"
+msgstr ""
+
+#: ../../internationalization.rst:390
+msgid "Screen Reader Support"
+msgstr ""
+
+#: ../../internationalization.rst:394
+msgid "**ARIA Labels and Descriptions:**"
+msgstr ""
+
+#: ../../internationalization.rst:415
+msgid "**Translation File for Accessibility:**"
+msgstr ""
+
+#: ../../internationalization.rst:429
+msgid "Keyboard Navigation"
+msgstr ""
+
+#: ../../internationalization.rst:433
+msgid "**Translated Keyboard Shortcuts:**"
+msgstr ""
+
+#: ../../internationalization.rst:450
+msgid "Performance Considerations"
+msgstr ""
+
+#: ../../internationalization.rst:454
+msgid "Optimizing i18n performance for production:"
+msgstr ""
+
+#: ../../internationalization.rst:457
+msgid "Lazy Loading"
+msgstr ""
+
+#: ../../internationalization.rst:461
+msgid "**Dynamic Language Loading:**"
+msgstr ""
+
+#: ../../internationalization.rst:473
+msgid "Bundle Optimization"
+msgstr ""
+
+#: ../../internationalization.rst:477
+msgid "**Webpack Configuration:**"
+msgstr ""
+
+#: ../../internationalization.rst:498
+msgid "Testing Internationalization"
+msgstr ""
+
+#: ../../internationalization.rst:502
+msgid "Ensuring translation quality and functionality:"
+msgstr ""
+
+#: ../../internationalization.rst:505
+msgid "Automated Testing"
+msgstr ""
+
+#: ../../internationalization.rst:509
+msgid "**Translation Key Validation:**"
+msgstr ""
+
+#: ../../internationalization.rst:537
+msgid "Manual Testing"
+msgstr ""
+
+#: ../../internationalization.rst:541
+msgid "**Translation Review Checklist:**"
+msgstr ""
+
+#: ../../internationalization.rst:543
+msgid "**Visual Review:** - Text fits properly in UI components - No text overflow or truncation - Proper alignment and spacing"
+msgstr ""
+
+#: ../../internationalization.rst:548
+msgid "**Functional Testing:** - Language switching works correctly - Persistent language selection - All interface elements translated"
+msgstr ""
+
+#: ../../internationalization.rst:553
+msgid "**Content Review:** - Medical terminology accuracy - Cultural appropriateness - Professional tone consistency"
+msgstr ""
+
+#: ../../internationalization.rst:559
+msgid "Future Enhancements"
+msgstr ""
+
+#: ../../internationalization.rst:563
+msgid "Planned improvements for internationalization:"
+msgstr ""
+
+#: ../../internationalization.rst:566
+msgid "Additional Languages"
+msgstr ""
+
+#: ../../internationalization.rst:570
+msgid "**Potential Language Additions:** - German (Deutsch) for European users - Arabic (العربية) for MENA region - Chinese Simplified (简体中文) for Asian users - Russian (Русский) for Eastern European users"
+msgstr ""
+
+#: ../../internationalization.rst:577
+msgid "Advanced Features"
+msgstr ""
+
+#: ../../internationalization.rst:581
+msgid "**Planned Features:** - Right-to-left (RTL) language support - Number and date formatting per locale - Currency and unit localization - Regional data presentation preferences"
+msgstr ""
+
+#: ../../internationalization.rst:588
+msgid "Community Contributions"
+msgstr ""
+
+#: ../../internationalization.rst:592
+msgid "**How to Contribute:** - Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`_ - Submit translation improvements via GitHub Issues - Participate in translation review process - Help test internationalization features"
+msgstr ""
+
+#: ../../internationalization.rst:598
+msgid "**Contact for Translation Help:** Email: amrnetdashboard@gmail.com with subject \"Translation Contribution\""
 msgstr ""
 
