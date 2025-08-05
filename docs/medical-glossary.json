@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amrnet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"POT-Creation-Date: 2025-08-05 00:07+0100\n"
 "PO-Revision-Date: 2025-08-05 01:47\n"
 "Last-Translator: \n"
 "Language: fr\n"
@@ -15,82 +15,825 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/userguide.po\n"
-"X-Crowdin-File-ID: 96\n"
+"X-Crowdin-File: /devrev-final/docs/locale/pt/LC_MESSAGES/api.po\n"
+"X-Crowdin-File-ID: 98\n"
 
-#: ../../userguide.rst:2
-msgid "AMRnet"
+#: ../../api.rst:9
+msgid "AMRnet provides a comprehensive RESTful API for programmatic access to all antimicrobial resistance surveillance data. The API supports multiple data formats, filtering options, and authentication methods to suit different use cases."
 msgstr ""
 
-#: ../../userguide.rst:6
-msgid "The `AMRnet <https://www.amrnet.org/>`_ aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing."
+#: ../../api.rst:12
+msgid "Quick Start"
 msgstr ""
 
-#: ../../userguide.rst:8
-msgid "We started with Salmonella Typhi, built on our `TyphiNET <https://www.typhi.net>`_ dashboard which uses data curated by the `Global Typhoid Genomics Consortium <http://typhoidgenomics.org>`_ (to improve data quality and identify which datasets are suitable for inclusion) and analysed in `Pathogenwatch <http://pathogen.watch>`_ (to call AMR determinants and lineages from sequence data). Dashboards are now available for Klebsiella pneumoniae, Neisseria gonorrhoeae, non-typhoidal Salmonella, E. coli and Shigella using data sourced from the `Pathogenwatch <http://pathogen.watch>`_ and `Enterobase <https://enterobase.warwick.ac.uk/>`_ platforms. In the future, we hope to add additional organisms, sourced from these and other platforms."
+#: ../../api.rst:16
+msgid "The AMRnet API is available at ``https://api.amrnet.org`` and provides access to surveillance data for multiple organisms. All endpoints return JSON by default, with optional CSV export capabilities."
 msgstr ""
 
-#: ../../userguide.rst:10
-msgid "A major barrier to using public data for surveillance is the need for careful data curation, to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with other organism communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (`amrnetdashboard@gmail.com <amrnetdashboard@gmail.com>`_)"
+#: ../../api.rst:19
+msgid "Basic Usage"
 msgstr ""
 
-#: ../../userguide.rst:12
-msgid "Find out more about the project team (based at London School of Hygiene and Tropical Medicine), and our policy advisory group, `here <https://www.lshtm.ac.uk/amrnet>`__."
+#: ../../api.rst:33
+msgid "Authentication"
 msgstr ""
 
-#: ../../userguide.rst:14
-msgid "The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_. Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__. API access is described on the :doc:`/data` page."
+#: ../../api.rst:37
+msgid "The AMRnet API supports multiple authentication methods depending on your usage requirements:"
 msgstr ""
 
-#: ../../userguide.rst:17
-msgid "Citation for AMRnet"
+#: ../../api.rst:40
+msgid "Public Access"
 msgstr ""
 
-#: ../../userguide.rst:21
-msgid "If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Kathryn Holt), **GitHub**: https://github.com/amrnet/amrnet, **DOI**: 10.5281/zenodo.10810219"
+#: ../../api.rst:44
+msgid "Basic read access to all published datasets is available without authentication. Rate limits apply:"
 msgstr ""
 
-#: ../../userguide.rst:26
-msgid "Dashboard Development"
+#: ../../api.rst:46
+msgid "**Rate Limit**: 1000 requests per hour per IP"
 msgstr ""
 
-#: ../../userguide.rst:29
-msgid "If you want to install the AMRnet code to develop your own dashboard instances, follow the installation instructions in the :doc:`Installation Guide <installation>`."
+#: ../../api.rst:47
+msgid "**Data Limit**: 10,000 records per request"
 msgstr ""
 
-#: ../../userguide.rst:32
-msgid "**Quick Start:**"
+#: ../../api.rst:48
+msgid "**Export Limit**: 50,000 records per day"
 msgstr ""
 
-#: ../../userguide.rst:50
-msgid "The application will be available at ``http://localhost:3000`` for development."
+#: ../../api.rst:56
+msgid "API Key Authentication"
 msgstr ""
 
-#: ../../userguide.rst:54
-msgid "License"
+#: ../../api.rst:60
+msgid "For higher rate limits and bulk data access, register for a free API key at `amrnet.org/api/register <https://amrnet.org/api/register>`_."
 msgstr ""
 
-#: ../../userguide.rst:57
-msgid "Distributed under the terms of the :doc:`GPLv3 License <license>`."
+#: ../../api.rst:70
+msgid "**API Key Benefits:**"
 msgstr ""
 
-#: ../../userguide.rst:59
-msgid "``AMRnet`` is free and open source software."
+#: ../../api.rst:72
+msgid "**Rate Limit**: 10,000 requests per hour"
 msgstr ""
 
-#: ../../userguide.rst:62
-msgid "Support"
+#: ../../api.rst:73
+msgid "**Data Limit**: 100,000 records per request"
 msgstr ""
 
-#: ../../userguide.rst:65
-msgid "Found a bug 🐛, or have a feature request ✨, raise an issue on the GitHub `issue tracker <https://github.com/amrnet/amrnet/issues>`_. Alternatively you can get support on the `discussions <https://github.com/amrnet/amrnet/discussions>`_ page."
+#: ../../api.rst:74
+msgid "**Export Limit**: 1,000,000 records per day"
 msgstr ""
 
-#: ../../userguide.rst:73
-msgid "Disclaimer"
+#: ../../api.rst:75
+msgid "**Priority Support**: Faster response times"
 msgstr ""
 
-#: ../../userguide.rst:76
-msgid "``AMRnet`` is an open source dashboard that continues to benefit from the collaboration of many contributors. Although efforts have been made to ensure the that relevant web development standards are implemented, it remains the user's responsibility to confirm and accept the output. Refer to the :doc:`License <license>` for clarification of the conditions of use."
+#: ../../api.rst:78
+msgid "OAuth2 Authentication"
 msgstr ""
+
+#: ../../api.rst:82
+msgid "For institutional access and advanced features, OAuth2 authentication is available. Contact us at ``amrnetdashboard@gmail.com`` for institutional access."
+msgstr ""
+
+#: ../../api.rst:85
+msgid "Available Endpoints"
+msgstr ""
+
+#: ../../api.rst:89
+msgid "The AMRnet API provides consistent endpoints across all supported organisms with standardized query parameters and response formats."
+msgstr ""
+
+#: ../../api.rst:92
+msgid "Organism Data Endpoints"
+msgstr ""
+
+#: ../../api.rst:94
+msgid "Supported Organisms"
+msgstr ""
+
+#: ../../api.rst:98
+msgid "Organism"
+msgstr ""
+
+#: ../../api.rst:99
+msgid "Endpoint"
+msgstr ""
+
+#: ../../api.rst:100 ../../api.rst:262 ../../api.rst:294 ../../api.rst:317
+#: ../../api.rst:554
+msgid "Description"
+msgstr ""
+
+#: ../../api.rst:101
+msgid "*Salmonella* Typhi"
+msgstr ""
+
+#: ../../api.rst:102
+msgid "``/styphi``"
+msgstr ""
+
+#: ../../api.rst:103
+msgid "Typhoid fever pathogen data"
+msgstr ""
+
+#: ../../api.rst:104
+msgid "*Klebsiella pneumoniae*"
+msgstr ""
+
+#: ../../api.rst:105
+msgid "``/kpneumo``"
+msgstr ""
+
+#: ../../api.rst:106
+msgid "pneumoniae resistance data"
+msgstr ""
+
+#: ../../api.rst:107
+msgid "*Neisseria gonorrhoeae*"
+msgstr ""
+
+#: ../../api.rst:108
+msgid "``/ngono``"
+msgstr ""
+
+#: ../../api.rst:109
+msgid "Gonorrhea pathogen data"
+msgstr ""
+
+#: ../../api.rst:110
+msgid "*E. coli*"
+msgstr ""
+
+#: ../../api.rst:111
+msgid "``/ecoli``"
+msgstr ""
+
+#: ../../api.rst:112
+msgid "coli resistance patterns"
+msgstr ""
+
+#: ../../api.rst:113
+msgid "*E. coli* (Diarrheal)"
+msgstr ""
+
+#: ../../api.rst:114
+msgid "``/decoli``"
+msgstr ""
+
+#: ../../api.rst:115
+msgid "Diarrheal E. coli strains"
+msgstr ""
+
+#: ../../api.rst:116
+msgid "*Shigella*"
+msgstr ""
+
+#: ../../api.rst:117
+msgid "``/shigella``"
+msgstr ""
+
+#: ../../api.rst:118
+msgid "Shigella species data"
+msgstr ""
+
+#: ../../api.rst:119
+msgid "*Salmonella* enterica"
+msgstr ""
+
+#: ../../api.rst:120
+msgid "``/senterica``"
+msgstr ""
+
+#: ../../api.rst:121
+msgid "Non-typhoidal Salmonella"
+msgstr ""
+
+#: ../../api.rst:122
+msgid "*S.* enterica (Invasive)"
+msgstr ""
+
+#: ../../api.rst:123
+msgid "``/sentericaints``"
+msgstr ""
+
+#: ../../api.rst:124
+msgid "Invasive Salmonella strains"
+msgstr ""
+
+#: ../../api.rst:127
+msgid "Base Data Access"
+msgstr ""
+
+#: ../../api.rst:133 ../../api.rst:175 ../../api.rst:224
+msgid "**Example Response:**"
+msgstr ""
+
+#: ../../api.rst:169
+msgid "Summary Statistics"
+msgstr ""
+
+#: ../../api.rst:205
+msgid "Country-Specific Data"
+msgstr ""
+
+#: ../../api.rst:211
+msgid "**Example:**"
+msgstr ""
+
+#: ../../api.rst:218
+msgid "Temporal Trends"
+msgstr ""
+
+#: ../../api.rst:247
+msgid "Query Parameters"
+msgstr ""
+
+#: ../../api.rst:251
+msgid "All organism endpoints support consistent query parameters for filtering and customization:"
+msgstr ""
+
+#: ../../api.rst:254
+msgid "Filtering Parameters"
+msgstr ""
+
+#: ../../api.rst:256
+msgid "Filter Parameters"
+msgstr ""
+
+#: ../../api.rst:260 ../../api.rst:292 ../../api.rst:315
+msgid "Parameter"
+msgstr ""
+
+#: ../../api.rst:261 ../../api.rst:293 ../../api.rst:316
+msgid "Type"
+msgstr ""
+
+#: ../../api.rst:263
+msgid "``country``"
+msgstr ""
+
+#: ../../api.rst:264 ../../api.rst:273 ../../api.rst:276 ../../api.rst:279
+#: ../../api.rst:282 ../../api.rst:319 ../../api.rst:322 ../../api.rst:325
+msgid "string"
+msgstr ""
+
+#: ../../api.rst:265
+msgid "ISO 3166-1 alpha-3 country code (e.g., BGD, IND, USA)"
+msgstr ""
+
+#: ../../api.rst:266
+msgid "``year_start``"
+msgstr ""
+
+#: ../../api.rst:267 ../../api.rst:270 ../../api.rst:296 ../../api.rst:299
+#: ../../api.rst:302 ../../api.rst:305
+msgid "integer"
+msgstr ""
+
+#: ../../api.rst:268
+msgid "Start year for date range filtering"
+msgstr ""
+
+#: ../../api.rst:269
+msgid "``year_end``"
+msgstr ""
+
+#: ../../api.rst:271
+msgid "End year for date range filtering"
+msgstr ""
+
+#: ../../api.rst:272
+msgid "``resistance``"
+msgstr ""
+
+#: ../../api.rst:274
+msgid "Filter by resistance to specific antibiotic"
+msgstr ""
+
+#: ../../api.rst:275
+msgid "``genotype``"
+msgstr ""
+
+#: ../../api.rst:277
+msgid "Filter by specific genotype or lineage"
+msgstr ""
+
+#: ../../api.rst:278
+msgid "``source``"
+msgstr ""
+
+#: ../../api.rst:280
+msgid "Sample source (blood, urine, stool, etc.)"
+msgstr ""
+
+#: ../../api.rst:281
+msgid "``region``"
+msgstr ""
+
+#: ../../api.rst:283
+msgid "Geographic region filter"
+msgstr ""
+
+#: ../../api.rst:286 ../../api.rst:288
+msgid "Pagination Parameters"
+msgstr ""
+
+#: ../../api.rst:295
+msgid "``page``"
+msgstr ""
+
+#: ../../api.rst:297
+msgid "Page number (default: 1)"
+msgstr ""
+
+#: ../../api.rst:298
+msgid "``per_page``"
+msgstr ""
+
+#: ../../api.rst:300
+msgid "Records per page (max: 10,000)"
+msgstr ""
+
+#: ../../api.rst:301
+msgid "``limit``"
+msgstr ""
+
+#: ../../api.rst:303
+msgid "Total record limit"
+msgstr ""
+
+#: ../../api.rst:304
+msgid "``offset``"
+msgstr ""
+
+#: ../../api.rst:306
+msgid "Number of records to skip"
+msgstr ""
+
+#: ../../api.rst:309 ../../api.rst:311
+msgid "Format Parameters"
+msgstr ""
+
+#: ../../api.rst:318
+msgid "``format``"
+msgstr ""
+
+#: ../../api.rst:320
+msgid "Response format: json (default), csv, tsv"
+msgstr ""
+
+#: ../../api.rst:321
+msgid "``fields``"
+msgstr ""
+
+#: ../../api.rst:323
+msgid "Comma-separated list of fields to include"
+msgstr ""
+
+#: ../../api.rst:324
+msgid "``exclude``"
+msgstr ""
+
+#: ../../api.rst:326
+msgid "Comma-separated list of fields to exclude"
+msgstr ""
+
+#: ../../api.rst:329
+msgid "Example Queries"
+msgstr ""
+
+#: ../../api.rst:333
+msgid "Here are practical examples demonstrating common API usage patterns:"
+msgstr ""
+
+#: ../../api.rst:336
+msgid "Basic Filtering"
+msgstr ""
+
+#: ../../api.rst:350
+msgid "Advanced Filtering"
+msgstr ""
+
+#: ../../api.rst:364
+msgid "Data Export"
+msgstr ""
+
+#: ../../api.rst:379
+msgid "Programming Examples"
+msgstr ""
+
+#: ../../api.rst:382
+msgid "Python Integration"
+msgstr ""
+
+#: ../../api.rst:438
+msgid "R Integration"
+msgstr ""
+
+#: ../../api.rst:477
+msgid "JavaScript/Node.js Integration"
+msgstr ""
+
+#: ../../api.rst:540
+msgid "Error Handling"
+msgstr ""
+
+#: ../../api.rst:544
+msgid "The AMRnet API uses standard HTTP status codes and provides detailed error messages to help diagnose issues:"
+msgstr ""
+
+#: ../../api.rst:547
+msgid "HTTP Status Codes"
+msgstr ""
+
+#: ../../api.rst:549
+msgid "Status Codes"
+msgstr ""
+
+#: ../../api.rst:553
+msgid "Code"
+msgstr ""
+
+#: ../../api.rst:555
+msgid "``200``"
+msgstr ""
+
+#: ../../api.rst:556
+msgid "Success - Request completed successfully"
+msgstr ""
+
+#: ../../api.rst:557
+msgid "``400``"
+msgstr ""
+
+#: ../../api.rst:558
+msgid "Bad Request - Invalid parameters or malformed request"
+msgstr ""
+
+#: ../../api.rst:559
+msgid "``401``"
+msgstr ""
+
+#: ../../api.rst:560
+msgid "Unauthorized - Invalid or missing API key"
+msgstr ""
+
+#: ../../api.rst:561
+msgid "``403``"
+msgstr ""
+
+#: ../../api.rst:562
+msgid "Forbidden - Access denied or rate limit exceeded"
+msgstr ""
+
+#: ../../api.rst:563
+msgid "``404``"
+msgstr ""
+
+#: ../../api.rst:564
+msgid "Not Found - Endpoint or resource not found"
+msgstr ""
+
+#: ../../api.rst:565
+msgid "``429``"
+msgstr ""
+
+#: ../../api.rst:566
+msgid "Too Many Requests - Rate limit exceeded"
+msgstr ""
+
+#: ../../api.rst:567
+msgid "``500``"
+msgstr ""
+
+#: ../../api.rst:568
+msgid "Internal Server Error - Server-side error"
+msgstr ""
+
+#: ../../api.rst:571
+msgid "Error Response Format"
+msgstr ""
+
+#: ../../api.rst:590
+msgid "Common Error Scenarios"
+msgstr ""
+
+#: ../../api.rst:592
+msgid "**Invalid Country Code:**"
+msgstr ""
+
+#: ../../api.rst:599
+msgid "**Rate Limit Exceeded:**"
+msgstr ""
+
+#: ../../api.rst:606
+msgid "**Large Data Request:**"
+msgstr ""
+
+#: ../../api.rst:614
+msgid "Rate Limits and Best Practices"
+msgstr ""
+
+#: ../../api.rst:617
+msgid "Rate Limiting"
+msgstr ""
+
+#: ../../api.rst:621
+msgid "AMRnet implements rate limiting to ensure fair access and system stability:"
+msgstr ""
+
+#: ../../api.rst:623
+msgid "Rate Limits by Access Level"
+msgstr ""
+
+#: ../../api.rst:627
+msgid "Access Level"
+msgstr ""
+
+#: ../../api.rst:628
+msgid "Requests/Hour"
+msgstr ""
+
+#: ../../api.rst:629
+msgid "Records/Request"
+msgstr ""
+
+#: ../../api.rst:630
+msgid "Daily Export Limit"
+msgstr ""
+
+#: ../../api.rst:631
+msgid "Public"
+msgstr ""
+
+#: ../../api.rst:632
+msgid "1,000"
+msgstr ""
+
+#: ../../api.rst:633 ../../api.rst:636
+msgid "10,000"
+msgstr ""
+
+#: ../../api.rst:634
+msgid "50,000"
+msgstr ""
+
+#: ../../api.rst:635
+msgid "API Key"
+msgstr ""
+
+#: ../../api.rst:637 ../../api.rst:640
+msgid "100,000"
+msgstr ""
+
+#: ../../api.rst:638 ../../api.rst:641
+msgid "1,000,000"
+msgstr ""
+
+#: ../../api.rst:639
+msgid "Institutional"
+msgstr ""
+
+#: ../../api.rst:642
+msgid "Unlimited"
+msgstr ""
+
+#: ../../api.rst:645
+msgid "Best Practices"
+msgstr ""
+
+#: ../../api.rst:647
+msgid "**1. Use API Keys for Regular Access:**"
+msgstr ""
+
+#: ../../api.rst:654
+msgid "**2. Implement Proper Error Handling:**"
+msgstr ""
+
+#: ../../api.rst:676
+msgid "**3. Use Pagination for Large Datasets:**"
+msgstr ""
+
+#: ../../api.rst:700
+msgid "**4. Cache Results Appropriately:**"
+msgstr ""
+
+#: ../../api.rst:728
+msgid "FARM Stack API"
+msgstr ""
+
+#: ../../api.rst:732
+msgid "AMRnet is implementing a modern FARM (FastAPI + React + MongoDB) stack API to provide enhanced performance, real-time capabilities, and advanced analytics features."
+msgstr ""
+
+#: ../../api.rst:735
+msgid "FastAPI Backend Features"
+msgstr ""
+
+#: ../../api.rst:737
+msgid "**Real-time Data Streaming:**"
+msgstr ""
+
+#: ../../api.rst:756
+msgid "**Advanced Analytics Endpoints:**"
+msgstr ""
+
+#: ../../api.rst:769
+msgid "**GraphQL Integration:**"
+msgstr ""
+
+#: ../../api.rst:797
+msgid "React Frontend Components"
+msgstr ""
+
+#: ../../api.rst:799
+msgid "**Interactive API Explorer:**"
+msgstr ""
+
+#: ../../api.rst:821
+msgid "**Real-time Dashboard Widgets:**"
+msgstr ""
+
+#: ../../api.rst:840
+msgid "MongoDB Advanced Queries"
+msgstr ""
+
+#: ../../api.rst:842
+msgid "**Time-series Analytics:**"
+msgstr ""
+
+#: ../../api.rst:876
+msgid "**Geospatial Analysis:**"
+msgstr ""
+
+#: ../../api.rst:893
+msgid "Support and Resources"
+msgstr ""
+
+#: ../../api.rst:897
+msgid "Get help and connect with the AMRnet developer community:"
+msgstr ""
+
+#: ../../api.rst:900
+msgid "Documentation Resources"
+msgstr ""
+
+#: ../../api.rst:902
+msgid "**📖 User Guide**: Comprehensive dashboard usage instructions"
+msgstr ""
+
+#: ../../api.rst:903
+msgid "**🛠️ Developer Guide**: Contributing and adding new organisms"
+msgstr ""
+
+#: ../../api.rst:904
+msgid "**📊 Data Dictionary**: Complete field definitions and schemas"
+msgstr ""
+
+#: ../../api.rst:905
+msgid "**🎓 Tutorials**: Step-by-step integration examples"
+msgstr ""
+
+#: ../../api.rst:908
+msgid "Community Support"
+msgstr ""
+
+#: ../../api.rst:910
+msgid "**💬 GitHub Discussions**: `github.com/amrnet/amrnet/discussions <https://github.com/amrnet/amrnet/discussions>`_"
+msgstr ""
+
+#: ../../api.rst:911
+msgid "**🐛 Issue Tracker**: `github.com/amrnet/amrnet/issues <https://github.com/amrnet/amrnet/issues>`_"
+msgstr ""
+
+#: ../../api.rst:912
+msgid "**📧 Email Support**: amrnetdashboard@gmail.com"
+msgstr ""
+
+#: ../../api.rst:913
+msgid "**📋 API Status**: `status.amrnet.org <https://status.amrnet.org>`_"
+msgstr ""
+
+#: ../../api.rst:916
+msgid "Professional Services"
+msgstr ""
+
+#: ../../api.rst:920
+msgid "For organizations requiring custom integration support, training, or enterprise features:"
+msgstr ""
+
+#: ../../api.rst:922
+msgid "**🏢 Enterprise API Access**: Higher rate limits and SLA guarantees"
+msgstr ""
+
+#: ../../api.rst:923
+msgid "**🎓 Training Workshops**: API integration and AMR data analysis"
+msgstr ""
+
+#: ../../api.rst:924
+msgid "**🔧 Custom Development**: Tailored solutions and private deployments"
+msgstr ""
+
+#: ../../api.rst:925
+msgid "**📊 Consulting Services**: AMR surveillance strategy and implementation"
+msgstr ""
+
+#: ../../api.rst:927
+msgid "Contact our enterprise team at ``amrnetdashboard@gmail.com`` for more information."
+msgstr ""
+
+#: ../../api.rst:930
+msgid "Changelog and Versioning"
+msgstr ""
+
+#: ../../api.rst:934
+msgid "The AMRnet API follows semantic versioning. Major version changes may include breaking changes, while minor versions add features with backward compatibility."
+msgstr ""
+
+#: ../../api.rst:937
+msgid "Current Version: v2.1.0"
+msgstr ""
+
+#: ../../api.rst:939
+msgid "**New Features:** - FARM stack implementation with FastAPI backend - Real-time WebSocket endpoints for live data streaming - GraphQL API support for flexible queries - Enhanced geospatial analysis capabilities - Machine learning prediction endpoints"
+msgstr ""
+
+#: ../../api.rst:946
+#, python-format
+msgid "**Improvements:** - 40% faster response times with async processing - Improved error messages with detailed diagnostics - Enhanced rate limiting with burst capacity - Better caching for frequently accessed data"
+msgstr ""
+
+#: ../../api.rst:952
+msgid "**Bug Fixes:** - Fixed pagination issues with large datasets - Resolved timezone handling in date filters - Corrected resistance rate calculations for specific genotypes"
+msgstr ""
+
+#: ../../api.rst:958
+msgid "Version History"
+msgstr ""
+
+#: ../../api.rst:960
+msgid "**v2.1.0** (2024-12-30): FARM stack implementation, real-time features"
+msgstr ""
+
+#: ../../api.rst:961
+msgid "**v2.0.0** (2024-06-15): Major API redesign with consistent endpoints"
+msgstr ""
+
+#: ../../api.rst:962
+msgid "**v1.5.2** (2024-03-10): Enhanced filtering and export capabilities"
+msgstr ""
+
+#: ../../api.rst:963
+msgid "**v1.5.0** (2024-01-20): Added summary statistics endpoints"
+msgstr ""
+
+#: ../../api.rst:964
+msgid "**v1.4.1** (2023-11-05): Performance improvements and bug fixes"
+msgstr ""
+
+#: ../../api.rst:965
+msgid "**v1.4.0** (2023-09-15): OAuth2 authentication support"
+msgstr ""
+
+#: ../../api.rst:966
+msgid "**v1.3.0** (2023-07-01): API key authentication system"
+msgstr ""
+
+#: ../../api.rst:967
+msgid "**v1.2.0** (2023-04-10): CSV export functionality"
+msgstr ""
+
+#: ../../api.rst:968
+msgid "**v1.1.0** (2023-02-01): Pagination and advanced filtering"
+msgstr ""
+
+#: ../../api.rst:969
+msgid "**v1.0.0** (2023-01-01): Initial public API release"
+msgstr ""
+
+#: ../../api.rst:972
+msgid "Migration Guides"
+msgstr ""
+
+#: ../../api.rst:974
+msgid "**Migrating from v1.x to v2.x:**"
+msgstr ""
+
+#: ../../api.rst:984
+msgid "**Breaking Changes in v2.0:** - Endpoint structure simplified (``/data/{organism}`` → ``/{organism}``) - Response format standardized across all endpoints - Date filtering uses ``year_start``/``year_end`` instead of ``date_from``/``date_to`` - Resistance values standardized (R/I/S instead of numeric codes)"
+msgstr ""
+
+#: ../../api.rst:991
+msgid "Deprecation Notice"
+msgstr ""
+
+#: ../../api.rst:995
+msgid "**v1.x API endpoints will be deprecated on June 30, 2025.** Please migrate to v2.x endpoints before this date. Legacy endpoints will continue to work until December 31, 2025, after which they will be permanently removed."
+msgstr ""
+
+#~ msgid "API Reference"
+#~ msgstr ""
 
