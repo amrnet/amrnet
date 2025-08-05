@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amrnet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-05 00:07+0100\n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
 "PO-Revision-Date: 2025-08-05 01:47\n"
 "Last-Translator: \n"
 "Language: fr\n"
@@ -15,825 +15,178 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/api.po\n"
-"X-Crowdin-File-ID: 62\n"
+"X-Crowdin-File: /devrev-final/docs/locale/fr/LC_MESSAGES/codeofconduct.po\n"
+"X-Crowdin-File-ID: 64\n"
 
-#: ../../api.rst:9
-msgid "AMRnet provides a comprehensive RESTful API for programmatic access to all antimicrobial resistance surveillance data. The API supports multiple data formats, filtering options, and authentication methods to suit different use cases."
+#: ../../codeofconduct.rst:2
+msgid "Code of Conduct"
 msgstr ""
 
-#: ../../api.rst:12
-msgid "Quick Start"
+#: ../../codeofconduct.rst:5
+msgid "Our Pledge"
 msgstr ""
 
-#: ../../api.rst:16
-msgid "The AMRnet API is available at ``https://api.amrnet.org`` and provides access to surveillance data for multiple organisms. All endpoints return JSON by default, with optional CSV export capabilities."
+#: ../../codeofconduct.rst:8
+msgid "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation."
 msgstr ""
 
-#: ../../api.rst:19
-msgid "Basic Usage"
+#: ../../codeofconduct.rst:15
+msgid "We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community."
 msgstr ""
 
-#: ../../api.rst:33
-msgid "Authentication"
+#: ../../codeofconduct.rst:19
+msgid "Our Standards"
 msgstr ""
 
-#: ../../api.rst:37
-msgid "The AMRnet API supports multiple authentication methods depending on your usage requirements:"
+#: ../../codeofconduct.rst:22
+msgid "Examples of behavior that contributes to a positive environment for our community include:"
 msgstr ""
 
-#: ../../api.rst:40
-msgid "Public Access"
+#: ../../codeofconduct.rst:25
+msgid "Demonstrating empathy and kindness toward other people"
 msgstr ""
 
-#: ../../api.rst:44
-msgid "Basic read access to all published datasets is available without authentication. Rate limits apply:"
+#: ../../codeofconduct.rst:26
+msgid "Being respectful of differing opinions, viewpoints, and experiences"
 msgstr ""
 
-#: ../../api.rst:46
-msgid "**Rate Limit**: 1000 requests per hour per IP"
+#: ../../codeofconduct.rst:27
+msgid "Giving and gracefully accepting constructive feedback"
 msgstr ""
 
-#: ../../api.rst:47
-msgid "**Data Limit**: 10,000 records per request"
+#: ../../codeofconduct.rst:28
+msgid "Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience"
 msgstr ""
 
-#: ../../api.rst:48
-msgid "**Export Limit**: 50,000 records per day"
+#: ../../codeofconduct.rst:30
+msgid "Focusing on what is best not just for us as individuals, but for the overall community"
 msgstr ""
 
-#: ../../api.rst:56
-msgid "API Key Authentication"
+#: ../../codeofconduct.rst:33
+msgid "Examples of unacceptable behavior include:"
 msgstr ""
 
-#: ../../api.rst:60
-msgid "For higher rate limits and bulk data access, register for a free API key at `amrnet.org/api/register <https://amrnet.org/api/register>`_."
+#: ../../codeofconduct.rst:35
+msgid "The use of sexualized language or imagery, and sexual attention or advances of any kind"
 msgstr ""
 
-#: ../../api.rst:70
-msgid "**API Key Benefits:**"
+#: ../../codeofconduct.rst:37
+msgid "Trolling, insulting or derogatory comments, and personal or political attacks"
 msgstr ""
 
-#: ../../api.rst:72
-msgid "**Rate Limit**: 10,000 requests per hour"
+#: ../../codeofconduct.rst:39
+msgid "Public or private harassment"
 msgstr ""
 
-#: ../../api.rst:73
-msgid "**Data Limit**: 100,000 records per request"
+#: ../../codeofconduct.rst:40
+msgid "Publishing others' private information, such as a physical or email address, without their explicit permission"
 msgstr ""
 
-#: ../../api.rst:74
-msgid "**Export Limit**: 1,000,000 records per day"
+#: ../../codeofconduct.rst:42
+msgid "Other conduct which could reasonably be considered inappropriate in a professional setting"
 msgstr ""
 
-#: ../../api.rst:75
-msgid "**Priority Support**: Faster response times"
+#: ../../codeofconduct.rst:46
+msgid "Enforcement Responsibilities"
 msgstr ""
 
-#: ../../api.rst:78
-msgid "OAuth2 Authentication"
+#: ../../codeofconduct.rst:49
+msgid "Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful."
 msgstr ""
 
-#: ../../api.rst:82
-msgid "For institutional access and advanced features, OAuth2 authentication is available. Contact us at ``amrnetdashboard@gmail.com`` for institutional access."
+#: ../../codeofconduct.rst:54
+msgid "Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate."
 msgstr ""
 
-#: ../../api.rst:85
-msgid "Available Endpoints"
+#: ../../codeofconduct.rst:60
+msgid "Scope"
 msgstr ""
 
-#: ../../api.rst:89
-msgid "The AMRnet API provides consistent endpoints across all supported organisms with standardized query parameters and response formats."
+#: ../../codeofconduct.rst:63
+msgid "This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event."
 msgstr ""
 
-#: ../../api.rst:92
-msgid "Organism Data Endpoints"
+#: ../../codeofconduct.rst:70
+msgid "Enforcement"
 msgstr ""
 
-#: ../../api.rst:94
-msgid "Supported Organisms"
+#: ../../codeofconduct.rst:73
+msgid "Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at amrnetdashboard@gmail.com. All complaints will be reviewed and investigated promptly and fairly."
 msgstr ""
 
-#: ../../api.rst:98
-msgid "Organism"
+#: ../../codeofconduct.rst:78
+msgid "All community leaders are obligated to respect the privacy and security of the reporter of any incident."
 msgstr ""
 
-#: ../../api.rst:99
-msgid "Endpoint"
+#: ../../codeofconduct.rst:82
+msgid "Enforcement Guidelines"
 msgstr ""
 
-#: ../../api.rst:100 ../../api.rst:262 ../../api.rst:294 ../../api.rst:317
-#: ../../api.rst:554
-msgid "Description"
+#: ../../codeofconduct.rst:85
+msgid "Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:"
 msgstr ""
 
-#: ../../api.rst:101
-msgid "*Salmonella* Typhi"
+#: ../../codeofconduct.rst:90
+msgid "1. Correction"
 msgstr ""
 
-#: ../../api.rst:102
-msgid "``/styphi``"
+#: ../../codeofconduct.rst:93
+msgid "**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community."
 msgstr ""
 
-#: ../../api.rst:103
-msgid "Typhoid fever pathogen data"
+#: ../../codeofconduct.rst:96
+msgid "**Consequence**: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested."
 msgstr ""
 
-#: ../../api.rst:104
-msgid "*Klebsiella pneumoniae*"
+#: ../../codeofconduct.rst:102
+msgid "2. Warning"
 msgstr ""
 
-#: ../../api.rst:105
-msgid "``/kpneumo``"
+#: ../../codeofconduct.rst:105
+msgid "**Community Impact**: A violation through a single incident or series of actions."
 msgstr ""
 
-#: ../../api.rst:106
-msgid "pneumoniae resistance data"
+#: ../../codeofconduct.rst:108
+msgid "**Consequence**: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban."
 msgstr ""
 
-#: ../../api.rst:107
-msgid "*Neisseria gonorrhoeae*"
+#: ../../codeofconduct.rst:116
+msgid "3. Temporary Ban"
 msgstr ""
 
-#: ../../api.rst:108
-msgid "``/ngono``"
+#: ../../codeofconduct.rst:119
+msgid "**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior."
 msgstr ""
 
-#: ../../api.rst:109
-msgid "Gonorrhea pathogen data"
+#: ../../codeofconduct.rst:122
+msgid "**Consequence**: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban."
 msgstr ""
 
-#: ../../api.rst:110
-msgid "*E. coli*"
+#: ../../codeofconduct.rst:130
+msgid "4. Permanent Ban"
 msgstr ""
 
-#: ../../api.rst:111
-msgid "``/ecoli``"
+#: ../../codeofconduct.rst:133
+msgid "**Community Impact**: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals."
 msgstr ""
 
-#: ../../api.rst:112
-msgid "coli resistance patterns"
+#: ../../codeofconduct.rst:138
+msgid "**Consequence**: A permanent ban from any sort of public interaction within the community."
 msgstr ""
 
-#: ../../api.rst:113
-msgid "*E. coli* (Diarrheal)"
+#: ../../codeofconduct.rst:142
+msgid "Attribution"
 msgstr ""
 
-#: ../../api.rst:114
-msgid "``/decoli``"
+#: ../../codeofconduct.rst:145
+msgid "This Code of Conduct is adapted from the `Contributor Covenant <https://www.contributor-covenant.org>`__, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html."
 msgstr ""
 
-#: ../../api.rst:115
-msgid "Diarrheal E. coli strains"
+#: ../../codeofconduct.rst:150
+msgid "Community Impact Guidelines were inspired by `Mozilla's code of conduct enforcement ladder <https://github.com/mozilla/diversity>`__."
 msgstr ""
 
-#: ../../api.rst:116
-msgid "*Shigella*"
+#: ../../codeofconduct.rst:153
+msgid "For answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
 msgstr ""
-
-#: ../../api.rst:117
-msgid "``/shigella``"
-msgstr ""
-
-#: ../../api.rst:118
-msgid "Shigella species data"
-msgstr ""
-
-#: ../../api.rst:119
-msgid "*Salmonella* enterica"
-msgstr ""
-
-#: ../../api.rst:120
-msgid "``/senterica``"
-msgstr ""
-
-#: ../../api.rst:121
-msgid "Non-typhoidal Salmonella"
-msgstr ""
-
-#: ../../api.rst:122
-msgid "*S.* enterica (Invasive)"
-msgstr ""
-
-#: ../../api.rst:123
-msgid "``/sentericaints``"
-msgstr ""
-
-#: ../../api.rst:124
-msgid "Invasive Salmonella strains"
-msgstr ""
-
-#: ../../api.rst:127
-msgid "Base Data Access"
-msgstr ""
-
-#: ../../api.rst:133 ../../api.rst:175 ../../api.rst:224
-msgid "**Example Response:**"
-msgstr ""
-
-#: ../../api.rst:169
-msgid "Summary Statistics"
-msgstr ""
-
-#: ../../api.rst:205
-msgid "Country-Specific Data"
-msgstr ""
-
-#: ../../api.rst:211
-msgid "**Example:**"
-msgstr ""
-
-#: ../../api.rst:218
-msgid "Temporal Trends"
-msgstr ""
-
-#: ../../api.rst:247
-msgid "Query Parameters"
-msgstr ""
-
-#: ../../api.rst:251
-msgid "All organism endpoints support consistent query parameters for filtering and customization:"
-msgstr ""
-
-#: ../../api.rst:254
-msgid "Filtering Parameters"
-msgstr ""
-
-#: ../../api.rst:256
-msgid "Filter Parameters"
-msgstr ""
-
-#: ../../api.rst:260 ../../api.rst:292 ../../api.rst:315
-msgid "Parameter"
-msgstr ""
-
-#: ../../api.rst:261 ../../api.rst:293 ../../api.rst:316
-msgid "Type"
-msgstr ""
-
-#: ../../api.rst:263
-msgid "``country``"
-msgstr ""
-
-#: ../../api.rst:264 ../../api.rst:273 ../../api.rst:276 ../../api.rst:279
-#: ../../api.rst:282 ../../api.rst:319 ../../api.rst:322 ../../api.rst:325
-msgid "string"
-msgstr ""
-
-#: ../../api.rst:265
-msgid "ISO 3166-1 alpha-3 country code (e.g., BGD, IND, USA)"
-msgstr ""
-
-#: ../../api.rst:266
-msgid "``year_start``"
-msgstr ""
-
-#: ../../api.rst:267 ../../api.rst:270 ../../api.rst:296 ../../api.rst:299
-#: ../../api.rst:302 ../../api.rst:305
-msgid "integer"
-msgstr ""
-
-#: ../../api.rst:268
-msgid "Start year for date range filtering"
-msgstr ""
-
-#: ../../api.rst:269
-msgid "``year_end``"
-msgstr ""
-
-#: ../../api.rst:271
-msgid "End year for date range filtering"
-msgstr ""
-
-#: ../../api.rst:272
-msgid "``resistance``"
-msgstr ""
-
-#: ../../api.rst:274
-msgid "Filter by resistance to specific antibiotic"
-msgstr ""
-
-#: ../../api.rst:275
-msgid "``genotype``"
-msgstr ""
-
-#: ../../api.rst:277
-msgid "Filter by specific genotype or lineage"
-msgstr ""
-
-#: ../../api.rst:278
-msgid "``source``"
-msgstr ""
-
-#: ../../api.rst:280
-msgid "Sample source (blood, urine, stool, etc.)"
-msgstr ""
-
-#: ../../api.rst:281
-msgid "``region``"
-msgstr ""
-
-#: ../../api.rst:283
-msgid "Geographic region filter"
-msgstr ""
-
-#: ../../api.rst:286 ../../api.rst:288
-msgid "Pagination Parameters"
-msgstr ""
-
-#: ../../api.rst:295
-msgid "``page``"
-msgstr ""
-
-#: ../../api.rst:297
-msgid "Page number (default: 1)"
-msgstr ""
-
-#: ../../api.rst:298
-msgid "``per_page``"
-msgstr ""
-
-#: ../../api.rst:300
-msgid "Records per page (max: 10,000)"
-msgstr ""
-
-#: ../../api.rst:301
-msgid "``limit``"
-msgstr ""
-
-#: ../../api.rst:303
-msgid "Total record limit"
-msgstr ""
-
-#: ../../api.rst:304
-msgid "``offset``"
-msgstr ""
-
-#: ../../api.rst:306
-msgid "Number of records to skip"
-msgstr ""
-
-#: ../../api.rst:309 ../../api.rst:311
-msgid "Format Parameters"
-msgstr ""
-
-#: ../../api.rst:318
-msgid "``format``"
-msgstr ""
-
-#: ../../api.rst:320
-msgid "Response format: json (default), csv, tsv"
-msgstr ""
-
-#: ../../api.rst:321
-msgid "``fields``"
-msgstr ""
-
-#: ../../api.rst:323
-msgid "Comma-separated list of fields to include"
-msgstr ""
-
-#: ../../api.rst:324
-msgid "``exclude``"
-msgstr ""
-
-#: ../../api.rst:326
-msgid "Comma-separated list of fields to exclude"
-msgstr ""
-
-#: ../../api.rst:329
-msgid "Example Queries"
-msgstr ""
-
-#: ../../api.rst:333
-msgid "Here are practical examples demonstrating common API usage patterns:"
-msgstr ""
-
-#: ../../api.rst:336
-msgid "Basic Filtering"
-msgstr ""
-
-#: ../../api.rst:350
-msgid "Advanced Filtering"
-msgstr ""
-
-#: ../../api.rst:364
-msgid "Data Export"
-msgstr ""
-
-#: ../../api.rst:379
-msgid "Programming Examples"
-msgstr ""
-
-#: ../../api.rst:382
-msgid "Python Integration"
-msgstr ""
-
-#: ../../api.rst:438
-msgid "R Integration"
-msgstr ""
-
-#: ../../api.rst:477
-msgid "JavaScript/Node.js Integration"
-msgstr ""
-
-#: ../../api.rst:540
-msgid "Error Handling"
-msgstr ""
-
-#: ../../api.rst:544
-msgid "The AMRnet API uses standard HTTP status codes and provides detailed error messages to help diagnose issues:"
-msgstr ""
-
-#: ../../api.rst:547
-msgid "HTTP Status Codes"
-msgstr ""
-
-#: ../../api.rst:549
-msgid "Status Codes"
-msgstr ""
-
-#: ../../api.rst:553
-msgid "Code"
-msgstr ""
-
-#: ../../api.rst:555
-msgid "``200``"
-msgstr ""
-
-#: ../../api.rst:556
-msgid "Success - Request completed successfully"
-msgstr ""
-
-#: ../../api.rst:557
-msgid "``400``"
-msgstr ""
-
-#: ../../api.rst:558
-msgid "Bad Request - Invalid parameters or malformed request"
-msgstr ""
-
-#: ../../api.rst:559
-msgid "``401``"
-msgstr ""
-
-#: ../../api.rst:560
-msgid "Unauthorized - Invalid or missing API key"
-msgstr ""
-
-#: ../../api.rst:561
-msgid "``403``"
-msgstr ""
-
-#: ../../api.rst:562
-msgid "Forbidden - Access denied or rate limit exceeded"
-msgstr ""
-
-#: ../../api.rst:563
-msgid "``404``"
-msgstr ""
-
-#: ../../api.rst:564
-msgid "Not Found - Endpoint or resource not found"
-msgstr ""
-
-#: ../../api.rst:565
-msgid "``429``"
-msgstr ""
-
-#: ../../api.rst:566
-msgid "Too Many Requests - Rate limit exceeded"
-msgstr ""
-
-#: ../../api.rst:567
-msgid "``500``"
-msgstr ""
-
-#: ../../api.rst:568
-msgid "Internal Server Error - Server-side error"
-msgstr ""
-
-#: ../../api.rst:571
-msgid "Error Response Format"
-msgstr ""
-
-#: ../../api.rst:590
-msgid "Common Error Scenarios"
-msgstr ""
-
-#: ../../api.rst:592
-msgid "**Invalid Country Code:**"
-msgstr ""
-
-#: ../../api.rst:599
-msgid "**Rate Limit Exceeded:**"
-msgstr ""
-
-#: ../../api.rst:606
-msgid "**Large Data Request:**"
-msgstr ""
-
-#: ../../api.rst:614
-msgid "Rate Limits and Best Practices"
-msgstr ""
-
-#: ../../api.rst:617
-msgid "Rate Limiting"
-msgstr ""
-
-#: ../../api.rst:621
-msgid "AMRnet implements rate limiting to ensure fair access and system stability:"
-msgstr ""
-
-#: ../../api.rst:623
-msgid "Rate Limits by Access Level"
-msgstr ""
-
-#: ../../api.rst:627
-msgid "Access Level"
-msgstr ""
-
-#: ../../api.rst:628
-msgid "Requests/Hour"
-msgstr ""
-
-#: ../../api.rst:629
-msgid "Records/Request"
-msgstr ""
-
-#: ../../api.rst:630
-msgid "Daily Export Limit"
-msgstr ""
-
-#: ../../api.rst:631
-msgid "Public"
-msgstr ""
-
-#: ../../api.rst:632
-msgid "1,000"
-msgstr ""
-
-#: ../../api.rst:633 ../../api.rst:636
-msgid "10,000"
-msgstr ""
-
-#: ../../api.rst:634
-msgid "50,000"
-msgstr ""
-
-#: ../../api.rst:635
-msgid "API Key"
-msgstr ""
-
-#: ../../api.rst:637 ../../api.rst:640
-msgid "100,000"
-msgstr ""
-
-#: ../../api.rst:638 ../../api.rst:641
-msgid "1,000,000"
-msgstr ""
-
-#: ../../api.rst:639
-msgid "Institutional"
-msgstr ""
-
-#: ../../api.rst:642
-msgid "Unlimited"
-msgstr ""
-
-#: ../../api.rst:645
-msgid "Best Practices"
-msgstr ""
-
-#: ../../api.rst:647
-msgid "**1. Use API Keys for Regular Access:**"
-msgstr ""
-
-#: ../../api.rst:654
-msgid "**2. Implement Proper Error Handling:**"
-msgstr ""
-
-#: ../../api.rst:676
-msgid "**3. Use Pagination for Large Datasets:**"
-msgstr ""
-
-#: ../../api.rst:700
-msgid "**4. Cache Results Appropriately:**"
-msgstr ""
-
-#: ../../api.rst:728
-msgid "FARM Stack API"
-msgstr ""
-
-#: ../../api.rst:732
-msgid "AMRnet is implementing a modern FARM (FastAPI + React + MongoDB) stack API to provide enhanced performance, real-time capabilities, and advanced analytics features."
-msgstr ""
-
-#: ../../api.rst:735
-msgid "FastAPI Backend Features"
-msgstr ""
-
-#: ../../api.rst:737
-msgid "**Real-time Data Streaming:**"
-msgstr ""
-
-#: ../../api.rst:756
-msgid "**Advanced Analytics Endpoints:**"
-msgstr ""
-
-#: ../../api.rst:769
-msgid "**GraphQL Integration:**"
-msgstr ""
-
-#: ../../api.rst:797
-msgid "React Frontend Components"
-msgstr ""
-
-#: ../../api.rst:799
-msgid "**Interactive API Explorer:**"
-msgstr ""
-
-#: ../../api.rst:821
-msgid "**Real-time Dashboard Widgets:**"
-msgstr ""
-
-#: ../../api.rst:840
-msgid "MongoDB Advanced Queries"
-msgstr ""
-
-#: ../../api.rst:842
-msgid "**Time-series Analytics:**"
-msgstr ""
-
-#: ../../api.rst:876
-msgid "**Geospatial Analysis:**"
-msgstr ""
-
-#: ../../api.rst:893
-msgid "Support and Resources"
-msgstr ""
-
-#: ../../api.rst:897
-msgid "Get help and connect with the AMRnet developer community:"
-msgstr ""
-
-#: ../../api.rst:900
-msgid "Documentation Resources"
-msgstr ""
-
-#: ../../api.rst:902
-msgid "**📖 User Guide**: Comprehensive dashboard usage instructions"
-msgstr ""
-
-#: ../../api.rst:903
-msgid "**🛠️ Developer Guide**: Contributing and adding new organisms"
-msgstr ""
-
-#: ../../api.rst:904
-msgid "**📊 Data Dictionary**: Complete field definitions and schemas"
-msgstr ""
-
-#: ../../api.rst:905
-msgid "**🎓 Tutorials**: Step-by-step integration examples"
-msgstr ""
-
-#: ../../api.rst:908
-msgid "Community Support"
-msgstr ""
-
-#: ../../api.rst:910
-msgid "**💬 GitHub Discussions**: `github.com/amrnet/amrnet/discussions <https://github.com/amrnet/amrnet/discussions>`_"
-msgstr ""
-
-#: ../../api.rst:911
-msgid "**🐛 Issue Tracker**: `github.com/amrnet/amrnet/issues <https://github.com/amrnet/amrnet/issues>`_"
-msgstr ""
-
-#: ../../api.rst:912
-msgid "**📧 Email Support**: amrnetdashboard@gmail.com"
-msgstr ""
-
-#: ../../api.rst:913
-msgid "**📋 API Status**: `status.amrnet.org <https://status.amrnet.org>`_"
-msgstr ""
-
-#: ../../api.rst:916
-msgid "Professional Services"
-msgstr ""
-
-#: ../../api.rst:920
-msgid "For organizations requiring custom integration support, training, or enterprise features:"
-msgstr ""
-
-#: ../../api.rst:922
-msgid "**🏢 Enterprise API Access**: Higher rate limits and SLA guarantees"
-msgstr ""
-
-#: ../../api.rst:923
-msgid "**🎓 Training Workshops**: API integration and AMR data analysis"
-msgstr ""
-
-#: ../../api.rst:924
-msgid "**🔧 Custom Development**: Tailored solutions and private deployments"
-msgstr ""
-
-#: ../../api.rst:925
-msgid "**📊 Consulting Services**: AMR surveillance strategy and implementation"
-msgstr ""
-
-#: ../../api.rst:927
-msgid "Contact our enterprise team at ``amrnetdashboard@gmail.com`` for more information."
-msgstr ""
-
-#: ../../api.rst:930
-msgid "Changelog and Versioning"
-msgstr ""
-
-#: ../../api.rst:934
-msgid "The AMRnet API follows semantic versioning. Major version changes may include breaking changes, while minor versions add features with backward compatibility."
-msgstr ""
-
-#: ../../api.rst:937
-msgid "Current Version: v2.1.0"
-msgstr ""
-
-#: ../../api.rst:939
-msgid "**New Features:** - FARM stack implementation with FastAPI backend - Real-time WebSocket endpoints for live data streaming - GraphQL API support for flexible queries - Enhanced geospatial analysis capabilities - Machine learning prediction endpoints"
-msgstr ""
-
-#: ../../api.rst:946
-#, python-format
-msgid "**Improvements:** - 40% faster response times with async processing - Improved error messages with detailed diagnostics - Enhanced rate limiting with burst capacity - Better caching for frequently accessed data"
-msgstr ""
-
-#: ../../api.rst:952
-msgid "**Bug Fixes:** - Fixed pagination issues with large datasets - Resolved timezone handling in date filters - Corrected resistance rate calculations for specific genotypes"
-msgstr ""
-
-#: ../../api.rst:958
-msgid "Version History"
-msgstr ""
-
-#: ../../api.rst:960
-msgid "**v2.1.0** (2024-12-30): FARM stack implementation, real-time features"
-msgstr ""
-
-#: ../../api.rst:961
-msgid "**v2.0.0** (2024-06-15): Major API redesign with consistent endpoints"
-msgstr ""
-
-#: ../../api.rst:962
-msgid "**v1.5.2** (2024-03-10): Enhanced filtering and export capabilities"
-msgstr ""
-
-#: ../../api.rst:963
-msgid "**v1.5.0** (2024-01-20): Added summary statistics endpoints"
-msgstr ""
-
-#: ../../api.rst:964
-msgid "**v1.4.1** (2023-11-05): Performance improvements and bug fixes"
-msgstr ""
-
-#: ../../api.rst:965
-msgid "**v1.4.0** (2023-09-15): OAuth2 authentication support"
-msgstr ""
-
-#: ../../api.rst:966
-msgid "**v1.3.0** (2023-07-01): API key authentication system"
-msgstr ""
-
-#: ../../api.rst:967
-msgid "**v1.2.0** (2023-04-10): CSV export functionality"
-msgstr ""
-
-#: ../../api.rst:968
-msgid "**v1.1.0** (2023-02-01): Pagination and advanced filtering"
-msgstr ""
-
-#: ../../api.rst:969
-msgid "**v1.0.0** (2023-01-01): Initial public API release"
-msgstr ""
-
-#: ../../api.rst:972
-msgid "Migration Guides"
-msgstr ""
-
-#: ../../api.rst:974
-msgid "**Migrating from v1.x to v2.x:**"
-msgstr ""
-
-#: ../../api.rst:984
-msgid "**Breaking Changes in v2.0:** - Endpoint structure simplified (``/data/{organism}`` → ``/{organism}``) - Response format standardized across all endpoints - Date filtering uses ``year_start``/``year_end`` instead of ``date_from``/``date_to`` - Resistance values standardized (R/I/S instead of numeric codes)"
-msgstr ""
-
-#: ../../api.rst:991
-msgid "Deprecation Notice"
-msgstr ""
-
-#: ../../api.rst:995
-msgid "**v1.x API endpoints will be deprecated on June 30, 2025.** Please migrate to v2.x endpoints before this date. Legacy endpoints will continue to work until December 31, 2025, after which they will be permanently removed."
-msgstr ""
-
-#~ msgid "API Reference"
-#~ msgstr ""
 
