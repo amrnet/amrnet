@@ -13,6 +13,17 @@
     "database": "Database",
     "userguide": "User Guide"
   },
+  "team": {
+    "post": {
+      "Principal Investigator": "Principal Investigator",
+      "Genomic Epidemiologist": "Genomic Epidemiologist",
+      "Lead Software Engineer/Computational Biologist": "Lead Software Engineer/Computational Biologist",
+      "Software Engineer": "Software Engineer",
+      "Policy Engagement": "Policy Engagement",
+      "Bioinformatician": "Bioinformatician",
+      "Research Software Engineer": "Research Software Engineer"
+    }
+  },
   "about": {
     "title": "About",
     "pageTitle": "About AMRnet",

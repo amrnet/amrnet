@@ -1,5 +1,5 @@
 
-![AMRnet Logo](assets/img/logo-prod.png)
+<img src='assets/img/logo-prod.png' width="150" height="90">
 
 [![GitHub version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/amrnet/amrnet)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -201,7 +201,6 @@ AMRnet integrates surveillance data from major public genomic databases:
 **🔬 Data Sources**
 - **[Pathogenwatch](https://pathogen.watch)** - 3 organisms with AMR predictions
 - **[Enterobase](https://enterobase.warwick.ac.uk)** - 5 organisms with hierarchical clustering
-- **Global surveillance networks** - WHO, WHONET integration
 - **Academic consortiums** - Global Typhoid Genomics Consortium
 
 ### 🔗 Architecture Documentation
@@ -338,7 +337,7 @@ We welcome contributions from the global AMR surveillance community!
 If you use **AMRnet** data or visualizations in your work, please cite:
 
 ```bibtex
-@software{amrnet2024,
+@software{amrnet2023,
   title = {AMRnet: Global Antimicrobial Resistance Surveillance Dashboard},
   author = {Cerdeira, L, Sharma, V, Holt, Kathryn E. and {AMRnet Team}},
   year = {2024},
@@ -406,7 +405,7 @@ We're committed to fostering an inclusive, welcoming community:
 
 ## � Contact & Links
 
-**AMRnet** - Powered by the global health community
+**AMRnet** - Powered by AMRnet team.
 
 [🌐 Dashboard](https://www.amrnet.org) • [📖 Docs](https://amrnet.readthedocs.io) • [💻 GitHub](https://github.com/amrnet/amrnet) • [📧 Contact](mailto:amrnetdashboard@gmail.com)
 
