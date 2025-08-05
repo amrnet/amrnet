@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amrnet\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-05 00:07+0100\n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
 "PO-Revision-Date: 2025-08-05 01:47\n"
 "Last-Translator: \n"
 "Language: fr\n"
@@ -15,689 +15,309 @@ msgstr ""
 "X-Crowdin-Project: amrnet\n"
 "X-Crowdin-Project-ID: 816064\n"
 "X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /devrev-final/docs/locale/pt/LC_MESSAGES/tutorial.po\n"
-"X-Crowdin-File-ID: 128\n"
+"X-Crowdin-File: /devrev-final/docs/locale/pt/LC_MESSAGES/usage.po\n"
+"X-Crowdin-File-ID: 130\n"
 
-#: ../../tutorial.rst:6
-msgid "Welcome to AMRnet!"
+#: ../../usage.rst:2
+msgid "Dashboard overview"
 msgstr ""
 
-#: ../../tutorial.rst:10
-msgid "This tutorial will guide you through using AMRnet, a web platform that visualizes antimicrobial resistance (AMR) data from bacterial pathogens worldwide. AMRnet makes complex genomic surveillance data accessible to healthcare professionals, public health officials, researchers, and policymakers - regardless of their technical background in genomics or bioinformatics."
+#: ../../usage.rst:5
+msgid "**Header**: Use the menu to **select a species or pathogen group** to display. Each pathogen has its own dashboard configuration that is customised to show genotypes, resistances and other relevant parameters. Numbers indicate the total number of genomes and genotypes currently available in the selected dashboard."
 msgstr ""
 
-#: ../../tutorial.rst:13
-msgid "What is AMRnet?"
+#: ../../usage.rst:7
+msgid "header"
 msgstr ""
 
-#: ../../tutorial.rst:17
-msgid "AMRnet is a global surveillance dashboard that shows antimicrobial resistance patterns in disease-causing bacteria. Think of it as a \"weather map\" for antibiotic resistance - it helps you understand:"
+#: ../../usage.rst:12
+msgid "**Map**: Use the **Plotting options** panel on the right to **select a variable to display per-country summary data** on the world map. Prevalence data are pooled weighted estimates of proportion for the selected resistance or genotype. Use the **Global filters** panel on the left to recalculate summary data for a specific time period and/or subgroup/s (options available vary by pathogen). A country must have N≥20 samples (using the current filters) for summary data to be displayed otherwise, it will be coloured grey to indicate insufficient data are available. Filters set in this panel apply not only to the map, but to all plots on the page. **Clicking on a country in the map** also functions as a filter, so that the **Summary plots** in the panels below reflect data for the selected country only. Per-country values displayed in the map can be downloaded by clicking the downward-arrow button at the top right of the panel. A static image (PNG format) of the current map view can be downloaded by clicking the camera icon."
 msgstr ""
 
-#: ../../tutorial.rst:19
-msgid "**Where** resistant bacteria are found geographically"
+#: ../../usage.rst:15
+msgid "map"
 msgstr ""
 
-#: ../../tutorial.rst:20
-msgid "**When** resistance patterns are changing over time"
+#: ../../usage.rst:20
+msgid "**Summary plots**: This panel offers a series of summary plots. The default view is \"AMR trends\". **Click a plot title** in the rotating selector at the top of the panel, to choose a different plot. The specific plots available vary by pathogen, as do the definitions of AMR and genotype variables (see per-organism details below). Summary plots are intended to show region- or country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters."
 msgstr ""
 
-#: ../../tutorial.rst:21
-msgid "**Which** antibiotics are still effective in different regions"
+#: ../../usage.rst:22
+msgid "All plots are interactive. Use the **Plotting options** panel on the right to modify the region/country to display, or to select other options available for the current plot such as which variables to display, and whether to show **counts or percentages**."
 msgstr ""
 
-#: ../../tutorial.rst:22
-msgid "**How** bacterial strains are related to each other"
+#: ../../usage.rst:24
+msgid "Each plot has a dynamic legend to the right; click on an x-axis value to display counts and percentages of secondary variables calculated amongst genomes matching that x-axis value. For example, most pathogens will have a ‘AMR by genotype’ plot; click a genotype to display counts and percentages of resistance estimated for each drug or class."
 msgstr ""
 
-#: ../../tutorial.rst:24
-msgid "The platform analyzes thousands of bacterial genome sequences from public databases and presents the findings in user-friendly visualizations."
+#: ../../usage.rst:26
+msgid "Summarised values displayed in the current plot can be downloaded by clicking the downward-arrow button at the top of the Summary plots panel. A static image (PNG format) of the current plotting view can be downloaded by clicking the camera icon."
 msgstr ""
 
-#: ../../tutorial.rst:27
-msgid "Who Should Use AMRnet?"
+#: ../../usage.rst:32
+msgid "summary"
 msgstr ""
 
-#: ../../tutorial.rst:31
-msgid "AMRnet is designed for a diverse audience:"
+#: ../../usage.rst:37
+msgid "**Downloads**: At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (CSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’). Please note PDF reports are not yet available for all organisms, they will be added in future updates."
 msgstr ""
 
-#: ../../tutorial.rst:33
-msgid "**Healthcare Professionals**"
+#: ../../usage.rst:39
+msgid "downloads"
 msgstr ""
 
-#: ../../tutorial.rst:34
-msgid "Clinicians making treatment decisions"
+#: ../../usage.rst:45
+msgid "Please note PDF reports are not yet available for all organisms, they will be added in future updates."
 msgstr ""
 
-#: ../../tutorial.rst:35
-msgid "Infection control specialists"
+#: ../../usage.rst:48
+msgid "Individual pathogen details"
 msgstr ""
 
-#: ../../tutorial.rst:36
-msgid "Clinical microbiologists"
+#: ../../usage.rst:51
+msgid "*Salmonella* Typhi"
 msgstr ""
 
-#: ../../tutorial.rst:38
-msgid "**Public Health Officials**"
+#: ../../usage.rst:54
+msgid "*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch <http://Pathogen.watch>`__, which calls AMR determinants and `GenoTyphi <https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by the `Global Typhoid Genomics Consortium <https://www.typhoidgenomics.org>`_, as described `here <https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations) with known year of isolation and country of origin. Last update: 12 November 2024."
 msgstr ""
 
-#: ../../tutorial.rst:39
-msgid "Epidemiologists tracking resistance patterns"
+#: ../../usage.rst:56 ../../usage.rst:75 ../../usage.rst:95 ../../usage.rst:122
+#: ../../usage.rst:147 ../../usage.rst:165 ../../usage.rst:185
+msgid "**Variable definitions**"
 msgstr ""
 
-#: ../../tutorial.rst:40
-msgid "Policy makers developing AMR strategies"
+#: ../../usage.rst:58
+msgid "**Genotypes**: GenoTyphi scheme, see `Dyson & Holt, 2021 <https://doi.org/10.1093/infdis/jiab414>`_."
 msgstr ""
 
-#: ../../tutorial.rst:41
-msgid "Surveillance coordinators"
+#: ../../usage.rst:59
+msgid "**AMR determinants** are described in the `Typhi Pathogenwatch paper <https://doi.org/10.1038/s41467-021-23091-2>`_."
 msgstr ""
 
-#: ../../tutorial.rst:43
-msgid "**Researchers & Academics**"
+#: ../../usage.rst:60
+msgid "**Travel-associated cases** are attributed to the country of travel, not the country of isolation, see `Ingle et al, 2019 <https://doi.org/10.1371/journal.pntd.0007620>`_."
 msgstr ""
 
-#: ../../tutorial.rst:44
-msgid "Students learning about AMR"
+#: ../../usage.rst:62 ../../usage.rst:81 ../../usage.rst:102
+msgid "**Abbreviations**"
 msgstr ""
 
-#: ../../tutorial.rst:45
-msgid "Researchers studying resistance mechanisms"
+#: ../../usage.rst:64
+msgid "**MDR**: multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)"
 msgstr ""
 
-#: ../../tutorial.rst:46
-msgid "Healthcare educators"
+#: ../../usage.rst:65
+msgid "**XDR**: extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)"
 msgstr ""
 
-#: ../../tutorial.rst:48
-msgid "**Global Health Organizations**"
+#: ../../usage.rst:66
+msgid "**Ciprofloxacin NS**: ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more *qnr* genes or mutations in *gyrA/parC/gyrB*)"
 msgstr ""
 
-#: ../../tutorial.rst:49
-msgid "WHO regional offices"
+#: ../../usage.rst:67
+msgid "**Ciprofloxacin R**: ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes)"
 msgstr ""
 
-#: ../../tutorial.rst:50
-msgid "National health ministries"
+#: ../../usage.rst:70
+msgid "*Klebsiella pneumoniae*"
 msgstr ""
 
-#: ../../tutorial.rst:51
-msgid "International surveillance networks"
+#: ../../usage.rst:71
+msgid "*Klebsiella pneumoniae* data are sourced from `Pathogenwatch <https://doi.org/10.1093/cid/ciab784>`__, which calls AMR (using `Kleborate <https://github.com/klebgenomics/Kleborate>`_) and genotypes (`MLST <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`__) from genomes assembled from public data. Last update: 24 May 2025."
 msgstr ""
 
-#: ../../tutorial.rst:54
-msgid "Key Concepts Made Simple"
+#: ../../usage.rst:73
+msgid "The *Klebsiella pneumoniae* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which have been largely directed at sequencing ESBL and carbapenemase-producing strains or hypervirulent strains. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard."
 msgstr ""
 
-#: ../../tutorial.rst:57
-msgid "Understanding Antimicrobial Resistance (AMR)"
+#: ../../usage.rst:77
+msgid "**Genotypes**: `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella pneumoniae, and sublineages (defined from core-genome MLST, as described `here <https://doi.org/10.1093/molbev/msac135>`__), maintained by `Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_."
 msgstr ""
 
-#: ../../tutorial.rst:61
-msgid "**What is AMR?** Antimicrobial resistance occurs when bacteria evolve to survive treatments that previously killed them. It's like bacteria developing \"armor\" against antibiotics."
+#: ../../usage.rst:78
+msgid "**AMR determinants** are called using `Kleborate v3 <https://github.com/klebgenomics/Kleborate>`_, described `here <https://doi.org/10.1038/s41467-021-24448-3>`__. Fluoroquinolone resistance is defined as presence of an acquired qnr/qep gene OR a mutation in the quinolone-resistance determining regions of gyrA or parC."
 msgstr ""
 
-#: ../../tutorial.rst:64
-msgid "**Why does it matter?** When bacteria become resistant, common infections become harder to treat, leading to: - Longer hospital stays - Higher treatment costs - Increased risk of complications - Sometimes death from previously treatable infections"
+#: ../../usage.rst:79
+msgid "**No acquired resistance**: no resistance determinants identified besides a wildtype beta-lactamase SHV allele associated with intrinsic resistance to ampicillin (i.e. not an ESBL or inhibitor-resistant variant of SHV, see `Tsang et al 2024 <https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294>`_."
 msgstr ""
 
-#: ../../tutorial.rst:71
-msgid "**How do bacteria become resistant?** - **Genetic mutations**: Random changes in bacterial DNA - **Gene acquisition**: Bacteria can share resistance genes with each other - **Selection pressure**: Overuse/misuse of antibiotics favors resistant strains"
+#: ../../usage.rst:83
+msgid "**ESBL**: extended-spectrum beta-lactamase"
 msgstr ""
 
-#: ../../tutorial.rst:77
-msgid "Understanding Bacterial Genomes"
+#: ../../usage.rst:84
+msgid "**3GC**: third-generation cephalosporins"
 msgstr ""
 
-#: ../../tutorial.rst:81
-msgid "**What is a genome?** A genome is the complete set of genetic instructions for an organism - like a blueprint. For bacteria, this blueprint determines their characteristics, including resistance to antibiotics."
+#: ../../usage.rst:85
+msgid "**ST**: sequence type"
 msgstr ""
 
-#: ../../tutorial.rst:84
-msgid "**What is genome sequencing?** Genome sequencing is like reading the bacterial blueprint to understand: - What species/strain the bacteria is - Which resistance genes it carries - How it relates to other bacterial samples"
+#: ../../usage.rst:86
+msgid "**cgST**: core-genome sequence type"
 msgstr ""
 
-#: ../../tutorial.rst:90
-msgid "**Why sequence bacterial genomes?** - Identify resistance mechanisms - Track outbreak sources - Monitor resistance spread - Guide treatment decisions"
+#: ../../usage.rst:89
+msgid "*Neisseria gonorrhoeae*"
 msgstr ""
 
-#: ../../tutorial.rst:97
-msgid "Understanding Bacterial Classification"
+#: ../../usage.rst:93
+msgid "*Neisseria gonorrhoeae* data are sourced from `Pathogenwatch <https://doi.org/10.1186/s13073-021-00858-2>`__, which calls AMR and lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST <https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST <https://doi.org/10.1086/383047>`_) from genomes assembled from public data. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). These include EuroGASP `2013 <https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 <https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national surveillance studies. Last update: 24 January 2024."
 msgstr ""
 
-#: ../../tutorial.rst:101
-msgid "Bacteria are classified in a hierarchical system (like a family tree):"
+#: ../../usage.rst:97
+msgid "**Genotypes**: sequence types from the `7-locus MLST scheme <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for **Neisseria**, or 2-locus **N. gonorrhoeae** multi-antigen sequence typing (`NG-MAST <https://doi.org/10.1086/383047>`_) scheme, both hosted by `PubMLST <https://pubmlst.org/neisseria/>`_."
 msgstr ""
 
-#: ../../tutorial.rst:103
-msgid "**Species**: The basic unit (e.g., *Salmonella* Typhi, *Klebsiella pneumoniae*)"
+#: ../../usage.rst:98
+msgid "**AMR determinants** are identified by Pathogenwatch using an inhouse dictionary developed and maintained in consultation with an expert advisory group, described `here <https://doi.org/10.1186/s13073-021-00858-2>`__."
 msgstr ""
 
-#: ../../tutorial.rst:105
-msgid "**Strains/Genotypes**: Variants within a species with similar genetic makeup - Think of these as \"subspecies\" or \"varieties\" - Useful for tracking specific lineages - Some strains may be more resistant than others"
+#: ../../usage.rst:99
+msgid "**AMR determinants within genotypes** - This plot shows combinations of determinants that result in clinical resistance to Azithromycin or Ceftriaxone, as defined in Figure 3 of `Sánchez-Busó et al (2021) <https://doi.org/10.1186/s13073-021-00858-2>`_."
 msgstr ""
 
-#: ../../tutorial.rst:110
-msgid "**Sequence Types (STs)**: Specific genetic \"fingerprints\" - Used to identify and track bacterial strains - Numbers like ST313, ST15 refer to specific genetic profiles"
+#: ../../usage.rst:100
+msgid "**Susceptible to cat I/II drugs** - No determinants found for Azithromycin, Ceftriaxone, Cefixime (category I) or Benzylpenicillin, Ciprofloxacin, Spectinomycin (category II)."
 msgstr ""
 
-#: ../../tutorial.rst:115
-msgid "Getting Started with AMRnet"
+#: ../../usage.rst:104
+msgid "**MDR**: multidrug resistant (Resistant to one of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus two or more of Benzylpenicillin / Ciprofloxacin / Spectinomycin [category II representatives])"
 msgstr ""
 
-#: ../../tutorial.rst:118
-msgid "Accessing the Platform"
+#: ../../usage.rst:105
+msgid "**XDR**: extensively drug resistant (Resistant to two of Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Benzylpenicillin / Ciprofloxacin / Spectinomycin [category II representatives])"
 msgstr ""
 
-#: ../../tutorial.rst:122
-msgid "Visit `www.amrnet.org <https://www.amrnet.org>`_"
+#: ../../usage.rst:109
+msgid "These definitions are based on those defined in the `European CDC Response Plan <https://www.ecdc.europa.eu/sites/default/files/documents/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-Europe-2019.pdf>`_, modified to use the specific representatives of category I and II antibiotic classes that are available in the dashboard."
 msgstr ""
 
-#: ../../tutorial.rst:123
-msgid "No registration required - it's completely free and open access"
+#: ../../usage.rst:113
+msgid "*Escherichia coli*"
 msgstr ""
 
-#: ../../tutorial.rst:124
-msgid "Works on any device with an internet connection (computer, tablet, phone)"
+#: ../../usage.rst:117
+msgid "*Escherichia coli* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 24 January 2024."
 msgstr ""
 
-#: ../../tutorial.rst:127
-msgid "Choosing Your Pathogen"
+#: ../../usage.rst:120 ../../usage.rst:145
+msgid "The *E. coli* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard."
 msgstr ""
 
-#: ../../tutorial.rst:131
-msgid "**Step 1**: At the top of the page, you'll see a menu to select different bacteria:"
+#: ../../usage.rst:124
+msgid "**Lineages**: Lineages are labeled by 7-locus sequence type (ST)."
 msgstr ""
 
-#: ../../tutorial.rst:133
-msgid "**Salmonella Typhi**: Causes typhoid fever"
+#: ../../usage.rst:126 ../../usage.rst:151 ../../usage.rst:197
+msgid "**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_."
 msgstr ""
 
-#: ../../tutorial.rst:134
-msgid "**Klebsiella pneumoniae**: Causes pneumonia, bloodstream infections"
+#: ../../usage.rst:130
+msgid "*Escherichia coli* (diarrheagenic)"
 msgstr ""
 
-#: ../../tutorial.rst:135
-msgid "**Neisseria gonorrhoeae**: Causes gonorrhea"
+#: ../../usage.rst:134
+msgid "Enterobase classifies *E. coli* genomes to pathotypes using `this logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__. Pathotypes included in the *E. coli* (diarrheagenic) dashboard are:"
 msgstr ""
 
-#: ../../tutorial.rst:136
-msgid "**Escherichia coli**: Causes diarrheal diseases, urinary tract infections"
+#: ../../usage.rst:136
+msgid "Shiga toxin-producing *E. coli* (STEC)"
 msgstr ""
 
-#: ../../tutorial.rst:137
-msgid "**Shigella**: Causes dysentery"
+#: ../../usage.rst:137
+msgid "Enterohemorrhagic *E. coli* (EHEC)"
 msgstr ""
 
-#: ../../tutorial.rst:138
-msgid "**Non-typhoidal Salmonella**: Causes food poisoning, invasive disease"
+#: ../../usage.rst:138
+msgid "Enterotoxigenic *E. coli* (ETEC)"
 msgstr ""
 
-#: ../../tutorial.rst:140
-msgid "**Step 2**: Click on the pathogen you're interested in to access its specific dashboard."
+#: ../../usage.rst:139
+msgid "Enteropathogenic *E. coli* (EPEC)"
 msgstr ""
 
-#: ../../tutorial.rst:143
-msgid "Understanding the Dashboard Layout"
+#: ../../usage.rst:140
+msgid "Enteroinvasive *E. coli* (EIEC)"
 msgstr ""
 
-#: ../../tutorial.rst:146
-msgid "The Map View"
+#: ../../usage.rst:142
+msgid "Last update: 24 January 2024."
 msgstr ""
 
-#: ../../tutorial.rst:150
-msgid "**What you see**: A world map with countries colored by resistance levels"
+#: ../../usage.rst:149
+msgid "**Lineages**: Lineages are labeled by the pathovar followed by the (7-locus) ST."
 msgstr ""
 
-#: ../../tutorial.rst:152
-msgid "**How to interpret colors**: - **Green/Blue**: Lower resistance levels (antibiotics still work well) - **Yellow/Orange**: Moderate resistance levels - **Red/Dark Red**: High resistance levels (antibiotics less effective) - **Grey**: Insufficient data available"
+#: ../../usage.rst:155
+msgid "*Shigella* + EIEC"
 msgstr ""
 
-#: ../../tutorial.rst:158
-msgid "**Key controls**: - **Right panel**: Choose what resistance pattern to display - **Left panel**: Filter data by year, region, or bacterial strain"
+#: ../../usage.rst:159
+msgid "*Shigella* and enteroinvasive *E. coli* (EIEC) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 24 January 2024."
 msgstr ""
 
-#: ../../tutorial.rst:162
-msgid "**Data requirements**: Countries need at least 20 bacterial samples for data to be displayed"
+#: ../../usage.rst:163
+msgid "The *Shigella* + EIEC data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard."
 msgstr ""
 
-#: ../../tutorial.rst:165
-msgid "The Filter Panel (Left Side)"
+#: ../../usage.rst:167
+msgid "**Lineages**: The logic used by `Enterobase <https://doi.org/10.1101/gr.251678.119>`__ to classify genomes as *Shigella* or EIEC are detailed `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella>`__. *Shigella sonnei* are monophyletic and labelled as lineage ‘S. *sonnei*’. For other *Shigella*, lineages are labeled by the species followed by the HC400 (`HierCC <https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_) cluster ID (as this nomenclature has been `shown <https://doi.org/10.1038/s41467-022-28121-1>`_ to mirror the paraphyletic lineage structure of *Shigella*). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’)."
 msgstr ""
 
-#: ../../tutorial.rst:169
-msgid "**Year Range**: Select specific time periods to see how resistance changes over time"
+#: ../../usage.rst:168
+msgid "**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`__ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_."
 msgstr ""
 
-#: ../../tutorial.rst:171
-msgid "**Geographic Filters**: Focus on specific regions or countries"
+#: ../../usage.rst:173
+msgid "*Salmonella* (invasive non-typhoidal)"
 msgstr ""
 
-#: ../../tutorial.rst:173
-msgid "**Strain/Genotype Filters**: Look at specific bacterial variants - Useful for tracking particular strains of concern"
+#: ../../usage.rst:177
+#, python-format
+msgid "*Salmonella* (invasive non-typhoidal) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for `>90% of iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_), and identifies lineages thereof using MLST. Last update: 24 January 2024."
 msgstr ""
 
-#: ../../tutorial.rst:176
-msgid "**Sample Source**: Filter by where samples came from (surveillance studies, clinical samples, etc.)"
+#: ../../usage.rst:180
+#, python-format
+msgid "The invasive non-typhoidal *Salmonella* (iNTS) dashboard is populated with data from specific *Salmonella enterica* lineages that are associated with invasive disease in low-income countries; namely serotype Typhimurium (ST19, ST313 and sublineages thereof as defined by `Van Puyvelde et al <https://doi.org/10.1038/s41467-023-41152-6>`_) and Enteritidis (Central/Eastern and West African clades as defined by `Fong et al <https://doi.org/10.1099/mgen.0.001017>`_). Together these account for `>90% of iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_. Data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. Last update: 24 January 2024."
 msgstr ""
 
-#: ../../tutorial.rst:179
-msgid "The Variable Selection Panel (Right Side)"
+#: ../../usage.rst:183
+msgid "The iNTS data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard."
 msgstr ""
 
-#: ../../tutorial.rst:183
-msgid "**Resistance Variables**: Choose which antibiotic resistance to display - Individual antibiotics (e.g., ciprofloxacin, ceftriaxone) - Resistance categories (MDR, XDR) - Specific resistance mechanisms"
+#: ../../usage.rst:187
+msgid "**Lineages**: Lineages are labeled by iTYM (invasive Typhimurium) or iENT (invasive Enteritidis) followed by the lineage name, defined from cgMLST as follows:"
 msgstr ""
 
-#: ../../tutorial.rst:188
-msgid "**Genotype Variables**: Display the distribution of bacterial strains - Useful for understanding which strains are circulating where"
+#: ../../usage.rst:189
+msgid "iTYM ST19-L1: HC150-305"
 msgstr ""
 
-#: ../../tutorial.rst:192
-msgid "Understanding Data Visualizations"
+#: ../../usage.rst:190
+msgid "iTYM ST19-L3: HC150=1547"
 msgstr ""
 
-#: ../../tutorial.rst:195
-msgid "Resistance Frequency Graphs"
+#: ../../usage.rst:191
+msgid "iTYM ST19-L4: HC150=48"
 msgstr ""
 
-#: ../../tutorial.rst:199
-msgid "**What they show**: The percentage of bacteria resistant to different antibiotics"
+#: ../../usage.rst:192
+msgid "iTYM ST313-L1: HC150=9882"
 msgstr ""
 
-#: ../../tutorial.rst:201
-msgid "**How to read them**: - X-axis: Different antibiotics or bacterial strains - Y-axis: Percentage resistant (0-100%) - Colors: Different categories (susceptible, resistant, intermediate)"
+#: ../../usage.rst:193
+msgid "iTYM ST313-L2: HC150=728 and HC50=728"
 msgstr ""
 
-#: ../../tutorial.rst:206
-msgid "**Interactive features**: - Click on bars to see detailed breakdowns - Hover for exact percentages and counts"
+#: ../../usage.rst:194
+msgid "iENT CEAC: HC150=12675"
 msgstr ""
 
-#: ../../tutorial.rst:211
-msgid "Time Trend Graphs"
+#: ../../usage.rst:195
+msgid "iENT WAC: HC150=2452"
 msgstr ""
-
-#: ../../tutorial.rst:215
-msgid "**What they show**: How resistance patterns change over time"
-msgstr ""
-
-#: ../../tutorial.rst:217
-msgid "**How to read them**: - X-axis: Years - Y-axis: Percentage resistant - Lines: Different resistance patterns or strains"
-msgstr ""
-
-#: ../../tutorial.rst:222
-msgid "**What to look for**: - **Increasing trends**: Resistance is getting worse - **Decreasing trends**: Interventions may be working - **Stable patterns**: Resistance levels are consistent"
-msgstr ""
-
-#: ../../tutorial.rst:228
-msgid "Drug Resistance Profiles"
-msgstr ""
-
-#: ../../tutorial.rst:232
-msgid "**What they show**: Patterns of multiple drug resistance"
-msgstr ""
-
-#: ../../tutorial.rst:234
-msgid "**Key patterns to understand**: - **Susceptible**: Bacteria killed by the antibiotic - **MDR (Multi-Drug Resistant)**: Resistant to 3+ antibiotics - **XDR (Extensively Drug Resistant)**: Resistant to most available antibiotics"
-msgstr ""
-
-#: ../../tutorial.rst:239
-msgid "**Clinical significance**: - Higher resistance = fewer treatment options - XDR strains are particularly concerning for patient care"
-msgstr ""
-
-#: ../../tutorial.rst:244
-msgid "Pathogen-Specific Guidance"
-msgstr ""
-
-#: ../../tutorial.rst:247
-msgid "Salmonella Typhi (Typhoid Fever)"
-msgstr ""
-
-#: ../../tutorial.rst:251
-msgid "**Clinical Context**: - Causes typhoid fever, mainly in South Asia and Sub-Saharan Africa - Spread through contaminated food and water - Preventable by vaccination and improved sanitation"
-msgstr ""
-
-#: ../../tutorial.rst:256
-msgid "**Key Resistance Patterns**: - **MDR**: Resistant to ampicillin, chloramphenicol, trimethoprim-sulfamethoxazole - **Ciprofloxacin resistance**: Reduces effectiveness of first-line oral treatment - **XDR**: Resistant to MDR drugs plus ciprofloxacin and ceftriaxone"
-msgstr ""
-
-#: ../../tutorial.rst:261
-msgid "**What to look for**: - High MDR levels in endemic regions - Emerging XDR strains (especially concerning) - Travel-associated cases in non-endemic countries"
-msgstr ""
-
-#: ../../tutorial.rst:266
-msgid "**Important Strains**: - **H58**: Historically dominant MDR lineage - **H58 XDR**: Extremely concerning extensively resistant variant"
-msgstr ""
-
-#: ../../tutorial.rst:271
-msgid "Klebsiella pneumoniae"
-msgstr ""
-
-#: ../../tutorial.rst:275
-msgid "**Clinical Context**: - Causes pneumonia, bloodstream infections, urinary tract infections - Major hospital-acquired pathogen - Particularly dangerous for immunocompromised patients"
-msgstr ""
-
-#: ../../tutorial.rst:280
-msgid "**Key Resistance Patterns**: - **ESBL**: Extended-spectrum beta-lactamases (resist many antibiotics) - **Carbapenemase**: Resist carbapenems (last-resort antibiotics) - **Colistin resistance**: Resist the \"antibiotic of last resort\""
-msgstr ""
-
-#: ../../tutorial.rst:285
-msgid "**What to look for**: - High ESBL rates globally - Emerging carbapenemase-producing strains - Hypervirulent strains that cause severe infections"
-msgstr ""
-
-#: ../../tutorial.rst:290
-msgid "**Important Strains**: - **ST258**: Major epidemic clone with carbapenem resistance - **ST11**: Common in Asia with extensive resistance"
-msgstr ""
-
-#: ../../tutorial.rst:295
-msgid "Neisseria gonorrhoeae (Gonorrhea)"
-msgstr ""
-
-#: ../../tutorial.rst:299
-msgid "**Clinical Context**: - Sexually transmitted infection - Can cause serious complications if untreated - WHO priority pathogen for AMR"
-msgstr ""
-
-#: ../../tutorial.rst:304
-msgid "**Key Resistance Patterns**: - **Azithromycin resistance**: Threatens dual therapy - **Ceftriaxone resistance**: Eliminates current first-line treatment - **XDR**: Resistant to multiple drug classes"
-msgstr ""
-
-#: ../../tutorial.rst:309
-msgid "**What to look for**: - Declining azithromycin susceptibility globally - Emerging ceftriaxone resistance - Regional differences in resistance patterns"
-msgstr ""
-
-#: ../../tutorial.rst:314
-msgid "**Treatment Implications**: - Dual therapy (ceftriaxone + azithromycin) is current standard - Resistance to either drug threatens treatment effectiveness"
-msgstr ""
-
-#: ../../tutorial.rst:319
-msgid "Practical Use Cases"
-msgstr ""
-
-#: ../../tutorial.rst:322
-msgid "For Clinicians"
-msgstr ""
-
-#: ../../tutorial.rst:326
-msgid "**Treatment Decision Support**: 1. Check local resistance rates for your pathogen of interest 2. Identify which antibiotics are still effective in your region 3. Monitor trends to anticipate future resistance issues"
-msgstr ""
-
-#: ../../tutorial.rst:331
-msgid "**Example Workflow**: 1. Patient presents with suspected typhoid fever 2. Check AMRnet for local Salmonella Typhi resistance rates 3. Avoid antibiotics with high local resistance 4. Choose empirical therapy based on local susceptibility patterns"
-msgstr ""
-
-#: ../../tutorial.rst:338
-msgid "For Public Health Officials"
-msgstr ""
-
-#: ../../tutorial.rst:342
-msgid "**Surveillance and Monitoring**: 1. Track resistance trends in your region over time 2. Compare your data to regional/global patterns 3. Identify emerging resistance threats"
-msgstr ""
-
-#: ../../tutorial.rst:347
-msgid "**Policy Development**: 1. Use data to guide antibiotic stewardship programs 2. Prioritize surveillance efforts for high-risk strains 3. Develop evidence-based treatment guidelines"
-msgstr ""
-
-#: ../../tutorial.rst:352
-msgid "**Example Use Case**: 1. Monitor XDR typhoid emergence in your region 2. Compare rates to neighboring countries 3. Implement targeted vaccination programs if needed"
-msgstr ""
-
-#: ../../tutorial.rst:358
-msgid "For Researchers"
-msgstr ""
-
-#: ../../tutorial.rst:362
-msgid "**Hypothesis Generation**: 1. Identify geographical hotspots of resistance 2. Investigate temporal trends in resistance emergence 3. Study relationships between strains and resistance patterns"
-msgstr ""
-
-#: ../../tutorial.rst:367
-msgid "**Data for Analysis**: 1. Download aggregate data for statistical analysis 2. Generate hypotheses for detailed genomic studies 3. Identify knowledge gaps for future research"
-msgstr ""
-
-#: ../../tutorial.rst:373
-msgid "Interpreting Results Correctly"
-msgstr ""
-
-#: ../../tutorial.rst:376
-msgid "Understanding Data Limitations"
-msgstr ""
-
-#: ../../tutorial.rst:380
-msgid "**Sampling Bias**: - Data reflects what has been sequenced, not necessarily what's circulating - Some regions/countries have more data than others - Clinical samples may over-represent resistant strains"
-msgstr ""
-
-#: ../../tutorial.rst:385
-msgid "**Temporal Lag**: - Sequencing and analysis take time - Data may be 6-12 months behind current circulation - Recent trends may not yet be visible"
-msgstr ""
-
-#: ../../tutorial.rst:390
-msgid "**Geographic Representation**: - Urban areas often better represented than rural - Some countries have limited surveillance capacity - Travel-associated cases may be attributed to travel destination"
-msgstr ""
-
-#: ../../tutorial.rst:396
-msgid "Critical Interpretation Guidelines"
-msgstr ""
-
-#: ../../tutorial.rst:400
-msgid "**Green Light Indicators** (Data you can trust): - Countries with ≥20 samples in the time period - Data from unbiased surveillance studies - Consistent patterns across multiple years"
-msgstr ""
-
-#: ../../tutorial.rst:405
-msgid "**Yellow Light Indicators** (Interpret with caution): - Countries with 10-19 samples - Data from mixed sources - Rapidly changing patterns"
-msgstr ""
-
-#: ../../tutorial.rst:410
-msgid "**Red Light Indicators** (Be very careful): - Countries with <10 samples - Data primarily from outbreak investigations - Single time point measurements"
-msgstr ""
-
-#: ../../tutorial.rst:416
-msgid "Common Misinterpretations to Avoid"
-msgstr ""
-
-#: ../../tutorial.rst:420
-msgid "**\"No data = No resistance\"** - Grey areas on maps don't mean no resistance - May indicate limited surveillance capacity"
-msgstr ""
-
-#: ../../tutorial.rst:424
-msgid "**\"Higher resistance = worse healthcare\"** - May reflect better surveillance systems - Could indicate more accurate diagnosis"
-msgstr ""
-
-#: ../../tutorial.rst:428
-msgid "**\"Recent changes = real trends\"** - Small sample fluctuations can create apparent trends - Look for consistent patterns over multiple years"
-msgstr ""
-
-#: ../../tutorial.rst:433
-msgid "Advanced Features"
-msgstr ""
-
-#: ../../tutorial.rst:436
-msgid "Downloading Data"
-msgstr ""
-
-#: ../../tutorial.rst:440
-msgid "**CSV Downloads**: - Access raw data behind visualizations - Use for your own analysis - Includes metadata about sample sources"
-msgstr ""
-
-#: ../../tutorial.rst:445
-msgid "**PDF Reports**: - Generate static reports for presentations - Include data descriptions and caveats - Useful for stakeholder communication"
-msgstr ""
-
-#: ../../tutorial.rst:451
-msgid "Comparing Time Periods"
-msgstr ""
-
-#: ../../tutorial.rst:455
-msgid "**Before/After Analysis**: 1. Set baseline time period (e.g., 2015-2017) 2. Compare to recent period (e.g., 2020-2022) 3. Look for significant changes in resistance patterns"
-msgstr ""
-
-#: ../../tutorial.rst:460
-msgid "**Trend Analysis**: 1. Use line graphs to visualize trends over time 2. Look for inflection points where trends change 3. Consider external factors (policy changes, outbreaks)"
-msgstr ""
-
-#: ../../tutorial.rst:466
-msgid "Multi-Pathogen Comparisons"
-msgstr ""
-
-#: ../../tutorial.rst:470
-msgid "**Cross-Pathogen Insights**: 1. Compare resistance patterns across different bacteria 2. Identify common resistance mechanisms 3. Assess overall AMR burden in a region"
-msgstr ""
-
-#: ../../tutorial.rst:476
-msgid "Best Practices for Different User Types"
-msgstr ""
-
-#: ../../tutorial.rst:479
-msgid "For Healthcare Students"
-msgstr ""
-
-#: ../../tutorial.rst:483
-msgid "**Learning Objectives**: - Understand global AMR patterns - Learn about resistance mechanisms - Practice interpreting epidemiological data"
-msgstr ""
-
-#: ../../tutorial.rst:488
-msgid "**Recommended Exercises**: 1. Compare resistance patterns between high and low-income countries 2. Track the emergence of XDR tuberculosis globally 3. Analyze the impact of vaccination on typhoid resistance"
-msgstr ""
-
-#: ../../tutorial.rst:494
-msgid "For Clinical Microbiologists"
-msgstr ""
-
-#: ../../tutorial.rst:498
-msgid "**Laboratory Integration**: - Compare local laboratory results to global patterns - Identify unusual resistance patterns for investigation - Guide selective reporting of susceptibility results"
-msgstr ""
-
-#: ../../tutorial.rst:503
-msgid "**Quality Assurance**: - Validate local resistance rates against regional data - Identify potential methodology issues - Benchmark laboratory performance"
-msgstr ""
-
-#: ../../tutorial.rst:509
-msgid "For Policymakers"
-msgstr ""
-
-#: ../../tutorial.rst:513
-msgid "**Evidence-Based Decision Making**: 1. Use data to prioritize AMR interventions 2. Allocate resources to high-risk areas/pathogens 3. Monitor impact of policy interventions"
-msgstr ""
-
-#: ../../tutorial.rst:518
-msgid "**Stakeholder Communication**: 1. Generate compelling visualizations for presentations 2. Demonstrate AMR burden to funding bodies 3. Build case for surveillance investments"
-msgstr ""
-
-#: ../../tutorial.rst:524
-msgid "Troubleshooting Common Issues"
-msgstr ""
-
-#: ../../tutorial.rst:527
-msgid "Technical Problems"
-msgstr ""
-
-#: ../../tutorial.rst:531
-msgid "**Slow Loading**: - Try refreshing the page - Check internet connection - Clear browser cache"
-msgstr ""
-
-#: ../../tutorial.rst:536
-msgid "**Map Not Displaying**: - Ensure JavaScript is enabled - Try different browser - Disable ad blockers temporarily"
-msgstr ""
-
-#: ../../tutorial.rst:541
-msgid "**Data Not Updating**: - Check filter settings - Ensure sufficient sample size - Verify time period selection"
-msgstr ""
-
-#: ../../tutorial.rst:547
-msgid "Interpretation Challenges"
-msgstr ""
-
-#: ../../tutorial.rst:551
-msgid "**Unexpected Results**: - Check sample sizes and sources - Review data curation warnings - Consider temporal factors"
-msgstr ""
-
-#: ../../tutorial.rst:556
-msgid "**Missing Countries**: - Insufficient data for display - Check minimum sample requirements - Consider regional aggregation"
-msgstr ""
-
-#: ../../tutorial.rst:561
-msgid "**Conflicting Information**: - Different data sources may vary - Check methodology descriptions - Consider temporal differences"
-msgstr ""
-
-#: ../../tutorial.rst:567
-msgid "Getting Help and Support"
-msgstr ""
-
-#: ../../tutorial.rst:571
-msgid "**Documentation Resources**: - Full technical documentation at `docs.amrnet.org <https://docs.amrnet.org>`_ - Pathogen-specific guides in the user manual - Methodology papers linked in each dashboard"
-msgstr ""
-
-#: ../../tutorial.rst:576
-msgid "**Community Support**: - GitHub discussions for technical questions - Email support: amrnetdashboard@gmail.com - Twitter: @AMRnet_org for updates"
-msgstr ""
-
-#: ../../tutorial.rst:581
-msgid "**Training Materials**: - Video tutorials (coming soon) - Webinar recordings - Educational slide sets"
-msgstr ""
-
-#: ../../tutorial.rst:587
-msgid "Staying Updated"
-msgstr ""
-
-#: ../../tutorial.rst:591
-msgid "**Platform Updates**: - New pathogens added regularly - Enhanced visualizations - Improved data curation"
-msgstr ""
-
-#: ../../tutorial.rst:596
-msgid "**Data Updates**: - Monthly data refreshes for most pathogens - Quarterly major updates - Annual methodology reviews"
-msgstr ""
-
-#: ../../tutorial.rst:601
-msgid "**Following AMRnet**: - Subscribe to newsletters - Follow social media accounts - Join the GitHub community"
-msgstr ""
-
-#: ../../tutorial.rst:607
-msgid "Conclusion"
-msgstr ""
-
-#: ../../tutorial.rst:611
-msgid "AMRnet democratizes access to complex genomic surveillance data, making it actionable for diverse users worldwide. By understanding these fundamental concepts and following best practices, you can confidently use AMRnet to:"
-msgstr ""
-
-#: ../../tutorial.rst:613
-msgid "Make informed clinical decisions"
-msgstr ""
-
-#: ../../tutorial.rst:614
-msgid "Develop evidence-based policies"
-msgstr ""
-
-#: ../../tutorial.rst:615
-msgid "Conduct meaningful research"
-msgstr ""
-
-#: ../../tutorial.rst:616
-msgid "Educate others about AMR"
-msgstr ""
-
-#: ../../tutorial.rst:618
-msgid "Remember that AMRnet is a tool to support decision-making, not replace clinical judgment or local surveillance data. Always consider local context, data limitations, and consult relevant experts when making critical decisions."
-msgstr ""
-
-#: ../../tutorial.rst:620
-msgid "Together, we can use data to combat antimicrobial resistance and preserve these life-saving medicines for future generations."
-msgstr ""
-
-#: ../../tutorial.rst:623
-msgid "Further Reading"
-msgstr ""
-
-#: ../../tutorial.rst:627
-msgid "**Key Publications**: - TyphiNET methodology: `Dyson & Holt, 2021 <https://doi.org/10.1093/infdis/jiab414>`_ - Global Typhoid Genomics Consortium: `Carey et al, 2023 <https://doi.org/10.7554/eLife.85867>`_ - Pathogenwatch platform: `Argimón et al, 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_"
-msgstr ""
-
-#: ../../tutorial.rst:632
-msgid "**Related Resources**: - WHO Global AMR Surveillance System (GLASS) - CDC Antibiotic Resistance Threats Report - ECDC Annual Epidemiological Report"
-msgstr ""
-
-#: ../../tutorial.rst:637
-msgid "**Educational Materials**: - WHO AMR training modules - CDC AMR education resources - Coursera \"Introduction to Genomic Medicine\" course"
-msgstr ""
-
-#~ msgid "AMRnet User Tutorial"
-#~ msgstr ""
 
