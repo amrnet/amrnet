@@ -8,9 +8,9 @@ FARM Stack GUI Guide
 
     AMRnet's next-generation interface is built with the FARM (FastAPI + React + MongoDB) stack, providing a modern, responsive, and highly interactive user experience for antimicrobial resistance data exploration and analysis.
 
-.. contents:: Table of Contents
-   :local:
-   :depth: 2
+.. .. contents:: Table of Contents
+..    :local:
+..    :depth: 2
 
 Overview
 ========

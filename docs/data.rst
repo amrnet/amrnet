@@ -1,5 +1,5 @@
-Data access
-===========
+Data Dictionary
+===============
 
 .. container:: justify-text
 
@@ -13,14 +13,14 @@ Data access
 .. container:: justify-text
 
     .. note:: **Organism name for downloading files from AWS:**
-        Escherichia coli (diarrheagenic) as ``decoli``;
-        Escherichia coli as ``ecoli``;
-        Klebsiella pneumoniae as ``kpneumo``;
-        Neisseria gonorrhoeae as ``ngono``;
-        Salmonella (invasive non-typhoidal) as ``sentericaints``;
-        Salmonella (non-typhoidal) as ``senterica``;
-        Shigella as ``shige``;
-        Salmonella Typhi as ``styphi``
+        Escherichia coli (diarrheagenic) as ``amrnetdb-Escherichia_coli_ diarrheagenic``;
+        Escherichia coli as ``amrnetdb-Escherichia_coli``;
+        Klebsiella pneumoniae as ``amrnetdb-Klebsiella_pneumoniae``;
+        Neisseria gonorrhoeae as ``amrnetdb-Neisseria_gonorrhoeae``;
+        Salmonella (invasive non-typhoidal) as ``amrnetdb-Salmonella_enterica_invasive_nontyphoidal``;
+        Salmonella (non-typhoidal) as ``amrnetdb-Salmonella_enterica_nontyphoidal``;
+        Shigella as ``amrnetdb-Shigella_EIEC``;
+        Salmonella Typhi as ``amrnetdb-Salmonella_Typhi``
 
 a. Data accessing using Browser
 *******************************
@@ -54,13 +54,13 @@ iii. Downloading a File
 
     **OR**
 
-    * Copy the URL below and modify the organism name added at the end **amrnet-** ``decoli`` **.csv** based on organism list given above.
+    * Copy the URL below and modify the organism name added at the end **amrnet-** ``amrnetdb-Escherichia_coli_ diarrheagenic`` **.csv.gz** based on organism list given above.
 
     Example:
 
     .. code-block:: bash
 
-        https://amrnet.s3.amazonaws.com/amrnet-latest/amrnet-decoli.csv
+        https://amrnet.s3.amazonaws.com/amrnet-latest/amrnetdb-Escherichia_coli_ diarrheagenic.csv.gz
 
 b. Data accessing using Command line
 ************************************
@@ -83,7 +83,7 @@ b. Data accessing using Command line
 
     .. code-block:: bash
 
-        curl -O https://amrnet.s3.amazonaws.com/amrnet-latest/amrnet-shige.csv
+        curl -O https://amrnet.s3.amazonaws.com/amrnet-latest/amrnetdb-Escherichia_coli_ diarrheagenic.csv.gz
 
 
 c. Data accessing using Using S3cmd tool
@@ -97,23 +97,23 @@ c. Data accessing using Using S3cmd tool
 ------------------------
 .. container:: justify-text
 
-        1. Send an email to amrnetdashboard@gmail.com requesting an API token.
+    1. Send an email to amrnetdashboard@gmail.com requesting an API token.
 
-        Example:
+    Example:
 
-        .. code-block:: bash
+    .. code-block:: bash
 
-                Subject: Request for API Token
+            Subject: Request for API Token
 
-        .. code-block:: bash
+    .. code-block:: bash
 
-                I am writing to request an API token for accessing the AMRnet database. Below are the specific details for my request:
+            I am writing to request an API token for accessing the AMRnet database. Below are the specific details for my request:
 
-                Organism Name: Escherichia coli
+            Organism Name: Escherichia coli
 
-        2. You will receive email from us with all the necessary detailed. like: **API_TOKEN_KEY, collection, database, dataSource**.
-        3. Once you received these details use the method below to download required data.
-        4. To download data with specific COUNTRY and DATE add a **filter**.
+    2. You will receive email from us with all the necessary detailed. like: **API_TOKEN_KEY, collection, database, dataSource**.
+    3. Once you received these details use the method below to download required data.
+    4. To download data with specific COUNTRY and DATE add a **filter**.
 
     Example code to download all the data for an organism:
 
@@ -141,7 +141,7 @@ c. Data accessing using Using S3cmd tool
                     "collection":"<COLLECTION_NAME>",
                     "database":"<DATABASE_NAME>",
                     "dataSource":"<dataSource_NAME>",
-                    "filter": {"$and": [{"DATE": "2015"},{"COUNTRY": "United Kingdom"}]}
+                    "filter": {"$and": [{"DATE": 2015},{"COUNTRY": "United Kingdom"}]}
                 }'
 
     Example code to download the data with only one filter e.g. **DATE** for an organism:
@@ -156,7 +156,7 @@ c. Data accessing using Using S3cmd tool
                     "collection":"<COLLECTION_NAME>",
                     "database":"<DATABASE_NAME>",
                     "dataSource":"<dataSource_NAME>",
-                    "filter": {"DATE": "2015"}
+                    "filter": {"DATE": 2015}
                 }'
 
     Example code to download the data and save in JSON:
@@ -171,22 +171,7 @@ c. Data accessing using Using S3cmd tool
                     "collection":"<COLLECTION_NAME>",
                     "database":"<DATABASE_NAME>",
                     "dataSource":"<dataSource_NAME>",
-                    "filter": {"DATE": "2015"}
-                }' > output.json
-
-    Example code to download the data and save in JSON
-
-    .. code-block:: bash
-
-        curl --location --request POST 'https://eu-west-2.aws.data.mongodb-api.com/app/data-vnnyv/endpoint/data/v1/action/find' \
-                --header 'Content-Type: application/json' \
-                --header 'Access-Control-Request-Headers: *' \
-                --header 'api-key: <API_TOKEN_KEY>' \
-                --data-raw '{
-                    "collection":"<COLLECTION_NAME>",
-                    "database":"<DATABASE_NAME>",
-                    "dataSource":"<dataSource_NAME>"
-                    "filter": {"DATE": "2015"}
+                    "filter": {"DATE": 2015}
                 }' > output.json
 
     .. note::
