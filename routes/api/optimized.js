@@ -21,11 +21,10 @@ const connectDB = async () => {
         await client.connect();
 
         // Test connection
-        await client.db("admin").command({ ping: 1 });
+        await client.db('ecoli2').command({ ping: 1 });
         console.log('✅ Optimized routes: MongoDB connection established');
         connectionAttempts = 0; // Reset on success
         break;
-
       } catch (error) {
         console.error(`❌ Optimized routes: Connection attempt ${attempt} failed:`, error.message);
 
@@ -51,17 +50,13 @@ const getDataWithTimeout = async (dbName, collectionName, query) => {
     // Ensure client is connected
     const connectedClient = await Promise.race([
       connectDB(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Database connection timeout')), 10000)
-      )
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
     ]);
 
     // Execute query with timeout
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).find(query).toArray(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Query timeout')), 15000)
-      )
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), 15000)),
     ]);
 
     return result;
@@ -77,17 +72,13 @@ const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) =>
     // Ensure client is connected
     const connectedClient = await Promise.race([
       connectDB(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Database connection timeout')), 10000)
-      )
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
     ]);
 
     // Execute aggregation with timeout
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Aggregation timeout')), 15000)
-      )
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), 15000)),
     ]);
 
     return result;
@@ -102,9 +93,7 @@ const getConnectedClient = async () => {
   try {
     return await Promise.race([
       connectDB(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Database connection timeout')), 10000)
-      )
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
     ]);
   } catch (error) {
     console.error('Error getting connected client:', error.message);
@@ -142,7 +131,7 @@ const mapFields = {
     azithromycin_category: 1,
     MDR: 1,
     XDR: 1,
-    _id: 0
+    _id: 0,
   },
   kpneumo: {
     COUNTRY_ONLY: 1,
@@ -152,7 +141,7 @@ const mapFields = {
     LONGITUDE: 1,
     ESBL_category: 1,
     Carbapenems_category: 1,
-    _id: 0
+    _id: 0,
   },
   ecoli: {
     COUNTRY_ONLY: 1,
@@ -162,7 +151,7 @@ const mapFields = {
     LONGITUDE: 1,
     ESBL_category: 1,
     Fluoro_category: 1,
-    _id: 0
+    _id: 0,
   },
   decoli: {
     COUNTRY_ONLY: 1,
@@ -181,7 +170,7 @@ const mapFields = {
     MDR: 1,
     XDR: 1,
     amr_category: 1,
-    _id: 0
+    _id: 0,
   },
   shige: {
     COUNTRY_ONLY: 1,
@@ -197,7 +186,7 @@ const mapFields = {
     MDR: 1,
     XDR: 1,
     amr_category: 1,
-    _id: 0
+    _id: 0,
   },
   // Add other organisms as needed
 };
@@ -210,7 +199,7 @@ const chartFields = {
       DATE: 1,
       GENOTYPE: 1,
       TRAVEL: 1,
-      _id: 0
+      _id: 0,
     },
     resistance: {
       COUNTRY_ONLY: 1,
@@ -220,7 +209,7 @@ const chartFields = {
       MDR: 1,
       XDR: 1,
       'H58/NonH58': 1,
-      _id: 0
+      _id: 0,
     },
     trends: {
       COUNTRY_ONLY: 1,
@@ -228,22 +217,22 @@ const chartFields = {
       GENOTYPE: 1,
       cip_pheno: 1,
       azithromycin_category: 1,
-      _id: 0
-    }
+      _id: 0,
+    },
   },
   kpneumo: {
     genotypes: {
       COUNTRY_ONLY: 1,
       DATE: 1,
       GENOTYPE: 1,
-      _id: 0
+      _id: 0,
     },
     resistance: {
       COUNTRY_ONLY: 1,
       DATE: 1,
       ESBL_category: 1,
       Carbapenems_category: 1,
-      _id: 0
+      _id: 0,
     },
     trends: {
       COUNTRY_ONLY: 1,
@@ -251,22 +240,22 @@ const chartFields = {
       GENOTYPE: 1,
       ESBL_category: 1,
       Carbapenems_category: 1,
-      _id: 0
-    }
+      _id: 0,
+    },
   },
   ecoli: {
     genotypes: {
       COUNTRY_ONLY: 1,
       DATE: 1,
       GENOTYPE: 1,
-      _id: 0
+      _id: 0,
     },
     resistance: {
       COUNTRY_ONLY: 1,
       DATE: 1,
       ESBL_category: 1,
       Fluoro_category: 1,
-      _id: 0
+      _id: 0,
     },
     trends: {
       COUNTRY_ONLY: 1,
@@ -274,8 +263,8 @@ const chartFields = {
       GENOTYPE: 1,
       ESBL_category: 1,
       Fluoro_category: 1,
-      _id: 0
-    }
+      _id: 0,
+    },
   },
   decoli: {
     genotypes: {
@@ -287,7 +276,7 @@ const chartFields = {
       O_type: 1,
       H_type: 1,
       TRAVEL: 1,
-      _id: 0
+      _id: 0,
     },
     resistance: {
       COUNTRY_ONLY: 1,
@@ -297,7 +286,7 @@ const chartFields = {
       MDR: 1,
       XDR: 1,
       amr_category: 1,
-      _id: 0
+      _id: 0,
     },
     trends: {
       COUNTRY_ONLY: 1,
@@ -307,8 +296,8 @@ const chartFields = {
       Fluoro_category: 1,
       Pathovar: 1,
       Serotype: 1,
-      _id: 0
-    }
+      _id: 0,
+    },
   },
   shige: {
     genotypes: {
@@ -318,7 +307,7 @@ const chartFields = {
       Pathovar: 1,
       Serotype: 1,
       TRAVEL: 1,
-      _id: 0
+      _id: 0,
     },
     resistance: {
       COUNTRY_ONLY: 1,
@@ -328,7 +317,7 @@ const chartFields = {
       MDR: 1,
       XDR: 1,
       amr_category: 1,
-      _id: 0
+      _id: 0,
     },
     trends: {
       COUNTRY_ONLY: 1,
@@ -338,9 +327,9 @@ const chartFields = {
       Fluoro_category: 1,
       Pathovar: 1,
       Serotype: 1,
-      _id: 0
-    }
-  }
+      _id: 0,
+    },
+  },
 };
 
 // Optimized endpoint for map data only
@@ -366,7 +355,7 @@ router.get('/map/:organism', async (req, res) => {
       COUNTRY_ONLY: 1,
       DATE: 1,
       GENOTYPE: 1,
-      _id: 0
+      _id: 0,
     };
 
     const result = await client
@@ -405,7 +394,7 @@ router.get('/genotypes/:organism', async (req, res) => {
       COUNTRY_ONLY: 1,
       DATE: 1,
       GENOTYPE: 1,
-      _id: 0
+      _id: 0,
     };
 
     const result = await client
@@ -444,7 +433,7 @@ router.get('/resistance/:organism', async (req, res) => {
       COUNTRY_ONLY: 1,
       DATE: 1,
       GENOTYPE: 1,
-      _id: 0
+      _id: 0,
     };
 
     const result = await client
@@ -483,7 +472,7 @@ router.get('/trends/:organism', async (req, res) => {
       COUNTRY_ONLY: 1,
       DATE: 1,
       GENOTYPE: 1,
-      _id: 0
+      _id: 0,
     };
 
     const result = await client
@@ -526,7 +515,7 @@ router.get('/convergence/:organism', async (req, res) => {
       cgST: 1,
       Sublineage: 1,
       [groupVariable]: 1,
-      _id: 0
+      _id: 0,
     };
 
     const result = await client
@@ -556,8 +545,8 @@ router.get('/filters/:organism', async (req, res) => {
   try {
     const pipeline = [
       {
-        $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } }
-      }
+        $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } },
+      },
     ];
 
     // Add aggregation based on colorBy and selectDrugs
@@ -566,16 +555,16 @@ router.get('/filters/:organism', async (req, res) => {
         $group: {
           _id: '$COUNTRY_ONLY',
           count: { $sum: 1 },
-          genotypes: { $addToSet: '$GENOTYPE' }
-        }
+          genotypes: { $addToSet: '$GENOTYPE' },
+        },
       });
     } else if (colorBy === 'genotype') {
       pipeline.push({
         $group: {
           _id: '$GENOTYPE',
           count: { $sum: 1 },
-          countries: { $addToSet: '$COUNTRY_ONLY' }
-        }
+          countries: { $addToSet: '$COUNTRY_ONLY' },
+        },
       });
     }
 
@@ -588,7 +577,7 @@ router.get('/filters/:organism', async (req, res) => {
       });
 
       pipeline.push({
-        $addFields: drugFields
+        $addFields: drugFields,
       });
     }
 
@@ -619,16 +608,16 @@ router.get('/filters/:organism/options', async (req, res) => {
     // Get unique values for filter options
     const pipeline = [
       {
-        $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } }
+        $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } },
       },
       {
         $group: {
           _id: null,
           countries: { $addToSet: '$COUNTRY_ONLY' },
           genotypes: { $addToSet: '$GENOTYPE' },
-          years: { $addToSet: '$DATE' }
-        }
-      }
+          years: { $addToSet: '$DATE' },
+        },
+      },
     ];
 
     // Add organism-specific fields
@@ -719,14 +708,13 @@ router.get('/paginated/:organism', async (req, res) => {
         totalCount,
         totalPages,
         hasNext: pageNum < totalPages,
-        hasPrev: pageNum > 1
+        hasPrev: pageNum > 1,
       },
       performance: {
         payloadSize: `${payloadSize}MB`,
-        documentCount: result.length
-      }
+        documentCount: result.length,
+      },
     });
-
   } catch (error) {
     console.error(`[Paginated API] Error retrieving data for ${organism}: ${error.message}`);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -764,11 +752,11 @@ router.get('/summary/:organism', async (req, res) => {
             $push: {
               $dateFromString: {
                 dateString: '$DATE',
-                onError: null
-              }
-            }
-          }
-        }
+                onError: null,
+              },
+            },
+          },
+        },
       },
       {
         $project: {
@@ -779,21 +767,20 @@ router.get('/summary/:organism', async (req, res) => {
           countries: { $slice: ['$countries', 20] }, // Limit to top 20 for summary
           genotypes: { $slice: ['$genotypes', 20] },
           estimatedPayloadMB: {
-            $round: [{ $multiply: ['$totalDocuments', 0.0008] }, 2] // Rough estimate
-          }
-        }
-      }
+            $round: [{ $multiply: ['$totalDocuments', 0.0008] }, 2], // Rough estimate
+          },
+        },
+      },
     ];
 
     const summary = await getAggregatedDataWithTimeout(
       dbAndCollection.dbName,
       dbAndCollection.collectionName,
-      summaryPipeline
+      summaryPipeline,
     );
 
     console.log(`[Summary API] Retrieved summary for ${organism}`);
     res.json(summary[0] || { totalDocuments: 0 });
-
   } catch (error) {
     console.error(`[Summary API] Error retrieving summary for ${organism}: ${error.message}`);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -819,9 +806,7 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
     console.log(`📊 [OPTIMIZED] Total Kpneumo documents to fetch: ${totalCount}`);
 
     // Use cursor for memory-efficient streaming
-    const cursor = collection.find(
-      { 'dashboard view': 'include', GENOTYPE: { $ne: null } }
-    ).batchSize(2000); // Process in batches of 2000
+    const cursor = collection.find({ 'dashboard view': 'include', GENOTYPE: { $ne: null } }).batchSize(2000); // Process in batches of 2000
 
     const results = [];
     let processedCount = 0;
@@ -835,14 +820,18 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
       if (processedCount % 10000 === 0) {
         const elapsed = performance.now() - startTime;
         const rate = Math.round(processedCount / (elapsed / 1000));
-        console.log(`⏳ [OPTIMIZED] Kpneumo progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`);
+        console.log(
+          `⏳ [OPTIMIZED] Kpneumo progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`,
+        );
       }
     }
 
     const endTime = performance.now();
     const totalTime = Math.round(endTime - startTime);
     const rate = Math.round(results.length / (totalTime / 1000));
-    console.log(`✅ [OPTIMIZED] Kpneumo fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`);
+    console.log(
+      `✅ [OPTIMIZED] Kpneumo fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`,
+    );
 
     res.json(results);
   } catch (error) {
@@ -862,12 +851,15 @@ router.get('/getDataForEcoli', async function (req, res, next) {
     const connectedClient = await getConnectedClient();
     const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
 
-    const totalCount = await collection.countDocuments({ 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } });
+    const totalCount = await collection.countDocuments({
+      'dashboard view': { $regex: /^include$/, $options: 'i' },
+      GENOTYPE: { $ne: null },
+    });
     console.log(`📊 [OPTIMIZED] Total Ecoli documents to fetch: ${totalCount}`);
 
-    const cursor = collection.find(
-      { 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } }
-    ).batchSize(2000);
+    const cursor = collection
+      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } })
+      .batchSize(2000);
 
     const results = [];
     let processedCount = 0;
@@ -879,14 +871,18 @@ router.get('/getDataForEcoli', async function (req, res, next) {
       if (processedCount % 10000 === 0) {
         const elapsed = performance.now() - startTime;
         const rate = Math.round(processedCount / (elapsed / 1000));
-        console.log(`⏳ [OPTIMIZED] Ecoli progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`);
+        console.log(
+          `⏳ [OPTIMIZED] Ecoli progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`,
+        );
       }
     }
 
     const endTime = performance.now();
     const totalTime = Math.round(endTime - startTime);
     const rate = Math.round(results.length / (totalTime / 1000));
-    console.log(`✅ [OPTIMIZED] Ecoli fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`);
+    console.log(
+      `✅ [OPTIMIZED] Ecoli fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`,
+    );
 
     res.json(results);
   } catch (error) {
@@ -909,9 +905,7 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
     const totalCount = await collection.countDocuments({ 'dashboard view': 'include', GENOTYPE: { $ne: null } });
     console.log(`📊 [OPTIMIZED] Total DEcoli documents to fetch: ${totalCount}`);
 
-    const cursor = collection.find(
-      { 'dashboard view': 'include', GENOTYPE: { $ne: null } }
-    ).batchSize(2000);
+    const cursor = collection.find({ 'dashboard view': 'include', GENOTYPE: { $ne: null } }).batchSize(2000);
 
     const results = [];
     let processedCount = 0;
@@ -923,14 +917,18 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
       if (processedCount % 10000 === 0) {
         const elapsed = performance.now() - startTime;
         const rate = Math.round(processedCount / (elapsed / 1000));
-        console.log(`⏳ [OPTIMIZED] DEcoli progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`);
+        console.log(
+          `⏳ [OPTIMIZED] DEcoli progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`,
+        );
       }
     }
 
     const endTime = performance.now();
     const totalTime = Math.round(endTime - startTime);
     const rate = Math.round(results.length / (totalTime / 1000));
-    console.log(`✅ [OPTIMIZED] DEcoli fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`);
+    console.log(
+      `✅ [OPTIMIZED] DEcoli fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`,
+    );
 
     res.json(results);
   } catch (error) {

@@ -21,7 +21,7 @@ const getMongoConfig = () => {
     retryWrites: true,
     w: 'majority',
     // Use IPv4 first as Heroku sometimes has IPv6 issues
-    family: 4
+    family: 4,
   };
 
   if (process.env.NODE_ENV === 'production') {
@@ -46,15 +46,12 @@ const connectDB = async () => {
     console.log('Attempting to connect to MongoDB...');
     await client.connect();
 
-    // Test the connection with admin ping
-    await client.db("admin").command({ ping: 1 });
+    // Test the connection with a simple ping (no admin permissions required)
+    await client.db('ecoli2').command({ ping: 1 });
     console.log('✅ Successfully connected to MongoDB Atlas');
 
-    // Log connection info for debugging
-    const admin = client.db('admin');
-    const serverStatus = await admin.command({ serverStatus: 1 });
-    console.log(`Connected to MongoDB ${serverStatus.version} on ${serverStatus.host}`);
-
+    // Log basic connection info without requiring admin permissions
+    console.log('Database connection established successfully');
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);
 
