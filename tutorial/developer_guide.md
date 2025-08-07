@@ -16,7 +16,10 @@
 
 ## Overview
 
-This comprehensive guide walks you through the process of adding a new organism to the AMRnet dashboard. AMRnet is designed with modularity in mind, allowing for systematic addition of new organisms while maintaining consistency and performance.
+This comprehensive guide walks you through the process of adding a new organism
+to the AMRnet dashboard. AMRnet is designed with modularity in mind, allowing
+for systematic addition of new organisms while maintaining consistency and
+performance.
 
 ### Current Supported Organisms
 
@@ -27,7 +30,8 @@ This comprehensive guide walks you through the process of adding a new organism 
 - **Diarrheagenic E. coli** (`decoli`) - Diarrheal diseases
 - **Shigella** (`shige`) - Shigellosis/dysentery
 - **Salmonella enterica** (`senterica`) - Non-typhoidal Salmonella
-- **Salmonella enterica (INTS)** (`sentericaints`) - Invasive non-typhoidal Salmonella
+- **Salmonella enterica (INTS)** (`sentericaints`) - Invasive non-typhoidal
+  Salmonella
 
 ## Prerequisites
 
@@ -99,28 +103,29 @@ AMRnet System Architecture
 
 #### 1.1 Data Schema Definition
 
-Create a standardized schema for your organism. All organisms follow this core structure:
+Create a standardized schema for your organism. All organisms follow this core
+structure:
 
 ```javascript
 // Core fields required for all organisms
 const coreSchema = {
   // Geographic information
-  COUNTRY_ONLY: String,        // ISO country name
-  REGION: String,              // Geographic region
+  COUNTRY_ONLY: String, // ISO country name
+  REGION: String, // Geographic region
 
   // Temporal information
-  DATE: Number,                // Year of isolation
+  DATE: Number, // Year of isolation
 
   // Genomic information
-  GENOTYPE: String,            // Primary genotype/lineage
+  GENOTYPE: String, // Primary genotype/lineage
 
   // Resistance information
-  [DRUG_NAME]: String,         // R/S/I for each drug
+  [DRUG_NAME]: String, // R/S/I for each drug
 
   // Metadata
-  PMID: String,               // Publication identifier
-  SAMPLE_ID: String,          // Unique sample identifier
-}
+  PMID: String, // Publication identifier
+  SAMPLE_ID: String, // Unique sample identifier
+};
 ```
 
 #### 1.2 Organism-Specific Extensions
@@ -133,17 +138,17 @@ const kpneumoSchema = {
   ...coreSchema,
 
   // K. pneumoniae specific fields
-  cgST: String,               // Core genome sequence type
-  K_locus: String,            // K antigen type
-  O_locus: String,            // O antigen type
-  ST: String,                 // Sequence type
-  Virulence_score: Number,    // Virulence scoring
+  cgST: String, // Core genome sequence type
+  K_locus: String, // K antigen type
+  O_locus: String, // O antigen type
+  ST: String, // Sequence type
+  Virulence_score: Number, // Virulence scoring
 
   // Resistance mechanisms
-  Carbapenemases: String,     // Carbapenemase genes
-  ESBLs: String,             // ESBL genes
+  Carbapenemases: String, // Carbapenemase genes
+  ESBLs: String, // ESBL genes
   Plasmid_Inc_types: String, // Plasmid incompatibility groups
-}
+};
 ```
 
 #### 1.3 Data Validation
@@ -187,35 +192,38 @@ Create a Mongoose model for your organism:
 // models/[organism].js
 import mongoose from 'mongoose';
 
-const organismSchema = new mongoose.Schema({
-  // Core fields
-  COUNTRY_ONLY: { type: String, required: true, index: true },
-  DATE: { type: Number, required: true, index: true },
-  GENOTYPE: { type: String, required: true, index: true },
+const organismSchema = new mongoose.Schema(
+  {
+    // Core fields
+    COUNTRY_ONLY: { type: String, required: true, index: true },
+    DATE: { type: Number, required: true, index: true },
+    GENOTYPE: { type: String, required: true, index: true },
 
-  // Resistance data (dynamic based on organism)
-  resistance: {
-    type: Map,
-    of: String, // R/S/I values
+    // Resistance data (dynamic based on organism)
+    resistance: {
+      type: Map,
+      of: String, // R/S/I values
+    },
+
+    // Organism-specific fields
+    metadata: {
+      type: Map,
+      of: mongoose.Schema.Types.Mixed,
+    },
+
+    // Audit fields
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
   },
-
-  // Organism-specific fields
-  metadata: {
-    type: Map,
-    of: mongoose.Schema.Types.Mixed,
+  {
+    collection: `${organism}_data`,
+    indexes: [
+      { COUNTRY_ONLY: 1, DATE: 1 },
+      { GENOTYPE: 1, DATE: 1 },
+      { 'resistance.Ciprofloxacin': 1 }, // Example drug index
+    ],
   },
-
-  // Audit fields
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-}, {
-  collection: `${organism}_data`,
-  indexes: [
-    { COUNTRY_ONLY: 1, DATE: 1 },
-    { GENOTYPE: 1, DATE: 1 },
-    { 'resistance.Ciprofloxacin': 1 }, // Example drug index
-  ]
-});
+);
 
 export default mongoose.model(organism, organismSchema);
 ```
@@ -230,14 +238,14 @@ import csv from 'csv-parser';
 import fs from 'fs';
 import OrganismModel from '../models/[organism].js';
 
-export const importOrganismData = async (csvFilePath) => {
+export const importOrganismData = async csvFilePath => {
   const results = [];
   const errors = [];
 
   return new Promise((resolve, reject) => {
     fs.createReadStream(csvFilePath)
       .pipe(csv())
-      .on('data', (data) => {
+      .on('data', data => {
         // Validate and transform data
         const validationErrors = validateOrganismData(data, '[organism]');
 
@@ -257,7 +265,7 @@ export const importOrganismData = async (csvFilePath) => {
           resolve({
             imported: results.length,
             errors: errors.length,
-            details: errors
+            details: errors,
           });
         } catch (error) {
           reject(error);
@@ -290,15 +298,22 @@ router.get('/', async (req, res) => {
       drug,
       resistance_type,
       limit = 1000,
-      offset = 0
+      offset = 0,
     } = req.query;
 
     // Build aggregation pipeline
     const pipeline = buildAggregationPipeline({
       organism: '[organism]',
-      filters: { country, year_start, year_end, genotype, drug, resistance_type },
+      filters: {
+        country,
+        year_start,
+        year_end,
+        genotype,
+        drug,
+        resistance_type,
+      },
       limit: parseInt(limit),
-      offset: parseInt(offset)
+      offset: parseInt(offset),
     });
 
     const data = await OrganismModel.aggregate(pipeline);
@@ -310,8 +325,8 @@ router.get('/', async (req, res) => {
         total,
         limit: parseInt(limit),
         offset: parseInt(offset),
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -331,19 +346,19 @@ router.get('/summary', async (req, res) => {
           yearRange: {
             $push: {
               min: { $min: '$DATE' },
-              max: { $max: '$DATE' }
-            }
-          }
-        }
+              max: { $max: '$DATE' },
+            },
+          },
+        },
       },
       {
         $project: {
           totalSamples: 1,
           countryCount: { $size: '$uniqueCountries' },
           genotypeCount: { $size: '$uniqueGenotypes' },
-          yearRange: { $arrayElemAt: ['$yearRange', 0] }
-        }
-      }
+          yearRange: { $arrayElemAt: ['$yearRange', 0] },
+        },
+      },
     ]);
 
     res.json(summary[0] || {});
@@ -387,7 +402,7 @@ export const organisms = {
     // Drug classes
     drugClasses: {
       'Beta-lactams': ['Ampicillin', 'Ceftriaxone'],
-      'Quinolones': ['Ciprofloxacin'],
+      Quinolones: ['Ciprofloxacin'],
       // ... more classes
     },
 
@@ -395,7 +410,7 @@ export const organisms = {
     colors: {
       primary: '#1976d2',
       secondary: '#dc004e',
-      genotypes: 'Set3' // ColorBrewer scheme
+      genotypes: 'Set3', // ColorBrewer scheme
     },
 
     // Special features
@@ -403,9 +418,9 @@ export const organisms = {
       hasConvergenceAnalysis: false,
       hasKOTypes: false,
       hasSublineages: false,
-      hasCGST: false
-    }
-  }
+      hasCGST: false,
+    },
+  },
 };
 ```
 
@@ -452,19 +467,14 @@ const organismSlice = createSlice({
     updateFilters: (state, action) => {
       Object.assign(state, action.payload);
     },
-    resetFilters: (state) => {
+    resetFilters: state => {
       Object.assign(state, initialState);
-    }
-  }
+    },
+  },
 });
 
-export const {
-  setData,
-  setLoading,
-  setError,
-  updateFilters,
-  resetFilters
-} = organismSlice.actions;
+export const { setData, setLoading, setError, updateFilters, resetFilters } =
+  organismSlice.actions;
 
 export default organismSlice.reducer;
 ```
@@ -540,8 +550,8 @@ class OrganismService {
         params: {
           ...filters,
           limit: filters.limit || 1000,
-          offset: filters.offset || 0
-        }
+          offset: filters.offset || 0,
+        },
       });
 
       return response.data;
@@ -572,7 +582,7 @@ class OrganismService {
     try {
       const response = await axios.get(`${BASE_URL}/export`, {
         params: filters,
-        responseType: 'blob'
+        responseType: 'blob',
       });
 
       return response.data;
@@ -614,7 +624,7 @@ export const OrganismMap = ({ data, selectedDrug, mapView }) => {
         acc[country] = {
           samples: 0,
           resistant: 0,
-          resistanceRate: 0
+          resistanceRate: 0,
         };
       }
 
@@ -651,7 +661,7 @@ export const OrganismMap = ({ data, selectedDrug, mapView }) => {
                   style={{
                     default: { outline: 'none' },
                     hover: { outline: 'none', fill: '#ff6b6b' },
-                    pressed: { outline: 'none' }
+                    pressed: { outline: 'none' },
                   }}
                 />
               );
@@ -677,7 +687,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts';
 
 /**
@@ -732,11 +742,15 @@ export const TrendGraphs = ({ data, selectedDrugs, selectedGenotypes }) => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" />
           <YAxis
-            label={{ value: 'Resistance Rate (%)', angle: -90, position: 'insideLeft' }}
+            label={{
+              value: 'Resistance Rate (%)',
+              angle: -90,
+              position: 'insideLeft',
+            }}
           />
           <Tooltip
             formatter={(value, name) => [`${value.toFixed(1)}%`, name]}
-            labelFormatter={(year) => `Year: ${year}`}
+            labelFormatter={year => `Year: ${year}`}
           />
           <Legend />
 
@@ -772,7 +786,7 @@ describe('[Organism] Data Validation', () => {
     const invalidData = {
       COUNTRY_ONLY: '',
       DATE: null,
-      GENOTYPE: 'ST1'
+      GENOTYPE: 'ST1',
     };
 
     const errors = validateOrganismData(invalidData, '[organism]');
@@ -784,7 +798,7 @@ describe('[Organism] Data Validation', () => {
     const invalidData = {
       COUNTRY_ONLY: 'USA',
       DATE: 'invalid-year',
-      GENOTYPE: 'ST1'
+      GENOTYPE: 'ST1',
     };
 
     const errors = validateOrganismData(invalidData, '[organism]');
@@ -796,7 +810,7 @@ describe('[Organism] Service', () => {
   test('fetches data successfully', async () => {
     const mockData = {
       data: [{ id: 1, COUNTRY_ONLY: 'USA' }],
-      pagination: { total: 1, limit: 10, offset: 0 }
+      pagination: { total: 1, limit: 10, offset: 0 },
     };
 
     jest.spyOn(axios, 'get').mockResolvedValue({ data: mockData });
@@ -844,7 +858,7 @@ describe('[Organism] API Integration', () => {
 
 Create comprehensive API documentation:
 
-```markdown
+````markdown
 ## [Organism] API Endpoints
 
 ### GET /api/[organism]
@@ -852,32 +866,35 @@ Create comprehensive API documentation:
 Retrieve organism data with optional filtering.
 
 **Parameters:**
+
 - `country` (string, optional): Filter by country ISO code
 - `year_start` (integer, optional): Start year for date range
 - `year_end` (integer, optional): End year for date range
 - `genotype` (string, optional): Filter by genotype
 - `drug` (string, optional): Filter by specific drug
-- `resistance_type` (string, optional): Filter by resistance type (R/S/I)
+- `resistance_type` (string, optional): Filter by resistance type (R/S)
 - `limit` (integer, optional): Maximum results per page (default: 1000)
 - `offset` (integer, optional): Results offset for pagination (default: 0)
 
 **Example Request:**
+
 ```bash
 GET /api/[organism]?country=USA&year_start=2020&limit=100
 ```
+````
 
 **Example Response:**
+
 ```json
 {
   "data": [
     {
-      "id": "sample_001",
+      "id": "amrnetdb-kp_1",
       "COUNTRY_ONLY": "USA",
       "DATE": 2020,
       "GENOTYPE": "ST1",
       "resistance": {
-        "Ciprofloxacin": "R",
-        "Ampicillin": "S"
+        "Ciprofloxacin": "R"
       }
     }
   ],
@@ -889,7 +906,8 @@ GET /api/[organism]?country=USA&year_start=2020&limit=100
   }
 }
 ```
-```
+
+````
 
 #### 6.2 Component Documentation
 
@@ -925,7 +943,7 @@ Document React components with JSDoc:
  * - Recharts for data visualization
  * - React Simple Maps for geographic display
  */
-```
+````
 
 ## Data Requirements
 
@@ -933,30 +951,31 @@ Document React components with JSDoc:
 
 All organisms must include these core fields:
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `COUNTRY_ONLY` | String | Yes | ISO country name |
-| `DATE` | Integer | Yes | Year of isolation |
-| `GENOTYPE` | String | Yes | Primary genotype/lineage |
-| `SAMPLE_ID` | String | Yes | Unique sample identifier |
-| `PMID` | String | No | Publication reference |
+| Field          | Type    | Required | Description                       |
+| -------------- | ------- | -------- | --------------------------------- |
+| `COUNTRY_ONLY` | String  | Yes      | ISO country name                  |
+| `DATE`         | Integer | Yes      | Year of isolation                 |
+| `GENOTYPE`     | String  | Yes      | Primary genotype/lineage          |
+| `SAMPLE_ID`    | String  | Yes      | Unique sample identifier          |
+| `PMID`         | String  | No       | Publication or preprint reference |
 
 ### Resistance Data
 
 Drug resistance data should follow this format:
 
-| Drug Name | Type | Values | Description |
-|-----------|------|--------|-------------|
-| `Ampicillin` | String | R/S/I | Resistant/Sensitive/Intermediate |
-| `Ciprofloxacin` | String | R/S/I | Resistance phenotype |
-| `Ceftriaxone` | String | R/S/I | Third-generation cephalosporin |
+| Drug Name       | Type   | Values | Description                    |
+| --------------- | ------ | ------ | ------------------------------ |
+| `Ampicillin`    | String | R/S    | Resistant/Sensitive/           |
+| `Ciprofloxacin` | String | R/S    | Resistance phenotype           |
+| `Ceftriaxone`   | String | R/S    | Third-generation cephalosporin |
 
 ### Data Quality Requirements
 
 1. **Completeness**: >95% of core fields populated
 2. **Consistency**: Standardized country names and drug nomenclature
 3. **Accuracy**: Validated resistance calling methods
-4. **Temporal Coverage**: Minimum 5 years of data
+4. **Temporal Coverage**: Minimum 5 years of data and country and/or year with
+   N>=10 and/or N>=20
 5. **Geographic Representation**: Multiple countries/regions
 
 ### Data Validation Checklist
@@ -985,8 +1004,8 @@ export const organismsCards = [
     stringLabel: 'Full Organism Name',
     img: '/assets/organisms/[organism].jpg',
     disabled: false,
-    description: 'Brief description for the card'
-  }
+    description: 'Brief description for the card',
+  },
 ];
 ```
 
@@ -1033,10 +1052,16 @@ export const organismColors = {
 
     // Genotype palette (ColorBrewer)
     genotypes: [
-      '#8dd3c7', '#ffffb3', '#bebada', '#fb8072',
-      '#80b1d3', '#fdb462', '#b3de69', '#fccde5'
-    ]
-  }
+      '#8dd3c7',
+      '#ffffb3',
+      '#bebada',
+      '#fb8072',
+      '#80b1d3',
+      '#fdb462',
+      '#b3de69',
+      '#fccde5',
+    ],
+  },
 };
 ```
 
@@ -1050,18 +1075,18 @@ Create efficient indexes for your organism:
 // Database indexes for optimal query performance
 const indexes = [
   // Core filtering indexes
-  { 'COUNTRY_ONLY': 1, 'DATE': 1 },
-  { 'GENOTYPE': 1, 'DATE': 1 },
+  { COUNTRY_ONLY: 1, DATE: 1 },
+  { GENOTYPE: 1, DATE: 1 },
 
   // Resistance-specific indexes
-  { 'resistance.Ciprofloxacin': 1, 'DATE': 1 },
-  { 'resistance.Ampicillin': 1, 'COUNTRY_ONLY': 1 },
+  { 'resistance.Ciprofloxacin': 1, DATE: 1 },
+  { 'resistance.Ampicillin': 1, COUNTRY_ONLY: 1 },
 
   // Compound indexes for common queries
-  { 'COUNTRY_ONLY': 1, 'GENOTYPE': 1, 'DATE': 1 },
+  { COUNTRY_ONLY: 1, GENOTYPE: 1, DATE: 1 },
 
   // Text search index for metadata
-  { 'metadata': 'text' }
+  { metadata: 'text' },
 ];
 ```
 
@@ -1077,8 +1102,8 @@ export const buildResistanceTrendPipeline = (organism, filters) => {
     {
       $match: {
         ...buildFilterStage(filters),
-        DATE: { $gte: filters.year_start, $lte: filters.year_end }
-      }
+        DATE: { $gte: filters.year_start, $lte: filters.year_end },
+      },
     },
 
     // Group by year and drug
@@ -1086,19 +1111,15 @@ export const buildResistanceTrendPipeline = (organism, filters) => {
       $group: {
         _id: {
           year: '$DATE',
-          country: '$COUNTRY_ONLY'
+          country: '$COUNTRY_ONLY',
         },
         samples: { $sum: 1 },
         resistantSamples: {
           $sum: {
-            $cond: [
-              { $eq: [`$resistance.${filters.drug}`, 'R'] },
-              1,
-              0
-            ]
-          }
-        }
-      }
+            $cond: [{ $eq: [`$resistance.${filters.drug}`, 'R'] }, 1, 0],
+          },
+        },
+      },
     },
 
     // Calculate resistance rate
@@ -1109,16 +1130,13 @@ export const buildResistanceTrendPipeline = (organism, filters) => {
         samples: 1,
         resistantSamples: 1,
         resistanceRate: {
-          $multiply: [
-            { $divide: ['$resistantSamples', '$samples'] },
-            100
-          ]
-        }
-      }
+          $multiply: [{ $divide: ['$resistantSamples', '$samples'] }, 100],
+        },
+      },
     },
 
     // Sort by year
-    { $sort: { year: 1 } }
+    { $sort: { year: 1 } },
   ];
 };
 ```
@@ -1131,7 +1149,7 @@ Implement rate limiting for API endpoints:
 // middleware/rateLimiting.js
 import rateLimit from 'express-rate-limit';
 
-export const createOrganismLimiter = (organism) => {
+export const createOrganismLimiter = organism => {
   return rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // Limit each IP to 100 requests per windowMs
@@ -1208,14 +1226,12 @@ describe('[Organism] Performance', () => {
   test('large dataset queries are efficient', async () => {
     const startTime = Date.now();
 
-    const response = await request(app)
-      .get('/api/[organism]')
-      .query({
-        country: 'USA',
-        year_start: 2010,
-        year_end: 2024,
-        limit: 10000
-      });
+    const response = await request(app).get('/api/[organism]').query({
+      country: 'USA',
+      year_start: 2010,
+      year_end: 2024,
+      limit: 10000,
+    });
 
     const responseTime = Date.now() - startTime;
 
@@ -1411,8 +1427,8 @@ export async function up(db) {
   const collection = db.collection('[organism]_data');
 
   // Create indexes for optimal performance
-  await collection.createIndex({ 'COUNTRY_ONLY': 1, 'DATE': 1 });
-  await collection.createIndex({ 'GENOTYPE': 1, 'DATE': 1 });
+  await collection.createIndex({ COUNTRY_ONLY: 1, DATE: 1 });
+  await collection.createIndex({ GENOTYPE: 1, DATE: 1 });
   await collection.createIndex({ 'resistance.Ciprofloxacin': 1 });
 
   console.log('[Organism] indexes created successfully');
@@ -1422,8 +1438,8 @@ export async function down(db) {
   const collection = db.collection('[organism]_data');
 
   // Drop organism-specific indexes
-  await collection.dropIndex({ 'COUNTRY_ONLY': 1, 'DATE': 1 });
-  await collection.dropIndex({ 'GENOTYPE': 1, 'DATE': 1 });
+  await collection.dropIndex({ COUNTRY_ONLY: 1, DATE: 1 });
+  await collection.dropIndex({ GENOTYPE: 1, DATE: 1 });
   await collection.dropIndex({ 'resistance.Ciprofloxacin': 1 });
 
   console.log('[Organism] indexes removed');
@@ -1460,6 +1476,7 @@ export const featureFlags = {
 **Problem**: CSV import fails with validation errors
 
 **Solutions**:
+
 - Check data format against schema requirements
 - Validate country names against ISO standards
 - Ensure date fields are numeric years
@@ -1470,6 +1487,7 @@ export const featureFlags = {
 **Problem**: Slow query response times
 
 **Solutions**:
+
 - Check database indexes are properly created
 - Optimize aggregation pipelines
 - Implement data pagination
@@ -1480,6 +1498,7 @@ export const featureFlags = {
 **Problem**: Visualizations not rendering correctly
 
 **Solutions**:
+
 - Verify data format matches component expectations
 - Check for missing or null values in datasets
 - Validate color scheme configurations
@@ -1489,7 +1508,7 @@ export const featureFlags = {
 
 ```javascript
 // utils/debug.js
-export const debugOrganism = async (organism) => {
+export const debugOrganism = async organism => {
   console.log(`Debugging ${organism}...`);
 
   // Check data availability
@@ -1520,7 +1539,7 @@ export const debugOrganism = async (organism) => {
 
 ```javascript
 // middleware/monitoring.js
-export const organismMonitoring = (organism) => {
+export const organismMonitoring = organism => {
   return (req, res, next) => {
     const startTime = Date.now();
 
@@ -1534,7 +1553,7 @@ export const organismMonitoring = (organism) => {
           method: req.method,
           path: req.path,
           query: req.query,
-          duration
+          duration,
         });
       }
     });
@@ -1546,7 +1565,9 @@ export const organismMonitoring = (organism) => {
 
 ## Conclusion
 
-Adding a new organism to AMRnet requires careful planning and systematic implementation across multiple layers of the application. This guide provides a comprehensive framework for:
+Adding a new organism to AMRnet requires careful planning and systematic
+implementation across multiple layers of the application. This guide provides a
+comprehensive framework for:
 
 1. **Data preparation and validation**
 2. **Backend API development**
@@ -1554,9 +1575,10 @@ Adding a new organism to AMRnet requires careful planning and systematic impleme
 4. **Testing and quality assurance**
 5. **Documentation and deployment**
 
-Following this guide ensures consistency with existing organisms while maintaining the high quality and performance standards of the AMRnet platform.
+Following this guide ensures consistency with existing organisms while
+maintaining the high quality and performance standards of the AMRnet platform.
 
-### Next Steps
+<!-- ### Next Steps
 
 After implementing your organism:
 
@@ -1564,17 +1586,19 @@ After implementing your organism:
 2. **User Feedback**: Gather feedback from domain experts
 3. **Performance Optimization**: Monitor and optimize based on usage patterns
 4. **Documentation Updates**: Keep documentation current with changes
-5. **Community Engagement**: Share updates with the AMRnet community
+5. **Community Engagement**: Share updates with the AMRnet community -->
 
 ### Support
 
 For additional support or questions:
 
-- **GitHub Issues**: [amrnet/amrnet/issues](https://github.com/amrnet/amrnet/issues)
-- **Developer Discord**: [Link to Discord channel]
+- **GitHub Issues**:
+[amrnet/amrnet/issues](https://github.com/amrnet/amrnet/issues)
+<!-- - **Developer Discord**: [Link to Discord channel] -->
 - **Email**: amrnetdashboard@gmail.com
 - **Documentation**: [amrnet.readthedocs.io](https://amrnet.readthedocs.io)
 
 ---
 
-*This guide is maintained by the AMRnet development team. Last updated: August 2025*
+_This guide is maintained by the AMRnet development team. Last updated: August
+2025_
