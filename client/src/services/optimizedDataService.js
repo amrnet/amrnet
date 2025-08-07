@@ -16,14 +16,22 @@ class OptimizedDataService {
       totalRequests: 0,
       cacheHits: 0,
       averageResponseTime: 0,
-      totalDataTransferred: 0
+      totalDataTransferred: 0,
     };
 
     // Organism-specific optimization strategies
     this.organismStrategies = {
       ecoli: { usePagination: true, pageSize: 5000, priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE'] },
-      kpneumo: { usePagination: false, optimizedProjection: true, priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE', 'ESBL_category'] },
-      decoli: { usePagination: false, optimizedProjection: true, priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE', 'ESBL_category'] }
+      kpneumo: {
+        usePagination: false,
+        optimizedProjection: true,
+        priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE', 'ESBL_category'],
+      },
+      decoli: {
+        usePagination: false,
+        optimizedProjection: true,
+        priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE', 'ESBL_category'],
+      },
     };
   }
 
@@ -73,7 +81,9 @@ class OptimizedDataService {
       if (Array.isArray(result)) {
         const dataSize = JSON.stringify(result).length;
         this.performanceMetrics.totalDataTransferred += dataSize;
-        console.log(`📈 Atlas query completed: ${result.length} records, ${(dataSize / 1024).toFixed(2)}KB transferred`);
+        console.log(
+          `📈 Atlas query completed: ${result.length} records, ${(dataSize / 1024).toFixed(2)}KB transferred`,
+        );
       }
 
       return result;
@@ -91,7 +101,7 @@ class OptimizedDataService {
     // Add compression acceptance header for Heroku bandwidth optimization
     const headers = {
       'Accept-Encoding': 'gzip, deflate, br',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
 
     const response = await axios.get(`${API_ENDPOINT}/${endpoint}`, {
@@ -102,7 +112,7 @@ class OptimizedDataService {
       // Enable compression to reduce Atlas -> Heroku transfer
       decompress: true,
       // Timeout to prevent Heroku dyno blocking on slow Atlas queries
-      timeout: 30000
+      timeout: 30000,
     });
 
     return response.data;
@@ -117,11 +127,16 @@ class OptimizedDataService {
       // First, get essential data that doesn't require genotype processing
       const [basicMapData, regionsData] = await Promise.all([
         this.fetchWithCache(`optimized/summary/${organism}`, globalFilters),
-        this.fetchWithCache('getUNR')
+        this.fetchWithCache('getUNR'),
       ]);
 
       // Start progressive genotype loading (non-blocking)
-      const progressivePromise = this.loadOrganismDataWithGenotypesBackground(organism, globalFilters, dispatch, actions);
+      const progressivePromise = this.loadOrganismDataWithGenotypesBackground(
+        organism,
+        globalFilters,
+        dispatch,
+        actions,
+      );
 
       const endTime = performance.now();
       console.log(`✅ Progressive loading initiated in ${(endTime - startTime).toFixed(2)}ms`);
@@ -133,7 +148,7 @@ class OptimizedDataService {
         organism,
         loadTime: endTime - startTime,
         progressivePromise, // This will resolve when genotypes are loaded
-        isProgressive: true
+        isProgressive: true,
       };
     } catch (error) {
       console.error(`❌ Error in progressive loading for ${organism}:`, error);
@@ -158,7 +173,7 @@ class OptimizedDataService {
         regionsData,
         organism,
         dispatch,
-        actions
+        actions,
       );
 
       console.log(`✅ Background genotype processing complete for ${organism}`);
@@ -166,7 +181,7 @@ class OptimizedDataService {
       return {
         ...result,
         fullData,
-        regionsData
+        regionsData,
       };
     } catch (error) {
       console.error(`❌ Error in background genotype loading for ${organism}:`, error);
@@ -191,7 +206,7 @@ class OptimizedDataService {
         this.fetchWithCache(`optimized/genotypes/${organism}`, globalFilters),
         this.fetchWithCache(`optimized/resistance/${organism}`, globalFilters),
         this.fetchWithCache(`optimized/trends/${organism}`, globalFilters),
-        this.fetchWithCache('getUNR') // Regions data
+        this.fetchWithCache('getUNR'), // Regions data
       ]);
 
       const endTime = performance.now();
@@ -199,7 +214,8 @@ class OptimizedDataService {
 
       // Calculate total data size vs legacy approach
       const totalRecords = [mapData, genotypesData, resistanceData, trendsData].reduce(
-        (sum, data) => sum + (Array.isArray(data) ? data.length : 0), 0
+        (sum, data) => sum + (Array.isArray(data) ? data.length : 0),
+        0,
       );
 
       console.log(`✅ Parallel loading completed in ${totalTime.toFixed(2)}ms`);
@@ -214,7 +230,7 @@ class OptimizedDataService {
         regionsData,
         organism,
         loadTime: totalTime,
-        totalRecords
+        totalRecords,
       };
     } catch (error) {
       console.error(`❌ Error loading parallel data for ${organism}:`, error);
@@ -230,7 +246,9 @@ class OptimizedDataService {
     try {
       // Get summary first to understand data volume
       const summary = await this.fetchWithCache(`optimized/summary/${organism}`, globalFilters);
-      console.log(`📊 ${organism} summary: ${summary.totalDocuments} documents, estimated ${summary.estimatedPayloadMB}MB`);
+      console.log(
+        `📊 ${organism} summary: ${summary.totalDocuments} documents, estimated ${summary.estimatedPayloadMB}MB`,
+      );
 
       // If dataset is reasonable size, load normally
       if (summary.totalDocuments < 50000) {
@@ -248,17 +266,20 @@ class OptimizedDataService {
         this.fetchWithCache(`optimized/genotypes/${organism}`, globalFilters), // Charts can still use full data if reasonable
         this.fetchWithCache(`optimized/resistance/${organism}`, globalFilters),
         this.fetchWithCache(`optimized/trends/${organism}`, globalFilters),
-        this.fetchWithCache('getUNR')
+        this.fetchWithCache('getUNR'),
       ];
 
-      const [paginatedMapData, genotypesData, resistanceData, trendsData, regionsData] = await Promise.all(firstPagePromises);
+      const [paginatedMapData, genotypesData, resistanceData, trendsData, regionsData] =
+        await Promise.all(firstPagePromises);
 
       const endTime = performance.now();
       const totalTime = endTime - startTime;
 
       console.log(`✅ Large dataset loading completed in ${totalTime.toFixed(2)}ms`);
       console.log(`📦 Loaded page 1/${paginatedMapData.pagination.totalPages} for map data`);
-      console.log(`🎯 Reduced payload from ~${summary.estimatedPayloadMB}MB to ~${paginatedMapData.performance.payloadSize}`);
+      console.log(
+        `🎯 Reduced payload from ~${summary.estimatedPayloadMB}MB to ~${paginatedMapData.performance.payloadSize}`,
+      );
 
       return {
         mapData: paginatedMapData.data,
@@ -270,9 +291,8 @@ class OptimizedDataService {
         loadTime: totalTime,
         pagination: paginatedMapData.pagination,
         totalRecords: paginatedMapData.pagination.totalCount,
-        isPaginated: true
+        isPaginated: true,
       };
-
     } catch (error) {
       console.error(`❌ Error loading large dataset ${organism}:`, error);
       throw error;
@@ -286,11 +306,12 @@ class OptimizedDataService {
       this.fetchWithCache(`optimized/genotypes/${organism}`, globalFilters),
       this.fetchWithCache(`optimized/resistance/${organism}`, globalFilters),
       this.fetchWithCache(`optimized/trends/${organism}`, globalFilters),
-      this.fetchWithCache('getUNR')
+      this.fetchWithCache('getUNR'),
     ]);
 
     const totalRecords = [mapData, genotypesData, resistanceData, trendsData].reduce(
-      (sum, data) => sum + (Array.isArray(data) ? data.length : 0), 0
+      (sum, data) => sum + (Array.isArray(data) ? data.length : 0),
+      0,
     );
 
     return {
@@ -301,7 +322,7 @@ class OptimizedDataService {
       regionsData,
       organism,
       totalRecords,
-      isPaginated: false
+      isPaginated: false,
     };
   }
 
@@ -314,7 +335,7 @@ class OptimizedDataService {
 
     const nextPageData = await this.fetchWithCache(
       `optimized/paginated/${organism}?dataType=map&page=${currentPage + 1}&limit=${pageSize}`,
-      filters
+      filters,
     );
 
     console.log(`✅ Loaded page ${nextPageData.pagination.page}/${nextPageData.pagination.totalPages}`);
@@ -328,10 +349,10 @@ class OptimizedDataService {
     }
 
     try {
-      const convergenceData = await this.fetchWithCache(
-        `optimized/convergence/${organism}`,
-        { ...filters, groupVariable }
-      );
+      const convergenceData = await this.fetchWithCache(`optimized/convergence/${organism}`, {
+        ...filters,
+        groupVariable,
+      });
 
       return convergenceData;
     } catch (error) {
@@ -346,7 +367,7 @@ class OptimizedDataService {
       const filterData = await this.fetchWithCache(
         `optimized/filters/${organism}`,
         { ...filters, colorBy, selectDrugs },
-        true // Force refresh for global overview changes
+        true, // Force refresh for global overview changes
       );
 
       return filterData;
@@ -399,13 +420,13 @@ class OptimizedDataService {
       // If the global overview affects other charts, load them in parallel
       const [mapData, chartData] = await Promise.all([
         this.fetchWithCache(`optimized/map/${organism}`, { colorBy, selectDrugs }, true),
-        this.loadChartData(organism, ['genotypes', 'resistance'], { colorBy, selectDrugs })
+        this.loadChartData(organism, ['genotypes', 'resistance'], { colorBy, selectDrugs }),
       ]);
 
       return {
         filterData,
         mapData,
-        ...chartData
+        ...chartData,
       };
     } catch (error) {
       console.error('Error updating global overview:', error);
@@ -431,9 +452,10 @@ class OptimizedDataService {
   // Get cache statistics with Heroku-specific metrics
   getCacheStats() {
     const cacheSize = this.cache.size;
-    const cacheHitRate = this.performanceMetrics.totalRequests > 0
-      ? (this.performanceMetrics.cacheHits / this.performanceMetrics.totalRequests * 100).toFixed(2)
-      : 0;
+    const cacheHitRate =
+      this.performanceMetrics.totalRequests > 0
+        ? ((this.performanceMetrics.cacheHits / this.performanceMetrics.totalRequests) * 100).toFixed(2)
+        : 0;
 
     return {
       size: cacheSize,
@@ -445,8 +467,8 @@ class OptimizedDataService {
         cacheHitRate: `${cacheHitRate}%`,
         averageResponseTime: `${this.performanceMetrics.averageResponseTime.toFixed(2)}ms`,
         totalDataTransferred: `${(this.performanceMetrics.totalDataTransferred / 1024 / 1024).toFixed(2)}MB`,
-        memoryEfficiency: `${cacheSize} cached datasets preventing Atlas re-queries`
-      }
+        memoryEfficiency: `${cacheSize} cached datasets preventing Atlas re-queries`,
+      },
     };
   }
 
@@ -524,7 +546,9 @@ export const getStoreOrGenerateData = async (storeName, handleGetData, clearStor
     const loadTime = endTime - startTime;
     const memoryDelta = endMemory - startMemory;
 
-    console.log(`✅ ${storeName} loaded in ${loadTime.toFixed(2)}ms, memory delta: ${(memoryDelta / 1024 / 1024).toFixed(2)}MB`);
+    console.log(
+      `✅ ${storeName} loaded in ${loadTime.toFixed(2)}ms, memory delta: ${(memoryDelta / 1024 / 1024).toFixed(2)}MB`,
+    );
 
     // Log payload size for Atlas/Heroku optimization tracking
     if (result && Array.isArray(result)) {
@@ -532,7 +556,6 @@ export const getStoreOrGenerateData = async (storeName, handleGetData, clearStor
     }
 
     return result;
-
   } catch (error) {
     console.error(`❌ Optimized service failed for ${storeName}, falling back to original:`, error);
 

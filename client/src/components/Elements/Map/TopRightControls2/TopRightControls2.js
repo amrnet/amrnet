@@ -1,17 +1,26 @@
-import { Card, CardContent, Checkbox, Tooltip, Typography, FormControl, Autocomplete, Chip } from '@mui/material';
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { useStyles } from './TopRightControls2MUI';
-import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
-import { Collapse } from '@mui/material';
-import Box from '@mui/material/Box';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import {
+  Autocomplete,
+  Card,
+  CardContent,
+  Checkbox,
+  Chip,
+  Collapse,
+  FormControl,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { useStyles } from './TopRightControls2MUI';
 
 const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
