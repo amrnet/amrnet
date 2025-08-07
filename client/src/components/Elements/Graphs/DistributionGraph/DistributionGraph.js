@@ -1,35 +1,34 @@
+import { Close } from '@mui/icons-material';
 import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
-import { useStyles } from './DistributionGraphMUI';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
   BarChart,
   Brush,
   CartesianGrid,
+  Tooltip as ChartTooltip,
+  Label,
   Legend,
   ResponsiveContainer,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
-import { setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureGD, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
 import {
+  setDistributionGraphVariable,
   setDistributionGraphView,
   setEndtimeGD,
   setStarttimeGD,
   setTopXGenotype,
-  setDistributionGraphVariable,
 } from '../../../../stores/slices/graphSlice.ts';
 import { getColorForGenotype, hoverColor, lightGrey } from '../../../../util/colorHelper';
-import { useEffect, useMemo, useState } from 'react';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { SliderSizes } from '../../Slider/SliderSizes';
-import { setCaptureGD } from '../../../../stores/slices/dashboardSlice';
-import { Close } from '@mui/icons-material';
-import { SelectCountry } from '../../SelectCountry';
-import { arraysEqual, getRange } from '../../../../util/helpers';
 import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
+import { arraysEqual, getRange } from '../../../../util/helpers';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { SelectCountry } from '../../SelectCountry';
+import { SliderSizes } from '../../Slider/SliderSizes';
+import { useStyles } from './DistributionGraphMUI';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -155,34 +154,32 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const { newArray, newArrayPercentage } = useMemo(() => {
     const exclusions = ['name', 'count'];
 
-    const baseArray = currentData
-      .map(item => {
-        const filteredItems = {};
-        let count = 0;
+    const baseArray = currentData.map(item => {
+      const filteredItems = {};
+      let count = 0;
 
-        for (const key in item) {
-          if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
-            count += item[key];
-          }
-
-          if (organism !== 'styphi' && key in currentColorPallete && !exclusions.includes(key)) {
-            filteredItems[key] = item[key];
-          }
+      for (const key in item) {
+        if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
+          count += item[key];
         }
 
-        return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: count };
-      })
-      // .filter(x => x.count >= 10);
+        if (organism !== 'styphi' && key in currentColorPallete && !exclusions.includes(key)) {
+          filteredItems[key] = item[key];
+        }
+      }
 
-    const percentageArray = structuredClone(baseArray)
-      .map(item => {
-        const keys = Object.keys(item).filter(k => !exclusions.includes(k));
-        keys.forEach(key => {
-          item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
-        });
-        return item;
-      })
-      // .filter(x => x.count >= 10);
+      return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: count };
+    });
+    // .filter(x => x.count >= 10);
+
+    const percentageArray = structuredClone(baseArray).map(item => {
+      const keys = Object.keys(item).filter(k => !exclusions.includes(k));
+      keys.forEach(key => {
+        item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
+      });
+      return item;
+    });
+    // .filter(x => x.count >= 10);
 
     return { newArray: baseArray, newArrayPercentage: percentageArray };
   }, [currentColorPallete, currentData, organism, topXGenotype]);
@@ -232,7 +229,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       //dispatch(setResetBool(false));
     } else if (event?.activeLabel === undefined || event?.activeLabel === null) {
       setCurrentTooltip(null);
-    }else {
+    } else {
       setCurrentTooltip({
         name: event?.activeLabel,
         count: 'ID',
@@ -312,7 +309,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               stroke="rgb(31, 187, 211)"
               startIndex={allYears.findIndex(x => x === '2000') || 0}
               onChange={({ startIndex, endIndex }) => {
-                dispatch(setStarttimeGD(data[startIndex]?.name));  // updated value based on Brush drag
+                dispatch(setStarttimeGD(data[startIndex]?.name)); // updated value based on Brush drag
                 dispatch(setEndtimeGD(data[endIndex]?.name));
               }}
             />

@@ -141,6 +141,30 @@ const mapFields = {
     LONGITUDE: 1,
     ESBL_category: 1,
     Carbapenems_category: 1,
+    cgST: 1,
+    Sublineage: 1,
+    AGly_acquired: 1,
+    Bla_Carb_acquired: 1,
+    Bla_ESBL_acquired: 1,
+    Bla_ESBL_inhR_acquired: 1,
+    Flq_acquired: 1,
+    Flq_mutations: 1,
+    Col_acquired: 1,
+    Col_mutations: 1,
+    Fcyn_acquired: 1,
+    Phe_acquired: 1,
+    Sul_acquired: 1,
+    Tet_acquired: 1,
+    Tgc_acquired: 1,
+    Tmt_acquired: 1,
+    SHV_mutations: 1,
+    Omp_mutations: 1,
+    num_resistance_classes: 1,
+    virulence_score: 1,
+    O_locus: 1,
+    K_locus: 1,
+    O_type: 1,
+    NAME: 1,
     _id: 0,
   },
   ecoli: {
@@ -661,6 +685,8 @@ router.get('/paginated/:organism', async (req, res) => {
 
   try {
     const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+
+    if (organism === 'kpneumo') query.GENOTYPE = { $ne: null };
 
     // Apply filters if provided
     if (filters) {

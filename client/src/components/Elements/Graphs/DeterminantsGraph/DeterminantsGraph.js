@@ -1,41 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Close } from '@mui/icons-material';
 import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
-import { useStyles } from './DeterminantsGraphMUI';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
   BarChart,
+  Brush,
   CartesianGrid,
+  Tooltip as ChartTooltip,
   Label,
   Legend,
   ResponsiveContainer,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  Brush,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
 import {
   setDeterminantsGraphDrugClass,
   setDeterminantsGraphView,
+  setMaxSliderValueRD,
   setResetBool,
   setSliderList,
-  setMaxSliderValueRD,
   setTopXGenotypeRDWG,
 } from '../../../../stores/slices/graphSlice';
-import { drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
-import { useEffect, useMemo, useState } from 'react';
 import {
   colorForDrugClassesKP,
-  colorForDrugClassesST,
   colorForDrugClassesNG,
-  hoverColor,
+  colorForDrugClassesST,
   colorForMarkers,
+  hoverColor,
 } from '../../../../util/colorHelper';
+import { drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { SliderSizes } from '../../Slider/SliderSizes';
-import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
-import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
+import { SliderSizes } from '../../Slider/SliderSizes';
+import { useStyles } from './DeterminantsGraphMUI';
 
 const dataViewOptions = [
   {
@@ -123,9 +123,9 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
     return determinantsGraphView === 'number' ? undefined : [0, 100];
   }
 
-  let determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
+  const determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
   useEffect(() => {
-    let mp = new Map(); //mp = total count of a genotype in database(including all years)
+    const mp = new Map(); //mp = total count of a genotype in database(including all years)
     determinantsGraphDrugClassData.forEach(cur => {
       Object.keys(cur).forEach(it => {
         if (it !== 'name' && it !== 'count' && it !== 'resistantCount' && it !== 'totalCount') {
@@ -390,7 +390,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.insufficientData}>Insufficient data</div>
             ) : (
               <div className={classes.noGenotypeSelected}>No genotype selected</div>
-          )}
+            )}
           </div>
         </div>
       </div>
