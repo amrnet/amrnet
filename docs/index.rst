@@ -10,7 +10,6 @@
     User Tutorial <tutorial>
     User guide <userguide>
     Dashboard usage <usage>
-    Data access  <data>
     Data rights <right>
 
 .. toctree::
@@ -34,7 +33,7 @@
     Internationalization <internationalization>
     Professional Translation Services <professional-translation-services>
     Troubleshooting <troubleshooting>
-    contributing
+    Contributor Guide <contributing>
     Code of Conduct <codeofconduct>
     License <license>
     .. Changelog <https://github.com/amrnet/amrnet/releases>
