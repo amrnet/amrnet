@@ -18,17 +18,17 @@
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { variableGraphOptions } from '../../util/convergenceVariablesOptions';
 import {
-  drugRulesST,
-  drugRulesNG,
-  drugRulesKP,
-  statKeys,
-  drugRulesINTS,
-  statKeysKP,
-  statKeysECOLI,
-  drugRulesKPOnlyMarkers,
-  statKeysKPOnlyMarkers,
-  drugClassesRulesST,
   drugClassesRulesNG,
+  drugClassesRulesST,
+  drugRulesINTS,
+  drugRulesKP,
+  drugRulesKPOnlyMarkers,
+  drugRulesNG,
+  drugRulesST,
+  statKeys,
+  statKeysECOLI,
+  statKeysKP,
+  statKeysKPOnlyMarkers,
 } from '../../util/drugClassesRules';
 import { markersDrugsKP } from '../../util/drugs';
 import { amrLikeOrganisms } from '../../util/organismsCards';
@@ -787,9 +787,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   });
 
   if (getUniqueGenotypes) {
-    uniqueGenotypes = [...new Set(uniqueGenotypes)].sort();
-    uniqueCgST = [...new Set(uniqueCgST)].sort();
-    uniqueSublineages = [...new Set(uniqueSublineages)].sort();
+    uniqueGenotypes = [...new Set(uniqueGenotypes)];
+    uniqueCgST = [...new Set(uniqueCgST)];
+    uniqueSublineages = [...new Set(uniqueSublineages)];
   }
 
   Object.keys(genotypesAndDrugsDataUniqueGenotypes).forEach(key => {
@@ -1082,7 +1082,6 @@ export function getGenotypesData({
 
           genotypesDrugClassesData[rule.key].push(drugClass);
         }
-
       });
     } else if (organism === 'kpneumo') {
       drugRulesKP.forEach(rule => {
@@ -1122,7 +1121,7 @@ export function getGenotypesData({
             const classRuleName = classRule.name;
 
             drugClass[classRuleName] = genotypeData.filter(x => {
-              return classRule.rules.every(r => x[r.columnID] === r.value);
+              return classRule.rules.every(r => x[r.columnID]?.toString() === r.value.toString());
             }).length;
 
             if (classRule.susceptible) {
@@ -1613,7 +1612,6 @@ function getKPDrugClassData({ drugKey, dataToFilter, notKP = false }) {
   //     console.warn(`⚠️ [DEBUG] getKPDrugClassData: Drug rule for ${drugKey} has no columnIDs property`, drug);
   //     return { None: dataToFilter.length, resistantCount: 0 };
   //   }
-
 
   let resistantCount = 0;
 
