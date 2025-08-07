@@ -1,7 +1,7 @@
 .. _label-contributing:
 
-Contributor Guide
-=================
+Contributor Guide: Issues & PRs
+===============================
 .. container:: justify-text
 
    Thank you for your interest in improving this project. This project is open-source
@@ -43,8 +43,8 @@ How to request a feature
    pull request as this allows for the best coordination of efforts by preventing the
    duplication of work, and allows for feedback on your ideas.
 
-Contributor Guide
-=================
+Contributor Guide: Research & Development
+=========================================
 .. container:: justify-text
 
    Thank you for your interest in contributing to AMRnet! 🎉 We welcome contributions
