@@ -1,3 +1,4 @@
+import { ExpandLess, ExpandMore, FilterList, FilterListOff, Public } from '@mui/icons-material';
 import {
   Card,
   CardActions,
@@ -8,23 +9,22 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup } from 'react-simple-maps';
-import { useStyles } from './MapMUI';
-import geography from '../../../assets/world-50m.json';
-import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
-import { redColorScale, samplesColorScale, sensitiveColorScale, differentColorScale } from './mapColorHelper';
-import ReactTooltip from 'react-tooltip';
-import { BottomLeftControls } from './BottomLeftControls';
-import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.ts';
-import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
-import { drugAcronymsOpposite, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../util/drugs';
 import { useMemo, useState } from 'react';
+import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup } from 'react-simple-maps';
+import ReactTooltip from 'react-tooltip';
+import geography from '../../../assets/world-50m.json';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
 import { setCollapse } from '../../../stores/slices/graphSlice';
+import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.ts';
+import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
+import { drugAcronymsOpposite, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../util/drugs';
 import { isTouchDevice } from '../../../util/isTouchDevice';
-import { ExpandLess, ExpandMore, FilterList, FilterListOff, Public } from '@mui/icons-material';
+import { BottomLeftControls } from './BottomLeftControls';
 import { MapActions } from './MapActions/MapActions';
+import { differentColorScale, redColorScale, samplesColorScale, sensitiveColorScale } from './mapColorHelper';
 import { MapFilters } from './MapFilters/MapFilters';
+import { useStyles } from './MapMUI';
 
 const statKey = {
   MDR: 'MDR',
@@ -157,7 +157,7 @@ export const Map = () => {
         case 'NG-MAST prevalence':
           let percentCounterNG = 0;
           const genotypesNG = countryStats.NGMAST.items;
-          let genotypesNG2 = [];
+          const genotypesNG2 = [];
           genotypesNG.forEach(genotype => {
             if (customDropdownMapViewNG.includes(genotype.name)) {
               // tooltip.content[genotype.name] = `${genotype.count} `;
@@ -435,7 +435,7 @@ export const Map = () => {
                           case 'NG-MAST prevalence':
                             let percentCounterNG = 0;
                             const genotypesNG = countryStats.NGMAST.items;
-                            let genotypesNG2 = [];
+                            const genotypesNG2 = [];
                             genotypesNG.forEach(genotype => {
                               if (customDropdownMapViewNG.includes(genotype.name)) genotypesNG2.push(genotype);
                               percentCounterNG += genotype.count;
@@ -469,7 +469,7 @@ export const Map = () => {
                           case 'H prevalence':
                             let percentCounter = 0;
                             const genotypes1 = countryStats[mapViewColumn]?.items;
-                            let genotypes2 = [];
+                            const genotypes2 = [];
                             genotypes1.forEach(genotype => {
                               if (prevalenceMapViewOptionsSelected.includes(genotype.name)) genotypes2.push(genotype);
                               percentCounter += genotype.count;
@@ -551,10 +551,10 @@ export const Map = () => {
                             }
                             break;
                           case 'CipNS':
-                            let countCipR = countryStats[statKey['CipR']]?.count;
-                            let countCipNS = countryStats[statKey['CipNS']]?.count;
+                            const countCipR = countryStats[statKey['CipR']]?.count;
+                            const countCipNS = countryStats[statKey['CipNS']]?.count;
                             count = countCipR + countCipNS;
-                            let per =
+                            const per =
                               countryStats[statKey['CipNS']].percentage + countryStats[statKey['CipR']].percentage;
                             if (countryData.count >= 20 && count > 0) {
                               if (mapView === 'Pansusceptible to all drugs') {
