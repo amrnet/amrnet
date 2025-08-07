@@ -57,7 +57,7 @@ const getDataWithTimeout = async (dbName, collectionName, query) => {
     // Execute query with timeout
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).find(query).toArray(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), 15000)),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Query timout')), 100000)),
     ]);
 
     return result;
