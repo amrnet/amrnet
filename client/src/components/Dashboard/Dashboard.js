@@ -786,6 +786,7 @@ export const DashboardPage = () => {
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
         }
         dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
+        dispatch(setTrendsGraphDrugClass('Ciprofloxacin NS'));
         break;
       case 'kpneumo':
         // dispatch(setDatasetKP('All'));

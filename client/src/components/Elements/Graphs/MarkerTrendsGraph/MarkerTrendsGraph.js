@@ -25,7 +25,8 @@ import {
   setStarttimeRDT,
   setEndtimeRDT,
 } from '../../../../stores/slices/graphSlice';
-import { drugClassesNG, markersDrugsKP } from '../../../../util/drugs';
+import { drugClassesNG, markersDrugsKP, drugClassesST} from '../../../../util/drugs';
+import { statKeysST } from '../../../../util/drugClassesRules';
 import { SliderSizes } from '../../Slider';
 import { Card } from '@mui/material';
 import { Close } from '@mui/icons-material';
@@ -76,6 +77,9 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     }
     if (organism === 'kpneumo') {
       return markersDrugsKP;
+    }
+    if (organism === 'styphi') {
+      return drugClassesST;
     }
 
     return drugClassesNG;
@@ -400,7 +404,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                 } else if (organism === 'ngono') {
                   const colorObj = colorForDrugClassesNG[trendsGraphDrugClass]?.find(x => x.name === option);
                   if (colorObj) fillColor = colorObj.color;
-                } else if (organism === 'kpneumo') {
+                } else if (organism === 'kpneumo' || organism === 'styphi') {
                   fillColor = colorForMarkers[index];
                 }
 

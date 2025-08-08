@@ -46,7 +46,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'RDT',
-    organisms: ['ngono', 'kpneumo'],
+    organisms: ['ngono', 'kpneumo', 'styphi', 'shige'],
     component: <MarkerTrendsGraph />,
   },
   {
