@@ -19,6 +19,7 @@ import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import { variableGraphOptions } from '../../util/convergenceVariablesOptions';
 import {
   drugClassesRulesNG,
+  drugClassesRulesSHIGE,
   drugClassesRulesST,
   drugRulesINTS,
   drugRulesKP,
@@ -30,7 +31,7 @@ import {
   statKeysKP,
   statKeysKPOnlyMarkers,
 } from '../../util/drugClassesRules';
-import { markersDrugsKP } from '../../util/drugs';
+import { markersDrugsKP, drugsKP, markersDrugsSH} from '../../util/drugs';
 import { amrLikeOrganisms } from '../../util/organismsCards';
 
 /**
@@ -604,6 +605,8 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     initializeDataStructures(Object.keys(drugClassesRulesNG));
   } else if (organism === 'styphi') {
     initializeDataStructures(Object.keys(drugClassesRulesST));
+  } else if (organism === 'shige') {
+    initializeDataStructures(markersDrugsSH);
   } 
   const genotypesData = years.map(year => {
     const yearData = data.filter(x => x.DATE.toString() === year.toString());
@@ -697,7 +700,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         });
       } else if (['senterica', 'sentericaints'].includes(organism)) {
         calculateDrugStats(drugRulesINTS);
-      } else if (['shige', 'ecoli', 'decoli'].includes(organism)) {
+      } else if (['ecoli', 'decoli'].includes(organism)) {
         statKeys[organism].forEach(drug => {
           const drugData = yearData.filter(x => {
             if (Array.isArray(drug.column)) {
@@ -761,8 +764,37 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
           genotypesAndDrugsData[key].push(item);
         });
-      }
+      } else if (organism === 'shige') {
+        statKeysECOLI.forEach(drug => {
+          const drugData = yearData.filter(x => {
+            if (Array.isArray(drug.column)) {
+              return drug.column.every(d => x[d] === '-');
+            }
 
+            return x[drug.column] !== '-';
+          });
+          drugStats[drug.name] = drugData.length;
+        });
+      
+        markersDrugsSH.forEach(key => {
+          const filteredGenotypes = Object.entries(genotypeStats)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, 10)
+            .reduce((acc, [genotype, count]) => {
+              acc[genotype] = count;
+              return acc;
+            }, {});
+
+          genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
+
+          const drugClass = getKPDrugClassData({ drugKey: key, dataToFilter: yearData, notKP: true });
+          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
+          delete item.count;
+
+          genotypesAndDrugsData[key].push(item);
+        });
+        
+      }
       drugsData.push({ ...response, ...drugStats });
     }
 

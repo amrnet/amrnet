@@ -794,8 +794,6 @@ export const DashboardPage = () => {
         // Don't set drug selection for paginated organisms - let auto-selection effect handle it
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(markersDrugsKP));
-          dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-          dispatch(setTrendsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphView('percentage'));
           dispatch(setConvergenceGroupVariable('cgST'));
           dispatch(setConvergenceColourVariable('cgST'));
@@ -809,7 +807,10 @@ export const DashboardPage = () => {
         dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
         dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
         dispatch(setBubbleKOYAxisType('K_locus'));
-        dispatch(setBubbleMarkersYAxisType('K_locus'));
+        // dispatch(setBubbleMarkersYAxisType('K_locus'));
+        dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
+        dispatch(setTrendsGraphDrugClass('Carbapenems'));
+        dispatch(setBubbleMarkersYAxisType('Carbapenems'))
         break;
       case 'ngono':
         dispatch(setMapView('Resistance prevalence'));
@@ -840,6 +841,7 @@ export const DashboardPage = () => {
           // Don't set drug selection for paginated organisms - let auto-selection effect handle it
           dispatch(setDrugResistanceGraphView(drugsECOLI));
           dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+          dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
         }
         break;
       default:
