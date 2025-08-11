@@ -1,36 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
-import { useStyles } from './MarkerTrendsGraphMUI';
+import { Close } from '@mui/icons-material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Brush,
   CartesianGrid,
+  Tooltip as ChartTooltip,
   ComposedChart,
   Label,
   Legend,
   Line,
   ResponsiveContainer,
-  Tooltip as ChartTooltip,
   XAxis,
   YAxis,
 } from 'recharts';
-import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { colorForDrugClassesNG, hoverColor, colorForMarkers } from '../../../../util/colorHelper';
 import {
+  setEndtimeRDT,
+  setMaxSliderValueKP_GE,
+  setStarttimeRDT,
+  setTopGenesSlice,
   setTrendsGraphDrugClass,
   setTrendsGraphView,
-  setMaxSliderValueKP_GE,
-  setTopGenesSlice,
-  setStarttimeRDT,
-  setEndtimeRDT,
 } from '../../../../stores/slices/graphSlice';
+import { colorForDrugClassesNG, colorForMarkers, hoverColor } from '../../../../util/colorHelper';
 import { drugClassesNG, markersDrugsKP } from '../../../../util/drugs';
-import { SliderSizes } from '../../Slider';
-import { Card } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import { SelectCountry } from '../../SelectCountry';
 import { getRange } from '../../../../util/helpers';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { SelectCountry } from '../../SelectCountry';
+import { SliderSizes } from '../../Slider';
+import { useStyles } from './MarkerTrendsGraphMUI';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -246,7 +245,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       setCurrentTooltip(value);
     } else if (event?.activeLabel === undefined || event?.activeLabel === null) {
       setCurrentTooltip(null);
-    }else {
+    } else {
       setCurrentTooltip({
         name: event?.activeLabel,
         count: 'ID',

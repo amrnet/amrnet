@@ -616,13 +616,28 @@ export const DashboardPage = () => {
     try {
       console.log(`🚀 [QUICK FIX] Starting quick load for ${organism}`);
 
-      const organismData = await loadOrganismQuickly(organism, message => {
-        console.log(`⏳ [QUICK FIX] ${message}`);
+      const organismData = await getStoreOrGenerateData(organism, async () => {
+        console.log(`🌐 [CLIENT] Fetching from loadOrganismQuickly`);
+        const apiStartTime = performance.now();
+
+        const response = await loadOrganismQuickly(organism, message => {
+          console.log(`⏳ [QUICK FIX] ${message}`);
+        });
+
+        const apiEndTime = performance.now();
+        const apiDuration = Math.round(apiEndTime - apiStartTime);
+        const dataSize = JSON.stringify(response).length;
+
+        console.log(
+          `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.length} records`,
+        );
+
+        return response;
       });
 
       // CRITICAL FIX: Store organism data in IndexedDB (was missing)
-      console.log(`💾 [QUICK FIX] Storing ${organism} data in IndexedDB (${organismData.length} records)`);
-      await bulkAddItems(organism, organismData);
+      // console.log(`💾 [QUICK FIX] Storing ${organism} data in IndexedDB (${organismData.length} records)`);
+      // await bulkAddItems(organism, organismData);
 
       // Get regions data
       const regions = await getStoreOrGenerateData('unr', async () => {
@@ -794,12 +809,12 @@ export const DashboardPage = () => {
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(markersDrugsKP));
           dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-          dispatch(setTrendsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphView('percentage'));
           dispatch(setConvergenceGroupVariable('cgST'));
           dispatch(setConvergenceColourVariable('cgST'));
           dispatch(setCurrentConvergenceGroupVariable('cgST'));
         }
+        dispatch(setTrendsGraphDrugClass('ESBL'));
         dispatch(setDistributionGraphView('genotype'));
         dispatch(setDistributionGraphVariable('genotype'));
         dispatch(setKOTrendsGraphView('K_locus'));
@@ -829,9 +844,11 @@ export const DashboardPage = () => {
         break;
       case 'ecoli':
         dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
+        dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
         break;
       case 'decoli':
         dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
+        dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
         break;
       case 'shige':
         if (!isPaginated) {
