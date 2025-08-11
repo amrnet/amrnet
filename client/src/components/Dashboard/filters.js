@@ -523,9 +523,16 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       for (const key of ['O_PREV', 'OH_PREV']) {
         stats[key] = { items: [], count: 0 };
         generateStats(itemData, stats, organism, key, key === 'O_PREV' ? 'O Antigen' : 'H Antigen');
-        stats[key].items = stats[key].items.filter(
-          x => !['-', 'NA', 'Escherichia Coli', 'Escherichia', 'uncertain'].includes(x.name),
-        );
+        const namesToExclude = ['-', 'NA', 'Escherichia Coli', 'Escherichia', 'uncertain'];
+        stats[key].items = stats[key].items.filter(x => {
+          const hasExcludedName = namesToExclude.includes(x.name);
+          if (hasExcludedName) {
+            stats[key].sum -= x.count;
+          }
+
+          return !hasExcludedName;
+        });
+        stats[key].count = stats[key].items.length;
       }
     }
 
@@ -1529,8 +1536,9 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
 
     acc[combination] = data.filter(x =>
       groupVariable === colourVariable
-        ? getVariableValue(x, groupVariable) === combination
-        : getVariableValue(x, groupVariable) === groupVal && getVariableValue(x, colourVariable) === colourVal,
+        ? getVariableValue(x, groupVariable).toString() === combination.toString()
+        : getVariableValue(x, groupVariable).toString() === groupVal.toString() &&
+          getVariableValue(x, colourVariable).toString() === colourVal.toString(),
     );
 
     return acc;
@@ -1651,7 +1659,7 @@ function getNGDrugClassData({ columnID, dataToFilter }) {
   dataToFilter.forEach(x => {
     const columnValue = x[columnID];
 
-    if (columnValue === '0') return;
+    if (columnValue.toString() === '0') return;
 
     resistantCount++;
 
@@ -1660,7 +1668,7 @@ function getNGDrugClassData({ columnID, dataToFilter }) {
 
       for (let i = 0; i < gene.rules.length; i++) {
         const { columnID, value } = gene.rules[i];
-        if (x[columnID] !== value) {
+        if (x[columnID].toString() !== value.toString()) {
           rulePassed = false;
           break;
         }
