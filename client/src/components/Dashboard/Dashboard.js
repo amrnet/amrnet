@@ -105,6 +105,9 @@ import {
   drugsINTS,
   drugsKP,
   markersDrugsKP,
+  markersDrugsSH,
+  getDrugClasses,
+  drugClassesNG
 } from '../../util/drugs';
 import { continentPGraphCard } from '../../util/graphCards';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
@@ -801,6 +804,8 @@ export const DashboardPage = () => {
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
         }
         dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
+        dispatch(setTrendsGraphDrugClass('Ciprofloxacin NS'));
+        dispatch(setBubbleMarkersYAxisType('Ciprofloxacin NS'));
         break;
       case 'kpneumo':
         // dispatch(setDatasetKP('All'));
@@ -808,11 +813,11 @@ export const DashboardPage = () => {
         // Don't set drug selection for paginated organisms - let auto-selection effect handle it
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(markersDrugsKP));
-          dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphView('percentage'));
           dispatch(setConvergenceGroupVariable('cgST'));
           dispatch(setConvergenceColourVariable('cgST'));
           dispatch(setCurrentConvergenceGroupVariable('cgST'));
+          dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
         }
         dispatch(setTrendsGraphDrugClass('ESBL'));
         dispatch(setDistributionGraphView('genotype'));
@@ -823,7 +828,10 @@ export const DashboardPage = () => {
         dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
         dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
         dispatch(setBubbleKOYAxisType('K_locus'));
-        dispatch(setBubbleMarkersYAxisType('K_locus'));
+        // dispatch(setBubbleMarkersYAxisType('K_locus'));
+        dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
+        dispatch(setTrendsGraphDrugClass('Carbapenems'));
+        dispatch(setBubbleMarkersYAxisType('Carbapenems'))
         break;
       case 'ngono':
         dispatch(setMapView('Resistance prevalence'));
@@ -833,6 +841,7 @@ export const DashboardPage = () => {
         dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
         dispatch(setTrendsGraphDrugClass('Azithromycin'));
         dispatch(setTrendsGraphView('percentage'));
+        dispatch(setBubbleMarkersYAxisType(drugClassesNG[0]));
         break;
       case 'sentericaints':
       case 'senterica':
@@ -840,15 +849,21 @@ export const DashboardPage = () => {
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(drugsINTS));
         }
-        dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
+        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
+        dispatch(setBubbleMarkersYAxisType(getDrugClasses(organism)[0]));
         break;
       case 'ecoli':
         dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
+        dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
+        dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
         break;
       case 'decoli':
         dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
         dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+        dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
+        dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         break;
       case 'shige':
         if (!isPaginated) {
@@ -856,6 +871,8 @@ export const DashboardPage = () => {
           // Don't set drug selection for paginated organisms - let auto-selection effect handle it
           dispatch(setDrugResistanceGraphView(drugsECOLI));
           dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+          dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
+          dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         }
         break;
       default:
@@ -995,7 +1012,7 @@ export const DashboardPage = () => {
       dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
       dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
       dispatch(setBubbleKOYAxisType('O_locus'));
-      dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
+
       dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
       dispatch(setConvergenceColourPallete({}));
       // dispatch(setNgmast([]));
