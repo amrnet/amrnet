@@ -1,42 +1,41 @@
+import { Close } from '@mui/icons-material';
 import { Box, Card, CardContent, Divider, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
-import { useStyles } from './ConvergenceGraphMUI';
+import { useEffect, useMemo, useState } from 'react';
 import {
   CartesianGrid,
+  Cell,
+  Tooltip as ChartTooltip,
   Label,
   Legend,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  ScatterChart,
-  Scatter,
   ZAxis,
-  Cell,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 import {
   /*setConvergenceColourVariable,*/ setConvergenceGroupVariable,
   setTopColorSlice,
 } from '../../../../stores/slices/graphSlice';
-import { useEffect, useMemo, useState } from 'react';
 import { hoverColor } from '../../../../util/colorHelper';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
-import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
-import { SliderSizes } from '../../Slider';
-import { Close } from '@mui/icons-material';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
+import { SliderSizes } from '../../Slider';
+import { useStyles } from './ConvergenceGraphMUI';
 
 const GRADIENT_COLORS = {
   LIGHT_GREY: 200, // #c8c8c8 - lighter
-  DARK_GREY: 30,   // #1e1e1e - darker for better contrast
+  DARK_GREY: 30, // #1e1e1e - darker for better contrast
 };
 
 const calculateGreyGradient = (index, total) => {
   const normalizedPosition = total > 1 ? index / (total - 1) : 0;
   const greyValue = Math.round(
-    GRADIENT_COLORS.LIGHT_GREY +
-    (GRADIENT_COLORS.DARK_GREY - GRADIENT_COLORS.LIGHT_GREY) * normalizedPosition
+    GRADIENT_COLORS.LIGHT_GREY + (GRADIENT_COLORS.DARK_GREY - GRADIENT_COLORS.LIGHT_GREY) * normalizedPosition,
   );
   return `rgb(${greyValue},${greyValue},${greyValue})`;
 };
@@ -218,9 +217,10 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
 
               <Scatter name="combinations" data={topConvergenceData}>
                 {topConvergenceData.map((option, index) => {
-                  const color = convergenceGroupVariable === 'DATE'
-                    ? calculateGreyGradient(index, topConvergenceData.length)
-                    : convergenceColourPallete[option.colorLabel] || '#F5F4F6'; // Add fallback color
+                  const color =
+                    convergenceGroupVariable === 'DATE'
+                      ? calculateGreyGradient(index, topConvergenceData.length)
+                      : convergenceColourPallete[option.colorLabel] || '#F5F4F6'; // Add fallback color
 
                   return (
                     <Cell
