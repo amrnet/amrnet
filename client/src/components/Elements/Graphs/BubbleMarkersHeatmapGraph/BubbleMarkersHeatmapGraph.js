@@ -36,8 +36,9 @@ import { SelectCountry } from '../../SelectCountry';
 import { getAxisLabel } from '../../../../util/genotypes';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
-import { drugAcronyms, drugAcronymsOpposite, markersDrugsKP } from '../../../../util/drugs';
+import { drugAcronyms, drugAcronymsOpposite, markersDrugsKP, getDrugClasses } from '../../../../util/drugs';
 import { setBubbleMarkersHeatmapGraphVariable, setBubbleMarkersYAxisType } from '../../../../stores/slices/graphSlice';
+import { drugClassesRulesST, drugClassesRulesNG } from '../../../../util/drugClassesRules';
 
 export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -59,7 +60,8 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const bubbleMarkersYAxisType = useAppSelector(state => state.graph.bubbleMarkersYAxisType);
   const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
-
+  const genotypesDrugClassesData = useAppSelector(state => state.graph.genotypesDrugClassesData);
+  const determinantsGraphDrugClass = useAppSelector(state => state.graph.determinantsGraphDrugClass);
   const selectedCRData = useMemo(() => {
     return (actualCountry !== 'All' ? mapData : mapRegionData).find(
       x => x.name === (actualCountry !== 'All' ? actualCountry : actualRegion),
@@ -71,32 +73,62 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     return foundOption?.mapValue || null;
   }, [bubbleMarkersHeatmapGraphVariable]);
 
-  const yAxisOptions = useMemo(() => {
-    function getUniqueNames(data) {
-      const seen = new Set();
+// Fix for BubbleMarkersHeatmapGraph - replace the yAxisOptions useMemo
 
-      for (let i = 0; i < data.length; i++) {
-        const items = data[i].drugs?.[bubbleMarkersYAxisType]?.items;
-        if (!items) continue;
+const yAxisOptions = useMemo(() => {
+  // Helper function to extract marker names from genotypesDrugClassesData
+  const extractMarkersFromDrugClassesData = (drugClassesData, markerType) => {
+    if (drugClassesData[markerType] && drugClassesData[markerType][0]) {
+      const sampleItem = drugClassesData[markerType][0];
+      const exclusions = ['name', 'totalCount', 'resistantCount', 'count', 'newTotalCount', 'Other'];
+      return Object.keys(sampleItem)
+        .filter(key => !exclusions.includes(key))
+        .map(key => ({ name: key }));
+    }
+    return [];
+  };
 
-        for (let j = 0; j < items.length; j++) {
-          const name = items[j].name;
-          if (name) {
-            seen.add(name);
-          }
+  const getItemsForOrganism = (data, i) => {
+    const extractionMethods = {
+      styphi: () => drugClassesRulesST[bubbleMarkersYAxisType] || [],
+      kpneumo: () => data[i].drugs?.[bubbleMarkersYAxisType]?.items || [],
+      // All other organisms use the same extraction method
+      default: () => extractMarkersFromDrugClassesData(genotypesDrugClassesData, bubbleMarkersYAxisType)
+    };
+
+    const extractionMethod = extractionMethods[organism] || extractionMethods.default;
+    return extractionMethod();
+  };
+
+  function getUniqueNames(data) {
+    const seen = new Set();
+    
+    for (let i = 0; i < data.length; i++) {
+      const items = getItemsForOrganism(data, i);
+      
+      if (!items) continue;
+
+      for (let j = 0; j < items.length; j++) {
+        const name = items[j].name;
+        if (name) {
+          seen.add(name);
         }
       }
-
-      return [...seen];
     }
 
-    const items = getUniqueNames(selectedCRData?.stats?.[statColumn]?.items || []);
-    return items.filter(x => x !== '-').sort();
-  }, [bubbleMarkersYAxisType, selectedCRData?.stats, statColumn]);
+    return [...seen];
+  }
 
+  // For kpneumo, use selectedCRData, for others use genotypesDrugClassesData
+  const sourceData = organism === 'kpneumo' 
+    ? selectedCRData?.stats?.[statColumn]?.items || []
+    : genotypesDrugClassesData[bubbleMarkersYAxisType] || [];
+    
+  const items = getUniqueNames(sourceData);
+  return items.filter(x => x !== '-').sort();
+}, [bubbleMarkersYAxisType, selectedCRData?.stats, statColumn, organism, genotypesDrugClassesData]);
   const filteredYAxisOptions = useMemo(() => {
     const filteredOptions = yAxisOptions.filter(option => option.toLowerCase().includes(markerSearch.toLowerCase()));
-
     return filteredOptions.slice(0, 20);
   }, [yAxisOptions, markerSearch]);
 
@@ -209,11 +241,13 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     dispatch(setBubbleMarkersYAxisType(event.target.value));
   }
 
-  const configuredMapData = useMemo(() => {
-    if (!selectedCRData || yAxisSelected.length === 0 || !statColumn) {
-      return [];
-    }
+const configuredMapData = useMemo(() => {
+  if (!selectedCRData || yAxisSelected.length === 0 || !statColumn) {
+    return [];
+  }
 
+  // For kpneumo, use the original drugs-based structure
+  if (organism === 'kpneumo') {
     return selectedCRData?.stats[statColumn]?.items
       ?.filter(item => xAxisSelected?.includes(item.name))
       .map(item => {
@@ -233,10 +267,39 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
         });
 
         itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
-
         return itemData;
       });
-  }, [bubbleMarkersYAxisType, selectedCRData, statColumn, xAxisSelected, yAxisSelected]);
+  }
+
+  // For all other organisms (ngono, styphi, shige, ecoli, decoli, sentrerica, etc.)
+  // use genotypesDrugClassesData similar to DeterminantsGraph
+  if (genotypesDrugClassesData[bubbleMarkersYAxisType]) {
+    return genotypesDrugClassesData[bubbleMarkersYAxisType]
+      ?.filter(item => xAxisSelected?.includes(item.name))
+      .map(item => {
+        const itemData = { name: item.name, items: [] };
+        
+        yAxisSelected.forEach(option => {
+          const count = item[option] || 0;
+          const percentage = item.totalCount ? Number(((count / item.totalCount) * 100).toFixed(2)) : 0;
+          
+          itemData.items.push({
+            itemName: option,
+            percentage: percentage,
+            count: count,
+            index: 1,
+            typeName: item.name,
+            total: item.totalCount || 0,
+          });
+        });
+
+        itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
+        return itemData;
+      }) || [];
+  }
+
+  return [];
+}, [bubbleMarkersYAxisType, selectedCRData, statColumn, xAxisSelected, yAxisSelected, organism, genotypesDrugClassesData]);
 
   useEffect(() => {
     if (canGetData) {
@@ -408,7 +471,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectPreWrapper}>
-                  <div className={classes.selectWrapper}>
+                  {organism === 'kpneumo'?<div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">Select genotype</Typography>
                     </div>
@@ -427,7 +490,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                         );
                       })}
                     </Select>
-                  </div>
+                  </div>:null}
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">
@@ -521,7 +584,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      {markersDrugsKP.map((option, index) => (
+                      {getDrugClasses(organism).map((option, index) => (
                         <MenuItem key={`bubbler-markers-y-axis-type-${index}`} value={option}>
                           {drugAcronymsOpposite[drugAcronyms[option] ?? option] ?? option}
                         </MenuItem>
