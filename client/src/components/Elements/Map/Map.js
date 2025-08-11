@@ -134,6 +134,7 @@ export const Map = () => {
                     ? {
                         Samples: countryData.count,
                         Genotypes: countryStats.GENOTYPE.count,
+                        'NG-MAST': countryStats.NGMAST.count,
                         // 'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
                         // 'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
                         // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
@@ -141,11 +142,18 @@ export const Map = () => {
                         // Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
                         // Susceptible: `${countryStats.Susceptible.percentage}%`,
                       }
-                    : {
-                        Samples: countryData.count,
-                        [['sentericaints', 'senterica'].includes(organism) ? 'Lineages' : 'Genotypes']:
-                          countryStats.GENOTYPE.count,
-                      },
+                    : ['decoli', 'ecoli', 'shige'].includes(organism)
+                      ? {
+                          Samples: countryData.count,
+                          Genotypes: countryStats.GENOTYPE.count,
+                          'O prevalence': countryStats.O_PREV.count,
+                          'OH prevalence': countryStats.OH_PREV.count,
+                        }
+                      : {
+                          Samples: countryData.count,
+                          [['sentericaints', 'senterica'].includes(organism) ? 'Lineages' : 'Genotypes']:
+                            countryStats.GENOTYPE.count,
+                        },
           });
           break;
         case 'Dominant Genotype':
