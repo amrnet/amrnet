@@ -593,9 +593,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   const drugsData = [];
   const genotypesAndDrugsData = {};
   let uniqueGenotypes = [];
+  let uniqueNGMAST = [];
   let uniqueCgST = [];
   let uniqueSublineages = [];
   const genotypesAndDrugsDataUniqueGenotypes = {};
+  const NGMASTData = [];
   const cgSTData = [];
   const sublineageData = [];
 
@@ -631,10 +633,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       acc[genotype] = (acc[genotype] || 0) + 1;
       return acc;
     }, {});
-
+    console.log("yearData", yearData)
     // Calculate other genotype stats for Klebsiella
     let cgSTStats = {};
     let sublineageStats = {};
+    let NGMASTStats ={};
     if (organism === 'kpneumo') {
       cgSTStats = yearData.reduce((acc, x) => {
         const cgST = x.cgST;
@@ -655,6 +658,16 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         return acc;
       }, {});
       sublineageData.push({ ...response, ...sublineageStats });
+    } else if (organism === 'ngono'){
+      NGMASTStats = yearData.reduce((acc, x) => {
+        const NGMAST = x['NG-MAST TYPE'];
+        // if (cgST && cgST !== '-' && cgST !== null && cgST !== undefined && cgST !== '' && cgST.toString().trim() !== '') {
+        //   acc[cgST] = (acc[cgST] || 0) + 1;
+        // }
+        acc[NGMAST] = (acc[NGMAST] || 0) + 1;
+        return acc;
+      }, {});
+      NGMASTData.push({ ...response, ...NGMASTStats });
     }
 
     // Initialize drugStats
@@ -729,15 +742,15 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return acc;
           }, {});
 
-  genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
+          genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
 
-  const drugClass = getDrugClassDataINTS({ drugKey: key, dataToFilter: yearData });
+          const drugClass = getDrugClassDataINTS({ drugKey: key, dataToFilter: yearData });
 
-  const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
-  delete item.count;
+          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
+          delete item.count;
 
-  genotypesAndDrugsData[key].push(item);
-});
+          genotypesAndDrugsData[key].push(item);
+        });
       } else if (organism === 'kpneumo') {
         drugRulesKP.forEach(rule => {
           const drugData = yearData.filter(x => {
@@ -855,6 +868,17 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           }, {});
 
         uniqueSublineages = uniqueSublineages.concat(Object.keys(sortedStatsSublineages));
+        
+      } else if (organism === 'ngono'){
+          const sortedStatsNGMAST = Object.entries(NGMASTStats)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, 20)
+            .reduce((acc, [NGMAST]) => {
+              acc[NGMAST] = NGMASTStats[NGMAST];
+              return acc;
+            }, {});
+
+          uniqueNGMAST = uniqueNGMAST.concat(Object.keys(sortedStatsNGMAST));
       }
     }
 
@@ -888,6 +912,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     sublineageData,
     uniqueCgST,
     uniqueSublineages,
+    NGMASTData: NGMASTData.filter(x => x.count > 0)
   };
 }
 
