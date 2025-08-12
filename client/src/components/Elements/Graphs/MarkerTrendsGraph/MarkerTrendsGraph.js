@@ -24,7 +24,8 @@ import {
   setTrendsGraphView,
 } from '../../../../stores/slices/graphSlice';
 import { colorForDrugClassesNG, colorForMarkers, hoverColor } from '../../../../util/colorHelper';
-import { drugClassesNG, markersDrugsKP } from '../../../../util/drugs';
+import { drugClassesNG, markersDrugsKP, drugClassesST, markersDrugsSH, drugsINTS} from '../../../../util/drugs';
+import { statKeysST } from '../../../../util/drugClassesRules';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -70,15 +71,25 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   ];
 
   function getDrugClasses() {
-    if (organism === 'none') {
-      return [];
-    }
-    if (organism === 'kpneumo') {
-      return markersDrugsKP;
-    }
-
-    return drugClassesNG;
+  if (organism === 'none') {
+    return [];
   }
+  if (organism === 'kpneumo') {
+    return markersDrugsKP;
+  }
+  if (organism === 'styphi') {
+    return drugClassesST;
+  }
+  if (organism === 'shige' || organism === 'decoli' || organism === 'ecoli') {
+    return markersDrugsSH;
+  }
+  if (organism === 'ngono') {
+    return drugClassesNG;  // This should return the correct drug classes for ngono
+  }
+
+  return drugsINTS.filter(item => item !== 'Pansusceptible'); // Default fallback
+}
+
 
   function getDomain(max = null) {
     return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
@@ -128,7 +139,6 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     if (!processedData) return;
 
     const { genes, sortedGeneKeys } = processedData;
-
     // This is a side effect and belongs in useEffect
     dispatch(setMaxSliderValueKP_GE(Object.keys(genes).length));
 
@@ -399,7 +409,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                 } else if (organism === 'ngono') {
                   const colorObj = colorForDrugClassesNG[trendsGraphDrugClass]?.find(x => x.name === option);
                   if (colorObj) fillColor = colorObj.color;
-                } else if (organism === 'kpneumo') {
+                } else {
                   fillColor = colorForMarkers[index];
                 }
 
