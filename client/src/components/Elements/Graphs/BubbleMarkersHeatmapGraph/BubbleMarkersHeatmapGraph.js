@@ -76,57 +76,72 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
 // Fix for BubbleMarkersHeatmapGraph - replace the yAxisOptions useMemo
 
 const yAxisOptions = useMemo(() => {
-  // Helper function to extract marker names from genotypesDrugClassesData
-  const extractMarkersFromDrugClassesData = (drugClassesData, markerType) => {
-    if (drugClassesData[markerType] && drugClassesData[markerType][0]) {
-      const sampleItem = drugClassesData[markerType][0];
-      const exclusions = ['name', 'totalCount', 'resistantCount', 'count', 'newTotalCount', 'Other'];
-      return Object.keys(sampleItem)
-        .filter(key => !exclusions.includes(key))
-        .map(key => ({ name: key }));
-    }
-    return [];
-  };
-
-  const getItemsForOrganism = (data, i) => {
-    const extractionMethods = {
-      styphi: () => drugClassesRulesST[bubbleMarkersYAxisType] || [],
-      kpneumo: () => data[i].drugs?.[bubbleMarkersYAxisType]?.items || [],
-      // All other organisms use the same extraction method
-      default: () => extractMarkersFromDrugClassesData(genotypesDrugClassesData, bubbleMarkersYAxisType)
-    };
-
-    const extractionMethod = extractionMethods[organism] || extractionMethods.default;
-    return extractionMethod();
-  };
-
-  function getUniqueNames(data) {
-    const seen = new Set();
+  // Helper function for kpneumo - extract from drugs structure
+  const extractFromKpneumoData = (data, markerType) => {
+    const markerTotals = {};
     
-    for (let i = 0; i < data.length; i++) {
-      const items = getItemsForOrganism(data, i);
-      
-      if (!items) continue;
-
-      for (let j = 0; j < items.length; j++) {
-        const name = items[j].name;
-        if (name) {
-          seen.add(name);
+    data.forEach(item => {
+      const drugItems = item.drugs?.[markerType]?.items || [];
+      drugItems.forEach(drugItem => {
+        if (drugItem.name && drugItem.name !== '-') {
+          markerTotals[drugItem.name] = (markerTotals[drugItem.name] || 0) + (drugItem.count || 0);
         }
-      }
+      });
+    });
+
+    // Sort by total count descending
+    return Object.entries(markerTotals)
+      .sort((a, b) => b[1] - a[1])
+      .map(([key]) => key);
+  };
+
+  // Helper function for styphi - use predefined rules
+  const extractFromStyphiRules = (markerType) => {
+    return drugClassesRulesST[markerType] || [];
+  };
+
+  // Helper function for other organisms - extract from genotypesDrugClassesData
+  const extractFromGenotypesDrugClassesData = (data, markerType) => {
+    if (!data[markerType] || !Array.isArray(data[markerType])) {
+      return [];
     }
 
-    return [...seen];
+    const exclusions = ['name', 'totalCount', 'resistantCount', 'count', 'newTotalCount', 'Other'];
+    const markerTotals = {};
+
+    data[markerType].forEach(item => {
+      Object.keys(item).forEach(key => {
+        if (!exclusions.includes(key)) {
+          const value = item[key] || 0;
+          markerTotals[key] = (markerTotals[key] || 0) + value;
+        }
+      });
+    });
+
+    // Sort by total count descending
+    return Object.entries(markerTotals)
+      .sort((a, b) => b[1] - a[1])
+      .map(([key]) => key)
+      .filter(x => x !== '-');
+  };
+
+  // Choose extraction method based on organism
+  let items = [];
+  
+  if (organism === 'kpneumo') {
+    const sourceData = selectedCRData?.stats?.[statColumn]?.items || [];
+    items = extractFromKpneumoData(sourceData, bubbleMarkersYAxisType);
+  } else if (organism === 'styphi') {
+    items = extractFromStyphiRules(bubbleMarkersYAxisType);
+  } else {
+    // All other organisms (ngono, shige, ecoli, decoli, sentrerica, etc.)
+    items = extractFromGenotypesDrugClassesData(genotypesDrugClassesData, bubbleMarkersYAxisType);
   }
 
-  // For kpneumo, use selectedCRData, for others use genotypesDrugClassesData
-  const sourceData = organism === 'kpneumo' 
-    ? selectedCRData?.stats?.[statColumn]?.items || []
-    : genotypesDrugClassesData[bubbleMarkersYAxisType] || [];
-    
-  const items = getUniqueNames(sourceData);
-  return items.filter(x => x !== '-').sort();
+  return items;
 }, [bubbleMarkersYAxisType, selectedCRData?.stats, statColumn, organism, genotypesDrugClassesData]);
+
+
   const filteredYAxisOptions = useMemo(() => {
     const filteredOptions = yAxisOptions.filter(option => option.toLowerCase().includes(markerSearch.toLowerCase()));
     return filteredOptions.slice(0, 20);
@@ -266,7 +281,7 @@ const configuredMapData = useMemo(() => {
           });
         });
 
-        itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
+        // itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
         return itemData;
       });
   }
@@ -293,7 +308,7 @@ const configuredMapData = useMemo(() => {
           });
         });
 
-        itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
+        // itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
         return itemData;
       }) || [];
   }
