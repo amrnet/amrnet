@@ -14,7 +14,7 @@ import {
   YAxis,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
-import { setCaptureGD, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureGD, setGenotypesForFilterSelected, setColorPallete } from '../../../../stores/slices/dashboardSlice';
 import {
   setDistributionGraphVariable,
   setDistributionGraphView,
@@ -22,8 +22,8 @@ import {
   setStarttimeGD,
   setTopXGenotype,
 } from '../../../../stores/slices/graphSlice.ts';
-import { getColorForGenotype, hoverColor, lightGrey } from '../../../../util/colorHelper';
-import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
+import { getColorForGenotype, hoverColor, lightGrey, generatePalleteForGenotypes } from '../../../../util/colorHelper';
+import { variableGraphOptions, variableGraphOptionsNG } from '../../../../util/convergenceVariablesOptions';
 import { arraysEqual, getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -57,27 +57,32 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   const currentData = useMemo(() => {
-    if (organism !== 'kpneumo') {
+    if (organism !== 'kpneumo' && organism !== 'ngono') {
       return genotypesYearData;
     }
-
     return distributionGraphVariable === 'Sublineage'
       ? sublineagesYearData
-      : distributionGraphVariable === 'cgST'
+      : (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE')
         ? cgSTYearData
         : genotypesYearData;
   }, [cgSTYearData, distributionGraphVariable, genotypesYearData, organism, sublineagesYearData]);
 
   const currentColorPallete = useMemo(() => {
-    if (organism !== 'kpneumo') {
+    const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
+
+    if (!isSpecialOrganism) {
       return colorPallete;
     }
 
-    return distributionGraphVariable === 'Sublineage'
-      ? colorPalleteSublineages
-      : distributionGraphVariable === 'cgST'
-        ? colorPalleteCgST
-        : colorPallete;
+    if (distributionGraphVariable === 'Sublineage') {
+      return colorPalleteSublineages;
+    }
+
+    if (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE') {
+      return colorPalleteCgST;
+    }
+
+    return colorPallete;
   }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
 
   const sliderLabel = useMemo(() => {
@@ -89,7 +94,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       ? 'sublineage'
       : distributionGraphVariable === 'cgST'
         ? 'cgST'
-        : 'ST';
+        : distributionGraphVariable === 'NG-MAST TYPE'
+          ? 'NG-MAST'
+          : 'ST';
   }, [distributionGraphVariable, organism]);
 
   useEffect(() => {
@@ -447,7 +454,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   })}
                 </Select>
               </div>
-              {organism === 'kpneumo' && (
+              {(organism === 'kpneumo' || organism === 'ngono')  && (
                 <div className={classes.selectWrapper}>
                   <div className={classes.labelWrapper}>
                     <Typography variant="caption">Select variable</Typography>
@@ -459,10 +466,18 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                     MenuProps={{ classes: { list: classes.selectMenu } }}
                     disabled={organism === 'none'}
                   >
-                    {variableGraphOptions.map((option, index) => {
-                      return (
-                        <MenuItem key={index + 'distribution-variable'} value={option.value}>
-                          {option.label}
+                    {organism === 'ngono' ? 
+                      variableGraphOptionsNG.map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'distribution-variable'} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        );
+                      })
+                      : variableGraphOptions.map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'distribution-variable'} value={option.value}>
+                            {option.label}
                         </MenuItem>
                       );
                     })}
