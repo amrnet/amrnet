@@ -3,7 +3,10 @@ import {
   drugRulesNG,
   drugRulesKP,
   statKeysKP,
+  statKeysST,
+  drugRulesST,
   statKeysECOLI,
+  statKeysINTS,
   statKeysKPOnlyMarkers,
 } from './drugClassesRules';
 
@@ -99,6 +102,9 @@ export const markersDrugsKP = [
   ...drugsKP.filter(x => !['Pansusceptible'].includes(x)),
   ...statKeysKPOnlyMarkers.map(x => x.name),
 ].sort();
+export const markersDrugsST = [...drugRulesST.map(x => x.name)].sort();
+export const markersDrugsSH = statKeysECOLI.map(x => x.name).filter(x => !['Pansusceptible'].includes(x));
+export const markersDrugsINTS = statKeysINTS.map(x => x.name).filter(x => !['Pansusceptible'].includes(x));
 
 // List of Salmonella Typhi drug classes
 export const drugClassesST = [
