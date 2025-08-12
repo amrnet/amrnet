@@ -147,7 +147,7 @@ export const Map = () => {
                           Samples: countryData.count,
                           Genotypes: countryStats.GENOTYPE.count,
                           'O prevalence': countryStats.O_PREV.count,
-                          'OH prevalence': countryStats.OH_PREV.count,
+                          'H prevalence': countryStats.OH_PREV.count,
                         }
                       : {
                           Samples: countryData.count,

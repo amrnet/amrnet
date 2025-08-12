@@ -46,7 +46,7 @@ export const graphCards = [
     description: ['Data are plotted for years with N ≥ 10 genomes'],
     icon: <Timeline color="primary" />,
     id: 'RDT',
-    organisms: ['ngono', 'kpneumo'],
+    organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
     component: <MarkerTrendsGraph />,
   },
   {
@@ -54,7 +54,7 @@ export const graphCards = [
     description: ['Top Genotypes (up to 10)'],
     icon: <StackedBarChart color="primary" />,
     id: 'RDWG',
-    organisms: ['styphi', 'ngono', 'shige', 'ecoli', 'decoli'],
+    organisms: [],
     component: <DeterminantsGraph />,
   },
   {
@@ -62,7 +62,7 @@ export const graphCards = [
     description: [''],
     icon: <ViewModule color="primary" />,
     id: 'BAMRH',
-    organisms: ['kpneumo'],
+    organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
     component: <BubbleMarkersHeatmapGraph />,
   },
   {
