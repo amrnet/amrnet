@@ -264,7 +264,7 @@ export const DashboardPage = () => {
 
     // Get mapped values
     const genotypesSet = new Set();
-    // const ngmastSet = new Set();
+    const ngmastSet = new Set();
     const yearsSet = new Set();
     const countriesSet = new Set();
     const PMIDSet = new Set();
@@ -290,7 +290,7 @@ export const DashboardPage = () => {
       }
 
       // others
-      // if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
+      if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
       if ('PMID' in x && x['PMID'] && x['PMID'] !== '') {
         PMIDSet.add(x['PMID']);
       }
@@ -320,7 +320,7 @@ export const DashboardPage = () => {
     });
 
     const genotypes = Array.from(genotypesSet).filter(Boolean);
-    // const ngmast = Array.from(ngmastSet);
+    const ngmast = Array.from(ngmastSet);
     const years = Array.from(yearsSet).filter(Boolean);
     const countries = Array.from(countriesSet).filter(Boolean);
     const PMID = Array.from(PMIDSet).filter(Boolean);
@@ -329,6 +329,7 @@ export const DashboardPage = () => {
 
     // Sort values
     genotypes.sort((a, b) => a.localeCompare(b));
+    ngmast.sort((a, b) => a.localeCompare(b));
     years.sort();
     countries.sort();
     pathovar.sort();
@@ -424,7 +425,7 @@ export const DashboardPage = () => {
       // Get ngmast data
       // organism === 'ngono'
       //   ? getStoreOrGenerateData(`${organism}_ngmast`, () => {
-      //       const dt = getNgmastData({ data: responseData, ngmast, organism });
+            // const dt = getNgmastData({ data: responseData, ngmast, organism });
       //       return [dt.ngmastDrugData, dt.ngmastDrugClassesData];
       //     }).then(([ngmastDrugData, ngmastDrugClassesData]) => {
       //       dispatch(setNgmastDrugsData(ngmastDrugData));
@@ -449,6 +450,7 @@ export const DashboardPage = () => {
           dt.sublineageData,
           dt.uniqueCgST,
           dt.uniqueSublineages,
+          dt.NGMASTData,
         ];
       }).then(
         ([
@@ -460,6 +462,7 @@ export const DashboardPage = () => {
           sublineageData,
           uniqueCgST,
           uniqueSublineages,
+          NGMASTData
         ]) => {
           dispatch(setGenotypesYearData(genotypesData));
           dispatch(setDrugsYearData(drugsData));
@@ -483,6 +486,9 @@ export const DashboardPage = () => {
             dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueCgST)));
             dispatch(setColorPalleteSublineages(generatePalleteForGenotypes(uniqueSublineages)));
             dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes.slice(0, 200))));
+          }else if (organism === 'ngono'){
+            dispatch(setCgSTYearData(NGMASTData));
+            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(ngmast)));
           }
         },
       ),
@@ -822,8 +828,8 @@ export const DashboardPage = () => {
           dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
         }
         dispatch(setTrendsGraphDrugClass('ESBL'));
-        dispatch(setDistributionGraphView('genotype'));
-        dispatch(setDistributionGraphVariable('genotype'));
+        dispatch(setDistributionGraphView('percentage'));
+        dispatch(setDistributionGraphVariable('GENOTYPE'));
         dispatch(setKOTrendsGraphView('K_locus'));
         dispatch(setKOTrendsGraphPlotOption('K_locus'));
         dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
@@ -844,6 +850,7 @@ export const DashboardPage = () => {
         dispatch(setTrendsGraphDrugClass('Azithromycin'));
         dispatch(setTrendsGraphView('percentage'));
         dispatch(setBubbleMarkersYAxisType(drugClassesNG[0]));
+        dispatch(setDistributionGraphVariable('GENOTYPE'));
         break;
       case 'sentericaints':
       case 'senterica':
@@ -1282,6 +1289,8 @@ export const DashboardPage = () => {
         );
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
+      }else if (organism === 'ngono'){
+        dispatch(setCgSTYearData(yearsData.NGMASTData));
       }
 
       // Dispatch drug countries resistance data
