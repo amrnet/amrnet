@@ -1629,7 +1629,7 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
 
     acc[combination] = data.filter(x =>
       groupVariable === colourVariable
-        ? getVariableValue(x, groupVariable).toString() === combination.toString()
+        ? getVariableValue(x, groupVariable)?.toString() === combination?.toString()
         : getVariableValue(x, groupVariable).toString() === groupVal.toString() &&
           getVariableValue(x, colourVariable).toString() === colourVal.toString(),
     );
