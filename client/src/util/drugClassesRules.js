@@ -6,8 +6,13 @@ export const drugRulesST = [
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'], legends: 'Ciprofloxacin (non-susceptible)' },
-  { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)'  },
+  {
+    key: 'Ciprofloxacin NS',
+    columnID: 'cip_pred_pheno',
+    values: ['CipNS'],
+    legends: 'Ciprofloxacin (non-susceptible)',
+  },
+  { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)' },
   { key: 'Sulfonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracycline', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
@@ -74,7 +79,12 @@ export const statKeysKP = [
   { name: 'Carbapenems', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
   { name: 'Ciprofloxacin R', column: ['Flq_acquired', 'Flq_mutations'], key: '-', resistanceView: true },
-  { name: 'ESBL', column: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'], key: '-', resistanceView: true },
+  {
+    name: 'ESBL',
+    column: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'],
+    key: '-',
+    resistanceView: true,
+  },
   { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true },
   { name: 'Phenicols', column: 'Phe_acquired', key: '-', resistanceView: true },
   { name: 'Sulfonamides', column: 'Sul_acquired', key: '-', resistanceView: true },
@@ -86,8 +96,8 @@ export const statKeysKP = [
 ];
 
 export const statKeysKPOnlyMarkers = [
-  { name: 'SHV mutations', columnID: ['SHV_mutations'] },
-  { name: 'Porin mutations', columnID: ['Omp_mutations'] },
+  { name: 'SHV mutations', column: 'SHV_mutations', key: '-' },
+  { name: 'Porin mutations', column: 'Omp_mutations', key: '-' },
 ];
 
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG
