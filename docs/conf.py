@@ -1,13 +1,28 @@
 """Sphinx configuration."""
+import os
 
 # project information
 project = "AMRnet"
 copyright = "2023, The AMRnet Team"
 author = "The AMRnet Team" # noqa: A001
 
+# internationalization
+language = os.environ.get('READTHEDOCS_LANGUAGE', 'en')
+locale_dirs = ['locale/']
+gettext_compact = False
+
+# Supported languages for translation
+supported_languages = ['en', 'es', 'fr', 'pt']
+language_map = {
+    'en': 'English',
+    'es': 'Español (Spanish)',
+    'fr': 'Français (French)',
+    'pt': 'Português (Portuguese)'
+}
+
 # sphinx config
 templates_path = ["_templates"]
-exclude_patterns = ["_build"]
+exclude_patterns = ["_build", "locale"]
 html_static_path = ["_static"]
 
 extensions = [
@@ -22,6 +37,15 @@ extensions = [
     "sphinx_copybutton",
     "sphinxext.opengraph",
 ]
+
+# Pygments style configuration
+highlight_language = 'python'
+highlight_options = {
+    'stripnl': False
+}
+
+# Suppress syntax highlighting warnings for better build output
+suppress_warnings = ['misc.highlighting_failure']
 
 # autodoc config
 autodoc_member_order = "bysource"

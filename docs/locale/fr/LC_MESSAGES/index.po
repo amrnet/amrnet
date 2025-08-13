@@ -1,0 +1,194 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../index.rst:6
+msgid "User Tutorial"
+msgstr ""
+
+#: ../../index.rst:6
+msgid "User guide"
+msgstr ""
+
+#: ../../index.rst:6
+msgid "Dashboard usage"
+msgstr ""
+
+#: ../../index.rst:6
+msgid "Data access"
+msgstr ""
+
+#: ../../index.rst:6
+msgid "Data rights"
+msgstr ""
+
+#: ../../index.rst:6
+msgid "User Resources"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "API Reference"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "FARM Stack GUI"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "Data Dictionary"
+msgstr ""
+
+#: ../../index.rst:16
+msgid "API & Integration"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Installation"
+msgstr ""
+
+#: ../../index.rst:24 ../../index.rst:82
+msgid "Features"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Performance Optimization"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Deployment Guide"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Security Guide"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Internationalization"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Troubleshooting"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "Code of Conduct"
+msgstr ""
+
+#: ../../index.rst:24 ../../index.rst:94
+msgid "License"
+msgstr ""
+
+#: ../../index.rst:24
+msgid ".. Changelog"
+msgstr ""
+
+#: ../../index.rst:24
+msgid "For developers"
+msgstr ""
+
+#: ../../index.rst:50
+msgid "Overview"
+msgstr ""
+
+#: ../../index.rst:53
+msgid ""
+"**AMRnet** aims to make high-quality, robust and reliable genome-derived "
+"AMR Surveillance data accessible to a wide audience. Visualizations are "
+"geared towards showing national annual AMR prevalence estimates and "
+"trends, that can be broken down and explored in terms of underlying "
+"genotypes and resistance mechanisms. We do not generate sequence data, "
+"but we hope that by making publicly deposited data more accessible and "
+"useful, we can encourage and motivate more sequencing and data sharing."
+msgstr ""
+
+#: ../../index.rst:61
+msgid ""
+"`Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the **AMRnet** "
+"mailing list!"
+msgstr ""
+
+#: ../../index.rst:64
+msgid "Quick start"
+msgstr ""
+
+#: ../../index.rst:67
+msgid ""
+"**For Users:** Visit the live dashboard at `AMRnet.org "
+"<https://www.amrnet.org>`_"
+msgstr ""
+
+#: ../../index.rst:69
+msgid "**For Developers:** Get started with local development:"
+msgstr ""
+
+#: ../../index.rst:79
+msgid "See :ref:`label-installation` for complete installation instructions."
+msgstr ""
+
+#: ../../index.rst:85
+msgid "See the complete list of ``AMRnet`` features :ref:`here<label-features>`."
+msgstr ""
+
+#: ../../index.rst:88
+msgid "Contributing"
+msgstr ""
+
+#: ../../index.rst:91
+msgid ""
+"Contributions are very welcome. To learn more, see the :ref:`Contributor "
+"Guide<label-contributing>`."
+msgstr ""
+
+#: ../../index.rst:97
+msgid ""
+"Distributed under the terms of the :doc:`GPLv3 License <license>` "
+"``AMRnet`` is free and open source software."
+msgstr ""
+
+#: ../../index.rst:101
+msgid "Support"
+msgstr ""
+
+#: ../../index.rst:104
+msgid ""
+"Found a bug 🐛, or have a feature request ✨, raise an issue on the GitHub "
+"`issue tracker <https://github.com/amrnet/amrnet/issues>`_. Alternatively"
+" you can get support on the `discussions "
+"<https://github.com/amrnet/amrnet/discussions>`_ page."
+msgstr ""
+
+#: ../../index.rst:112
+msgid "Disclaimer"
+msgstr ""
+
+#: ../../index.rst:115
+msgid ""
+"**AMRnet** is an open source dashboard that continues to benefit from the"
+" collaboration of many contributors. Although efforts have been made to "
+"ensure the that relevant web development standards are implemented, it "
+"remains the user’s responsibility to confirm and accept the output. Refer"
+" to the :doc:`License <license>` for clarification of the conditions of "
+"use."
+msgstr ""
+
+#: ../../index.rst:123
+msgid "Acknowledgements"
+msgstr ""
+

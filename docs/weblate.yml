@@ -1,0 +1,150 @@
+# Weblate Configuration for AMRnet Medical Translation
+# Configured for Spanish, French, and Portuguese medical translation
+
+project:
+  name: "AMRnet"
+  slug: "amrnet"
+  web: "https://amrnet.org"
+  access_control: "Public"
+  enable_hooks: true
+  instructions: |
+    AMRnet is a surveillance platform for antimicrobial resistance.
+
+    🏥 MEDICAL TRANSLATION REQUIREMENTS:
+    - Medical translation certification (ISO 17100) required
+    - Clinical microbiology background preferred
+    - Antimicrobial resistance terminology expertise essential
+    - Quality threshold: 98% accuracy minimum
+
+    Key terminology requirements:
+    - Antimicrobial resistance (AMR) terminology must be consistent
+    - Clinical interpretations require medical expertise
+    - Country codes and organism names should remain in scientific format
+    - Numerical values and units must be preserved exactly
+    - Use WHO standardized terminology when available
+
+# Language configuration for target languages
+languages:
+  - code: "es"
+    name: "Spanish (Medical)"
+    plural_formula: "n != 1"
+    direction: "ltr"
+    check_flags: "medical-terminology,clinical-accuracy"
+
+  - code: "fr"
+    name: "French (Medical)"
+    plural_formula: "n > 1"
+    direction: "ltr"
+    check_flags: "medical-terminology,clinical-accuracy"
+
+  - code: "pt"
+    name: "Portuguese (Medical)"
+    plural_formula: "n != 1"
+    direction: "ltr"
+    check_flags: "medical-terminology,clinical-accuracy"
+
+components:
+  - name: "AMRnet Documentation"
+    slug: "documentation"
+    filemask: "docs/locale/*/LC_MESSAGES/*.po"
+    template: "docs/locale/en/LC_MESSAGES/template.pot"
+    file_format: "po"
+    source_language: "en"
+    new_lang: "add"
+    language_regex: "^(es|fr|pt)$"
+    check_flags: "medical-terminology,clinical-accuracy,format-preservation"
+
+    # Medical translation workflow
+    workflow:
+      - stage: "medical_translation"
+        requirements: ["certified_medical_translator", "microbiology_background"]
+
+      - stage: "clinical_review"
+        requirements: ["clinical_microbiologist", "amr_experience"]
+
+      - stage: "linguistic_review"
+        requirements: ["native_speaker", "medical_proofreader"]
+
+  - name: "AMRnet React Interface"
+    slug: "interface"
+    filemask: "client/locales/*.json"
+    template: "client/locales/en.json"
+    file_format: "json"
+    source_language: "en"
+    new_lang: "add"
+    language_regex: "^(es|fr|pt)$"
+    check_flags: "medical-terminology,placeholder-integrity"
+
+# Medical terminology glossary
+glossary:
+  - source: "antimicrobial resistance"
+    translations:
+      es: "resistencia antimicrobiana"
+      fr: "résistance antimicrobienne"
+      pt: "resistência antimicrobiana"
+    note: "Primary term for AMR - standardized WHO terminology"
+
+  - source: "minimum inhibitory concentration"
+    translations:
+      es: "concentración inhibitoria mínima"
+      fr: "concentration minimale inhibitrice"
+      pt: "concentração inibitória mínima"
+    note: "MIC - standardized laboratory measurement"
+
+  - source: "susceptible"
+    translations:
+      es: "sensible"
+      fr: "sensible"
+      pt: "sensível"
+    note: "Clinical interpretation category"
+
+  - source: "intermediate"
+    translations:
+      es: "intermedio"
+      fr: "intermédiaire"
+      pt: "intermediário"
+    note: "Clinical interpretation category"
+
+  - source: "resistant"
+    translations:
+      es: "resistente"
+      fr: "résistant"
+      pt: "resistente"
+    note: "Clinical interpretation category"
+
+# Translation workflow configuration
+workflow:
+  steps:
+    - type: "translation"
+      assignees: ["medical_translators"]
+      requirements: ["medical_certification", "microbiology_background"]
+
+    - type: "medical_review"
+      assignees: ["clinical_microbiologists"]
+      requirements: ["amr_expertise", "clinical_experience"]
+
+    - type: "linguistic_review"
+      assignees: ["linguistic_reviewers"]
+      requirements: ["native_speaker", "technical_writing"]
+
+    - type: "final_approval"
+      assignees: ["project_managers"]
+      requirements: ["quality_assurance_certification"]
+
+# Quality assurance checks
+quality_checks:
+  - name: "medical_terminology"
+    type: "terminology_consistency"
+    enabled: true
+
+  - name: "clinical_accuracy"
+    type: "medical_review_required"
+    enabled: true
+
+  - name: "format_preservation"
+    type: "technical_format_check"
+    enabled: true
+
+  - name: "placeholder_integrity"
+    type: "variable_preservation"
+    enabled: true

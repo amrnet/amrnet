@@ -1,0 +1,28 @@
+# Read the Docs configuration for translations
+# Copy this content to your main .readthedocs.yaml for each language
+
+version: 2
+
+build:
+  os: "ubuntu-24.04"
+  tools:
+    python: "3.12"
+  jobs:
+    create_environment:
+      - asdf plugin add uv
+      - asdf install uv latest
+      - asdf global uv latest
+      - UV_PROJECT_ENVIRONMENT=$READTHEDOCS_VIRTUALENV_PATH uv sync --all-extras --group docs
+      - pip install sphinx-intl
+    install:
+      - "true"
+
+sphinx:
+  configuration: docs/conf.py
+  fail_on_warning: false
+
+# Language-specific environment variables
+# Set READTHEDOCS_LANGUAGE in your RTD project settings:
+# - For Spanish: READTHEDOCS_LANGUAGE=es
+# - For French: READTHEDOCS_LANGUAGE=fr
+# - For Portuguese: READTHEDOCS_LANGUAGE=pt

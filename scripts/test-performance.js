@@ -11,8 +11,8 @@ const endpoints = [
   { name: 'K. pneumoniae (Optimized)', url: '/optimized/getDataForKpneumo' },
   { name: 'E. coli (Original)', url: '/getDataForEcoli' },
   { name: 'E. coli (Optimized)', url: '/optimized/getDataForEcoli' },
-  { name: 'D. E. coli (Original)', url: '/getDataForDEcoli' },
-  { name: 'D. E. coli (Optimized)', url: '/optimized/getDataForDEcoli' }
+  { name: 'E. coli (diarrheagenic) (Original)', url: '/getDataForDEcoli' },
+  { name: 'E. coli (diarrheagenic) (Optimized)', url: '/optimized/getDataForDEcoli' }
 ];
 
 async function testEndpoint(endpoint) {

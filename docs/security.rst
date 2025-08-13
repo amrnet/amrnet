@@ -27,7 +27,7 @@ Vulnerability Reporting
     If you discover a security vulnerability, please follow these steps:
 
     1. **DO NOT** create a public GitHub issue
-    2. **Email security report** to: security@amrnet.org
+    2. **Email security report** to: amrnetdashboard@gmail.com
     3. **Include detailed information**:
        - Description of the vulnerability
        - Steps to reproduce the issue
@@ -69,7 +69,7 @@ Application Security
     AMRnet implements multiple layers of security controls:
 
 Environment Security
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -117,7 +117,7 @@ Environment Security
         };
 
 Database Security
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -236,7 +236,7 @@ API Security
         };
 
 Frontend Security
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -287,7 +287,7 @@ Data Privacy
     AMRnet implements privacy-by-design principles for handling surveillance data:
 
 Data Classification
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -307,7 +307,7 @@ Data Classification
     - Clinical details beyond resistance patterns
 
 Privacy Controls
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -418,7 +418,7 @@ Git Security
 
     **Secrets Management:**
 
-    .. code-block:: gitignore
+    .. code-block:: text
 
         # .gitignore - Never commit sensitive files
         .env
@@ -444,7 +444,7 @@ Deployment Security
     Security configurations for production deployment:
 
 Server Security
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -481,7 +481,7 @@ Server Security
         }));
 
 Infrastructure Security
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -515,7 +515,7 @@ Monitoring and Incident Response
     Continuous security monitoring and incident response procedures:
 
 Security Monitoring
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -572,7 +572,7 @@ Security Monitoring
         };
 
 Incident Response
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -593,7 +593,7 @@ Security Testing
     Regular security testing ensures ongoing protection:
 
 Automated Testing
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -624,7 +624,7 @@ Automated Testing
         });
 
 Penetration Testing
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -666,13 +666,13 @@ Best Practices Checklist
     - [ ] Regular security assessments
 
 Contact Information
-------------------
+-------------------
 
 .. container:: justify-text
 
     **Security Team Contact:**
 
-    - **Email**: security@amrnet.org
+    - **Email**: amrnetdashboard@gmail.com
     - **PGP Key**: Available upon request
     - **Response Time**: 24 hours for initial acknowledgment
 

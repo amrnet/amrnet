@@ -8,7 +8,7 @@ We take the security of AMRnet seriously. If you believe you have found a securi
 
 **DO NOT** create a public GitHub issue for security vulnerabilities.
 
-Instead, please email us at: [security@amrnet.org](mailto:security@amrnet.org)
+Instead, please email us at: [amrnetdashboard@gmail.com](mailto:amrnetdashboard@gmail.com )
 
 Include the following information:
 
@@ -205,8 +205,8 @@ AMRnet follows industry best practices and standards:
 
 ### Contact Information
 
-- **Security Issues**: [security@amrnet.org](mailto:security@amrnet.org)
-- **General Questions**: [info@amrnet.org](mailto:info@amrnet.org)
+- **Security Issues**: [amrnetdashboard@gmail.com ](mailto:amrnetdashboard@gmail.com)
+- **General Questions**: [amrnetdashboard@gmail.com](mailto:amrnetdashboard@gmail.com)
 - **Emergency Contact**: [See CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
