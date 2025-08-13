@@ -127,24 +127,28 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
         .filter(x => x !== '-');
     };
 
-    // Choose extraction method based on organism
-    let items = [];
-
-    if (organism === 'kpneumo') {
-      const sourceData = selectedCRData?.stats?.[statColumn]?.items || [];
-      items = extractFromKpneumoData(sourceData, bubbleMarkersYAxisType);
-    } else if (organism === 'styphi') {
-      items = extractFromStyphiRules(bubbleMarkersYAxisType);
-    } else {
-      // All other organisms (ngono, shige, ecoli, decoli, sentrerica, etc.)
-      items = extractFromGenotypesDrugClassesData(genotypesDrugClassesData, bubbleMarkersYAxisType);
-    }
+  // Choose extraction method based on organism
+  let items = [];
+  
+  if (organism === 'kpneumo') {
+    const sourceData = selectedCRData?.stats?.[statColumn]?.items || [];
+    items = extractFromKpneumoData(sourceData, bubbleMarkersYAxisType);
+  // } else if (organism === 'styphi') {
+  //   items = extractFromStyphiRules(bubbleMarkersYAxisType);
+  } else {
+    // All other organisms (ngono, shige, ecoli, decoli, sentrerica, etc.)
+    items = extractFromGenotypesDrugClassesData(genotypesDrugClassesData, bubbleMarkersYAxisType);
+  }
 
     return items;
   }, [bubbleMarkersYAxisType, selectedCRData?.stats, statColumn, organism, genotypesDrugClassesData]);
 
   const filteredYAxisOptions = useMemo(() => {
-    const filteredOptions = yAxisOptions.filter(option => option.toLowerCase().includes(markerSearch.toLowerCase()));
+
+      let filteredOptions = yAxisOptions.filter(option => option?.includes(markerSearch.toLowerCase()));
+    
+      if(organism !== 'styphi')
+      filteredOptions = yAxisOptions.filter(option => option?.toLowerCase().includes(markerSearch.toLowerCase()));
     return filteredOptions.slice(0, 20);
   }, [yAxisOptions, markerSearch]);
 
@@ -204,7 +208,6 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
       setXAxisSelected([]);
       return;
     }
-
     setXAxisSelected(filteredXAxisOptions);
   }
 
@@ -264,59 +267,72 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
       return [];
     }
 
-    // For kpneumo, use the original drugs-based structure
-    if (organism === 'kpneumo') {
-      return selectedCRData?.stats[statColumn]?.items
-        ?.filter(item => xAxisSelected?.includes(item.name))
-        .map(item => {
-          const itemData = { name: item.name, items: [] };
-          const items = item.drugs?.[bubbleMarkersYAxisType]?.items || [];
+  // For kpneumo, use the original drugs-based structure
+  if (organism === 'kpneumo') {
+    const itemsData = selectedCRData?.stats[statColumn]?.items || [];
 
-          yAxisSelected.forEach(option => {
-            const info = items.find(x => x.name === option) || { name: option, count: 0, percentage: 0 };
-            itemData.items.push({
-              itemName: info.name,
-              percentage: info.percentage,
-              count: info.count,
-              index: 1,
-              typeName: item.name,
-              total: item.count,
-            });
-          });
+    return xAxisSelected.map(xName => {
+      // Try to find the matching item by name
+      const item = itemsData.find(i => i.name === xName);
 
-          // itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
-          return itemData;
+      const itemData = { name: xName, items: [] };
+
+      // Safely access nested drug items, or default to empty array
+      const drugs = item?.drugs?.[bubbleMarkersYAxisType]?.items || [];
+
+      yAxisSelected.forEach(option => {
+        const info = drugs.find(x => x.name === option) || { name: option, count: 0, percentage: 0 };
+
+        itemData.items.push({
+          itemName: info.name,
+          percentage: info.percentage,
+          count: info.count,
+          index: 1,
+          typeName: xName,
+          total: info.count, // No item.totalCount exists here, so fallback to count
         });
-    }
+      });
 
-    // For all other organisms (ngono, styphi, shige, ecoli, decoli, sentrerica, etc.)
-    // use genotypesDrugClassesData similar to DeterminantsGraph
-    if (genotypesDrugClassesData[bubbleMarkersYAxisType]) {
-      return (
-        genotypesDrugClassesData[bubbleMarkersYAxisType]
-          ?.filter(item => xAxisSelected?.includes(item.name))
-          .map(item => {
-            const itemData = { name: item.name, items: [] };
+      return itemData;
+    });
+  }
 
-            yAxisSelected.forEach(option => {
-              const count = item[option] || 0;
-              const percentage = item.totalCount ? Number(((count / item.totalCount) * 100).toFixed(2)) : 0;
 
-              itemData.items.push({
-                itemName: option,
-                percentage: percentage,
-                count: count,
-                index: 1,
-                typeName: item.name,
-                total: item.totalCount || 0,
-              });
-            });
+  // For all other organisms (ngono, styphi, shige, ecoli, decoli, sentrerica, etc.)
+  // use genotypesDrugClassesData similar to DeterminantsGraph
+  if (genotypesDrugClassesData[bubbleMarkersYAxisType]) {
+    const data = genotypesDrugClassesData[bubbleMarkersYAxisType] || [];
 
-            // itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
-            return itemData;
-          }) || []
-      );
-    }
+      return xAxisSelected.map(xName => { 
+        const item = data.find(d => d.name === xName);
+
+        const itemData = { name: xName, items: [] };
+
+        yAxisSelected.forEach(option => {
+          let count = 0;
+          let percentage = 0;
+          let total = 0;
+
+          if (item) {
+            count = item[option] || 0;
+            total = item.totalCount || 0;
+            percentage = total ? Number(((count / total) * 100).toFixed(2)) : 0;
+          }
+
+          itemData.items.push({
+            itemName: option,
+            percentage,
+            count,
+            index: 1,
+            typeName: xName,
+            total,
+          });
+        });
+
+        return itemData;
+      });
+
+  }
 
     return [];
   }, [
