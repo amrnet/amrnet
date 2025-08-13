@@ -1,18 +1,14 @@
-import { useStyles } from '../AboutMUI';
-import { Card, CardContent, Typography, CardMedia, Divider } from '@mui/material';
-import { teamCards } from './TeamCard';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
+import { Card, CardContent, CardMedia, Divider, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useStyles } from '../AboutMUI';
+import { useTeamCards } from './TeamCard';
 
 export const Team = () => {
   const classes = useStyles();
-  const { t, i18n } = useTranslation();
-
-  const getTranslatedPost = (post) => {
-    const teamPosts = i18n.getResourceBundle(i18n.language, 'translation')?.team?.post;
-    return teamPosts?.[post] || post;
-  };
+  const { t } = useTranslation();
+  const teamCards = useTeamCards();
 
   return (
     <Card className={classes.card} id="team-section">
@@ -48,7 +44,7 @@ export const Team = () => {
           modules={[Pagination, Navigation]}
           className={classes.carouselSwiper}
         >
-          {teamCards.map((card) => {
+          {teamCards.map(card => {
             return (
               <SwiperSlide>
                 <Card className={classes.swiperCard} elevation={2}>
@@ -60,8 +56,8 @@ export const Team = () => {
                     <Typography gutterBottom variant="button text" component="div" sx={{ fontWeight: '500' }}>
                       {card.name}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.7rem'}}>
-                      {getTranslatedPost(card.post)}
+                    <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.7rem' }}>
+                      {card.post}
                     </Typography>
                   </CardContent>
                 </Card>

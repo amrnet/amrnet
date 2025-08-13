@@ -1,8 +1,8 @@
 .. _label-api:
 
-===============
+==============
 API Reference
-===============
+==============
 
 .. container:: justify-text
 
@@ -79,7 +79,7 @@ OAuth2 Authentication
 
 .. container:: justify-text
 
-    For institutional access and advanced features, OAuth2 authentication is available. Contact us at ``api@amrnet.org`` for institutional access.
+    For institutional access and advanced features, OAuth2 authentication is available. Contact us at ``amrnetdashboard@gmail.com`` for institutional access.
 
 Available Endpoints
 ===================
@@ -126,7 +126,7 @@ Organism Data Endpoints
 Base Data Access
 ~~~~~~~~~~~~~~~~
 
-.. code-block:: http
+.. code-block:: text
 
     GET /api/{organism}
 
@@ -168,7 +168,7 @@ Base Data Access
 Summary Statistics
 ~~~~~~~~~~~~~~~~~~
 
-.. code-block:: http
+.. code-block:: text
 
     GET /api/{organism}/summary
 
@@ -204,7 +204,7 @@ Summary Statistics
 Country-Specific Data
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: http
+.. code-block:: text
 
     GET /api/{organism}/countries/{country_code}
 
@@ -217,7 +217,7 @@ Country-Specific Data
 Temporal Trends
 ~~~~~~~~~~~~~~~
 
-.. code-block:: http
+.. code-block:: text
 
     GET /api/{organism}/trends
 
@@ -568,7 +568,7 @@ HTTP Status Codes
      - Internal Server Error - Server-side error
 
 Error Response Format
---------------------
+---------------------
 
 .. code-block:: json
 
@@ -587,7 +587,7 @@ Error Response Format
     }
 
 Common Error Scenarios
----------------------
+----------------------
 
 **Invalid Country Code:**
 
@@ -611,7 +611,7 @@ Common Error Scenarios
     # Returns 400 with maximum limit information
 
 Rate Limits and Best Practices
-===============================
+==============================
 
 Rate Limiting
 -------------
@@ -798,7 +798,7 @@ React Frontend Components
 
 **Interactive API Explorer:**
 
-.. code-block:: jsx
+.. code-block:: javascript
 
     import React, { useState } from 'react';
     import { APIExplorer } from '@amrnet/react-components';
@@ -820,7 +820,7 @@ React Frontend Components
 
 **Real-time Dashboard Widgets:**
 
-.. code-block:: jsx
+.. code-block:: javascript
 
     import { LiveResistanceChart } from '@amrnet/react-components';
 
@@ -837,7 +837,7 @@ React Frontend Components
     }
 
 MongoDB Advanced Queries
--------------------------
+------------------------
 
 **Time-series Analytics:**
 
@@ -905,15 +905,15 @@ Documentation Resources
 - **🎓 Tutorials**: Step-by-step integration examples
 
 Community Support
-------------------
+-----------------
 
 - **💬 GitHub Discussions**: `github.com/amrnet/amrnet/discussions <https://github.com/amrnet/amrnet/discussions>`_
 - **🐛 Issue Tracker**: `github.com/amrnet/amrnet/issues <https://github.com/amrnet/amrnet/issues>`_
-- **📧 Email Support**: api@amrnet.org
+- **📧 Email Support**: amrnetdashboard@gmail.com
 - **📋 API Status**: `status.amrnet.org <https://status.amrnet.org>`_
 
 Professional Services
-----------------------
+---------------------
 
 .. container:: justify-text
 
@@ -924,17 +924,17 @@ Professional Services
 - **🔧 Custom Development**: Tailored solutions and private deployments
 - **📊 Consulting Services**: AMR surveillance strategy and implementation
 
-Contact our enterprise team at ``enterprise@amrnet.org`` for more information.
+Contact our enterprise team at ``amrnetdashboard@gmail.com`` for more information.
 
 Changelog and Versioning
-=========================
+========================
 
 .. container:: justify-text
 
     The AMRnet API follows semantic versioning. Major version changes may include breaking changes, while minor versions add features with backward compatibility.
 
 Current Version: v2.1.0
-------------------------
+-----------------------
 
 **New Features:**
 - FARM stack implementation with FastAPI backend
@@ -969,7 +969,7 @@ Version History
 - **v1.0.0** (2023-01-01): Initial public API release
 
 Migration Guides
------------------
+----------------
 
 **Migrating from v1.x to v2.x:**
 

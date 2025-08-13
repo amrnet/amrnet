@@ -54,7 +54,7 @@ License
 -------
 .. container:: justify-text
 
-    Distributed under the terms of the :doc:`GPLv3 License <license>`.
+   Distributed under the terms of the :doc:`GPLv3 License <license>`.
 
    ``AMRnet`` is free and open source software.
 

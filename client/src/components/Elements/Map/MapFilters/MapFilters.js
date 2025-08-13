@@ -1,4 +1,3 @@
-import { useStyles } from './MapFiltersMUI';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
@@ -14,17 +13,18 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setMapView } from '../../../../stores/slices/mapSlice';
-import { mapLegends } from '../../../../util/mapLegends';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setCustomDropdownMapViewNG, setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
+import { setMapView } from '../../../../stores/slices/mapSlice';
 import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
-import { genotypes } from '../../../../util/genotypes';
-import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { statKeys } from '../../../../util/drugClassesRules';
 import { ciproAcronyms, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
-import { setCustomDropdownMapViewNG, setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
+import { genotypes } from '../../../../util/genotypes';
+import { mapLegends } from '../../../../util/mapLegends';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
+import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
+import { useStyles } from './MapFiltersMUI';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
@@ -129,7 +129,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
     return options
       .filter(({ resistanceView, name }) => resistanceView && name !== 'Pansusceptible')
-      .map(({ name }) => ciproAcronyms[name] || name);
+      .map(({ name }) => name);
   }, [organism]);
 
   const nonResistanceOptions = useMemo(() => {
@@ -501,7 +501,10 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                     <>
                       <div className={classes.labelWrapper}>
                         <Typography variant="caption">Select one or more drugs</Typography>
-                        <Tooltip title="Choose one or more drug categories to see their prevalence. Selecting multiple categories shows only their shared prevalence" placement="top">
+                        <Tooltip
+                          title="Choose one or more drug categories to see their prevalence. Selecting multiple categories shows only their shared prevalence"
+                          placement="top"
+                        >
                           <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                         </Tooltip>
                       </div>
@@ -540,7 +543,10 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                             <Checkbox checked={prevalenceMapViewOptionsSelected.indexOf(option) > -1} />
                             <ListItemText
                               primary={
-                                ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option
+                                ciproAcronyms[option] ||
+                                ngonoSusceptibleRule(option, organism) ||
+                                drugAcronymsOpposite2[option] ||
+                                option
                               }
                             />
                           </MenuItem>

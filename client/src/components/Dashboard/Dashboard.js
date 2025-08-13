@@ -1,49 +1,92 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { MainLayout } from '../Layout';
-import { Note } from '../Elements/Note';
-import { Map } from '../Elements/Map';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { loadOrganismQuickly } from '../../utils/quickPaginationFix';
 import { DownloadData } from '../Elements/DownloadData';
-import { useAppDispatch, useAppSelector } from '../../stores/hooks';
+import { Map } from '../Elements/Map';
+import { Note } from '../Elements/Note';
+import { MainLayout } from '../Layout';
 // import optimizedDataService from '../../services/optimizedDataService'; // Unused import
+import { useIndexedDB } from '../../context/IndexedDBContext';
 import {
   setActualCountry,
   setActualGenomes,
   setActualGenotypes,
+  setActualRegion,
   setActualTimeFinal,
   setActualTimeInitial,
+  setAvailableDrugs,
+  setCanFilterData,
+  setColorPallete,
+  setColorPalleteCgST,
+  setColorPalleteKO,
+  setColorPalleteSublineages,
+  setEconomicRegions,
   setGenotypesForFilter,
+  setGenotypesForFilterDynamic,
+  setKOForFilterDynamic,
   setListPMID,
   setLoadingData,
+  setOrganism,
+  setPathovar,
+  setPMID,
+  setSelectedLineages,
+  setSerotype,
   setTimeFinal,
   setTimeInitial,
   setTotalGenomes,
   setTotalGenotypes,
   setYears,
-  setPMID,
-  setColorPallete,
-  setCanFilterData,
-  setOrganism,
-  setPathovar,
-  setSelectedLineages,
-  setAvailableDrugs,
-  setEconomicRegions,
-  setActualRegion,
-  setSerotype,
-  setGenotypesForFilterDynamic,
-  setColorPalleteCgST,
-  setColorPalleteSublineages,
-  setKOForFilterDynamic,
-  setColorPalleteKO,
 } from '../../stores/slices/dashboardSlice.ts';
 import {
-  setActualGenomesGD,
   setActualGenomesDRT,
-  setActualGenomesRDT,
+  setActualGenomesGD,
   setActualGenomesKOT,
+  setActualGenomesRDT,
 } from '../../stores/slices/graphSlice';
+import {
+  setBubbleHeatmapGraphVariable,
+  setBubbleKOHeatmapGraphVariable,
+  setBubbleKOYAxisType,
+  setBubbleMarkersHeatmapGraphVariable,
+  setBubbleMarkersYAxisType,
+  setCgSTYearData,
+  setCollapses,
+  setConvergenceColourPallete,
+  setConvergenceColourVariable,
+  setConvergenceData,
+  setConvergenceGroupVariable,
+  setCountriesForFilter,
+  setCountriesYearData,
+  setCurrentSliderValue,
+  setCurrentSliderValueCM,
+  setCurrentSliderValueKOT,
+  setCurrentSliderValueRD,
+  setDeterminantsGraphDrugClass,
+  setDeterminantsGraphView,
+  setDistributionGraphVariable,
+  setDistributionGraphView,
+  setDrugResistanceGraphView,
+  setDrugsCountriesData,
+  setDrugsRegionsData,
+  setDrugsYearData,
+  setFrequenciesGraphSelectedGenotypes,
+  setFrequenciesGraphView,
+  setGenotypesAndDrugsYearData,
+  setGenotypesDrugClassesData,
+  setGenotypesDrugsData,
+  setGenotypesYearData,
+  setKODiversityData,
+  setKOTrendsGraphPlotOption,
+  setKOTrendsGraphView,
+  setKOYearsData,
+  setMaxSliderValueCM,
+  setRegionsYearData,
+  setSublineagesYearData,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
+} from '../../stores/slices/graphSlice.ts';
 import {
   setDataset,
   setDatasetKP,
@@ -54,80 +97,36 @@ import {
   setMapView,
   setPosition,
 } from '../../stores/slices/mapSlice.ts';
-import { Graphs } from '../Elements/Graphs';
-import {
-  setCollapses,
-  setConvergenceColourPallete,
-  setConvergenceColourVariable,
-  setConvergenceData,
-  setConvergenceGroupVariable,
-  setCountriesForFilter,
-  setDeterminantsGraphDrugClass,
-  setDeterminantsGraphView,
-  setDistributionGraphView,
-  setDrugResistanceGraphView,
-  setDrugsYearData,
-  setFrequenciesGraphSelectedGenotypes,
-  setFrequenciesGraphView,
-  setGenotypesAndDrugsYearData,
-  setGenotypesDrugClassesData,
-  setGenotypesDrugsData,
-  setGenotypesYearData,
-  setKODiversityData,
-  setTrendsGraphDrugClass,
-  setTrendsGraphView,
-  setCurrentSliderValue,
-  setCurrentSliderValueRD,
-  setCurrentSliderValueCM,
-  setMaxSliderValueCM,
-  setDrugsCountriesData,
-  setDrugsRegionsData,
-  setCountriesYearData,
-  setRegionsYearData,
-  setCgSTYearData,
-  setSublineagesYearData,
-  setDistributionGraphVariable,
-  setKOTrendsGraphView,
-  setKOYearsData,
-  setCurrentSliderValueKOT,
-  setKOTrendsGraphPlotOption,
-  setBubbleHeatmapGraphVariable,
-  setBubbleKOHeatmapGraphVariable,
-  setBubbleMarkersHeatmapGraphVariable,
-  setBubbleKOYAxisType,
-  setBubbleMarkersYAxisType,
-} from '../../stores/slices/graphSlice.ts';
-import {
-  filterData,
-  getYearsData,
-  getMapData,
-  getGenotypesData,
-  getCountryDisplayName,
-  getKODiversityData,
-  getConvergenceData,
-  getDrugsCountriesData,
-  getKOYearsData,
-  filterBrushData,
-} from './filters';
-import { ResetButton } from '../Elements/ResetButton/ResetButton';
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import {
-  drugsKP,
-  defaultDrugsForDrugResistanceGraphST,
   defaultDrugsForDrugResistanceGraphNG,
-  drugsINTS,
-  markersDrugsKP,
+  defaultDrugsForDrugResistanceGraphST,
   drugsECOLI,
+  drugsINTS,
+  drugsKP,
+  markersDrugsKP,
+  markersDrugsSH,
+  getDrugClasses,
+  drugClassesNG
 } from '../../util/drugs';
-import { drugRulesKP } from '../../util/drugClassesRules';
-import { useIndexedDB } from '../../context/IndexedDBContext';
-import { ContinentGraphs } from '../Elements/ContinentGraphs';
-import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
-import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
 import { continentPGraphCard } from '../../util/graphCards';
+import { ContinentGraphs } from '../Elements/ContinentGraphs';
+import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
+import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
 import GenotypeLoadingIndicator from '../Elements/GenotypeLoadingIndicator';
-import smartDataProcessor from '../../services/smartDataProcessor';
-import { isPlainObject } from '@reduxjs/toolkit';
+import { Graphs } from '../Elements/Graphs';
+import { ResetButton } from '../Elements/ResetButton/ResetButton';
+import {
+  filterBrushData,
+  filterData,
+  getConvergenceData,
+  getCountryDisplayName,
+  getDrugsCountriesData,
+  getGenotypesData,
+  getKOYearsData,
+  getMapData,
+  getYearsData,
+} from './filters';
 
 // The optimized data service is already imported as an instance
 // No need to create a new instance
@@ -265,7 +264,7 @@ export const DashboardPage = () => {
 
     // Get mapped values
     const genotypesSet = new Set();
-    // const ngmastSet = new Set();
+    const ngmastSet = new Set();
     const yearsSet = new Set();
     const countriesSet = new Set();
     const PMIDSet = new Set();
@@ -291,7 +290,7 @@ export const DashboardPage = () => {
       }
 
       // others
-      // if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
+      if ('NG-MAST TYPE' in x) ngmastSet.add(x['NG-MAST TYPE']);
       if ('PMID' in x && x['PMID'] && x['PMID'] !== '') {
         PMIDSet.add(x['PMID']);
       }
@@ -321,7 +320,7 @@ export const DashboardPage = () => {
     });
 
     const genotypes = Array.from(genotypesSet).filter(Boolean);
-    // const ngmast = Array.from(ngmastSet);
+    const ngmast = Array.from(ngmastSet);
     const years = Array.from(yearsSet).filter(Boolean);
     const countries = Array.from(countriesSet).filter(Boolean);
     const PMID = Array.from(PMIDSet).filter(Boolean);
@@ -330,6 +329,7 @@ export const DashboardPage = () => {
 
     // Sort values
     genotypes.sort((a, b) => a.localeCompare(b));
+    ngmast.sort((a, b) => a.localeCompare(b));
     years.sort();
     countries.sort();
     pathovar.sort();
@@ -338,7 +338,7 @@ export const DashboardPage = () => {
     if (pathovar.length > 0) {
       dispatch(setSelectedLineages(pathovar));
     }
-    if( organism === 'kpneumo' ){
+    if (organism === 'kpneumo') {
       dispatch(setSelectedLineages(['ESBL+', 'CARB+']));
     }
 
@@ -425,7 +425,7 @@ export const DashboardPage = () => {
       // Get ngmast data
       // organism === 'ngono'
       //   ? getStoreOrGenerateData(`${organism}_ngmast`, () => {
-      //       const dt = getNgmastData({ data: responseData, ngmast, organism });
+            // const dt = getNgmastData({ data: responseData, ngmast, organism });
       //       return [dt.ngmastDrugData, dt.ngmastDrugClassesData];
       //     }).then(([ngmastDrugData, ngmastDrugClassesData]) => {
       //       dispatch(setNgmastDrugsData(ngmastDrugData));
@@ -450,6 +450,7 @@ export const DashboardPage = () => {
           dt.sublineageData,
           dt.uniqueCgST,
           dt.uniqueSublineages,
+          dt.NGMASTData,
         ];
       }).then(
         ([
@@ -461,6 +462,7 @@ export const DashboardPage = () => {
           sublineageData,
           uniqueCgST,
           uniqueSublineages,
+          NGMASTData
         ]) => {
           dispatch(setGenotypesYearData(genotypesData));
           dispatch(setDrugsYearData(drugsData));
@@ -469,18 +471,24 @@ export const DashboardPage = () => {
           // Only set color palette for non-paginated organisms
           // Paginated organisms (kpneumo, decoli, ecoli) will have their color palette
           // set by the progressiveGenotypeLoader after all data is processed
-          if (organism !== 'styphi' && organism !== 'senterica' && !['kpneumo', 'decoli', 'ecoli'].includes(organism)) {
-            dispatch(setColorPallete(generatePalleteForGenotypes(genotypes)));
-          }
+          let paletteSource = genotypes;
+
           if (organism === 'senterica') {
-            dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
+            paletteSource = uniqueGenotypes;
           }
+
+          dispatch(setColorPallete(generatePalleteForGenotypes(paletteSource)));
+
 
           if (organism === 'kpneumo') {
             dispatch(setCgSTYearData(cgSTData));
             dispatch(setSublineagesYearData(sublineageData));
             dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueCgST)));
             dispatch(setColorPalleteSublineages(generatePalleteForGenotypes(uniqueSublineages)));
+            dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes.slice(0, 200))));
+          }else if (organism === 'ngono'){
+            dispatch(setCgSTYearData(NGMASTData));
+            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(ngmast)));
           }
         },
       ),
@@ -580,7 +588,7 @@ export const DashboardPage = () => {
     const startTime = performance.now();
 
     try {
-      const organismData = await loadOrganismQuickly(organism, (message) => {
+      const organismData = await loadOrganismQuickly(organism, message => {
         // Progress message logging removed for production
       });
 
@@ -600,12 +608,11 @@ export const DashboardPage = () => {
       setOrganismSpecificConfig(organism, true); // true = isPaginated
 
       const endTime = performance.now();
-
     } catch (error) {
       console.error(`Error loading ${organism}:`, error);
       // Fallback to original method
-      const endpoint = organism === 'kpneumo' ? 'getDataForKpneumo' :
-                     organism === 'ecoli' ? 'getDataForEcoli' : 'getDataForDEcoli';
+      const endpoint =
+        organism === 'kpneumo' ? 'getDataForKpneumo' : organism === 'ecoli' ? 'getDataForEcoli' : 'getDataForDEcoli';
       getData({ storeName: organism, endpoint });
     } finally {
       dispatch(setLoadingData(false));
@@ -620,13 +627,28 @@ export const DashboardPage = () => {
     try {
       console.log(`🚀 [QUICK FIX] Starting quick load for ${organism}`);
 
-      const organismData = await loadOrganismQuickly(organism, (message) => {
-        console.log(`⏳ [QUICK FIX] ${message}`);
+      const organismData = await getStoreOrGenerateData(organism, async () => {
+        console.log(`🌐 [CLIENT] Fetching from loadOrganismQuickly`);
+        const apiStartTime = performance.now();
+
+        const response = await loadOrganismQuickly(organism, message => {
+          console.log(`⏳ [QUICK FIX] ${message}`);
+        });
+
+        const apiEndTime = performance.now();
+        const apiDuration = Math.round(apiEndTime - apiStartTime);
+        const dataSize = JSON.stringify(response).length;
+
+        console.log(
+          `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.length} records`,
+        );
+
+        return response;
       });
 
       // CRITICAL FIX: Store organism data in IndexedDB (was missing)
-      console.log(`💾 [QUICK FIX] Storing ${organism} data in IndexedDB (${organismData.length} records)`);
-      await bulkAddItems(organism, organismData);
+      // console.log(`💾 [QUICK FIX] Storing ${organism} data in IndexedDB (${organismData.length} records)`);
+      // await bulkAddItems(organism, organismData);
 
       // Get regions data
       const regions = await getStoreOrGenerateData('unr', async () => {
@@ -642,12 +664,11 @@ export const DashboardPage = () => {
 
       const endTime = performance.now();
       console.log(`✅ [QUICK FIX] ${organism} loaded in ${Math.round(endTime - startTime)}ms`);
-
     } catch (error) {
       console.error(`❌ [QUICK FIX] Error loading ${organism}:`, error);
       // Fallback to original
-      const endpoint = organism === 'kpneumo' ? 'getDataForKpneumo' :
-                       organism === 'ecoli' ? 'getDataForEcoli' : 'getDataForDEcoli';
+      const endpoint =
+        organism === 'kpneumo' ? 'getDataForKpneumo' : organism === 'ecoli' ? 'getDataForEcoli' : 'getDataForDEcoli';
       getData({ storeName: organism, endpoint });
     } finally {
       dispatch(setLoadingData(false));
@@ -672,7 +693,7 @@ export const DashboardPage = () => {
       const loader = new ProgressiveDataLoader();
 
       await loader.loadOrganismData(organism, {
-        onProgress: (progress) => {
+        onProgress: progress => {
           console.log(`⏳ [PROGRESSIVE] ${progress.stage}: ${progress.message} (${progress.percentage}%)`);
 
           // Update UI with partial data as it loads
@@ -706,7 +727,7 @@ export const DashboardPage = () => {
           }
         },
 
-        onComplete: async (result) => {
+        onComplete: async result => {
           console.log(`✅ [PROGRESSIVE] Complete! ${result.totalRecords} records loaded`);
 
           // Get regions data
@@ -722,18 +743,17 @@ export const DashboardPage = () => {
           console.log(`✅ [PROGRESSIVE] Total loading time for ${organism}: ${totalDuration}ms`);
         },
 
-        onError: (error) => {
+        onError: error => {
           console.error(`❌ [PROGRESSIVE] Error loading ${organism}:`, error);
           // Fallback to original loading method
           console.log(`🔄 [PROGRESSIVE] Falling back to original loading method...`);
           getData({ storeName: organism, endpoint: getEndpointForOrganism(organism) });
-        }
+        },
       });
 
       // Set organism-specific configurations
       dispatch(setDataset('All'));
       setOrganismSpecificConfig(organism, false); // false = not paginated
-
     } catch (error) {
       console.error(`❌ [PROGRESSIVE] Error in progressive loading:`, error);
       // Fallback to original method
@@ -746,14 +766,14 @@ export const DashboardPage = () => {
   // Helper function to get endpoint for organism
   function getEndpointForOrganism(organism) {
     const endpoints = {
-      'styphi': 'getDataForSTyphi',
-      'kpneumo': 'optimized/getDataForKpneumo',
-      'ngono': 'getDataForNgono',
-      'ecoli': 'optimized/getDataForEcoli',
-      'decoli': 'optimized/getDataForDEcoli',
-      'shige': 'getDataForShige',
-      'senterica': 'getDataForSenterica',
-      'sentericaints': 'getDataForSentericaints'
+      styphi: 'getDataForSTyphi',
+      kpneumo: 'optimized/getDataForKpneumo',
+      ngono: 'getDataForNgono',
+      ecoli: 'optimized/getDataForEcoli',
+      decoli: 'optimized/getDataForDEcoli',
+      shige: 'getDataForShige',
+      senterica: 'getDataForSenterica',
+      sentericaints: 'getDataForSentericaints',
     };
     return endpoints[organism] || 'getDataForSTyphi';
   }
@@ -792,6 +812,8 @@ export const DashboardPage = () => {
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
         }
         dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
+        dispatch(setTrendsGraphDrugClass('Ciprofloxacin NS'));
+        dispatch(setBubbleMarkersYAxisType('Ciprofloxacin NS'));
         break;
       case 'kpneumo':
         // dispatch(setDatasetKP('All'));
@@ -799,22 +821,25 @@ export const DashboardPage = () => {
         // Don't set drug selection for paginated organisms - let auto-selection effect handle it
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(markersDrugsKP));
-          dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-          dispatch(setTrendsGraphDrugClass('Carbapenems'));
           dispatch(setTrendsGraphView('percentage'));
           dispatch(setConvergenceGroupVariable('cgST'));
           dispatch(setConvergenceColourVariable('cgST'));
           dispatch(setCurrentConvergenceGroupVariable('cgST'));
+          dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
         }
-          dispatch(setDistributionGraphView('genotype'));
-          dispatch(setDistributionGraphVariable('genotype'));
-          dispatch(setKOTrendsGraphView('K_locus'));
-          dispatch(setKOTrendsGraphPlotOption('K_locus'));
-          dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
-          dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
-          dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
-          dispatch(setBubbleKOYAxisType('K_locus'));
-          dispatch(setBubbleMarkersYAxisType('K_locus'));
+        dispatch(setTrendsGraphDrugClass('ESBL'));
+        dispatch(setDistributionGraphView('percentage'));
+        dispatch(setDistributionGraphVariable('GENOTYPE'));
+        dispatch(setKOTrendsGraphView('K_locus'));
+        dispatch(setKOTrendsGraphPlotOption('K_locus'));
+        dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
+        dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
+        dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
+        dispatch(setBubbleKOYAxisType('K_locus'));
+        // dispatch(setBubbleMarkersYAxisType('K_locus'));
+        dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
+        dispatch(setTrendsGraphDrugClass('Carbapenems'));
+        dispatch(setBubbleMarkersYAxisType('Carbapenems'))
         break;
       case 'ngono':
         dispatch(setMapView('Resistance prevalence'));
@@ -824,6 +849,8 @@ export const DashboardPage = () => {
         dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
         dispatch(setTrendsGraphDrugClass('Azithromycin'));
         dispatch(setTrendsGraphView('percentage'));
+        dispatch(setBubbleMarkersYAxisType(drugClassesNG[0]));
+        dispatch(setDistributionGraphVariable('GENOTYPE'));
         break;
       case 'sentericaints':
       case 'senterica':
@@ -831,13 +858,21 @@ export const DashboardPage = () => {
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(drugsINTS));
         }
-        dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
+        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
+        dispatch(setBubbleMarkersYAxisType(getDrugClasses(organism)[0]));
         break;
       case 'ecoli':
         dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
+        dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
+        dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
+        dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
         break;
       case 'decoli':
         dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
+        dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+        dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
+        dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         break;
       case 'shige':
         if (!isPaginated) {
@@ -845,6 +880,8 @@ export const DashboardPage = () => {
           // Don't set drug selection for paginated organisms - let auto-selection effect handle it
           dispatch(setDrugResistanceGraphView(drugsECOLI));
           dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+          dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
+          dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         }
         break;
       default:
@@ -873,7 +910,9 @@ export const DashboardPage = () => {
         const apiDuration = Math.round(apiEndTime - apiStartTime);
         const dataSize = JSON.stringify(response.data).length;
 
-        console.log(`📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.data.length} records`);
+        console.log(
+          `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.data.length} records`,
+        );
 
         return response.data;
       });
@@ -895,7 +934,6 @@ export const DashboardPage = () => {
       const clientEndTime = performance.now();
       const totalDuration = Math.round(clientEndTime - clientStartTime);
       console.log(`✅ [CLIENT] Total loading time for ${storeName}: ${totalDuration}ms`);
-
     } catch (error) {
       console.error('❌ [CLIENT] Error in getData:', error);
     } finally {
@@ -912,7 +950,7 @@ export const DashboardPage = () => {
       const mapData = getMapData({
         data: partialData,
         items: Object.keys(ecRegions),
-        organism
+        organism,
       });
 
       dispatch(setMapData(mapData));
@@ -923,7 +961,7 @@ export const DashboardPage = () => {
         data: partialData,
         items: ecRegions,
         organism,
-        type: 'region'
+        type: 'region',
       });
 
       dispatch(setMapRegionData(mapRegionData));
@@ -983,7 +1021,7 @@ export const DashboardPage = () => {
       dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
       dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
       dispatch(setBubbleKOYAxisType('O_locus'));
-      dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
+
       dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
       dispatch(setConvergenceColourPallete({}));
       // dispatch(setNgmast([]));
@@ -1000,7 +1038,7 @@ export const DashboardPage = () => {
           getData({ storeName: organism, endpoint: 'getDataForSTyphi' });
           break;
         case 'kpneumo':
-        console.log('🚀 QUICK FIX: Using pagination for K. pneumoniae');
+          console.log('🚀 QUICK FIX: Using pagination for K. pneumoniae');
           getDataQuick(organism);
           break;
         case 'ngono':
@@ -1144,7 +1182,7 @@ export const DashboardPage = () => {
 
       const filteredData = filters.data.filter(x => filteredCountries.includes(getCountryDisplayName(x.COUNTRY_ONLY)));
       const uniqueDates = [...new Set(filteredData.map(x => x.DATE))].sort(); // Get unique years from the filtered data
-      dispatch(setYears(uniqueDates));                                        // to Set the years for the Global Filters based on Datasets and lineages
+      dispatch(setYears(uniqueDates)); // to Set the years for the Global Filters based on Datasets and lineages
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
@@ -1156,7 +1194,7 @@ export const DashboardPage = () => {
         genotypesData,
         yearsData,
         koData,
-        koDiversityData,
+        // koDiversityData,
         convergenceData,
         drugsCountriesData,
         drugsRegionsData,
@@ -1187,7 +1225,7 @@ export const DashboardPage = () => {
         organism === 'kpneumo'
           ? Promise.resolve(getKOYearsData({ data: filteredData, years: yearsForFilter }))
           : Promise.resolve({ KOYearsData: [], uniqueKO: [] }),
-        organism === 'kpneumo' ? Promise.resolve(getKODiversityData({ data: filteredData })) : Promise.resolve([]),
+        // organism === 'kpneumo' ? Promise.resolve(getKODiversityData({ data: filteredData })) : Promise.resolve([]),
         organism === 'kpneumo'
           ? getStoreOrGenerateData(`${organism}_convergence`, () => {
               const dt = getConvergenceData({
@@ -1242,7 +1280,7 @@ export const DashboardPage = () => {
 
         dispatch(setKOYearsData(koData.KOYearsData));
         dispatch(setKOForFilterDynamic(koData.uniqueKO));
-        dispatch(setKODiversityData(koDiversityData));
+        // dispatch(setKODiversityData(koDiversityData));
 
         dispatch(
           setConvergenceColourPallete(
@@ -1251,6 +1289,8 @@ export const DashboardPage = () => {
         );
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
+      }else if (organism === 'ngono'){
+        dispatch(setCgSTYearData(yearsData.NGMASTData));
       }
 
       // Dispatch drug countries resistance data
