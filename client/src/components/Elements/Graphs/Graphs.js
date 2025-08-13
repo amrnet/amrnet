@@ -103,7 +103,9 @@ export const Graphs = () => {
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
   const resetBool = useAppSelector(state => state.graph.resetBool);
-
+  const colorPalleteCgST = useAppSelector(state => state.dashboard.colorPalleteCgST);
+  const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
+  const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable)
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
 
@@ -133,13 +135,35 @@ export const Graphs = () => {
 
   const currentCard = useMemo(() => organismCards.find(x => x.id === currentTab), [currentTab, organismCards]);
 
-  function getColor(item) {
-    if (currentCard.id === 'KOT') {
-      return colorPalleteKO[KOTrendsGraphPlotOption][item] || '#F5F4F6';
-    }
-
-    return organism === 'styphi' ? getColorForGenotype(item) : colorPallete[item] || '#F5F4F6';
+  function getGenotypeColor(genotype) {
+    return organism === 'styphi' ? getColorForGenotype(genotype) : currentColorPallete[genotype] || '#F5F4F6';
   }
+  const currentColorPallete = useMemo(() => {
+      const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
+  
+      if (!isSpecialOrganism) {
+        return colorPallete;
+      }
+  
+      if (distributionGraphVariable === 'Sublineage') {
+        return colorPalleteSublineages;
+      }
+  
+      if (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE') {
+        return colorPalleteCgST;
+      }
+  
+      return colorPallete;
+    }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
+
+
+  // function getColor(item) {
+  //   if (currentCard.id === 'KOT') {
+  //     return colorPalleteKO[KOTrendsGraphPlotOption][item] || '#F5F4F6';
+  //   }
+
+  //   return organism === 'styphi' ? getColorForGenotype(item) : colorPallete[item] || '#F5F4F6';
+  // }
 
   const getAxisLabel = () => {
     switch (organism) {
@@ -186,22 +210,23 @@ export const Graphs = () => {
       const xFactor = Math.floor(i / factor) * xSpace;
 
       context.fillStyle = isGenotype
-        ? getColor(legend)
-        : isDrug
-        ? getColorForDrug(legend)
-        : isVariable
-        ? convergenceColourPallete[legend]
-        : isGen
-        ? colorForMarkers[i-1]
-        : legend.color;
+          ? getGenotypeColor(legend)
+          : isDrug
+            ? getColorForDrug(legend)
+            : isVariable
+              ? convergenceColourPallete[legend]
+              : isGen
+                ? i === legendData.length - 1
+                ? '#F5F4F6'
+                : colorForMarkers[i]
+                : legend.color,
       context.beginPath();
       context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
       context.fillStyle = 'black';
       context.fillText(
-        isGenotype || isDrug || isVariable || isGen ? legend : legend.name,
-        61 + xFactor,
+          isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,        61 + xFactor,
         yPosition + 4 - mobileFactor + yFactor,
       );
     });
@@ -419,7 +444,7 @@ export const Graphs = () => {
         });
       } else if (currentCard.id === 'GD') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-
+        console.log("genotypesForFilterSelected", genotypesForFilterSelected)
         drawLegend({
           legendData: genotypesForFilterSelected,
           context: ctx,
@@ -442,20 +467,20 @@ export const Graphs = () => {
           xSpace: orgBasedSpace,
         });
       } else if (currentCard.id === 'RDT') {
-        const legendGenotypes = genotypesForFilter
-          .filter(genotype => topGenotypeSlice.includes(genotype))
-          .map(genotype => genotype);
-
-        const legendGens = drugClassesBars.filter(value => topGenesSlice.includes(value.name));
+        
+        let legendGens = [...topGenesSlice.filter(g => g !== 'None'), ...topGenesSlice.filter(g => g === 'None')];
+        if (organism === 'kenumon')
+          legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
+        console.log('legendGens',topGenesSlice, legendGens )
 
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         ctx.fillStyle = '#F5F4F6'
         // ctx.fillText('GENES:', 50, 675);
         drawLegend({
-          legendData: topGenesSlice,
+          legendData: legendGens,
           context: ctx,
-          factor: topGenesSlice.length / 4,
+          factor: legendGens.length / 4,
           mobileFactor,
           yPosition: 695,
           xSpace: 238,
