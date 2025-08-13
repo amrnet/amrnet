@@ -18,7 +18,7 @@ export const getColorForDrug = drug => {
 
     case 'Azithromycin':
     case 'AzithR':
-      return 'rgba(38, 161, 139, 1)';
+      return '#26a18b'; //PDF does not support rgba
 
     case '3rd gen cephalosporins (3GCs)':
     case 'ESBL':
