@@ -94,3 +94,158 @@ msgstr ""
 msgid "``AMRnet`` is an open source dashboard that continues to benefit from the collaboration of many contributors. Although efforts have been made to ensure the that relevant web development standards are implemented, it remains the user's responsibility to confirm and accept the output. Refer to the :doc:`License <license>` for clarification of the conditions of use."
 msgstr ""
 
+=======
+{
+  "antimicrobial_resistance": {
+    "definition": "The ability of microorganisms to resist the effects of antimicrobial agents",
+    "es": "resistencia antimicrobiana",
+    "fr": "résistance antimicrobienne",
+    "pt": "resistência antimicrobiana",
+    "context": "Primary concept in AMR surveillance",
+    "source": "WHO terminology"
+  },
+  "minimum_inhibitory_concentration": {
+    "definition": "The lowest concentration of an antimicrobial agent that inhibits visible growth of a microorganism",
+    "es": "concentración inhibitoria mínima",
+    "fr": "concentration minimale inhibitrice",
+    "pt": "concentração inibitória mínima",
+    "abbreviation": "MIC",
+    "context": "Laboratory measurement standard",
+    "source": "CLSI/EUCAST standards"
+  },
+  "susceptible": {
+    "definition": "Clinical interpretation indicating the antimicrobial agent is likely to inhibit growth",
+    "es": "sensible",
+    "fr": "sensible",
+    "pt": "sensível",
+    "context": "Clinical interpretation category",
+    "source": "Clinical breakpoint standards"
+  },
+  "intermediate": {
+    "definition": "Clinical interpretation indicating antimicrobial activity in body sites with increased exposure",
+    "es": "intermedio",
+    "fr": "intermédiaire",
+    "pt": "intermediário",
+    "context": "Clinical interpretation category",
+    "source": "Clinical breakpoint standards"
+  },
+  "resistant": {
+    "definition": "Clinical interpretation indicating the antimicrobial agent is not likely to inhibit growth",
+    "es": "resistente",
+    "fr": "résistant",
+    "pt": "resistente",
+    "context": "Clinical interpretation category",
+    "source": "Clinical breakpoint standards"
+  },
+  "breakpoint": {
+    "definition": "MIC or zone diameter value that separates susceptible from non-susceptible categories",
+    "es": "punto de corte",
+    "fr": "seuil de sensibilité",
+    "pt": "ponto de corte",
+    "context": "Clinical interpretation threshold",
+    "source": "CLSI/EUCAST guidelines"
+  },
+  "eucast": {
+    "definition": "European Committee on Antimicrobial Susceptibility Testing",
+    "es": "EUCAST",
+    "fr": "EUCAST",
+    "pt": "EUCAST",
+    "context": "European clinical standards organization",
+    "source": "Official acronym",
+    "preserve_case": true
+  },
+  "clsi": {
+    "definition": "Clinical and Laboratory Standards Institute",
+    "es": "CLSI",
+    "fr": "CLSI",
+    "pt": "CLSI",
+    "context": "US clinical standards organization",
+    "source": "Official acronym",
+    "preserve_case": true
+  },
+  "epidemiological_cutoff": {
+    "definition": "MIC value that separates wild-type from non-wild-type populations",
+    "es": "punto de corte epidemiológico",
+    "fr": "seuil épidémiologique",
+    "pt": "ponto de corte epidemiológico",
+    "abbreviation": "ECOFF",
+    "context": "Population-based resistance detection",
+    "source": "EUCAST methodology"
+  },
+  "clinical_breakpoint": {
+    "definition": "MIC value that defines clinical categories for treatment guidance",
+    "es": "punto de corte clínico",
+    "fr": "seuil clinique",
+    "pt": "ponto de corte clínico",
+    "context": "Treatment decision threshold",
+    "source": "Clinical guidelines"
+  },
+  "quality_control": {
+    "definition": "Procedures to ensure accuracy and reliability of antimicrobial susceptibility testing",
+    "es": "control de calidad",
+    "fr": "contrôle qualité",
+    "pt": "controle de qualidade",
+    "abbreviation": "QC",
+    "context": "Laboratory quality assurance",
+    "source": "Laboratory standards"
+  },
+  "antimicrobial_stewardship": {
+    "definition": "Coordinated interventions to improve antimicrobial use",
+    "es": "optimización del uso de antimicrobianos",
+    "fr": "bon usage des antimicrobiens",
+    "pt": "uso racional de antimicrobianos",
+    "context": "Clinical practice optimization",
+    "source": "WHO/CDC guidelines"
+  },
+  "surveillance": {
+    "definition": "Systematic monitoring of antimicrobial resistance patterns",
+    "es": "vigilancia",
+    "fr": "surveillance",
+    "pt": "vigilância",
+    "context": "Public health monitoring",
+    "source": "WHO GLASS methodology"
+  },
+  "pathogen": {
+    "definition": "Disease-causing microorganism",
+    "es": "patógeno",
+    "fr": "pathogène",
+    "pt": "patógeno",
+    "context": "Infectious disease terminology",
+    "source": "Medical terminology"
+  },
+  "nosocomial_infection": {
+    "definition": "Healthcare-associated infection acquired in hospital setting",
+    "es": "infección nosocomial",
+    "fr": "infection nosocomiale",
+    "pt": "infecção nosocomial",
+    "context": "Hospital infection control",
+    "source": "Healthcare terminology"
+  },
+  "multidrug_resistant": {
+    "definition": "Resistant to multiple antimicrobial agent classes",
+    "es": "multirresistente",
+    "fr": "multirésistant",
+    "pt": "multirresistente",
+    "abbreviation": "MDR",
+    "context": "Resistance phenotype classification",
+    "source": "Clinical definitions"
+  },
+  "extensively_drug_resistant": {
+    "definition": "Resistant to nearly all antimicrobial agent classes",
+    "es": "extensamente resistente",
+    "fr": "ultrarésistant",
+    "pt": "extensivamente resistente",
+    "abbreviation": "XDR",
+    "context": "Severe resistance phenotype",
+    "source": "Clinical definitions"
+  },
+  "pandrug_resistant": {
+    "definition": "Resistant to all available antimicrobial agents",
+    "es": "panresistente",
+    "fr": "panrésistant",
+    "pt": "panrresistente",
+    "abbreviation": "PDR",
+    "context": "Complete resistance phenotype",
+    "source": "Clinical definitions"
+  }
+}

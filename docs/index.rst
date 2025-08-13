@@ -4,12 +4,12 @@
     :recursive:
 
 .. toctree::
-    :caption: Dashboard
+    :caption: User Resources
     :hidden:
 
+    User Tutorial <tutorial>
     User guide <userguide>
     Dashboard usage <usage>
-    Data access  <data>
     Data rights <right>
 
 .. toctree::
@@ -17,6 +17,7 @@
     :hidden:
 
     API Reference <api>
+    Dashboard Architecture <architecture>
     FARM Stack GUI <gui>
     Data Dictionary <data>
 
@@ -30,9 +31,9 @@
     Deployment Guide <deployment>
     Security Guide <security>
     Internationalization <internationalization>
+    Professional Translation Services <professional-translation-services>
     Troubleshooting <troubleshooting>
-    Developer Guide <../tutorial/developer_guide>
-    contributing
+    Contributor Guide <contributing>
     Code of Conduct <codeofconduct>
     License <license>
     .. Changelog <https://github.com/amrnet/amrnet/releases>
