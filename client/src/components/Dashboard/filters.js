@@ -1251,7 +1251,7 @@ export function getGenotypesData({
       };
       genotypesDrugClassesData[key].push(drugClass);
     });
-  }else {
+    }else {
       statKeys[organism].forEach(drug => {
         const drugData = genotypeData.filter(x => {
           if (Array.isArray(drug.column)) {
@@ -1280,6 +1280,7 @@ export function getGenotypesData({
   Object.keys(genotypesDrugClassesData).forEach(key => {
     genotypesDrugClassesData[key].sort((a, b) => b.resistantCount - a.resistantCount);
     genotypesDrugClassesData[key] = genotypesDrugClassesData[key].slice(0, 10);
+    genotypesDrugClassesData[key].forEach(item => delete item['None']);
   });
 
   // Years
