@@ -282,7 +282,7 @@ const markersOptions = useMemo(() => {
       case 'resistance':
         return resistanceOptions;
       case 'determinant':
-        return markersOptions.sort() ?? [];
+        return markersOptions ?? [];
       default:
         return (
           Object.entries(GLPSEntries)
