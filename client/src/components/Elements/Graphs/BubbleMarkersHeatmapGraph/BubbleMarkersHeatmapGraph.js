@@ -127,24 +127,32 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
         .filter(x => x !== '-');
     };
 
-    // Choose extraction method based on organism
-    let items = [];
-
-    if (organism === 'kpneumo') {
-      const sourceData = selectedCRData?.stats?.[statColumn]?.items || [];
-      items = extractFromKpneumoData(sourceData, bubbleMarkersYAxisType);
-    } else if (organism === 'styphi') {
-      items = extractFromStyphiRules(bubbleMarkersYAxisType);
-    } else {
-      // All other organisms (ngono, shige, ecoli, decoli, sentrerica, etc.)
-      items = extractFromGenotypesDrugClassesData(genotypesDrugClassesData, bubbleMarkersYAxisType);
-    }
+  // Choose extraction method based on organism
+  let items = [];
+  
+  if (organism === 'kpneumo') {
+    const sourceData = selectedCRData?.stats?.[statColumn]?.items || [];
+    items = extractFromKpneumoData(sourceData, bubbleMarkersYAxisType);
+  // } else if (organism === 'styphi') {
+  //   items = extractFromStyphiRules(bubbleMarkersYAxisType);
+  } else {
+    // All other organisms (ngono, shige, ecoli, decoli, sentrerica, etc.)
+    items = extractFromGenotypesDrugClassesData(genotypesDrugClassesData, bubbleMarkersYAxisType);
+  }
 
     return items;
   }, [bubbleMarkersYAxisType, selectedCRData?.stats, statColumn, organism, genotypesDrugClassesData]);
 
   const filteredYAxisOptions = useMemo(() => {
-    const filteredOptions = yAxisOptions.filter(option => option.toLowerCase().includes(markerSearch.toLowerCase()));
+    console.log("markerSearch", markerSearch, yAxisOptions)
+    yAxisOptions.forEach((option, index) => {
+  console.log(`Option at index ${index}:`, option);
+});
+
+      let filteredOptions = yAxisOptions.filter(option => option?.includes(markerSearch.toLowerCase()));
+    
+      if(organism !== 'styphi')
+      filteredOptions = yAxisOptions.filter(option => option?.toLowerCase().includes(markerSearch.toLowerCase()));
     return filteredOptions.slice(0, 20);
   }, [yAxisOptions, markerSearch]);
 
