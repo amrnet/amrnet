@@ -3,7 +3,7 @@
 ## BEFORE Optimization (Your reported times):
 - E. coli: ~3 minutes (180,000ms)
 - K. pneumoniae: ~2 minutes (120,000ms)
-- D. E. coli: ~1 minute (60,000ms)
+- E. coli (diarrheagenic): ~1 minute (60,000ms)
 
 ## OPTIMIZATIONS Implemented:
 
@@ -25,12 +25,12 @@
 **CONSERVATIVE ESTIMATES:**
 - E. coli: 180s → 60-90s (50-67% improvement)
 - K. pneumoniae: 120s → 40-60s (50-67% improvement)
-- D. E. coli: 60s → 20-30s (50-67% improvement)
+- E. coli (diarrheagenic): 60s → 20-30s (50-67% improvement)
 
 **BEST CASE SCENARIOS:**
 - E. coli: 180s → 30-45s (75-83% improvement)
 - K. pneumoniae: 120s → 20-30s (75-83% improvement)
-- D. E. coli: 60s → 10-15s (75-83% improvement)
+- E. coli (diarrheagenic): 60s → 10-15s (75-83% improvement)
 
 ## HOW TO TEST:
 

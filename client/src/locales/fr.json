@@ -11,7 +11,18 @@
     "team": "Équipe",
     "contact": "Contact",
     "database": "Base de données",
-    "userguide": "Guide d'utilisation"
+    "userguide": "Guide de l'utilisateur"
+  },
+  "team": {
+    "post": {
+      "Principal Investigator": "Investigateur Principal",
+      "Genomic Epidemiologist": "Épidémiologiste Génomique",
+      "Lead Software Engineer/Computational Biologist": "Ingénieur Logiciel Principal/Biologiste Computationnel",
+      "Software Engineer": "Ingénieur Logiciel",
+      "Policy Engagement": "Engagement Politique",
+      "Bioinformatician": "Bioinformaticien",
+      "Research Software Engineer": "Ingénieur Logiciel de Recherche"
+    }
   },
   "about": {
     "title": "À propos",

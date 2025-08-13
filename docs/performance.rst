@@ -1,7 +1,7 @@
 .. _label-performance:
 
 Performance Optimization
-=========================
+========================
 
 .. container:: justify-text
 
@@ -56,7 +56,7 @@ Load Time Improvements
      - 21-23s (186MB)
      - 7s (13MB)
      - 70% faster
-   * - D. E. coli
+   * - E. coli (diarrheagenic)
      - 6-15s (51MB)
      - 2s (4MB)
      - 87% faster

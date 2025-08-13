@@ -1,0 +1,368 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../internationalization.rst:4
+msgid "Internationalization (i18n)"
+msgstr ""
+
+#: ../../internationalization.rst:8
+msgid ""
+"AMRnet supports multiple languages to make antimicrobial resistance "
+"surveillance data accessible to users worldwide. This guide covers the "
+"internationalization implementation, supported languages, and how to "
+"contribute translations."
+msgstr ""
+
+#: ../../internationalization.rst:13
+msgid "Supported Languages"
+msgstr ""
+
+#: ../../internationalization.rst:17
+msgid "AMRnet currently supports four languages with comprehensive translations:"
+msgstr ""
+
+#: ../../internationalization.rst:19
+msgid "**🇺🇸 English (US)** - Default language (en)"
+msgstr ""
+
+#: ../../internationalization.rst:20
+msgid "**🇫🇷 French (France)** - Professional French translations (fr)"
+msgstr ""
+
+#: ../../internationalization.rst:21
+msgid ""
+"**🇧🇷 Portuguese (Brazil)** - Brazilian Portuguese with local conventions "
+"(pt)"
+msgstr ""
+
+#: ../../internationalization.rst:22
+msgid "**🇪🇸 Spanish** - International Spanish translations (es)"
+msgstr ""
+
+#: ../../internationalization.rst:25
+msgid "Language Implementation"
+msgstr ""
+
+#: ../../internationalization.rst:29
+msgid ""
+"AMRnet uses `react-i18next <https://react.i18next.com/>`_ for "
+"comprehensive internationalization support:"
+msgstr ""
+
+#: ../../internationalization.rst:33
+msgid "Technical Architecture"
+msgstr ""
+
+#: ../../internationalization.rst:37
+msgid "**Core Dependencies:**"
+msgstr ""
+
+#: ../../internationalization.rst:48
+msgid "**Configuration (client/src/i18n.js):**"
+msgstr ""
+
+#: ../../internationalization.rst:86
+msgid "Translation Structure"
+msgstr ""
+
+#: ../../internationalization.rst:90
+msgid "Translation files are organized hierarchically for maintainability:"
+msgstr ""
+
+#: ../../internationalization.rst:121
+msgid "Language Switcher Component"
+msgstr ""
+
+#: ../../internationalization.rst:125
+msgid "**Visual Language Selector:**"
+msgstr ""
+
+#: ../../internationalization.rst:178
+msgid "Usage in Components"
+msgstr ""
+
+#: ../../internationalization.rst:182
+msgid "**Basic Translation Usage:**"
+msgstr ""
+
+#: ../../internationalization.rst:203
+msgid "**Parameterized Translations:**"
+msgstr ""
+
+#: ../../internationalization.rst:229
+msgid "Translation Quality"
+msgstr ""
+
+#: ../../internationalization.rst:232
+msgid "Cultural Adaptation"
+msgstr ""
+
+#: ../../internationalization.rst:236
+msgid "Each language implementation considers cultural and regional preferences:"
+msgstr ""
+
+#: ../../internationalization.rst:238
+msgid ""
+"**French Translations:** - Formal \"vous\" form throughout the interface "
+"- Proper French medical and scientific terminology - Standard French "
+"punctuation and spacing rules - Accent marks and special characters "
+"properly implemented"
+msgstr ""
+
+#: ../../internationalization.rst:244
+msgid ""
+"**Portuguese (Brazil) Translations:** - Brazilian Portuguese conventions "
+"and expressions - Local terminology preferences for medical concepts - "
+"Culturally appropriate formal/informal language balance - Brazilian "
+"number and date formatting"
+msgstr ""
+
+#: ../../internationalization.rst:250
+msgid ""
+"**Spanish Translations:** - International Spanish terminology (not "
+"region-specific) - Professional tone appropriate for scientific content -"
+" Standard Spanish medical and technical vocabulary - Universal Spanish "
+"conventions for global accessibility"
+msgstr ""
+
+#: ../../internationalization.rst:257
+msgid "Technical Considerations"
+msgstr ""
+
+#: ../../internationalization.rst:261
+msgid ""
+"**Text Expansion/Contraction:** - UI components accommodate text length "
+"variations (±30%) - Responsive design ensures proper layout in all "
+"languages - Button and menu sizing adapts to translated content - Tooltip"
+" and help text properly positioned"
+msgstr ""
+
+#: ../../internationalization.rst:267
+msgid ""
+"**Special Characters and Encoding:** - UTF-8 encoding support for all "
+"special characters - Proper font selection for accented characters - "
+"Right-to-left language support ready (for future languages) - Input "
+"validation handles international characters"
+msgstr ""
+
+#: ../../internationalization.rst:274
+msgid "Contributing Translations"
+msgstr ""
+
+#: ../../internationalization.rst:277
+msgid "Translation Workflow"
+msgstr ""
+
+#: ../../internationalization.rst:281
+msgid "**For Developers:**"
+msgstr ""
+
+#: ../../internationalization.rst:283
+msgid "**Add New Translation Keys:**"
+msgstr ""
+
+#: ../../internationalization.rst:296
+msgid "**Update Component Usage:**"
+msgstr ""
+
+#: ../../internationalization.rst:311
+msgid "**Update All Language Files:**"
+msgstr ""
+
+#: ../../internationalization.rst:319
+msgid "Translation Guidelines"
+msgstr ""
+
+#: ../../internationalization.rst:323
+msgid "**For Translators:**"
+msgstr ""
+
+#: ../../internationalization.rst:325
+msgid ""
+"**Context Understanding:** - Review the AMRnet dashboard to understand "
+"context - Consider the scientific and medical nature of content - "
+"Maintain professional tone appropriate for healthcare professionals"
+msgstr ""
+
+#: ../../internationalization.rst:330
+msgid ""
+"**Terminology Consistency:** - Use standard medical/scientific "
+"terminology - Maintain consistency with existing translations - Prefer "
+"internationally recognized terms when available"
+msgstr ""
+
+#: ../../internationalization.rst:335
+msgid ""
+"**Technical Constraints:** - Keep button text concise (max 20 characters "
+"recommended) - Consider text expansion in menu items - Test UI layout "
+"with your translations"
+msgstr ""
+
+#: ../../internationalization.rst:340
+msgid "**Translation Template:**"
+msgstr ""
+
+#: ../../internationalization.rst:356
+msgid "Automated Translation"
+msgstr ""
+
+#: ../../internationalization.rst:383
+msgid "Accessibility and Internationalization"
+msgstr ""
+
+#: ../../internationalization.rst:387
+msgid "Ensuring accessibility across all supported languages:"
+msgstr ""
+
+#: ../../internationalization.rst:390
+msgid "Screen Reader Support"
+msgstr ""
+
+#: ../../internationalization.rst:394
+msgid "**ARIA Labels and Descriptions:**"
+msgstr ""
+
+#: ../../internationalization.rst:415
+msgid "**Translation File for Accessibility:**"
+msgstr ""
+
+#: ../../internationalization.rst:429
+msgid "Keyboard Navigation"
+msgstr ""
+
+#: ../../internationalization.rst:433
+msgid "**Translated Keyboard Shortcuts:**"
+msgstr ""
+
+#: ../../internationalization.rst:450
+msgid "Performance Considerations"
+msgstr ""
+
+#: ../../internationalization.rst:454
+msgid "Optimizing i18n performance for production:"
+msgstr ""
+
+#: ../../internationalization.rst:457
+msgid "Lazy Loading"
+msgstr ""
+
+#: ../../internationalization.rst:461
+msgid "**Dynamic Language Loading:**"
+msgstr ""
+
+#: ../../internationalization.rst:473
+msgid "Bundle Optimization"
+msgstr ""
+
+#: ../../internationalization.rst:477
+msgid "**Webpack Configuration:**"
+msgstr ""
+
+#: ../../internationalization.rst:498
+msgid "Testing Internationalization"
+msgstr ""
+
+#: ../../internationalization.rst:502
+msgid "Ensuring translation quality and functionality:"
+msgstr ""
+
+#: ../../internationalization.rst:505
+msgid "Automated Testing"
+msgstr ""
+
+#: ../../internationalization.rst:509
+msgid "**Translation Key Validation:**"
+msgstr ""
+
+#: ../../internationalization.rst:537
+msgid "Manual Testing"
+msgstr ""
+
+#: ../../internationalization.rst:541
+msgid "**Translation Review Checklist:**"
+msgstr ""
+
+#: ../../internationalization.rst:543
+msgid ""
+"**Visual Review:** - Text fits properly in UI components - No text "
+"overflow or truncation - Proper alignment and spacing"
+msgstr ""
+
+#: ../../internationalization.rst:548
+msgid ""
+"**Functional Testing:** - Language switching works correctly - Persistent"
+" language selection - All interface elements translated"
+msgstr ""
+
+#: ../../internationalization.rst:553
+msgid ""
+"**Content Review:** - Medical terminology accuracy - Cultural "
+"appropriateness - Professional tone consistency"
+msgstr ""
+
+#: ../../internationalization.rst:559
+msgid "Future Enhancements"
+msgstr ""
+
+#: ../../internationalization.rst:563
+msgid "Planned improvements for internationalization:"
+msgstr ""
+
+#: ../../internationalization.rst:566
+msgid "Additional Languages"
+msgstr ""
+
+#: ../../internationalization.rst:570
+msgid ""
+"**Potential Language Additions:** - German (Deutsch) for European users -"
+" Arabic (العربية) for MENA region - Chinese Simplified (简体中文) for Asian "
+"users - Russian (Русский) for Eastern European users"
+msgstr ""
+
+#: ../../internationalization.rst:577
+msgid "Advanced Features"
+msgstr ""
+
+#: ../../internationalization.rst:581
+msgid ""
+"**Planned Features:** - Right-to-left (RTL) language support - Number and"
+" date formatting per locale - Currency and unit localization - Regional "
+"data presentation preferences"
+msgstr ""
+
+#: ../../internationalization.rst:588
+msgid "Community Contributions"
+msgstr ""
+
+#: ../../internationalization.rst:592
+msgid ""
+"**How to Contribute:** - Join our `Discussions "
+"<https://github.com/amrnet/amrnet/discussions>`_ - Submit translation "
+"improvements via GitHub Issues - Participate in translation review "
+"process - Help test internationalization features"
+msgstr ""
+
+#: ../../internationalization.rst:598
+msgid ""
+"**Contact for Translation Help:** Email: amrnetdashboard@gmail.com with "
+"subject \"Translation Contribution\""
+msgstr ""
+

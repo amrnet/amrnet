@@ -1175,13 +1175,13 @@ export const drugRulesINTS = [
   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
   { key: 'Tigecycline', columnID: 'TETRACYCLINE', values: ['TIGECYCLINE'] },
   { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
-  {
-    key: 'Trimethoprim-sulfamethoxazole',
-    requirements: [
-      { columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
-      { columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM,dfrA'] },
-    ],
-  },
+  // {
+  //   key: 'Trimethoprim-sulfamethoxazole',
+  //   requirements: [
+  //     { columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
+  //     { columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM,dfrA'] },
+  //   ],
+  // },
   {
     key: 'Pansusceptible',
     requirements: [
@@ -1204,7 +1204,7 @@ export const statKeysINTS = [
   { name: 'Azithromycin', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
-  { name: 'CipNS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
+  { name: 'Ciprofloxacin NS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
   {
     name: 'Gentamicin',

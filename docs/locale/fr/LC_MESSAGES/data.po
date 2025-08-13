@@ -1,0 +1,343 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../data.rst:2
+msgid "Data access"
+msgstr ""
+
+#: ../../data.rst:6
+msgid ""
+"The full sample-level data for each organism can be downloaded from the "
+"AMRnet dashboard itself, using the ‘Download database (CSV) format’ "
+"button at the bottom of the page. In addition, you can access AMRnet data"
+" via the API described below."
+msgstr ""
+
+#: ../../data.rst:8
+msgid ""
+"**Architectures**: The API architectures have 2 options developed for the"
+" project which include:"
+msgstr ""
+
+#: ../../data.rst:11
+msgid "1. Download data via bucket"
+msgstr ""
+
+#: ../../data.rst:15
+msgid ""
+"**Organism name for downloading files from AWS:** Escherichia coli "
+"(diarrheagenic) as ``decoli``; Escherichia coli as ``ecoli``; Klebsiella "
+"pneumoniae as ``kpneumo``; Neisseria gonorrhoeae as ``ngono``; Salmonella"
+" (invasive non-typhoidal) as ``sentericaints``; Salmonella (non-"
+"typhoidal) as ``senterica``; Shigella as ``shige``; Salmonella Typhi as "
+"``styphi``"
+msgstr ""
+
+#: ../../data.rst:26
+msgid "a. Data accessing using Browser"
+msgstr ""
+
+#: ../../data.rst:29
+msgid "i. Viewing Available Files"
+msgstr ""
+
+#: ../../data.rst:33
+msgid "Step 1: Open a web browser (Chrome, Firefox, Safari, etc.)."
+msgstr ""
+
+#: ../../data.rst:34
+msgid ""
+"Step 2: Navigate to the root bucket URL by clicking "
+"`https://amrnet.s3.amazonaws.com/ <https://amrnet.s3.amazonaws.com/>`_."
+msgstr ""
+
+#: ../../data.rst:35
+msgid ""
+"Step 3: This URL leads to an XML text representation listing all the "
+"files available in the Amazon S3 bucket. The XML format will display "
+"information about each file, such as its key (name), last modified date, "
+"size, etc."
+msgstr ""
+
+#: ../../data.rst:38
+msgid "ii. Searching for a Specific Organism"
+msgstr ""
+
+#: ../../data.rst:42
+msgid ""
+"Step 1: Use the search functionality of your browser (Ctrl-F on "
+"Windows/Linux or Cmd-F on Mac)."
+msgstr ""
+
+#: ../../data.rst:43
+msgid ""
+"Step 2: Type the name of file based on the organism you are looking for "
+"in the search box. This will highlight all occurrences of the organism's "
+"name in the XML text, making it easier to locate the specific file "
+"associated with that organism."
+msgstr ""
+
+#: ../../data.rst:46
+msgid "iii. Downloading a File"
+msgstr ""
+
+#: ../../data.rst:49
+msgid ""
+"Step 1: Once you find the ``<Key>`` field that contains the file name you"
+" are interested in, note down the file name."
+msgstr ""
+
+#: ../../data.rst:50
+msgid "Step 2: Open a new tab in your browser."
+msgstr ""
+
+#: ../../data.rst:51
+msgid ""
+"Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into"
+" the new tab's address bar."
+msgstr ""
+
+#: ../../data.rst:52
+msgid ""
+"Step 4: Append a slash ``/`` to the end of the URL, followed by the "
+"contents of the ``<Key>`` field (file name)."
+msgstr ""
+
+#: ../../data.rst:53
+msgid ""
+"Step 5: Press Enter, and your browser should automatically start "
+"downloading the file. This method has been tested to work in Chrome, "
+"Firefox, and Safari."
+msgstr ""
+
+#: ../../data.rst:55
+msgid "**OR**"
+msgstr ""
+
+#: ../../data.rst:57
+msgid ""
+"Copy the URL below and modify the organism name added at the end "
+"**amrnet-** ``decoli`` **.csv** based on organism list given above."
+msgstr ""
+
+#: ../../data.rst:59 ../../data.rst:82 ../../data.rst:102
+msgid "Example:"
+msgstr ""
+
+#: ../../data.rst:66
+msgid "b. Data accessing using Command line"
+msgstr ""
+
+#: ../../data.rst:69
+msgid "Step 1: Open your terminal."
+msgstr ""
+
+#: ../../data.rst:70
+msgid "Step 2: Use the following command to download data from the provided URL:"
+msgstr ""
+
+#: ../../data.rst:76
+msgid ""
+"Similarly, if you need to download a specific file from the URL, you "
+"would specify the file name in the URL. For example:"
+msgstr ""
+
+#: ../../data.rst:90
+msgid "c. Data accessing using Using S3cmd tool"
+msgstr ""
+
+#: ../../data.rst:94
+msgid ""
+"The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful"
+" command-line utility designed to interact with Amazon S3 (Simple Storage"
+" Service). It simplifies tasks such as browsing, downloading, and syncing"
+" files from S3 buckets. This tool is particularly useful for managing "
+"large datasets and automating workflows involving S3 storage."
+msgstr ""
+
+#: ../../data.rst:97
+msgid "2. Download data via API"
+msgstr ""
+
+#: ../../data.rst:100
+msgid "Send an email to amrnetdashboard@gmail.com requesting an API token."
+msgstr ""
+
+#: ../../data.rst:114
+msgid ""
+"You will receive email from us with all the necessary detailed. like: "
+"**API_TOKEN_KEY, collection, database, dataSource**."
+msgstr ""
+
+#: ../../data.rst:115
+msgid ""
+"Once you received these details use the method below to download required"
+" data."
+msgstr ""
+
+#: ../../data.rst:116
+msgid "To download data with specific COUNTRY and DATE add a **filter**."
+msgstr ""
+
+#: ../../data.rst:118
+msgid "Example code to download all the data for an organism:"
+msgstr ""
+
+#: ../../data.rst:132
+msgid ""
+"Example code to download the data with filters **DATE** and **COUNTRY** "
+"for an organism:"
+msgstr ""
+
+#: ../../data.rst:147
+msgid ""
+"Example code to download the data with only one filter e.g. **DATE** for "
+"an organism:"
+msgstr ""
+
+#: ../../data.rst:162
+msgid "Example code to download the data and save in JSON:"
+msgstr ""
+
+#: ../../data.rst:177
+msgid "Example code to download the data and save in JSON"
+msgstr ""
+
+#: ../../data.rst:194
+msgid ""
+"To test your cURL requests, you can use the online tool `Run Curl "
+"Commands Online <https://reqbin.com/curl>`_. This tool provides a "
+"convenient way to execute and test your cURL commands directly in your "
+"web browser without needing to install any additional software."
+msgstr ""
+
+#: ../../data.rst:197
+msgid "a. Command line"
+msgstr ""
+
+#: ../../data.rst:201
+msgid "To download data using our API, please follow the given steps:"
+msgstr ""
+
+#: ../../data.rst:203
+msgid ""
+"Once you have API token, Replace ``<API_TOKEN_KEY>`` in the following "
+"command with the actual API token you received."
+msgstr ""
+
+#: ../../data.rst:204
+msgid "Determine the specific database and collection you need data from."
+msgstr ""
+
+#: ../../data.rst:205
+msgid ""
+"Open your command line interface (CLI) or terminal and execute the "
+"following **curl** command to download data."
+msgstr ""
+
+#: ../../data.rst:206
+msgid ""
+"If you want to save the response data to a file, you can use the -o "
+"option with curl. This command will save the response data to a file "
+"named data.json in the current directory."
+msgstr ""
+
+#: ../../data.rst:209
+msgid "b. Platform"
+msgstr ""
+
+#: ../../data.rst:214
+msgid ""
+"Users have the flexibility to access the API through their preferred "
+"platform. As an illustration, we provide guidance on utilizing the "
+"Postman tool to access data via the API."
+msgstr ""
+
+#: ../../data.rst:216
+msgid "Steps to Import the Example ``cURL`` Command using Postman"
+msgstr ""
+
+#: ../../data.rst:218
+msgid "Open `Postman <https://www.postman.com/>`_."
+msgstr ""
+
+#: ../../data.rst:219
+msgid "Sign In with your credentials and \"discover what a postman can do\""
+msgstr ""
+
+#: ../../data.rst:221
+msgid "Login"
+msgstr ""
+
+#: ../../data.rst:226
+msgid "**Click the \"Import\" button.**"
+msgstr ""
+
+#: ../../data.rst:228
+msgid "Import"
+msgstr ""
+
+#: ../../data.rst:233
+msgid "**Paste the cURL command in Import:**"
+msgstr ""
+
+#: ../../data.rst:235
+msgid "CURL"
+msgstr ""
+
+#: ../../data.rst:240
+msgid ""
+"Review the imported request details and add ``<API_TOKEN_KEY>`` in "
+"``Headers`` in Postman."
+msgstr ""
+
+#: ../../data.rst:241
+msgid "Replace database name and collection name based on data to download"
+msgstr ""
+
+#: ../../data.rst:242
+msgid "Add filters to get specific data in ``filter``"
+msgstr ""
+
+#: ../../data.rst:244
+msgid "filter"
+msgstr ""
+
+#: ../../data.rst:249
+msgid "**Click \"Send\" to execute the request and view the response.**"
+msgstr ""
+
+#: ../../data.rst:251
+msgid "send"
+msgstr ""
+
+#: ../../data.rst:256
+msgid "**Save the response in file**"
+msgstr ""
+
+#: ../../data.rst:258
+msgid "save"
+msgstr ""
+
+#: ../../data.rst:264
+msgid "3. Graphical User Interface (GUI)"
+msgstr ""
+

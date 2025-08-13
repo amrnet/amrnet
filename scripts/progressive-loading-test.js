@@ -28,7 +28,7 @@ console.log('   • Loading indicator component');
 console.log('\n📈 Expected Benefits:');
 console.log('   • E. coli: No more browser freezing');
 console.log('   • K. pneumoniae: Faster initial load');
-console.log('   • D. E. coli: Improved responsiveness');
+console.log('   • E. coli (diarrheagenic): Improved responsiveness');
 console.log('   • All organisms: Better user experience');
 
 console.log('\n🎯 Next Steps:');

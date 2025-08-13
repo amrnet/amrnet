@@ -8,5 +8,10 @@ export const variablesOptions = [
   // { label: 'Bla_Carb_acquired', value: 'Bla_Carb_acquired' },
   // { label: 'Bla_ESBL_acquired', value: 'Bla_ESBL_acquired' }
 ];
-
 export const variableGraphOptions = variablesOptions.filter(x => x.graph);
+
+export const variablesOptionsNG = [
+  { label: 'NGMST', value: 'NG-MAST TYPE', graph: true, mapValue: 'NGMST' },
+  { label: 'GENOTYPE', value: 'GENOTYPE' , graph: true, mapValue: 'GENOTYPE'},
+];
+export const variableGraphOptionsNG = variablesOptionsNG.filter(x => x.graph);

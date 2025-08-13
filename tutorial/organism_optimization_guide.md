@@ -9,7 +9,7 @@ Your 2-minute load time issue has been **dramatically reduced** through targeted
 |----------|--------|-------|-------------|
 | K. pneumoniae | 7-8s (63MB) | 1.4s (2.3MB) | **81% faster, 96% smaller** |
 | E. coli | 21-23s (186MB) | 7s (13MB) + pagination | **70% faster, 93% smaller** |
-| D. E. coli | 6-15s (51MB) | 2s (4MB) | **67-87% faster, 92% smaller** |
+| E. coli (diarrheagenic) | 6-15s (51MB) | 2s (4MB) | **67-87% faster, 92% smaller** |
 
 ---
 
@@ -73,7 +73,7 @@ const nextPage = await dataService.loadNextPage('ecoli', currentPage);
 
 ---
 
-### **3. D. E. coli (decoli) - ✅ EXCELLENT**
+### **3. E. coli (diarrheagenic) (decoli) - ✅ EXCELLENT**
 **Status**: Fully optimized, excellent performance
 
 **Optimizations Applied**:
@@ -190,7 +190,7 @@ After implementing these optimizations:
 
 - **K. pneumoniae**: Sub-2-second loading ✅
 - **E. coli**: 7-second full load OR instant paginated load ✅
-- **D. E. coli**: Sub-3-second loading ✅
+- **E. coli (diarrheagenic)**: Sub-3-second loading ✅
 - **Total improvement**: 70-87% faster loading times
 - **Payload reduction**: 92-96% smaller data transfers
 - **Heroku dyno efficiency**: Dramatically reduced memory usage
