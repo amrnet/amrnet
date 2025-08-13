@@ -6,7 +6,7 @@ import download from 'downloadjs';
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-const */
 import { API_ENDPOINT } from '../../../constants';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { PictureAsPdf, Storage, TableChart } from '@mui/icons-material';
 import { setPosition } from '../../../stores/slices/mapSlice';
@@ -252,6 +252,9 @@ export const DownloadData = () => {
   const colorPalleteKO = useAppSelector(state => state.dashboard.colorPalleteKO);
   const KOTrendsGraphPlotOption = useAppSelector(state => state.graph.KOTrendsGraphPlotOption);
   const customDropdownMapViewNG = useAppSelector(state => state.graph.customDropdownMapViewNG);
+  const colorPalleteCgST = useAppSelector(state => state.dashboard.colorPalleteCgST);
+  const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
+  const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -350,8 +353,25 @@ export const DownloadData = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return organism === 'styphi' ? getColorForGenotype(genotype) : currentColorPallete[genotype] || '#F5F4F6';
   }
+  const currentColorPallete = useMemo(() => {
+      const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
+  
+      if (!isSpecialOrganism) {
+        return colorPallete;
+      }
+  
+      if (distributionGraphVariable === 'Sublineage') {
+        return colorPalleteSublineages;
+      }
+  
+      if (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE') {
+        return colorPalleteCgST;
+      }
+  
+      return colorPallete;
+    }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
 
   function getDrugClassesBars() {
     switch (organism) {
@@ -359,8 +379,10 @@ export const DownloadData = () => {
         return colorForDrugClassesST[determinantsGraphDrugClass];
       case 'kpneumo':
         return colorForDrugClassesKP[determinantsGraphDrugClass];
-      default:
+      case 'ngono':
         return colorForDrugClassesNG[determinantsGraphDrugClass];
+      default:
+        return '';
     }
   }
 
@@ -450,15 +472,15 @@ export const DownloadData = () => {
       );
       document.circle(50 + xFactor, rectY + 10 + yFactor, 2.5, 'F');
 
-      if (id === 'RDT' && i < 2) {
-        if (i === 0) {
-          document.setFont(undefined, 'bold');
-        } else {
+      // if (id === 'RDT' && i < 2) {
+      //   if (i === 0) {
+      //     document.setFont(undefined, 'bold');
+      //   } else {
           document.setFont(undefined, 'normal');
-        }
-      }
+      //   }
+      // }
       document.text(
-        isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : legend.name,
+          isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
         56 + xFactor,
         rectY + 12 + yFactor,
       );
@@ -482,7 +504,7 @@ export const DownloadData = () => {
         );
         document.circle(50 + xFactor, 34 + yFactor, 2.5, 'F');
         document.text(
-          isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : legend.name,
+          isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
           56 + xFactor,
           36 + yFactor,
         );
@@ -1493,7 +1515,7 @@ export const DownloadData = () => {
         doc.addImage(graphImg, 'PNG', xPosition, yPosition, displayWidth, displayHeight, undefined, 'FAST');
 
         // const rectY = matches1000 ? 390 : 340;
-        const rectY = yPosition + displayHeight * 0.73; // updated Legends position based on image height and Y position on PDF
+        const rectY = yPosition + displayHeight * 0.70; // updated Legends position based on image height and Y position on PDF
         if (
           cards[index].id !== 'HSG2' &&
           cards[index].id !== 'BG' &&
@@ -1543,22 +1565,27 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'RDWG') {
-          const legendDataRD = drugClassesBars.filter(value => genotypesForFilterSelectedRD.includes(value.name));
-          // console.log("..../", genotypesForFilterSelectedRD, legendDataRD)
-          drawLegend({
-            document: doc,
-            legendData: legendDataRD,
-            factor: drugClassesFactor,
-            rectY,
-            xSpace: 127,
-            // twoPages: isKlebe,
-          });
+          const legendDataRD = Array.isArray(drugClassesBars) && Array.isArray(genotypesForFilterSelectedRD)
+            ? drugClassesBars.filter(value => genotypesForFilterSelectedRD.includes(value.name))
+            : [];
 
+          if (legendDataRD.length > 0) {
+            drawLegend({
+              document: doc,
+              legendData: legendDataRD,
+              factor: drugClassesFactor,
+              rectY,
+              xSpace: 127,
+              // twoPages: isKlebe,
+            });
+          }
           if (isNgono) {
             drawHeader({ document: doc, pageWidth });
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         } else if (cards[index].id === 'GD') {
+          console.log('legendGens2', genotypesForFilterSelected )
+
           drawLegend({
             document: doc,
             legendData: genotypesForFilterSelected,
@@ -1579,15 +1606,21 @@ export const DownloadData = () => {
           //     name: genotype,
           //     color: getGenotypeColor(genotype),
           //   }));
+          // const legendGens = Array.isArray(drugClassesBars) && Array.isArray(topGenesSlice)
+          //   ? drugClassesBars.filter(value => topGenesSlice.includes(value.name))
+          //   : topGenesSlice;
 
-          const legendGens = drugClassesBars.filter(value => topGenesSlice.includes(value.name));
+          let legendGens = [...topGenesSlice.filter(g => g !== 'None'), ...topGenesSlice.filter(g => g === 'None')];
+          if (organism === 'kenumon')
+            legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
+          console.log('legendGens',topGenesSlice, legendGens )
           drawLegend({
             id: 'RDT',
             document: doc,
-            legendData: [ ...legendGens],
-            factor: legendGens.length/4,
+            legendData: [...legendGens],
+            factor: legendGens.length/3,
             rectY,
-            xSpace: 110,
+            xSpace: 120,
             isGen: true,
           });
           // drawHeader({ document: doc, pageWidth });
