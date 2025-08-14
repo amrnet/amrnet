@@ -40,7 +40,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   const datasetKP = useAppSelector(state => state.map.datasetKP);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
-  const years = useAppSelector(state => state.dashboard.years);
+  const yearsCompleteListToShowInGlobalFilter = useAppSelector(state => state.dashboard.yearsCompleteListToShowInGlobalFilter);
   const pathovar = useAppSelector(state => state.dashboard.pathovar);
   const organism = useAppSelector(state => state.dashboard.organism);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
@@ -268,7 +268,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 fullWidth
                 disabled={organism === 'none'}
               >
-                {years
+                {yearsCompleteListToShowInGlobalFilter
                   .filter(year => year <= actualTimeFinal)
                   .map((year, index) => {
                     return (
@@ -298,7 +298,7 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                 fullWidth
                 disabled={organism === 'none'}
               >
-                {years
+                {yearsCompleteListToShowInGlobalFilter
                   .filter(year => year >= actualTimeInitial)
                   .map((year, index) => {
                     return (
