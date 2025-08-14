@@ -101,7 +101,22 @@ const kpTrendOptions = getAllTrendOptionsForOrganism('kpneumo');
 const stTrendOptions = getAllTrendOptionsForOrganism('styphi');
 const ngonoTrendOptions = getAllTrendOptionsForOrganism('ngono');
 const shigeTrendOptions = getAllTrendOptionsForOrganism('shige');
-const getOtherOrganismTrendOptions = getAllTrendOptionsForOrganism('senterica');
+const decoliTrendOptions = getAllTrendOptionsForOrganism('decoli');
+const ecoliTrendOptions = getAllTrendOptionsForOrganism('ecoli');
+const sentericaTrendOptions = getAllTrendOptionsForOrganism('senterica');
+const sentericaintsTrendOptions = getAllTrendOptionsForOrganism('sentericaints');
+
+const trendOptionsMap = {
+  kpneumo: kpTrendOptions,
+  styphi: stTrendOptions,
+  ngono: ngonoTrendOptions,
+  shige: shigeTrendOptions,
+  decoli: decoliTrendOptions,
+  ecoli: ecoliTrendOptions,
+  senterica: sentericaTrendOptions,
+  sentericaints: sentericaintsTrendOptions,
+};
+
 
 const yOptions = [
   {
@@ -227,9 +242,10 @@ const markersOptions = useMemo(() => {
 
   // Get data source based on organism type
   const isLegacyStructure = ['kpneumo', 'styphi'].includes(organism);
-  const dataSource = isLegacyStructure 
-    ? drugsData?.[drugKey] 
-    : genotypesDrugClassesData[drugKey];
+  // const dataSource = isLegacyStructure 
+  //   ? drugsData?.[drugKey] 
+  //   : genotypesDrugClassesData[drugKey];
+    const dataSource = drugsData?.[drugKey] 
 
   if (!dataSource) return [];
 
@@ -614,27 +630,17 @@ const markersOptions = useMemo(() => {
           });
           
           // Data extraction strategies
-          const getDataForOrganism = {
-            legacy: () => {
+          const getDataForOrganism = () => {
               const locationData = drugsData?.[drugKey]?.find(x => x.name === item.name);
               return {
                 getData: (drug) => locationData?.[drug] || 0,
                 getTotal: () => locationData?.totalCount || 0
               };
-            },
-            modern: () => {
-              const drugClassData = genotypesDrugClassesData[drugKey];
-              return {
-                getData: (drug) => drugClassData?.reduce((sum, dataItem) => 
-                  sum + (dataItem[drug] || 0), 0) || 0,
-                getTotal: () => item.count
-              };
-            }
           };
           
           // Select appropriate strategy
-          const isLegacy = ['kpneumo', 'styphi'].includes(organism);
-          const { getData, getTotal } = getDataForOrganism[isLegacy ? 'legacy' : 'modern']();
+          // const isLegacy = ['kpneumo', 'styphi'].includes(organism);
+          const { getData, getTotal } = getDataForOrganism();
           const totalCount = getTotal();
           
           // Process all drugs with single loop
@@ -937,36 +943,12 @@ const markersOptions = useMemo(() => {
                         MenuProps={{ classes: { list: classes.selectMenu } }}
                         disabled={organism === 'none'}
                       >
-                        {organism === 'kpneumo' &&
-                          kpTrendOptions.map((option, index) => (
-                            <MenuItem key={`y-kp-option-${index}`} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        {organism === 'styphi' &&
-                          stTrendOptions.map((option, index) => (
-                            <MenuItem key={`y-st-option-${index}`} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        {organism === 'ngono' &&
-                          ngonoTrendOptions.map((option, index) => (
-                            <MenuItem key={`y-ngono-option-${index}`} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        {['ecoli', 'decoli', 'shige'].includes(organism) &&
-                          shigeTrendOptions.map((option, index) => (
-                            <MenuItem key={`y-shige-option-${index}`} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        {['senterica', 'sentericaints'].includes(organism) &&
-                          getOtherOrganismTrendOptions.map((option, index) => (
-                            <MenuItem key={`y-${organism}-option-${index}`} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
+                        {trendOptionsMap[organism]?.map((option, index) => (
+                          <MenuItem key={`y-${organism}-option-${index}`} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+
                       </Select>
                     </div>
                   )}
