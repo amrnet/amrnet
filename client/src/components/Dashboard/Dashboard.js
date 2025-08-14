@@ -510,8 +510,8 @@ export const DashboardPage = () => {
         : Promise.resolve(),
 
       // Get drugs carb and esbl data for countries
-      ['styphi', 'kpneumo'].includes(organism)
-        ? getStoreOrGenerateData(`${organism}_drugs_countries`, () => {
+        // !['styphi', 'kpneumo'].includes(organism)
+        getStoreOrGenerateData(`${organism}_drugs_countries`, () => {
             const { drugsData } = getDrugsCountriesData({
               data: responseData,
               items: countries,
@@ -520,12 +520,12 @@ export const DashboardPage = () => {
             return [drugsData];
           }).then(([drugsData]) => {
             dispatch(setDrugsCountriesData(drugsData));
-          })
-        : Promise.resolve(),
+          }),
+        // : Promise.resolve(),
 
       // Get drugs carb and esbl data for regions
-      ['styphi', 'kpneumo'].includes(organism)
-        ? getStoreOrGenerateData(`${organism}_drugs_regions`, () => {
+      // ['styphi', 'kpneumo'].includes(organism)
+         getStoreOrGenerateData(`${organism}_drugs_regions`, () => {
             const { drugsData } = getDrugsCountriesData({
               data: responseData,
               items: ecRegions,
@@ -535,8 +535,8 @@ export const DashboardPage = () => {
             return [drugsData];
           }).then(([drugsData]) => {
             dispatch(setDrugsRegionsData(drugsData));
-          })
-        : Promise.resolve(),
+          }),
+        // : Promise.resolve(),
 
       // Get KO diversity data
       // organism === 'kpneumo'
@@ -830,7 +830,7 @@ export const DashboardPage = () => {
         dispatch(setTrendsGraphDrugClass('ESBL'));
         dispatch(setDistributionGraphView('percentage'));
         dispatch(setDistributionGraphVariable('GENOTYPE'));
-        dispatch(setKOTrendsGraphView('K_locus'));
+        dispatch(setKOTrendsGraphView('percentage'));
         dispatch(setKOTrendsGraphPlotOption('K_locus'));
         dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
         dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
@@ -1240,14 +1240,13 @@ export const DashboardPage = () => {
               };
             })
           : Promise.resolve({ data: [], colourVariables: [] }),
-        ['styphi', 'kpneumo'].includes(organism)
-          ? Promise.resolve(getDrugsCountriesData({ data: filteredData, items: countriesForFilter, organism }))
-          : Promise.resolve({ drugsData: [] }),
-        ['styphi', 'kpneumo'].includes(organism)
-          ? Promise.resolve(
-              getDrugsCountriesData({ data: filteredData, items: economicRegions, type: 'region', organism }),
-            )
-          : Promise.resolve({ drugsData: [] }),
+        // ['styphi', 'kpneumo'].includes(organism)
+        //   ? 
+          Promise.resolve(getDrugsCountriesData({ data: filteredData, items: countriesForFilter, organism })),
+          // : Promise.resolve({ drugsData: [] }),
+        // ['styphi', 'kpneumo'].includes(organism)
+          // ? 
+          Promise.resolve(getDrugsCountriesData({ data: filteredData, items: economicRegions, type: 'region', organism })),          // : Promise.resolve({ drugsData: [] }),
       ]);
 
       // Dispatch map data
