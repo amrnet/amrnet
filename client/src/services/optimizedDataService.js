@@ -23,16 +23,47 @@ class OptimizedDataService {
     this.organismStrategies = {
       ecoli: { usePagination: true, pageSize: 5000, priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE'] },
       kpneumo: {
-        usePagination: false,
+        usePagination: true,
+        pageSize: 1000,
         optimizedProjection: true,
-        priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE', 'ESBL_category'],
+        priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE'],
       },
       decoli: {
-        usePagination: false,
+        usePagination: true,
+        pageSize: 5000,
         optimizedProjection: true,
-        priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE', 'ESBL_category'],
+        priorityFields: ['COUNTRY_ONLY', 'DATE', 'GENOTYPE'],
       },
     };
+  }
+
+  // Fetch paginated data and store in IndexedDB
+  async fetchPaginatedAndCache(organism, page = 1, forceRefresh = false) {
+    const strategy = this.organismStrategies[organism];
+    const pageSize = strategy.pageSize || 5000;
+    const cacheKey = `${organism}_page_${page}`;
+
+    // Check IndexedDB first
+    if (!forceRefresh && window.indexedDB) {
+      const idbReq = await import('../idb');
+      const cached = await idbReq.getPage(organism, page);
+      if (cached) {
+        console.log(`🗄️ IndexedDB cache hit for ${organism} page ${page}`);
+        return cached;
+      }
+    }
+
+    // Fetch from API
+    const endpoint = `/api/optimized/getDataForKpneumo?page=${page}&pageSize=${pageSize}`;
+    const response = await axios.get(endpoint);
+    const { data, page: respPage } = response.data;
+
+    // Store in IndexedDB
+    if (window.indexedDB) {
+      const idbReq = await import('../idb');
+      await idbReq.storePage(organism, respPage, data);
+    }
+    return data;
   }
 
   // Generate cache key
@@ -240,62 +271,64 @@ class OptimizedDataService {
 
   // Special loader for large datasets (E. coli with 227k+ documents)
   async loadLargeDatasetOrganism(organism, globalFilters = {}) {
-    console.log(`📦 Loading large dataset ${organism} with pagination strategy...`);
+    console.log(`📦 Loading large dataset ${organism} with pagination strategy and persistent cache...`);
     const startTime = performance.now();
+    const pageSize = this.organismStrategies[organism]?.pageSize || 5000;
+    let allData = [];
+    let page = 1;
+    let totalPages = 1;
+    let totalCount = 0;
 
+    // Try to load all cached pages from IndexedDB first
+    if (window.indexedDB) {
+      try {
+        const cachedItems = await window.amrnetdb.getItems(organism);
+        if (cachedItems && cachedItems.length > 0) {
+          console.log(`💾 Loaded ${cachedItems.length} records for ${organism} from IndexedDB cache`);
+          return { data: cachedItems, isPaginated: true, totalRecords: cachedItems.length };
+        }
+      } catch (err) {
+        console.warn(`IndexedDB cache load failed for ${organism}:`, err);
+      }
+    }
+
+    // If not cached, load paginated from API and cache each page
     try {
-      // Get summary first to understand data volume
-      const summary = await this.fetchWithCache(`optimized/summary/${organism}`, globalFilters);
-      console.log(
-        `📊 ${organism} summary: ${summary.totalDocuments} documents, estimated ${summary.estimatedPayloadMB}MB`,
-      );
+      // Get total count first
+      const summaryResp = await this.fetchWithCache(`optimized/summary/${organism}`, globalFilters);
+      totalCount = summaryResp?.totalDocuments || 0;
+      totalPages = Math.ceil(totalCount / pageSize);
 
-      // If dataset is reasonable size, load normally
-      if (summary.totalDocuments < 50000) {
-        console.log(`✅ Dataset size acceptable, using standard loading...`);
-        return await this.loadOrganismDataStandard(organism, globalFilters);
+      for (page = 1; page <= totalPages; page++) {
+        const resp = await this.fetchWithCache(
+          `optimized/paginated/${organism}?dataType=map&page=${page}&limit=${pageSize}`,
+          globalFilters,
+        );
+        const pageData = resp?.data || [];
+        allData = allData.concat(pageData);
+
+        // Filter out undefined/null items before storing in IndexedDB
+        const validPageData = pageData.filter(item => item);
+        if (window.indexedDB && validPageData.length > 0) {
+          try {
+            await window.amrnetdb.bulkAddItems(organism, validPageData, page === 1); // clear store only on first page
+          } catch (err) {
+            console.warn(`IndexedDB bulkAddItems failed for ${organism} page ${page}:`, err);
+          }
+        }
+
+        // Add a small delay to prevent UI freeze for large datasets
+        if (allData.length > 20000 || pageData.length > 4000) {
+          await new Promise(resolve => setTimeout(resolve, 20));
+        }
+
+        console.log(`📄 Loaded page ${page}/${totalPages} (${pageData.length} records)`);
       }
 
-      // For very large datasets, use paginated approach
-      const strategy = this.organismStrategies[organism];
-      const pageSize = strategy.pageSize || 10000;
-
-      // Load first page for immediate display
-      const firstPagePromises = [
-        this.fetchWithCache(`optimized/paginated/${organism}?dataType=map&page=1&limit=${pageSize}`, globalFilters),
-        this.fetchWithCache(`optimized/genotypes/${organism}`, globalFilters), // Charts can still use full data if reasonable
-        this.fetchWithCache(`optimized/resistance/${organism}`, globalFilters),
-        this.fetchWithCache(`optimized/trends/${organism}`, globalFilters),
-        this.fetchWithCache('getUNR'),
-      ];
-
-      const [paginatedMapData, genotypesData, resistanceData, trendsData, regionsData] =
-        await Promise.all(firstPagePromises);
-
-      const endTime = performance.now();
-      const totalTime = endTime - startTime;
-
-      console.log(`✅ Large dataset loading completed in ${totalTime.toFixed(2)}ms`);
-      console.log(`📦 Loaded page 1/${paginatedMapData.pagination.totalPages} for map data`);
-      console.log(
-        `🎯 Reduced payload from ~${summary.estimatedPayloadMB}MB to ~${paginatedMapData.performance.payloadSize}`,
-      );
-
-      return {
-        mapData: paginatedMapData.data,
-        genotypesData,
-        resistanceData,
-        trendsData,
-        regionsData,
-        organism,
-        loadTime: totalTime,
-        pagination: paginatedMapData.pagination,
-        totalRecords: paginatedMapData.pagination.totalCount,
-        isPaginated: true,
-      };
+      return { data: allData, isPaginated: true, totalRecords: allData.length };
     } catch (error) {
-      console.error(`❌ Error loading large dataset ${organism}:`, error);
-      throw error;
+      console.error(`Error loading ${organism} with pagination:`, error);
+      return { data: [], isPaginated: true, totalRecords: 0 };
     }
   }
 
@@ -333,12 +366,18 @@ class OptimizedDataService {
 
     console.log(`📄 Loading page ${currentPage + 1} for ${organism}...`);
 
-    const nextPageData = await this.fetchWithCache(
-      `optimized/paginated/${organism}?dataType=map&page=${currentPage + 1}&limit=${pageSize}`,
-      filters,
-    );
-
-    console.log(`✅ Loaded page ${nextPageData.pagination.page}/${nextPageData.pagination.totalPages}`);
+    let nextPageData;
+    if (organism === 'kpneumo') {
+      nextPageData = await this.fetchPaginatedAndCache(organism, currentPage + 1);
+    } else {
+      nextPageData = await this.fetchWithCache(
+        `optimized/paginated/${organism}?dataType=map&page=${currentPage + 1}&limit=${pageSize}`,
+        filters,
+      );
+    }
+    if (nextPageData.pagination) {
+      console.log(`✅ Loaded page ${nextPageData.pagination.page}/${nextPageData.pagination.totalPages}`);
+    }
     return nextPageData;
   }
 
@@ -500,12 +539,8 @@ export const getStoreOrGenerateData = async (storeName, handleGetData, clearStor
   const dataType = storeName.split('_')[1];
 
   // Performance monitoring for Heroku dyno memory usage
-  const startTime = performance.now();
-  const startMemory = performance.memory ? performance.memory.usedJSHeapSize : 0;
 
   try {
-    console.log(`🚀 Loading ${storeName} with optimized endpoint (Heroku/Atlas optimized)`);
-
     let result;
 
     // Route to optimized endpoints that return minimal field sets
@@ -541,19 +576,6 @@ export const getStoreOrGenerateData = async (storeName, handleGetData, clearStor
     }
 
     // Performance logging for Heroku monitoring
-    const endTime = performance.now();
-    const endMemory = performance.memory ? performance.memory.usedJSHeapSize : 0;
-    const loadTime = endTime - startTime;
-    const memoryDelta = endMemory - startMemory;
-
-    console.log(
-      `✅ ${storeName} loaded in ${loadTime.toFixed(2)}ms, memory delta: ${(memoryDelta / 1024 / 1024).toFixed(2)}MB`,
-    );
-
-    // Log payload size for Atlas/Heroku optimization tracking
-    if (result && Array.isArray(result)) {
-      console.log(`📊 Payload size: ${result.length} records (vs potential 75MB+ from legacy endpoint)`);
-    }
 
     return result;
   } catch (error) {

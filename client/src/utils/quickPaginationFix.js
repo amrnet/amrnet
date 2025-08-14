@@ -1,6 +1,7 @@
 // Quick pagination fix for freezing organisms
 import axios from 'axios';
 
+// Always use paginated loading for kpneumo
 export async function loadOrganismQuickly(organism, onProgress = () => {}) {
   console.log(`🚀 [QUICK FIX] Loading ${organism} with pagination`);
 
@@ -12,9 +13,8 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
 
     console.log(`📊 [QUICK FIX] ${organism} has ${totalDocuments.toLocaleString()} documents`);
 
-    // Step 2: Use pagination for large datasets
-    if (totalDocuments > 20000) {
-      // Use smaller pages for extremely large datasets like E. coli
+    // Always use pagination for kpneumo, regardless of size
+    if (organism === 'kpneumo' || totalDocuments > 20000) {
       const pageSize = totalDocuments > 200000 ? 3000 : 5000;
       const totalPages = Math.ceil(totalDocuments / pageSize);
       let allData = [];
@@ -24,7 +24,7 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
 
         const response = await axios.get(`/api/optimized/paginated/${organism}`, {
           params: { page, limit: pageSize },
-          timeout: 45000 // Increase timeout for large datasets
+          timeout: 45000,
         });
 
         const pageData = response.data.data || [];
@@ -32,7 +32,6 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
 
         console.log(`📄 [QUICK FIX] Page ${page}: ${pageData.length} records (total: ${allData.length})`);
 
-        // Prevent UI blocking - give UI more time to update for large datasets
         if (totalDocuments > 200000 && page % 1 === 0) {
           await new Promise(resolve => setTimeout(resolve, 100));
         } else if (page % 2 === 0) {
@@ -44,12 +43,14 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
     } else {
       // Small dataset - load normally
       onProgress('Loading data...');
-      const response = await axios.get(`/api/optimized/getDataFor${organism.charAt(0).toUpperCase() + organism.slice(1)}`, {
-        timeout: 60000
-      });
+      const response = await axios.get(
+        `/api/optimized/getDataFor${organism.charAt(0).toUpperCase() + organism.slice(1)}`,
+        {
+          timeout: 60000,
+        },
+      );
       return response.data;
     }
-
   } catch (error) {
     console.error(`❌ [QUICK FIX] Error loading ${organism}:`, error);
     throw error;

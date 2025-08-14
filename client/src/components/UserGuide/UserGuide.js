@@ -81,7 +81,7 @@ export const UserGuidePage = () => {
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the
-            individual genome-level information that is used to populate the dashboard (‘Download database (CSV
+            individual genome-level information that is used to populate the dashboard (‘Download database (TSV
             format)’); and (2) a static report of the currently displayed plots, together with a basic description of
             the data sources and variable definitions (‘Download PDF’).
           </Typography>

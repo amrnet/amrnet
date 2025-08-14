@@ -1,56 +1,47 @@
 import { Alert, Button, Snackbar, useMediaQuery } from '@mui/material';
-import { useStyles } from './DownloadDataMUI';
-import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import axios from 'axios';
 import download from 'downloadjs';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { useStyles } from './DownloadDataMUI';
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-const */
-import { API_ENDPOINT } from '../../../constants';
-import { useState, useMemo } from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { PictureAsPdf, Storage, TableChart } from '@mui/icons-material';
-import { setPosition } from '../../../stores/slices/mapSlice';
+import LoadingButton from '@mui/lab/LoadingButton';
 import jsPDF from 'jspdf';
+import { useMemo, useState } from 'react';
 import LogoImg from '../../../assets/img/logo-prod.png';
+import { setPosition } from '../../../stores/slices/mapSlice';
 // import EUFlagImg from '../../../assets/img/eu_flag.jpg';
+import domtoimage from 'dom-to-image';
 import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
-import { mapLegends } from '../../../util/mapLegends';
-import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
-import { graphCards } from '../../../util/graphCards';
-import domtoimage from 'dom-to-image';
-import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
 import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
+import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
 import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../util/drugs';
+import { graphCards } from '../../../util/graphCards';
+import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
+import { mapLegends } from '../../../util/mapLegends';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
-import { colorsForKODiversityGraph, getColorForDrug } from '../Graphs/graphColorHelper';
 import {
   colorForDrugClassesKP,
   colorForDrugClassesNG,
   colorForDrugClassesST,
+  colorForMarkers,
   getColorForGenotype,
-  colorForMarkers
 } from '../../../util/colorHelper';
+import { variablesOptions } from '../../../util/convergenceVariablesOptions';
+import { drugsKP, drugsNG, drugsST } from '../../../util/drugs';
 import {
-  getKlebsiellaTexts,
-  getSalmonellaTexts,
-  getNgonoTexts,
-  getIntsTexts,
-  getSentericaintsTexts,
-  getShigeTexts,
   getDEcoliTexts,
   getEcoliTexts,
+  getIntsTexts,
+  getKlebsiellaTexts,
+  getNgonoTexts,
+  getSalmonellaTexts,
+  getSentericaintsTexts,
+  getShigeTexts,
 } from '../../../util/reportInfoTexts';
-import { variablesOptions } from '../../../util/convergenceVariablesOptions';
-import {
-  drugsNG,
-  drugsST,
-  drugsKP,
-  drugsSTLegendsOnly,
-  drugsNGLegendsOnly,
-  drugsINTSLegendsOnly,
-  drugsKlebLegendsOnly,
-} from '../../../util/drugs';
+import { getColorForDrug } from '../Graphs/graphColorHelper';
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -357,22 +348,22 @@ export const DownloadData = () => {
     return organism === 'styphi' ? getColorForGenotype(genotype) : currentColorPallete[genotype] || '#F5F4F6';
   }
   const currentColorPallete = useMemo(() => {
-      const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
-  
-      if (!isSpecialOrganism) {
-        return colorPallete;
-      }
-  
-      if (distributionGraphVariable === 'Sublineage') {
-        return colorPalleteSublineages;
-      }
-  
-      if (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE') {
-        return colorPalleteCgST;
-      }
-  
+    const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
+
+    if (!isSpecialOrganism) {
       return colorPallete;
-    }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
+    }
+
+    if (distributionGraphVariable === 'Sublineage') {
+      return colorPalleteSublineages;
+    }
+
+    if (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE') {
+      return colorPalleteCgST;
+    }
+
+    return colorPallete;
+  }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
 
   function getDrugClassesBars() {
     switch (organism) {
@@ -467,8 +458,8 @@ export const DownloadData = () => {
               ? convergenceColourPallete[legend]
               : isGen
                 ? i === firstLegendData.length - 1
-                ? '#F5F4F6'
-                : colorForMarkers[i]
+                  ? '#F5F4F6'
+                  : colorForMarkers[i]
                 : legend.color,
       );
       document.circle(50 + xFactor, rectY + 10 + yFactor, 2.5, 'F');
@@ -477,11 +468,11 @@ export const DownloadData = () => {
       //   if (i === 0) {
       //     document.setFont(undefined, 'bold');
       //   } else {
-          document.setFont(undefined, 'normal');
+      document.setFont(undefined, 'normal');
       //   }
       // }
       document.text(
-          isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
+        isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
         56 + xFactor,
         rectY + 12 + yFactor,
       );
@@ -1520,7 +1511,7 @@ export const DownloadData = () => {
         doc.addImage(graphImg, 'PNG', xPosition, yPosition, displayWidth, displayHeight, undefined, 'FAST');
 
         // const rectY = matches1000 ? 390 : 340;
-        const rectY = yPosition + displayHeight * 0.70; // updated Legends position based on image height and Y position on PDF
+        const rectY = yPosition + displayHeight * 0.7; // updated Legends position based on image height and Y position on PDF
         if (
           cards[index].id !== 'HSG2' &&
           cards[index].id !== 'BG' &&
@@ -1570,9 +1561,10 @@ export const DownloadData = () => {
             isDrug: true,
           });
         } else if (cards[index].id === 'RDWG') {
-          const legendDataRD = Array.isArray(drugClassesBars) && Array.isArray(genotypesForFilterSelectedRD)
-            ? drugClassesBars.filter(value => genotypesForFilterSelectedRD.includes(value.name))
-            : [];
+          const legendDataRD =
+            Array.isArray(drugClassesBars) && Array.isArray(genotypesForFilterSelectedRD)
+              ? drugClassesBars.filter(value => genotypesForFilterSelectedRD.includes(value.name))
+              : [];
 
           if (legendDataRD.length > 0) {
             drawLegend({
@@ -1600,7 +1592,7 @@ export const DownloadData = () => {
             isGenotype: true,
             twoPages: isNgono && genotypesForFilterSelected.length > 156,
           });
-          if ( isNgono) {
+          if (isNgono) {
             drawHeader({ document: doc, pageWidth });
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
@@ -1616,14 +1608,13 @@ export const DownloadData = () => {
           //   : topGenesSlice;
 
           let legendGens = [...topGenesSlice.filter(g => g !== 'None'), ...topGenesSlice.filter(g => g === 'None')];
-          if (organism === 'kpneumo')
-            legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
+          if (organism === 'kpneumo') legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
           // console.log('legendGens',topGenesSlice, legendGens )
           drawLegend({
             id: 'RDT',
             document: doc,
             legendData: [...legendGens],
-            factor: legendGens.length/3,
+            factor: legendGens.length / 3,
             rectY,
             xSpace: 120,
             isGen: true,
@@ -1723,7 +1714,7 @@ export const DownloadData = () => {
         loadingPosition="start"
         disabled={organism === 'none'}
       >
-        Download database (CSV format)
+        Download database (TSV format)
       </LoadingButton>
       <LoadingButton
         className={classes.button}
