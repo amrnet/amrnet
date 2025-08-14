@@ -1,19 +1,19 @@
 // Enhanced server with better MongoDB handling
-import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import express from 'express';
+import pkg from 'mongodb';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import pkg from 'mongodb';
 
 // Import existing API routes
+import mongo_controller from './controllers/controller_DB.js';
 import api from './routes/api/api.js';
-import optimized from './routes/api/optimized.js';
+import combine_files from './routes/api/combine_files.js';
+import emailRouter from './routes/api/email.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
 import generateFileClean from './routes/api/generateDataClean.js';
-import combine_files from './routes/api/combine_files.js';
-import mongo_controller from './controllers/controller_DB.js';
-import emailRouter from './routes/api/email.js';
+import optimized from './routes/api/optimized.js';
 
 const { MongoClient } = pkg;
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -39,7 +39,7 @@ const dbAndCollectionNames = {
   ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
   decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
   shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
-  senterica: { dbName: 'senterica', collectionName: 'sentericatest' },
+  senterica: { dbName: 'senterica', collectionName: 'merge_rawdata_se' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
 };
 
@@ -86,7 +86,7 @@ app.get('/api/health', (req, res) => {
     status: 'OK',
     database: dbConnected ? 'Connected' : 'Disconnected (using mock data)',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
   });
 });
 
@@ -98,14 +98,14 @@ app.get('/api/getCollectionCounts', async (req, res) => {
     if (!dbConnected || !client) {
       // Return mock data when DB is not available
       const mockData = {
-        styphi: "5,234",
-        kpneumo: "8,891",
-        ngono: "2,156",
-        ecoli: "12,445",
-        decoli: "3,667",
-        shige: "1,892",
-        senterica: "7,334",
-        sentericaints: "4,123"
+        styphi: '5,234',
+        kpneumo: '8,891',
+        ngono: '2,156',
+        ecoli: '12,445',
+        decoli: '3,667',
+        shige: '1,892',
+        senterica: '7,334',
+        sentericaints: '4,123',
       };
       console.log('📊 Returning mock data (DB not connected)');
       return res.json(mockData);
@@ -139,7 +139,6 @@ app.get('/api/getCollectionCounts', async (req, res) => {
 
     console.log('✅ Successfully retrieved collection counts from MongoDB');
     return res.json(finalResult);
-
   } catch (error) {
     console.error('❌ Error in getCollectionCounts:', error);
 
@@ -147,7 +146,7 @@ app.get('/api/getCollectionCounts', async (req, res) => {
     return res.status(500).json({
       error: 'Internal Server Error',
       message: 'Could not retrieve collection counts',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 });
