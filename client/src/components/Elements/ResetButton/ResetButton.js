@@ -67,6 +67,8 @@ export const ResetButton = () => {
   const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
   const loadingData = useAppSelector(state => state.dashboard.loadingData);
   const loadingMap = useAppSelector(state => state.map.loadingMap);
+  const yearsCompleteListToShowInGlobalFilter = useAppSelector(state => state.dashboard.yearsCompleteListToShowInGlobalFilter);
+
 
   async function handleClick() {
     dispatch(setResetBool(true));
@@ -74,8 +76,8 @@ export const ResetButton = () => {
 
     dispatch(setDataset('All'));
     dispatch(setDatasetKP('All'));
-    dispatch(setActualTimeInitial(timeInitial));
-    dispatch(setActualTimeFinal(timeFinal));
+    dispatch(setActualTimeInitial(yearsCompleteListToShowInGlobalFilter[0]));
+    dispatch(setActualTimeFinal(yearsCompleteListToShowInGlobalFilter[yearsCompleteListToShowInGlobalFilter.length-1]));
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
     dispatch(setActualRegion('All'));
     dispatch(setActualCountry('All'));

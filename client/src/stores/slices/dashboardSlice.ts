@@ -36,6 +36,7 @@ interface DashboardState {
   actualTimeInitial: number | string;
   actualTimeFinal: number | string;
   years: Array<number>;
+  yearsCompleteListToShowInGlobalFilter: Array<number>;
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
   genotypesForFilterSelectedRD: Array<string>;
@@ -81,6 +82,7 @@ const initialState: DashboardState = {
   actualTimeInitial: '',
   actualTimeFinal: '',
   years: [],
+  yearsCompleteListToShowInGlobalFilter: [],
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
   genotypesForFilterSelectedRD: [],
@@ -173,6 +175,9 @@ export const dashboardSlice = createSlice({
     setYears: (state, action: PayloadAction<Array<number>>) => {
       state.years = action.payload;
     },
+    setYearsCompleteListToShowInGlobalFilter: (state, action: PayloadAction<Array<number>>) => {
+      state.yearsCompleteListToShowInGlobalFilter = action.payload;
+    },
     setGenotypesForFilter: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilter = action.payload;
     },
@@ -262,6 +267,7 @@ export const {
   setActualTimeInitial,
   setActualTimeFinal,
   setYears,
+  setYearsCompleteListToShowInGlobalFilter,
   setGenotypesForFilter,
   setGenotypesForFilterSelected,
   setGenotypesForFilterSelectedRD,
