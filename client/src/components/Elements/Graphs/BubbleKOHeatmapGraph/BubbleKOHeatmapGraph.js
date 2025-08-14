@@ -1,3 +1,4 @@
+import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -13,30 +14,29 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStyles } from './BubbleKOHeatmapGraphMUI';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Cell,
+  Tooltip as ChartTooltip,
+  LabelList,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  ScatterChart,
-  Scatter,
   ZAxis,
-  Cell,
-  LabelList,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { darkGrey, hoverColor } from '../../../../util/colorHelper';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { mixColorScale } from '../../Map/mapColorHelper';
-import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
-import { Clear, Close, InfoOutlined } from '@mui/icons-material';
-import { SelectCountry } from '../../SelectCountry';
-import { getAxisLabel } from '../../../../util/genotypes';
-import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { setBubbleKOHeatmapGraphVariable, setBubbleKOYAxisType } from '../../../../stores/slices/graphSlice';
+import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
+import { getAxisLabel } from '../../../../util/genotypes';
+import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
+import { mixColorScale } from '../../Map/mapColorHelper';
+import { SelectCountry } from '../../SelectCountry';
+import { useStyles } from './BubbleKOHeatmapGraphMUI';
 
 export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -70,41 +70,61 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [bubbleKOHeatmapGraphVariable]);
 
   const yAxisOptions = useMemo(() => {
-    function getUniqueNames(data) {
-      const seen = new Set();
-
+    function getUniqueNamesWithCounts(data) {
+      const counts = new Map();
       for (let i = 0; i < data.length; i++) {
         const items = data[i].ko?.[bubbleKOYAxisType]?.items;
         if (!items) continue;
-
         for (let j = 0; j < items.length; j++) {
           const name = items[j].name;
+          const count = items[j].count || 0;
           if (name) {
-            seen.add(name);
+            counts.set(name, (counts.get(name) || 0) + count);
           }
         }
       }
-
-      return [...seen];
+      return Array.from(counts.entries()); // [name, count]
     }
 
-    const items = getUniqueNames(selectedCRData?.stats?.[statColumn]?.items || []);
-    return items.sort();
+    const itemsWithCounts = getUniqueNamesWithCounts(selectedCRData?.stats?.[statColumn]?.items || []);
+    // Only sort by frequency for K_locus, O_locus, O_type
+    if (['K_locus', 'O_locus', 'O_type'].includes(bubbleKOYAxisType)) {
+      return itemsWithCounts
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20)
+        .map(([name]) => name);
+    }
+    // Otherwise, sort alphabetically
+    return itemsWithCounts.map(([name]) => name).sort();
   }, [selectedCRData?.stats, statColumn, bubbleKOYAxisType]);
 
   const xAxisOptions = useMemo(() => {
-    return statColumn ? selectedCRData?.stats[statColumn]?.items?.map(x => x.name) ?? [] : [];
+    return statColumn ? (selectedCRData?.stats[statColumn]?.items?.map(x => x.name) ?? []) : [];
   }, [selectedCRData?.stats, statColumn]);
 
   const filteredXAxisOptions = useMemo(() => {
-    const filteredOptions = xAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
+    // Filter by search
+    let filteredOptions = xAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
 
-    if (!organismHasLotsOfGenotypes) {
-      return filteredOptions;
+    // Sort by frequency (top 20)
+    if (organismHasLotsOfGenotypes) {
+      filteredOptions = filteredOptions
+        .map(option => {
+          // Find count for each option
+          const count = (() => {
+            if (!selectedCRData || !statColumn) return 0;
+            const item = selectedCRData?.stats?.[statColumn]?.items?.find(x => x.name === option);
+            return item?.count || 0;
+          })();
+          return { option, count };
+        })
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 20)
+        .map(x => x.option);
     }
 
-    return filteredOptions.slice(0, 20);
-  }, [xAxisOptions, organismHasLotsOfGenotypes, genotypeSearch]);
+    return filteredOptions;
+  }, [xAxisOptions, organismHasLotsOfGenotypes, genotypeSearch, selectedCRData, statColumn]);
 
   useEffect(() => {
     setXAxisSelected(xAxisOptions?.slice(0, 10));
@@ -120,7 +140,9 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
 
   const getOptionLabel = useCallback(
     item => {
-      const totalCount = statColumn ? selectedCRData?.stats[statColumn]?.items?.find(x => x.name === item)?.count ?? 0 : 0;
+      const totalCount = statColumn
+        ? (selectedCRData?.stats[statColumn]?.items?.find(x => x.name === item)?.count ?? 0)
+        : 0;
 
       return `${item} (total N=${totalCount})`;
     },
@@ -158,12 +180,34 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    if (yAxisOptions?.length === yAxisSelected?.length) {
+    // Sort yAxisOptions by top 20 most frequent (descending count)
+    const top20 = [...yAxisOptions]
+      .map(option => {
+        // Find count for each option
+        const count = (() => {
+          if (!selectedCRData || !statColumn) return 0;
+          let total = 0;
+          const items = selectedCRData?.stats?.[statColumn]?.items || [];
+          for (const item of items) {
+            const koItems = item.ko?.[bubbleKOYAxisType]?.items || [];
+            for (const ko of koItems) {
+              if (ko.name === option) total += ko.count || 0;
+            }
+          }
+          return total;
+        })();
+        return { option, count };
+      })
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 20)
+      .map(x => x.option);
+
+    if (yAxisSelected.length === top20.length && top20.every(x => yAxisSelected.includes(x))) {
       setYAxisSelected([]);
       return;
     }
 
-    setYAxisSelected(yAxisOptions?.slice());
+    setYAxisSelected(top20);
   }
 
   function hangleChangeSearch(event) {
@@ -517,9 +561,9 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                           className={classes.selectButton}
                           onClick={() => handleChangeYAxisSelected({ all: true })}
                           disabled={organism === 'none'}
-                          color={yAxisSelected?.length === yAxisOptions?.length ? 'error' : 'primary'}
+                          color={yAxisSelected.length === 20 ? 'error' : 'primary'}
                         >
-                          {yAxisSelected?.length === yAxisOptions?.length ? 'Clear All' : 'Select All'}
+                          {yAxisSelected.length === 20 ? 'Clear All' : 'Select 20'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}

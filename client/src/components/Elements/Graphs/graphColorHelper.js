@@ -34,7 +34,7 @@ export const getColorForDrug = drug => {
       return '#DB90F0';
 
     case 'Colistin':
-      return 'rgb(0, 163, 35)';
+      return '#8834f6ff';
 
     // case 'Cefixime':
     case 'Cefixime':
@@ -58,7 +58,6 @@ export const getColorForDrug = drug => {
     case 'Ciprofloxacin (resistant)':
     case 'Ciprofloxacin':
       return '#9e9ac8';
-
 
     case 'Fluoroquinolones':
     case 'Fluoroquinolone':
