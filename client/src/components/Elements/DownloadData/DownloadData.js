@@ -206,7 +206,8 @@ export const DownloadData = () => {
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
   const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
-  const listPIMD = useAppSelector(state => state.dashboard.listPMID);
+  const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
+  const listPMID = useAppSelector(state => state.dashboard.listPMID);
   const PMID = useAppSelector(state => state.dashboard.PMID);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
@@ -622,15 +623,15 @@ export const DownloadData = () => {
       if (organism === 'styphi') {
         let list = PMID.filter(value => value !== '-');
         let pmidSpace, dynamicText;
-        if (actualCountry === 'All') {
+        if (actualCountry === 'All' && actualRegion === 'All') {
           pmidSpace = 50;
           dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(
             ', ',
           )}.`;
           // pmidSpace = 50;
         } else {
-          list = listPIMD.filter(value => value !== '-');
-          dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(
+          list = listPMID.filter(value => value !== '-');
+          dynamicText = `Data for region ${actualRegion} and country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs) or Digital Object Identifier (DOI): ${list.join(
             ', ',
           )}.`;
           const textWidth = doc.getTextWidth(dynamicText);
@@ -808,12 +809,12 @@ export const DownloadData = () => {
       } else if (organism === 'ngono') {
         let list = PMID.filter(value => value !== '-');
         let pmidSpace, dynamicText;
-        if (actualCountry === 'All') {
+        if (actualCountry === 'All' && actualRegion === 'All') {
           pmidSpace = 0;
           dynamicText = `Data are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(', ')}.`;
         } else {
-          list = listPIMD.filter(value => value !== '-');
-          dynamicText = `Data for country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(
+          list = listPMID.filter(value => value !== '-');
+          dynamicText = `Data for region ${actualRegion} and country ${actualCountry} are drawn from studies with the following PubMed IDs (PMIDs): ${list.join(
             ', ',
           )}.`;
         }
@@ -871,9 +872,13 @@ export const DownloadData = () => {
         drawFooter({ document: doc, pageHeight, pageWidth, date });
         doc.addPage();
         drawHeader({ document: doc, pageWidth });
-        doc.text(texts[24], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[25], 16, 76, { align: 'left', maxWidth: pageWidth - 36 });
-        doc.text(texts[26], 16, 116, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'bold');
+        doc.text(texts[22], 16, 46, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.setFont(undefined, 'normal');
+        doc.text(texts[23], 16, 66, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[24], 16, 116, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[25], 16, 146, { align: 'left', maxWidth: pageWidth - 36 });
+        doc.text(texts[26], 16, 186, { align: 'left', maxWidth: pageWidth - 36 });
       } else if (organism === 'sentericaints') {
         // Info
         doc.text(texts[0], 16, 105, { align: 'justify', maxWidth: pageWidth - 36 });
@@ -1584,7 +1589,7 @@ export const DownloadData = () => {
             drawFooter({ document: doc, pageHeight, pageWidth, date });
           }
         } else if (cards[index].id === 'GD') {
-          console.log('legendGens2', genotypesForFilterSelected )
+          // console.log('legendGens2', genotypesForFilterSelected )
 
           drawLegend({
             document: doc,
@@ -1613,7 +1618,7 @@ export const DownloadData = () => {
           let legendGens = [...topGenesSlice.filter(g => g !== 'None'), ...topGenesSlice.filter(g => g === 'None')];
           if (organism === 'kpneumo')
             legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
-          console.log('legendGens',topGenesSlice, legendGens )
+          // console.log('legendGens',topGenesSlice, legendGens )
           drawLegend({
             id: 'RDT',
             document: doc,
