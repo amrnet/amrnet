@@ -1611,7 +1611,7 @@ export const DownloadData = () => {
           //   : topGenesSlice;
 
           let legendGens = [...topGenesSlice.filter(g => g !== 'None'), ...topGenesSlice.filter(g => g === 'None')];
-          if (organism === 'kenumon')
+          if (organism === 'kpneumo')
             legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
           console.log('legendGens',topGenesSlice, legendGens )
           drawLegend({
