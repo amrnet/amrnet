@@ -4,8 +4,6 @@ export const getColorForDrug = drug => {
   switch (drug) {
     case 'Ampicillin/Amoxicillin':
     case 'Ampicillin':
-    case 'Penicillin':
-    case 'Penicillins':
     case 'Benzylpenicillin':
       return '#DE77AE';
 
@@ -80,10 +78,6 @@ export const getColorForDrug = drug => {
     case 'Trimethoprim':
     case 'Spectinomycin':
       return 'rgb(102,102,255)';
-
-    case 'β-lactamase inhibitors':
-    case 'Gentamicin':
-      return '#F3AAB9';
 
     case 'Phenicols':
     case 'Chloramphenicol':
