@@ -977,7 +977,17 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
     });
   };
 
-  const rules = organism === 'kpneumo' ? markersDrugsKP : Object.keys(drugClassesRulesST);
+  // Determine applicable rules
+  const isKP = organism === 'kpneumo';
+  const isST = organism === 'styphi';
+  const isSGono = organism === 'ngono';
+  const rules = isKP
+    ? markersDrugsKP
+    : isST
+    ? Object.keys(drugClassesRulesST)
+    : isSGono
+    ? Object.keys(drugClassesRulesNG)
+    : statKeys[organism]?.map(drug => drug.name) || [];
 
   initializeDataStructures(rules);
 
@@ -999,33 +1009,51 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
       rules.forEach(key => {
         let drugClass = {};
 
-        if (organism === 'kpneumo') {
+        if (isKP) {
           drugClass = getKPDrugClassData({ drugKey: key, dataToFilter: itemData });
-        }
+        } else if (isST && drugClassesRulesST[key]) {
+          drugClassesRulesST[key].forEach(classRule => {
+            const classRuleName = classRule.name;
+            if (classRuleName === 'None') return;
 
-        if (organism === 'styphi') {
-          // Only process if the key exists in drugClassesRulesST
-          if (drugClassesRulesST[key]) {
-            drugClassesRulesST[key].forEach(classRule => {
-              const classRuleName = classRule.name;
+            drugClass[classRuleName] = itemData.filter(x =>
+              classRule.rules.every(r =>
+                key === 'Pansusceptible' && !classRule.susceptible
+                  ? x[r.columnID]?.toString() !== r.value.toString()
+                  : x[r.columnID]?.toString() === r.value.toString()
+              )
+            ).length;
 
-              if (classRuleName === 'None') {
-                return;
-              }
+            if (classRule.susceptible) {
+              drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
+            }
+          });
+        }else if (isST && drugClassesRulesNG[key]) {
+          drugClassesRulesST[key].forEach(classRule => {
+            const classRuleName = classRule.name;
+            if (classRuleName === 'None') return;
 
-              drugClass[classRuleName] = itemData.filter(x => {
-                return classRule.rules.every(r =>
-                  key === 'Pansusceptible' && !classRule.susceptible
-                    ? x[r.columnID]?.toString() !== r.value.toString()
-                    : x[r.columnID]?.toString() === r.value.toString(),
-                );
-              }).length;
+            drugClass[classRuleName] = itemData.filter(x =>
+              classRule.rules.every(r =>
+                key === 'Pansusceptible' && !classRule.susceptible
+                  ? x[r.columnID]?.toString() !== r.value.toString()
+                  : x[r.columnID]?.toString() === r.value.toString()
+              )
+            ).length;
 
-              if (classRule.susceptible) {
-                drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
-              }
-            });
-          }
+            if (classRule.susceptible) {
+              drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
+            }
+          });
+        } else {
+          // Handle all other organisms
+          drugClass = {
+            ...getDrugClassDataINTS({
+              drugKey: key,
+              dataToFilter: itemData,
+              notINTS: ['ecoli', 'decoli','shige'].includes(organism) ? true : false,
+            }),
+          };
         }
 
         const item = { ...response, ...drugClass, totalCount: count };
@@ -1692,6 +1720,9 @@ function getKPDrugClassData({ drugKey, dataToFilter, notKP = false }) {
   let rules = {};
 
   if (notKP) {
+    // if(ints)
+    //   columnIDs.push([statKeysINTS.find(x => x.name === drugKey).column]);
+    // else
     columnIDs.push([statKeysECOLI.find(x => x.name === drugKey).column]);
   } else {
     const drug = drugRulesKP.concat(drugRulesKPOnlyMarkers).find(x => x.key === drugKey);
@@ -1745,12 +1776,15 @@ function getKPDrugClassData({ drugKey, dataToFilter, notKP = false }) {
 }
 
 // Define getDrugClassData function
-function getDrugClassDataINTS({ drugKey, dataToFilter }) {
+function getDrugClassDataINTS({ drugKey, dataToFilter, notINTS = false }) {
   const drugClass = {};
   let resistantCount = 0;
 
   dataToFilter.forEach(x => {
-    const foundItem = statKeysINTS.find(item => item.name === drugKey);
+    
+    const foundItem = notINTS 
+      ? statKeysECOLI.find(item => item.name === drugKey) 
+      : statKeysINTS.find(item => item.name === drugKey);
     if (!foundItem) {
       console.warn(`Drug key "${drugKey}" not found in statKeysINTS`);
       return;
@@ -1760,7 +1794,7 @@ function getDrugClassDataINTS({ drugKey, dataToFilter }) {
     const value = x[columnName]; // Gets x['TRIMETHOPRIM']
     
     // Only count if value is present and not '-' or '0'
-    if (value && value !== '-' && value !== '0' && value !== 'NA') {
+    if (value && value !== '-' && value !== '0' && value !== 'NA' && value !== 'ND') {
       resistantCount++;
       // Split multiple gene values if needed (e.g. ';' or ',' separated)
       const genes = value.split(/[;,]/).map(g => g.trim()).filter(g => g);
