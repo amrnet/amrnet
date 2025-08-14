@@ -111,6 +111,7 @@ export function filterData({
     const genotypes = [...new Set(newData.map(x => x.GENOTYPE))];
     genomesCount = newData.length;
     genotypesCount = genotypes.length;
+    listPMID = [...new Set(newData.map(x => x.PMID))];
   }
 
   return {
