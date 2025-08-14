@@ -1239,7 +1239,7 @@ export const statKeysINTS = [
 export const statKeysECOLI = (() => {
   const items = [
     { name: 'Aminoglycosides', column: 'Aminoglycoside', key: '-', resistanceView: true },
-    { name: 'Ampicillin', column: 'Penicillin', key: '-', resistanceView: true },
+    { name: 'Ampicillin', column: 'Penicllin', key: '-', resistanceView: true },
     { name: 'Carbapenems', column: 'Carbapenemase', key: '-', resistanceView: true },
     { name: 'Chloramphenicol', column: 'Phenicol', key: '-', resistanceView: true },
     { name: 'ESBL', column: 'ESBL', key: '-', resistanceView: true },
