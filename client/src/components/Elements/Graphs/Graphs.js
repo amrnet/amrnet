@@ -42,7 +42,7 @@ import {
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
-import { Circles } from 'react-loader-spinner';
+import { DNAPulseSpinner } from '../DNASpinner';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 
 export const Graphs = () => {
@@ -697,7 +697,7 @@ export const Graphs = () => {
             })}
             {canFilterData && (
               <div className={classes.loadingBlock}>
-                <Circles color="#6F2F9F" height={60} width={60} />
+                <DNAPulseSpinner color="#6F2F9F" height={60} width={60} />
               </div>
             )}
           </Box>
