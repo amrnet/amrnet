@@ -53,16 +53,18 @@ const connectDBWithRetry = async () => {
 connectDBWithRetry();
 
 // Use compression middleware to compress responses
-app.use(compression({
-  threshold: 1024,
-  level: 6,
-  filter: (req, res) => {
-    if (req.headers['cache-control'] && req.headers['cache-control'].includes('no-transform')) {
-      return false;
-    }
-    return compression.filter(req, res);
-  }
-}));
+app.use(
+  compression({
+    threshold: 1024,
+    level: 6,
+    filter: (req, res) => {
+      if (req.headers['cache-control'] && req.headers['cache-control'].includes('no-transform')) {
+        return false;
+      }
+      return compression.filter(req, res);
+    },
+  }),
+);
 
 // Middleware
 app.use(performanceMonitor);
@@ -76,7 +78,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
     database: dbConnected ? 'Connected' : 'Disconnected',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -87,14 +89,14 @@ app.get('/api/getCollectionCounts', async (req, res) => {
       // Return mock data if database is not connected
       console.log('Database not connected, returning mock data');
       return res.json({
-        styphi: "Loading...",
-        kpneumo: "Loading...",
-        ngono: "Loading...",
-        ecoli: "Loading...",
-        decoli: "Loading...",
-        shige: "Loading...",
-        senterica: "Loading...",
-        sentericaints: "Loading..."
+        styphi: 'Loading...',
+        kpneumo: 'Loading...',
+        ngono: 'Loading...',
+        ecoli: 'Loading...',
+        decoli: 'Loading...',
+        shige: 'Loading...',
+        senterica: 'Loading...',
+        sentericaints: 'Loading...',
       });
     }
 
@@ -106,7 +108,7 @@ app.get('/api/getCollectionCounts', async (req, res) => {
       ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
       decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
       shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
-      senterica: { dbName: 'senterica', collectionName: 'sentericatest' },
+      senterica: { dbName: 'senterica', collectionName: 'merge_rawdata_se' },
       sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
     };
 
