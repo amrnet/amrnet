@@ -61,7 +61,7 @@ export const drugRulesKP = [
   { key: 'Ciprofloxacin R', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
   { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
-  { key: 'Phenicols', columnIDs: ['Phe_acquired'] },
+  { key: 'Chloramphenicol', columnIDs: ['Phe_acquired'] },
   { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
   { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
   { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
@@ -86,7 +86,7 @@ export const statKeysKP = [
     resistanceView: true,
   },
   { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true },
-  { name: 'Phenicols', column: 'Phe_acquired', key: '-', resistanceView: true },
+  { name: 'Chloramphenicol', column: 'Phe_acquired', key: '-', resistanceView: true },
   { name: 'Sulfonamides', column: 'Sul_acquired', key: '-', resistanceView: true },
   { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
@@ -1159,7 +1159,7 @@ export const drugClassesRulesSENTERICA = {};
 export const drugRulesINTS = [
   { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
   { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
-  { key: 'Ceftriaxone', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
+  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
   {
     key: 'Chloramphenicol',
     columnID: 'PHENICOL',
@@ -1179,7 +1179,7 @@ export const drugRulesINTS = [
     legends: 'Ciprofloxacin',
   },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
-  { key: 'Gentamicin', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
+  { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Meropenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
   { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
@@ -1211,13 +1211,13 @@ export const drugRulesINTS = [
 // Used for ints and senterica
 export const statKeysINTS = [
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
-  { name: 'Azithromycin', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
-  { name: 'Ceftriaxone', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
+  { name: 'MAcrolides', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
+  { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'Ciprofloxacin NS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
   {
-    name: 'Gentamicin',
+    name: 'Aminoglycosides',
     column: 'AMINOGLYCOSIDE',
     key: ['GENTAMICIN', 'AMINOGLYCOSIDE'],
     resistanceView: true,
@@ -1238,18 +1238,18 @@ export const statKeysINTS = [
 // Used for shige, ecoli and decoli
 export const statKeysECOLI = (() => {
   const items = [
+    { name: 'Macrolides', column: 'Macrolide', key: '-', resistanceView: true },
     { name: 'Aminoglycosides', column: 'Aminoglycoside', key: '-', resistanceView: true },
     { name: 'Carbapenems', column: 'Carbapenemase', key: '-', resistanceView: true },
-    { name: 'Ceftriaxone', column: 'ESBL', key: '-', resistanceView: true },
+    { name: 'ESBL', column: 'ESBL', key: '-', resistanceView: true },
     { name: 'Ciprofloxacin', column: 'Quinolone', key: '-', resistanceView: true },
     { name: 'Colistin', column: 'Colistin', key: '-', resistanceView: true },
     { name: 'Fosfomycin', column: 'Fosfomycin', key: '-', resistanceView: true },
-    { name: 'Penicillins', column: 'Penicllin', key: '-', resistanceView: true },
-    { name: 'Phenicols', column: 'Phenicol', key: '-', resistanceView: true },
+    { name: 'Ampicillin', column: 'Penicllin', key: '-', resistanceView: true },
+    { name: 'Chloramphenicol', column: 'Phenicol', key: '-', resistanceView: true },
     { name: 'Sulfamethoxazole', column: 'Sulfonamide', key: '-', resistanceView: true },
     { name: 'Tetracycline', column: 'Tetracycline', key: '-', resistanceView: true },
     { name: 'Trimethoprim', column: 'Trimethoprim', key: '-', resistanceView: true },
-    { name: 'Azithromycin', column: 'Macrolide', key: ['mph(A)', 'acrB_R717'], resistanceView: true },
 
     // { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
     // { name: 'Azithromycin', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
