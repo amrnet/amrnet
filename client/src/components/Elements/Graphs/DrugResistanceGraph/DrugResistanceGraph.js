@@ -1,3 +1,4 @@
+import { Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -11,21 +12,23 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStyles } from './DrugResistanceGraphMUI';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Brush,
   CartesianGrid,
+  Tooltip as ChartTooltip,
+  Label,
   Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  LineChart,
-  Line,
-  Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDrugResistanceGraphView, setStarttimeDRT, setEndtimeDRT } from '../../../../stores/slices/graphSlice';
+import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
+import { setDrugResistanceGraphView, setEndtimeDRT, setStarttimeDRT } from '../../../../stores/slices/graphSlice';
+import { hoverColor } from '../../../../util/colorHelper';
 import {
   ciproAcronyms,
   drugAcronymsOpposite,
@@ -35,14 +38,11 @@ import {
   drugsNG,
   drugsST,
 } from '../../../../util/drugs';
-import { useEffect, useMemo, useState } from 'react';
-import { hoverColor } from '../../../../util/colorHelper';
-import { getColorForDrug } from '../graphColorHelper';
-import { Close, InfoOutlined } from '@mui/icons-material';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { setCaptureDRT } from '../../../../stores/slices/dashboardSlice';
-import { SelectCountry } from '../../SelectCountry';
 import { getRange } from '../../../../util/helpers';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { SelectCountry } from '../../SelectCountry';
+import { getColorForDrug } from '../graphColorHelper';
+import { useStyles } from './DrugResistanceGraphMUI';
 
 /**
  * DrugResistanceGraph - Interactive line chart for visualizing drug resistance trends
@@ -135,11 +135,12 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     }
 
     // Filter drugResistanceGraphView to only include drugs that have data
-    const dataKeys = drugsYearData.length > 0 ? Object.keys(drugsYearData[0]).filter(key => !['name', 'count'].includes(key)) : [];
+    const dataKeys =
+      drugsYearData.length > 0 ? Object.keys(drugsYearData[0]).filter(key => !['name', 'count'].includes(key)) : [];
     const filteredView = drugResistanceGraphView.filter(drug => dataKeys.includes(drug));
 
     return filteredView;
-  }  //TODO: check the comment above code duplicate
+  } //TODO: check the comment above code duplicate
 
   // function getDrugsForLegends() {
   //   if (organism === 'none') {
@@ -158,7 +159,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       case 'ngono':
         return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Benzylpenicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
       default:
-        return;
+        return 'XDR definition not available for this organism';
     }
   }
 
@@ -169,7 +170,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       case 'ngono':
         return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Benzylpenicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:
-        return;
+        return 'MDR definition not available for this organism';
     }
   }
 
@@ -265,13 +266,17 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       const availableDrugs = getDrugs().filter(drug => dataKeys.includes(drug));
 
       // Auto-select all available drugs that have data
-      if (availableDrugs.length > 0 && (drugResistanceGraphView.length === 0 ||
+      if (
+        availableDrugs.length > 0 &&
+        (drugResistanceGraphView.length === 0 ||
           availableDrugs.length !== drugResistanceGraphView.length ||
-          !availableDrugs.every(drug => drugResistanceGraphView.includes(drug)))) {
+          !availableDrugs.every(drug => drugResistanceGraphView.includes(drug)))
+      ) {
         dispatch(setDrugResistanceGraphView(availableDrugs));
       }
     }
-  }, [organism, drugsYearData.length, drugResistanceGraphView.length, dispatch]);  useEffect(() => {
+  }, [organism, drugsYearData.length, drugResistanceGraphView.length, dispatch]);
+  useEffect(() => {
     if (canGetData) {
       const doc = document.getElementById('DRT');
       const lines = doc.getElementsByClassName('recharts-line');
@@ -311,11 +316,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
               onClick={handleClickChart}
               margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
             >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="#e0e0e0"
-                strokeOpacity={0.8}
-              />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.8} />
               <XAxis
                 tickCount={20}
                 allowDecimals={false}
@@ -418,21 +419,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <LineChart
-              data={[]}
-              margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-            >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="#e0e0e0"
-                strokeOpacity={0.8}
-              />
-              <XAxis
-                tickCount={20}
-                allowDecimals={false}
-                padding={{ left: 20, right: 20 }}
-                tick={{ fontSize: 14 }}
-              />
+            <LineChart data={[]} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.8} />
+              <XAxis tickCount={20} allowDecimals={false} padding={{ left: 20, right: 20 }} tick={{ fontSize: 14 }} />
               <YAxis tickCount={6} padding={{ top: 20, bottom: 20 }} allowDecimals={false}>
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Resistant (%)

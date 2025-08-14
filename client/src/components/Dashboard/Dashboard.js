@@ -38,7 +38,7 @@ import {
   setTotalGenomes,
   setTotalGenotypes,
   setYears,
-  setYearsCompleteListToShowInGlobalFilter
+  setYearsCompleteListToShowInGlobalFilter,
 } from '../../stores/slices/dashboardSlice.ts';
 import {
   setActualGenomesDRT,
@@ -102,13 +102,13 @@ import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import {
   defaultDrugsForDrugResistanceGraphNG,
   defaultDrugsForDrugResistanceGraphST,
+  drugClassesNG,
   drugsECOLI,
   drugsINTS,
   drugsKP,
+  getDrugClasses,
   markersDrugsKP,
   markersDrugsSH,
-  getDrugClasses,
-  drugClassesNG
 } from '../../util/drugs';
 import { continentPGraphCard } from '../../util/graphCards';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
@@ -427,7 +427,7 @@ export const DashboardPage = () => {
       // Get ngmast data
       // organism === 'ngono'
       //   ? getStoreOrGenerateData(`${organism}_ngmast`, () => {
-            // const dt = getNgmastData({ data: responseData, ngmast, organism });
+      // const dt = getNgmastData({ data: responseData, ngmast, organism });
       //       return [dt.ngmastDrugData, dt.ngmastDrugClassesData];
       //     }).then(([ngmastDrugData, ngmastDrugClassesData]) => {
       //       dispatch(setNgmastDrugsData(ngmastDrugData));
@@ -464,7 +464,7 @@ export const DashboardPage = () => {
           sublineageData,
           uniqueCgST,
           uniqueSublineages,
-          NGMASTData
+          NGMASTData,
         ]) => {
           dispatch(setGenotypesYearData(genotypesData));
           dispatch(setDrugsYearData(drugsData));
@@ -481,14 +481,13 @@ export const DashboardPage = () => {
 
           dispatch(setColorPallete(generatePalleteForGenotypes(paletteSource)));
 
-
           if (organism === 'kpneumo') {
             dispatch(setCgSTYearData(cgSTData));
             dispatch(setSublineagesYearData(sublineageData));
             dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueCgST)));
             dispatch(setColorPalleteSublineages(generatePalleteForGenotypes(uniqueSublineages)));
             dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes.slice(0, 200))));
-          }else if (organism === 'ngono'){
+          } else if (organism === 'ngono') {
             dispatch(setCgSTYearData(NGMASTData));
             dispatch(setColorPalleteCgST(generatePalleteForGenotypes(ngmast)));
           }
@@ -512,33 +511,33 @@ export const DashboardPage = () => {
         : Promise.resolve(),
 
       // Get drugs carb and esbl data for countries
-        // !['styphi', 'kpneumo'].includes(organism)
-        getStoreOrGenerateData(`${organism}_drugs_countries`, () => {
-            const { drugsData } = getDrugsCountriesData({
-              data: responseData,
-              items: countries,
-              organism,
-            });
-            return [drugsData];
-          }).then(([drugsData]) => {
-            dispatch(setDrugsCountriesData(drugsData));
-          }),
-        // : Promise.resolve(),
+      // !['styphi', 'kpneumo'].includes(organism)
+      getStoreOrGenerateData(`${organism}_drugs_countries`, () => {
+        const { drugsData } = getDrugsCountriesData({
+          data: responseData,
+          items: countries,
+          organism,
+        });
+        return [drugsData];
+      }).then(([drugsData]) => {
+        dispatch(setDrugsCountriesData(drugsData));
+      }),
+      // : Promise.resolve(),
 
       // Get drugs carb and esbl data for regions
       // ['styphi', 'kpneumo'].includes(organism)
-         getStoreOrGenerateData(`${organism}_drugs_regions`, () => {
-            const { drugsData } = getDrugsCountriesData({
-              data: responseData,
-              items: ecRegions,
-              type: 'region',
-              organism,
-            });
-            return [drugsData];
-          }).then(([drugsData]) => {
-            dispatch(setDrugsRegionsData(drugsData));
-          }),
-        // : Promise.resolve(),
+      getStoreOrGenerateData(`${organism}_drugs_regions`, () => {
+        const { drugsData } = getDrugsCountriesData({
+          data: responseData,
+          items: ecRegions,
+          type: 'region',
+          organism,
+        });
+        return [drugsData];
+      }).then(([drugsData]) => {
+        dispatch(setDrugsRegionsData(drugsData));
+      }),
+      // : Promise.resolve(),
 
       // Get KO diversity data
       // organism === 'kpneumo'
@@ -669,9 +668,54 @@ export const DashboardPage = () => {
     } catch (error) {
       console.error(`❌ [QUICK FIX] Error loading ${organism}:`, error);
       // Fallback to original
-      const endpoint =
-        organism === 'kpneumo' ? 'getDataForKpneumo' : organism === 'ecoli' ? 'getDataForEcoli' : 'getDataForDEcoli';
-      getData({ storeName: organism, endpoint });
+      const endpointMap = {
+        kpneumo: 'getDataForKpneumo',
+        ecoli: 'getDataForEcoli',
+        decoli: 'getDataForDEcoli',
+        ngono: 'getDataForNgono',
+      };
+      const endpoint = endpointMap[organism];
+      if (endpoint) {
+        getData({ storeName: organism, endpoint });
+      }
+    } finally {
+      dispatch(setLoadingData(false));
+    }
+  }
+
+  // Optimized data loading for ngono - FULL DATASET (entire collection)
+  async function getDataOptimized({ storeName, endpoint }) {
+    dispatch(setLoadingData(true));
+
+    try {
+      // Load the ENTIRE collection for ngono - no limits, no chunking
+      const response = await axios.get(`/api/${endpoint}`, {
+        timeout: 120000, // 2 minute timeout for very large datasets
+        headers: {
+          'Cache-Control': 'no-cache',
+          Pragma: 'no-cache',
+        },
+      });
+
+      const fullData = response.data; // Complete dataset
+
+      // Store the complete dataset in IndexedDB
+      await bulkAddItems(storeName, fullData);
+
+      // Get regions data
+      const regions = await getStoreOrGenerateData('unr', async () => {
+        return (await axios.get('/api/getUNR')).data;
+      });
+
+      // Process the ENTIRE dataset at once (as required by ngono)
+      await getInfoFromData(fullData, regions);
+
+      // Set organism configurations
+      dispatch(setDataset('All'));
+      setOrganismSpecificConfig(storeName, false); // Not paginated - full dataset
+    } catch (error) {
+      // Fallback to original method if optimized loading fails
+      getData({ storeName, endpoint });
     } finally {
       dispatch(setLoadingData(false));
     }
@@ -841,7 +885,7 @@ export const DashboardPage = () => {
         // dispatch(setBubbleMarkersYAxisType('K_locus'));
         dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
         dispatch(setTrendsGraphDrugClass('Carbapenems'));
-        dispatch(setBubbleMarkersYAxisType('Carbapenems'))
+        dispatch(setBubbleMarkersYAxisType('Carbapenems'));
         break;
       case 'ngono':
         dispatch(setMapView('Resistance prevalence'));
@@ -1044,7 +1088,8 @@ export const DashboardPage = () => {
           getDataQuick(organism);
           break;
         case 'ngono':
-          getData({ storeName: organism, endpoint: 'getDataForNgono' });
+          // NGONO requires full dataset for proper rendering - use optimized bulk loading
+          getDataOptimized({ storeName: organism, endpoint: 'getDataForNgono' });
           break;
         case 'ecoli':
           getDataQuick(organism);
@@ -1102,7 +1147,7 @@ export const DashboardPage = () => {
 
     return null;
   }
-console.log("yearsForFilter", yearsForFilter)
+  console.log('yearsForFilter', yearsForFilter);
   useEffect(() => {
     if (yearsForFilter.length > 0) {
       dispatch(setTimeInitial(yearsForFilter[0]));
@@ -1243,12 +1288,14 @@ console.log("yearsForFilter", yearsForFilter)
             })
           : Promise.resolve({ data: [], colourVariables: [] }),
         // ['styphi', 'kpneumo'].includes(organism)
-        //   ? 
-          Promise.resolve(getDrugsCountriesData({ data: filteredData, items: countriesForFilter, organism })),
-          // : Promise.resolve({ drugsData: [] }),
+        //   ?
+        Promise.resolve(getDrugsCountriesData({ data: filteredData, items: countriesForFilter, organism })),
+        // : Promise.resolve({ drugsData: [] }),
         // ['styphi', 'kpneumo'].includes(organism)
-          // ? 
-          Promise.resolve(getDrugsCountriesData({ data: filteredData, items: economicRegions, type: 'region', organism })),          // : Promise.resolve({ drugsData: [] }),
+        // ?
+        Promise.resolve(
+          getDrugsCountriesData({ data: filteredData, items: economicRegions, type: 'region', organism }),
+        ), // : Promise.resolve({ drugsData: [] }),
       ]);
 
       // Dispatch map data
@@ -1290,7 +1337,7 @@ console.log("yearsForFilter", yearsForFilter)
         );
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
-      }else if (organism === 'ngono'){
+      } else if (organism === 'ngono') {
         dispatch(setCgSTYearData(yearsData.NGMASTData));
       }
 

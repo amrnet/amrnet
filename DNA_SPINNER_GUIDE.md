@@ -2,109 +2,109 @@
 
 ## Overview
 
-We've successfully replaced the `react-loader-spinner` Circles component with custom DNA-themed spinners that are perfect for AMR (Antimicrobial Resistance) applications. This gives your application a unique, biologically-relevant loading experience.
+We've successfully replaced the `react-loader-spinner` Circles component with
+custom DNA-themed spinners that are perfect for AMR (Antimicrobial Resistance)
+applications. This gives your application a unique, biologically-relevant
+loading experience.
 
 ## Available DNA Spinner Components
 
 ### 1. 🧬 DNASpinner (Complex 3D Helix)
-**Best for:** Main loading screens, dramatic effects
-**Performance:** Heavy (complex animations)
+
+**Best for:** Main loading screens, dramatic effects **Performance:** Heavy
+(complex animations)
 
 ```javascript
 import { DNASpinner } from '../Elements/DNASpinner';
 
-<DNASpinner 
-  height={60} 
-  width={60} 
-  color="#6F2F9F" 
+<DNASpinner
+  height={60}
+  width={60}
+  color="#6F2F9F"
   secondaryColor="#9C4DC7"
   speed="1.5s"
-/>
+/>;
 ```
 
 **Features:**
+
 - 3D rotating helix effect
 - Animated base pairs with glow effects
 - Customizable primary and secondary colors
 - Complex multi-element structure
 
 ### 2. 🎯 SimpleDNASpinner (Minimalist)
-**Best for:** Regular loading states, good balance
-**Performance:** Medium (moderate animations)
+
+**Best for:** Regular loading states, good balance **Performance:** Medium
+(moderate animations)
 
 ```javascript
 import { SimpleDNASpinner } from '../Elements/DNASpinner';
 
-<SimpleDNASpinner 
-  height={60} 
-  width={60} 
-  color="#6F2F9F" 
-  speed="1.2s"
-/>
+<SimpleDNASpinner height={60} width={60} color="#6F2F9F" speed="1.2s" />;
 ```
 
 **Features:**
+
 - Clean, modern design
 - Pulsing nucleotide dots
 - Connecting base pair lines
 - Good performance/visual balance
 
 ### 3. ⚡ DNAPulseSpinner (Emoji-based)
-**Best for:** Quick loading, minimal overhead
-**Performance:** Fast (single element)
+
+**Best for:** Quick loading, minimal overhead **Performance:** Fast (single
+element)
 
 ```javascript
 import { DNAPulseSpinner } from '../Elements/DNASpinner';
 
-<DNAPulseSpinner 
-  height={60} 
-  width={60} 
-  color="#6F2F9F"
-/>
+<DNAPulseSpinner height={60} width={60} color="#6F2F9F" />;
 ```
 
 **Features:**
+
 - Uses DNA emoji (🧬)
 - Pulsing and rotation effects
 - Minimal DOM elements
 - Great for mobile
 
 ### 4. 🎨 DNASpinnerSVG (Vector Graphics)
-**Best for:** Scalable designs, print/PDF
-**Performance:** Medium-Fast (SVG optimized)
+
+**Best for:** Scalable designs, print/PDF **Performance:** Medium-Fast (SVG
+optimized)
 
 ```javascript
 import { DNASpinnerSVG } from '../Elements/DNASpinner';
 
-<DNASpinnerSVG 
-  height={60} 
-  width={60} 
-  color="#6F2F9F" 
+<DNASpinnerSVG
+  height={60}
+  width={60}
+  color="#6F2F9F"
   secondaryColor="#9C4DC7"
-/>
+/>;
 ```
 
 **Features:**
+
 - Vector-based (infinite scalability)
 - Gradient effects
 - Smooth animations
 - Professional appearance
 
 ### 5. 🏆 DNAIconSpinner (Ultra Simple)
-**Best for:** Inline loading, highest performance
-**Performance:** Fastest (pure CSS)
+
+**Best for:** Inline loading, highest performance **Performance:** Fastest (pure
+CSS)
 
 ```javascript
 import { DNAIconSpinner } from '../Elements/DNASpinner';
 
-<DNAIconSpinner 
-  height={60} 
-  width={60} 
-  color="#6F2F9F"
-/>
+<DNAIconSpinner height={60} width={60} color="#6F2F9F" />;
 ```
 
 **Features:**
+
 - Single emoji element
 - Color-changing effects
 - Minimal resource usage
@@ -113,27 +113,29 @@ import { DNAIconSpinner } from '../Elements/DNASpinner';
 ## Migration from react-loader-spinner
 
 ### Before (Old Code)
+
 ```javascript
 import { Circles } from 'react-loader-spinner';
 
-<Circles color="#6F2F9F" height={60} width={60} />
+<Circles color="#6F2F9F" height={60} width={60} />;
 ```
 
 ### After (New DNA Spinners)
+
 ```javascript
 // Choose your preferred DNA spinner:
 
 // Option 1: Simple and effective
 import { SimpleDNASpinner } from '../Elements/DNASpinner';
-<SimpleDNASpinner color="#6F2F9F" height={60} width={60} />
+<SimpleDNASpinner color="#6F2F9F" height={60} width={60} />;
 
 // Option 2: Fast and minimal
 import { DNAPulseSpinner } from '../Elements/DNASpinner';
-<DNAPulseSpinner color="#6F2F9F" height={60} width={60} />
+<DNAPulseSpinner color="#6F2F9F" height={60} width={60} />;
 
 // Option 3: Complex and impressive
 import { DNASpinner } from '../Elements/DNASpinner';
-<DNASpinner color="#6F2F9F" height={60} width={60} />
+<DNASpinner color="#6F2F9F" height={60} width={60} />;
 ```
 
 ## Current Implementation Status
@@ -154,12 +156,14 @@ import { DNASpinner } from '../Elements/DNASpinner';
    - More dramatic loading for complex operations
 
 ### 📦 Removed Dependencies
+
 - `react-loader-spinner` - No longer needed
 - All `Circles` imports replaced
 
 ## Customization Options
 
 ### Colors
+
 ```javascript
 // Single color
 <SimpleDNASpinner color="#6F2F9F" />
@@ -172,6 +176,7 @@ import { DNASpinner } from '../Elements/DNASpinner';
 ```
 
 ### Sizes
+
 ```javascript
 // Small
 <DNAPulseSpinner height={40} width={40} />
@@ -187,6 +192,7 @@ import { DNASpinner } from '../Elements/DNASpinner';
 ```
 
 ### Animation Speed
+
 ```javascript
 // Fast
 <SimpleDNASpinner speed="0.8s" />
@@ -199,16 +205,15 @@ import { DNASpinner } from '../Elements/DNASpinner';
 ```
 
 ### CSS Classes
+
 ```javascript
-<DNASpinner 
-  className="custom-spinner"
-  wrapperClass="custom-wrapper"
-/>
+<DNASpinner className="custom-spinner" wrapperClass="custom-wrapper" />
 ```
 
 ## Performance Recommendations
 
 ### For Mobile/Low-End Devices
+
 ```javascript
 // Recommended: Fast, minimal
 <DNAIconSpinner height={50} width={50} />
@@ -217,6 +222,7 @@ import { DNASpinner } from '../Elements/DNASpinner';
 ```
 
 ### For Desktop/High-End Devices
+
 ```javascript
 // Recommended: Full-featured
 <DNASpinner height={60} width={60} />
@@ -225,6 +231,7 @@ import { DNASpinner } from '../Elements/DNASpinner';
 ```
 
 ### For Frequent Loading States
+
 ```javascript
 // Recommended: Balanced
 <SimpleDNASpinner height={50} width={50} />
@@ -233,6 +240,7 @@ import { DNASpinner } from '../Elements/DNASpinner';
 ## Accessibility Features
 
 All DNA spinners include:
+
 - ✅ `prefers-reduced-motion` support
 - ✅ High contrast mode compatibility
 - ✅ Keyboard navigation friendly
@@ -261,20 +269,22 @@ client/src/components/Elements/DNASpinner/
 
 ## Testing the Spinners
 
-To see all spinner variants in action, you can temporarily add the demo component to any page:
+To see all spinner variants in action, you can temporarily add the demo
+component to any page:
 
 ```javascript
 import DNASpinnerDemo from '../Elements/DNASpinnerDemo';
 
 // Add anywhere in your component
-<DNASpinnerDemo />
+<DNASpinnerDemo />;
 ```
 
 ## Future Enhancements
 
 Potential additions:
+
 - 🧬 Virus-themed spinners
-- 🦠 Bacteria-themed spinners  
+- 🦠 Bacteria-themed spinners
 - 💊 Antibiotic-themed spinners
 - 🔬 Microscope-themed spinners
 - 📊 Data-analysis themed spinners
@@ -292,10 +302,12 @@ Potential additions:
 ## Usage in AMRnet Context
 
 The DNA spinners are particularly effective in AMRnet because:
+
 - DNA is central to antimicrobial resistance
 - Genotype analysis involves DNA sequencing
 - Molecular biology theme fits perfectly
 - Users immediately understand the biological context
 - Creates a cohesive, professional appearance
 
-Choose the spinner that best fits your specific use case and performance requirements!
+Choose the spinner that best fits your specific use case and performance
+requirements!
