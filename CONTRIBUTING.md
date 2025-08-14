@@ -1,6 +1,8 @@
 # Contributing to AMRnet
 
-Thank you for your interest in contributing to AMRnet! 🎉 We welcome contributions from researchers, developers, and public health professionals worldwide.
+Thank you for your interest in contributing to AMRnet! 🎉 We welcome
+contributions from researchers, developers, and public health professionals
+worldwide.
 
 ## 🚀 Quick Start
 
@@ -43,9 +45,11 @@ npm run start:dev
 
 ### 🐛 Bug Reports
 
-Help us improve by reporting bugs using our [bug report template](.github/ISSUE_TEMPLATE/bug_report.md).
+Help us improve by reporting bugs using our
+[bug report template](.github/ISSUE_TEMPLATE/bug_report.md).
 
 **Before reporting:**
+
 - Search existing issues to avoid duplicates
 - Test in latest version
 - Gather environment details
@@ -53,9 +57,11 @@ Help us improve by reporting bugs using our [bug report template](.github/ISSUE_
 
 ### ✨ Feature Requests
 
-Suggest new features using our [feature request template](.github/ISSUE_TEMPLATE/feature_request.md).
+Suggest new features using our
+[feature request template](.github/ISSUE_TEMPLATE/feature_request.md).
 
 **Good feature requests include:**
+
 - Clear problem statement
 - Proposed solution
 - Use cases and user stories
@@ -63,7 +69,9 @@ Suggest new features using our [feature request template](.github/ISSUE_TEMPLATE
 
 ### 🦠 Adding New Organisms
 
-We especially welcome contributions for new organism support! See our comprehensive [Developer Guide](DEVELOPER_GUIDE.md) for detailed instructions on:
+We especially welcome contributions for new organism support! See our
+comprehensive [Developer Guide](DEVELOPER_GUIDE.md) for detailed instructions
+on:
 
 - Data schema requirements
 - API endpoint implementation
@@ -73,6 +81,7 @@ We especially welcome contributions for new organism support! See our comprehens
 ### 📖 Documentation
 
 Help improve our documentation:
+
 - Fix typos and clarify content
 - Add examples and tutorials
 - Translate content
@@ -81,6 +90,7 @@ Help improve our documentation:
 ### 🎨 UI/UX Improvements
 
 Enhance the user experience:
+
 - Design improvements
 - Accessibility enhancements
 - Mobile responsiveness
@@ -119,6 +129,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -128,6 +139,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `chore`: Maintenance tasks
 
 **Examples:**
+
 ```bash
 feat(organisms): add Shigella species support
 
@@ -140,7 +152,7 @@ Closes #123
 ```
 
 ```bash
-fix(api): resolve CSV export encoding issues
+fix(api): resolve TSV export encoding issues
 
 - Fix UTF-8 encoding for international characters
 - Update content-type headers
@@ -171,17 +183,20 @@ npm run test:all
 ### Test Requirements
 
 **For bug fixes:**
+
 - Add regression tests
 - Ensure existing tests pass
 - Test edge cases
 
 **For new features:**
+
 - Unit tests for core logic
 - Integration tests for API endpoints
 - Component tests for UI elements
 - E2E tests for user workflows
 
 **For organism additions:**
+
 - Data validation tests
 - API endpoint tests
 - Dashboard component tests
@@ -217,6 +232,7 @@ npm run format
 ```
 
 **Key conventions:**
+
 - Use TypeScript for type safety
 - Prefer functional components with hooks
 - Use meaningful variable and function names
@@ -255,9 +271,11 @@ black . && isort . && flake8 .
 
 ```markdown
 ## 📝 Description
+
 Brief description of changes
 
 ## 🔄 Type of Change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Documentation update
@@ -265,20 +283,24 @@ Brief description of changes
 - [ ] Performance improvement
 
 ## 🧪 Testing
+
 - [ ] Unit tests added/updated
 - [ ] Manual testing completed
 - [ ] All tests pass
 
 ## 📸 Screenshots
+
 (If applicable)
 
 ## 🔗 Related Issues
+
 Closes #issue_number
 ```
 
 ### Review Criteria
 
 Reviewers will check:
+
 - Code quality and style compliance
 - Test coverage and passing tests
 - Documentation completeness
@@ -290,7 +312,8 @@ Reviewers will check:
 
 ### Code of Conduct
 
-We are committed to providing a welcoming and inclusive environment. Please read our [Code of Conduct](CODE_OF_CONDUCT.md).
+We are committed to providing a welcoming and inclusive environment. Please read
+our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ### Communication
 
@@ -326,6 +349,7 @@ We are committed to providing a welcoming and inclusive environment. Please read
 ### Good First Issues
 
 Look for issues labeled `good first issue`:
+
 - Documentation improvements
 - Small bug fixes
 - UI polish
@@ -338,7 +362,8 @@ Look for issues labeled `good first issue`:
 - **React**: [React Documentation](https://react.dev/)
 - **Node.js**: [Node.js Guide](https://nodejs.org/en/docs/)
 - **MongoDB**: [MongoDB Manual](https://docs.mongodb.com/)
-- **AMR Data**: [WHO AMR Resources](https://www.who.int/antimicrobial-resistance)
+- **AMR Data**:
+  [WHO AMR Resources](https://www.who.int/antimicrobial-resistance)
 
 ### AMRnet Specific
 
@@ -357,6 +382,7 @@ Look for issues labeled `good first issue`:
 ### Contributors
 
 All contributors are recognized in:
+
 - GitHub contributors list
 - Project documentation
 - Annual acknowledgment posts
@@ -365,6 +391,7 @@ All contributors are recognized in:
 ### Significant Contributions
 
 Major contributors may be:
+
 - Invited to join the core team
 - Acknowledged in academic publications
 - Featured in project announcements
@@ -383,13 +410,15 @@ Major contributors may be:
 
 - Email: amrnetdashboard@gmail.com
 - GitHub: @amrnet/core-team
-- Discussions: [GitHub Discussions](https://github.com/amrnet/amrnet/discussions)
+- Discussions:
+  [GitHub Discussions](https://github.com/amrnet/amrnet/discussions)
 
 ## 🔄 Release Process
 
 ### Version Numbering
 
 We follow [Semantic Versioning](https://semver.org/):
+
 - **MAJOR**: Breaking changes
 - **MINOR**: New features
 - **PATCH**: Bug fixes
@@ -400,4 +429,5 @@ We follow [Semantic Versioning](https://semver.org/):
 - **Minor releases**: Monthly with new features
 - **Major releases**: Annually with significant changes
 
-Thank you for contributing to AMRnet! Your work helps advance global antimicrobial resistance surveillance and supports public health worldwide. 🌍
+Thank you for contributing to AMRnet! Your work helps advance global
+antimicrobial resistance surveillance and supports public health worldwide. 🌍
