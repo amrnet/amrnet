@@ -130,7 +130,7 @@ export const getColorForGenotype = genotype => {
 };
 
 // Generate color pallete for Klebsiella genotypes
-let iwanthue = require('iwanthue');
+const iwanthue = require('iwanthue');
 export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable) => {
   if (genotypes.length === 0) {
     return {};
@@ -252,13 +252,13 @@ export const colorForDrugClassesST = {
     { name: 'tetA(D)', color: '#FCB469' },
     { name: 'None', color: '#B9B9B9' },
   ],
-  // ESBL: [
-  //   { name: 'blaCTX-M-15', color: '#6baed6' },
-  //   { name: 'blaCTX-M-55', color: '#FBCFE5' },
-  //   { name: 'blaOXA-7', color: '#9e9ac8' },
-  //   { name: 'blaSHV-12', color: '#addd8e' },
-  //   { name: 'None', color: '#B9B9B9' }
-  // ],
+  ESBL: [
+    { name: 'blaCTX-M-15', color: '#6baed6' },
+    { name: 'blaCTX-M-55', color: '#FBCFE5' },
+    { name: 'blaOXA-7', color: '#9e9ac8' },
+    { name: 'blaSHV-12', color: '#addd8e' },
+    { name: 'None', color: '#B9B9B9' },
+  ],
   Ceftriaxone: [
     { name: 'blaCTX-M-15', color: '#6baed6' },
     { name: 'blaCTX-M-55', color: '#FBCFE5' },
@@ -626,7 +626,7 @@ export const colorForDrugClassesNG = {
     { name: 'mtr_mos2', color: '#ef9d38ff' },
     { name: 'None', color: '#B9B9B9' },
   ],
-    Cefixime: [
+  Cefixime: [
     { name: 'penA.A501P + penA.G545S + penA.I312M + penA.V316T', color: '#f9c74f' },
     { name: 'penA.G545S + penA.I312M + penA.V316T', color: '#4A0082' },
     { name: 'penA.G545S + penA.I312M + penA.P551S, penA.V316T', color: '#f9844a' },
