@@ -38,6 +38,7 @@ import {
   setTotalGenomes,
   setTotalGenotypes,
   setYears,
+  setYearsCompleteListToShowInGlobalFilter
 } from '../../stores/slices/dashboardSlice.ts';
 import {
   setActualGenomesDRT,
@@ -347,6 +348,7 @@ export const DashboardPage = () => {
     dispatch(setActualGenotypes(genotypes.length));
     dispatch(setGenotypesForFilter(genotypes));
     dispatch(setYears(years));
+    dispatch(setYearsCompleteListToShowInGlobalFilter(years));
     dispatch(setCountriesForFilter(countries));
     dispatch(setPMID(PMID));
     // dispatch(setNgmast(ngmast));
@@ -1100,7 +1102,7 @@ export const DashboardPage = () => {
 
     return null;
   }
-
+console.log("yearsForFilter", yearsForFilter)
   useEffect(() => {
     if (yearsForFilter.length > 0) {
       dispatch(setTimeInitial(yearsForFilter[0]));
