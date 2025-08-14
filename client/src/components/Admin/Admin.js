@@ -52,7 +52,7 @@ import {
 import { API_ENDPOINT } from '../../constants';
 import axios from 'axios';
 import LZString from 'lz-string';
-import { Circles } from 'react-loader-spinner';
+import { DNASpinner } from '../Elements/DNASpinner';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 
@@ -1010,7 +1010,7 @@ export const AdminPage = () => {
       </div>
       {isLoading && (
         <div className="div-loader">
-          <Circles color="white" height={70} width={70} />
+          <DNASpinner color="white" height={70} width={70} />
           <p className="div-loader-msg">{loadingMessage}</p>
         </div>
       )}
