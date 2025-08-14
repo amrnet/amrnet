@@ -830,7 +830,7 @@ export const DashboardPage = () => {
         dispatch(setTrendsGraphDrugClass('ESBL'));
         dispatch(setDistributionGraphView('percentage'));
         dispatch(setDistributionGraphVariable('GENOTYPE'));
-        dispatch(setKOTrendsGraphView('K_locus'));
+        dispatch(setKOTrendsGraphView('percentage'));
         dispatch(setKOTrendsGraphPlotOption('K_locus'));
         dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
         dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
