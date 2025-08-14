@@ -1,3 +1,4 @@
+import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -14,36 +15,27 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { useStyles } from './GraphsMUI';
-import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
-import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
-import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
-import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
+import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { Circles } from 'react-loader-spinner';
+import LogoImg from '../../../assets/img/logo-prod.png';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import {
-  drugsST,
-  drugsKP,
-  drugsSTLegendsOnly,
-  drugsNGLegendsOnly,
-  drugsINTSLegendsOnly,
-  drugsKlebLegendsOnly,
-} from '../../../util/drugs';
-import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
-import {
-  colorForDrugClassesKP,
   colorForDrugClassesNG,
   colorForDrugClassesST,
+  colorForMarkers,
   getColorForGenotype,
-  colorForMarkers
 } from '../../../util/colorHelper';
-import { isTouchDevice } from '../../../util/isTouchDevice';
-import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
-import { DNAPulseSpinner } from '../DNASpinner';
+import { drugsKP, drugsST } from '../../../util/drugs';
+import { graphCards } from '../../../util/graphCards';
+import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
+import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
+import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
+import { useStyles } from './GraphsMUI';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -105,7 +97,7 @@ export const Graphs = () => {
   const resetBool = useAppSelector(state => state.graph.resetBool);
   const colorPalleteCgST = useAppSelector(state => state.dashboard.colorPalleteCgST);
   const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
-  const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable)
+  const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
 
@@ -139,23 +131,22 @@ export const Graphs = () => {
     return organism === 'styphi' ? getColorForGenotype(genotype) : currentColorPallete[genotype] || '#F5F4F6';
   }
   const currentColorPallete = useMemo(() => {
-      const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
-  
-      if (!isSpecialOrganism) {
-        return colorPallete;
-      }
-  
-      if (distributionGraphVariable === 'Sublineage') {
-        return colorPalleteSublineages;
-      }
-  
-      if (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE') {
-        return colorPalleteCgST;
-      }
-  
-      return colorPallete;
-    }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
+    const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
 
+    if (!isSpecialOrganism) {
+      return colorPallete;
+    }
+
+    if (distributionGraphVariable === 'Sublineage') {
+      return colorPalleteSublineages;
+    }
+
+    if (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE') {
+      return colorPalleteCgST;
+    }
+
+    return colorPallete;
+  }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
 
   // function getColor(item) {
   //   if (currentCard.id === 'KOT') {
@@ -209,24 +200,25 @@ export const Graphs = () => {
       const yFactor = (i % factor) * 24;
       const xFactor = Math.floor(i / factor) * xSpace;
 
-      context.fillStyle = isGenotype
-          ? getGenotypeColor(legend)
-          : isDrug
-            ? getColorForDrug(legend)
-            : isVariable
-              ? convergenceColourPallete[legend]
-              : isGen
-                ? i === legendData.length - 1
+      ((context.fillStyle = isGenotype
+        ? getGenotypeColor(legend)
+        : isDrug
+          ? getColorForDrug(legend)
+          : isVariable
+            ? convergenceColourPallete[legend]
+            : isGen
+              ? i === legendData.length - 1
                 ? '#F5F4F6'
                 : colorForMarkers[i]
-                : legend.color,
-      context.beginPath();
+              : legend.color),
+        context.beginPath());
       context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
       context.fillStyle = 'black';
       context.fillText(
-          isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,        61 + xFactor,
+        isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
+        61 + xFactor,
         yPosition + 4 - mobileFactor + yFactor,
       );
     });
@@ -444,7 +436,7 @@ export const Graphs = () => {
         });
       } else if (currentCard.id === 'GD') {
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        console.log("genotypesForFilterSelected", genotypesForFilterSelected)
+        console.log('genotypesForFilterSelected', genotypesForFilterSelected);
         drawLegend({
           legendData: genotypesForFilterSelected,
           context: ctx,
@@ -467,15 +459,13 @@ export const Graphs = () => {
           xSpace: orgBasedSpace,
         });
       } else if (currentCard.id === 'RDT') {
-        
         let legendGens = [...topGenesSlice.filter(g => g !== 'None'), ...topGenesSlice.filter(g => g === 'None')];
-        if (organism === 'kenumon')
-          legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
-        console.log('legendGens',topGenesSlice, legendGens )
+        if (organism === 'kenumon') legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
+        console.log('legendGens', topGenesSlice, legendGens);
 
         ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
-        ctx.fillStyle = '#F5F4F6'
+        ctx.fillStyle = '#F5F4F6';
         // ctx.fillText('GENES:', 50, 675);
         drawLegend({
           legendData: legendGens,
@@ -484,7 +474,7 @@ export const Graphs = () => {
           mobileFactor,
           yPosition: 695,
           xSpace: 238,
-          isGen: true
+          isGen: true,
         });
 
         // ctx.fillStyle = 'black';
@@ -523,7 +513,6 @@ export const Graphs = () => {
         });
       }
 
-
       const base64 = canvas.toDataURL();
       await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}_${currentCard.title}.png`);
     } catch {
@@ -560,7 +549,7 @@ export const Graphs = () => {
   // Add validation to ensure currentTab is always valid
   const safeCurrentTab = useMemo(() => {
     const validTabs = organismCards.map(card => card.id);
-    return validTabs.includes(currentTab) ? currentTab : (validTabs[0] || 'DRT');
+    return validTabs.includes(currentTab) ? currentTab : validTabs[0] || 'DRT';
   }, [currentTab, organismCards]);
 
   return (
@@ -690,14 +679,13 @@ export const Graphs = () => {
                         }),
                   }}
                 >
-                  {shouldRender &&
-                    cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  {shouldRender && cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
               );
             })}
             {canFilterData && (
               <div className={classes.loadingBlock}>
-                <DNAPulseSpinner color="#6F2F9F" height={60} width={60} />
+                <Circles color="#6F2F9F" height={60} width={60} />
               </div>
             )}
           </Box>
