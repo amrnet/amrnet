@@ -1238,15 +1238,15 @@ export const statKeysINTS = [
 // Used for shige, ecoli and decoli
 export const statKeysECOLI = (() => {
   const items = [
-    { name: 'Macrolides', column: 'Macrolide', key: '-', resistanceView: true },
     { name: 'Aminoglycosides', column: 'Aminoglycoside', key: '-', resistanceView: true },
+    { name: 'Ampicillin', column: 'Penicillin', key: '-', resistanceView: true },
     { name: 'Carbapenems', column: 'Carbapenemase', key: '-', resistanceView: true },
+    { name: 'Chloramphenicol', column: 'Phenicol', key: '-', resistanceView: true },
     { name: 'ESBL', column: 'ESBL', key: '-', resistanceView: true },
     { name: 'Ciprofloxacin', column: 'Quinolone', key: '-', resistanceView: true },
     { name: 'Colistin', column: 'Colistin', key: '-', resistanceView: true },
     { name: 'Fosfomycin', column: 'Fosfomycin', key: '-', resistanceView: true },
-    { name: 'Ampicillin', column: 'Penicllin', key: '-', resistanceView: true },
-    { name: 'Chloramphenicol', column: 'Phenicol', key: '-', resistanceView: true },
+    { name: 'Macrolides', column: 'Macrolide', key: '-', resistanceView: true },
     { name: 'Sulfamethoxazole', column: 'Sulfonamide', key: '-', resistanceView: true },
     { name: 'Tetracycline', column: 'Tetracycline', key: '-', resistanceView: true },
     { name: 'Trimethoprim', column: 'Trimethoprim', key: '-', resistanceView: true },
