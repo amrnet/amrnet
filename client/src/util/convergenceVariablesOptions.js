@@ -11,7 +11,7 @@ export const variablesOptions = [
 export const variableGraphOptions = variablesOptions.filter(x => x.graph);
 
 export const variablesOptionsNG = [
-  { label: 'NGMST', value: 'NG-MAST TYPE', graph: true, mapValue: 'NGMST' },
-  { label: 'GENOTYPE', value: 'GENOTYPE' , graph: true, mapValue: 'GENOTYPE'},
+  { label: 'NGMAST', value: 'NG-MAST TYPE', graph: true, mapValue: 'NGMAST' },
+  { label: 'Genotype', value: 'GENOTYPE', graph: true, mapValue: 'GENOTYPE' },
 ];
 export const variableGraphOptionsNG = variablesOptionsNG.filter(x => x.graph);

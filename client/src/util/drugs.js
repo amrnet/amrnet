@@ -1,12 +1,10 @@
 import {
   drugRulesINTS,
   drugRulesNG,
-  drugRulesKP,
-  statKeysKP,
-  statKeysST,
   drugRulesST,
   statKeysECOLI,
   statKeysINTS,
+  statKeysKP,
   statKeysKPOnlyMarkers,
 } from './drugClassesRules';
 
@@ -129,6 +127,7 @@ export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMX',
   Ampicillin: 'AMP',
   Azithromycin: 'AZM',
+  ESBL: 'ESBL',
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CHL',
   Sulfonamides: 'SUL',
@@ -140,11 +139,11 @@ export const drugAcronyms = {
   Aminoglycosides: 'AGLY',
   Fluoroquinolones: 'FLQ',
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
-  Phenicols: 'PHE',
+  // Phenicols: 'PHE',
   Tigecycline: 'TGC',
   '3rd gen cephalosporins (3GCs)': '3GCs',
   Sulfamethoxazole: 'SMX',
-  Gentamicin: 'GEN',
+  // Gentamicin: 'GEN',
   Cefixime: 'CFM',
   Ciprofloxacin: 'CIP',
   Benzylpenicillin: 'PEN',
@@ -154,9 +153,8 @@ export const drugAcronyms = {
   Susceptible: 'SUS',
   Carbapenems: 'CARB',
   'Ciprofloxacin R': 'CipR',
-  Penicillins: 'PCN',
+  // Penicillins: 'PCN',
 };
-
 
 export const drugAcronymsOpposite = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
