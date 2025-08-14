@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { Circles } from 'react-loader-spinner';
 import { useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../stores/hooks';
 import { Header } from '../Elements/Header';
@@ -25,7 +24,7 @@ export const MainLayout = ({ children }) => {
         </div>
         {(loadingData || loadingMap) && (
           <div className={classes.loading}>
-            <Circles wrapperClass={classes.loader} color="#6F2F9F" height={60} width={60} />
+            <DNASpinner wrapperClass={classes.loader} color="#6F2F9F" height={60} width={60} />
             <p style={{ marginTop: '16px', color: '#6F2F9F', fontSize: '14px', textAlign: 'center' }}>
               Thanks for your patience
             </p>
