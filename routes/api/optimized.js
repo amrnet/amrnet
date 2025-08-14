@@ -838,7 +838,7 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['kpneumo'];
 
   try {
-    console.log('🔄 [OPTIMIZED] Starting Kpneumo data fetch...');
+    console.log('🔄 [OPTIMIZED] Starting Kpneumo paginated data fetch...');
 
     const connectedClient = await getConnectedClient();
     const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
@@ -847,26 +847,24 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
     const totalCount = await collection.countDocuments({ 'dashboard view': 'include', GENOTYPE: { $ne: null } });
     console.log(`📊 [OPTIMIZED] Total Kpneumo documents to fetch: ${totalCount}`);
 
+    // Pagination parameters
+    const page = parseInt(req.query.page, 10) || 1;
+    const pageSize = parseInt(req.query.pageSize, 10) || 1000;
+    const skip = (page - 1) * pageSize;
+
     // Use cursor for memory-efficient streaming
-    const cursor = collection.find({ 'dashboard view': 'include', GENOTYPE: { $ne: null } }).batchSize(2000); // Process in batches of 2000
+    const docs = await collection
+      .find({ 'dashboard view': 'include', GENOTYPE: { $ne: null } })
+      .skip(skip)
+      .limit(pageSize)
+      .toArray();
 
     const results = [];
     let processedCount = 0;
 
     // Stream processing
-    for await (const doc of cursor) {
-      results.push(doc);
-      processedCount++;
-
-      // Log progress every 10000 documents
-      if (processedCount % 10000 === 0) {
-        const elapsed = performance.now() - startTime;
-        const rate = Math.round(processedCount / (elapsed / 1000));
-        console.log(
-          `⏳ [OPTIMIZED] Kpneumo progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`,
-        );
-      }
-    }
+    results.push(...docs);
+    processedCount = docs.length;
 
     const endTime = performance.now();
     const totalTime = Math.round(endTime - startTime);
@@ -875,7 +873,13 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
       `✅ [OPTIMIZED] Kpneumo fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`,
     );
 
-    res.json(results);
+    res.json({
+      data: results,
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.ceil(totalCount / pageSize),
+    });
   } catch (error) {
     console.error('❌ [OPTIMIZED] Kpneumo error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
