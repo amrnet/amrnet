@@ -1249,6 +1249,8 @@ export const statKeysECOLI = (() => {
     { name: 'Sulfamethoxazole', column: 'Sulfonamide', key: '-', resistanceView: true },
     { name: 'Tetracycline', column: 'Tetracycline', key: '-', resistanceView: true },
     { name: 'Trimethoprim', column: 'Trimethoprim', key: '-', resistanceView: true },
+    { name: 'Azithromycin', column: 'Macrolide', key: ['mph(A)', 'acrB_R717'], resistanceView: true },
+
     // { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
     // { name: 'Azithromycin', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
     // { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
