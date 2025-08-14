@@ -1,13 +1,11 @@
-import express from 'express';
-import csv from 'csv-parser';
-import fs from 'fs';
-import path from 'path';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import * as Tools from '../../services/services.js';
-import { client } from '../../config/db.js';
 import pkg from 'csv-writer';
+import express from 'express';
+import fs from 'fs';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import zlib from 'zlib';
+import { client } from '../../config/db.js';
+import * as Tools from '../../services/services.js';
 
 const { createObjectCsvWriter: createCsvWriter } = pkg;
 const { createObjectCsvStringifier: createCsvStringifier } = pkg;
@@ -58,19 +56,21 @@ router.post('/download', async function (req, res, next) {
   if (data.length > 0) {
     const header = Object.keys(data[0]);
     const headerList = [...header];
-    let nameField = (organism === 'shige' || organism === 'decoli') ? 'Name' : 'NAME';
+    let nameField = organism === 'shige' || organism === 'decoli' ? 'Name' : 'NAME';
 
-    const filteredHeaderList = headerList.filter(fieldName =>
-      fieldName !== nameField &&
-      fieldName !== 'DATE' &&
-      fieldName !== 'COUNTRY' &&
-      fieldName !== 'COUNTRY_ONLY' &&
-      fieldName !== 'PMID' &&
-      fieldName !== 'GENOTYPE'
+    const filteredHeaderList = headerList.filter(
+      fieldName =>
+        fieldName !== nameField &&
+        fieldName !== 'DATE' &&
+        fieldName !== 'COUNTRY' &&
+        fieldName !== 'COUNTRY_ONLY' &&
+        fieldName !== 'PMID' &&
+        fieldName !== 'GENOTYPE',
     );
-    const rearrangedHeaderList = (organism === 'styphi' || organism === 'ngono')
-      ? [nameField, 'DATE', 'COUNTRY_ONLY', 'PMID', 'GENOTYPE', ...filteredHeaderList]
-      : [nameField, 'DATE', 'COUNTRY_ONLY', 'GENOTYPE', ...filteredHeaderList];
+    const rearrangedHeaderList =
+      organism === 'styphi' || organism === 'ngono'
+        ? [nameField, 'DATE', 'COUNTRY_ONLY', 'PMID', 'GENOTYPE', ...filteredHeaderList]
+        : [nameField, 'DATE', 'COUNTRY_ONLY', 'GENOTYPE', ...filteredHeaderList];
 
     const headerL = rearrangedHeaderList.map(fieldName => ({
       id: fieldName,
@@ -78,9 +78,9 @@ router.post('/download', async function (req, res, next) {
     }));
 
     const csvStringifier = createCsvStringifier({ header: headerL });
-    const records = data.map((doc) => {
-    const flatDoc = {};
-      rearrangedHeaderList.forEach((key) => {
+    const records = data.map(doc => {
+      const flatDoc = {};
+      rearrangedHeaderList.forEach(key => {
         flatDoc[key] = doc[key] ?? '';
       });
 
@@ -88,31 +88,30 @@ router.post('/download', async function (req, res, next) {
     });
 
     csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(records);
-
-    } else if (fs.existsSync(localFilePath)) {
+  } else if (fs.existsSync(localFilePath)) {
     csvString = fs.readFileSync(localFilePath, 'utf8');
-    }
+  }
 
-    // Check if client accepts gzip compression
-    const acceptsGzip = req.headers['accept-encoding'] && req.headers['accept-encoding'].includes('gzip');
+  // Check if client accepts gzip compression
+  const acceptsGzip = req.headers['accept-encoding'] && req.headers['accept-encoding'].includes('gzip');
 
-    if (acceptsGzip && csvString && csvString.length > 1024) {
-      // Compress the CSV data
-      const compressed = zlib.gzipSync(csvString);
+  if (acceptsGzip && csvString && csvString.length > 1024) {
+    // Compress the TSV data
+    const compressed = zlib.gzipSync(csvString);
 
-      res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv.gz"`);
-      res.setHeader('Content-Type', 'application/gzip');
-      res.setHeader('Content-Encoding', 'gzip');
-      res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv.gz"`);
+    res.setHeader('Content-Type', 'application/gzip');
+    res.setHeader('Content-Encoding', 'gzip');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
-      res.send(compressed);
-    } else {
-      res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv"`);
-      res.setHeader('Content-Type', 'text/csv');
-      res.setHeader('Access-Control-Allow-Origin', '*');
+    res.send(compressed);
+  } else {
+    res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv"`);
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
-      res.send(csvString || '');
-    }
+    res.send(csvString || '');
+  }
 });
 
 //Generate clean_all_st and clean_all_kp
@@ -174,21 +173,21 @@ router.get('/generate/:organism', async function (req, res, next) {
     const queryResult = await collection.find().toArray();
     if (queryResult.length > 0) {
       // Remove the '_id' field from each document
-      const sanitizedData = queryResult.map((doc) => {
+      const sanitizedData = queryResult.map(doc => {
         const { _id, __v, ...rest } = doc;
         return rest;
       });
 
       const csvWriter = createCsvWriter({
         path: `../../assets/webscrap/clean/${folderName}/cleanAll_${ext}.csv`,
-        header: Object.keys(sanitizedData[0]).map((field) => ({
+        header: Object.keys(sanitizedData[0]).map(field => ({
           id: field,
           title: field,
         })),
       });
 
       await csvWriter.writeRecords(sanitizedData);
-      console.log('CSV file successfully created.');
+      console.log('TSV file successfully created.');
     } else {
       console.log('No data to export.');
     }
@@ -254,14 +253,14 @@ router.get('/clean/:organism', async function (req, res, next) {
     if (queryResult.length > 0) {
       const csvWriter = createCsvWriter({
         path: path.join(__dirname, `../../assets/webscrap/clean/${folderName}/clean_${ext}.csv`),
-        header: Object.keys(queryResult[0]).map((field) => ({
+        header: Object.keys(queryResult[0]).map(field => ({
           id: field,
           title: field,
         })),
       });
 
       await csvWriter.writeRecords(queryResult);
-      console.log('CSV file successfully created.');
+      console.log('TSV file successfully created.');
     } else {
       console.log('No data to export.');
     }

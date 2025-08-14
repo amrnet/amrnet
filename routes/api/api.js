@@ -222,9 +222,9 @@ router.get('/getDataForSTyphi', async function (req, res, next) {
       return res.json(result);
     }
 
-    console.warn('[STyphi API] No documents found in the database, falling back to CSV.');
+    console.warn('[STyphi API] No documents found in the database, falling back to TSV.');
 
-    // Fallback to reading from CSV if no data found in MongoDB
+    // Fallback to reading from TSV if no data found in MongoDB
     return readCsvFallback(Tools.path_clean_st, res);
   } catch (error) {
     console.error(`[STyphi API] Error retrieving data for STyphi: ${error.message}`);
@@ -235,13 +235,73 @@ router.get('/getDataForSTyphi', async function (req, res, next) {
 router.get('/getDataForKpneumo', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['kpneumo'];
   try {
-    const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
+    // Pagination params
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5000;
+    const skip = (page - 1) * limit;
+    // Projection: only return needed fields
+    const projection = {
+      GENOTYPE: 1,
+      COUNTRY_ONLY: 1,
+      DATE: 1,
+      ESBL_category: 1,
+      Carbapenems_category: 1,
+      cgST: 1,
+      Sublineage: 1,
+      AGly_acquired: 1,
+      Bla_Carb_acquired: 1,
+      Bla_ESBL_acquired: 1,
+      Bla_ESBL_inhR_acquired: 1,
+      Flq_acquired: 1,
+      Flq_mutations: 1,
+      Col_acquired: 1,
+      Col_mutations: 1,
+      Fcyn_acquired: 1,
+      Phe_acquired: 1,
+      Sul_acquired: 1,
+      Tet_acquired: 1,
+      Tgc_acquired: 1,
+      Tmt_acquired: 1,
+      SHV_mutations: 1,
+      Omp_mutations: 1,
+      num_resistance_classes: 1,
+      virulence_score: 1,
+      O_locus: 1,
+      K_locus: 1,
+      O_type: 1,
+      NAME: 1,
+      _id: 0,
+    };
+    // Query
+    const query = {
       'dashboard view': 'include',
       GENOTYPE: { $ne: null },
+    };
+    // Get total count
+    const client = await connectDB();
+    const totalDocuments = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .countDocuments(query);
+    // Get paginated data
+    const result = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .find(query)
+      .project(projection)
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+    console.log(`Found ${result.length} documents for Kpneumo (page ${page}).`);
+    return res.json({
+      data: result,
+      pagination: {
+        page,
+        limit,
+        totalDocuments,
+        totalPages: Math.ceil(totalDocuments / limit),
+      },
     });
-
-    console.log(`Found ${result.length} documents for Kpneumo.`);
-    return res.json(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -270,17 +330,49 @@ router.get('/getDataForNgono', async function (req, res, next) {
 router.get('/getDataForEcoli', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['ecoli'];
   try {
-    const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
+    // Pagination params
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5000;
+    const skip = (page - 1) * limit;
+    // Projection: only return needed fields
+    const projection = {
+      GENOTYPE: 1,
+      COUNTRY_ONLY: 1,
+      DATE: 1,
+      ESBL_category: 1,
+      'dashboard view': 1,
+      // add more fields as needed
+    };
+    // Query
+    const query = {
       'dashboard view': { $regex: /^include$/, $options: 'i' },
       GENOTYPE: { $ne: null },
+    };
+    // Get total count
+    const client = await connectDB();
+    const totalDocuments = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .countDocuments(query);
+    // Get paginated data
+    const result = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .find(query)
+      .project(projection)
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+    console.log(`Found ${result.length} documents for Ecoli (page ${page}).`);
+    return res.json({
+      data: result,
+      pagination: {
+        page,
+        limit,
+        totalDocuments,
+        totalPages: Math.ceil(totalDocuments / limit),
+      },
     });
-
-    console.log(`Found ${result.length} documents for Ecoli.`);
-    if (result.length > 0) {
-      return res.json(result);
-    }
-
-    return readCsvFallback(Tools.path_clean_ec, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -290,17 +382,49 @@ router.get('/getDataForEcoli', async function (req, res, next) {
 router.get('/getDataForDEcoli', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['decoli'];
   try {
-    const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
-      'dashboard view': 'include',
+    // Pagination params
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5000;
+    const skip = (page - 1) * limit;
+    // Projection: only return needed fields
+    const projection = {
+      GENOTYPE: 1,
+      COUNTRY_ONLY: 1,
+      DATE: 1,
+      ESBL_category: 1,
+      'dashboard view': 1,
+      // add more fields as needed
+    };
+    // Query
+    const query = {
+      'dashboard view': { $regex: /^include$/, $options: 'i' },
       GENOTYPE: { $ne: null },
+    };
+    // Get total count
+    const client = await connectDB();
+    const totalDocuments = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .countDocuments(query);
+    // Get paginated data
+    const result = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .find(query)
+      .project(projection)
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+    console.log(`Found ${result.length} documents for DEcoli (page ${page}).`);
+    return res.json({
+      data: result,
+      pagination: {
+        page,
+        limit,
+        totalDocuments,
+        totalPages: Math.ceil(totalDocuments / limit),
+      },
     });
-
-    console.log(`Found ${result.length} documents for DEcoli.`);
-    if (result.length > 0) {
-      return res.json(result);
-    }
-
-    return readCsvFallback(Tools.path_clean_dec, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
