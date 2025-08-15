@@ -1,13 +1,7 @@
-import React, { useState } from 'react';
-import {
-  Menu,
-  MenuItem,
-  IconButton,
-  Box,
-  Typography
-} from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FranceFlag, BrazilFlag, SpainFlag, USAFlag } from './FlagIcons';
+import { BrazilFlag, FranceFlag, SpainFlag, UKFlag } from './FlagIcons';
 
 /**
  * LanguageSwitcher Component
@@ -27,10 +21,10 @@ const LanguageSwitcher = () => {
   const open = Boolean(anchorEl);
 
   const languages = [
-    { code: 'en', name: 'English', flag: USAFlag },
+    { code: 'en', name: 'English', flag: UKFlag },
     { code: 'fr', name: 'Français', flag: FranceFlag },
     { code: 'pt', name: 'Português (BR)', flag: BrazilFlag },
-    { code: 'es', name: 'Español', flag: SpainFlag }
+    { code: 'es', name: 'Español', flag: SpainFlag },
   ];
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
@@ -39,7 +33,7 @@ const LanguageSwitcher = () => {
    * Handles opening the language menu
    * @param {Event} event - The click event
    */
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -54,7 +48,7 @@ const LanguageSwitcher = () => {
    * Changes the application language
    * @param {string} languageCode - The language code to switch to
    */
-  const changeLanguage = (languageCode) => {
+  const changeLanguage = languageCode => {
     i18n.changeLanguage(languageCode);
     handleClose();
   };
@@ -72,8 +66,8 @@ const LanguageSwitcher = () => {
           padding: 1,
           borderRadius: 2,
           '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.04)'
-          }
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          },
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -95,21 +89,19 @@ const LanguageSwitcher = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {languages.map((language) => (
+        {languages.map(language => (
           <MenuItem
             key={language.code}
             onClick={() => changeLanguage(language.code)}
             selected={language.code === i18n.language}
             sx={{
               minWidth: 160,
-              padding: '8px 16px'
+              padding: '8px 16px',
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <language.flag width={20} height={15} />
-              <Typography variant="body2">
-                {language.name}
-              </Typography>
+              <Typography variant="body2">{language.name}</Typography>
             </Box>
           </MenuItem>
         ))}
