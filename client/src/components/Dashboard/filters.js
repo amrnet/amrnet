@@ -641,7 +641,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       acc[genotype] = (acc[genotype] || 0) + 1;
       return acc;
     }, {});
-    console.log('yearData', yearData);
+
     // Calculate other genotype stats for Klebsiella
     let cgSTStats = {};
     let sublineageStats = {};
@@ -1069,7 +1069,7 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
             ...getDrugClassDataINTS({
               drugKey: key,
               dataToFilter: itemData,
-              notINTS: ['ecoli', 'decoli', 'shige'].includes(organism) ? true : false,
+              notINTS: ['ecoli', 'decoli', 'shige'].includes(organism),
             }),
           };
         }
@@ -1769,13 +1769,18 @@ function getKPDrugClassData({ drugKey, dataToFilter, notKP = false }) {
   //   }
 
   let resistantCount = 0;
+  const valuesToIncludeNotKP = statKeysECOLI.find(x => x.name === 'Azithromycin').key;
 
   dataToFilter.forEach(x => {
-    const columnsValues = columnIDs.map(id => x[id]).filter(x => !['ND'].includes(x));
+    let columnsValues = columnIDs.map(id => x[id]).filter(x => !['ND'].includes(x));
 
     if (columnsValues.every(value => value === '-')) return;
     if (!notKP && 'value' in rules && columnsValues.every(value => value !== rules?.value)) return;
     if (!notKP && 'every' in rules && columnsValues.some(value => value === '-')) return;
+    if (notKP && drugKey === 'Azithromycin') {
+      columnsValues = columnsValues.filter(v => valuesToIncludeNotKP.includes(v));
+      if (columnsValues.length === 0) return;
+    }
 
     const genes = removeChars(
       columnsValues
@@ -1813,6 +1818,10 @@ function getDrugClassDataINTS({ drugKey, dataToFilter, notINTS = false }) {
 
     const columnName = foundItem.column; // Gets 'TRIMETHOPRIM'
     const value = x[columnName]; // Gets x['TRIMETHOPRIM']
+
+    if (notINTS && drugKey === 'Azithromycin' && !foundItem.key.includes(value)) {
+      return;
+    }
 
     // Only count if value is present and not '-' or '0'
     if (value && value !== '-' && value !== '0' && value !== 'NA' && value !== 'ND') {
