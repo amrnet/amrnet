@@ -17,7 +17,7 @@ import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
-import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../util/drugs';
+import { drugAcronymsOpposite, ngonoSusceptibleRule, drugsKP, drugsNG, drugsST  } from '../../../util/drugs';
 import { graphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { mapLegends } from '../../../util/mapLegends';
@@ -30,7 +30,6 @@ import {
   getColorForGenotype,
 } from '../../../util/colorHelper';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
-import { drugsKP, drugsNG, drugsST } from '../../../util/drugs';
 import {
   getDEcoliTexts,
   getEcoliTexts,
@@ -42,6 +41,7 @@ import {
   getShigeTexts,
 } from '../../../util/reportInfoTexts';
 import { getColorForDrug } from '../Graphs/graphColorHelper';
+import Papa from 'papaparse';
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -277,15 +277,14 @@ export const DownloadData = () => {
     await axios
       .post(`/api/file/download`, { organism })
       .then(res => {
-        let indexes = [];
-        let csv = res.data.split('\n');
-        let lines = [];
+        const parsed = Papa.parse(res.data, {
+          header: false,
+          skipEmptyLines: true,
+        });
 
-        for (let index = 0; index < csv.length; index++) {
-          let line = csv[index].split(',');
-          lines.push(line);
-        }
+        let lines = parsed.data;
 
+        // Replace headers
         const replacements = {
           COUNTRY_ONLY: 'Country',
           NAME: 'Name',
@@ -297,38 +296,24 @@ export const DownloadData = () => {
           'dashboard view': 'Dashboard view',
         };
 
-        lines[0].forEach((curr, index) => {
-          lines[0][index] = replacements[curr] || curr;
-        });
+        lines[0] = lines[0].map(header => replacements[header] || header);
 
+        // Remove columns
+        let indexes = [];
         for (let index = 0; index < columnsToRemove.length; index++) {
           let currentIndex = lines[0].indexOf(columnsToRemove[index]);
-          indexes.push(currentIndex);
+          if (currentIndex !== -1) indexes.push(currentIndex);
         }
-        indexes.sort();
-        indexes.reverse();
+        indexes.sort().reverse();
 
-        let newLines = [];
-        for (let j = 0; j < lines.length; j++) {
-          let aux = [];
-          for (let i = 0; i < lines[j].length; i++) {
-            if (!indexes.includes(i)) {
-              aux.push(lines[j][i]);
-            }
-          }
-          newLines.push(aux);
-        }
+        let newLines = lines.map(row =>
+          row.filter((_, i) => !indexes.includes(i))
+        );
 
-        // Assemble the new TSV data by joining columns with "\t" instead of ","
-        let newTSV = '';
-        for (let i = 0; i < newLines.length; i++) {
-          newTSV += newLines[i].join('\t');
-          if (i !== newLines.length - 1) {
-            newTSV += '\n';
-          }
-        }
+        // Convert to TSV
+        const newTSV = newLines.map(row => row.join('\t')).join('\n');
 
-        // Update the filename to reflect TSV format
+        // Download
         download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
       })
       .catch(error => {

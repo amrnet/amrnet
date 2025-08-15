@@ -40,6 +40,7 @@ export const DownloadMapViewData = ({ value }) => {
   const countriesYearData = useAppSelector(state => state.graph.countriesYearData);
   const drugClass = useAppSelector(state => state.graph.drugClass);
   const drugGene = useAppSelector(state => state.graph.drugGene);
+  const bubbleMarkersHeatmapGraphData = useAppSelector(state => state.graph.bubbleMarkersHeatmapGraphData);
 
   let firstName, secondName;
   if (organism === 'styphi') {
@@ -622,22 +623,18 @@ export const DownloadMapViewData = ({ value }) => {
       console.log('mapRegionData is not an array or is empty', mapRegionData);
     }
   };
-  function getUniqueNames(data, key, yAxis) {
-    const seen = new Set();
+  function getUniqueMarkerNames(data) {
+    const markers = new Set();
 
-    for (let i = 0; i < data.length; i++) {
-      const items = data[i][key]?.[yAxis]?.items;
-      if (!items) continue;
-
-      for (let j = 0; j < items.length; j++) {
-        const name = items[j].name;
-        if (name) {
-          seen.add(name);
+    data.forEach(genotypeEntry => {
+      genotypeEntry.items.forEach(item => {
+        if (item.itemName && item.itemName !== '-') {
+          markers.add(item.itemName);
         }
-      }
-    }
+      });
+    });
 
-    return [...seen];
+    return [...markers].sort();
   }
 
   const downloadCSVForBKOH = () => {
@@ -682,45 +679,41 @@ export const DownloadMapViewData = ({ value }) => {
 
   const downloadCSVForBAMRH = () => {
     const COMPARISON = variableGraphOptions.find(x => x.value === bubbleMarkersHeatmapGraphVariable).mapValue;
-    const data =
-      actualCountry === 'All'
-        ? mapRegionData.find(x => x.name === actualRegion)
-        : mapData.find(x => x.name === actualCountry);
 
-    if (data) {
-      const headers = ['Region', 'Country', 'Name']; // Initial headers
-      const items = getUniqueNames(data?.stats?.[COMPARISON]?.items || [], 'drugs', bubbleMarkersYAxisType);
-      const uniqueValues = items.filter(x => x !== '-').sort(); // removing '-' value from download data
-
-      // Add items names along with percentage columns to the header
-      uniqueValues.forEach(value => {
-        headers.push(value); // Count column
-        headers.push(`${value} %`); // Percentage column
-      });
-
-      // Create CSV rows dynamically
-      const rows = [data].flatMap(item => {
-        return Object.values(item.stats[COMPARISON].items).map(obj => {
-          const rowData = [actualRegion, actualCountry, obj.name]; // Start with genotype name
-
-          // Loop through all drugs to add count and percentage
-          uniqueValues.forEach(value => {
-            const data = obj.drugs[bubbleMarkersYAxisType].items.find(x => x.name === value) || {
-              count: 0,
-              percentage: 0,
-            };
-            rowData.push(data.count); // Count
-            rowData.push(data.percentage); // Percentage
-          });
-          return rowData.join(',');
-        });
-      });
-
-      // Create CSV header row
-      generateCSV(headers.join(','), rows, `AMR markers by genotype for (${actualRegion}-${actualCountry})`);
-    } else {
-      console.log('data was not found', data);
+    const data = bubbleMarkersHeatmapGraphData;
+    if (!data || !Array.isArray(data)) {
+      console.log('No bubbleMarkersHeatmapGraphData available');
+      return;
     }
+
+    // Step 1: Get all unique marker names (itemName)
+    const uniqueMarkers = getUniqueMarkerNames(data);
+
+    // Step 2: Prepare CSV headers
+    const headers = ['Region', 'Country', 'Name']; // Always keep these
+    uniqueMarkers.forEach(marker => {
+      headers.push(marker);        // Count
+      headers.push(`${marker} %`); // Percentage
+    });
+
+    // Step 3: Create rows for each genotype entry
+    const rows = data.map(genotypeEntry => {
+      const row = [actualRegion, actualCountry, genotypeEntry.name]; // region, country, genotype name
+
+      uniqueMarkers.forEach(marker => {
+        const item = genotypeEntry.items.find(i => i.itemName === marker) || {
+          count: 0,
+          percentage: 0,
+        };
+        row.push(item.count);
+        row.push(item.percentage);
+      });
+
+      return row.join(',');
+    });
+
+    // Step 4: Export CSV
+    generateCSV(headers.join(','), rows, `AMR markers by genotype for (${actualRegion}-${actualCountry})`);
   };
 
   const downloadCSVForBG = () => {

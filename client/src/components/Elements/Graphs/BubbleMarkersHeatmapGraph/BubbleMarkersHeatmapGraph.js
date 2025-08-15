@@ -27,7 +27,7 @@ import {
   ZAxis,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setBubbleMarkersHeatmapGraphVariable, setBubbleMarkersYAxisType } from '../../../../stores/slices/graphSlice';
+import { setBubbleMarkersHeatmapGraphVariable, setBubbleMarkersYAxisType, setBubbleMarkersHeatmapGraphData} from '../../../../stores/slices/graphSlice';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
 import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
 import { drugClassesRulesST } from '../../../../util/drugClassesRules';
@@ -344,6 +344,10 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     organism,
     genotypesDrugClassesData,
   ]);
+  useEffect(() =>{
+    dispatch(setBubbleMarkersHeatmapGraphData(configuredMapData))
+  },[bubbleMarkersYAxisType, configuredMapData])
+  console.log("configuredMapData", configuredMapData, bubbleMarkersYAxisType)
 
   useEffect(() => {
     if (canGetData) {
