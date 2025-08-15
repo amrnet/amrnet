@@ -14,7 +14,11 @@
     "install": "cd client && npm install",
     "client": "cd client && npm run start:no-lint",
     "build": "cd client && yarn build",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "db:indexes": "node scripts/create-indexes.js",
+    "lint:check": "cd client && npm run lint:check",
+    "lint": "cd client && npm run lint",
+    "lint:fix": "cd client && npm run lint:fix"
   },
   "license": "GPL-3.0",
   "dependencies": {

@@ -3,6 +3,18 @@ import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { setOrganism } from '../../stores/slices/dashboardSlice';
 import { useOptimizedDataLoading } from './OptimizedDashboard';
 
+// Import original components (these would be your existing components)
+import MainLayout from '../Elements/MainLayout/MainLayout';
+import Note from '../Elements/Note/Note';
+import Map from '../Elements/Map/Map';
+import Graphs from '../Elements/Graphs/Graphs';
+import ContinentGraphs from '../Elements/ContinentGraphs/ContinentGraphs';
+import ContinentPathotypeGraphs from '../Elements/ContinentPathotypeGraphs/ContinentPathotypeGraphs';
+import DownloadData from '../Elements/DownloadData/DownloadData';
+import ResetButton from '../Elements/ResetButton/ResetButton';
+import FloatingGlobalFilters from '../Elements/FloatingGlobalFilters/FloatingGlobalFilters';
+import { OptimizedChartWrapper } from '../Charts/OptimizedCharts';
+
 // Drop-in replacement for the existing Dashboard component
 export const DashboardOptimizedIntegration = () => {
   const dispatch = useAppDispatch();
@@ -143,18 +155,6 @@ const OptimizedFloatingGlobalFilters = ({ onColorByChange, onDrugSelectionChange
     />
   );
 };
-
-// Import original components (these would be your existing components)
-import MainLayout from '../Elements/MainLayout/MainLayout';
-import Note from '../Elements/Note/Note';
-import Map from '../Elements/Map/Map';
-import Graphs from '../Elements/Graphs/Graphs';
-import ContinentGraphs from '../Elements/ContinentGraphs/ContinentGraphs';
-import ContinentPathotypeGraphs from '../Elements/ContinentPathotypeGraphs/ContinentPathotypeGraphs';
-import DownloadData from '../Elements/DownloadData/DownloadData';
-import ResetButton from '../Elements/ResetButton/ResetButton';
-import FloatingGlobalFilters from '../Elements/FloatingGlobalFilters/FloatingGlobalFilters';
-import { OptimizedChartWrapper } from '../Charts/OptimizedCharts';
 
 export default DashboardOptimizedIntegration;
 

@@ -74,7 +74,7 @@ export const DownloadMapViewData = ({ value }) => {
       return;
     }
 
-    let HeaderList = ['Country', 'Total number of Count'];
+    const HeaderList = ['Country', 'Total number of Count'];
 
     const isPathotypeLikeView = ['Serotype prevalence', 'Pathotype prevalence'].includes(mapView);
     const isOPrevLikeView = mapView === 'O prevalence';
@@ -385,7 +385,7 @@ export const DownloadMapViewData = ({ value }) => {
       Array.isArray(genotypesDrugClassesData[determinantsGraphDrugClass]) &&
       genotypesDrugClassesData[determinantsGraphDrugClass].length > 0
     ) {
-      let HeaderList = ['Region', 'Country', 'Name', 'Total number of Count'];
+      const HeaderList = ['Region', 'Country', 'Name', 'Total number of Count'];
 
       // Dynamically add genotype headers
       if (Array.isArray(topXGenotypeRDWG) && topXGenotypeRDWG.length > 0) {
@@ -402,7 +402,7 @@ export const DownloadMapViewData = ({ value }) => {
       const rows = genotypesDrugClassesData[determinantsGraphDrugClass]
         .filter(item => Object.keys(item).length > 0)
         .map(item => {
-          let rowData = [actualRegion, actualCountry, item.name, item.totalCount || ''];
+          const rowData = [actualRegion, actualCountry, item.name, item.totalCount || ''];
 
           if (Array.isArray(topXGenotypeRDWG) && topXGenotypeRDWG.length > 0) {
             topXGenotypeRDWG.forEach(genotype => {
@@ -425,7 +425,7 @@ export const DownloadMapViewData = ({ value }) => {
 
   const downloadCSVForGD = () => {
     if (Array.isArray(genotypesYearData) && genotypesYearData.length > 0) {
-      let HeaderList = ['Region', 'Country', 'Year', 'Total number of Count'];
+      const HeaderList = ['Region', 'Country', 'Year', 'Total number of Count'];
 
       // Dynamically add genotype headers
       if (Array.isArray(topXGenotype) && topXGenotype.length > 0) {
@@ -442,7 +442,7 @@ export const DownloadMapViewData = ({ value }) => {
       const rows = genotypesYearData
         .filter(item => Object.keys(item).length > 0)
         .map(item => {
-          let rowData = [actualRegion, actualCountry, item.name, item.count || ''];
+          const rowData = [actualRegion, actualCountry, item.name, item.count || ''];
 
           if (Array.isArray(topXGenotype) && topXGenotype.length > 0) {
             topXGenotype.forEach(genotype => {
@@ -467,7 +467,7 @@ export const DownloadMapViewData = ({ value }) => {
     const data = KOYearsData[KOTrendsGraphPlotOption];
 
     if (Array.isArray(data) && data.length > 0) {
-      let HeaderList = ['Region', 'Country', 'Year', 'Total number of Count'];
+      const HeaderList = ['Region', 'Country', 'Year', 'Total number of Count'];
 
       // Dynamically add genotype headers
       if (Array.isArray(topXKO) && topXKO.length > 0) {
@@ -484,7 +484,7 @@ export const DownloadMapViewData = ({ value }) => {
       const rows = data
         .filter(item => (Object.keys(item).length > 0) & (item.count >= 10)) // based on Summary KO plot subheading we plotted N>=10 only
         .map(item => {
-          let rowData = [actualRegion, actualCountry, item.name, item.count || ''];
+          const rowData = [actualRegion, actualCountry, item.name, item.count || ''];
 
           if (Array.isArray(topXKO) && topXKO.length > 0) {
             topXKO.forEach(ko => {
@@ -508,7 +508,7 @@ export const DownloadMapViewData = ({ value }) => {
   // TODO
   const downloadCSVForRDT = () => {
     if (genotypesAndDrugsYearData && Object.keys(genotypesAndDrugsYearData[trendsGraphDrugClass]).length > 0) {
-      let HeaderList = ['Region', 'Country', 'Name', 'Total number of Count'];
+      const HeaderList = ['Region', 'Country', 'Name', 'Total number of Count'];
 
       // Dynamically add genotype headers
       if (Array.isArray(topGenesSlice) && topGenesSlice.length > 0) {
@@ -531,7 +531,7 @@ export const DownloadMapViewData = ({ value }) => {
       const rows = genotypesAndDrugsYearData[trendsGraphDrugClass]
         .filter(item => Object.keys(item).length > 0 && item.totalCount >= 10) //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
         .map(item => {
-          let rowData = [actualRegion, actualCountry, item.name, item.totalCount || ''];
+          const rowData = [actualRegion, actualCountry, item.name, item.totalCount || ''];
 
           if (Array.isArray(topGenesSlice) && topGenesSlice.length > 0) {
             topGenesSlice.forEach(gen => {
@@ -573,8 +573,8 @@ export const DownloadMapViewData = ({ value }) => {
       }
     }
     if (Array.isArray(mapRegionData) && mapRegionData.length > 0) {
-      let HeaderList = ['Region', 'Country', 'Name']; // Initial headers
-      let allDrugs = new Set(); // Store unique drug names
+      const HeaderList = ['Region', 'Country', 'Name']; // Initial headers
+      const allDrugs = new Set(); // Store unique drug names
       // Extract drug names dynamically from all items
       mapRegionData.forEach(item => {
         if (item.stats && item.stats[COMPARISON] && item.stats[COMPARISON].items) {
@@ -601,7 +601,7 @@ export const DownloadMapViewData = ({ value }) => {
         .filter(item => Object.keys(item).length > 0 && item.name === actualRegion)
         .flatMap(item => {
           return Object.values(item.stats[COMPARISON].items).map(obj => {
-            let rowData = [actualRegion, actualCountry, obj.name]; // Start with genotype name
+            const rowData = [actualRegion, actualCountry, obj.name]; // Start with genotype name
 
             // Loop through all drugs to add count and percentage
             sortedDrugs.forEach(drugName => {
@@ -615,7 +615,7 @@ export const DownloadMapViewData = ({ value }) => {
         });
 
       // Create CSV header row
-      let headers = HeaderList.join(',');
+      const headers = HeaderList.join(',');
 
       generateCSV(headers, rows, compName === 'BHP' ? `${COMPARISON} comparison for ${actualRegion} region`:`AMR by genotype for ${actualRegion} region`);
     } else {
@@ -750,7 +750,7 @@ export const DownloadMapViewData = ({ value }) => {
       dataSource = drugsCountriesData[matchedKey];
     }
 
-    let allDrugsSet = new Set();
+    const allDrugsSet = new Set();
 
     // Step 2: Collect unique flat drug names (exclude 'GENOTYPE', 'name', 'totalCount', etc.)
     if (yAxisType === 'resistance') {

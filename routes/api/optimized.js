@@ -398,11 +398,11 @@ router.get('/map/:organism', async (req, res) => {
       _id: 0,
     };
 
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query, { projection })
-      .toArray();
+    // Ensure we have a connected client before querying
+    const connectedClient = await getConnectedClient();
+    const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    const result = await collection.find(query, { projection }).toArray();
 
     console.log(`[Map API] Found ${result.length} documents for ${organism}`);
     res.json(result);
@@ -437,11 +437,10 @@ router.get('/genotypes/:organism', async (req, res) => {
       _id: 0,
     };
 
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query, { projection })
-      .toArray();
+    const connectedClient = await getConnectedClient();
+    const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    const result = await collection.find(query, { projection }).toArray();
 
     console.log(`[Genotypes API] Found ${result.length} documents for ${organism}`);
     res.json(result);
@@ -476,11 +475,10 @@ router.get('/resistance/:organism', async (req, res) => {
       _id: 0,
     };
 
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query, { projection })
-      .toArray();
+    const connectedClient = await getConnectedClient();
+    const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    const result = await collection.find(query, { projection }).toArray();
 
     console.log(`[Resistance API] Found ${result.length} documents for ${organism}`);
     res.json(result);
@@ -515,11 +513,10 @@ router.get('/trends/:organism', async (req, res) => {
       _id: 0,
     };
 
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query, { projection })
-      .toArray();
+    const connectedClient = await getConnectedClient();
+    const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    const result = await collection.find(query, { projection }).toArray();
 
     console.log(`[Trends API] Found ${result.length} documents for ${organism}`);
     res.json(result);
@@ -558,11 +555,10 @@ router.get('/convergence/:organism', async (req, res) => {
       _id: 0,
     };
 
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query, { projection })
-      .toArray();
+    const connectedClient = await getConnectedClient();
+    const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    const result = await collection.find(query, { projection }).toArray();
 
     console.log(`[Convergence API] Found ${result.length} documents for ${organism}`);
     res.json(result);
@@ -621,11 +617,10 @@ router.get('/filters/:organism', async (req, res) => {
       });
     }
 
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .aggregate(pipeline)
-      .toArray();
+    const connectedClient = await getConnectedClient();
+    const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    const result = await collection.aggregate(pipeline).toArray();
 
     console.log(`[Filters API] Generated ${result.length} filter results for ${organism}`);
     res.json(result);
@@ -666,11 +661,10 @@ router.get('/filters/:organism/options', async (req, res) => {
       pipeline[1].$group.sublineages = { $addToSet: '$Sublineage' };
     }
 
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .aggregate(pipeline)
-      .toArray();
+    const connectedClient = await getConnectedClient();
+    const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    const result = await collection.aggregate(pipeline).toArray();
 
     const options = result[0] || {};
 
@@ -723,19 +717,13 @@ router.get('/paginated/:organism', async (req, res) => {
     const skip = (pageNum - 1) * limitNum;
 
     // Get total count for pagination metadata
-    const totalCount = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .countDocuments(query);
+    const connectedClient = await getConnectedClient();
+    const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    const totalCount = await collection.countDocuments(query);
 
     // Get paginated results
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query, { projection })
-      .skip(skip)
-      .limit(limitNum)
-      .toArray();
+    const result = await collection.find(query, { projection }).skip(skip).limit(limitNum).toArray();
 
     const totalPages = Math.ceil(totalCount / limitNum);
     const payloadSize = (JSON.stringify(result).length / 1024 / 1024).toFixed(2);
