@@ -264,6 +264,10 @@ function getCountryDisplayName(country) {
       return 'Tanzania';
     case 'Türkiye':
       return 'Turkey';
+    case 'Canada?':
+      return 'Canada';
+    case 'Cameroon ':
+      return 'Cameroon';
     // case 'South Korea':
     //   return 'Republic of Korea';
     // case 'Iran':
@@ -637,6 +641,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       acc[genotype] = (acc[genotype] || 0) + 1;
       return acc;
     }, {});
+
     // Calculate other genotype stats for Klebsiella
     let cgSTStats = {};
     let sublineageStats = {};
