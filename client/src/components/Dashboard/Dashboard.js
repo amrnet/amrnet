@@ -1147,7 +1147,7 @@ export const DashboardPage = () => {
 
     return null;
   }
-  console.log('yearsForFilter', yearsForFilter);
+
   useEffect(() => {
     if (yearsForFilter.length > 0) {
       dispatch(setTimeInitial(yearsForFilter[0]));
