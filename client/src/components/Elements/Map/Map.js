@@ -162,6 +162,33 @@ export const Map = () => {
             });
           }
           break;
+        case 'Genotype prevalence':
+        case 'ST prevalence':
+        case 'Lineage prevalence':
+        case 'Serotype prevalence':
+        case 'O prevalence':
+        case 'H prevalence':
+        case 'Pathotype prevalence':
+          const genotypesPre = countryStats[mapViewColumn]?.items || [];
+          const totalSum = countryStats[mapViewColumn]?.sum || 0;
+          tooltip.total = totalSum;
+
+          const selectedGenotypes = genotypesPre.filter(g => prevalenceMapViewOptionsSelected.includes(g.name));
+
+          selectedGenotypes.slice(0, 10).forEach(genotype => {
+            const percent = ((genotype.count / totalSum) * 100).toFixed(2);
+            tooltip.content[genotype.name] = `${genotype.count} (${percent}%)`;
+          });
+
+          if (selectedGenotypes.length > 0) {
+            const sumCount = selectedGenotypes.reduce((acc, g) => acc + g.count, 0);
+
+            if (countryData.count >= 20 && selectedGenotypes.length > 1) {
+              const percentSum = ((sumCount / totalSum) * 100).toFixed(2);
+              tooltip.content['All selected items'] = `${sumCount} (${percentSum}%)`;
+            }
+          }
+          break;
         case 'Resistance prevalence':
           tooltip.total = countryData?.count ?? 0;
           if (prevalenceMapViewOptionsSelected.length === 1) {
