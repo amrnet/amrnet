@@ -49,7 +49,7 @@ export const useTeamCards = () => {
     },
     {
       name: 'Dr Ebenezer Foster-Nyarko',
-      post: t('team.post.Enterics Expert'),
+      post: t('Enterics Expert'),
       img: EB,
       redirect: 'https://www.lshtm.ac.uk/aboutus/people/foster-nyarko.ebenn',
     },
