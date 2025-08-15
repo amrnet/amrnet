@@ -1,10 +1,12 @@
+/* global performance, setTimeout */
+/* eslint-disable no-console */
 import axios from 'axios';
 import progressiveGenotypeLoader from './progressiveGenotypeLoader';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || '/api';
 
 // Large dataset organisms requiring special handling
-const LARGE_DATASET_ORGANISMS = ['ecoli', 'kpneumo', 'decoli'];
+const _LARGE_DATASET_ORGANISMS = ['ecoli', 'kpneumo', 'decoli'];
 
 // Enhanced data service with parallel loading and caching
 // Specifically designed to address Heroku dyno memory constraints and Atlas query optimization
@@ -41,7 +43,7 @@ class OptimizedDataService {
   async fetchPaginatedAndCache(organism, page = 1, forceRefresh = false) {
     const strategy = this.organismStrategies[organism];
     const pageSize = strategy.pageSize || 5000;
-    const cacheKey = `${organism}_page_${page}`;
+    // const _cacheKey = `${organism}_page_${page}`;
 
     // Check IndexedDB first
     if (!forceRefresh && window.indexedDB) {
@@ -74,7 +76,7 @@ class OptimizedDataService {
   // Generic fetch with caching and Heroku-specific optimizations
   async fetchWithCache(endpoint, filters = {}, forceRefresh = false) {
     const cacheKey = this.generateCacheKey(endpoint, filters);
-    const startTime = performance.now();
+    const _startTime = performance.now();
 
     // Return cached data if available and not forcing refresh
     // This reduces Heroku dyno CPU usage and Atlas query load
@@ -97,7 +99,7 @@ class OptimizedDataService {
     try {
       const result = await request;
       const endTime = performance.now();
-      const responseTime = endTime - startTime;
+      const responseTime = endTime - _startTime;
 
       // Cache the result to prevent future Atlas queries
       this.cache.set(cacheKey, result);
@@ -152,7 +154,7 @@ class OptimizedDataService {
   // Progressive loading with immediate UI rendering and background genotype processing
   async loadOrganismDataWithProgressiveGenotypes(organism, globalFilters = {}, dispatch, actions) {
     console.log(`🚀 Progressive loading for ${organism} - UI will render immediately...`);
-    const startTime = performance.now();
+    const _startTime2 = performance.now();
 
     try {
       // First, get essential data that doesn't require genotype processing
@@ -170,14 +172,14 @@ class OptimizedDataService {
       );
 
       const endTime = performance.now();
-      console.log(`✅ Progressive loading initiated in ${(endTime - startTime).toFixed(2)}ms`);
+      console.log(`✅ Progressive loading initiated in ${(endTime - _startTime2).toFixed(2)}ms`);
       console.log(`🎯 UI can render immediately with 0 genotypes, genotypes loading in background`);
 
       return {
         mapData: basicMapData,
         regionsData,
         organism,
-        loadTime: endTime - startTime,
+        loadTime: endTime - _startTime2,
         progressivePromise, // This will resolve when genotypes are loaded
         isProgressive: true,
       };
@@ -223,7 +225,7 @@ class OptimizedDataService {
   // Load all organism data in parallel - addresses "monolithic data dump" issue
   async loadOrganismData(organism, globalFilters = {}) {
     console.log(`🚀 Loading data for ${organism} with parallel Atlas queries (Heroku optimized)...`);
-    const startTime = performance.now();
+    const start = performance.now();
 
     try {
       // Check if organism needs special handling due to large dataset
@@ -241,7 +243,7 @@ class OptimizedDataService {
       ]);
 
       const endTime = performance.now();
-      const totalTime = endTime - startTime;
+      const totalTime = endTime - start;
 
       // Calculate total data size vs legacy approach
       const totalRecords = [mapData, genotypesData, resistanceData, trendsData].reduce(
@@ -272,7 +274,7 @@ class OptimizedDataService {
   // Special loader for large datasets (E. coli with 227k+ documents)
   async loadLargeDatasetOrganism(organism, globalFilters = {}) {
     console.log(`📦 Loading large dataset ${organism} with pagination strategy and persistent cache...`);
-    const startTime = performance.now();
+    // timing not required here
     const pageSize = this.organismStrategies[organism]?.pageSize || 5000;
     let allData = [];
     let page = 1;
@@ -282,7 +284,8 @@ class OptimizedDataService {
     // Try to load all cached pages from IndexedDB first
     if (window.indexedDB) {
       try {
-        const cachedItems = await window.amrnetdb.getItems(organism);
+        const idbReq = await import('../idb');
+        const cachedItems = await idbReq.getItems(organism);
         if (cachedItems && cachedItems.length > 0) {
           console.log(`💾 Loaded ${cachedItems.length} records for ${organism} from IndexedDB cache`);
           return { data: cachedItems, isPaginated: true, totalRecords: cachedItems.length };
@@ -311,7 +314,8 @@ class OptimizedDataService {
         const validPageData = pageData.filter(item => item);
         if (window.indexedDB && validPageData.length > 0) {
           try {
-            await window.amrnetdb.bulkAddItems(organism, validPageData, page === 1); // clear store only on first page
+            const idbReq = await import('../idb');
+            await idbReq.bulkAddItems(organism, validPageData, page === 1); // clear store only on first page
           } catch (err) {
             console.warn(`IndexedDB bulkAddItems failed for ${organism} page ${page}:`, err);
           }
@@ -531,7 +535,7 @@ export default optimizedDataService;
 
 // Helper function to load organism data with the new service
 // This addresses the 75.9MB payload issue by routing to optimized endpoints
-export const getStoreOrGenerateData = async (storeName, handleGetData, clearStore = true) => {
+export const getStoreOrGenerateData = async (storeName, handleGetData) => {
   // This function maintains compatibility with the existing code
   // but uses the optimized service under the hood to solve Heroku/Atlas performance issues
 

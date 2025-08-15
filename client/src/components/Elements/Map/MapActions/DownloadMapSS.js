@@ -41,11 +41,11 @@ import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/dru
         width: 1200,
         left: -200,
       }).then(async uri => {
-        let canvas = document.createElement('canvas');
-        let ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
-        let mapImg = document.createElement('img');
-        let mapImgPromise = imgOnLoadPromise(mapImg);
+        const mapImg = document.createElement('img');
+        const mapImgPromise = imgOnLoadPromise(mapImg);
         mapImg.src = uri;
         await mapImgPromise;
 
