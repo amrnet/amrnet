@@ -151,7 +151,7 @@ export const ContinentGraphs = () => {
       graph.style.overflow = originalOverflow;
       graph.style.width = originalWidth;
 
-      let heightFactor = 0;
+      const heightFactor = 0;
       ///TODO: improve the code below as its hardcode
       // canvas.width = 1200;
 

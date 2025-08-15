@@ -157,7 +157,7 @@ class ChunkedDataLoader {
       const remainingCount = totalCount - loadedCount;
       const totalPages = Math.ceil(remainingCount / this.displayChunkSize);
       let allData = [...existingData];
-      let currentPage = 2; // We already loaded page 1
+      const currentPage = 2; // We already loaded page 1
 
       // Load chunks progressively
       for (let page = currentPage; page <= totalPages + 1; page++) {

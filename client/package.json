@@ -65,6 +65,61 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "rules": {
+      "no-console": [
+        "warn",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ],
+      "no-unused-vars": [
+        "warn",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ],
+      "no-undef": "warn",
+      "no-duplicate-imports": "error",
+      "default-case": "warn",
+      "eqeqeq": [
+        "warn",
+        "always",
+        {
+          "null": "ignore"
+        }
+      ]
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/**/*",
+          "**/*.test.*",
+          "**/*.spec.*"
+        ],
+        "rules": {
+          "no-console": "off",
+          "jest/no-conditional-expect": "off"
+        }
+      },
+      {
+        "files": [
+          "src/util/lz-string.js"
+        ],
+        "env": {
+          "amd": true
+        },
+        "globals": {
+          "define": "readonly"
+        },
+        "rules": {
+          "no-undef": "off"
+        }
+      }
     ]
   },
   "browserslist": {

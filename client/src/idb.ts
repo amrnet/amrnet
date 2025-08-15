@@ -1,11 +1,11 @@
-import { openDB, IDBPDatabase } from 'idb';
 import * as compressJson from 'compress-json';
-
-type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
+import { IDBPDatabase, openDB } from 'idb';
 
 const DB_NAME = 'amrnetdb';
-const DB_VERSION = 36;
+// Bump version when schema changes (e.g., new indexes)
+const DB_VERSION = 37;
 
+// List of all stores used by the app
 const OBJECT_STORES = [
   'styphi',
   'kpneumo',
@@ -71,6 +71,8 @@ const OBJECT_STORES = [
   'unr',
 ];
 
+// Main organism stores used with typed helpers
+
 // Initialize the database (singleton pattern)
 let dbPromise: Promise<IDBPDatabase> | null = null;
 
@@ -86,7 +88,16 @@ export const initDB = async () => {
         // Recreate object stores with the updated schema
         OBJECT_STORES.forEach(store => {
           if (!db.objectStoreNames.contains(store)) {
-            db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
+            const os = db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
+            // Create composite index only for styphi: [TRAVEL, DATE]
+            if (store === 'styphi') {
+              try {
+                os.createIndex('travelDateIndex', ['TRAVEL', 'DATE'], { unique: false });
+              } catch (e) {
+                // Ignore if index already exists or cannot be created
+                console.warn('Could not create travelDateIndex on styphi:', e);
+              }
+            }
           }
         });
       },
@@ -100,8 +111,7 @@ const getDB = async () => {
   return await initDB();
 };
 // Validate store name
-const isValidStore = (storeName: string): storeName is OrganismStore =>
-  OBJECT_STORES.includes(storeName);
+const isValidStore = (storeName: string): boolean => OBJECT_STORES.includes(storeName);
 
 // Add compression utility function
 export const decompressResponse = async (response: Response) => {
@@ -123,13 +133,13 @@ export const decompressResponse = async (response: Response) => {
 };
 
 // Add an item to a specific store
-export const addItem = async (storeName: OrganismStore, item: any): Promise<any> => {
+export const addItem = async (storeName: string, item: any): Promise<any> => {
   const db = await getDB();
   return db.put(storeName, item);
 };
 
 // Get all items from a specific store
-export const getItems = async (storeName: OrganismStore): Promise<any> => {
+export const getItems = async (storeName: string): Promise<any> => {
   if (!isValidStore(storeName)) {
     console.warn(`Invalid object store name: ${storeName}`);
     return [];
@@ -144,7 +154,7 @@ export const getItems = async (storeName: OrganismStore): Promise<any> => {
 };
 
 // Get a single item by its ID
-export const getItem = async (storeName: OrganismStore, id: number): Promise<any> => {
+export const getItem = async (storeName: string, id: number): Promise<any> => {
   try {
     const db = await getDB();
     return await db.get(storeName, id);
@@ -155,7 +165,7 @@ export const getItem = async (storeName: OrganismStore, id: number): Promise<any
 };
 
 // Delete an item by its ID
-export const deleteItem = async (storeName: OrganismStore, id: number): Promise<void> => {
+export const deleteItem = async (storeName: string, id: number): Promise<void> => {
   try {
     const db = await getDB();
     await db.delete(storeName, id);
@@ -189,14 +199,14 @@ export const bulkAddItems = async (storeName: string, items: Array<any>, clearSt
   }
 };
 
-export const hasItems = async (storeName: OrganismStore): Promise<boolean> => {
+export const hasItems = async (storeName: string): Promise<boolean> => {
   const db = await getDB();
   const count = await db.count(storeName);
   return count > 0;
 };
 
 export const filterItems = async (
-  storeName: OrganismStore,
+  storeName: string,
   travel?: string,
   startDate?: number,
   endDate?: number,
@@ -205,7 +215,30 @@ export const filterItems = async (
     const db = await getDB();
     const tx = db.transaction(storeName, 'readonly');
     const store = tx.objectStore(storeName);
-    const index = store.index('travelDateIndex');
+    if (storeName !== 'styphi') {
+      // Fallback: scan and filter for non-styphi stores (index not defined)
+      const all: any[] = await store.getAll();
+      return all.filter(item => {
+        const dateOk =
+          startDate !== undefined && endDate !== undefined ? item?.DATE >= startDate && item?.DATE <= endDate : true;
+        const travelOk = travel !== undefined ? item?.TRAVEL === travel : true;
+        return dateOk && travelOk;
+      });
+    }
+
+    let index: any;
+    try {
+      index = store.index('travelDateIndex');
+    } catch (_e) {
+      // Index not available yet (older DB). Fallback to scan.
+      const all: any[] = await store.getAll();
+      return all.filter(item => {
+        const dateOk =
+          startDate !== undefined && endDate !== undefined ? item?.DATE >= startDate && item?.DATE <= endDate : true;
+        const travelOk = travel !== undefined ? item?.TRAVEL === travel : true;
+        return dateOk && travelOk;
+      });
+    }
 
     let range: IDBKeyRange | undefined;
 
