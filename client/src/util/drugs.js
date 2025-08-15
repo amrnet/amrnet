@@ -149,6 +149,7 @@ export const drugAcronyms = {
   Benzylpenicillin: 'PEN',
   Spectinomycin: 'SPT',
   Pansusceptible: 'PAN',
+  Macrolides: 'MLS',
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
   Carbapenems: 'CARB',

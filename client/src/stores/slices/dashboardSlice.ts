@@ -128,7 +128,7 @@ export const dashboardSlice = createSlice({
       const url = new URL(window.location.href);
       const hash = url.hash;
 
-      let [path, queryString] = hash.split('?');
+      const [path, queryString] = hash.split('?');
       const searchParams = new URLSearchParams(queryString);
 
       if (searchParams.get('organism') !== action.payload) {

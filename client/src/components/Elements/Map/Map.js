@@ -105,140 +105,84 @@ export const Map = () => {
     if (countryData !== undefined) {
       switch (mapView) {
         case 'No. Samples':
-          // const combinedPercentage =
-          //   (countryStats[statKey['CipR']].percentage || 0) + (countryStats[statKey['CipNS']].percentage || 0);
-
           Object.assign(tooltip, {
             content:
               organism === 'styphi'
                 ? {
-                    Samples: countryData.count,
-                    Genotypes: countryStats.GENOTYPE.count,
-                    // H58: `${countryStats.H58.percentage}%`,
-                    // 'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
-                    // 'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
-                    // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
-                    // CipR: `${countryStats.CipR.percentage}%`,
-                    // CipNS: `${countryStats.CipNS.percentage}%`,
-                    // Pansusceptible: `${countryStats.Pansusceptible.percentage}%`,
+                    Samples: countryData?.count ?? 0,
+                    Genotypes: countryStats?.GENOTYPE?.count ?? 0,
                   }
                 : organism === 'kpneumo'
                   ? {
-                      Samples: countryData.count,
-                      STs: countryStats.GENOTYPE.count,
-                      // ESBL: `${countryStats.ESBL.percentage}%`,
-                      // Carbapenems: `${countryStats.Carbapenems.percentage}%`,
-                      // Susceptible: `${countryStats.Susceptible.percentage}%`,
+                      Samples: countryData?.count ?? 0,
+                      STs: countryStats?.GENOTYPE?.count ?? 0,
                     }
                   : organism === 'ngono'
                     ? {
-                        Samples: countryData.count,
-                        Genotypes: countryStats.GENOTYPE.count,
-                        'NG-MAST': countryStats.NGMAST.count,
-                        // 'Multidrug resistant (MDR)': `${countryStats.MDR.percentage}%`,
-                        // 'Extensively drug resistant (XDR)': `${countryStats.XDR.percentage}%`,
-                        // Azithromycin: `${countryStats.Azithromycin.percentage}%`,
-                        // Ceftriaxone: `${countryStats.Ceftriaxone.percentage}%`,
-                        // Ciprofloxacin: `${countryStats.Ciprofloxacin.percentage}%`,
-                        // Susceptible: `${countryStats.Susceptible.percentage}%`,
+                        Samples: countryData?.count ?? 0,
+                        Genotypes: countryStats?.GENOTYPE?.count ?? 0,
+                        'NG-MAST': countryStats?.NGMAST?.count ?? 0,
                       }
                     : ['decoli', 'ecoli', 'shige'].includes(organism)
                       ? {
-                          Samples: countryData.count,
-                          Genotypes: countryStats.GENOTYPE.count,
-                          'O prevalence': countryStats.O_PREV.count,
-                          'H prevalence': countryStats.OH_PREV.count,
+                          Samples: countryData?.count ?? 0,
+                          Genotypes: countryStats?.GENOTYPE?.count ?? 0,
+                          'O prevalence': countryStats?.O_PREV?.count ?? 0,
+                          'H prevalence': countryStats?.OH_PREV?.count ?? 0,
                         }
                       : {
-                          Samples: countryData.count,
+                          Samples: countryData?.count ?? 0,
                           [['sentericaints', 'senterica'].includes(organism) ? 'Lineages' : 'Genotypes']:
-                            countryStats.GENOTYPE.count,
+                            countryStats?.GENOTYPE?.count ?? 0,
                         },
           });
           break;
         case 'Dominant Genotype':
-          const genotypes = countryStats.GENOTYPE.items.slice(0, 5);
-          genotypes.forEach(genotype => {
-            tooltip.content[genotype.name] = genotype.count;
-          });
-          break;
-        case 'NG-MAST prevalence':
-          let percentCounterNG = 0;
-          const genotypesNG = countryStats.NGMAST.items;
-          const genotypesNG2 = [];
-          genotypesNG.forEach(genotype => {
-            if (customDropdownMapViewNG.includes(genotype.name)) {
-              // tooltip.content[genotype.name] = `${genotype.count} `;
-              genotypesNG2.push(genotype);
-            }
-            percentCounterNG += genotype.count;
-          });
-          tooltip.total = percentCounterNG;
-          genotypesNG.forEach(genotype => {
-            if (customDropdownMapViewNG.includes(genotype.name))
-              tooltip.content[genotype.name] = `${genotype.count} (${(
-                (genotype.count / percentCounterNG) *
-                100
-              ).toFixed(2)}%)`;
-          });
-          if (genotypesNG2.length > 0) {
-            let sumCount = 0;
-            for (const genotype of genotypesNG2) {
-              sumCount += genotype.count;
-            }
-            if (countryData.count >= 20 && genotypesNG2.length > 1)
-              tooltip.content['All selected items'] = `${sumCount} (${((sumCount / percentCounterNG) * 100).toFixed(
-                2,
-              )}%)`;
+          {
+            const items = countryStats?.GENOTYPE?.items ?? [];
+            const genotypes = items.slice(0, 5);
+            genotypes.forEach(genotype => {
+              tooltip.content[genotype?.name ?? 'Unknown'] = genotype?.count ?? 0;
+            });
           }
           break;
-        case 'Genotype prevalence':
-        case 'ST prevalence':
-        case 'Lineage prevalence':
-        case 'Serotype prevalence':
-        case 'O prevalence':
-        case 'H prevalence':
-        case 'Pathotype prevalence':
-          const genotypesPre = countryStats[mapViewColumn]?.items || [];
-          const totalSum = countryStats[mapViewColumn]?.sum || 0;
-          tooltip.total = totalSum;
-
-          const selectedGenotypes = genotypesPre.filter(g => prevalenceMapViewOptionsSelected.includes(g.name));
-
-          selectedGenotypes.slice(0, 10).forEach(genotype => {
-            const percent = ((genotype.count / totalSum) * 100).toFixed(2);
-            tooltip.content[genotype.name] = `${genotype.count} (${percent}%)`;
-          });
-
-          if (selectedGenotypes.length > 0) {
-            const sumCount = selectedGenotypes.reduce((acc, g) => acc + g.count, 0);
-
-            if (countryData.count >= 20 && selectedGenotypes.length > 1) {
-              const percentSum = ((sumCount / totalSum) * 100).toFixed(2);
-              tooltip.content['All selected items'] = `${sumCount} (${percentSum}%)`;
-            }
+        case 'NG-MAST prevalence':
+          {
+            let percentCounterNG = 0;
+            const genotypesNG = countryStats?.NGMAST?.items ?? [];
+            genotypesNG.forEach(genotype => {
+              percentCounterNG += genotype?.count ?? 0;
+            });
+            tooltip.total = percentCounterNG;
+            genotypesNG.forEach(genotype => {
+              if (customDropdownMapViewNG.includes(genotype?.name)) {
+                const pct = percentCounterNG ? ((genotype?.count ?? 0) / percentCounterNG) * 100 : 0;
+                tooltip.content[genotype?.name ?? 'Unknown'] = `${genotype?.count ?? 0} (${pct.toFixed(2)}%)`;
+              }
+            });
           }
           break;
         case 'Resistance prevalence':
-          tooltip.total = countryData.count;
-
+          tooltip.total = countryData?.count ?? 0;
           if (prevalenceMapViewOptionsSelected.length === 1) {
             const drug = prevalenceMapViewOptionsSelected[0];
             const drugLabel = ngonoSusceptibleRule(drug, organism) || drugAcronymsOpposite2[drug] || drug;
-
-            tooltip.content[drugLabel] = `${countryStats[drug].count} (${countryStats[drug].percentage}%)`;
+            const count = countryStats?.[drug]?.count ?? 0;
+            const percentage = countryStats?.[drug]?.percentage ?? 0;
+            tooltip.content[drugLabel] = `${count} (${percentage}%)`;
           } else {
             const names = prevalenceMapViewOptionsSelected.reduce((acc, key, index) => {
-              const names = countryStats[key]?.names || [];
-              if (index === 0) return new Set(names);
-              return new Set(names.filter(name => acc.has(name)));
+              const list = countryStats?.[key]?.names || [];
+              if (index === 0) return new Set(list);
+              return new Set(list.filter(name => acc.has(name)));
             }, new Set());
 
             const labels = prevalenceMapViewOptionsSelected
               .map(x => ngonoSusceptibleRule(x, organism) || drugAcronymsOpposite2[x] || x)
               .join(' + ');
 
-            tooltip.content[labels] = `${names.size} (${Number(((names.size / countryData.count) * 100).toFixed(2))}%)`;
+            const pct = tooltip.total ? Number(((names.size / tooltip.total) * 100).toFixed(2)) : 0;
+            tooltip.content[labels] = `${names.size} (${pct}%)`;
           }
           break;
         case 'H58 / Non-H58':
@@ -253,18 +197,23 @@ export const Map = () => {
         case 'ESBL_category':
         case 'Carbapenems':
           if (showTooltip) {
-            tooltip.content[statKey[mapView]] = {
-              count: countryStats[statKey[mapView]].count,
-              percentage: `${countryStats[statKey[mapView]].percentage}%`,
+            const key = statKey[mapView];
+            const count = countryStats?.[key]?.count ?? 0;
+            const percentage = countryStats?.[key]?.percentage ?? 0;
+            tooltip.content[key] = {
+              count,
+              percentage: `${Number(percentage).toFixed(2)}%`,
             };
           }
           break;
         case 'CipNS':
           if (showTooltip) {
-            const combinedCount =
-              (countryStats[statKey['CipR']].count || 0) + (countryStats[statKey['CipNS']].count || 0);
-            const combinedPercentage =
-              (countryStats[statKey['CipR']].percentage || 0) + (countryStats[statKey['CipNS']].percentage || 0);
+            const countR = countryStats?.[statKey['CipR']]?.count ?? 0;
+            const countNS = countryStats?.[statKey['CipNS']]?.count ?? 0;
+            const perR = countryStats?.[statKey['CipR']]?.percentage ?? 0;
+            const perNS = countryStats?.[statKey['CipNS']]?.percentage ?? 0;
+            const combinedCount = countR + countNS;
+            const combinedPercentage = Number(perR) + Number(perNS);
             tooltip.content['CipNS'] = {
               count: combinedCount,
               percentage: `${combinedPercentage.toFixed(2)}%`,
@@ -437,12 +386,14 @@ export const Map = () => {
                             }
                             break;
                           case 'Dominant Genotype':
-                            const genotypes = countryStats.GENOTYPE.items;
-                            fillColor = getGenotypeColor(genotypes[0].name);
+                            {
+                              const items = countryStats?.GENOTYPE?.items ?? [];
+                              fillColor = items.length > 0 ? getGenotypeColor(items[0]?.name) : zeroPercentColor;
+                            }
                             break;
-                          case 'NG-MAST prevalence':
+                          case 'NG-MAST prevalence': {
                             let percentCounterNG = 0;
-                            const genotypesNG = countryStats.NGMAST.items;
+                            const genotypesNG = countryStats?.NGMAST?.items ?? [];
                             const genotypesNG2 = [];
                             genotypesNG.forEach(genotype => {
                               if (customDropdownMapViewNG.includes(genotype.name)) genotypesNG2.push(genotype);
@@ -468,15 +419,16 @@ export const Map = () => {
                               smallerThan20 = true;
                             }
                             break;
+                          }
                           case 'Genotype prevalence':
                           case 'Lineage prevalence':
                           case 'ST prevalence':
                           case 'Serotype prevalence':
                           case 'Pathotype prevalence':
                           case 'O prevalence':
-                          case 'H prevalence':
+                          case 'H prevalence': {
                             let percentCounter = 0;
-                            const genotypes1 = countryStats[mapViewColumn]?.items;
+                            const genotypes1 = countryStats?.[mapViewColumn]?.items ?? [];
                             const genotypes2 = [];
                             genotypes1.forEach(genotype => {
                               if (prevalenceMapViewOptionsSelected.includes(genotype.name)) genotypes2.push(genotype);
@@ -490,16 +442,15 @@ export const Map = () => {
                                 sumCount += genotype.count;
                               }
                             }
-                            if (countryData.count >= 20 && genotypes2.length > 0) {
-                              if (genotypes2 !== undefined) {
-                                fillColor = differentColorScale(((sumCount / percentCounter) * 100).toFixed(2), 'red');
-                              }
+                            if (countryData.count >= 20 && genotypes2.length > 0 && percentCounter > 0) {
+                              fillColor = differentColorScale(((sumCount / percentCounter) * 100).toFixed(2), 'red');
                             } else if (countryData.count >= 20) {
                               fillColor = darkGrey;
                               smallerThan20 = true;
                             }
                             break;
-                          case 'Resistance prevalence':
+                          }
+                          case 'Resistance prevalence': {
                             if (countryData.count >= 20) {
                               let item = null;
                               if (prevalenceMapViewOptionsSelected.length === 1) {
@@ -530,6 +481,7 @@ export const Map = () => {
                               smallerThan20 = true;
                             }
                             break;
+                          }
                           case 'Pansusceptible':
                           case 'H58 / Non-H58':
                           case 'MDR':
@@ -558,7 +510,7 @@ export const Map = () => {
                               smallerThan20 = true;
                             }
                             break;
-                          case 'CipNS':
+                          case 'CipNS': {
                             const countCipR = countryStats[statKey['CipR']]?.count;
                             const countCipNS = countryStats[statKey['CipNS']]?.count;
                             count = countCipR + countCipNS;
@@ -580,6 +532,7 @@ export const Map = () => {
                               smallerThan20 = true;
                             }
                             break;
+                          }
                           default:
                             break;
                         }

@@ -12,23 +12,21 @@ export const getColorForDrug = drug => {
 
     case 'Carbapenems':
     case 'Carb':
-      return 'rgb(144,211,199)';
+      return '#811f0bff';
 
     case 'Azithromycin':
-    case 'Macrolides':
     case 'AzithR':
       return '#26a18b'; //PDF does not support rgba
 
-    case '3rd gen cephalosporins (3GCs)':
-    case 'ESBL':
-      return 'rgb(249,129,117)';
+    case 'Macrolides':
+      return '#e6852bff';
 
     // case 'Co-trimoxazole':
     case 'Trimethoprim-sulfamethoxazole':
     case '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors':
       return 'rgb(252,180,105)';
 
-    // case 'ESBL':
+    case 'ESBL':
     case 'Ceftriaxone':
       return '#DB90F0';
 
@@ -50,7 +48,7 @@ export const getColorForDrug = drug => {
       return '#f56207ff';
 
     case 'CipNS':
-      return 'rgba(201, 184, 70, 1)';
+      return '#c5a514ff';
 
     // case 'Fluoroquinolones (CipR)':
     case 'Ciprofloxacin R':
