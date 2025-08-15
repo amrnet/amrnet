@@ -1212,7 +1212,7 @@ export const statKeysECOLI = (() => {
   const items = [
     { name: 'Aminoglycosides', column: 'Aminoglycoside', key: '-', resistanceView: true },
     { name: 'Ampicillin', column: 'Penicllin', key: '-', resistanceView: true },
-    { name: 'Azithromycin', column: 'Macrolide', key: '-', resistanceView: true },
+    { name: 'Azithromycin', column: 'Macrolide', key: ['mph(A)', 'acrB_R717L'], resistanceView: true },
     { name: 'Carbapenems', column: 'Carbapenemase', key: '-', resistanceView: true },
     { name: 'Chloramphenicol', column: 'Phenicol', key: '-', resistanceView: true },
     { name: 'ESBL', column: 'ESBL', key: '-', resistanceView: true },
