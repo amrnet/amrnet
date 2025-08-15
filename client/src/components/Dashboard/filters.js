@@ -347,6 +347,10 @@ function getMapStatsData({
         return itemName.includes(statKeyStr);
       }
 
+      if (['ecoli', 'decoli', 'shige'].includes(organism) && Array.isArray(statsKey)) {
+        return statsKey.some(k => itemName === k);
+      }
+
       return statKeyStr === '-' ? itemName !== '-' : itemName === statKeyStr;
     }) || [];
 
@@ -819,10 +823,14 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         statKeysECOLI.forEach(drug => {
           const drugData = yearData.filter(x => {
             if (Array.isArray(drug.column)) {
-              return drug.column.every(d => x[d] === '-');
+              return drug.column.every(d => x[d] === drug.key);
             }
 
-            return x[drug.column] !== '-';
+            if (Array.isArray(drug.key)) {
+              return drug.key.includes(x[drug.column]);
+            }
+
+            return x[drug.column] !== drug.key;
           });
           drugStats[drug.name] = drugData.length;
         });
@@ -1294,6 +1302,10 @@ export function getGenotypesData({
         const drugData = genotypeData.filter(x => {
           if (Array.isArray(drug.column)) {
             return drug.column.every(d => x[d] === '-');
+          }
+
+          if (Array.isArray(drug.key)) {
+            return drug.key.includes(x[drug.column]);
           }
 
           return x[drug.column] !== '-';
