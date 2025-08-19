@@ -57,7 +57,8 @@ Disclaimer
    
     Dashboard overview <usage>
     Individual pathogen details <pathogen>
-
+    Acknowledgements <acknowledgements>
+    
 .. toctree::
     :caption: API users
     :hidden:
