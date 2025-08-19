@@ -36,7 +36,7 @@ Summary plots
 
 .. container:: justify-text
 
-   This panel offers a series of summary plots. The default view is "AMR trends". **Click a plot title** in the rotating selector at the top of the panel, to choose a different plot. The specific plots available vary by pathogen, as do the definitions of AMR and genotype variables (see individual pathogen details). Summary plots are intended to show region- or country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters.
+   This panel offers a series of summary plots. The default view is "AMR trends". **Click a plot title** in the rotating selector at the top of the panel, to choose a different plot. The specific plots available vary by pathogen, as do the definitions of AMR and genotype variables (see individual :ref:`pathogen details <individual_pathogen_details>`). Summary plots are intended to show region- or country-level summaries, but if no country is selected they will populate with pooled estimates of proportion across all data passing the current filters.
 
    All plots are interactive. Use the **Plotting options** panel on the right to modify the region/country to display, or to select other options available for the current plot such as which variables to display, and whether to show **counts or percentages**.
 
@@ -54,7 +54,7 @@ Summary plots
 
 
 Geographic comparisons
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
@@ -65,6 +65,11 @@ Geographic comparisons
    **Plotting options** can also be modified to restrict the view to selected countries or regions (in rows), or to specific subsets of genotypes or drugs (in columns). Countries are not plotted (and not available to select) if the number of samples passing the current global filter is below 20. By default, the 20 most common genotypes or drugs (passing current filters) will be included in the plot; in the drop-down list to modify the specific set of drugs or genotypes shown, the available options will be ordered by their frequency in the current selection. 
 
    **Plot-specific downloads:** Summarised values displayed in the current heatmap can be downloaded by clicking the down arrow button (top-right of panel). A static image (PNG format) of the current plotting view can be downloaded by clicking the camera icon.
+
+ .. figure:: assets/geo.png
+      :width: 100%
+      :align: center
+      :alt: geographic_comparisons
 
 Downloads
 ~~~~~~~~~~~~~
