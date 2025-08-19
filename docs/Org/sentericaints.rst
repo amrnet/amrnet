@@ -1,6 +1,6 @@
 
-Invasive Nontyphoidal *Salmonella* 
-===================================
+*Salmonella* (invasive non-typhoidal)
+=====================================
 
 .. container:: justify-text
 
