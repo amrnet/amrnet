@@ -64,6 +64,8 @@ Geographic comparisons
 
    **Plotting options** can also be modified to restrict the view to selected countries or regions (in rows), or to specific subsets of genotypes or drugs (in columns). Countries are not plotted (and not available to select) if the number of samples passing the current global filter is below 20. By default, the 20 most common genotypes or drugs (passing current filters) will be included in the plot; in the drop-down list to modify the specific set of drugs or genotypes shown, the available options will be ordered by their frequency in the current selection. 
 
+   **Plot-specific downloads:** Summarised values displayed in the current heatmap can be downloaded by clicking the down arrow button (top-right of panel). A static image (PNG format) of the current plotting view can be downloaded by clicking the camera icon.
+
 Downloads
 ~~~~~~~~~~~~~
 
