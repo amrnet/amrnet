@@ -1,7 +1,24 @@
 .. _label-installation:
 
-Installation
-============
+Developer Guide
+===============
+
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    Features <feature>
+    Performance Optimization <performance>
+    Deployment Guide <deployment>
+    Security Guide <security>
+    Internationalization <internationalization>
+    Professional Translation Services <professional-translation-services>
+    Troubleshooting <troubleshooting>
+    Contributor Guide <contributing>
+    Code of Conduct <codeofconduct>
+    License <license>
+
+
 .. container:: justify-text
 
     These instructions will get you a copy of ``AMRnet`` up and running on your
