@@ -3,14 +3,30 @@ Individual pathogen details
 
 .. container:: justify-text
 
-    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+    Each dashboard is populated a bit differently, from different sources and with different inclusion criteria, using AMR genotyping and lineage definitions specific to the pathogen. 
+
+    Select a pathogen below to see the details:
+
+    - *Escherichia coli*
+    - *Escherichia coli* (diarrheagenic)
+    - *Shigella* + EIEC
+    - *Klebsiella pneumoniae*
+    - *Neisseria gonorrhoeae*
+    - *Salmonella* (non-typhoidal)
+    - *Salmonella* (invasive non-typhoidal)
+    - *Salmonella* Typhi
+
+    A list of all upstream databases and tools, with links and citations, is available on the acknowledgments page.
 
 .. _amr-definition-table:
 
 AMR definitions based on Enterobase/AMRfinderplus data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. list-table:: These definitions are used in the E. coli, Shigella, and non-typhoidal Salmonella dashboards
+These definitions are used in the *E. coli*, *Shigella*, and non-typhoidal *Salmonella* dashboards, where data are populated from `Enterobase <https://enterobase.warwick.ac.uk/>`_ which uses `AMRfinderplus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ to identify AMR determinants from genome assemblies. For other organisms, populated from Pathogenwatch, see the pathogen-specific pages above for details of how AMR is detected/defined.
+
+
+.. list-table::   
    :widths: 50 40 60 70
    :header-rows: 1
 
