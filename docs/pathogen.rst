@@ -1,3 +1,5 @@
+.. _individual_pathogen_details:
+
 Individual pathogen details
 ===========================
 
