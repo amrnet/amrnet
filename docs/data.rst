@@ -112,7 +112,7 @@ c. Data accessing using Using S3cmd tool
             Organism Name: Escherichia coli
 
     2. You will receive email from us with all the necessary details. like: **API_TOKEN_KEY, collection, database, dataSource**.
-    3. Once you received these details use the method below to download required data.
+    3. Once you receive these details use the method below to download required data.
     4. To download data with specific Country and Date add a **filter**.
 
     Example code to download all the data for an organism:
