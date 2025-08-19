@@ -18,7 +18,7 @@ Individual pathogen details
     - *Salmonella* (invasive non-typhoidal)
     - *Salmonella* Typhi
 
-    A list of all upstream databases and tools, with links and citations, is available on the acknowledgments page.
+    A list of all upstream databases and tools, with links and citations, is available on the :ref:`acknowledgments <acknowledgements>` page.
 
 .. _amr-definition-table:
 
