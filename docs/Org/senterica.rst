@@ -4,7 +4,7 @@
 
 .. container:: justify-text
 
-   Nontyphoidal *Salmonella* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. The *Salmonella* (non-typhoidal) dashboard includes all genomes classified as *S. enterica* subsp. *enterica* (based on hierarchical clustering level 2850, `HC2850=2 <https://doi.org/10.1098/rstb.2021.0240>`_), and excluding all genomes with predicted serotype Typhi or Paratyphi A/B/C. Last update: May 14th 2025.
+   Nontyphoidal *Salmonella* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. The *Salmonella* (non-typhoidal) dashboard includes all genomes classified as *S. enterica* subsp. *enterica* (based on hierarchical clustering level 2850, `HC2850=2 <https://doi.org/10.1098/rstb.2021.0240>`_), and excluding all genomes with predicted serotype Typhi or Paratyphi A/B/C. Last update: 5 August 2025.
 
    For information about *Salmonella* Typhi, please see the Typhi dashboard. Inclusion of Paratyphi A is planned for 2026.
 
