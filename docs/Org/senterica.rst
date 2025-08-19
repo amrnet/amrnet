@@ -4,12 +4,13 @@ Nontyphoidal *Salmonella*
 
 .. container:: justify-text
 
-   Nontyphoidal *Salmonella* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using 7-gene MLST. The last update was made in May 14th 2025.
+   Nontyphoidal *Salmonella* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_.The Salmonella (non-typhoidal) dashboard includes all genomes classified as S. enterica subsp. enterica (based on hierarchical clustering level 2850, `HC2850=2 <https://doi.org/10.1098/rstb.2021.0240>`_), and excluding all genomes with predicted serotype Typhi or Paratyphi A/B/C. Last update: May 14th 2025.
 
 For information about Salmonella Typhi, please see the Typhi dashboard.
 
 .. warning::
-    The Salmonella enterica data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts.
+    The non-typhoidal *Salmonella* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
+
 
 Variable definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -17,16 +18,5 @@ Variable definitions
 .. container:: justify-text
 
 
-    - **Genotype** - Pathogenwatch assigns sequence types (STs) using the 7-locus MLST scheme for Salmonella enterica, defined by XX.
-    - The genotypes reported here are from the X.
-    - Antimicrobial resistance determinants are described in the paper XXXX
-
-Abbreviations
-~~~~~~~~~~~~~~
-
-.. container:: justify-text
-
-    - 1. MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)
-    - 2. XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)
-    - 3. Ciprofloxacin NS, ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due to presence of one or more genes or mutations in *gyrA/parC/gyrB*)
-    - 4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)
+    - **Lineages** -  Lineages are labeled by 7-locus sequence type (ST).
+    - **AMR determinants:** - `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in refgenes, see :doc:`the table <table>`.
