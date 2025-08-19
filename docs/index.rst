@@ -54,7 +54,7 @@ Disclaimer
    that relevant web development standards are implemented, it remains the
    user's responsibility to confirm and accept the output. Refer to the
    :doc:`License <license>` for clarification of the conditions of use.
-   
+
 .. autosummary::
     :toctree: gen
     :template: custom-module-template.rst
@@ -63,9 +63,9 @@ Disclaimer
 .. toctree::
     :caption: Dashboard users
     :hidden:
-    
-    AMRnet <index>
+   
     Dashboard overview <usage>
+    Individual pathogen details <pathogen>
 
 .. toctree::
     :caption: API users
