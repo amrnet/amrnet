@@ -11,7 +11,7 @@
    - Enteropathogenic *E. coli* (EPEC)
    - Enteroinvasive *E. coli* (EIEC)
 
-   Last update: 24 January 2024.
+   Last update: 5 August 2025.
 
    .. warning::
       The *E. coli* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard.
