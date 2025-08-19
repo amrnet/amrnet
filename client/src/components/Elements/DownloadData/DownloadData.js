@@ -17,7 +17,7 @@ import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
-import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../util/drugs';
+import { drugAcronymsOpposite, ngonoSusceptibleRule, drugsKP, drugsNG, drugsST  } from '../../../util/drugs';
 import { graphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { mapLegends } from '../../../util/mapLegends';
@@ -30,7 +30,6 @@ import {
   getColorForGenotype,
 } from '../../../util/colorHelper';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
-import { drugsKP, drugsNG, drugsST } from '../../../util/drugs';
 import {
   getDEcoliTexts,
   getEcoliTexts,
@@ -42,6 +41,7 @@ import {
   getShigeTexts,
 } from '../../../util/reportInfoTexts';
 import { getColorForDrug } from '../Graphs/graphColorHelper';
+import Papa from 'papaparse';
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -274,70 +274,53 @@ export const DownloadData = () => {
     }
     if (organism !== 'styphi') columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove];
     setLoadingCSV(true);
-    await axios
-      .post(`/api/file/download`, { organism })
-      .then(res => {
-        let indexes = [];
-        let csv = res.data.split('\n');
-        let lines = [];
 
-        for (let index = 0; index < csv.length; index++) {
-          let line = csv[index].split(',');
-          lines.push(line);
-        }
+    try {
+      const res = await axios.post(`/api/file/download`, { organism });
 
-        const replacements = {
-          COUNTRY_ONLY: 'Country',
-          NAME: 'Name',
-          DATE: 'Date',
-          GENOTYPE: 'Genotype',
-          source_type: 'Source_type',
-          accession: 'Accession',
-          ACCESSION: 'Accession',
-          'dashboard view': 'Dashboard view',
-        };
-
-        lines[0].forEach((curr, index) => {
-          lines[0][index] = replacements[curr] || curr;
-        });
-
-        for (let index = 0; index < columnsToRemove.length; index++) {
-          let currentIndex = lines[0].indexOf(columnsToRemove[index]);
-          indexes.push(currentIndex);
-        }
-        indexes.sort();
-        indexes.reverse();
-
-        let newLines = [];
-        for (let j = 0; j < lines.length; j++) {
-          let aux = [];
-          for (let i = 0; i < lines[j].length; i++) {
-            if (!indexes.includes(i)) {
-              aux.push(lines[j][i]);
-            }
-          }
-          newLines.push(aux);
-        }
-
-        // Assemble the new TSV data by joining columns with "\t" instead of ","
-        let newTSV = '';
-        for (let i = 0; i < newLines.length; i++) {
-          newTSV += newLines[i].join('\t');
-          if (i !== newLines.length - 1) {
-            newTSV += '\n';
-          }
-        }
-
-        // Update the filename to reflect TSV format
-        download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
-      })
-      .catch(error => {
-        console.error('Error downloading database:', error);
-      })
-      .finally(() => {
-        setLoadingCSV(false);
-        dispatch(setLoadingPDF(false));
+      const parsed = Papa.parse(res.data, {
+        header: false,
+        skipEmptyLines: true,
       });
+
+      const lines = parsed.data;
+
+
+      const replacements = {
+        COUNTRY_ONLY: 'Country',
+        NAME: 'Name',
+        DATE: 'Date',
+        GENOTYPE: 'Genotype',
+        source_type: 'Source_type',
+        accession: 'Accession',
+        ACCESSION: 'Accession',
+        'dashboard view': 'Dashboard view',
+      };
+
+      lines[0] = lines[0].map(header => replacements[header] || header);
+
+      // columns to remove
+      const indexesToRemove = columnsToRemove
+        .map(col => lines[0].indexOf(col))
+        .filter(index => index !== -1)
+        .sort((a, b) => b - a); // Reverse sort for safe removal
+
+      // Remove columns
+      const newLines = lines.map(row =>
+        row.filter((_, i) => !indexesToRemove.includes(i))
+      );
+
+      // create TSV
+      const newTSV = newLines.map(row => row.join('\t')).join('\n');
+
+      // Download
+      download(newTSV, `AMRnet ${firstName} ${secondName} Database.tsv`);
+    } catch (error) {
+      console.error('Error downloading database:', error);
+    } finally {
+      setLoadingCSV(false);
+      dispatch(setLoadingPDF(false));
+    }
   }
 
   function getOrganismCards() {
