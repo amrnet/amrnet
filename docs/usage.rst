@@ -10,8 +10,8 @@ Dashboard overview
     Shigella + EIEC <Org/shige>
     Klebsiella pneumoniae <Org/kpneumo>
     Neisseria gonorrhoeae <Org/ngono>
-    Nontyphoidal Salmonella <Org/senterica>
-    Invasive Nontyphoidal Salmonella <Org/sentericaints>
+    Salmonella (non-typhoidal) <Org/senterica>
+    Salmonella (invasive non-typhoidal) <Org/sentericaints>
     Salmonella Typhi <Org/styphi>
 
 

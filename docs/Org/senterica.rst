@@ -1,5 +1,5 @@
-Nontyphoidal *Salmonella*
-=========================
+*Salmonella* (non-typhoidal)
+=============================
 
 
 .. container:: justify-text
