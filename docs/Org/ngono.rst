@@ -3,7 +3,7 @@
 
 .. container:: justify-text
 
-   *Neisseria gonorrhoeae* data are sourced from `Pathogenwatch <https://doi.org/10.1186/s13073-021-00858-2>`__, which calls AMR and lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST <https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST <https://doi.org/10.1086/383047>`_) from genomes assembled from public data. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). These include EuroGASP `2013 <https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 <https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national surveillance studies. Last update: 24 January 2024.
+   *Neisseria gonorrhoeae* data are sourced from `Pathogenwatch <https://doi.org/10.1186/s13073-021-00858-2>`__, which calls AMR and lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST <https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST <https://doi.org/10.1086/383047>`_) from genomes assembled from public data. The prevalence estimates shown are calculated using genome collections derived from non-targeted sampling frames (i.e. surveillance and burden studies, as opposed to AMR focused studies or outbreak investigations). These include EuroGASP `2013 <https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 <https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national surveillance studies. Last update: 5 August 2025.
 
 Variable definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~
