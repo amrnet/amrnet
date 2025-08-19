@@ -89,6 +89,7 @@ interface GraphState {
   drugClass: Array<any>;
   drugGene: string;
   coloredOptions: Array<any>;
+  bubbleMarkersHeatmapGraphData: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -173,6 +174,7 @@ const initialState: GraphState = {
   drugClass: [],
   drugGene: '',
   coloredOptions: [],
+  bubbleMarkersHeatmapGraphData:[],
 };
 
 export const graphSlice = createSlice({
@@ -410,6 +412,9 @@ export const graphSlice = createSlice({
     setColoredOptions: (state, action: PayloadAction<Array<any>>) => {
       state.coloredOptions = action.payload;
     },
+    setBubbleMarkersHeatmapGraphData: (state, action: PayloadAction<Array<any>>) => {
+      state.bubbleMarkersHeatmapGraphData = action.payload;
+    },
   },
 });
 
@@ -491,6 +496,7 @@ export const {
   setDrugClass,
   setDrugGene,
   setColoredOptions,
+  setBubbleMarkersHeatmapGraphData,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;
