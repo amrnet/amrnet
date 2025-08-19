@@ -113,7 +113,7 @@ c. Data accessing using Using S3cmd tool
 
     2. You will receive email from us with all the necessary detailed. like: **API_TOKEN_KEY, collection, database, dataSource**.
     3. Once you received these details use the method below to download required data.
-    4. To download data with specific COUNTRY and DATE add a **filter**.
+    4. To download data with specific Country and Date add a **filter**.
 
     Example code to download all the data for an organism:
 
@@ -129,7 +129,7 @@ c. Data accessing using Using S3cmd tool
                     "dataSource":"<dataSource_NAME>"
                 }'
 
-    Example code to download the data with filters **DATE** and **COUNTRY** for an organism:
+    Example code to download the data with filters **Date** and **Country** for an organism:
 
     .. code-block:: bash
 
@@ -141,10 +141,10 @@ c. Data accessing using Using S3cmd tool
                     "collection":"<COLLECTION_NAME>",
                     "database":"<DATABASE_NAME>",
                     "dataSource":"<dataSource_NAME>",
-                    "filter": {"$and": [{"DATE": 2015},{"COUNTRY": "United Kingdom"}]}
+                    "filter": {"$and": [{"Date": 2015},{"Country": "United Kingdom"}]}
                 }'
 
-    Example code to download the data with only one filter e.g. **DATE** for an organism:
+    Example code to download the data with only one filter e.g. **Date** for an organism:
 
     .. code-block:: bash
 
@@ -156,7 +156,7 @@ c. Data accessing using Using S3cmd tool
                     "collection":"<COLLECTION_NAME>",
                     "database":"<DATABASE_NAME>",
                     "dataSource":"<dataSource_NAME>",
-                    "filter": {"DATE": 2015}
+                    "filter": {"Date": 2015}
                 }'
 
     Example code to download the data and save in JSON:
@@ -171,7 +171,7 @@ c. Data accessing using Using S3cmd tool
                     "collection":"<COLLECTION_NAME>",
                     "database":"<DATABASE_NAME>",
                     "dataSource":"<dataSource_NAME>",
-                    "filter": {"DATE": 2015}
+                    "filter": {"Date": 2015}
                 }' > output.json
 
     .. note::
@@ -223,6 +223,12 @@ b. Platform
         :alt: CURL
 
     6. Review the imported request details and add ``<API_TOKEN_KEY>`` in ``Headers`` in Postman.
+
+    .. figure:: assets/token.png
+        :width: 100%
+        :align: center
+        :alt: token
+
     7. Replace database name and collection name based on data to download
     8. Add filters to get specific data in ``filter``
 
@@ -244,6 +250,3 @@ b. Platform
         :width: 100%
         :align: center
         :alt: save
-
-3. Graphical User Interface (GUI)
----------------------------------
