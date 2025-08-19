@@ -16,15 +16,15 @@ Variable definitions
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
-    
+
    - **Lineages**: Lineages are labeled by iTYM (invasive Typhimurium) or iENT (invasive Enteritidis) followed by the lineage name, defined from cgMLST as follows:
 
-   * iTYM ST19-L1: HC150-305
-   * iTYM ST19-L3: HC150=1547
-   * iTYM ST19-L4: HC150=48
-   * iTYM ST313-L1: HC150=9882
-   * iTYM ST313-L2: HC150=728 and HC50=728
-   * iENT CEAC: HC150=12675
-   * iENT WAC: HC150=2452
+     - iTYM ST19-L1: HC150=305  
+     - iTYM ST19-L3: HC150=1547  
+     - iTYM ST19-L4: HC150=48  
+     - iTYM ST313-L1: HC150=9882  
+     - iTYM ST313-L2: HC150=728 and HC50=728  
+     - iENT CEAC: HC150=12675  
+     - iENT WAC: HC150=2452
 
-   - **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :doc:`the table <table>`.
+   - **AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :ref:`the table <amr-definition-table>`.

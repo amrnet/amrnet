@@ -19,4 +19,4 @@ Variable definitions
 
 
     - **Lineages** -  Lineages are labeled by 7-locus sequence type (ST).
-    - **AMR determinants:** - `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in refgenes, see :doc:`the table <table>`.
+    - **AMR determinants:** - `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in refgenes, see :ref:`the table <amr-definition-table>`.
