@@ -623,7 +623,7 @@ export const DownloadMapViewData = ({ value }) => {
       console.log('mapRegionData is not an array or is empty', mapRegionData);
     }
   };
-  function getUniqueMarkerNames(data) {
+  const getUniqueMarkerNames = (data) => {
     const markers = new Set();
 
     data.forEach(genotypeEntry => {
@@ -635,7 +635,8 @@ export const DownloadMapViewData = ({ value }) => {
     });
 
     return [...markers].sort();
-  }
+  };
+
 
   const downloadCSVForBKOH = () => {
     const COMPARISON = variableGraphOptions.find(x => x.value === bubbleKOHeatmapGraphVariable).mapValue;
@@ -904,14 +905,15 @@ export const DownloadMapViewData = ({ value }) => {
     generateCSV(header, rows, `TrendLine_HeatMap_${drugClass}`, firstName, secondName);
   };
 
-  function generateCSV(headers, rows, name, firstName, secondName) {
-    console.log("firstname", firstName)
-    // Convert headers and rows to TSV format
-    if (!Array.isArray(headers) || !Array.isArray(rows)) {
-    console.error("Headers and rows must be arrays");
-    return;
-  }
-    const tsvRows = [
+  const generateCSV = (headers, rows, name, firstName, secondName) => {
+
+      // Convert headers and rows to TSV format
+      if (!Array.isArray(headers) || !Array.isArray(rows)) {
+        console.error("Headers and rows must be arrays");
+        return;
+      }
+
+      const tsvRows = [
       headers.join('\t'),
       ...rows.map(row => row.join('\t'))
     ];
@@ -928,7 +930,8 @@ export const DownloadMapViewData = ({ value }) => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
+  };
+
 
   const functionValue = () => {
     switch (value) {
