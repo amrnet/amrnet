@@ -1,20 +1,6 @@
 Dashboard overview
 ====================
 
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    Escherichia coli  <Org/ecoli>
-    Escherichia coli diarrheagenic <Org/decoli>
-    Shigella + EIEC <Org/shige>
-    Klebsiella pneumoniae <Org/kpneumo>
-    Neisseria gonorrhoeae <Org/ngono>
-    Salmonella (non-typhoidal) <Org/senterica>
-    Salmonella (invasive non-typhoidal) <Org/sentericaints>
-    Salmonella Typhi <Org/styphi>
-
-
 Header
 ~~~~~~
 
