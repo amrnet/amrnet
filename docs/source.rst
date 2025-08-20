@@ -38,13 +38,13 @@ AMR typing
 
 
 
-*Escherichia coli* 
-------------------
+*Escherichia coli* and *Shigella*
+-----------------------------------
 
 Genotype nomenclature
 ^^^^^^^^^^^^^^^^^^^^^
 
-- Achtman 7-locus MLST scheme: Developed by `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`__
+- Achtman 7-locus MLST scheme: Developed by `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`_
 
 - Core genome MLST scheme: `The EnteroBase user's guide, with case studies on Salmonella transmissions, Yersinia pestis phylogeny, and Escherichia core genomic diversity, Zhou et al 2020 <http://www.genome.org/cgi/doi/10.1101/gr.251678.119>`_
 
@@ -55,9 +55,9 @@ Genotype nomenclature
 Pathotype definition
 ^^^^^^^^^^^^^^^^^^^^^
 
-- The diarrheagenic *E. coli* (DEC) pathotypes are defined using `Enterobase pathotyping logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__
+- The diarrheagenic *E. coli* (DEC) pathotypes are defined using `Enterobase pathotyping logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_
 
-- *Shigella* species identification : `Hierarchical Cluster (HC) <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_
+- *Shigella* species identification : `Hierarchical Clustering (HC) <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_
 
 AMR typing
 ^^^^^^^^^^^^^^^^^^^^^
@@ -81,7 +81,7 @@ Genotype nomenclature
 AMR typing
 ^^^^^^^^^^^^^^^^^^^^^
 
-- Pathogenwatch in-house module as described in the paper `A community-driven resource for genomic epidemiology and antimicrobial resistance prediction of Neisseria gonorrhoeae at Pathogenwatch, Sánchez-Busó et al. 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_
+- Pathogenwatch in-house AMR prediction module described in the paper `A community-driven resource for genomic epidemiology and antimicrobial resistance prediction of Neisseria gonorrhoeae at Pathogenwatch, Sánchez-Busó et al. 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_
 
 
 
@@ -97,12 +97,39 @@ Genotype nomenclature
 
 - Hierarchical clustering: `HierCC: a multi-level clustering scheme for population assignments based on core genome MLST, Zhou et al 2020 <https://doi.org/10.1093/bioinformatics/btab234>`_
 
+Serotyping
+^^^^^^^^^^^^
+
 - Serotypes: `The Salmonella In Silico Typing Resource (SISTR): An Open Web-Accessible Tool for Rapidly Typing and Subtyping Draft Salmonella Genome Assemblies, Yoshida et al 2016 <https://doi.org/10.1371/journal.pone.0147101>`_
 
 AMR typing
 ^^^^^^^^^^^
 
 - `AMRFinderPlus <https://github.com/ncbi/amr>`_
+
+
+
+*Salmonella* (invasive non-typhoidal)
+-------------------------------------
+
+Genotype nomenclature
+^^^^^^^^^^^^^^^^^^^^^
+
+- 7-locus MLST scheme: `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-senterica.html>`_
+
+- Core genome MLST scheme: `The EnteroBase user's guide, with case studies on Salmonella transmissions, Yersinia pestis phylogeny, and Escherichia core genomic diversity, Zhou et al 2020 <http://www.genome.org/cgi/doi/10.1101/gr.251678.119>`_
+
+- Hierarchical clustering: `HierCC: a multi-level clustering scheme for population assignments based on core genome MLST, Zhou et al 2020 <https://doi.org/10.1093/bioinformatics/btab234>`_
+
+Serotyping
+^^^^^^^^^^
+- Serotypes: `The Salmonella In Silico Typing Resource (SISTR): An Open Web-Accessible Tool for Rapidly Typing and Subtyping Draft Salmonella Genome Assemblies, Yoshida et al 2016 <https://doi.org/10.1371/journal.pone.0147101>`_
+
+AMR typing
+^^^^^^^^^^^
+
+- `AMRFinderPlus <https://github.com/ncbi/amr>`_
+
 
 
 *Salmonella Typhi*
@@ -118,5 +145,3 @@ AMR typing
 ^^^^^^^^^^^^^^^^^^^^^
 
 - Pathogenwatch AMR prediction module described in the paper `A global resource for genomic predictions of antimicrobial resistance and surveillance of Salmonella Typhi at pathogenwatch, Argimón et al 2021 <https://doi.org/10.1038/s41467-021-23091-2>`_
-
-
