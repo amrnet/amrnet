@@ -1,0 +1,251 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: amrnet\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: 2025-08-05 01:47\n"
+"Last-Translator: \n"
+"Language: fr\n"
+"Language-Team: French\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+"X-Crowdin-Project: amrnet\n"
+"X-Crowdin-Project-ID: 816064\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /devrev-final/docs/locale/pt/LC_MESSAGES/userguide.po\n"
+"X-Crowdin-File-ID: 132\n"
+
+#: ../../userguide.rst:2
+msgid "AMRnet"
+msgstr ""
+
+#: ../../userguide.rst:6
+msgid "The `AMRnet <https://www.amrnet.org/>`_ aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing."
+msgstr ""
+
+#: ../../userguide.rst:8
+msgid "We started with Salmonella Typhi, built on our `TyphiNET <https://www.typhi.net>`_ dashboard which uses data curated by the `Global Typhoid Genomics Consortium <http://typhoidgenomics.org>`_ (to improve data quality and identify which datasets are suitable for inclusion) and analysed in `Pathogenwatch <http://pathogen.watch>`_ (to call AMR determinants and lineages from sequence data). Dashboards are now available for Klebsiella pneumoniae, Neisseria gonorrhoeae, non-typhoidal Salmonella, E. coli and Shigella using data sourced from the `Pathogenwatch <http://pathogen.watch>`_ and `Enterobase <https://enterobase.warwick.ac.uk/>`_ platforms. In the future, we hope to add additional organisms, sourced from these and other platforms."
+msgstr ""
+
+#: ../../userguide.rst:10
+msgid "A major barrier to using public data for surveillance is the need for careful data curation, to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with other organism communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (`amrnetdashboard@gmail.com <amrnetdashboard@gmail.com>`_)"
+msgstr ""
+
+#: ../../userguide.rst:12
+msgid "Find out more about the project team (based at London School of Hygiene and Tropical Medicine), and our policy advisory group, `here <https://www.lshtm.ac.uk/amrnet>`__."
+msgstr ""
+
+#: ../../userguide.rst:14
+msgid "The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_. Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__. API access is described on the :doc:`/data` page."
+msgstr ""
+
+#: ../../userguide.rst:17
+msgid "Citation for AMRnet"
+msgstr ""
+
+#: ../../userguide.rst:21
+msgid "If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Kathryn Holt), **GitHub**: https://github.com/amrnet/amrnet, **DOI**: 10.5281/zenodo.10810219"
+msgstr ""
+
+#: ../../userguide.rst:26
+msgid "Dashboard Development"
+msgstr ""
+
+#: ../../userguide.rst:29
+msgid "If you want to install the AMRnet code to develop your own dashboard instances, follow the installation instructions in the :doc:`Installation Guide <installation>`."
+msgstr ""
+
+#: ../../userguide.rst:32
+msgid "**Quick Start:**"
+msgstr ""
+
+#: ../../userguide.rst:50
+msgid "The application will be available at ``http://localhost:3000`` for development."
+msgstr ""
+
+#: ../../userguide.rst:54
+msgid "License"
+msgstr ""
+
+#: ../../userguide.rst:57
+msgid "Distributed under the terms of the :doc:`GPLv3 License <license>`."
+msgstr ""
+
+#: ../../userguide.rst:59
+msgid "``AMRnet`` is free and open source software."
+msgstr ""
+
+#: ../../userguide.rst:62
+msgid "Support"
+msgstr ""
+
+#: ../../userguide.rst:65
+msgid "Found a bug 🐛, or have a feature request ✨, raise an issue on the GitHub `issue tracker <https://github.com/amrnet/amrnet/issues>`_. Alternatively you can get support on the `discussions <https://github.com/amrnet/amrnet/discussions>`_ page."
+msgstr ""
+
+#: ../../userguide.rst:73
+msgid "Disclaimer"
+msgstr ""
+
+#: ../../userguide.rst:76
+msgid "``AMRnet`` is an open source dashboard that continues to benefit from the collaboration of many contributors. Although efforts have been made to ensure the that relevant web development standards are implemented, it remains the user's responsibility to confirm and accept the output. Refer to the :doc:`License <license>` for clarification of the conditions of use."
+msgstr ""
+
+=======
+{
+  "antimicrobial_resistance": {
+    "definition": "The ability of microorganisms to resist the effects of antimicrobial agents",
+    "es": "resistencia antimicrobiana",
+    "fr": "résistance antimicrobienne",
+    "pt": "resistência antimicrobiana",
+    "context": "Primary concept in AMR surveillance",
+    "source": "WHO terminology"
+  },
+  "minimum_inhibitory_concentration": {
+    "definition": "The lowest concentration of an antimicrobial agent that inhibits visible growth of a microorganism",
+    "es": "concentración inhibitoria mínima",
+    "fr": "concentration minimale inhibitrice",
+    "pt": "concentração inibitória mínima",
+    "abbreviation": "MIC",
+    "context": "Laboratory measurement standard",
+    "source": "CLSI/EUCAST standards"
+  },
+  "susceptible": {
+    "definition": "Clinical interpretation indicating the antimicrobial agent is likely to inhibit growth",
+    "es": "sensible",
+    "fr": "sensible",
+    "pt": "sensível",
+    "context": "Clinical interpretation category",
+    "source": "Clinical breakpoint standards"
+  },
+  "intermediate": {
+    "definition": "Clinical interpretation indicating antimicrobial activity in body sites with increased exposure",
+    "es": "intermedio",
+    "fr": "intermédiaire",
+    "pt": "intermediário",
+    "context": "Clinical interpretation category",
+    "source": "Clinical breakpoint standards"
+  },
+  "resistant": {
+    "definition": "Clinical interpretation indicating the antimicrobial agent is not likely to inhibit growth",
+    "es": "resistente",
+    "fr": "résistant",
+    "pt": "resistente",
+    "context": "Clinical interpretation category",
+    "source": "Clinical breakpoint standards"
+  },
+  "breakpoint": {
+    "definition": "MIC or zone diameter value that separates susceptible from non-susceptible categories",
+    "es": "punto de corte",
+    "fr": "seuil de sensibilité",
+    "pt": "ponto de corte",
+    "context": "Clinical interpretation threshold",
+    "source": "CLSI/EUCAST guidelines"
+  },
+  "eucast": {
+    "definition": "European Committee on Antimicrobial Susceptibility Testing",
+    "es": "EUCAST",
+    "fr": "EUCAST",
+    "pt": "EUCAST",
+    "context": "European clinical standards organization",
+    "source": "Official acronym",
+    "preserve_case": true
+  },
+  "clsi": {
+    "definition": "Clinical and Laboratory Standards Institute",
+    "es": "CLSI",
+    "fr": "CLSI",
+    "pt": "CLSI",
+    "context": "US clinical standards organization",
+    "source": "Official acronym",
+    "preserve_case": true
+  },
+  "epidemiological_cutoff": {
+    "definition": "MIC value that separates wild-type from non-wild-type populations",
+    "es": "punto de corte epidemiológico",
+    "fr": "seuil épidémiologique",
+    "pt": "ponto de corte epidemiológico",
+    "abbreviation": "ECOFF",
+    "context": "Population-based resistance detection",
+    "source": "EUCAST methodology"
+  },
+  "clinical_breakpoint": {
+    "definition": "MIC value that defines clinical categories for treatment guidance",
+    "es": "punto de corte clínico",
+    "fr": "seuil clinique",
+    "pt": "ponto de corte clínico",
+    "context": "Treatment decision threshold",
+    "source": "Clinical guidelines"
+  },
+  "quality_control": {
+    "definition": "Procedures to ensure accuracy and reliability of antimicrobial susceptibility testing",
+    "es": "control de calidad",
+    "fr": "contrôle qualité",
+    "pt": "controle de qualidade",
+    "abbreviation": "QC",
+    "context": "Laboratory quality assurance",
+    "source": "Laboratory standards"
+  },
+  "antimicrobial_stewardship": {
+    "definition": "Coordinated interventions to improve antimicrobial use",
+    "es": "optimización del uso de antimicrobianos",
+    "fr": "bon usage des antimicrobiens",
+    "pt": "uso racional de antimicrobianos",
+    "context": "Clinical practice optimization",
+    "source": "WHO/CDC guidelines"
+  },
+  "surveillance": {
+    "definition": "Systematic monitoring of antimicrobial resistance patterns",
+    "es": "vigilancia",
+    "fr": "surveillance",
+    "pt": "vigilância",
+    "context": "Public health monitoring",
+    "source": "WHO GLASS methodology"
+  },
+  "pathogen": {
+    "definition": "Disease-causing microorganism",
+    "es": "patógeno",
+    "fr": "pathogène",
+    "pt": "patógeno",
+    "context": "Infectious disease terminology",
+    "source": "Medical terminology"
+  },
+  "nosocomial_infection": {
+    "definition": "Healthcare-associated infection acquired in hospital setting",
+    "es": "infección nosocomial",
+    "fr": "infection nosocomiale",
+    "pt": "infecção nosocomial",
+    "context": "Hospital infection control",
+    "source": "Healthcare terminology"
+  },
+  "multidrug_resistant": {
+    "definition": "Resistant to multiple antimicrobial agent classes",
+    "es": "multirresistente",
+    "fr": "multirésistant",
+    "pt": "multirresistente",
+    "abbreviation": "MDR",
+    "context": "Resistance phenotype classification",
+    "source": "Clinical definitions"
+  },
+  "extensively_drug_resistant": {
+    "definition": "Resistant to nearly all antimicrobial agent classes",
+    "es": "extensamente resistente",
+    "fr": "ultrarésistant",
+    "pt": "extensivamente resistente",
+    "abbreviation": "XDR",
+    "context": "Severe resistance phenotype",
+    "source": "Clinical definitions"
+  },
+  "pandrug_resistant": {
+    "definition": "Resistant to all available antimicrobial agents",
+    "es": "panresistente",
+    "fr": "panrésistant",
+    "pt": "panrresistente",
+    "abbreviation": "PDR",
+    "context": "Complete resistance phenotype",
+    "source": "Clinical definitions"
+  }
+}

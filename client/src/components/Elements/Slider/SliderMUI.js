@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   sliderLabel: {
     display: 'flex',
     fontSize: '12px',
@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
   },
   sliderSize: {
-    margin: '0px 10px',
     '& .MuiSlider-valueLabel': {
       fontSize: 12,
       fontWeight: '600',

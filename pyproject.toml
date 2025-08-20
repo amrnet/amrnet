@@ -1,27 +1,126 @@
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
 
 [project]
-name = "amrnet"
-version = "1.0.2"
-description = "AMRnet dashboard"
+name = "AMRnet"
+dynamic = ["version"]
+description = "AMRnet dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience."
 readme = "README.md"
-requires-python = ">=3.9"
 license = {file = "LICENSE"}
 authors = [
-    {name = "Louise Cerdeira", email = "lcerdeira@gmail.com"},
-    {name = "Vandana Sharma", email = "vandana.sharma@lshtm.ac.uk"},
-    {name = "Kathryn Holt", email = "kat.holt@lshtm.ac.uk"},
-    ]
+    { name = "Louise Cerdeira", email = "louise.cerdeira@gmail.com" },
+    { name = "Kathryn Holt", email = "drkatholt@gmail.com" }
+]
+maintainers = [
+   { name = "Louise Cerdeira", email = "louise.cerdeira@gmail.com" },
+   { name = "Vandana Sharma", email = "vandana.sharma18519@gmail.com" }
+]
+keywords = [
+    "AMR",
+    "Pathogens",
+    "computational biology",
+    "Genomic data-driven",
+]
 classifiers = [
-    "License :: GNU General Public License v3 (GPLv3)",
-    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
-    "Intended Audience :: Science/Research"
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+
 ]
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "rich[jupyter]~=14.0",
+    "more-itertools~=10.5",
+]
+
 [project.urls]
-homepage = "https://www.amrnet.org/"
-documentation = "https://amrnet.readthedocs.io/"
-repository = "https://github.com/amrnet/amrnet/"
+Homepage = "https://www.amrnet.org"
+Documentation = "https://amrnet.readthedocs.io"
+Repository = "https://github.com/amrnet/amrnet"
+Issues = "https://github.com/amrnet/amrnet/issues"
+Changelog = "https://github.com/amrnet/amrnet/releases"
+
+[project.optional-dependencies]
+numba = [
+    "numba>=0.60.0",
+]
+rhino = [
+    "rhino3dm>=8.17.0",
+    "rhino-shapley-interop>=0.0.4",
+]
+dxf = [
+    "cad-to-shapely>=0.3.2",
+]
+pardiso = [
+    "pypardiso>=0.4.6; platform_system == 'Windows' or platform_system == 'Linux'"
+]
+
+[dependency-groups]
+dev = [
+    "ipympl==0.9.7",
+    "notebook==7.4.1",
+    "sphinx-autobuild==2024.10.03",
+]
+docs = [
+    "furo==2024.8.6",
+    "sphinx==8.1.3",  # nbsphinx requies sphinx<8.2 for now
+    "ipykernel==6.29.5",
+    "ipython==9.2.0",
+    "nbsphinx==0.9.7",
+    "nbconvert==7.16.6",
+    "sphinx-copybutton==0.5.2",
+    "sphinxext-opengraph==0.10.0",
+]
+
+[tool.uv]
+default-groups = ["dev", "docs"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
+
+# Lint and format Python code
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+select = ["E", "F", "W", "C", "N", "UP", "S", "B", "I"]
+ignore = ["E501", "S101"]  # Line too long, assert statements
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]  # Unused imports in __init__.py
+"test_*.py" = ["S101"]    # Allow assert in tests
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.venv
+  | _build
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src"]
+python_files = ["test_*.py", "*_test.py"]
+python_functions = ["test_*"]
+addopts = "--strict-markers --disable-warnings"
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+]

@@ -1,12 +1,13 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   topLeftControls: {
     display: 'flex',
     flexDirection: 'column',
     position: 'absolute',
     top: 0,
     left: 0,
+    zIndex: 1,
 
     '&$bp700': {
       position: 'relative',
@@ -51,7 +52,15 @@ const useStyles = makeStyles((theme) => ({
   menuPaper: {
     maxHeight: '350px !important',
   },
-  lineageLi: { paddingLeft: '8px !important', paddingRight: '8px !important' },
+  titleWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  toggleButton: {
+    justifyContent: 'flex-start !important',
+  },
   bp700: {},
 }));
 

@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   card: {
     '&.MuiCard-root': {
       borderRadius: '16px',
@@ -33,7 +33,10 @@ const useStyles = makeStyles((theme) => ({
   },
   beta: {
     // width:"30px !important",
-    height: '40px',
+    height: 'fit-content',
+    borderRadius: '5px',
+    padding: '10px',
+
     backgroundColor: '#ededed !important',
     '@media (max-width: 500px)': {
       width: '100% !important',

@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   trendsGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -102,16 +102,24 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '100%',
   },
-  sliderCont: {
-    width: '30%',
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    '@media (max-width: 1000px)': {
-      width: '100%',
-      overflowY: 'hidden',
-      overflowX: 'hidden',
-    },
+  insufficientData: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    color: 'red',
+    fontWeight: '600',
   },
+  // sliderCont: {
+  //   width: '30%',
+  //   overflowY: 'auto',
+  //   overflowX: 'hidden',
+  //   '@media (max-width: 1000px)': {
+  //     width: '100%',
+  //     overflowY: 'hidden',
+  //     overflowX: 'hidden',
+  //   },
+  // },
   tooltip: {
     width: '100%',
     height: '100%',
@@ -174,6 +182,31 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 1000px)': {
       width: '100%',
     },
+  },
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  labelWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: '8px',
+    paddingBottom: '4px',
   },
 }));
 

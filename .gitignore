@@ -1,28 +1,69 @@
 # dependencies
 node_modules/
+assets/datasets/
+assets/models/
 /.pnp
 .pnp.js
 client/build/
-.DS_Store
-.env.local
-.env.development.local
-.env.development
-.env.test.local
-.env.production.local
-.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 yarn.lock
 package-lock.json
 .vscode/
+.DS_Store
+# Environment variables - NEVER commit these!
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
 
+# Keep only the example file
+!.env.example
 
+# Internationalization build files
+client/locales/temp/
+client/src/locales/temp/
 
-# Created by https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
-# Edit at https://www.toptal.com/developers/gitignore?templates=python,jupyternotebooks
+# Translation API keys and temp files
+.openai_key
+translator_temp/
+
+# VScode workspace
+amrnet.code-workspace
+
+# Modern IDE files
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Coverage reports
+coverage/
+.nyc_output/
+lcov.info
+
+# Build outputs
+dist/
+build/
+*.tgz
+*.tar.gz
 
 ### JupyterNotebooks ###
+# Jupyter Notebook
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
@@ -114,10 +155,6 @@ docs/_build/
 .pybuilder/
 target/
 
-# Jupyter Notebook
-
-# IPython
-
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
@@ -172,5 +209,10 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Modern Python tools
+.ruff_cache/
+.black/
+.isort.cfg
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks

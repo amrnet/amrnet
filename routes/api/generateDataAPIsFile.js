@@ -1,106 +1,117 @@
-import express from 'express';
-import csv from 'csv-parser';
-import fs from 'fs';
-import path from 'path';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import * as Tools from '../../services/services.js';
-import { client } from '../../config/db2.js';
 import pkg from 'csv-writer';
+import express from 'express';
+import fs from 'fs';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import zlib from 'zlib';
+import { client } from '../../config/db.js';
+import * as Tools from '../../services/services.js';
 
 const { createObjectCsvWriter: createCsvWriter } = pkg;
 const { createObjectCsvStringifier: createCsvStringifier } = pkg;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
 
-// Download clean as spreadsheet
-router.post('/download', function (req, res, next) {
+// Download clean as spreadsheet with compression
+router.post('/download', async function (req, res, next) {
   const organism = req.body.organism;
   let collection, localFilePath;
 
   if (organism === 'styphi') {
-    collection = client.db('styphi').collection('merge_rawdata_st');
+    collection = client.db('styphi').collection('amrnetdb_styphi');
     localFilePath = Tools.path_clean_all_st;
   } else if (organism === 'kpneumo') {
-    collection = client.db('kpneumo').collection('merge_rawdata_kp');
+    collection = client.db('kpneumo').collection('amrnetdb_kpneumo');
     localFilePath = Tools.path_clean_all_kp;
   } else if (organism === 'ngono') {
-    collection = client.db('ngono').collection('merge_rawdata_ng');
+    collection = client.db('ngono').collection('amrnetdb_ngono');
     localFilePath = Tools.path_clean_all_ng;
   } else if (organism === 'ecoli') {
-    collection = client.db('ecoli').collection('merge_rawdata_ec');
+    collection = client.db('ecoli').collection('amrnetdb_ecoli');
     localFilePath = Tools.path_clean_all_ec;
   } else if (organism === 'decoli') {
-    collection = client.db('decoli').collection('merge_rawdata_dec');
+    collection = client.db('decoli').collection('amrnetdb_decoli');
     localFilePath = Tools.path_clean_all_ec;
   } else if (organism === 'shige') {
-    collection = client.db('shige').collection('merge_rawdata_sh');
+    collection = client.db('shige').collection('amrnetdb_shige');
     localFilePath = Tools.path_clean_all_sh;
   } else if (organism === 'sentericaints') {
-    collection = client.db('sentericaints').collection('merge_rawdata_seints');
+    collection = client.db('sentericaints').collection('merge_rawdata_sients');
     localFilePath = Tools.path_clean_all_sh;
   } else {
     collection = client.db('senterica').collection('merge_rawdata_se');
     localFilePath = Tools.path_clean_all_se;
   }
+  let data;
+  try {
+    data = await collection.find({}).toArray();
+    console.log('2', data.length, 'documents found');
+  } catch (err) {
+    console.error('Error querying MongoDB:', err);
+    return res.status(500).send('Database error');
+  }
 
-  // find all documents to download
-  collection.find().toArray((err, data) => {
-    if (err) {
-      console.error('Error querying MongoDB:', err);
-      client.close();
-      return;
-    }
-    let csvString;
-    // Check if there is at least one document
-    if (data.length > 0) {
-      // Use the keys of the first document as headers
-      const header = Object.keys(data[0]);
-      const headerList = [...header];
-      // const desiredOrder = ['NAME','DATE', ...header];
-      // Remove 'NAME' and 'DATE' if they exist in the original position
-      let nameField;
-      if(organism === 'shige' || organism === 'decoli')
-      nameField = 'Name'
-      else
-      nameField = 'NAME'
+  let csvString;
 
-      const filteredHeaderList = headerList.filter(fieldName => fieldName !== nameField && fieldName !== 'DATE' && fieldName !== 'COUNTRY' && fieldName !== 'COUNTRY_ONLY' && fieldName !== 'PMID' && fieldName !== 'GENOTYPE');
+  if (data.length > 0) {
+    const header = Object.keys(data[0]);
+    const headerList = [...header];
+    let nameField = organism === 'shige' || organism === 'decoli' ? 'Name' : 'NAME';
 
-      let rearrangedHeaderList;
-      if(organism === 'styphi' || organism === 'ngono')
-      rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY','PMID','GENOTYPE', ...filteredHeaderList];
-      else
-      rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY','GENOTYPE', ...filteredHeaderList];
+    const filteredHeaderList = headerList.filter(
+      fieldName =>
+        fieldName !== nameField &&
+        fieldName !== 'DATE' &&
+        fieldName !== 'COUNTRY' &&
+        fieldName !== 'COUNTRY_ONLY' &&
+        fieldName !== 'PMID' &&
+        fieldName !== 'GENOTYPE',
+    );
+    const rearrangedHeaderList =
+      organism === 'styphi' || organism === 'ngono'
+        ? [nameField, 'DATE', 'COUNTRY_ONLY', 'PMID', 'GENOTYPE', ...filteredHeaderList]
+        : [nameField, 'DATE', 'COUNTRY_ONLY', 'GENOTYPE', ...filteredHeaderList];
 
-      // Add 'NAME' and 'DATE' to the beginning of the filtered list
-      // const rearrangedHeaderList = [nameField, 'DATE', 'COUNTRY_ONLY',pmidField,'GENOTYPE', ...filteredHeaderList];
-     
-      const headerL = rearrangedHeaderList.map((fieldName) => ({
-        id: fieldName,
-        title: fieldName,
-      }));
-      // Create a CSV stringifier
-      const csvStringifier = createCsvStringifier({
-        header: headerL,
+    const headerL = rearrangedHeaderList.map(fieldName => ({
+      id: fieldName,
+      title: fieldName,
+    }));
+
+    const csvStringifier = createCsvStringifier({ header: headerL });
+    const records = data.map(doc => {
+      const flatDoc = {};
+      rearrangedHeaderList.forEach(key => {
+        flatDoc[key] = doc[key] ?? '';
       });
 
-      // Convert the data to a CSV string
-      csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(data);
-    } else {
-      if (fs.existsSync(localFilePath)) {
-        // Read the file content
-        csvString = fs.readFileSync(localFilePath, 'utf8');
-      }
-    }
-    // Set appropriate headers for the file download
-    res.setHeader('Content-Disposition', `attachment; filename=${path.basename(organism)}`);
+      return flatDoc;
+    });
+
+    csvString = csvStringifier.getHeaderString() + csvStringifier.stringifyRecords(records);
+  } else if (fs.existsSync(localFilePath)) {
+    csvString = fs.readFileSync(localFilePath, 'utf8');
+  }
+
+  // Check if client accepts gzip compression
+  const acceptsGzip = req.headers['accept-encoding'] && req.headers['accept-encoding'].includes('gzip');
+
+  if (acceptsGzip && csvString && csvString.length > 1024) {
+    // Compress the TSV data
+    const compressed = zlib.gzipSync(csvString);
+
+    res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv.gz"`);
+    res.setHeader('Content-Type', 'application/gzip');
+    res.setHeader('Content-Encoding', 'gzip');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    res.send(compressed);
+  } else {
+    res.setHeader('Content-Disposition', `attachment; filename="${organism}.csv"`);
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    // Send the CSV data as a response
-    res.send(csvString);
-  });
+    res.send(csvString || '');
+  }
 });
 
 //Generate clean_all_st and clean_all_kp
@@ -109,49 +120,49 @@ router.get('/generate/:organism', async function (req, res, next) {
   let collection, folderName, fileName, ext, collection_ext;
 
   if (organism === 'styphi') {
-    collection = client.db('styphi').collection('merge_rawdata_st');
+    collection = client.db('styphi').collection('amrnetdb_styphi');
     folderName = 'styphi';
     ext = 'st';
     collection_ext = 'st';
     fileName = 'cleanAll_st.csv';
   } else if (organism === 'kpneumo') {
-    collection = client.db('kpneumo').collection('merge_rawdata_kp');
+    collection = client.db('kpneumo').collection('amrnetdb_kpneumo');
     folderName = 'kpneumo';
     ext = 'kp';
     collection_ext = 'kp';
     fileName = 'cleanAll_kp.csv';
   } else if (organism === 'ngono') {
-    collection = client.db('ngono').collection('merge_rawdata_ng');
+    collection = client.db('ngono').collection('amrnetdb_ngono');
     folderName = 'ngono';
     ext = 'ng';
     collection_ext = 'ng';
     fileName = 'cleanAll_ng.csv';
   } else if (organism === 'ecoli') {
-    collection = client.db('ecoli').collection('merge_rawdata_ec');
+    collection = client.db('ecoli').collection('amrnetdb_ecoli');
     folderName = 'ecoli';
     ext = 'ec';
     collection_ext = 'ec';
     fileName = 'cleanAll_ec.csv';
   } else if (organism === 'decoli') {
-    collection = client.db('decoli').collection('merge_rawdata_dec');
+    collection = client.db('decoli').collection('amrnetdb_decoli');
     folderName = 'decoli';
     ext = 'dec';
     collection_ext = 'dec';
     fileName = 'cleanAll_dec.csv';
   } else if (organism === 'shige') {
-    collection = client.db('shige').collection('merge_rawdata_sh');
+    collection = client.db('shige').collection('amrnetdb_shige');
     folderName = 'shige';
     ext = 'sh';
     collection_ext = 'sh';
     fileName = 'cleanAll_sh.csv';
   } else if (organism === 'sentericaints') {
-    collection = client.db('sentericaints').collection('merge_rawdata_seints');
+    collection = client.db('sentericaints').collection('merge_rawdata_sients');
     folderName = 'sentericaints';
     ext = 'seints';
     collection_ext = 'seints';
     fileName = 'cleanAll_seints.csv';
   } else {
-    collection = client.db('senterica').collection('merge_rawdata_se');
+    collection = client.db('senterica').collection('sentericatest');
     folderName = 'senterica';
     ext = 'se';
     collection_ext = 'se';
@@ -162,21 +173,21 @@ router.get('/generate/:organism', async function (req, res, next) {
     const queryResult = await collection.find().toArray();
     if (queryResult.length > 0) {
       // Remove the '_id' field from each document
-      const sanitizedData = queryResult.map((doc) => {
+      const sanitizedData = queryResult.map(doc => {
         const { _id, __v, ...rest } = doc;
         return rest;
       });
 
       const csvWriter = createCsvWriter({
         path: `../../assets/webscrap/clean/${folderName}/cleanAll_${ext}.csv`,
-        header: Object.keys(sanitizedData[0]).map((field) => ({
+        header: Object.keys(sanitizedData[0]).map(field => ({
           id: field,
           title: field,
         })),
       });
 
       await csvWriter.writeRecords(sanitizedData);
-      console.log('CSV file successfully created.');
+      console.log('TSV file successfully created.');
     } else {
       console.log('No data to export.');
     }
@@ -242,14 +253,14 @@ router.get('/clean/:organism', async function (req, res, next) {
     if (queryResult.length > 0) {
       const csvWriter = createCsvWriter({
         path: path.join(__dirname, `../../assets/webscrap/clean/${folderName}/clean_${ext}.csv`),
-        header: Object.keys(queryResult[0]).map((field) => ({
+        header: Object.keys(queryResult[0]).map(field => ({
           id: field,
           title: field,
         })),
       });
 
       await csvWriter.writeRecords(queryResult);
-      console.log('CSV file successfully created.');
+      console.log('TSV file successfully created.');
     } else {
       console.log('No data to export.');
     }

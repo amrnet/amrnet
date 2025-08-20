@@ -1,11 +1,9 @@
-import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { Box, CardContent, Typography } from '@mui/material';
 import { useStyles } from './KODiversityGraphMUI';
 import {
   Bar,
   BarChart,
-  Brush,
   CartesianGrid,
-  Legend,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -13,46 +11,33 @@ import {
   Label,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setKODiversityGraphView, setResetBool } from '../../../../stores/slices/graphSlice';
+import { setResetBool } from '../../../../stores/slices/graphSlice';
 import { hoverColor } from '../../../../util/colorHelper';
 import { useEffect, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { colorsForKODiversityGraph } from '../graphColorHelper';
 
-const dataViewOptions = [
-  { label: 'K locus', value: 'K_locus' },
-  { label: 'O locus', value: 'O_locus' },
-];
-
 export const KODiversityGraph = () => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
-  const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
   const KODiversityData = useAppSelector((state) => state.graph.KODiversityData);
-  const KODiversityGraphView = useAppSelector((state) => state.graph.KODiversityGraphView);
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
   const resetBool = useAppSelector((state) => state.graph.resetBool);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
+    //dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [KODiversityData, dispatch]);
 
-  function handleChangeDataView(event) {
-    setCurrentTooltip(null);
-    dispatch(setKODiversityGraphView(event.target.value));
-  }
-
-  function handleClickChart(event) {
-    const data = KODiversityData[KODiversityGraphView].find((item) => item.name === event?.activeLabel);
+  function handleClickChart(type, event) {
+    const data = (KODiversityData[type] ?? []).find((item) => item.name === event?.activeLabel);
 
     if (data) {
       const currentData = structuredClone(data);
 
       const value = {
+        type,
         name: currentData.name,
         count: currentData.count,
         diversity: [],
@@ -63,13 +48,8 @@ export const KODiversityGraph = () => {
 
       Object.keys(currentData).forEach((key) => {
         const count = currentData[key];
-
-        if (count === 0) {
-          return;
-        }
-
-        const activePayload = event.activePayload.find((x) => x.name === key);
-
+        if (count === 0) return;
+        const activePayload = event.activePayload?.find((x) => x.name === key);
         value.diversity.push({
           label: key,
           count,
@@ -79,147 +59,276 @@ export const KODiversityGraph = () => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      //dispatch(setResetBool(false));
     }
   }
 
   useEffect(() => {
     if (resetBool) {
       setCurrentTooltip(null);
-      dispatch(setResetBool(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [resetBool]);
 
-  useEffect(() => {
-    if (canGetData) {
-      setPlotChart(() => {
-        return (
-          <ResponsiveContainer width="100%">
-            <BarChart
-              data={KODiversityData[KODiversityGraphView]}
-              cursor={isTouchDevice() ? 'default' : 'pointer'}
-              onClick={handleClickChart}
-              maxBarSize={70}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
-              <YAxis allowDataOverflow={true} allowDecimals={false} fontSize="14px">
-                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                  Number of genomes
-                </Label>
-              </YAxis>
+  // Helper for log scale (avoid -Infinity for 0)
+  function safeLog10(val) {
+    return val > 0 ? Math.log10(val) : 0;
+  }
 
-              {(KODiversityData[KODiversityGraphView] ?? []).length > 0 && (
-                <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />
-              )}
+  // Prepare data for both plots, using the same years
+  const years = Array.from(
+    new Set([
+      ...(KODiversityData.K_locus ?? []).map((d) => d.name),
+      ...(KODiversityData.O_locus ?? []).map((d) => d.name),
+    ])
+  ).sort();
 
-              <Legend
-                content={(props) => {
-                  const { payload } = props;
-                  return (
-                    <div className={classes.legendWrapper}>
-                      {payload.map((entry, index) => {
-                        const { dataKey, color } = entry;
-                        return (
-                          <div key={`KODiversity-legend-${index}`} className={classes.legendItemWrapper}>
-                            <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
-                            <Typography variant="caption">{dataKey}</Typography>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                }}
-              />
+  // Find max value for normalization
+  let maxValue = 0;
+  [...(KODiversityData.K_locus ?? []), ...(KODiversityData.O_locus ?? [])].forEach((d) => {
+    Object.keys(d).forEach((k) => {
+      if (k !== 'name' && k !== 'count') {
+        if (d[k] > maxValue) maxValue = d[k];
+      }
+    });
+  });
 
-              <ChartTooltip
-                cursor={{ fill: hoverColor }}
-                content={({ payload, active, label }) => {
-                  if (payload !== null && active) {
-                    return <div className={classes.chartTooltipLabel}>{label}</div>;
-                  }
-                  return null;
-                }}
-              />
+  // Merge K_locus and O_locus into a single data array for a mirrored plot, normalized (0-1)
+  const mergedData = years.map((year) => {
+    // Filter out "unknown" from K_locus
+    let k = (KODiversityData.K_locus ?? []).find((d) => d.name === year);
+    if (k) {
+      k = Object.fromEntries(
+        Object.entries(k).filter(([key]) => key !== 'unknown')
+      );
+    } else {
+      k = {};
+    }
+    // Filter out "unknown" from O_locus
+    let o = (KODiversityData.O_locus ?? []).find((d) => d.name === year);
+    if (o) {
+      o = Object.fromEntries(
+        Object.entries(o).filter(([key]) => key !== 'unknown')
+      );
+    } else {
+      o = {};
+    }
+    const merged = { name: year };
+    // K locus: left (negative values for mirror effect)
+    colorsForKODiversityGraph.forEach((option) => {
+      if (option.name === 'unknown') return;
+      const raw = k[option.name] || 0;
+      // Normalize to 0-1
+      const norm = maxValue > 0 ? raw / maxValue : 0;
+      merged[`K_${option.name}`] = -norm;
+    });
+    // O locus: right (positive values, skip "unknown")
+    colorsForKODiversityGraph.forEach((option) => {
+      if (option.name === 'unknown') return;
+      const raw = o[option.name] || 0;
+      const norm = maxValue > 0 ? raw / maxValue : 0;
+      merged[`O_${option.name}`] = norm;
+    });
+    // For tooltips
+    merged.K_count = k.count || 0;
+    merged.O_count = o.count || 0;
+    return merged;
+  });
 
-              {colorsForKODiversityGraph.map((option, index) => (
-                <Bar
-                  key={`KODiversity-bar-${index}`}
-                  dataKey={option.name}
-                  name={option.name}
-                  stackId={0}
-                  fill={option.color}
-                />
-              ))}
-            </BarChart>
-          </ResponsiveContainer>
-        );
+  // Helper for tooltip click
+  function handleBarClick(data, index, type, key) {
+    // type: 'K_locus' or 'O_locus'
+    // key: e.g. 'K_XYZ' or 'O_XYZ'
+    const locus = type === 'K_locus' ? 'K_locus' : 'O_locus';
+    const year = data.name;
+    const original = (KODiversityData[locus] ?? []).find((d) => d.name === year);
+    if (!original) return;
+    const value = {
+      type: locus,
+      name: original.name,
+      count: original.count,
+      diversity: [],
+    };
+    Object.keys(original).forEach((k) => {
+      if (k === 'name' || k === 'count' || k === 'unknown') return; // <-- filter unknown here
+      const count = original[k];
+      if (count === 0) return;
+      value.diversity.push({
+        label: k,
+        count,
+        percentage: Number(((count / value.count) * 100).toFixed(2)),
+        color:
+          colorsForKODiversityGraph.find((c) => c.name === k)?.color ||
+          colorsForKODiversityGraph[0].color,
       });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [KODiversityData, KODiversityGraphView]);
+    });
+    setCurrentTooltip(value);
+    //dispatch(setResetBool(false));
+  }
+
+  // Filter out "unknown" from the color options
+  const filteredColors = colorsForKODiversityGraph.filter(option => option.name !== 'unknown');
 
   return (
     <CardContent className={classes.KODiversityGraph}>
-      <div className={classes.selectWrapper}>
-        <Typography variant="caption">Data view</Typography>
-        <Select
-          value={KODiversityGraphView}
-          onChange={handleChangeDataView}
-          inputProps={{ className: classes.selectInput }}
-          MenuProps={{ classes: { list: classes.selectMenu } }}
-          disabled={organism === 'none'}
-        >
-          {dataViewOptions.map((option, index) => {
-            return (
-              <MenuItem key={index + 'KODiversity-dataview'} value={option.value}>
-                {option.label}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </div>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="KO">
-          {plotChart}
-        </div>
-        <div className={classes.tooltipWrapper}>
-          {currentTooltip ? (
-            <div className={classes.tooltip}>
-              <div className={classes.tooltipTitle}>
-                <Typography variant="h5" fontWeight="600">
-                  {currentTooltip.name}
-                </Typography>
-                <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
-              </div>
-              <div className={classes.tooltipContent}>
-                {currentTooltip.diversity.map((item, index) => {
-                  return (
-                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                      <Box
-                        className={classes.tooltipItemBox}
-                        style={{
-                          backgroundColor: item.color,
-                        }}
-                      />
-                      <div className={classes.tooltipItemStats}>
-                        <Typography variant="body2" fontWeight="500">
-                          {item.label}
-                        </Typography>
-                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                        <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+        {/* <Typography variant="subtitle1" align="Left" sx={{ mb: 1 }}>
+          K locus */}
+          {/* <span style={{ float: 'right', fontWeight: 500 }}>O locus</span> */}
+        {/* </Typography> */}
+        <ResponsiveContainer width="100%" height={500}>
+          <BarChart
+            layout="vertical"
+            data={mergedData}
+            cursor={isTouchDevice() ? 'default' : 'pointer'}
+            margin={{ top: 5, right: 250, left: 250, bottom: 50 }} // increased bottom for legend padding
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            {/* Left Y Axis: K_locus (hide labels) */}
+            <YAxis
+              yAxisId="left"
+              dataKey="name"
+              type="category"
+              tick={{ fontSize: 14 }}
+              width={150}
+              interval={0}
+              orientation="left"
+              reversed={false}
+            />
+            {/* Right Y Axis: O_locus (show labels) */}
+            <YAxis
+              yAxisId="right"
+              dataKey="name"
+              type="category"
+              tick={{ fontSize: 14 }}
+              width={200}
+              interval={0}
+              orientation="right"
+              reversed={false}
+            />
+            <XAxis
+              type="number"
+              allowDataOverflow
+              allowDecimals={true}
+              fontSize="14px"
+              domain={[-1, 1]}
+              tickFormatter={(v) => Math.abs(v).toFixed(2)}
+            >
+              <Label
+                value="Number of genomes"
+                position="insideBottom"
+                className={classes.graphLabel}
+                offset={-10} // add padding below the axis label
+              />
+            </XAxis>
+            <ChartTooltip
+              cursor={{ fill: hoverColor }}
+              content={({ payload, active, label }) => {
+                if (payload !== null && active) {
+                  return <div className={classes.chartTooltipLabel}>{label}</div>;
+                }
+                return null;
+              }}
+            />
+            {/* K locus bars (left, negative values) */}
+            {filteredColors.map((option, index) => (
+              <Bar
+                key={`KODiversity-bar-K-${index}`}
+                dataKey={`K_${option.name}`}
+                name={`K locus: ${option.name}`}
+                stackId="K"
+                fill={option.color}
+                yAxisId="left"
+                onClick={(data, idx) => handleBarClick(data, idx, 'K_locus', `K_${option.name}`)}
+              />
+            ))}
+            {/* O locus bars (right, positive values) */}
+            {filteredColors.map((option, index) => (
+              <Bar
+                key={`KODiversity-bar-O-${index}`}
+                dataKey={`O_${option.name}`}
+                name={`O locus: ${option.name}`}
+                stackId="O"
+                fill={option.color}
+                yAxisId="right"
+                onClick={(data, idx) => handleBarClick(data, idx, 'O_locus', `O_${option.name}`)}
+              />
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+        {/* Unified legend below the chart */}
+        <Box className={classes.legendWrapper} sx={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft: 0, justifyContent: 'center', gap: 1, padding: 1 }}>
+          {filteredColors.map((option, index) => (
+            <div key={`legend-K-${index}`} className={classes.legendItemWrapper}>
+              <Box className={classes.colorCircle} style={{ backgroundColor: option.color }} />
+              <Typography variant="caption">{option.name}</Typography>
             </div>
-          ) : (
-            <div className={classes.noYearSelected}>Click on a item to see the details</div>
-          )}
-        </div>
+          ))}
+        </Box>
+      </div>
+      {/* Single info panel below the plot */}
+      <div
+        className={classes.tooltipWrapper}
+        style={{
+          width: '50%',
+          marginTop: 24,
+          display: 'flex',
+          justifyContent: 'flex-end', // align to the right
+        }}
+      >
+        {currentTooltip ? (
+          <div className={classes.tooltip} style={{ alignItems: 'center', width: '100%' }}>
+            <div
+              className={classes.tooltipTitle}
+              style={{ justifyContent: 'center', textAlign: 'center', width: '100%' }}
+            >
+              <Typography variant="h5" fontWeight="600" align="center" sx={{ width: '100%' }}>
+                {currentTooltip.type === 'K_locus' ? 'K locus' : 'O locus'}: {currentTooltip.name}
+              </Typography>
+            </div>
+            <Typography
+              variant="subtitle1"
+              align="center"
+              sx={{ width: '100%', fontWeight: 500, mt: 1 }}
+            >
+              Number of genomes: {Math.abs(currentTooltip.count)}
+            </Typography>
+            <div className={classes.tooltipContent} style={{ justifyContent: 'center' }}>
+              {currentTooltip.diversity.map((item, index) => (
+                <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                  <Box
+                    className={classes.tooltipItemBox}
+                    style={{
+                      backgroundColor: item.color,
+                    }}
+                  />
+                  <div className={classes.tooltipItemStats}>
+                    <Typography variant="body2" fontWeight="500">
+                      {item.label}
+                    </Typography>
+                    <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                    <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div
+            className={classes.noYearSelected}
+            style={{
+              width: '50%',
+              textAlign: 'center',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              display: 'flex',
+            }}
+          >
+            Click on a bar to see the details
+          </div>
+        )}
       </div>
     </CardContent>
   );
 };
+export * from './KODiversityGraph';
