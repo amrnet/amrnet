@@ -1,20 +1,20 @@
-.. _acknowledgements:
+.. _source:
 
-Acknowledgements
-================
+Source data & tools
+====================
 
 Source Databases
 ~~~~~~~~~~~~~~~~~~
 
 `Pathogenwatch <https://pathogen.watch/>`_
 
-`Enterobase <https://enterobase.warwick.ac.uk/>`_
+`Enterobase <https://enterobase.warwick.ac.uk/>`__
 
 Typing tools
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 *Klebsiella pneumoniae*
-----------------------
+-----------------------
 
 Genotype nomenclature
 ^^^^^^^^^^^^^^^^^^^^^
@@ -44,7 +44,7 @@ AMR typing
 Genotype nomenclature
 ^^^^^^^^^^^^^^^^^^^^^
 
-- Achtman 7-locus MLST scheme: Developed by `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`_
+- Achtman 7-locus MLST scheme: Developed by `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`__
 
 - Core genome MLST scheme: `The EnteroBase user's guide, with case studies on Salmonella transmissions, Yersinia pestis phylogeny, and Escherichia core genomic diversity, Zhou et al 2020 <http://www.genome.org/cgi/doi/10.1101/gr.251678.119>`_
 
@@ -55,7 +55,7 @@ Genotype nomenclature
 Pathotype definition
 ^^^^^^^^^^^^^^^^^^^^^
 
-- The diarrheagenic *E. coli* (DEC) pathotypes are defined using `Enterobase pathotyping logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_
+- The diarrheagenic *E. coli* (DEC) pathotypes are defined using `Enterobase pathotyping logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__
 
 - *Shigella* species identification : `Hierarchical Cluster (HC) <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_
 
@@ -118,4 +118,5 @@ AMR typing
 ^^^^^^^^^^^^^^^^^^^^^
 
 - Pathogenwatch AMR prediction module described in the paper `A global resource for genomic predictions of antimicrobial resistance and surveillance of Salmonella Typhi at pathogenwatch, Argimón et al 2021 <https://doi.org/10.1038/s41467-021-23091-2>`_
+
 
