@@ -76,9 +76,9 @@ AMR typing
 Genotype nomenclature
 ^^^^^^^^^^^^^^^^^^^^^
 
--7-locus MLST scheme: `Species status of Neisseria gonorrhoeae: evolutionary and epidemiological inferences from multilocus sequence typing, Bennett et al 2007 <https://doi.org/10.1186/1741-7007-5-35>`_
+- 7-locus MLST scheme: `Species status of Neisseria gonorrhoeae: evolutionary and epidemiological inferences from multilocus sequence typing, Bennett et al 2007 <https://doi.org/10.1186/1741-7007-5-35>`_
 
--2-locus *N. gonorrhoeae* multi-antigen sequence typing (NG-MAST) scheme `Rapid Sequence-Based Identification of Gonococcal Transmission Clusters in a Large Metropolitan Area, Martin et al 2004 <https://doi.org/10.1086/383047>`_
+- 2-locus *N. gonorrhoeae* multi-antigen sequence typing (NG-MAST) scheme `Rapid Sequence-Based Identification of Gonococcal Transmission Clusters in a Large Metropolitan Area, Martin et al 2004 <https://doi.org/10.1086/383047>`_
 
 - MLST and NG-MAST databases: `PubMLST <https://pubmlst.org/neisseria/>`_
 
