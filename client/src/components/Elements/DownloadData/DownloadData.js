@@ -771,6 +771,82 @@ export const DownloadData = () => {
       doc.setFont(undefined, 'bold');
       doc.text('Map', 16, 116);
       doc.setFont(undefined, 'normal');
+      // doc.text(`Map View: ${actualMapView}`, 16, 128);
+      // doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
+      doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 128);
+      const getAxisLabel = () => {
+        switch (organism) {
+          case 'decoli':
+          case 'shige':
+            return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
+          case 'sentericaints':
+          case 'kpneumo':
+            return `Selected Serotypes : ${selectedLineages.join(', ')}`;
+          // case 'ecoli':
+          //   return `Selected Genotypes : ${selectedLineages.join(', ')}`;
+          default:
+            return '';
+        }
+      };
+
+      doc.text(`${getAxisLabel()} `, 16, 140);
+
+      // Improve PDF for long list of "prevalenceMapViews"
+      const prevalenceMapViews = [
+        'Genotype prevalence',
+        'Lineage prevalence',
+        'ST prevalence',
+        'Sublineage prevalence',
+        'Pathotype prevalence',
+        'Serotype prevalence',
+        'O prevalence',
+        'H prevalence',
+      ];
+
+      let y = 162;
+      const maxLineLength = 98;
+      // Helper to draw wrapped text
+      // Improve code for {mapView}: {Prevelance list}
+      const drawWrappedText = (label, text) => {
+        const fullText = `${label}: ${text}`;
+        for (let i = 0; i < fullText.length; i += maxLineLength) {
+          const line = fullText.slice(i, i + maxLineLength);
+          doc.text(line, 16, y);
+          y += 10;
+
+          if (y > pageHeight - 30) {
+            doc.addPage();
+            drawHeader({ document: doc, pageWidth });
+            drawFooter({ document: doc, pageHeight, pageWidth, date });
+            y = 50; // Reset y to 30 at the top of the new page
+          }
+        }
+      };
+
+      // Prevalence map views
+      if (prevalenceMapViews.includes(mapView)) {
+        const genotypesText = prevalenceMapViewOptionsSelected.join(', ');
+        drawWrappedText(mapView, genotypesText);
+      }
+
+      // NG-MAST specific view
+      if (mapView === 'NG-MAST prevalence') {
+        const genotypesText = customDropdownMapViewNG.join(', ');
+        drawWrappedText(mapView, genotypesText);
+      }
+
+      // Resistance prevalence view
+      if (mapView === 'Resistance prevalence') {
+        const resolvedOptions =
+          ngonoSusceptibleRule(prevalenceMapViewOptionsSelected, organism) ||
+          drugAcronymsOpposite[prevalenceMapViewOptionsSelected] ||
+          prevalenceMapViewOptionsSelected;
+
+        const genotypesText = resolvedOptions.join(', ');
+        drawWrappedText(mapView, genotypesText);
+      }
+
+      // let mapY = 180 + prevalenceMapViewOptionsSelected.length * 9;
       const actualMapView = mapLegends.find((x) => x.value === mapView).label;
       doc.text(`Map View: ${actualMapView}`, 16, 128);
       doc.text(`Dataset: ${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`, 16, 140);
