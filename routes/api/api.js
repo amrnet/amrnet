@@ -6,6 +6,117 @@ import * as Tools from '../../services/services.js';
 import { client } from '../../config/db2.js';
 import rateLimit from 'express-rate-limit';
 
+// MongoDB client setup for production deployment
+let client;
+let connectionAttempts = 0;
+const MAX_CONNECTION_ATTEMPTS = 3;
+
+const connectDB = async () => {
+  if (!client) {
+    const { uri, options } = getMongoConfig();
+    client = new MongoClient(uri, options);
+
+    for (let attempt = 1; attempt <= MAX_CONNECTION_ATTEMPTS; attempt++) {
+      try {
+        console.log(`API routes: Connection attempt ${attempt}/${MAX_CONNECTION_ATTEMPTS}`);
+        await client.connect();
+
+        // Test connection
+        await client.db('ecoli2').command({ ping: 1 });
+        console.log('✅ API routes: MongoDB connection established');
+        connectionAttempts = 0; // Reset on success
+        break;
+      } catch (error) {
+        console.error(`❌ API routes: Connection attempt ${attempt} failed:`, error.message);
+
+        if (attempt === MAX_CONNECTION_ATTEMPTS) {
+          console.error('🚨 API routes: Max connection attempts reached');
+          client = null; // Reset client for next request
+          throw new Error(`MongoDB connection failed after ${MAX_CONNECTION_ATTEMPTS} attempts: ${error.message}`);
+        }
+
+        // Wait before retrying (exponential backoff)
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(`⏳ Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+  return client;
+};
+
+// Helper function to get data with timeout protection
+const getDataWithTimeout = async (dbName, collectionName, query) => {
+  try {
+    // Ensure client is connected
+    const connectedClient = await Promise.race([
+      connectDB(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
+    ]);
+
+    // Execute query with timeout
+    const result = await Promise.race([
+      connectedClient.db(dbName).collection(collectionName).find(query).toArray(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Query timout')), 100000)),
+    ]);
+
+    return result;
+  } catch (error) {
+    console.error(`Error retrieving data from ${collectionName}:`, error.message);
+    throw error;
+  }
+};
+
+// Helper function for aggregation with timeout protection
+const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) => {
+  try {
+    // Ensure client is connected
+    const connectedClient = await Promise.race([
+      connectDB(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
+    ]);
+
+    // Execute aggregation with timeout
+    const result = await Promise.race([
+      connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), 15000)),
+    ]);
+
+    return result;
+  } catch (error) {
+    console.error(`Error running aggregation on ${collectionName}:`, error.message);
+    throw error;
+  }
+};
+
+// Helper function for counting documents with timeout protection
+const getCollectionCountWithTimeout = async (dbName, collectionName, query) => {
+  try {
+    // Ensure client is connected
+    const connectedClient = await Promise.race([
+      connectDB(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
+    ]);
+
+    // Execute count with timeout
+    const count = await Promise.race([
+      connectedClient.db(dbName).collection(collectionName).countDocuments(query),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Count timeout')), 15000)),
+    ]);
+
+    return count;
+  } catch (error) {
+    console.error(`Error counting documents in ${collectionName}:`, error.message);
+    throw error;
+  }
+};
+
+// Initialize client on module load with timeout handling
+connectDB().catch(error => {
+  console.warn('API routes: MongoDB connection failed:', error.message);
+  console.log('API routes will attempt to reconnect on first request');
+});
+
 const dbAndCollectionNames = {
   styphi: { dbName: 'styphi', collectionName: 'merge_rawdata_st' },
   kpneumo: { dbName: 'kpneumo', collectionName: 'merge_rawdata_kp' },
