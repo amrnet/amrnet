@@ -33,9 +33,8 @@ Citation, Code and License
    - If you want to install the AMRnet code to develop your own dashboard instances, see the :doc:`Installation Guide <installation>`.
 
    If you use the AMRnet website or code, please cite **AMRnet** (https://www.amrnet.org) or **GitHub**: https://github.com/amrnet/amrnet, and **DOI**: 10.5281/zenodo.10810219 (Louise Cerdeira, Vandana Sharma, Kathryn Holt). 
-
-   Depending on what data and visualizations you are using in AMRnet, you should also consider citing the upstream source databases (`Pathogenwatch <http://pathogen.watch>`_/`Enterobase <https://enterobase.warwick.ac.uk/>`_), typing tools (noted in the pathogen-specific pages), or individual source studies (via PubMed IDs or DOIs available in the TSV download at the bottom of each dashboard).
-
+   
+   Depending on what data and visualizations you are using in AMRnet, you should also consider citing the upstream source databases and typing tools (noted in the pathogen-specific pages and :ref:`here <source>`), or individual source studies (via PubMed IDs or DOIs available in the TSV download at the bottom of each dashboard).
 
 Disclaimer
 ----------
