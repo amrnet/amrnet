@@ -1,0 +1,143 @@
+{
+  "appTitle": "AMRnet",
+  "welcomeMessage": "Bem-vindo ao painel do AMRnet",
+  "dashboard": {
+    "title": "Painel AMRnet",
+    "description": "Esta é a página principal do painel do AMRnet. Aqui você pode visualizar e gerenciar vários aspectos do sistema."
+  },
+  "navigation": {
+    "home": "Início",
+    "about": "Sobre",
+    "team": "Equipe",
+    "contact": "Contato",
+    "database": "Base de Dados",
+    "userguide": "Guia do Usuário"
+  },
+  "team": {
+    "post": {
+      "Principal Investigator": "Investigador Principal",
+      "Genomic Epidemiologist": "Epidemiologista Genômico",
+      "Lead Software Engineer/Computational Biologist": "Engenheiro de Software Principal/Biólogo Computacional",
+      "Software Engineer": "Engenheiro de Software",
+      "Policy Engagement": "Engajamento em Políticas",
+      "Bioinformatician": "Bioinformático",
+      "Research Software Engineer": "Engenheiro de Software de Pesquisa"
+    }
+  },
+  "about": {
+    "title": "Sobre",
+    "pageTitle": "Sobre o AMRnet",
+    "subtitle": "Rede de Vigilância da Resistência Antimicrobiana",
+    "paragraph1": "O painel do AMRnet visa tornar dados de vigilância de RAM derivados do genoma de alta qualidade, robustos e confiáveis acessíveis a um público amplo. As visualizações são orientadas para mostrar estimativas anuais nacionais de prevalência de RAM e tendências ao longo do tempo, que podem ser decompostas e exploradas em termos de genótipos subjacentes e mecanismos de resistência. Não geramos dados de sequência, mas esperamos que ao tornar os dados depositados publicamente mais acessíveis e úteis, possamos encorajar e motivar mais sequenciamento e compartilhamento de dados.",
+    "paragraph2": {
+      "intro": "Começamos com Salmonella Typhi e construímos sobre nosso painel",
+      "typhiNet": "TyphiNET",
+      "middle1": "que usa dados que foram curados pelo",
+      "globalTyphoid": "Consórcio Global de Genômica de Tifoide",
+      "middle2": "(para melhorar a qualidade dos dados e identificar quais conjuntos de dados são adequados para inclusão) e analisados no",
+      "pathogenwatch1": "Pathogenwatch",
+      "middle3": "(para identificar determinantes de RAM e linhagens a partir de dados de sequência). Organismos adicionais foram adicionados, usando dados obtidos do",
+      "pathogenwatch2": "Pathogenwatch",
+      "middle4": ", e",
+      "enterobase": "Enterobase",
+      "end": ", no entanto estes painéis estão em modo beta pois a curadoria de dados ainda está em andamento. Mais organismos serão adicionados ao longo de 2025."
+    },
+    "paragraph3": {
+      "text": "Uma barreira importante para usar dados públicos para vigilância é a necessidade de curadoria cuidadosa de dados para identificar quais conjuntos de dados são relevantes para inclusão em estimativas agrupadas de prevalência de RAM e genótipo. Este tipo de curadoria pode beneficiar uma ampla gama de usuários e planejamos trabalhar com comunidades adicionais específicas de organismos para curar dados, e contribuir para esforços mais amplos sobre padrões de metadados. Entre em contato se gostaria de trabalhar conosco (",
+      "contact": "amrnetdashboard@gmail.com",
+      "end": ")"
+    },
+    "paragraph4": {
+      "text": "Saiba mais sobre a equipe do projeto (baseada na London School of Hygiene and Tropical Medicine), e nosso grupo consultivo de políticas,",
+      "linkText": "aqui",
+      "end": "."
+    },
+    "paragraph5": {
+      "intro": "O código do painel é de acesso aberto e está disponível no",
+      "github": "GitHub",
+      "middle1": ". junto com",
+      "userGuide": "guia do usuário",
+      "middle2": "e",
+      "api": "API",
+      "middle3": "para acessar os dados. Problemas e solicitações de recursos podem ser postados",
+      "issues": "aqui",
+      "end": "."
+    },
+    "citation": {
+      "title": "Citação para AMRnet",
+      "intro": "Se você usar o site ou código do AMRnet, por favor cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kathryn Holt),",
+      "githubLabel": "GitHub:",
+      "githubUrl": "https://github.com/amrnet/amrnet",
+      "doiLabel": "DOI:",
+      "doiUrl": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+    },
+    "funding": "O projeto é financiado pelo Wellcome Trust (subvenção 226432/Z/22/Z).",
+    "links": {
+      "typhiNet": "https://www.typhi.net",
+      "globalTyphoidGenomics": "http://typhoidgenomics.org",
+      "pathogenWatch": "http://pathogen.watch",
+      "enterobase": "https://enterobase.warwick.ac.uk/",
+      "contact": "mailto:amrnetdashboard@gmail.com",
+      "teamInfo": "https://www.lshtm.ac.uk/amrnet",
+      "github": "https://github.com/amrnet/amrnet",
+      "userGuide": "https://amrnet.readthedocs.io/en/latest",
+      "api": "https://amrnet.readthedocs.io/en/latest/data.html",
+      "issues": "https://github.com/amrnet/amrnet/issues",
+      "githubRepo": "https://github.com/amrnet/amrnet",
+      "doi": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+    }
+  },
+  "formValidation": {
+    "requiredField": "Este campo é obrigatório.",
+    "invalidEmail": "Por favor, insira um endereço de e-mail válido."
+  },
+  "notifications": {
+    "success": "Operação bem-sucedida!",
+    "error": "Ocorreu um erro. Por favor, tente novamente."
+  },
+  "buttons": {
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "view": "Visualizar"
+  },
+  "table": {
+    "noData": "Nenhum dado disponível.",
+    "rowsPerPage": "Linhas por página:",
+    "of": "de"
+  },
+  "login": {
+    "title": "Entrar no AMRnet",
+    "username": "Nome de usuário",
+    "password": "Senha",
+    "loginButton": "Entrar",
+    "forgotPassword": "Esqueceu a senha?",
+    "registerPrompt": "Não tem uma conta?",
+    "registerLink": "Registre-se aqui"
+  },
+  "register": {
+    "title": "Registrar-se no AMRnet",
+    "username": "Nome de usuário",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha",
+    "registerButton": "Registrar",
+    "loginPrompt": "Já tem uma conta?",
+    "loginLink": "Entre aqui"
+  },
+  "profile": {
+    "title": "Perfil do Usuário",
+    "name": "Nome",
+    "email": "E-mail",
+    "role": "Função",
+    "lastLogin": "Último acesso"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "theme": "Tema",
+    "notifications": "Notificações"
+  }
+}

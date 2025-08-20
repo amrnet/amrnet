@@ -1,0 +1,157 @@
+# Crowdin Configuration for AMRnet Medical Translation
+# Professional translation setup for Spanish, French, and Portuguese
+
+project_id: "amrnet-medical"
+api_token_env: "CROWDIN_API_TOKEN"
+base_path: "."
+base_url: "https://api.crowdin.com"
+preserve_hierarchy: true
+
+# Target languages with medical translation requirements
+languages:
+  - code: "es"
+    name: "Spanish (Medical)"
+    locale: "es-ES"
+    requirements:
+      - "medical_spanish_certification"
+      - "clinical_microbiology_knowledge"
+      - "amr_terminology_expertise"
+      - "iso_17100_certification"
+
+  - code: "fr"
+    name: "French (Medical)"
+    locale: "fr-FR"
+    requirements:
+      - "medical_french_certification"
+      - "pharmaceutical_terminology"
+      - "eucast_guidelines_familiarity"
+      - "clinical_laboratory_experience"
+
+  - code: "pt"
+    name: "Portuguese (Medical)"
+    locale: "pt-BR"
+    requirements:
+      - "medical_portuguese_certification"
+      - "healthcare_terminology"
+      - "laboratory_standards_knowledge"
+      - "regional_medical_practice_awareness"
+
+# File mapping configuration
+files:
+  - source: "/docs/locale/en/LC_MESSAGES/*.pot"
+    translation: "/docs/locale/%two_letters_code%/LC_MESSAGES/%original_file_name%.po"
+    type: "po"
+
+    # Professional medical translation workflow
+    workflow_stages:
+      - stage: "medical_translation"
+        assignees: "certified_medical_translators"
+        requirements: ["iso_17100", "microbiology_background", "5_years_experience"]
+
+      - stage: "clinical_review"
+        assignees: "clinical_microbiologists"
+        requirements: ["clinical_experience", "amr_research", "published_papers"]
+
+      - stage: "linguistic_review"
+        assignees: "medical_editors"
+        requirements: ["native_speaker", "medical_proofreading"]
+
+  - source: "/client/locales/en.json"
+    translation: "/client/locales/%two_letters_code%.json"
+    type: "json"
+
+    workflow_stages:
+      - stage: "translation"
+        assignees: "ui_translators"
+        requirements: ["medical_terminology", "software_localization"]
+
+      - stage: "review"
+        assignees: "medical_reviewers"
+        requirements: ["native_speaker", "medical_ui_experience"]
+
+# Quality assurance configuration
+quality_assurance:
+  checks:
+    - "empty_translations"
+    - "inconsistent_translations"
+    - "missing_translations"
+    - "medical_terminology"
+    - "clinical_accuracy"
+    - "format_preservation"
+
+  custom_checks:
+    medical_terminology:
+      pattern: "resistance|susceptible|intermediate|MIC|breakpoint|EUCAST|CLSI"
+      message: "Medical term requires specialist review"
+      severity: "high"
+
+    clinical_accuracy:
+      pattern: "interpret|diagnosis|treatment|clinical"
+      message: "Clinical content requires medical expert validation"
+      severity: "critical"
+
+    organism_names:
+      pattern: "[A-Z][a-z]+ [a-z]+"
+      message: "Scientific organism names must maintain Latin format"
+      severity: "medium"
+
+# Professional workflow configuration
+workflows:
+  - name: "Medical Translation Workflow"
+    steps:
+      - type: "translation"
+        assignees: ["medical_translators"]
+        instructions: |
+          Please ensure:
+          - Medical terminology accuracy
+          - Clinical context preservation
+          - Scientific name formatting
+          - Numerical value preservation
+
+      - type: "medical_review"
+        assignees: ["clinical_reviewers"]
+        instructions: |
+          Verify:
+          - Clinical interpretation accuracy
+          - Medical terminology consistency
+          - Antimicrobial resistance concepts
+          - Laboratory procedure descriptions
+
+      - type: "linguistic_proofreading"
+        assignees: ["linguistic_editors"]
+        instructions: |
+          Check:
+          - Grammar and syntax
+          - Natural language flow
+          - Cultural appropriateness
+          - Technical coherence
+
+      - type: "final_approval"
+        assignees: ["project_managers"]
+        instructions: |
+          Final validation:
+          - Overall quality assessment
+          - Consistency across documents
+          - Compliance with medical standards
+          - User experience coherence
+
+# Medical glossary integration
+glossary_integration:
+  enabled: true
+  sources:
+    - "WHO AMR terminology database"
+    - "EUCAST clinical guidelines"
+    - "CLSI antimicrobial standards"
+    - "Custom AMRnet glossary"
+
+  validation:
+    strict_mode: true
+    require_approval: true
+    medical_expert_review: true
+
+# Automated quality metrics
+metrics:
+  translation_memory_leverage: 85
+  terminology_consistency: 95
+  medical_accuracy_threshold: 98
+  linguistic_quality_score: 90
