@@ -103,3 +103,19 @@ AMR typing
 ^^^^^^^^^^^
 
 - `AMRFinderPlus <https://github.com/ncbi/amr>`_
+
+
+*Salmonella Typhi*
+-----------------------
+
+Genotype nomenclature
+^^^^^^^^^^^^^^^^^^^^^
+
+- GenoTyphi scheme : `Five Years of GenoTyphi: Updates to the Global Salmonella Typhi Genotyping Framework, Dyson & Holt, 2021 <https://doi.org/10.1093/infdis/jiab414>`_
+
+
+AMR typing
+^^^^^^^^^^^^^^^^^^^^^
+
+- Pathogenwatch AMR prediction module described in the paper `A global resource for genomic predictions of antimicrobial resistance and surveillance of Salmonella Typhi at pathogenwatch, Argimón et al 2021 <https://doi.org/10.1038/s41467-021-23091-2>`_
+
