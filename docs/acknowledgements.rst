@@ -13,7 +13,11 @@ Source Databases
 Typing tools
 ~~~~~~~~~~~~~~~~~~
 
-*Klebsiella pneumoniae* genotype nomenclature
+*Klebsiella pneumoniae*
+----------------------
+
+Genotype nomenclature
+^^^^^^^^^^^^^^^^^^^^^
 
 - 7-locus MLST scheme: `"Multilocus Sequence Typing of Klebsiella pneumoniae Nosocomial Isolates", Diancourt 2005 <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_
 
@@ -23,7 +27,8 @@ Typing tools
 
 - MLST databases: `BIGSdb Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_
 
-*Klebsiella pneumoniae* AMR typing
+AMR typing
+^^^^^^^^^^
 
 - Kleborate v3: `https://github.com/klebgenomics/Kleborate <https://github.com/klebgenomics/Kleborate>`_
 
@@ -33,8 +38,11 @@ Typing tools
 
 
 
+*Escherichia coli* 
+------------------
 
-*Escherichia coli* genotype nomenclature
+Genotype nomenclature
+^^^^^^^^^^^^^^^^^^^^^
 
 - Achtman 7 gene MLST scheme: Described in `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`_
 
@@ -44,19 +52,25 @@ Typing tools
 
 - MLST databases: `EnteroBase <https://enterobase.warwick.ac.uk/>`_
 
-*Escherichia coli* Pathotyping
+Pathotype definition
+^^^^^^^^^^^^^^^^^^^^^
 
 - The diarrheagenic *E. coli* (DEC) pathotypes are defined using `Enterobase pathotyping logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_
 
 - *Shigella* species identification : `Hierarchical Cluster (HC) identities  <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_
 
-**Escherichia coli** AMR typing
+AMR typing
+^^^^^^^^^^^^^^^^^^^^^
 
 - `AMRFinderPlus <https://github.com/ncbi/amr>`_
 
 
 
-*Neisseria gonorrhoeae* genotype nomenclature
+*Neisseria gonorrhoeae* 
+-----------------------
+
+Genotype nomenclature
+^^^^^^^^^^^^^^^^^^^^^
 
 -7-locus MLST scheme: `"Species status of Neisseria gonorrhoeae: evolutionary and epidemiological inferences from multilocus sequence typing", Bennett et al 2007 <https://doi.org/10.1186/1741-7007-5-35>`_
 
@@ -64,6 +78,7 @@ Typing tools
 
 - MLST and NG-MAST databases: `PubMLST <https://pubmlst.org/neisseria/>`_
 
-*Neisseria gonorrhoeae* AMR typing
+AMR typing
+^^^^^^^^^^^^^^^^^^^^^
 
 - Pathogenwatch inhouse dictionary as described in the paper `"A community-driven resource for genomic epidemiology and antimicrobial resistance prediction of Neisseria gonorrhoeae at Pathogenwatch", Sánchez-Busó et al. 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_
