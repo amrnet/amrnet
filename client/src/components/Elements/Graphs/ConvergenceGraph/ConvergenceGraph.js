@@ -1,4 +1,4 @@
-import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Card, CardContent, Divider, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
 import {
   CartesianGrid,
@@ -24,20 +24,36 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 import { SliderSizes } from '../../Slider';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
 
-export const ConvergenceGraph = () => {
+const GRADIENT_COLORS = {
+  LIGHT_GREY: 200, // #c8c8c8 - lighter
+  DARK_GREY: 30, // #1e1e1e - darker for better contrast
+};
+
+const calculateGreyGradient = (index, total) => {
+  const normalizedPosition = total > 1 ? index / (total - 1) : 0;
+  const greyValue = Math.round(
+    GRADIENT_COLORS.LIGHT_GREY + (GRADIENT_COLORS.DARK_GREY - GRADIENT_COLORS.LIGHT_GREY) * normalizedPosition,
+  );
+  return `rgb(${greyValue},${greyValue},${greyValue})`;
+};
+
+export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const convergenceData = useAppSelector((state) => state.graph.convergenceData);
-  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const convergenceData = useAppSelector(state => state.graph.convergenceData);
+  const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
-  const convergenceColourPallete = useAppSelector((state) => state.graph.convergenceColourPallete);
-  const currentSliderValueCM = useAppSelector((state) => state.graph.currentSliderValueCM);
+  const convergenceColourPallete = useAppSelector(state => state.graph.convergenceColourPallete);
+  const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -55,7 +71,7 @@ export const ConvergenceGraph = () => {
   // }
 
   function handleClickChart(name) {
-    const data = convergenceData.find((item) => item.name === name);
+    const data = convergenceData.find(item => item.name === name);
 
     if (data) {
       const currentData = structuredClone(data);
@@ -70,7 +86,7 @@ export const ConvergenceGraph = () => {
   const topColours = useMemo(() => {
     return Object.fromEntries(
       Object.entries(convergenceColourPallete).filter(([key]) =>
-        topConvergenceData.some((item) => item.colorLabel === key),
+        topConvergenceData.some(item => item.colorLabel === key),
       ),
     );
   }, [convergenceColourPallete, topConvergenceData]);
@@ -82,6 +98,7 @@ export const ConvergenceGraph = () => {
 
   useEffect(() => {
     if (canGetData) {
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
@@ -102,19 +119,66 @@ export const ConvergenceGraph = () => {
                   Mean virulence score
                 </Label>
               </XAxis>
-              <YAxis
-                type="number"
-                dataKey="y"
-                allowDataOverflow={true}
-                domain={[0, 3]}
-                padding={{ top: 20, bottom: 20 }}
-              >
+              <YAxis type="number" dataKey="y" allowDataOverflow={true} padding={{ top: 20, bottom: 20 }}>
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Mean resistance score
                 </Label>
               </YAxis>
               <ZAxis type="number" dataKey="z" range={[50, 1000]} />
 
+              {/* Hide the color/gradient legend and show only the size legend, centered */}
+              {/* <Legend
+                content={() => {
+                  // Circle size legend (for ZAxis)
+                  const zMin = 50;
+                  const zMax = 1000;
+                  const zMid = Math.round((zMin + zMax) / 2);
+                  const zValues = [zMin, zMid, zMax];
+                  const sizeScale = z => 10 + 30 * ((z - zMin) / (zMax - zMin)); // adjust as needed
+
+                  return (
+                    <Box display="flex" alignItems="center" gap={4} justifyContent="center" mt={5} ml={8}>
+                      <Box display="flex" flexDirection="column" alignItems="center">
+                        <Box display="flex" alignItems="center" gap={3}>
+                          {zValues.map((z, index) => {
+                            const size = sizeScale(z);
+                            const radius = size / 2;
+
+                            return (
+                              <Box key={index} display="flex" flexDirection="column" alignItems="center">
+                                <svg width={size} height={size}>
+                                  <circle cx={radius} cy={radius} r={radius} fill="#888" opacity={0.5} />
+                                </svg>
+                                <Typography variant="caption">{z}</Typography>
+                              </Box>
+                            );
+                          })}
+                        </Box>
+                        <Typography variant="caption" sx={{ mt: 0.5, textAlign: 'center' }}>
+                          Number of items
+                        </Typography>
+                      </Box>
+
+                      {convergenceGroupVariable === 'DATE' && (
+                        <>
+                          <Divider orientation="vertical" flexItem />
+
+                          <Box display="flex" flexDirection="column">
+                            <Box display="flex" gap={1}>
+                              <Typography fontSize="0.75rem">0%</Typography>
+                              <Box className={classes.gradientBox} />
+                              <Typography fontSize="0.75rem">100%</Typography>
+                            </Box>
+                            <Typography variant="caption" sx={{ mt: 0.5, textAlign: 'center' }}>
+                              Gradient
+                            </Typography>
+                          </Box>
+                        </>
+                      )}
+                    </Box>
+                  );
+                }}
+              /> */}
               <Legend
                 content={() => {
                   return (
@@ -148,14 +212,23 @@ export const ConvergenceGraph = () => {
               />
 
               <Scatter name="combinations" data={topConvergenceData}>
-                {topConvergenceData.map((option, index) => (
-                  <Cell
-                    name={option.name}
-                    onClick={() => handleClickChart(option.name)}
-                    key={`combination-cell-${index}`}
-                    fill={convergenceColourPallete[option.colorLabel]}
-                  />
-                ))}
+                {topConvergenceData.map((option, index) => {
+                  // Create a grey gradient based on index or value
+                  // We'll use a scale from #e0e0e0 (light) to #333333 (dark)
+                  {/* const total = topConvergenceData.length > 1 ? topConvergenceData.length - 1 : 1;
+                  const t = index / total;
+                  // Interpolate between 224 and 51 for R, G, B
+                  const grey = Math.round(224 + (51 - 224) * t); */}
+                  const color = convergenceColourPallete[option.colorLabel];
+                  return (
+                    <Cell
+                      name={option.name}
+                      onClick={() => handleClickChart(option.name)}
+                      key={`combination-cell-${index}`}
+                      fill={color}
+                    />
+                  );
+                })}
               </Scatter>
             </ScatterChart>
           </ResponsiveContainer>
@@ -167,46 +240,9 @@ export const ConvergenceGraph = () => {
 
   return (
     <CardContent className={classes.convergenceGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.selectWrapper}>
-          <Typography variant="caption">Group variable</Typography>
-          <Select
-            value={convergenceGroupVariable}
-            onChange={handleChangeGroupVariable}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {variablesOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'convergence-group-variable'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div>
-        {/* <div className={classes.selectWrapper}>
-          <Typography variant="caption">Colour variable</Typography>
-          <Select
-            value={convergenceColourVariable}
-            onChange={handleChangeColourVariable}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {variablesOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'convergence-colour-variable'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div> */}
-      </div>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CVM">
+        {/* changed id="CVM" to id="convergence-graph", as 'CVM' is used as 'id' for The "Heatmap View",  */}
+        <div className={classes.graph} id="convergence-graph">
           {plotChart}
         </div>
         <div className={classes.rightSide}>
@@ -230,7 +266,7 @@ export const ConvergenceGraph = () => {
                       }}
                     />
                     <div className={classes.tooltipItemStats}>
-                      <Typography variant="body2" fontWeight="500">
+                      <Typography variant="body2" fontWeight="00">
                         Mean virulence score
                       </Typography>
                       <Typography variant="caption" noWrap>
@@ -262,6 +298,63 @@ export const ConvergenceGraph = () => {
           </div>
         </div>
       </div>
+      {showFilter && !canFilterData && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Plotting options</Typography>
+                <Tooltip title="Hide plotting options" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={classes.selectsWrapper}>
+                <SelectCountry />
+                <div className={classes.selectWrapper}>
+                  <div className={classes.labelWrapper}>
+                    <Typography variant="caption">Group variable</Typography>
+                  </div>
+                  <Select
+                    value={convergenceGroupVariable}
+                    onChange={handleChangeGroupVariable}
+                    inputProps={{ className: classes.selectInput }}
+                    MenuProps={{ classes: { list: classes.selectMenu } }}
+                    disabled={organism === 'none'}
+                  >
+                    {variablesOptions.map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'convergence-group-variable'} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                {/* <div className={classes.selectWrapper}>
+          <Typography variant="caption">Colour variable</Typography>
+          <Select
+            value={convergenceColourVariable}
+            onChange={handleChangeColourVariable}
+            inputProps={{ className: classes.selectInput }}
+            MenuProps={{ classes: { list: classes.selectMenu } }}
+            disabled={organism === 'none'}
+          >
+            {variablesOptions.map((option, index) => {
+              return (
+                <MenuItem key={index + 'convergence-colour-variable'} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </div> */}
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

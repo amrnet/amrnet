@@ -1,7 +1,7 @@
-import { useStyles } from './NoteMUI';
-import { Card, CardContent, Typography, Button } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
+import LogoImg from '../../../assets/img/logo-amrnet-prod.png';
 import { useAppSelector } from '../../../stores/hooks';
-import LogoImg from '../../../assets/img/logo-typhinet-prod.png';
+import { useStyles } from './NoteMUI';
 // import Button from '@mui/material/Button';
 
 export const Note = () => {
@@ -12,7 +12,7 @@ export const Note = () => {
   // const dataset = useAppSelector((state) => state.map.dataset);
   // const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
   // const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
-  const organism = useAppSelector((state) => state.dashboard.organism);
+  const organism = useAppSelector(state => state.dashboard.organism);
 
   const textNote = () => {
     if (organism === 'styphi') {
@@ -44,8 +44,16 @@ export const Note = () => {
           <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
             Pathogenwatch
           </a>{' '}
-          and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards
-          sequencing of resistant strains. This will change in future updates.
+          and represents unfiltered data deposited in NCBI/ENA. It includes diverse sources of bacteria (not just human
+          clinical infections) and is biased towards sequencing of resistant strains. In future updates this will be
+          mitigated using metadata curated by the{' '}
+          <a
+            href="https://github.com/klebgenomics/KlebNET-Metadata-Repository-Database"
+            target="_blank"
+            rel="noreferrer"
+          >
+            KlebNET Epidemiology Consortium
+          </a>{' '}
         </span>
       );
     } else {
@@ -56,8 +64,7 @@ export const Note = () => {
             Enterobase
           </a>{' '}
           and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards
-          sequencing of resistant strains and/or outbreaks. This will change in future updates. AMR data is not yet
-          available but is coming soon.
+          sequencing of resistant strains and/or outbreaks. This will change in future updates.
         </span>
       );
     }
@@ -70,9 +77,8 @@ export const Note = () => {
           <img src={LogoImg} alt="AMRnet" className={classes.logo} />
         ) : (
           // :organism === "ngono"? null
-          <Button className={classes.beta} variant="contained" href="#contained-buttons">
-            BETA
-          </Button>
+          // Removed unwanted link form button
+          <div></div>
         )}
         <Typography className={classes.note} variant="body1">
           {textNote()}

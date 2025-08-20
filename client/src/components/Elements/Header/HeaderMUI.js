@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   headerWrapper: {
     position: 'fixed',
     top: 0,
@@ -76,12 +76,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    columnGap: '10px',
+    columnGap: '16px',
   },
 
   drawerTitleWrapper: {
     display: 'flex',
     alignItems: 'center',
+    columnGap: '8px',
   },
 
   toolbarWrapper: {
@@ -89,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
     // display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    columnGap: '8px',
 
     '@media (max-width: 650px)': {
       columnGap: '4px',
@@ -97,24 +99,21 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 500px)': {
       justifyContent: 'flex-end',
     },
-
   },
 
-  dashboardHead: {  // Conditional style that applies when `dashboard` class is present
+  dashboardHead: {
+    // Conditional style that applies when `dashboard` class is present
     display: 'flex',
-    
-    
   },
-  defaultHead:{
-        display: 'flex',
-        '@media (min-width: 651px) and (max-width: 1000px)': {
-          display: 'block',
-        },
+  defaultHead: {
+    display: 'flex',
+    '@media (min-width: 651px) and (max-width: 1000px)': {
+      display: 'block',
+    },
   },
-  homeHead:{
-        display: 'flex'
+  homeHead: {
+    display: 'flex',
   },
-
 
   infoCollapse: {
     width: '100%',

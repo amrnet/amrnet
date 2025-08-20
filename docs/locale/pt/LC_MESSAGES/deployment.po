@@ -1,0 +1,362 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../deployment.rst:4
+msgid "Deployment Guide"
+msgstr ""
+
+#: ../../deployment.rst:8
+msgid ""
+"This guide covers deployment strategies for AMRnet, including local "
+"development, staging environments, and production deployment on various "
+"platforms."
+msgstr ""
+
+#: ../../deployment.rst:12
+msgid "Environment Setup"
+msgstr ""
+
+#: ../../deployment.rst:16
+msgid ""
+"AMRnet supports multiple deployment environments with different "
+"configurations:"
+msgstr ""
+
+#: ../../deployment.rst:19
+msgid "Development Environment"
+msgstr ""
+
+#: ../../deployment.rst:23
+msgid "For local development with hot reloading and debugging:"
+msgstr ""
+
+#: ../../deployment.rst:38
+msgid "**Environment Variables (.env):**"
+msgstr ""
+
+#: ../../deployment.rst:52
+msgid "**Start Development Servers:**"
+msgstr ""
+
+#: ../../deployment.rst:64
+msgid "Staging Environment"
+msgstr ""
+
+#: ../../deployment.rst:68
+msgid "For testing production builds locally:"
+msgstr ""
+
+#: ../../deployment.rst:79
+msgid "Production Deployment"
+msgstr ""
+
+#: ../../deployment.rst:82
+msgid "Heroku Deployment"
+msgstr ""
+
+#: ../../deployment.rst:86
+msgid "AMRnet is optimized for Heroku deployment with automatic build processes:"
+msgstr ""
+
+#: ../../deployment.rst:88
+msgid "**1. Heroku App Setup:**"
+msgstr ""
+
+#: ../../deployment.rst:101
+msgid "**2. Environment Configuration:**"
+msgstr ""
+
+#: ../../deployment.rst:110
+msgid "**3. Deployment:**"
+msgstr ""
+
+#: ../../deployment.rst:122
+msgid "**Heroku Configuration Files:**"
+msgstr ""
+
+#: ../../deployment.rst:124
+msgid "**Procfile:**"
+msgstr ""
+
+#: ../../deployment.rst:130
+msgid "**package.json (heroku-postbuild script):**"
+msgstr ""
+
+#: ../../deployment.rst:141
+msgid "MongoDB Atlas Configuration"
+msgstr ""
+
+#: ../../deployment.rst:145
+msgid "For production database deployment:"
+msgstr ""
+
+#: ../../deployment.rst:147
+msgid "**1. Atlas Cluster Setup:**"
+msgstr ""
+
+#: ../../deployment.rst:149
+msgid "Create MongoDB Atlas account"
+msgstr ""
+
+#: ../../deployment.rst:150
+msgid "Create new cluster (M0 free tier for testing)"
+msgstr ""
+
+#: ../../deployment.rst:151
+msgid "Configure network access (whitelist your IPs)"
+msgstr ""
+
+#: ../../deployment.rst:152
+msgid "Create database user with read/write permissions"
+msgstr ""
+
+#: ../../deployment.rst:154
+msgid "**2. Connection Configuration:**"
+msgstr ""
+
+#: ../../deployment.rst:161
+msgid "**3. Production Optimizations:**"
+msgstr ""
+
+#: ../../deployment.rst:179
+msgid "Docker Deployment"
+msgstr ""
+
+#: ../../deployment.rst:183
+msgid "For containerized deployment:"
+msgstr ""
+
+#: ../../deployment.rst:185
+msgid "**Dockerfile:**"
+msgstr ""
+
+#: ../../deployment.rst:214
+msgid "**docker-compose.yml:**"
+msgstr ""
+
+#: ../../deployment.rst:240
+msgid "**Deployment Commands:**"
+msgstr ""
+
+#: ../../deployment.rst:251
+msgid "AWS Deployment"
+msgstr ""
+
+#: ../../deployment.rst:255
+msgid "For AWS deployment using Elastic Beanstalk:"
+msgstr ""
+
+#: ../../deployment.rst:257
+msgid "**1. EB CLI Setup:**"
+msgstr ""
+
+#: ../../deployment.rst:270
+msgid "**2. Configuration Files:**"
+msgstr ""
+
+#: ../../deployment.rst:272
+msgid "**.ebextensions/01_node_command.config:**"
+msgstr ""
+
+#: ../../deployment.rst:282
+msgid "**3. Deploy:**"
+msgstr ""
+
+#: ../../deployment.rst:293
+msgid "Performance Optimization"
+msgstr ""
+
+#: ../../deployment.rst:297
+msgid "Production deployment optimizations for better performance:"
+msgstr ""
+
+#: ../../deployment.rst:300
+msgid "Build Optimizations"
+msgstr ""
+
+#: ../../deployment.rst:304
+msgid "**Client Build Configuration:**"
+msgstr ""
+
+#: ../../deployment.rst:321
+msgid "Server Optimizations"
+msgstr ""
+
+#: ../../deployment.rst:325
+msgid "**Express.js Production Configuration:**"
+msgstr ""
+
+#: ../../deployment.rst:352
+msgid "Database Optimizations"
+msgstr ""
+
+#: ../../deployment.rst:356
+msgid "**MongoDB Production Indexes:**"
+msgstr ""
+
+#: ../../deployment.rst:366
+msgid "Monitoring and Logging"
+msgstr ""
+
+#: ../../deployment.rst:370
+msgid "Production monitoring setup for performance and error tracking:"
+msgstr ""
+
+#: ../../deployment.rst:373
+msgid "Application Monitoring"
+msgstr ""
+
+#: ../../deployment.rst:377
+msgid "**Winston Logging Configuration:**"
+msgstr ""
+
+#: ../../deployment.rst:404
+msgid "**Performance Monitoring Middleware:**"
+msgstr ""
+
+#: ../../deployment.rst:430
+msgid "Error Tracking"
+msgstr ""
+
+#: ../../deployment.rst:434
+msgid "**Sentry Integration:**"
+msgstr ""
+
+#: ../../deployment.rst:450
+msgid "Health Checks"
+msgstr ""
+
+#: ../../deployment.rst:454
+msgid "**Application Health Endpoint:**"
+msgstr ""
+
+#: ../../deployment.rst:480
+msgid "Backup and Recovery"
+msgstr ""
+
+#: ../../deployment.rst:484
+msgid "Data backup strategies for production environments:"
+msgstr ""
+
+#: ../../deployment.rst:487
+msgid "Database Backups"
+msgstr ""
+
+#: ../../deployment.rst:491
+msgid "**MongoDB Atlas Automated Backups:**"
+msgstr ""
+
+#: ../../deployment.rst:493
+msgid "Atlas provides automated backups with point-in-time recovery"
+msgstr ""
+
+#: ../../deployment.rst:494
+msgid "Configure backup schedule and retention policies"
+msgstr ""
+
+#: ../../deployment.rst:495
+msgid "Test backup restoration procedures regularly"
+msgstr ""
+
+#: ../../deployment.rst:497
+msgid "**Manual Backup Scripts:**"
+msgstr ""
+
+#: ../../deployment.rst:523
+msgid "Application Backups"
+msgstr ""
+
+#: ../../deployment.rst:527
+msgid "**Code and Configuration Backup:**"
+msgstr ""
+
+#: ../../deployment.rst:536
+msgid "Security Considerations"
+msgstr ""
+
+#: ../../deployment.rst:540
+msgid "Security best practices for production deployment:"
+msgstr ""
+
+#: ../../deployment.rst:543
+msgid "Environment Security"
+msgstr ""
+
+#: ../../deployment.rst:547
+msgid "**Secure Environment Variables:**"
+msgstr ""
+
+#: ../../deployment.rst:557
+msgid "**Network Security:**"
+msgstr ""
+
+#: ../../deployment.rst:571
+msgid "Database Security"
+msgstr ""
+
+#: ../../deployment.rst:575
+msgid "**MongoDB Security:**"
+msgstr ""
+
+#: ../../deployment.rst:577
+msgid "Enable authentication and authorization"
+msgstr ""
+
+#: ../../deployment.rst:578
+msgid "Use SSL/TLS for connections"
+msgstr ""
+
+#: ../../deployment.rst:579
+msgid "Implement IP whitelisting"
+msgstr ""
+
+#: ../../deployment.rst:580
+msgid "Regular security updates"
+msgstr ""
+
+#: ../../deployment.rst:581
+msgid "Audit logging for database access"
+msgstr ""
+
+#: ../../deployment.rst:584
+msgid "Troubleshooting"
+msgstr ""
+
+#: ../../deployment.rst:588
+msgid "Common deployment issues and solutions:"
+msgstr ""
+
+#: ../../deployment.rst:590
+msgid "**Build Failures:**"
+msgstr ""
+
+#: ../../deployment.rst:604
+msgid "**Database Connection Issues:**"
+msgstr ""
+
+#: ../../deployment.rst:614
+msgid "**Performance Issues:**"
+msgstr ""
+
+#: ../../deployment.rst:625
+msgid "**Memory Issues:**"
+msgstr ""
+

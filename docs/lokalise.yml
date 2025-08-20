@@ -1,0 +1,137 @@
+# Lokalise Configuration for AMRnet Medical Translation
+# Enterprise translation management for Spanish, French, and Portuguese
+
+project_id: "amrnet-medical-translation"
+api_token: "${LOKALISE_API_TOKEN}"
+
+# Target languages with medical certification requirements
+languages:
+  - iso: "es"
+    name: "Spanish (Medical)"
+    region: "Global Spanish-speaking regions"
+    custom_translation_status_ids:
+      medical_translation_complete: 1001
+      clinical_review_approved: 1002
+      linguistic_review_complete: 1003
+      approved_for_clinical_use: 1004
+    medical_requirements:
+      certification: "ISO 17100 Medical Translation"
+      expertise: ["clinical_microbiology", "antimicrobial_resistance"]
+      experience_years: 5
+
+  - iso: "fr"
+    name: "French (Medical)"
+    region: "France, Francophone Africa, Canada"
+    custom_translation_status_ids:
+      medical_translation_complete: 1001
+      clinical_review_approved: 1002
+      linguistic_review_complete: 1003
+      approved_for_clinical_use: 1004
+    medical_requirements:
+      certification: "Medical Translation Professional"
+      expertise: ["pharmaceutical_terminology", "clinical_laboratory"]
+      experience_years: 5
+
+  - iso: "pt"
+    name: "Portuguese (Medical)"
+    region: "Brazil, Portugal, Lusophone Africa"
+    custom_translation_status_ids:
+      medical_translation_complete: 1001
+      clinical_review_approved: 1002
+      linguistic_review_complete: 1003
+      approved_for_clinical_use: 1004
+    medical_requirements:
+      certification: "Certified Medical Translator"
+      expertise: ["healthcare_terminology", "laboratory_standards"]
+      experience_years: 5
+
+# Quality assurance settings
+quality_assurance:
+  enabled: true
+
+  checks:
+    spelling_grammar: true
+    terminology_consistency: true
+    medical_accuracy: true
+    format_preservation: true
+
+  custom_rules:
+    - name: "Medical Terminology Check"
+      pattern: "antimicrobial|resistance|susceptible|MIC|breakpoint"
+      action: "flag_for_medical_review"
+
+    - name: "Clinical Context Validation"
+      pattern: "clinical|diagnosis|treatment|interpretation"
+      action: "require_medical_expert_approval"
+
+    - name: "Numerical Preservation"
+      pattern: "\\d+\\.?\\d*\\s*(mg/L|μg/mL|%)"
+      action: "preserve_exact_format"
+
+# Professional translation workflow
+workflow:
+  stages:
+    initial_translation:
+      assignee_type: "medical_translator"
+      requirements:
+        - "Medical translation certification"
+        - "Microbiology background knowledge"
+        - "Minimum 5 years healthcare translation experience"
+
+    medical_review:
+      assignee_type: "clinical_expert"
+      requirements:
+        - "Clinical microbiology expertise"
+        - "AMR surveillance experience"
+        - "Published research in infectious diseases"
+
+    linguistic_edit:
+      assignee_type: "linguistic_editor"
+      requirements:
+        - "Native speaker proficiency"
+        - "Technical writing expertise"
+        - "Medical communication experience"
+
+    final_approval:
+      assignee_type: "project_manager"
+      requirements:
+        - "Quality assurance certification"
+        - "Healthcare project management experience"
+
+# Automation settings
+automation:
+  auto_translation:
+    enabled: false  # Medical content requires human translation
+
+  translation_memory:
+    enabled: true
+    leverage_threshold: 85
+    medical_term_protection: true
+
+  quality_checks:
+    auto_run: true
+    block_delivery: true
+    medical_review_required: true
+
+# Integration hooks
+webhooks:
+  translation_completed:
+    url: "https://your-domain.com/webhooks/lokalise-complete"
+    events: ["translation.completed", "review.completed"]
+
+  quality_check_failed:
+    url: "https://your-domain.com/webhooks/lokalise-qa-failed"
+    events: ["qa.failed", "medical_review.required"]
+
+# Reporting and analytics
+reporting:
+  medical_translation_metrics:
+    - "terminology_consistency_score"
+    - "medical_accuracy_rating"
+    - "clinical_reviewer_approval_rate"
+    - "time_to_medical_validation"
+
+  quality_indicators:
+    - "translation_memory_leverage"
+    - "first_pass_quality_score"
+    - "medical_expert_revision_rate"

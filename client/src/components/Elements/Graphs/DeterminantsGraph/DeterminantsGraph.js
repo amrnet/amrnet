@@ -1,37 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
-import { useStyles } from './DeterminantsGraphMUI';
+import { Close } from '@mui/icons-material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
   BarChart,
+  Brush,
   CartesianGrid,
+  Tooltip as ChartTooltip,
   Label,
   Legend,
   ResponsiveContainer,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  Brush,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
 import {
   setDeterminantsGraphDrugClass,
   setDeterminantsGraphView,
+  setMaxSliderValueRD,
   setResetBool,
   setSliderList,
-  setMaxSliderValueRD,
+  setTopXGenotypeRDWG,
 } from '../../../../stores/slices/graphSlice';
-import { drugClassesST, drugClassesKP, drugClassesNG } from '../../../../util/drugs';
-import { useEffect, useState } from 'react';
 import {
   colorForDrugClassesKP,
-  colorForDrugClassesST,
   colorForDrugClassesNG,
+  colorForDrugClassesST,
+  colorForMarkers,
   hoverColor,
 } from '../../../../util/colorHelper';
+import { drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { SelectCountry } from '../../SelectCountry';
 import { SliderSizes } from '../../Slider/SliderSizes';
-import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
+import { useStyles } from './DeterminantsGraphMUI';
 
 const dataViewOptions = [
   {
@@ -46,28 +50,30 @@ const dataViewOptions = [
   },
 ];
 
-export const DeterminantsGraph = () => {
+export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
-  const [topXGenotypes, setTopXGenotypes] = useState([]);
+  // const [topXGenotypes, setTopXGenotypes] = useState([]);
   const [plotChart, setPlotChart] = useState(() => {});
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const genotypesDrugClassesData = useAppSelector((state) => state.graph.genotypesDrugClassesData);
-  const determinantsGraphView = useAppSelector((state) => state.graph.determinantsGraphView);
-  const determinantsGraphDrugClass = useAppSelector((state) => state.graph.determinantsGraphDrugClass);
-  const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
-  const resetBool = useAppSelector((state) => state.graph.resetBool);
-  const captureRDWG = useAppSelector((state) => state.dashboard.captureRDWG);
-  const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const genotypesDrugClassesData = useAppSelector(state => state.graph.genotypesDrugClassesData);
+  const determinantsGraphView = useAppSelector(state => state.graph.determinantsGraphView);
+  const determinantsGraphDrugClass = useAppSelector(state => state.graph.determinantsGraphDrugClass);
+  const currentSliderValueRD = useAppSelector(state => state.graph.currentSliderValueRD);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
+  const captureRDWG = useAppSelector(state => state.dashboard.captureRDWG);
+  const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
+  const topXGenotypeRDWG = useAppSelector(state => state.graph.topXGenotypeRDWG);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   let sumOfBarDataToShowOnPlot = 0;
   useEffect(() => {
     // eslint-disable-next-line array-callback-return
-    newArray.map((item) => {
+    newArray.map(item => {
       sumOfBarDataToShowOnPlot += item.totalCount;
     });
 
@@ -78,51 +84,38 @@ export const DeterminantsGraph = () => {
     }
   }, [genotypesDrugClassesData, determinantsGraphDrugClass, actualCountry]);
   useEffect(() => {
-    dispatch(setResetBool(true));
+    // dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesDrugClassesData]);
 
-  function getDrugClasses() {
-    switch (organism) {
-      case 'styphi':
-        return drugClassesST;
-      case 'kpneumo':
-        return drugClassesKP;
-      case 'ngono':
-        return drugClassesNG;
-      default:
-        return [];
-    }
-  }
-
-  function getDrugClassesBars() {
+  const drugClassesBars = useMemo(() => {
     switch (organism) {
       case 'styphi':
         if (colorForDrugClassesST[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesST[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypes.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesST[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       case 'kpneumo':
         if (colorForDrugClassesKP[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesKP[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypes.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesKP[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       case 'ngono':
         if (colorForDrugClassesNG[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesNG[determinantsGraphDrugClass].filter(
-            (item) => topXGenotypes.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesNG[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       default:
-        return [];
+        return topXGenotypeRDWG
+          .filter(x => x !== 'None')
+          .map((x, i) => {
+            return { name: x, color: colorForMarkers[i] };
+          })
+          .concat([{ name: 'None', color: '#B9B9B9' }]);
     }
-  }
+  }, [determinantsGraphDrugClass, organism, topXGenotypeRDWG]);
+
   let data = 0;
   useEffect(() => {
     if (genotypesDrugClassesData[determinantsGraphDrugClass] !== undefined) {
-      data = genotypesDrugClassesData[determinantsGraphDrugClass].filter((x) => x).length;
+      data = genotypesDrugClassesData[determinantsGraphDrugClass].filter(x => x).length;
     }
   }, [genotypesDrugClassesData, determinantsGraphDrugClass]);
 
@@ -130,11 +123,11 @@ export const DeterminantsGraph = () => {
     return determinantsGraphView === 'number' ? undefined : [0, 100];
   }
 
-  let determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
+  const determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
   useEffect(() => {
-    let mp = new Map(); //mp = total count of a genotype in database(including all years)
-    determinantsGraphDrugClassData.forEach((cur) => {
-      Object.keys(cur).forEach((it) => {
+    const mp = new Map(); //mp = total count of a genotype in database(including all years)
+    determinantsGraphDrugClassData.forEach(cur => {
+      Object.keys(cur).forEach(it => {
         if (it !== 'name' && it !== 'count' && it !== 'resistantCount' && it !== 'totalCount') {
           if (mp.has(it)) {
             mp.set(it, mp.get(it) + cur[it]);
@@ -158,22 +151,22 @@ export const DeterminantsGraph = () => {
     mapArray.sort((a, b) => b[1] - a[1]);
     const slicedArray = mapArray.slice(0, currentSliderValueRD).map(([key, value]) => key);
     dispatch(setGenotypesForFilterSelectedRD(slicedArray));
-    setTopXGenotypes(slicedArray);
+    dispatch(setTopXGenotypeRDWG(slicedArray));
 
     dispatch(setMaxSliderValueRD(mapArray.length));
-  }, [determinantsGraphDrugClass, currentSliderValueRD]);
+  }, [determinantsGraphDrugClass, currentSliderValueRD, genotypesDrugClassesData]);
 
   let newArray = []; //TODO: can be a global value in redux
   const exclusions = ['name', 'totalCount', 'resistantCount'];
 
-  newArray = determinantsGraphDrugClassData.map((item) => {
+  newArray = determinantsGraphDrugClassData.map(item => {
     let count = 0;
     let newTotalCount = 0;
     for (const key in item) {
       if (!exclusions.includes(key)) {
         newTotalCount += item[key];
       }
-      if (!topXGenotypes.includes(key) && !exclusions.includes(key)) {
+      if (!topXGenotypeRDWG.includes(key) && !exclusions.includes(key)) {
         count += item[key]; //adding count of all genotypes which are not in topX
       }
     }
@@ -187,12 +180,12 @@ export const DeterminantsGraph = () => {
     const exclusions = ['name', 'totalCount', 'resistantCount'];
 
     genotypeDrugClassesDataPercentage = genotypeDrugClassesDataPercentage
-      .filter((x) => x)
-      .map((item) => {
-        const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
+      .filter(x => x)
+      .map(item => {
+        const keys = Object.keys(item).filter(x => !exclusions.includes(x));
         dispatch(setSliderList(keys.length));
 
-        keys.forEach((key) => {
+        keys.forEach(key => {
           item[key] = Number(((item[key] / item.totalCount) * 100).toFixed(2));
         });
 
@@ -217,23 +210,9 @@ export const DeterminantsGraph = () => {
   function handleClickChart(event) {
     setCurrentEventSelected(event);
   }
-  //TODO: Check this fuction to work for all organisms
-  function getColorForDrug(drug) {
-    const colorForDrugClasses =
-      organism === 'styphi'
-        ? colorForDrugClassesST
-        : organism === 'kpneumo'
-        ? colorForDrugClassesKP
-        : colorForDrugClassesNG;
-    const drugClassColors = colorForDrugClasses[determinantsGraphDrugClass];
-    // Find the color for the specific drug from the drug class colors
-    const drugColorObject = drugClassColors.find((item) => drug === item.name);
-    const drugColor = drugColorObject ? drugColorObject.color : '#DCDCDC'; // If drugColorObject exists, extract color, otherwise set to empty string
-    return drugColor;
-  }
 
   useEffect(() => {
-    const data = newArray.find((item) => item.name === currentEventSelected?.activeLabel);
+    const data = newArray.find(item => item.name === currentEventSelected?.activeLabel);
 
     if (data) {
       const currentData = structuredClone(data);
@@ -248,7 +227,7 @@ export const DeterminantsGraph = () => {
       delete currentData.newTotalCount;
       delete currentData.resistantCount;
 
-      Object.keys(currentData).forEach((key) => {
+      Object.keys(currentData).forEach(key => {
         const count = currentData[key];
 
         if (count === 0) {
@@ -259,19 +238,24 @@ export const DeterminantsGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: getColorForDrug(key),
+          color: drugClassesBars?.find(x => x.name === key)?.color || '#DCDCDC',
         });
 
-        // value.drugClasses = value.drugClasses.sort((a, b) => a.label.localeCompare(b.label));
-        value.drugClasses = value.drugClasses
-          .sort((a, b) => a.label.localeCompare(b.label))
-          .filter((item) => topXGenotypes.includes(item.label) || item.label === 'Other');
+        value.drugClasses = value.drugClasses.filter(
+          item => topXGenotypeRDWG.includes(item.label) || item.label === 'Other',
+        );
+
+        value.drugClasses.sort((a, b) => {
+          if (a.label === 'None') return 1;
+          if (b.label === 'None') return -1;
+          return a.label.localeCompare(b.label);
+        });
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+      // dispatch(setResetBool(false));
     }
-  }, [topXGenotypes, currentEventSelected.activeLabel, currentSliderValueRD]);
+  }, [topXGenotypeRDWG, currentEventSelected.activeLabel, currentSliderValueRD]);
 
   useEffect(() => {
     if (!resetBool) handleClickChart(currentEventSelected);
@@ -279,24 +263,26 @@ export const DeterminantsGraph = () => {
       setCurrentTooltip(null);
       dispatch(setResetBool(true));
     }
-  }, [topXGenotypes, currentSliderValueRD]);
+  }, [topXGenotypeRDWG, currentSliderValueRD]);
 
   useEffect(() => {
     if (canGetData) {
+      const chartData = getData();
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
             <BarChart
-              data={getData()}
+              data={chartData}
               cursor={isTouchDevice() ? 'default' : 'pointer'}
               onClick={handleClickChart}
-              maxBarSize={70}
+              maxBarSize={40}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
               <YAxis domain={getDomain()} allowDataOverflow={true} allowDecimals={false}>
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                  {dataViewOptions.find((option) => option.value === determinantsGraphView).label}
+                  {dataViewOptions.find(option => option.value === determinantsGraphView).label}
                 </Label>
               </YAxis>
               {(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []).length > 0 && (
@@ -304,13 +290,23 @@ export const DeterminantsGraph = () => {
               )}
 
               <Legend
-                content={(props) => {
+                content={props => {
                   const { payload } = props;
                   return (
                     <div className={classes.legendWrapper}>
                       {payload.map((entry, index) => {
                         if (!captureRDWG) return null;
                         const { dataKey, color } = entry;
+
+                        if (dataKey === 'Other') {
+                          const hasData = chartData.some(d => {
+                            const value = d[dataKey];
+                            return value !== undefined && value !== null && value !== 0;
+                          });
+
+                          if (!hasData) return null;
+                        }
+
                         return (
                           <div key={`distribution-legend-${index}`} className={classes.legendItemWrapper}>
                             <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
@@ -333,7 +329,7 @@ export const DeterminantsGraph = () => {
                 }}
               />
 
-              {getDrugClassesBars()?.map((option, index) => (
+              {drugClassesBars?.map((option, index) => (
                 <Bar
                   key={`determinants-bar-${index}`}
                   dataKey={option.name}
@@ -342,63 +338,25 @@ export const DeterminantsGraph = () => {
                   fill={option.color}
                 />
               ))}
-              <Bar dataKey={'Other'} stackId={0} fill={'#DCDCDC'} />
+              <Bar dataKey={'Other'} stackId={0} fill={'#F5F4F6'} />
             </BarChart>
           </ResponsiveContainer>
         );
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesDrugClassesData, determinantsGraphView, determinantsGraphDrugClass, topXGenotypes]);
+  }, [genotypesDrugClassesData, determinantsGraphView, determinantsGraphDrugClass, topXGenotypeRDWG]);
 
   return (
     <CardContent className={classes.determinantsGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.selectWrapper}>
-          <Typography variant="caption">Select drug/class</Typography>
-          <Select
-            value={determinantsGraphDrugClass}
-            onChange={handleChangeDrugClass}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {getDrugClasses().map((option, index) => {
-              return (
-                <MenuItem key={index + 'determinants-drug-classes'} value={option}>
-                  {option}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div>
-        <div className={classes.selectWrapper}>
-          <Typography variant="caption">Data view</Typography>
-          <Select
-            value={determinantsGraphView}
-            onChange={handleChangeDataView}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {dataViewOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'determinants-dataview'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDWG">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
-          <SliderSizes sx={{ margin: '0px 10px 0px 10px' }} />
+        <div className={classes.rightSide}>
+          <SliderSizes style={{ width: '100%' }} />
           <div className={classes.tooltipWrapper}>
-            {currentTooltip ? (
+            {currentTooltip?.count > 0 ? (
               <div className={classes.tooltip}>
                 <div className={classes.tooltipTitle}>
                   <Typography variant="h5" fontWeight="600">
@@ -428,12 +386,73 @@ export const DeterminantsGraph = () => {
                   })}
                 </div>
               </div>
+            ) : currentTooltip?.count === 0 ? (
+              <div className={classes.insufficientData}>Insufficient data</div>
             ) : (
               <div className={classes.noGenotypeSelected}>No genotype selected</div>
             )}
           </div>
         </div>
       </div>
+      {showFilter && !canFilterData && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Plotting options</Typography>
+                <Tooltip title="Hide plotting options" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={classes.selectsWrapper}>
+                <SelectCountry />
+                <div className={classes.selectWrapper}>
+                  <div className={classes.labelWrapper}>
+                    <Typography variant="caption">Select drug/class</Typography>
+                  </div>
+                  <Select
+                    value={determinantsGraphDrugClass}
+                    onChange={handleChangeDrugClass}
+                    inputProps={{ className: classes.selectInput }}
+                    MenuProps={{ classes: { list: classes.selectMenu } }}
+                    disabled={organism === 'none'}
+                  >
+                    {getDrugClasses(organism).map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'determinants-drug-classes'} value={option}>
+                          {option === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drugAcronymsOpposite[option] || option}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                <div className={classes.selectWrapper}>
+                  <div className={classes.labelWrapper}>
+                    <Typography variant="caption">Data view</Typography>
+                  </div>
+                  <Select
+                    value={determinantsGraphView}
+                    onChange={handleChangeDataView}
+                    inputProps={{ className: classes.selectInput }}
+                    MenuProps={{ classes: { list: classes.selectMenu } }}
+                    disabled={organism === 'none'}
+                  >
+                    {dataViewOptions.map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'determinants-dataview'} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

@@ -15,8 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }} # Checkout the amrnet/amrnet repo
-          ref: ${{ github.event.issue.pull_request && github.event.pull_request.head.sha || github.ref }} # Checkout PR branch or default branch
-
+          ref: ${{ github.event.issue.pull_request && github.event.issue.pull_request.head.sha || github.ref }} # Fixed logical OR for refs
       - name: Setup Python
         uses: actions/setup-python@v4
         with:

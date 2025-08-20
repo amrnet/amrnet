@@ -1,12 +1,12 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import { MainLayout } from '../Layout';
-import { useStyles } from './UserGuideMUI';
-import { Footer } from '../Elements/Footer';
 import Divider from '@mui/material/Divider';
+import downloads from '../../assets/img/screencaptures/downloads.png';
+import filter from '../../assets/img/screencaptures/filter.png';
 import header from '../../assets/img/screencaptures/header.png';
 import map from '../../assets/img/screencaptures/map.png';
-import filter from '../../assets/img/screencaptures/filter.png';
-import downloads from '../../assets/img/screencaptures/downloads.png';
+import { Footer } from '../Elements/Footer';
+import { MainLayout } from '../Layout';
+import { useStyles } from './UserGuideMUI';
 
 export const UserGuidePage = () => {
   const classes = useStyles();
@@ -40,15 +40,17 @@ export const UserGuidePage = () => {
             grey to indicate insufficient data.
           </Typography>
           <br />
-          <img className={classes.img} srcSet={map} src={map} alt={'map'} loading="lazy" />
-          <br />
-          <br />
           <Typography variant="body2" className={classes.paragraph}>
             Filters set in this panel apply not only to the map, but to all plots on the page.{' '}
             <span className={classes.paragraphBold}>Clicking on a country in the map</span> also functions as a filter,
-            so that subsequent plots reflect data for the selected country only.
+            so that subsequent plots reflect data for the selected country only. Per-country values displayed in the map
+            can be downloaded by clicking the downward-arrow button in the bottom-right of the map panel.
           </Typography>
           <br />
+          <br />
+          <img className={classes.img} srcSet={map} src={map} alt={'map'} loading="lazy" />
+          <br />
+
           <img className={classes.img} srcSet={filter} src={filter} alt={'Filter'} loading="lazy" />
           <br />
           <br />
@@ -79,7 +81,7 @@ export const UserGuidePage = () => {
           <br />
           <Typography variant="body2" className={classes.paragraph}>
             <span className={classes.paragraphBold}>Downloads:</span> At the bottom are buttons to download (1) the
-            individual genome-level information that is used to populate the dashboard (‘Download database (CSV
+            individual genome-level information that is used to populate the dashboard (‘Download database (TSV
             format)’); and (2) a static report of the currently displayed plots, together with a basic description of
             the data sources and variable definitions (‘Download PDF’).
           </Typography>
@@ -87,10 +89,10 @@ export const UserGuidePage = () => {
           <img className={classes.img} srcSet={downloads} src={downloads} alt={'Downloads'} loading="lazy" />
           <br />
           <br />
-          <Typography variant="body2" className={classes.paragraph}>
-            <span className={classes.paragraphBold}>NOTE:</span> Please note PDF reports are not yet available for all
-            organisms, they will be added in future updates.
-          </Typography>
+          {/* <Typography variant="body2" className={classes.paragraph}>
+            <span className={classes.paragraphBold}>NOTE:</span> Please note PDF reports are not yet
+            available for all organisms, they will be added in future updates.
+          </Typography> */}
           <br />
           <Divider sx={{ borderBottomWidth: 3 }} />
           <br />
@@ -164,7 +166,7 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
-              <span className={classes.paragraphBold}>MDR:</span> multi-drug resistant (resistant to ampicillin,
+              <span className={classes.paragraphBold}>MDR:</span> multidrug resistant (resistant to ampicillin,
               chloramphenicol, and trimethoprim-sulfamethoxazole)
             </li>
             <li>
@@ -239,6 +241,19 @@ export const UserGuidePage = () => {
                 Lam et al, 2021
               </a>
               .
+            </li>
+            <li>
+              <span className={classes.paragraphBold}>No acquired resistance</span> no resistance determinants
+              identified besides a wildtype beta-lactamase SHV allele associated with intrinsic resistance to ampicillin
+              (i.e. not an ESBL or inhibitor-resistant variant of SHV, see{' '}
+              <a
+                href="https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Tsang et al 2024
+              </a>
+              )
             </li>
           </Typography>
           <br />
@@ -328,9 +343,8 @@ export const UserGuidePage = () => {
               .
             </li>
             <li>
-              <span className={classes.paragraphBold}>Susceptible to class I/II drugs</span> - No determinants found for
-              Azithromycin, Ceftriaxone, Cefixime (category I) or Penicillin, Ciprofloxacin, Spectinomycin (category
-              II).
+              <span className={classes.paragraphBold}>Pansusceptible</span> - No determinants found for Azithromycin,
+              Ceftriaxone, Cefixime (category I) or Benzylpenicillin, Ciprofloxacin, Spectinomycin (category II).
             </li>
           </Typography>
 
@@ -340,13 +354,13 @@ export const UserGuidePage = () => {
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
-              <span className={classes.paragraphBold}>MDR:</span> multi-drug resistant (Resistant to one of Azithromycin
-              / Ceftriaxone / Cefixime [category I representatives], plus two or more of Penicillin / Ciprofloxacin /
-              Spectinomycin [category II representatives])
+              <span className={classes.paragraphBold}>MDR:</span> multidrug resistant (Resistant to one of Azithromycin
+              / Ceftriaxone / Cefixime [category I representatives], plus two or more of Benzylpenicillin /
+              Ciprofloxacin / Spectinomycin [category II representatives])
             </li>
             <li>
               <span className={classes.paragraphBold}>XDR:</span> extensively drug resistant (Resistant to two of
-              Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Penicillin /
+              Azithromycin / Ceftriaxone / Cefixime [category I representatives], plus three of Benzylpenicillin /
               Ciprofloxacin / Spectinomycin [category II representatives])
             </li>
           </Typography>
@@ -469,10 +483,10 @@ export const UserGuidePage = () => {
           <br />
 
           <Typography variant="h6" className={classes.paragraph}>
-            Diarrheagenic<i> E. coli</i>
+            <i> Escherichia coli</i>(Diarrheagenic)
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Diarrheagenic <i>E. coli</i> data in AMRnet are drawn from{' '}
+            <i> Escherichia coli</i>(Diarrheagenic) data in AMRnet are drawn from{' '}
             <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
               Enterobase
             </a>
@@ -504,7 +518,7 @@ export const UserGuidePage = () => {
             >
               here
             </a>
-            . Pathotypes included in the diarrheagenic <i>E. coli</i> dashboard are:
+            . Pathotypes included in the <i> Escherichia coli</i> (Diarrheagenic) dashboard are:
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
             <li>
@@ -572,10 +586,10 @@ export const UserGuidePage = () => {
           <Divider />
           <br />
           <Typography variant="h6" className={classes.paragraph}>
-            Invasive Non-Typhoidal <i>Salmonella</i>
+            <i>Salmonella</i> (invasive non-typhoidal)
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            Invasive non-typhoidal Salmonella (iNTS) data in AMRnet are drawn from{' '}
+            Salmonella (invasive non-typhoidal) data in AMRnet are drawn from{' '}
             <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
               Enterobase
             </a>
@@ -599,10 +613,10 @@ export const UserGuidePage = () => {
             <a href="https://doi.org/10.1371/journal.pone.0147101" target="_blank" rel="noreferrer">
               SISTR
             </a>
-            . he iNTS dashboard currently includes invasive lineages of serovar Typhimurium or Enteritidis (which
-            account for{' '}
+            . he <i>Salmonella</i> (invasive non-typhoidal) data in the dashboard currently includes invasive lineages
+            of serovar Typhimurium or Enteritidis (which account for{' '}
             <a href="https://doi.org/10.1016/S1473-3099(21)00615-0" target="_blank" rel="noreferrer">
-              &gt;90% of iNTS
+              &gt;90% of <i>Salmonella</i> (invasive non-typhoidal) strains in the USA
             </a>
             ), based on HierCC 150 clusters. Last update: 24 January 2024.
           </Typography>
@@ -612,10 +626,10 @@ export const UserGuidePage = () => {
             WARNING:
           </Typography>
           <Typography variant="body2" className={classes.paragraph}>
-            The iNTS data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases
-            of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data
-            curation efforts are ongoing however until then, please be careful when interpreting the data in the
-            dashboard.
+            The <i>Salmonella</i> (invasive non-typhoidal) data used in AMRnet are not yet curated for
+            purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed
+            towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then,
+            please be careful when interpreting the data in the dashboard.
           </Typography>
           <br />
           <Typography variant="subtitle2" className={classes.paragraph}>

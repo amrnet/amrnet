@@ -1,10 +1,11 @@
-import { openDB } from 'idb';
+import * as compressJson from 'compress-json';
+import { IDBPDatabase, openDB } from 'idb';
 
-type OrganismStore = 'styphi' | 'kpneumo' | 'ngono' | 'ecoli' | 'decoli' | 'shige' | 'sentericaints' | 'senterica';
+const DB_NAME = 'amrnetdb';
+// Bump version when schema changes (e.g., new indexes)
+const DB_VERSION = 37;
 
-const DB_NAME = 'organismsData';
-const DB_VERSION = 20;
-
+// List of all stores used by the app
 const OBJECT_STORES = [
   'styphi',
   'kpneumo',
@@ -14,7 +15,7 @@ const OBJECT_STORES = [
   'shige',
   'sentericaints',
   'senterica',
-  'styphi_sets',
+  // 'styphi_sets',
   'styphi_map',
   'styphi_genotype',
   'styphi_years',
@@ -25,6 +26,7 @@ const OBJECT_STORES = [
   'kpneumo_genotype',
   'kpneumo_years',
   'kpneumo_ko',
+  'kpneumo_ko_years',
   'kpneumo_convergence',
   'kpneumo_map_regions',
   'kpneumo_drugs_countries',
@@ -33,112 +35,210 @@ const OBJECT_STORES = [
   'ngono_genotype',
   'ngono_ngmast',
   'ngono_years',
+  'ngono_map_regions',
+  'ngono_drugs_countries',
+  'ngono_drugs_regions',
   'ecoli_map',
+  'ecoli_map_regions',
   'ecoli_genotype',
   'ecoli_years',
+  'ecoli_drugs_countries',
+  'ecoli_drugs_regions',
   'decoli_map',
+  'decoli_map_regions',
   'decoli_genotype',
   'decoli_years',
+  'decoli_drugs_countries',
+  'decoli_drugs_regions',
   'shige_map',
+  'shige_map_regions',
   'shige_genotype',
   'shige_years',
+  'shige_drugs_countries',
+  'shige_drugs_regions',
   'sentericaints_map',
+  'sentericaints_map_regions',
   'sentericaints_genotype',
   'sentericaints_years',
+  'sentericaints_drugs_countries',
+  'sentericaints_drugs_regions',
   'senterica_map',
+  'senterica_map_regions',
   'senterica_genotype',
   'senterica_years',
+  'senterica_drugs_countries',
+  'senterica_drugs_regions',
   'unr',
 ];
 
-// Initialize the database
+// Main organism stores used with typed helpers
+
+// Initialize the database (singleton pattern)
+let dbPromise: Promise<IDBPDatabase> | null = null;
+
 export const initDB = async () => {
-  return await openDB(DB_NAME, DB_VERSION, {
-    upgrade(db) {
-      // Convert db.objectStoreNames to an array so it can be iterated
-      const currentStores = Array.from(db.objectStoreNames);
+  if (!dbPromise) {
+    dbPromise = openDB(DB_NAME, DB_VERSION, {
+      upgrade(db) {
+        // Remove all existing object stores if needed (essentially clearing the cache)
+        Array.from(db.objectStoreNames).forEach(storeName => {
+          db.deleteObjectStore(storeName);
+        });
 
-      // Remove all existing object stores if needed (essentially clearing the cache)
-      currentStores.forEach((storeName) => {
-        db.deleteObjectStore(storeName); // Delete the entire store
-      });
-
-      // Recreate object stores with the updated schema
-      OBJECT_STORES.forEach((store) => {
-        // Add new stores with updated schema, including the new key if needed
-        db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
-      });
-    },
-  });
+        // Recreate object stores with the updated schema
+        OBJECT_STORES.forEach(store => {
+          if (!db.objectStoreNames.contains(store)) {
+            const os = db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
+            // Create composite index only for styphi: [TRAVEL, DATE]
+            if (store === 'styphi') {
+              try {
+                os.createIndex('travelDateIndex', ['TRAVEL', 'DATE'], { unique: false });
+              } catch (e) {
+                // Ignore if index already exists or cannot be created
+                console.warn('Could not create travelDateIndex on styphi:', e);
+              }
+            }
+          }
+        });
+      },
+    });
+  }
+  return dbPromise;
 };
 
-// Helper function to get the object store
-const getStore = async (storeName: OrganismStore) => {
-  const db = await initDB();
-  return db.transaction(storeName, 'readwrite').objectStore(storeName);
+// Helper function to get the database instance
+const getDB = async () => {
+  return await initDB();
+};
+// Validate store name
+const isValidStore = (storeName: string): boolean => OBJECT_STORES.includes(storeName);
+
+// Add compression utility function
+export const decompressResponse = async (response: Response) => {
+  const data = await response.json();
+
+  // Check if the response was compressed with compress-json
+  const compressionType = response.headers.get('X-Compression');
+
+  if (compressionType === 'compress-json') {
+    try {
+      return compressJson.decompress(data);
+    } catch (error) {
+      console.warn('Failed to decompress response, using as-is:', error);
+      return data;
+    }
+  }
+
+  return data;
 };
 
 // Add an item to a specific store
-export const addItem = async (storeName: OrganismStore, item: any): Promise<IDBValidKey> => {
-  const store = await getStore(storeName);
-  return store.put(item);
+export const addItem = async (storeName: string, item: any): Promise<any> => {
+  const db = await getDB();
+  return db.put(storeName, item);
 };
 
 // Get all items from a specific store
-export const getItems = async (storeName: OrganismStore): Promise<any> => {
-  const store = await getStore(storeName);
-  return store.getAll();
+export const getItems = async (storeName: string): Promise<any> => {
+  if (!isValidStore(storeName)) {
+    console.warn(`Invalid object store name: ${storeName}`);
+    return [];
+  }
+  try {
+    const db = await getDB();
+    return await db.getAll(storeName);
+  } catch (error) {
+    console.error(`Error getting items from ${storeName}:`, error);
+    return [];
+  }
 };
 
 // Get a single item by its ID
-export const getItem = async (storeName: OrganismStore, id: number): Promise<any> => {
-  const store = await getStore(storeName);
-  return store.get(id);
+export const getItem = async (storeName: string, id: number): Promise<any> => {
+  try {
+    const db = await getDB();
+    return await db.get(storeName, id);
+  } catch (error) {
+    console.error(`Error getting item ${id} from ${storeName}:`, error);
+    return null;
+  }
 };
 
 // Delete an item by its ID
-export const deleteItem = async (storeName: OrganismStore, id: number): Promise<void> => {
-  const store = await getStore(storeName);
-  return store.delete(id);
+export const deleteItem = async (storeName: string, id: number): Promise<void> => {
+  try {
+    const db = await getDB();
+    await db.delete(storeName, id);
+  } catch (error) {
+    console.error(`Error deleting item ${id} from ${storeName}:`, error);
+  }
 };
 
-export const bulkAddItems = async (storeName: OrganismStore, items: Array<any>, clearStore: boolean = true) => {
-  const store = await getStore(storeName);
-
-  // Start a transaction for the specified store
-  const tx = store.transaction;
-
-  // Clear all existing data from the store
-  if (clearStore) {
-    await store.clear();
+export const bulkAddItems = async (storeName: string, items: Array<any>, clearStore: boolean = true) => {
+  if (!isValidStore(storeName)) {
+    console.warn(`Invalid object store name: ${storeName}`);
+    return;
   }
 
-  // Add all items in the transaction
-  items.forEach((item) => {
-    store.put(item); // Use put instead of add
-  });
+  try {
+    const db = await getDB();
+    const tx = db.transaction(storeName, 'readwrite');
+    const store = tx.objectStore(storeName);
 
-  // Complete the transaction
-  await tx.done;
+    if (clearStore) {
+      await store.clear();
+    }
+
+    for (const item of items) {
+      await store.put(item);
+    }
+
+    await tx.done;
+  } catch (error) {
+    console.error(`Error bulk adding items to ${storeName}:`, error);
+  }
 };
 
-export const hasItems = async (storeName: OrganismStore): Promise<boolean> => {
-  const store = await getStore(storeName);
-
-  // Use count to determine if there are any items
-  const count = await store.count();
+export const hasItems = async (storeName: string): Promise<boolean> => {
+  const db = await getDB();
+  const count = await db.count(storeName);
   return count > 0;
 };
 
 export const filterItems = async (
-  storeName: OrganismStore,
+  storeName: string,
   travel?: string,
   startDate?: number,
   endDate?: number,
 ): Promise<any[]> => {
   try {
-    const store = await getStore(storeName);
-    const index = store.index('travelDateIndex');
+    const db = await getDB();
+    const tx = db.transaction(storeName, 'readonly');
+    const store = tx.objectStore(storeName);
+    if (storeName !== 'styphi') {
+      // Fallback: scan and filter for non-styphi stores (index not defined)
+      const all: any[] = await store.getAll();
+      return all.filter(item => {
+        const dateOk =
+          startDate !== undefined && endDate !== undefined ? item?.DATE >= startDate && item?.DATE <= endDate : true;
+        const travelOk = travel !== undefined ? item?.TRAVEL === travel : true;
+        return dateOk && travelOk;
+      });
+    }
+
+    let index: any;
+    try {
+      index = store.index('travelDateIndex');
+    } catch (_e) {
+      // Index not available yet (older DB). Fallback to scan.
+      const all: any[] = await store.getAll();
+      return all.filter(item => {
+        const dateOk =
+          startDate !== undefined && endDate !== undefined ? item?.DATE >= startDate && item?.DATE <= endDate : true;
+        const travelOk = travel !== undefined ? item?.TRAVEL === travel : true;
+        return dateOk && travelOk;
+      });
+    }
 
     let range: IDBKeyRange | undefined;
 
@@ -150,23 +250,17 @@ export const filterItems = async (
       range = IDBKeyRange.bound([null, startDate], [null, endDate], true, false);
     } else {
       // If no DATE range is provided, return all items
-      range = IDBKeyRange.lowerBound([null]);
+      range = undefined;
     }
 
-    // Open cursor on the composite index with the range
-    const cursorRequest = index.openCursor(range);
     const results: any[] = [];
-
-    // Await the cursor request
-    let currentCursor = await cursorRequest;
-    while (currentCursor) {
-      results.push(currentCursor.value);
-      currentCursor = await cursorRequest;
+    for await (const cursor of index.iterate(range)) {
+      results.push(cursor.value);
     }
 
     return results;
   } catch (error) {
     console.error('Error filtering items:', error);
-    throw error;
+    return [];
   }
 };

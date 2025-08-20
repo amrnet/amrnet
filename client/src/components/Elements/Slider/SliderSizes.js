@@ -9,25 +9,28 @@ import {
   setCurrentSliderValueKP_GT,
   setCurrentSliderValueKP_GE,
   setCurrentSliderValueCM,
+  setCurrentSliderValueKOT,
 } from '../../../stores/slices/graphSlice';
 import { useStyles } from './SliderMUI';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 
-export const SliderSizes = (props) => {
+export const SliderSizes = props => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const currentSliderValue = useAppSelector((state) => state.graph.currentSliderValue);
-  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
-  const maxSliderValue = useAppSelector((state) => state.graph.maxSliderValue);
-  const currentSliderValueRD = useAppSelector((state) => state.graph.currentSliderValueRD);
-  const maxSliderValueRD = useAppSelector((state) => state.graph.maxSliderValueRD);
-  const currentSliderValueKP_GT = useAppSelector((state) => state.graph.currentSliderValueKP_GT);
-  const currentSliderValueKP_GE = useAppSelector((state) => state.graph.currentSliderValueKP_GE);
-  const maxSliderValueKP_GE = useAppSelector((state) => state.graph.maxSliderValueKP_GE);
-  const currentSliderValueCM = useAppSelector((state) => state.graph.currentSliderValueCM);
-  const maxSliderValueCM = useAppSelector((state) => state.graph.maxSliderValueCM);
-  const convergenceGroupVariable = useAppSelector((state) => state.graph.convergenceGroupVariable);
-  const organism = useAppSelector((state) => state.dashboard.organism);
+  const genotypesForFilterDynamic = useAppSelector(state => state.dashboard.genotypesForFilterDynamic);
+  const currentSliderValue = useAppSelector(state => state.graph.currentSliderValue);
+  const maxSliderValue = useAppSelector(state => state.graph.maxSliderValue);
+  const currentSliderValueKOT = useAppSelector(state => state.graph.currentSliderValueKOT);
+  const maxSliderValueKOT = useAppSelector(state => state.graph.maxSliderValueKOT);
+  const currentSliderValueRD = useAppSelector(state => state.graph.currentSliderValueRD);
+  const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
+  const currentSliderValueKP_GT = useAppSelector(state => state.graph.currentSliderValueKP_GT);
+  const currentSliderValueKP_GE = useAppSelector(state => state.graph.currentSliderValueKP_GE);
+  const maxSliderValueKP_GE = useAppSelector(state => state.graph.maxSliderValueKP_GE);
+  const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  const maxSliderValueCM = useAppSelector(state => state.graph.maxSliderValueCM);
+  const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
+  const organism = useAppSelector(state => state.dashboard.organism);
   // const [sliderGD, setSliderGD] = useState(currentSliderValue);
   // const [sliderRD, setSliderRD] = useState(currentSliderValueRD);
   // const [sliderKP_GT, setSliderKP_GT] = useState(currentSliderValueKP_GT);
@@ -35,11 +38,11 @@ export const SliderSizes = (props) => {
   // const [sliderCM, setSliderCM] = useState(currentSliderValueCM);
 
   useEffect(() => {
-    if (['GD', 'KP_GT'].includes(props.value) && genotypesForFilter.length > 0) {
-      dispatch(setMaxSliderValue(genotypesForFilter.length));
+    if (['GD', 'KP_GT'].includes(props.value) && genotypesForFilterDynamic.length > 0) {
+      dispatch(setMaxSliderValue(genotypesForFilterDynamic.length));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genotypesForFilter]);
+  }, [genotypesForFilterDynamic]);
 
   // const handleSliderChange = (_, newValue) => {
   //   if (props.value === 'GD') {
@@ -71,6 +74,11 @@ export const SliderSizes = (props) => {
       return;
     }
 
+    if (props.value === 'KOT') {
+      dispatch(setCurrentSliderValueKOT(newValue));
+      return;
+    }
+
     if (props.value === 'KP_GT') {
       dispatch(setCurrentSliderValueKP_GT(newValue));
       return;
@@ -90,8 +98,12 @@ export const SliderSizes = (props) => {
   };
 
   const heading = useMemo(() => {
+    if (props.label) {
+      return `Individual ${props.label} to colour:`;
+    }
+
     function geno() {
-      if (organism === 'decoli' || organism === 'shige' || organism === 'sentericaints') return 'lineages';
+      if (['sentericaints', 'senterica'].includes(organism)) return 'lineage';
       if (organism === 'kpneumo') return 'ST';
       return 'genotype';
     }
@@ -101,11 +113,11 @@ export const SliderSizes = (props) => {
     }
 
     if (props.value === 'CM') {
-      return `Individual ${variablesOptions.find((x) => x.value === convergenceGroupVariable).label} to colour`;
+      return `Individual ${variablesOptions.find(x => x.value === convergenceGroupVariable).label} to colour`;
     }
 
-    return 'Individual resistance determinants:';
-  }, [convergenceGroupVariable, organism, props.value]);
+    return 'Individual resistance marker to colour:';
+  }, [convergenceGroupVariable, organism, props.label, props.value]);
 
   const [sliderValue, setSliderValue] = useState(0);
 
@@ -114,6 +126,8 @@ export const SliderSizes = (props) => {
 
     if (props.value === 'GD') {
       newSliderValue = currentSliderValue < maxSliderValue ? currentSliderValue : maxSliderValue;
+    } else if (props.value === 'KOT') {
+      newSliderValue = currentSliderValueKOT < maxSliderValueKOT ? currentSliderValueKOT : maxSliderValueKOT;
     } else if (props.value === 'KP_GT') {
       newSliderValue = currentSliderValueKP_GT < maxSliderValue ? currentSliderValueKP_GT : maxSliderValue;
     } else if (props.value === 'KP_GE') {
@@ -136,11 +150,16 @@ export const SliderSizes = (props) => {
     currentSliderValueKP_GE,
     currentSliderValueKP_GT,
     currentSliderValueRD,
+    currentSliderValueKOT,
+    maxSliderValueKOT,
   ]);
 
   const maxValue = useMemo(() => {
     if (['GD', 'KP_GT'].includes(props.value)) {
       return maxSliderValue < 30 ? maxSliderValue : 30;
+    }
+    if (['KOT'].includes(props.value)) {
+      return maxSliderValueKOT < 30 ? maxSliderValueKOT : 30;
     }
     if (props.value === 'KP_GE') {
       return maxSliderValueKP_GE < 30 ? maxSliderValueKP_GE : 30;
@@ -150,7 +169,7 @@ export const SliderSizes = (props) => {
     }
 
     return maxSliderValueRD < 30 ? maxSliderValueRD : 30;
-  }, [maxSliderValue, maxSliderValueCM, maxSliderValueKP_GE, maxSliderValueRD, props.value]);
+  }, [maxSliderValue, maxSliderValueCM, maxSliderValueKOT, maxSliderValueKP_GE, maxSliderValueRD, props.value]);
 
   return (
     <div className={classes.sliderSize} style={props.style}>

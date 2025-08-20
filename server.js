@@ -1,17 +1,21 @@
-// import connectDB from './config/db.js';
-import connectDB from './config/db2.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
 import generateFileClean from './routes/api/generateDataClean.js';
 import api from './routes/api/api.js';
+import optimized from './routes/api/optimized.js';
 import combine_files from './routes/api/combine_files.js';
 import mongo_controller from './controllers/controller_DB.js';
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import emailRouter from './routes/api/email.js';
 import path, { dirname } from 'path';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
-import bodyParser from 'body-parser';
+import connectDB from './config/db.js';
+import compression from 'compression';
+import performanceMonitor from './middleware/performanceMonitor.js';
+
+// REMOVED: import bodyParser from 'body-parser';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -22,25 +26,45 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(bodyParser.json({ limit: '100mb' }));
+// Use compression middleware to compress responses
+app.use(compression({
+  // Only compress responses that are larger than this threshold
+  threshold: 1024, // 1KB
+  // Compression level (0-9, where 9 is best compression but slowest)
+  level: 6,
+  // Only compress certain content types
+  filter: (req, res) => {
+    // Don't compress if the request includes a cache-control: no-transform directive
+    if (req.headers['cache-control'] && req.headers['cache-control'].includes('no-transform')) {
+      return false;
+    }
+    // Fallback to standard filter function
+    return compression.filter(req, res);
+  }
+}));
+// REMOVED: app.use(bodyParser.json({ limit: '400mb' }));
 
-const PORT = process.env.PORT || 8080;
+// Middleware
+app.use(performanceMonitor); // Add performance monitoring first
+app.use(cors());
+app.use(express.json({ limit: '400mb' })); // ADDED: limit option
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Define headers used for API requisitions
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Token, Authorization');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Token, Authorization',
+  );
   next();
 });
 
-// Define middleware here
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(cookieParser());
-
 // Define routes API here
-app.use('/api/filters', api);
+app.use('/api', api);
+app.use('/api/optimized', optimized);
 app.use('/api/email', emailRouter);
 app.use('/api/file', generateFile);
 app.use('/api/data', generateFileClean);
@@ -53,5 +77,10 @@ app.use('/', function (req, res) {
   res.sendFile(path.join(__dirname, './client/build/index.html'));
 });
 
-// Start the API server, listen method to run project on http://localhost:8080
-app.listen(PORT, console.log(`App is running in ${process.env.NODE_ENV} mode on port ${PORT}`));
+// Set the port from environment variable or default to 3000
+const PORT = process.env.PORT || 3000;
+
+// Start the API server and log a message when it's ready
+const server = app.listen(PORT, () => {
+  console.log(`Server started on http://localhost:${PORT} (${process.env.NODE_ENV || 'development'} mode)`);
+});
