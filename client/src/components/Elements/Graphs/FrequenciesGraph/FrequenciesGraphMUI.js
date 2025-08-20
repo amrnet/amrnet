@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   frequenciesGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     rowGap: '4px',
+    paddingTop: '8px',
   },
   selectWrapper: {
     display: 'flex',
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: '600 !important',
     padding: '8px 32px 8px 8px !important',
     marginRight: '-80px !important',
+    whiteSpace: 'wrap !important',
   },
   genotypesSelectButton: {
     height: '20px',
@@ -174,6 +176,24 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
+  },
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }));
 

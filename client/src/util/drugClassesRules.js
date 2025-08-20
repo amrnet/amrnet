@@ -3,59 +3,53 @@
 export const drugRulesST = [
   { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
-  {
-    key: 'Chloramphenicol',
-    columnID: 'chloramphenicol_category',
-    values: ['ChlR'],
-  },
+  { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
-  { key: 'Ciprofloxacin NS', columnID: 'cip_pred_pheno', values: ['CipNS'] },
-  { key: 'Sulphonamides', columnID: 'sul_any', values: ['1'] },
-  { key: 'Susceptible', columnID: 'amr_category', values: ['No AMR detected'] },
-  { key: 'Tetracyclines', columnID: 'tetracycline_category', values: ['TetR'] },
+  {
+    key: 'Ciprofloxacin NS',
+    columnID: 'cip_pred_pheno',
+    values: ['CipNS'],
+    legends: 'Ciprofloxacin (non-susceptible)',
+  },
+  { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)' },
+  { key: 'Sulfonamides', columnID: 'sul_any', values: ['1'] },
+  { key: 'Tetracycline', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
+  { key: 'MDR', columnID: 'MDR', values: ['MDR'], legends: 'Multidrug resistant (MDR)' },
+  { key: 'XDR', columnID: 'XDR', values: ['XDR'], legends: 'Extensively drug resistant (XDR)' },
+  { key: 'Pansusceptible', columnID: 'amr_category', values: ['No AMR detected'] },
 ];
 
 export const statKeysST = [
-  { name: 'Ampicillin/Amoxicillin', column: 'blaTEM-1D', key: '1', resistanceView: true, heatmapView: true },
-  { name: 'AzithR', column: 'azith_pred_pheno', key: 'AzithR' },
-  { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true, heatmapView: true },
-  { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true, heatmapView: true },
-  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true, heatmapView: true },
-  { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR' },
+  { name: 'Ampicillin/Amoxicillin', column: 'blaTEM-1D', key: '1', resistanceView: true },
+  { name: 'Azithromycin', column: 'azith_pred_pheno', key: 'AzithR', resistanceView: true },
+  { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true },
+  { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
+  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
+  { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR', resistanceView: true },
+  { name: 'XDR', column: 'XDR', key: 'XDR', resistanceView: true },
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
-  { name: 'MDR', column: 'MDR', key: 'MDR' },
-  { name: 'Sulphonamides', column: 'sul_any-1D', key: '1', resistanceView: true, heatmapView: true },
-  { name: 'Susceptible', column: 'amr_category', key: 'No AMR detected' },
-  { name: 'Tetracyclines', column: 'tetracycline_category-1D', key: 'TetR', resistanceView: true, heatmapView: true },
-  { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true, heatmapView: true },
-  { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim-1D', key: '1', resistanceView: true, heatmapView: true },
-  { name: 'XDR', column: 'XDR', key: 'XDR' },
+  { name: 'MDR', column: 'MDR', key: 'MDR', resistanceView: true },
+  { name: 'Sulfonamides', column: 'sul_any', key: '1', resistanceView: true },
+  { name: 'Tetracycline', column: 'tetracycline_category', key: 'TetR', resistanceView: true },
+  { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
+  { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
+  { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true },
 ];
-
-// export const drugRulesForDrugResistanceGraphNG = [
-//   { key: 'MDR', columnID: 'MDR', values: ['1'] },
-//   { key: 'XDR', columnID: 'XDR', values: ['1'] }
-// ];
 
 export const drugRulesForDrugResistanceGraphNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
-  { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
+  { key: 'Ceftriaxone', columnID: ['CefR1'], values: ['1'] },
   { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
   { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
-  { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Benzylpenicillin', columnID: ['Penicillin'], values: ['1'] },
   { key: 'Susceptible', columnID: ['Susceptible'], values: ['1'] },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
   { key: 'MDR', columnID: 'MDR', values: ['1'] },
   { key: 'XDR', columnID: 'XDR', values: ['1'] },
-];
-
-export const drugRulesForDrugResistanceGraphST = [
-  { key: 'MDR', columnID: 'MDR', values: ['MDR'] },
-  { key: 'XDR', columnID: 'XDR', values: ['XDR'] },
 ];
 
 // Drug rules for Klebsiella, where the column has to be any value other than '-' to validate the rule. For frequencies
@@ -63,120 +57,80 @@ export const drugRulesForDrugResistanceGraphST = [
 export const drugRulesKP = [
   { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
   { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
-  { key: '3rd gen cephalosporins (3GCs)', columnIDs: ['Bla_ESBL_acquired'] },
-  // {
-  //   key: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
-  //   columnIDs: ['Bla_ESBL_inhR_acquired'],
-  // },
+  { key: 'ESBL', columnIDs: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'] },
+  { key: 'Ciprofloxacin R', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
-  { key: 'Fluoroquinolones', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
-  // { key: 'Penicillins', columnIDs: ['Bla_chr'] },
-  // { key: 'β-lactamase inhibitors', columnIDs: ['Bla_inhR_acquired'] },
-  { key: 'Phenicols', columnIDs: ['Phe_acquired'] },
-  // { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
+  { key: 'Chloramphenicol', columnIDs: ['Phe_acquired'] },
+  { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
   { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
   { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
   { key: 'Trimethoprim', columnIDs: ['Tmt_acquired'] },
-  { key: 'Trimethoprim-sulfamethoxazole', columnIDs: ['Tmt_acquired'] },
+  { key: 'Trimethoprim-sulfamethoxazole', columnIDs: ['Tmt_acquired', 'Sul_acquired'], every: true },
+];
+
+export const drugRulesKPOnlyMarkers = [
+  { key: 'SHV mutations', columnIDs: ['SHV_mutations'] },
+  { key: 'Porin mutations', columnIDs: ['Omp_mutations'] },
 ];
 
 export const statKeysKP = [
-  { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true, heatmapView: true },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-', resistanceView: true, heatmapView: true },
-  // {
-  //   name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
-  //   column: 'Bla_ESBL_inhR_acquired',
-  //   key: '-',
-  //   resistanceView: true,
-  // },
-  {
-    name: '3rd gen cephalosporins (3GCs)',
-    column: 'Bla_ESBL_acquired',
-    key: '-',
-    resistanceView: true,
-  },
-  { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true, heatmapView: true },
-  { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-', resistanceView: true, heatmapView: true },
-  {
-    name: 'Fluoroquinolones',
-    column: ['Flq_acquired', 'Flq_mutations'],
-    key: '-',
-    resistanceView: true,
-    heatmapView: true,
-  },
-  { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true, heatmapView: true },
-  // { name: 'Penicillins', column: 'Bla_chr', key: '-', resistanceView: true },
-  // { name: 'β-lactamase inhibitors', column: 'Bla_Carb_acquired', key: '-', resistanceView: true, heatmapView: true },
-  { name: 'Phenicols', column: 'Bla_Carb_acquired', key: '-', resistanceView: true, heatmapView: true },
-  // { name: 'Sulfonamides', column: 'Phe_acquired', key: '-', resistanceView: true, heatmapView: true },
-  // { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
-  { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true, heatmapView: true },
-  { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true, heatmapView: true },
-  { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true, heatmapView: true },
-  { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true }, //// TODO: need to update 'Trimethoprim-sulfamethoxazole column name
-];
-export const mapStatKeysKP = [
-  // { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
-  // {
-  //   name: '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors',
-  //   column: 'Bla_ESBL_inhR_acquired',
-  //   key: '-',
-  //   resistanceView: true,
-  // },
-  {
-    name: '3rd gen cephalosporins (3GCs)',
-    column: 'Bla_ESBL_acquired',
-    key: '-',
-    resistanceView: true,
-  },
+  { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
+  { name: 'Carbapenems', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
   { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
-  // { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-', resistanceView: true },
-  { name: 'Fluoroquinolones', column: ['Flq_acquired', 'Flq_mutations'], key: '-', resistanceView: true },
+  { name: 'Ciprofloxacin R', column: ['Flq_acquired', 'Flq_mutations'], key: '-', resistanceView: true },
+  {
+    name: 'ESBL',
+    column: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'],
+    key: '-',
+    resistanceView: true,
+  },
   { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true },
-  // { name: 'Penicillins', column: 'Bla_chr', key: '-', resistanceView: true },
-  // { name: 'β-lactamase inhibitors', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
-  { name: 'Phenicols', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
-  // { name: 'Sulfonamides', column: 'Phe_acquired', key: '-', resistanceView: true },
-  // { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
-  // { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
-  // { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
+  { name: 'Chloramphenicol', column: 'Phe_acquired', key: '-', resistanceView: true },
+  { name: 'Sulfonamides', column: 'Sul_acquired', key: '-', resistanceView: true },
+  { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
+  { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
-  { name: 'Trimethoprim-sulfamethoxazole', column: 'Tmt_acquired', key: '-', resistanceView: true }, //// TODO: need to update 'Trimethoprim-sulfamethoxazole column name
+  { name: 'Trimethoprim-sulfamethoxazole', column: ['Tmt_acquired', 'Sul_acquired'], key: '-', resistanceView: true },
+  { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0', resistanceView: true },
+];
+
+export const statKeysKPOnlyMarkers = [
+  { name: 'SHV mutations', column: 'SHV_mutations', key: '-' },
+  { name: 'Porin mutations', column: 'Omp_mutations', key: '-' },
 ];
 
 // TODO: Duplicate of drugRulesForDrugResistanceGraphNG
 export const drugRulesNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
-  { key: 'Ceftriaxone', columnID: ['Ceftriaxone'], values: ['1'] },
+  { key: 'Ceftriaxone', columnID: ['CefR1'], values: ['1'] },
   { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
   { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
-  { key: 'Penicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Susceptible', columnID: ['Susceptible'], values: ['1'] },
+  { key: 'Benzylpenicillin', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Pansusceptible', columnID: ['Susceptible'], values: ['1'], legends: 'Susceptible to cat I/II drugs' },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
-  { key: 'MDR', columnID: 'MDR', values: ['1'] },
-  { key: 'XDR', columnID: 'XDR', values: ['1'] },
+  // { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
+  // { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
 ];
 
 export const statKeysNG = [
   { name: 'Azithromycin', column: 'Azithromycin', key: '1', resistanceView: true },
   { name: 'Cefixime', column: 'Cefixime', key: '1', resistanceView: true },
-  { name: 'Ceftriaxone', column: 'Ceftriaxone', key: '1', resistanceView: true },
+  { name: 'Ceftriaxone', column: 'CefR1', key: '1', resistanceView: true },
   { name: 'Ciprofloxacin', column: 'Ciprofloxacin', key: '1', resistanceView: true },
-  { name: 'Susceptible', column: 'Susceptible', key: '1' },
+  { name: 'XDR', column: 'XDR', key: '1', resistanceView: true },
   { name: 'MDR', column: 'MDR', key: '1', resistanceView: true },
-  { name: 'Penicillin', column: 'Penicillin', key: '1', resistanceView: true },
+  { name: 'Benzylpenicillin', column: 'Penicillin', key: '1', resistanceView: true },
   { name: 'Spectinomycin', column: 'Spectinomycin', key: '1', resistanceView: true },
   { name: 'Sulfonamides', column: 'Sulfonamides', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
-  { name: 'XDR', column: 'XDR', key: '1', resistanceView: true },
+  { name: 'Susceptible', column: 'Susceptible', key: '1', resistanceView: true },
 ];
 
 // Salmonella Typhi drug classes rules for determinants graph
-export const drugClassesRulesST = {
+export const drugClassesRulesSTHeatMap = {
   'Ampicillin/Amoxicillin': [
     {
       name: 'blaTEM-1D',
@@ -492,7 +446,6 @@ export const drugClassesRulesST = {
       rules: [{ columnID: 'co_trim', value: '0' }],
     },
   ],
-  // ESBL: [
   Ceftriaxone: [
     {
       name: 'blaCTX-M-15',
@@ -595,12 +548,12 @@ export const drugClassesRulesST = {
       rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrS + qnrD' }],
     },
     {
-      name: 'None (CipNS)',
+      name: 'None',
       susceptible: true,
       rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR' }],
     },
   ],
-  Sulphonamides: [
+  Sulfonamides: [
     {
       name: 'sul1 + sul2',
       susceptible: false,
@@ -634,7 +587,7 @@ export const drugClassesRulesST = {
       rules: [{ columnID: 'sul_any', value: '0' }],
     },
   ],
-  Tetracyclines: [
+  Tetracycline: [
     {
       name: 'tetA(A)',
       susceptible: false,
@@ -758,11 +711,44 @@ export const drugClassesRulesST = {
     },
   ],
 };
-
-// Klebsiella drug classes rules for determinants graph
-export const drugClassesRulesKP = {
-  Carbapenems: 'Bla_Carb_acquired',
-  ESBL: 'Bla_ESBL_acquired',
+export const drugClassesRulesST = {
+  ...drugClassesRulesSTHeatMap,
+  MDR: [
+    {
+      name: 'MDR',
+      susceptible: false,
+      rules: [{ columnID: 'MDR', value: 'MDR' }],
+    },
+    {
+      name: 'Non-MDR',
+      susceptible: true,
+      rules: [{ columnID: 'MDR', value: '-' }],
+    },
+  ],
+  XDR: [
+    {
+      name: 'XDR',
+      susceptible: false,
+      rules: [{ columnID: 'XDR', value: 'XDR' }],
+    },
+    {
+      name: 'Non-XDR',
+      susceptible: true,
+      rules: [{ columnID: 'XDR', value: '-' }],
+    },
+  ],
+  Pansusceptible: [
+    {
+      name: 'Pansusceptible (no AMR markers)',
+      susceptible: true,
+      rules: [{ columnID: 'amr_category', value: 'No AMR detected' }],
+    },
+    {
+      name: 'One or more AMR markers',
+      susceptible: false,
+      rules: [{ columnID: 'amr_category', value: 'No AMR detected' }], // This rule is read different in the filters
+    },
+  ],
 };
 
 export const drugClassesRulesNG = {
@@ -778,7 +764,7 @@ export const drugClassesRulesNG = {
       rules: [{ columnID: 'AzithR2', value: '1' }],
     },
     {
-      name: 'mtrR_G45D + mtrC_loss + 23S_a2045g',
+      name: 'mtrR_G45D + mtrC_disrupt + 23S_a2045g',
       susceptible: false,
       rules: [{ columnID: 'AzithR3', value: '1' }],
     },
@@ -803,12 +789,12 @@ export const drugClassesRulesNG = {
       rules: [{ columnID: 'AzithR7', value: '1' }],
     },
     {
-      name: '23S_rDNA_c2597t + mtrC_loss',
+      name: '23S_rDNA_c2597t + mtrC_disrupt',
       susceptible: false,
       rules: [{ columnID: 'AzithR8', value: '1' }],
     },
     {
-      name: 'mtrC_loss + mtrD_mos2',
+      name: 'mtrC_disrupt + mtrD_mos2',
       susceptible: false,
       rules: [{ columnID: 'AzithR9', value: '1' }],
     },
@@ -842,29 +828,421 @@ export const drugClassesRulesNG = {
   ],
   Ceftriaxone: [
     {
-      name: 'CefR1',
+      name: 'penA.A501P + penA.G545T + penA.I312M + penA.V316T',
       susceptible: false,
       rules: [{ columnID: 'CefR1', value: '1' }],
     },
     {
+      name: 'penA.A501V + penA.G542S + penA.insV346D',
+      susceptible: false,
+      rules: [{ columnID: 'CefR2', value: '1' }],
+    },
+    {
       name: 'None',
       susceptible: true,
-      rules: [{ columnID: 'CefR1', value: '0' }],
+      rules: [
+        { columnID: 'CefR1', value: '0' },
+        { columnID: 'CefR2', value: '0' },
+      ],
     },
   ],
+  Cefixime: [
+    {
+      name: 'penA.A501P + penA.G545S + penA.I312M + penA.V316T',
+      susceptible: false,
+      rules: [{ columnID: 'CefixR1', value: '1' }],
+    },
+    {
+      name: 'penA.G545S + penA.I312M + penA.V316T',
+      susceptible: false,
+      rules: [{ columnID: 'CefixR2', value: '1' }],
+    },
+    {
+      name: 'penA.G545S + penA.I312M + penA.P551S, penA.V316T',
+      susceptible: false,
+      rules: [{ columnID: 'CefixR3', value: '1' }],
+    },
+    {
+      name: 'mtrR.G45D + penA.G545S + penA.I312M + penA.V316T',
+      susceptible: false,
+      rules: [{ columnID: 'CefixR4', value: '1' }],
+    },
+    {
+      name: 'mtrR.A39T + penA.G545S + penA.I312M + penA.V316T',
+      susceptible: false,
+      rules: [{ columnID: 'CefixR5', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: 'CefixR1', value: '0' },
+        { columnID: 'CefixR2', value: '0' },
+        { columnID: 'CefixR3', value: '0' },
+        { columnID: 'CefixR4', value: '0' },
+        { columnID: 'CefixR5', value: '0' },
+      ],
+    },
+  ],
+  // Tetracycline: [
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR1', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR2', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR3', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR4', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR5', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR6', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR7', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR8', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR9', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR10', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR11', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR12', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR13', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR14', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR15', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR16', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'TetR17', value: '1' }],
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [
+  //       { columnID: 'TetR1', value: '0' },
+  //       { columnID: 'TetR2', value: '0' },
+  //       { columnID: 'TetR3', value: '0' },
+  //       { columnID: 'TetR4', value: '0' },
+  //       { columnID: 'TetR5', value: '0' },
+  //       { columnID: 'TetR6', value: '0' },
+  //       { columnID: 'TetR7', value: '0' },
+  //       { columnID: 'TetR8', value: '0' },
+  //       { columnID: 'TetR9', value: '0' },
+  //       { columnID: 'TetR10', value: '0' },
+  //       { columnID: 'TetR11', value: '0' },
+  //       { columnID: 'TetR12', value: '0' },
+  //       { columnID: 'TetR13', value: '0' },
+  //       { columnID: 'TetR14', value: '0' },
+  //       { columnID: 'TetR15', value: '0' },
+  //       { columnID: 'TetR16', value: '0' },
+  //       { columnID: 'TetR17', value: '0' },
+  //     ],
+  //   },
+  // ],
+  // Ciprofloxacin: [
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR1', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR2', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR3', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR4', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR5', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR6', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR7', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR8', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR9', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR10', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR11', value: '1' }],
+  //   },
+  //       {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR12', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR13', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR14', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR15', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR16', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR17', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR18', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR19', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR20', value: '1' }],
+  //   },
+  //       {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR21', value: '1' }],
+  //   },
+  //       {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR22', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR23', value: '1' }],
+  //   },
+  //   {
+  //     name: '',
+  //     susceptible: false,
+  //     rules: [{ columnID: 'CiproR24', value: '1' }],
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [
+  //       { columnID: 'CiproR1', value: '0' },
+  //       { columnID: 'CiproR2', value: '0' },
+  //       { columnID: 'CiproR3', value: '0' },
+  //       { columnID: 'CiproR4', value: '0' },
+  //       { columnID: 'CiproR5', value: '0' },
+  //       { columnID: 'CiproR6', value: '0' },
+  //       { columnID: 'CiproR7', value: '0' },
+  //       { columnID: 'CiproR8', value: '0' },
+  //       { columnID: 'CiproR9', value: '0' },
+  //       { columnID: 'CiproR10', value: '0' },
+  //       { columnID: 'CiproR11', value: '0' },
+  //       { columnID: 'CiproR12', value: '0' },
+  //       { columnID: 'CiproR13', value: '0' },
+  //       { columnID: 'CiproR14', value: '0' },
+  //       { columnID: 'CiproR15', value: '0' },
+  //       { columnID: 'CiproR16', value: '0' },
+  //       { columnID: 'CiproR17', value: '0' },
+  //       { columnID: 'CiproR18', value: '0' },
+  //       { columnID: 'CiproR19', value: '0' },
+  //       { columnID: 'CiproR20', value: '0' },
+  //       { columnID: 'CiproR21', value: '0' },
+  //       { columnID: 'CiproR22', value: '0' },
+  //       { columnID: 'CiproR23', value: '0' },
+  //       { columnID: 'CiproR24', value: '0' },
+  //     ],
+  //   },
+  // ],
 };
 
+// TO DO: ADD RULES (USE GONO AS REFERENCE)
+export const drugClassesRulesINTS = {};
+export const drugClassesRulesSHIGE = {};
+export const drugClassesRulesDECOLI = {};
+export const drugClassesRulesECOLI = {};
+export const drugClassesRulesSENTERICA = {};
+
+// Sentericaints INTS
+export const drugRulesINTS = [
+  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
+  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
+  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
+  { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
+  { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin' },
+  { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
+  { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
+  { key: 'Macrolides', columnID: 'MACROLIDE', values: ['MACROLIDE'] },
+  { key: 'Meropenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
+  { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
+  { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
+  { key: 'Tigecycline', columnID: 'TETRACYCLINE', values: ['TIGECYCLINE'] },
+  { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
+  {
+    key: 'Pansusceptible',
+    requirements: [
+      { columnID: 'AMINOGLYCOSIDE', values: ['-'] },
+      { columnID: 'BETA-LACTAM', values: ['-'] },
+      { columnID: 'SULFONAMIDE', values: ['-'] },
+      { columnID: 'TETRACYCLINE', values: ['-'] },
+      { columnID: 'QUINOLONE', values: ['-'] },
+      { columnID: 'MACROLIDE', values: ['-'] },
+      { columnID: 'COLISTIN', values: ['-'] },
+      { columnID: 'TRIMETHOPRIM', values: ['-'] },
+      { columnID: 'PHENICOL', values: ['-'] },
+    ],
+  },
+];
+
+// Used for ints and senterica
+export const statKeysINTS = [
+  { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
+  { name: 'MAcrolides', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
+  { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
+  { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
+  { name: 'Ciprofloxacin NS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
+  { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
+  { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
+  { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
+  { name: 'Tetracycline', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
+  { name: 'Tigecycline', column: 'TETRACYCLINE', key: 'TIGECYCLINE', resistanceView: true },
+  { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
+  {
+    name: 'Pansusceptible',
+    column: drugRulesINTS.find(x => x.key === 'Pansusceptible').requirements.map(x => x.columnID),
+    key: '-',
+    resistanceView: true,
+  },
+];
+
+// Used for shige, ecoli and decoli
+export const statKeysECOLI = (() => {
+  const items = [
+    { name: 'Aminoglycosides', column: 'Aminoglycoside', key: '-', resistanceView: true },
+    { name: 'Ampicillin', column: 'Penicllin', key: '-', resistanceView: true },
+    { name: 'Azithromycin', column: 'Macrolide', key: ['mph(A)', 'acrB_R717L'], resistanceView: true },
+    { name: 'Carbapenems', column: 'Carbapenemase', key: '-', resistanceView: true },
+    { name: 'Chloramphenicol', column: 'Phenicol', key: '-', resistanceView: true },
+    { name: 'ESBL', column: 'ESBL', key: '-', resistanceView: true },
+    { name: 'Ciprofloxacin', column: 'Quinolone', key: '-', resistanceView: true },
+    { name: 'Colistin', column: 'Colistin', key: '-', resistanceView: true },
+    { name: 'Fosfomycin', column: 'Fosfomycin', key: '-', resistanceView: true },
+    { name: 'Macrolides', column: 'Macrolide', key: '-', resistanceView: true },
+    { name: 'Sulfamethoxazole', column: 'Sulfonamide', key: '-', resistanceView: true },
+    { name: 'Tetracycline', column: 'Tetracycline', key: '-', resistanceView: true },
+    { name: 'Trimethoprim', column: 'Trimethoprim', key: '-', resistanceView: true },
+  ];
+  return items.concat({ name: 'Pansusceptible', column: items.map(x => x.column), key: '-', resistanceView: true });
+})();
+
 export const statKeysOthers = [
-  { name: 'Susceptible', column: 'num_resistance_classes', key: '0' },
+  { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0' },
   { name: 'MDR', column: 'MDR', key: 'MDR' },
   { name: 'XDR', column: 'XDR', key: 'XDR' },
   { name: 'ESBL', column: 'Bla_ESBL_acquired', key: '-' },
-  { name: 'Carb', column: 'Bla_Carb_acquired', key: '-' },
+  // { name: 'Carbapenemase', column: 'Bla_Carb_acquired', key: '-' },
 ];
 
 export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
+  sentericaints: statKeysINTS,
+  shige: statKeysECOLI,
+  senterica: statKeysINTS,
+  ecoli: statKeysECOLI,
+  decoli: statKeysECOLI,
   others: statKeysOthers,
 };

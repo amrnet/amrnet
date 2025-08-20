@@ -1,17 +1,26 @@
-import { Card, CardContent, Checkbox, Tooltip, Typography, FormControl, Autocomplete, Chip } from '@mui/material';
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { useStyles } from './TopRightControls2MUI';
-import TextField from '@mui/material/TextField';
 import { InfoOutlined } from '@mui/icons-material';
-import { Collapse } from '@mui/material';
-import Switch from '@mui/material/Switch';
-import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import {
+  Autocomplete,
+  Card,
+  CardContent,
+  Checkbox,
+  Chip,
+  Collapse,
+  FormControl,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
-import { statKeys, mapStatKeysKP } from '../../../../util/drugClassesRules';
+import { statKeys } from '../../../../util/drugClassesRules';
+import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
+import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { useStyles } from './TopRightControls2MUI';
 
 const INFO_ICON_TEXTS = {
   decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST. Select up to 10 to display.',
@@ -25,26 +34,24 @@ export const TopRightControls2 = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const mapView = useAppSelector((state) => state.map.mapView);
-  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
-  const prevalenceMapViewOptionsSelected = useAppSelector((state) => state.graph.prevalenceMapViewOptionsSelected);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const mapView = useAppSelector(state => state.map.mapView);
+  const genotypesDrugsData = useAppSelector(state => state.graph.genotypesDrugsData);
+  const prevalenceMapViewOptionsSelected = useAppSelector(state => state.graph.prevalenceMapViewOptionsSelected);
 
-  const [open, setOpen] = useState(true);
+  const [open /*, setOpen*/] = useState(true);
 
   const isResPrevalence = useMemo(() => mapView === 'Resistance prevalence', [mapView]);
   const resistanceOptions = useMemo(() => {
-    let options;
-    if (organism === 'kpneumo') options = mapStatKeysKP;
-    else options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
-    return options.filter((option) => option.resistanceView).map((option) => option.name);
+    const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
+    return options.filter(option => option.resistanceView).map(option => option.name);
   }, [organism]);
 
   useEffect(() => {
     if (isResPrevalence) {
       dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
     } else {
-      dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map((x) => x.name)));
+      dispatch(setPrevalenceMapViewOptionsSelected(genotypesDrugsData.slice(0, 1).map(x => x.name)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genotypesDrugsData, isResPrevalence, resistanceOptions]);
@@ -58,7 +65,7 @@ export const TopRightControls2 = () => {
       return '0 drugs selected';
     }
 
-    if (organism === 'shige' || organism === 'decoli') {
+    if (['shige', 'decoli', 'ecoli'].includes(organism)) {
       return '0 lineage selected';
     }
 
@@ -69,6 +76,9 @@ export const TopRightControls2 = () => {
     if (Object.keys(INFO_ICON_TEXTS).includes(organism) && !isResPrevalence) {
       return INFO_ICON_TEXTS[organism];
     }
+    if (isResPrevalence) {
+      return 'Select one drug category to display its prevalence';
+    }
     return 'Select up to 10 to display';
   }, [isResPrevalence, organism]);
 
@@ -77,7 +87,7 @@ export const TopRightControls2 = () => {
       return 'Select Drug';
     }
 
-    if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
+    if (amrLikeOrganisms.includes(organism)) {
       return 'Select Lineage';
     }
     if (['kpneumo'].includes(organism)) {
@@ -87,66 +97,67 @@ export const TopRightControls2 = () => {
     return 'Select Genotype';
   }, [isResPrevalence, organism]);
 
-  const label = useMemo(() => {
-    if (isResPrevalence) {
-      return `${open ? 'Close' : 'Open'} drug selector`;
-    }
+  // const label = useMemo(() => {
+  //   if (isResPrevalence) {
+  //     return `${open ? 'Close' : 'Open'} drug selector`;
+  //   }
 
-    if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
-      return `${open ? 'Close' : 'Open'} lineage selector`;
-    }
-    if (['kpneumo'].includes(organism)) {
-      return `${open ? 'Close' : 'Open'} ST selector`;
-    }
+  //   if (amrLikeOrganisms.includes(organism)) {
+  //     return `${open ? 'Close' : 'Open'} lineage selector`;
+  //   }
+  //   if (['kpneumo'].includes(organism)) {
+  //     return `${open ? 'Close' : 'Open'} ST selector`;
+  //   }
 
-    return `${open ? 'Close' : 'Open'} genotype selector`;
-  }, [isResPrevalence, open, organism]);
+  //   return `${open ? 'Close' : 'Open'} genotype selector`;
+  // }, [isResPrevalence, open, organism]);
 
   const getOptionLabel = useCallback(
-    (item) => {
+    item => {
       if (isResPrevalence) {
-        return item;
+        return ngonoSusceptibleRule(item, organism) || drugAcronymsOpposite2[item] || item;
       }
 
-      const matchingItem = genotypesDrugsData.find((g) => g.name === item);
+      const matchingItem = genotypesDrugsData.find(g => g.name === item);
 
       const totalCount = matchingItem?.totalCount ?? 0;
-      const susceptiblePercentage = (matchingItem?.Susceptible / totalCount || 0) * 100;
+      const susceptiblePercentage = (matchingItem?.Pansusceptible / totalCount || 0) * 100;
 
-      if (['decoli', 'shige', 'sentericaints'].includes(organism)) {
+      if (amrLikeOrganisms.includes(organism)) {
         return `${item} (total N=${totalCount})`;
       }
 
-      return `${item} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Susceptible)`;
+      return `${item} (total N=${totalCount}, ${susceptiblePercentage.toFixed(2)}% Pansusceptible)`;
     },
     [genotypesDrugsData, isResPrevalence, organism],
   );
 
   function getOptionDisabled(option) {
-    if (isResPrevalence)
-      return prevalenceMapViewOptionsSelected.length >= 1 && !prevalenceMapViewOptionsSelected.includes(option);
-    return prevalenceMapViewOptionsSelected.length >= 10 && !prevalenceMapViewOptionsSelected.includes(option);
+    if (!isResPrevalence)
+      return prevalenceMapViewOptionsSelected.length >= 10 && !prevalenceMapViewOptionsSelected.includes(option);
+    return false;
   }
 
   function handleAutocompleteChange(_, newValue) {
-    if (prevalenceMapViewOptionsSelected.length === 10 && newValue.length > 10) {
+    if (isResPrevalence && newValue.length > 0) {
+      dispatch(setPrevalenceMapViewOptionsSelected([newValue[newValue.length - 1]]));
       return;
     }
 
     dispatch(setPrevalenceMapViewOptionsSelected(newValue));
   }
 
-  function handleClick() {
-    setOpen((prev) => !prev);
-  }
+  // function handleClick() {
+  //   setOpen((prev) => !prev);
+  // }
 
   return (
     <Box className={`${classes.topRightControls}`}>
-      <FormControlLabel
+      {/* <FormControlLabel
         className={classes.font}
         control={<Switch checked={open} onChange={handleClick} size="small" />}
         label={<Typography className={classes.font}>{label}</Typography>}
-      />
+      /> */}
       <Collapse in={open}>
         <Card elevation={3} className={classes.card}>
           <CardContent className={classes.frequenciesGraph}>
@@ -161,11 +172,15 @@ export const TopRightControls2 = () => {
                 multiple
                 disableCloseOnSelect
                 value={prevalenceMapViewOptionsSelected}
-                options={isResPrevalence ? resistanceOptions : genotypesDrugsData.map((data) => data.name)}
+                options={
+                  isResPrevalence
+                    ? resistanceOptions
+                    : genotypesDrugsData.filter(data => data.totalCount > 20).map(data => data.name)
+                }
                 onChange={handleAutocompleteChange}
                 limitTags={1}
                 getOptionDisabled={getOptionDisabled}
-                renderInput={(params) => <TextField {...params} variant="standard" placeholder={placeholder} />}
+                renderInput={params => <TextField {...params} variant="standard" placeholder={placeholder} />}
                 renderOption={(props, option, { selected }) => {
                   const { key, ...optionProps } = props;
 
@@ -184,7 +199,11 @@ export const TopRightControls2 = () => {
                 renderTags={(value, getTagProps) => (
                   <Box sx={{ maxHeight: 50, overflowY: 'auto' }}>
                     {value.map((option, index) => (
-                      <Chip key={index} label={option} {...getTagProps({ index })} />
+                      <Chip
+                        key={index}
+                        label={ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option}
+                        {...getTagProps({ index })}
+                      />
                     ))}
                   </Box>
                 )}

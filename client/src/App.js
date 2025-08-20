@@ -1,6 +1,7 @@
 import './App.css';
+import './i18n'; // Import i18n configuration
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import registerServiceWorker from './registerServiceWorker';
 import reportWebVitals from './reportWebVitals';
 import { createTheme, ThemeProvider } from '@mui/material';
@@ -12,7 +13,7 @@ import { DatabasePage } from './components/Database';
 import { DocumentationPage } from './components/Documentation';
 import { ContactPage } from './components/Contact';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import { store } from './stores/store.ts';
+import { store } from './stores/store.js';
 import { IndexedDBProvider } from './context/IndexedDBContext';
 import { HomePage } from './components/Home';
 
@@ -40,7 +41,10 @@ const theme = createTheme({
   },
 });
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <HashRouter>
       <Provider store={store}>
@@ -52,6 +56,7 @@ ReactDOM.render(
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/about" element={<AboutPage />} />
+                {/* The /team route intentionally uses AboutPage as its element */}
                 <Route path="/team" element={<AboutPage />} />
                 <Route path="/database" element={<DatabasePage />} />
                 <Route path="/documentation" element={<DocumentationPage />} />
@@ -62,13 +67,14 @@ ReactDOM.render(
         </ThemeProvider>
       </Provider>
     </HashRouter>
-  </React.StrictMode>,
-  document.getElementById('root'),
+  </React.StrictMode>
 );
 
 registerServiceWorker();
 
-// If you want to start measuring performance in your app, pass a function
+// If you want to start measuring performance in your app, you can pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Example usage:
+// reportWebVitals(console.log);
 reportWebVitals();

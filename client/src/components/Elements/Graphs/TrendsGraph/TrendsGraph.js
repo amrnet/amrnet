@@ -1,5 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, CardContent, Divider, FormGroup, MenuItem, Select, Switch, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Box,
+  CardContent,
+  Divider,
+  FormGroup,
+  IconButton,
+  MenuItem,
+  Select,
+  Switch,
+  Tab,
+  Tabs,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStyles } from './TrendsGraphMUI';
 import {
   Bar,
@@ -17,7 +30,7 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { colorForDrugClassesNG, colorForDrugClassesKP, hoverColor } from '../../../../util/colorHelper';
+import { colorForDrugClassesNG, hoverColor, lightGrey, colorForMarkers } from '../../../../util/colorHelper';
 import {
   setTrendsGraphDrugClass,
   setTrendsGraphView,
@@ -25,17 +38,22 @@ import {
   setMaxSliderValueKP_GE,
   setTopGenesSlice,
   setTopGenotypeSlice,
+  setStarttimeRDT,
+  setEndtimeRDT,
 } from '../../../../stores/slices/graphSlice';
-import { drugClassesNG, drugClassesKP } from '../../../../util/drugs';
+import { drugClassesNG, markersDrugsKP } from '../../../../util/drugs';
 import { SliderSizes } from '../../Slider';
-import { FormControlLabel } from '@material-ui/core';
+import { Card, FormControlLabel } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { SelectCountry } from '../../SelectCountry';
+import { getRange } from '../../../../util/helpers';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
-export const TrendsGraph = () => {
+export const TrendsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -43,23 +61,24 @@ export const TrendsGraph = () => {
   const [switchLines, setSwitchLines] = useState(true);
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
-  const colorPallete = useAppSelector((state) => state.dashboard.colorPallete);
-  const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
-  const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
-  const genotypesAndDrugsYearData = useAppSelector((state) => state.graph.genotypesAndDrugsYearData);
-  const trendsGraphView = useAppSelector((state) => state.graph.trendsGraphView);
-  const trendsGraphDrugClass = useAppSelector((state) => state.graph.trendsGraphDrugClass);
-  const resetBool = useAppSelector((state) => state.graph.resetBool);
-  const currentSliderValueKP_GE = useAppSelector((state) => state.graph.currentSliderValueKP_GE);
-  const currentSliderValueKP_GT = useAppSelector((state) => state.graph.currentSliderValueKP_GT);
-  const topGenesSlice = useAppSelector((state) => state.graph.topGenesSlice);
-  const topGenotypeSlice = useAppSelector((state) => state.graph.topGenotypeSlice);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const genotypesForFilter = useAppSelector(state => state.dashboard.genotypesForFilter);
+  const colorPallete = useAppSelector(state => state.dashboard.colorPallete);
+  const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
+  const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
+  const genotypesAndDrugsYearData = useAppSelector(state => state.graph.genotypesAndDrugsYearData);
+  const trendsGraphView = useAppSelector(state => state.graph.trendsGraphView);
+  const trendsGraphDrugClass = useAppSelector(state => state.graph.trendsGraphDrugClass);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
+  const currentSliderValueKP_GE = useAppSelector(state => state.graph.currentSliderValueKP_GE);
+  const currentSliderValueKP_GT = useAppSelector(state => state.graph.currentSliderValueKP_GT);
+  const topGenesSlice = useAppSelector(state => state.graph.topGenesSlice);
+  const topGenotypeSlice = useAppSelector(state => state.graph.topGenotypeSlice);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   useEffect(() => {
-    dispatch(setResetBool(true));
+    //dispatch(setResetBool(true));
     setCurrentTooltip(null);
   }, [genotypesAndDrugsYearData]);
 
@@ -67,12 +86,21 @@ export const TrendsGraph = () => {
     setCurrentTooltip(null);
   }, [currentSliderValueKP_GE, currentSliderValueKP_GT]);
 
+  const dataViewOptionsGenomes = [
+    { label: 'Number of Genomes', value: 'number' },
+    { label: 'Percentage of Genomes', value: 'percentage' },
+  ];
+
+  const dataViewOptionsGenotype = [
+    { label: 'Number of Genotype', value: 'number' },
+    { label: 'Percentage of Genotype', value: 'percentage' },
+  ];
   function getDrugClasses() {
     if (organism === 'none') {
       return [];
     }
     if (organism === 'kpneumo') {
-      return drugClassesKP;
+      return markersDrugsKP;
     }
 
     return drugClassesNG;
@@ -82,17 +110,13 @@ export const TrendsGraph = () => {
     return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
   }
 
-  function getColors() {
-    return organism === 'kpneumo' ? colorForDrugClassesKP : colorForDrugClassesNG;
-  }
-
-  const slicedData = useMemo(() => {
-    const slicedDataArray = [];
+  // Step 1: Pure calculation of counts and sorted keys.
+  const processedData = useMemo(() => {
     const genotypes = {};
     const genes = {};
 
-    genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
-      Object.keys(year).forEach((key) => {
+    genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach(year => {
+      Object.keys(year).forEach(key => {
         if (['name', 'totalCount', 'resistantCount'].includes(key)) {
           return;
         }
@@ -100,35 +124,52 @@ export const TrendsGraph = () => {
         if (genotypesForFilter.includes(key)) {
           if (key in genotypes) {
             genotypes[key] += year[key];
-            return;
+          } else {
+            genotypes[key] = year[key];
           }
-
-          genotypes[key] = year[key];
           return;
         }
 
         if (key in genes) {
           genes[key] += year[key];
-          return;
+        } else {
+          genes[key] = year[key];
         }
-
-        genes[key] = year[key];
       });
     });
-
-    dispatch(setMaxSliderValueKP_GE(Object.keys(genes).length));
 
     const sortedGenotypeKeys = Object.keys(genotypes).sort((a, b) => genotypes[b] - genotypes[a]);
     const sortedGeneKeys = Object.keys(genes).sort((a, b) => genes[b] - genes[a]);
 
+    return { genes, sortedGenotypeKeys, sortedGeneKeys };
+  }, [genotypesAndDrugsYearData, trendsGraphDrugClass, genotypesForFilter]);
+
+  // Step 2: Perform side effects (dispatching to Redux) after calculation.
+  useEffect(() => {
+    if (!processedData) return;
+
+    const { genes, sortedGeneKeys, sortedGenotypeKeys } = processedData;
+
+    // This is a side effect and belongs in useEffect
+    dispatch(setMaxSliderValueKP_GE(Object.keys(genes).length));
+
     const topGT = sortedGenotypeKeys.slice(0, currentSliderValueKP_GT);
     const topGE = sortedGeneKeys.slice(0, currentSliderValueKP_GE);
-    // setTopGenotypes(topGT);
-    // setTopGenes(topGE);
+
+    // These are also side effects
     dispatch(setTopGenesSlice(topGE));
     dispatch(setTopGenotypeSlice(topGT));
+  }, [processedData, currentSliderValueKP_GE, currentSliderValueKP_GT, dispatch]);
 
-    genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach((year) => {
+  // Step 3: Calculate the final data for the chart based on Redux state.
+  const slicedData = useMemo(() => {
+    const slicedDataArray = [];
+
+    genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach(year => {
+      if (year.totalCount < 10) {
+        //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
+        return;
+      }
       const value = {
         name: year.name,
         totalCount: year.totalCount,
@@ -137,12 +178,13 @@ export const TrendsGraph = () => {
         'Other Genes': 0,
       };
 
-      Object.keys(year).forEach((key) => {
+      Object.keys(year).forEach(key => {
         if (['name', 'totalCount', 'resistantCount'].includes(key)) {
           return;
         }
 
-        if (topGT.includes(key) || topGE.includes(key)) {
+        // Use topGenotypeSlice and topGenesSlice from Redux store
+        if (topGenotypeSlice.includes(key) || topGenesSlice.includes(key)) {
           value[key] = year[key];
           return;
         }
@@ -159,13 +201,7 @@ export const TrendsGraph = () => {
     });
 
     return slicedDataArray;
-  }, [
-    currentSliderValueKP_GE,
-    currentSliderValueKP_GT,
-    genotypesAndDrugsYearData,
-    genotypesForFilter,
-    trendsGraphDrugClass,
-  ]);
+  }, [genotypesAndDrugsYearData, trendsGraphDrugClass, genotypesForFilter, topGenesSlice, topGenotypeSlice]);
 
   function getData() {
     if (trendsGraphView === 'number') {
@@ -174,10 +210,10 @@ export const TrendsGraph = () => {
 
     const exclusions = ['name', 'totalCount', 'resistantCount'];
     let percentageData = structuredClone(slicedData ?? []);
-    percentageData = percentageData.map((item) => {
-      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
+    percentageData = percentageData.map(item => {
+      const keys = Object.keys(item).filter(x => !exclusions.includes(x));
 
-      keys.forEach((key) => {
+      keys.forEach(key => {
         item[key] = Number(((item[key] / item.totalCount) * 100).toFixed(2));
       });
 
@@ -201,9 +237,9 @@ export const TrendsGraph = () => {
   }
 
   function handleClickChart(event) {
-    const data = slicedData.find((item) => item.name === event?.activeLabel);
+    const data = slicedData.find(item => item.name === event?.activeLabel);
 
-    if (data) {
+    if (data && data.totalCount > 0) {
       const currentData = structuredClone(data);
       const value = {
         name: currentData.name,
@@ -216,7 +252,7 @@ export const TrendsGraph = () => {
       delete currentData.totalCount;
       delete currentData.resistantCount;
 
-      Object.keys(currentData).forEach((key) => {
+      Object.keys(currentData).forEach(key => {
         const count = currentData[key];
 
         if (count === 0) {
@@ -227,7 +263,7 @@ export const TrendsGraph = () => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: event.activePayload.find((x) => x.name === key)?.color,
+          color: event.activePayload.find(x => x.name === key)?.color,
         };
 
         if (genotypesForFilter.includes(key) || key === 'Other Genotypes') {
@@ -241,8 +277,15 @@ export const TrendsGraph = () => {
       });
 
       setCurrentTooltip(value);
-      dispatch(setResetBool(false));
+    } else {
+      setCurrentTooltip({
+        name: event?.activeLabel,
+        count: 'ID',
+        genes: [],
+        genotypes: [],
+      });
     }
+    //dispatch(setResetBool(false));
   }
 
   function handleSwitchLines(event) {
@@ -254,15 +297,49 @@ export const TrendsGraph = () => {
   useEffect(() => {
     if (resetBool) {
       setCurrentTooltip(null);
-      dispatch(setResetBool(true));
+      //dispatch(setResetBool(true));
     }
   });
   useEffect(() => {
+    if (slicedData.length > 0) {
+      // Dispatch initial values based on the default range (full range)
+      const startValue = slicedData[0]?.name; // First value in the data
+      const endValue = slicedData[slicedData.length - 1]?.name; // Last value in the data
+      dispatch(setStarttimeRDT(startValue));
+      dispatch(setEndtimeRDT(endValue));
+    }
+  }, [slicedData, dispatch]);
+
+  useEffect(() => {
     if (canGetData) {
+      // Get data
+      const data = getData();
+
+      if (data.length > 0) {
+        // Add missing years between the select time to show continuous scale
+        const allYears = getRange(Number(data[0].name), Number(data[data.length - 1].name))?.map(String);
+        const years = data.map(x => x.name.toString());
+
+        allYears.forEach(year => {
+          if (!years.includes(year)) {
+            // Only add "Insufficient data" if there are actual filtered results
+            const hasFilteredData = (topGenesSlice && topGenesSlice.length > 0) || (topGenotypeSlice && topGenotypeSlice.length > 0);
+            if (hasFilteredData) {
+              data.push({
+                name: year,
+                'Insufficient data': trendsGraphView === 'number' ? 0 : 100,
+              });
+            }
+          }
+        });
+
+        data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
+      }
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <ComposedChart data={getData()} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
+            <ComposedChart data={data} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 tickCount={20}
@@ -282,7 +359,7 @@ export const TrendsGraph = () => {
                 yAxisId="left"
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                  Number of Genomes
+                  {dataViewOptionsGenomes.find(option => option.value === trendsGraphView).label}
                 </Label>
               </YAxis>
               <YAxis
@@ -295,33 +372,61 @@ export const TrendsGraph = () => {
                 orientation="right"
               >
                 <Label angle={90} position="insideRight" className={classes.graphLabel}>
-                  Number of Genotypes
+                  {dataViewOptionsGenotype.find(option => option.value === trendsGraphView).label}
                 </Label>
               </YAxis>
-              {(slicedData ?? []).length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
+              {(slicedData ?? []).length > 0 && (
+                <Brush
+                  dataKey="name"
+                  height={20}
+                  stroke={'rgb(31, 187, 211)'}
+                  onChange={brushRange => {
+                    dispatch(setStarttimeRDT(slicedData[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeRDT(slicedData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                  }}
+                />
+              )}
 
               {organism !== 'none' && (
                 <Legend
-                  content={(props) => {
+                  content={props => {
                     const { payload } = props;
-                    const diviserIndex = topGenesSlice.length === 0 ? 0 : topGenesSlice.length + 1;
+                    let diviserIndex = topGenesSlice.length === 0 ? 0 : topGenesSlice.length + 1;
+                    diviserIndex += 1;
 
                     return (
                       <div className={classes.legendWrapper}>
                         {payload.map((entry, index) => {
                           const { dataKey, color } = entry;
+                          let onlyDivider = false;
+
+                          if (dataKey.includes('Other')) {
+                            const hasData = data.some(d => {
+                              const value = d[dataKey];
+                              return value !== undefined && value !== null && value !== 0;
+                            });
+
+                            if (dataKey === 'Other Genes' && !hasData) {
+                              onlyDivider = true;
+                            } else if (!hasData) {
+                              return null;
+                            }
+                          }
+
                           return (
                             <React.Fragment key={`trends-legend-${index}`}>
-                              <div className={classes.legendItemWrapper}>
-                                <Box
-                                  className={classes.colorCircle}
-                                  style={{
-                                    backgroundColor: color,
-                                    borderRadius: index < getColors()[trendsGraphDrugClass]?.length ? undefined : '50%',
-                                  }}
-                                />
-                                <Typography variant="caption">{dataKey}</Typography>
-                              </div>
+                              {!onlyDivider && (
+                                <div className={classes.legendItemWrapper}>
+                                  <Box
+                                    className={classes.colorCircle}
+                                    style={{
+                                      backgroundColor: color,
+                                      borderRadius: index < diviserIndex ? undefined : '50%',
+                                    }}
+                                  />
+                                  <Typography variant="caption">{dataKey}</Typography>
+                                </div>
+                              )}
                               {switchLines && diviserIndex - 1 === index && (
                                 <Divider orientation="vertical" className={classes.legendDivider} />
                               )}
@@ -344,10 +449,20 @@ export const TrendsGraph = () => {
                 }}
               />
 
-              {topGenesSlice?.map((option, index) => {
-                const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option);
-                // const color = getColors()[trendsGraphDrugClass].find((x) => x.name === option)?.color;
-                const fillColor = color ? color.color : '#B9B9B9'; // Default color if not found
+              {[...(topGenesSlice || []).filter(x => x !== 'None'), 'Other Genes', 'None'].map((option, index) => {
+                let fillColor = '#F5F4F6';
+
+                if (option === 'Other Genes') {
+                  fillColor = '#F5F4F6';
+                } else if (option === 'None') {
+                  fillColor = lightGrey;
+                } else if (organism === 'ngono') {
+                  const colorObj = colorForDrugClassesNG[trendsGraphDrugClass]?.find(x => x.name === option);
+                  if (colorObj) fillColor = colorObj.color;
+                } else if (organism === 'kpneumo') {
+                  fillColor = colorForMarkers[index];
+                }
+
                 return (
                   <Bar
                     key={`trends-bar-${index}`}
@@ -359,14 +474,7 @@ export const TrendsGraph = () => {
                   />
                 );
               })}
-              <Bar
-                key="trends-bar-others"
-                yAxisId="left"
-                dataKey="Other Genes"
-                name="Other Genes"
-                stackId={0}
-                fill="#f5f4f6"
-              />
+              <Bar yAxisId="left" dataKey={'Insufficient data'} stackId={0} fill="#E4E4E5" />
 
               {switchLines &&
                 [...topGenotypeSlice, 'Other Genotypes'].map((option, index) => (
@@ -399,57 +507,13 @@ export const TrendsGraph = () => {
 
   return (
     <CardContent className={classes.trendsGraph}>
-      <div className={classes.selectsWrapper}>
-        <div className={classes.selectPreWrapper}>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">Select drug class</Typography>
-            <Select
-              value={trendsGraphDrugClass}
-              onChange={handleChangeDrugClass}
-              inputProps={{ className: classes.selectInput }}
-              MenuProps={{ classes: { list: classes.selectMenu } }}
-              disabled={organism === 'none'}
-            >
-              {getDrugClasses().map((option, index) => {
-                return (
-                  <MenuItem key={index + 'trends-drug-classes'} value={option}>
-                    {option}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
-          {/* <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} /> */}
-        </div>
-        <div className={classes.selectPreWrapper}>
-          <div className={classes.selectWrapper}>
-            <Typography variant="caption">Data view</Typography>
-            <Select
-              value={trendsGraphView}
-              onChange={handleChangeDataView}
-              inputProps={{ className: classes.selectInput }}
-              MenuProps={{ classes: { list: classes.selectMenu } }}
-              disabled={organism === 'none'}
-            >
-              {dataViewOptions.map((option, index) => {
-                return (
-                  <MenuItem key={index + 'trends-dataview'} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
-          {/* <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} /> */}
-        </div>
-      </div>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDT">
           {plotChart}
         </div>
-        <div className={classes.sliderCont}>
-          <SliderSizes value={'KP_GT'} disabled={!switchLines} />
-          <SliderSizes value={'KP_GE'} />
+        <div className={classes.rightSide}>
+          <SliderSizes value={'KP_GT'} disabled={!switchLines} style={{ width: '100%' }} />
+          <SliderSizes value={'KP_GE'} style={{ width: '100%' }} />
 
           {/* <div className={classes.rightSide}> */}
           <FormGroup className={classes.formGroup}>
@@ -465,35 +529,43 @@ export const TrendsGraph = () => {
                   <Typography variant="h5" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
-                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                  {currentTooltip.count !== 'ID' && (
+                    <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                  )}
                 </div>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <Tabs value={tooltipTab} onChange={handleChangeTooltipTab} variant="fullWidth">
-                    <Tab label="AMR" value="genes" />
-                    {switchLines && <Tab label="Types" value="genotypes" />}
-                  </Tabs>
-                </Box>
-                <div className={classes.tooltipContent}>
-                  {currentTooltip[tooltipTab].map((item, index) => {
-                    return (
-                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                        <Box
-                          className={classes.tooltipItemBox}
-                          style={{
-                            backgroundColor: item.color,
-                          }}
-                        />
-                        <div className={classes.tooltipItemStats}>
-                          <Typography variant="body2" fontWeight="500">
-                            {item.label}
-                          </Typography>
-                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                {currentTooltip.count === 'ID' ? (
+                  <div className={classes.insufficientData}>Insufficient data</div>
+                ) : (
+                  <>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                      <Tabs value={tooltipTab} onChange={handleChangeTooltipTab} variant="fullWidth">
+                        <Tab label="AMR" value="genes" />
+                        {switchLines && <Tab label="Types" value="genotypes" />}
+                      </Tabs>
+                    </Box>
+                    <div className={classes.tooltipContent}>
+                      {currentTooltip[tooltipTab].map((item, index) => {
+                        return (
+                          <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                            <Box
+                              className={classes.tooltipItemBox}
+                              style={{
+                                backgroundColor: item.color,
+                              }}
+                            />
+                            <div className={classes.tooltipItemStats}>
+                              <Typography variant="body2" fontWeight="500">
+                                {item.label}
+                              </Typography>
+                              <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                              <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
               </div>
             ) : (
               <div className={classes.noYearSelected}>No year selected</div>
@@ -501,6 +573,71 @@ export const TrendsGraph = () => {
           </div>
         </div>
       </div>
+      {showFilter && !canFilterData && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <div className={classes.titleWrapper}>
+                <Typography variant="h6">Plotting options</Typography>
+                <Tooltip title="Hide plotting options" placement="top">
+                  <IconButton onClick={() => setShowFilter(false)}>
+                    <Close fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={classes.selectsWrapper}>
+                <SelectCountry />
+                <div className={classes.selectPreWrapper}>
+                  <div className={classes.selectWrapper}>
+                    <div className={classes.labelWrapper}>
+                      <Typography variant="caption">Select drug class</Typography>
+                    </div>
+                    <Select
+                      value={trendsGraphDrugClass}
+                      onChange={handleChangeDrugClass}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      {getDrugClasses()?.map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'trends-drug-classes'} value={option}>
+                            {option}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  {/* <SliderSizes value={'KP_GT'} style={{ width: '100%', maxWidth: '350px' }} disabled={!switchLines} /> */}
+                </div>
+                <div className={classes.selectPreWrapper}>
+                  <div className={classes.selectWrapper}>
+                    <div className={classes.labelWrapper}>
+                      <Typography variant="caption">Data view</Typography>
+                    </div>
+                    <Select
+                      value={trendsGraphView}
+                      onChange={handleChangeDataView}
+                      inputProps={{ className: classes.selectInput }}
+                      MenuProps={{ classes: { list: classes.selectMenu } }}
+                      disabled={organism === 'none'}
+                    >
+                      {dataViewOptions.map((option, index) => {
+                        return (
+                          <MenuItem key={index + 'trends-dataview'} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  {/* <SliderSizes value={'KP_GE'} style={{ width: '100%', maxWidth: '350px' }} /> */}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

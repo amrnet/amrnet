@@ -1,0 +1,55 @@
+comment: false
+
+coverage:
+  precision: 2
+  round: nearest
+  range: "60...85"
+
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 5%
+        base: auto
+        # Only fail if coverage drops significantly
+        if_not_found: success
+
+    patch:
+      default:
+        target: auto
+        threshold: 5%
+        base: auto
+        if_not_found: success
+
+# Ignore certain files from coverage
+ignore:
+  - "client/src/reportWebVitals.js"
+  - "client/src/setupTests.js"
+  - "client/src/registerServiceWorker.js"
+  - "**/*.test.js"
+  - "**/*.spec.js"
+  - "**/node_modules/**"
+  - "scripts/**"
+  - "docs/**"
+  - "assets/**"
+
+# Coverage reporting for different components
+flag_management:
+  default_rules:
+    carryforward: true
+
+flags:
+  frontend:
+    paths:
+      - client/src/
+    ignore:
+      - client/src/setupTests.js
+      - client/src/reportWebVitals.js
+
+  backend:
+    paths:
+      - routes/
+      - models/
+      - controllers/
+      - config/
+      - services/

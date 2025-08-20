@@ -23,11 +23,16 @@ interface StatsModel {
   H58: ItemsModel;
   MDR: ItemsModel;
   XDR: ItemsModel;
-  AzithR: ItemsModel;
-  Susceptible: ItemsModel;
+  Azithromycin: ItemsModel;
+  Pansusceptible: ItemsModel;
   CipR: ItemsModel;
   CipNS: ItemsModel;
   NGMAST: ItemsModel;
+  PATHOTYPE?: ItemsModel;
+  O_PREV?: ItemsModel;
+  OH_PREV?: ItemsModel;
+  CGST?: ItemsModel;
+  SUBLINEAGE?: ItemsModel;
 }
 
 interface MapDataModel {
@@ -43,9 +48,14 @@ interface MapState {
   mapView: string;
   tooltipContent: Object | null;
   dataset: string;
+  datasetKP: string;
   mapData: Array<MapDataModel>;
   mapRegionData: Array<MapDataModel>;
   mapColoredBy: string;
+  yAxisType: string;
+  yAxisTypeTrend: string;
+  mapDataNoPathotype: Array<MapDataModel>;
+  mapRegionDataNoPathotype: Array<MapDataModel>;
 }
 
 const initialState: MapState = {
@@ -57,9 +67,14 @@ const initialState: MapState = {
   mapView: '',
   tooltipContent: null,
   dataset: '',
+  datasetKP: 'All',
   mapData: [],
   mapRegionData: [],
   mapColoredBy: 'country',
+  yAxisType: 'resistance',
+  yAxisTypeTrend: '',
+  mapDataNoPathotype: [],
+  mapRegionDataNoPathotype: [],
 };
 
 export const mapSlice = createSlice({
@@ -78,9 +93,11 @@ export const mapSlice = createSlice({
     setTooltipContent: (state, action: PayloadAction<Object | null>) => {
       state.tooltipContent = action.payload;
     },
-
     setDataset: (state, action: PayloadAction<string>) => {
       state.dataset = action.payload;
+    },
+    setDatasetKP: (state, action: PayloadAction<string>) => {
+      state.datasetKP = action.payload;
     },
     setMapData: (state, action: PayloadAction<Array<any>>) => {
       state.mapData = action.payload;
@@ -91,6 +108,18 @@ export const mapSlice = createSlice({
     setMapColoredBy: (state, action: PayloadAction<string>) => {
       state.mapColoredBy = action.payload;
     },
+    setYAxisType: (state, action: PayloadAction<string>) => {
+      state.yAxisType = action.payload;
+    },
+    setYAxisTypeTrend: (state, action: PayloadAction<string>) => {
+      state.yAxisTypeTrend = action.payload;
+    },
+    setMapDataNoPathotype: (state, action: PayloadAction<Array<any>>) => {
+      state.mapDataNoPathotype = action.payload;
+    },
+    setMapRegionDataNoPathotype: (state, action: PayloadAction<Array<any>>) => {
+      state.mapRegionDataNoPathotype = action.payload;
+    },
   },
 });
 
@@ -99,10 +128,15 @@ export const {
   setMapView,
   setTooltipContent,
   setDataset,
+  setDatasetKP,
   setLoadingMap,
   setMapData,
   setMapRegionData,
   setMapColoredBy,
+  setYAxisType,
+  setYAxisTypeTrend,
+  setMapDataNoPathotype,
+  setMapRegionDataNoPathotype,
 } = mapSlice.actions;
 
 export default mapSlice.reducer;

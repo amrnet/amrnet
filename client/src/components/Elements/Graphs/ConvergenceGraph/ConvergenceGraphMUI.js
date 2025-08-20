@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   convergenceGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -149,6 +149,38 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 1000px)': {
       width: '100%',
     },
+  },
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  labelWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: '8px',
+    paddingBottom: '4px',
+  },
+  gradientBox: {
+    width: '60px',
+    height: '12px',
+    background: 'linear-gradient(to right, #e0e0e0, #333333)',
+    border: '1px solid #ddd',
+    borderRadius: '2px',
   },
 }));
 

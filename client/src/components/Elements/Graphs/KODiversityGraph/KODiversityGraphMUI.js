@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   KODiversityGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -23,17 +23,30 @@ const useStyles = makeStyles((theme) => ({
   selectLabel: {
     paddingBottom: '4px',
   },
+  sideBySideWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '32px',
+    width: '80%',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+
+    '@media (max-width: 1200px)': {
+      gap: '16px',
+    },
+    '@media (max-width: 900px)': {
+      flexDirection: 'column',
+      gap: '24px',
+      alignItems: 'stretch',
+    },
+  },
   graphWrapper: {
     paddingTop: '16px',
     display: 'flex',
-    flexDirection: 'row',
-    gap: '16px',
-    height: '560px',
-
-    '@media (max-width: 1000px)': {
-      flexDirection: 'column',
-      height: '100%',
-    },
+    flexDirection: 'column',
+    width: '100%',
+    minHeight: '400px',
+    boxSizing: 'border-box',
   },
   graph: {
     height: '100%',
@@ -75,14 +88,19 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '10px',
   },
   tooltipWrapper: {
-    width: '30%',
+    width: '100%',
+    marginTop: '24px',
     borderRadius: '6px',
     backgroundColor: '#E5E5E5',
     overflowY: 'auto',
+    minHeight: '120px',
+    boxSizing: 'border-box',
+    padding: '0 16px 16px 16px',
 
     '@media (max-width: 1000px)': {
       width: '100%',
-      height: '250px',
+      minHeight: '100px',
+      padding: '0 8px 8px 8px',
     },
   },
   noYearSelected: {
@@ -137,6 +155,24 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     padding: '8px',
     border: 'solid rgba(0, 0, 0, 0.25) 1px',
+  },
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }));
 
