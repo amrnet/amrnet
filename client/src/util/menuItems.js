@@ -12,29 +12,28 @@ export const menuItems = [
     target: '_self',
   },
 
-
   {
     key: 'about',
     label: 'About',
     labelHead: 'About',
     icon: <Info />,
-    link: '#/about',
-    target: '_blank',
+    link: '#/about#about-section',
+    // target: '_blank',
   },
   {
     key: 'team',
     label: 'Team',
     labelHead: 'Team',
     icon: <Groups />,
-    link: '#about#team-section',
-    target: '_blank',
+    link: '#/about#team-section',
+    // target: '_blank',
   },
   {
     key: 'user-guide',
     label: 'User Guide',
     labelHead: 'User Guide',
     icon: <MenuBook />,
-    link: 'https://amrnet.readthedocs.io/en/latest',
+    link: 'https://amrnet.readthedocs.io/en/latest/',
     target: '_blank',
   },
   {
@@ -43,13 +42,20 @@ export const menuItems = [
     labelHead: 'Database',
     icon: <Storage />,
     link: 'https://amrnet.readthedocs.io/en/latest/data.html',
-    link: 'https://amrnet.readthedocs.io/en/latest/data.html',
     target: '_blank',
   },
   // {
   //   key: 'documentation',
   //   label: 'Documentation',
   //   icon: <Description />
+  // },
+  // {
+  //   key: 'api',
+  //   label: 'Data Rights',
+  //   labelHead: 'Data Rights',
+  //   icon: <CopyrightRoundedIcon />,
+  //   link: 'https://amrnet.readthedocs.io/en/latest/right.html',  // relink to correct link to Data Rights
+  //   target: '_blank',
   // },
   {
     key: 'contact',
@@ -66,5 +72,5 @@ export const menuItems = [
     icon: <GitHub />,
     link: 'https://github.com/amrnet/amrnet',
     target: '_blank',
-  }
+  },
 ];

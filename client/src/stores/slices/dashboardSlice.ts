@@ -7,6 +7,18 @@ interface GlobalOverviewModel {
   stringLabel: string;
 }
 
+interface ColorPalleteKOModel {
+  O_locus: Object;
+  K_locus: Object;
+  O_type: Object;
+}
+
+interface UniqueKOModel {
+  O_locus: Array<any>;
+  K_locus: Array<any>;
+  O_type: Array<any>;
+}
+
 interface DashboardState {
   canGetData: boolean;
   canFilterData: boolean;
@@ -14,6 +26,7 @@ interface DashboardState {
   organism: string;
   loadingData: boolean;
   actualCountry: string;
+  actualRegion: string;
   totalGenomes: number;
   totalGenotypes: number;
   actualGenomes: number;
@@ -23,31 +36,43 @@ interface DashboardState {
   actualTimeInitial: number | string;
   actualTimeFinal: number | string;
   years: Array<number>;
+  yearsCompleteListToShowInGlobalFilter: Array<number>;
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
   genotypesForFilterSelectedRD: Array<string>;
+  KOForFilterSelected: Array<string>;
+  genotypesForFilterDynamic: Array<string>;
+  KOForFilterDynamic: UniqueKOModel;
   colorPallete: Object;
+  colorPalleteCgST: Object;
+  colorPalleteSublineages: Object;
+  colorPalleteKO: ColorPalleteKOModel;
   listPMID: Array<string>;
   PMID: Array<string>;
   captureDRT: boolean;
   captureRFWG: boolean;
   captureRDWG: boolean;
   captureGD: boolean;
+  captureKOT: boolean;
   selectedLineages: Array<string>;
   pathovar: Array<string>;
+  serotype: Array<string>;
   economicRegions: Object;
+  loadingPDF: boolean;
+  availableDrugs: Array<string>;
 }
 
 const initialState: DashboardState = {
   canGetData: true,
   canFilterData: false,
   globalOverviewLabel: {
-    label: organismsCards.find((card) => card.value === 'styphi')?.label || '',
-    stringLabel: organismsCards.find((card) => card.value === 'styphi')?.stringLabel || '',
+    label: organismsCards.find(card => card.value === 'styphi')?.label || '',
+    stringLabel: organismsCards.find(card => card.value === 'styphi')?.stringLabel || '',
   },
   organism: 'none',
   loadingData: false,
   actualCountry: 'All',
+  actualRegion: 'All',
   totalGenotypes: 0,
   totalGenomes: 0,
   actualGenomes: 0,
@@ -57,19 +82,30 @@ const initialState: DashboardState = {
   actualTimeInitial: '',
   actualTimeFinal: '',
   years: [],
+  yearsCompleteListToShowInGlobalFilter: [],
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
   genotypesForFilterSelectedRD: [],
+  KOForFilterSelected: [],
+  genotypesForFilterDynamic: [],
+  KOForFilterDynamic: { K_locus: [], O_locus: [], O_type: [] },
   colorPallete: {},
+  colorPalleteCgST: {},
+  colorPalleteSublineages: {},
+  colorPalleteKO: { K_locus: {}, O_locus: {}, O_type: {} },
   listPMID: [],
   PMID: [],
   captureDRT: true,
   captureRFWG: true,
   captureRDWG: true,
   captureGD: true,
+  captureKOT: true,
   selectedLineages: [],
   pathovar: [],
   economicRegions: {},
+  serotype: [],
+  loadingPDF: false,
+  availableDrugs: [],
 };
 
 export const dashboardSlice = createSlice({
@@ -85,14 +121,14 @@ export const dashboardSlice = createSlice({
     setGlobalOverviewLabel: (state, action: PayloadAction<GlobalOverviewModel>) => {
       state.globalOverviewLabel = action.payload;
     },
-    removeOrganism: (state) => {
+    removeOrganism: state => {
       state.organism = 'none';
     },
     setOrganism: (state, action: PayloadAction<string>) => {
       const url = new URL(window.location.href);
       const hash = url.hash;
 
-      let [path, queryString] = hash.split('?');
+      const [path, queryString] = hash.split('?');
       const searchParams = new URLSearchParams(queryString);
 
       if (searchParams.get('organism') !== action.payload) {
@@ -108,6 +144,9 @@ export const dashboardSlice = createSlice({
     },
     setActualCountry: (state, action: PayloadAction<string>) => {
       state.actualCountry = action.payload;
+    },
+    setActualRegion: (state, action: PayloadAction<string>) => {
+      state.actualRegion = action.payload;
     },
     setTotalGenotypes: (state, action: PayloadAction<number>) => {
       state.totalGenotypes = action.payload;
@@ -136,6 +175,9 @@ export const dashboardSlice = createSlice({
     setYears: (state, action: PayloadAction<Array<number>>) => {
       state.years = action.payload;
     },
+    setYearsCompleteListToShowInGlobalFilter: (state, action: PayloadAction<Array<number>>) => {
+      state.yearsCompleteListToShowInGlobalFilter = action.payload;
+    },
     setGenotypesForFilter: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilter = action.payload;
     },
@@ -145,8 +187,26 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilterSelectedRD: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilterSelectedRD = action.payload;
     },
+    setKOForFilterSelected: (state, action: PayloadAction<Array<string>>) => {
+      state.KOForFilterSelected = action.payload;
+    },
+    setGenotypesForFilterDynamic: (state, action: PayloadAction<Array<string>>) => {
+      state.genotypesForFilterDynamic = action.payload;
+    },
+    setKOForFilterDynamic: (state, action: PayloadAction<UniqueKOModel>) => {
+      state.KOForFilterDynamic = action.payload;
+    },
     setColorPallete: (state, action: PayloadAction<Object>) => {
       state.colorPallete = action.payload;
+    },
+    setColorPalleteCgST: (state, action: PayloadAction<Object>) => {
+      state.colorPalleteCgST = action.payload;
+    },
+    setColorPalleteSublineages: (state, action: PayloadAction<Object>) => {
+      state.colorPalleteSublineages = action.payload;
+    },
+    setColorPalleteKO: (state, action: PayloadAction<ColorPalleteKOModel>) => {
+      state.colorPalleteKO = action.payload;
     },
     setListPMID: (state, action: PayloadAction<Array<string>>) => {
       state.listPMID = action.payload;
@@ -166,14 +226,26 @@ export const dashboardSlice = createSlice({
     setCaptureGD: (state, action: PayloadAction<boolean>) => {
       state.captureGD = action.payload;
     },
+    setCaptureKOT: (state, action: PayloadAction<boolean>) => {
+      state.captureKOT = action.payload;
+    },
     setSelectedLineages: (state, action: PayloadAction<Array<string>>) => {
       state.selectedLineages = action.payload;
     },
     setPathovar: (state, action: PayloadAction<Array<string>>) => {
       state.pathovar = action.payload;
     },
+    setSerotype: (state, action: PayloadAction<Array<string>>) => {
+      state.serotype = action.payload;
+    },
     setEconomicRegions: (state, action: PayloadAction<Object>) => {
       state.economicRegions = action.payload;
+    },
+    setLoadingPDF: (state, action: PayloadAction<boolean>) => {
+      state.loadingPDF = action.payload;
+    },
+    setAvailableDrugs: (state, action: PayloadAction<Array<string>>) => {
+      state.availableDrugs = action.payload;
     },
   },
 });
@@ -185,6 +257,7 @@ export const {
   setOrganism,
   setLoadingData,
   setActualCountry,
+  setActualRegion,
   setTotalGenotypes,
   setTotalGenomes,
   setActualGenomes,
@@ -194,9 +267,11 @@ export const {
   setActualTimeInitial,
   setActualTimeFinal,
   setYears,
+  setYearsCompleteListToShowInGlobalFilter,
   setGenotypesForFilter,
   setGenotypesForFilterSelected,
   setGenotypesForFilterSelectedRD,
+  setGenotypesForFilterDynamic,
   setColorPallete,
   setListPMID,
   setPMID,
@@ -208,6 +283,15 @@ export const {
   setSelectedLineages,
   setPathovar,
   setEconomicRegions,
+  setSerotype,
+  setColorPalleteCgST,
+  setColorPalleteSublineages,
+  setKOForFilterDynamic,
+  setColorPalleteKO,
+  setCaptureKOT,
+  setKOForFilterSelected,
+  setLoadingPDF,
+  setAvailableDrugs,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

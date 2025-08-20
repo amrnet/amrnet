@@ -1,43 +1,50 @@
+import { organismsCards } from './organismsCards';
+
 // List of legends for the map and in which organisms they appear
 export const mapLegends = [
-  {
-    value: 'MDR',
-    label: 'Multidrug resistant (MDR)',
-    organisms: ['styphi', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
-  },
-  {
-    value: 'XDR',
-    label: 'Extensively drug resistant (XDR)',
-    organisms: ['styphi', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
-  },
-  { value: 'AzithR', label: 'Azithromycin resistant', organisms: ['styphi'] },
-  { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: ['styphi'] },
-  { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: ['styphi'] },
-  {
-    value: 'ESBL',
-    label: 'ESBL prevalence',
-    organisms: ['kpneumo', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
-  },
-  { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: ['styphi'] },
-  { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono'] },
-  { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
-  { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
-  {
-    value: 'Carb',
-    label: 'Carbapenemase prevalence',
-    organisms: ['kpneumo', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
-  },
-  {
-    value: 'Sensitive to all drugs',
-    label: 'Sensitive to all drugs',
-    organisms: ['styphi', 'kpneumo', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
-  },
-  { value: 'Sensitive to all drugs', label: 'Susceptible to class I/II drugs', organisms: ['ngono'] },
+  // {
+  //   value: 'MDR',
+  //   label: 'Multidrug resistant (MDR)',
+  //   organisms: [ 'ngono' /*, 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'*/],
+  // },
+  // {
+  //   value: 'XDR',
+  //   label: 'Extensively drug resistant (XDR)',
+  //   organisms: [ 'ngono' /*, 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'*/],
+  // },
+  // { value: 'AzithR', label: 'Azithromycin resistant', organisms: [ ...amrLikeOrganisms] },
+  // { value: 'CipNS', label: 'Ciprofloxacin non-susceptible (CipNS)', organisms: [] },
+  // { value: 'CipR', label: 'Ciprofloxacin resistant (CipR)', organisms: [ ...amrLikeOrganisms] },
+  // {
+  //   value: 'ESBL',
+  //   label: 'ESBL prevalence',
+  //   organisms: ['kpneumo' /*, 'ecoli', 'shige', 'senterica', 'decoli'*/],
+  // },
+  // { value: 'ESBL_category', label: 'Ceftriaxone resistant', organisms: [] },
+  // { value: 'Ceftriaxone', label: 'Ceftriaxone resistant', organisms: ['ngono', ...amrLikeOrganisms] },
+  // { value: 'Azithromycin', label: 'Azithromycin resistant', organisms: ['ngono'] },
+  // { value: 'Ciprofloxacin', label: 'Ciprofloxacin resistant', organisms: ['ngono'] },
+  // {
+  //   value: 'Carb',
+  //   label: 'Carbapenemase prevalence',
+  //   organisms: ['kpneumo' /*, 'ecoli', 'shige', 'decoli'*/],
+  // },
+  // {
+  //   value: 'Pansusceptible',
+  //   label: 'Pansusceptible',
+  //   organisms: [ ...amrLikeOrganisms],
+  // },
+  // { value: 'Pansusceptible', label: 'Pansusceptible', organisms: ['ngono'] },
   { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
+  {
+    value: 'Resistance prevalence',
+    label: 'Resistance prevalence',
+    organisms: organismsCards.map(x => x.value),
+  },
   {
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
-    organisms: ['styphi', 'ngono', 'ecoli', 'senterica'],
+    organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'kpneumo', 'senterica'].includes(x)),
   },
   {
     value: 'ST prevalence',
@@ -45,16 +52,35 @@ export const mapLegends = [
     organisms: ['kpneumo'],
   },
   {
-    value: 'Resistance prevalence',
-    label: 'Resistance prevalence',
-    organisms: ['styphi', 'kpneumo', 'ngono'],
+    value: 'Lineage prevalence',
+    label: 'Lineage prevalence',
+    organisms: ['sentericaints', 'senterica'],
   },
-  { value: 'Lineage prevalence', label: 'Lineage prevalence', organisms: ['shige', 'decoli', 'sentericaints'] },
-  { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: ['styphi'] },
+  // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
+  {
+    value: 'Serotype prevalence',
+    label: 'ST Prevalence (7-locus MLST)',
+    organisms: ['senterica'],
+  },
+  {
+    value: 'Pathotype prevalence',
+    label: 'Pathotype prevalence',
+    organisms: ['ecoli', 'decoli', 'shige'],
+  },
+  {
+    value: 'O prevalence',
+    label: 'O prevalence',
+    organisms: ['ecoli', 'decoli', 'shige'],
+  },
+  {
+    value: 'H prevalence',
+    label: 'H prevalence',
+    organisms: ['ecoli', 'decoli', 'shige'],
+  },
   {
     value: 'No. Samples',
     label: 'No. Samples',
-    organisms: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'shige', 'senterica', 'decoli', 'sentericaints'],
+    organisms: organismsCards.map(x => x.value),
   },
 ];

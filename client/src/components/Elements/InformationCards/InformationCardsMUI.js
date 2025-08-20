@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   cardsWrapper: {
     display: 'flex',
     columnGap: '16px',
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 650px)': {
       flexDirection: 'column',
       rowGap: '4px',
-      padding: '0px 0px 4px',
+      padding: '0px 0px 8px',
     },
   },
   card: {
@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
     '@media (max-width: 1000px)': {
       paddingBottom: '0px',
     },
+  },
+  titleCount: {
+    lineHeight: 'normal !important',
   },
   actualAndTotalValues: {
     display: 'flex',

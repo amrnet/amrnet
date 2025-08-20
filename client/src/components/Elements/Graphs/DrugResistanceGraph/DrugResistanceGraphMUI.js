@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   drugResistanceGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
   selectWrapper: {
     display: 'flex',
     flexDirection: 'column',
+    paddingTop: '8px',
   },
   labelWrapper: {
     display: 'flex',
@@ -113,6 +114,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: '100%',
   },
+  insufficientData: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    color: 'red',
+    fontWeight: '600',
+  },
   tooltip: {
     width: '100%',
     height: '100%',
@@ -159,6 +168,24 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     padding: '8px',
     border: 'solid rgba(0, 0, 0, 0.25) 1px',
+  },
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }));
 

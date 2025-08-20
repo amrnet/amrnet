@@ -1,0 +1,336 @@
+# Professional Translation Services Configuration for AMRnet
+# This file defines the complete setup for medical translation workflows
+
+# Global settings
+project:
+  name: "AMRnet"
+  description: "Antimicrobial Resistance Network - Global Surveillance Platform"
+  domain: "amrnet.org"
+  medical_certification_required: true
+
+# Supported languages with medical translation requirements
+languages:
+  es:
+    name: "Spanish (Medical)"
+    region: "Global Spanish-speaking regions"
+    medical_requirements:
+      - "Medical translation certification (ISO 17100)"
+      - "Microbiology or infectious disease background"
+      - "Clinical laboratory terminology expertise"
+      - "Antimicrobial resistance knowledge"
+    quality_threshold: 98
+
+  fr:
+    name: "French (Medical)"
+    region: "France, Francophone Africa, Canada"
+    medical_requirements:
+      - "Medical translation certification"
+      - "Pharmaceutical terminology expertise"
+      - "EUCAST guidelines familiarity"
+      - "Clinical microbiology experience"
+    quality_threshold: 98
+
+  pt:
+    name: "Portuguese (Medical)"
+    region: "Brazil, Portugal, Lusophone Africa"
+    medical_requirements:
+      - "Medical translation certification"
+      - "Healthcare terminology expertise"
+      - "Laboratory standards knowledge"
+      - "Regional medical practice awareness"
+    quality_threshold: 98
+
+# Platform configurations
+platforms:
+  weblate:
+    enabled: true
+    url: "https://hosted.weblate.org"
+    project_slug: "amrnet"
+    components:
+      - name: "documentation"
+        file_format: "po"
+        source_language: "en"
+        template: "docs/locale/en/LC_MESSAGES/template.pot"
+        filemask: "docs/locale/*/LC_MESSAGES/*.po"
+
+      - name: "interface"
+        file_format: "json"
+        source_language: "en"
+        template: "client/locales/en.json"
+        filemask: "client/locales/*.json"
+
+    workflow:
+      translation_review: true
+      medical_validation: true
+      linguistic_proofreading: true
+      final_approval: true
+
+    quality_checks:
+      - "medical_terminology"
+      - "clinical_accuracy"
+      - "format_preservation"
+      - "placeholder_integrity"
+
+  crowdin:
+    enabled: true
+    project_id: "amrnet-medical"
+    base_url: "https://api.crowdin.com"
+
+    files:
+      - source: "docs/locale/en/LC_MESSAGES/*.pot"
+        translation: "docs/locale/%two_letters_code%/LC_MESSAGES/%original_file_name%.po"
+        type: "po"
+
+      - source: "client/locales/en.json"
+        translation: "client/locales/%two_letters_code%.json"
+        type: "json"
+
+    workflow_stages:
+      - stage: "medical_translation"
+        assignee_requirements:
+          - "certified_medical_translator"
+          - "microbiology_background"
+          - "min_5_years_experience"
+
+      - stage: "clinical_review"
+        assignee_requirements:
+          - "clinical_microbiologist"
+          - "amr_surveillance_experience"
+          - "published_research"
+
+      - stage: "linguistic_editing"
+        assignee_requirements:
+          - "native_speaker"
+          - "technical_writing_expertise"
+          - "medical_communication"
+
+      - stage: "quality_assurance"
+        assignee_requirements:
+          - "qa_certification"
+          - "healthcare_project_management"
+
+    quality_metrics:
+      translation_memory_leverage: 85
+      terminology_consistency: 95
+      medical_accuracy_threshold: 98
+      linguistic_quality_score: 90
+
+  lokalise:
+    enabled: true
+    project_id: "amrnet-professional"
+
+    file_mapping:
+      documentation:
+        format: "po"
+        directory: "docs/locale/%LANG_ISO%/LC_MESSAGES/"
+
+      interface:
+        format: "json"
+        directory: "client/locales/"
+        filename: "%LANG_ISO%.json"
+
+    custom_statuses:
+      - id: 1001
+        name: "Medical Expert Reviewed"
+        description: "Reviewed by clinical microbiologist"
+
+      - id: 1002
+        name: "Clinical Approval"
+        description: "Approved for clinical use"
+
+      - id: 1003
+        name: "Regulatory Compliant"
+        description: "Meets medical device translation standards"
+
+    automation:
+      auto_translation: false  # Medical content requires human translation
+      translation_memory: true
+      quality_checks: true
+      medical_validation: true
+
+# Medical translation workflow
+medical_workflow:
+  phases:
+    source_preparation:
+      - "Medical terminology identification"
+      - "Context documentation"
+      - "Reference material compilation"
+      - "Expert review of source content"
+
+    translation:
+      - "Certified medical translator assignment"
+      - "Terminology database consultation"
+      - "Initial translation completion"
+      - "Self-review by translator"
+
+    medical_validation:
+      - "Clinical expert review"
+      - "Antimicrobial resistance accuracy check"
+      - "Laboratory procedure validation"
+      - "Regional medical practice consideration"
+
+    linguistic_review:
+      - "Native speaker linguistic editing"
+      - "Cultural appropriateness assessment"
+      - "Technical clarity verification"
+      - "User experience optimization"
+
+    quality_assurance:
+      - "Comprehensive QA checklist"
+      - "Cross-reference validation"
+      - "Format and style consistency"
+      - "Final medical approval"
+
+    deployment:
+      - "Technical integration testing"
+      - "User acceptance testing"
+      - "Medical expert final sign-off"
+      - "Release to production"
+
+# Quality assurance standards
+quality_standards:
+  medical_accuracy:
+    terminology_compliance: 100
+    clinical_context_preservation: 95
+    scientific_accuracy: 98
+    regulatory_compliance: 100
+
+  linguistic_quality:
+    grammar_accuracy: 95
+    natural_language_flow: 90
+    cultural_appropriateness: 95
+    technical_clarity: 92
+
+  technical_requirements:
+    format_preservation: 100
+    placeholder_integrity: 100
+    encoding_compliance: 100
+    build_compatibility: 100
+
+# Medical terminology management
+terminology:
+  primary_sources:
+    - "WHO Antimicrobial Resistance Terminology"
+    - "EUCAST Clinical Guidelines"
+    - "CLSI Laboratory Standards"
+    - "CDC Antimicrobial Resistance Resources"
+
+  validation_tools:
+    - "Medical glossary cross-reference"
+    - "WHO terminology API integration"
+    - "Clinical expert validation"
+    - "Automated consistency checking"
+
+  update_frequency: "monthly"
+  expert_review_cycle: "quarterly"
+
+# Compliance and certification
+compliance:
+  standards:
+    - "ISO 17100 (Translation Services)"
+    - "ISO 13485 (Medical Devices - Quality Management)"
+    - "HIPAA (Healthcare Data Privacy)"
+    - "GDPR (Data Protection Regulation)"
+
+  documentation:
+    translation_certificates: true
+    medical_expert_credentials: true
+    quality_audit_trails: true
+    compliance_reports: true
+
+  validation:
+    medical_accuracy_attestation: true
+    clinical_expert_sign_off: true
+    regulatory_compliance_check: true
+    legal_review: true
+
+# Monitoring and reporting
+monitoring:
+  metrics:
+    - "Translation completion rates"
+    - "Medical accuracy scores"
+    - "Quality review timelines"
+    - "Expert availability"
+    - "User feedback ratings"
+
+  reporting:
+    frequency: "weekly"
+    stakeholders:
+      - "Translation project managers"
+      - "Clinical subject matter experts"
+      - "Product development team"
+      - "Regulatory compliance team"
+
+  alerts:
+    quality_threshold_breach: true
+    medical_expert_escalation: true
+    deadline_risk_notification: true
+    compliance_issue_alert: true
+
+# Integration settings
+integration:
+  documentation_build:
+    auto_rebuild: true
+    quality_gate: true
+    medical_validation_required: true
+
+  react_application:
+    hot_reload_translations: false  # Medical content requires validation
+    quality_gate: true
+    medical_approval_required: true
+
+  ci_cd_pipeline:
+    automated_testing: true
+    quality_validation: true
+    medical_expert_review: true
+    staged_deployment: true
+
+# Professional services
+professional_services:
+  medical_translation_partners:
+    - name: "Medical Translation Specialists Inc."
+      specialization: "Clinical microbiology, AMR"
+      certification: "ISO 17100, Medical Device"
+      languages: ["es", "fr", "pt"]
+
+    - name: "Healthcare Linguistics Global"
+      specialization: "Pharmaceutical, laboratory"
+      certification: "ISO 17100, Healthcare"
+      languages: ["es", "fr", "pt"]
+
+  clinical_reviewers:
+    network: "Global AMR Expert Network"
+    qualifications:
+      - "Board certification in clinical microbiology"
+      - "AMR surveillance experience"
+      - "Published research in infectious diseases"
+      - "International guideline development participation"
+
+  regulatory_consultants:
+    - "Medical device translation compliance"
+    - "Healthcare data privacy"
+    - "International regulatory harmonization"
+    - "Quality management systems"
+
+# Emergency procedures
+emergency_procedures:
+  critical_translation_errors:
+    escalation_path:
+      - "Immediate clinical expert notification"
+      - "Translation platform lockdown"
+      - "Emergency correction workflow"
+      - "Stakeholder communication"
+
+  medical_accuracy_concerns:
+    response_protocol:
+      - "Subject matter expert consultation"
+      - "WHO terminology verification"
+      - "Clinical guideline cross-reference"
+      - "Corrective action implementation"
+
+  compliance_violations:
+    remediation_steps:
+      - "Immediate compliance team notification"
+      - "Regulatory impact assessment"
+      - "Corrective action plan"
+      - "Audit trail documentation"

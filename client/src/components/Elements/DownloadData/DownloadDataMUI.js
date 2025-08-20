@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   downloadDataWrapper: {
     display: 'flex',
     justifyContent: 'space-around',

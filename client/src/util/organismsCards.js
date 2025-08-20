@@ -15,13 +15,24 @@ export const organismsCards = [
   {
     label: (
       <span>
-        <i>Klebsiella pneumoniae</i>
+        <i>Salmonella</i> (invasive non-typhoidal)
       </span>
     ),
-    stringLabel: 'Klebsiella pneumoniae',
-    value: 'kpneumo',
-    abbr: 'K. pneumoniae',
-    img: kleb,
+    stringLabel: 'Salmonella (invasive non-typhoidal)',
+    value: 'sentericaints',
+    abbr: 'Salmonella (INT)',
+    img: ints,
+  },
+  {
+    label: (
+      <span>
+        <i>Salmonella enterica</i> (non-typhoidal)
+      </span>
+    ),
+    stringLabel: 'Salmonella enterica (non-typhoidal)',
+    value: 'senterica',
+    abbr: 'S. enterica (NT)',
+    img: senterica,
   },
   {
     label: (
@@ -37,24 +48,13 @@ export const organismsCards = [
   {
     label: (
       <span>
-        <i>Escherichia coli</i>
+        <i>Klebsiella pneumoniae</i>
       </span>
     ),
-    stringLabel: 'Escherichia coli',
-    value: 'ecoli',
-    abbr: 'E. coli',
-    img: ecoli,
-  },
-  {
-    label: (
-      <span>
-        Diarrheagenic <i>E. coli</i>
-      </span>
-    ),
-    stringLabel: 'Diarrheagenic E. coli',
-    value: 'decoli',
-    abbr: 'DEC',
-    img: decoli,
+    stringLabel: 'Klebsiella pneumoniae',
+    value: 'kpneumo',
+    abbr: 'K. pneumoniae',
+    img: kleb,
   },
   {
     label: (
@@ -67,87 +67,31 @@ export const organismsCards = [
     abbr: 'Shigella+EIEC',
     img: shig,
   },
+
   {
     label: (
       <span>
-        Invasive non-typhoidal <i>Salmonella</i>
+        <i>Escherichia coli</i> (diarrheagenic)
       </span>
     ),
-    stringLabel: 'Invasive non-typhoidal Salmonella',
-    value: 'sentericaints',
-    abbr: 'iNTS',
-    img: ints,
+    stringLabel: 'Escherichia coli (diarrheagenic)',
+    value: 'decoli',
+    abbr: 'E. coli (diarrheagenic)',
+    img: decoli,
   },
   {
     label: (
       <span>
-        <i>Salmonella enterica</i>
+        <i>Escherichia coli</i>
       </span>
     ),
-    stringLabel: 'Salmonella enterica',
-    value: 'senterica',
-    abbr: 'S. enterica',
-    img: senterica,
-    disabled: true,
-  },
-  {
-    label: (
-      <span>
-        <i>Staphylococcus aureus</i>
-      </span>
-    ),
-    stringLabel: 'Staphylococcus aureus',
-    value: 'aureus',
-    abbr: 'S. aureus',
-    // img: saureus,
-    disabled: true,
-  },
-  {
-    label: (
-      <span>
-        <i>Acinetobacter baumanii</i>
-      </span>
-    ),
-    stringLabel: 'Acinetobacter baumanii',
-    value: 'baumanii',
-    abbr: 'A. baumanii',
-    // img: abaumannii,
-    disabled: true,
-  },
-  {
-    label: (
-      <span>
-        <i>Pseudomonas aeruginosa</i>
-      </span>
-    ),
-    stringLabel: 'Pseudomonas aeruginosa',
-    value: 'aeru',
-    abbr: 'P. aeruginosa',
-    // img: paeruginosa,
-    disabled: true,
-  },
-  {
-    label: (
-      <span>
-        <i>Haemophilus influenza</i>
-      </span>
-    ),
-    stringLabel: 'Haemophilus influenza',
-    value: 'influ',
-    abbr: 'H. influenza',
-    // img: hinfluenza,
-    disabled: true,
-  },
-  {
-    label: (
-      <span>
-        <i>Streptococcus pneumoniae</i>
-      </span>
-    ),
-    stringLabel: 'Streptococcus pneumoniae',
-    value: 'spneumo',
-    abbr: 'S. pneumoniae',
-    // img: spneumoniae,
-    disabled: true,
+    stringLabel: 'Escherichia coli',
+    value: 'ecoli',
+    abbr: 'E. coli',
+    img: ecoli,
   },
 ];
+
+export const amrLikeOrganisms = ['decoli', 'ecoli', 'shige', 'sentericaints', 'senterica'];
+
+export const organismsWithLotsGenotypes = ['ecoli', 'decoli', 'senterica', 'kpneumo', 'ngono', 'shige'];

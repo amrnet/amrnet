@@ -27,6 +27,22 @@ export const redColorScale = (percentage) => {
     return '#FAAD8F';
   }
 };
+export const mixColorScale = (percentage) => {
+  const p = Math.max(0, Math.min(percentage, 100)); // Clamp between 0–100
+
+  // Define custom color bands and transition points
+  const domain = [0, 20, 100];
+  const colors = [
+    '#FFE0B2', // light orange
+    '#DD2C24', // red
+    '#0288D1', // deep blue
+  ];
+
+  // Create a continuous interpolated color scale
+  const colorScale = chroma.scale(colors).domain(domain).mode('lab');
+
+  return colorScale(p).hex();
+};
 
 export const differentColorScale = (percentage, colour, maxValue = 100) => {
   const p = parseInt(percentage);
