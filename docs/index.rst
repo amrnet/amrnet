@@ -19,7 +19,7 @@ AMRnet
 
 
 Citation, Code and License
--------
+----------------------------
 .. container:: justify-text
 
    AMRnet is free and open source software, distributed under the terms of the :doc:`GPLv3 License <license>`.  
@@ -57,7 +57,7 @@ Disclaimer
    
     Dashboard overview <usage>
     Individual pathogen details <pathogen>
-    Acknowledgements <acknowledgements>
+    Source data & tools <source>
     
 .. toctree::
     :caption: API users
