@@ -30,6 +30,9 @@ Abbreviations
 
 The data are collated from studies with the following PubMed IDs
 
+.. list-table:: 
+   :header-rows: 1
+
    * - **Study accession**
      - **PMID**
    * - PRJEB58139
