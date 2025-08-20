@@ -13,6 +13,8 @@ Source Databases
 Typing tools
 ~~~~~~~~~~~~~
 
+
+
 *Klebsiella pneumoniae*
 -----------------------
 
@@ -35,6 +37,7 @@ AMR typing
 - Kleborate paper: `A genomic surveillance framework and genotyping tool for Klebsiella pneumoniae and its related species complex, Lam 2021 <https://doi.org/10.1038/s41467-021-24448-3>`_
 
 *Klebsiella* Pathogenwatch: `Rapid Genomic Characterization and Global Surveillance of Klebsiella Using Pathogenwatch, Argímon 2021 <https://doi.org/10.1093/cid/ciab784>`_
+
 
 
 
@@ -66,6 +69,7 @@ AMR typing
 
 
 
+
 *Neisseria gonorrhoeae* 
 -----------------------
 
@@ -82,6 +86,7 @@ AMR typing
 ^^^^^^^^^^^^^^^^^^^^^
 
 - Pathogenwatch in-house AMR prediction module described in the paper `A community-driven resource for genomic epidemiology and antimicrobial resistance prediction of Neisseria gonorrhoeae at Pathogenwatch, Sánchez-Busó et al. 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_
+
 
 
 
@@ -109,6 +114,7 @@ AMR typing
 
 
 
+
 *Salmonella* (invasive non-typhoidal)
 -------------------------------------
 
@@ -132,7 +138,8 @@ AMR typing
 
 
 
-*Salmonella Typhi*
+
+*Salmonella typhi*
 -----------------------
 
 Genotype nomenclature
