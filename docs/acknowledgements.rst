@@ -44,9 +44,9 @@ AMR typing
 Genotype nomenclature
 ^^^^^^^^^^^^^^^^^^^^^
 
-- Achtman 7 gene MLST scheme: Described in `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`_
+- Achtman 7-locus MLST scheme: Developed by `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`_
 
-- cgMLST: `"The EnteroBase user's guide, with case studies on Salmonella transmissions, Yersinia pestis phylogeny, and Escherichia core genomic diversity", Zhou et al 2020 <http://www.genome.org/cgi/doi/10.1101/gr.251678.119>`_
+- Core genome MLST scheme: `"The EnteroBase user's guide, with case studies on Salmonella transmissions, Yersinia pestis phylogeny, and Escherichia core genomic diversity", Zhou et al 2020 <http://www.genome.org/cgi/doi/10.1101/gr.251678.119>`_
 
 - Hierarchical clustering: `"HierCC: a multi-level clustering scheme for population assignments based on core genome MLST", Zhou et al 2020 <https://doi.org/10.1093/bioinformatics/btab234>`_
 
@@ -82,3 +82,24 @@ AMR typing
 ^^^^^^^^^^^^^^^^^^^^^
 
 - Pathogenwatch inhouse dictionary as described in the paper `"A community-driven resource for genomic epidemiology and antimicrobial resistance prediction of Neisseria gonorrhoeae at Pathogenwatch", Sánchez-Busó et al. 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_
+
+
+
+*Salmonella* (non-typhoidal)
+-----------------------------
+
+Genotype nomenclature
+^^^^^^^^^^^^^^^^^^^^^
+
+- 7-locus MLST scheme: `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-senterica.html>`_
+
+- Core genome MLST scheme: `"The EnteroBase user's guide, with case studies on Salmonella transmissions, Yersinia pestis phylogeny, and Escherichia core genomic diversity", Zhou et al 2020 <http://www.genome.org/cgi/doi/10.1101/gr.251678.119>`_
+
+- Hierarchical clustering: `"HierCC: a multi-level clustering scheme for population assignments based on core genome MLST", Zhou et al 2020 <https://doi.org/10.1093/bioinformatics/btab234>`_
+
+- Serotypes: `"The Salmonella In Silico Typing Resource (SISTR): An Open Web-Accessible Tool for Rapidly Typing and Subtyping Draft Salmonella Genome Assemblies", Yoshida et al 2016 <https://doi.org/10.1371/journal.pone.0147101>`_
+
+AMR typing
+^^^^^^^^^^^
+
+- `AMRFinderPlus <https://github.com/ncbi/amr>`_
