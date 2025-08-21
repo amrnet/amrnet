@@ -1,5 +1,7 @@
 import express from 'express';
 import { client } from '../../config/db.js';
+import rateLimit from 'express-rate-limit';
+
 
 const router = express.Router();
 
