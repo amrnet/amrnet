@@ -1,8 +1,12 @@
 import { Download } from '@mui/icons-material';
 import { useAppSelector } from '../../../../stores/hooks';
-import { variableGraphOptions, variablesOptions } from '../../../../util/convergenceVariablesOptions';
-import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
-import { statKeysKP, statKeys } from '../../../../util/drugClassesRules';
+import {
+  variableGraphOptions,
+  variableGraphOptionsNG,
+  variablesOptions,
+} from '../../../../util/convergenceVariablesOptions';
+import { statKeysKP } from '../../../../util/drugClassesRules';
+import { ngonoSusceptibleRule } from '../../../../util/drugs';
 
 export const DownloadMapViewData = ({ value }) => {
   const mapData = useAppSelector(state => state.map.mapData);
@@ -170,7 +174,7 @@ export const DownloadMapViewData = ({ value }) => {
           rowData.push(count, percentage);
         });
 
-        return rowData ;
+        return rowData;
       });
 
     //const headers = HeaderList.join(',');
@@ -207,7 +211,7 @@ export const DownloadMapViewData = ({ value }) => {
             row.push(count);
             row.push(percentage);
           });
-          return row ;
+          return row;
         });
 
       generateCSV(HeaderList, rows, 'AMR_Trends', firstName, secondName);
@@ -253,7 +257,7 @@ export const DownloadMapViewData = ({ value }) => {
             const count = item[items] || 0;
             row.push(count);
           });
-          return row ;
+          return row;
         });
 
       generateCSV(HeaderList, rows, 'AMR/Virulence Trends', firstName, secondName);
@@ -372,7 +376,7 @@ export const DownloadMapViewData = ({ value }) => {
             XDRCount,
             XDRPerCount,
             item.resistantCount,
-          ] ;
+          ];
         });
 
       generateCSV(HeaderList, rows, 'ARM frequency', firstName, secondName);
@@ -415,7 +419,7 @@ export const DownloadMapViewData = ({ value }) => {
             });
           }
 
-          return rowData ;
+          return rowData;
         });
 
       generateCSV(HeaderList, rows, `AMR markers by genotype (${determinantsGraphDrugClass})`, firstName, secondName);
@@ -455,7 +459,7 @@ export const DownloadMapViewData = ({ value }) => {
             });
           }
 
-          return rowData ;
+          return rowData;
         });
 
       generateCSV(HeaderList, rows, 'Genotype trends', firstName, secondName);
@@ -497,7 +501,7 @@ export const DownloadMapViewData = ({ value }) => {
             });
           }
 
-          return rowData ;
+          return rowData;
         });
 
       generateCSV(HeaderList, rows, 'KO trends', firstName, secondName);
@@ -553,7 +557,7 @@ export const DownloadMapViewData = ({ value }) => {
             });
           }
 
-          return rowData ;
+          return rowData;
         });
 
       generateCSV(HeaderList, rows, 'AMR Markers', firstName, secondName);
@@ -569,6 +573,8 @@ export const DownloadMapViewData = ({ value }) => {
     } else {
       if (organism === 'kpneumo') {
         COMPARISON = variableGraphOptions.find(x => x.value === bubbleHeatmapGraphVariable).mapValue;
+      } else if (organism === 'ngono') {
+        COMPARISON = variableGraphOptionsNG.find(x => x.value === bubbleHeatmapGraphVariable).mapValue;
       } else {
         COMPARISON = 'GENOTYPE';
       }
@@ -611,19 +617,27 @@ export const DownloadMapViewData = ({ value }) => {
               rowData.push(drugData.percentage); // Drug percentage
             });
 
-            return rowData ;
+            return rowData;
           });
         });
 
       // Create CSV header row
       //const headers = HeaderList.join(',');
 
-      generateCSV(HeaderList, rows, compName === 'BHP' ? `${COMPARISON} comparison for ${actualRegion} region`:`AMR by genotype for ${actualRegion} region`, firstName, secondName);
+      generateCSV(
+        HeaderList,
+        rows,
+        compName === 'BHP'
+          ? `${COMPARISON} comparison for ${actualRegion} region`
+          : `AMR by genotype for ${actualRegion} region`,
+        firstName,
+        secondName,
+      );
     } else {
       console.log('mapRegionData is not an array or is empty', mapRegionData);
     }
   };
-  const getUniqueMarkerNames = (data) => {
+  const getUniqueMarkerNames = data => {
     const markers = new Set();
 
     data.forEach(genotypeEntry => {
@@ -636,7 +650,6 @@ export const DownloadMapViewData = ({ value }) => {
 
     return [...markers].sort();
   };
-
 
   const downloadCSVForBKOH = () => {
     const COMPARISON = variableGraphOptions.find(x => x.value === bubbleKOHeatmapGraphVariable).mapValue;
@@ -667,7 +680,7 @@ export const DownloadMapViewData = ({ value }) => {
             rowData.push(data.count); // Count
             rowData.push(data.percentage); // Percentage
           });
-          return rowData ;
+          return rowData;
         });
       });
 
@@ -679,7 +692,9 @@ export const DownloadMapViewData = ({ value }) => {
   };
 
   const downloadCSVForBAMRH = () => {
-    const COMPARISON = variableGraphOptions.find(x => x.value === bubbleMarkersHeatmapGraphVariable).mapValue;
+    const COMPARISON = (organism === 'kpneumo' ? variableGraphOptions : variableGraphOptionsNG).find(
+      x => x.value === bubbleMarkersHeatmapGraphVariable,
+    ).mapValue;
 
     const data = bubbleMarkersHeatmapGraphData;
     if (!data || !Array.isArray(data)) {
@@ -693,7 +708,7 @@ export const DownloadMapViewData = ({ value }) => {
     // Step 2: Prepare CSV headers
     const headers = ['Region', 'Country', 'Name']; // Always keep these
     uniqueMarkers.forEach(marker => {
-      headers.push(marker);        // Count
+      headers.push(marker); // Count
       headers.push(`${marker} %`); // Percentage
     });
 
@@ -710,12 +725,11 @@ export const DownloadMapViewData = ({ value }) => {
         row.push(item.percentage);
       });
 
-      return row ;
+      return row;
     });
 
-      // Create CSV header row
-      generateCSV(headers, rows, `AMR markers by genotype for (${actualRegion}-${actualCountry})`, firstName, secondName);
-    
+    // Create CSV header row
+    generateCSV(headers, rows, `AMR markers by genotype for (${actualRegion}-${actualCountry})`, firstName, secondName);
   };
 
   const downloadCSVForBG = () => {
@@ -846,15 +860,17 @@ export const DownloadMapViewData = ({ value }) => {
         });
       }
 
-      rows.push(row );
+      rows.push(row);
     });
 
     // Step 5: Export CSV
     // const headers = headerList.join(',');
     generateCSV(
-      headerList, rows,
+      headerList,
+      rows,
       `Geographic_Comparisons_${yAxisType}${yAxisType === 'determinant' ? '-' + yAxisTypeTrend : ''}_prevalence`,
-       firstName, secondName
+      firstName,
+      secondName,
     );
   };
   //Trend Line HeatMap Data Download CSV
@@ -899,24 +915,20 @@ export const DownloadMapViewData = ({ value }) => {
       });
       if (totalCount < 10) return; // Filter out countries with totalCount < 10
       const row = [drugClass, drugGene, country, totalCount, ...yearCounts];
-      rows.push(row );
+      rows.push(row);
     });
 
     generateCSV(header, rows, `TrendLine_HeatMap_${drugClass}`, firstName, secondName);
   };
 
   const generateCSV = (headers, rows, name, firstName, secondName) => {
+    // Convert headers and rows to TSV format
+    if (!Array.isArray(headers) || !Array.isArray(rows)) {
+      console.error('Headers and rows must be arrays');
+      return;
+    }
 
-      // Convert headers and rows to TSV format
-      if (!Array.isArray(headers) || !Array.isArray(rows)) {
-        console.error("Headers and rows must be arrays");
-        return;
-      }
-
-      const tsvRows = [
-      headers.join('\t'),
-      ...rows.map(row => row.join('\t'))
-    ];
+    const tsvRows = [headers.join('\t'), ...rows.map(row => row.join('\t'))];
     const tsvContent = tsvRows.join('\n');
 
     // Create a Blob from the TSV content
@@ -931,7 +943,6 @@ export const DownloadMapViewData = ({ value }) => {
     link.click();
     document.body.removeChild(link);
   };
-
 
   const functionValue = () => {
     switch (value) {
