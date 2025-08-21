@@ -1,4 +1,4 @@
-import { Home, Info, MenuBook, GitHub, Groups, Storage } from '@mui/icons-material';
+import { GitHub, Groups, Home, Info, MenuBook, Storage } from '@mui/icons-material';
 import EmailIcon from '@mui/icons-material/Email';
 
 // List of drawer menu items
@@ -8,7 +8,7 @@ export const menuItems = [
     label: 'Home',
     labelHead: '',
     icon: <Home />,
-    link: '/',
+    link: '#/',
     target: '_self',
   },
 
