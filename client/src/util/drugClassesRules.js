@@ -38,20 +38,6 @@ export const statKeysST = [
   { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true },
 ];
 
-export const drugRulesForDrugResistanceGraphNG = [
-  { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
-  { key: 'Ceftriaxone', columnID: ['CefR1'], values: ['1'] },
-  { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
-  { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
-  { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
-  { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
-  { key: 'Benzylpenicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Susceptible', columnID: ['Susceptible'], values: ['1'] },
-  { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
-  { key: 'MDR', columnID: 'MDR', values: ['1'] },
-  { key: 'XDR', columnID: 'XDR', values: ['1'] },
-];
-
 // Drug rules for Klebsiella, where the column has to be any value other than '-' to validate the rule. For frequencies
 // and drug resistance graphs
 export const drugRulesKP = [
@@ -100,7 +86,6 @@ export const statKeysKPOnlyMarkers = [
   { name: 'Porin mutations', column: 'Omp_mutations', key: '-' },
 ];
 
-// TODO: Duplicate of drugRulesForDrugResistanceGraphNG
 export const drugRulesNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
   { key: 'Ceftriaxone', columnID: ['CefR1'], values: ['1'] },
@@ -115,14 +100,41 @@ export const drugRulesNG = [
   // { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
 ];
 
+export const drugRulesMDRXDR_NG = {
+  MDR: [
+    {
+      columns: ['Azithromycin', 'Ceftriaxone', 'Cefixime'],
+      value: 1,
+      matches: 1,
+    },
+    {
+      columns: ['Ciprofloxacin', 'Spectinomycin', 'Penicillin'],
+      value: 1,
+      matches: 2,
+    },
+  ],
+  XDR: [
+    {
+      columns: ['Azithromycin', 'Ceftriaxone', 'Cefixime'],
+      value: 1,
+      matches: 1,
+    },
+    {
+      columns: ['Ciprofloxacin', 'Spectinomycin', 'Penicillin'],
+      value: 1,
+      matches: 3,
+    },
+  ],
+};
+
 export const statKeysNG = [
   { name: 'Azithromycin', column: 'Azithromycin', key: '1', resistanceView: true },
+  { name: 'Benzylpenicillin', column: 'Penicillin', key: '1', resistanceView: true },
   { name: 'Cefixime', column: 'Cefixime', key: '1', resistanceView: true },
   { name: 'Ceftriaxone', column: 'CefR1', key: '1', resistanceView: true },
   { name: 'Ciprofloxacin', column: 'Ciprofloxacin', key: '1', resistanceView: true },
-  { name: 'XDR', column: 'XDR', key: '1', resistanceView: true },
-  { name: 'MDR', column: 'MDR', key: '1', resistanceView: true },
-  { name: 'Benzylpenicillin', column: 'Penicillin', key: '1', resistanceView: true },
+  // { name: 'XDR', column: 'XDR', key: '1', resistanceView: true },
+  // { name: 'MDR', column: 'MDR', key: '1', resistanceView: true },
   { name: 'Spectinomycin', column: 'Spectinomycin', key: '1', resistanceView: true },
   { name: 'Sulfonamides', column: 'Sulfonamides', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
@@ -144,22 +156,22 @@ export const drugClassesRulesSTHeatMap = {
     },
   ],
   Azithromycin: [
-    {
-      name: 'acrB_R717Q + acrB_R717L',
-      susceptible: false,
-      rules: [
-        { columnID: 'azith_pred_pheno', value: 'AzithR' },
-        { columnID: 'acrB_R717Q', value: '1' },
-        { columnID: 'acrB_R717L', value: '1' },
-      ],
-    },
+    // {
+    //   name: 'acrB_R717Q + acrB_R717L',
+    //   susceptible: false,
+    //   rules: [
+    //     { columnID: 'azith_pred_pheno', value: 'AzithR' },
+    //     { columnID: 'acrB_R717Q', value: '1' },
+    //     { columnID: 'acrB_R717L', value: '1' },
+    //   ],
+    // },
     {
       name: 'acrB_R717Q',
       susceptible: false,
       rules: [
         { columnID: 'azith_pred_pheno', value: 'AzithR' },
         { columnID: 'acrB_R717Q', value: '1' },
-        { columnID: 'acrB_R717L', value: '0' },
+        // { columnID: 'acrB_R717L', value: '0' },
       ],
     },
     {
@@ -168,7 +180,7 @@ export const drugClassesRulesSTHeatMap = {
       rules: [
         { columnID: 'azith_pred_pheno', value: 'AzithR' },
         { columnID: 'acrB_R717L', value: '1' },
-        { columnID: 'acrB_R717Q', value: '0' },
+        // { columnID: 'acrB_R717Q', value: '0' },
       ],
     },
     {
@@ -178,22 +190,22 @@ export const drugClassesRulesSTHeatMap = {
     },
   ],
   Chloramphenicol: [
-    {
-      name: 'catA1 + cmlA',
-      susceptible: false,
-      rules: [
-        { columnID: 'chloramphenicol_category', value: 'ChlR' },
-        { columnID: 'catA1', value: '1' },
-        { columnID: 'cmlA', value: '1' },
-      ],
-    },
+    // {
+    //   name: 'catA1 + cmlA',
+    //   susceptible: false,
+    //   rules: [
+    //     { columnID: 'chloramphenicol_category', value: 'ChlR' },
+    //     { columnID: 'catA1', value: '1' },
+    //     { columnID: 'cmlA', value: '1' },
+    //   ],
+    // },
     {
       name: 'catA1',
       susceptible: false,
       rules: [
         { columnID: 'chloramphenicol_category', value: 'ChlR' },
         { columnID: 'catA1', value: '1' },
-        { columnID: 'cmlA', value: '0' },
+        // { columnID: 'cmlA', value: '0' },
       ],
     },
     {
@@ -202,7 +214,7 @@ export const drugClassesRulesSTHeatMap = {
       rules: [
         { columnID: 'chloramphenicol_category', value: 'ChlR' },
         { columnID: 'cmlA', value: '1' },
-        { columnID: 'catA1', value: '0' },
+        // { columnID: 'catA1', value: '0' },
       ],
     },
     {
@@ -488,14 +500,14 @@ export const drugClassesRulesSTHeatMap = {
   // 'Fluoroquinolones (CipNS)': [
   'Ciprofloxacin NS': [
     {
-      name: '3_QRDR + qnrS (CipR)',
+      name: 'qnrS',
       susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '3_QRDR + qnrS' }],
+      rules: [{ columnID: 'dcs_mechanisms_gene', value: 'qnrS' }],
     },
     {
-      name: '3_QRDR + qnrB (CipR)',
+      name: 'qnrB',
       susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '3_QRDR + qnrB' }],
+      rules: [{ columnID: 'dcs_mechanisms_gene', value: 'qnrB' }],
     },
     {
       name: '3_QRDR (CipR)',
@@ -503,29 +515,9 @@ export const drugClassesRulesSTHeatMap = {
       rules: [{ columnID: 'dcs_mechanisms', value: '3_QRDR' }],
     },
     {
-      name: '2_QRDR + qnrS (CipR)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '2_QRDR + qnrS' }],
-    },
-    {
-      name: '2_QRDR + qnrB (CipR)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '2_QRDR + qnrB' }],
-    },
-    {
       name: '2_QRDR (CipR)',
       susceptible: false,
       rules: [{ columnID: 'dcs_mechanisms', value: '2_QRDR' }],
-    },
-    {
-      name: '1_QRDR + qnrS (CipNS)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '1_QRDR + qnrS' }],
-    },
-    {
-      name: '1_QRDR + qnrB (CipNS)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '1_QRDR + qnrB' }],
     },
     {
       name: '1_QRDR (CipNS)',
@@ -533,19 +525,9 @@ export const drugClassesRulesSTHeatMap = {
       rules: [{ columnID: 'dcs_mechanisms', value: '1_QRDR' }],
     },
     {
-      name: '0_QRDR + qnrS (CipNS)',
+      name: 'qnrD',
       susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrS' }],
-    },
-    {
-      name: '0_QRDR + qnrB (CipNS)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrB' }],
-    },
-    {
-      name: '0_QRDR + qnrS + qnrD (CipNS)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR + qnrS + qnrD' }],
+      rules: [{ columnID: 'dcs_mechanisms_gene', value: 'qnrD' }],
     },
     {
       name: 'None',
@@ -554,22 +536,22 @@ export const drugClassesRulesSTHeatMap = {
     },
   ],
   Sulfonamides: [
-    {
-      name: 'sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'sul_any', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
+    // {
+    //   name: 'sul1 + sul2',
+    //   susceptible: false,
+    //   rules: [
+    //     { columnID: 'sul_any', value: '1' },
+    //     { columnID: 'sul1', value: '1' },
+    //     { columnID: 'sul2', value: '1' },
+    //   ],
+    // },
     {
       name: 'sul1',
       susceptible: false,
       rules: [
         { columnID: 'sul_any', value: '1' },
         { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '0' },
+        // { columnID: 'sul2', value: '0' },
       ],
     },
     {
@@ -578,7 +560,7 @@ export const drugClassesRulesSTHeatMap = {
       rules: [
         { columnID: 'sul_any', value: '1' },
         { columnID: 'sul2', value: '1' },
-        { columnID: 'sul1', value: '0' },
+        // { columnID: 'sul1', value: '0' },
       ],
     },
     {
@@ -627,61 +609,61 @@ export const drugClassesRulesSTHeatMap = {
     },
   ],
   Trimethoprim: [
-    {
-      name: 'dfrA7 + dfrA14',
-      susceptible: false,
-      rules: [
-        { columnID: 'dfra_any', value: '1' },
-        { columnID: 'dfrA7', value: '1' },
-        { columnID: 'dfrA14', value: '1' },
-      ],
-    },
+    // {
+    //   name: 'dfrA7 + dfrA14',
+    //   susceptible: false,
+    //   rules: [
+    //     { columnID: 'dfra_any', value: '1' },
+    //     { columnID: 'dfrA7', value: '1' },
+    //     { columnID: 'dfrA14', value: '1' },
+    //   ],
+    // },
     {
       name: 'dfrA7',
       susceptible: false,
       rules: [
-        { columnID: 'dfra_any', value: '1' },
+        // { columnID: 'dfra_any', value: '1' },
         { columnID: 'dfrA7', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
+        // { columnID: 'dfrA14', value: '0' },
       ],
     },
     {
       name: 'dfrA14',
       susceptible: false,
       rules: [
-        { columnID: 'dfra_any', value: '1' },
+        // { columnID: 'dfra_any', value: '1' },
         { columnID: 'dfrA14', value: '1' },
-        { columnID: 'dfrA7', value: '0' },
+        // { columnID: 'dfrA7', value: '0' },
       ],
     },
     {
       name: 'dfrA1',
       susceptible: false,
       rules: [
-        { columnID: 'dfra_any', value: '1' },
+        // { columnID: 'dfra_any', value: '1' },
         { columnID: 'dfrA1', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
-        { columnID: 'dfrA7', value: '0' },
+        // { columnID: 'dfrA14', value: '0' },
+        // { columnID: 'dfrA7', value: '0' },
       ],
     },
     {
       name: 'dfrA5',
       susceptible: false,
       rules: [
-        { columnID: 'dfra_any', value: '1' },
+        // { columnID: 'dfra_any', value: '1' },
         { columnID: 'dfrA5', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
-        { columnID: 'dfrA7', value: '0' },
+        // { columnID: 'dfrA14', value: '0' },
+        // { columnID: 'dfrA7', value: '0' },
       ],
     },
     {
       name: 'dfrA15',
       susceptible: false,
       rules: [
-        { columnID: 'dfra_any', value: '1' },
+        // { columnID: 'dfra_any', value: '1' },
         { columnID: 'dfrA15', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
-        { columnID: 'dfrA7', value: '0' },
+        // { columnID: 'dfrA14', value: '0' },
+        // { columnID: 'dfrA7', value: '0' },
       ],
     },
     {
@@ -690,18 +672,18 @@ export const drugClassesRulesSTHeatMap = {
       rules: [
         { columnID: 'dfra_any', value: '1' },
         { columnID: 'dfrA17', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
-        { columnID: 'dfrA7', value: '0' },
+        // { columnID: 'dfrA14', value: '0' },
+        // { columnID: 'dfrA7', value: '0' },
       ],
     },
     {
       name: 'dfrA18',
       susceptible: false,
       rules: [
-        { columnID: 'dfra_any', value: '1' },
+        // { columnID: 'dfra_any', value: '1' },
         { columnID: 'dfrA18', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
-        { columnID: 'dfrA7', value: '0' },
+        // { columnID: 'dfrA14', value: '0' },
+        // { columnID: 'dfrA7', value: '0' },
       ],
     },
     {
@@ -754,133 +736,169 @@ export const drugClassesRulesST = {
 export const drugClassesRulesNG = {
   Azithromycin: [
     {
-      name: '23S_a2045g + mtrR_proDel',
+      name: '23S_rDNA_a2045g',
       susceptible: false,
-      rules: [{ columnID: 'AzithR1', value: '1' }],
+      rules: [{ columnID: '23S_rDNA_a2045g', value: '1' }],
     },
     {
-      name: '23S_rDNA_a2045g + mtrR_G45D',
+      name: 'mtrR_promoter_a-57del',
       susceptible: false,
-      rules: [{ columnID: 'AzithR2', value: '1' }],
+      rules: [{ columnID: 'mtrR_promoter_a-57del', value: '1' }],
     },
     {
-      name: 'mtrR_G45D + mtrC_disrupt + 23S_a2045g',
+      name: 'mtrR_G45D',
       susceptible: false,
-      rules: [{ columnID: 'AzithR3', value: '1' }],
+      rules: [{ columnID: 'mtrR_G45D', value: '1' }],
     },
     {
-      name: '23S_c2597t + mtrR_proDel',
+      name: 'mtrC_disrupted',
       susceptible: false,
-      rules: [{ columnID: 'AzithR4', value: '1' }],
+      rules: [{ columnID: 'mtrC_disrupted', value: '1' }],
     },
     {
-      name: '23S_c2597t + mtrR_A39T',
+      name: '23S_rDNA_c2597t',
       susceptible: false,
-      rules: [{ columnID: 'AzithR5', value: '1' }],
+      rules: [{ columnID: '23S_rDNA_c2597t', value: '1' }],
     },
     {
-      name: '23S_c2597t + mtrR_G45D',
+      name: 'mtrR_A39T',
       susceptible: false,
-      rules: [{ columnID: 'AzithR6', value: '1' }],
+      rules: [{ columnID: 'mtrR_A39T', value: '1' }],
     },
     {
-      name: '23S_c2597t',
+      name: 'mtrD_mosaic_2',
       susceptible: false,
-      rules: [{ columnID: 'AzithR7', value: '1' }],
+      rules: [{ columnID: 'mtrD_mosaic_2', value: '1' }],
     },
     {
-      name: '23S_rDNA_c2597t + mtrC_disrupt',
+      name: 'mtrR_promoter_mosaic_2',
       susceptible: false,
-      rules: [{ columnID: 'AzithR8', value: '1' }],
+      rules: [{ columnID: 'mtrR_promoter_mosaic_2', value: '1' }],
     },
     {
-      name: 'mtrC_disrupt + mtrD_mos2',
+      name: 'rplD_G70D',
       susceptible: false,
-      rules: [{ columnID: 'AzithR9', value: '1' }],
+      rules: [{ columnID: 'rplD_G70D', value: '1' }],
     },
     {
-      name: 'mtrD_mos2 + mtr_mos2',
+      name: 'rplV_----90ARAK',
       susceptible: false,
-      rules: [{ columnID: 'AzithR10', value: '1' }],
-    },
-    {
-      name: 'mtr_mos2',
-      susceptible: false,
-      rules: [{ columnID: 'AzithR11', value: '1' }],
+      rules: [{ columnID: 'rplV_----90ARAK', value: '1' }],
     },
     {
       name: 'None',
       susceptible: true,
       rules: [
-        { columnID: 'AzithR1', value: '0' },
-        { columnID: 'AzithR2', value: '0' },
-        { columnID: 'AzithR3', value: '0' },
-        { columnID: 'AzithR4', value: '0' },
-        { columnID: 'AzithR5', value: '0' },
-        { columnID: 'AzithR6', value: '0' },
-        { columnID: 'AzithR7', value: '0' },
-        { columnID: 'AzithR8', value: '0' },
-        { columnID: 'AzithR9', value: '0' },
-        { columnID: 'AzithR10', value: '0' },
-        { columnID: 'AzithR11', value: '0' },
+        { columnID: '23S_rDNA_a2045g', value: '0' },
+        { columnID: 'mtrR_promoter_a-57del', value: '0' },
+        { columnID: 'mtrR_G45D', value: '0' },
+        { columnID: 'mtrC_disrupted', value: '0' },
+        { columnID: '23S_rDNA_c2597t', value: '0' },
+        { columnID: 'mtrR_A39T', value: '0' },
+        { columnID: 'mtrD_mosaic_2', value: '0' },
+        { columnID: 'mtrR_promoter_mosaic_2', value: '0' },
+        { columnID: 'rplD_G70D', value: '0' },
+        { columnID: 'rplV_----90ARAK', value: '0' },
       ],
     },
   ],
   Ceftriaxone: [
     {
-      name: 'penA.A501P + penA.G545T + penA.I312M + penA.V316T',
+      name: 'penA.A501P',
       susceptible: false,
-      rules: [{ columnID: 'CefR1', value: '1' }],
+      rules: [{ columnID: 'penA.A501P', value: '1' }],
     },
     {
-      name: 'penA.A501V + penA.G542S + penA.insV346D',
+      name: 'penA.G545T',
       susceptible: false,
-      rules: [{ columnID: 'CefR2', value: '1' }],
+      rules: [{ columnID: 'penA.G545T', value: '1' }],
+    },
+    {
+      name: 'penA.I312M',
+      susceptible: false,
+      rules: [{ columnID: 'penA.I312M', value: '1' }],
+    },
+    {
+      name: 'penA.V316T',
+      susceptible: false,
+      rules: [{ columnID: 'penA.V316T', value: '1' }],
+    },
+    {
+      name: 'penA.A501V',
+      susceptible: false,
+      rules: [{ columnID: 'penA.A501V', value: '1' }],
+    },
+    {
+      name: 'penA.G542S',
+      susceptible: false,
+      rules: [{ columnID: 'penA.G542S', value: '1' }],
+    },
+    {
+      name: 'penA.insV346D',
+      susceptible: false,
+      rules: [{ columnID: 'penA.insV346D', value: '1' }],
     },
     {
       name: 'None',
       susceptible: true,
       rules: [
-        { columnID: 'CefR1', value: '0' },
-        { columnID: 'CefR2', value: '0' },
+        { columnID: 'penA.A501P', value: '0' },
+        { columnID: 'penA.G545S', value: '0' },
+        { columnID: 'penA.I312M', value: '0' },
+        { columnID: 'penA.V316T', value: '0' },
+        { columnID: 'penA.A501V', value: '0' },
+        { columnID: 'penA.G542S', value: '0' },
+        { columnID: 'penA.insV346D', value: '0' },
       ],
     },
   ],
   Cefixime: [
     {
-      name: 'penA.A501P + penA.G545S + penA.I312M + penA.V316T',
+      name: 'penA.A501P',
       susceptible: false,
-      rules: [{ columnID: 'CefixR1', value: '1' }],
+      rules: [{ columnID: 'penA.A501P', value: '1' }],
     },
     {
-      name: 'penA.G545S + penA.I312M + penA.V316T',
+      name: 'penA.G545S',
       susceptible: false,
-      rules: [{ columnID: 'CefixR2', value: '1' }],
+      rules: [{ columnID: 'penA.G545S', value: '1' }],
     },
     {
-      name: 'penA.G545S + penA.I312M + penA.P551S, penA.V316T',
+      name: 'penA.I312M',
       susceptible: false,
-      rules: [{ columnID: 'CefixR3', value: '1' }],
+      rules: [{ columnID: 'penA.I312M', value: '1' }],
     },
     {
-      name: 'mtrR.G45D + penA.G545S + penA.I312M + penA.V316T',
+      name: 'penA.P551S',
       susceptible: false,
-      rules: [{ columnID: 'CefixR4', value: '1' }],
+      rules: [{ columnID: 'penA.P551S', value: '1' }],
     },
     {
-      name: 'mtrR.A39T + penA.G545S + penA.I312M + penA.V316T',
+      name: 'penA.V316T',
       susceptible: false,
-      rules: [{ columnID: 'CefixR5', value: '1' }],
+      rules: [{ columnID: 'penA.V316T', value: '1' }],
+    },
+    {
+      name: 'mtrR.G45D',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR.G45D', value: '1' }],
+    },
+    {
+      name: 'mtrR.A39T',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR.A39T', value: '1' }],
     },
     {
       name: 'None',
       susceptible: true,
       rules: [
-        { columnID: 'CefixR1', value: '0' },
-        { columnID: 'CefixR2', value: '0' },
-        { columnID: 'CefixR3', value: '0' },
-        { columnID: 'CefixR4', value: '0' },
-        { columnID: 'CefixR5', value: '0' },
+        { columnID: 'penA.A501P', value: '0' },
+        { columnID: 'penA.G545S', value: '0' },
+        { columnID: 'penA.I312M', value: '0' },
+        { columnID: 'penA.V316T', value: '0' },
+        { columnID: 'penA.P551S', value: '0' },
+        { columnID: 'mtrR.G45D', value: '0' },
+        { columnID: 'mtrR.A39T', value: '0' },
       ],
     },
   ],
