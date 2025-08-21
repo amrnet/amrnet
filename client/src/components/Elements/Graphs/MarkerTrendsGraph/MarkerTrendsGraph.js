@@ -1,6 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Close } from '@mui/icons-material';
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  MenuItem,
+  Select,
+  Switch,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Brush,
@@ -24,8 +36,7 @@ import {
   setTrendsGraphView,
 } from '../../../../stores/slices/graphSlice';
 import { colorForDrugClassesNG, colorForMarkers, hoverColor } from '../../../../util/colorHelper';
-import { drugClassesNG, markersDrugsKP, drugClassesST, markersDrugsSH, drugsINTS} from '../../../../util/drugs';
-import { statKeysST } from '../../../../util/drugClassesRules';
+import { drugClassesNG, drugClassesST, drugsINTS, markersDrugsKP, markersDrugsSH } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -41,6 +52,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
+  const [logScale, setLogScale] = useState(false);
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
@@ -71,25 +83,24 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   ];
 
   function getDrugClasses() {
-  if (organism === 'none') {
-    return [];
-  }
-  if (organism === 'kpneumo') {
-    return markersDrugsKP;
-  }
-  if (organism === 'styphi') {
-    return drugClassesST;
-  }
-  if (organism === 'shige' || organism === 'decoli' || organism === 'ecoli') {
-    return markersDrugsSH;
-  }
-  if (organism === 'ngono') {
-    return drugClassesNG;  // This should return the correct drug classes for ngono
-  }
+    if (organism === 'none') {
+      return [];
+    }
+    if (organism === 'kpneumo') {
+      return markersDrugsKP;
+    }
+    if (organism === 'styphi') {
+      return drugClassesST.filter(x => x !== 'Trimethoprim-sulfamethoxazole');
+    }
+    if (organism === 'shige' || organism === 'decoli' || organism === 'ecoli') {
+      return markersDrugsSH;
+    }
+    if (organism === 'ngono') {
+      return drugClassesNG; // This should return the correct drug classes for ngono
+    }
 
-  return drugsINTS.filter(item => item !== 'Pansusceptible'); // Default fallback
-}
-
+    return drugsINTS.filter(item => item !== 'Pansusceptible'); // Default fallback
+  }
 
   function getDomain(max = null) {
     return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
@@ -215,6 +226,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     dispatch(setTrendsGraphDrugClass(event.target.value));
   }
 
+  function handleSwitchScale(event) {
+    setCurrentTooltip(null);
+    setLogScale(event.target.checked);
+  }
+
   function handleClickChart(event) {
     const data = slicedData.find(item => item.name === event?.activeLabel);
 
@@ -323,12 +339,12 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                 tick={{ fontSize: 14 }}
               />
               <YAxis
-                tickCount={8}
+                tickCount={logScale ? 8 : 6}
                 padding={{ top: 20, bottom: 20 }}
                 allowDecimals={false}
                 domain={getDomain()}
                 allowDataOverflow={true}
-                scale="sqrt"
+                scale={logScale ? 'sqrt' : undefined}
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   {dataViewOptionsGenomes.find(option => option.value === trendsGraphView).label}
@@ -431,7 +447,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice]);
+  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale]);
 
   return (
     <CardContent className={classes.markerTrendsGraph}>
@@ -441,6 +457,12 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
         </div>
         <div className={classes.rightSide}>
           <SliderSizes value={'KP_GE'} style={{ width: '100%' }} />
+          <FormGroup className={classes.formGroup}>
+            <FormControlLabel
+              label={<Typography variant="caption">Use sqrt scale</Typography>}
+              control={<Switch checked={logScale} onChange={handleSwitchScale} />}
+            />
+          </FormGroup>
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
@@ -510,13 +532,15 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      {getDrugClasses()?.map((option, index) => {
-                        return (
-                          <MenuItem key={index + 'trends-drug-classes'} value={option}>
-                            {option}
-                          </MenuItem>
-                        );
-                      })}
+                      {getDrugClasses()
+                        ?.filter(x => !['MDR', 'XDR'].includes(x))
+                        .map((option, index) => {
+                          return (
+                            <MenuItem key={index + 'trends-drug-classes'} value={option}>
+                              {option}
+                            </MenuItem>
+                          );
+                        })}
                     </Select>
                   </div>
                 </div>
