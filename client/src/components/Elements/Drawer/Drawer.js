@@ -1,15 +1,17 @@
-import { useStyles } from './DrawerMUI';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
 import { menuItems } from '../../../util/menuItems';
+import { useStyles } from './DrawerMUI';
 
 export const Drawer = () => {
   const classes = useStyles();
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const openDrawer = useAppSelector(state => state.app.openDrawer);
 
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
@@ -49,6 +51,19 @@ export const Drawer = () => {
     return page === item.key;
   };
 
+  const getTranslatedLabel = item => {
+    const labelMap = {
+      Home: t('navigation.home'),
+      About: t('navigation.about'),
+      Team: t('navigation.team'),
+      'User Guide': t('navigation.userguide'),
+      Database: t('navigation.database'),
+      Contact: t('navigation.contact'),
+      GitHub: 'GitHub', // Keep in English
+    };
+    return labelMap[item.label] || item.label;
+  };
+
   return (
     <SwipeableDrawer
       anchor="left"
@@ -72,7 +87,7 @@ export const Drawer = () => {
                 onClick={() => handleClick(item)}
               >
                 <ListItemIcon className={isItemActive(item) ? classes.activeItemIcon : ''}>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.label} />
+                <ListItemText primary={getTranslatedLabel(item)} />
               </ListItemButton>
             </ListItem>
           ))}
