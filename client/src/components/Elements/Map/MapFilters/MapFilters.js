@@ -126,10 +126,15 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
   const resistanceOptions = useMemo(() => {
     const options = statKeys?.[organism] ?? statKeys?.['others'] ?? [];
-
-    return options
+    const filteredOptions = options
       .filter(({ resistanceView, name }) => resistanceView && name !== 'Pansusceptible')
       .map(({ name }) => name);
+
+    if (organism === 'ngono') {
+      filteredOptions.splice(5, 0, ...['XDR', 'MDR']);
+    }
+
+    return filteredOptions;
   }, [organism]);
 
   const nonResistanceOptions = useMemo(() => {
@@ -163,7 +168,24 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (isResPrevalence) {
-      dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
+      switch (organism) {
+        case 'kpneumo':
+          dispatch(setPrevalenceMapViewOptionsSelected(['Carbapenems']));
+          break;
+        case 'ecoli':
+          dispatch(setPrevalenceMapViewOptionsSelected(['ESBL']));
+          break;
+        case 'styphi':
+          dispatch(setPrevalenceMapViewOptionsSelected(['CipR']));
+          break;
+        case 'sentericaints':
+        case 'senterica':
+          dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin NS']));
+          break;
+        default:
+          dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin']));
+          break;
+      }
       return;
     }
 
@@ -172,7 +194,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     dispatch(setPrevalenceMapViewOptionsSelected(nonResistanceOptions[0] ? [nonResistanceOptions[0]] : []));
-  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions]);
+  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions, organism]);
 
   const currentMapLegends = useMemo(() => {
     return mapLegends.filter(legend => legend.organisms.includes(organism));
