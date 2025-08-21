@@ -99,6 +99,9 @@ export function getAxisLabel(organism, variable = null) {
       if (variable === 'cgST') return 'cgSTs';
       if (variable === 'Sublineage') return 'sublineages';
       return 'STs';
+    case 'ngono':
+      if (variable === 'NG-MAST TYPE') return 'ng-mast';
+      return 'genotypes';
     default:
       return 'genotypes';
   }
