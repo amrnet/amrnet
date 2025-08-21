@@ -66,10 +66,10 @@ Geographic comparisons
 
    **Plot-specific downloads:** Summarised values displayed in the current heatmap can be downloaded by clicking the down arrow button (top-right of panel). A static image (PNG format) of the current plotting view can be downloaded by clicking the camera icon.
 
- .. figure:: assets/geo.png
-      :width: 100%
-      :align: center
-      :alt: geographic_comparisons
+   .. figure:: assets/geo.png
+         :width: 100%
+         :align: center
+         :alt: geographic_comparisons
 
 Downloads
 ~~~~~~~~~~~~~
