@@ -58,6 +58,7 @@
     "gopd": "^1.2.0",
     "has-tostringtag": "^1.0.2",
     "hasown": "^2.0.2",
+    "he": "1.2.0",
     "helmet": "^8.1.0",
     "html2pdf.js": "^0.10.3",
     "http-errors": "~2.0.0",
