@@ -701,7 +701,17 @@ router.get('/paginated/:organism', async (req, res) => {
     // Apply filters if provided
     if (filters) {
       const parsedFilters = JSON.parse(filters);
-      Object.assign(query, parsedFilters);
+      // Validate that all filter values are primitives (string, number, boolean, or null)
+      for (const [key, value] of Object.entries(parsedFilters)) {
+        if (
+          typeof value === 'object' && value !== null ||
+          typeof value === 'function' ||
+          Array.isArray(value)
+        ) {
+          return res.status(400).json({ error: 'Invalid filter value: must be a primitive.' });
+        }
+        query[key] = value;
+      }
     }
 
     // Get appropriate projection based on data type
