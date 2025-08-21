@@ -1,6 +1,6 @@
 import { GitHub, RestartAlt } from '@mui/icons-material';
 import { Fab, IconButton, Tooltip, useMediaQuery } from '@mui/material';
-import { useIndexedDB } from '../../../context/IndexedDBContext';
+// import { useIndexedDB } from '../../../context/IndexedDBContext';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import {
   setActualCountry,
@@ -26,7 +26,7 @@ import {
   setCurrentSliderValueKP_GE,
   setCurrentSliderValueKP_GT,
   setCurrentSliderValueRD,
-  setCustomDropdownMapViewNG,
+  // setCustomDropdownMapViewNG,
   setDeterminantsGraphDrugClass,
   setDeterminantsGraphView,
   setDistributionGraphVariable,
@@ -36,7 +36,7 @@ import {
   setKODiversityGraphView,
   setKOTrendsGraphPlotOption,
   setKOTrendsGraphView,
-  setNgmastDrugsData,
+  // setNgmastDrugsData,
   setResetBool,
   setTrendsGraphDrugClass,
   setTrendsGraphView,
@@ -50,25 +50,26 @@ import {
   drugsKP,
   markersDrugsKP,
 } from '../../../util/drugs';
-import { getNgmastData } from '../../Dashboard/filters';
+// import { getNgmastData } from '../../Dashboard/filters';
 import { useStyles } from './ResetButtonMUI';
 
 export const ResetButton = () => {
   const classes = useStyles();
-  const { getItems } = useIndexedDB();
+  // const { getItems } = useIndexedDB();
   const matches500 = useMediaQuery('(max-width: 500px)');
 
   const dispatch = useAppDispatch();
-  const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
-  const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
+  // const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
+  // const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
   const organism = useAppSelector(state => state.dashboard.organism);
   const pathovar = useAppSelector(state => state.dashboard.pathovar);
-  const ngmast = useAppSelector(state => state.graph.NGMAST);
+  // const ngmast = useAppSelector(state => state.graph.NGMAST);
   const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
   const loadingData = useAppSelector(state => state.dashboard.loadingData);
   const loadingMap = useAppSelector(state => state.map.loadingMap);
-  const yearsCompleteListToShowInGlobalFilter = useAppSelector(state => state.dashboard.yearsCompleteListToShowInGlobalFilter);
-
+  const yearsCompleteListToShowInGlobalFilter = useAppSelector(
+    state => state.dashboard.yearsCompleteListToShowInGlobalFilter,
+  );
 
   async function handleClick() {
     dispatch(setResetBool(true));
@@ -77,13 +78,15 @@ export const ResetButton = () => {
     dispatch(setDataset('All'));
     dispatch(setDatasetKP('All'));
     dispatch(setActualTimeInitial(yearsCompleteListToShowInGlobalFilter[0]));
-    dispatch(setActualTimeFinal(yearsCompleteListToShowInGlobalFilter[yearsCompleteListToShowInGlobalFilter.length-1]));
+    dispatch(
+      setActualTimeFinal(yearsCompleteListToShowInGlobalFilter[yearsCompleteListToShowInGlobalFilter.length - 1]),
+    );
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
     dispatch(setActualRegion('All'));
     dispatch(setActualCountry('All'));
 
-    const storeData = await getItems(organism);
-    const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
+    // const storeData = await getItems(organism);
+    // const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
 
     if (organism === 'styphi') {
       dispatch(setMapView('Resistance prevalence'));
@@ -96,8 +99,8 @@ export const ResetButton = () => {
       // dispatch(setTrendsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
-      dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
-      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map(x => x.name)));
+      // dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
+      // dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map(x => x.name)));
     } else {
       dispatch(setMapView('Resistance prevalence'));
       dispatch(setDrugResistanceGraphView(drugsKP));
