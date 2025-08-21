@@ -473,13 +473,13 @@ export const DashboardPage = () => {
           // Only set color palette for non-paginated organisms
           // Paginated organisms (kpneumo, decoli, ecoli) will have their color palette
           // set by the progressiveGenotypeLoader after all data is processed
-          let paletteSource = genotypes;
+          // let paletteSource = genotypes.slice(0, 100);
 
-          if (organism === 'senterica') {
-            paletteSource = uniqueGenotypes;
-          }
+          // if (organism === 'senterica') {
+          //   paletteSource = uniqueGenotypes;
+          // }
 
-          dispatch(setColorPallete(generatePalleteForGenotypes(paletteSource)));
+          dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
 
           if (organism === 'kpneumo') {
             dispatch(setCgSTYearData(cgSTData));
