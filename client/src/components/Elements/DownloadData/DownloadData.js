@@ -1683,7 +1683,7 @@ export const DownloadData = () => {
     const url = `https://amrnet.readthedocs.io/en/latest/usage.html#${Name}`;
     // console.log('url', url);
     window.open(url, '_blank');
-    // window.open('https://amrnet.readthedocs.io/en/staging/', '_blank');
+    // window.open('https://amrnet.readthedocs.io/en/latest/', '_blank');
   }
 
   return (

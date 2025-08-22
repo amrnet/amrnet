@@ -3,6 +3,8 @@ import express from 'express';
 import fs from 'fs';
 import { MongoClient } from 'mongodb';
 import { getMongoConfig } from '../../config/db.js';
+import rateLimit from 'express-rate-limit';
+
 
 const router = express.Router();
 
@@ -499,7 +501,13 @@ router.get('/getDataForSenterica', async function (req, res, next) {
   }
 });
 
-router.get('/getDataForSentericaints', async function (req, res, next) {
+const sentericaintsLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: { error: 'Too many requests, please try again later.' },
+});
+
+router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['sentericaints'];
   try {
     const pipeline = [
