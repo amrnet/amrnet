@@ -839,6 +839,16 @@ export const drugClassesRulesNG = {
       rules: [{ columnID: 'penA.insV346D', value: '1' }],
     },
     {
+      name: 'penA_G545S',
+      susceptible: false,
+      rules: [{ columnID: 'penA_G545S', value: '1' }],
+    },
+    {
+      name: 'penA_T483S',
+      susceptible: false,
+      rules: [{ columnID: 'penA_T483S', value: '1' }],
+    },
+    {
       name: 'None',
       susceptible: true,
       rules: [
@@ -849,6 +859,8 @@ export const drugClassesRulesNG = {
         { columnID: 'penA.A501V', value: '0' },
         { columnID: 'penA.G542S', value: '0' },
         { columnID: 'penA.insV346D', value: '0' },
+        { columnID: 'penA_G545S', value: '0' },
+        { columnID: 'penA_T483S', value: '0' },
       ],
     },
   ],
@@ -857,6 +869,11 @@ export const drugClassesRulesNG = {
       name: 'penA.A501P',
       susceptible: false,
       rules: [{ columnID: 'penA.A501P', value: '1' }],
+    },
+    {
+      name: 'penA.A311V',
+      susceptible: false,
+      rules: [{ columnID: 'penA.A311V', value: '1' }],
     },
     {
       name: 'penA.G545S',
@@ -889,6 +906,16 @@ export const drugClassesRulesNG = {
       rules: [{ columnID: 'mtrR.A39T', value: '1' }],
     },
     {
+      name: 'penA_T483S',
+      susceptible: false,
+      rules: [{ columnID: 'penA_T483S', value: '1' }],
+    },
+    {
+      name: 'penA_V316P',
+      susceptible: false,
+      rules: [{ columnID: 'penA_V316P', value: '1' }],
+    },
+    {
       name: 'None',
       susceptible: true,
       rules: [
@@ -899,271 +926,220 @@ export const drugClassesRulesNG = {
         { columnID: 'penA.P551S', value: '0' },
         { columnID: 'mtrR.G45D', value: '0' },
         { columnID: 'mtrR.A39T', value: '0' },
+        { columnID: 'penA.A311V', value: '0' },
+        { columnID: 'penA_T483S', value: '0' },
+        { columnID: 'penA_V316P', value: '0' },
       ],
     },
   ],
-  // Tetracycline: [
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR1', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR2', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR3', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR4', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR5', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR6', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR7', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR8', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR9', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR10', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR11', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR12', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR13', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR14', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR15', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR16', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'TetR17', value: '1' }],
-  //   },
-  //   {
-  //     name: 'None',
-  //     susceptible: true,
-  //     rules: [
-  //       { columnID: 'TetR1', value: '0' },
-  //       { columnID: 'TetR2', value: '0' },
-  //       { columnID: 'TetR3', value: '0' },
-  //       { columnID: 'TetR4', value: '0' },
-  //       { columnID: 'TetR5', value: '0' },
-  //       { columnID: 'TetR6', value: '0' },
-  //       { columnID: 'TetR7', value: '0' },
-  //       { columnID: 'TetR8', value: '0' },
-  //       { columnID: 'TetR9', value: '0' },
-  //       { columnID: 'TetR10', value: '0' },
-  //       { columnID: 'TetR11', value: '0' },
-  //       { columnID: 'TetR12', value: '0' },
-  //       { columnID: 'TetR13', value: '0' },
-  //       { columnID: 'TetR14', value: '0' },
-  //       { columnID: 'TetR15', value: '0' },
-  //       { columnID: 'TetR16', value: '0' },
-  //       { columnID: 'TetR17', value: '0' },
-  //     ],
-  //   },
-  // ],
-  // Ciprofloxacin: [
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR1', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR2', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR3', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR4', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR5', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR6', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR7', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR8', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR9', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR10', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR11', value: '1' }],
-  //   },
-  //       {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR12', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR13', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR14', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR15', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR16', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR17', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR18', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR19', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR20', value: '1' }],
-  //   },
-  //       {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR21', value: '1' }],
-  //   },
-  //       {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR22', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR23', value: '1' }],
-  //   },
-  //   {
-  //     name: '',
-  //     susceptible: false,
-  //     rules: [{ columnID: 'CiproR24', value: '1' }],
-  //   },
-  //   {
-  //     name: 'None',
-  //     susceptible: true,
-  //     rules: [
-  //       { columnID: 'CiproR1', value: '0' },
-  //       { columnID: 'CiproR2', value: '0' },
-  //       { columnID: 'CiproR3', value: '0' },
-  //       { columnID: 'CiproR4', value: '0' },
-  //       { columnID: 'CiproR5', value: '0' },
-  //       { columnID: 'CiproR6', value: '0' },
-  //       { columnID: 'CiproR7', value: '0' },
-  //       { columnID: 'CiproR8', value: '0' },
-  //       { columnID: 'CiproR9', value: '0' },
-  //       { columnID: 'CiproR10', value: '0' },
-  //       { columnID: 'CiproR11', value: '0' },
-  //       { columnID: 'CiproR12', value: '0' },
-  //       { columnID: 'CiproR13', value: '0' },
-  //       { columnID: 'CiproR14', value: '0' },
-  //       { columnID: 'CiproR15', value: '0' },
-  //       { columnID: 'CiproR16', value: '0' },
-  //       { columnID: 'CiproR17', value: '0' },
-  //       { columnID: 'CiproR18', value: '0' },
-  //       { columnID: 'CiproR19', value: '0' },
-  //       { columnID: 'CiproR20', value: '0' },
-  //       { columnID: 'CiproR21', value: '0' },
-  //       { columnID: 'CiproR22', value: '0' },
-  //       { columnID: 'CiproR23', value: '0' },
-  //       { columnID: 'CiproR24', value: '0' },
-  //     ],
-  //   },
-  // ],
+  Ciprofloxacin: [
+    {
+      name: 'gyrA_D95G',
+      susceptible: false,
+      rules: [{ columnID: 'gyrA_D95G', value: '1' }],
+    },
+    {
+      name: 'parC_S87I',
+      susceptible: false,
+      rules: [{ columnID: 'parC_S87I', value: '1' }],
+    },
+    {
+      name: 'gyrA_S91F',
+      susceptible: false,
+      rules: [{ columnID: 'gyrA_S91F', value: '1' }],
+    },
+    {
+      name: 'gyrA_D95N',
+      susceptible: false,
+      rules: [{ columnID: 'gyrA_D95N', value: '1' }],
+    },
+    {
+      name: 'parC_S87R',
+      susceptible: false,
+      rules: [{ columnID: 'parC_S87R', value: '1' }],
+    },
+    {
+      name: 'parC_S88P',
+      susceptible: false,
+      rules: [{ columnID: 'parC_S88P', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: 'gyrA_D95G', value: '0' },
+        { columnID: 'parC_S87I', value: '0' },
+        { columnID: 'gyrA_S91F', value: '0' },
+        { columnID: 'gyrA_D95N', value: '0' },
+        { columnID: 'parC_S87R', value: '0' },
+        { columnID: 'parC_S88P', value: '0' },
+      ],
+    },
+  ],
+  Sulfonamides: [
+    {
+      name: 'folP_R228S',
+      susceptible: false,
+      rules: [{ columnID: 'folP_R228S', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: 'folP_R228S', value: '0' },
+      ],
+    },
+  ],
+  Spectinomycin: [
+  {
+  name: '16S_rDNA_c1184t',
+  susceptible: false,
+  rules: [{ columnID: '16S_rDNA_c1184t', value: '1' }],
+  },
+  {
+  name: 'rpsE_T24P',
+  susceptible: false,
+  rules: [{ columnID: 'rpsE_T24P', value: '1' }],
+  },
+  {
+  name: 'None',
+  susceptible: true,
+  rules: [
+  { columnID: '16S_rDNA_c1184t', value: '0' },
+  { columnID: 'rpsE_T24P', value: '0' },
+  ],
+  },
+  ],
+  Benzylpenicillin: [
+    {
+      name: 'mtrR_promoter_a-57del',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR_promoter_a-57del', value: '1' }],
+    },
+    {
+      name: 'penA_A501T',
+      susceptible: false,
+      rules: [{ columnID: 'penA_A501T', value: '1' }],
+    },
+    {
+      name: 'penA_ins346D',
+      susceptible: false,
+      rules: [{ columnID: 'penA_ins346D', value: '1' }],
+    },
+    {
+      name: 'ponA1_L421P',
+      susceptible: false,
+      rules: [{ columnID: 'ponA1_L421P', value: '1' }],
+    },
+    {
+      name: 'porB1b_A121D',
+      susceptible: false,
+      rules: [{ columnID: 'porB1b_A121D', value: '1' }],
+    },
+    {
+      name: 'porB1b_G120K',
+      susceptible: false,
+      rules: [{ columnID: 'porB1b_G120K', value: '1' }],
+    },
+    {
+      name: 'mtrR_A39T',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR_A39T', value: '1' }],
+    },
+    {
+      name: 'penA_G542S',
+      susceptible: false,
+      rules: [{ columnID: 'penA_G542S', value: '1' }],
+    },
+    {
+      name: 'mtrR_G45D',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR_G45D', value: '1' }],
+    },
+    {
+      name: 'penA_G545S',
+      susceptible: false,
+      rules: [{ columnID: 'penA_G545S', value: '1' }],
+    },
+    {
+      name: 'penA_I312M',
+      susceptible: false,
+      rules: [{ columnID: 'penA_I312M', value: '1' }],
+    },
+    {
+      name: 'penA_V316T',
+      susceptible: false,
+      rules: [{ columnID: 'penA_V316T', value: '1' }],
+    },
+    {
+      name: 'blaTEM',
+      susceptible: false,
+      rules: [{ columnID: 'blaTEM', value: '1' }],
+    },
+    {
+      name: 'penA_V316T',
+      susceptible: false,
+      rules: [{ columnID: 'penA_V316T', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: 'mtrR_promoter_a-57del', value: '0' },
+        { columnID: 'blaTEM', value: '0' },
+        { columnID: 'penA_V316T', value: '0' },
+        { columnID: 'penA_A501T', value: '0' },
+        { columnID: 'penA_ins346D', value: '0' },
+        { columnID: 'ponA1_L421P', value: '0' },
+        { columnID: 'porB1b_A121D', value: '0' },
+        { columnID: 'porB1b_G120K', value: '0' },
+        { columnID: 'mtrR_A39T', value: '0' },
+        { columnID: 'penA_G542S', value: '0' },
+        { columnID: 'mtrR_G45D', value: '0' },
+        { columnID: 'penA_G545S', value: '0' },
+        { columnID: 'penA_I312M', value: '0' },
+        { columnID: 'penA_V316T', value: '0' },
+      ],
+    },
+  ],
+Tetracycline: [
+  {
+    name: 'mtrR_promoter_a-57del',
+    susceptible: false,
+    rules: [{ columnID: 'mtrR_promoter_a-57del', value: '1' }],
+  },
+  {
+    name: 'rpsJ_V57M',
+    susceptible: false,
+    rules: [{ columnID: 'rpsJ_V57M', value: '1' }],
+  },
+  {
+    name: 'mtrR_A39T',
+    susceptible: false,
+    rules: [{ columnID: 'mtrR_A39T', value: '1' }],
+  },
+  {
+    name: 'mtrR_G45D',
+    susceptible: false,
+    rules: [{ columnID: 'mtrR_G45D', value: '1' }],
+  },
+  {
+    name: 'tetM',
+    susceptible: false,
+    rules: [{ columnID: 'tetM', value: '1' }],
+  },
+  {
+    name: 'None',
+    susceptible: true,
+    rules: [
+      { columnID: 'mtrR_promoter_a-57del', value: '0' },
+      { columnID: 'rpsJ_V57M', value: '0' },
+      { columnID: 'mtrR_A39T', value: '0' },
+      { columnID: 'mtrR_G45D', value: '0' },
+      { columnID: 'tetM', value: '0' },
+      ],
+  },
+  ],
 };
 
 // TO DO: ADD RULES (USE GONO AS REFERENCE)
