@@ -1,4 +1,6 @@
-# ReadTheDocs Multi-Language Configuration for AMRnet
+# Read the Docs Configuration for AMRnet
+# This file configures multi-language documentation with professional translation support
+
 version: 2
 
 # Build configuration
@@ -10,10 +12,6 @@ build:
     post_create_environment:
       - pip install --upgrade pip setuptools wheel
       - pip install -r docs/requirements.txt
-      - pip install sphinx-intl babel
-    post_install:
-      # Compile all translation files
-      - cd docs && find locale/ -name "*.po" -exec msgfmt {} -o {}.mo \; || true
 
 # Python configuration
 python:
@@ -22,7 +20,7 @@ python:
     - method: pip
       path: .
 
-# Sphinx configuration - build with language detection
+# Sphinx configuration
 sphinx:
   builder: html
   configuration: docs/conf.py
@@ -31,7 +29,7 @@ sphinx:
 # Format configuration
 formats:
   - pdf
-  - htmlzip
+  - epub
 
 # Search configuration
 search:
@@ -42,23 +40,3 @@ search:
   ignore:
     - locale/
     - _build/
-    - "*.po"
-    - "*.pot"
-    - "*.mo"
-# Language detection from environment variable
-# This allows building different languages on different RTD projects
-#
-# SETUP INSTRUCTIONS:
-# 1. Create separate ReadTheDocs projects for each language:
-#    - amrnet (English - no env var needed)
-#    - amrnet-es (Spanish)
-#    - amrnet-fr (French)
-#    - amrnet-pt (Portuguese)
-#
-# 2. In each non-English project's Admin → Environment Variables, add:
-#    Spanish project:    SPHINX_LANGUAGE_ES = es
-#    French project:     SPHINX_LANGUAGE_FR = fr
-#    Portuguese project: SPHINX_LANGUAGE_PT = pt
-#
-# 3. The conf.py file will automatically detect these variables and build
-#    the appropriate language version using the compiled .mo files
