@@ -2,11 +2,20 @@
 """
 Script to fill basic translations for AMRnet documentation.
 This provides essential translations to make ReadTheDocs multi-language builds work.
+
+Uses polib for robust .po file handling instead of regex-based replacement.
+This approach correctly handles:
+- Multiline msgid/msgstr blocks
+- Proper escaping of special characters
+- Fuzzy flags and metadata
+- Complex .po file structures
 """
 
 import os
 import re
+import subprocess
 from pathlib import Path
+import polib
 
 # Basic translations for key terms
 TRANSLATIONS = {
@@ -148,7 +157,7 @@ TRANSLATIONS = {
 }
 
 def update_po_file(po_file_path, language):
-    """Update a .po file with translations for the specified language."""
+    """Update a .po file with translations for the specified language using polib."""
     if not os.path.exists(po_file_path):
         print(f"Warning: {po_file_path} does not exist")
         return 0
@@ -159,41 +168,26 @@ def update_po_file(po_file_path, language):
         return 0
 
     try:
-        with open(po_file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-
-        # Remove fuzzy marker from header
-        content = re.sub(r'#, fuzzy\n', '', content)
+        # Load the .po file using polib
+        po = polib.pofile(po_file_path)
+        translated_count = 0
 
         # Update header information
-        content = re.sub(
-            r'"PO-Revision-Date: YEAR-MO-DA HO:MI\+ZONE\\n"',
-            '"PO-Revision-Date: 2025-08-21 12:00+0000\\n"',
-            content
-        )
-        content = re.sub(
-            r'"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n"',
-            '"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\\n"',
-            content
-        )
+        po.metadata['PO-Revision-Date'] = '2025-08-21 12:00+0000'
+        po.metadata['Last-Translator'] = 'AMRnet Team <amrnetdashboard@gmail.com>'
 
-        # Apply translations
-        translated_count = 0
-        for english_text, translated_text in translations.items():
-            # Escape special characters for regex
-            escaped_english = re.escape(english_text)
-
-            # Pattern to match msgid followed by empty msgstr
-            pattern = f'msgid "{escaped_english}"\nmsgstr ""'
-            replacement = f'msgid "{english_text}"\nmsgstr "{translated_text}"'
-
-            if re.search(pattern, content):
-                content = re.sub(pattern, replacement, content)
+        # Apply translations using polib
+        for entry in po:
+            # Skip fuzzy entries and entries that already have translations
+            if entry.msgid in translations and not entry.msgstr:
+                entry.msgstr = translations[entry.msgid]
+                # Remove fuzzy flag if present
+                if 'fuzzy' in entry.flags:
+                    entry.flags.remove('fuzzy')
                 translated_count += 1
 
-        # Write back the updated content
-        with open(po_file_path, 'w', encoding='utf-8') as f:
-            f.write(content)
+        # Save the updated .po file
+        po.save(po_file_path)
 
         print(f"Updated {po_file_path}: {translated_count} translations added")
         return translated_count
@@ -233,14 +227,34 @@ def main():
 
     # Compile all translations
     print("\n=== Compiling translations ===")
+    compilation_errors = 0
     for language in languages:
         lang_dir = locale_dir / language / 'LC_MESSAGES'
         if lang_dir.exists():
             po_files = list(lang_dir.glob('*.po'))
             for po_file in po_files:
                 mo_file = po_file.with_suffix('.mo')
-                os.system(f'msgfmt "{po_file}" -o "{mo_file}"')
-                print(f"Compiled {po_file.name}")
+                try:
+                    result = subprocess.run(
+                        ['msgfmt', str(po_file), '-o', str(mo_file)],
+                        capture_output=True,
+                        text=True,
+                        check=True
+                    )
+                    print(f"✓ Compiled {po_file.name}")
+                except subprocess.CalledProcessError as e:
+                    print(f"✗ Failed to compile {po_file.name}:")
+                    print(f"  Error: {e.stderr.strip()}")
+                    compilation_errors += 1
+                except FileNotFoundError:
+                    print(f"✗ msgfmt command not found. Please install gettext tools.")
+                    compilation_errors += 1
+                    break
+
+    if compilation_errors > 0:
+        print(f"\n⚠️  {compilation_errors} compilation error(s) occurred. Check the output above.")
+    else:
+        print(f"\n✅ All translations compiled successfully!")
 
 if __name__ == '__main__':
     main()
