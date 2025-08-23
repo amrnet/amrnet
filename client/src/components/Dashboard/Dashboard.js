@@ -452,6 +452,7 @@ export const DashboardPage = () => {
           dt.sublineageData,
           dt.uniqueCgST,
           dt.uniqueSublineages,
+          dt.uniqueNGMAST,
           dt.NGMASTData,
         ];
       }).then(
@@ -464,6 +465,7 @@ export const DashboardPage = () => {
           sublineageData,
           uniqueCgST,
           uniqueSublineages,
+          uniqueNGMAST,
           NGMASTData,
         ]) => {
           dispatch(setGenotypesYearData(genotypesData));
@@ -486,10 +488,9 @@ export const DashboardPage = () => {
             dispatch(setSublineagesYearData(sublineageData));
             dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueCgST)));
             dispatch(setColorPalleteSublineages(generatePalleteForGenotypes(uniqueSublineages)));
-            dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes.slice(0, 200))));
           } else if (organism === 'ngono') {
             dispatch(setCgSTYearData(NGMASTData));
-            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(ngmast)));
+            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueNGMAST)));
           }
         },
       ),
@@ -851,9 +852,10 @@ export const DashboardPage = () => {
    * @param {boolean} isPaginated - Whether organism uses paginated loading
    */
   function setOrganismSpecificConfig(organism, isPaginated = false) {
+    dispatch(setMapView('Resistance prevalence'));
+
     switch (organism) {
       case 'styphi':
-        dispatch(setMapView('Resistance prevalence'));
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
         }
@@ -863,7 +865,6 @@ export const DashboardPage = () => {
         break;
       case 'kpneumo':
         // dispatch(setDatasetKP('All'));
-        dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
         // Don't set drug selection for paginated organisms - let auto-selection effect handle it
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(markersDrugsKP));
@@ -888,7 +889,6 @@ export const DashboardPage = () => {
         dispatch(setBubbleMarkersYAxisType('Carbapenems'));
         break;
       case 'ngono':
-        dispatch(setMapView('Resistance prevalence'));
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
         }
@@ -897,10 +897,11 @@ export const DashboardPage = () => {
         dispatch(setTrendsGraphView('percentage'));
         dispatch(setBubbleMarkersYAxisType(drugClassesNG[0]));
         dispatch(setDistributionGraphVariable('GENOTYPE'));
+        dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
+        dispatch(setBubbleHeatmapGraphVariable('GENOTYPE'));
         break;
       case 'sentericaints':
       case 'senterica':
-        dispatch(setMapView('Resistance prevalence'));
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(drugsINTS));
         }
@@ -909,20 +910,17 @@ export const DashboardPage = () => {
         dispatch(setBubbleMarkersYAxisType(getDrugClasses(organism)[0]));
         break;
       case 'ecoli':
-        dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
         dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
         dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
         break;
       case 'decoli':
-        dispatch(setMapView(isPaginated ? 'No. Samples' : 'Resistance prevalence'));
         dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
         dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
         dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         break;
       case 'shige':
         if (!isPaginated) {
-          dispatch(setMapView('No. Samples'));
           // Don't set drug selection for paginated organisms - let auto-selection effect handle it
           dispatch(setDrugResistanceGraphView(drugsECOLI));
           dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
@@ -1089,7 +1087,7 @@ export const DashboardPage = () => {
           break;
         case 'ngono':
           // NGONO requires full dataset for proper rendering - use optimized bulk loading
-          getDataOptimized({ storeName: organism, endpoint: 'getDataForNgono' });
+          getData({ storeName: organism, endpoint: 'getDataForNgono' });
           break;
         case 'ecoli':
           getDataQuick(organism);
