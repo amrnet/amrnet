@@ -5,18 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: AMRnet\n"
+"Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
 "PO-Revision-Date: 2025-08-21 12:00+0000\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language-Team: fr <LL@li.org>\n"
-"\n"
 "Language: fr\n"
+"Language-Team: fr <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 2.15.0\n"
 
 #: ../../internationalization.rst:4
@@ -36,8 +35,7 @@ msgid "Supported Languages"
 msgstr ""
 
 #: ../../internationalization.rst:17
-msgid ""
-"AMRnet currently supports four languages with comprehensive translations:"
+msgid "AMRnet currently supports four languages with comprehensive translations:"
 msgstr ""
 
 #: ../../internationalization.rst:19
@@ -64,8 +62,8 @@ msgstr ""
 
 #: ../../internationalization.rst:29
 msgid ""
-"AMRnet uses `react-i18next <https://react.i18next.com/>`_ for comprehensive "
-"internationalization support:"
+"AMRnet uses `react-i18next <https://react.i18next.com/>`_ for "
+"comprehensive internationalization support:"
 msgstr ""
 
 #: ../../internationalization.rst:33
@@ -117,32 +115,31 @@ msgid "Cultural Adaptation"
 msgstr ""
 
 #: ../../internationalization.rst:236
-msgid ""
-"Each language implementation considers cultural and regional preferences:"
+msgid "Each language implementation considers cultural and regional preferences:"
 msgstr ""
 
 #: ../../internationalization.rst:238
 msgid ""
-"**French Translations:** - Formal \"vous\" form throughout the interface - "
-"Proper French medical and scientific terminology - Standard French "
-"punctuation and spacing rules - Accent marks and special characters properly"
-" implemented"
+"**French Translations:** - Formal \"vous\" form throughout the interface "
+"- Proper French medical and scientific terminology - Standard French "
+"punctuation and spacing rules - Accent marks and special characters "
+"properly implemented"
 msgstr ""
 
 #: ../../internationalization.rst:244
 msgid ""
-"**Portuguese (Brazil) Translations:** - Brazilian Portuguese conventions and"
-" expressions - Local terminology preferences for medical concepts - "
-"Culturally appropriate formal/informal language balance - Brazilian number "
-"and date formatting"
+"**Portuguese (Brazil) Translations:** - Brazilian Portuguese conventions "
+"and expressions - Local terminology preferences for medical concepts - "
+"Culturally appropriate formal/informal language balance - Brazilian "
+"number and date formatting"
 msgstr ""
 
 #: ../../internationalization.rst:250
 msgid ""
-"**Spanish Translations:** - International Spanish terminology (not region-"
-"specific) - Professional tone appropriate for scientific content - Standard "
-"Spanish medical and technical vocabulary - Universal Spanish conventions for"
-" global accessibility"
+"**Spanish Translations:** - International Spanish terminology (not "
+"region-specific) - Professional tone appropriate for scientific content -"
+" Standard Spanish medical and technical vocabulary - Universal Spanish "
+"conventions for global accessibility"
 msgstr ""
 
 #: ../../internationalization.rst:257
@@ -152,17 +149,17 @@ msgstr ""
 #: ../../internationalization.rst:261
 msgid ""
 "**Text Expansion/Contraction:** - UI components accommodate text length "
-"variations (±30%) - Responsive design ensures proper layout in all languages"
-" - Button and menu sizing adapts to translated content - Tooltip and help "
-"text properly positioned"
+"variations (±30%) - Responsive design ensures proper layout in all "
+"languages - Button and menu sizing adapts to translated content - Tooltip"
+" and help text properly positioned"
 msgstr ""
 
 #: ../../internationalization.rst:267
 msgid ""
 "**Special Characters and Encoding:** - UTF-8 encoding support for all "
-"special characters - Proper font selection for accented characters - Right-"
-"to-left language support ready (for future languages) - Input validation "
-"handles international characters"
+"special characters - Proper font selection for accented characters - "
+"Right-to-left language support ready (for future languages) - Input "
+"validation handles international characters"
 msgstr ""
 
 #: ../../internationalization.rst:274
@@ -200,22 +197,22 @@ msgstr ""
 #: ../../internationalization.rst:325
 msgid ""
 "**Context Understanding:** - Review the AMRnet dashboard to understand "
-"context - Consider the scientific and medical nature of content - Maintain "
-"professional tone appropriate for healthcare professionals"
+"context - Consider the scientific and medical nature of content - "
+"Maintain professional tone appropriate for healthcare professionals"
 msgstr ""
 
 #: ../../internationalization.rst:330
 msgid ""
-"**Terminology Consistency:** - Use standard medical/scientific terminology -"
-" Maintain consistency with existing translations - Prefer internationally "
-"recognized terms when available"
+"**Terminology Consistency:** - Use standard medical/scientific "
+"terminology - Maintain consistency with existing translations - Prefer "
+"internationally recognized terms when available"
 msgstr ""
 
 #: ../../internationalization.rst:335
 msgid ""
 "**Technical Constraints:** - Keep button text concise (max 20 characters "
-"recommended) - Consider text expansion in menu items - Test UI layout with "
-"your translations"
+"recommended) - Consider text expansion in menu items - Test UI layout "
+"with your translations"
 msgstr ""
 
 #: ../../internationalization.rst:340
@@ -304,14 +301,14 @@ msgstr ""
 
 #: ../../internationalization.rst:543
 msgid ""
-"**Visual Review:** - Text fits properly in UI components - No text overflow "
-"or truncation - Proper alignment and spacing"
+"**Visual Review:** - Text fits properly in UI components - No text "
+"overflow or truncation - Proper alignment and spacing"
 msgstr ""
 
 #: ../../internationalization.rst:548
 msgid ""
-"**Functional Testing:** - Language switching works correctly - Persistent "
-"language selection - All interface elements translated"
+"**Functional Testing:** - Language switching works correctly - Persistent"
+" language selection - All interface elements translated"
 msgstr ""
 
 #: ../../internationalization.rst:553
@@ -334,9 +331,9 @@ msgstr ""
 
 #: ../../internationalization.rst:570
 msgid ""
-"**Potential Language Additions:** - German (Deutsch) for European users - "
-"Arabic (العربية) for MENA region - Chinese Simplified (简体中文) for Asian users"
-" - Russian (Русский) for Eastern European users"
+"**Potential Language Additions:** - German (Deutsch) for European users -"
+" Arabic (العربية) for MENA region - Chinese Simplified (简体中文) for Asian "
+"users - Russian (Русский) for Eastern European users"
 msgstr ""
 
 #: ../../internationalization.rst:577
@@ -345,9 +342,9 @@ msgstr ""
 
 #: ../../internationalization.rst:581
 msgid ""
-"**Planned Features:** - Right-to-left (RTL) language support - Number and "
-"date formatting per locale - Currency and unit localization - Regional data "
-"presentation preferences"
+"**Planned Features:** - Right-to-left (RTL) language support - Number and"
+" date formatting per locale - Currency and unit localization - Regional "
+"data presentation preferences"
 msgstr ""
 
 #: ../../internationalization.rst:588
@@ -358,8 +355,8 @@ msgstr ""
 msgid ""
 "**How to Contribute:** - Join our `Discussions "
 "<https://github.com/amrnet/amrnet/discussions>`_ - Submit translation "
-"improvements via GitHub Issues - Participate in translation review process -"
-" Help test internationalization features"
+"improvements via GitHub Issues - Participate in translation review "
+"process - Help test internationalization features"
 msgstr ""
 
 #: ../../internationalization.rst:598
@@ -367,3 +364,4 @@ msgid ""
 "**Contact for Translation Help:** Email: amrnetdashboard@gmail.com with "
 "subject \"Translation Contribution\""
 msgstr ""
+
