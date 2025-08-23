@@ -127,6 +127,15 @@
       "Enterics Expert": "Enterics Expert"
     }
   },
+  "teamPosts": {
+    "principal Investigator": "Principal Investigator",
+    "genomic Epidemiologist": "Genomic Epidemiologist",
+    "lead Software Engineer": "Lead Software Engineer/Computational Biologist",
+    "software Engineer": "Software Engineer",
+    "policy Engagement": "Policy Engagement",
+    "bioinformatician": "Bioinformatician",
+    "enterics Expert": "Enterics Expert"
+  },
   "profile": {
     "title": "User Profile",
     "name": "Name",
