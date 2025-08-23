@@ -38,7 +38,8 @@ def fix_po_file(filepath):
     for line in lines:
         if in_header and line.startswith('"') and not line.endswith('\\n"') and line.endswith('"'):
             # This is a header field that should end with \n"
-            line = line[:-1] + '\\n"'
+            if not line.endswith('\\n"'):
+                line = line[:-1] + '\\n"'
 
         # End of header when we hit an empty line
         if line.strip() == '':
@@ -56,9 +57,7 @@ def fix_po_file(filepath):
 
 def main():
     """Fix all .po files in the documentation locale directory."""
-    # Use relative path from script location to work across different systems
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    base_dir = script_dir  # This script is in the docs directory
+    base_dir = '/Users/lshlt19/GitHub/louise-aug2025/amrnet-devrevfianl/amrnet/docs'
     locale_dir = os.path.join(base_dir, 'locale')
 
     # Find all .po files
