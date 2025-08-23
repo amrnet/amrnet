@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the AMRnet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n\n"
-"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
-"Language-Team: es <LL@li.org>\n\n"
+"Language-Team: es <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,63 +21,63 @@ msgstr ""
 
 #: ../../index.rst:6
 msgid "User Tutorial"
-msgstr "Tutorial de Usuario"
+msgstr ""
 
 #: ../../index.rst:6
 msgid "User guide"
-msgstr "Guía de Usuario"
+msgstr ""
 
 #: ../../index.rst:6
 msgid "Dashboard usage"
-msgstr "Uso del Panel"
+msgstr ""
 
 #: ../../index.rst:6
 msgid "Data access"
-msgstr "Acceso a Datos"
+msgstr ""
 
 #: ../../index.rst:6
 msgid "Data rights"
-msgstr "Derechos de Datos"
+msgstr ""
 
 #: ../../index.rst:6
 msgid "User Resources"
-msgstr "Recursos de Usuario"
+msgstr ""
 
 #: ../../index.rst:16
 msgid "API Reference"
-msgstr "Referencia de API"
+msgstr ""
 
 #: ../../index.rst:16
 msgid "FARM Stack GUI"
-msgstr "Interfaz FARM Stack"
+msgstr ""
 
 #: ../../index.rst:16
 msgid "Data Dictionary"
-msgstr "Diccionario de Datos"
+msgstr ""
 
 #: ../../index.rst:16
 msgid "API & Integration"
-msgstr "API e Integración"
+msgstr ""
 
 #: ../../index.rst:24
 msgid "Installation"
-msgstr "Instalación"
+msgstr ""
 
 #: ../../index.rst:24 ../../index.rst:82
 msgid "Features"
-msgstr "Características"
+msgstr ""
 
 #: ../../index.rst:24
 msgid "Performance Optimization"
-msgstr "Optimización de Rendimiento"
+msgstr ""
 
 #: ../../index.rst:24
 msgid "Deployment Guide"
-msgstr "Guía de Despliegue"
+msgstr ""
 
 #: ../../index.rst:24
 msgid "Security Guide"
-msgstr "Guía de Seguridad"
+msgstr ""
 
 #: ../../index.rst:24
 msgid "Internationalization"
@@ -84,15 +85,15 @@ msgstr ""
 
 #: ../../index.rst:24
 msgid "Troubleshooting"
-msgstr "Resolución de Problemas"
+msgstr ""
 
 #: ../../index.rst:24
 msgid "Code of Conduct"
-msgstr "Código de Conducta"
+msgstr ""
 
 #: ../../index.rst:24 ../../index.rst:94
 msgid "License"
-msgstr "Licencia"
+msgstr ""
 
 #: ../../index.rst:24
 msgid ".. Changelog"
@@ -104,7 +105,7 @@ msgstr ""
 
 #: ../../index.rst:50
 msgid "Overview"
-msgstr "Resumen General"
+msgstr ""
 
 #: ../../index.rst:53
 msgid ""
@@ -147,7 +148,7 @@ msgstr ""
 
 #: ../../index.rst:88
 msgid "Contributing"
-msgstr "Contribuir"
+msgstr ""
 
 #: ../../index.rst:91
 msgid ""
@@ -190,3 +191,4 @@ msgstr ""
 #: ../../index.rst:123
 msgid "Acknowledgements"
 msgstr ""
+

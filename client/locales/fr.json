@@ -124,17 +124,8 @@
       "Software Engineer": "Ingénieur logiciel",
       "Policy Engagement": "Engagement politique",
       "Bioinformatician": "Bioinformaticien",
-      "Expert entériques": "Expert entériques"
+      "Enterics Expert": "Expert entériques"
     }
-  },
-  "teamPosts": {
-    "principal Investigator": "Investigateur principal",
-    "genomic Epidemiologist": "Épidémiologiste génomique",
-    "lead Software Engineer": "Ingénieur logiciel principal/Biologiste computationnel",
-    "software Engineer": "Ingénieur logiciel",
-    "policy Engagement": "Engagement politique",
-    "bioinformatician": "Bioinformaticien",
-    "entericsExpert": "Expert entériques"
   },
   "profile": {
     "title": "Profil utilisateur",

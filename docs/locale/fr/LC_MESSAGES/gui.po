@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the AMRnet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-05 00:07+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
-"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
-"Language-Team: fr <LL@li.org>\n\n"
+"Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -32,7 +33,7 @@ msgstr ""
 
 #: ../../gui.rst:16
 msgid "Overview"
-msgstr "Aperçu Général"
+msgstr ""
 
 #: ../../gui.rst:20
 msgid ""
@@ -248,7 +249,7 @@ msgstr ""
 
 #: ../../gui.rst:1186
 msgid "Getting Started"
-msgstr "Premiers Pas"
+msgstr ""
 
 #: ../../gui.rst:1189
 msgid "Development Setup"
@@ -326,7 +327,7 @@ msgstr ""
 
 #: ../../gui.rst:1319
 msgid "Contributing"
-msgstr "Contribuer"
+msgstr ""
 
 #: ../../gui.rst:1323
 msgid "Contribute to the FARM stack development:"
