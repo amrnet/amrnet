@@ -5,26 +5,25 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: AMRnet\n"
+"Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-05 00:07+0100\n"
 "PO-Revision-Date: 2025-08-21 12:00+0000\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language-Team: pt <LL@li.org>\n"
-"\n"
 "Language: pt\n"
+"Language-Team: pt <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
 
 #: ../../api.rst:9
 msgid ""
-"AMRnet provides a comprehensive RESTful API for programmatic access to all "
-"antimicrobial resistance surveillance data. The API supports multiple data "
-"formats, filtering options, and authentication methods to suit different use"
-" cases."
+"AMRnet provides a comprehensive RESTful API for programmatic access to "
+"all antimicrobial resistance surveillance data. The API supports multiple"
+" data formats, filtering options, and authentication methods to suit "
+"different use cases."
 msgstr ""
 
 #: ../../api.rst:12
@@ -48,8 +47,8 @@ msgstr ""
 
 #: ../../api.rst:37
 msgid ""
-"The AMRnet API supports multiple authentication methods depending on your "
-"usage requirements:"
+"The AMRnet API supports multiple authentication methods depending on your"
+" usage requirements:"
 msgstr ""
 
 #: ../../api.rst:40
@@ -80,8 +79,8 @@ msgstr ""
 
 #: ../../api.rst:60
 msgid ""
-"For higher rate limits and bulk data access, register for a free API key at "
-"`amrnet.org/api/register <https://amrnet.org/api/register>`_."
+"For higher rate limits and bulk data access, register for a free API key "
+"at `amrnet.org/api/register <https://amrnet.org/api/register>`_."
 msgstr ""
 
 #: ../../api.rst:70
@@ -111,8 +110,7 @@ msgstr ""
 #: ../../api.rst:82
 msgid ""
 "For institutional access and advanced features, OAuth2 authentication is "
-"available. Contact us at ``amrnetdashboard@gmail.com`` for institutional "
-"access."
+"available. Contact us at ``amrnetdashboard@gmail.com`` for institutional access."
 msgstr ""
 
 #: ../../api.rst:85
@@ -121,8 +119,8 @@ msgstr ""
 
 #: ../../api.rst:89
 msgid ""
-"The AMRnet API provides consistent endpoints across all supported organisms "
-"with standardized query parameters and response formats."
+"The AMRnet API provides consistent endpoints across all supported "
+"organisms with standardized query parameters and response formats."
 msgstr ""
 
 #: ../../api.rst:92
@@ -272,8 +270,8 @@ msgstr ""
 
 #: ../../api.rst:251
 msgid ""
-"All organism endpoints support consistent query parameters for filtering and"
-" customization:"
+"All organism endpoints support consistent query parameters for filtering "
+"and customization:"
 msgstr ""
 
 #: ../../api.rst:254
@@ -464,8 +462,8 @@ msgstr ""
 
 #: ../../api.rst:544
 msgid ""
-"The AMRnet API uses standard HTTP status codes and provides detailed error "
-"messages to help diagnose issues:"
+"The AMRnet API uses standard HTTP status codes and provides detailed "
+"error messages to help diagnose issues:"
 msgstr ""
 
 #: ../../api.rst:547
@@ -566,7 +564,8 @@ msgstr ""
 
 #: ../../api.rst:621
 msgid ""
-"AMRnet implements rate limiting to ensure fair access and system stability:"
+"AMRnet implements rate limiting to ensure fair access and system "
+"stability:"
 msgstr ""
 
 #: ../../api.rst:623
@@ -651,9 +650,9 @@ msgstr ""
 
 #: ../../api.rst:732
 msgid ""
-"AMRnet is implementing a modern FARM (FastAPI + React + MongoDB) stack API "
-"to provide enhanced performance, real-time capabilities, and advanced "
-"analytics features."
+"AMRnet is implementing a modern FARM (FastAPI + React + MongoDB) stack "
+"API to provide enhanced performance, real-time capabilities, and advanced"
+" analytics features."
 msgstr ""
 
 #: ../../api.rst:735
@@ -771,8 +770,7 @@ msgid "**🔧 Custom Development**: Tailored solutions and private deployments"
 msgstr ""
 
 #: ../../api.rst:925
-msgid ""
-"**📊 Consulting Services**: AMR surveillance strategy and implementation"
+msgid "**📊 Consulting Services**: AMR surveillance strategy and implementation"
 msgstr ""
 
 #: ../../api.rst:927
@@ -788,8 +786,8 @@ msgstr ""
 #: ../../api.rst:934
 msgid ""
 "The AMRnet API follows semantic versioning. Major version changes may "
-"include breaking changes, while minor versions add features with backward "
-"compatibility."
+"include breaking changes, while minor versions add features with backward"
+" compatibility."
 msgstr ""
 
 #: ../../api.rst:937
@@ -798,25 +796,26 @@ msgstr ""
 
 #: ../../api.rst:939
 msgid ""
-"**New Features:** - FARM stack implementation with FastAPI backend - Real-"
-"time WebSocket endpoints for live data streaming - GraphQL API support for "
-"flexible queries - Enhanced geospatial analysis capabilities - Machine "
-"learning prediction endpoints"
+"**New Features:** - FARM stack implementation with FastAPI backend - "
+"Real-time WebSocket endpoints for live data streaming - GraphQL API "
+"support for flexible queries - Enhanced geospatial analysis capabilities "
+"- Machine learning prediction endpoints"
 msgstr ""
 
 #: ../../api.rst:946
 #, python-format
 msgid ""
 "**Improvements:** - 40% faster response times with async processing - "
-"Improved error messages with detailed diagnostics - Enhanced rate limiting "
-"with burst capacity - Better caching for frequently accessed data"
+"Improved error messages with detailed diagnostics - Enhanced rate "
+"limiting with burst capacity - Better caching for frequently accessed "
+"data"
 msgstr ""
 
 #: ../../api.rst:952
 msgid ""
 "**Bug Fixes:** - Fixed pagination issues with large datasets - Resolved "
-"timezone handling in date filters - Corrected resistance rate calculations "
-"for specific genotypes"
+"timezone handling in date filters - Corrected resistance rate "
+"calculations for specific genotypes"
 msgstr ""
 
 #: ../../api.rst:958
@@ -876,8 +875,8 @@ msgid ""
 "**Breaking Changes in v2.0:** - Endpoint structure simplified "
 "(``/data/{organism}`` → ``/{organism}``) - Response format standardized "
 "across all endpoints - Date filtering uses ``year_start``/``year_end`` "
-"instead of ``date_from``/``date_to`` - Resistance values standardized (R/I/S"
-" instead of numeric codes)"
+"instead of ``date_from``/``date_to`` - Resistance values standardized "
+"(R/I/S instead of numeric codes)"
 msgstr ""
 
 #: ../../api.rst:991
@@ -886,10 +885,11 @@ msgstr ""
 
 #: ../../api.rst:995
 msgid ""
-"**v1.x API endpoints will be deprecated on June 30, 2025.** Please migrate "
-"to v2.x endpoints before this date. Legacy endpoints will continue to work "
-"until December 31, 2025, after which they will be permanently removed."
+"**v1.x API endpoints will be deprecated on June 30, 2025.** Please "
+"migrate to v2.x endpoints before this date. Legacy endpoints will "
+"continue to work until December 31, 2025, after which they will be "
+"permanently removed."
 msgstr ""
 
 #~ msgid "API Reference"
-#~ msgstr "Referência da API"
+#~ msgstr ""

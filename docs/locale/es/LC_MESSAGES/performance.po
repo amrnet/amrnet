@@ -5,18 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: AMRnet\n"
+"Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
 "PO-Revision-Date: 2025-08-21 12:00+0000\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language-Team: es <LL@li.org>\n"
-"\n"
 "Language: es\n"
+"Language-Team: es <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
 
 #: ../../performance.rst:4
@@ -25,9 +24,9 @@ msgstr "Optimización de Rendimiento"
 
 #: ../../performance.rst:8
 msgid ""
-"AMRnet has been extensively optimized to handle large genomic surveillance "
-"datasets efficiently. This guide covers performance considerations, "
-"optimization strategies, and deployment best practices."
+"AMRnet has been extensively optimized to handle large genomic "
+"surveillance datasets efficiently. This guide covers performance "
+"considerations, optimization strategies, and deployment best practices."
 msgstr ""
 
 #: ../../performance.rst:12
@@ -52,7 +51,8 @@ msgstr ""
 
 #: ../../performance.rst:22
 msgid ""
-"**Intelligent Caching**: Browser-based storage for frequently accessed data"
+"**Intelligent Caching**: Browser-based storage for frequently accessed "
+"data"
 msgstr ""
 
 #: ../../performance.rst:23
@@ -84,8 +84,7 @@ msgid "**Field Projection**: Transfer only necessary data fields"
 msgstr ""
 
 #: ../../performance.rst:32
-msgid ""
-"**Parallel Processing**: Concurrent data processing for multiple requests"
+msgid "**Parallel Processing**: Concurrent data processing for multiple requests"
 msgstr ""
 
 #: ../../performance.rst:35 ../../performance.rst:43
@@ -170,8 +169,7 @@ msgid "**Optimization Strategies:**"
 msgstr ""
 
 #: ../../performance.rst:66
-msgid ""
-"**Optimized Endpoints**: ``/api/optimized/*`` routes with minimal payloads"
+msgid "**Optimized Endpoints**: ``/api/optimized/*`` routes with minimal payloads"
 msgstr ""
 
 #: ../../performance.rst:67
@@ -383,3 +381,4 @@ msgstr ""
 #: ../../performance.rst:395
 msgid "Lighthouse CI for automated testing"
 msgstr ""
+
