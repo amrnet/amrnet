@@ -5,17 +5,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: AMRnet \n"
+"Project-Id-Version: AMRnet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
 "PO-Revision-Date: 2025-08-21 12:00+0000\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language-Team: pt <LL@li.org>\n"
+"\n"
 "Language: pt\n"
-"Language-Team: pt <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
 
 #: ../../security.rst:4
@@ -24,10 +25,10 @@ msgstr "Guia de Segurança"
 
 #: ../../security.rst:8
 msgid ""
-"AMRnet implements comprehensive security measures to protect user data "
-"and ensure the integrity of antimicrobial resistance surveillance "
-"information. This guide covers security policies, best practices, and "
-"implementation details."
+"AMRnet implements comprehensive security measures to protect user data and "
+"ensure the integrity of antimicrobial resistance surveillance information. "
+"This guide covers security policies, best practices, and implementation "
+"details."
 msgstr ""
 
 #: ../../security.rst:13
@@ -62,9 +63,9 @@ msgstr ""
 
 #: ../../security.rst:31
 msgid ""
-"**Include detailed information**: - Description of the vulnerability - "
-"Steps to reproduce the issue - Potential impact assessment - Suggested "
-"fixes (if available)"
+"**Include detailed information**: - Description of the vulnerability - Steps"
+" to reproduce the issue - Potential impact assessment - Suggested fixes (if "
+"available)"
 msgstr ""
 
 #: ../../security.rst:37
@@ -385,9 +386,9 @@ msgstr ""
 
 #: ../../security.rst:645
 msgid ""
-"✅ **Environment Security** - [ ] Never commit secrets to version control "
-"- [ ] Use secure environment variable management - [ ] Implement proper "
-"secret rotation"
+"✅ **Environment Security** - [ ] Never commit secrets to version control - ["
+" ] Use secure environment variable management - [ ] Implement proper secret "
+"rotation"
 msgstr ""
 
 #: ../../security.rst:650
@@ -399,16 +400,16 @@ msgstr ""
 
 #: ../../security.rst:656
 msgid ""
-"✅ **Infrastructure Security** - [ ] HTTPS enforcement - [ ] Security "
-"headers implementation - [ ] Regular dependency updates - [ ] Database "
-"access controls"
+"✅ **Infrastructure Security** - [ ] HTTPS enforcement - [ ] Security headers"
+" implementation - [ ] Regular dependency updates - [ ] Database access "
+"controls"
 msgstr ""
 
 #: ../../security.rst:662
 msgid ""
-"✅ **Monitoring and Response** - [ ] Security event logging - [ ] "
-"Intrusion detection systems - [ ] Incident response procedures - [ ] "
-"Regular security assessments"
+"✅ **Monitoring and Response** - [ ] Security event logging - [ ] Intrusion "
+"detection systems - [ ] Incident response procedures - [ ] Regular security "
+"assessments"
 msgstr ""
 
 #: ../../security.rst:669
