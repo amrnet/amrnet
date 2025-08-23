@@ -29,9 +29,7 @@ def fix_po_file_split_newlines(filepath):
 
 def main():
     """Fix all .po files with split newline issues."""
-    # Use relative path from script location to work across different systems
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    base_dir = script_dir  # This script is in the docs directory
+    base_dir = '/Users/lshlt19/GitHub/louise-aug2025/amrnet-devrevfianl/amrnet/docs'
     locale_dir = os.path.join(base_dir, 'locale')
 
     # Find all .po files
