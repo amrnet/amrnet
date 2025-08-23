@@ -5,18 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: AMRnet\n"
+"Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-05 00:07+0100\n"
 "PO-Revision-Date: 2025-08-21 12:00+0000\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language-Team: es <LL@li.org>\n"
-"\n"
 "Language: es\n"
+"Language-Team: es <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
 
 #: ../../tutorial.rst:6
@@ -40,8 +39,8 @@ msgstr ""
 #: ../../tutorial.rst:17
 msgid ""
 "AMRnet is a global surveillance dashboard that shows antimicrobial "
-"resistance patterns in disease-causing bacteria. Think of it as a \"weather "
-"map\" for antibiotic resistance - it helps you understand:"
+"resistance patterns in disease-causing bacteria. Think of it as a "
+"\"weather map\" for antibiotic resistance - it helps you understand:"
 msgstr ""
 
 #: ../../tutorial.rst:19
@@ -62,8 +61,8 @@ msgstr ""
 
 #: ../../tutorial.rst:24
 msgid ""
-"The platform analyzes thousands of bacterial genome sequences from public "
-"databases and presents the findings in user-friendly visualizations."
+"The platform analyzes thousands of bacterial genome sequences from public"
+" databases and presents the findings in user-friendly visualizations."
 msgstr ""
 
 #: ../../tutorial.rst:27
@@ -155,8 +154,8 @@ msgstr ""
 
 #: ../../tutorial.rst:64
 msgid ""
-"**Why does it matter?** When bacteria become resistant, common infections "
-"become harder to treat, leading to: - Longer hospital stays - Higher "
+"**Why does it matter?** When bacteria become resistant, common infections"
+" become harder to treat, leading to: - Longer hospital stays - Higher "
 "treatment costs - Increased risk of complications - Sometimes death from "
 "previously treatable infections"
 msgstr ""
@@ -165,8 +164,8 @@ msgstr ""
 msgid ""
 "**How do bacteria become resistant?** - **Genetic mutations**: Random "
 "changes in bacterial DNA - **Gene acquisition**: Bacteria can share "
-"resistance genes with each other - **Selection pressure**: Overuse/misuse of"
-" antibiotics favors resistant strains"
+"resistance genes with each other - **Selection pressure**: Overuse/misuse"
+" of antibiotics favors resistant strains"
 msgstr ""
 
 #: ../../tutorial.rst:77
@@ -175,23 +174,25 @@ msgstr ""
 
 #: ../../tutorial.rst:81
 msgid ""
-"**What is a genome?** A genome is the complete set of genetic instructions "
-"for an organism - like a blueprint. For bacteria, this blueprint determines "
-"their characteristics, including resistance to antibiotics."
+"**What is a genome?** A genome is the complete set of genetic "
+"instructions for an organism - like a blueprint. For bacteria, this "
+"blueprint determines their characteristics, including resistance to "
+"antibiotics."
 msgstr ""
 
 #: ../../tutorial.rst:84
 msgid ""
 "**What is genome sequencing?** Genome sequencing is like reading the "
-"bacterial blueprint to understand: - What species/strain the bacteria is - "
-"Which resistance genes it carries - How it relates to other bacterial "
+"bacterial blueprint to understand: - What species/strain the bacteria is "
+"- Which resistance genes it carries - How it relates to other bacterial "
 "samples"
 msgstr ""
 
 #: ../../tutorial.rst:90
 msgid ""
-"**Why sequence bacterial genomes?** - Identify resistance mechanisms - Track"
-" outbreak sources - Monitor resistance spread - Guide treatment decisions"
+"**Why sequence bacterial genomes?** - Identify resistance mechanisms - "
+"Track outbreak sources - Monitor resistance spread - Guide treatment "
+"decisions"
 msgstr ""
 
 #: ../../tutorial.rst:97
@@ -210,9 +211,10 @@ msgstr ""
 
 #: ../../tutorial.rst:105
 msgid ""
-"**Strains/Genotypes**: Variants within a species with similar genetic makeup"
-" - Think of these as \"subspecies\" or \"varieties\" - Useful for tracking "
-"specific lineages - Some strains may be more resistant than others"
+"**Strains/Genotypes**: Variants within a species with similar genetic "
+"makeup - Think of these as \"subspecies\" or \"varieties\" - Useful for "
+"tracking specific lineages - Some strains may be more resistant than "
+"others"
 msgstr ""
 
 #: ../../tutorial.rst:110
@@ -239,8 +241,7 @@ msgid "No registration required - it's completely free and open access"
 msgstr ""
 
 #: ../../tutorial.rst:124
-msgid ""
-"Works on any device with an internet connection (computer, tablet, phone)"
+msgid "Works on any device with an internet connection (computer, tablet, phone)"
 msgstr ""
 
 #: ../../tutorial.rst:127
@@ -249,8 +250,8 @@ msgstr ""
 
 #: ../../tutorial.rst:131
 msgid ""
-"**Step 1**: At the top of the page, you'll see a menu to select different "
-"bacteria:"
+"**Step 1**: At the top of the page, you'll see a menu to select different"
+" bacteria:"
 msgstr ""
 
 #: ../../tutorial.rst:133
@@ -266,8 +267,7 @@ msgid "**Neisseria gonorrhoeae**: Causes gonorrhea"
 msgstr ""
 
 #: ../../tutorial.rst:136
-msgid ""
-"**Escherichia coli**: Causes diarrheal diseases, urinary tract infections"
+msgid "**Escherichia coli**: Causes diarrheal diseases, urinary tract infections"
 msgstr ""
 
 #: ../../tutorial.rst:137
@@ -293,8 +293,7 @@ msgid "The Map View"
 msgstr ""
 
 #: ../../tutorial.rst:150
-msgid ""
-"**What you see**: A world map with countries colored by resistance levels"
+msgid "**What you see**: A world map with countries colored by resistance levels"
 msgstr ""
 
 #: ../../tutorial.rst:152
@@ -308,13 +307,14 @@ msgstr ""
 #: ../../tutorial.rst:158
 msgid ""
 "**Key controls**: - **Right panel**: Choose what resistance pattern to "
-"display - **Left panel**: Filter data by year, region, or bacterial strain"
+"display - **Left panel**: Filter data by year, region, or bacterial "
+"strain"
 msgstr ""
 
 #: ../../tutorial.rst:162
 msgid ""
-"**Data requirements**: Countries need at least 20 bacterial samples for data"
-" to be displayed"
+"**Data requirements**: Countries need at least 20 bacterial samples for "
+"data to be displayed"
 msgstr ""
 
 #: ../../tutorial.rst:165
@@ -323,8 +323,8 @@ msgstr ""
 
 #: ../../tutorial.rst:169
 msgid ""
-"**Year Range**: Select specific time periods to see how resistance changes "
-"over time"
+"**Year Range**: Select specific time periods to see how resistance "
+"changes over time"
 msgstr ""
 
 #: ../../tutorial.rst:171
@@ -333,14 +333,14 @@ msgstr ""
 
 #: ../../tutorial.rst:173
 msgid ""
-"**Strain/Genotype Filters**: Look at specific bacterial variants - Useful "
-"for tracking particular strains of concern"
+"**Strain/Genotype Filters**: Look at specific bacterial variants - Useful"
+" for tracking particular strains of concern"
 msgstr ""
 
 #: ../../tutorial.rst:176
 msgid ""
-"**Sample Source**: Filter by where samples came from (surveillance studies, "
-"clinical samples, etc.)"
+"**Sample Source**: Filter by where samples came from (surveillance "
+"studies, clinical samples, etc.)"
 msgstr ""
 
 #: ../../tutorial.rst:179
@@ -349,8 +349,8 @@ msgstr ""
 
 #: ../../tutorial.rst:183
 msgid ""
-"**Resistance Variables**: Choose which antibiotic resistance to display - "
-"Individual antibiotics (e.g., ciprofloxacin, ceftriaxone) - Resistance "
+"**Resistance Variables**: Choose which antibiotic resistance to display -"
+" Individual antibiotics (e.g., ciprofloxacin, ceftriaxone) - Resistance "
 "categories (MDR, XDR) - Specific resistance mechanisms"
 msgstr ""
 
@@ -376,15 +376,15 @@ msgstr ""
 
 #: ../../tutorial.rst:201
 msgid ""
-"**How to read them**: - X-axis: Different antibiotics or bacterial strains -"
-" Y-axis: Percentage resistant (0-100%) - Colors: Different categories "
-"(susceptible, resistant, intermediate)"
+"**How to read them**: - X-axis: Different antibiotics or bacterial "
+"strains - Y-axis: Percentage resistant (0-100%) - Colors: Different "
+"categories (susceptible, resistant, intermediate)"
 msgstr ""
 
 #: ../../tutorial.rst:206
 msgid ""
-"**Interactive features**: - Click on bars to see detailed breakdowns - Hover"
-" for exact percentages and counts"
+"**Interactive features**: - Click on bars to see detailed breakdowns - "
+"Hover for exact percentages and counts"
 msgstr ""
 
 #: ../../tutorial.rst:211
@@ -403,9 +403,9 @@ msgstr ""
 
 #: ../../tutorial.rst:222
 msgid ""
-"**What to look for**: - **Increasing trends**: Resistance is getting worse -"
-" **Decreasing trends**: Interventions may be working - **Stable patterns**: "
-"Resistance levels are consistent"
+"**What to look for**: - **Increasing trends**: Resistance is getting "
+"worse - **Decreasing trends**: Interventions may be working - **Stable "
+"patterns**: Resistance levels are consistent"
 msgstr ""
 
 #: ../../tutorial.rst:228
@@ -418,16 +418,16 @@ msgstr ""
 
 #: ../../tutorial.rst:234
 msgid ""
-"**Key patterns to understand**: - **Susceptible**: Bacteria killed by the "
-"antibiotic - **MDR (Multi-Drug Resistant)**: Resistant to 3+ antibiotics - "
-"**XDR (Extensively Drug Resistant)**: Resistant to most available "
+"**Key patterns to understand**: - **Susceptible**: Bacteria killed by the"
+" antibiotic - **MDR (Multi-Drug Resistant)**: Resistant to 3+ antibiotics"
+" - **XDR (Extensively Drug Resistant)**: Resistant to most available "
 "antibiotics"
 msgstr ""
 
 #: ../../tutorial.rst:239
 msgid ""
-"**Clinical significance**: - Higher resistance = fewer treatment options - "
-"XDR strains are particularly concerning for patient care"
+"**Clinical significance**: - Higher resistance = fewer treatment options "
+"- XDR strains are particularly concerning for patient care"
 msgstr ""
 
 #: ../../tutorial.rst:244
@@ -440,30 +440,30 @@ msgstr ""
 
 #: ../../tutorial.rst:251
 msgid ""
-"**Clinical Context**: - Causes typhoid fever, mainly in South Asia and Sub-"
-"Saharan Africa - Spread through contaminated food and water - Preventable by"
-" vaccination and improved sanitation"
+"**Clinical Context**: - Causes typhoid fever, mainly in South Asia and "
+"Sub-Saharan Africa - Spread through contaminated food and water - "
+"Preventable by vaccination and improved sanitation"
 msgstr ""
 
 #: ../../tutorial.rst:256
 msgid ""
 "**Key Resistance Patterns**: - **MDR**: Resistant to ampicillin, "
 "chloramphenicol, trimethoprim-sulfamethoxazole - **Ciprofloxacin "
-"resistance**: Reduces effectiveness of first-line oral treatment - **XDR**: "
-"Resistant to MDR drugs plus ciprofloxacin and ceftriaxone"
+"resistance**: Reduces effectiveness of first-line oral treatment - "
+"**XDR**: Resistant to MDR drugs plus ciprofloxacin and ceftriaxone"
 msgstr ""
 
 #: ../../tutorial.rst:261
 msgid ""
-"**What to look for**: - High MDR levels in endemic regions - Emerging XDR "
-"strains (especially concerning) - Travel-associated cases in non-endemic "
-"countries"
+"**What to look for**: - High MDR levels in endemic regions - Emerging XDR"
+" strains (especially concerning) - Travel-associated cases in non-endemic"
+" countries"
 msgstr ""
 
 #: ../../tutorial.rst:266
 msgid ""
-"**Important Strains**: - **H58**: Historically dominant MDR lineage - **H58 "
-"XDR**: Extremely concerning extensively resistant variant"
+"**Important Strains**: - **H58**: Historically dominant MDR lineage - "
+"**H58 XDR**: Extremely concerning extensively resistant variant"
 msgstr ""
 
 #: ../../tutorial.rst:271
@@ -472,23 +472,24 @@ msgstr ""
 
 #: ../../tutorial.rst:275
 msgid ""
-"**Clinical Context**: - Causes pneumonia, bloodstream infections, urinary "
-"tract infections - Major hospital-acquired pathogen - Particularly dangerous"
-" for immunocompromised patients"
+"**Clinical Context**: - Causes pneumonia, bloodstream infections, urinary"
+" tract infections - Major hospital-acquired pathogen - Particularly "
+"dangerous for immunocompromised patients"
 msgstr ""
 
 #: ../../tutorial.rst:280
 msgid ""
-"**Key Resistance Patterns**: - **ESBL**: Extended-spectrum beta-lactamases "
-"(resist many antibiotics) - **Carbapenemase**: Resist carbapenems (last-"
-"resort antibiotics) - **Colistin resistance**: Resist the \"antibiotic of "
-"last resort\""
+"**Key Resistance Patterns**: - **ESBL**: Extended-spectrum beta-"
+"lactamases (resist many antibiotics) - **Carbapenemase**: Resist "
+"carbapenems (last-resort antibiotics) - **Colistin resistance**: Resist "
+"the \"antibiotic of last resort\""
 msgstr ""
 
 #: ../../tutorial.rst:285
 msgid ""
-"**What to look for**: - High ESBL rates globally - Emerging carbapenemase-"
-"producing strains - Hypervirulent strains that cause severe infections"
+"**What to look for**: - High ESBL rates globally - Emerging "
+"carbapenemase-producing strains - Hypervirulent strains that cause severe"
+" infections"
 msgstr ""
 
 #: ../../tutorial.rst:290
@@ -503,14 +504,14 @@ msgstr ""
 
 #: ../../tutorial.rst:299
 msgid ""
-"**Clinical Context**: - Sexually transmitted infection - Can cause serious "
-"complications if untreated - WHO priority pathogen for AMR"
+"**Clinical Context**: - Sexually transmitted infection - Can cause "
+"serious complications if untreated - WHO priority pathogen for AMR"
 msgstr ""
 
 #: ../../tutorial.rst:304
 msgid ""
-"**Key Resistance Patterns**: - **Azithromycin resistance**: Threatens dual "
-"therapy - **Ceftriaxone resistance**: Eliminates current first-line "
+"**Key Resistance Patterns**: - **Azithromycin resistance**: Threatens "
+"dual therapy - **Ceftriaxone resistance**: Eliminates current first-line "
 "treatment - **XDR**: Resistant to multiple drug classes"
 msgstr ""
 
@@ -523,8 +524,8 @@ msgstr ""
 
 #: ../../tutorial.rst:314
 msgid ""
-"**Treatment Implications**: - Dual therapy (ceftriaxone + azithromycin) is "
-"current standard - Resistance to either drug threatens treatment "
+"**Treatment Implications**: - Dual therapy (ceftriaxone + azithromycin) "
+"is current standard - Resistance to either drug threatens treatment "
 "effectiveness"
 msgstr ""
 
@@ -539,16 +540,16 @@ msgstr ""
 #: ../../tutorial.rst:326
 msgid ""
 "**Treatment Decision Support**: 1. Check local resistance rates for your "
-"pathogen of interest 2. Identify which antibiotics are still effective in "
-"your region 3. Monitor trends to anticipate future resistance issues"
+"pathogen of interest 2. Identify which antibiotics are still effective in"
+" your region 3. Monitor trends to anticipate future resistance issues"
 msgstr ""
 
 #: ../../tutorial.rst:331
 msgid ""
-"**Example Workflow**: 1. Patient presents with suspected typhoid fever 2. "
-"Check AMRnet for local Salmonella Typhi resistance rates 3. Avoid "
-"antibiotics with high local resistance 4. Choose empirical therapy based on "
-"local susceptibility patterns"
+"**Example Workflow**: 1. Patient presents with suspected typhoid fever 2."
+" Check AMRnet for local Salmonella Typhi resistance rates 3. Avoid "
+"antibiotics with high local resistance 4. Choose empirical therapy based "
+"on local susceptibility patterns"
 msgstr ""
 
 #: ../../tutorial.rst:338
@@ -557,16 +558,16 @@ msgstr ""
 
 #: ../../tutorial.rst:342
 msgid ""
-"**Surveillance and Monitoring**: 1. Track resistance trends in your region "
-"over time 2. Compare your data to regional/global patterns 3. Identify "
-"emerging resistance threats"
+"**Surveillance and Monitoring**: 1. Track resistance trends in your "
+"region over time 2. Compare your data to regional/global patterns 3. "
+"Identify emerging resistance threats"
 msgstr ""
 
 #: ../../tutorial.rst:347
 msgid ""
-"**Policy Development**: 1. Use data to guide antibiotic stewardship programs"
-" 2. Prioritize surveillance efforts for high-risk strains 3. Develop "
-"evidence-based treatment guidelines"
+"**Policy Development**: 1. Use data to guide antibiotic stewardship "
+"programs 2. Prioritize surveillance efforts for high-risk strains 3. "
+"Develop evidence-based treatment guidelines"
 msgstr ""
 
 #: ../../tutorial.rst:352
@@ -582,16 +583,16 @@ msgstr ""
 
 #: ../../tutorial.rst:362
 msgid ""
-"**Hypothesis Generation**: 1. Identify geographical hotspots of resistance "
-"2. Investigate temporal trends in resistance emergence 3. Study "
-"relationships between strains and resistance patterns"
+"**Hypothesis Generation**: 1. Identify geographical hotspots of "
+"resistance 2. Investigate temporal trends in resistance emergence 3. "
+"Study relationships between strains and resistance patterns"
 msgstr ""
 
 #: ../../tutorial.rst:367
 msgid ""
-"**Data for Analysis**: 1. Download aggregate data for statistical analysis "
-"2. Generate hypotheses for detailed genomic studies 3. Identify knowledge "
-"gaps for future research"
+"**Data for Analysis**: 1. Download aggregate data for statistical "
+"analysis 2. Generate hypotheses for detailed genomic studies 3. Identify "
+"knowledge gaps for future research"
 msgstr ""
 
 #: ../../tutorial.rst:373
@@ -604,9 +605,9 @@ msgstr ""
 
 #: ../../tutorial.rst:380
 msgid ""
-"**Sampling Bias**: - Data reflects what has been sequenced, not necessarily "
-"what's circulating - Some regions/countries have more data than others - "
-"Clinical samples may over-represent resistant strains"
+"**Sampling Bias**: - Data reflects what has been sequenced, not "
+"necessarily what's circulating - Some regions/countries have more data "
+"than others - Clinical samples may over-represent resistant strains"
 msgstr ""
 
 #: ../../tutorial.rst:385
@@ -617,8 +618,8 @@ msgstr ""
 
 #: ../../tutorial.rst:390
 msgid ""
-"**Geographic Representation**: - Urban areas often better represented than "
-"rural - Some countries have limited surveillance capacity - Travel-"
+"**Geographic Representation**: - Urban areas often better represented "
+"than rural - Some countries have limited surveillance capacity - Travel-"
 "associated cases may be attributed to travel destination"
 msgstr ""
 
@@ -635,14 +636,15 @@ msgstr ""
 
 #: ../../tutorial.rst:405
 msgid ""
-"**Yellow Light Indicators** (Interpret with caution): - Countries with 10-19"
-" samples - Data from mixed sources - Rapidly changing patterns"
+"**Yellow Light Indicators** (Interpret with caution): - Countries with "
+"10-19 samples - Data from mixed sources - Rapidly changing patterns"
 msgstr ""
 
 #: ../../tutorial.rst:410
 msgid ""
-"**Red Light Indicators** (Be very careful): - Countries with <10 samples - "
-"Data primarily from outbreak investigations - Single time point measurements"
+"**Red Light Indicators** (Be very careful): - Countries with <10 samples "
+"- Data primarily from outbreak investigations - Single time point "
+"measurements"
 msgstr ""
 
 #: ../../tutorial.rst:416
@@ -663,8 +665,8 @@ msgstr ""
 
 #: ../../tutorial.rst:428
 msgid ""
-"**\"Recent changes = real trends\"** - Small sample fluctuations can create "
-"apparent trends - Look for consistent patterns over multiple years"
+"**\"Recent changes = real trends\"** - Small sample fluctuations can "
+"create apparent trends - Look for consistent patterns over multiple years"
 msgstr ""
 
 #: ../../tutorial.rst:433
@@ -677,14 +679,14 @@ msgstr ""
 
 #: ../../tutorial.rst:440
 msgid ""
-"**CSV Downloads**: - Access raw data behind visualizations - Use for your "
-"own analysis - Includes metadata about sample sources"
+"**CSV Downloads**: - Access raw data behind visualizations - Use for your"
+" own analysis - Includes metadata about sample sources"
 msgstr ""
 
 #: ../../tutorial.rst:445
 msgid ""
-"**PDF Reports**: - Generate static reports for presentations - Include data "
-"descriptions and caveats - Useful for stakeholder communication"
+"**PDF Reports**: - Generate static reports for presentations - Include "
+"data descriptions and caveats - Useful for stakeholder communication"
 msgstr ""
 
 #: ../../tutorial.rst:451
@@ -693,16 +695,16 @@ msgstr ""
 
 #: ../../tutorial.rst:455
 msgid ""
-"**Before/After Analysis**: 1. Set baseline time period (e.g., 2015-2017) 2. "
-"Compare to recent period (e.g., 2020-2022) 3. Look for significant changes "
-"in resistance patterns"
+"**Before/After Analysis**: 1. Set baseline time period (e.g., 2015-2017) "
+"2. Compare to recent period (e.g., 2020-2022) 3. Look for significant "
+"changes in resistance patterns"
 msgstr ""
 
 #: ../../tutorial.rst:460
 msgid ""
-"**Trend Analysis**: 1. Use line graphs to visualize trends over time 2. Look"
-" for inflection points where trends change 3. Consider external factors "
-"(policy changes, outbreaks)"
+"**Trend Analysis**: 1. Use line graphs to visualize trends over time 2. "
+"Look for inflection points where trends change 3. Consider external "
+"factors (policy changes, outbreaks)"
 msgstr ""
 
 #: ../../tutorial.rst:466
@@ -711,9 +713,9 @@ msgstr ""
 
 #: ../../tutorial.rst:470
 msgid ""
-"**Cross-Pathogen Insights**: 1. Compare resistance patterns across different"
-" bacteria 2. Identify common resistance mechanisms 3. Assess overall AMR "
-"burden in a region"
+"**Cross-Pathogen Insights**: 1. Compare resistance patterns across "
+"different bacteria 2. Identify common resistance mechanisms 3. Assess "
+"overall AMR burden in a region"
 msgstr ""
 
 #: ../../tutorial.rst:476
@@ -732,9 +734,9 @@ msgstr ""
 
 #: ../../tutorial.rst:488
 msgid ""
-"**Recommended Exercises**: 1. Compare resistance patterns between high and "
-"low-income countries 2. Track the emergence of XDR tuberculosis globally 3. "
-"Analyze the impact of vaccination on typhoid resistance"
+"**Recommended Exercises**: 1. Compare resistance patterns between high "
+"and low-income countries 2. Track the emergence of XDR tuberculosis "
+"globally 3. Analyze the impact of vaccination on typhoid resistance"
 msgstr ""
 
 #: ../../tutorial.rst:494
@@ -744,14 +746,14 @@ msgstr ""
 #: ../../tutorial.rst:498
 msgid ""
 "**Laboratory Integration**: - Compare local laboratory results to global "
-"patterns - Identify unusual resistance patterns for investigation - Guide "
-"selective reporting of susceptibility results"
+"patterns - Identify unusual resistance patterns for investigation - Guide"
+" selective reporting of susceptibility results"
 msgstr ""
 
 #: ../../tutorial.rst:503
 msgid ""
-"**Quality Assurance**: - Validate local resistance rates against regional "
-"data - Identify potential methodology issues - Benchmark laboratory "
+"**Quality Assurance**: - Validate local resistance rates against regional"
+" data - Identify potential methodology issues - Benchmark laboratory "
 "performance"
 msgstr ""
 
@@ -762,15 +764,15 @@ msgstr ""
 #: ../../tutorial.rst:513
 msgid ""
 "**Evidence-Based Decision Making**: 1. Use data to prioritize AMR "
-"interventions 2. Allocate resources to high-risk areas/pathogens 3. Monitor "
-"impact of policy interventions"
+"interventions 2. Allocate resources to high-risk areas/pathogens 3. "
+"Monitor impact of policy interventions"
 msgstr ""
 
 #: ../../tutorial.rst:518
 msgid ""
 "**Stakeholder Communication**: 1. Generate compelling visualizations for "
-"presentations 2. Demonstrate AMR burden to funding bodies 3. Build case for "
-"surveillance investments"
+"presentations 2. Demonstrate AMR burden to funding bodies 3. Build case "
+"for surveillance investments"
 msgstr ""
 
 #: ../../tutorial.rst:524
@@ -783,8 +785,8 @@ msgstr ""
 
 #: ../../tutorial.rst:531
 msgid ""
-"**Slow Loading**: - Try refreshing the page - Check internet connection - "
-"Clear browser cache"
+"**Slow Loading**: - Try refreshing the page - Check internet connection -"
+" Clear browser cache"
 msgstr ""
 
 #: ../../tutorial.rst:536
@@ -795,8 +797,8 @@ msgstr ""
 
 #: ../../tutorial.rst:541
 msgid ""
-"**Data Not Updating**: - Check filter settings - Ensure sufficient sample "
-"size - Verify time period selection"
+"**Data Not Updating**: - Check filter settings - Ensure sufficient sample"
+" size - Verify time period selection"
 msgstr ""
 
 #: ../../tutorial.rst:547
@@ -828,20 +830,21 @@ msgstr ""
 #: ../../tutorial.rst:571
 msgid ""
 "**Documentation Resources**: - Full technical documentation at "
-"`docs.amrnet.org <https://docs.amrnet.org>`_ - Pathogen-specific guides in "
-"the user manual - Methodology papers linked in each dashboard"
+"`docs.amrnet.org <https://docs.amrnet.org>`_ - Pathogen-specific guides "
+"in the user manual - Methodology papers linked in each dashboard"
 msgstr ""
 
 #: ../../tutorial.rst:576
 msgid ""
-"**Community Support**: - GitHub discussions for technical questions - Email "
-"support: amrnetdashboard@gmail.com - Twitter: @AMRnet_org for updates"
+"**Community Support**: - GitHub discussions for technical questions - "
+"Email support: amrnetdashboard@gmail.com - Twitter: @AMRnet_org for "
+"updates"
 msgstr ""
 
 #: ../../tutorial.rst:581
 msgid ""
-"**Training Materials**: - Video tutorials (coming soon) - Webinar recordings"
-" - Educational slide sets"
+"**Training Materials**: - Video tutorials (coming soon) - Webinar "
+"recordings - Educational slide sets"
 msgstr ""
 
 #: ../../tutorial.rst:587
@@ -856,8 +859,8 @@ msgstr ""
 
 #: ../../tutorial.rst:596
 msgid ""
-"**Data Updates**: - Monthly data refreshes for most pathogens - Quarterly "
-"major updates - Annual methodology reviews"
+"**Data Updates**: - Monthly data refreshes for most pathogens - Quarterly"
+" major updates - Annual methodology reviews"
 msgstr ""
 
 #: ../../tutorial.rst:601
@@ -872,9 +875,10 @@ msgstr ""
 
 #: ../../tutorial.rst:611
 msgid ""
-"AMRnet democratizes access to complex genomic surveillance data, making it "
-"actionable for diverse users worldwide. By understanding these fundamental "
-"concepts and following best practices, you can confidently use AMRnet to:"
+"AMRnet democratizes access to complex genomic surveillance data, making "
+"it actionable for diverse users worldwide. By understanding these "
+"fundamental concepts and following best practices, you can confidently "
+"use AMRnet to:"
 msgstr ""
 
 #: ../../tutorial.rst:613
@@ -896,15 +900,15 @@ msgstr ""
 #: ../../tutorial.rst:618
 msgid ""
 "Remember that AMRnet is a tool to support decision-making, not replace "
-"clinical judgment or local surveillance data. Always consider local context,"
-" data limitations, and consult relevant experts when making critical "
-"decisions."
+"clinical judgment or local surveillance data. Always consider local "
+"context, data limitations, and consult relevant experts when making "
+"critical decisions."
 msgstr ""
 
 #: ../../tutorial.rst:620
 msgid ""
-"Together, we can use data to combat antimicrobial resistance and preserve "
-"these life-saving medicines for future generations."
+"Together, we can use data to combat antimicrobial resistance and preserve"
+" these life-saving medicines for future generations."
 msgstr ""
 
 #: ../../tutorial.rst:623
@@ -922,15 +926,17 @@ msgstr ""
 
 #: ../../tutorial.rst:632
 msgid ""
-"**Related Resources**: - WHO Global AMR Surveillance System (GLASS) - CDC "
-"Antibiotic Resistance Threats Report - ECDC Annual Epidemiological Report"
+"**Related Resources**: - WHO Global AMR Surveillance System (GLASS) - CDC"
+" Antibiotic Resistance Threats Report - ECDC Annual Epidemiological "
+"Report"
 msgstr ""
 
 #: ../../tutorial.rst:637
 msgid ""
-"**Educational Materials**: - WHO AMR training modules - CDC AMR education "
-"resources - Coursera \"Introduction to Genomic Medicine\" course"
+"**Educational Materials**: - WHO AMR training modules - CDC AMR education"
+" resources - Coursera \"Introduction to Genomic Medicine\" course"
 msgstr ""
 
 #~ msgid "AMRnet User Tutorial"
 #~ msgstr ""
+
