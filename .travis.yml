@@ -6,8 +6,7 @@ branches:
   only:
     - master
     - devrev-final
-    - dev
-    - staging
+    - develop
 
 cache:
   directories:
