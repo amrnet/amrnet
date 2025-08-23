@@ -5,18 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: AMRnet\n"
+"Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
 "PO-Revision-Date: 2025-08-21 12:00+0000\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language-Team: pt <LL@li.org>\n"
-"\n"
 "Language: pt\n"
+"Language-Team: pt <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
 
 #: ../../deployment.rst:4
@@ -73,8 +72,7 @@ msgid "Heroku Deployment"
 msgstr ""
 
 #: ../../deployment.rst:86
-msgid ""
-"AMRnet is optimized for Heroku deployment with automatic build processes:"
+msgid "AMRnet is optimized for Heroku deployment with automatic build processes:"
 msgstr ""
 
 #: ../../deployment.rst:88
@@ -360,3 +358,4 @@ msgstr ""
 #: ../../deployment.rst:625
 msgid "**Memory Issues:**"
 msgstr ""
+

@@ -5,25 +5,25 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: AMRnet\n"
+"Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-05 00:07+0100\n"
 "PO-Revision-Date: 2025-08-21 12:00+0000\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language-Team: pt <LL@li.org>\n"
-"\n"
 "Language: pt\n"
+"Language-Team: pt <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.15.0\n"
 
 #: ../../gui.rst:9
 msgid ""
-"AMRnet's next-generation interface is built with the FARM (FastAPI + React +"
-" MongoDB) stack, providing a modern, responsive, and highly interactive user"
-" experience for antimicrobial resistance data exploration and analysis."
+"AMRnet's next-generation interface is built with the FARM (FastAPI + "
+"React + MongoDB) stack, providing a modern, responsive, and highly "
+"interactive user experience for antimicrobial resistance data exploration"
+" and analysis."
 msgstr ""
 
 #: ../../gui.rst:13
@@ -74,8 +74,8 @@ msgstr ""
 
 #: ../../gui.rst:37
 msgid ""
-"The React frontend leverages modern development practices and cutting-edge "
-"libraries:"
+"The React frontend leverages modern development practices and cutting-"
+"edge libraries:"
 msgstr ""
 
 #: ../../gui.rst:39
@@ -308,8 +308,8 @@ msgstr ""
 
 #: ../../gui.rst:1313
 msgid ""
-"**📖 Component Library**: Storybook documentation at `storybook.amrnet.org "
-"<https://storybook.amrnet.org>`_"
+"**📖 Component Library**: Storybook documentation at `storybook.amrnet.org"
+" <https://storybook.amrnet.org>`_"
 msgstr ""
 
 #: ../../gui.rst:1314
@@ -363,30 +363,31 @@ msgstr ""
 #: ../../gui.rst:1355
 msgid ""
 "**Q1 2025:** - 🤖 AI-powered data insights and recommendations - 📱 Native "
-"mobile applications (React Native) - 🔍 Advanced search with natural language"
-" queries - 📊 Custom dashboard builder interface"
+"mobile applications (React Native) - 🔍 Advanced search with natural "
+"language queries - 📊 Custom dashboard builder interface"
 msgstr ""
 
 #: ../../gui.rst:1361
 msgid ""
-"**Q2 2025:** - 🌐 Multi-language support expansion (Chinese, Arabic, Hindi) -"
-" 🔒 Advanced security features (2FA, SSO integration) - 📈 Machine learning "
-"model explanations - 🎮 Gamification for data exploration"
+"**Q2 2025:** - 🌐 Multi-language support expansion (Chinese, Arabic, "
+"Hindi) - 🔒 Advanced security features (2FA, SSO integration) - 📈 Machine "
+"learning model explanations - 🎮 Gamification for data exploration"
 msgstr ""
 
 #: ../../gui.rst:1367
 msgid ""
 "**Q3 2025:** - 🗣️ Voice interface for accessibility - 🔗 Enhanced data "
-"integration (HL7 FHIR, SNOMED CT) - 📋 Collaborative workspaces and sharing -"
-" 🎯 Personalized research recommendations"
+"integration (HL7 FHIR, SNOMED CT) - 📋 Collaborative workspaces and "
+"sharing - 🎯 Personalized research recommendations"
 msgstr ""
 
 #: ../../gui.rst:1373
 msgid ""
 "**Long-term Vision:** - Virtual reality data exploration environments - "
-"Blockchain-based data provenance tracking - Quantum computing integration "
-"for complex analyses - Global real-time surveillance network integration"
+"Blockchain-based data provenance tracking - Quantum computing integration"
+" for complex analyses - Global real-time surveillance network integration"
 msgstr ""
 
 #~ msgid "FARM Stack GUI Guide"
 #~ msgstr ""
+
