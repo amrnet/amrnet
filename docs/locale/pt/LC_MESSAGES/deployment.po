@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the AMRnet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
-"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
-"Language-Team: pt <LL@li.org>\n\n"
+"Language-Team: pt <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ../../deployment.rst:4
 msgid "Deployment Guide"
-msgstr "Guia de Implantação"
+msgstr ""
 
 #: ../../deployment.rst:8
 msgid ""
@@ -181,7 +182,7 @@ msgstr ""
 
 #: ../../deployment.rst:293
 msgid "Performance Optimization"
-msgstr "Otimização de Performance"
+msgstr ""
 
 #: ../../deployment.rst:297
 msgid "Production deployment optimizations for better performance:"
@@ -337,7 +338,7 @@ msgstr ""
 
 #: ../../deployment.rst:584
 msgid "Troubleshooting"
-msgstr "Solução de Problemas"
+msgstr ""
 
 #: ../../deployment.rst:588
 msgid "Common deployment issues and solutions:"

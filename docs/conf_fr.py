@@ -12,14 +12,9 @@ elif language == 'fr':
 elif language == 'pt':
     html_title = 'AMRnet - Documentação em Português'
 
-# internationalization
-language = os.environ.get('READTHEDOCS_LANGUAGE_FR', 'fr')
-locale_dirs = ['locale/']
-gettext_compact = False
-
 # Override any language-specific theme options
 html_theme_options.update({
     'source_repository': 'https://github.com/amrnet/amrnet',
-    'source_branch': 'main',
+    'source_branch': 'devrev-final',
     'source_directory': f'docs/',
 })

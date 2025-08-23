@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the AMRnet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
-"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
-"Language-Team: pt <LL@li.org>\n\n"
+"Language-Team: pt <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ../../performance.rst:4
 msgid "Performance Optimization"
-msgstr "Otimização de Performance"
+msgstr ""
 
 #: ../../performance.rst:8
 msgid ""
@@ -332,7 +333,7 @@ msgstr ""
 
 #: ../../performance.rst:366
 msgid "Troubleshooting"
-msgstr "Solução de Problemas"
+msgstr ""
 
 #: ../../performance.rst:370
 msgid "**Common Performance Issues:**"
