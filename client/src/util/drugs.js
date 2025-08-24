@@ -1,4 +1,5 @@
 import {
+  drugClassesRulesNG,
   drugRulesINTS,
   drugRulesNG,
   drugRulesST,
@@ -14,8 +15,7 @@ export const drugsST = [
   'Azithromycin',
   'Ceftriaxone',
   'Chloramphenicol',
-  'Ciprofloxacin NS',
-  'Ciprofloxacin R',
+  'Ciprofloxacin',
   'XDR',
   'MDR',
   'Sulfonamides',
@@ -109,19 +109,19 @@ export const drugClassesST = [
   'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Chloramphenicol',
-  'XDR',
-  'MDR',
+  // 'XDR',
+  // 'MDR',
   'Sulfonamides',
   'Tetracycline',
   'Trimethoprim',
-  'Trimethoprim-sulfamethoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
   // 'Pansusceptible',
 ];
 
 // List of NG drug classes
-export const drugClassesNG = ['Azithromycin', 'Ceftriaxone', 'Cefixime'];
+export const drugClassesNG = Object.keys(drugClassesRulesNG).sort();
 
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMX',
@@ -173,14 +173,14 @@ export const drugAcronymsOpposite2 = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
   CIP: 'Ciprofloxacin',
   AZM: 'Azithromycin',
-  // ESBL: 'Extended-Spectrum Beta-Lactamase',
+  ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',
 };
 
 export const ciproAcronyms = {
-  'Ciprofloxacin NS': 'Ciprofloxacin (non-susceptible)',
+  'Ciprofloxacin': 'Ciprofloxacin (non-susceptible)',
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 

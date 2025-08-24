@@ -10,12 +10,6 @@ import ZD from '../../../assets/img/Team/ZD.jpeg';
 export const useTeamCards = () => {
   const { t } = useTranslation();
 
-  // Debug: Check if t function is working
-  /* These lines of code are testing the translation functionality using the `t`
-function provided by the `useTranslation` hook from the `react-i18next` library. */
-  // console.log('Translation test:', t('navigation.home'));
-  // console.log('Team translation test:', t('team.post.Principal Investigator'));
-
   return [
     {
       name: 'Prof Kathryn Holt',
@@ -54,7 +48,7 @@ function provided by the `useTranslation` hook from the `react-i18next` library.
       redirect: 'https://www.lshtm.ac.uk/aboutus/people/maranga.mary',
     },
     {
-      name: 'Dr Ebenezer Nyarko',
+      name: 'Dr Ebenezer Foster-Nyarko',
       post: t('Enterics Expert'),
       img: EB,
       redirect: 'https://www.lshtm.ac.uk/aboutus/people/foster-nyarko.ebenn',
