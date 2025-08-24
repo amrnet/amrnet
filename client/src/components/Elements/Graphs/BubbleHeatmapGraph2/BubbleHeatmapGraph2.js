@@ -1,3 +1,4 @@
+import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -13,32 +14,31 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStyles } from './BubbleHeatmapGraphMUI';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Cell,
+  Tooltip as ChartTooltip,
+  LabelList,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  ScatterChart,
-  Scatter,
   ZAxis,
-  Cell,
-  LabelList,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { setBubbleHeatmapGraphVariable } from '../../../../stores/slices/graphSlice';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { variableGraphOptions, variableGraphOptionsNG } from '../../../../util/convergenceVariablesOptions';
 import { statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
-import { mixColorScale } from '../../Map/mapColorHelper';
-import { longestVisualWidth } from '../../../../util/helpers';
-import { Clear, Close, InfoOutlined } from '@mui/icons-material';
-import { SelectCountry } from '../../SelectCountry';
 import { getAxisLabel } from '../../../../util/genotypes';
+import { longestVisualWidth } from '../../../../util/helpers';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
-import { setBubbleHeatmapGraphVariable } from '../../../../stores/slices/graphSlice';
-import { variableGraphOptions } from '../../../../util/convergenceVariablesOptions';
+import { mixColorScale } from '../../Map/mapColorHelper';
+import { SelectCountry } from '../../SelectCountry';
+import { useStyles } from './BubbleHeatmapGraphMUI';
 
 const xOptionsByOrganism = [
   {
@@ -71,7 +71,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const bubbleHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleHeatmapGraphVariable);
-  const loadingPDF = useAppSelector((state) => state.dashboard.loadingPDF);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
   const xOptions = useMemo(() => {
@@ -91,6 +91,11 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const resistanceOptions = useMemo(() => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
     const resistance = options.filter(option => option.resistanceView).map(option => option.name);
+
+    if (organism === 'ngono') {
+      resistance.splice(5, 0, ...['XDR', 'MDR']);
+    }
+
     const drugs = {};
 
     resistance.forEach(drug => {
@@ -130,7 +135,19 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
         if (organism === 'kpneumo') {
           const variableOption = variableGraphOptions.find(x => x.value === bubbleHeatmapGraphVariable);
           if (!variableOption) {
-            console.warn(`BubbleHeatmapGraph2: bubbleHeatmapGraphVariable '${bubbleHeatmapGraphVariable}' not found in variableGraphOptions. Falling back to 'GENOTYPE'.`);
+            console.warn(
+              `BubbleHeatmapGraph2: bubbleHeatmapGraphVariable '${bubbleHeatmapGraphVariable}' not found in variableGraphOptions. Falling back to 'GENOTYPE'.`,
+            );
+            return 'GENOTYPE';
+          }
+          return variableOption.mapValue;
+        }
+        if (organism === 'ngono') {
+          const variableOption = variableGraphOptionsNG.find(x => x.value === bubbleHeatmapGraphVariable);
+          if (!variableOption) {
+            console.warn(
+              `BubbleHeatmapGraph2: bubbleHeatmapGraphVariable '${bubbleHeatmapGraphVariable}' not found in variableGraphOptions. Falling back to 'GENOTYPE'.`,
+            );
             return 'GENOTYPE';
           }
           return variableOption.mapValue;
@@ -506,6 +523,28 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                         disabled={organism === 'none'}
                       >
                         {variableGraphOptions.map((option, index) => {
+                          return (
+                            <MenuItem key={index + 'bubble-heatmap-variable'} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  )}
+                  {organism === 'ngono' && (
+                    <div className={classes.selectWrapper}>
+                      <div className={classes.labelWrapper}>
+                        <Typography variant="caption">Select variable</Typography>
+                      </div>
+                      <Select
+                        value={bubbleHeatmapGraphVariable}
+                        onChange={handleChangeVariable}
+                        inputProps={{ className: classes.selectInput }}
+                        MenuProps={{ classes: { list: classes.selectMenu } }}
+                        disabled={organism === 'none'}
+                      >
+                        {variableGraphOptionsNG.map((option, index) => {
                           return (
                             <MenuItem key={index + 'bubble-heatmap-variable'} value={option.value}>
                               {option.label}
