@@ -225,94 +225,94 @@ function FilterAmrGenes(Title, data, obj_parser, headers) {
     } else {
       obj_parser['tetracycline_category'] = 'TetS';
     }
-    if (obj_parser['cip_pheno_qrdr_gene'] == undefined) {
-      obj_parser['cip_pheno_qrdr_gene'] = data['qnrS'].toString() + data['qnrB'].toString();
-    } else {
-      obj_parser['cip_pheno_qrdr_gene'] =
-        obj_parser['cip_pheno_qrdr_gene'] + data['qnrS'].toString() + data['qnrB'].toString();
-    }
+    // if (obj_parser['cip_pheno_qrdr_gene'] == undefined) {
+    //   obj_parser['cip_pheno_qrdr_gene'] = data['qnrS'].toString() + data['qnrB'].toString();
+    // } else {
+    //   obj_parser['cip_pheno_qrdr_gene'] =
+    //     obj_parser['cip_pheno_qrdr_gene'] + data['qnrS'].toString() + data['qnrB'].toString();
+    // }
   }
 }
 
-function FilterAmrSNPS(Title, data, obj_parser, headers) {
-  if (Title.indexOf('gyrA_S83F') != -1) {
-    for (column of headers) {
-      obj_parser[column] = data[column];
-    }
-    list_qrdr = [
-      'gyrA_S83F',
-      'gyrA_S83Y',
-      'gyrA_D87A',
-      'gyrA_D87G',
-      'gyrA_D87N',
-      'gyrA_D87V',
-      'gyrA_D87Y',
-      'gyrB_S464F',
-      'gyrB_S464Y',
-      'parC_S80I',
-      'parC_E84G',
-      'parC_E84K',
-    ];
-    obj_parser['num_qrdr'] = 0;
-    for (qrdr of list_qrdr) {
-      if (data[qrdr] == '1') {
-        obj_parser['num_qrdr']++;
-      }
-    }
-    obj_parser['num_acrb'] = data['acrB_R717Q'];
-    if (obj_parser['azith_pred_pheno'] == undefined) {
-      if (parseInt(data['acrB_R717Q']) > 0) {
-        obj_parser['azith_pred_pheno'] = 'AzithR';
-      } else {
-        obj_parser['azith_pred_pheno'] = 'AzithS';
-      }
-    }
+// function FilterAmrSNPS(Title, data, obj_parser, headers) {
+//   if (Title.indexOf('gyrA_S83F') != -1) {
+//     for (column of headers) {
+//       obj_parser[column] = data[column];
+//     }
+//     list_qrdr = [
+//       'gyrA_S83F',
+//       'gyrA_S83Y',
+//       'gyrA_D87A',
+//       'gyrA_D87G',
+//       'gyrA_D87N',
+//       'gyrA_D87V',
+//       'gyrA_D87Y',
+//       'gyrB_S464F',
+//       'gyrB_S464Y',
+//       'parC_S80I',
+//       'parC_E84G',
+//       'parC_E84K',
+//     ];
+//     obj_parser['num_qrdr'] = 0;
+//     for (qrdr of list_qrdr) {
+//       if (data[qrdr] == '1') {
+//         obj_parser['num_qrdr']++;
+//       }
+//     }
+//     obj_parser['num_acrb'] = data['acrB_R717Q'];
+//     if (obj_parser['azith_pred_pheno'] == undefined) {
+//       if (parseInt(data['acrB_R717Q']) > 0) {
+//         obj_parser['azith_pred_pheno'] = 'AzithR';
+//       } else {
+//         obj_parser['azith_pred_pheno'] = 'AzithS';
+//       }
+//     }
 
-    if (obj_parser['num_qrdr'] == 3) {
-      obj_parser['cip_pred_pheno'] = 'CipR';
-    }
-    if (obj_parser['num_qrdr'] == 2) {
-      obj_parser['cip_pred_pheno'] = 'CipI';
-    }
-    if (obj_parser['num_qrdr'] == 1) {
-      obj_parser['cip_pred_pheno'] = 'CipI';
-    }
-    if (obj_parser['num_qrdr'] == 0) {
-      obj_parser['cip_pred_pheno'] = 'CipS';
-    }
-    if (obj_parser['cip_pheno_qrdr_gene'] != undefined) {
-      cid_pred_pheno = obj_parser['cip_pred_pheno'].toString() + obj_parser['cip_pheno_qrdr_gene'].toString();
-      obj_parser['cip_pheno_qrdr_gene'] = cid_pred_pheno;
-      if (cid_pred_pheno == 'CipS10') {
-        obj_parser['cip_pred_pheno'] = 'CipI';
-      }
-      if (cid_pred_pheno == 'CipI10') {
-        obj_parser['cip_pred_pheno'] = 'CipR';
-      }
-      if (cid_pred_pheno == 'CipI01') {
-        obj_parser['cip_pred_pheno'] = 'CipR';
-      }
-    } else {
-      obj_parser['cip_pheno_qrdr_gene'] = obj_parser['cip_pred_pheno'].toString();
-    }
-    obj_parser['dcs_category'] = obj_parser['cip_pred_pheno'];
-    if (obj_parser['cip_pred_pheno'] == 'CipI') {
-      obj_parser['dcs_category'] = 'DCS';
-    }
-    if (obj_parser['cip_pred_pheno'] == 'CipR') {
-      obj_parser['dcs_category'] = 'DCS';
-    }
-    if (data['qnrB'] == '1' && data['qnrS'] == '1') {
-      obj_parser['dcs_mechanisms'] = `${obj_parser['num_qrdr']}_QRDR + qnrS + qnrB`;
-    } else if (data['qnrB'] == '1') {
-      obj_parser['dcs_mechanisms'] = `${obj_parser['num_qrdr']}_QRDR + qnrB`;
-    } else if (data['qnrS'] == '1') {
-      obj_parser['dcs_mechanisms'] = `${obj_parser['num_qrdr']}_QRDR + qnrS`;
-    } else {
-      obj_parser['dcs_mechanisms'] = `${obj_parser['num_qrdr']}_QRDR`;
-    }
-  }
-}
+//     if (obj_parser['num_qrdr'] == 3) {
+//       obj_parser['cip_pred_pheno'] = 'CipR';
+//     }
+//     if (obj_parser['num_qrdr'] == 2) {
+//       obj_parser['cip_pred_pheno'] = 'CipI';
+//     }
+//     if (obj_parser['num_qrdr'] == 1) {
+//       obj_parser['cip_pred_pheno'] = 'CipI';
+//     }
+//     if (obj_parser['num_qrdr'] == 0) {
+//       obj_parser['cip_pred_pheno'] = 'CipS';
+//     }
+//     if (obj_parser['cip_pheno_qrdr_gene'] != undefined) {
+//       cid_pred_pheno = obj_parser['cip_pred_pheno'].toString() + obj_parser['cip_pheno_qrdr_gene'].toString();
+//       obj_parser['cip_pheno_qrdr_gene'] = cid_pred_pheno;
+//       if (cid_pred_pheno == 'CipS10') {
+//         obj_parser['cip_pred_pheno'] = 'CipI';
+//       }
+//       if (cid_pred_pheno == 'CipI10') {
+//         obj_parser['cip_pred_pheno'] = 'CipR';
+//       }
+//       if (cid_pred_pheno == 'CipI01') {
+//         obj_parser['cip_pred_pheno'] = 'CipR';
+//       }
+//     } else {
+//       obj_parser['cip_pheno_qrdr_gene'] = obj_parser['cip_pred_pheno'].toString();
+//     }
+//     obj_parser['dcs_category'] = obj_parser['cip_pred_pheno'];
+//     if (obj_parser['cip_pred_pheno'] == 'CipI') {
+//       obj_parser['dcs_category'] = 'DCS';
+//     }
+//     if (obj_parser['cip_pred_pheno'] == 'CipR') {
+//       obj_parser['dcs_category'] = 'DCS';
+//     }
+//     if (data['qnrB'] == '1' && data['qnrS'] == '1') {
+//       obj_parser['dcs_mechanisms'] = `${obj_parser['num_qrdr']}_QRDR + qnrS + qnrB`;
+//     } else if (data['qnrB'] == '1') {
+//       obj_parser['dcs_mechanisms'] = `${obj_parser['num_qrdr']}_QRDR + qnrB`;
+//     } else if (data['qnrS'] == '1') {
+//       obj_parser['dcs_mechanisms'] = `${obj_parser['num_qrdr']}_QRDR + qnrS`;
+//     } else {
+//       obj_parser['dcs_mechanisms'] = `${obj_parser['num_qrdr']}_QRDR`;
+//     }
+//   }
+// }
 
 function FilterAmrProfile(Title, data, obj_parser, headers) {
   if (Title.indexOf('PW_AMP') != -1) {

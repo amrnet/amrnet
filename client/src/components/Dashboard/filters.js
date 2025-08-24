@@ -1098,8 +1098,8 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
               drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
             }
           });
-        } else if (isST && drugClassesRulesNG[key]) {
-          drugClassesRulesST[key].forEach(classRule => {
+        } else if (isSGono && drugClassesRulesNG[key]) {
+          drugClassesRulesNG[key].forEach(classRule => {
             const classRuleName = classRule.name;
             if (classRuleName === 'None') return;
 
@@ -1188,6 +1188,7 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
 export function getGenotypesData({
   data,
   genotypes,
+  ngmast,
   pathotypes,
   serotypes,
   organism,
@@ -1208,6 +1209,7 @@ export function getGenotypesData({
   // }
 
   const genotypesDrugClassesData = {};
+  const ngMastDrugClassesData = {};
   const countriesDrugClassesData = {};
   const regionsDrugClassesData = {};
 
@@ -1227,6 +1229,7 @@ export function getGenotypesData({
     config.list.forEach(item => {
       const key = config.keyFn(item);
       genotypesDrugClassesData[key] = [];
+      ngMastDrugClassesData[key] = [];
       // countriesDrugClassesData[key] = [];
       // regionsDrugClassesData[key] = [];
     });
@@ -1307,12 +1310,10 @@ export function getGenotypesData({
       });
     } else if (organism === 'ngono') {
       drugRulesNG.forEach(rule => {
-        const drugData = genotypeData.filter(x => rule.values.includes(x[rule.columnID]));
+        const drugData = genotypeData.filter(x => rule.values.map(String).includes(String(x[rule.columnID])));
         response[rule.key] = drugData.length;
 
-        const drugClassesToInclude = ['Azithromycin', 'Ceftriaxone', 'Cefixime'];
-
-        if (drugClassesToInclude.includes(rule.key)) {
+        if (drugClassesRulesNG[rule.key]) {
           const drugClass = { ...drugClassResponse };
 
           drugClassesRulesNG[rule.key].forEach(classRule => {
@@ -1377,6 +1378,43 @@ export function getGenotypesData({
     response.resistantCount = response.totalCount - response['Pansusceptible'];
     return response;
   });
+
+  // Ngmast for ngono
+  if (organism === 'ngono') {
+    ngmast.forEach(ng => {
+      const ngmastData = data.filter(x => x['NG-MAST TYPE']?.toString() === ng);
+      const drugClassResponse = {
+        name: ng,
+        totalCount: ngmastData.length,
+        resistantCount: 0,
+      };
+
+      drugRulesNG.forEach(rule => {
+        if (drugClassesRulesNG[rule.key]) {
+          const drugClass = { ...drugClassResponse };
+
+          drugClassesRulesNG[rule.key].forEach(classRule => {
+            const classRuleName = classRule.name;
+
+            drugClass[classRuleName] = ngmastData.filter(x => {
+              return classRule.rules.every(r => x[r.columnID]?.toString() === r.value.toString());
+            }).length;
+
+            if (classRule.susceptible) {
+              drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
+            }
+          });
+          ngMastDrugClassesData[rule.key].push(drugClass);
+        }
+      });
+    });
+
+    Object.keys(ngMastDrugClassesData).forEach(key => {
+      ngMastDrugClassesData[key].sort((a, b) => b.resistantCount - a.resistantCount);
+      ngMastDrugClassesData[key] = ngMastDrugClassesData[key].slice(0, 10);
+      ngMastDrugClassesData[key].forEach(item => delete item['None']);
+    });
+  }
 
   genotypesDrugsData.sort((a, b) => b.totalCount - a.totalCount);
   Object.keys(genotypesDrugClassesData).forEach(key => {
@@ -1495,6 +1533,7 @@ export function getGenotypesData({
     genotypesDrugClassesData,
     countriesDrugClassesData,
     regionsDrugClassesData,
+    ngMastDrugClassesData,
   };
 }
 
