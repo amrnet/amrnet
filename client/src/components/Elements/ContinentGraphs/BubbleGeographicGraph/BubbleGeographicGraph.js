@@ -1,3 +1,4 @@
+import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -13,30 +14,36 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStyles } from './BubbleGeographicGraphMUI';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Cell,
+  Tooltip as ChartTooltip,
+  LabelList,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  ScatterChart,
-  Scatter,
   ZAxis,
-  Cell,
-  LabelList,
 } from 'recharts';
-import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { darkGrey, hoverColor } from '../../../../util/colorHelper';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
-import { drugAcronyms, drugAcronymsOpposite, markersDrugsKP, markersDrugsSH, drugClassesNG, markersDrugsINTS} from '../../../../util/drugs';
-import { mixColorScale } from '../../Map/mapColorHelper';
-import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
-import { Clear, Close, InfoOutlined } from '@mui/icons-material';
-import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
-import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setResetBool } from '../../../../stores/slices/graphSlice';
+import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
+import { darkGrey, hoverColor } from '../../../../util/colorHelper';
+import { drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
+import {
+  drugAcronyms,
+  drugAcronymsOpposite,
+  drugClassesNG,
+  markersDrugsINTS,
+  markersDrugsKP,
+  markersDrugsSH,
+} from '../../../../util/drugs';
+import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
+import { mixColorScale } from '../../Map/mapColorHelper';
+import { useStyles } from './BubbleGeographicGraphMUI';
 
 // Dynamic trend options generator
 const createTrendOptions = (organism, drugs, labelMap = {}) => {
@@ -56,47 +63,47 @@ const createTrendOptions = (organism, drugs, labelMap = {}) => {
 const organismConfig = {
   kpneumo: {
     drugs: markersDrugsKP,
-    labelMap: { 'ESBL': 'ESBLs' }
+    labelMap: { ESBL: 'ESBLs' },
   },
   styphi: {
     drugs: Object.keys(drugClassesRulesSTHeatMap),
-    labelMap: { 'Ciprofloxacin NS': 'Ciprofloxacin' }
+    labelMap: { 'Ciprofloxacin NS': 'Ciprofloxacin' },
   },
   ngono: {
     drugs: drugClassesNG,
-    labelMap: {}
+    labelMap: {},
   },
   shige: {
     drugs: markersDrugsSH,
-    labelMap: {}
+    labelMap: {},
   },
   ecoli: {
     drugs: markersDrugsSH,
-    labelMap: {}
+    labelMap: {},
   },
   decoli: {
     drugs: markersDrugsSH,
-    labelMap: {}
+    labelMap: {},
   },
   senterica: {
     drugs: markersDrugsINTS,
-    labelMap: {}
-  }
+    labelMap: {},
+  },
 };
 
 // function to get trend options for any organism
-const getAllTrendOptionsForOrganism = (organism) => {
+const getAllTrendOptionsForOrganism = organism => {
   const config = organismConfig[organism];
-  
+
   if (!config) {
     console.warn(`No trend options configuration found for organism: ${organism}`);
     return [];
   }
-  
+
   return createTrendOptions(organism, config.drugs, config.labelMap);
 };
 
-// Generate all trend options 
+// Generate all trend options
 const kpTrendOptions = getAllTrendOptionsForOrganism('kpneumo');
 const stTrendOptions = getAllTrendOptionsForOrganism('styphi');
 const ngonoTrendOptions = getAllTrendOptionsForOrganism('ngono');
@@ -116,7 +123,6 @@ const trendOptionsMap = {
   senterica: sentericaTrendOptions,
   sentericaints: sentericaintsTrendOptions,
 };
-
 
 const yOptions = [
   {
@@ -189,6 +195,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
     const resistance = options.filter(option => option.resistanceView).map(option => option.name);
 
+    if (organism === 'ngono') {
+      resistance.splice(5, 0, ...['XDR', 'MDR']);
+    }
+
     const drugs = {};
 
     (xAxisType === 'country' ? mapData : mapRegionData)
@@ -214,48 +224,46 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     );
   }, [mapData, mapRegionData, organism, xAxisSelected, xAxisType]);
 
-const markersOptions = useMemo(() => {
-  const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
-  const drugKey = organismTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
+  const markersOptions = useMemo(() => {
+    const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
+    const drugKey = organismTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
 
-  if (!drugKey) return [];
+    if (!drugKey) return [];
 
-  // Common exclusions for all organisms
-  const EXCLUSIONS = new Set(['None', 'name', 'resistantCount', 'totalCount']);
+    // Common exclusions for all organisms
+    const EXCLUSIONS = new Set(['None', 'name', 'resistantCount', 'totalCount']);
 
-  // Helper function to aggregate drug data
-  const aggregateDrugs = (dataArray, filterFn = () => true) => {
-    const drugs = {};
+    // Helper function to aggregate drug data
+    const aggregateDrugs = (dataArray, filterFn = () => true) => {
+      const drugs = {};
 
-    dataArray.filter(filterFn).forEach(item => {
-      Object.entries(item).forEach(([key, value]) => {
-        if (EXCLUSIONS.has(key)) return;
-        drugs[key] = (drugs[key] || 0) + (value || 0);
+      dataArray.filter(filterFn).forEach(item => {
+        Object.entries(item).forEach(([key, value]) => {
+          if (EXCLUSIONS.has(key)) return;
+          drugs[key] = (drugs[key] || 0) + (value || 0);
+        });
       });
-    });
 
-    return Object.entries(drugs)
-      .filter(([, count]) => count > 0)
-      .sort((a, b) => b[1] - a[1])
-      .map(([name]) => name);
-  };
+      return Object.entries(drugs)
+        .filter(([, count]) => count > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name]) => name);
+    };
 
-  // Get data source based on organism type
-  const isLegacyStructure = ['kpneumo', 'styphi'].includes(organism);
-  // const dataSource = isLegacyStructure 
-  //   ? drugsData?.[drugKey] 
-  //   : genotypesDrugClassesData[drugKey];
-    const dataSource = drugsData?.[drugKey] 
+    // Get data source based on organism type
+    const isLegacyStructure = ['kpneumo', 'styphi'].includes(organism);
+    // const dataSource = isLegacyStructure
+    //   ? drugsData?.[drugKey]
+    //   : genotypesDrugClassesData[drugKey];
+    const dataSource = drugsData?.[drugKey];
 
-  if (!dataSource) return [];
+    if (!dataSource) return [];
 
-  // Apply filtering only for legacy structure
-  const filterFn = isLegacyStructure 
-    ? item => xAxisSelected.includes(item.name)
-    : () => true;
+    // Apply filtering only for legacy structure
+    const filterFn = isLegacyStructure ? item => xAxisSelected.includes(item.name) : () => true;
 
-  return aggregateDrugs(dataSource, filterFn);
-}, [drugsData, genotypesDrugClassesData, xAxisSelected, yAxisTypeTrend, organism]);
+    return aggregateDrugs(dataSource, filterFn);
+  }, [drugsData, genotypesDrugClassesData, xAxisSelected, yAxisTypeTrend, organism]);
 
   const GLPSColumn = useMemo(
     () => (['serotype', 'pathotype'].includes(yAxisType) ? 'PATHOTYPE' : 'GENOTYPE'),
@@ -311,7 +319,11 @@ const markersOptions = useMemo(() => {
   const filteredYAxisOptions = useMemo(() => {
     const filteredOptions = yAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
 
-    if (yAxisType === 'serotype' ||  yAxisType === 'determinant' || (yAxisType === 'genotype' && organismHasLotsOfGenotypes)) {
+    if (
+      yAxisType === 'serotype' ||
+      yAxisType === 'determinant' ||
+      (yAxisType === 'genotype' && organismHasLotsOfGenotypes)
+    ) {
       return filteredOptions.slice(0, 20);
     }
 
@@ -544,7 +556,16 @@ const markersOptions = useMemo(() => {
         </div>
       );
     },
-    [GLPSColumn, drugsCountriesData, genotypesDrugClassesData, economicRegions, mapData, organism, xAxisType, yAxisType],
+    [
+      GLPSColumn,
+      drugsCountriesData,
+      genotypesDrugClassesData,
+      economicRegions,
+      mapData,
+      organism,
+      xAxisType,
+      yAxisType,
+    ],
   );
 
   const configuredMapData = useMemo(() => {
@@ -611,13 +632,13 @@ const markersOptions = useMemo(() => {
         if (yAxisType === 'determinant') {
           const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
           const drugKey = organismTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
-          
+
           if (!drugKey) return; // Early exit if no drugKey found
-          
+
           // Helper function to calculate percentage
-          const calculatePercentage = (count, total) => 
+          const calculatePercentage = (count, total) =>
             count && total ? Number(((count / total) * 100).toFixed(2)) : 0;
-          
+
           // Helper function to create item object
           const createItem = (drug, count, total, typeName) => ({
             itemName: drug.replaceAll(' + ', '/'),
@@ -628,21 +649,21 @@ const markersOptions = useMemo(() => {
             total: total || 0,
             parent: drugKey,
           });
-          
+
           // Data extraction strategies
           const getDataForOrganism = () => {
-              const locationData = drugsData?.[drugKey]?.find(x => x.name === item.name);
-              return {
-                getData: (drug) => locationData?.[drug] || 0,
-                getTotal: () => locationData?.totalCount || 0
-              };
+            const locationData = drugsData?.[drugKey]?.find(x => x.name === item.name);
+            return {
+              getData: drug => locationData?.[drug] || 0,
+              getTotal: () => locationData?.totalCount || 0,
+            };
           };
-          
+
           // Select appropriate strategy
           // const isLegacy = ['kpneumo', 'styphi'].includes(organism);
           const { getData, getTotal } = getDataForOrganism();
           const totalCount = getTotal();
-          
+
           // Process all drugs with single loop
           yAxisSelected.forEach(drug => {
             const drugCount = getData(drug);
@@ -948,7 +969,6 @@ const markersOptions = useMemo(() => {
                             {option.label}
                           </MenuItem>
                         ))}
-
                       </Select>
                     </div>
                   )}
