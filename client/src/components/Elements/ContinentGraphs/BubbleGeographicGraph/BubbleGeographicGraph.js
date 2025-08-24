@@ -30,11 +30,10 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setResetBool } from '../../../../stores/slices/graphSlice';
 import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
-import { drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
+import { drugClassesRulesNG, drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
 import {
   drugAcronyms,
   drugAcronymsOpposite,
-  drugClassesNG,
   markersDrugsINTS,
   markersDrugsKP,
   markersDrugsSH,
@@ -67,10 +66,10 @@ const organismConfig = {
   },
   styphi: {
     drugs: Object.keys(drugClassesRulesSTHeatMap),
-    labelMap: { 'Ciprofloxacin NS': 'Ciprofloxacin' },
+    labelMap: {},
   },
   ngono: {
-    drugs: drugClassesNG,
+    drugs: Object.keys(drugClassesRulesNG),
     labelMap: {},
   },
   shige: {
@@ -226,6 +225,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   const markersOptions = useMemo(() => {
     const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
+
     const drugKey = organismTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
 
     if (!drugKey) return [];
@@ -251,7 +251,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     };
 
     // Get data source based on organism type
-    const isLegacyStructure = ['kpneumo', 'styphi'].includes(organism);
+    const isLegacyStructure = ['kpneumo', 'styphi', 'ngono'].includes(organism);
     // const dataSource = isLegacyStructure
     //   ? drugsData?.[drugKey]
     //   : genotypesDrugClassesData[drugKey];

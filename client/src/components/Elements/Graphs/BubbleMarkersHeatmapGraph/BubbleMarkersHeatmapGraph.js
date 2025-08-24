@@ -65,12 +65,21 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
   const genotypesDrugClassesData = useAppSelector(state => state.graph.genotypesDrugClassesData);
+  const ngMastDrugClassesData = useAppSelector(state => state.graph.ngMastDrugClassesData);
   const determinantsGraphDrugClass = useAppSelector(state => state.graph.determinantsGraphDrugClass);
+
   const selectedCRData = useMemo(() => {
     return (actualCountry !== 'All' ? mapData : mapRegionData).find(
       x => x.name === (actualCountry !== 'All' ? actualCountry : actualRegion),
     );
   }, [actualCountry, actualRegion, mapData, mapRegionData]);
+
+  const drugClassesData = useMemo(() => {
+    if (organism === 'ngono' && bubbleMarkersHeatmapGraphVariable === 'NG-MAST TYPE') {
+      return ngMastDrugClassesData;
+    }
+    return genotypesDrugClassesData;
+  }, [bubbleMarkersHeatmapGraphVariable, genotypesDrugClassesData, ngMastDrugClassesData, organism]);
 
   const statColumn = useMemo(() => {
     const foundOption = (organism === 'kpneumo' ? variableGraphOptions : variablesOptionsNG).find(
@@ -136,18 +145,18 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     // Choose extraction method based on organism
     let items = [];
 
-    if (['kpneumo', 'ngono'].includes(organism)) {
+    if (['kpneumo'].includes(organism)) {
       const sourceData = selectedCRData?.stats?.[statColumn]?.items || [];
       items = extractFromKpneumoData(sourceData, bubbleMarkersYAxisType);
       // } else if (organism === 'styphi') {
       //   items = extractFromStyphiRules(bubbleMarkersYAxisType);
     } else {
       // All other organisms (ngono, shige, ecoli, decoli, sentrerica, etc.)
-      items = extractFromGenotypesDrugClassesData(genotypesDrugClassesData, bubbleMarkersYAxisType);
+      items = extractFromGenotypesDrugClassesData(drugClassesData, bubbleMarkersYAxisType);
     }
 
     return items;
-  }, [bubbleMarkersYAxisType, selectedCRData?.stats, statColumn, organism, genotypesDrugClassesData]);
+  }, [organism, selectedCRData?.stats, statColumn, bubbleMarkersYAxisType, drugClassesData]);
 
   const filteredYAxisOptions = useMemo(() => {
     let filteredOptions = yAxisOptions.filter(option => option?.includes(markerSearch.toLowerCase()));
@@ -273,7 +282,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     }
 
     // For kpneumo, use the original drugs-based structure
-    if (['kpneumo', 'ngono'].includes(organism)) {
+    if (['kpneumo'].includes(organism)) {
       const itemsData = selectedCRData?.stats[statColumn]?.items || [];
 
       return xAxisSelected.map(xName => {
@@ -304,8 +313,8 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
 
     // For all other organisms (ngono, styphi, shige, ecoli, decoli, sentrerica, etc.)
     // use genotypesDrugClassesData similar to DeterminantsGraph
-    if (genotypesDrugClassesData[bubbleMarkersYAxisType]) {
-      const data = genotypesDrugClassesData[bubbleMarkersYAxisType] || [];
+    if (drugClassesData[bubbleMarkersYAxisType]) {
+      const data = drugClassesData[bubbleMarkersYAxisType] || [];
 
       return xAxisSelected.map(xName => {
         const item = data.find(d => d.name === xName);
@@ -338,15 +347,8 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     }
 
     return [];
-  }, [
-    bubbleMarkersYAxisType,
-    selectedCRData,
-    statColumn,
-    xAxisSelected,
-    yAxisSelected,
-    organism,
-    genotypesDrugClassesData,
-  ]);
+  }, [bubbleMarkersYAxisType, selectedCRData, statColumn, xAxisSelected, yAxisSelected, organism, drugClassesData]);
+
   useEffect(() => {
     dispatch(setBubbleMarkersHeatmapGraphData(configuredMapData));
   }, [bubbleMarkersYAxisType, configuredMapData]);

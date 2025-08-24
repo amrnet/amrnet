@@ -169,7 +169,7 @@ export const drugClassesRulesSTHeatMap = {
       name: 'acrB_R717Q',
       susceptible: false,
       rules: [
-        { columnID: 'azith_pred_pheno', value: 'AzithR' },
+        // { columnID: 'azith_pred_pheno', value: 'AzithR' },
         { columnID: 'acrB_R717Q', value: '1' },
         // { columnID: 'acrB_R717L', value: '0' },
       ],
@@ -178,7 +178,7 @@ export const drugClassesRulesSTHeatMap = {
       name: 'acrB_R717L',
       susceptible: false,
       rules: [
-        { columnID: 'azith_pred_pheno', value: 'AzithR' },
+        // { columnID: 'azith_pred_pheno', value: 'AzithR' },
         { columnID: 'acrB_R717L', value: '1' },
         // { columnID: 'acrB_R717Q', value: '0' },
       ],
@@ -224,240 +224,240 @@ export const drugClassesRulesSTHeatMap = {
     },
   ],
   // 'Co-trimoxazole': [
-  'Trimethoprim-sulfamethoxazole': [
-    {
-      name: 'dfrA7 + dfrA14 + sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA7', value: '1' },
-        { columnID: 'dfrA14', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA7 + sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA7', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA7 + sul1',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA7', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '0' },
-      ],
-    },
-    {
-      name: 'dfrA7 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA7', value: '1' },
-        { columnID: 'dfrA14', value: '0' },
-        { columnID: 'sul1', value: '0' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA14 + sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA7', value: '0' },
-        { columnID: 'dfrA14', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA14 + sul1',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA7', value: '0' },
-        { columnID: 'dfrA14', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '0' },
-      ],
-    },
-    {
-      name: 'dfrA14 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA7', value: '0' },
-        { columnID: 'dfrA14', value: '1' },
-        { columnID: 'sul1', value: '0' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA1 + sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA1', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA1 + sul1',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA1', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '0' },
-      ],
-    },
-    {
-      name: 'dfrA1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA1', value: '1' },
-        { columnID: 'sul1', value: '0' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA5 + sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA5', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA5 + sul1',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA5', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '0' },
-      ],
-    },
-    {
-      name: 'dfrA5 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA5', value: '1' },
-        { columnID: 'sul1', value: '0' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA15 + sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA15', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA15 + sul1',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA15', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '0' },
-      ],
-    },
-    {
-      name: 'dfrA15 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA15', value: '1' },
-        { columnID: 'sul1', value: '0' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA17 + sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA17', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA17 + sul1',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA17', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '0' },
-      ],
-    },
-    {
-      name: 'dfrA17 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA17', value: '1' },
-        { columnID: 'sul1', value: '0' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA18 + sul1 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA18', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'dfrA18 + sul1',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA18', value: '1' },
-        { columnID: 'sul1', value: '1' },
-        { columnID: 'sul2', value: '0' },
-      ],
-    },
-    {
-      name: 'dfrA18 + sul2',
-      susceptible: false,
-      rules: [
-        { columnID: 'co_trim', value: '1' },
-        { columnID: 'dfrA18', value: '1' },
-        { columnID: 'sul1', value: '0' },
-        { columnID: 'sul2', value: '1' },
-      ],
-    },
-    {
-      name: 'None',
-      susceptible: true,
-      rules: [{ columnID: 'co_trim', value: '0' }],
-    },
-  ],
+  // 'Trimethoprim-sulfamethoxazole': [
+  //   {
+  //     name: 'dfrA7 + dfrA14 + sul1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA7', value: '1' },
+  //       { columnID: 'dfrA14', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA7 + sul1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA7', value: '1' },
+  //       { columnID: 'dfrA14', value: '0' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA7 + sul1',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA7', value: '1' },
+  //       { columnID: 'dfrA14', value: '0' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '0' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA7 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA7', value: '1' },
+  //       { columnID: 'dfrA14', value: '0' },
+  //       { columnID: 'sul1', value: '0' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA14 + sul1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA7', value: '0' },
+  //       { columnID: 'dfrA14', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA14 + sul1',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA7', value: '0' },
+  //       { columnID: 'dfrA14', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '0' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA14 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA7', value: '0' },
+  //       { columnID: 'dfrA14', value: '1' },
+  //       { columnID: 'sul1', value: '0' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA1 + sul1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA1', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA1 + sul1',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA1', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '0' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA1', value: '1' },
+  //       { columnID: 'sul1', value: '0' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA5 + sul1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA5', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA5 + sul1',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA5', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '0' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA5 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA5', value: '1' },
+  //       { columnID: 'sul1', value: '0' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA15 + sul1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA15', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA15 + sul1',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA15', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '0' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA15 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA15', value: '1' },
+  //       { columnID: 'sul1', value: '0' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA17 + sul1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA17', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA17 + sul1',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA17', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '0' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA17 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA17', value: '1' },
+  //       { columnID: 'sul1', value: '0' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA18 + sul1 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA18', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA18 + sul1',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA18', value: '1' },
+  //       { columnID: 'sul1', value: '1' },
+  //       { columnID: 'sul2', value: '0' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dfrA18 + sul2',
+  //     susceptible: false,
+  //     rules: [
+  //       { columnID: 'co_trim', value: '1' },
+  //       { columnID: 'dfrA18', value: '1' },
+  //       { columnID: 'sul1', value: '0' },
+  //       { columnID: 'sul2', value: '1' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'None',
+  //     susceptible: true,
+  //     rules: [{ columnID: 'co_trim', value: '0' }],
+  //   },
+  // ],
   Ceftriaxone: [
     {
       name: 'blaCTX-M-15',
@@ -494,45 +494,138 @@ export const drugClassesRulesSTHeatMap = {
     {
       name: 'None',
       susceptible: true,
-      rules: [{ columnID: 'ESBL_category', value: 'Non-ESBL' }],
+      rules: [
+        { columnID: 'ESBL_category', value: 'Non-ESBL' }
+      ],
     },
   ],
   // 'Fluoroquinolones (CipNS)': [
-  'Ciprofloxacin NS': [
+  Ciprofloxacin: [
     {
       name: 'qnrS',
       susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms_gene', value: 'qnrS' }],
+      rules: [
+        { columnID: 'qnrS', value: '1' }
+      ],
     },
     {
       name: 'qnrB',
       susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms_gene', value: 'qnrB' }],
-    },
-    {
-      name: '3_QRDR (CipR)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '3_QRDR' }],
-    },
-    {
-      name: '2_QRDR (CipR)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '2_QRDR' }],
-    },
-    {
-      name: '1_QRDR (CipNS)',
-      susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms', value: '1_QRDR' }],
+      rules: [
+        { columnID: 'qnrB', value: '1' }
+      ],
     },
     {
       name: 'qnrD',
       susceptible: false,
-      rules: [{ columnID: 'dcs_mechanisms_gene', value: 'qnrD' }],
+      rules: [
+        { columnID: 'qnrD', value: '1' }
+      ],
+    },
+    {
+      name: 'gyrA_D87G',
+      susceptible: false,
+      rules: [
+        { columnID: 'gyrA_D87G', value: '1' }
+      ],
+    },
+    {
+      name: 'gyrA_D87N',
+      susceptible: false,
+      rules: [
+        { columnID: 'gyrA_D87N', value: '1' }
+        ],
+    },
+    {
+      name: 'gyrA_D87V',
+      susceptible: false,
+      rules: [
+        { columnID: 'gyrA_D87V', value: '1' }
+      ],
+    },
+    {
+      name: 'gyrA_D87Y',
+      susceptible: false,
+      rules: [
+        { columnID: 'gyrA_D87Y', value: '1' }
+      ],
+    },
+    {
+      name: 'gyrA_D87A',
+      susceptible: false,
+      rules: [
+        { columnID: 'gyrA_D87A', value: '1' }
+      ],
+    },
+    {
+      name: 'gyrA_S83F',
+      susceptible: false,
+      rules: [
+        { columnID: 'gyrA_S83F', value: '1' }
+      ],
+    },
+    {
+      name: 'gyrA_S83Y',
+      susceptible: false,
+      rules: [
+        { columnID: 'gyrA_S83Y', value: '1' }
+      ],
+    },
+    {
+      name: 'gyrB_S464F',
+      susceptible: false,
+      rules: [
+        { columnID: 'gyrB_S464F', value: '1' }
+      ],
+    },
+    {
+      name: 'parC_S80I',
+      susceptible: false,
+      rules: [
+        { columnID: 'parC_S80I', value: '1' }
+      ],
+    },
+    {
+      name: 'parC_S80R',
+      susceptible: false,
+      rules: [
+        { columnID: 'parC_S80R', value: '1' }
+      ],
+    },
+    {
+      name: 'parC_E84G',
+      susceptible: false,
+      rules: [
+        { columnID: 'parC_E84G', value: '1' }
+      ],
+    },
+    {
+      name: 'parC_E84K',
+      susceptible: false,
+      rules: [
+        { columnID: 'parC_E84K', value: '1' }
+      ],
     },
     {
       name: 'None',
       susceptible: true,
-      rules: [{ columnID: 'dcs_mechanisms', value: '0_QRDR' }],
+      rules: [
+        { columnID: 'qnrS', value: '0' },
+        { columnID: 'qnrB', value: '0' },
+        { columnID: 'qnrD', value: '0' },
+        { columnID: 'gyrA_D87G', value: '0' },
+        { columnID: 'gyrA_D87N', value: '0' },
+        { columnID: 'gyrA_D87V', value: '0' },
+        { columnID: 'gyrA_D87Y', value: '0' },
+        { columnID: 'gyrA_D87A', value: '0' },
+        { columnID: 'gyrA_S83F', value: '0' },
+        { columnID: 'gyrA_S83Y', value: '0' },
+        { columnID: 'gyrB_S464F', value: '0' },
+        { columnID: 'parC_S80I', value: '0' },
+        { columnID: 'parC_S80R', value: '0' },
+        { columnID: 'parC_E84G', value: '0' },
+        { columnID: 'parC_E84K', value: '0' },
+      ],
     },
   ],
   Sulfonamides: [
@@ -549,7 +642,7 @@ export const drugClassesRulesSTHeatMap = {
       name: 'sul1',
       susceptible: false,
       rules: [
-        { columnID: 'sul_any', value: '1' },
+        // { columnID: 'sul_any', value: '1' },
         { columnID: 'sul1', value: '1' },
         // { columnID: 'sul2', value: '0' },
       ],
@@ -558,7 +651,7 @@ export const drugClassesRulesSTHeatMap = {
       name: 'sul2',
       susceptible: false,
       rules: [
-        { columnID: 'sul_any', value: '1' },
+        // { columnID: 'sul_any', value: '1' },
         { columnID: 'sul2', value: '1' },
         // { columnID: 'sul1', value: '0' },
       ],
@@ -574,7 +667,7 @@ export const drugClassesRulesSTHeatMap = {
       name: 'tetA(A)',
       susceptible: false,
       rules: [
-        { columnID: 'tetracycline_category', value: 'TetR' },
+        // { columnID: 'tetracycline_category', value: 'TetR' },
         { columnID: 'tetA(A)', value: '1' },
       ],
     },
@@ -582,7 +675,7 @@ export const drugClassesRulesSTHeatMap = {
       name: 'tetA(B)',
       susceptible: false,
       rules: [
-        { columnID: 'tetracycline_category', value: 'TetR' },
+        // { columnID: 'tetracycline_category', value: 'TetR' },
         { columnID: 'tetA(B)', value: '1' },
       ],
     },
@@ -590,7 +683,7 @@ export const drugClassesRulesSTHeatMap = {
       name: 'tetA(C)',
       susceptible: false,
       rules: [
-        { columnID: 'tetracycline_category', value: 'TetR' },
+        // { columnID: 'tetracycline_category', value: 'TetR' },
         { columnID: 'tetA(C)', value: '1' },
       ],
     },
@@ -598,7 +691,7 @@ export const drugClassesRulesSTHeatMap = {
       name: 'tetA(D)',
       susceptible: false,
       rules: [
-        { columnID: 'tetracycline_category', value: 'TetR' },
+        // { columnID: 'tetracycline_category', value: 'TetR' },
         { columnID: 'tetA(D)', value: '1' },
       ],
     },
@@ -695,30 +788,30 @@ export const drugClassesRulesSTHeatMap = {
 };
 export const drugClassesRulesST = {
   ...drugClassesRulesSTHeatMap,
-  MDR: [
-    {
-      name: 'MDR',
-      susceptible: false,
-      rules: [{ columnID: 'MDR', value: 'MDR' }],
-    },
-    {
-      name: 'Non-MDR',
-      susceptible: true,
-      rules: [{ columnID: 'MDR', value: '-' }],
-    },
-  ],
-  XDR: [
-    {
-      name: 'XDR',
-      susceptible: false,
-      rules: [{ columnID: 'XDR', value: 'XDR' }],
-    },
-    {
-      name: 'Non-XDR',
-      susceptible: true,
-      rules: [{ columnID: 'XDR', value: '-' }],
-    },
-  ],
+  // // MDR: [
+  // //   {
+  // //     name: 'MDR',
+  // //     susceptible: false,
+  // //     rules: [{ columnID: 'MDR', value: 'MDR' }],
+  // //   },
+  // //   {
+  // //     name: 'Non-MDR',
+  // //     susceptible: true,
+  // //     rules: [{ columnID: 'MDR', value: '-' }],
+  // //   },
+  // // ],
+  // // XDR: [
+  // //   {
+  // //     name: 'XDR',
+  // //     susceptible: false,
+  // //     rules: [{ columnID: 'XDR', value: 'XDR' }],
+  // //   },
+  // //   {
+  // //     name: 'Non-XDR',
+  // //     susceptible: true,
+  // //     rules: [{ columnID: 'XDR', value: '-' }],
+  // //   },
+  // ],
   Pansusceptible: [
     {
       name: 'Pansusceptible (no AMR markers)',
@@ -985,30 +1078,28 @@ export const drugClassesRulesNG = {
     {
       name: 'None',
       susceptible: true,
-      rules: [
-        { columnID: 'folP_R228S', value: '0' },
-      ],
+      rules: [{ columnID: 'folP_R228S', value: '0' }],
     },
   ],
   Spectinomycin: [
-  {
-  name: '16S_rDNA_c1184t',
-  susceptible: false,
-  rules: [{ columnID: '16S_rDNA_c1184t', value: '1' }],
-  },
-  {
-  name: 'rpsE_T24P',
-  susceptible: false,
-  rules: [{ columnID: 'rpsE_T24P', value: '1' }],
-  },
-  {
-  name: 'None',
-  susceptible: true,
-  rules: [
-  { columnID: '16S_rDNA_c1184t', value: '0' },
-  { columnID: 'rpsE_T24P', value: '0' },
-  ],
-  },
+    {
+      name: '16S_rDNA_c1184t',
+      susceptible: false,
+      rules: [{ columnID: '16S_rDNA_c1184t', value: '1' }],
+    },
+    {
+      name: 'rpsE_T24P',
+      susceptible: false,
+      rules: [{ columnID: 'rpsE_T24P', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: '16S_rDNA_c1184t', value: '0' },
+        { columnID: 'rpsE_T24P', value: '0' },
+      ],
+    },
   ],
   Benzylpenicillin: [
     {
@@ -1102,43 +1193,43 @@ export const drugClassesRulesNG = {
       ],
     },
   ],
-Tetracycline: [
-  {
-    name: 'mtrR_promoter_a-57del',
-    susceptible: false,
-    rules: [{ columnID: 'mtrR_promoter_a-57del', value: '1' }],
-  },
-  {
-    name: 'rpsJ_V57M',
-    susceptible: false,
-    rules: [{ columnID: 'rpsJ_V57M', value: '1' }],
-  },
-  {
-    name: 'mtrR_A39T',
-    susceptible: false,
-    rules: [{ columnID: 'mtrR_A39T', value: '1' }],
-  },
-  {
-    name: 'mtrR_G45D',
-    susceptible: false,
-    rules: [{ columnID: 'mtrR_G45D', value: '1' }],
-  },
-  {
-    name: 'tetM',
-    susceptible: false,
-    rules: [{ columnID: 'tetM', value: '1' }],
-  },
-  {
-    name: 'None',
-    susceptible: true,
-    rules: [
-      { columnID: 'mtrR_promoter_a-57del', value: '0' },
-      { columnID: 'rpsJ_V57M', value: '0' },
-      { columnID: 'mtrR_A39T', value: '0' },
-      { columnID: 'mtrR_G45D', value: '0' },
-      { columnID: 'tetM', value: '0' },
+  Tetracycline: [
+    {
+      name: 'mtrR_promoter_a-57del',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR_promoter_a-57del', value: '1' }],
+    },
+    {
+      name: 'rpsJ_V57M',
+      susceptible: false,
+      rules: [{ columnID: 'rpsJ_V57M', value: '1' }],
+    },
+    {
+      name: 'mtrR_A39T',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR_A39T', value: '1' }],
+    },
+    {
+      name: 'mtrR_G45D',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR_G45D', value: '1' }],
+    },
+    {
+      name: 'tetM',
+      susceptible: false,
+      rules: [{ columnID: 'tetM', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: 'mtrR_promoter_a-57del', value: '0' },
+        { columnID: 'rpsJ_V57M', value: '0' },
+        { columnID: 'mtrR_A39T', value: '0' },
+        { columnID: 'mtrR_G45D', value: '0' },
+        { columnID: 'tetM', value: '0' },
       ],
-  },
+    },
   ],
 };
 

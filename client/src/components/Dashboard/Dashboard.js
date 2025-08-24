@@ -45,6 +45,8 @@ import {
   setActualGenomesGD,
   setActualGenomesKOT,
   setActualGenomesRDT,
+  setNgmast,
+  setNgMastDrugClassesData,
 } from '../../stores/slices/graphSlice';
 import {
   setBubbleHeatmapGraphVariable,
@@ -189,6 +191,7 @@ export const DashboardPage = () => {
   const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
   const startTimeKOT = useAppSelector(state => state.graph.startTimeKOT);
   const endTimeKOT = useAppSelector(state => state.graph.endTimeKOT);
+  const NGMAST = useAppSelector(state => state.graph.NGMAST);
 
   // Add missing variables
   const mapView = useAppSelector(state => state.map.mapView);
@@ -351,7 +354,7 @@ export const DashboardPage = () => {
     dispatch(setYearsCompleteListToShowInGlobalFilter(years));
     dispatch(setCountriesForFilter(countries));
     dispatch(setPMID(PMID));
-    // dispatch(setNgmast(ngmast));
+    dispatch(setNgmast(ngmast));
     dispatch(setPathovar(pathovar));
     dispatch(setSerotype(serotype));
 
@@ -409,20 +412,31 @@ export const DashboardPage = () => {
           regions: ecRegions,
           pathotypes: pathovar,
           serotypes: serotype,
+          ngmast,
         });
         return [
           dt.genotypesDrugsData,
           dt.genotypesDrugClassesData,
           dt.countriesDrugClassesData,
           dt.regionsDrugClassesData,
+          dt.ngMastDrugClassesData,
         ];
-      }).then(([genotypesDrugsData, genotypesDrugClassesData, countriesDrugClassesData, regionsDrugClassesData]) => {
-        dispatch(setGenotypesDrugsData(genotypesDrugsData));
-        dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map(x => x.name)));
-        dispatch(setGenotypesDrugClassesData(genotypesDrugClassesData));
-        dispatch(setCountriesYearData(countriesDrugClassesData));
-        dispatch(setRegionsYearData(regionsDrugClassesData));
-      }),
+      }).then(
+        ([
+          genotypesDrugsData,
+          genotypesDrugClassesData,
+          countriesDrugClassesData,
+          regionsDrugClassesData,
+          ngMastDrugClassesData,
+        ]) => {
+          dispatch(setGenotypesDrugsData(genotypesDrugsData));
+          dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map(x => x.name)));
+          dispatch(setGenotypesDrugClassesData(genotypesDrugClassesData));
+          dispatch(setCountriesYearData(countriesDrugClassesData));
+          dispatch(setRegionsYearData(regionsDrugClassesData));
+          dispatch(setNgMastDrugClassesData(ngMastDrugClassesData));
+        },
+      ),
 
       // Get ngmast data
       // organism === 'ngono'
@@ -859,9 +873,9 @@ export const DashboardPage = () => {
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
         }
-        dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
-        dispatch(setTrendsGraphDrugClass('Ciprofloxacin NS'));
-        dispatch(setBubbleMarkersYAxisType('Ciprofloxacin NS'));
+        dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin'));
+        dispatch(setTrendsGraphDrugClass('Ciprofloxacin'));
+        dispatch(setBubbleMarkersYAxisType('Azithromycin'));
         break;
       case 'kpneumo':
         // dispatch(setDatasetKP('All'));
@@ -1257,6 +1271,7 @@ export const DashboardPage = () => {
             dataForGeographic: filters.data,
             pathotypes: pathovarForFilter,
             serotypes: serotypeForFilter,
+            ngmast: NGMAST,
           }),
         ),
         Promise.resolve(
@@ -1313,6 +1328,7 @@ export const DashboardPage = () => {
       dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
       dispatch(setCountriesYearData(genotypesData.countriesDrugClassesData));
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
+      dispatch(setNgMastDrugClassesData(genotypesData.ngMastDrugClassesData));
 
       dispatch(setGenotypesYearData(yearsData.genotypesData));
       dispatch(setDrugsYearData(yearsData.drugsData));
