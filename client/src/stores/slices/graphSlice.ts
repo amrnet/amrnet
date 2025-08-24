@@ -39,6 +39,7 @@ interface GraphState {
   customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
   genotypesDrugClassesData: Array<any>;
+  ngMastDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
   trendsGraphDrugClass: string;
@@ -107,6 +108,7 @@ const initialState: GraphState = {
   drugsYearData: [],
   genotypesDrugsData: [],
   genotypesDrugClassesData: [],
+  ngMastDrugClassesData: [],
   genotypesAndDrugsYearData: [],
   countriesYearData: [],
   regionsYearData: [],
@@ -174,7 +176,7 @@ const initialState: GraphState = {
   drugClass: [],
   drugGene: '',
   coloredOptions: [],
-  bubbleMarkersHeatmapGraphData:[],
+  bubbleMarkersHeatmapGraphData: [],
 };
 
 export const graphSlice = createSlice({
@@ -258,6 +260,9 @@ export const graphSlice = createSlice({
     },
     setGenotypesDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugClassesData = action.payload;
+    },
+    setNgMastDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
+      state.ngMastDrugClassesData = action.payload;
     },
     setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesAndDrugsYearData = action.payload;
@@ -435,6 +440,7 @@ export const {
   setDeterminantsGraphView,
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,
+  setNgMastDrugClassesData,
   setGenotypesAndDrugsYearData,
   setTrendsGraphDrugClass,
   setTrendsGraphView,
