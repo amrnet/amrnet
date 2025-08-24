@@ -458,7 +458,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
           <SliderSizes value={'KP_GE'} style={{ width: '100%' }} />
           <FormGroup className={classes.formGroup}>
             <FormControlLabel
-              label={<Typography variant="caption">Use sqrt scale</Typography>}
+              label={<Typography variant="caption">Change the y-axis scale</Typography>}
               control={<Switch checked={logScale} onChange={handleSwitchScale} />}
             />
           </FormGroup>
