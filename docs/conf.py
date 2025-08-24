@@ -7,7 +7,18 @@ copyright = "2023, The AMRnet Team"
 author = "The AMRnet Team" # noqa: A001
 
 # internationalization
-language = os.environ.get('READTHEDOCS_LANGUAGE', 'en')
+# Check for language-specific environment variables first, then fallback to generic ones
+language = 'en'  # default
+if os.environ.get('SPHINX_LANGUAGE_ES'):
+    language = 'es'
+elif os.environ.get('SPHINX_LANGUAGE_FR'):
+    language = 'fr'
+elif os.environ.get('SPHINX_LANGUAGE_PT'):
+    language = 'pt'
+else:
+    # Fallback to generic variables
+    language = os.environ.get('SPHINX_LANGUAGE', os.environ.get('READTHEDOCS_LANGUAGE', 'en'))
+
 locale_dirs = ['locale/']
 gettext_compact = False
 
@@ -94,7 +105,7 @@ html_theme_options = {
     # "dark_logo": "amrnet-logo.png",  # add dark mode logo
     "sidebar_hide_name": True,  # hide name of project in sidebar (already in logo)
     "source_repository": "https://github.com/amrnet/amrnet",
-    "source_branch": "devrev",
+    "source_branch": "main",
     "source_directory": "docs/",
     "footer_icons": [
         {
