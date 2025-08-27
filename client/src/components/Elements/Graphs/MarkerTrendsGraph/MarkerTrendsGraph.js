@@ -35,7 +35,7 @@ import {
   setTrendsGraphDrugClass,
   setTrendsGraphView,
 } from '../../../../stores/slices/graphSlice';
-import { colorForDrugClassesNG, colorForMarkers, hoverColor } from '../../../../util/colorHelper';
+import { colorForMarkers, hoverColor } from '../../../../util/colorHelper';
 import { drugClassesNG, drugClassesST, drugsINTS, markersDrugsKP, markersDrugsSH } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -90,7 +90,9 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       return markersDrugsKP;
     }
     if (organism === 'styphi') {
-      return drugClassesST.filter(x => x !== 'Trimethoprim-sulfamethoxazole');
+      return drugClassesST.filter(
+        x => x !== 'Trimethoprim-sulfamethoxazole' && x !== 'XDR' && x !== 'MDR'
+      );
     }
     if (organism === 'shige' || organism === 'decoli' || organism === 'ecoli') {
       return markersDrugsSH;
@@ -422,9 +424,6 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                   fillColor = '#F5F4F6';
                 } else if (option === 'None') {
                   fillColor = '#B9B9B9';
-                } else if (organism === 'ngono') {
-                  const colorObj = colorForDrugClassesNG[trendsGraphDrugClass]?.find(x => x.name === option);
-                  if (colorObj) fillColor = colorObj.color;
                 } else {
                   fillColor = colorForMarkers[index];
                 }
@@ -459,7 +458,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
           <SliderSizes value={'KP_GE'} style={{ width: '100%' }} />
           <FormGroup className={classes.formGroup}>
             <FormControlLabel
-              label={<Typography variant="caption">Use sqrt scale</Typography>}
+              label={<Typography variant="caption">Change the y-axis scale</Typography>}
               control={<Switch checked={logScale} onChange={handleSwitchScale} />}
             />
           </FormGroup>
