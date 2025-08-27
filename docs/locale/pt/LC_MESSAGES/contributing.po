@@ -3,16 +3,15 @@
 # This file is distributed under the same license as the AMRnet package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
 "Language: pt\n"
-"Language-Team: pt <LL@li.org>\n"
+"Language-Team: pt <LL@li.org>\n\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -124,7 +123,7 @@ msgstr ""
 
 #: ../../contributing.rst:66
 msgid "Quick Start"
-msgstr ""
+msgstr "Início Rápido"
 
 #: ../../contributing.rst:69
 msgid "Ready to contribute? Here's how to set up AMRnet for local development:"
@@ -365,7 +364,7 @@ msgstr ""
 
 #: ../../contributing.rst:274
 msgid "Documentation"
-msgstr ""
+msgstr "Documentação"
 
 #: ../../contributing.rst:277
 msgid ""
