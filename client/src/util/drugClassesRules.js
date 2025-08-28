@@ -7,7 +7,7 @@ export const drugRulesST = [
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
   {
-    key: 'Ciprofloxacin NS',
+    key: 'Ciprofloxacin',
     columnID: 'cip_pred_pheno',
     values: ['CipNS'],
     legends: 'Ciprofloxacin (non-susceptible)',
