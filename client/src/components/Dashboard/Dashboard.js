@@ -875,7 +875,7 @@ export const DashboardPage = () => {
         }
         dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin'));
         dispatch(setTrendsGraphDrugClass('Ciprofloxacin'));
-        dispatch(setBubbleMarkersYAxisType('Azithromycin'));
+        dispatch(setBubbleMarkersYAxisType('Ciprofloxacin'));
         break;
       case 'kpneumo':
         // dispatch(setDatasetKP('All'));
