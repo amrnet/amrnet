@@ -99,6 +99,7 @@ export const ResetButton = () => {
       // dispatch(setTrendsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
+      dispatch(setBubbleMarkersYAxisType('Ciprofloxacin'));
       // dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
       // dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map(x => x.name)));
     } else {
@@ -116,6 +117,7 @@ export const ResetButton = () => {
       dispatch(setCurrentSliderValueKOT(20));
       dispatch(setCurrentSliderValueKP_GT(20));
       dispatch(setCurrentSliderValueKP_GE(20));
+      dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
     }
     if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
       dispatch(setSelectedLineages(pathovar));
@@ -138,7 +140,7 @@ export const ResetButton = () => {
     dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
     dispatch(setBubbleKOYAxisType('O_locus'));
     dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
-    dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
+    
 
     if (organism === 'ngono') {
       dispatch(setCurrentSliderValueRD(maxSliderValueRD));
