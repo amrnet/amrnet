@@ -745,10 +745,10 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           drugStats[rule.key] = drugData.length;
 
-          if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin NS') {
+          if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin') {
             const cipRCount = yearData.filter(x => x[rule.columnID] === 'CipR').length;
             drugStats['Ciprofloxacin R'] = cipRCount;
-            drugStats['Ciprofloxacin NS'] += cipRCount;
+            drugStats['Ciprofloxacin'] += cipRCount;
           }
         });
 
@@ -1256,9 +1256,9 @@ export function getGenotypesData({
         const drugData = genotypeData.filter(x => rule.values.map(String).includes(String(x[rule.columnID])));
         response[rule.key] = drugData.length;
 
-        if (rule.key === 'Ciprofloxacin NS') {
+        if (rule.key === 'Ciprofloxacin') {
           response['Ciprofloxacin R'] = genotypeData.filter(x => x[rule.columnID] === 'CipR').length;
-          response['Ciprofloxacin NS'] = response['Ciprofloxacin NS'] + response['Ciprofloxacin R'];
+          response['Ciprofloxacin'] = response['Ciprofloxacin'] + response['Ciprofloxacin R'];
         }
 
         // Only process drug classes if the rule key exists in drugClassesRulesST

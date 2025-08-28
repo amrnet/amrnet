@@ -90,7 +90,7 @@ export const ResetButton = () => {
 
     if (organism === 'styphi') {
       dispatch(setMapView('Resistance prevalence'));
-      dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
+      dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
       dispatch(setCurrentSliderValue(20)); // to reset the genotype trend slider value for styphi
       dispatch(setMapView('Resistance prevalence'));
