@@ -1,18 +1,18 @@
 import { Button, Toolbar, Tooltip } from '@mui/material';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { getMenuItems } from '../../../util/menuItems';
+import { useMenuItems } from '../../../util/menuItems';
 import { useStyles } from './MenuHeadMUI';
 
-const ICON_BUTTONS = ['GitHub', 'Contact', 'Data Rights'];
+const ICON_BUTTONS = ['GitHub', 'Contact'];
 
 export const MenuHead = () => {
   const classes = useStyles();
   const location = useLocation();
   const { t } = useTranslation();
-  const menuItems = getMenuItems();
-  const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
+  const menuItems = useMenuItems();
+  const page = location.pathname.replace('/', '');
 
   const getTranslatedLabel = item => {
     const labelMap = {
@@ -27,28 +27,16 @@ export const MenuHead = () => {
     return labelMap[item.label] || item.label;
   };
 
-  const currentMenuItems = useMemo(() => {
-    return menuItems.filter(item => item.key !== '');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  const currentMenuItems = menuItems.filter(item => item.key !== '');
 
-  const target = useCallback(
-    item => {
-      return page === 'about' && (item.key === 'team' || item.key === 'about') ? '_self' : item.target;
-    },
-    [page],
-  );
+  const target = item => {
+    return page === 'about' && (item.key === 'team' || item.key === 'about') ? '_self' : item.target;
+  };
 
   const handleClick = item => {
-    if (item.key === 'team') {
-      scrollToHash('team-section');
-    } else if (item.key === 'about') {
-      scrollToHash('about-section');
-    }
-
-    if (item.key === 'about') {
-      scrollToTop();
-    }
+    if (item.key === 'team') scrollToHash('team-section');
+    if (item.key === 'about') scrollToHash('about-section');
+    if (item.key === 'about') scrollToTop();
   };
 
   const scrollToHash = id => {
@@ -57,7 +45,7 @@ export const MenuHead = () => {
     }
   };
 
-  function scrollToTop() {
+  const scrollToTop = () => {
     document.getElementById('main-layout')?.scrollTo({ top: 0, behavior: 'smooth' });
   }
 

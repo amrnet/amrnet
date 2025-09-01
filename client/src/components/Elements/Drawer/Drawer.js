@@ -1,10 +1,9 @@
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
-import { getMenuItems } from '../../../util/menuItems';
+import { useMenuItems } from '../../../util/menuItems';
 import { useStyles } from './DrawerMUI';
 
 export const Drawer = () => {
@@ -13,14 +12,12 @@ export const Drawer = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const openDrawer = useAppSelector(state => state.app.openDrawer);
-  const menuItems = getMenuItems();
+  const menuItems = useMenuItems();
 
-  const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
+  const page = location.pathname.replace('/', '');
 
-  function handleToggleDrawer(event, value) {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
+  const handleToggleDrawer = (event, value) => {
+    if (event?.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) return;
     dispatch(setOpenDrawer(value));
   }
 
@@ -35,10 +32,12 @@ export const Drawer = () => {
   };
 
   const scrollToHash = id => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (location.hash === `#${id}`) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
-  function scrollToTop() {
+  const scrollToTop = () => {
     document.getElementById('main-layout')?.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
