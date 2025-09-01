@@ -7,355 +7,438 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: es\n"
-"Language-Team: es <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: deployment.pot\n"
+"X-Crowdin-File-ID: 47\n"
+"Language: es_ES\n"
 
 #: ../../deployment.rst:4
+#: 2041b544e0cd44ebaa6097aae38d0b84
 msgid "Deployment Guide"
-msgstr "Guía de Despliegue"
+msgstr "Guía de despliegue"
 
 #: ../../deployment.rst:8
-msgid ""
-"This guide covers deployment strategies for AMRnet, including local "
-"development, staging environments, and production deployment on various "
-"platforms."
-msgstr ""
+#: 8903ccc5a3a347d4961a50d556b7b4f9
+msgid "This guide covers deployment strategies for AMRnet, including local development, staging environments, and production deployment on various platforms."
+msgstr "Esta guía cubre estrategias de despliegue para AMRnet, incluyendo desarrollo local, entornos de puesta en escena y despliegue de producción en varias plataformas."
 
 #: ../../deployment.rst:12
+#: 039b7041a5c84896b82a0c2cee34ddc3
 msgid "Environment Setup"
-msgstr ""
+msgstr "Configuración de entorno"
 
 #: ../../deployment.rst:16
-msgid ""
-"AMRnet supports multiple deployment environments with different "
-"configurations:"
-msgstr ""
+#: 242bc275178e4a2488204f7bfe27ec9a
+msgid "AMRnet supports multiple deployment environments with different configurations:"
+msgstr "AMRnet soporta múltiples entornos de despliegue con diferentes configuraciones:"
 
 #: ../../deployment.rst:19
+#: 5a47881f991f47318f870b24ebdcfe95
 msgid "Development Environment"
-msgstr ""
+msgstr "Entorno de Desarrollo"
 
 #: ../../deployment.rst:23
+#: c88f6629a4974a8f96c7ba0cc2234da2
 msgid "For local development with hot reloading and debugging:"
-msgstr ""
+msgstr "Para desarrollo local con recarga caliente y depuración:"
 
 #: ../../deployment.rst:38
+#: 150255219a114c20a67e2aba5766bafb
 msgid "**Environment Variables (.env):**"
-msgstr ""
+msgstr "**Variables de entorno (.env):**"
 
 #: ../../deployment.rst:52
+#: a9c12367027e46378f7c565a70f9c9de
 msgid "**Start Development Servers:**"
-msgstr ""
+msgstr "**Iniciar Servidores de Desarrollo:**"
 
 #: ../../deployment.rst:64
+#: 0bfc291092a0406b82571d73854d999a
 msgid "Staging Environment"
-msgstr ""
+msgstr "Entorno de Staging"
 
 #: ../../deployment.rst:68
+#: 8d1d68b6f30d4c8eba96bbc8f956a759
 msgid "For testing production builds locally:"
-msgstr ""
+msgstr "Para pruebas de construcción de producción localmente:"
 
 #: ../../deployment.rst:79
+#: b1de0723b23f4a129616ef40d4ad6bf6
 msgid "Production Deployment"
-msgstr ""
+msgstr "Despliegue de producción"
 
 #: ../../deployment.rst:82
+#: 7d08c7a2ed724779a4d74308d718c122
 msgid "Heroku Deployment"
-msgstr ""
+msgstr "Despliegue de Heroku"
 
 #: ../../deployment.rst:86
+#: 4348b8093ff045a696d5a266176cb132
 msgid "AMRnet is optimized for Heroku deployment with automatic build processes:"
-msgstr ""
+msgstr "AMRnet está optimizado para la implementación de Heroku con procesos de construcción automáticos:"
 
 #: ../../deployment.rst:88
+#: ac3cccf572d9404ebe217610c96bd58e
 msgid "**1. Heroku App Setup:**"
-msgstr ""
+msgstr "**1. Heroku App Setup:**"
 
 #: ../../deployment.rst:101
+#: 50838d890f3b4a2a8f68c359246195a2
 msgid "**2. Environment Configuration:**"
-msgstr ""
+msgstr "**2. Configuración del entorno:**"
 
 #: ../../deployment.rst:110
+#: 8a84e0087e8b453dbe5d3b201bbe5fde
 msgid "**3. Deployment:**"
-msgstr ""
+msgstr "**3. Desplegamiento:**"
 
 #: ../../deployment.rst:122
+#: 2f11ad4bf9d2488db7e79bb49f4087f5
 msgid "**Heroku Configuration Files:**"
-msgstr ""
+msgstr "**Archivos de configuración de Heroku:**"
 
 #: ../../deployment.rst:124
+#: e86229ef015146c8adf7f12624660216
 msgid "**Procfile:**"
-msgstr ""
+msgstr "**Perfil:**"
 
 #: ../../deployment.rst:130
+#: 6fe90460052b41cabc289c2a0d9440a6
 msgid "**package.json (heroku-postbuild script):**"
-msgstr ""
+msgstr "**package.json (heroku-postbuild script):**"
 
 #: ../../deployment.rst:141
+#: 6234570695214857b9d98150576eb6b8
 msgid "MongoDB Atlas Configuration"
-msgstr ""
+msgstr "Configuración del Atlas de MongoDB"
 
 #: ../../deployment.rst:145
+#: 3d73875396d144b1b6aad8495240dc56
 msgid "For production database deployment:"
-msgstr ""
+msgstr "Para despliegue de base de datos de producción:"
 
 #: ../../deployment.rst:147
+#: 7b6c51f321fd4f058cd80c8e6eba2530
 msgid "**1. Atlas Cluster Setup:**"
-msgstr ""
+msgstr "**1. Atlas Cluster Setup:**"
 
 #: ../../deployment.rst:149
+#: c048013e421845a98e9887ac153a16d9
 msgid "Create MongoDB Atlas account"
-msgstr ""
+msgstr "Crear cuenta de MongoDB Atlas"
 
 #: ../../deployment.rst:150
+#: 7fccefb9ce164f86995b94db28455d2b
 msgid "Create new cluster (M0 free tier for testing)"
-msgstr ""
+msgstr "Crear un nuevo clúster (nivel gratuito M0 para la prueba)"
 
 #: ../../deployment.rst:151
+#: 1a8e2207e7b946718125dbb755d5664b
 msgid "Configure network access (whitelist your IPs)"
-msgstr ""
+msgstr "Configurar acceso a la red (lista blanca de sus IPs)"
 
 #: ../../deployment.rst:152
+#: 0f62be4096e84647869902f9f07c8c64
 msgid "Create database user with read/write permissions"
-msgstr ""
+msgstr "Crear usuario de base de datos con permisos de lectura/escritura"
 
 #: ../../deployment.rst:154
+#: 4ba13be7736348ac90a0ad81dc92e4f1
 msgid "**2. Connection Configuration:**"
-msgstr ""
+msgstr "**2. Configuración de la conexión:**"
 
 #: ../../deployment.rst:161
+#: 1d26e3083be44ea2b081bb3c7f69b7cf
 msgid "**3. Production Optimizations:**"
-msgstr ""
+msgstr "**3. Optimizaciones de producción:**"
 
 #: ../../deployment.rst:179
+#: 52a289b4acce44fdb0bb2818a85cd1d4
 msgid "Docker Deployment"
-msgstr ""
+msgstr "Despliegue de Docker"
 
 #: ../../deployment.rst:183
+#: 01f72c5e1ed74ed0b502bfd02b643b67
 msgid "For containerized deployment:"
-msgstr ""
+msgstr "Para el despliegue contenedor:"
 
 #: ../../deployment.rst:185
+#: eb66dc308e49472fbdcac0f5da87b169
 msgid "**Dockerfile:**"
-msgstr ""
+msgstr "**Archivo Docker:**"
 
 #: ../../deployment.rst:214
+#: f0902ca47a2b4415b7d3db593b07b4e5
 msgid "**docker-compose.yml:**"
-msgstr ""
+msgstr "**docker-compose.yml:**"
 
 #: ../../deployment.rst:240
+#: 582abb57244a4b6cbe38b73355d5b95c
 msgid "**Deployment Commands:**"
-msgstr ""
+msgstr "**Comandos de despliegue:**"
 
 #: ../../deployment.rst:251
+#: 5fc2361dc85a4b16872d8fca96715bb0
 msgid "AWS Deployment"
-msgstr ""
+msgstr "Despliegue AWS"
 
 #: ../../deployment.rst:255
+#: 598a98172189423a8c1a0c18c86f4597
 msgid "For AWS deployment using Elastic Beanstalk:"
-msgstr ""
+msgstr "Para el despliegue de AWS usando Elastic Beanstalk:"
 
 #: ../../deployment.rst:257
+#: f7566e0917334cfa877b9edd002343ab
 msgid "**1. EB CLI Setup:**"
-msgstr ""
+msgstr "**1. Configuración de EB CLI:**"
 
 #: ../../deployment.rst:270
+#: b5c156f513bf4691a31849ccbc985f8f
 msgid "**2. Configuration Files:**"
-msgstr ""
+msgstr "**2. Archivos de configuración:**"
 
 #: ../../deployment.rst:272
+#: 5f5180839cc94de7b9993c1762e7c459
 msgid "**.ebextensions/01_node_command.config:**"
-msgstr ""
+msgstr "**.ebextensions/01_node_command.config:**"
 
 #: ../../deployment.rst:282
+#: 43d9b20718f44a23a592a4d0711ddbae
 msgid "**3. Deploy:**"
-msgstr ""
+msgstr "**3. Desplegar:**"
 
 #: ../../deployment.rst:293
+#: ff57e1969a904f558d94440069e5762d
 msgid "Performance Optimization"
-msgstr "Optimización de Rendimiento"
+msgstr "Optimización de rendimiento"
 
 #: ../../deployment.rst:297
+#: a6f4c88558c04c7cae49cfeb6708d967
 msgid "Production deployment optimizations for better performance:"
-msgstr ""
+msgstr "Optimizaciones de despliegue de producción para un mejor rendimiento:"
 
 #: ../../deployment.rst:300
+#: 573f3e98b222428f9934b793ca4d2a3a
 msgid "Build Optimizations"
-msgstr ""
+msgstr "Crear Optimizaciones"
 
 #: ../../deployment.rst:304
+#: b9abb8b2063148e7b6a7eb140287be90
 msgid "**Client Build Configuration:**"
-msgstr ""
+msgstr "**Configuración de la compilación del cliente:**"
 
 #: ../../deployment.rst:321
+#: b5c2c1f0aa194cbd85e5613a9b19cacf
 msgid "Server Optimizations"
-msgstr ""
+msgstr "Optimizaciones de servidor"
 
 #: ../../deployment.rst:325
+#: 86c556e27e9f49bcad1259c3add91cb6
 msgid "**Express.js Production Configuration:**"
-msgstr ""
+msgstr "**Configuración de Producción de Express.js:**"
 
 #: ../../deployment.rst:352
+#: 24007cd9e78f4ae69109750ee942d969
 msgid "Database Optimizations"
-msgstr ""
+msgstr "Optimizaciones de base de datos"
 
 #: ../../deployment.rst:356
+#: e919106b8981404aad7c812228985878
 msgid "**MongoDB Production Indexes:**"
-msgstr ""
+msgstr "**Índice de Producción de MongoDB:**"
 
 #: ../../deployment.rst:366
+#: fc93afd381a1443fae3bb5931b9594c0
 msgid "Monitoring and Logging"
-msgstr ""
+msgstr "Monitoreo y Registro"
 
 #: ../../deployment.rst:370
+#: 802127d1bec34522bbcbb23c02cd927b
 msgid "Production monitoring setup for performance and error tracking:"
-msgstr ""
+msgstr "Configuración de monitorización de producción para el rendimiento y seguimiento de errores:"
 
 #: ../../deployment.rst:373
+#: f0462e515a414dd49f9774728e04b27f
 msgid "Application Monitoring"
-msgstr ""
+msgstr "Monitoreo de aplicaciones"
 
 #: ../../deployment.rst:377
+#: 67b86906915c4f0387e8fcfe14afffbe
 msgid "**Winston Logging Configuration:**"
-msgstr ""
+msgstr "**Configuración de registro de Winston:**"
 
 #: ../../deployment.rst:404
+#: b697fcb424904191ac7147b95c5cb24e
 msgid "**Performance Monitoring Middleware:**"
-msgstr ""
+msgstr "**Middleware de Monitoreo de Rendimiento:**"
 
 #: ../../deployment.rst:430
+#: 6e92ec1a3a254736b9e4c5c36bfd81c8
 msgid "Error Tracking"
-msgstr ""
+msgstr "Seguimiento de errores"
 
 #: ../../deployment.rst:434
+#: e214bfa414a94d49a89e77997bd06c74
 msgid "**Sentry Integration:**"
-msgstr ""
+msgstr "**Integración centinela **"
 
 #: ../../deployment.rst:450
+#: bdecee3673764da88d8b940ced3594dd
 msgid "Health Checks"
-msgstr ""
+msgstr "Comprobaciones de salud"
 
 #: ../../deployment.rst:454
+#: 95dd2648c484456d85aca9c297ef0f6d
 msgid "**Application Health Endpoint:**"
-msgstr ""
+msgstr "**Terminal de Salud de la aplicación:**"
 
 #: ../../deployment.rst:480
+#: bedf61eaa0404bd8adfd5e84eab1642b
 msgid "Backup and Recovery"
-msgstr ""
+msgstr "Copia de seguridad y recuperación"
 
 #: ../../deployment.rst:484
+#: cdfaa36538df4611a244f474b55fb287
 msgid "Data backup strategies for production environments:"
-msgstr ""
+msgstr "Estrategias de respaldo de datos para entornos de producción:"
 
 #: ../../deployment.rst:487
+#: 262a29ad38b643b29ec7855372154b65
 msgid "Database Backups"
-msgstr ""
+msgstr "Copias de seguridad de base de datos"
 
 #: ../../deployment.rst:491
+#: 8a83895f7df3419fab202f782929cb06
 msgid "**MongoDB Atlas Automated Backups:**"
-msgstr ""
+msgstr "**Respaldas automatizadas de Atlas de MongoDB:**"
 
 #: ../../deployment.rst:493
+#: e7576917225f436285675c0774357632
 msgid "Atlas provides automated backups with point-in-time recovery"
-msgstr ""
+msgstr "Atlas proporciona copias de seguridad automatizadas con recuperación punto-en-tiempo"
 
 #: ../../deployment.rst:494
+#: 84e0d8a1a17d43e78d5cd6c8482a2861
 msgid "Configure backup schedule and retention policies"
-msgstr ""
+msgstr "Configurar la agenda de copias de seguridad y políticas de retención"
 
 #: ../../deployment.rst:495
+#: 246b24b44ca148ffa59cd2941f79a5b4
 msgid "Test backup restoration procedures regularly"
-msgstr ""
+msgstr "Pruebe regularmente los procedimientos de restauración de copias de seguridad"
 
 #: ../../deployment.rst:497
+#: c8babba0d2854854a50342f152f5eb1c
 msgid "**Manual Backup Scripts:**"
-msgstr ""
+msgstr "**Copia de seguridad manual:**"
 
 #: ../../deployment.rst:523
+#: 5dccebb0a96e4f48956107f6990401c4
 msgid "Application Backups"
-msgstr ""
+msgstr "Copias de seguridad de aplicaciones"
 
 #: ../../deployment.rst:527
+#: 9c81502db0be43908a1a6d4975836c15
 msgid "**Code and Configuration Backup:**"
-msgstr ""
+msgstr "**Copia de seguridad de código y configuración:**"
 
 #: ../../deployment.rst:536
+#: 2d54d71109fa488d9c9f32cadf6d91ce
 msgid "Security Considerations"
-msgstr ""
+msgstr "Consideraciones de seguridad"
 
 #: ../../deployment.rst:540
+#: d113141d9f394459b3f5945cd39bf0b8
 msgid "Security best practices for production deployment:"
-msgstr ""
+msgstr "Mejores prácticas de seguridad para el despliegue de la producción:"
 
 #: ../../deployment.rst:543
+#: 7d5a07617f304b729932bde206a89801
 msgid "Environment Security"
-msgstr ""
+msgstr "Seguridad del entorno"
 
 #: ../../deployment.rst:547
+#: dd0a68403926423d9be2c5ed75d72778
 msgid "**Secure Environment Variables:**"
-msgstr ""
+msgstr "**Variables de entorno seguros:**"
 
 #: ../../deployment.rst:557
+#: 7112c6dc5d364994844b89305ec7d5b9
 msgid "**Network Security:**"
-msgstr ""
+msgstr "**Seguridad de red:**"
 
 #: ../../deployment.rst:571
+#: d94cb772645c4a938c7f641a7ae3e355
 msgid "Database Security"
-msgstr ""
+msgstr "Seguridad de la base de datos"
 
 #: ../../deployment.rst:575
+#: 826bbc3d795d439aba94ea7c211a4383
 msgid "**MongoDB Security:**"
-msgstr ""
+msgstr "**Seguridad MongoDB:**"
 
 #: ../../deployment.rst:577
+#: 96071a269dd845c19d44f271ff327478
 msgid "Enable authentication and authorization"
-msgstr ""
+msgstr "Habilitar autenticación y autorización"
 
 #: ../../deployment.rst:578
+#: f261517cf83a40b287821646c5a3d6a3
 msgid "Use SSL/TLS for connections"
-msgstr ""
+msgstr "Usar SSL/TLS para conexiones"
 
 #: ../../deployment.rst:579
+#: 11018596563b4d2cb90745939099986b
 msgid "Implement IP whitelisting"
-msgstr ""
+msgstr "Implementar lista blanca de IP"
 
 #: ../../deployment.rst:580
+#: 50be502db4ae414fa6cce715e0582301
 msgid "Regular security updates"
-msgstr ""
+msgstr "Actualizaciones de seguridad regulares"
 
 #: ../../deployment.rst:581
+#: 29756cf34c7e43d682c88dfee9b424ef
 msgid "Audit logging for database access"
-msgstr ""
+msgstr "Registro de auditoría para acceso a base de datos"
 
 #: ../../deployment.rst:584
+#: 0a7567bbe001489a8f93c5e8856ac39b
 msgid "Troubleshooting"
-msgstr "Resolución de Problemas"
+msgstr "Solución de problemas"
 
 #: ../../deployment.rst:588
+#: 765fe0cfaeb24fc0b0bb10f98b4168f9
 msgid "Common deployment issues and solutions:"
-msgstr ""
+msgstr "Problemas y soluciones comunes de despliegue:"
 
 #: ../../deployment.rst:590
+#: 6e56d5a3e1a74f80af725df6ea557dac
 msgid "**Build Failures:**"
-msgstr ""
+msgstr "**Fallos de compilación:**"
 
 #: ../../deployment.rst:604
+#: 8b24bc1bc927408f92dd72cf955f2b72
 msgid "**Database Connection Issues:**"
-msgstr ""
+msgstr "**Problemas de conexión de base de datos:**"
 
 #: ../../deployment.rst:614
+#: 4be6caf3ba8347dfa984607c87fc1067
 msgid "**Performance Issues:**"
-msgstr ""
+msgstr "**Problemas de rendimiento:**"
 
 #: ../../deployment.rst:625
+#: dc5b8938083c4054a84fd5274db37a86
 msgid "**Memory Issues:**"
-msgstr ""
+msgstr "**Problemas de memoria:**"
 

@@ -1,0 +1,257 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-File: source.pot\n"
+"X-Crowdin-File-ID: 77\n"
+"Language: pt_PT\n"
+
+#: ../../source.rst:4
+#: 84933d82a8474c069e067cc1ccf6c70d
+msgid "Source data & tools"
+msgstr "Fontes de dados e ferramentas"
+
+#: ../../source.rst:7
+#: 53ace343abe94506940ec7695960a6fd
+msgid "Source Databases"
+msgstr "Fontes de dados"
+
+#: ../../source.rst:10
+#: 626cb2dda78746e39d9829289cf8fd22
+msgid "Enterobase"
+msgstr "Entregue"
+
+#: ../../source.rst:12
+#: 879012c709b44fce9346dca6eea1e6eb
+msgid "`EnteroBase in 2025: exploring the genomic epidemiology of bacterial pathogens, Dyer et al 2025 <https://doi.org/10.1093/nar/gkae902>`_"
+msgstr "`EnteroBase em 2025: explorando a epidemiologia genómica de patogênicos bacterianos, Dyer e o 2025 <https://doi.org/10.1093/nar/gkae902>`_"
+
+#: ../../source.rst:13
+#: 9d36bf5f55e54e83b5ca76fa34be423d
+msgid "`https://enterobase.warwick.ac.uk/ <https://enterobase.warwick.ac.uk/>`__"
+msgstr "`https://enterobase.warwick.ac.uk/ <https://enterobase.warwick.ac.uk/>`__"
+
+#: ../../source.rst:16
+#: de652fbf46434ee8b55c95f601fa4eab
+msgid "Pathogenwatch"
+msgstr "Agente"
+
+#: ../../source.rst:18
+#: b892d0c3728e4fe4ae08cbfbb7473132
+msgid "*Salmonella* Typhi: `A global resource for genomic predictions of antimicrobial resistance and surveillance of Salmonella Typhi at pathogenwatch, Argimón et al 2021 <https://doi.org/10.1038/s41467-021-23091-2>`_"
+msgstr "Tufo *Salmonela*: `Um recurso global para previsões genômicas de resistência antimicrobiana e vigilância da Salmonela Typhi no patogogêwatch, Argimo├n et al 2021 <https://doi.org/10.1038/s41467-021-23091-2>`_"
+
+#: ../../source.rst:19
+#: 793a11659fce40e69bebd3a9cc40665f
+msgid "*Neisseria gonorrhoeae*: `A community-driven resource for genomic epidemiology and antimicrobial resistance prediction of Neisseria gonorrhoeae at Pathogenwatch, Sánchez-Busó et al 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_"
+msgstr "*Neisseria gonorrhoeae*: `Um recurso orientado pela comunidade para epidemiologia genómica e previsão de resistência antimicrobiana Neisseria gonorrhoeae em Pathogenwatch, Sa├nchez-Buso├et al 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_"
+
+#: ../../source.rst:20
+#: 68b6034338b54986a7e667d421d09563
+msgid "*Klebsiella pneumoniae*: `Rapid Genomic Characterization and Global Surveillance of Klebsiella Using Pathogenwatch, Argímon 2021 <https://doi.org/10.1093/cid/ciab784>`_"
+msgstr "*Klebsiella pneumoniae*: `Rapid Genomic Characterization and Global Surveillance of Klebsiella Using Pathogenwatch, Argi├mon 2021 <https://doi.org/10.1093/cid/ciab784>`_"
+
+#: ../../source.rst:21
+#: 093c266b75d84df69cc8d0b605fedfa8
+msgid "`https://pathogen.watch/ <https://pathogen.watch/>`_"
+msgstr "`https://pathogen.watch/ <https://pathogen.watch/>`_"
+
+#: ../../source.rst:25
+#: 4f499451b40b408b95322414d53295f5
+msgid "Typing tools"
+msgstr "Ferramentas de digitação"
+
+#: ../../source.rst:28
+#: e2a4e7dd6d2d4152a4cf66fdd716265f
+msgid "AMRFinderPlus"
+msgstr "AMRFinderPlus"
+
+#: ../../source.rst:30
+#: 407928aed32e439ebfbed577d982efa1
+msgid "Used for AMR typing in *E. coli/Shigella* and non-typhoidal *Salmonella* dashboards"
+msgstr "Usado para a digitação AMR em *E. coli/Shigella* e painéis *Salmonela* não-typhoidal"
+
+#: ../../source.rst:32
+#: 70b5fb9128694d0aa0482f8502befb5f
+msgid "AMRFinderPlus: `https://github.com/ncbi/amr <https://github.com/ncbi/amr>`_"
+msgstr "AMRFinderPlus: `https://github.com/ncbi/amr <https://github.com/ncbi/amr>`_"
+
+#: ../../source.rst:33
+#: 9c875251e16f42e5ae1bed2bfb821991
+msgid "AMRFinderPlus paper: `AMRFinderPlus and the Reference Gene Catalog facilitate examination of the genomic links among antimicrobial resistance, stress response, and virulence, Feldgarden 2021 <https://doi.org/10.1038/s41598-021-91456-0>`_"
+msgstr "Papel AMRFinderPlus: `AMRFinderPlus e o Catálogo de Genes de Referência facilitam o exame dos links genómicos entre resistência antimicrobiana, resposta de stress e virulência, Feldgarden 2021 <https://doi.org/10.1038/s41598-021-91456-0>`_"
+
+#: ../../source.rst:34
+#: 74c906046b9243bb802baa91b958b0ff
+msgid "Integration of AMRFinderPlus in Enterobase: `EnteroBase in 2025: exploring the genomic epidemiology of bacterial pathogens, Dyer et al 2025 <https://doi.org/10.1093/nar/gkae902>`_"
+msgstr "Integração do AMRFinderPlus na Enterobase: `EnteroBase em 2025: explorando a epidemiologia genómica de patogênicos bacterianos, Dyer e al 2025 <https://doi.org/10.1093/nar/gkae902>`_"
+
+#: ../../source.rst:39
+#: 375a656f1c664d29ad0ce0170173732e
+msgid "*Escherichia coli* and *Shigella*"
+msgstr "*Esquihia coli* e *Shigella*"
+
+#: ../../source.rst:42
+#: ../../source.rst:64
+#: ../../source.rst:107
+#: 83fc480af3644c87917c15a08554c19e
+#: 96f6cec36c434ae08ce9ae573cbe332d
+#: 4986465380f84faa9c20640baafaa3cd
+msgid "Genotype nomenclature"
+msgstr "Nnomenclatura genotal"
+
+#: ../../source.rst:44
+#: 592d432c93dd4d97840bc681e9408b4d
+msgid "Achtman 7-locus MLST scheme: Developed by `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`_"
+msgstr "Achtman MLST esquema de 7-locus: desenvolvido por `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-ecoli.html/>`_"
+
+#: ../../source.rst:46
+#: ../../source.rst:68
+#: 873635df465140e68c44eb9c0f43f9a3
+#: 531055212a0e41d298d6d7534356bad6
+msgid "Core genome MLST scheme: `The EnteroBase user's guide, with case studies on Salmonella transmissions, Yersinia pestis phylogeny, and Escherichia core genomic diversity, Zhou et al 2020 <http://www.genome.org/cgi/doi/10.1101/gr.251678.119>`_"
+msgstr "Genoma do esquema MLST: `Guia do usuário EnteroBase, com estudos de caso nas transmissões Salmonella, Yersinia pestis fisiologia, e diversidade genómica de Escherichia, Zhou et al 2020 <http://www.genome.org/cgi/doi/10.1101/gr.251678.119>`_"
+
+#: ../../source.rst:48
+#: ../../source.rst:70
+#: a406008ae3f84627a2dc2eb8df76af31
+#: 6c9612f847ad4509abf39705c62aada8
+msgid "Hierarchical clustering: `HierCC: a multi-level clustering scheme for population assignments based on core genome MLST, Zhou et al 2020 <https://doi.org/10.1093/bioinformatics/btab234>`_"
+msgstr "Agrupamento hierárquico: `HierCC: um esquema de agrupamento de vários níveis para missões da população com base no genoma principal MLST, Zhou e al 2020 <https://doi.org/10.1093/bioinformatics/btab234>`_"
+
+#: ../../source.rst:50
+#: fa13747fbbcb48118264f82e0d376220
+msgid "MLST database: `https://enterobase.warwick.ac.uk/species/index/ecoli/ <https://enterobase.warwick.ac.uk/species/index/ecoli/>`_"
+msgstr "Banco de dados MLST: `https://enterobase.warwick.ac.uk/species/index/ecoli/ <https://enterobase.warwick.ac.uk/species/index/ecoli/>`_"
+
+#: ../../source.rst:53
+#: 043ff35ba6dc4731bba9476ab8c2c860
+msgid "Pathotype definition"
+msgstr "Definição de Pathotype"
+
+#: ../../source.rst:55
+#: 12c6f6c0f8e742fdb51c3a12119f003a
+msgid "The diarrheagenic *E. coli* (DEC) pathotypes are defined using `Enterobase pathotyping logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_"
+msgstr "O diarrheagenic *E. coli* (DEC) pathotypes are defined using `Enterobase pathotyping logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_"
+
+#: ../../source.rst:57
+#: 00e606438ecc453d86b5f626f2b65d56
+msgid "*Shigella* species identification : `Hierarchical Clustering (HC) <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_"
+msgstr "Identificação da espécie *Shigella* : `Hierárquica Clustering (HC) <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`_"
+
+#: ../../source.rst:61
+#: 134e86544a844b399b9db57d175fd848
+msgid "*Salmonella* (non-typhoidal)"
+msgstr "*Salmonella* (non-typhoidal)"
+
+#: ../../source.rst:66
+#: 70d1ca261033493f90651e1f406d14df
+msgid "7-locus MLST scheme: `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-senterica.html>`_"
+msgstr "7-locus MLST scheme: `Enterobase <https://enterobase.readthedocs.io/en/latest/mlst/mlst-legacy-info-senterica.html>`_"
+
+#: ../../source.rst:73
+#: 4ff6e5ebe341407a8f1dc1f9221c933c
+msgid "Serotyping"
+msgstr "Serotipagem"
+
+#: ../../source.rst:75
+#: 16cfdaf037cb408ea8f63d665a9e9947
+msgid "Serotypes: `The Salmonella In Silico Typing Resource (SISTR): An Open Web-Accessible Tool for Rapidly Typing and Subtyping Draft Salmonella Genome Assemblies, Yoshida et al 2016 <https://doi.org/10.1371/journal.pone.0147101>`_"
+msgstr "Serotipes: `Recurso de Digitação Salmonela em Silico (SISTR): Ferramenta Aberta para Digitação Rápida e Projecto Subtipante de Salmonela de Genoma, Yoshida et al 2016 <https://doi.org/10.1371/journal.pone.0147101>`_"
+
+#: ../../source.rst:81
+#: fee89970e67d42ae8312ce3add730df5
+msgid "*Salmonella* Typhi"
+msgstr "*Salmonella* Typhi"
+
+#: ../../source.rst:83
+#: 4ef407d7c7a04461975c160459bd9d16
+msgid "GenoTyphi scheme: `Five Years of GenoTyphi: Updates to the Global Salmonella Typhi Genotyping Framework, Dyson & Holt, 2021 <https://doi.org/10.1093/infdis/jiab414>`_"
+msgstr "Esquema de GenoTyphi: `Cinco Anos de GenoTyphi: Atualizações para a Estrutura Global de Genotipagem Typhi, Dyson & Holt, 2021 <https://doi.org/10.1093/infdis/jiab414>`_"
+
+#: ../../source.rst:85
+#: 24533dc375364b4f85d1a1e8ee27e9d2
+msgid "AMR prediction: `A global resource for genomic predictions of antimicrobial resistance and surveillance of Salmonella Typhi at pathogenwatch, Argimón et al 2021 <https://doi.org/10.1038/s41467-021-23091-2>`_"
+msgstr "Previsão RAM: `Um recurso global para previsões genómicas de resistência antimicrobiana e vigilância da Salmonella Typhi no patogogêwatch, Argimoish, n et al 2021 <https://doi.org/10.1038/s41467-021-23091-2>`_"
+
+#: ../../source.rst:90
+#: 27f3a9e6379c4ccb9f437d71d8b2a855
+msgid "*Neisseria gonorrhoeae*"
+msgstr "*Neisseria gonorrhoeae*"
+
+#: ../../source.rst:92
+#: 3d5e20817f804be492929cb96d77ce10
+msgid "7-locus MLST scheme: `Species status of Neisseria gonorrhoeae: evolutionary and epidemiological inferences from multilocus sequence typing, Bennett et al 2007 <https://doi.org/10.1186/1741-7007-5-35>`_"
+msgstr "Esquema MLST de 7-locus: `Espécies of Neisseria gonorrhoeae: inferências evolucionistas e epidemiológicas de digitação de sequências multilocus, Bennett et al 2007 <https://doi.org/10.1186/1741-7007-5-35>`_"
+
+#: ../../source.rst:94
+#: 1a9981ea8a6641cf849035e9585024d3
+msgid "2-locus *N. gonorrhoeae* multi-antigen sequence typing (NG-MAST) scheme `Rapid Sequence-Based Identification of Gonococcal Transmission Clusters in a Large Metropolitan Area, Martin et al 2004 <https://doi.org/10.1086/383047>`_"
+msgstr "2-locus *N. gonorrhoeae* sequencia de multi antigénio tipagem (NG-MAST) esquema `Identificação Rápida de Confrontos de Transmissão Gonococcal em uma grande área Metropolitana, Martin et al 2004 <https://doi.org/10.1086/383047>`_"
+
+#: ../../source.rst:96
+#: b8e45d1aed8a4b97b7ad29643bad97ec
+msgid "MLST and NG-MAST databases: `PubMLST <https://pubmlst.org/neisseria/>`_"
+msgstr "Banco de dados MLST e NG-MAST: `PubMLST <https://pubmlst.org/neisseria/>`_"
+
+#: ../../source.rst:98
+#: 899206371f804dd2888d2f726be49a57
+msgid "AMR prediction: `A community-driven resource for genomic epidemiology and antimicrobial resistance prediction of Neisseria gonorrhoeae at Pathogenwatch, Sánchez-Busó et al 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_"
+msgstr "Previsão RAM: `Um recurso orientado pela comunidade para epidemiologia genómica e previsão de resistência antimicrobiana Neisseria gonorrhoeae em Pathogenwatch, Sa├nchez-Busoč et al 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_"
+
+#: ../../source.rst:104
+#: 3ae812545d5e4c3884186c9982d7a33f
+msgid "*Klebsiella pneumoniae*"
+msgstr "*Klebsiella pneumoniae*"
+
+#: ../../source.rst:109
+#: 1f1aa440cb89434cabc1270e187ee91c
+msgid "7-locus MLST scheme: `Multilocus Sequence Typing of Klebsiella pneumoniae Nosocomial Isolates, Diancourt 2005 <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_"
+msgstr "7-locus MLST scheme: `Multilocus Sequence Typing of Klebsiella pneumoniae Nosocomial Isolates, Diancourt 2005 <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_"
+
+#: ../../source.rst:111
+#: e429603b51454780acbd17c9b0a7a1d0
+msgid "Core genome MLST scheme: `Genomic Definition of Hypervirulent and Multidrug-Resistant Klebsiella pneumoniae Clonal Groups, Bialek-Davenet et al 2014 <https://doi.org/10.3201/eid2011.140206>`_"
+msgstr "Esquema núcleo do tipo MLST: `Definição Genônica de Hypervirulent e Multidrug-Resistant Klebsiella pneumoniae Clonal, Bialek-Davenet al 2014 <https://doi.org/10.3201/eid2011.140206>"
+
+#: ../../source.rst:113
+#: 5071c45e8d6444ef8f7231c8bec2e5dd
+msgid "Sublineages: `A Dual Barcoding Approach to Bacterial Strain Nomenclature: Genomic Taxonomy of Klebsiella pneumoniae Strains, Hennart et al 2022 <https://doi.org/10.1093/molbev/msac135>`_"
+msgstr "Sublinhagens: `Uma Abordagem de Código de Barras Duplas à Nomenclatura Bacterial: Taxonomia Genômica de Klebsiella pneumoniae Strains, Hennart et al 2022 <https://doi.org/10.1093/molbev/msac135>`_"
+
+#: ../../source.rst:115
+#: bff38673a8b145c992b3bf42cc0eaf95
+msgid "MLST databases: `BIGSdb Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_"
+msgstr "Banco de dados MLST: `BIGSdb Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_"
+
+#: ../../source.rst:119
+#: 9f99b5648e1849a3b0dca408b77cf107
+msgid "AMR typing"
+msgstr "Digitação AMR"
+
+#: ../../source.rst:121
+#: bc04ded998bf4e16b93bd99d71482e52
+msgid "Kleborate v3: `https://github.com/klebgenomics/Kleborate <https://github.com/klebgenomics/Kleborate>`_"
+msgstr "Kleborate v3: `https://github.com/klebgenomics/Kleborate <https://github.com/klebgenomics/Kleborate>`_"
+
+#: ../../source.rst:123
+#: 4b3afd11b6e24e17a597b678d688a463
+msgid "Kleborate paper: `A genomic surveillance framework and genotyping tool for Klebsiella pneumoniae and its related species complex, Lam et al 2021 <https://doi.org/10.1038/s41467-021-24448-3>`_"
+msgstr "Papel Kleborate: `Um quadro genômico de vigilância e ferramenta de genotipação para Klebsiella pneumoniae e seu complexo de espécies relacionadas, Lam et al 2021 <https://doi.org/10.1038/s41467-021-24448-3>`_"
+
