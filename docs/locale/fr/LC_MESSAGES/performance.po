@@ -7,378 +7,465 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: fr\n"
-"Language-Team: fr <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language-Team: French\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: performance.pot\n"
+"X-Crowdin-File-ID: 65\n"
+"Language: fr_FR\n"
 
 #: ../../performance.rst:4
+#: 58343619ee3441b5a3823a3125c4a196
 msgid "Performance Optimization"
-msgstr "Optimisation des Performances"
+msgstr "Optimisation des performances"
 
 #: ../../performance.rst:8
-msgid ""
-"AMRnet has been extensively optimized to handle large genomic "
-"surveillance datasets efficiently. This guide covers performance "
-"considerations, optimization strategies, and deployment best practices."
-msgstr ""
+#: 68f28480554c43558e0b75cd9ee32cae
+msgid "AMRnet has been extensively optimized to handle large genomic surveillance datasets efficiently. This guide covers performance considerations, optimization strategies, and deployment best practices."
+msgstr "AMRnet a été largement optimisé pour gérer efficacement les grands ensembles de données de surveillance génomique, couvrant les considérations de performance, les stratégies d'optimisation et les meilleures pratiques de déploiement."
 
 #: ../../performance.rst:12
+#: ec9dbe318c5143f8a7ea3fc8ed2d2e34
 msgid "Architecture Overview"
-msgstr ""
+msgstr "Aperçu de l'architecture"
 
 #: ../../performance.rst:16
+#: 0ab8ec62731c4724b9a8b7fb4ece1a29
 msgid "AMRnet's performance optimizations span the entire application stack:"
-msgstr ""
+msgstr "Les optimisations de performances d'AMRnet couvrent toute la pile d'application :"
 
 #: ../../performance.rst:18
+#: b492b9c47371461b87d163cdaff01e56
 msgid "**Frontend Optimizations:**"
-msgstr ""
+msgstr "**Optimisations du frontend :**"
 
 #: ../../performance.rst:20
+#: e210dda6993a45ac94b82424ba5c64c8
 msgid "**Lazy Loading**: Components and data loaded on-demand"
-msgstr ""
+msgstr "**Chargement à la légère** : Composants et données chargés à la demande"
 
 #: ../../performance.rst:21
+#: afb36ddce40340b994b38da0cd336578
 msgid "**Virtual Scrolling**: Efficient rendering of large datasets"
-msgstr ""
+msgstr "**Défilement Virtuel** : Rendu efficace des grands ensembles de données"
 
 #: ../../performance.rst:22
-msgid ""
-"**Intelligent Caching**: Browser-based storage for frequently accessed "
-"data"
-msgstr ""
+#: 8fecd8c365ea4f3ea5124f49f0441e91
+msgid "**Intelligent Caching**: Browser-based storage for frequently accessed data"
+msgstr "**Mise en cache intelligente** : Stockage basé sur le navigateur pour les données fréquemment consultées"
 
 #: ../../performance.rst:23
+#: 3a824de8665c494cbd4f5495431cd066
 msgid "**Compression**: Gzipped responses reduce transfer by up to 96%"
-msgstr ""
+msgstr "**Compression** : Les réponses compressées réduisent le transfert jusqu'à 96%"
 
 #: ../../performance.rst:24
+#: a272b5410c96407c909d7ec5ea6820e1
 msgid "**Progressive Loading**: Priority-based data fetching"
-msgstr ""
+msgstr "**Charge progressive** : Récupération des données par priorité"
 
 #: ../../performance.rst:26
+#: 096a5175a9b6476d838a3423cdf3f714
 msgid "**Backend Optimizations:**"
-msgstr ""
+msgstr "**Optimisations Backend :**"
 
 #: ../../performance.rst:28
+#: b023912eb32843cf9d3db17363951c5a
 msgid "**Database Indexing**: Optimized MongoDB indexes for common queries"
-msgstr ""
+msgstr "**Indexation de la base de données** : Optimisation des index MongoDB pour les requêtes courantes"
 
 #: ../../performance.rst:29
+#: 66c5d181b72e4e1f89920cf79a43c2a1
 msgid "**Aggregation Pipelines**: Server-side data processing"
-msgstr ""
+msgstr "**Pipelines d'agrégation** : Traitement des données côté serveur"
 
 #: ../../performance.rst:30
+#: cf4ec615a87a44018e6c232e39d0a63d
 msgid "**Connection Pooling**: Efficient database connection management"
-msgstr ""
+msgstr "**Regroupement de connexions** : Gestion efficace des connexions à la base de données"
 
 #: ../../performance.rst:31
+#: b594c783890b42acb6ecfd348edb7682
 msgid "**Field Projection**: Transfer only necessary data fields"
-msgstr ""
+msgstr "**Projection de champ**: Transférer uniquement les champs de données nécessaires"
 
 #: ../../performance.rst:32
+#: 697b5d93da234857810b0d5a9c7585f4
 msgid "**Parallel Processing**: Concurrent data processing for multiple requests"
-msgstr ""
+msgstr "**Traitement parallèle** : Traitement simultané des données pour plusieurs requêtes"
 
-#: ../../performance.rst:35 ../../performance.rst:43
+#: ../../performance.rst:35
+#: ../../performance.rst:43
+#: 1ed9c9bdc4f9400285c46f8c7f47e302
+#: 98530235fa2b4c94b1aec7a4b70b603f
 msgid "Load Time Improvements"
-msgstr ""
+msgstr "Charger des améliorations de temps"
 
 #: ../../performance.rst:39
-msgid ""
-"Recent optimizations have dramatically improved load times across all "
-"organisms:"
-msgstr ""
+#: 6fa5357d88e74f89902007bd7a7dc078
+msgid "Recent optimizations have dramatically improved load times across all organisms:"
+msgstr "Les optimisations récentes ont considérablement amélioré les temps de chargement pour tous les organismes:"
 
 #: ../../performance.rst:41
+#: b976e8f4bebd4d5e9c7facd57d3b0aad
 msgid "**Performance Benchmarks:**"
-msgstr ""
+msgstr "**Benchmarks de performance :**"
 
 #: ../../performance.rst:47
+#: b25ce26ffe1a49e599a4f322a01bcd66
 msgid "Organism"
-msgstr ""
+msgstr "Organisme"
 
 #: ../../performance.rst:48
+#: 8c4cd93d22ab432d81d43dd378649017
 msgid "Before (seconds)"
-msgstr ""
+msgstr "Avant (secondes)"
 
 #: ../../performance.rst:49
+#: bc7098ff42dd4278a74c3f0e147804ee
 msgid "After (seconds)"
-msgstr ""
+msgstr "Après (secondes)"
 
 #: ../../performance.rst:50
+#: 4729fca981e24983b82cf2ff12112fd5
 msgid "Improvement"
-msgstr ""
+msgstr "Amélioration"
 
 #: ../../performance.rst:51
+#: fa62c4bf3f3e48bca8301e9681af8f6c
 msgid "pneumoniae"
-msgstr ""
+msgstr "pneumoniae"
 
 #: ../../performance.rst:52
+#: b8b8066afd5b4c3596f39cee3acfe888
 msgid "7-8s (63MB)"
-msgstr ""
+msgstr "7-8s (63MB)"
 
 #: ../../performance.rst:53
+#: 69ec419efefe4c53ae9c0a611d9b7254
 msgid "1.4s (2.3MB)"
-msgstr ""
+msgstr "1,4s (2,3MB)"
 
 #: ../../performance.rst:54
-#, python-format
+#: 292f37918b2145a5bb0a9cdfe6076351
 msgid "81% faster"
-msgstr ""
+msgstr "81 % plus rapide"
 
-#: ../../performance.rst:55 ../../performance.rst:59
+#: ../../performance.rst:55
+#: dfd1b22882054ee78ca3f5a5620cec5e
 msgid "coli"
-msgstr ""
+msgstr "coli"
 
 #: ../../performance.rst:56
+#: 1da35a211b6f4ed3ba95cdfcde94a027
 msgid "21-23s (186MB)"
-msgstr ""
+msgstr "21-23s (186MB)"
 
 #: ../../performance.rst:57
+#: 077aa0c2dcbe46c7bc46011105c0003b
 msgid "7s (13MB)"
-msgstr ""
+msgstr "7 s (13Mo)"
 
 #: ../../performance.rst:58
-#, python-format
+#: e0fd6ac2320f43caaf5d40185e8fd7b4
 msgid "70% faster"
-msgstr ""
+msgstr "70% plus rapide"
+
+#: ../../performance.rst:59
+#: e32b857d5edc49db88815d097e934e8e
+msgid "coli (diarrheagenic)"
+msgstr "coli (diarrhée)"
 
 #: ../../performance.rst:60
+#: cc402d922d674836817c86d1d0724bfe
 msgid "6-15s (51MB)"
-msgstr ""
+msgstr "6-15s (51MB)"
 
 #: ../../performance.rst:61
+#: 8190f9312aff46d79357a394bfbf1784
 msgid "2s (4MB)"
-msgstr ""
+msgstr "2s (4Mo)"
 
 #: ../../performance.rst:62
-#, python-format
+#: c7dd02cfeded499199f404aa030dfc01
 msgid "87% faster"
-msgstr ""
+msgstr "87% plus rapide"
 
 #: ../../performance.rst:64
+#: 0ae9f72413d1442bae73f61f4217a9cd
 msgid "**Optimization Strategies:**"
-msgstr ""
+msgstr "**Stratégies d'optimisation :**"
 
 #: ../../performance.rst:66
+#: 582a69b2b2164203a2ae0712832bfbc1
 msgid "**Optimized Endpoints**: ``/api/optimized/*`` routes with minimal payloads"
-msgstr ""
+msgstr "**Endpoints optimisés** : routes ``/api/optimized/*`` avec une charge minimale"
 
 #: ../../performance.rst:67
+#: 3888e2b1490c47e58370ff3c07654da7
 msgid "**Pagination**: Large datasets split into manageable chunks"
-msgstr ""
+msgstr "**Pagination** : grands ensembles de données divisés en chunks gérables"
 
 #: ../../performance.rst:68
+#: 856f31866b1e4a8cbf4e0c10ab62e54c
 msgid "**Parallel Loading**: Multiple chart sections loaded simultaneously"
-msgstr ""
+msgstr "**Chargement parallèle** : plusieurs sections de cartes chargées simultanément"
 
 #: ../../performance.rst:69
+#: 341d68ead7e747d1a00cfaac23e96edf
 msgid "**Smart Caching**: Frequently accessed data cached locally"
-msgstr ""
+msgstr "**Smart Caching** : Données fréquemment consultées en cache localement"
 
 #: ../../performance.rst:72
+#: e66fc21c1367463ea706ebba3db3d278
 msgid "Database Optimization"
-msgstr ""
+msgstr "Optimisation de la base de données"
 
 #: ../../performance.rst:76
+#: 75a586f21a0c4775883fc6a1d705da8c
 msgid "MongoDB performance optimizations ensure fast query responses:"
-msgstr ""
+msgstr "Les optimisations de performance de MongoDB garantissent des réponses rapides aux requêtes :"
 
 #: ../../performance.rst:78
+#: ddcfdd24e0244484869e7931e18bcc09
 msgid "**Indexing Strategy:**"
-msgstr ""
+msgstr "**Stratégie d'indexation :**"
 
 #: ../../performance.rst:87
+#: 75985f605f4548498b66aadab2171ce8
 msgid "**Aggregation Pipelines:**"
-msgstr ""
+msgstr "**Pipelines d'agrégation :**"
 
 #: ../../performance.rst:108
+#: 3a73991862794c78ae3b68bf6581a863
 msgid "**Connection Optimization:**"
-msgstr ""
+msgstr "**Optimisation de la connexion :**"
 
 #: ../../performance.rst:123
+#: fe09040b594a4941a577fffe74955e25
 msgid "Frontend Performance"
-msgstr ""
+msgstr "Performance du frontend"
 
 #: ../../performance.rst:127
+#: e1e9ad5f18e745a4847d42cdcfef194f
 msgid "React application optimizations for smooth user experience:"
-msgstr ""
+msgstr "Optimisations d'application React pour une expérience utilisateur fluide:"
 
 #: ../../performance.rst:129
+#: f34a8312ec334221abd3e0dc16ee7d4b
 msgid "**Component Optimization:**"
-msgstr ""
+msgstr "**Optimisation des composants :**"
 
 #: ../../performance.rst:149
+#: e164bbb3cc864c9784fcdcbed160b349
 msgid "**Data Loading Optimization:**"
-msgstr ""
+msgstr "**Optimisation du chargement des données :**"
 
 #: ../../performance.rst:168
+#: 92d4ee2308a24feb854152231f390494
 msgid "**Virtual Scrolling for Large Lists:**"
-msgstr ""
+msgstr "**Défilement virtuel pour les grandes listes :**"
 
 #: ../../performance.rst:191
+#: 4cda93f977844781ab8399266d9e23ad
 msgid "Deployment Optimization"
-msgstr ""
+msgstr "Optimisation du déploiement"
 
 #: ../../performance.rst:195
+#: 5893ede783184e89ae6c53aee9c0409b
 msgid "Production deployment configurations for optimal performance:"
-msgstr ""
+msgstr "Configurations de déploiement de production pour des performances optimales :"
 
 #: ../../performance.rst:197
+#: e8ac77c148364eea854c926613a4f166
 msgid "**Heroku Configuration:**"
-msgstr ""
+msgstr "**Configuration Heroku :**"
 
 #: ../../performance.rst:214
+#: 745ba6b46ee44400bbdb93caad567588
 msgid "**CDN Integration:**"
-msgstr ""
+msgstr "**Intégration CDN :**"
 
 #: ../../performance.rst:232
+#: fc2ee9ac5de541a78f3fc3aaa8c115d1
 msgid "**Monitoring and Alerting:**"
-msgstr ""
+msgstr "**Surveillance et Alerte :**"
 
 #: ../../performance.rst:252
+#: 779c3af1ec23465c900492ffa1a44626
 msgid "Caching Strategies"
-msgstr ""
+msgstr "Stratégies de mise en cache"
 
 #: ../../performance.rst:256
+#: dda5524990324f1cb862aec42fd9fbb5
 msgid "Multi-level caching for optimal performance:"
-msgstr ""
+msgstr "Mise en cache à plusieurs niveaux pour des performances optimales:"
 
 #: ../../performance.rst:258
+#: 88a1b5c1584b4e52abd4b0ea1d81f6f7
 msgid "**Browser Caching:**"
-msgstr ""
+msgstr "**Mise en cache du navigateur:**"
 
 #: ../../performance.rst:278
+#: b8358a68d2c84c7082b36750c1db590f
 msgid "**Redis Caching (Optional):**"
-msgstr ""
+msgstr "**Mise en cache Redis (facultatif) :**"
 
 #: ../../performance.rst:296
+#: 6915ededa8704eeb943d05b7b186e75d
 msgid "Performance Monitoring"
-msgstr ""
+msgstr "Surveillance des performances"
 
 #: ../../performance.rst:300
+#: 68a3d2d5a5ee421ca27c2ab0b44c81e5
 msgid "Real-time performance tracking and optimization:"
-msgstr ""
+msgstr "Suivi et optimisation des performances en temps réel :"
 
 #: ../../performance.rst:302
+#: 419adf181d3d4d3991d87fba656aef72
 msgid "**Client-Side Metrics:**"
-msgstr ""
+msgstr "**Client-Side Metrics:**"
 
 #: ../../performance.rst:323
+#: d6a55ca9089d4a1bb2eecdbeca8c8d6b
 msgid "**Server-Side Monitoring:**"
-msgstr ""
+msgstr "**Surveillance côté serveur :**"
 
 #: ../../performance.rst:345
+#: 6fc13ac06e9e4051a2e1694e6a3df8c1
 msgid "Best Practices"
-msgstr ""
+msgstr "Meilleures pratiques"
 
 #: ../../performance.rst:349
+#: fb59b1bf99494ff5b5c3144d8296dcd9
 msgid "**Development Best Practices:**"
-msgstr ""
+msgstr "**Meilleures pratiques de développement :**"
 
 #: ../../performance.rst:351
+#: 2a058ad8389f4c1a96df0f5a02be6b28
 msgid "**Measure First**: Use browser dev tools to identify bottlenecks"
-msgstr ""
+msgstr "**Mesure d'abord** : Utilisez les outils de développement du navigateur pour identifier les goulets d'étranglement"
 
 #: ../../performance.rst:352
+#: 057a282fa05642df82101bbdba7ecbba
 msgid "**Optimize Queries**: Use database explain plans to optimize queries"
-msgstr ""
+msgstr "**Optimiser les requêtes** : Utilisez la base de données pour expliquer les plans d'optimisation des requêtes"
 
 #: ../../performance.rst:353
+#: d75037000e7f4d21ba817264066f2b36
 msgid "**Monitor Bundle Size**: Keep JavaScript bundles under 250KB"
-msgstr ""
+msgstr "**Taille du lot du moniteur** : Gardez les paquets JavaScript à moins de 250 Ko"
 
 #: ../../performance.rst:354
-msgid ""
-"**Image Optimization**: Use modern formats (WebP, AVIF) and responsive "
-"images"
-msgstr ""
+#: 5a7262b4a7a149588f5a3d374f064338
+msgid "**Image Optimization**: Use modern formats (WebP, AVIF) and responsive images"
+msgstr "**Optimisation de l'image** : Utilisez des formats modernes (WebP, AVIF) et des images réactives"
 
 #: ../../performance.rst:355
+#: 4881561c76d64fd09cd7390da6af3faf
 msgid "**Code Splitting**: Load only necessary code for each page"
-msgstr ""
+msgstr "**Répartition du code** : Charger uniquement le code nécessaire pour chaque page"
 
 #: ../../performance.rst:357
+#: 869adc5a23c34e93bcafacb105d53ad5
 msgid "**Production Best Practices:**"
-msgstr ""
+msgstr "**Meilleures pratiques de production :**"
 
 #: ../../performance.rst:359
+#: 9e87e9459da94e4bbb8a8f790b39877d
 msgid "**Enable Compression**: Use gzip/brotli compression"
-msgstr ""
+msgstr "**Activer Compression** : Utiliser la compression gzip/brotli"
 
 #: ../../performance.rst:360
+#: 4e8065503f1e468b9f6001586b017d73
 msgid "**CDN Usage**: Serve static assets from CDN"
-msgstr ""
+msgstr "**Utilisation du CDN** : Servir les assets statiques depuis CDN"
 
 #: ../../performance.rst:361
+#: c84ab73c5036444898a9c5c99067089a
 msgid "**Database Indexes**: Ensure proper indexing for all queries"
-msgstr ""
+msgstr "**Index de la base de données** : Assurer une indexation correcte pour toutes les requêtes"
 
 #: ../../performance.rst:362
+#: 70d8bf50b9754367877bc4a48bd1bce1
 msgid "**Connection Pooling**: Optimize database connection pools"
-msgstr ""
+msgstr "**Regroupement de connexions** : Optimiser les pools de connexion à la base de données"
 
 #: ../../performance.rst:363
+#: 3a7c0cc1f6f54caa94f0617fb367ed12
 msgid "**Performance Monitoring**: Set up alerts for performance degradation"
-msgstr ""
+msgstr "**Surveillance des performances** : Configurez des alertes pour la dégradation des performances"
 
 #: ../../performance.rst:366
+#: 67e285ba26bf4c7aa744da270520eeb8
 msgid "Troubleshooting"
 msgstr "Dépannage"
 
 #: ../../performance.rst:370
+#: d6b5ab6e157c4665b66a58ffee02205e
 msgid "**Common Performance Issues:**"
-msgstr ""
+msgstr "**Problèmes communs de performance :**"
 
 #: ../../performance.rst:372
+#: 30d6718cd4b84c2c95171295c3cbae2c
 msgid "**Slow Page Loads**: Check network tab for large payloads"
-msgstr ""
+msgstr "**Chargement lent des pages**: Vérifiez l'onglet réseau pour les grosses charges"
 
 #: ../../performance.rst:373
+#: 733ffeb687de492abfa8cb77733ee6de
 msgid "**High Memory Usage**: Use Chrome DevTools Memory tab"
-msgstr ""
+msgstr "**Utilisation mémoire élevée** : Utiliser l'onglet Mémoire DevTools Chrome"
 
 #: ../../performance.rst:374
+#: dea40b85eaa248e2ad35d2854233d17c
 msgid "**Database Timeouts**: Review MongoDB slow query logs"
-msgstr ""
+msgstr "**Délai d'attente de la base de données** : Revoir les logs de requêtes lents de MongoDB"
 
 #: ../../performance.rst:375
+#: 0b1b08e2de6c4c99a8fd6b6d4570b219
 msgid "**Cache Misses**: Verify cache configuration and TTL settings"
-msgstr ""
+msgstr "**Manque de cache** : Vérifiez la configuration du cache et les paramètres TTL"
 
 #: ../../performance.rst:377
+#: 16016ce2f5b848389f1736817cc38666
 msgid "**Performance Testing:**"
-msgstr ""
+msgstr "**Test des performances :**"
 
 #: ../../performance.rst:389
+#: df406d01037c4b64864c1641b8745ffd
 msgid "**Monitoring Tools:**"
-msgstr ""
+msgstr "**Outils de Surveillance :**"
 
 #: ../../performance.rst:391
+#: 1dd5388c2d3544fb8d1a43c781c83f7e
 msgid "Browser DevTools (Performance tab)"
-msgstr ""
+msgstr "DevTools du navigateur (onglet Performance)"
 
 #: ../../performance.rst:392
+#: f66f31f3d0c7498ba930ea6472f6d144
 msgid "MongoDB Compass (Query performance)"
-msgstr ""
+msgstr "Boussole MongoDB (Requête de performance)"
 
 #: ../../performance.rst:393
+#: 8ecf00a3aeb64a1886d1a6d0166215bd
 msgid "Heroku metrics (if deployed on Heroku)"
-msgstr ""
+msgstr "Métriques Heroku (si déployées sur Heroku)"
 
 #: ../../performance.rst:394
+#: 1fed415090954349863b2966485d5018
 msgid "Web Vitals extension"
-msgstr ""
+msgstr "Extension Web Vitals"
 
 #: ../../performance.rst:395
+#: c09a55eddbcb42af90637b78763fc825
 msgid "Lighthouse CI for automated testing"
-msgstr ""
+msgstr "Lighthouse CI pour les tests automatisés"
 

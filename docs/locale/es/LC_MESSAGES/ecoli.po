@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: ecoli.pot\n"
+"X-Crowdin-File-ID: 49\n"
+"Language: es_ES\n"
+
+#: ../../ecoli.rst:2
+#: fccfe78e82714ab984ed39b2fc2efef2
+msgid "*Escherichia coli*"
+msgstr "*Escherichia coli*"
+
+#: ../../ecoli.rst:6
+#: b058d2126c24459e90bffe764059b1d3
+msgid "*Escherichia coli* data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 5 August 2025."
+msgstr "Los datos de *Escherichia coli* en AMRnet se extraen de `Enterobase <https://enterobase.warwick.ac.uk/>`__, que llama genotipos AMR usando `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ de NCBI y asigna linajes usando MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ y `clustering jerárquico <https://doi.org/10.1093/bioinformatics/btab234>`_. Última actualización: 5 de agosto de 2025."
+
+#: ../../ecoli.rst:9
+#: 74e19738998d490589fa66e6e4ccecdc
+msgid "The *E. coli* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard."
+msgstr "La *E. los datos coli* utilizados en AMRnet no están aún curados para el propósito de muestreo, y por lo tanto reflejan los sesgos de los esfuerzos de secuenciación global que pueden ser sesgados hacia la secuenciación de cepas de AMR y/o brotes. Los esfuerzos de curación de datos están en curso sin embargo hasta entonces, por favor tenga cuidado al interpretar los datos en el panel."
+
+#: ../../ecoli.rst:12
+#: b3c4497441ae4cff8a42ce4aa8ed4513
+msgid "Variable definitions"
+msgstr "Definiciones variables"
+
+#: ../../ecoli.rst:16
+#: ac1732df86424d39b0feb8a9e5275c83
+msgid "**Lineages**: Lineages are labeled by 7-locus sequence type (ST)."
+msgstr "**Lineamientos**: Los lineamientos son etiquetados por tipo de secuencia de 7 locus (ST)."
+
+#: ../../ecoli.rst:18
+#: 2f2b668363fc4fb5acec55b5ff2d9c26
+msgid "**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_. see :ref:`the table <amr-definition-table>`"
+msgstr "**determinantes AMR**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifica los determinantes de AMR usando `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet importa estas llamadas genotípicas de AMR, y las asigna a drogas/clases en el panel de control usando la Subclase curada en `refgenes <https://doi.org/10.1099/mgen.0.000832>`_. ver :ref:`la tabla <amr-definition-table>`"
+

@@ -1,0 +1,94 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: sentericaints.pot\n"
+"X-Crowdin-File-ID: 73\n"
+"Language: es_ES\n"
+
+#: ../../sentericaints.rst:3
+#: 8ef62fb9ea46491dad4f7ed490b88048
+msgid "*Salmonella* (invasive non-typhoidal)"
+msgstr "*Salmonella* (no-tifoidal invasiva)"
+
+#: ../../sentericaints.rst:7
+#: 2b1cfa3f0e7046b3827e77fd6bf56bc1
+msgid "*Salmonella* (invasive non-typhoidal) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. The iNTS dashboard currently includes all genomes identified as serotype Typhimurium or Enteritidis (which account for `>90% of iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_), and identifies lineages thereof using MLST. Last update: 5 August 2025."
+msgstr "Los datos de *Salmonella* (invasivos no typhoidal) en AMRnet se extraen de `Enterobase <https://enterobase.warwick.ac.uk/>`_, que llama genotipos de AMR usando el `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_de NCBI asigna linajes usando MLST, `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ y `jerarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, y asigna serotipos usando `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. El panel de control de iNTS actualmente incluye todos los genomas identificados como serotipo Typhimurium o Enteritidis (que representan `>90% de iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_), e identifica sus linajes usando MLST. Última actualización: 5 de agosto de 2025."
+
+#: ../../sentericaints.rst:10
+#: 97b21ae02b0d4350abe0989425fc30bf
+msgid "The invasive non-typhoidal *Salmonella* (iNTS) dashboard is populated with data from specific *Salmonella enterica* lineages that are associated with invasive disease in low-income countries; namely serotype Typhimurium (ST19, ST313 and sublineages thereof as defined by `Van Puyvelde et al <https://doi.org/10.1038/s41467-023-41152-6>`_) and Enteritidis (Central/Eastern and West African clades as defined by `Fong et al <https://doi.org/10.1099/mgen.0.001017>`_). Together these account for `>90% of iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_."
+msgstr "El tablero invasivo *Salmonella* (iNTS) no typhoidal está poblado con datos de linajes específicos de *Salmonella enterica* que están asociados con la enfermedad invasiva en países de bajos ingresos; concretamente tifimurio serotipo (ST19, ST313 y sublinajes de los mismos, definidos por `Van Puyvelde et al <https://doi.org/10.1038/s41467-023-41152-6>`_) y Enteritidis (clades Central/Oriental y de África Occidental como se define por `Fong et al <https://doi.org/10.1099/mgen.0.001017>`_). Juntos representan `>90% de los iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_."
+
+#: ../../sentericaints.rst:13
+#: c1f8fc5b28274502bf6ef3060030f4a8
+msgid "The iNTS data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard."
+msgstr "Los datos de iNTS utilizados en AMRnet aún no están supervisados para el propósito de muestreo, y por lo tanto reflejan los sesgos de los esfuerzos de secuenciación global que pueden ser sesgados hacia la secuenciación de cepas de AMR y/o brotes. Los esfuerzos de curación de datos están en curso sin embargo hasta entonces, por favor tenga cuidado al interpretar los datos en el panel."
+
+#: ../../sentericaints.rst:16
+#: 96f2559bd30b4b44905dc4a35a22446e
+msgid "Variable definitions"
+msgstr "Definiciones variables"
+
+#: ../../sentericaints.rst:20
+#: 9e7c061b044f4127a4cbbcd72c97b32c
+msgid "**Lineages**: Lineages are labeled by iTYM (invasive Typhimurium) or iENT (invasive Enteritidis) followed by the lineage name, defined from cgMLST as follows:"
+msgstr "**Lineamientos**: Los Lineages son etiquetados por iTYM (Tifimurio invasivo) o iENT (invasivamente Enteritidis) seguidos por el nombre del linaje, definido por cgMLST de la siguiente manera:"
+
+#: ../../sentericaints.rst:22
+#: 67d5a1bcfd4b49ffa9cf86c83b49f505
+msgid "iTYM ST19-L1: HC150=305"
+msgstr "iTYM ST19-L1: HC150=305"
+
+#: ../../sentericaints.rst:23
+#: aaaecac857874bbdb71f36750dabf6b2
+msgid "iTYM ST19-L3: HC150=1547"
+msgstr "iTYM ST19-L3: HC150=1547"
+
+#: ../../sentericaints.rst:24
+#: 00be3ea0a019440c97fbceb9f89a7d3a
+msgid "iTYM ST19-L4: HC150=48"
+msgstr "iTYM ST19-L4: HC150=48"
+
+#: ../../sentericaints.rst:25
+#: 079fc02e6cde401d82397c158704d0b5
+msgid "iTYM ST313-L1: HC150=9882"
+msgstr "iTYM ST313-L1: HC150=9882"
+
+#: ../../sentericaints.rst:26
+#: 6eb41987ee5d409baae28e93164c9798
+msgid "iTYM ST313-L2: HC150=728 and HC50=728"
+msgstr "iTYM ST313-L2: HC150=728 y HC50=728"
+
+#: ../../sentericaints.rst:27
+#: 5d233ffdce704b13946e55ebbd4dc1ff
+msgid "iENT CEAC: HC150=12675"
+msgstr "iENT CEAC: HC150=12675"
+
+#: ../../sentericaints.rst:28
+#: fb6a2f1e0cbe49ae943f719ece113b55
+msgid "iENT WAC: HC150=2452"
+msgstr "iENT WAC: HC150=2452"
+
+#: ../../sentericaints.rst:30
+#: 53abeb4bf9a94b5aa7b91b6a35779c57
+msgid "**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :ref:`the table <amr-definition-table>`."
+msgstr "**determinantes AMR**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifica los determinantes de AMR usando `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet importa estas llamadas genotípicas de AMR, y las asigna a drogas/clases en el panel de control usando la Subclase curada en `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :ref:`la tabla <amr-definition-table>`."
+

@@ -7,438 +7,515 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: fr\n"
-"Language-Team: fr <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language-Team: French\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: security.pot\n"
+"X-Crowdin-File-ID: 69\n"
+"Language: fr_FR\n"
 
 #: ../../security.rst:4
+#: 921dfe3e1f4f44d9b10202595fcf60ea
 msgid "Security Guide"
-msgstr "Guide de Sécurité"
+msgstr "Guide de sécurité"
 
 #: ../../security.rst:8
-msgid ""
-"AMRnet implements comprehensive security measures to protect user data "
-"and ensure the integrity of antimicrobial resistance surveillance "
-"information. This guide covers security policies, best practices, and "
-"implementation details."
-msgstr ""
+#: 5f7741b8e11f4446bf6e3f2d730b0e1d
+msgid "AMRnet implements comprehensive security measures to protect user data and ensure the integrity of antimicrobial resistance surveillance information. This guide covers security policies, best practices, and implementation details."
+msgstr "AMRnet met en œuvre des mesures de sécurité complètes pour protéger les données des utilisateurs et assurer l'intégrité des informations de surveillance de la résistance antimicrobienne. Ce guide couvre les politiques de sécurité, les meilleures pratiques et les détails de l'implémentation."
 
 #: ../../security.rst:13
+#: b328ad5d9c41415c8662ee779cde7530
 msgid "Security Policy"
-msgstr ""
+msgstr "Politique de sécurité"
 
 #: ../../security.rst:17
-msgid ""
-"AMRnet follows industry-standard security practices for web applications "
-"handling sensitive healthcare and research data."
-msgstr ""
+#: 8a5081a0a5ef44b09d1714f1ff8aa94b
+msgid "AMRnet follows industry-standard security practices for web applications handling sensitive healthcare and research data."
+msgstr "AMRnet suit les pratiques de sécurité standard de l'industrie pour les applications Web qui traitent les soins de santé sensibles et les données de recherche."
 
 #: ../../security.rst:21
+#: 33f0b7407deb407f823456846f62bc2f
 msgid "Vulnerability Reporting"
-msgstr ""
+msgstr "Rapports de vulnérabilité"
 
 #: ../../security.rst:25
+#: 84fa64df1bb14542bca542de3e38a8a2
 msgid "**🚨 Responsible Disclosure Process**"
-msgstr ""
+msgstr "**🚨 Processus de divulgation responsable**"
 
 #: ../../security.rst:27
+#: 98e68a4b16d046f1be6967f231c9c3a3
 msgid "If you discover a security vulnerability, please follow these steps:"
-msgstr ""
+msgstr "Si vous découvrez une vulnérabilité de sécurité, veuillez suivre ces étapes :"
 
 #: ../../security.rst:29
+#: 389e98d93d8342a385e76ddc33662888
 msgid "**DO NOT** create a public GitHub issue"
-msgstr ""
+msgstr "**NE PAS créer** un ticket GitHub public"
 
 #: ../../security.rst:30
+#: 7e86e992dbef46efa0eaaf9aaf4caba9
 msgid "**Email security report** to: amrnetdashboard@gmail.com"
-msgstr ""
+msgstr "**Rapport de sécurité par e-mail** à: amrnetdashboard@gmail.com"
 
 #: ../../security.rst:31
-msgid ""
-"**Include detailed information**: - Description of the vulnerability - "
-"Steps to reproduce the issue - Potential impact assessment - Suggested "
-"fixes (if available)"
-msgstr ""
+#: 48470d9dfdd84b66a404240c57d8c042
+msgid "**Include detailed information**: - Description of the vulnerability - Steps to reproduce the issue - Potential impact assessment - Suggested fixes (if available)"
+msgstr "**Inclure des informations détaillées** : - Description de la vulnérabilité - Étapes pour reproduire le problème - Évaluation de l'impact potentiel - Corrections suggérées (si disponible)"
 
 #: ../../security.rst:37
+#: 838dc48345114f0c991f74be76df470a
 msgid "**Response Timeline:**"
-msgstr ""
+msgstr "**Ligne de réponse :**"
 
 #: ../../security.rst:39
+#: 7d44661e13234473a6427e2e0aa638eb
 msgid "**24 hours**: Initial acknowledgment"
-msgstr ""
+msgstr "**24 heures** : Reconnaissance initiale"
 
 #: ../../security.rst:40
+#: c02b3b5218b64c6f972bd3369c354c87
 msgid "**72 hours**: Preliminary assessment and severity classification"
-msgstr ""
+msgstr "**72 heures** : Évaluation préliminaire et classification de la gravité"
 
 #: ../../security.rst:41
+#: 75880c3de6944dcea182d1f5ce79142c
 msgid "**7 days**: Detailed response with fix timeline"
-msgstr ""
+msgstr "**7 jours**: Réponse détaillée avec fil fixe"
 
 #: ../../security.rst:42
+#: e15613940a9f4e2599b308b8bd9d0576
 msgid "**30 days**: Target resolution for critical vulnerabilities"
-msgstr ""
+msgstr "**30 jours** : Résolution cible pour les vulnérabilités critiques"
 
 #: ../../security.rst:45
+#: 85acafc946944002bcbc51ea63f97fd6
 msgid "Supported Versions"
-msgstr ""
+msgstr "Versions prises en charge"
 
 #: ../../security.rst:49
+#: 6ef1e11027a4400dbf65d44d5f199e7f
 msgid "Security updates are provided for:"
-msgstr ""
+msgstr "Des mises à jour de sécurité sont fournies pour :"
 
 #: ../../security.rst:51
+#: 852a80d3eb5843f988428baf04fa08c8
 msgid "Version Support"
-msgstr ""
+msgstr "Support de la version"
 
 #: ../../security.rst:55
+#: b42908de2a2148b6b1e73932619f9dcc
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: ../../security.rst:56
+#: c80e68af38e942c1b32d7d28323447fb
 msgid "Supported"
-msgstr ""
+msgstr "Supporté"
 
 #: ../../security.rst:57
+#: be9530b27c734cca9319559f456a9691
 msgid "1.1.x"
-msgstr ""
+msgstr "1.1.x"
 
-#: ../../security.rst:58 ../../security.rst:60
+#: ../../security.rst:58
+#: ../../security.rst:60
+#: 6aa22942acac4191af39457194615b02
+#: 28425a89935b4debbc1717be0d1351ef
 msgid "✅ Yes"
-msgstr ""
+msgstr "✅ Oui"
 
 #: ../../security.rst:59
+#: 7c47cedab0c445d8b9d009f4e0c75ae4
 msgid "1.0.x"
-msgstr ""
+msgstr "1.0.x"
 
 #: ../../security.rst:61
+#: f6889f49500540d4884b6eb9f24cc345
 msgid "< 1.0"
-msgstr ""
+msgstr "< 1.0"
 
 #: ../../security.rst:62
+#: 4d0ffb60fca447eaae216d9d0f2735ca
 msgid "❌ No"
-msgstr ""
+msgstr "❌ Non"
 
 #: ../../security.rst:65
+#: 5bf1711ea31b4631b86113412145ccbb
 msgid "Application Security"
-msgstr ""
+msgstr "Sécurité de l'application"
 
 #: ../../security.rst:69
+#: 3956d16e9b5b465ca99681b1d2f19020
 msgid "AMRnet implements multiple layers of security controls:"
-msgstr ""
+msgstr "AMRnet implémente plusieurs couches de contrôles de sécurité :"
 
 #: ../../security.rst:72
+#: b31fc9473e0a4fe0959e49623790a386
 msgid "Environment Security"
-msgstr ""
+msgstr "Sécurité de l'environnement"
 
 #: ../../security.rst:76
+#: 3d70a674d5354d99b524ad7318a54700
 msgid "**Environment Variable Protection:**"
-msgstr ""
+msgstr "**Protection des variables d'environnement :**"
 
 #: ../../security.rst:92
+#: 473083d78173419bb9e5f46e7689ca0b
 msgid "**Secure Configuration Example:**"
-msgstr ""
+msgstr "**Exemple de Configuration Sécurisée :**"
 
 #: ../../security.rst:120
+#: 1e833966ac854a16b1f7c3fefa0607e8
 msgid "Database Security"
-msgstr ""
+msgstr "Sécurité de la base de données"
 
 #: ../../security.rst:124
+#: c108c6414f7d4637a12bd5aee46cd0dc
 msgid "**MongoDB Security Configuration:**"
-msgstr ""
+msgstr "**Configuration de sécurité MongoDB :**"
 
 #: ../../security.rst:153
+#: 36a4fac8b42f48b69dad57ae6032e6e0
 msgid "**Data Sanitization:**"
-msgstr ""
+msgstr "**Assainissement des données :**"
 
 #: ../../security.rst:178
+#: 2acdef34267247438bbd7374c0267a10
 msgid "API Security"
-msgstr ""
+msgstr "Sécurité de l'API"
 
 #: ../../security.rst:182
+#: 71c0fafcc7eb45d581fe3acb1f34c829
 msgid "**Authentication and Authorization:**"
-msgstr ""
+msgstr "**Authentification et Autorisation :**"
 
 #: ../../security.rst:214
+#: 73aa950b825244f0b2296236eddea4c4
 msgid "**CORS Configuration:**"
-msgstr ""
+msgstr "**Configuration CORS :**"
 
 #: ../../security.rst:239
+#: f741671def0345e69497932f49c71b67
 msgid "Frontend Security"
-msgstr ""
+msgstr "Sécurité du frontend"
 
 #: ../../security.rst:243
+#: 655b9727946c4b50b789d0b0d32dbe9a
 msgid "**Content Security Policy:**"
-msgstr ""
+msgstr "**Politique de sécurité du contenu :**"
 
 #: ../../security.rst:255
+#: 8112d36b427a4c6d8add452beb5ca260
 msgid "**XSS Prevention:**"
-msgstr ""
+msgstr "**Prévention XSS :**"
 
 #: ../../security.rst:283
+#: 3442b8f2ae88401da8c5c221a38bc82d
 msgid "Data Privacy"
-msgstr ""
+msgstr "Confidentialité des données"
 
 #: ../../security.rst:287
-msgid ""
-"AMRnet implements privacy-by-design principles for handling surveillance "
-"data:"
-msgstr ""
+#: f2a925e80eec42c099286b377635a6d7
+msgid "AMRnet implements privacy-by-design principles for handling surveillance data:"
+msgstr "AMRnet met en œuvre les principes de confidentialité par conception pour le traitement des données de surveillance:"
 
 #: ../../security.rst:290
+#: 451202c038b240328b3def6544a32177
 msgid "Data Classification"
-msgstr ""
+msgstr "Classification des données"
 
 #: ../../security.rst:294
-msgid ""
-"**Public Data:** - Aggregated surveillance statistics - Country-level "
-"prevalence data - Publicly available research datasets"
-msgstr ""
+#: 92adf216f903403981a89539af41f4dd
+msgid "**Public Data:** - Aggregated surveillance statistics - Country-level prevalence data - Publicly available research datasets"
+msgstr "**Données publiques:** - Statistiques de surveillance agrégées - Données de prévalence au niveau du pays - Jeux de données de recherche disponibles publiquement"
 
 #: ../../security.rst:299
-msgid ""
-"**Restricted Data:** - Individual sample identifiers (when present) - "
-"Detailed geographic coordinates - Unpublished research data"
-msgstr ""
+#: 0a7840bffa574eb8afc32fdfeea1738a
+msgid "**Restricted Data:** - Individual sample identifiers (when present) - Detailed geographic coordinates - Unpublished research data"
+msgstr "**Données restreintes:** - Identifiants individuels d'échantillons (lorsqu'ils sont présents) - Coordonnées géographiques détaillées - Données de recherche non publiées"
 
 #: ../../security.rst:304
-msgid ""
-"**Prohibited Data:** - Personal health information (PHI) - Patient "
-"identifiers - Clinical details beyond resistance patterns"
-msgstr ""
+#: e8680cdd7a3345c7ae548b484d980f21
+msgid "**Prohibited Data:** - Personal health information (PHI) - Patient identifiers - Clinical details beyond resistance patterns"
+msgstr "**Données interdites:** - Informations personnelles sur la santé (IPP) - Identifiants du patient - Détails cliniques au-delà des modèles de résistance"
 
 #: ../../security.rst:310
+#: 11ece912fbe54f12969b771ad0ac9663
 msgid "Privacy Controls"
-msgstr ""
+msgstr "Contrôles de confidentialité"
 
 #: ../../security.rst:314
+#: 0c4813cfcbef4fd19e14837619a96da6
 msgid "**Data Minimization:**"
-msgstr ""
+msgstr "**Minimisation des données:**"
 
 #: ../../security.rst:330
+#: b4ef916b455c4ff29df3b99e20fc6502
 msgid "**Anonymization:**"
-msgstr ""
+msgstr "**Anonymisation:**"
 
 #: ../../security.rst:355
+#: a25dc715bc5442758de6d791e0af4486
 msgid "Secure Development"
-msgstr ""
+msgstr "Développement sécurisé"
 
 #: ../../security.rst:359
+#: f947e2e06e1548bbab896246a5344f44
 msgid "Security practices for development and deployment:"
-msgstr ""
+msgstr "Pratiques de sécurité pour le développement et le déploiement :"
 
 #: ../../security.rst:362
+#: acff36fe6a494183970930bb8254daf7
 msgid "Code Security"
-msgstr ""
+msgstr "Sécurité du code"
 
 #: ../../security.rst:366
+#: 67431c39845c4dd4a388a147b7c7b114
 msgid "**Dependency Management:**"
-msgstr ""
+msgstr "**Gestion des dépendances :**"
 
 #: ../../security.rst:379
+#: 20112581e967480cb0e88be292e8dad6
 msgid "**Security Linting:**"
-msgstr ""
+msgstr "**Réduction de la sécurité:**"
 
 #: ../../security.rst:398
+#: 99b44f59ad334aa190d4801b4ac441bb
 msgid "Git Security"
-msgstr ""
+msgstr "Sécurité Git"
 
 #: ../../security.rst:402
+#: 12bb956732bf4300806dc6b32af8a094
 msgid "**Secure Repository Practices:**"
-msgstr ""
+msgstr "**Pratiques de sécurisation des dépôts :**"
 
 #: ../../security.rst:419
+#: 1d17548bad0e4511a94c8c0b5ec1ef9e
 msgid "**Secrets Management:**"
-msgstr ""
+msgstr "**Gestion des Secrets :**"
 
 #: ../../security.rst:440
+#: 4b4813a74aa247ff881b3fecd1f93410
 msgid "Deployment Security"
-msgstr ""
+msgstr "Sécurité de déploiement"
 
 #: ../../security.rst:444
+#: 8cf7a9dfb467485c987684d402b3bcd5
 msgid "Security configurations for production deployment:"
-msgstr ""
+msgstr "Configurations de sécurité pour le déploiement de production :"
 
 #: ../../security.rst:447
+#: 1bea1a42abc64007b64d83a38ea078b2
 msgid "Server Security"
-msgstr ""
+msgstr "Sécurité du serveur"
 
 #: ../../security.rst:451
+#: c5479c21d8744843868e4d9439960fa3
 msgid "**Security Headers:**"
-msgstr ""
+msgstr "**En-têtes de sécurité :**"
 
 #: ../../security.rst:484
+#: 6358f46a5d574eb48a4ad8bc0702558a
 msgid "Infrastructure Security"
-msgstr ""
+msgstr "Sécurité des infrastructures"
 
 #: ../../security.rst:488
+#: 29275dc0c21f4138b49ea02f1fdb4964
 msgid "**HTTPS Configuration:**"
-msgstr ""
+msgstr "**Configuration HTTPS:**"
 
 #: ../../security.rst:511
+#: ed6c24aaa718472cbac6c4c44cb288c1
 msgid "Monitoring and Incident Response"
-msgstr ""
+msgstr "Surveillance et réponse au ticket"
 
 #: ../../security.rst:515
+#: c2428084fe06466fb8cc02aec2a7feb8
 msgid "Continuous security monitoring and incident response procedures:"
-msgstr ""
+msgstr "Surveillance continue de la sécurité et procédures de réponse aux incidents :"
 
 #: ../../security.rst:518
+#: f0a8cd0c4ec7443bbd3b243d41279301
 msgid "Security Monitoring"
-msgstr ""
+msgstr "Surveillance de sécurité"
 
 #: ../../security.rst:522
+#: 05c05a65bd2846e9af5a9ea247663c75
 msgid "**Logging and Alerting:**"
-msgstr ""
+msgstr "**Journalisation et Alerte :**"
 
 #: ../../security.rst:550
+#: c2c4a998be6c483fab919f9f25430f9f
 msgid "**Intrusion Detection:**"
-msgstr ""
+msgstr "**Détection d'intrusion :**"
 
 #: ../../security.rst:575
+#: 85a36448869a44c89f379814b5561a3a
 msgid "Incident Response"
-msgstr ""
+msgstr "Réponse du Ticket"
 
 #: ../../security.rst:579
+#: 1c66d46f3f3a45a6bf3584ae54c65e3c
 msgid "**Response Procedures:**"
-msgstr ""
+msgstr "**Procédures de réponse:**"
 
 #: ../../security.rst:581
+#: dfa1958a8056463cbac0de42e3fff7d6
 msgid "**Detection**: Automated monitoring alerts security team"
-msgstr ""
+msgstr "**Détection** : Equipe de sécurité des alertes automatisées de surveillance"
 
 #: ../../security.rst:582
+#: e7dc166e7a4c46fba72ae04e32ee609d
 msgid "**Assessment**: Determine severity and scope of incident"
-msgstr ""
+msgstr "**Évaluation** : Déterminer la sévérité et la portée de l'incident"
 
 #: ../../security.rst:583
+#: 184afa27eec043edac4649e08632e224
 msgid "**Containment**: Isolate affected systems if necessary"
-msgstr ""
+msgstr "**Contenu** : Isoler les systèmes affectés si nécessaire"
 
 #: ../../security.rst:584
+#: 3cf2e6fc0be64cb69c5eb11cbe9938d9
 msgid "**Investigation**: Analyze logs and determine root cause"
-msgstr ""
+msgstr "**Enquête** : Analyser les logs et déterminer la cause racine"
 
 #: ../../security.rst:585
+#: 6331b950f0a640d6a5c8c85553e1b65e
 msgid "**Recovery**: Restore normal operations"
-msgstr ""
+msgstr "**Récupération** : Restaurer les opérations normales"
 
 #: ../../security.rst:586
+#: f4f0400834fd4f839175da58552c413b
 msgid "**Lessons Learned**: Update security measures based on findings"
-msgstr ""
+msgstr "**Leçons apprises** : Mettre à jour les mesures de sécurité basées sur les conclusions"
 
 #: ../../security.rst:589
+#: 7a5db40545c24759b609f3baa8300584
 msgid "Security Testing"
-msgstr ""
+msgstr "Test de sécurité"
 
 #: ../../security.rst:593
+#: ef08b1cea71f4a12b5eb63cbdc4da322
 msgid "Regular security testing ensures ongoing protection:"
-msgstr ""
+msgstr "Des tests de sécurité réguliers garantissent une protection continue :"
 
 #: ../../security.rst:596
+#: d64f67589ede4f4cb250364cce0b5355
 msgid "Automated Testing"
-msgstr ""
+msgstr "Tests automatisés"
 
 #: ../../security.rst:600
+#: e9a9714f88744e388e59be8beaed0da1
 msgid "**Security Test Suite:**"
-msgstr ""
+msgstr "**Suite de test de sécurité :**"
 
 #: ../../security.rst:627
+#: cc4d30c006b64fee8bbb7b6b4c62d776
 msgid "Penetration Testing"
-msgstr ""
+msgstr "Tests de pénétration"
 
 #: ../../security.rst:631
+#: d331cae914ac4e6190f5d69aaa9e9606
 msgid "**Regular Security Assessments:**"
-msgstr ""
+msgstr "**Évaluations de sécurité régulières :**"
 
 #: ../../security.rst:633
+#: 5dfb95a59e28441aa96b242111045d04
 msgid "Quarterly vulnerability scans"
-msgstr ""
+msgstr "Analyses de vulnérabilité trimestrielles"
 
 #: ../../security.rst:634
+#: 8b5185430c3940d9afef70f41b8e56b1
 msgid "Annual penetration testing by third-party security firms"
-msgstr ""
+msgstr "Examen annuel de la pénétration par des sociétés de sécurité tierces"
 
 #: ../../security.rst:635
+#: 4ac51b59dfc44c9d90ab912e4556f28a
 msgid "Continuous security monitoring"
-msgstr ""
+msgstr "Surveillance continue de la sécurité"
 
 #: ../../security.rst:636
+#: 0999c758804f45d4ab8ebf677bd90cf7
 msgid "Bug bounty program for responsible disclosure"
-msgstr ""
+msgstr "Programme de récompenses de bugs pour la divulgation responsable"
 
 #: ../../security.rst:639
+#: 1b023d77c14d4ef1bbb465c55f3751b8
 msgid "Best Practices Checklist"
-msgstr ""
+msgstr "Liste de contrôle des meilleures pratiques"
 
 #: ../../security.rst:643
+#: 64ab810bfe5148e183b58b164688c0ed
 msgid "**Development Security Checklist:**"
-msgstr ""
+msgstr "**Liste de contrôle de la sécurité du développement :**"
 
 #: ../../security.rst:645
-msgid ""
-"✅ **Environment Security** - [ ] Never commit secrets to version control "
-"- [ ] Use secure environment variable management - [ ] Implement proper "
-"secret rotation"
-msgstr ""
+#: 6034d59313fa4f21acdf3d6d6e42827a
+msgid "✅ **Environment Security** - [ ] Never commit secrets to version control - [ ] Use secure environment variable management - [ ] Implement proper secret rotation"
+msgstr "✅ **Environment Security** - [ ] Ne jamais livrer de secrets au contrôle de version - [ ] Utiliser une gestion des variables d'environnement sécurisé - [ ] Implémenter une rotation secrète appropriée"
 
 #: ../../security.rst:650
-msgid ""
-"✅ **Application Security** - [ ] Input validation and sanitization - [ ] "
-"Output encoding to prevent XSS - [ ] SQL injection prevention - [ ] "
-"Authentication and authorization"
-msgstr ""
+#: a06fb17cd5844297991291f490dd943e
+msgid "✅ **Application Security** - [ ] Input validation and sanitization - [ ] Output encoding to prevent XSS - [ ] SQL injection prevention - [ ] Authentication and authorization"
+msgstr "✅ **Sécurité de l'application** - [ ] Validation et assainissement de l'entrée - [ ] Encodage de sortie pour empêcher XSS - [ ] prévention d'injection SQL - [ ] Authentification et autorisation"
 
 #: ../../security.rst:656
-msgid ""
-"✅ **Infrastructure Security** - [ ] HTTPS enforcement - [ ] Security "
-"headers implementation - [ ] Regular dependency updates - [ ] Database "
-"access controls"
-msgstr ""
+#: 5bdd5cd384c640c9992f580cc02a6faa
+msgid "✅ **Infrastructure Security** - [ ] HTTPS enforcement - [ ] Security headers implementation - [ ] Regular dependency updates - [ ] Database access controls"
+msgstr "✅ **Infrastructure Security** - [ ] Application HTTPS - [ ] Implémentation d'en-têtes de sécurité - [ ] Mises à jour régulières des dépendances - [ ] Contrôles d'accès à la base de données"
 
 #: ../../security.rst:662
-msgid ""
-"✅ **Monitoring and Response** - [ ] Security event logging - [ ] "
-"Intrusion detection systems - [ ] Incident response procedures - [ ] "
-"Regular security assessments"
-msgstr ""
+#: 183e2cb54215462bacb138d30067819d
+msgid "✅ **Monitoring and Response** - [ ] Security event logging - [ ] Intrusion detection systems - [ ] Incident response procedures - [ ] Regular security assessments"
+msgstr "✅ **Surveillance et réponse** - [ ] Journalisation d'événements de sécurité - [ ] Systèmes de détection d'intrusion - [ ] Procédures de réponse d'incident - [ ] Évaluations de sécurité régulières"
 
 #: ../../security.rst:669
+#: 26b41a7cc8264e139908b0f5d2eb2c2a
 msgid "Contact Information"
-msgstr ""
+msgstr "Coordonnées"
 
 #: ../../security.rst:673
+#: 9b140cf02833428aa23992d489f295d8
 msgid "**Security Team Contact:**"
-msgstr ""
+msgstr "**Contact de l'équipe de sécurité :**"
 
 #: ../../security.rst:675
+#: 0b011a90e4004acfb09fa51812ba21fb
 msgid "**Email**: amrnetdashboard@gmail.com"
-msgstr ""
+msgstr "**Email**: amrnetdashboard@gmail.com"
 
 #: ../../security.rst:676
+#: 167de027863b4c7b924512da3a75c827
 msgid "**PGP Key**: Available upon request"
-msgstr ""
+msgstr "**Clé PGP** : Disponible sur demande"
 
 #: ../../security.rst:677
+#: a2f81ce7978744b1b1cfc34dcafed9f4
 msgid "**Response Time**: 24 hours for initial acknowledgment"
-msgstr ""
+msgstr "**Temps de réponse**: 24 heures pour la réception initiale"
 
 #: ../../security.rst:679
+#: b92c769acd1e4ff99a2e0333f6682f2b
 msgid "**For General Security Questions:**"
-msgstr ""
+msgstr "**Pour les questions de sécurité générale :**"
 
 #: ../../security.rst:681
+#: a7a39bc383b64275847310753524330d
 msgid "**GitHub Discussions**: https://github.com/amrnet/amrnet/discussions"
-msgstr ""
+msgstr "**Discussions GitHub**: https://github.com/amrnet/amrnet/discussions"
 
 #: ../../security.rst:682
+#: dd45686ecd444e1e875b3a6eb66f4ee3
 msgid "**Documentation**: https://amrnet.readthedocs.io"
-msgstr ""
+msgstr "**Documentation** : https://amrnet.readthedocs.io"
+

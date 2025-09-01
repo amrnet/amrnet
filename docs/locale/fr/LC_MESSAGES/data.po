@@ -7,336 +7,337 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: fr\n"
-"Language-Team: fr <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language-Team: French\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: data.pot\n"
+"X-Crowdin-File-ID: 43\n"
+"Language: fr_FR\n"
 
 #: ../../data.rst:2
+#: 0964052eeb714f76bc1fd86da9314317
 msgid "Data access"
-msgstr "Accès aux Données"
+msgstr "Accès aux données"
 
 #: ../../data.rst:6
-msgid ""
-"The full sample-level data for each organism can be downloaded from the "
-"AMRnet dashboard itself, using the ‘Download database (CSV) format’ "
-"button at the bottom of the page. In addition, you can access AMRnet data"
-" via the API described below."
-msgstr ""
+#: 760f24df58ea445a878f2e63cb23d1cf
+msgid "The full sample-level data for each organism can be downloaded from the AMRnet dashboard itself, using the ‘Download database (CSV) format’ button at the bottom of the page. In addition, you can access AMRnet data via the API described below."
+msgstr "Les données de niveau d'échantillonnage complet pour chaque organisme peuvent être téléchargées depuis le tableau de bord AMRnet lui-même, en utilisant le bouton « Télécharger la base de données (CSV) en bas de la page. De plus, vous pouvez accéder aux données AMRnet via l'API décrite ci-dessous."
 
 #: ../../data.rst:8
-msgid ""
-"**Architectures**: The API architectures have 2 options developed for the"
-" project which include:"
-msgstr ""
+#: 9081f3731f974f8a910ddf244ed6333e
+msgid "**Architectures**: The API architectures have 2 options developed for the project which include:"
+msgstr "**Architectures** : Les architectures de l'API ont 2 options développées pour le projet qui incluent :"
 
 #: ../../data.rst:11
+#: 63eeb8c3219b42dc99496fc7765f4752
 msgid "1. Download data via bucket"
-msgstr ""
+msgstr "1. Télécharger les données via un seau"
 
 #: ../../data.rst:15
-msgid ""
-"**Organism name for downloading files from AWS:** Escherichia coli "
-"(diarrheagenic) as ``decoli``; Escherichia coli as ``ecoli``; Klebsiella "
-"pneumoniae as ``kpneumo``; Neisseria gonorrhoeae as ``ngono``; Salmonella"
-" (invasive non-typhoidal) as ``sentericaints``; Salmonella (non-"
-"typhoidal) as ``senterica``; Shigella as ``shige``; Salmonella Typhi as "
-"``styphi``"
-msgstr ""
+#: 5f05c6c827314650a96a5b584e26fc58
+msgid "**Organism name for downloading files from AWS:** Escherichia coli (diarrheagenic) as ``amrnetdb-Escherichia_coli_ diarrheagenic``; Escherichia coli as ``amrnetdb-Escherichia_coli``; Klebsiella pneumoniae as ``amrnetdb-Klebsiella_pneumoniae``; Neisseria gonorrhoeae as ``amrnetdb-Neisseria_gonorrhoeae``; Salmonella (invasive non-typhoidal) as ``amrnetdb-Salmonella_enterica_invasive_nontyphoidal``; Salmonella (non-typhoidal) as ``amrnetdb-Salmonella_enterica_nontyphoidal``; Shigella as ``amrnetdb-Shigella_EIEC``; Salmonella Typhi as ``amrnetdb-Salmonella_Typhi``"
+msgstr "**Nom de l'organisme pour télécharger des fichiers depuis AWS :** Escherichia coli (diarrheagenic) en tant que ``amrnetdb-Escherichia_coli_ diarrheagenic``; Escherichia coli en tant que ``amrnetdb-Escherichia_coli``; Klebsiella pneumoniae en tant que ``amrnetdb-Klebsiella_pneumoniae``; Neisseria gonorrhoeae en tant que ``amrnetdb-Neisseria_gonorrhoeae``; Salmonella (invasive non-typhoidal) en tant que ``amrnetdb-Salmonella_enterica_invasive_nontyphoidal``; Salmonella (non-typhoidal) en tant que ``amrnetdb-Salmonella_enterica_nontyphoidal``; Shigella en tant que ``amrnetdb-Shigella_EIEC``; Salmonella Typhi en ``amrnetdb-Salmonella_Typhi``"
 
 #: ../../data.rst:26
+#: ad0799a5dcef4868b667fd8574017af4
 msgid "a. Data accessing using Browser"
-msgstr ""
+msgstr "a. Données accédant à l'aide du navigateur"
 
 #: ../../data.rst:29
+#: 1f48d1d7abff4f1191b8e26ba4a086b7
 msgid "i. Viewing Available Files"
-msgstr ""
+msgstr "i. Visualisation des fichiers disponibles"
 
 #: ../../data.rst:33
+#: a63e6161d4a942b590ce5e40cb08abb1
 msgid "Step 1: Open a web browser (Chrome, Firefox, Safari, etc.)."
-msgstr ""
+msgstr "Étape 1 : Ouvrez un navigateur web (Chrome, Firefox, Safari, etc.)."
 
 #: ../../data.rst:34
-msgid ""
-"Step 2: Navigate to the root bucket URL by clicking "
-"`https://amrnet.s3.amazonaws.com/ <https://amrnet.s3.amazonaws.com/>`_."
-msgstr ""
+#: 7c2345935e674ae5a8232a7453e88868
+msgid "Step 2: Navigate to the root bucket URL by clicking `https://amrnet.s3.amazonaws.com/ <https://amrnet.s3.amazonaws.com/>`_."
+msgstr "Étape 2: Naviguez vers l'URL du bucket racine en cliquant sur `https://amrnet.<unk> <unk> s.com/ <https://amrnet.s3.amazonaws.com/>`_."
 
 #: ../../data.rst:35
-msgid ""
-"Step 3: This URL leads to an XML text representation listing all the "
-"files available in the Amazon S3 bucket. The XML format will display "
-"information about each file, such as its key (name), last modified date, "
-"size, etc."
-msgstr ""
+#: bc51d3aa75b54a448bd071da9fdfa2c6
+msgid "Step 3: This URL leads to an XML text representation listing all the files available in the Amazon S3 bucket. The XML format will display information about each file, such as its key (name), last modified date, size, etc."
+msgstr "Étape 3: Cette URL mène à une représentation de texte XML listant tous les fichiers disponibles dans le compartiment Amazon S3. Le format XML affichera des informations sur chaque fichier, comme sa clé (nom), sa date de dernière modification, sa taille, etc."
 
 #: ../../data.rst:38
+#: 314014be4c1f47c4ab07e731806b123b
 msgid "ii. Searching for a Specific Organism"
-msgstr ""
+msgstr "ii. Recherche d'un organisme spécifique"
 
 #: ../../data.rst:42
-msgid ""
-"Step 1: Use the search functionality of your browser (Ctrl-F on "
-"Windows/Linux or Cmd-F on Mac)."
-msgstr ""
+#: 7384495589c6496eb25ffbcda226b679
+msgid "Step 1: Use the search functionality of your browser (Ctrl-F on Windows/Linux or Cmd-F on Mac)."
+msgstr "Étape 1 : Utilisez la fonction de recherche de votre navigateur (Ctrl-F sous Windows/Linux ou Cmd-F sur Mac)."
 
 #: ../../data.rst:43
-msgid ""
-"Step 2: Type the name of file based on the organism you are looking for "
-"in the search box. This will highlight all occurrences of the organism's "
-"name in the XML text, making it easier to locate the specific file "
-"associated with that organism."
-msgstr ""
+#: a256e9145c5e4794befe5fdb0900b632
+msgid "Step 2: Type the name of file based on the organism you are looking for in the search box. This will highlight all occurrences of the organism's name in the XML text, making it easier to locate the specific file associated with that organism."
+msgstr "Étape 2 : Tapez le nom du fichier en fonction de l'organisme que vous recherchez dans la zone de recherche. Ceci mettra en évidence toutes les occurrences du nom de l'organisme dans le texte XML, ce qui facilitera la localisation du fichier spécifique associé à cet organisme."
 
 #: ../../data.rst:46
+#: 5bf80b2cb31b40179315d15f3c4c48a1
 msgid "iii. Downloading a File"
-msgstr ""
+msgstr "iii. Téléchargement d'un fichier"
 
 #: ../../data.rst:49
-msgid ""
-"Step 1: Once you find the ``<Key>`` field that contains the file name you"
-" are interested in, note down the file name."
-msgstr ""
+#: 2a2f67b03de14b1286a0bca40b61d493
+msgid "Step 1: Once you find the ``<Key>`` field that contains the file name you are interested in, note down the file name."
+msgstr "Étape 1 : Une fois que vous avez trouvé le champ ``<Key>`` qui contient le nom du fichier qui vous intéresse, notez le nom du fichier."
 
 #: ../../data.rst:50
+#: faf73206d28d450ba78ef216deb70a01
 msgid "Step 2: Open a new tab in your browser."
-msgstr ""
+msgstr "Étape 2 : Ouvrez un nouvel onglet dans votre navigateur."
 
 #: ../../data.rst:51
-msgid ""
-"Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into"
-" the new tab's address bar."
-msgstr ""
+#: 712a0568ae02426a8fe41bd90ef04b6e
+msgid "Step 3: Copy the root bucket URL ``https://amrnet.s3.amazonaws.com`` into the new tab's address bar."
+msgstr "Étape 3: Copiez l'URL du bucket racine ``https://amrnet.<unk> <unk> s.com`` dans la barre d'adresse du nouvel onglet."
 
 #: ../../data.rst:52
-msgid ""
-"Step 4: Append a slash ``/`` to the end of the URL, followed by the "
-"contents of the ``<Key>`` field (file name)."
-msgstr ""
+#: c2266ceac3f445818e17a728f2cb18d6
+msgid "Step 4: Append a slash ``/`` to the end of the URL, followed by the contents of the ``<Key>`` field (file name)."
+msgstr "Étape 4 : Ajoute un slash ``/`` à la fin de l'URL, suivi du contenu du champ ``<Key>`` (nom du fichier)."
 
 #: ../../data.rst:53
-msgid ""
-"Step 5: Press Enter, and your browser should automatically start "
-"downloading the file. This method has been tested to work in Chrome, "
-"Firefox, and Safari."
-msgstr ""
+#: f01dd8b955494e448cdad3160b3a1dc2
+msgid "Step 5: Press Enter, and your browser should automatically start downloading the file. This method has been tested to work in Chrome, Firefox, and Safari."
+msgstr "Étape 5 : Appuyez sur Entrée et votre navigateur devrait démarrer automatiquement le téléchargement du fichier. Cette méthode a été testée pour fonctionner dans Chrome, Firefox et Safari."
 
 #: ../../data.rst:55
+#: 15094d16e57f42579fb7c5f7271647ba
 msgid "**OR**"
-msgstr ""
+msgstr "**OU**"
 
 #: ../../data.rst:57
-msgid ""
-"Copy the URL below and modify the organism name added at the end "
-"**amrnet-** ``decoli`` **.csv** based on organism list given above."
-msgstr ""
+#: 8dac399d22814f5a8c7239d0a57360b3
+msgid "Copy the URL below and modify the organism name added at the end **amrnet-** ``amrnetdb-Escherichia_coli_ diarrheagenic`` **.csv.gz** based on organism list given above."
+msgstr "Copiez l'URL ci-dessous et modifiez le nom de l'organisme ajouté à la fin **amrnet-** ``amrnetdb-Escherichia_coli_ diarrheagenic`` **.csv.gz** basé sur la liste d'organismes donnée ci-dessus."
 
-#: ../../data.rst:59 ../../data.rst:82 ../../data.rst:102
+#: ../../data.rst:59
+#: ../../data.rst:82
+#: ../../data.rst:102
+#: 906fce7b3a5046878327dc09611191a7
+#: ab6ffb32726f4907ace971458392aa1a
+#: 7f58622053004f4cb6e0ce1012492888
 msgid "Example:"
-msgstr ""
+msgstr "Exemple:"
 
 #: ../../data.rst:66
+#: 5fe1c88a111349b588fa010a18386312
 msgid "b. Data accessing using Command line"
-msgstr ""
+msgstr "b. Données accédant à l'aide de la ligne de commande"
 
 #: ../../data.rst:69
+#: cde66919e2414fb5b0c80b7760d24e5b
 msgid "Step 1: Open your terminal."
-msgstr ""
+msgstr "Étape 1 : Ouvrez votre terminal."
 
 #: ../../data.rst:70
+#: fd8b84d03b46429b959904ec695c6770
 msgid "Step 2: Use the following command to download data from the provided URL:"
-msgstr ""
+msgstr "Étape 2 : Utilisez la commande suivante pour télécharger les données à partir de l'URL fournie :"
 
 #: ../../data.rst:76
-msgid ""
-"Similarly, if you need to download a specific file from the URL, you "
-"would specify the file name in the URL. For example:"
-msgstr ""
+#: a2c9fdc8642144aca7f66ee5824948a7
+msgid "Similarly, if you need to download a specific file from the URL, you would specify the file name in the URL. For example:"
+msgstr "De même, si vous devez télécharger un fichier spécifique à partir de l'URL, vous devez spécifier le nom du fichier dans l'URL. Par exemple :"
 
 #: ../../data.rst:90
+#: dd8c1d285a56480e9b7e97e2a171b9e6
 msgid "c. Data accessing using Using S3cmd tool"
-msgstr ""
+msgstr "c. Accès aux données à l'aide de l'outil S3cmd"
 
 #: ../../data.rst:94
-msgid ""
-"The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful"
-" command-line utility designed to interact with Amazon S3 (Simple Storage"
-" Service). It simplifies tasks such as browsing, downloading, and syncing"
-" files from S3 buckets. This tool is particularly useful for managing "
-"large datasets and automating workflows involving S3 storage."
-msgstr ""
+#: ab259d500aeb459c8937b86baa06eda6
+msgid "The `s3cmd <https://s3tools.org/s3cmd>`_ tool is a versatile and powerful command-line utility designed to interact with Amazon S3 (Simple Storage Service). It simplifies tasks such as browsing, downloading, and syncing files from S3 buckets. This tool is particularly useful for managing large datasets and automating workflows involving S3 storage."
+msgstr "L'outil `s3cmd <https://s3tools.org/s3cmd>`_ est un utilitaire en ligne de commande polyvalent et puissant conçu pour interagir avec Amazon S3 (Simple Storage Service). Il simplifie les tâches telles que la navigation, le téléchargement et la synchronisation des fichiers à partir des compartiments S3. Cet outil est particulièrement utile pour gérer les grands ensembles de données et automatiser les flux de travail impliquant le stockage S3."
 
 #: ../../data.rst:97
+#: 2f13dd20f5b643d9b68c80f68af964f2
 msgid "2. Download data via API"
-msgstr ""
+msgstr "2. Télécharger les données via l'API"
 
 #: ../../data.rst:100
+#: ffd097b53f0442b39548997ca9d14db8
 msgid "Send an email to amrnetdashboard@gmail.com requesting an API token."
-msgstr ""
+msgstr "Envoyez un email à amrnetdashboard@gmail.com pour demander un jeton d'API."
 
 #: ../../data.rst:114
-msgid ""
-"You will receive email from us with all the necessary detailed. like: "
-"**API_TOKEN_KEY, collection, database, dataSource**."
-msgstr ""
+#: 72c03d32ff0a4c76af22a37c649e8f9a
+msgid "You will receive email from us with all the necessary details. like: **API_TOKEN_KEY, collection, database, dataSource**."
+msgstr "Vous recevrez un e-mail de notre part avec tous les détails nécessaires. Comme : **API_TOKEN_KEY, collection, base de données, dataSource**."
 
 #: ../../data.rst:115
-msgid ""
-"Once you received these details use the method below to download required"
-" data."
-msgstr ""
+#: 0688a91f8c844147a2938ac7185c642d
+msgid "Once you receive these details use the method below to download required data."
+msgstr "Une fois que vous recevez ces détails, utilisez la méthode ci-dessous pour télécharger les données requises."
 
 #: ../../data.rst:116
-msgid "To download data with specific COUNTRY and DATE add a **filter**."
-msgstr ""
+#: cf548ee6e2674968b19e7f2d60dbd9ac
+msgid "To download data with specific Country and Date add a **filter**."
+msgstr "Pour télécharger des données avec un pays et une date spécifiques, ajoutez un **filtre**."
 
 #: ../../data.rst:118
+#: 20feb9ec1a6a4a8c818514dc23637b20
 msgid "Example code to download all the data for an organism:"
-msgstr ""
+msgstr "Exemple de code pour télécharger toutes les données pour un organisme:"
 
 #: ../../data.rst:132
-msgid ""
-"Example code to download the data with filters **DATE** and **COUNTRY** "
-"for an organism:"
-msgstr ""
+#: 6f3023ec20d340738955f8fdf199b729
+msgid "Example code to download the data with filters **Date** and **Country** for an organism:"
+msgstr "Exemple de code pour télécharger les données avec les filtres **Date** et **Pays** pour un organisme :"
 
 #: ../../data.rst:147
-msgid ""
-"Example code to download the data with only one filter e.g. **DATE** for "
-"an organism:"
-msgstr ""
+#: 37fb282b602c4531a41076f656507480
+msgid "Example code to download the data with only one filter e.g. **Date** for an organism:"
+msgstr "Exemple de code pour télécharger les données avec un seul filtre, par exemple **Date** pour un organisme:"
 
 #: ../../data.rst:162
+#: c096538b6c7d4bafac14f448854fe20b
 msgid "Example code to download the data and save in JSON:"
-msgstr ""
+msgstr "Exemple de code pour télécharger les données et les enregistrer en JSON :"
 
-#: ../../data.rst:177
-msgid "Example code to download the data and save in JSON"
-msgstr ""
+#: ../../data.rst:179
+#: 89d10120ed4744dcb58676cb22371158
+msgid "To test your cURL requests, you can use the online tool `Run Curl Commands Online <https://reqbin.com/curl>`_. This tool provides a convenient way to execute and test your cURL commands directly in your web browser without needing to install any additional software."
+msgstr "Pour tester vos requêtes cURL, vous pouvez utiliser l'outil en ligne `Run Curl Commands Online <https://reqbin.com/curl>`_. Cet outil fournit un moyen pratique d'exécuter et de tester vos commandes cURL directement dans votre navigateur Web sans avoir à installer de logiciel supplémentaire."
+
+#: ../../data.rst:182
+#: 388c3bf11abb49b0a3bad392d38158d1
+msgid "a. Command line"
+msgstr "a. Ligne de commande"
+
+#: ../../data.rst:186
+#: 093ad2f9da6a49e9b1c0fcf5b4e6a683
+msgid "To download data using our API, please follow the given steps:"
+msgstr "Pour télécharger des données en utilisant notre API, veuillez suivre les étapes suivantes :"
+
+#: ../../data.rst:188
+#: 63d7db2251b54312913002e454b338bf
+msgid "Once you have API token, Replace ``<API_TOKEN_KEY>`` in the following command with the actual API token you received."
+msgstr "Une fois que vous avez un jeton d'API, remplacez ``<API_TOKEN_KEY>`` dans la commande suivante par le jeton d'API que vous avez reçu."
+
+#: ../../data.rst:189
+#: fef21b89ba414eba9c6f21073cde7ef9
+msgid "Determine the specific database and collection you need data from."
+msgstr "Déterminez la base de données spécifique et la collection dont vous avez besoin de données."
+
+#: ../../data.rst:190
+#: 1d0a611662b14e53afebf7df568d0fb4
+msgid "Open your command line interface (CLI) or terminal and execute the following **curl** command to download data."
+msgstr "Ouvrez votre interface en ligne de commande (CLI) ou votre terminal et exécutez la commande **curl** suivante pour télécharger des données."
+
+#: ../../data.rst:191
+#: 6778cca490c84b91a68575ce42949df1
+msgid "If you want to save the response data to a file, you can use the -o option with curl. This command will save the response data to a file named data.json in the current directory."
+msgstr "Si vous voulez enregistrer les données de réponse dans un fichier, vous pouvez utiliser l'option -o avec curl. Cette commande va enregistrer les données de réponse dans un fichier nommé data.json dans le répertoire courant."
 
 #: ../../data.rst:194
-msgid ""
-"To test your cURL requests, you can use the online tool `Run Curl "
-"Commands Online <https://reqbin.com/curl>`_. This tool provides a "
-"convenient way to execute and test your cURL commands directly in your "
-"web browser without needing to install any additional software."
-msgstr ""
+#: b210f8a1ce084f0ab61d8a5b9bc93400
+msgid "b. Platform"
+msgstr "b. Plateforme"
 
-#: ../../data.rst:197
-msgid "a. Command line"
-msgstr ""
+#: ../../data.rst:199
+#: 4e3da9bc55d847b08566f91cc0b4086f
+msgid "Users have the flexibility to access the API through their preferred platform. As an illustration, we provide guidance on utilizing the Postman tool to access data via the API."
+msgstr "Les utilisateurs ont la flexibilité d'accéder à l'API par le biais de leur plate-forme préférée. À titre d'illustration, nous fournissons des conseils sur l'utilisation de l'outil Postman pour accéder aux données via l'API."
 
 #: ../../data.rst:201
-msgid "To download data using our API, please follow the given steps:"
-msgstr ""
+#: 06efa79b1bd4441d9639b1fd09159baa
+msgid "Steps to Import the Example ``cURL`` Command using Postman"
+msgstr "Étapes pour importer l’exemple de commande ``cURL`` en utilisant Postman"
 
 #: ../../data.rst:203
-msgid ""
-"Once you have API token, Replace ``<API_TOKEN_KEY>`` in the following "
-"command with the actual API token you received."
-msgstr ""
+#: 2a4297287ea0494cb4b9b191c4ce2dd4
+msgid "Open `Postman <https://www.postman.com/>`_."
+msgstr "Ouvrez `Postman <https://www.postman.com/>`_."
 
 #: ../../data.rst:204
-msgid "Determine the specific database and collection you need data from."
-msgstr ""
-
-#: ../../data.rst:205
-msgid ""
-"Open your command line interface (CLI) or terminal and execute the "
-"following **curl** command to download data."
-msgstr ""
+#: 24d471c57731493785a3a2e6f2c6b717
+msgid "Sign In with your credentials and \"discover what a postman can do\""
+msgstr "Connectez-vous avec vos identifiants et \"découvrez ce qu'un postman peut faire\""
 
 #: ../../data.rst:206
-msgid ""
-"If you want to save the response data to a file, you can use the -o "
-"option with curl. This command will save the response data to a file "
-"named data.json in the current directory."
-msgstr ""
+#: 249a6074bf6b4ac68fba351c28cde5fe
+msgid "Login"
+msgstr "Se connecter"
 
-#: ../../data.rst:209
-msgid "b. Platform"
-msgstr ""
+#: ../../data.rst:211
+#: 824b83739f5b49799e651b5435b4ba97
+msgid "**Click the \"Import\" button.**"
+msgstr "**Cliquez sur le bouton \"Importer\".**"
 
-#: ../../data.rst:214
-msgid ""
-"Users have the flexibility to access the API through their preferred "
-"platform. As an illustration, we provide guidance on utilizing the "
-"Postman tool to access data via the API."
-msgstr ""
-
-#: ../../data.rst:216
-msgid "Steps to Import the Example ``cURL`` Command using Postman"
-msgstr ""
+#: ../../data.rst:213
+#: 1e7d2f4c9433429db94dbffc393927d9
+msgid "Import"
+msgstr "Importation"
 
 #: ../../data.rst:218
-msgid "Open `Postman <https://www.postman.com/>`_."
-msgstr ""
+#: 50db4675a860486cb92b461ece83b319
+msgid "**Paste the cURL command in Import:**"
+msgstr "**Coller la commande cURL dans Importation :**"
 
-#: ../../data.rst:219
-msgid "Sign In with your credentials and \"discover what a postman can do\""
-msgstr ""
+#: ../../data.rst:220
+#: 3b0a92d182f44f5281243c51fb6ff1e1
+msgid "CURL"
+msgstr "CURL"
 
-#: ../../data.rst:221
-msgid "Login"
-msgstr ""
+#: ../../data.rst:225
+#: dcee4a40bda7444492048a09ad9b584f
+msgid "Review the imported request details and add ``<API_TOKEN_KEY>`` in ``Headers`` in Postman."
+msgstr "Revoyez les détails de la requête importée et ajoutez ``<API_TOKEN_KEY>`` dans ``Headers`` dans Postman."
 
-#: ../../data.rst:226
-msgid "**Click the \"Import\" button.**"
-msgstr ""
+#: ../../data.rst:227
+#: 86d1d6d58a1a4b2586f10e9f94c83ece
+msgid "token"
+msgstr "jeton"
 
-#: ../../data.rst:228
-msgid "Import"
-msgstr ""
+#: ../../data.rst:232
+#: 8a26dade4b2a404892e39eb995a225df
+msgid "Replace database name and collection name based on data to download"
+msgstr "Remplacer le nom de la base de données et le nom de la collection en fonction des données à télécharger"
 
 #: ../../data.rst:233
-msgid "**Paste the cURL command in Import:**"
-msgstr ""
+#: f5d69a9151c94e6f99b3060ee1db0835
+msgid "Add filters to get specific data in ``filter``"
+msgstr "Ajouter des filtres pour obtenir des données spécifiques dans ``filter``"
 
 #: ../../data.rst:235
-msgid "CURL"
-msgstr ""
+#: 79bd08b091cd46d5b508bb80a49b8401
+msgid "filter"
+msgstr "Filtre"
 
 #: ../../data.rst:240
-msgid ""
-"Review the imported request details and add ``<API_TOKEN_KEY>`` in "
-"``Headers`` in Postman."
-msgstr ""
-
-#: ../../data.rst:241
-msgid "Replace database name and collection name based on data to download"
-msgstr ""
+#: 3835075ca0fe45b5aaffec8d0ab16238
+msgid "**Click \"Send\" to execute the request and view the response.**"
+msgstr "**Cliquez sur \"Envoyer\" pour exécuter la requête et afficher la réponse.**"
 
 #: ../../data.rst:242
-msgid "Add filters to get specific data in ``filter``"
-msgstr ""
+#: 91e6b2c25bf14b0ebc3c393ec952914a
+msgid "send"
+msgstr "envoyer"
 
-#: ../../data.rst:244
-msgid "filter"
-msgstr ""
+#: ../../data.rst:247
+#: 586f40db39dd4dd38c4b7a2d2f21165a
+msgid "**Save the response in file**"
+msgstr "**Enregistrer la réponse dans le fichier**"
 
 #: ../../data.rst:249
-msgid "**Click \"Send\" to execute the request and view the response.**"
-msgstr ""
-
-#: ../../data.rst:251
-msgid "send"
-msgstr ""
-
-#: ../../data.rst:256
-msgid "**Save the response in file**"
-msgstr ""
-
-#: ../../data.rst:258
+#: 0e7c05b0e0454c7d8ec9a26cfdc6ba09
 msgid "save"
-msgstr ""
-
-#: ../../data.rst:264
-msgid "3. Graphical User Interface (GUI)"
-msgstr ""
+msgstr "économiser"
 
