@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useMenuItems } from '../../../util/menuItems';
 import { useStyles } from './MenuHeadMUI';
 
-const ICON_BUTTONS = ['GitHub', 'Contact', 'Data Rights'];
+const ICON_BUTTONS = ['GitHub', 'Contact'];
 
 export const MenuHead = () => {
   const classes = useStyles();
@@ -40,7 +40,9 @@ export const MenuHead = () => {
   };
 
   const scrollToHash = id => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (location.hash === `#${id}`) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const scrollToTop = () => {

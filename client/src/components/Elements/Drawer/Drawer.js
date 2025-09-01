@@ -32,7 +32,9 @@ export const Drawer = () => {
   };
 
   const scrollToHash = id => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (location.hash === `#${id}`) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const scrollToTop = () => {
