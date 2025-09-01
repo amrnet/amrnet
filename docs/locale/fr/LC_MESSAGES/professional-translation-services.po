@@ -1,0 +1,319 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: professional-translation-services.pot\n"
+"X-Crowdin-File-ID: 67\n"
+"Language: fr_FR\n"
+
+#: ../../professional-translation-services.rst:3
+#: a58eb417ff824b248424ec2f2651755b
+msgid "Professional Translation Services"
+msgstr "Services de traduction professionnels"
+
+#: ../../professional-translation-services.rst:7
+#: b8ac1867a4034f54942d9e694130b304
+msgid "This guide covers integration with professional translation platforms and medical translation services for AMRnet documentation and interface translations."
+msgstr "Ce guide couvre l’intégration avec les plates-formes de traduction professionnelles et les services de traduction médicale pour la documentation AMRnet et les traductions d’interfaces."
+
+#: ../../professional-translation-services.rst:10
+#: 8972af3d7ec34b2891fa00fcede43afc
+msgid "Overview"
+msgstr "Aperçu"
+
+#: ../../professional-translation-services.rst:12
+#: 0985ccb7d679468784dff31bfe696952
+msgid "AMRnet supports integration with professional translation services to ensure high-quality, medically accurate translations. This is especially important for antimicrobial resistance terminology and clinical interpretations."
+msgstr "AMRnet soutient l’intégration à des services de traduction professionnels afin d’assurer des traductions médicalement de grande qualité, particulièrement importantes pour la terminologie de résistance aux antimicrobiens et les interprétations cliniques."
+
+#: ../../professional-translation-services.rst:15
+#: 965bf80c2f474050973d70a37b7cf000
+msgid "Medical translation requires specialized expertise in microbiology, infectious diseases, and clinical laboratory terminology."
+msgstr "La traduction médicale nécessite une expertise spécialisée en microbiologie, en maladies infectieuses et en terminologie de laboratoire clinique."
+
+#: ../../professional-translation-services.rst:18
+#: 5913509cfb634989a087e65450e73890
+msgid "Supported Translation Platforms"
+msgstr "Plateformes de traduction supportées"
+
+#: ../../professional-translation-services.rst:21
+#: eeb2a6fce96c4937898d59820f96e17d
+msgid "Weblate Integration"
+msgstr "Intégration Weblate"
+
+#: ../../professional-translation-services.rst:23
+#: e9a04d5a6c1c41c5a3eec3379755b0f9
+msgid "**Weblate** is an open-source, web-based translation platform ideal for collaborative translation projects."
+msgstr "**Weblate** est une plateforme de traduction web open source, idéale pour les projets de traduction collaborative."
+
+#: ../../professional-translation-services.rst:26
+#: abc6c60f6d3846109b064857138d3826
+msgid "Setup Configuration"
+msgstr "Configuration"
+
+#: ../../professional-translation-services.rst:28
+#: 0774f48c1ef5425b8321a99e9c109f24
+msgid "**Create Weblate Project**"
+msgstr "**Créer un projet Weblate**"
+
+#: ../../professional-translation-services.rst:54
+#: 9084a7a023e447cdb4f3b66da1868440
+msgid "**Webhook Integration**"
+msgstr "**Intégration de Webhook**"
+
+#: ../../professional-translation-services.rst:83
+#: af82370e48f543aa940d86bd0461558c
+msgid "**Medical Terminology Glossary**"
+msgstr "**Glossaire de terminologie médicale**"
+
+#: ../../professional-translation-services.rst:104
+#: a0a4a171643d4381b671bea9e54f27a6
+msgid "Crowdin Integration"
+msgstr "Intégration de Crowdin"
+
+#: ../../professional-translation-services.rst:106
+#: 9e7730cc3fd9444dbca3d0f940793d7e
+msgid "**Crowdin** provides professional translation management with advanced workflows and quality assurance."
+msgstr "**Crowdin** fournit une gestion professionnelle de la traduction avec des flux de travail avancés et une assurance qualité."
+
+#: ../../professional-translation-services.rst:109
+#: 10fe949b14da49b1aa74933fd377bc30
+msgid "Project Setup"
+msgstr "Configuration du projet"
+
+#: ../../professional-translation-services.rst:131
+#: 3b14c9ff66fa44e28ac3c39da083645d
+msgid "Quality Assurance Configuration"
+msgstr "Configuration de l'assurance qualité"
+
+#: ../../professional-translation-services.rst:159
+#: feaf3c165fb44a2084f82d4f9acec014
+msgid "Automated Workflow Integration"
+msgstr "Intégration du flux de travail automatisé"
+
+#: ../../professional-translation-services.rst:207
+#: 34b3dc70447a46e482f6b2075f8738f8
+msgid "Lokalise Integration"
+msgstr "Intégration de Lokalise"
+
+#: ../../professional-translation-services.rst:209
+#: d914f70e1598476aa74565ea43ae8c98
+msgid "**Lokalise** offers advanced automation and enterprise-grade translation management."
+msgstr "**Lokalise** offre une automatisation avancée et une gestion de la traduction de niveau entreprise."
+
+#: ../../professional-translation-services.rst:212
+#: 618741066bdc4a0fa8689064e657b06e
+msgid "Configuration Setup"
+msgstr "Configuration de la configuration"
+
+#: ../../professional-translation-services.rst:233
+#: ab28b5ece4de4e0f80bbb87f62594877
+msgid "Automated CI/CD Integration"
+msgstr "Intégration automatisée CI/CD"
+
+#: ../../professional-translation-services.rst:280
+#: e871d49f7fa943babfd3d5670eedd914
+msgid "Medical Translation Services"
+msgstr "Services médicaux de traduction"
+
+#: ../../professional-translation-services.rst:283
+#: 5e5c4cbaf3bb46af81a742015ff60bc1
+msgid "Specialized Medical Translation"
+msgstr "Traduction médicale spécialisée"
+
+#: ../../professional-translation-services.rst:285
+#: b18de96379f54e149e5f88fba1f4112f
+msgid "For clinical and regulatory content, consider specialized medical translation services:"
+msgstr "Pour le contenu clinique et réglementaire, pensez à des services spécialisés de traduction médicale :"
+
+#: ../../professional-translation-services.rst:308
+#: 201b8105d8f0456ba7842febeaa5d04b
+msgid "Terminology Management"
+msgstr "Gestion terminologique"
+
+#: ../../professional-translation-services.rst:351
+#: 8e988ce20e864763a2b23de57091dde1
+msgid "Quality Assurance Workflows"
+msgstr "Flux de travail de l'assurance qualité"
+
+#: ../../professional-translation-services.rst:354
+#: ef5c67c2ef464843b1ff7b13a759b665
+msgid "Automated Quality Checks"
+msgstr "Contrôles de qualité automatisés"
+
+#: ../../professional-translation-services.rst:418
+#: 026a2615409f400cac441bb04f6689fe
+msgid "Integration Scripts"
+msgstr "Scripts d'intégration"
+
+#: ../../professional-translation-services.rst:421
+#: a09452b365c44aa99d1e5ed847cd0aa3
+msgid "Unified Translation Pipeline"
+msgstr "Pipeline de traduction unifié"
+
+#: ../../professional-translation-services.rst:476
+#: 8c7e241d7767474082c69e5becdd3cc6
+msgid "Monitoring and Reporting"
+msgstr "Surveillance et Rapports"
+
+#: ../../professional-translation-services.rst:479
+#: 16b608d1dadc422f87560f59bb9029c2
+msgid "Translation Progress Dashboard"
+msgstr "Tableau de bord de progression de la traduction"
+
+#: ../../professional-translation-services.rst:533
+#: 2c09f99690654508a8b73a89d6bb92e8
+msgid "Deployment Integration"
+msgstr "Intégration de déploiement"
+
+#: ../../professional-translation-services.rst:536
+#: 74d59e65e814401ab046f0468398cee5
+msgid "Read the Docs Configuration"
+msgstr "Lire la configuration de la documentation"
+
+#: ../../professional-translation-services.rst:576
+#: 665deb0a82b0421a80eebf9e7884342b
+msgid "Best Practices"
+msgstr "Meilleures pratiques"
+
+#: ../../professional-translation-services.rst:579
+#: f23824bebfcf4aa597b536a0f7607567
+msgid "Translation Workflow Guidelines"
+msgstr "Directives du flux de travail de traduction"
+
+#: ../../professional-translation-services.rst:581
+#: aecb004389ba4b39a01fd2218974d775
+msgid "**Source Content Preparation**"
+msgstr "**Préparation du contenu source**"
+
+#: ../../professional-translation-services.rst:583
+#: 017451aaafc24820a07cb0b0a356309e
+msgid "Use clear, concise language"
+msgstr "Utiliser un langage clair et concis"
+
+#: ../../professional-translation-services.rst:584
+#: 7bd16f0758334450a5b3e9ba5a0bc977
+msgid "Avoid idioms and colloquialisms"
+msgstr "Éviter les idiomes et les colloques"
+
+#: ../../professional-translation-services.rst:585
+#: 3093641301354aacbd2f1e4784191a5c
+msgid "Include context for technical terms"
+msgstr "Inclure le contexte pour les termes techniques"
+
+#: ../../professional-translation-services.rst:586
+#: f7ad03d96f5b416f8ab3dd1a6cd214e8
+msgid "Provide glossaries for medical terminology"
+msgstr "Fournir des glossaires pour la terminologie médicale"
+
+#: ../../professional-translation-services.rst:588
+#: 791dc9692b7543c6934fc0f23780a0c2
+msgid "**Translation Quality Standards**"
+msgstr "**Normes de qualité de traduction**"
+
+#: ../../professional-translation-services.rst:590
+#: fd9e15503a2644629d0a45c462536cde
+msgid "Medical accuracy verification"
+msgstr "Vérification de la précision médicale"
+
+#: ../../professional-translation-services.rst:591
+#: 4eca7b94846e4fd2b504f0d6431df964
+msgid "Cultural appropriateness review"
+msgstr "Révision de l'opportunité culturelle"
+
+#: ../../professional-translation-services.rst:592
+#: 2aeec2a7a67f49c7b0a8574cab22da6a
+msgid "Technical terminology consistency"
+msgstr "Compatibilité terminologique technique"
+
+#: ../../professional-translation-services.rst:593
+#: e834773551514f35a0b0ff35e74946bf
+msgid "User interface coherence"
+msgstr "Compatibilité de l'interface utilisateur"
+
+#: ../../professional-translation-services.rst:595
+#: b34e47ae16b747e6b2c179cb9a1a5b2e
+msgid "**Review Process**"
+msgstr "**Processus de relecture**"
+
+#: ../../professional-translation-services.rst:597
+#: 91499d5ab8874eac8aa2dcef1f0df5d3
+msgid "Initial translation by certified translators"
+msgstr "Traduction initiale par des traducteurs certifiés"
+
+#: ../../professional-translation-services.rst:598
+#: f7f9628005b943dd82e71512eeb26794
+msgid "Medical review by subject matter experts"
+msgstr "Révision médicale par les experts en matière de matière"
+
+#: ../../professional-translation-services.rst:599
+#: 221d63bb32954fe6875de9e78eeed1d8
+msgid "Linguistic review for style and clarity"
+msgstr "Revue linguistique pour le style et la clarté"
+
+#: ../../professional-translation-services.rst:600
+#: f08d4da8b0d4452092575d9fd0dd178c
+msgid "Final approval by project stakeholders"
+msgstr "Approbation finale par les parties prenantes du projet"
+
+#: ../../professional-translation-services.rst:602
+#: a37c6715da374efe93e88af1a67bdb31
+msgid "**Maintenance and Updates**"
+msgstr "**Maintenance et mises à jour**"
+
+#: ../../professional-translation-services.rst:604
+#: 60a4e92187c74516af008ae58f79cf89
+msgid "Regular terminology database updates"
+msgstr "Mise à jour régulière de la base de données terminologique"
+
+#: ../../professional-translation-services.rst:605
+#: 155050f8d954425baf3b1a3b7ce3a97e
+msgid "Continuous quality monitoring"
+msgstr "Surveillance continue de la qualité"
+
+#: ../../professional-translation-services.rst:606
+#: 919a764faeb24f98bf3a7b61f82a82cf
+msgid "User feedback integration"
+msgstr "Intégration des commentaires des utilisateurs"
+
+#: ../../professional-translation-services.rst:607
+#: 0b50e460807d4111bcc040117ebc1d69
+msgid "Version control for translations"
+msgstr "Contrôle de version pour les traductions"
+
+#: ../../professional-translation-services.rst:610
+#: 584605ffd79a4f9db85d544981e452c0
+msgid "**Security Consideration**: Ensure all translation platforms comply with healthcare data privacy regulations (HIPAA, GDPR) when handling medical content."
+msgstr "**Considérations de sécurité** : S'assurer que toutes les plateformes de traduction respectent les règles de confidentialité des données médicales (HIPAA, RGPD) lors du traitement du contenu médical."
+
+#: ../../professional-translation-services.rst:613
+#: 8157286153e640b38d70854e845b9e7e
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#: ../../professional-translation-services.rst:615
+#: 667df8793dd94aeca3458d0550fe58da
+msgid "Professional translation services integration ensures that AMRnet's critical antimicrobial resistance information is accurately communicated across language barriers. The combination of automated workflows and specialized medical translation expertise provides the quality assurance necessary for clinical decision-making tools."
+msgstr "L'intégration des services de traduction professionnels garantit que les informations essentielles sur la résistance antimicrobienne de l'AMRnet sont communiquées avec exactitude à travers les barrières linguistiques. La combinaison de flux de travail automatisés et de l'expertise spécialisée en traduction médicale fournit l'assurance qualité nécessaire aux outils de prise de décision clinique."
+
+#: ../../professional-translation-services.rst:617
+#: 2c7ae98279104650ad1e269860aa8c73
+msgid "For implementation support, consult with medical translation specialists familiar with antimicrobial resistance terminology and clinical microbiology practices."
+msgstr "Pour obtenir un soutien à la mise en œuvre, consultez les spécialistes de la traduction médicale qui connaissent la terminologie de résistance aux antimicrobiens et les pratiques de microbiologie clinique."
+

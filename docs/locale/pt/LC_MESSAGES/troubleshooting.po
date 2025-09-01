@@ -7,425 +7,497 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: pt\n"
-"Language-Team: pt <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Portuguese\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-File: troubleshooting.pot\n"
+"X-Crowdin-File-ID: 81\n"
+"Language: pt_PT\n"
 
 #: ../../troubleshooting.rst:4
+#: c544498556be453ba93f7ae2d684ca45
 msgid "Troubleshooting Guide"
-msgstr ""
+msgstr "Guia para solução de problemas"
 
 #: ../../troubleshooting.rst:8
-msgid ""
-"This comprehensive troubleshooting guide covers common issues encountered"
-" when developing, deploying, and maintaining AMRnet. The solutions are "
-"based on real-world problems and their tested fixes."
-msgstr ""
+#: 025c944c09cf477391bbde473e48b5e3
+msgid "This comprehensive troubleshooting guide covers common issues encountered when developing, deploying, and maintaining AMRnet. The solutions are based on real-world problems and their tested fixes."
+msgstr "Este guia abrangente de solução de problemas abrange problemas comuns encontrados ao desenvolver, implantar e manter a AMRnet. As soluções são baseadas em problemas do mundo real e suas correções testadas."
 
 #: ../../troubleshooting.rst:13
+#: 374b830512b549a48f565b7d8b21e71c
 msgid "Performance Issues"
-msgstr ""
+msgstr "Problemas de Desempenho"
 
 #: ../../troubleshooting.rst:16
+#: 7a8a9c013d804acab602435de66ade3e
 msgid "Slow Data Loading (2+ Minute Load Times)"
-msgstr ""
+msgstr "Carregamento lento de dados (2+ Tempo de carregamento de minutos)"
 
 #: ../../troubleshooting.rst:20
-msgid ""
-"**Symptoms:** - E. coli data taking 3+ minutes to load - K. pneumoniae "
-"taking 2+ minutes - Browser freezing during data fetch - Large payload "
-"sizes (75MB+)"
-msgstr ""
+#: 91972885aa2248cb9d83c075c6fb882d
+msgid "**Symptoms:** - E. coli data taking 3+ minutes to load - K. pneumoniae taking 2+ minutes - Browser freezing during data fetch - Large payload sizes (75MB+)"
+msgstr "**Symptoms:** - E. coli dados demorando 3 minutos para carregar - K. pneumoniae leva 2 minutos - Congelando o navegador durante a busca de dados - tamanhos grandes do payload (75MB+)"
 
 #: ../../troubleshooting.rst:26
+#: b64ef65511fc41c7b89c55da68d4b745
 msgid "**Diagnosis Script:**"
-msgstr ""
+msgstr "**Diagnosis Script:**"
 
 #: ../../troubleshooting.rst:33
-msgid ""
-"**Root Causes:** - Unoptimized MongoDB queries returning all fields - "
-"Large datasets (227K+ documents for E. coli) - Single monolithic API "
-"calls - Lack of pagination or progressive loading"
-msgstr ""
+#: 159204a7e8944cd79c80e5e95b1478f8
+msgid "**Root Causes:** - Unoptimized MongoDB queries returning all fields - Large datasets (227K+ documents for E. coli) - Single monolithic API calls - Lack of pagination or progressive loading"
+msgstr "**Causas Raiz:** - Consultas MongoDB não otimizadas retornando todos os campos - datasets grandes (227K+ documentos para E. coli) - Chamadas únicas de API monolítica - falta de paginação ou carregamento progressivo"
 
-#: ../../troubleshooting.rst:39 ../../troubleshooting.rst:98
+#: ../../troubleshooting.rst:39
+#: ../../troubleshooting.rst:98
 #: ../../troubleshooting.rst:262
+#: 325b8391e4cb46fc9950c77b92a30170
+#: a0132a23f0e94b2ebad1e2fb0d2c21cb
+#: dfc1951b08ba42b4acdf7afeda4a8ff9
 msgid "**Solutions:**"
-msgstr ""
+msgstr "**Soluções:**"
 
 #: ../../troubleshooting.rst:41
+#: a58c251b26404586962c5171dea985bf
 msgid "**Use Optimized Endpoints:**"
-msgstr ""
+msgstr "**Use pontos de extremidade otimizados:**"
 
 #: ../../troubleshooting.rst:51
+#: ca9682c67ae542e7a6e00a5839356ddd
 msgid "**Implement Pagination for Large Datasets:**"
-msgstr ""
+msgstr "**Paginação de Implementação para Big Datasets:**"
 
 #: ../../troubleshooting.rst:63
+#: ca608ef25c9f4db1ad5614fd550b99d9
 msgid "**Use Parallel Loading:**"
-msgstr ""
+msgstr "**Usar carregamento paralelo:**"
 
 #: ../../troubleshooting.rst:74
+#: 408d2dfd71f44621809a09146b37de52
 msgid "**Performance Validation:**"
-msgstr ""
+msgstr "**Validação do desempenho:**"
 
 #: ../../troubleshooting.rst:82
+#: 7ce9350faa3742148a1cdc8bc98372ec
 msgid "Browser Freezing on Large Datasets"
-msgstr ""
+msgstr "Congelamento do navegador em grandes conjuntos de dados"
 
 #: ../../troubleshooting.rst:86
-msgid ""
-"**Symptoms:** - Browser becomes unresponsive - UI freezes during data "
-"processing - \"Page Unresponsive\" warnings"
-msgstr ""
+#: 53655ea40b4140e8a79c3deb1ebc0835
+msgid "**Symptoms:** - Browser becomes unresponsive - UI freezes during data processing - \"Page Unresponsive\" warnings"
+msgstr "**Symptoms:** - O navegador se torna não responsivo - UI congela durante o processamento de dados - avisos de \"Page Unresponsive\""
 
-#: ../../troubleshooting.rst:91 ../../troubleshooting.rst:207
+#: ../../troubleshooting.rst:91
+#: ../../troubleshooting.rst:207
 #: ../../troubleshooting.rst:350
+#: f50928240cd14b20b8bc8ec161c33364
+#: 8535fc82da8c4d5f8b958b2c15c76f1d
+#: ff5c5ffa91944a2fa54082921ab6dd81
 msgid "**Diagnosis:**"
-msgstr ""
+msgstr "**Diagnóstico:**"
 
 #: ../../troubleshooting.rst:100
+#: 1374f52400c4437fa5183f35481231bd
 msgid "**Progressive Genotype Loading:**"
-msgstr ""
+msgstr "**Carregamento Progressivo de Genotipo:**"
 
 #: ../../troubleshooting.rst:124
+#: 0e16302bdb0a4a9faf900330263d90a1
 msgid "**Web Workers for Heavy Processing:**"
-msgstr ""
+msgstr "**Trabalhadores da Web para o Processamento Pesado:**"
 
-#: ../../troubleshooting.rst:137 ../../troubleshooting.rst:285
+#: ../../troubleshooting.rst:137
+#: ../../troubleshooting.rst:285
 #: ../../troubleshooting.rst:388
+#: 67663863337d40dab6ab240b1a13ac10
+#: cfe93858a47e4e50af594d5cf9f9a778
+#: 62b5146a5dde4a438d9320f21cc007d3
 msgid "**Validation:**"
-msgstr ""
+msgstr "**Validação:**"
 
 #: ../../troubleshooting.rst:145
+#: 2c7cfac9116b43ddb543e7286559a306
 msgid "Development Issues"
-msgstr ""
+msgstr "Problemas de desenvolvimento"
 
 #: ../../troubleshooting.rst:148
+#: 8ba02f6890cd413893310b3fc1a1f442
 msgid "ESLint Errors and Warnings"
-msgstr ""
+msgstr "ESLint Erros e Avisos"
 
 #: ../../troubleshooting.rst:152
-msgid ""
-"**Symptoms:** - Build failures due to linting errors - Unused variable "
-"warnings - Import/export errors"
-msgstr ""
+#: 289e2ef01c7345279815a303ad754e13
+msgid "**Symptoms:** - Build failures due to linting errors - Unused variable warnings - Import/export errors"
+msgstr "**Sintomas:** - Criar falhas devido a erros de linhagem - avisos variáveis não utilizados - Importar/exportar erros"
 
 #: ../../troubleshooting.rst:157
+#: 13b6fefa6cc84417a80d8b6a4276f7e2
 msgid "**Quick Fix:**"
-msgstr ""
+msgstr "**Correção rápida:**"
 
 #: ../../troubleshooting.rst:164
+#: 34fe3b8a15a749c7b5996e04ef5e0320
 msgid "**Manual Fixes:**"
-msgstr ""
+msgstr "**Correções manuais:**"
 
 #: ../../troubleshooting.rst:175
+#: 33c7d700253b4f9b9a4d492c499eecb3
 msgid "**Common Issues and Fixes:**"
-msgstr ""
+msgstr "**Problemas e correções comuns:**"
 
 #: ../../troubleshooting.rst:198
+#: 126a334d46a94cd3baf470a90a782cf7
 msgid "MongoDB Connection Issues"
-msgstr ""
+msgstr "Problemas de conexão MongoDB"
 
 #: ../../troubleshooting.rst:202
-msgid ""
-"**Symptoms:** - \"Failed to load resource: 500 Internal Server Error\" - "
-"Connection timeouts - Authentication failures"
-msgstr ""
+#: fb9f0fd2fc774cf2a0c4d9e6e9694c3b
+msgid "**Symptoms:** - \"Failed to load resource: 500 Internal Server Error\" - Connection timeouts - Authentication failures"
+msgstr "**Symptoms:** - \"Falha ao carregar recurso: 500 Erro Interno do Servidor\" - Exceções na conexão - Falhas de autenticação"
 
 #: ../../troubleshooting.rst:214
+#: 2ca684ef310a49079b6b8d50a7d29317
 msgid "**Common Solutions:**"
-msgstr ""
+msgstr "**Soluções comuns:**"
 
 #: ../../troubleshooting.rst:216
+#: e6800b29801f49a1b4e5fcc19d4c782e
 msgid "**Check Environment Variables:**"
-msgstr ""
+msgstr "**Verifique as Variáveis de Ambiente:**"
 
 #: ../../troubleshooting.rst:224
+#: 099b56b3cc8a4c8e84f3d169cfe3e1e3
 msgid "**Fix Connection String Format:**"
-msgstr ""
+msgstr "**Corrigir formato String da conexão:**"
 
 #: ../../troubleshooting.rst:231
+#: 70ff8a9fce6a4e549e3dd54e8a4e3787
 msgid "**Test Connection with Retry Logic:**"
-msgstr ""
+msgstr "**Testar Conexão com Lógica:**"
 
 #: ../../troubleshooting.rst:253
+#: bfa1ed5f238843938b58ecb3f67efb18
 msgid "Server Startup Issues"
-msgstr ""
+msgstr "Problemas de Inicialização"
 
 #: ../../troubleshooting.rst:257
-msgid ""
-"**Symptoms:** - Server not starting on correct port - \"EADDRINUSE\" port"
-" errors - Import/export syntax errors"
-msgstr ""
+#: 6e4b765af1a148de9ff840dc98e008f0
+msgid "**Symptoms:** - Server not starting on correct port - \"EADDRINUSE\" port errors - Import/export syntax errors"
+msgstr "**Symptoms:** - Servidor não iniciando na porta correta - erros nas portas \"EADDRINUSE\" - Erros de sintaxe importar/exportar"
 
 #: ../../troubleshooting.rst:264
+#: 5b9c18c977ec498285a560a65eb544b7
 msgid "**Port Configuration:**"
-msgstr ""
+msgstr "**Configuração de Porta:**"
 
 #: ../../troubleshooting.rst:271
+#: 10dd4d9c43e74b4a8d869be819b18c5a
 msgid "**Kill Existing Processes:**"
-msgstr ""
+msgstr "**Processos de Morte Existentes:**"
 
 #: ../../troubleshooting.rst:278
+#: 936a01d289234054a5aa2b3eab7dd390
 msgid "**Use Minimal Test Server:**"
-msgstr ""
+msgstr "**Usar Servidor de Teste Mínimo:**"
 
 #: ../../troubleshooting.rst:293
+#: fec4fc3335c549dda9bd8683d3cba9b5
 msgid "Deployment Issues"
-msgstr ""
+msgstr "Problemas de implantação"
 
 #: ../../troubleshooting.rst:296
+#: 730dc72cf3f2462bb34a6558b344ad77
 msgid "Heroku Deployment Failures"
-msgstr ""
+msgstr "Falha na implantação do Heroku"
 
 #: ../../troubleshooting.rst:300
-msgid ""
-"**Symptoms:** - Build failures during deployment - Memory limit exceeded "
-"- Slow response times"
-msgstr ""
+#: 4c5ff788aeae4029abdec7429364600b
+msgid "**Symptoms:** - Build failures during deployment - Memory limit exceeded - Slow response times"
+msgstr "**Sintomas:** - Construa falhas durante a implantação - excedido o limite de memória - Tempos de resposta lentos"
 
 #: ../../troubleshooting.rst:305
+#: 457285321af74e57b843a3883146013a
 msgid "**Pre-deployment Check:**"
-msgstr ""
+msgstr "**Verificação de pré-implantação:**"
 
-#: ../../troubleshooting.rst:312 ../../troubleshooting.rst:395
+#: ../../troubleshooting.rst:312
+#: ../../troubleshooting.rst:395
+#: d7fbb04dba564d84a5181ae1d298126b
+#: 8c103ebe510249ab8afd49afe30820f6
 msgid "**Common Fixes:**"
-msgstr ""
+msgstr "**Correções comuns:**"
 
 #: ../../troubleshooting.rst:314
+#: 02245b0657ac43e9b977102b9ab31ad6
 msgid "**Environment Variables:**"
-msgstr ""
+msgstr "**Variáveis de ambiente:**"
 
 #: ../../troubleshooting.rst:322
+#: a768f9c5f5da428dadb29e11feb993f4
 msgid "**Optimize for Heroku:**"
-msgstr ""
+msgstr "**Otimizar para o Heroku:**"
 
 #: ../../troubleshooting.rst:329
+#: 5b14ec6f5538490093d6bf39fe92d20f
 msgid "**Build Script Issues:**"
-msgstr ""
+msgstr "**Problemas de Script de Construção:**"
 
 #: ../../troubleshooting.rst:341
+#: ee61201151e643b98a50a63a45a1c645
 msgid "MongoDB Atlas Performance"
-msgstr ""
+msgstr "Desempenho do Atlas MongoDB"
 
 #: ../../troubleshooting.rst:345
-msgid ""
-"**Symptoms:** - High latency connections - Timeout errors - Poor query "
-"performance"
-msgstr ""
+#: 26c7310dfbbb4ec5a2026872d8ef0179
+msgid "**Symptoms:** - High latency connections - Timeout errors - Poor query performance"
+msgstr "**Sintomas:** - Conexões de alta latência - Erros de tempo limite - Desempenho de consultas ruins"
 
 #: ../../troubleshooting.rst:357
+#: aa8f287c3d454ac2aae9bb653de0c5c6
 msgid "**Optimizations:**"
-msgstr ""
+msgstr "**Otimizações:**"
 
 #: ../../troubleshooting.rst:359
-msgid ""
-"1. **Region Proximity:** - Ensure Heroku and Atlas are in same region - "
-"Use ``us-east-1`` for both services"
-msgstr ""
+#: 701fa1850f58408e88c13fb376e33f4f
+msgid "1. **Region Proximity:** - Ensure Heroku and Atlas are in same region - Use ``us-east-1`` for both services"
+msgstr "1. **Proximidade de Região:** - Garanta que o Heroku e o Atlas estejam na mesma região - Use ``us-east-1`` para ambos os serviços"
 
 #: ../../troubleshooting.rst:363
+#: b33712e2fe5146a793ded50230ab36e6
 msgid "**Connection Pooling:**"
-msgstr ""
+msgstr "**Banco de Conexão:**"
 
 #: ../../troubleshooting.rst:376
+#: 53b051b09e1742208f8bae4f63b7b48a
 msgid "Translation and Internationalization"
-msgstr ""
+msgstr "Tradução e Internacionalização"
 
 #: ../../troubleshooting.rst:379
+#: 32e2d961e12b471592ac9699175c5e10
 msgid "Translation Workflow Issues"
-msgstr ""
+msgstr "Problemas de workflow de tradução"
 
 #: ../../troubleshooting.rst:383
-msgid ""
-"**Symptoms:** - Missing translation keys - Translation workflow not "
-"triggering - JSON syntax errors"
-msgstr ""
+#: be3a555741d347bc9a35fe4d1e1fd660
+msgid "**Symptoms:** - Missing translation keys - Translation workflow not triggering - JSON syntax errors"
+msgstr "**Symptoms:** - Chaves de tradução ausentes - O fluxo de trabalho de tradução não aciona - erros de sintaxe JSON"
 
 #: ../../troubleshooting.rst:397
+#: 507ce1b13fd1470ebaab056de0001d38
 msgid "**File Structure:**"
-msgstr ""
+msgstr "**Estrutura de Arquivos:**"
 
 #: ../../troubleshooting.rst:411
+#: 7be1d689670a477ea539f482335fb491
 msgid "**JSON Validation:**"
-msgstr ""
+msgstr "**Validação JSON:**"
 
 #: ../../troubleshooting.rst:418
+#: e5655997d1c04530a76b0076ef3abca4
 msgid "**GitHub Workflow:**"
-msgstr ""
+msgstr "**GitHub Workflow:**"
 
 #: ../../troubleshooting.rst:430
+#: 59eae9b840614468b6aa8a53a55d61d0
 msgid "Code Quality Issues"
-msgstr ""
+msgstr "Problemas de Qualidade do Código"
 
 #: ../../troubleshooting.rst:433
+#: fc17f936ee76438e975bb66eaa87b2cf
 msgid "Cleanup and Maintenance"
-msgstr ""
+msgstr "Limpeza e manutenção"
 
 #: ../../troubleshooting.rst:437
-msgid ""
-"**Symptoms:** - Excessive console.log statements - Commented-out code - "
-"Unused files and dependencies"
-msgstr ""
+#: c6d6aea344c14ef1aa1d668bfb72c90b
+msgid "**Symptoms:** - Excessive console.log statements - Commented-out code - Unused files and dependencies"
+msgstr "**Symptoms:** - Excessivas console.log - Código Commented-out - Dependências e arquivos não usados"
 
 #: ../../troubleshooting.rst:442
+#: 0ed7f5d0b7c443a09c300436c9c425dd
 msgid "**Automated Cleanup:**"
-msgstr ""
+msgstr "**Limpeza automatizada:**"
 
 #: ../../troubleshooting.rst:452
+#: 9786105266cf495885a277d0df26291c
 msgid "**Manual Cleanup:**"
-msgstr ""
+msgstr "**Limpeza manual:**"
 
 #: ../../troubleshooting.rst:463
+#: 1725fa1435df49889bd45463b3459817
 msgid "Security Issues"
-msgstr ""
+msgstr "Problemas de Segurança"
 
 #: ../../troubleshooting.rst:467
-msgid ""
-"**Symptoms:** - Exposed credentials in repository - Security warnings - "
-"Vulnerable dependencies"
-msgstr ""
+#: 818b04fb0d5e469b9d91b5ab9374df2a
+msgid "**Symptoms:** - Exposed credentials in repository - Security warnings - Vulnerable dependencies"
+msgstr "**Symptoms:** - Credenciais expostas no repositório - Alertas de segurança - Dependências vulneráveis"
 
 #: ../../troubleshooting.rst:472
+#: 7b72ddd50def43ad84df80a848aaa248
 msgid "**Immediate Actions:**"
-msgstr ""
+msgstr "**Ações imediatas:**"
 
 #: ../../troubleshooting.rst:485
+#: 8702f55c79374938b69b2ead11de9647
 msgid "**Prevention:**"
-msgstr ""
+msgstr "**Prevenção:**"
 
 #: ../../troubleshooting.rst:495
+#: c2e233d77f274043a22db8b5901c00cb
 msgid "Performance Optimization"
-msgstr "Otimização de Performance"
+msgstr "Otimização de desempenho"
 
 #: ../../troubleshooting.rst:498
+#: 66237512e4684746bf25182081b52c62
 msgid "Monitoring and Validation"
-msgstr ""
+msgstr "Monitoramento e validação"
 
 #: ../../troubleshooting.rst:502
+#: cfc6f0bfc46a46f3b906957a09a74029
 msgid "**Real-time Monitoring:**"
-msgstr ""
+msgstr "**Monitoramento em tempo real:**"
 
 #: ../../troubleshooting.rst:509
+#: 16bdbfdfe734412b85757e191a227be3
 msgid "**Load Testing:**"
-msgstr ""
+msgstr "**Carregar Testes:**"
 
 #: ../../troubleshooting.rst:516
+#: 704cf9076c594f5b9dba8b01f536c138
 msgid "**Performance Benchmarks:**"
-msgstr ""
+msgstr "**Marcadores de desempenho:**"
 
 #: ../../troubleshooting.rst:523
-msgid ""
-"**Expected Results:** - K. pneumoniae: <2s load time - E. coli: <7s with "
-"pagination - E. coli (diarrheagenic): <3s load time - Payload reduction: 60-90%"
-msgstr ""
+#: b08a6bd1fdcf4fe8a3b42c775a60268a
+msgid "**Expected Results:** - K. pneumoniae: <2s load time - E. coli: <7s with pagination - E. coli (diarrheagenic): <3s load time - Payload reduction: 60-90%"
+msgstr "**Resultados esperados:** - K. pneumoniae: <2s tempo de carregamento - E. coli: <7s com paginação - E. coli (diarreia): <3s tempo de carregamento - Redução de carga: 60-90%"
 
 #: ../../troubleshooting.rst:530
+#: 77b1f15a42ec4d0789c17d461e185a6c
 msgid "Diagnostic Scripts Reference"
-msgstr ""
+msgstr "Referência de Scripts Diagnósticos"
 
 #: ../../troubleshooting.rst:534
+#: 3b778847278f483882ccac4286239ed2
 msgid "**Quick Diagnostics:**"
-msgstr ""
+msgstr "**Diagnósticos rápidos:**"
 
 #: ../../troubleshooting.rst:547
+#: 94033430870a4430b550a29bab0ae513
 msgid "**Comprehensive Analysis:**"
-msgstr ""
+msgstr "**Análise abrangente:**"
 
 #: ../../troubleshooting.rst:560
+#: 054d9d2555714d1ea508745e7d7f6b54
 msgid "**Status Checks:**"
-msgstr ""
+msgstr "**Verificação de status:**"
 
 #: ../../troubleshooting.rst:571
+#: 4e07e2eaa18c4d7a9c2caa328941c20e
 msgid "Emergency Procedures"
-msgstr ""
+msgstr "Procedimentos de Emergência"
 
 #: ../../troubleshooting.rst:574
+#: bd0709b182844cf6bf09640829aa783e
 msgid "Critical Performance Issues"
-msgstr ""
+msgstr "Problemas de Desempenho Crítico"
 
 #: ../../troubleshooting.rst:578
+#: bde19f08712449989472961da022222c
 msgid "**If users report 2+ minute load times:**"
-msgstr ""
+msgstr "**Se usuários relatam tempo de carregamento de 2 + minutos:**"
 
 #: ../../troubleshooting.rst:580
+#: 21930fdbead54fa3934bcf3c51460a9a
 msgid "**Immediate Response:**"
-msgstr ""
+msgstr "**Resposta Imediata:**"
 
 #: ../../troubleshooting.rst:587
+#: cb2d498f350641eba844072f3dc598e3
 msgid "**Verify Fix:**"
-msgstr ""
+msgstr "**Correção de Verificação:**"
 
 #: ../../troubleshooting.rst:593
+#: 630218d7bc8b448d8d47d068cfa3db31
 msgid "**Monitor Results:**"
-msgstr ""
+msgstr "**Resultados do Monitor:**"
 
 #: ../../troubleshooting.rst:600
+#: abbae4ebb00245b9bf4386c2063c3a06
 msgid "Server Down Emergency"
-msgstr ""
+msgstr "Emergência do servidor para baixo"
 
 #: ../../troubleshooting.rst:604
+#: 6f678b2873cf4260bc8c7b5fe2b6cacc
 msgid "**If server is unresponsive:**"
-msgstr ""
+msgstr "**Se o servidor não estiver respondendo:**"
 
 #: ../../troubleshooting.rst:606
+#: 6d493668fe0a4a6ca943d7e6d889e6df
 msgid "**Start Minimal Server:**"
-msgstr ""
+msgstr "**Iniciar servidor mínimo:**"
 
 #: ../../troubleshooting.rst:612
+#: dc71fbe30d6f4b6bb6e7c277cf851beb
 msgid "**Check Logs:**"
-msgstr ""
+msgstr "**Verificar registros:**"
 
 #: ../../troubleshooting.rst:618
+#: 56722c922c9f4e799d8c18490457aae3
 msgid "**Restart with Fixed Configuration:**"
-msgstr ""
+msgstr "**Reiniciar com configuração fixa:**"
 
 #: ../../troubleshooting.rst:625
+#: bc9f3daf483b48d4b22244cb9b326d25
 msgid "Getting Help"
-msgstr ""
+msgstr "Obtendo ajuda"
 
 #: ../../troubleshooting.rst:629
+#: 23956238ebd3450cbc5d5eec1aa05493
 msgid "**When to Use Each Script:**"
-msgstr ""
+msgstr "**Quando usar cada Script:**"
 
 #: ../../troubleshooting.rst:631
+#: f2aa24b9d397450392b3f84c939f7671
 msgid "**Performance Issues**: ``organism-performance-debugger.js``"
-msgstr ""
+msgstr "**Problemas de desempenho**: ``organism-performance-debugger.js``"
 
 #: ../../troubleshooting.rst:632
+#: 2aeeb98d010f4c46a547af6e9f63ec58
 msgid "**Deployment Problems**: ``deployment-readiness.js``"
-msgstr ""
+msgstr "**Problemas de implantação**: ``deployment-readiness.js``"
 
 #: ../../troubleshooting.rst:633
+#: cad2335069fc42d791d9d1f8ca8192ba
 msgid "**MongoDB Issues**: ``test-fixie-connection.js``"
-msgstr ""
+msgstr "**Problemas do MongoDB**: ``test-fixie-connection.js``"
 
 #: ../../troubleshooting.rst:634
+#: 773ada5a2b2b44b69da6341b10f598f9
 msgid "**Code Quality**: ``cleanup_script.sh``"
-msgstr ""
+msgstr "**Qualidade do código**: ``cleanup_script.sh``"
 
 #: ../../troubleshooting.rst:635
+#: e75d71ffa51b43bba143855a4d19495d
 msgid "**Translation Issues**: ``test-translation-setup.sh``"
-msgstr ""
+msgstr "**Problemas de tradução**: ``test-translation-setup.sh``"
 
 #: ../../troubleshooting.rst:637
-msgid ""
-"**Community Support:** - GitHub Issues: "
-"https://github.com/amrnet/amrnet/issues - Discussions: "
-"https://github.com/amrnet/amrnet/discussions - Email: "
-"amrnetdashboard@gmail.com"
-msgstr ""
+#: f0657f294f974ff5be45422dd9e5aa50
+msgid "**Community Support:** - GitHub Issues: https://github.com/amrnet/amrnet/issues - Discussions: https://github.com/amrnet/amrnet/discussions - Email: amrnetdashboard@gmail.com"
+msgstr "**Suporte da Comunidade:** - Problemas no GitHub: https://github.com/amrnet/amrnet/issues - Discussões: https://github.com/amrnet/amrnet/discussions - Email: amrnetdashboard@gmail.com"
 
 #: ../../troubleshooting.rst:642
-msgid ""
-"**Emergency Contacts:** - Critical bugs: GitHub Issues with \"urgent\" "
-"label - Security issues: amrnetdashboard@gmail.com "
-msgstr ""
+#: 4f1d597a0b354188af550491c115b42a
+msgid "**Emergency Contacts:** - Critical bugs: GitHub Issues with \"urgent\" label - Security issues: amrnetdashboard@gmail.com"
+msgstr "**Contatos de emergência:** - Problemas críticos: o GitHub com a etiqueta \"urgente\" - Problemas de segurança: amrnetdashboard@gmail.com"
+

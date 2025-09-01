@@ -7,889 +7,1092 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-05 00:07+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: pt\n"
-"Language-Team: pt <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Portuguese\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-File: api.pot\n"
+"X-Crowdin-File-ID: 37\n"
+"Language: pt_PT\n"
+
+#: ../../api.rst:5
+#: 1df3f3faee43434284da653b3c05a098
+msgid "API Reference"
+msgstr "Referência de API"
 
 #: ../../api.rst:9
-msgid ""
-"AMRnet provides a comprehensive RESTful API for programmatic access to "
-"all antimicrobial resistance surveillance data. The API supports multiple"
-" data formats, filtering options, and authentication methods to suit "
-"different use cases."
-msgstr ""
+#: 1d0ec5b4b9a64c7f95a2690b5334ea0b
+msgid "AMRnet provides a comprehensive RESTful API for programmatic access to all antimicrobial resistance surveillance data. The API supports multiple data formats, filtering options, and authentication methods to suit different use cases."
+msgstr "O AMRnet fornece uma API RESTful abrangente para acesso programático a todos os dados de vigilância da resistência antimicrobiana. A API suporta vários formatos de dados, opções de filtragem e métodos de autenticação para atender a diferentes casos de uso."
 
 #: ../../api.rst:12
+#: d78f82fdc1ab413dac9567fd5dd9e9b8
 msgid "Quick Start"
-msgstr "Início Rápido"
+msgstr "Início rápido"
 
 #: ../../api.rst:16
-msgid ""
-"The AMRnet API is available at ``https://api.amrnet.org`` and provides "
-"access to surveillance data for multiple organisms. All endpoints return "
-"JSON by default, with optional CSV export capabilities."
-msgstr ""
+#: dbe0b78659184390aa2a0d01725add9d
+msgid "The AMRnet API is available at ``https://api.amrnet.org`` and provides access to surveillance data for multiple organisms. All endpoints return JSON by default, with optional CSV export capabilities."
+msgstr "A API AMRnet está disponível no ``https://api.amrnet.org`` e fornece acesso aos dados de vigilância para vários organismos. Todos os endpoints retornam JSON por padrão, com capacidades opcionais de exportação de CSV para CSV."
 
 #: ../../api.rst:19
+#: 73139a8da6e445df91a1b335fee30bc8
 msgid "Basic Usage"
-msgstr ""
+msgstr "Uso básico"
 
 #: ../../api.rst:33
+#: 5f00ccb1e1f146b7bc2f0cb9cf61ab4d
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticação"
 
 #: ../../api.rst:37
-msgid ""
-"The AMRnet API supports multiple authentication methods depending on your"
-" usage requirements:"
-msgstr ""
+#: 8b7d28bd4bf841b19ac4609370fdbe20
+msgid "The AMRnet API supports multiple authentication methods depending on your usage requirements:"
+msgstr "A API AMRnet suporta múltiplos métodos de autenticação, dependendo dos seus requisitos de uso:"
 
 #: ../../api.rst:40
+#: 91e138db32264105a8be76a0308e6b01
 msgid "Public Access"
-msgstr ""
+msgstr "Acesso Público"
 
 #: ../../api.rst:44
-msgid ""
-"Basic read access to all published datasets is available without "
-"authentication. Rate limits apply:"
-msgstr ""
+#: 209d3aa4da5d40adad9f73c2407c084b
+msgid "Basic read access to all published datasets is available without authentication. Rate limits apply:"
+msgstr "Acesso de leitura básico a todos os datasets publicados está disponível sem autenticação. Limites de taxa aplicados:"
 
 #: ../../api.rst:46
+#: c6cac2bf52e644f2a571de617d8b9793
 msgid "**Rate Limit**: 1000 requests per hour per IP"
-msgstr ""
+msgstr "**Limite de taxa**: 1000 pedidos por hora por IP"
 
 #: ../../api.rst:47
+#: 57eaac43e85e4f4fb730c53e79f833e1
 msgid "**Data Limit**: 10,000 records per request"
-msgstr ""
+msgstr "**Limite de dados**: 10.000 registros por pedido"
 
 #: ../../api.rst:48
+#: 9211dc4c610343d48bde6e86115dfe17
 msgid "**Export Limit**: 50,000 records per day"
-msgstr ""
+msgstr "**Limite de exportação**: 50.000 registros por dia"
 
 #: ../../api.rst:56
+#: 191db312fd87407b90dd06d3bc4d4080
 msgid "API Key Authentication"
-msgstr ""
+msgstr "Autenticação de Chave API"
 
 #: ../../api.rst:60
-msgid ""
-"For higher rate limits and bulk data access, register for a free API key "
-"at `amrnet.org/api/register <https://amrnet.org/api/register>`_."
-msgstr ""
+#: 73a5fdec3c72497f8d7d9b2a4114ea1d
+msgid "For higher rate limits and bulk data access, register for a free API key at `amrnet.org/api/register <https://amrnet.org/api/register>`_."
+msgstr "Para maiores limites de taxa e acesso em massa de dados, registre-se para uma chave de API gratuita em `amrnet.org/api/register <https://amrnet.org/api/register>`_."
 
 #: ../../api.rst:70
+#: 4478a3f0fdc440f2b24be33831e1ebc6
 msgid "**API Key Benefits:**"
-msgstr ""
+msgstr "**Benefícios chave da API:**"
 
 #: ../../api.rst:72
+#: 84fa5c3f98ad45f08fff1d4e5350a492
 msgid "**Rate Limit**: 10,000 requests per hour"
-msgstr ""
+msgstr "**Limite de taxa**: 10.000 pedidos por hora"
 
 #: ../../api.rst:73
+#: 0ca61cee370b493199a75800488920af
 msgid "**Data Limit**: 100,000 records per request"
-msgstr ""
+msgstr "**Limite de dados**: 100.000 registros por pedido"
 
 #: ../../api.rst:74
+#: deaacd7cb1384924b8b439b88d21d927
 msgid "**Export Limit**: 1,000,000 records per day"
-msgstr ""
+msgstr "**Limite de exportação**: 1,000.000 registros por dia"
 
 #: ../../api.rst:75
+#: e37d62a711bc476c94dbd22bd8d92b2b
 msgid "**Priority Support**: Faster response times"
-msgstr ""
+msgstr "**Suporte prioridade**: tempos de resposta mais rápidos"
 
 #: ../../api.rst:78
+#: cc1c216e223d48c48cc147e947f948f0
 msgid "OAuth2 Authentication"
-msgstr ""
+msgstr "Autenticação OAuth2"
 
 #: ../../api.rst:82
-msgid ""
-"For institutional access and advanced features, OAuth2 authentication is "
-"available. Contact us at ``amrnetdashboard@gmail.com`` for institutional access."
-msgstr ""
+#: df3e3f6bff0245098a3a2dedfecd1f71
+msgid "For institutional access and advanced features, OAuth2 authentication is available. Contact us at ``amrnetdashboard@gmail.com`` for institutional access."
+msgstr "Para acesso institucional e recursos avançados, a autenticação OAuth2 está disponível. Contate-nos em ``amrnetdashboard@gmail.com`` para acesso institucional."
 
 #: ../../api.rst:85
+#: 8b9840acb0f846ecaa6ff670c2e1414a
 msgid "Available Endpoints"
-msgstr ""
+msgstr "Pontos finais disponíveis"
 
 #: ../../api.rst:89
-msgid ""
-"The AMRnet API provides consistent endpoints across all supported "
-"organisms with standardized query parameters and response formats."
-msgstr ""
+#: 6d7ed4bfd90c4debb70d8a6175a02c16
+msgid "The AMRnet API provides consistent endpoints across all supported organisms with standardized query parameters and response formats."
+msgstr "A API AMRnet fornece endpoints consistentes em todos os organismos suportados com parâmetros de consulta padronizados e formatos de resposta."
 
 #: ../../api.rst:92
+#: 10352bd654884a678bf86102c660ce6b
 msgid "Organism Data Endpoints"
-msgstr ""
+msgstr "Fim dos Dados do Organismo"
 
 #: ../../api.rst:94
+#: f5018d5751d94c8e9181f29bb6aad086
 msgid "Supported Organisms"
-msgstr ""
+msgstr "Organismos Suportados"
 
 #: ../../api.rst:98
+#: 189bb3ec93854524a73a185b8aa5f8d7
 msgid "Organism"
-msgstr ""
+msgstr "Organismo"
 
 #: ../../api.rst:99
+#: 20d06aa13852437f8fe00a678ee091a3
 msgid "Endpoint"
-msgstr ""
+msgstr "Endpoint"
 
-#: ../../api.rst:100 ../../api.rst:262 ../../api.rst:294 ../../api.rst:317
+#: ../../api.rst:100
+#: ../../api.rst:262
+#: ../../api.rst:294
+#: ../../api.rst:317
 #: ../../api.rst:554
+#: b7d48ec2993d4cf798155e0752536c71
+#: 3b4395c85eaf4a2ab6fb1e614093ed30
+#: db09da95216e46f198bdcb2e3e4b43e6
+#: ef649568bc8943879ce18b5648b3df4e
+#: 9ac3c4bcda134528a4b6577345c465d3
 msgid "Description"
-msgstr ""
+msgstr "Descrição:"
 
 #: ../../api.rst:101
+#: 6bffefaf76e945058b82ddbf2ca981ec
 msgid "*Salmonella* Typhi"
-msgstr ""
+msgstr "*Salmonella* Typhi"
 
 #: ../../api.rst:102
+#: 5c6a99ad72d541bc818f015e5073a914
 msgid "``/styphi``"
-msgstr ""
+msgstr "``/styphi``"
 
 #: ../../api.rst:103
+#: 31b0ef696b9f45679d234f7c895d5f5f
 msgid "Typhoid fever pathogen data"
-msgstr ""
+msgstr "Dados patogênicos da febre Typhoid"
 
 #: ../../api.rst:104
+#: 785d924e969449b4a0436fb1a3ab26f7
 msgid "*Klebsiella pneumoniae*"
-msgstr ""
+msgstr "*Klebsiella pneumoniae*"
 
 #: ../../api.rst:105
+#: 43e111bebabd407d8c386da3e96517a3
 msgid "``/kpneumo``"
-msgstr ""
+msgstr "``/kpneumo``"
 
 #: ../../api.rst:106
+#: fc75d01b0765483386566f4f1d56e062
 msgid "pneumoniae resistance data"
-msgstr ""
+msgstr "Dados de resistência pneumoniae"
 
 #: ../../api.rst:107
+#: c7d186b5675044828f4f044a69e92969
 msgid "*Neisseria gonorrhoeae*"
-msgstr ""
+msgstr "*Neisseria gonorrhoeae*"
 
 #: ../../api.rst:108
+#: faead14d43a14e60b5f7d7b0352ae30e
 msgid "``/ngono``"
-msgstr ""
+msgstr "``/ngono``"
 
 #: ../../api.rst:109
+#: 14406b756cca42f6bd03bfb2b62c6c30
 msgid "Gonorrhea pathogen data"
-msgstr ""
+msgstr "Dados patogênicos da Gonorrhea"
 
 #: ../../api.rst:110
+#: ba1657e6cd484146b739e3f855015f5e
 msgid "*E. coli*"
-msgstr ""
+msgstr "*E. colibo*"
 
 #: ../../api.rst:111
+#: e58fd307d29448aa805a03e38479725b
 msgid "``/ecoli``"
-msgstr ""
+msgstr "``/ecoli``"
 
 #: ../../api.rst:112
+#: 1aa328bc255348fda6c709f6f0b56c7b
 msgid "coli resistance patterns"
-msgstr ""
+msgstr "padrões de resistência a coli"
 
 #: ../../api.rst:113
+#: 2c0fb9ccd04c4982b26124743d4abc81
 msgid "*E. coli* (Diarrheal)"
-msgstr ""
+msgstr "*E. coli* (Diarrheal)"
 
 #: ../../api.rst:114
+#: 508cd97ddd9440eca53a0d3a886cb62b
 msgid "``/decoli``"
-msgstr ""
+msgstr "``/decoli``"
 
 #: ../../api.rst:115
+#: a21531df272c4cf5a2d61c40c0f0ec49
 msgid "Diarrheal E. coli strains"
-msgstr ""
+msgstr "Diarreia E. coli strains"
 
 #: ../../api.rst:116
+#: e2c63c28f0b844eabb198f815c645e37
 msgid "*Shigella*"
-msgstr ""
+msgstr "*Shigella*"
 
 #: ../../api.rst:117
+#: e74d70ac132f41e6b8952d2db2615c90
 msgid "``/shigella``"
-msgstr ""
+msgstr "``/shigella``"
 
 #: ../../api.rst:118
+#: f6988d80c6264c8c8ecf96adfa01edb1
 msgid "Shigella species data"
-msgstr ""
+msgstr "Dados da espécie Shigella"
 
 #: ../../api.rst:119
+#: 5568c7e025f449158f1bd2e78e3d01c5
 msgid "*Salmonella* enterica"
-msgstr ""
+msgstr "Consulta de *Salmonela*"
 
 #: ../../api.rst:120
+#: 9b10b588cdfa48daadb9c413443570a6
 msgid "``/senterica``"
-msgstr ""
+msgstr "``/senterica``"
 
 #: ../../api.rst:121
+#: 0dac3e4f69434dfaa078cd331e9a79cb
 msgid "Non-typhoidal Salmonella"
-msgstr ""
+msgstr "Non-typhoidal Salmonella"
 
 #: ../../api.rst:122
+#: 28ed66c58d064431a6ab6dfceb893cc8
 msgid "*S.* enterica (Invasive)"
-msgstr ""
+msgstr "*S.* enterica (Invasive)"
 
 #: ../../api.rst:123
+#: 708e99b220064697821b9c06e01cb8c1
 msgid "``/sentericaints``"
-msgstr ""
+msgstr "``/sentericaints``"
 
 #: ../../api.rst:124
+#: 7c2e0c0f937a4f5295d7b06a24d02a67
 msgid "Invasive Salmonella strains"
-msgstr ""
+msgstr "Habilidades Invasivas de Salmonela"
 
 #: ../../api.rst:127
+#: 9de5d71ef78a436ea37b4f754e02aeda
 msgid "Base Data Access"
-msgstr ""
+msgstr "Acesso Base aos Dados"
 
-#: ../../api.rst:133 ../../api.rst:175 ../../api.rst:224
+#: ../../api.rst:133
+#: ../../api.rst:175
+#: ../../api.rst:224
+#: a8577eaaa98f42b88e592770e4355b3e
+#: c712420c032d482abaf1997528ab174b
+#: d62c8ac148ab43af9cb1c7d6606f6fb6
 msgid "**Example Response:**"
-msgstr ""
+msgstr "**Resposta de exemplo:**"
 
 #: ../../api.rst:169
+#: 686d745ceef54551ab8cf413e96497b3
 msgid "Summary Statistics"
-msgstr ""
+msgstr "Estatísticas Resumidas"
 
 #: ../../api.rst:205
+#: 062c0712fa57476c9a253f77afb31056
 msgid "Country-Specific Data"
-msgstr ""
+msgstr "Dados específicos do País"
 
 #: ../../api.rst:211
+#: e2469e4cca40472c80f7788f7fc6b845
 msgid "**Example:**"
-msgstr ""
+msgstr "**Exemplo:**"
 
 #: ../../api.rst:218
+#: e62f8f674f4e4db088c887b875183a0f
 msgid "Temporal Trends"
-msgstr ""
+msgstr "Tendências temporais"
 
 #: ../../api.rst:247
+#: f55548669abb4354bf84d1fb395d93b2
 msgid "Query Parameters"
-msgstr ""
+msgstr "Parâmetros da consulta"
 
 #: ../../api.rst:251
-msgid ""
-"All organism endpoints support consistent query parameters for filtering "
-"and customization:"
-msgstr ""
+#: 7c7ea150682443e1868535f5152ff7ff
+msgid "All organism endpoints support consistent query parameters for filtering and customization:"
+msgstr "Todos os pontos de extremidade de organismos suportam parâmetros consistentes de consulta para filtragem e personalização:"
 
 #: ../../api.rst:254
+#: 36068db4ae6e4e1bbb37f468f0c94b21
 msgid "Filtering Parameters"
-msgstr ""
+msgstr "Parâmetros de Filtragem"
 
 #: ../../api.rst:256
+#: f56266f4a9864bb6bd80c5243ab6b5a2
 msgid "Filter Parameters"
-msgstr ""
+msgstr "Parâmetros do Filtro"
 
-#: ../../api.rst:260 ../../api.rst:292 ../../api.rst:315
+#: ../../api.rst:260
+#: ../../api.rst:292
+#: ../../api.rst:315
+#: fd699526b0d749f99c419dc071261cb1
+#: afa5999e16794a30b0e3afc680241105
+#: 7e72f0710d2f459cb5fca011c27a3727
 msgid "Parameter"
-msgstr ""
+msgstr "Parâmatro"
 
-#: ../../api.rst:261 ../../api.rst:293 ../../api.rst:316
+#: ../../api.rst:261
+#: ../../api.rst:293
+#: ../../api.rst:316
+#: aceb506e4da04403b91f620e2818267f
+#: 56176692d29943e48e9495be4ed0682d
+#: 6dc4fc91fbfc4aa6b23bc261c140b362
 msgid "Type"
-msgstr ""
+msgstr "tipo"
 
 #: ../../api.rst:263
+#: eab12abf5d274f6f9eda67f00e6f1db3
 msgid "``country``"
-msgstr ""
+msgstr "``país``"
 
-#: ../../api.rst:264 ../../api.rst:273 ../../api.rst:276 ../../api.rst:279
-#: ../../api.rst:282 ../../api.rst:319 ../../api.rst:322 ../../api.rst:325
+#: ../../api.rst:264
+#: ../../api.rst:273
+#: ../../api.rst:276
+#: ../../api.rst:279
+#: ../../api.rst:282
+#: ../../api.rst:319
+#: ../../api.rst:322
+#: ../../api.rst:325
+#: 26f7e8b271194c9cb43f53f0190446f1
+#: c2f8537960be4f40acca3920e2e8e575
+#: 52e10164827b4ce9a309c8600878cd44
+#: 44ce56c2f6f14701b2128dd8fbf8c166
+#: 84f181ce6ace4590b81af06fb7654a93
+#: e0c242371ad948a6b43ac76d9faae5a5
+#: 3887adcccc5642f1a90e9d6a4e6852b0
+#: f7ab8ce3524e47619ccd158f9fb5d2b5
 msgid "string"
-msgstr ""
+msgstr "sequência"
 
 #: ../../api.rst:265
+#: 14f66b080a8046c8a38fffc32cda77e5
 msgid "ISO 3166-1 alpha-3 country code (e.g., BGD, IND, USA)"
-msgstr ""
+msgstr "Código de país ISO 3166-1 alpha-3 (por exemplo, BGD, IND, EUA)"
 
 #: ../../api.rst:266
+#: c3a77619c074426eb6c7d5c630bb1707
 msgid "``year_start``"
-msgstr ""
+msgstr "``ano_começo_ano``"
 
-#: ../../api.rst:267 ../../api.rst:270 ../../api.rst:296 ../../api.rst:299
-#: ../../api.rst:302 ../../api.rst:305
+#: ../../api.rst:267
+#: ../../api.rst:270
+#: ../../api.rst:296
+#: ../../api.rst:299
+#: ../../api.rst:302
+#: ../../api.rst:305
+#: 5476ee00b8a44fe7af52a8ea1907ecc6
+#: c4e3301a34434bed87e735e4894b00d6
+#: f622322b12d644e3a85cb80504c51438
+#: e95293d7400f4bbd9b3872f7b6fd3dc4
+#: 09fa6bb2c1e741f59e0dcc3a6257cf9c
+#: a21d21affc8847f7b543eccfa12821a7
 msgid "integer"
-msgstr ""
+msgstr "inteiro"
 
 #: ../../api.rst:268
+#: 4bd59a6f98a142b0b2b3baf7110d32c7
 msgid "Start year for date range filtering"
-msgstr ""
+msgstr "Ano inicial para filtragem do intervalo de datas"
 
 #: ../../api.rst:269
+#: 7943d7d8a5934554a3ccbfe660c0753e
 msgid "``year_end``"
-msgstr ""
+msgstr "``ano_fim``"
 
 #: ../../api.rst:271
+#: c6d7e94104984de58b5bcd532b574cec
 msgid "End year for date range filtering"
-msgstr ""
+msgstr "Fim do ano para filtragem do intervalo de datas"
 
 #: ../../api.rst:272
+#: ee1b9a61b0a443d6afacc4ed53471781
 msgid "``resistance``"
-msgstr ""
+msgstr "``resistência``"
 
 #: ../../api.rst:274
+#: 7c5ea872076d4947b12ef0fe642f4c5c
 msgid "Filter by resistance to specific antibiotic"
-msgstr ""
+msgstr "Filtrar por resistência a antibióticos específicos"
 
 #: ../../api.rst:275
+#: 0f0805e2cca84944836b89e707d93366
 msgid "``genotype``"
-msgstr ""
+msgstr "``genotipo``"
 
 #: ../../api.rst:277
+#: 079e74bd56ae42e3b4077818296bfd63
 msgid "Filter by specific genotype or lineage"
-msgstr ""
+msgstr "Filtrar por genótipo específico ou linhagem"
 
 #: ../../api.rst:278
+#: 49300cd5056849439f92e8bc3e6d38d0
 msgid "``source``"
-msgstr ""
+msgstr "``origem``"
 
 #: ../../api.rst:280
+#: 291abdf9a8954a7dbc44ce7d57164eec
 msgid "Sample source (blood, urine, stool, etc.)"
-msgstr ""
+msgstr "Exemplo de fonte (sangue, urine, stool, etc.)"
 
 #: ../../api.rst:281
+#: 9b7e4d85a07645599fb12b9ddf4333ba
 msgid "``region``"
-msgstr ""
+msgstr "``região``"
 
 #: ../../api.rst:283
+#: 3ef84fff79424cef836e19468dbd0e77
 msgid "Geographic region filter"
-msgstr ""
+msgstr "Filtro de região geográfica"
 
-#: ../../api.rst:286 ../../api.rst:288
+#: ../../api.rst:286
+#: ../../api.rst:288
+#: 4e801f988ec8470d8d61bcf40eff590b
+#: 68130930de5e40319c9013e0fa2fd5b1
 msgid "Pagination Parameters"
-msgstr ""
+msgstr "Parâmetros de paginação"
 
 #: ../../api.rst:295
+#: 33352a8b8ff449d7b31c15a1198079ee
 msgid "``page``"
-msgstr ""
+msgstr "``página``"
 
 #: ../../api.rst:297
+#: 5f022448dcc74ea8ab08421dd190afda
 msgid "Page number (default: 1)"
-msgstr ""
+msgstr "Número da página (padrão: 1)"
 
 #: ../../api.rst:298
+#: 49cb6e34c263415680c3d095c44aaf50
 msgid "``per_page``"
-msgstr ""
+msgstr "``per_page``"
 
 #: ../../api.rst:300
+#: 9dada17dc1ed42cca808ea522f40ab70
 msgid "Records per page (max: 10,000)"
-msgstr ""
+msgstr "Registros por página (máx: 10.000)"
 
 #: ../../api.rst:301
+#: e1e99ad47b134705a5e8af59aaac8fd8
 msgid "``limit``"
-msgstr ""
+msgstr "``limit``"
 
 #: ../../api.rst:303
+#: 7113f3dcaf9a48fe8719e027e9fb3abb
 msgid "Total record limit"
-msgstr ""
+msgstr "Limite total de registros"
 
 #: ../../api.rst:304
+#: 066a46e2900f4754b182a27dd966882a
 msgid "``offset``"
-msgstr ""
+msgstr "``offset``"
 
 #: ../../api.rst:306
+#: 19b0a45240854a82a5434cdd0b3493ff
 msgid "Number of records to skip"
-msgstr ""
+msgstr "Número de registros a ignorar"
 
-#: ../../api.rst:309 ../../api.rst:311
+#: ../../api.rst:309
+#: ../../api.rst:311
+#: 769133bee6e7407e8063a487df41c782
+#: 5d565f375d6f4bd7b29d358766aa0514
 msgid "Format Parameters"
-msgstr ""
+msgstr "Parâmetros de formato"
 
 #: ../../api.rst:318
+#: 8c45c3ea47654aaaa1c53eb68a9a7077
 msgid "``format``"
-msgstr ""
+msgstr "``formato``"
 
 #: ../../api.rst:320
+#: ba2fe076f52e416eaf96d68febfc73a7
 msgid "Response format: json (default), csv, tsv"
-msgstr ""
+msgstr "Formato de resposta: json (padrão), csv, tsv"
 
 #: ../../api.rst:321
+#: 162670ab10bc4d218e4bddfa5b63da76
 msgid "``fields``"
-msgstr ""
+msgstr "``fields``"
 
 #: ../../api.rst:323
+#: 9b110d3f6524400287552a8b7528ba08
 msgid "Comma-separated list of fields to include"
-msgstr ""
+msgstr "Lista de campos a incluir separados por vírgula"
 
 #: ../../api.rst:324
+#: 0829050e213c4e2caec321c0db9e70fc
 msgid "``exclude``"
-msgstr ""
+msgstr "``exclude``"
 
 #: ../../api.rst:326
+#: 106f303534d7484892420cc99a3bc024
 msgid "Comma-separated list of fields to exclude"
-msgstr ""
+msgstr "Lista de campos separados por vírgula para excluir"
 
 #: ../../api.rst:329
+#: 5e4e4934f4cd4243b3846fefe20fc6db
 msgid "Example Queries"
-msgstr ""
+msgstr "Exemplo de consultas"
 
 #: ../../api.rst:333
+#: afa7b11b792245a9b513e205c69f862f
 msgid "Here are practical examples demonstrating common API usage patterns:"
-msgstr ""
+msgstr "Aqui estão exemplos práticos que demonstram padrões comuns de uso da API:"
 
 #: ../../api.rst:336
+#: ef0bd6fae16341768126bea013bf0526
 msgid "Basic Filtering"
-msgstr ""
+msgstr "Filtro Básico"
 
 #: ../../api.rst:350
+#: 78327169ff3a47aeb97b778e5d190593
 msgid "Advanced Filtering"
-msgstr ""
+msgstr "Filtro Avançado"
 
 #: ../../api.rst:364
+#: 3647ea75ff124ec494adbc9e6f1802dc
 msgid "Data Export"
-msgstr ""
+msgstr "Exportação de Dados"
 
 #: ../../api.rst:379
+#: 90e912b407bf4a1390b062f6e672df7e
 msgid "Programming Examples"
-msgstr ""
+msgstr "Exemplos de programação"
 
 #: ../../api.rst:382
+#: 29f9677fae414b2485c06f1ece50b0c0
 msgid "Python Integration"
-msgstr ""
+msgstr "Integração Python"
 
 #: ../../api.rst:438
+#: 5c87730bd25e4082a2a20ebe9a51e843
 msgid "R Integration"
-msgstr ""
+msgstr "Integração R"
 
 #: ../../api.rst:477
+#: 38101b075b084ec29519afe118c3d257
 msgid "JavaScript/Node.js Integration"
-msgstr ""
+msgstr "Integração de JavaScript/Node.js"
 
 #: ../../api.rst:540
+#: ec7c5bd87dad47bba2bff23bdc71bedc
 msgid "Error Handling"
-msgstr ""
+msgstr "Tratamento de erros"
 
 #: ../../api.rst:544
-msgid ""
-"The AMRnet API uses standard HTTP status codes and provides detailed "
-"error messages to help diagnose issues:"
-msgstr ""
+#: c61619a4ba0b4563845b7fe77eb1fa36
+msgid "The AMRnet API uses standard HTTP status codes and provides detailed error messages to help diagnose issues:"
+msgstr "A API AMRnet usa códigos de status HTTP padrão e fornece mensagens de erro detalhadas para ajudar a diagnosticar problemas:"
 
 #: ../../api.rst:547
+#: fe7b0a328eb14c85ab8641171a2050cb
 msgid "HTTP Status Codes"
-msgstr ""
+msgstr "Códigos de Status HTTP"
 
 #: ../../api.rst:549
+#: c9af1ae67dcf4bcd91fbbbb0e8c48197
 msgid "Status Codes"
-msgstr ""
+msgstr "Códigos de Status"
 
 #: ../../api.rst:553
+#: d7a69cc6d48a47af989b4ff8142e969c
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 #: ../../api.rst:555
+#: 6469fcecc6104040a6e158be9301735a
 msgid "``200``"
-msgstr ""
+msgstr "``200``"
 
 #: ../../api.rst:556
+#: baee7f1630ea4641a197345197fb0e5c
 msgid "Success - Request completed successfully"
-msgstr ""
+msgstr "Solicitação concluída com sucesso"
 
 #: ../../api.rst:557
+#: f0dbbb52f95a4e92b1b513a4387dbb65
 msgid "``400``"
-msgstr ""
+msgstr "``400``"
 
 #: ../../api.rst:558
+#: dd9c300b2b7b4300a64b248f3aead3c0
 msgid "Bad Request - Invalid parameters or malformed request"
-msgstr ""
+msgstr "Requisição inválida - parâmetros inválidos ou solicitação mal formada"
 
 #: ../../api.rst:559
+#: 24760d3e106e44f7a7b1b50d35262c7b
 msgid "``401``"
-msgstr ""
+msgstr "``401``"
 
 #: ../../api.rst:560
+#: 7c15af3469484026aa6169f923994b91
 msgid "Unauthorized - Invalid or missing API key"
-msgstr ""
+msgstr "Não autorizado - Chave de API inválida ou ausente"
 
 #: ../../api.rst:561
+#: 4df147aad6ac4d0ab7e9763bc356ffd6
 msgid "``403``"
-msgstr ""
+msgstr "``403``"
 
 #: ../../api.rst:562
+#: 8dfc42f03a4d4477b7e0a86ba3937670
 msgid "Forbidden - Access denied or rate limit exceeded"
-msgstr ""
+msgstr "Proibido - acesso negado ou limite de taxa excedido"
 
 #: ../../api.rst:563
+#: 61053d95934141738d7dc5f06674776a
 msgid "``404``"
-msgstr ""
+msgstr "``404``"
 
 #: ../../api.rst:564
+#: faf95cee549a4525a935332355a33c23
 msgid "Not Found - Endpoint or resource not found"
-msgstr ""
+msgstr "Não encontrado - Endpoint ou recurso não encontrado"
 
 #: ../../api.rst:565
+#: 4085980c83ea4e4ebef833207bee6e54
 msgid "``429``"
-msgstr ""
+msgstr "``429``"
 
 #: ../../api.rst:566
+#: b5d5977b3adf4561b70d6ca6bd987f29
 msgid "Too Many Requests - Rate limit exceeded"
-msgstr ""
+msgstr "Muitas Solicitações - Limite de Taxa excedido"
 
 #: ../../api.rst:567
+#: 190253aa9a6e46b28dc8393a6a5c9df9
 msgid "``500``"
-msgstr ""
+msgstr "``500``"
 
 #: ../../api.rst:568
+#: 38edcf34eb9a4d8dac3a614f44af8185
 msgid "Internal Server Error - Server-side error"
-msgstr ""
+msgstr "Erro interno do servidor - erro do servidor"
 
 #: ../../api.rst:571
+#: 765d0c0a3b3740889f0804e8e813c789
 msgid "Error Response Format"
-msgstr ""
+msgstr "Formato de resposta de erro"
 
 #: ../../api.rst:590
+#: 43518223fb5f4462b8d74c0925959331
 msgid "Common Error Scenarios"
-msgstr ""
+msgstr "Cenários de erro comuns"
 
 #: ../../api.rst:592
+#: 8fa07e6371884f74a5be217d1f76b98b
 msgid "**Invalid Country Code:**"
-msgstr ""
+msgstr "**Código inválido:**"
 
 #: ../../api.rst:599
+#: 349480e883df4a82a877a27ee890a3d2
 msgid "**Rate Limit Exceeded:**"
-msgstr ""
+msgstr "**Limite de Taxa Excedido:**"
 
 #: ../../api.rst:606
+#: 6cff92558cd9465a95f424ab5cedd154
 msgid "**Large Data Request:**"
-msgstr ""
+msgstr "**Pedidos de dados grandes:**"
 
 #: ../../api.rst:614
+#: 84151c33410e4d52b0b143608cc28017
 msgid "Rate Limits and Best Practices"
-msgstr ""
+msgstr "Taxa Limites e melhores práticas"
 
 #: ../../api.rst:617
+#: 5771da18ec774685a514287a63c31f62
 msgid "Rate Limiting"
-msgstr ""
+msgstr "Taxa Limitada"
 
 #: ../../api.rst:621
-msgid ""
-"AMRnet implements rate limiting to ensure fair access and system "
-"stability:"
-msgstr ""
+#: dc7437b9d7f149ddbf4b93d9d7dc9924
+msgid "AMRnet implements rate limiting to ensure fair access and system stability:"
+msgstr "O AMRnet implementa o limite da taxa para garantir acesso justo e estabilidade do sistema:"
 
 #: ../../api.rst:623
+#: 772ad8ce83a54b458c912e1af72b28cf
 msgid "Rate Limits by Access Level"
-msgstr ""
+msgstr "Limites de Taxa por Nível de Acesso"
 
 #: ../../api.rst:627
+#: 3d79ca283e9747ffb97cd339bb06ace0
 msgid "Access Level"
-msgstr ""
+msgstr "Nível de Acesso"
 
 #: ../../api.rst:628
+#: 8b5004f56a894ee4868632bdb66b7dde
 msgid "Requests/Hour"
-msgstr ""
+msgstr "Pedidos/Hora"
 
 #: ../../api.rst:629
+#: 1f8a3f3aa67f4c7bbe73a777b2da7404
 msgid "Records/Request"
-msgstr ""
+msgstr "Registros/Solicitar"
 
 #: ../../api.rst:630
+#: e869c9b318cb47f2b620f25c3c118b42
 msgid "Daily Export Limit"
-msgstr ""
+msgstr "Limite Diário de Exportação"
 
 #: ../../api.rst:631
+#: 6bb1c16bbcce41d8846967eb4a6581ce
 msgid "Public"
-msgstr ""
+msgstr "Público"
 
 #: ../../api.rst:632
+#: 458dc5d480c147faa8362f5fae2d0b2b
 msgid "1,000"
-msgstr ""
+msgstr "1,000"
 
-#: ../../api.rst:633 ../../api.rst:636
+#: ../../api.rst:633
+#: ../../api.rst:636
+#: bc13ae78e2cb4194925c0005ae3ed29f
+#: 20437cd3cea4489c9c5d32baa7eee7a6
 msgid "10,000"
-msgstr ""
+msgstr "10,000"
 
 #: ../../api.rst:634
+#: 4ee093e79ac5448386f18f29637c79ed
 msgid "50,000"
-msgstr ""
+msgstr "50,000"
 
 #: ../../api.rst:635
+#: 0d606a9656064101b87797282591af44
 msgid "API Key"
-msgstr ""
+msgstr "Chave de API"
 
-#: ../../api.rst:637 ../../api.rst:640
+#: ../../api.rst:637
+#: ../../api.rst:640
+#: 2f54debaffae4fc883f5dbf933f89434
+#: 8a841942083a4aa3a9c181b31b6c97d0
 msgid "100,000"
-msgstr ""
+msgstr "100,000"
 
-#: ../../api.rst:638 ../../api.rst:641
+#: ../../api.rst:638
+#: ../../api.rst:641
+#: 55c99a3566e0402490ea47f662b3c413
+#: c0f2a537ca064386a4b5d916088842e3
 msgid "1,000,000"
-msgstr ""
+msgstr "1,000,000"
 
 #: ../../api.rst:639
+#: 6f25f8ee8bd448dfb74e64c67f71e532
 msgid "Institutional"
-msgstr ""
+msgstr "Instituição"
 
 #: ../../api.rst:642
+#: f69bc5028b814b83b4074035ae92c8c8
 msgid "Unlimited"
-msgstr ""
+msgstr "Ilimitado"
 
 #: ../../api.rst:645
+#: 6641478c2a974aaf80a2d63e288e1985
 msgid "Best Practices"
-msgstr ""
+msgstr "Práticas recomendadas"
 
 #: ../../api.rst:647
+#: 3dc5ebda855b4dada2b193b12c6b1ce1
 msgid "**1. Use API Keys for Regular Access:**"
-msgstr ""
+msgstr "**1. Use chaves de API para acesso regular:**"
 
 #: ../../api.rst:654
+#: 4bbb735fa86d4bb788b5d402f850ba6c
 msgid "**2. Implement Proper Error Handling:**"
-msgstr ""
+msgstr "**2. Implementação da Proporção de Erro de Manipulação:**"
 
 #: ../../api.rst:676
+#: ef89b0e3ab01443b9df027dce0973c78
 msgid "**3. Use Pagination for Large Datasets:**"
-msgstr ""
+msgstr "**3. Use a paginação para grandes datasets:**"
 
 #: ../../api.rst:700
+#: e6c4d69605274353852d473906231afa
 msgid "**4. Cache Results Appropriately:**"
-msgstr ""
+msgstr "**4. Resultados do cache apropriados:**"
 
 #: ../../api.rst:728
+#: 7d27beb88c554a74b10c1fa9b7469948
 msgid "FARM Stack API"
-msgstr ""
+msgstr "API FARM Stack"
 
 #: ../../api.rst:732
-msgid ""
-"AMRnet is implementing a modern FARM (FastAPI + React + MongoDB) stack "
-"API to provide enhanced performance, real-time capabilities, and advanced"
-" analytics features."
-msgstr ""
+#: a67ae0f28a0a4e13a96045b273c8cab8
+msgid "AMRnet is implementing a modern FARM (FastAPI + React + MongoDB) stack API to provide enhanced performance, real-time capabilities, and advanced analytics features."
+msgstr "O AMRnet está implementando uma API moderna FARM (FastAPI + React + MongoDB) para fornecer desempenho aprimorado, capacidades em tempo real e recursos avançados de análise."
 
 #: ../../api.rst:735
+#: ec6f5ca3ef5e4616b1d86d1ed0be3cdf
 msgid "FastAPI Backend Features"
-msgstr ""
+msgstr "Funcionalidades do Backend FastAPI"
 
 #: ../../api.rst:737
+#: fe4e00898ea645039c65869c833e7b89
 msgid "**Real-time Data Streaming:**"
-msgstr ""
+msgstr "**Transmissão de dados em tempo real:**"
 
 #: ../../api.rst:756
+#: d87428731d3b47588f6fea7f0bbff809
 msgid "**Advanced Analytics Endpoints:**"
-msgstr ""
+msgstr "**Pontos de Análise Avançados:**"
 
 #: ../../api.rst:769
+#: d101274a2f4b43b29fc24c4bf5ec42ba
 msgid "**GraphQL Integration:**"
-msgstr ""
+msgstr "**Integração com GraphQL:**"
 
 #: ../../api.rst:797
+#: 2a28150285724e4d9de62e628ed48be6
 msgid "React Frontend Components"
-msgstr ""
+msgstr "Componentes de Frontend React"
 
 #: ../../api.rst:799
+#: c634958444d54bd680782f30f51f331d
 msgid "**Interactive API Explorer:**"
-msgstr ""
+msgstr "**Explorador de API interativo:**"
 
 #: ../../api.rst:821
+#: 065e73efc4e64ee89b6c12401eb77860
 msgid "**Real-time Dashboard Widgets:**"
-msgstr ""
+msgstr "**Widgets do Painel em tempo real:**"
 
 #: ../../api.rst:840
+#: 731bb7fd063540bc98650db677d983c0
 msgid "MongoDB Advanced Queries"
-msgstr ""
+msgstr "Consultas Avançadas do MongoDB"
 
 #: ../../api.rst:842
+#: cb74568d239145d8a7f2cb0a6361118f
 msgid "**Time-series Analytics:**"
-msgstr ""
+msgstr "**Análises de Tempo:**"
 
 #: ../../api.rst:876
+#: 35d2e2ac414844e390843a68aecbd67f
 msgid "**Geospatial Analysis:**"
-msgstr ""
+msgstr "**Análise geoespacial:**"
 
 #: ../../api.rst:893
+#: 1e0a0a3d357d403d8888c06a57f0e358
 msgid "Support and Resources"
-msgstr ""
+msgstr "Suporte e recursos"
 
 #: ../../api.rst:897
+#: 197197e1ef854e3a9fc83813ae100c6e
 msgid "Get help and connect with the AMRnet developer community:"
-msgstr ""
+msgstr "Obtenha ajuda e conecte-se com a comunidade de desenvolvedor AMRnet:"
 
 #: ../../api.rst:900
+#: e84cd80c24ef4aaf952b1c5b699bba39
 msgid "Documentation Resources"
-msgstr ""
+msgstr "Recursos de Documentação"
 
 #: ../../api.rst:902
+#: 5b10d3dc8846468a9295d854d9dbe1ee
 msgid "**📖 User Guide**: Comprehensive dashboard usage instructions"
-msgstr ""
+msgstr "**📖 Guia do usuário**: Instruções gerais de uso do painel"
 
 #: ../../api.rst:903
+#: 6ed32b8af2f14bb0ad2d48cf2cd65bb5
 msgid "**🛠️ Developer Guide**: Contributing and adding new organisms"
-msgstr ""
+msgstr "**🛠️ Guia de Desenvolvedor**: Contribuindo e adicionando novos organismos"
 
 #: ../../api.rst:904
+#: 7c1e22af2cb54734b072f348fd199690
 msgid "**📊 Data Dictionary**: Complete field definitions and schemas"
-msgstr ""
+msgstr "**📊 Dicionário de Dados**: definições de campo completas e esquemas"
 
 #: ../../api.rst:905
+#: 99122995ebeb4a7d93107694c8cbcb7c
 msgid "**🎓 Tutorials**: Step-by-step integration examples"
-msgstr ""
+msgstr "**🎓 Tutoriais**: Exemplos de integração passo a passo"
 
 #: ../../api.rst:908
+#: 0f2d57efadbc4dd5b43a2f4700c5421f
 msgid "Community Support"
-msgstr ""
+msgstr "Apoio da Comunidade"
 
 #: ../../api.rst:910
-msgid ""
-"**💬 GitHub Discussions**: `github.com/amrnet/amrnet/discussions "
-"<https://github.com/amrnet/amrnet/discussions>`_"
-msgstr ""
+#: c57dcb167aea409fa75c410450a704fe
+msgid "**💬 GitHub Discussions**: `github.com/amrnet/amrnet/discussions <https://github.com/amrnet/amrnet/discussions>`_"
+msgstr "**💬 GitHub Discussions**: `github.com/amrnet/amrnet/discussions <https://github.com/amrnet/amrnet/discussions>`_"
 
 #: ../../api.rst:911
-msgid ""
-"**🐛 Issue Tracker**: `github.com/amrnet/amrnet/issues "
-"<https://github.com/amrnet/amrnet/issues>`_"
-msgstr ""
+#: 722dc13893af4880ae61e52a6375d90f
+msgid "**🐛 Issue Tracker**: `github.com/amrnet/amrnet/issues <https://github.com/amrnet/amrnet/issues>`_"
+msgstr "**🐛 Issue Tracker**: `github.com/amrnet/amrnet/issues <https://github.com/amrnet/amrnet/issues>`_"
 
 #: ../../api.rst:912
+#: 6a744611d7964ce2b51b22d1f576ca02
 msgid "**📧 Email Support**: amrnetdashboard@gmail.com"
-msgstr ""
+msgstr "**📧 Suporte por e-mail**: amrnetdashboard@gmail.com"
 
 #: ../../api.rst:913
+#: a479687c08634750a2add6a0b6ee957e
 msgid "**📋 API Status**: `status.amrnet.org <https://status.amrnet.org>`_"
-msgstr ""
+msgstr "**📋 API Status**: `status.amrnet.org <https://status.amrnet.org>`_"
 
 #: ../../api.rst:916
+#: 75b853442efe4e4b91a98fcdd075cdf4
 msgid "Professional Services"
-msgstr ""
+msgstr "Serviços Profissionais"
 
 #: ../../api.rst:920
-msgid ""
-"For organizations requiring custom integration support, training, or "
-"enterprise features:"
-msgstr ""
+#: 05680c5306e948a19717f189e23960c0
+msgid "For organizations requiring custom integration support, training, or enterprise features:"
+msgstr "Para organizações que exigem suporte de integração personalizada, treinamento ou recursos empresariais:"
 
 #: ../../api.rst:922
+#: 6b2f999e61b64a7694d12261d106f569
 msgid "**🏢 Enterprise API Access**: Higher rate limits and SLA guarantees"
-msgstr ""
+msgstr "**🏢 Acesso à API da Enterprise**: Limites de taxa mais altos e garantias de SLA"
 
 #: ../../api.rst:923
+#: eb6702ee8c2a49d6894e3aad7939e5cb
 msgid "**🎓 Training Workshops**: API integration and AMR data analysis"
-msgstr ""
+msgstr "**🎓 Workshops de treinamento**: integração de API e análise de dados AMR"
 
 #: ../../api.rst:924
+#: f55174aea5c04a6d99b7572502935ad5
 msgid "**🔧 Custom Development**: Tailored solutions and private deployments"
-msgstr ""
+msgstr "**🔧 Desenvolvimento personalizado**: soluções personalizadas e implantações privadas"
 
 #: ../../api.rst:925
+#: b2475a7833bd46d9b5f0faa4b29662bf
 msgid "**📊 Consulting Services**: AMR surveillance strategy and implementation"
-msgstr ""
+msgstr "**📊 Serviços de consulta**: estratégia de vigilância e implementação da RAM"
 
 #: ../../api.rst:927
-msgid ""
-"Contact our enterprise team at ``amrnetdashboard@gmail.com`` for more "
-"information."
-msgstr ""
+#: 023397b331df4e2c8bd262cbf531a63b
+msgid "Contact our enterprise team at ``amrnetdashboard@gmail.com`` for more information."
+msgstr "Entre em contato com a nossa equipe corporativa em ``amrnetdashboard@gmail.com`` para mais informações."
 
 #: ../../api.rst:930
+#: c70cff4ebe7e4dd482ead5d04b790943
 msgid "Changelog and Versioning"
-msgstr ""
+msgstr "Mudanças e Versionamento"
 
 #: ../../api.rst:934
-msgid ""
-"The AMRnet API follows semantic versioning. Major version changes may "
-"include breaking changes, while minor versions add features with backward"
-" compatibility."
-msgstr ""
+#: 4710a569edbe47538e271a482f48e80d
+msgid "The AMRnet API follows semantic versioning. Major version changes may include breaking changes, while minor versions add features with backward compatibility."
+msgstr "A API AMRnet segue o versionamento semântico. Alterações na versão principais podem incluir alterações na falha, enquanto versões menores adicionam recursos com compatibilidade com versões anteriores."
 
 #: ../../api.rst:937
+#: 1ba0917de588422785cae63d344e5a26
 msgid "Current Version: v2.1.0"
-msgstr ""
+msgstr "Versão atual: v2.1.0"
 
 #: ../../api.rst:939
-msgid ""
-"**New Features:** - FARM stack implementation with FastAPI backend - "
-"Real-time WebSocket endpoints for live data streaming - GraphQL API "
-"support for flexible queries - Enhanced geospatial analysis capabilities "
-"- Machine learning prediction endpoints"
-msgstr ""
+#: 60085028573443b4a36c06412bdab3f5
+msgid "**New Features:** - FARM stack implementation with FastAPI backend - Real-time WebSocket endpoints for live data streaming - GraphQL API support for flexible queries - Enhanced geospatial analysis capabilities - Machine learning prediction endpoints"
+msgstr "**Novos Recursos:** - Implementação FARM stack com o backend FastAPI - endpoints de WebSocket em tempo real para streaming de dados ao vivo - API GraphQL para consultas flexíveis - Recursos de análise geoespacial melhorados - Pontos de previsão do aprendizado automático"
 
 #: ../../api.rst:946
-#, python-format
-msgid ""
-"**Improvements:** - 40% faster response times with async processing - "
-"Improved error messages with detailed diagnostics - Enhanced rate "
-"limiting with burst capacity - Better caching for frequently accessed "
-"data"
-msgstr ""
+#: 96687ccf2c6445d592ded6a11f81def5
+msgid "**Improvements:** - 40% faster response times with async processing - Improved error messages with detailed diagnostics - Enhanced rate limiting with burst capacity - Better caching for frequently accessed data"
+msgstr "**Melhorias:** - 40% mais rápido de resposta com processamento assíncrono - Mensagens de erro melhoradas com diagnósticos detalhados - Limite de velocidade aumentada com capacidade de estouramento - Melhor cache para dados acessados com frequência"
 
 #: ../../api.rst:952
-msgid ""
-"**Bug Fixes:** - Fixed pagination issues with large datasets - Resolved "
-"timezone handling in date filters - Corrected resistance rate "
-"calculations for specific genotypes"
-msgstr ""
+#: bcebd858cc74427fb784ca5cd33878eb
+msgid "**Bug Fixes:** - Fixed pagination issues with large datasets - Resolved timezone handling in date filters - Corrected resistance rate calculations for specific genotypes"
+msgstr "**Correções de bugs:** - Problemas de paginação corrigidos com grandes conjuntos de dados - Manutenção de fuso horário resolvido nos filtros de data - Cálculos de taxa de resistência fixa para genótipos específicos"
 
 #: ../../api.rst:958
+#: caa1a5064bc4472ba28f493a1cd751ef
 msgid "Version History"
-msgstr ""
+msgstr "Histórico de Versão"
 
 #: ../../api.rst:960
+#: b4d93c2f9d1e4f40b42f0c5ddaba40be
 msgid "**v2.1.0** (2024-12-30): FARM stack implementation, real-time features"
-msgstr ""
+msgstr "**v2.1.0** (2024-12-30): Implementação da pilha FARM, recursos em tempo real"
 
 #: ../../api.rst:961
+#: c0a950a9294445ef857a0a70726af0f2
 msgid "**v2.0.0** (2024-06-15): Major API redesign with consistent endpoints"
-msgstr ""
+msgstr "**v2.0.0** (2024-06-15): Redesign de API principal com endpoints consistentes"
 
 #: ../../api.rst:962
+#: 613d6b719a6e44a083d98c1a3a78c453
 msgid "**v1.5.2** (2024-03-10): Enhanced filtering and export capabilities"
-msgstr ""
+msgstr "**v1.5.2** (2024-03-10): Filtragem e recursos de exportação aprimorados"
 
 #: ../../api.rst:963
+#: a3fffbb01b604c76b94ad03fb7724809
 msgid "**v1.5.0** (2024-01-20): Added summary statistics endpoints"
-msgstr ""
+msgstr "**v1.5.0** (2024-01-20): Adicionado resumos de estatísticas"
 
 #: ../../api.rst:964
+#: c70ecad3298e4626828f03abbc83954e
 msgid "**v1.4.1** (2023-11-05): Performance improvements and bug fixes"
-msgstr ""
+msgstr "**v1.4.1** (2023-11-05): Melhorias de desempenho e correções de bugs"
 
 #: ../../api.rst:965
+#: 2fe6ae7cd0f64aceb6b06ed545837a28
 msgid "**v1.4.0** (2023-09-15): OAuth2 authentication support"
-msgstr ""
+msgstr "**v1.4.0** (2023-09-15): suporte a autenticação OAuth2"
 
 #: ../../api.rst:966
+#: a5a737e9b90948a4ad9f80c7ceae144f
 msgid "**v1.3.0** (2023-07-01): API key authentication system"
-msgstr ""
+msgstr "**v1.3.0** (2023-07-01): sistema de autenticação de chave de API"
 
 #: ../../api.rst:967
+#: 4a1174c529a04dfe8286354c483c8d50
 msgid "**v1.2.0** (2023-04-10): CSV export functionality"
-msgstr ""
+msgstr "**v1.2.0** (2023-04-10): funcionalidade de exportação CSV"
 
 #: ../../api.rst:968
+#: 4c8be55fe7904467a1872e6e57fba9e8
 msgid "**v1.1.0** (2023-02-01): Pagination and advanced filtering"
-msgstr ""
+msgstr "**v1.1.0** (2023-02-01): Paginação e filtragem avançada"
 
 #: ../../api.rst:969
+#: 93acfb656be4437fa1ffcba6784aa16b
 msgid "**v1.0.0** (2023-01-01): Initial public API release"
-msgstr ""
+msgstr "**v1.0.0** (2023-01-01): Versão inicial da API pública"
 
 #: ../../api.rst:972
+#: 0fe35c74f93548b2aa673cbaa0068c26
 msgid "Migration Guides"
-msgstr ""
+msgstr "Guias de migração"
 
 #: ../../api.rst:974
+#: f9ea28ced7814e6ca9725e898a461f53
 msgid "**Migrating from v1.x to v2.x:**"
-msgstr ""
+msgstr "**Migrando da v1.x para v2.x:**"
 
 #: ../../api.rst:984
-msgid ""
-"**Breaking Changes in v2.0:** - Endpoint structure simplified "
-"(``/data/{organism}`` → ``/{organism}``) - Response format standardized "
-"across all endpoints - Date filtering uses ``year_start``/``year_end`` "
-"instead of ``date_from``/``date_to`` - Resistance values standardized "
-"(R/I/S instead of numeric codes)"
-msgstr ""
+#: 6783e671a48d4b29a46c4e287bd63cb8
+msgid "**Breaking Changes in v2.0:** - Endpoint structure simplified (``/data/{organism}`` → ``/{organism}``) - Response format standardized across all endpoints - Date filtering uses ``year_start``/``year_end`` instead of ``date_from``/``date_to`` - Resistance values standardized (R/I/S instead of numeric codes)"
+msgstr "**Quebrando mudanças na v2. :** Estrutura de Endpoint simplificada (``/data/{organism}`` → ``/{organism}``) - Formato de resposta padronizado em todos os endpoints - filtragem de datas usa ``year_start``/``year_end`` em vez de ``date_from``/``date_to`` - Valores de resistência padronizados (R/I/S em vez de códigos numéricos)"
 
 #: ../../api.rst:991
+#: 1d028736683b4c39a9957e75a0244c9d
 msgid "Deprecation Notice"
-msgstr ""
+msgstr "Aviso de desaprovação"
 
 #: ../../api.rst:995
-msgid ""
-"**v1.x API endpoints will be deprecated on June 30, 2025.** Please "
-"migrate to v2.x endpoints before this date. Legacy endpoints will "
-"continue to work until December 31, 2025, after which they will be "
-"permanently removed."
-msgstr ""
+#: e8dbe69a8acf40b896c939a5d82c50bb
+msgid "**v1.x API endpoints will be deprecated on June 30, 2025.** Please migrate to v2.x endpoints before this date. Legacy endpoints will continue to work until December 31, 2025, after which they will be permanently removed."
+msgstr "**v1.x endpoints de API serão descontinuados em 30 de junho de 2025.** Por favor, migre para a v2.x pontos de extremidade antes desta data. Os endpoints legados continuarão a funcionar até 31 de Dezembro de 2025, após o que serão permanentemente removidos."
 
-#~ msgid "API Reference"
-#~ msgstr ""

@@ -7,199 +7,270 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: es\n"
-"Language-Team: es <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: installation.pot\n"
+"X-Crowdin-File-ID: 55\n"
+"Language: es_ES\n"
+
+#: ../../installation.rst:6
+#: 
+msgid "Features"
+msgstr "Características"
+
+#: ../../installation.rst:6
+#: 
+msgid "Performance Optimization"
+msgstr "Optimización de rendimiento"
+
+#: ../../installation.rst:6
+#: 
+msgid "Deployment Guide"
+msgstr "Guía de despliegue"
+
+#: ../../installation.rst:6
+#: 
+msgid "Security Guide"
+msgstr "Guía de seguridad"
+
+#: ../../installation.rst:6
+#: 
+msgid "Professional Translation Services"
+msgstr "Servicios profesionales de traducción"
+
+#: ../../installation.rst:6
+#: ../../installation.rst:185
+#: 
+#: 2a24da198ff447e6b1e432c6719684b8
+msgid "Troubleshooting"
+msgstr "Solución de problemas"
+
+#: ../../installation.rst:6
+#: 
+msgid "Contributor Guide"
+msgstr "Guía del colaborador"
+
+#: ../../installation.rst:6
+#: 
+msgid "Code of Conduct"
+msgstr "Código de conducta"
+
+#: ../../installation.rst:6
+#: 
+msgid "License"
+msgstr "Licencia"
 
 #: ../../installation.rst:4
-msgid "Installation"
-msgstr "Instalación"
+#: 7babaea2313c4dd6bc28750c55a3e0a1
+msgid "Developer Guide"
+msgstr "Guía de Desarrollador"
 
-#: ../../installation.rst:7
-msgid ""
-"These instructions will get you a copy of ``AMRnet`` up and running on "
-"your machine for development and testing purposes. AMRnet is a full-stack"
-" web application built with Node.js, React, and MongoDB."
-msgstr ""
+#: ../../installation.rst:24
+#: 683587577f9046cca54966f1345d31c0
+msgid "These instructions will get you a copy of ``AMRnet`` up and running on your machine for development and testing purposes. AMRnet is a full-stack web application built with Node.js, React, and MongoDB."
+msgstr "Estas instrucciones le proporcionarán una copia de ``AMRnet`` en funcionamiento en su máquina para fines de desarrollo y prueba. AMRnet es una aplicación web completamente compilada con Node.js, React, y MongoDB."
 
-#: ../../installation.rst:12
+#: ../../installation.rst:29
+#: 54066ede2a0b4c0893c4308473765869
 msgid "Prerequisites"
-msgstr ""
+msgstr "Prerrequisitos"
 
-#: ../../installation.rst:15
-msgid ""
-"Before installing AMRnet, make sure you have the following software "
-"installed:"
-msgstr ""
+#: ../../installation.rst:32
+#: 55d63f20411d4aa7a0dd2f8e7b15d975
+msgid "Before installing AMRnet, make sure you have the following software installed:"
+msgstr "Antes de instalar AMRnet, asegúrese de tener el siguiente software instalado:"
 
-#: ../../installation.rst:17
+#: ../../installation.rst:34
+#: 8dc22cf0055e4434ba6a838878678a6a
 msgid "**Node.js**: v18.20.4 or higher (specified in ``.nvmrc``)"
-msgstr ""
+msgstr "**Node.js**: v18.20.4 o superior (especificado en ``.nvmrc``)"
 
-#: ../../installation.rst:18
+#: ../../installation.rst:35
+#: df025fce73f54a2c817a27a50eefa3fa
 msgid "**npm**: Latest version (comes with Node.js)"
-msgstr ""
-
-#: ../../installation.rst:19
-msgid "**Python**: v3.8+ (for data processing components)"
-msgstr ""
-
-#: ../../installation.rst:20
-msgid "**Git**: Latest version for version control"
-msgstr ""
-
-#: ../../installation.rst:21
-msgid "**MongoDB**: v6.0+ (local installation or MongoDB Atlas cloud database)"
-msgstr ""
-
-#: ../../installation.rst:23
-msgid "You can check your installed versions with:"
-msgstr ""
-
-#: ../../installation.rst:33
-msgid "Quick Start"
-msgstr "Inicio Rápido"
+msgstr "**npm**: Última versión (viene con Node.js)"
 
 #: ../../installation.rst:36
-msgid "Follow these steps to get AMRnet running locally:"
-msgstr ""
+#: a330b2e3e1ae44d19eb9c9896ec47857
+msgid "**Python**: v3.8+ (for data processing components)"
+msgstr "**Python**: v3.8+ (para componentes de procesamiento de datos)"
+
+#: ../../installation.rst:37
+#: c38cbe5187894847aedce98cf37469b6
+msgid "**Git**: Latest version for version control"
+msgstr "**Git**: última versión para control de versiones"
 
 #: ../../installation.rst:38
-msgid "**1. Clone the Repository**"
-msgstr ""
+#: d13770d1754e44e48adf88f304cf7cb7
+msgid "**MongoDB**: v6.0+ (local installation or MongoDB Atlas cloud database)"
+msgstr "**MongoDB**: v6.0+ (instalación local o base de datos de MongoDB Atlas)"
 
-#: ../../installation.rst:45
-msgid "**2. Install Dependencies**"
-msgstr ""
+#: ../../installation.rst:40
+#: 04bed41eebbb487394585d2189efd757
+msgid "You can check your installed versions with:"
+msgstr "Puede comprobar las versiones instaladas con:"
+
+#: ../../installation.rst:50
+#: db6ba0bff5d24a709f8120a43fb289a6
+msgid "Quick Start"
+msgstr "Inicio rápido"
+
+#: ../../installation.rst:53
+#: 195498a46c2c4ad298e972f71c05bce5
+msgid "Follow these steps to get AMRnet running locally:"
+msgstr "Siga estos pasos para que AMRnet se ejecute localmente:"
 
 #: ../../installation.rst:55
+#: 01921a91dfeb495d81312b68a2dfdc34
+msgid "**1. Clone the Repository**"
+msgstr "**1. Clonar el Repositorio**"
+
+#: ../../installation.rst:62
+#: b25a5cad8c144f748a5bd0d651586724
+msgid "**2. Install Dependencies**"
+msgstr "**2. Instalar dependencias**"
+
+#: ../../installation.rst:72
+#: 2bb3b16535aa4ad19b044ca0b153fed4
 msgid "**3. Environment Configuration**"
-msgstr ""
+msgstr "**3. Configuración de entorno**"
 
-#: ../../installation.rst:65
+#: ../../installation.rst:82
+#: 0266eb325af14d7ba2e63d0d2bbab7ff
 msgid "**4. Start Development Servers**"
-msgstr ""
+msgstr "**4. Iniciar Servidores de Desarrollo**"
 
-#: ../../installation.rst:76
+#: ../../installation.rst:93
+#: 5f2f089146cd426ca5ac80a5f6f5a20c
 msgid "**5. Access the Application**"
-msgstr ""
+msgstr "**5. Accede a la aplicación**"
 
-#: ../../installation.rst:78
-msgid ""
-"Open your browser and navigate to ``http://localhost:3000`` to see the "
-"AMRnet dashboard."
-msgstr ""
+#: ../../installation.rst:95
+#: ccdf045ff7804e329f0760b6e87e7970
+msgid "Open your browser and navigate to ``http://localhost:3000`` to see the AMRnet dashboard."
+msgstr "Abra su navegador y vaya a ``http://localhost:3000`` para ver el panel de control de AMRnet."
 
-#: ../../installation.rst:81
+#: ../../installation.rst:98
+#: 8e0fc7c4c60a40f0ab602ee3adfe0bc2
 msgid "Development Setup"
-msgstr ""
+msgstr "Configuración de desarrollo"
 
-#: ../../installation.rst:84
-msgid ""
-"For detailed development setup, including code quality tools and best "
-"practices:"
-msgstr ""
+#: ../../installation.rst:101
+#: d715d482bc624c33bd9bcfdce83b9ed1
+msgid "For detailed development setup, including code quality tools and best practices:"
+msgstr "Para una configuración de desarrollo detallada, incluyendo herramientas de calidad de código y mejores prácticas:"
 
-#: ../../installation.rst:87
+#: ../../installation.rst:104
+#: bbd9c9abe1b840949f7acc3662205a26
 msgid "Node.js Version Management"
-msgstr ""
+msgstr "Gestión de versiones Node.js"
 
-#: ../../installation.rst:90
+#: ../../installation.rst:107
+#: a01ef3fec43446339d182b4694a17c14
 msgid "AMRnet uses Node.js v18.20.4. If you use nvm (Node Version Manager):"
-msgstr ""
-
-#: ../../installation.rst:102
-msgid "Python Dependencies"
-msgstr ""
-
-#: ../../installation.rst:105
-msgid "For data processing components and documentation building:"
-msgstr ""
-
-#: ../../installation.rst:116
-msgid "Environment Variables"
-msgstr ""
+msgstr "AMRnet utiliza Node.js v18.20.4. Si utiliza nvm (Node Version Manager):"
 
 #: ../../installation.rst:119
-msgid "Configure your ``.env`` file with the following variables:"
-msgstr ""
+#: e1c16968510345dc8760c80d6a123ab7
+msgid "Python Dependencies"
+msgstr "Dependencias de Python"
+
+#: ../../installation.rst:122
+#: cc1803ac1a8d4ce999dc16cb72f32cec
+msgid "For data processing components and documentation building:"
+msgstr "Para componentes de procesamiento de datos y construcción de documentación:"
+
+#: ../../installation.rst:133
+#: d127b9a7f8554e9eb8bd7366640c72af
+msgid "Environment Variables"
+msgstr "Variables de entorno"
 
 #: ../../installation.rst:136
+#: 09bbe39ece634a92b47fb2b45879f94b
+msgid "Configure your ``.env`` file with the following variables:"
+msgstr "Configura tu archivo ``.env`` con las siguientes variables:"
+
+#: ../../installation.rst:153
+#: 2a3d98d6289449f58fb0002ac961e799
 msgid "Production Build"
-msgstr ""
+msgstr "Construcción de Producción"
 
-#: ../../installation.rst:139
+#: ../../installation.rst:156
+#: f7a33bb072694c9db3e89b9c55c88406
 msgid "To build AMRnet for production deployment:"
-msgstr ""
+msgstr "Para construir AMRnet para despliegue de producción:"
 
-#: ../../installation.rst:149
+#: ../../installation.rst:166
+#: 252130735e7344d99bd8ff17934cc766
 msgid "The built application will be served from the ``client/build`` directory."
-msgstr ""
+msgstr "La aplicación construida se servirá desde el directorio ``client/build``."
 
-#: ../../installation.rst:152
+#: ../../installation.rst:169
+#: 09ab929f40d44760adca05267d349704
 msgid "Docker Installation"
-msgstr ""
+msgstr "Instalación de Docker"
 
-#: ../../installation.rst:155
+#: ../../installation.rst:172
+#: a5d96166e02e40d397da3be4902b3d38
 msgid "AMRnet can also be run using Docker:"
-msgstr ""
-
-#: ../../installation.rst:165
-msgid ""
-"Make sure to replace ``your_mongodb_uri`` with your actual MongoDB "
-"connection string."
-msgstr ""
-
-#: ../../installation.rst:168
-msgid "Troubleshooting"
-msgstr "Resolución de Problemas"
-
-#: ../../installation.rst:171
-msgid "**Common Installation Issues:**"
-msgstr ""
-
-#: ../../installation.rst:173
-msgid ""
-"**Node version mismatch**: Use ``nvm use`` to switch to the correct "
-"version"
-msgstr ""
-
-#: ../../installation.rst:174
-msgid ""
-"**Package conflicts**: Delete ``node_modules`` and run ``npm install`` "
-"again"
-msgstr ""
-
-#: ../../installation.rst:175
-msgid "**Port conflicts**: Make sure ports 3000 and 8080 are available"
-msgstr ""
-
-#: ../../installation.rst:176
-msgid ""
-"**MongoDB connection**: Verify your MongoDB service is running or Atlas "
-"credentials are correct"
-msgstr ""
-
-#: ../../installation.rst:178
-msgid "**Getting Help:**"
-msgstr ""
-
-#: ../../installation.rst:180
-msgid "Check the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`_"
-msgstr ""
-
-#: ../../installation.rst:181
-msgid "Review the `Development Guide <../tutorial/development.md>`_"
-msgstr ""
+msgstr "AMRnet también puede ejecutarse usando Docker:"
 
 #: ../../installation.rst:182
+#: e912ab9ab2d54474a0d96d87036f0b3c
+msgid "Make sure to replace ``your_mongodb_uri`` with your actual MongoDB connection string."
+msgstr "Asegúrese de reemplazar ``your_mongodb_uri`` con su cadena de conexión MongoDB."
+
+#: ../../installation.rst:188
+#: a9900aecb7474b16a532cd724dd34e86
+msgid "**Common Installation Issues:**"
+msgstr "**Problemas comunes de instalación:**"
+
+#: ../../installation.rst:190
+#: a63c747d8d6142c4b775530272accded
+msgid "**Node version mismatch**: Use ``nvm use`` to switch to the correct version"
+msgstr "**No coincide la versión del nodo**: Usa ``nvm use`` para cambiar a la versión correcta"
+
+#: ../../installation.rst:191
+#: b7e2d8fb9e5947a484f783fd4bc3abb2
+msgid "**Package conflicts**: Delete ``node_modules`` and run ``npm install`` again"
+msgstr "**Conflictos de paquete**: Elimina ``node_modules`` y ejecuta ``npm install`` de nuevo"
+
+#: ../../installation.rst:192
+#: 4ba98288032a418281eca86f4cfb72ad
+msgid "**Port conflicts**: Make sure ports 3000 and 8080 are available"
+msgstr "**Conflictos portuarios**: Asegúrate de que los puertos 3000 y 8080 estén disponibles"
+
+#: ../../installation.rst:193
+#: 920ef05f374245609d80c07994859205
+msgid "**MongoDB connection**: Verify your MongoDB service is running or Atlas credentials are correct"
+msgstr "**Conexión MongoDB**: Verifique que su servicio MongoDB se está ejecutando o que las credenciales de Atlas son correctas"
+
+#: ../../installation.rst:195
+#: a2202620216a4058a735ff0233c9fdf6
+msgid "**Getting Help:**"
+msgstr "**Obteniendo ayuda:**"
+
+#: ../../installation.rst:197
+#: ea7925edbabe4a6b868eebdaed04ef1e
+msgid "Check the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`_"
+msgstr "Consulta el `rastreador de incidencias <https://github.com/amrnet/amrnet/issues>`_"
+
+#: ../../installation.rst:198
+#: d8799e93173d466a83f60fe9d6ab0890
+msgid "Review the `Development Guide <../tutorial/development.md>`_"
+msgstr "Revisa la `Guía de Desarrollo <../tutorial/development.md>`_"
+
+#: ../../installation.rst:199
+#: 4131639afeee42be9b9ff5883f7417ac
 msgid "Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`_"
-msgstr ""
+msgstr "Únete a nuestros `Discusiones <https://github.com/amrnet/amrnet/discussions>`_"
 

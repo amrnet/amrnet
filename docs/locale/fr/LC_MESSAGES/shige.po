@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: shige.pot\n"
+"X-Crowdin-File-ID: 75\n"
+"Language: fr_FR\n"
+
+#: ../../shige.rst:2
+#: 81d3c31891a3416f98064a995acf8bb8
+msgid "*Shigella* + EIEC"
+msgstr "*Shigella* + EIEC"
+
+#: ../../shige.rst:6
+#: 5e368a53ca3144db8d63c96f0ece28d5
+msgid "*Shigella* and enteroinvasive *E. coli* (EIEC) data in AMRnet are drawn from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 5 August 2025."
+msgstr "*Shigella* et entéroinvasive *E. les données coli* (EIEC) dans AMRnet sont tirées de `Enterobase <https://enterobase.warwick.ac.uk/>`__, qui appelle les génotypes AMR en utilisant `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ de NCBI et assigne des lignes en utilisant `cgMLST <https://doi.org/10.1101/gr.251678.119>`_ et `cluster hiérarchique <https://doi.org/10.1093/bioinformatics/btab234>`_. Dernière mise à jour : 5 août 2025."
+
+#: ../../shige.rst:10
+#: a1fb1766ea374d359f31c224e5e276b1
+msgid "The *Shigella* + EIEC data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard."
+msgstr "Les données *Shigella* + EIEC utilisées dans AMRnet ne sont pas encore conservées à des fins d'échantillonnage, et donc reflètent les préjugés des efforts de séquençage global qui peuvent être orientés vers le séquençage des souches et/ou des épidémies. Les efforts de conservation des données sont cependant en cours jusqu'à ce moment-là, soyez prudent lorsque vous interprétez les données dans le tableau de bord."
+
+#: ../../shige.rst:13
+#: d696c6ff4d3341c3b42daa132c59cd0a
+msgid "Variable definitions"
+msgstr "Définitions de variables"
+
+#: ../../shige.rst:17
+#: 584dfa827cfe46c693110fd005488a21
+msgid "**Lineages**: The logic used by `Enterobase <https://doi.org/10.1101/gr.251678.119>`__ to classify genomes as *Shigella* or EIEC are detailed `here <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella>`__. *Shigella sonnei* are monophyletic and labelled as lineage ‘S. *sonnei*’. For other *Shigella*, lineages are labeled by the species followed by the HC400 (`HierCC <https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_) cluster ID (as this nomenclature has been `shown <https://doi.org/10.1038/s41467-022-28121-1>`_ to mirror the paraphyletic lineage structure of *Shigella*). EIEC lineages are labeled by ST (e.g. ‘EIEC ST99’)."
+msgstr "**Lineages** : La logique utilisée par `Enterobase <https://doi.org/10.1101/gr.251678.119>`__ pour classer les génomes comme *Shigella* ou EIEC est détaillée `ici <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=shigella>`__. *Shigella sonnei* sont monophylétiques et étiquetés comme 'S. *sonnei*'. Pour d'autres *Shigella*, les lignées sont étiquetées par l'espèce suivie par l'ID de l'instance HC400 (`HierCC <https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_) (comme cette nomenclature a été `montrée <https://doi.org/10.1038/s41467-022-28121-1>`_ pour refléter la structure de lignée paraphylétique de *Shigella*). Les lignées EIEC sont marquées par ST (par exemple « EIEC ST99 »)."
+
+#: ../../shige.rst:18
+#: b043604ddb394c4389fa8ad6875e8c4b
+msgid "**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`__ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :ref:`the table <amr-definition-table>`."
+msgstr "**déterminants AMR**: `Enterobase <https://enterobase.warwick.ac.uk/>`__ identifie les déterminants AMR en utilisant `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet importe ces appels de génotype AMR, et les assigne à des drogues/classes dans le tableau de bord en utilisant la sous-classe organisée dans `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, voir :ref:`la table <amr-definition-table>`."
+
