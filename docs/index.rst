@@ -1,3 +1,5 @@
+.. _Pathogenwatch: http://pathogen.watch
+
 AMRnet
 ======
 
@@ -5,7 +7,7 @@ AMRnet
 
    The `AMRnet dashboard <https://www.amrnet.org/>`_ aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying lineages/genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.
 
-   We started with *Salmonella* Typhi, based on our `TyphiNET <https://www.typhi.net>`_ dashboard which uses data curated by the `Global Typhoid Genomics Consortium <http://typhoidgenomics.org>`_ (to improve data quality and identify which datasets are suitable for inclusion) and analysed in `Pathogenwatch <http://pathogen.watch>`_ (to call AMR determinants and lineages from sequence data). Dashboards are now available for *Klebsiella pneumoniae*, *Neisseria gonorrhoeae*, non-typhoidal *Salmonella*, *E. coli* and *Shigella* using data sourced from the `Pathogenwatch <http://pathogen.watch>`_ and `Enterobase <https://enterobase.warwick.ac.uk/>`_ platforms. In the future, we plan to add additional organisms, sourced from these and other platforms.
+   We started with *Salmonella* Typhi, based on our `TyphiNET <https://www.typhi.net>`_ dashboard which uses data curated by the `Global Typhoid Genomics Consortium <http://typhoidgenomics.org>`_ (to improve data quality and identify which datasets are suitable for inclusion) and analysed in Pathogenwatch_ (to call AMR determinants and lineages from sequence data). Dashboards are now available for *Klebsiella pneumoniae*, *Neisseria gonorrhoeae*, non-typhoidal *Salmonella*, *E. coli* and *Shigella* using data sourced from the Pathogenwatch_ and `Enterobase <https://enterobase.warwick.ac.uk/>`_ platforms. In the future, we plan to add additional organisms, sourced from these and other platforms.
 
    A major barrier to using public data for surveillance is the need for careful data curation, to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with other organism communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (`amrnetdashboard@gmail.com <amrnetdashboard@gmail.com>`_).
 
