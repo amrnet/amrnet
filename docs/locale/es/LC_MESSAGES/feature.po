@@ -7,429 +7,513 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: es\n"
-"Language-Team: es <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: feature.pot\n"
+"X-Crowdin-File-ID: 51\n"
+"Language: es_ES\n"
 
 #: ../../feature.rst:4
+#: 2181c6ae01f644398e65daaa7d2378af
 msgid "Features"
 msgstr "Características"
 
 #: ../../feature.rst:8
-msgid ""
-"AMRnet provides a comprehensive suite of features designed to make "
-"antimicrobial resistance (AMR) genomic surveillance data accessible and "
-"actionable for researchers, public health professionals, and policymakers"
-" worldwide."
-msgstr ""
+#: a40b9a2fcff942f3bf908326e911392d
+msgid "AMRnet provides a comprehensive suite of features designed to make antimicrobial resistance (AMR) genomic surveillance data accessible and actionable for researchers, public health professionals, and policymakers worldwide."
+msgstr "AMRnet proporciona un conjunto completo de características diseñadas para hacer que los datos de vigilancia genómica de resistencia antimicrobiana (RM) sean accesibles y accesibles para los investigadores, profesionales de la salud pública y responsables de políticas en todo el mundo."
 
 #: ../../feature.rst:13
+#: 7d5a2390b5c648099e0cd35baaa7b6fc
 msgid "Interactive Visualizations"
-msgstr ""
+msgstr "Visualizaciones interactivas"
 
 #: ../../feature.rst:15
-msgid "**🗺️ Interactive Global Maps** .. container:: justify-text"
-msgstr ""
-
-#: ../../feature.rst:18
-msgid "Visualize resistance patterns across countries and regions"
-msgstr ""
+#: 222618ebfd394d05b8222e43dbc92f59
+msgid "**🗺️ Interactive Global Maps**"
+msgstr "**🗺️ Mapas globales interactivos**"
 
 #: ../../feature.rst:19
-msgid "Color-coded prevalence data with geographic distribution"
-msgstr ""
+#: 722c9c29f94749d8b87b2e0b8543fad7
+msgid "Visualize resistance patterns across countries and regions"
+msgstr "Visualizar patrones de resistencia a través de países y regiones"
 
 #: ../../feature.rst:20
-msgid "Clickable countries for detailed filtering"
-msgstr ""
+#: ad384bdd89554e3bba4f6a52da6f8304
+msgid "Color-coded prevalence data with geographic distribution"
+msgstr "Datos de prevalencia codificados por colores con distribución geográfica"
 
 #: ../../feature.rst:21
-msgid "Export capabilities for static maps (PNG format)"
-msgstr ""
+#: f4769e1b16bd46668b8d659a7c6896a3
+msgid "Clickable countries for detailed filtering"
+msgstr "Países rastreables para filtrado detallado"
 
 #: ../../feature.rst:22
+#: 19ba7e2a8ea74a83ab340b38ab421820
+msgid "Export capabilities for static maps (PNG format)"
+msgstr "Capacidades de exportación para mapas estáticos (formato PNG)"
+
+#: ../../feature.rst:23
+#: c2e9ba6c350b459e988a4b5bd7178918
 msgid "Responsive design that works on all devices"
-msgstr ""
+msgstr "Diseño adaptable que funciona en todos los dispositivos"
 
-#: ../../feature.rst:24
-msgid "**📊 Dynamic Trend Analysis** .. container:: justify-text"
-msgstr ""
-
-#: ../../feature.rst:27
-msgid "Track resistance changes over time with interactive graphs"
-msgstr ""
-
-#: ../../feature.rst:28
-msgid "Multiple chart types: line charts, bar charts, and scatter plots"
-msgstr ""
+#: ../../feature.rst:25
+#: 67420cbcd03e47cd9ff381e8fdc437f6
+msgid "**📊 Dynamic Trend Analysis**"
+msgstr "**📊 Análisis Dinámico de Tendencia**"
 
 #: ../../feature.rst:29
-msgid "Temporal filtering by year, month, or custom date ranges"
-msgstr ""
+#: 25574c7f59fa47b0a163079d9bfecc28
+msgid "Track resistance changes over time with interactive graphs"
+msgstr "Rastrear cambios de resistencia con el tiempo con gráficos interactivos"
 
 #: ../../feature.rst:30
-msgid "Real-time data updates as filters are applied"
-msgstr ""
+#: 599665e4e23c47ef997676a408341f57
+msgid "Multiple chart types: line charts, bar charts, and scatter plots"
+msgstr "Múltiples tipos de gráficos: gráficos de líneas, gráficos de barras y gráficos de dispersión"
 
 #: ../../feature.rst:31
-msgid "Downloadable chart data and static images"
-msgstr ""
+#: bbb5a8dccdd949e381560564572441aa
+msgid "Temporal filtering by year, month, or custom date ranges"
+msgstr "Filtrado temporal por año, mes o intervalos de fechas personalizadas"
+
+#: ../../feature.rst:32
+#: 28dd24e394ef40a1923ae32570ad7835
+msgid "Real-time data updates as filters are applied"
+msgstr "Actualizaciones de datos en tiempo real como filtros se aplican"
 
 #: ../../feature.rst:33
-msgid "**🔍 Advanced Data Exploration** .. container:: justify-text"
-msgstr ""
+#: 60a4134f3d5e43e8a41f761e95076b20
+msgid "Downloadable chart data and static images"
+msgstr "Datos de cartas descargables e imágenes estáticas"
 
-#: ../../feature.rst:36
-msgid "Multi-dimensional filtering by organism, drug, genotype, and geography"
-msgstr ""
-
-#: ../../feature.rst:37
-msgid "Dynamic legends with click-to-filter functionality"
-msgstr ""
-
-#: ../../feature.rst:38
-msgid "Cross-chart filtering that updates all visualizations simultaneously"
-msgstr ""
+#: ../../feature.rst:35
+#: 9a2d654f92e3467cbf040fc256711054
+msgid "**🔍 Advanced Data Exploration**"
+msgstr "**🔍 Exploración avanzada de datos**"
 
 #: ../../feature.rst:39
-msgid "Custom aggregation options (counts vs. percentages)"
-msgstr ""
+#: 44ff20ef669a4b5c997555e0e378194a
+msgid "Multi-dimensional filtering by organism, drug, genotype, and geography"
+msgstr "Filtrado multidimensional por organismo, droga, genotipo y geografía"
 
 #: ../../feature.rst:40
-msgid "Real-time data validation and error handling"
-msgstr ""
+#: 92612d699bb44f9097245faff6aa37e5
+msgid "Dynamic legends with click-to-filter functionality"
+msgstr "Leyendas dinámicas con funcionalidad click-to-filter"
+
+#: ../../feature.rst:41
+#: 3502cb66ce3242e3a2a80d99c89468b2
+msgid "Cross-chart filtering that updates all visualizations simultaneously"
+msgstr "Filtrado multigráfico que actualiza todas las visualizaciones simultáneamente"
+
+#: ../../feature.rst:42
+#: 0a1d7881df37472bbf1cd7c4d062255d
+msgid "Custom aggregation options (counts vs. percentages)"
+msgstr "Opciones personalizadas de agregación (cuenta vs. porcentajes)"
 
 #: ../../feature.rst:43
-msgid "Supported Organisms"
-msgstr ""
+#: b2c38ebdc27c4988b5f76d8e21fbe1c6
+msgid "Real-time data validation and error handling"
+msgstr "Validación de datos en tiempo real y manejo de errores"
 
-#: ../../feature.rst:45
-msgid "**🦠 Comprehensive Pathogen Coverage** .. container:: justify-text"
-msgstr ""
+#: ../../feature.rst:46
+#: 35b208e4c2324a28b174ce5d657ff68d
+msgid "Supported Organisms"
+msgstr "Organismos soportados"
 
 #: ../../feature.rst:48
-msgid "AMRnet supports surveillance data for eight major pathogens:"
-msgstr ""
-
-#: ../../feature.rst:50
-msgid ""
-"**Salmonella Typhi** (*S.* Typhi) - Typhoid fever surveillance with H58 "
-"lineage tracking"
-msgstr ""
-
-#: ../../feature.rst:51
-msgid ""
-"**Klebsiella pneumoniae** (*K. pneumoniae*) - Healthcare-associated "
-"infections and carbapenemase monitoring"
-msgstr ""
+#: 10fa555542f440928daeadc0d37cffd5
+msgid "**🦠 Comprehensive Pathogen Coverage**"
+msgstr "**🦠 cobertura completa de patógeno**"
 
 #: ../../feature.rst:52
-msgid ""
-"**Neisseria gonorrhoeae** (*N. gonorrhoeae*) - Gonorrhea resistance "
-"monitoring with WHO surveillance data"
-msgstr ""
-
-#: ../../feature.rst:53
-msgid ""
-"**Escherichia coli** (*E. coli*) - ESBL and carbapenemase tracking, STEC "
-"surveillance"
-msgstr ""
+#: 08a0648cd94b4ca18642cf34ebb47f84
+msgid "AMRnet supports surveillance data for eight major pathogens:"
+msgstr "AMRnet soporta datos de vigilancia de ocho patógenos principales:"
 
 #: ../../feature.rst:54
-msgid ""
-"**Diarrheagenic E. coli** (*dEcoli*) - Specialized diarrheal disease "
-"surveillance"
-msgstr ""
+#: 78730f93da6645c9a5a4fff15ff936d3
+msgid "**Salmonella Typhi** (*S.* Typhi) - Typhoid fever surveillance with H58 lineage tracking"
+msgstr "**Typhi de Salmonela** (*S.* Typhi) - Vigilancia de la fiebre tifoide con seguimiento del linaje H58"
 
 #: ../../feature.rst:55
-msgid ""
-"**Shigella** (*Shigella* spp.) - Dysentery and MDR monitoring with "
-"serotype tracking"
-msgstr ""
+#: 372770a68c494db9858b25e1dcf812d8
+msgid "**Klebsiella pneumoniae** (*K. pneumoniae*) - Healthcare-associated infections and carbapenemase monitoring"
+msgstr "**Klebsiella pneumoniae** (*K. pneumoniae*) - Infecciones relacionadas con el cuidado sanitario y monitorización de carbapenemase"
 
 #: ../../feature.rst:56
-msgid ""
-"**Salmonella enterica** (*S. enterica*) - Non-typhoidal Salmonella "
-"surveillance"
-msgstr ""
+#: 8a30307ee4f9437a95fc2ba9d28cb654
+msgid "**Neisseria gonorrhoeae** (*N. gonorrhoeae*) - Gonorrhea resistance monitoring with WHO surveillance data"
+msgstr "**Neisseria gonorrhoeae** (*N. gonorrhoeae*) - Monitoreo de resistencia Gonorrhea con datos de vigilancia de la OMS"
 
 #: ../../feature.rst:57
-msgid "**Salmonella enterica INTS** - Invasive non-typhoidal Salmonella tracking"
-msgstr ""
+#: 771468a3b94b49ee9bb69c0622cd4d2f
+msgid "**Escherichia coli** (*E. coli*) - ESBL and carbapenemase tracking, STEC surveillance"
+msgstr "**Escherichia coli** (*E. coli*) - Seguimiento ESBL y carbapenemasa, vigilancia STEC"
+
+#: ../../feature.rst:58
+#: 9233691729a84de5b447de339abb6513
+msgid "**Diarrheagenic E. coli** (*dEcoli*) - Specialized diarrheal disease surveillance"
+msgstr "**Ecoli** diarreico (*dEcoli*) - Vigilancia de enfermedades diarreicas especializada"
+
+#: ../../feature.rst:59
+#: 649e3a9b1f3949d5944964944f0f0517
+msgid "**Shigella** (*Shigella* spp.) - Dysentery and MDR monitoring with serotype tracking"
+msgstr "**Shigella** (*Shigella* spp.) - Monitorización de disentería y MDR con seguimiento de serotipo"
 
 #: ../../feature.rst:60
+#: ec3d1f82fd5b4513b3c92f0db55eb396
+msgid "**Salmonella enterica** (*S. enterica*) - Non-typhoidal Salmonella surveillance"
+msgstr "**Salmonella enterica** (*S. enterica*) - Non-typhoidal Salmonella surveillance"
+
+#: ../../feature.rst:61
+#: b1f4a85307f643238fa4c60924d9d87c
+msgid "**Salmonella enterica INTS** - Invasive non-typhoidal Salmonella tracking"
+msgstr "**Salmonella enterica INTS** - Seguimiento de Salmonella no tifoidal invasiva"
+
+#: ../../feature.rst:64
+#: 7637158896314973b44f6eaabbca458d
 msgid "Internationalization"
-msgstr ""
-
-#: ../../feature.rst:62
-msgid "**🌍 Multi-Language Support** .. container:: justify-text"
-msgstr ""
-
-#: ../../feature.rst:65
-msgid "**English** (Default) - Comprehensive interface language"
-msgstr ""
+msgstr "Internacionalización"
 
 #: ../../feature.rst:66
-msgid "**French** - Professional French translations with proper terminology"
-msgstr ""
-
-#: ../../feature.rst:67
-msgid "**Portuguese (Brazil)** - Brazilian Portuguese with local conventions"
-msgstr ""
-
-#: ../../feature.rst:68
-msgid "**Spanish** - International Spanish translations"
-msgstr ""
-
-#: ../../feature.rst:69
-msgid "Visual flag-based language switcher"
-msgstr ""
+#: bee65d703d164be2b45f18bfa6ada8c8
+msgid "**🌍 Multi-Language Support**"
+msgstr "**:globe_showing_Europe-Portugal: Soporte multilingüe**"
 
 #: ../../feature.rst:70
-msgid "Persistent language selection across sessions"
-msgstr ""
+#: b2260f1d529a4bf9bcc5d8ea0f4a616d
+msgid "**English** (Default) - Comprehensive interface language"
+msgstr "**Inglés** (por defecto) - Idioma completo de la interfaz"
 
 #: ../../feature.rst:71
-msgid "Right-to-left language support ready"
-msgstr ""
+#: ea2a26a6dc88438c8b794a100b95c7be
+msgid "**French** - Professional French translations with proper terminology"
+msgstr "**Fraude** - Traducciones profesionales al francés con una terminología adecuada"
+
+#: ../../feature.rst:72
+#: 143b57f9966f473a848ae3f3cde864f9
+msgid "**Portuguese (Brazil)** - Brazilian Portuguese with local conventions"
+msgstr "**Portugués (Brasil)** - Portugués brasileño con convenciones locales"
+
+#: ../../feature.rst:73
+#: 40bbc05820b842a7a3f0069a13dba9df
+msgid "**Spanish** - International Spanish translations"
+msgstr "**Español** - Traducciones internacionales al español"
 
 #: ../../feature.rst:74
-msgid "User Experience"
-msgstr ""
+#: ae2c290509414f12901a4e06c35a24a4
+msgid "Visual flag-based language switcher"
+msgstr "Interruptor de idioma basado en parámetros visuales"
+
+#: ../../feature.rst:75
+#: 06561c8074d74021a1e2b461526c4de8
+msgid "Persistent language selection across sessions"
+msgstr "Selección persistente de idioma a través de sesiones"
 
 #: ../../feature.rst:76
-msgid "**📱 Responsive Design** .. container:: justify-text"
-msgstr ""
+#: 8d0b49d33e9c4991b928a4e5338c87d4
+msgid "Right-to-left language support ready"
+msgstr "Soporte de idioma de derecha a izquierda listo"
 
 #: ../../feature.rst:79
-msgid "Optimized for desktop, tablet, and mobile devices"
-msgstr ""
-
-#: ../../feature.rst:80
-msgid "Touch-friendly interface for mobile users"
-msgstr ""
+#: 2ac6b0e606e24942afb6c39ccbf066c2
+msgid "User Experience"
+msgstr "Experiencia de usuario"
 
 #: ../../feature.rst:81
-msgid "Adaptive layouts that work across screen sizes"
-msgstr ""
-
-#: ../../feature.rst:82
-msgid "Progressive web app capabilities"
-msgstr ""
-
-#: ../../feature.rst:83
-msgid "Offline data caching for improved performance"
-msgstr ""
+#: 7bc8093b4579455296abe31b987139ff
+msgid "**📱 Responsive Design**"
+msgstr "**📱 Diseño responsable**"
 
 #: ../../feature.rst:85
-msgid "**🚀 Performance Optimization** .. container:: justify-text"
-msgstr ""
+#: a6f7744a450843cdbe3cfe40a7ba0dea
+msgid "Optimized for desktop, tablet, and mobile devices"
+msgstr "Optimizado para escritorio, tableta y dispositivos móviles"
+
+#: ../../feature.rst:86
+#: 219bcde6466947efa1b9726b80647441
+msgid "Touch-friendly interface for mobile users"
+msgstr "Interfaz fácil de tocar para usuarios móviles"
+
+#: ../../feature.rst:87
+#: 0305e11a3005466a9233ee5047108076
+msgid "Adaptive layouts that work across screen sizes"
+msgstr "Diseños adaptativos que funcionan a través de tamaños de pantalla"
 
 #: ../../feature.rst:88
-msgid "Lazy loading of data and components"
-msgstr ""
+#: 3119deb96616476da8742f198167249f
+msgid "Progressive web app capabilities"
+msgstr "Capacidades de la aplicación web progresivas"
 
 #: ../../feature.rst:89
-msgid "Intelligent caching to reduce server load"
-msgstr ""
-
-#: ../../feature.rst:90
-#, python-format
-msgid "Compressed data transfer (up to 96% size reduction)"
-msgstr ""
+#: 990007676d6248bc9e10cd4949c39e51
+msgid "Offline data caching for improved performance"
+msgstr "Caché de datos sin conexión para mejorar el rendimiento"
 
 #: ../../feature.rst:91
-msgid "Parallel data loading for faster initial page loads"
-msgstr ""
-
-#: ../../feature.rst:92
-msgid "Background processing for large datasets"
-msgstr ""
+#: bb4c74e86130461dbe46c4da5bcd009a
+msgid "**🚀 Performance Optimization**"
+msgstr "**🚀 Optimización de rendimiento**"
 
 #: ../../feature.rst:95
-msgid "Data Access & Export"
-msgstr ""
+#: eb1c64f13e374af48f312cfb8adb5391
+msgid "Lazy loading of data and components"
+msgstr "Carga perezosa de datos y componentes"
+
+#: ../../feature.rst:96
+#: 28bbee33a2ec4d30ae698cca9245bd60
+msgid "Intelligent caching to reduce server load"
+msgstr "Caché inteligente para reducir la carga del servidor"
 
 #: ../../feature.rst:97
-msgid "**📁 Flexible Data Export** .. container:: justify-text"
-msgstr ""
+#: 9214cf4648f34b32b1b4168e7e70f84c
+msgid "Compressed data transfer (up to 96% size reduction)"
+msgstr "Transferencia de datos comprimidos (hasta 96% de reducción de tamaño)"
 
-#: ../../feature.rst:100
-msgid "Download filtered datasets in CSV format"
-msgstr ""
+#: ../../feature.rst:98
+#: cb03a10557fc4ec789a4e4180c542fe7
+msgid "Parallel data loading for faster initial page loads"
+msgstr "Carga paralela de datos para cargas iniciales más rápidas"
 
-#: ../../feature.rst:101
-msgid "Export static visualizations (PNG, SVG)"
-msgstr ""
+#: ../../feature.rst:99
+#: 7586af61a278449abecf78b69b9ef5e6
+msgid "Background processing for large datasets"
+msgstr "Procesamiento de fondo para conjuntos de datos grandes"
 
 #: ../../feature.rst:102
-msgid "Generate PDF reports with current dashboard state"
-msgstr ""
-
-#: ../../feature.rst:103
-msgid "Custom data selection with field-level control"
-msgstr ""
+#: 2cb38f45ba1f48f092ebddea8629879a
+msgid "Data Access & Export"
+msgstr "Acceso a datos y exportación"
 
 #: ../../feature.rst:104
-msgid "Batch export capabilities for multiple organisms"
-msgstr ""
+#: 50b72995d71a47fe8aba2fbc23e61082
+msgid "**📁 Flexible Data Export**"
+msgstr "**📁 Exportación de datos flexibles**"
 
-#: ../../feature.rst:106
-msgid "**🔌 API Access** .. container:: justify-text"
-msgstr ""
+#: ../../feature.rst:108
+#: 221b81bc8f0442f58f21c02303341ad3
+msgid "Download filtered datasets in CSV format"
+msgstr "Descargar conjuntos de datos filtrados en formato CSV"
 
 #: ../../feature.rst:109
-msgid "RESTful API with comprehensive documentation"
-msgstr ""
+#: b5812df26c534421a8e373b361b09323
+msgid "Export static visualizations (PNG, SVG)"
+msgstr "Exportar visualizaciones estáticas (PNG, SVG)"
 
 #: ../../feature.rst:110
-msgid "Programmatic access to all dashboard data"
-msgstr ""
+#: 07c556363eb2438d90ed723cf775b720
+msgid "Generate PDF reports with current dashboard state"
+msgstr "Generar informes PDF con el estado actual del panel de control"
 
 #: ../../feature.rst:111
-msgid "Rate limiting and authentication for production use"
-msgstr ""
+#: 6b028480b364478d9c6078d07a28c239
+msgid "Custom data selection with field-level control"
+msgstr "Selección de datos personalizada con control de nivel de campo"
 
 #: ../../feature.rst:112
-msgid "OpenAPI/Swagger documentation"
-msgstr ""
+#: ed646bc91da04baa9b796231cd10842f
+msgid "Batch export capabilities for multiple organisms"
+msgstr "Capacidades de exportación de múltiples órganos"
 
-#: ../../feature.rst:113
-msgid "SDK libraries for common programming languages"
-msgstr ""
-
-#: ../../feature.rst:116
-msgid "Advanced Features"
-msgstr ""
+#: ../../feature.rst:114
+#: 0fa0a2ce281c4995be7940c8c183bdf0
+msgid "**🔌 API Access**"
+msgstr "**🔌 Acceso a la API**"
 
 #: ../../feature.rst:118
-msgid "**🔬 Scientific Analysis Tools** .. container:: justify-text"
-msgstr ""
+#: d18d111bbac944128746af5f070d261c
+msgid "RESTful API with comprehensive documentation"
+msgstr "API RESTful con documentación completa"
+
+#: ../../feature.rst:119
+#: 3e904f80ccd74a4abd424fb62bd8f892
+msgid "Programmatic access to all dashboard data"
+msgstr "Acceso programático a todos los datos del panel de control"
+
+#: ../../feature.rst:120
+#: b02abf61e0ae4000a37506b74c1b8ccb
+msgid "Rate limiting and authentication for production use"
+msgstr "Limitación de velocidad y autenticación para uso de producción"
 
 #: ../../feature.rst:121
-msgid "Statistical trend analysis with confidence intervals"
-msgstr ""
+#: 351755bf67b14b4991d7cd297299a67a
+msgid "OpenAPI/Swagger documentation"
+msgstr "Documentación OpenAPI/Swagger"
 
 #: ../../feature.rst:122
-msgid "Geographic clustering and hotspot identification"
-msgstr ""
-
-#: ../../feature.rst:123
-msgid "Phylogenetic data integration where available"
-msgstr ""
-
-#: ../../feature.rst:124
-msgid "Resistance mechanism tracking (genotypic vs. phenotypic)"
-msgstr ""
+#: 31e7461e312e4273b449c5a19941a74c
+msgid "SDK libraries for common programming languages"
+msgstr "Bibliotecas SDK para lenguajes de programación comunes"
 
 #: ../../feature.rst:125
-msgid "Outbreak detection and monitoring capabilities"
-msgstr ""
+#: c9a0a3c67a7c44e58df8ec3860b43e4e
+msgid "Advanced Features"
+msgstr "Características avanzadas"
 
 #: ../../feature.rst:127
-msgid "**🛡️ Data Quality & Security** .. container:: justify-text"
-msgstr ""
-
-#: ../../feature.rst:130
-msgid "Comprehensive data validation and quality checks"
-msgstr ""
+#: 4e462da6b53b4bafb702474a5a7d5ad6
+msgid "**🔬 Scientific Analysis Tools**"
+msgstr "**🔬 Herramientas de análisis científico**"
 
 #: ../../feature.rst:131
-msgid "Secure data transmission with HTTPS encryption"
-msgstr ""
+#: 6e57b4337366446993a42071d0623a0a
+msgid "Statistical trend analysis with confidence intervals"
+msgstr "Análisis estático de tendencias con intervalos de confianza"
 
 #: ../../feature.rst:132
-msgid "User authentication and authorization"
-msgstr ""
+#: 7fc041dfb33548b58ddb1ee622c8a0a9
+msgid "Geographic clustering and hotspot identification"
+msgstr "Clasificación geográfica e identificación de puntos de acceso"
 
 #: ../../feature.rst:133
-msgid "Audit logging for data access and modifications"
-msgstr ""
+#: 7a704ca7e6ec42aa923d818a8508c417
+msgid "Phylogenetic data integration where available"
+msgstr "Integración de datos fitogenéticos cuando esté disponible"
 
 #: ../../feature.rst:134
-msgid "Privacy-compliant data handling procedures"
-msgstr ""
+#: 2ad3dc17e66844f2a1af65c51b1a3c0e
+msgid "Resistance mechanism tracking (genotypic vs. phenotypic)"
+msgstr "Seguimiento del mecanismo de resistencia (genotipado vs. fenotípico)"
 
-#: ../../feature.rst:136
-msgid "**🔄 Real-time Updates** .. container:: justify-text"
-msgstr ""
+#: ../../feature.rst:135
+#: 75719036138743768fdf3998f8a4dd2a
+msgid "Outbreak detection and monitoring capabilities"
+msgstr "Capacitación de detección y monitorización de brotes"
 
-#: ../../feature.rst:139
-msgid "Automatic data synchronization from surveillance networks"
-msgstr ""
-
-#: ../../feature.rst:140
-msgid "Version control for datasets with change tracking"
-msgstr ""
+#: ../../feature.rst:137
+#: 38e0b2efd7564c7eb2a509f92f99728d
+msgid "**🛡️ Data Quality & Security**"
+msgstr "**🛡️ Calidad y seguridad de datos**"
 
 #: ../../feature.rst:141
-msgid "Notification system for data updates"
-msgstr ""
+#: 40c16e4992fe4bc0844339b5c3444411
+msgid "Comprehensive data validation and quality checks"
+msgstr "Validación completa de datos y comprobaciones de calidad"
 
 #: ../../feature.rst:142
-msgid "Backward compatibility for historical data access"
-msgstr ""
+#: 097765bbd92848da8a92ac8695994d12
+msgid "Secure data transmission with HTTPS encryption"
+msgstr "Transmisión segura de datos con cifrado HTTPS"
 
 #: ../../feature.rst:143
-msgid "Data provenance tracking and metadata management"
-msgstr ""
+#: 0d7288fd279e4b21924c62ccf7744bb6
+msgid "User authentication and authorization"
+msgstr "Autenticación de usuario y autorización"
 
-#: ../../feature.rst:146
-msgid "Integration Capabilities"
-msgstr ""
+#: ../../feature.rst:144
+#: 7c0fbc1469e9471eadf23423efe27823
+msgid "Audit logging for data access and modifications"
+msgstr "Registro de auditoría para acceso a datos y modificaciones"
 
-#: ../../feature.rst:148
-msgid "**🌐 External System Integration** .. container:: justify-text"
-msgstr ""
+#: ../../feature.rst:145
+#: 0ff1e76162624a549a56e410bf4e2435
+msgid "Privacy-compliant data handling procedures"
+msgstr "Procedimientos de manejo de datos compatibles con la privacidad"
+
+#: ../../feature.rst:147
+#: 5472d90d7ed640b1bf6206458c16fb6f
+msgid "**🔄 Real-time Updates**"
+msgstr "**🔄 Actualizaciones en tiempo real**"
 
 #: ../../feature.rst:151
-msgid "NCBI pathogen database connectivity"
-msgstr ""
+#: 3cb2e9b4062e4eaeb386711c703df2a9
+msgid "Automatic data synchronization from surveillance networks"
+msgstr "Sincronización automática de datos de redes de vigilancia"
 
 #: ../../feature.rst:152
-msgid "WHO surveillance network integration"
-msgstr ""
+#: e5e8033513d2445493a193768ae0f088
+msgid "Version control for datasets with change tracking"
+msgstr "Control de versiones para conjuntos de datos con seguimiento de cambios"
 
 #: ../../feature.rst:153
-msgid "ECDC/CDC data pipeline compatibility"
-msgstr ""
+#: 823d785964694fae9fc91fed6d9e30dc
+msgid "Notification system for data updates"
+msgstr "Sistema de notificaciones para actualizaciones de datos"
 
 #: ../../feature.rst:154
-msgid "Laboratory information system (LIS) connectors"
-msgstr ""
+#: eb28b3afff904b679c546550e38d8184
+msgid "Backward compatibility for historical data access"
+msgstr "Compatibilidad con el acceso de datos históricos"
 
 #: ../../feature.rst:155
-msgid "Automated data validation and quality scoring"
-msgstr ""
+#: 2d02e30a9c694e55adbe3a92834f7ec4
+msgid "Data provenance tracking and metadata management"
+msgstr "Seguimiento de datos de procedencia y gestión de metadatos"
 
-#: ../../feature.rst:157
-msgid "**📊 Analytics & Reporting** .. container:: justify-text"
-msgstr ""
+#: ../../feature.rst:158
+#: 84ef4110401841328d2adae868f113b2
+msgid "Integration Capabilities"
+msgstr "Capacidades de integración"
 
 #: ../../feature.rst:160
-msgid "Customizable dashboard views for different user types"
-msgstr ""
-
-#: ../../feature.rst:161
-msgid "Automated report generation with scheduling"
-msgstr ""
-
-#: ../../feature.rst:162
-msgid "Key performance indicator (KPI) tracking"
-msgstr ""
-
-#: ../../feature.rst:163
-msgid "Comparative analysis between regions and time periods"
-msgstr ""
+#: b147cbd020924d67a132e102d9a8a635
+msgid "**🌐 External System Integration**"
+msgstr "**🌐 Integración de Sistema Externo**"
 
 #: ../../feature.rst:164
+#: a6e46ea216354ba78fb5a7bc1b77a398
+msgid "NCBI pathogen database connectivity"
+msgstr "Conectividad de base de datos de patógeno NCBI"
+
+#: ../../feature.rst:165
+#: 4e8123718f9f4fe6b9becfd039163289
+msgid "WHO surveillance network integration"
+msgstr "Integración de la red de vigilancia de la OMS"
+
+#: ../../feature.rst:166
+#: 4775b756349b4f0bb583ad33bb50d7a8
+msgid "ECDC/CDC data pipeline compatibility"
+msgstr "Compatibilidad de tuberías de datos ECDC/CDC"
+
+#: ../../feature.rst:167
+#: 1010f3f70037495eafd3b50fd406ba4c
+msgid "Laboratory information system (LIS) connectors"
+msgstr "Conectores del sistema de información laboratoria (LIS)"
+
+#: ../../feature.rst:168
+#: 75a1b9a111d84b518865d656720398d3
+msgid "Automated data validation and quality scoring"
+msgstr "Validación automática de datos y puntuación de calidad"
+
+#: ../../feature.rst:170
+#: bb9a14d228e14d8bb6f297e8eb1ace86
+msgid "**📊 Analytics & Reporting**"
+msgstr "**📊 Análisis e Informe**"
+
+#: ../../feature.rst:174
+#: 13825317ba9241a0b437ff93c806292a
+msgid "Customizable dashboard views for different user types"
+msgstr "Visitas de tablero personalizables para diferentes tipos de usuario"
+
+#: ../../feature.rst:175
+#: 90f657c1f6b54fedb215b55a9ddd9748
+msgid "Automated report generation with scheduling"
+msgstr "Generación automática de informes con programación"
+
+#: ../../feature.rst:176
+#: 6921db75cb8b42c3bc4ed4ec195fcec9
+msgid "Key performance indicator (KPI) tracking"
+msgstr "Llave de seguimiento del indicador de rendimiento (KPI)"
+
+#: ../../feature.rst:177
+#: 3a9dc5c0e4cd4766a2196bedf316a1c4
+msgid "Comparative analysis between regions and time periods"
+msgstr "Análisis comparativo entre regiones y períodos de tiempo"
+
+#: ../../feature.rst:178
+#: b2bd23c143f4401786f63cd9e7630ad4
 msgid "Statistical significance testing for trend analysis"
-msgstr ""
+msgstr "Pruebas de importancia estáticas para el análisis de tendencias"
 

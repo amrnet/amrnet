@@ -1,0 +1,392 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: pathogen.pot\n"
+"X-Crowdin-File-ID: 63\n"
+"Language: fr_FR\n"
+
+#: ../../pathogen.rst:101
+#: 
+msgid "Escherichia coli"
+msgstr "Escherichia coli"
+
+#: ../../pathogen.rst:101
+#: 
+msgid "Escherichia coli diarrheagenic"
+msgstr "Escherichia coli diarrhéagène"
+
+#: ../../pathogen.rst:101
+#: 
+msgid "Shigella + EIEC"
+msgstr "Shigella + EIEC"
+
+#: ../../pathogen.rst:101
+#: 
+msgid "Klebsiella pneumoniae"
+msgstr "Klebsiella pneumoniae"
+
+#: ../../pathogen.rst:101
+#: 
+msgid "Neisseria gonorrhoeae"
+msgstr "Neisseria gonorrhoeae"
+
+#: ../../pathogen.rst:101
+#: 
+msgid "Salmonella (non-typhoidal)"
+msgstr "Salmonelle (non-typhoïde)"
+
+#: ../../pathogen.rst:101
+#: 
+msgid "Salmonella (invasive non-typhoidal)"
+msgstr "Salmonelle (invasive non typhoïde)"
+
+#: ../../pathogen.rst:101
+#: 
+msgid "Salmonella Typhi"
+msgstr "Salmonella Typhi"
+
+#: ../../pathogen.rst:4
+#: b3cde0f58d8e4cb18dd296e23f11a596
+msgid "Individual pathogen details"
+msgstr "Détails de l'agent pathogène individuel"
+
+#: ../../pathogen.rst:8
+#: b36d0b7f407a407da84a5531206ec3c8
+msgid "Each dashboard is populated a bit differently, from different sources and with different inclusion criteria, using AMR genotyping and lineage definitions specific to the pathogen."
+msgstr "Chaque tableau de bord est peuplé un peu différemment, à partir de sources différentes et avec différents critères d'inclusion, en utilisant le génotypage AMR et les définitions de lignée propres à l'agent pathogène."
+
+#: ../../pathogen.rst:10
+#: 9dade09fa18445ea93f7dbcd65ed2dd4
+msgid "Select a pathogen below to see the details:"
+msgstr "Sélectionnez un agent pathogène ci-dessous pour voir les détails :"
+
+#: ../../pathogen.rst:12
+#: d0127f0606b5454690c255ff5df86c91
+msgid "*Escherichia coli*"
+msgstr "*Escherichia coli*"
+
+#: ../../pathogen.rst:13
+#: 66bfe8193f084c3eac952c4b53c8187e
+msgid "*Escherichia coli* (diarrheagenic)"
+msgstr "*Escherichia coli* (diarrhée)"
+
+#: ../../pathogen.rst:14
+#: fdf80be18d1044cd9f309beaf02739fb
+msgid "*Shigella* + EIEC"
+msgstr "*Shigella* + EIEC"
+
+#: ../../pathogen.rst:15
+#: 762d438556b74e81862f409c5d3ec7be
+msgid "*Klebsiella pneumoniae*"
+msgstr "*Klebsiella pneumoniae*"
+
+#: ../../pathogen.rst:16
+#: d78c97d120ca40e381d00a140cdcc70c
+msgid "*Neisseria gonorrhoeae*"
+msgstr "*Neisseria gonorrhoeae*"
+
+#: ../../pathogen.rst:17
+#: 0736547abaf7475985d0340b82824964
+msgid "*Salmonella* (non-typhoidal)"
+msgstr "*Salmonella* (non-typhoidal)"
+
+#: ../../pathogen.rst:18
+#: b40bec1919ef43f8ac2c12827bc31e66
+msgid "*Salmonella* (invasive non-typhoidal)"
+msgstr "*Salmonella* (invasive non typhoïde)"
+
+#: ../../pathogen.rst:19
+#: e3d4224331734049bf4aa8e4db41c4b4
+msgid "*Salmonella* Typhi"
+msgstr "*Salmonella* Typhi"
+
+#: ../../pathogen.rst:21
+#: 0bc168000ee74791aa403844967ec399
+msgid "A list of all upstream databases and tools, with links and citations, is available on the :ref:`Source data & tools <source>` page."
+msgstr "Une liste de toutes les bases de données et outils amont avec des liens et des citations, est disponible sur la page :ref:`Données de source et outils <source>`."
+
+#: ../../pathogen.rst:26
+#: 09c0ee1b4a184171861a990ae5404428
+msgid "AMR definitions based on Enterobase/AMRfinderplus data"
+msgstr "Définitions AMR basées sur les données Enterobase/AMRfinderplus"
+
+#: ../../pathogen.rst:28
+#: 344b773ab98b47e58c21088d13dcceff
+msgid "These definitions are used in the *E. coli*, *Shigella*, and non-typhoidal *Salmonella* dashboards, where data are populated from `Enterobase <https://enterobase.warwick.ac.uk/>`_ which uses `AMRfinderplus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ to identify AMR determinants from genome assemblies. For other organisms, populated from Pathogenwatch, see the pathogen-specific pages above for details of how AMR is detected/defined."
+msgstr "Ces définitions sont utilisées dans le *E. coli*, *Shigella*, et les tableaux de bord non-typhoïdes *Salmonella*, où les données sont remplies à partir de `Enterobase <https://enterobase.warwick.ac.uk/>`_ qui utilise `AMRfinderplus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ pour identifier les déterminants AMR des assemblages génomiques. Pour les autres organismes, peuplés par le Pathogenwatch, consultez les pages spécifiques à l'agent pathogène ci-dessus pour plus de détails sur la façon dont l'AMR est détecté/défini."
+
+#: ../../pathogen.rst:35
+#: 3fa91831b7464e0db1572eb16d14edb2
+msgid "Resistance indicator variable"
+msgstr "Variable de l'indicateur de résistance"
+
+#: ../../pathogen.rst:36
+#: d1d7725a45114bcf9636b519d7683f8c
+msgid "Definition"
+msgstr "Définition"
+
+#: ../../pathogen.rst:37
+#: 09f416367d2a405cb47ffad70f338b89
+msgid "Enterobase column/s"
+msgstr "Entréobase colonne/s"
+
+#: ../../pathogen.rst:38
+#: 779e00a9ad0e41c7b2ed3b4690947dde
+msgid "Drawn from AMRFinderPlus Class/Subclass"
+msgstr "Dessiné à partir de la classe AMRFinderPlus / sous-classe"
+
+#: ../../pathogen.rst:39
+#: 754ecc28d99e4d4e82d3523d6c028574
+msgid "Ampicillin"
+msgstr "Ampicillin"
+
+#: ../../pathogen.rst:40
+#: ../../pathogen.rst:64
+#: b0baf91087b243859884eacc8fa2deb0
+#: 7a0d764819474487ac845942178c911f
+msgid "≥1 marker from any column"
+msgstr "<unk> 1 marqueur de n'importe quelle colonne"
+
+#: ../../pathogen.rst:41
+#: 7a48ecf5c7b149fd9c1d35b9dd0eac7a
+msgid "Penicillin, Carbapenemase, ESBL"
+msgstr "Pénicilline, Carbapenemase, ESBL"
+
+#: ../../pathogen.rst:42
+#: fdc712d68bb74dec8fa738bc01f26d1f
+msgid "Subclass: BETA-LACTAM"
+msgstr "Subclass: BETA-LACTAM"
+
+#: ../../pathogen.rst:43
+#: c7de9366655145a1b58d09d058a9ad32
+msgid "Aminoglycosides"
+msgstr "Aminoglycosides"
+
+#: ../../pathogen.rst:44
+#: ../../pathogen.rst:48
+#: ../../pathogen.rst:52
+#: ../../pathogen.rst:56
+#: ../../pathogen.rst:60
+#: ../../pathogen.rst:68
+#: ../../pathogen.rst:76
+#: ../../pathogen.rst:80
+#: ../../pathogen.rst:84
+#: 56b9cd2aa7524585a4083a79798bfe5c
+#: 4e9c1494accc4a43b1f78b054829de44
+#: cb538a4d5ac04663aa60368eb7608014
+#: 0358759138ba4da3833c6ab045cae46c
+#: a7e2ec72ca2b43f4a3562add99e5c5d4
+#: e20afef2e13d40d581c5fc612766c6d3
+#: 5eccdd2c14904bbdba623ee8de08bcd4
+#: 921e58362ec645b8bd48582d3fdb50ad
+#: 896b2deffb6e4f2ea7d0461c28555543
+msgid "≥1 marker"
+msgstr "Marqueur <unk> 1"
+
+#: ../../pathogen.rst:45
+#: a09cda9cacb44bcca0ea7c019d8b2796
+msgid "Aminoglycoside"
+msgstr "Aminoglycoside"
+
+#: ../../pathogen.rst:46
+#: a4bc1d2ea99f4fb081fa8b3908b2bb10
+msgid "Class: AMINOGLYCOSIDE"
+msgstr "Classe : AMINOGLYCOSIDE"
+
+#: ../../pathogen.rst:47
+#: 6ec0d284bd784dcbb023295ab370cc79
+msgid "Carbapenems"
+msgstr "Carbapèmes"
+
+#: ../../pathogen.rst:49
+#: bd97449a37954ce99479fefa192d9c42
+msgid "Carbapenemase"
+msgstr "Ennemi du Carbapme"
+
+#: ../../pathogen.rst:50
+#: 1659517499b545eeb9360f653feb36ff
+msgid "Subclass: CARBAPENEM"
+msgstr "Sous-classe : CARBAPENEM"
+
+#: ../../pathogen.rst:51
+#: 761844f561fe43c9bc3459e12af187aa
+msgid "Ciprofloxacin (non-susceptible)"
+msgstr "Ciprofloxacin (non-susceptible)"
+
+#: ../../pathogen.rst:53
+#: 4c79d46cd1fb48cea386b97d81332a00
+msgid "Quinolone"
+msgstr "Famille Quinolone"
+
+#: ../../pathogen.rst:54
+#: 20bfcbfc5a734ef6819100b94dc47aa3
+msgid "Class: QUINOLONE"
+msgstr "Classe : QUINOLONE"
+
+#: ../../pathogen.rst:55
+#: a05c0576aac14e33b990486bf3c500d0
+msgid "Chloramphenicol"
+msgstr "Chloramphénicol"
+
+#: ../../pathogen.rst:57
+#: ea7e4188206a4f3d8e5a866a73c21446
+msgid "Phenicol"
+msgstr "Phénol"
+
+#: ../../pathogen.rst:58
+#: 9c37a8f88a59426b937514dc99295c27
+msgid "Class: PHENICOL"
+msgstr "Classe : PHENICOL"
+
+#: ../../pathogen.rst:59
+#: ../../pathogen.rst:61
+#: 1e47f59bf88b4cb48cf950d81980ef8d
+#: 8f2d3fb489d34ba0a96f098b73b8b05f
+msgid "Colistin"
+msgstr "Colistine"
+
+#: ../../pathogen.rst:62
+#: c4eec6ef924a491ab4e381078197276e
+msgid "Class: COLISTIN"
+msgstr "Classe : COLISTIN"
+
+#: ../../pathogen.rst:63
+#: f171fb67a82d43f79f11b56bde0869fa
+msgid "ESBL"
+msgstr "ESBL"
+
+#: ../../pathogen.rst:65
+#: 527c9dfe9a154df7955823c4dcb8dab8
+msgid "ESBL, Carbapenemase"
+msgstr "ESBL, Carbapenemase"
+
+#: ../../pathogen.rst:66
+#: 19f38b0048324ebd9aaa3864aa80e0d0
+msgid "Subclass: CEPHALOSPORIN"
+msgstr "Subclass: CEPHALOSPORIN"
+
+#: ../../pathogen.rst:67
+#: ../../pathogen.rst:69
+#: df902b33d42d4fab8f2dca6fe07f119e
+#: 3e2666ba5f374904935f056e34d55df9
+msgid "Fosfomycin"
+msgstr "Fosfomycin"
+
+#: ../../pathogen.rst:70
+#: 94d91de2524b48e3a632333d78512e83
+msgid "Class: FOSFOMYCIN"
+msgstr "Class: FOSFOMYCIN"
+
+#: ../../pathogen.rst:71
+#: ../../pathogen.rst:73
+#: dd2c8f42b8f94c3db56d9cc0c59ef9a4
+#: 9438122b01e74deca9786cb04fa8a14c
+msgid "Macrolide"
+msgstr "Macrolide"
+
+#: ../../pathogen.rst:72
+#: b8516378de8244c68da4f3d8b02678b7
+msgid "mph(A) or acrB_R717"
+msgstr "mph(A) ou acrB_R717"
+
+#: ../../pathogen.rst:74
+#: ce78a4ea4cc64a749f8b5a89b5a71749
+msgid "Class: MACROLIDE"
+msgstr "Classe : MACROLIDE"
+
+#: ../../pathogen.rst:75
+#: ../../pathogen.rst:77
+#: 436520b005dc464880f8843b25e511fc
+#: 5cb9d1ae28b048d180b39f37513734fe
+msgid "Tetracycline"
+msgstr "Tétracycline"
+
+#: ../../pathogen.rst:78
+#: e6fc9f67c7764e6d92b27d32667db493
+msgid "Class: TETRACYCLINE"
+msgstr "Classe : TETRACYCLINE"
+
+#: ../../pathogen.rst:79
+#: 350a2885360f48759d8244d9b92e9eda
+msgid "Tigecycline"
+msgstr "Tigecycline"
+
+#: ../../pathogen.rst:81
+#: 751e1d924d864cb29f55f32f3335efc5
+msgid "Other Classes: Tigecycline"
+msgstr "Autres classes : Tigecycline"
+
+#: ../../pathogen.rst:82
+#: 3f2c9fe8d6284b3da37791833ff11eee
+msgid "Subclass: TIGECYCLINE"
+msgstr "Sous-classe : TIGECYCLINE"
+
+#: ../../pathogen.rst:83
+#: ../../pathogen.rst:85
+#: a13e975535cc44d2aebf777a2245d852
+#: 687533e658464f9ca290addef2a65007
+msgid "Trimethoprim"
+msgstr "Triméthoprim"
+
+#: ../../pathogen.rst:86
+#: f6735d3da183415297cec255d955c5bc
+msgid "Class: TRIMETHOPRIM"
+msgstr "Classe : TRIMETHOPRIM"
+
+#: ../../pathogen.rst:87
+#: a1d5c76af89d4b869de279ffccb5cfd6
+msgid "Trimethoprim-Sulfamethoxazole"
+msgstr "Triméthoprime-Sulfamethoxazole"
+
+#: ../../pathogen.rst:88
+#: 966c3f82f4284165ad4218ca6494ed6e
+msgid "≥1 marker from each column"
+msgstr "<unk> 1 marqueur de chaque colonne"
+
+#: ../../pathogen.rst:89
+#: abdecfc53cfd469892de10fcbb9e9c6e
+msgid "Trimethoprim, Sulfonamide"
+msgstr "Triméthoprim, Sulfonamide"
+
+#: ../../pathogen.rst:90
+#: 5820a6027e754f039b98b97af13e66a2
+msgid "Class: TRIMETHOPRIM, SULFONAMIDE"
+msgstr "Class: TRIMETHOPRIM, SULFONAMIDE"
+
+#: ../../pathogen.rst:91
+#: 232c605890704c9ea3a51e782d3c2f8f
+msgid "Pansusceptible"
+msgstr "Pansensible"
+
+#: ../../pathogen.rst:92
+#: 1bde3fa1eedd4d1da22d5701b4f39767
+msgid "0 markers"
+msgstr "0 marqueurs"
+
+#: ../../pathogen.rst:93
+#: 1db09a7e5162440badf95a17ccb4feeb
+msgid "all AMR columns"
+msgstr "toutes les colonnes AMR"
+
+#: ../../pathogen.rst:94
+#: 41667b0031894250a4dd4d282db05da2
+msgid "—"
+msgstr "—"
+
