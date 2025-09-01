@@ -7,435 +7,461 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: es\n"
-"Language-Team: es <LL@li.org>\n\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: contributing.pot\n"
+"X-Crowdin-File-ID: 41\n"
+"Language: es_ES\n"
 
-#: ../../contributing.rst:4 ../../contributing.rst:49
-msgid "Contributor Guide"
-msgstr ""
+#: ../../contributing.rst:4
+#: 1b1e1c9f14144a36adf97ec01cbb81e0
+msgid "Contributor Guide: Issues & PRs"
+msgstr "Guía del colaborador: Problemas y PRs"
 
 #: ../../contributing.rst:7
-msgid ""
-"Thank you for your interest in improving this project. This project is "
-"open-source under the `GPL-3.0 license "
-"<https://opensource.org/licenses/GPL-3.0>`__. and welcomes contributions "
-"in the form of bug reports, feature requests, and pull requests."
-msgstr ""
+#: ea0b7f5547f8447293f3ec51dbd3c74b
+msgid "Thank you for your interest in improving this project. This project is open-source under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__. and welcomes contributions in the form of bug reports, feature requests, and pull requests."
+msgstr "Gracias por su interés en mejorar este proyecto. Este proyecto es de código abierto bajo el `GPL-3. licencia <https://opensource.org/licenses/GPL-3.0>`__. y acoge con satisfacción las contribuciones en forma de informes de fallos, solicitudes de características y solicitudes de extracción."
 
-#: ../../contributing.rst:12 ../../contributing.rst:57
+#: ../../contributing.rst:12
+#: ../../contributing.rst:55
+#: bc6d68a125a94963804a9ba94ec9423a
+#: 539b23d258064fa59b2f0532b8ccdd78
 msgid "Here is a list of important resources for contributors:"
-msgstr ""
+msgstr "Aquí hay una lista de recursos importantes para los colaboradores:"
 
 #: ../../contributing.rst:14
+#: 08959d806a784f62b3eec2459e42ba17
 msgid "`Source Code <https://github.com/amrnet>`__"
-msgstr ""
+msgstr "`Código fuente <https://github.com/amrnet>`__"
 
-#: ../../contributing.rst:15 ../../contributing.rst:60
+#: ../../contributing.rst:15
+#: ../../contributing.rst:58
+#: a3a7f2250fc848c1aed9ec5f9dc4c983
+#: 76dff673742b4d019bfb4ce2c6b25115
 msgid "`Documentation <https://amrnet.readthedocs.io/>`__"
-msgstr ""
+msgstr "`Documentación <https://amrnet.readthedocs.io/>`__"
 
-#: ../../contributing.rst:16 ../../contributing.rst:61
+#: ../../contributing.rst:16
+#: ../../contributing.rst:59
+#: dc832a7ed702400c970306cf79d00793
+#: 72ed2fa886b648209a89d54b3c260977
 msgid "`Issue Tracker <https://github.com/amrnet/amrnet/issues>`__"
-msgstr ""
+msgstr "`Rastreador de problemas <https://github.com/amrnet/amrnet/issues>`__"
 
-#: ../../contributing.rst:17 ../../contributing.rst:63
+#: ../../contributing.rst:17
+#: ../../contributing.rst:61
+#: fc81927514c347548849208ef78ae3ba
+#: 0b92bf0af4384b349a8023c44eb67520
 msgid ":doc:`Code of Conduct <codeofconduct>`"
-msgstr ""
+msgstr ":doc:`Código de Conducta <codeofconduct>`"
 
 #: ../../contributing.rst:20
+#: beeaf673fcd0411a8294cc006a2cb11c
 msgid "How to report a bug"
-msgstr ""
+msgstr "Cómo reportar un error"
 
 #: ../../contributing.rst:23
-msgid ""
-"Report bugs on the `Issue Tracker "
-"<https://github.com/amrnet/amrnet/issues>`__."
-msgstr ""
+#: a83b5ee6d5b3451c9655f3f343a9f763
+msgid "Report bugs on the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__."
+msgstr "Reporta errores en el `Registrador de problemas <https://github.com/amrnet/amrnet/issues>`__."
 
 #: ../../contributing.rst:25
+#: 03ab92bc56f94199b11347d1e97c57e6
 msgid "When filing an issue, make sure to answer these questions:"
-msgstr ""
+msgstr "Cuando se presenta un problema, asegúrese de responder a estas preguntas:"
 
 #: ../../contributing.rst:27
+#: 4e8c7e18aaf84edc932b6067b0372ad4
 msgid "Which operating system and Python version are you using?"
-msgstr ""
+msgstr "¿Qué sistema operativo y versión de Python estás usando?"
 
 #: ../../contributing.rst:28
+#: 26ea3604274d426b9e64c5315ea1bd79
 msgid "Which version of this project are you using?"
-msgstr ""
+msgstr "¿Qué versión de este proyecto estás usando?"
 
 #: ../../contributing.rst:29
+#: d6134791fdfe4249a2f320d6844df040
 msgid "What did you do?"
-msgstr ""
+msgstr "¿Qué has hecho?"
 
 #: ../../contributing.rst:30
+#: a80b7b9ed99a47768e5c1b5bdc229042
 msgid "What did you expect to see?"
-msgstr ""
+msgstr "¿Qué esperabas ver?"
 
 #: ../../contributing.rst:31
+#: d1eecbd2e0d7463ba792768eec496567
 msgid "What did you see instead?"
-msgstr ""
+msgstr "¿Qué ves en su lugar?"
 
 #: ../../contributing.rst:33
-msgid ""
-"The best way to get your bug fixed is to provide a test case, and/or "
-"steps to reproduce the issue."
-msgstr ""
+#: 1878294fa3434ba98a6c5c076594875b
+msgid "The best way to get your bug fixed is to provide a test case, and/or steps to reproduce the issue."
+msgstr "La mejor manera de arreglar el fallo es proporcionar un caso de prueba, y/o pasos para reproducir el problema."
 
 #: ../../contributing.rst:37
+#: 101f8a9586a44bb59ab5db301df2358d
 msgid "How to request a feature"
-msgstr ""
+msgstr "Cómo solicitar una característica"
 
 #: ../../contributing.rst:40
-msgid ""
-"Features that improve ``AMRnet`` can be suggested on the `Issue Tracker "
-"<https://github.com/amrnet/amrnet/issues>`__. It's a good idea to first "
-"submit the proposal as a feature request prior to submitting a pull "
-"request as this allows for the best coordination of efforts by preventing"
-" the duplication of work, and allows for feedback on your ideas."
-msgstr ""
+#: a508c4d6deb2444da6d2f32680fb2ac4
+msgid "Features that improve ``AMRnet`` can be suggested on the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__. It's a good idea to first submit the proposal as a feature request prior to submitting a pull request as this allows for the best coordination of efforts by preventing the duplication of work, and allows for feedback on your ideas."
+msgstr "Las características que mejoran ``AMRnet`` pueden sugerirse en `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__. Es una buena idea enviar primero la propuesta como una solicitud de característica antes de enviar una solicitud de extracción ya que esto permite la mejor coordinación de esfuerzos al prevenir la duplicación del trabajo, y le permite hacer comentarios sobre sus ideas."
 
-#: ../../contributing.rst:52
-msgid ""
-"Thank you for your interest in contributing to AMRnet! 🎉 We welcome "
-"contributions from researchers, developers, and public health "
-"professionals worldwide. This project is open-source under the `GPL-3.0 "
-"license <https://opensource.org/licenses/GPL-3.0>`__ and welcomes "
-"contributions in the form of bug reports, feature requests, and pull "
-"requests."
-msgstr ""
+#: ../../contributing.rst:47
+#: 39b999db0fdf41c89423419c0a455a7f
+msgid "Contributor Guide: Research & Development"
+msgstr "Guía del colaborador: Investigación y Desarrollo"
 
-#: ../../contributing.rst:59
+#: ../../contributing.rst:50
+#: 68e26a8474f643f7a2f17183fa4addab
+msgid "Thank you for your interest in contributing to AMRnet! 🎉 We welcome contributions from researchers, developers, and public health professionals worldwide. This project is open-source under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__ and welcomes contributions in the form of bug reports, feature requests, and pull requests."
+msgstr "Gracias por su interés en contribuir a AMRnet! 🎉 Acogemos con satisfacción las contribuciones de investigadores, desarrolladores y profesionales de la salud pública en todo el mundo. Este proyecto es de código abierto bajo la licencia `GPL-3.0 <https://opensource.org/licenses/GPL-3.0>`__ y acoge con satisfacción las contribuciones en forma de informes de fallos, solicitudes de características y solicitudes de extracción."
+
+#: ../../contributing.rst:57
+#: ce0df53d60fa4dc1991f69e6a96970b8
 msgid "`Source Code <https://github.com/amrnet/amrnet>`__"
-msgstr ""
+msgstr "`Código fuente <https://github.com/amrnet/amrnet>`__"
 
-#: ../../contributing.rst:62
+#: ../../contributing.rst:60
+#: ea79f1249fe04feeadb5ab123c211ba9
 msgid "`Discussions <https://github.com/amrnet/amrnet/discussions>`__"
-msgstr ""
+msgstr "`Discusiones <https://github.com/amrnet/amrnet/discussions>`__"
 
-#: ../../contributing.rst:66
+#: ../../contributing.rst:64
+#: 03fdc779205640969551cadd161eaa95
 msgid "Quick Start"
-msgstr "Inicio Rápido"
+msgstr "Inicio rápido"
+
+#: ../../contributing.rst:67
+#: 11a88035054846cc8aa7862825c99231
+msgid "Ready to contribute? Here's how to set up AMRnet for local development:"
+msgstr "¿Listo para contribuir? Aquí está cómo configurar AMRnet para el desarrollo local:"
 
 #: ../../contributing.rst:69
-msgid "Ready to contribute? Here's how to set up AMRnet for local development:"
-msgstr ""
+#: ce36a5890aa44b549b30f7249226640b
+msgid "**Fork** the repository on GitHub"
+msgstr "**Bifurca** el repositorio en GitHub"
+
+#: ../../contributing.rst:70
+#: 94520bc8ba664d38a3433785130d79e1
+msgid "**Clone** your fork locally"
+msgstr "**Clona** tu bifurcación local"
 
 #: ../../contributing.rst:71
-msgid "**Fork** the repository on GitHub"
-msgstr ""
+#: 00a8bca2c9be4613bbe32996cc9ffdef
+msgid "**Create** a feature branch for your changes"
+msgstr "**Crea** una rama de características para tus cambios"
 
 #: ../../contributing.rst:72
-msgid "**Clone** your fork locally"
-msgstr ""
+#: 029f00b7047e40608cebe93727787ad6
+msgid "**Make** your changes and test them"
+msgstr "**Más** tus cambios y pruébalos"
 
 #: ../../contributing.rst:73
-msgid "**Create** a feature branch for your changes"
-msgstr ""
-
-#: ../../contributing.rst:74
-msgid "**Make** your changes and test them"
-msgstr ""
-
-#: ../../contributing.rst:75
+#: 98800c7883094cfe8faf89b0b225d558
 msgid "**Submit** a pull request"
-msgstr ""
+msgstr "**Enviar** un pull request"
 
-#: ../../contributing.rst:78
+#: ../../contributing.rst:76
+#: 5599a97567134e75ab8e40d4a3785759
 msgid "Types of Contributions"
-msgstr ""
+msgstr "Tipos de contribuciones"
 
-#: ../../contributing.rst:81
+#: ../../contributing.rst:79
+#: 7d7091ab437444aab6aec6b1eb9246a3
 msgid "Bug Reports"
-msgstr ""
+msgstr "Reportes de errores"
+
+#: ../../contributing.rst:82
+#: 9b7899d0129543fa98953d3e32498aac
+msgid "Help us improve by reporting bugs using our `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__."
+msgstr "Ayúdanos a mejorar reportando errores usando nuestro `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__."
 
 #: ../../contributing.rst:84
-msgid ""
-"Help us improve by reporting bugs using our `Issue Tracker "
-"<https://github.com/amrnet/amrnet/issues>`__."
-msgstr ""
+#: cefab1748b18429082b765b0c740a42e
+msgid "**Before reporting a bug:** - Search existing issues to avoid duplicates - Test with the latest version - Check if the issue occurs in different browsers"
+msgstr "**Antes de reportar un error:** - Busca problemas existentes para evitar duplicados - Prueba con la última versión - Comprueba si el problema ocurre en diferentes navegadores"
 
-#: ../../contributing.rst:86
-msgid ""
-"**Before reporting a bug:** - Search existing issues to avoid duplicates "
-"- Test with the latest version - Check if the issue occurs in different "
-"browsers"
-msgstr ""
+#: ../../contributing.rst:89
+#: f72e457349ed4247a00dfcf0578c5e3e
+msgid "**When filing a bug report, please include:** - Which operating system and browser you're using - Which version of AMRnet you're using - Steps to reproduce the issue - What you expected to happen - What actually happened - Screenshots if applicable"
+msgstr "**Al enviar un informe de error, por favor incluye:** - Qué sistema operativo y navegador estás usando - Qué versión de AMRnet estás usando - Pasos para reproducir el problema - Lo que esperabas que suceda - Qué sucedió realmente - Capturas de pantalla si es aplicable"
 
-#: ../../contributing.rst:91
-msgid ""
-"**When filing a bug report, please include:** - Which operating system "
-"and browser you're using - Which version of AMRnet you're using - Steps "
-"to reproduce the issue - What you expected to happen - What actually "
-"happened - Screenshots if applicable"
-msgstr ""
-
-#: ../../contributing.rst:100
+#: ../../contributing.rst:98
+#: 014d6b248e584211a00e21578bf594a2
 msgid "Feature Requests"
-msgstr ""
+msgstr "Solicitudes de características"
+
+#: ../../contributing.rst:101
+#: 4dbd3f0ead504550a1e050cc516e54f4
+msgid "We welcome feature suggestions that improve AMRnet's functionality for AMR surveillance."
+msgstr "Acogemos con satisfacción las sugerencias de características que mejoran la funcionalidad de AMRnet para el AMR."
 
 #: ../../contributing.rst:103
-msgid ""
-"We welcome feature suggestions that improve AMRnet's functionality for "
-"AMR surveillance."
-msgstr ""
+#: 586330b6b95940ab851c5596305e1087
+msgid "**Good feature requests include:** - Clear description of the problem being solved - Specific use cases from public health or research perspectives - Consideration of different user types (researchers, policymakers, etc.)"
+msgstr "**Las solicitudes de buenas características incluyen:** - Descripción clara del problema que se está resolviendo - Casos de uso específicos desde la perspectiva de la salud pública o de la investigación - Consideración de diferentes tipos de usuario (investigadores, diseñadores de políticas, etc.)"
 
-#: ../../contributing.rst:105
-msgid ""
-"**Good feature requests include:** - Clear description of the problem "
-"being solved - Specific use cases from public health or research "
-"perspectives - Consideration of different user types (researchers, "
-"policymakers, etc.)"
-msgstr ""
-
-#: ../../contributing.rst:111
+#: ../../contributing.rst:109
+#: fbc9fb4f21694a3a85178bc292194da1
 msgid "Documentation Improvements"
-msgstr ""
+msgstr "Mejoras de documentación"
 
-#: ../../contributing.rst:114
-msgid ""
-"Documentation improvements are always welcome, including: - Fixing typos "
-"or clarifying instructions - Adding examples or use cases - Translating "
-"content to other languages - Creating tutorials or guides"
-msgstr ""
+#: ../../contributing.rst:112
+#: c87db5eeb26744a19d56032a44ddaeda
+msgid "Documentation improvements are always welcome, including: - Fixing typos or clarifying instructions - Adding examples or use cases - Translating content to other languages - Creating tutorials or guides"
+msgstr "Las mejoras de documentación siempre son bienvenidas, incluyendo: - Corregir errores tipográficos o instrucciones de aclaración - Añadir ejemplos o casos de uso - Traducir contenido a otros idiomas - Crear tutoriales o guías"
 
-#: ../../contributing.rst:121
+#: ../../contributing.rst:119
+#: b6d5ee13652147b1845d640222ccdfc6
 msgid "How to set up your development environment"
-msgstr ""
+msgstr "Cómo configurar tu entorno de desarrollo"
 
-#: ../../contributing.rst:124
+#: ../../contributing.rst:122
+#: ccf39685cc71409eb3b2386f9a55c781
 msgid "Prerequisites"
-msgstr ""
+msgstr "Prerrequisitos"
+
+#: ../../contributing.rst:125
+#: d6c72dbfc53f41dcbe9e6bcb09836d6d
+msgid "Before you begin, ensure you have:"
+msgstr "Antes de comenzar, asegúrese de tener:"
 
 #: ../../contributing.rst:127
-msgid "Before you begin, ensure you have:"
-msgstr ""
+#: a3de02b9a30d46048dd166d636ef6b9a
+msgid "**Node.js** 18+ with npm"
+msgstr "**Node.js** 18+ con npm"
+
+#: ../../contributing.rst:128
+#: 58e4e7e75f9e40a284b2312402b40759
+msgid "**Python** 3.8+ (for data processing)"
+msgstr "**Python** 3.8+ (para procesamiento de datos)"
 
 #: ../../contributing.rst:129
-msgid "**Node.js** 18+ with npm"
-msgstr ""
+#: 2c8514ccf1c24ea58e30930d426373d9
+msgid "**MongoDB** 6.0+ (local or Atlas)"
+msgstr "**MongoDB** 6.0+ (local o Atlas)"
 
 #: ../../contributing.rst:130
-msgid "**Python** 3.8+ (for data processing)"
-msgstr ""
-
-#: ../../contributing.rst:131
-msgid "**MongoDB** 6.0+ (local or Atlas)"
-msgstr ""
-
-#: ../../contributing.rst:132
+#: 130076c7e32d4d00aaffc6ffc429d261
 msgid "**Git** for version control"
-msgstr ""
+msgstr "**Git** para el control de versiones"
 
-#: ../../contributing.rst:135
+#: ../../contributing.rst:133
+#: 176e36386c5d492896a19682979b39d7
 msgid "Initial Setup"
-msgstr ""
+msgstr "Configuración inicial"
 
-#: ../../contributing.rst:155
-msgid ""
-"The application will be available at ``http://localhost:3000`` with the "
-"API at ``http://localhost:8080``."
-msgstr ""
+#: ../../contributing.rst:153
+#: a0f3d605de904ae2ab5e79f9894c61ea
+msgid "The application will be available at ``http://localhost:3000`` with the API at ``http://localhost:8080``."
+msgstr "La aplicación estará disponible en ``http://localhost:3000`` con la API en ``http://localhost:8080``."
 
-#: ../../contributing.rst:158
+#: ../../contributing.rst:156
+#: 3b8b70d1f51e47899666050a53524c59
 msgid "Code Quality Standards"
-msgstr ""
+msgstr "Normas de Calidad del Código"
 
-#: ../../contributing.rst:161
+#: ../../contributing.rst:159
+#: b70b7d91bfcf4f2ba2dce678e81d5df1
 msgid "Linting and Formatting"
-msgstr ""
+msgstr "Lintado y formato"
 
-#: ../../contributing.rst:164
+#: ../../contributing.rst:162
+#: 68f5d8e448ec4eb7aeaf70dddc040664
 msgid "AMRnet uses ESLint and Prettier to maintain code quality:"
-msgstr ""
+msgstr "AMRnet utiliza ESLint y Prettier para mantener la calidad del código:"
 
-#: ../../contributing.rst:178
+#: ../../contributing.rst:176
+#: c5ebab03536242099f142943f4dbd321
 msgid "Testing"
-msgstr ""
+msgstr "Pruebas"
 
-#: ../../contributing.rst:181
+#: ../../contributing.rst:179
+#: af5b584eb218485e9319e7a34b527f70
 msgid "Always include tests with your contributions:"
-msgstr ""
+msgstr "Siempre incluye pruebas con tus contribuciones:"
 
-#: ../../contributing.rst:195
+#: ../../contributing.rst:193
+#: 7112b05baf8e45fa965d5f3fa219199b
 msgid "Git Hooks"
-msgstr ""
+msgstr "Git Hooks"
 
-#: ../../contributing.rst:198
-msgid ""
-"Pre-commit hooks automatically run linting and formatting: - Configured "
-"via ``.editorconfig`` and ``.prettierrc.json`` - Ensures consistent code "
-"style across all contributions"
-msgstr ""
+#: ../../contributing.rst:196
+#: eecc601fd636413786151f4a1aa8c2f7
+msgid "Pre-commit hooks automatically run linting and formatting: - Configured via ``.editorconfig`` and ``.prettierrc.json`` - Ensures consistent code style across all contributions"
+msgstr "Los ganchos de pre-commit ejecutan automáticamente linting y formato: - Configurados a través de ``.editorconfig`` y ``.://ka-perseus-graphie.s3.amazonaws.com/c.json`` - Asegura el estilo de código consistente a través de todas las contribuciones"
 
-#: ../../contributing.rst:203
+#: ../../contributing.rst:201
+#: 53c4e37bc64647d5bec5994e995db6c9
 msgid "Development Workflow"
-msgstr ""
+msgstr "Flujo de trabajo de desarrollo"
 
-#: ../../contributing.rst:206
+#: ../../contributing.rst:204
+#: 4d0e307f1c544b5ab3e8118bcf1bff2e
 msgid "Branch Naming"
-msgstr ""
+msgstr "Nombre de la rama"
 
-#: ../../contributing.rst:209
-msgid ""
-"Use descriptive branch names: - ``feature/add-organism-filtering`` - "
-"``bugfix/map-rendering-issue`` - ``docs/update-installation-guide``"
-msgstr ""
+#: ../../contributing.rst:207
+#: 7b0a00eca4fc4886b91c47bb8053aedf
+msgid "Use descriptive branch names: - ``feature/add-organism-filtering`` - ``bugfix/map-rendering-issue`` - ``docs/update-installation-guide``"
+msgstr "Usar nombres descriptivos: - ``feature/add-organism-filtering`` - ``bugfix/map-rendering-issue`` - ``docs/update-installation-guide``"
 
-#: ../../contributing.rst:215
+#: ../../contributing.rst:213
+#: 9227dd02be74450e84e70614812b7e88
 msgid "Commit Messages"
-msgstr ""
+msgstr "Mensajes de commit"
 
-#: ../../contributing.rst:218
-msgid ""
-"Follow conventional commit format: - ``feat: add new organism filtering "
-"capability`` - ``fix: resolve map rendering issue on mobile`` - ``docs: "
-"update installation instructions``"
-msgstr ""
+#: ../../contributing.rst:216
+#: 9fef73ccdb234deea710519a969e4f6b
+msgid "Follow conventional commit format: - ``feat: add new organism filtering capability`` - ``fix: resolve map rendering issue on mobile`` - ``docs: update installation instructions``"
+msgstr "Seguir formato de commit convencional: - ``feat: añadir nueva capacidad de filtrado de organismo`` - ``fix: resolver problema de renderizado de mapa en móvil`` - ``docs: actualizar instrucciones de instalación``"
 
-#: ../../contributing.rst:224
+#: ../../contributing.rst:222
+#: 5407ff2b074941e0b2a3a3fb10bb7296
 msgid "Code Review Process"
-msgstr ""
+msgstr "Proceso de revisión de código"
 
-#: ../../contributing.rst:227
-msgid ""
-"All contributions go through code review: 1. Create a pull request with "
-"clear description 2. Automated tests must pass 3. Code review by "
-"maintainers 4. Address feedback and update as needed 5. Merge once "
-"approved"
-msgstr ""
+#: ../../contributing.rst:225
+#: db6a41bbf99f4ea3af796776469938e7
+msgid "All contributions go through code review: 1. Create a pull request with clear description 2. Automated tests must pass 3. Code review by maintainers 4. Address feedback and update as needed 5. Merge once approved"
+msgstr "Todas las contribuciones pasan por revisión de código: 1. Crear un pull request con descripción clara 2. Las pruebas automatizadas deben pasar 3. Revisión de código por los mantenedores 4. Calificación de dirección y actualización según sea necesario 5. Combinar una vez aprobado"
 
-#: ../../contributing.rst:235
+#: ../../contributing.rst:233
+#: ac9aef00200b43c78fd4aba53ecddc96
 msgid "Specific Contribution Areas"
-msgstr ""
+msgstr "Áreas de Contribución Específicas"
 
-#: ../../contributing.rst:238
+#: ../../contributing.rst:236
+#: ed3a9a2020184ee8bfabc19a3631b42d
 msgid "Frontend Development"
-msgstr ""
+msgstr "Desarrollo del Frontend"
+
+#: ../../contributing.rst:239
+#: f3fc1012daf748638baeac44795b4b65
+msgid "**Technologies:** React 18, Material-UI, Redux, Recharts"
+msgstr "**Tecnologías:** React 18, Material-UI, Redux, Recharts"
 
 #: ../../contributing.rst:241
-msgid "**Technologies:** React 18, Material-UI, Redux, Recharts"
-msgstr ""
+#: 33ac44f42f654f1ca84b9fa7bb15ce24
+msgid "**Key areas for contribution:** - New visualization components - Mobile responsiveness improvements - Accessibility enhancements - Performance optimizations"
+msgstr "**Áreas clave de contribución:** - Nuevos componentes de visualización - Mejoras de respuesta móvil - Mejoras de accesibilidad - Optimizaciones de rendimiento"
 
-#: ../../contributing.rst:243
-msgid ""
-"**Key areas for contribution:** - New visualization components - Mobile "
-"responsiveness improvements - Accessibility enhancements - Performance "
-"optimizations"
-msgstr ""
-
-#: ../../contributing.rst:250
+#: ../../contributing.rst:248
+#: a5515ca908554738a920377c21402ccd
 msgid "Backend Development"
-msgstr ""
+msgstr "Desarrollo de backend"
+
+#: ../../contributing.rst:251
+#: b6076804f0a54d9bbfe03a64da568e16
+msgid "**Technologies:** Node.js, Express.js, MongoDB"
+msgstr "**Technologies:** Node.js, Express.js, MongoDB"
 
 #: ../../contributing.rst:253
-msgid "**Technologies:** Node.js, Express.js, MongoDB"
-msgstr ""
+#: cebde0659fca49778732e5d84f82f57d
+msgid "**Key areas for contribution:** - API endpoint optimization - Database query improvements - Data validation and processing - Security enhancements"
+msgstr "**Áreas clave para la contribución:** - Optimización de endpoints de la API - Mejoras en la consulta de la base de datos - Validación y procesamiento de datos - Mejoras de seguridad"
 
-#: ../../contributing.rst:255
-msgid ""
-"**Key areas for contribution:** - API endpoint optimization - Database "
-"query improvements - Data validation and processing - Security "
-"enhancements"
-msgstr ""
-
-#: ../../contributing.rst:262
+#: ../../contributing.rst:260
+#: 980375bc4ebe4fbab6e02da766212b9b
 msgid "Data Processing"
-msgstr ""
+msgstr "Procesamiento de datos"
+
+#: ../../contributing.rst:263
+#: c2bdffc7e38943269a8858134474cd05
+msgid "**Technologies:** Python, pandas, NumPy"
+msgstr "**Technologies:** Python, pandas, NumPy"
 
 #: ../../contributing.rst:265
-msgid "**Technologies:** Python, pandas, NumPy"
-msgstr ""
+#: adbed9cc93b94bdca23566b86461141d
+msgid "**Key areas for contribution:** - New organism data parsers - Data quality validation - Statistical analysis functions - Export format support"
+msgstr "**Áreas clave para la contribución:** - Nuevo analizador de datos del organismo - Validación de calidad de datos - Funciones de análisis estático - Soporte en formato de exportación"
 
-#: ../../contributing.rst:267
-msgid ""
-"**Key areas for contribution:** - New organism data parsers - Data "
-"quality validation - Statistical analysis functions - Export format "
-"support"
-msgstr ""
-
-#: ../../contributing.rst:274
+#: ../../contributing.rst:272
+#: db37b6b76e364dc2b5d859aebe04cf38
 msgid "Documentation"
 msgstr "Documentación"
 
-#: ../../contributing.rst:277
-msgid ""
-"**Areas needing help:** - User guides and tutorials - API documentation -"
-" Developer onboarding - Multi-language translations"
-msgstr ""
+#: ../../contributing.rst:275
+#: 97a2743e1226418396fc01b799b80be0
+msgid "**Areas needing help:** - User guides and tutorials - API documentation - Developer onboarding - Multi-language translations"
+msgstr "**Áreas que necesitan ayuda:** - Guías de usuario y tutoriales - Documentación API - Embarque del desarrollador - Traducciones múltiples"
 
-#: ../../contributing.rst:284
+#: ../../contributing.rst:282
+#: 47a2e76da88546ffa8f10d0bcf72bd76
 msgid "How to submit changes"
-msgstr ""
+msgstr "Cómo enviar cambios"
 
-#: ../../contributing.rst:287
-msgid ""
-"Open a `pull request <https://github.com/amrnet/amrnet/pulls>`__ to "
-"submit changes to this project."
-msgstr ""
+#: ../../contributing.rst:285
+#: 5e4bc22cf49341159497f926809ae38e
+msgid "Open a `pull request <https://github.com/amrnet/amrnet/pulls>`__ to submit changes to this project."
+msgstr "Abre un `pull request <https://github.com/amrnet/amrnet/pulls>`__ para enviar cambios a este proyecto."
 
-#: ../../contributing.rst:290
-msgid ""
-"**Your pull request should:** - Include a clear description of changes - "
-"Pass all automated tests - Include relevant tests for new functionality -"
-" Update documentation if needed - Follow the project's coding standards"
-msgstr ""
+#: ../../contributing.rst:288
+#: a2ba086693e9458a9d01ad5cd861ec76
+msgid "**Your pull request should:** - Include a clear description of changes - Pass all automated tests - Include relevant tests for new functionality - Update documentation if needed - Follow the project's coding standards"
+msgstr "**Tu pull request debería:** - Incluye una descripción clara de los cambios - Pasar todas las pruebas automatizadas - Incluye pruebas relevantes para una nueva funcionalidad - Actualizar documentación si es necesario - Sigue los estándares de codificación del proyecto"
 
-#: ../../contributing.rst:297
-msgid ""
-"**Pull request template includes:** - Description of changes - Type of "
-"change (bugfix, feature, docs, etc.) - Testing checklist - Screenshots "
-"for UI changes"
-msgstr ""
+#: ../../contributing.rst:295
+#: 9dd25019cf8d4d6792ba8cb025e8b2bf
+msgid "**Pull request template includes:** - Description of changes - Type of change (bugfix, feature, docs, etc.) - Testing checklist - Screenshots for UI changes"
+msgstr "**La plantilla de Pull request incluye:** - Descripción de los cambios - Tipo de cambio (corrección de errores, características, documentos, etc.) - Lista de verificación de pruebas - Capturas de pantalla para cambios en la interfaz"
 
-#: ../../contributing.rst:304
+#: ../../contributing.rst:302
+#: a5edebab0706467daa838031aa885098
 msgid "Community Guidelines"
-msgstr ""
+msgstr "Directrices de la comunidad"
+
+#: ../../contributing.rst:305
+#: d273a58d15a84d3a98c88e11954a87ea
+msgid "Be respectful and inclusive"
+msgstr "Ser respetuoso e inclusivo"
+
+#: ../../contributing.rst:306
+#: ae7f47c779a8487b8c4f5a8f38445780
+msgid "Provide constructive feedback"
+msgstr "Proporcionar comentarios constructivos"
 
 #: ../../contributing.rst:307
-msgid "Be respectful and inclusive"
-msgstr ""
+#: ccce33b2d534472a883c32c379403efd
+msgid "Focus on the scientific and public health mission"
+msgstr "Concéntrese en la misión de salud pública y científica"
 
 #: ../../contributing.rst:308
-msgid "Provide constructive feedback"
-msgstr ""
+#: ddb66c3d488643ed9f0283722056a66e
+msgid "Help newcomers get started"
+msgstr "Ayuda a los recién llegados a empezar"
 
 #: ../../contributing.rst:309
-msgid "Focus on the scientific and public health mission"
-msgstr ""
-
-#: ../../contributing.rst:310
-msgid "Help newcomers get started"
-msgstr ""
-
-#: ../../contributing.rst:311
+#: 52736c7436284753af8f3020f9a30720
 msgid "Follow our :doc:`Code of Conduct <codeofconduct>`"
-msgstr ""
+msgstr "Sigue nuestro :doc:`Código de Conducta <codeofconduct>`"
 
-#: ../../contributing.rst:314
+#: ../../contributing.rst:312
+#: ee5a35a7b39d4e3096189e1ca062cb88
 msgid "Getting Help"
-msgstr ""
+msgstr "Obteniendo ayuda"
 
-#: ../../contributing.rst:317
-msgid ""
-"**Need assistance?** - Check existing `Issues "
-"<https://github.com/amrnet/amrnet/issues>`__ - Join our `Discussions "
-"<https://github.com/amrnet/amrnet/discussions>`__ - Review the "
-":doc:`Installation Guide <installation>` - Read the `Developer Guide "
-"<../tutorial/developer_guide.md>`__"
-msgstr ""
+#: ../../contributing.rst:315
+#: 7b833ab327d44215b2287f9fc1d69be9
+msgid "**Need assistance?** - Check existing `Issues <https://github.com/amrnet/amrnet/issues>`__ - Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`__ - Review the :doc:`Installation Guide <installation>` - Read the `Developer Guide <../tutorial/developer_guide.md>`__"
+msgstr "**¿Necesitas ayuda? * - Comprueba `Issues <https://github.com/amrnet/amrnet/issues>`__ - Únete a nuestros `Discusiones <https://github.com/amrnet/amrnet/discussions>`__ - Revisa la :doc:`Installation Guide <installation>` - Lee la `Developer Guide <. /tutorial/developer_guide.md>`__"
 
-#: ../../contributing.rst:323
-msgid ""
-"**For urgent issues:** - Security vulnerabilities: See our Security "
-"Policy - Critical bugs: Use the Issue Tracker with \"urgent\" label"
-msgstr ""
+#: ../../contributing.rst:321
+#: dcd551dc9fe445548d28448a9e342cb1
+msgid "**For urgent issues:** - Security vulnerabilities: See our Security Policy - Critical bugs: Use the Issue Tracker with \"urgent\" label"
+msgstr "**Para problemas urgentes:** - vulnerabilidades de seguridad: vea nuestra Política de Seguridad - Fallos críticos: Use el rastreador de incidencias con etiqueta \"urgente\""
 

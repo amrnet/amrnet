@@ -102,12 +102,12 @@ These definitions are used in the *E. coli*, *Shigella*, and non-typhoidal *Salm
     :maxdepth: 2
     :hidden:
 
-    Escherichia coli  <Org/ecoli>
-    Escherichia coli diarrheagenic <Org/decoli>
-    Shigella + EIEC <Org/shige>
-    Klebsiella pneumoniae <Org/kpneumo>
-    Neisseria gonorrhoeae <Org/ngono>
-    Salmonella (non-typhoidal) <Org/senterica>
-    Salmonella (invasive non-typhoidal) <Org/sentericaints>
-    Salmonella Typhi <Org/styphi>
+    Escherichia coli  <ecoli>
+    Escherichia coli diarrheagenic <decoli>
+    Shigella + EIEC <shige>
+    Klebsiella pneumoniae <kpneumo>
+    Neisseria gonorrhoeae <ngono>
+    Salmonella (non-typhoidal) <senterica>
+    Salmonella (invasive non-typhoidal) <sentericaints>
+    Salmonella Typhi <styphi>
 

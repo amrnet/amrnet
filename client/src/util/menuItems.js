@@ -1,8 +1,9 @@
 import { GitHub, Groups, Home, Info, MenuBook, Storage } from '@mui/icons-material';
 import EmailIcon from '@mui/icons-material/Email';
+import i18n from 'i18next'; // import the i18n instance
 
 // List of drawer menu items
-export const menuItems = [
+export const getMenuItems = () =>  [
   {
     key: '',
     label: 'Home',
@@ -33,7 +34,7 @@ export const menuItems = [
     label: 'User Guide',
     labelHead: 'User Guide',
     icon: <MenuBook />,
-    link: 'https://amrnet.readthedocs.io/en/latest/',
+    link: `https://amrnet.readthedocs.io/${i18n.language}/latest/`,
     target: '_blank',
   },
   {
@@ -41,7 +42,7 @@ export const menuItems = [
     label: 'Database',
     labelHead: 'Database',
     icon: <Storage />,
-    link: 'https://amrnet.readthedocs.io/en/latest/data.html',
+    link: `https://amrnet.readthedocs.io/${i18n.language}/latest/data.html`,
     target: '_blank',
   },
   // {
