@@ -7,22 +7,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
-"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
-"Language-Team: fr <LL@li.org>\n\n"
+"Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
-#: ../../internationalization.rst:4
+#: ../../notInUse/internationalization.rst:4 a47e8e7f71344e33b844276e0b42fc90
 msgid "Internationalization (i18n)"
 msgstr ""
 
-#: ../../internationalization.rst:8
+#: ../../notInUse/internationalization.rst:8 96f77a7f8c9f4b8a8ec3d77dff13a864
 msgid ""
 "AMRnet supports multiple languages to make antimicrobial resistance "
 "surveillance data accessible to users worldwide. This guide covers the "
@@ -30,95 +30,95 @@ msgid ""
 "contribute translations."
 msgstr ""
 
-#: ../../internationalization.rst:13
+#: ../../notInUse/internationalization.rst:13 2ae4b8b572b04d6d9df208285336713a
 msgid "Supported Languages"
 msgstr ""
 
-#: ../../internationalization.rst:17
+#: ../../notInUse/internationalization.rst:17 93301d1dda4c44a297f1dfb912e26207
 msgid "AMRnet currently supports four languages with comprehensive translations:"
 msgstr ""
 
-#: ../../internationalization.rst:19
+#: ../../notInUse/internationalization.rst:19 5519c50fb8604cb7b89bdcf057e9cc01
 msgid "**🇺🇸 English (US)** - Default language (en)"
 msgstr ""
 
-#: ../../internationalization.rst:20
+#: ../../notInUse/internationalization.rst:20 c121c4157eff4a95b88d5e8b93cc1cca
 msgid "**🇫🇷 French (France)** - Professional French translations (fr)"
 msgstr ""
 
-#: ../../internationalization.rst:21
+#: ../../notInUse/internationalization.rst:21 c1499ad4f9b74cf88dd4e01c63032bd4
 msgid ""
 "**🇧🇷 Portuguese (Brazil)** - Brazilian Portuguese with local conventions "
 "(pt)"
 msgstr ""
 
-#: ../../internationalization.rst:22
+#: ../../notInUse/internationalization.rst:22 c9ce051059f04409ae45242a6dc95ccc
 msgid "**🇪🇸 Spanish** - International Spanish translations (es)"
 msgstr ""
 
-#: ../../internationalization.rst:25
+#: ../../notInUse/internationalization.rst:25 849dd67bd4b44f08b6da422c1a3e53c2
 msgid "Language Implementation"
 msgstr ""
 
-#: ../../internationalization.rst:29
+#: ../../notInUse/internationalization.rst:29 8a4d7ae74c264f398d69ebe404c15868
 msgid ""
 "AMRnet uses `react-i18next <https://react.i18next.com/>`_ for "
 "comprehensive internationalization support:"
 msgstr ""
 
-#: ../../internationalization.rst:33
+#: ../../notInUse/internationalization.rst:33 2e51d433f623479b8a55bc1a04ef5794
 msgid "Technical Architecture"
 msgstr ""
 
-#: ../../internationalization.rst:37
+#: ../../notInUse/internationalization.rst:37 5984c05c50b74427a77619114b06955e
 msgid "**Core Dependencies:**"
 msgstr ""
 
-#: ../../internationalization.rst:48
+#: ../../notInUse/internationalization.rst:48 a2d38eda56fe4a5dbb47ce8daf089cd9
 msgid "**Configuration (client/src/i18n.js):**"
 msgstr ""
 
-#: ../../internationalization.rst:86
+#: ../../notInUse/internationalization.rst:86 151dfcd79b9d435eb33134f9a0879af3
 msgid "Translation Structure"
 msgstr ""
 
-#: ../../internationalization.rst:90
+#: ../../notInUse/internationalization.rst:90 437927fc90564560a4f5428c10729dee
 msgid "Translation files are organized hierarchically for maintainability:"
 msgstr ""
 
-#: ../../internationalization.rst:121
+#: ../../notInUse/internationalization.rst:121 f92ca2118a23430aa9271d0b15edf760
 msgid "Language Switcher Component"
 msgstr ""
 
-#: ../../internationalization.rst:125
+#: ../../notInUse/internationalization.rst:125 60cf614d1f3f417591c492134b719b0e
 msgid "**Visual Language Selector:**"
 msgstr ""
 
-#: ../../internationalization.rst:178
+#: ../../notInUse/internationalization.rst:178 6bcc9a56f74b40cb85dd8ecfec3ae70b
 msgid "Usage in Components"
 msgstr ""
 
-#: ../../internationalization.rst:182
+#: ../../notInUse/internationalization.rst:182 4c43cec5304f420fa02c8f2f72a81061
 msgid "**Basic Translation Usage:**"
 msgstr ""
 
-#: ../../internationalization.rst:203
+#: ../../notInUse/internationalization.rst:203 54ee0b4284ee42b6a957394d37198296
 msgid "**Parameterized Translations:**"
 msgstr ""
 
-#: ../../internationalization.rst:229
+#: ../../notInUse/internationalization.rst:229 957b86080ea849ee9dce874ced3f4e26
 msgid "Translation Quality"
 msgstr ""
 
-#: ../../internationalization.rst:232
+#: ../../notInUse/internationalization.rst:232 891ea71860784e769a601a3a12afe5f2
 msgid "Cultural Adaptation"
 msgstr ""
 
-#: ../../internationalization.rst:236
+#: ../../notInUse/internationalization.rst:236 5f33cf7b7eb946d1be05433fb0b01543
 msgid "Each language implementation considers cultural and regional preferences:"
 msgstr ""
 
-#: ../../internationalization.rst:238
+#: ../../notInUse/internationalization.rst:238 d99935c013ad4016bdd8654df82364ac
 msgid ""
 "**French Translations:** - Formal \"vous\" form throughout the interface "
 "- Proper French medical and scientific terminology - Standard French "
@@ -126,7 +126,7 @@ msgid ""
 "properly implemented"
 msgstr ""
 
-#: ../../internationalization.rst:244
+#: ../../notInUse/internationalization.rst:244 fe519ff95eb7491d80b8c67560c26162
 msgid ""
 "**Portuguese (Brazil) Translations:** - Brazilian Portuguese conventions "
 "and expressions - Local terminology preferences for medical concepts - "
@@ -134,7 +134,7 @@ msgid ""
 "number and date formatting"
 msgstr ""
 
-#: ../../internationalization.rst:250
+#: ../../notInUse/internationalization.rst:250 243861d4b52a456d8145ddd21d8652a3
 msgid ""
 "**Spanish Translations:** - International Spanish terminology (not "
 "region-specific) - Professional tone appropriate for scientific content -"
@@ -142,11 +142,11 @@ msgid ""
 "conventions for global accessibility"
 msgstr ""
 
-#: ../../internationalization.rst:257
+#: ../../notInUse/internationalization.rst:257 e668085c7be74bf8b6dfecc587ff565c
 msgid "Technical Considerations"
 msgstr ""
 
-#: ../../internationalization.rst:261
+#: ../../notInUse/internationalization.rst:261 ef242bd14ec34799a8cedce8abf4e1ae
 msgid ""
 "**Text Expansion/Contraction:** - UI components accommodate text length "
 "variations (±30%) - Responsive design ensures proper layout in all "
@@ -154,7 +154,7 @@ msgid ""
 " and help text properly positioned"
 msgstr ""
 
-#: ../../internationalization.rst:267
+#: ../../notInUse/internationalization.rst:267 d91a97ed3ce54728b46e587010abc605
 msgid ""
 "**Special Characters and Encoding:** - UTF-8 encoding support for all "
 "special characters - Proper font selection for accented characters - "
@@ -162,196 +162,196 @@ msgid ""
 "validation handles international characters"
 msgstr ""
 
-#: ../../internationalization.rst:274
+#: ../../notInUse/internationalization.rst:274 ac2bdfc684974282bc9c1b8f06171661
 msgid "Contributing Translations"
 msgstr ""
 
-#: ../../internationalization.rst:277
+#: ../../notInUse/internationalization.rst:277 db840acec20d4fba927dbb26c05c7013
 msgid "Translation Workflow"
 msgstr ""
 
-#: ../../internationalization.rst:281
+#: ../../notInUse/internationalization.rst:281 3d6fae3c1508425a8ed24318e0d70b58
 msgid "**For Developers:**"
 msgstr ""
 
-#: ../../internationalization.rst:283
+#: ../../notInUse/internationalization.rst:283 13de2d759a0e4b64bee8e140dd0a6314
 msgid "**Add New Translation Keys:**"
 msgstr ""
 
-#: ../../internationalization.rst:296
+#: ../../notInUse/internationalization.rst:296 444ca6ae909c42a9bd2fcc67485f5a3d
 msgid "**Update Component Usage:**"
 msgstr ""
 
-#: ../../internationalization.rst:311
+#: ../../notInUse/internationalization.rst:311 a347026c1d074eb896b8c28285876b9d
 msgid "**Update All Language Files:**"
 msgstr ""
 
-#: ../../internationalization.rst:319
+#: ../../notInUse/internationalization.rst:319 e32a986afe7c4063800362ae15f42c1f
 msgid "Translation Guidelines"
 msgstr ""
 
-#: ../../internationalization.rst:323
+#: ../../notInUse/internationalization.rst:323 876f4108d65a4af1b138a827f5afad46
 msgid "**For Translators:**"
 msgstr ""
 
-#: ../../internationalization.rst:325
+#: ../../notInUse/internationalization.rst:325 ce3fe4b03bef44988b11c66be5e7c89b
 msgid ""
 "**Context Understanding:** - Review the AMRnet dashboard to understand "
 "context - Consider the scientific and medical nature of content - "
 "Maintain professional tone appropriate for healthcare professionals"
 msgstr ""
 
-#: ../../internationalization.rst:330
+#: ../../notInUse/internationalization.rst:330 b75153c8920a41e6b2be537107f366c3
 msgid ""
 "**Terminology Consistency:** - Use standard medical/scientific "
 "terminology - Maintain consistency with existing translations - Prefer "
 "internationally recognized terms when available"
 msgstr ""
 
-#: ../../internationalization.rst:335
+#: ../../notInUse/internationalization.rst:335 e90a0f39fa6b41c89a77c22443299536
 msgid ""
 "**Technical Constraints:** - Keep button text concise (max 20 characters "
 "recommended) - Consider text expansion in menu items - Test UI layout "
 "with your translations"
 msgstr ""
 
-#: ../../internationalization.rst:340
+#: ../../notInUse/internationalization.rst:340 fdc5a4a9f5574ad4a5359a096f0dca44
 msgid "**Translation Template:**"
 msgstr ""
 
-#: ../../internationalization.rst:356
+#: ../../notInUse/internationalization.rst:356 23823df456404e8a9f7dab49a7c85846
 msgid "Automated Translation"
 msgstr ""
 
-#: ../../internationalization.rst:383
+#: ../../notInUse/internationalization.rst:383 85b7e8e09cd74d44a1f65637de1b4ccb
 msgid "Accessibility and Internationalization"
 msgstr ""
 
-#: ../../internationalization.rst:387
+#: ../../notInUse/internationalization.rst:387 dcd1229c0c8d4baf84ff5c3766265c36
 msgid "Ensuring accessibility across all supported languages:"
 msgstr ""
 
-#: ../../internationalization.rst:390
+#: ../../notInUse/internationalization.rst:390 5ec6655faf774a3cbf84398528303f06
 msgid "Screen Reader Support"
 msgstr ""
 
-#: ../../internationalization.rst:394
+#: ../../notInUse/internationalization.rst:394 0cd2d722e2314cfea56f3ada0cd61618
 msgid "**ARIA Labels and Descriptions:**"
 msgstr ""
 
-#: ../../internationalization.rst:415
+#: ../../notInUse/internationalization.rst:415 2da6b36c36484630a19484098b7df7c1
 msgid "**Translation File for Accessibility:**"
 msgstr ""
 
-#: ../../internationalization.rst:429
+#: ../../notInUse/internationalization.rst:429 e5c1d086c5504194bab4b1a267df3d5e
 msgid "Keyboard Navigation"
 msgstr ""
 
-#: ../../internationalization.rst:433
+#: ../../notInUse/internationalization.rst:433 54a09b8124d8451c876d6fef8d64aa43
 msgid "**Translated Keyboard Shortcuts:**"
 msgstr ""
 
-#: ../../internationalization.rst:450
+#: ../../notInUse/internationalization.rst:450 e8d62294b2a4482493ad4e8c08dd4edc
 msgid "Performance Considerations"
 msgstr ""
 
-#: ../../internationalization.rst:454
+#: ../../notInUse/internationalization.rst:454 2ba9450309a647979a388e4af4989c89
 msgid "Optimizing i18n performance for production:"
 msgstr ""
 
-#: ../../internationalization.rst:457
+#: ../../notInUse/internationalization.rst:457 845faa5854fb44619224a11bf7117d7a
 msgid "Lazy Loading"
 msgstr ""
 
-#: ../../internationalization.rst:461
+#: ../../notInUse/internationalization.rst:461 5449a9da13084c4da87dbd5d0a9290ed
 msgid "**Dynamic Language Loading:**"
 msgstr ""
 
-#: ../../internationalization.rst:473
+#: ../../notInUse/internationalization.rst:473 af552f292d6940e08fce0b4cbbb854f6
 msgid "Bundle Optimization"
 msgstr ""
 
-#: ../../internationalization.rst:477
+#: ../../notInUse/internationalization.rst:477 32df0cb0479347d481f9d41fead4adb1
 msgid "**Webpack Configuration:**"
 msgstr ""
 
-#: ../../internationalization.rst:498
+#: ../../notInUse/internationalization.rst:498 a9213c4e0ee64cfdb67469f0750b2f9f
 msgid "Testing Internationalization"
 msgstr ""
 
-#: ../../internationalization.rst:502
+#: ../../notInUse/internationalization.rst:502 f30f6f3fd37b40dca0ba9d9fbcfddc47
 msgid "Ensuring translation quality and functionality:"
 msgstr ""
 
-#: ../../internationalization.rst:505
+#: ../../notInUse/internationalization.rst:505 19eec1820d964418858d67085d773b38
 msgid "Automated Testing"
 msgstr ""
 
-#: ../../internationalization.rst:509
+#: ../../notInUse/internationalization.rst:509 5da3b3a7e8fe4925a9f18dd23b665863
 msgid "**Translation Key Validation:**"
 msgstr ""
 
-#: ../../internationalization.rst:537
+#: ../../notInUse/internationalization.rst:537 9bd2fd890be948599f04c32448284579
 msgid "Manual Testing"
 msgstr ""
 
-#: ../../internationalization.rst:541
+#: ../../notInUse/internationalization.rst:541 dd28398b36d645cfacedce633a206a3c
 msgid "**Translation Review Checklist:**"
 msgstr ""
 
-#: ../../internationalization.rst:543
+#: ../../notInUse/internationalization.rst:543 4652ac9bc3254354ac944eadfd631313
 msgid ""
 "**Visual Review:** - Text fits properly in UI components - No text "
 "overflow or truncation - Proper alignment and spacing"
 msgstr ""
 
-#: ../../internationalization.rst:548
+#: ../../notInUse/internationalization.rst:548 e6b7a8defe2a462abc34d5415d387c11
 msgid ""
 "**Functional Testing:** - Language switching works correctly - Persistent"
 " language selection - All interface elements translated"
 msgstr ""
 
-#: ../../internationalization.rst:553
+#: ../../notInUse/internationalization.rst:553 b719f1c814be4106873c505dc5103a6f
 msgid ""
 "**Content Review:** - Medical terminology accuracy - Cultural "
 "appropriateness - Professional tone consistency"
 msgstr ""
 
-#: ../../internationalization.rst:559
+#: ../../notInUse/internationalization.rst:559 1ef88e9c26f14cbfa83b2acaf2a3ba87
 msgid "Future Enhancements"
 msgstr ""
 
-#: ../../internationalization.rst:563
+#: ../../notInUse/internationalization.rst:563 6a756f1272db43bf96d86eab8f3c28c5
 msgid "Planned improvements for internationalization:"
 msgstr ""
 
-#: ../../internationalization.rst:566
+#: ../../notInUse/internationalization.rst:566 2ec479adb8524257bef8a1b73fb484da
 msgid "Additional Languages"
 msgstr ""
 
-#: ../../internationalization.rst:570
+#: ../../notInUse/internationalization.rst:570 3b75119c787b4e5e9f2575c4ec3e5a9c
 msgid ""
 "**Potential Language Additions:** - German (Deutsch) for European users -"
 " Arabic (العربية) for MENA region - Chinese Simplified (简体中文) for Asian "
 "users - Russian (Русский) for Eastern European users"
 msgstr ""
 
-#: ../../internationalization.rst:577
+#: ../../notInUse/internationalization.rst:577 ff36b810005e489bb24e757b812d0430
 msgid "Advanced Features"
 msgstr ""
 
-#: ../../internationalization.rst:581
+#: ../../notInUse/internationalization.rst:581 a2dee53ec7f14fadb3bccd1e166346be
 msgid ""
 "**Planned Features:** - Right-to-left (RTL) language support - Number and"
 " date formatting per locale - Currency and unit localization - Regional "
 "data presentation preferences"
 msgstr ""
 
-#: ../../internationalization.rst:588
+#: ../../notInUse/internationalization.rst:588 86d09c5d7aa94958a062919464ff9b97
 msgid "Community Contributions"
 msgstr ""
 
-#: ../../internationalization.rst:592
+#: ../../notInUse/internationalization.rst:592 f319c4dea8c045daa4909178d21fc103
 msgid ""
 "**How to Contribute:** - Join our `Discussions "
 "<https://github.com/amrnet/amrnet/discussions>`_ - Submit translation "
@@ -359,7 +359,7 @@ msgid ""
 "process - Help test internationalization features"
 msgstr ""
 
-#: ../../internationalization.rst:598
+#: ../../notInUse/internationalization.rst:598 d63517f098334e7fa7c9eccfc6b9be2c
 msgid ""
 "**Contact for Translation Help:** Email: amrnetdashboard@gmail.com with "
 "subject \"Translation Contribution\""
