@@ -2,7 +2,7 @@ import { Button, Toolbar, Tooltip } from '@mui/material';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { menuItems } from '../../../util/menuItems';
+import { getMenuItems } from '../../../util/menuItems';
 import { useStyles } from './MenuHeadMUI';
 
 const ICON_BUTTONS = ['GitHub', 'Contact', 'Data Rights'];
@@ -11,7 +11,7 @@ export const MenuHead = () => {
   const classes = useStyles();
   const location = useLocation();
   const { t } = useTranslation();
-
+  const menuItems = getMenuItems();
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
 
   const getTranslatedLabel = item => {

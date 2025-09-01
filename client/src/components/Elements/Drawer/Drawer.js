@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
-import { menuItems } from '../../../util/menuItems';
+import { getMenuItems } from '../../../util/menuItems';
 import { useStyles } from './DrawerMUI';
 
 export const Drawer = () => {
@@ -13,6 +13,7 @@ export const Drawer = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const openDrawer = useAppSelector(state => state.app.openDrawer);
+  const menuItems = getMenuItems();
 
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
 
