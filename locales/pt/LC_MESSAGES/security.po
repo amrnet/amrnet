@@ -1,0 +1,446 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../security.rst:4
+msgid "Security Guide"
+msgstr ""
+
+#: ../../security.rst:8
+msgid ""
+"AMRnet implements comprehensive security measures to protect user data "
+"and ensure the integrity of antimicrobial resistance surveillance "
+"information. This guide covers security policies, best practices, and "
+"implementation details."
+msgstr ""
+
+#: ../../security.rst:13
+msgid "Security Policy"
+msgstr ""
+
+#: ../../security.rst:17
+msgid ""
+"AMRnet follows industry-standard security practices for web applications "
+"handling sensitive healthcare and research data."
+msgstr ""
+
+#: ../../security.rst:21
+msgid "Vulnerability Reporting"
+msgstr ""
+
+#: ../../security.rst:25
+msgid "**🚨 Responsible Disclosure Process**"
+msgstr ""
+
+#: ../../security.rst:27
+msgid "If you discover a security vulnerability, please follow these steps:"
+msgstr ""
+
+#: ../../security.rst:29
+msgid "**DO NOT** create a public GitHub issue"
+msgstr ""
+
+#: ../../security.rst:30
+msgid "**Email security report** to: amrnetdashboard@gmail.com"
+msgstr ""
+
+#: ../../security.rst:31
+msgid ""
+"**Include detailed information**: - Description of the vulnerability - "
+"Steps to reproduce the issue - Potential impact assessment - Suggested "
+"fixes (if available)"
+msgstr ""
+
+#: ../../security.rst:37
+msgid "**Response Timeline:**"
+msgstr ""
+
+#: ../../security.rst:39
+msgid "**24 hours**: Initial acknowledgment"
+msgstr ""
+
+#: ../../security.rst:40
+msgid "**72 hours**: Preliminary assessment and severity classification"
+msgstr ""
+
+#: ../../security.rst:41
+msgid "**7 days**: Detailed response with fix timeline"
+msgstr ""
+
+#: ../../security.rst:42
+msgid "**30 days**: Target resolution for critical vulnerabilities"
+msgstr ""
+
+#: ../../security.rst:45
+msgid "Supported Versions"
+msgstr ""
+
+#: ../../security.rst:49
+msgid "Security updates are provided for:"
+msgstr ""
+
+#: ../../security.rst:51
+msgid "Version Support"
+msgstr ""
+
+#: ../../security.rst:55
+msgid "Version"
+msgstr ""
+
+#: ../../security.rst:56
+msgid "Supported"
+msgstr ""
+
+#: ../../security.rst:57
+msgid "1.1.x"
+msgstr ""
+
+#: ../../security.rst:58 ../../security.rst:60
+msgid "✅ Yes"
+msgstr ""
+
+#: ../../security.rst:59
+msgid "1.0.x"
+msgstr ""
+
+#: ../../security.rst:61
+msgid "< 1.0"
+msgstr ""
+
+#: ../../security.rst:62
+msgid "❌ No"
+msgstr ""
+
+#: ../../security.rst:65
+msgid "Application Security"
+msgstr ""
+
+#: ../../security.rst:69
+msgid "AMRnet implements multiple layers of security controls:"
+msgstr ""
+
+#: ../../security.rst:72
+msgid "Environment Security"
+msgstr ""
+
+#: ../../security.rst:76
+msgid "**Environment Variable Protection:**"
+msgstr ""
+
+#: ../../security.rst:92
+msgid "**Secure Configuration Example:**"
+msgstr ""
+
+#: ../../security.rst:120
+msgid "Database Security"
+msgstr ""
+
+#: ../../security.rst:124
+msgid "**MongoDB Security Configuration:**"
+msgstr ""
+
+#: ../../security.rst:153
+msgid "**Data Sanitization:**"
+msgstr ""
+
+#: ../../security.rst:178
+msgid "API Security"
+msgstr ""
+
+#: ../../security.rst:182
+msgid "**Authentication and Authorization:**"
+msgstr ""
+
+#: ../../security.rst:214
+msgid "**CORS Configuration:**"
+msgstr ""
+
+#: ../../security.rst:239
+msgid "Frontend Security"
+msgstr ""
+
+#: ../../security.rst:243
+msgid "**Content Security Policy:**"
+msgstr ""
+
+#: ../../security.rst:255
+msgid "**XSS Prevention:**"
+msgstr ""
+
+#: ../../security.rst:283
+msgid "Data Privacy"
+msgstr ""
+
+#: ../../security.rst:287
+msgid ""
+"AMRnet implements privacy-by-design principles for handling surveillance "
+"data:"
+msgstr ""
+
+#: ../../security.rst:290
+msgid "Data Classification"
+msgstr ""
+
+#: ../../security.rst:294
+msgid ""
+"**Public Data:** - Aggregated surveillance statistics - Country-level "
+"prevalence data - Publicly available research datasets"
+msgstr ""
+
+#: ../../security.rst:299
+msgid ""
+"**Restricted Data:** - Individual sample identifiers (when present) - "
+"Detailed geographic coordinates - Unpublished research data"
+msgstr ""
+
+#: ../../security.rst:304
+msgid ""
+"**Prohibited Data:** - Personal health information (PHI) - Patient "
+"identifiers - Clinical details beyond resistance patterns"
+msgstr ""
+
+#: ../../security.rst:310
+msgid "Privacy Controls"
+msgstr ""
+
+#: ../../security.rst:314
+msgid "**Data Minimization:**"
+msgstr ""
+
+#: ../../security.rst:330
+msgid "**Anonymization:**"
+msgstr ""
+
+#: ../../security.rst:355
+msgid "Secure Development"
+msgstr ""
+
+#: ../../security.rst:359
+msgid "Security practices for development and deployment:"
+msgstr ""
+
+#: ../../security.rst:362
+msgid "Code Security"
+msgstr ""
+
+#: ../../security.rst:366
+msgid "**Dependency Management:**"
+msgstr ""
+
+#: ../../security.rst:379
+msgid "**Security Linting:**"
+msgstr ""
+
+#: ../../security.rst:398
+msgid "Git Security"
+msgstr ""
+
+#: ../../security.rst:402
+msgid "**Secure Repository Practices:**"
+msgstr ""
+
+#: ../../security.rst:419
+msgid "**Secrets Management:**"
+msgstr ""
+
+#: ../../security.rst:440
+msgid "Deployment Security"
+msgstr ""
+
+#: ../../security.rst:444
+msgid "Security configurations for production deployment:"
+msgstr ""
+
+#: ../../security.rst:447
+msgid "Server Security"
+msgstr ""
+
+#: ../../security.rst:451
+msgid "**Security Headers:**"
+msgstr ""
+
+#: ../../security.rst:484
+msgid "Infrastructure Security"
+msgstr ""
+
+#: ../../security.rst:488
+msgid "**HTTPS Configuration:**"
+msgstr ""
+
+#: ../../security.rst:511
+msgid "Monitoring and Incident Response"
+msgstr ""
+
+#: ../../security.rst:515
+msgid "Continuous security monitoring and incident response procedures:"
+msgstr ""
+
+#: ../../security.rst:518
+msgid "Security Monitoring"
+msgstr ""
+
+#: ../../security.rst:522
+msgid "**Logging and Alerting:**"
+msgstr ""
+
+#: ../../security.rst:550
+msgid "**Intrusion Detection:**"
+msgstr ""
+
+#: ../../security.rst:575
+msgid "Incident Response"
+msgstr ""
+
+#: ../../security.rst:579
+msgid "**Response Procedures:**"
+msgstr ""
+
+#: ../../security.rst:581
+msgid "**Detection**: Automated monitoring alerts security team"
+msgstr ""
+
+#: ../../security.rst:582
+msgid "**Assessment**: Determine severity and scope of incident"
+msgstr ""
+
+#: ../../security.rst:583
+msgid "**Containment**: Isolate affected systems if necessary"
+msgstr ""
+
+#: ../../security.rst:584
+msgid "**Investigation**: Analyze logs and determine root cause"
+msgstr ""
+
+#: ../../security.rst:585
+msgid "**Recovery**: Restore normal operations"
+msgstr ""
+
+#: ../../security.rst:586
+msgid "**Lessons Learned**: Update security measures based on findings"
+msgstr ""
+
+#: ../../security.rst:589
+msgid "Security Testing"
+msgstr ""
+
+#: ../../security.rst:593
+msgid "Regular security testing ensures ongoing protection:"
+msgstr ""
+
+#: ../../security.rst:596
+msgid "Automated Testing"
+msgstr ""
+
+#: ../../security.rst:600
+msgid "**Security Test Suite:**"
+msgstr ""
+
+#: ../../security.rst:627
+msgid "Penetration Testing"
+msgstr ""
+
+#: ../../security.rst:631
+msgid "**Regular Security Assessments:**"
+msgstr ""
+
+#: ../../security.rst:633
+msgid "Quarterly vulnerability scans"
+msgstr ""
+
+#: ../../security.rst:634
+msgid "Annual penetration testing by third-party security firms"
+msgstr ""
+
+#: ../../security.rst:635
+msgid "Continuous security monitoring"
+msgstr ""
+
+#: ../../security.rst:636
+msgid "Bug bounty program for responsible disclosure"
+msgstr ""
+
+#: ../../security.rst:639
+msgid "Best Practices Checklist"
+msgstr ""
+
+#: ../../security.rst:643
+msgid "**Development Security Checklist:**"
+msgstr ""
+
+#: ../../security.rst:645
+msgid ""
+"✅ **Environment Security** - [ ] Never commit secrets to version control "
+"- [ ] Use secure environment variable management - [ ] Implement proper "
+"secret rotation"
+msgstr ""
+
+#: ../../security.rst:650
+msgid ""
+"✅ **Application Security** - [ ] Input validation and sanitization - [ ] "
+"Output encoding to prevent XSS - [ ] SQL injection prevention - [ ] "
+"Authentication and authorization"
+msgstr ""
+
+#: ../../security.rst:656
+msgid ""
+"✅ **Infrastructure Security** - [ ] HTTPS enforcement - [ ] Security "
+"headers implementation - [ ] Regular dependency updates - [ ] Database "
+"access controls"
+msgstr ""
+
+#: ../../security.rst:662
+msgid ""
+"✅ **Monitoring and Response** - [ ] Security event logging - [ ] "
+"Intrusion detection systems - [ ] Incident response procedures - [ ] "
+"Regular security assessments"
+msgstr ""
+
+#: ../../security.rst:669
+msgid "Contact Information"
+msgstr ""
+
+#: ../../security.rst:673
+msgid "**Security Team Contact:**"
+msgstr ""
+
+#: ../../security.rst:675
+msgid "**Email**: amrnetdashboard@gmail.com"
+msgstr ""
+
+#: ../../security.rst:676
+msgid "**PGP Key**: Available upon request"
+msgstr ""
+
+#: ../../security.rst:677
+msgid "**Response Time**: 24 hours for initial acknowledgment"
+msgstr ""
+
+#: ../../security.rst:679
+msgid "**For General Security Questions:**"
+msgstr ""
+
+#: ../../security.rst:681
+msgid "**GitHub Discussions**: https://github.com/amrnet/amrnet/discussions"
+msgstr ""
+
+#: ../../security.rst:682
+msgid "**Documentation**: https://amrnet.readthedocs.io"
+msgstr ""
+
