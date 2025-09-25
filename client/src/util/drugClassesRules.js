@@ -1274,7 +1274,7 @@ export const drugRulesINTS = [
 // Used for ints and senterica
 export const statKeysINTS = [
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
-  { name: 'MAcrolides', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
+  { name: 'Macrolides', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'Ciprofloxacin NS', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
@@ -1296,18 +1296,20 @@ export const statKeysINTS = [
 export const statKeysECOLI = (() => {
   const items = [
     { name: 'Aminoglycosides', column: 'Aminoglycoside', key: '-', resistanceView: true },
-    { name: 'Ampicillin', column: 'Penicllin', key: '-', resistanceView: true },
+    { name: 'Ampicillin', column: ['Penicillin', 'Carbapenemase', 'ESBL'], key: ['-', '-', '-'], resistanceView: true },
     { name: 'Azithromycin', column: 'Macrolide', key: ['mph(A)', 'acrB_R717L'], resistanceView: true },
     { name: 'Carbapenems', column: 'Carbapenemase', key: '-', resistanceView: true },
     { name: 'Chloramphenicol', column: 'Phenicol', key: '-', resistanceView: true },
-    { name: 'ESBL', column: 'ESBL', key: '-', resistanceView: true },
+    { name: 'ESBL', column: ['Carbapenemase', 'ESBL'], key: ['blaOXA-24, blaOXA-244, blaOXA-48, blaOXA-181', '-'], resistanceView: true },
     { name: 'Ciprofloxacin', column: 'Quinolone', key: '-', resistanceView: true },
     { name: 'Colistin', column: 'Colistin', key: '-', resistanceView: true },
     { name: 'Fosfomycin', column: 'Fosfomycin', key: '-', resistanceView: true },
     { name: 'Macrolides', column: 'Macrolide', key: '-', resistanceView: true },
     { name: 'Sulfamethoxazole', column: 'Sulfonamide', key: '-', resistanceView: true },
     { name: 'Tetracycline', column: 'Tetracycline', key: '-', resistanceView: true },
+    // { name: 'Tigecycline', column: ['Other Classes'], key: ['Tigecycline'], resistanceView: true },
     { name: 'Trimethoprim', column: 'Trimethoprim', key: '-', resistanceView: true },
+    { name: 'Trimethoprim-Sulfamethoxazole', column: ['Trimethoprim', 'Sulfonamide'], key: ['-', '-'], resistanceView: true },
   ];
   return items.concat({ name: 'Pansusceptible', column: items.map(x => x.column), key: '-', resistanceView: true });
 })();
