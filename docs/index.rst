@@ -19,32 +19,26 @@ AMRnet
 
 
 Citation, Code and License
+
 .. container:: justify-text
 
    AMRnet is free and open source software, distributed under the terms of the :doc:`GPLv3 License <license>`.
 
-   - The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_.
+- The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_.
 
-   - Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__.
+- Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__.
 
-   - API access is described on the :doc:`/data` page.
+- API access is described on the :doc:`/data` page.
 
-   - If you want to install the AMRnet code to develop your own dashboard instances, see the :doc:`Installation Guide <installation>`.
+- If you want to install the AMRnet code to develop your own dashboard instances, see the :doc:`Installation Guide <installation>`.
 
-   If you use the AMRnet website or code, please cite **AMRnet** (https://www.amrnet.org) or **GitHub**: https://github.com/amrnet/amrnet, and **DOI**: 10.5281/zenodo.10810219 (Louise Cerdeira, Vandana Sharma, Kathryn Holt).
+.. container:: justify-text
 
-   Depending on what data and visualizations you are using in AMRnet, you should also consider citing the upstream source databases and typing tools (noted in the pathogen-specific pages and :ref:`here <source>`), or individual source studies (via PubMed IDs or DOIs available in the TSV download at the bottom of each dashboard).
+    If you use the AMRnet website or code, please cite **AMRnet** (https://www.amrnet.org) or **GitHub**: https://github.com/amrnet/amrnet, and **DOI**: 10.5281/zenodo.10810219 (Louise Cerdeira, Vandana Sharma, Kathryn Holt).
+
+    Depending on what data and visualizations you are using in AMRnet, you should also consider citing the upstream source databases and typing tools (noted in the pathogen-specific pages and :ref:`here <source>`), or individual source studies (via PubMed IDs or DOIs available in the TSV download at the bottom of each dashboard).
 
 
-.. toctree::
-    :maxdepth: 2
-    :caption: Contents
-
-    architecture
-    gui
-    right
-    tutorial
-    userguide
 
 Disclaimer
 ----------
