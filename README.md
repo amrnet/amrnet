@@ -7,6 +7,11 @@
 [![Issues](https://img.shields.io/github/issues/amrnet/amrnet)](https://github.com/amrnet/amrnet/issues)
 [![Stars](https://img.shields.io/github/stars/amrnet/amrnet)](https://github.com/amrnet/amrnet/stargazers)
 [![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
+<div align="right">
+   <a href="README.pt-br.md" title="Portuguese (Brazil)">🇧🇷</a>
+   <a href="README.es.md" title="Spanish">🇪🇸</a>
+   <a href="README.fr.md" title="French">🇫🇷</a>
+</div>
 
 <p align="center">
   <em><b>Making genome-derived AMR surveillance data accessible worldwide</b></em>
@@ -14,25 +19,16 @@
 
 **🔗 Quick Links:** [🌐 Live Dashboard](https://www.amrnet.org) • [📖 Documentation](https://amrnet.readthedocs.io) • [🚀 Quick Start](#-quick-start) • [💬 Community](https://github.com/amrnet/amrnet/discussions)
 
-
-[![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
-
 <p align="center">
    <em><b>Making genome-derived AMR surveillance data accessible worldwide</b></em>
 </p>
 
 **🔗 Quick Links:** [🌐 Live Dashboard](https://www.amrnet.org) • [📖 Documentation](https://amrnet.readthedocs.io) • [🚀 Quick Start](#-quick-start) • [💬 Community](https://github.com/amrnet/amrnet/discussions)
----
-<div align="right">
-   <a href="README.pt-br.md" title="Português (Brasil)">🇧🇷</a>
-   <a href="README.es.md" title="Español">🇪🇸</a>
-   <a href="README.fr.md" title="Français">🇫🇷</a>
-</div>
----
+
 
 ## 🎯 Overview
 
-AMRnet is a comprehensive web-based platform that transforms complex antimicrobial resistance (AMR) genomic surveillance data into accessible, interactive visualizations. Our mission is to democratize access to high-quality AMR data for researchers, public health professionals, and policymakers worldwide.
+AMRnet is a comprehensive web-based platform that transforms complex antimicrobial resistance (AMR) genomic surveillance data into accessible, interactive visualisations. Our mission is to democratize access to high-quality AMR data for researchers, public health professionals, and policymakers worldwide.
 
 ### ✨ Key Features
 
@@ -40,7 +36,7 @@ AMRnet is a comprehensive web-based platform that transforms complex antimicrobi
 - **📊 Trend Analysis** - Track resistance changes over time with dynamic graphs
 - **🔍 Advanced Filtering** - Explore data by organism, drug, genotype, and geography
 - **🌍 Multi-Language Support** - Available in English, French, Portuguese, and Spanish
-- **📱 Responsive Design** - Optimized for desktop, tablet, and mobile devices
+- **📱 Responsive Design** - Optimised for desktop, tablet, and mobile devices
 - **📁 Data Export** - Download filtered datasets for further analysis
 - **🔌 API Access** - Programmatic access to all data with comprehensive documentation
 
