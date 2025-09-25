@@ -1,0 +1,195 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../index.rst:39
+msgid "Contents"
+msgstr ""
+
+#: ../../index.rst:63
+msgid "Dashboard overview"
+msgstr ""
+
+#: ../../index.rst:63
+msgid "Individual pathogen details"
+msgstr ""
+
+#: ../../index.rst:63
+msgid "Source data & tools"
+msgstr ""
+
+#: ../../index.rst:63
+msgid "Dashboard users"
+msgstr ""
+
+#: ../../index.rst:71
+msgid "API Reference"
+msgstr ""
+
+#: ../../index.rst:71
+msgid "Data access"
+msgstr ""
+
+#: ../../index.rst:71
+msgid "API users"
+msgstr ""
+
+#: ../../index.rst:78
+msgid "Developer Guide"
+msgstr ""
+
+#: ../../index.rst:78
+msgid "Developers"
+msgstr ""
+
+#: ../../index.rst:2
+msgid "AMRnet"
+msgstr ""
+
+#: ../../index.rst:6
+msgid ""
+"The `AMRnet dashboard <https://www.amrnet.org/>`_ aims to make high-"
+"quality, robust and reliable genome-derived AMR surveillance data "
+"accessible to a wide audience. Visualizations are geared towards showing "
+"national annual AMR prevalence estimates and trends, that can be broken "
+"down and explored in terms of underlying lineages/genotypes and "
+"resistance mechanisms. We do not generate sequence data, but we hope that"
+" by making publicly deposited data more accessible and useful, we can "
+"encourage and motivate more sequencing and data sharing."
+msgstr ""
+
+#: ../../index.rst:8
+msgid ""
+"We started with *Salmonella* Typhi, based on our `TyphiNET "
+"<https://www.typhi.net>`_ dashboard which uses data curated by the "
+"`Global Typhoid Genomics Consortium <http://typhoidgenomics.org>`_ (to "
+"improve data quality and identify which datasets are suitable for "
+"inclusion) and analysed in `Pathogenwatch <http://pathogen.watch>`_ (to "
+"call AMR determinants and lineages from sequence data). Dashboards are "
+"now available for *Klebsiella pneumoniae*, *Neisseria gonorrhoeae*, non-"
+"typhoidal *Salmonella*, *E. coli* and *Shigella* using data sourced from "
+"the `Pathogenwatch <http://pathogen.watch>`_ and `Enterobase "
+"<https://enterobase.warwick.ac.uk/>`_ platforms. In the future, we plan "
+"to add additional organisms, sourced from these and other platforms."
+msgstr ""
+
+#: ../../index.rst:10
+msgid ""
+"A major barrier to using public data for surveillance is the need for "
+"careful data curation, to identify which datasets are relevant for "
+"inclusion in pooled estimates of AMR and genotype prevalence. This kind "
+"of curation can benefit a wide range of users and we plan to work with "
+"other organism communities to curate data, and to contribute to wider "
+"efforts around metadata standards. Please get in touch if you would like "
+"to work with us (`amrnetdashboard@gmail.com "
+"<amrnetdashboard@gmail.com>`_)."
+msgstr ""
+
+#: ../../index.rst:13
+msgid "**Key links:**"
+msgstr ""
+
+#: ../../index.rst:15
+msgid ""
+"The dashboard is accessible at `https://www.amrnet.org "
+"<https://www.amrnet.org/>`_."
+msgstr ""
+
+#: ../../index.rst:17
+msgid ""
+"Info about the project team (based at London School of Hygiene and "
+"Tropical Medicine), and our policy advisory group, is `here "
+"<https://www.lshtm.ac.uk/amrnet>`__."
+msgstr ""
+
+#: ../../index.rst:21
+msgid "Citation, Code and License .. container:: justify-text"
+msgstr ""
+
+#: ../../index.rst:24
+msgid ""
+"AMRnet is free and open source software, distributed under the terms of "
+"the :doc:`GPLv3 License <license>`."
+msgstr ""
+
+#: ../../index.rst:26
+msgid ""
+"The dashboard code is open access and available in `GitHub "
+"<https://github.com/amrnet/amrnet>`_."
+msgstr ""
+
+#: ../../index.rst:28
+msgid ""
+"Issues and feature requests can be posted `here "
+"<https://github.com/amrnet/amrnet/issues>`__."
+msgstr ""
+
+#: ../../index.rst:30
+msgid "API access is described on the :doc:`/data` page."
+msgstr ""
+
+#: ../../index.rst:32
+msgid ""
+"If you want to install the AMRnet code to develop your own dashboard "
+"instances, see the :doc:`Installation Guide <installation>`."
+msgstr ""
+
+#: ../../index.rst:34
+msgid ""
+"If you use the AMRnet website or code, please cite **AMRnet** "
+"(https://www.amrnet.org) or **GitHub**: https://github.com/amrnet/amrnet,"
+" and **DOI**: 10.5281/zenodo.10810219 (Louise Cerdeira, Vandana Sharma, "
+"Kathryn Holt)."
+msgstr ""
+
+#: ../../index.rst:36
+msgid ""
+"Depending on what data and visualizations you are using in AMRnet, you "
+"should also consider citing the upstream source databases and typing "
+"tools (noted in the pathogen-specific pages and :ref:`here <source>`), or"
+" individual source studies (via PubMed IDs or DOIs available in the TSV "
+"download at the bottom of each dashboard)."
+msgstr ""
+
+#: ../../index.rst:50
+msgid "Disclaimer"
+msgstr ""
+
+#: ../../index.rst:53
+msgid ""
+"AMRnet is an open source research project, providing access to data and "
+"visualisations sourced from publicly accessible sequence databases and "
+"analysis platforms. The content on our service is provided for general "
+"information only. It is not intended to amount to advice on which you "
+"should rely. You must obtain professional or specialist advice before "
+"taking, or refraining from, any action on the basis of the content on our"
+" service. Although we make reasonable efforts to update the information "
+"on our service, we make no representations, warranties or guarantees, "
+"whether express or implied, that the content on our service is accurate, "
+"complete or up to date. We are not responsible for the results of "
+"reliance on any such information."
+msgstr ""
+
+#: ../../index.rst:55
+msgid ""
+"Refer to the :doc:`License <license>` for clarification of the conditions"
+" of use."
+msgstr ""
+

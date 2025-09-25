@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2023, The AMRnet Team
 # This file is distributed under the same license as the AMRnet package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# AMRnet team amrnetdashboard@gmail.com, 2025.
 #
 msgid ""
 msgstr ""
@@ -11,7 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2025-08-21 12:00+0000\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
 "Language: pt\n"
-"Language-Team: pt <LL@li.org>\n\n"
+"Language-Team: pt <amrnetdashboard@gmail.com>\n\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -96,11 +96,11 @@ msgstr "Licença"
 
 #: ../../index.rst:24
 msgid ".. Changelog"
-msgstr ""
+msgstr "Changelog"
 
 #: ../../index.rst:24
 msgid "For developers"
-msgstr ""
+msgstr "Para desenvolvedores"
 
 #: ../../index.rst:50
 msgid "Overview"
@@ -115,55 +115,60 @@ msgid ""
 "genotypes and resistance mechanisms. We do not generate sequence data, "
 "but we hope that by making publicly deposited data more accessible and "
 "useful, we can encourage and motivate more sequencing and data sharing."
-msgstr ""
-
-#: ../../index.rst:61
-msgid ""
-"`Subscribe <https://amrnet.beehiiv.com/subscribe>`_ to the **AMRnet** "
-"mailing list!"
-msgstr ""
+msgstr "
+"O objetivo do **AMRnet** é tornar dados de Vigilância de RAM, derivados de genomas "
+"Dados de Vigilância de RAM acessíveis a um público amplo. As visualizações são "
+"voltado para mostrar estimativas nacionais anuais de prevalência de RAM e"
+"tendências, que podem ser decompostas e exploradas em termos de subjacentes"
+"genótipos e mecanismos de resistência. Não geramos dados de sequência"
+"mas esperamos que, ao tornar os dados depositados publicamente mais acessíveis e "
+"útil, podemos encorajar e motivar mais sequenciamento e compartilhamento de dados."
+"
 
 #: ../../index.rst:64
 msgid "Quick start"
-msgstr ""
+msgstr "Início rápido"
 
 #: ../../index.rst:67
 msgid ""
 "**For Users:** Visit the live dashboard at `AMRnet.org "
 "<https://www.amrnet.org>`_"
-msgstr ""
+msgstr "**Para Usuários:** Visite o painel de controle em `AMRnet.org <https://www.amrnet.org>`_"
 
 #: ../../index.rst:69
 msgid "**For Developers:** Get started with local development:"
-msgstr ""
+msgstr "**Para Desenvolvedores:** Comece com a desenvolvimento local:"
+
 
 #: ../../index.rst:79
 msgid "See :ref:`label-installation` for complete installation instructions."
-msgstr ""
+msgstr "Ver as instruções de instalação completas :ref:`aqui<label-installation>`."
 
 #: ../../index.rst:85
 msgid "See the complete list of ``AMRnet`` features :ref:`here<label-features>`."
-msgstr ""
+msgstr "Ver a lista completa de ``AMRnet`` :ref:`aqui<label-features>`."
 
 #: ../../index.rst:88
 msgid "Contributing"
-msgstr "Contribuindo"
+msgstr "Contribuição"
 
 #: ../../index.rst:91
 msgid ""
 "Contributions are very welcome. To learn more, see the :ref:`Contributor "
 "Guide<label-contributing>`."
-msgstr ""
+msgstr "Contribuição são bem vindas. Para aprender mais, veja :ref:`Contributor "
+"Guide<label-contributing>`.
 
 #: ../../index.rst:97
 msgid ""
 "Distributed under the terms of the :doc:`GPLv3 License <license>` "
 "``AMRnet`` is free and open source software."
-msgstr ""
+msgstr "``AMRnet`` é um software livre e de código aberto distribuído sob as "
+"condições da :doc:`GPLv3 License <license>`."
 
 #: ../../index.rst:101
 msgid "Support"
-msgstr ""
+msgstr "Suporte"
 
 #: ../../index.rst:104
 msgid ""
@@ -171,11 +176,14 @@ msgid ""
 "`issue tracker <https://github.com/amrnet/amrnet/issues>`_. Alternatively"
 " you can get support on the `discussions "
 "<https://github.com/amrnet/amrnet/discussions>`_ page."
-msgstr ""
+msgstr "Encontrou um erro 🐛, ou uma solicitação de funcionalidade ✨, abra um "
+"issue no `issue tracker <https://github.com/amrnet/amrnet/issues>`_. Ou "
+"também pode obter ajuda no `discussions "
+"<https://github.com/amrnet/amrnet/discussions>`_ page.
 
 #: ../../index.rst:112
 msgid "Disclaimer"
-msgstr ""
+msgstr "Declaimer"
 
 #: ../../index.rst:115
 msgid ""
@@ -185,9 +193,11 @@ msgid ""
 "remains the user’s responsibility to confirm and accept the output. Refer"
 " to the :doc:`License <license>` for clarification of the conditions of "
 "use."
-msgstr ""
+msgstr "**AMRnet** é um dashboard de código aberto que continua a beneficiar da "
+"colaboração de muitos contribuintes. Embora tenham sido feitos esforços para "
+"garantir que as normas de desenvolvimento web sejam implementadas, permanece "
+"responsabilidade do usuário confirmar e aceitar o output. Consulte a :doc:`License <license>` para obter mais informações.
 
 #: ../../index.rst:123
 msgid "Acknowledgements"
-msgstr ""
-
+msgstr "Agradecimentos"

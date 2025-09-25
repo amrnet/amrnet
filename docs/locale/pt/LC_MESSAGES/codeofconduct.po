@@ -24,7 +24,7 @@ msgstr "Código de Conduta"
 
 #: ../../codeofconduct.rst:5
 msgid "Our Pledge"
-msgstr ""
+msgstr "Nossa Promessa"
 
 #: ../../codeofconduct.rst:8
 msgid ""
@@ -34,73 +34,85 @@ msgid ""
 "characteristics, gender identity and expression, level of experience, "
 "education, socio-economic status, nationality, personal appearance, race,"
 " caste, color, religion, or sexual identity and orientation."
-msgstr ""
+msgstr "Nós como membros, colaboradores e líderes prometemos fazer participação "
+"em nossa comunidade uma experiência de conduta de higiene para todos, independente "
+"de idade, corpo, visível ou invisível disabiliadidade, raça, caracter "
+"sexual e expressão, nível de experiência, educação, situação socioeconômica, "
+"nacionalidade, aparência pessoal, raça, classe, cor, religião ou identidade "
+"sexual e orientação sexual."
 
 #: ../../codeofconduct.rst:15
 msgid ""
 "We pledge to act and interact in ways that contribute to an open, "
 "welcoming, diverse, inclusive, and healthy community."
-msgstr ""
+msgstr "Nossa promessa é agir e interagir de maneira que contribua para um ambiente "
+"aberto, aberto, diverso, inclusivo e saudável.
 
 #: ../../codeofconduct.rst:19
 msgid "Our Standards"
-msgstr ""
+msgstr "Nossas Normas"
 
 #: ../../codeofconduct.rst:22
 msgid ""
 "Examples of behavior that contributes to a positive environment for our "
 "community include:"
-msgstr ""
+msgstr "Exemplos de comportamento que contribuem para um ambiente positivo para nossa "
+"comunidade incluem:
 
 #: ../../codeofconduct.rst:25
 msgid "Demonstrating empathy and kindness toward other people"
-msgstr ""
+msgstr "Demonstrar empathia e gentileza para outros pessoas"
 
 #: ../../codeofconduct.rst:26
 msgid "Being respectful of differing opinions, viewpoints, and experiences"
-msgstr ""
+msgstr "Ser respeitoso de opiniões diferentes, pontos de vista e experiências"
 
 #: ../../codeofconduct.rst:27
 msgid "Giving and gracefully accepting constructive feedback"
-msgstr ""
+msgstr "Fornecer e receber pacificamente feedback construtivo"
 
 #: ../../codeofconduct.rst:28
 msgid ""
 "Accepting responsibility and apologizing to those affected by our "
 "mistakes, and learning from the experience"
-msgstr ""
+msgstr "Aceitação e agradecimento a quem é afetado por nossas erros, e aprendizado "
+"da experiências"
 
 #: ../../codeofconduct.rst:30
 msgid ""
 "Focusing on what is best not just for us as individuals, but for the "
 "overall community"
-msgstr ""
+msgstr "Focando no que é melhor para nós como indivíduos, mas para a "
+"comunidade em geral"
 
 #: ../../codeofconduct.rst:33
 msgid "Examples of unacceptable behavior include:"
-msgstr ""
+msgstr "Exemplos de comportamento ilegal incluem:"
 
 #: ../../codeofconduct.rst:35
 msgid ""
 "The use of sexualized language or imagery, and sexual attention or "
 "advances of any kind"
-msgstr ""
+msgstr "O uso de linguagem sexual ou imagens, e atendimento sexual ou "
+"avaliações de qualquer forma"
 
 #: ../../codeofconduct.rst:37
 msgid ""
 "Trolling, insulting or derogatory comments, and personal or political "
 "attacks"
-msgstr ""
+msgstr "Trolagem, insultos ou comentários de desrespeito, e ataques pessoais ou "
+"políticos"
 
 #: ../../codeofconduct.rst:39
 msgid "Public or private harassment"
-msgstr ""
+msgstr "Agressão pública ou privada"
 
 #: ../../codeofconduct.rst:40
 msgid ""
 "Publishing others' private information, such as a physical or email "
 "address, without their explicit permission"
-msgstr ""
+msgstr "Publicando informações pessoais de outra pessoa, como endereço físico ou "
+"email, sem sua permissão explícita"
 
 #: ../../codeofconduct.rst:42
 msgid ""
@@ -110,7 +122,7 @@ msgstr ""
 
 #: ../../codeofconduct.rst:46
 msgid "Enforcement Responsibilities"
-msgstr ""
+msgstr "Resposabiliades de Execução"
 
 #: ../../codeofconduct.rst:49
 msgid ""
@@ -118,7 +130,10 @@ msgid ""
 "standards of acceptable behavior and will take appropriate and fair "
 "corrective action in response to any behavior that they deem "
 "inappropriate, threatening, offensive, or harmful."
-msgstr ""
+msgstr "Lideres de comunidades são responsáveis por definir e executar "
+"padrões de comportamento aceitável e farão ações corretivas justas e "
+"adequadas em resposta a qualquer comportamento que julgarem "
+"inaceitável, prejudicial, ofensivo ou perigoso."
 
 #: ../../codeofconduct.rst:54
 msgid ""
@@ -130,7 +145,7 @@ msgstr ""
 
 #: ../../codeofconduct.rst:60
 msgid "Scope"
-msgstr ""
+msgstr "Escopo"
 
 #: ../../codeofconduct.rst:63
 msgid ""
@@ -143,7 +158,7 @@ msgstr ""
 
 #: ../../codeofconduct.rst:70
 msgid "Enforcement"
-msgstr ""
+msgstr "Execução"
 
 #: ../../codeofconduct.rst:73
 msgid ""
@@ -151,17 +166,21 @@ msgid ""
 "be reported to the community leaders responsible for enforcement at "
 "amrnetdashboard@gmail.com. All complaints will be reviewed and "
 "investigated promptly and fairly."
-msgstr ""
+msgstr "Casos de comportamento evidente, hostil ou inaceitável podem ser "
+"reportados aos líderes da comunidade responsáveis por execução em "
+"amrnetdashboard@gmail.com. Todos os relatórios serão revisados e "
+"investigados de forma imediata e equitativa."
 
 #: ../../codeofconduct.rst:78
 msgid ""
 "All community leaders are obligated to respect the privacy and security "
 "of the reporter of any incident."
-msgstr ""
+msgstr "Todos os líderes da comunidade são obrigados a respeitar a "
+"privacidade e a segurança do relator de qualquer caso.
 
 #: ../../codeofconduct.rst:82
 msgid "Enforcement Guidelines"
-msgstr ""
+msgstr "Instruções de Execução"
 
 #: ../../codeofconduct.rst:85
 msgid ""
@@ -172,13 +191,13 @@ msgstr ""
 
 #: ../../codeofconduct.rst:90
 msgid "1. Correction"
-msgstr ""
+msgstr "1. Correção"
 
 #: ../../codeofconduct.rst:93
 msgid ""
 "**Community Impact**: Use of inappropriate language or other behavior "
 "deemed unprofessional or unwelcome in the community."
-msgstr ""
+msgstr "**Impacto na"
 
 #: ../../codeofconduct.rst:96
 msgid ""
