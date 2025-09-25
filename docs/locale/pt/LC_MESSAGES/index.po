@@ -1,203 +1,159 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2023, The AMRnet Team
 # This file is distributed under the same license as the AMRnet package.
-# AMRnet team amrnetdashboard@gmail.com, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: AMRnet \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-04 23:45+0100\n"
-"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
 "Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
-"Language: pt\n"
-"Language-Team: pt <amrnetdashboard@gmail.com>\n\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Portuguese\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
-
-#: ../../index.rst:6
-msgid "User Tutorial"
-msgstr "Tutorial do Usuário"
-
-#: ../../index.rst:6
-msgid "User guide"
-msgstr "Guia do Usuário"
-
-#: ../../index.rst:6
-msgid "Dashboard usage"
-msgstr "Uso do Painel"
-
-#: ../../index.rst:6
-msgid "Data access"
-msgstr "Acesso aos Dados"
-
-#: ../../index.rst:6
-msgid "Data rights"
-msgstr "Direitos dos Dados"
-
-#: ../../index.rst:6
-msgid "User Resources"
-msgstr "Recursos do Usuário"
-
-#: ../../index.rst:16
-msgid "API Reference"
-msgstr "Referência da API"
-
-#: ../../index.rst:16
-msgid "FARM Stack GUI"
-msgstr "Interface FARM Stack"
-
-#: ../../index.rst:16
-msgid "Data Dictionary"
-msgstr "Dicionário de Dados"
-
-#: ../../index.rst:16
-msgid "API & Integration"
-msgstr "API e Integração"
-
-#: ../../index.rst:24
-msgid "Installation"
-msgstr "Instalação"
-
-#: ../../index.rst:24 ../../index.rst:82
-msgid "Features"
-msgstr "Recursos"
-
-#: ../../index.rst:24
-msgid "Performance Optimization"
-msgstr "Otimização de Performance"
-
-#: ../../index.rst:24
-msgid "Deployment Guide"
-msgstr "Guia de Implantação"
-
-#: ../../index.rst:24
-msgid "Security Guide"
-msgstr "Guia de Segurança"
-
-#: ../../index.rst:24
-msgid "Internationalization"
-msgstr ""
-
-#: ../../index.rst:24
-msgid "Troubleshooting"
-msgstr "Solução de Problemas"
-
-#: ../../index.rst:24
-msgid "Code of Conduct"
-msgstr "Código de Conduta"
-
-#: ../../index.rst:24 ../../index.rst:94
-msgid "License"
-msgstr "Licença"
-
-#: ../../index.rst:24
-msgid ".. Changelog"
-msgstr "Changelog"
-
-#: ../../index.rst:24
-msgid "For developers"
-msgstr "Para desenvolvedores"
-
-#: ../../index.rst:50
-msgid "Overview"
-msgstr "Visão Geral"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-File: index.pot\n"
+"X-Crowdin-File-ID: 53\n"
+"Language: pt_PT\n"
 
 #: ../../index.rst:53
-msgid ""
-"**AMRnet** aims to make high-quality, robust and reliable genome-derived "
-"AMR Surveillance data accessible to a wide audience. Visualizations are "
-"geared towards showing national annual AMR prevalence estimates and "
-"trends, that can be broken down and explored in terms of underlying "
-"genotypes and resistance mechanisms. We do not generate sequence data, "
-"but we hope that by making publicly deposited data more accessible and "
-"useful, we can encourage and motivate more sequencing and data sharing."
-msgstr "
-"O objetivo do **AMRnet** é tornar dados de Vigilância de RAM, derivados de genomas "
-"Dados de Vigilância de RAM acessíveis a um público amplo. As visualizações são "
-"voltado para mostrar estimativas nacionais anuais de prevalência de RAM e"
-"tendências, que podem ser decompostas e exploradas em termos de subjacentes"
-"genótipos e mecanismos de resistência. Não geramos dados de sequência"
-"mas esperamos que, ao tornar os dados depositados publicamente mais acessíveis e "
-"útil, podemos encorajar e motivar mais sequenciamento e compartilhamento de dados."
-"
+#: 
+msgid "Dashboard overview"
+msgstr "Resumo do painel"
 
-#: ../../index.rst:64
-msgid "Quick start"
-msgstr "Início rápido"
+#: ../../index.rst:53
+#: 
+msgid "Individual pathogen details"
+msgstr "Detalhes individuais do agente patogênico"
 
-#: ../../index.rst:67
-msgid ""
-"**For Users:** Visit the live dashboard at `AMRnet.org "
-"<https://www.amrnet.org>`_"
-msgstr "**Para Usuários:** Visite o painel de controle em `AMRnet.org <https://www.amrnet.org>`_"
+#: ../../index.rst:53
+#: 
+msgid "Source data & tools"
+msgstr "Fontes de dados e ferramentas"
 
-#: ../../index.rst:69
-msgid "**For Developers:** Get started with local development:"
-msgstr "**Para Desenvolvedores:** Comece com a desenvolvimento local:"
+#: ../../index.rst:53
+#: 
+msgid "Dashboard users"
+msgstr "Painel de usuários"
 
+#: ../../index.rst:61
+#: 
+msgid "API Reference"
+msgstr "Referência de API"
 
-#: ../../index.rst:79
-msgid "See :ref:`label-installation` for complete installation instructions."
-msgstr "Ver as instruções de instalação completas :ref:`aqui<label-installation>`."
+#: ../../index.rst:61
+#: 
+msgid "Data access"
+msgstr "Acesso aos dados"
 
-#: ../../index.rst:85
-msgid "See the complete list of ``AMRnet`` features :ref:`here<label-features>`."
-msgstr "Ver a lista completa de ``AMRnet`` :ref:`aqui<label-features>`."
+#: ../../index.rst:61
+#: 
+msgid "API users"
+msgstr "API de usuários"
 
-#: ../../index.rst:88
-msgid "Contributing"
-msgstr "Contribuição"
+#: ../../index.rst:68
+#: 
+msgid "Developer Guide"
+msgstr "Guia do Desenvolvedor"
 
-#: ../../index.rst:91
-msgid ""
-"Contributions are very welcome. To learn more, see the :ref:`Contributor "
-"Guide<label-contributing>`."
-msgstr "Contribuição são bem vindas. Para aprender mais, veja :ref:`Contributor "
-"Guide<label-contributing>`.
+#: ../../index.rst:68
+#: 
+msgid "Developers"
+msgstr "Desenvolvedores"
 
-#: ../../index.rst:97
-msgid ""
-"Distributed under the terms of the :doc:`GPLv3 License <license>` "
-"``AMRnet`` is free and open source software."
-msgstr "``AMRnet`` é um software livre e de código aberto distribuído sob as "
-"condições da :doc:`GPLv3 License <license>`."
+#: ../../index.rst:2
+#: 4aa5405816644399aea3af32e94a4361
+msgid "AMRnet"
+msgstr "AMRnet"
 
-#: ../../index.rst:101
-msgid "Support"
-msgstr "Suporte"
+#: ../../index.rst:6
+#: d56486f55d394121b9b90d071f0ea434
+msgid "The `AMRnet dashboard <https://www.amrnet.org/>`_ aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualizations are geared towards showing national annual AMR prevalence estimates and trends, that can be broken down and explored in terms of underlying lineages/genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing."
+msgstr "O `AMRnet dashboard <https://www.amrnet.org/>`_ visa fazer dados de vigilância de alta qualidade, robustos e confiáveis derivados de genoma AMR acessíveis a um público largo. As visualizações estão orientadas para a apresentação de estimativas e tendências de prevalência da RAM a nível nacional, que pode ser quebrado e explorado em termos de linhas/genótipos subjacentes e mecanismos de resistência. Não geramos dados de sequência, mas esperamos que tornando dados de depósito público mais acessíveis e úteis, Podemos encorajar e motivar mais sequenciamento e partilha de dados."
 
-#: ../../index.rst:104
-msgid ""
-"Found a bug 🐛, or have a feature request ✨, raise an issue on the GitHub "
-"`issue tracker <https://github.com/amrnet/amrnet/issues>`_. Alternatively"
-" you can get support on the `discussions "
-"<https://github.com/amrnet/amrnet/discussions>`_ page."
-msgstr "Encontrou um erro 🐛, ou uma solicitação de funcionalidade ✨, abra um "
-"issue no `issue tracker <https://github.com/amrnet/amrnet/issues>`_. Ou "
-"também pode obter ajuda no `discussions "
-"<https://github.com/amrnet/amrnet/discussions>`_ page.
+#: ../../index.rst:8
+#: 729c8d4b435645f198cee2cb5149997c
+msgid "We started with *Salmonella* Typhi, based on our `TyphiNET <https://www.typhi.net>`_ dashboard which uses data curated by the `Global Typhoid Genomics Consortium <http://typhoidgenomics.org>`_ (to improve data quality and identify which datasets are suitable for inclusion) and analysed in Pathogenwatch_ (to call AMR determinants and lineages from sequence data). Dashboards are now available for *Klebsiella pneumoniae*, *Neisseria gonorrhoeae*, non-typhoidal *Salmonella*, *E. coli* and *Shigella* using data sourced from the Pathogenwatch_ and `Enterobase <https://enterobase.warwick.ac.uk/>`_ platforms. In the future, we plan to add additional organisms, sourced from these and other platforms."
+msgstr "Começamos com o tufo *Salmonella*, baseado no nosso painel do `TyphiNET <https://www.typhi.net>`_ que usa dados curados pelo `Global Typhoid Genomics Consortium <http://typhoidgenomics.org>`_ (para melhorar a qualidade dos dados e identificar quais datasets são adequados para inclusão) e analisados em Pathogenwatch_ (para chamar determinantes da AMR e linhas de dados de sequência). Painéis agora estão disponíveis para *Klebsiella pneumoniae*, *Neisseria gonorrhoeae*, non-typhoidal *Salmonela*, *E. coli* e *Shigella* usando dados provenientes das plataformas Pathogenwatch_ e `Enterobase <https://enterobase.warwick.ac.uk/>`_. No futuro, pretendemos adicionar organismos adicionais, provenientes destas e de outras plataformas."
 
-#: ../../index.rst:112
+#: ../../index.rst:10
+#: 122df0c6d43c440fb6ae2f3cdae42c9d
+msgid "A major barrier to using public data for surveillance is the need for careful data curation, to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with other organism communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (`amrnetdashboard@gmail.com <amrnetdashboard@gmail.com>`_)."
+msgstr "Uma importante barreira ao uso de dados públicos para vigilância é a necessidade de cuidadosa curadoria de dados, para identificar quais conjuntos de dados são relevantes para a inclusão em estimativas conjuntas de RAM e prevalência genótico. Este tipo de curadoria pode beneficiar uma ampla variedade de usuários. Nós planejamos trabalhar com outras comunidades de órgãos para curadoria de dados, e contribuir para esforços mais amplos em torno das normas de metadados. Por favor, entre em contato se você gostaria de trabalhar conosco (`amrnetdashboard@gmail.com <amrnetdashboard@gmail.com>`_)."
+
+#: ../../index.rst:13
+#: fd774187b3dd40fa9e61411068e0147c
+msgid "**Key links:**"
+msgstr "**Chaves de linhas:**"
+
+#: ../../index.rst:15
+#: b42a8007337a4be3a1898fff9098d102
+msgid "The dashboard is accessible at `https://www.amrnet.org <https://www.amrnet.org/>`_."
+msgstr "O painel está acessível em `https://www.amrnet.org <https://www.amrnet.org/>`_."
+
+#: ../../index.rst:17
+#: 440872ed896346628979bf665e0753bb
+msgid "Info about the project team (based at London School of Hygiene and Tropical Medicine), and our policy advisory group, is `here <https://www.lshtm.ac.uk/amrnet>`__."
+msgstr "Informações sobre a equipe do projeto (sediada na London School of Hygiene and Tropical Medicine) e o nosso grupo consultivo para políticas é `here <https://www.lshtm.ac.uk/amrnet>`__."
+
+#: ../../index.rst:22
+#: 4c08952842274a09919ae02913566e95
+msgid "Citation, Code and License"
+msgstr "Citação, Código e Licença"
+
+#: ../../index.rst:25
+#: 2f9dfd48ad14415ea9202da006ebef42
+msgid "AMRnet is free and open source software, distributed under the terms of the :doc:`GPLv3 License <license>`."
+msgstr "AMRnet é um software livre e de código aberto, distribuído sob os termos da licença :doc:`GPLv3 <license>`."
+
+#: ../../index.rst:27
+#: b0a05b2018094f75944139edc5becf96
+msgid "The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_."
+msgstr "O código do painel de controle é de acesso aberto e está disponível no `GitHub <https://github.com/amrnet/amrnet>`_."
+
+#: ../../index.rst:29
+#: e86cd8fcae3f4ea2ba910e3f655e8950
+msgid "Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__."
+msgstr "Issues e solicitações de recursos podem ser postadas `aqui <https://github.com/amrnet/amrnet/issues>`__."
+
+#: ../../index.rst:31
+#: 03bb5aea4a404bea83055d31a7669e5e
+msgid "API access is described on the :doc:`/data` page."
+msgstr "O acesso à API está descrito na página :doc:`/data`."
+
+#: ../../index.rst:33
+#: 82f49aaa1eb64b28bb53eb3f8b1ceb26
+msgid "If you want to install the AMRnet code to develop your own dashboard instances, see the :doc:`Installation Guide <installation>`."
+msgstr "Se você deseja instalar o código AMRnet para desenvolver as próprias instâncias do painel, consulte o :doc:`Guia de Instalação <installation>`."
+
+#: ../../index.rst:35
+#: 09056d67fa444db58967a71b41015405
+msgid "If you use the AMRnet website or code, please cite **AMRnet** (https://www.amrnet.org) or **GitHub**: https://github.com/amrnet/amrnet, and **DOI**: 10.5281/zenodo.10810219 (Louise Cerdeira, Vandana Sharma, Kathryn Holt)."
+msgstr "Se você usar o site ou código AMRnet, por favor cite **AMRnet** (https://www.amrnet.org) ou **GitHub**: https://github.com/amrnet/amrnet, e **DOI**: 10.5281/zenodo.10810219 (Louise Cerdeira, Vandana Sharma, Kathryn Holt)."
+
+#: ../../index.rst:37
+#: 7d5e65df5da34ef1ac4a654c5b2d9c6e
+msgid "Depending on what data and visualizations you are using in AMRnet, you should also consider citing the upstream source databases and typing tools (noted in the pathogen-specific pages and :ref:`here <source>`), or individual source studies (via PubMed IDs or DOIs available in the TSV download at the bottom of each dashboard)."
+msgstr "Dependendo de quais dados e visualizações você está usando no AMRnet, você também deve considerar citar os bancos de dados de origem a montante e ferramentas de digitação (anotada nas páginas específicas do agente patogênico e :ref:`aqui <source>`), ou estudos de origem individual (via PubMed IDs ou DOIs disponíveis no download TSV na parte inferior de cada painel)."
+
+#: ../../index.rst:40
+#: 63ae3e17bfe34e0883b41132c9284d75
 msgid "Disclaimer"
-msgstr "Declaimer"
+msgstr "Renúncia"
 
-#: ../../index.rst:115
-msgid ""
-"**AMRnet** is an open source dashboard that continues to benefit from the"
-" collaboration of many contributors. Although efforts have been made to "
-"ensure the that relevant web development standards are implemented, it "
-"remains the user’s responsibility to confirm and accept the output. Refer"
-" to the :doc:`License <license>` for clarification of the conditions of "
-"use."
-msgstr "**AMRnet** é um dashboard de código aberto que continua a beneficiar da "
-"colaboração de muitos contribuintes. Embora tenham sido feitos esforços para "
-"garantir que as normas de desenvolvimento web sejam implementadas, permanece "
-"responsabilidade do usuário confirmar e aceitar o output. Consulte a :doc:`License <license>` para obter mais informações.
+#: ../../index.rst:43
+#: f1df9e9cb5b449be8d0bab432b383489
+msgid "AMRnet is an open source research project, providing access to data and visualisations sourced from publicly accessible sequence databases and analysis platforms. The content on our service is provided for general information only. It is not intended to amount to advice on which you should rely. You must obtain professional or specialist advice before taking, or refraining from, any action on the basis of the content on our service. Although we make reasonable efforts to update the information on our service, we make no representations, warranties or guarantees, whether express or implied, that the content on our service is accurate, complete or up to date. We are not responsible for the results of reliance on any such information."
+msgstr "AMRnet é um projeto de pesquisa de código aberto, fornecendo acesso a dados e visualizações provenientes de bancos de dados e plataformas de análise de seqüências de acesso público. O conteúdo em nosso serviço é fornecido apenas para informações gerais. Não se trata de conselhos com os quais se deve contar. Você deve obter conselhos profissionais ou especializados antes de tomar, ou abster-se, de qualquer ação com base no conteúdo do nosso serviço. Embora envidemos esforços razoáveis para actualizar a informação sobre o nosso serviço, não fazemos qualquer representação, garantias ou garantias, expressas ou implícitas, de que o conteúdo em nosso serviço está preciso, completo ou atualizado. Não somos responsáveis pelos resultados de uma informação desse tipo."
 
-#: ../../index.rst:123
-msgid "Acknowledgements"
-msgstr "Agradecimentos"
+#: ../../index.rst:45
+#: 2fa31882b3264175926b1e3a6cf64886
+msgid "Refer to the :doc:`License <license>` for clarification of the conditions of use."
+msgstr "Consulte o arquivo :doc:`License <license>` para esclarecer as condições de uso."
+

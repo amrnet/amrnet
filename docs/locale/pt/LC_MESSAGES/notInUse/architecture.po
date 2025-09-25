@@ -1,0 +1,518 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../notInUse/architecture.rst:2 fee5f754a4fa49ab88e1c7249b13b912
+msgid "Dashboard Architecture"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:4 372e6c38297a4170bf20c0eb92be3a9a
+msgid ""
+"AMRnet is built using a modern, scalable MERN stack architecture designed"
+" to handle large-scale genomic surveillance data. This page provides both"
+" high-level overview and detailed component architecture diagrams."
+msgstr ""
+
+#: ../../notInUse/architecture.rst:7 c6f26193d31147fdaf8b240508f6ca73
+msgid "Architecture Overview"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:9 020459b0f760493e8c333ebd30013585
+msgid ""
+"AMRnet employs a four-layer architecture optimized for performance, "
+"scalability, and user experience:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:11 0597a43d36384c478760b2cea7938a88
+msgid ""
+"**Data Sources & Ingestion** - Automated harvesting from public genomic "
+"databases"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:12 5a47c8e0cea149f782d841e0651780d4
+msgid ""
+"**Data Lake & Processing** - Harmonization and quality control in MongoDB"
+" Atlas"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:13 e9cd80fad5e94c33a5b8e4d0b375253a
+msgid ""
+"**Application Layer** - MERN stack with optimized APIs and interactive "
+"React frontend"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:14 d25e3bce45174dcc82044767e93bcc93
+msgid "**User Access** - Multi-modal access via web interface and RESTful API"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:17 523127460e924a5aa7b8ac8d3f3c4ca1
+msgid "Interactive Architecture Diagrams"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:19 02d190eb98854594a88465aef6c0d2ca
+msgid "We provide two complementary views of the AMRnet architecture:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:22 a604f179fc8b4f9fbba2f696cbf0c9ee
+msgid "Macro Architecture View"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:24 4224ad2d3e2d4435a879fe66282e715f
+msgid ""
+"The macro view provides a high-level overview of the four main "
+"architectural layers:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:37 ce0d82ccd8984aeead96e76acf957670
+msgid "Detailed Component View"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:39 417e968b4d1b4c588fdd35e6981259d0
+msgid "The expanded view shows detailed data flow and individual components:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:52 fd72e2dd2d2645909167cb30412c229d
+msgid "Platform Capabilities"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:55 212b72a13a0f4b89ae966b53cc32e50f
+msgid "Technical Performance"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:57 fd8dcdae056c4bf180699064867ea529
+msgid ""
+"AMRnet delivers enterprise-grade performance with significant "
+"optimizations:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:59 dbcf96f18400442ebbbc6990fade5a6c
+#, python-format
+msgid "**70-87% faster load times** through advanced optimization techniques"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:60 a18fe324110b44eaacdfc0f12a2be07d
+msgid "**90% payload compression** reducing bandwidth requirements"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:61 b2b26e7eac694923a3b2f7c0e6c1874b
+msgid "**Real-time data synchronization** with automated updates"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:62 9c3060ff616a4d9ca5d8ba6b1bd1e0b4
+msgid "**10,000+ API requests per hour** capacity"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:65 6a26038564fc4715bb9845031630a617
+msgid "Data Coverage"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:67 6aa8f395b345478d80a9705e387feb56
+msgid "Our platform provides comprehensive AMR surveillance data:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:69 0217c6e7259746e59b3dd1c55ce447ee
+msgid "**8 pathogen species** from major public databases"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:70 dd2feb1bbcdf40009a13ce2f7529cfbd
+msgid "**500,000+ genomic records** with AMR predictions"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:71 b63006103eda4447833304468ae1ebf3
+msgid "**75+ countries** represented in the global dataset"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:72 e84befae268d45b8a3e8ca0880fe711c
+msgid "**4 languages** supported (English, Spanish, French, Portuguese)"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:75 846443bddab54097906be675518e3707
+msgid "Architecture Components"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:78 44dcd109c93a417c89551689f8f3a4a9
+msgid "Frontend Layer"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:80 6d5702f32ddf470092ce3d7a53e10263
+msgid "**React 18 Application**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:81 a3236d2baaa44d97b59a2ac8a82804a7
+msgid ""
+"Modern React application with hooks, state management, and optimized "
+"rendering"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:83 f1a351151dba44a8a457f7be16bbdb29
+msgid "**Interactive Visualizations**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:84 934e759d650a4d6891d1b0e13201ef63
+msgid "Charts, maps, and trend analysis using D3.js integration"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:86 047d1ab83e734a92bbd636c4c7eb0542
+msgid "**Multi-language Support**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:87 8800fa555b6548daada4955b0cbfaaf0
+msgid "Complete internationalization with professional medical translation"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:89 f8b9ff887c18437b9469c22b0fbc99ba
+msgid "**Responsive Design**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:90 04912550d158411aadfe055e881bd309
+msgid "Mobile-first approach with progressive web app capabilities"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:93 4e3546579b864ade9153ac28eb27ffc9
+msgid "Backend Layer"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:95 10f9e92417974a6a8f5a35d6f6c9ba01
+msgid "**Node.js v18.20.4 Server**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:96 e7d7c80b3205456ca2ba122267003855
+msgid "Express.js server with optimized endpoints and comprehensive middleware"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:98 37ab4ddcd69b406aafde2a97bd3f4c41
+msgid "**RESTful API**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:99 3239f6491d39454fa2d3271f62b84a5a
+msgid ""
+"Full-featured API with rate limiting, authentication, and detailed "
+"documentation"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:101 8df3db421f2e4a88b8d203df6c99d7b5
+msgid "**Performance Engine**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:102 5e18e222d242420892d09a10cde0c27d
+msgid ""
+"Advanced optimization including pagination, compression, and intelligent "
+"caching"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:104 6840455cd97e4ec291979c6dff7b1c5c
+msgid "**Security Framework**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:105 ea85ebb9ca564b95a33c7ae836ca3873
+msgid "Helmet security, CORS protection, API authentication, and OAuth2 support"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:108 84c05cf8364c4b34bc986ec479465226
+msgid "Database Layer"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:110 e1803c618ba0477a8a247a1d9df1898e
+msgid "**MongoDB Atlas**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:111 4dc21365636e44a7af0fd7a1be4d06bc
+msgid "Cloud-hosted MongoDB with automated backups and horizontal scaling"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:113 d8e4fa0673d64b169829d2253831c262
+msgid "**Organism Collections**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:114 31bbd7aa1b564028abaa66c39cdb7260
+msgid "Specialized collections for 8 major AMR organisms with optimized schemas"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:116 117cc4e84a5e41a9892fa0149a872053
+msgid "**Performance Indexes**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:117 d514c570e38a41c59825bb0831fb42a4
+msgid "Compound indexes optimized for geographic, temporal, and genotype queries"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:119 581b5251c14449348cdb0a59b8cb9068
+msgid "**Aggregation Pipeline**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:120 38219c3790a746a58b135e5c23caf29d
+msgid "Server-side processing for efficient data filtering and analysis"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:123 c79caabc3a2b4104aa422dcb9ef81f45
+msgid "Infrastructure Layer"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:125 434b49397eaf45ccb9204f20236feb7e
+msgid "**Heroku Platform**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:126 1bcfa4a76bf64341b42992e9b434964a
+msgid "Cloud deployment with auto-scaling and continuous integration"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:128 bd45642663694a9b8d6ee71fa2e06ead
+msgid "**Fixie Proxy Service**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:129 1f0f6df728a44ed0b12c467462049431
+msgid "Secure database connections through SOCKS5 proxy"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:131 6c61f1befb18459d92f503cb5ad01b9b
+msgid "**AWS S3 Storage**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:132 196ef01b2fa84659a7cffff98d6572eb
+msgid "Data export storage and backup with public access capabilities"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:134 b81126e011024390b57e3a79edeca8b5
+msgid "**CI/CD Pipeline**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:135 c1c4733743074c68a51e9f347644bac6
+msgid "Automated testing, building, and deployment through GitHub Actions"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:138 28d8ebee17f14696b4d561c6b151477a
+msgid "Data Sources Integration"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:141 2d42aaba5ea74256a134a8f85745b77b
+msgid "Public Genomic Databases"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:143 bfa15818f61c4fb0b2c4de89af12c9fb
+msgid "**Pathogenwatch**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:144 29332f5d54a145fb8b23af072271b62f
+msgid "Salmonella Typhi with AMR predictions"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:145 d28f428c9ff84dbb8237cb9c8eb70c98
+msgid "Klebsiella pneumoniae surveillance data"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:146 13b6dbea196a4cecbf8bf87901e2f31c
+msgid "Neisseria gonorrhoeae resistance profiles"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:148 ab24d5e7b7a64ac0a959e02a3f137597
+msgid "**Enterobase**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:149 3e74c89c423c485198a8a71231b310fd
+msgid "Escherichia coli with hierarchical clustering"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:150 c64d2333f8cf4dae8303b568890d8ef5
+msgid "Shigella species surveillance"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:151 2d979c5ebe7141a69d746a94a18e0d34
+msgid "Salmonella enterica global dataset"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:154 0093f0087ff44301ba2d3cc7bcead3dc
+msgid "Automated Data Harvesting"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:156 d6aa48179b194c2abe2f59305d35bdee
+msgid "**Spyder Robot**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:157 3b8482baa0ee47178f0c1b87f0541788
+msgid "Custom web scraping tool for automated genomic data extraction"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:159 f5ccdccd95bd44fea367d22bd9d78e9c
+msgid "**Data Ingestion APIs**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:160 0564a8aa05a9419f81d9a312994f51ad
+msgid "RESTful endpoints for programmatic data retrieval and processing"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:162 c96ace3a54eb48e4a9acdc7c7d374ed7
+msgid "**Quality Control Pipeline**"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:163 89ece9266f824b46ad048572c9154415
+msgid "Automated validation, harmonization, and metadata standardization"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:166 4d615b739f8d4c1487e363d5c4a61602
+msgid "Performance Optimizations"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:168 b13d018357bf447199adeaaf718a2381
+msgid "The AMRnet platform incorporates numerous performance enhancements:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:171 8069d6fa787741f3bcd5a2e4af4268f7
+msgid "Data Optimization"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:173 487beec757c04e0f9f208063eb5ebf01
+msgid ""
+"**Optimized API endpoints** (``/api/optimized/*``) with parallel "
+"processing"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:174 2efd40c80d5d4102944972329ae675bb
+msgid "**Field projection** to minimize data transfer"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:175 aee858270de64504b162bda99a669a48
+msgid "**Aggregation pipelines** for server-side computation"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:176 2ce722218379470a834665aec2d0dd65
+msgid "**Connection pooling** for database efficiency"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:179 93c0e748e62549e7ba3526b26b6c51c1
+msgid "Frontend Optimization"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:181 968906f7dec14c9b8cffa3bee768a8ff
+msgid "**Code splitting** and lazy loading for faster initial loads"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:182 e0dae6770b2e406388e48e51345231f5
+msgid "**Service workers** for offline functionality"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:183 0da7958bc0d8476d9aea36fbbb786f28
+msgid "**Compression** algorithms reducing payload sizes"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:184 94a14e03b022469f9397611e89633f6e
+msgid "**Progressive web app** features for mobile experience"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:187 4e647e607a604ed6bd0b316da8ae1bf7
+msgid "Deployment Features"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:189 4a026eccaccf4df197d79e9d44c16b6b
+msgid "**Auto-scaling** based on traffic demands"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:190 79bfcbe8823146d1a6c482a577df9a16
+msgid "**Health monitoring** with automated alerts"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:191 020458e353b9422d9f4da5356942a6cd
+msgid "**Performance tracking** and analytics"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:192 783fe301d92a48828b0f2eaa67a42faa
+msgid "**Error logging** with Sentry integration"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:195 4b26154ffb1847d6b1959c8e1546f778
+msgid "Quality Assurance"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:197 3f784902c6ad4d9e8e623dcf1ae78772
+msgid "Our architecture ensures data quality and system reliability:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:200 8912d95278394000ba90ee6771c50b48
+msgid "Data Quality"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:202 28ee178e904d45ebbb296b674613d798
+msgid "**Source validation** from trusted genomic databases"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:203 6576b5cf51aa4b6ca3d4b33215890466
+msgid "**Harmonization** of country names, regions, and date formats"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:204 436e3aa2e8ab41a791b44ec69f3e0805
+msgid "**Deduplication** algorithms preventing data redundancy"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:205 3586818d22ff497a8d6eb82e1b8f4ec5
+msgid "**Version control** maintaining data provenance"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:208 3aeabd04adbc47b88fe6f28dfe2c279c
+msgid "System Reliability"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:210 06e73f88ff894b4aa281464d4d8145a3
+msgid "**Automated testing** with comprehensive test suites"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:211 82c382811d164c7a902b0f8d48ef17ca
+msgid "**Continuous monitoring** of system performance"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:212 7ba6e1d4a00f473b8fc0c91d356418ff
+msgid "**Backup strategies** ensuring data protection"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:213 a7ff5216615548f98422ef31137f9ffa
+msgid "**Security auditing** with regular vulnerability assessments"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:216 742ce4e721aa4e4c846093189edf7100
+msgid "Future Architecture Plans"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:218 80b1811d08fe42e4a04576579f21a315
+msgid "Planned enhancements to the AMRnet architecture include:"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:220 d0af05eb7fa54397893558f72ff11921
+msgid "**Machine learning integration** for predictive AMR modeling"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:221 5480497f5f2a4ca19a0a030006f63715
+msgid "**Real-time alerts** for emerging resistance patterns"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:222 17f1f310074d4d9f88fa7371f918130b
+msgid "**Enhanced visualization** with 3D geographic modeling"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:223 7172bece4dbf47ab89c84a4af5c6e6c2
+msgid "**Blockchain integration** for data provenance and sharing"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:224 600b3d266bb348b199cd280cc7536495
+msgid "**Federated learning** capabilities for distributed AMR analysis"
+msgstr ""
+
+#: ../../notInUse/architecture.rst:226 62d4747ad65f4485a4225d0dd8f62540
+msgid ""
+"For technical implementation details, please see our `GitHub repository "
+"<https://github.com/amrnet/amrnet>`_ and `API documentation <api.html>`_."
+msgstr ""
+
