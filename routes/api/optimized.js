@@ -5,6 +5,21 @@ import { getMongoConfig } from '../../config/db.js';
 
 const router = express.Router();
 
+
+// Helper: sanitize filters by wrapping each value in $eq (literal comparison)
+function sanitizeFilters(filters) {
+  // Accept object only, skip arrays and null
+  if (typeof filters !== 'object' || filters === null || Array.isArray(filters)) return {};
+  const sanitized = {};
+  for (const key of Object.keys(filters)) {
+    // For security: key must be string and not begin with '$'
+    if (typeof key === 'string' && !key.startsWith('$')) {
+      sanitized[key] = { $eq: filters[key] };
+    }
+  }
+  return sanitized;
+}
+
 // MongoDB client setup for production deployment
 let client;
 let connectionAttempts = 0;
@@ -502,8 +517,13 @@ router.get('/trends/:organism', async (req, res) => {
     const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
 
     if (filters) {
-      const parsedFilters = JSON.parse(filters);
-      Object.assign(query, parsedFilters);
+      let parsedFilters;
+      try {
+        parsedFilters = JSON.parse(filters);
+      } catch {
+        return res.status(400).json({ error: 'Invalid filters format' });
+      }
+      Object.assign(query, sanitizeFilters(parsedFilters));
     }
 
     const projection = chartFields[organism]?.trends || {
@@ -541,8 +561,13 @@ router.get('/convergence/:organism', async (req, res) => {
     const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
 
     if (filters) {
-      const parsedFilters = JSON.parse(filters);
-      Object.assign(query, parsedFilters);
+      let parsedFilters;
+      try {
+        parsedFilters = JSON.parse(filters);
+      } catch {
+        return res.status(400).json({ error: 'Invalid filters format' });
+      }
+      Object.assign(query, sanitizeFilters(parsedFilters));
     }
 
     const projection = {
