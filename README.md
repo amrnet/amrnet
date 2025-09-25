@@ -15,6 +15,21 @@
 **🔗 Quick Links:** [🌐 Live Dashboard](https://www.amrnet.org) • [📖 Documentation](https://amrnet.readthedocs.io) • [🚀 Quick Start](#-quick-start) • [💬 Community](https://github.com/amrnet/amrnet/discussions)
 
 
+[![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
+
+<p align="center">
+   <em><b>Making genome-derived AMR surveillance data accessible worldwide</b></em>
+</p>
+
+**🔗 Quick Links:** [🌐 Live Dashboard](https://www.amrnet.org) • [📖 Documentation](https://amrnet.readthedocs.io) • [🚀 Quick Start](#-quick-start) • [💬 Community](https://github.com/amrnet/amrnet/discussions)
+---
+<div align="right">
+   <a href="README.pt-br.md" title="Português (Brasil)">🇧🇷</a>
+   <a href="README.es.md" title="Español">🇪🇸</a>
+   <a href="README.fr.md" title="Français">🇫🇷</a>
+</div>
+---
+
 ## 🎯 Overview
 
 AMRnet is a comprehensive web-based platform that transforms complex antimicrobial resistance (AMR) genomic surveillance data into accessible, interactive visualizations. Our mission is to democratize access to high-quality AMR data for researchers, public health professionals, and policymakers worldwide.
