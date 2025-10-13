@@ -7,13 +7,13 @@ Source Databases
 ~~~~~~~~~~~~~~~~~~
 
 Enterobase
----------
+-----------
 
 - `EnteroBase in 2025: exploring the genomic epidemiology of bacterial pathogens, Dyer et al 2025 <https://doi.org/10.1093/nar/gkae902>`_
 - `https://enterobase.warwick.ac.uk/ <https://enterobase.warwick.ac.uk/>`__
 
 Pathogenwatch
----------
+-------------
 
 - *Salmonella* Typhi: `A global resource for genomic predictions of antimicrobial resistance and surveillance of Salmonella Typhi at pathogenwatch, Argimón et al 2021 <https://doi.org/10.1038/s41467-021-23091-2>`_
 - *Neisseria gonorrhoeae*: `A community-driven resource for genomic epidemiology and antimicrobial resistance prediction of Neisseria gonorrhoeae at Pathogenwatch, Sánchez-Busó et al 2021 <https://doi.org/10.1186/s13073-021-00858-2>`_
