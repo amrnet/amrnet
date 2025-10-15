@@ -116,6 +116,7 @@ import { continentPGraphCard } from '../../util/graphCards';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
+import { SwitchColour } from '../Elements/SwitchColour';
 import GenotypeLoadingIndicator from '../Elements/GenotypeLoadingIndicator';
 import { Graphs } from '../Elements/Graphs';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
@@ -494,17 +495,16 @@ export const DashboardPage = () => {
           // if (organism === 'senterica') {
           //   paletteSource = uniqueGenotypes;
           // }
-
-          dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
+          // dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
 
           if (organism === 'kpneumo') {
             dispatch(setCgSTYearData(cgSTData));
             dispatch(setSublineagesYearData(sublineageData));
-            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueCgST)));
-            dispatch(setColorPalleteSublineages(generatePalleteForGenotypes(uniqueSublineages)));
+            // dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueCgST)));
+            // dispatch(setColorPalleteSublineages(generatePalleteForGenotypes(uniqueSublineages)));
           } else if (organism === 'ngono') {
             dispatch(setCgSTYearData(NGMASTData));
-            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueNGMAST)));
+            // dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueNGMAST)));
           }
         },
       ),
@@ -516,12 +516,12 @@ export const DashboardPage = () => {
           }).then(([KOYearsData, uniqueKO]) => {
             dispatch(setKOYearsData(KOYearsData));
             dispatch(setKOForFilterDynamic(uniqueKO));
-            const colorPalleteKO = {
-              O_locus: generatePalleteForGenotypes(uniqueKO['O_locus']),
-              K_locus: generatePalleteForGenotypes(uniqueKO['K_locus']),
-              O_type: generatePalleteForGenotypes(uniqueKO['O_type']),
-            };
-            dispatch(setColorPalleteKO(colorPalleteKO));
+            // const colorPalleteKO = {
+            //   O_locus: generatePalleteForGenotypes(uniqueKO['O_locus']),
+            //   K_locus: generatePalleteForGenotypes(uniqueKO['K_locus']),
+            //   O_type: generatePalleteForGenotypes(uniqueKO['O_type']),
+            // };
+            // dispatch(setColorPalleteKO(colorPalleteKO));
           })
         : Promise.resolve(),
 
@@ -578,11 +578,11 @@ export const DashboardPage = () => {
               data: dt.data,
             };
           }).then(convergenceData => {
-            dispatch(
-              setConvergenceColourPallete(
-                generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable), // Generate pallete for convergence Year dropdown
-              ),
-            );
+            // dispatch(
+            //   setConvergenceColourPallete(
+            //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern), // Generate pallete for convergence Year dropdown
+            //   ),
+            // );
             dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
             dispatch(setConvergenceData(convergenceData.data));
           })
@@ -1211,11 +1211,11 @@ export const DashboardPage = () => {
         false,
       );
 
-      dispatch(
-        setConvergenceColourPallete(
-          generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable),
-        ),
-      );
+      // dispatch(
+      //   setConvergenceColourPallete(
+      //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern),
+      //   ),
+      // );
       dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
       dispatch(setConvergenceData(convergenceData.data));
     } else {
@@ -1344,11 +1344,11 @@ export const DashboardPage = () => {
         dispatch(setKOForFilterDynamic(koData.uniqueKO));
         // dispatch(setKODiversityData(koDiversityData));
 
-        dispatch(
-          setConvergenceColourPallete(
-            generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable),
-          ),
-        );
+        // dispatch(
+        //   setConvergenceColourPallete(
+        //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern),
+        //   ),
+        // );
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
       } else if (organism === 'ngono') {
@@ -1415,6 +1415,7 @@ export const DashboardPage = () => {
         {/* <Footer /> */}
         <ResetButton data={data} />
       </MainLayout>
+      <SwitchColour />
       <FloatingGlobalFilters />
       <GenotypeLoadingIndicator />
     </>

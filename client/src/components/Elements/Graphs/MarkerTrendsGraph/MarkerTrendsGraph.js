@@ -35,8 +35,8 @@ import {
   setTrendsGraphDrugClass,
   setTrendsGraphView,
 } from '../../../../stores/slices/graphSlice';
-import { colorForMarkers, hoverColor } from '../../../../util/colorHelper';
-import { drugClassesNG, drugClassesST, drugsINTS, markersDrugsKP, markersDrugsSH } from '../../../../util/drugs';
+import { colorForMarkers, colorForMarkersCVD, hoverColor } from '../../../../util/colorHelper';
+import { drugClassesNG, drugClassesST, drugsINTS, markersDrugsKP, markersDrugsSH, ciproAcronyms } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -54,6 +54,17 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const [plotChart, setPlotChart] = useState(() => {});
   const [logScale, setLogScale] = useState(false);
 
+  // const [colourPattern, setColourPattern] = useState(false);
+  const [lineStyle, setLineStyle] = useState('');
+
+
+  const getLineStyleForDrug = (genName) => {
+   const lineStyles = ["Normal", "Thick"];
+
+    const drugIndex = [...(topGenesSlice || []).filter(x => x !== 'None'), 'Other Genes', 'None'].indexOf(genName);
+    return drugIndex !== -1 ? lineStyles[drugIndex % lineStyles.length] : lineStyles[0];
+  };
+  
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
@@ -67,6 +78,8 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const currentSliderValueKP_GE = useAppSelector(state => state.graph.currentSliderValueKP_GE);
   const topGenesSlice = useAppSelector(state => state.graph.topGenesSlice);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
+  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  
 
   useEffect(() => {
     //dispatch(setResetBool(true));
@@ -390,12 +403,18 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                           return (
                             <React.Fragment key={`trends-legend-${index}`}>
                               <div className={classes.legendItemWrapper}>
-                                <Box
-                                  className={classes.colorCircle}
-                                  style={{
-                                    backgroundColor: color,
-                                  }}
-                                />
+                                {!colourPattern ? <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                                :<svg width={16} height={16}>
+                                  <circle
+                                    cx="8"
+                                    cy="8"
+                                    r="2"
+                                    fill="none"
+                                    stroke={color}
+                                    strokeWidth={index%2 == 0 ? 5 : 7}
+                                    strokeDasharray={getLineStyleForDrug(dataKey)}
+                                  />
+                                </svg>}
                                 <Typography variant="caption">{dataKey}</Typography>
                               </div>
                             </React.Fragment>
@@ -419,21 +438,28 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
 
               {[...(topGenesSlice || []).filter(x => x !== 'None'), 'Other Genes', 'None'].map((option, index) => {
                 let fillColor = '#F5F4F6';
+                let lineStyle = '';
 
                 if (option === 'Other Genes') {
                   fillColor = '#F5F4F6';
                 } else if (option === 'None') {
                   fillColor = '#B9B9B9';
                 } else {
-                  fillColor = colorForMarkers[index];
+                  if (!colourPattern){
+                    fillColor = colorForMarkers(index);
+                  }else{
+                    fillColor =  colorForMarkersCVD [index]
+                    lineStyle = getLineStyleForDrug(option);
+                  }
                 }
 
                 return (
                   <Line
                     key={`trends-line-${index}`}
                     dataKey={option}
-                    strokeWidth={2}
+                    strokeWidth={!colourPattern ? 2 : index%2 == 0 ? 2 : 3}
                     stroke={fillColor}
+                    strokeDasharray={!colourPattern ? 'solid': lineStyle}
                     connectNulls
                     type="monotone"
                     activeDot={timeInitial === timeFinal ? true : false}
@@ -446,10 +472,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale]);
+  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale, colourPattern, lineStyle]);
 
   return (
     <CardContent className={classes.markerTrendsGraph}>
+
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDT">
           {plotChart}
@@ -480,12 +507,28 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                     {currentTooltip.genes.map((item, index) => {
                       return (
                         <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                          <Box
-                            className={classes.tooltipItemBox}
-                            style={{
-                              backgroundColor: item.color,
-                            }}
-                          />
+                        {(() => {
+                          // Find the corresponding drug name for this tooltip item
+                            const drugKey = Object.keys(ciproAcronyms).find(key => ciproAcronyms[key] === item.label) || item.label;
+                            const lineStyle = getLineStyleForDrug(drugKey);
+                            
+                            return colourPattern && lineStyle !== 'Normal' ? (
+                              <div
+                                className={classes.tooltipItemBox}
+                                style={{
+                                  backgroundColor: item.color,
+                                }}
+                              />
+                            ) : (
+                              <div
+                                className={classes.tooltipItemBoxSmall}
+                                style={{
+                                  backgroundColor: item.color,
+                                }}
+                              />
+                            );
+                          })()} 
+
                           <div className={classes.tooltipItemStats}>
                             <Typography variant="body2" fontWeight="500">
                               {item.label}

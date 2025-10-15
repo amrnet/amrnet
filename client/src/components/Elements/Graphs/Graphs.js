@@ -36,6 +36,7 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
 import { useStyles } from './GraphsMUI';
+import GenotypePatternRect from '../../../components/Elements/Graphs/GenotypePatternRect.js';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -100,7 +101,10 @@ export const Graphs = () => {
   const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
-
+  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const convergenceData = useAppSelector(state => state.graph.convergenceData);
+  const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  
   useEffect(() => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
@@ -128,7 +132,7 @@ export const Graphs = () => {
   const currentCard = useMemo(() => organismCards.find(x => x.id === currentTab), [currentTab, organismCards]);
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi' ? getColorForGenotype(genotype) : currentColorPallete[genotype] || '#F5F4F6';
+    return currentCard.id === 'KOT' ? colorPalleteKO[KOTrendsGraphPlotOption][genotype] : currentColorPallete[genotype] || '#F5F4F6';
   }
   const currentColorPallete = useMemo(() => {
     const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
@@ -184,6 +188,52 @@ export const Graphs = () => {
     }
   }
 
+  // function drawLegend({
+  //   legendData,
+  //   context,
+  //   factor,
+  //   mobileFactor,
+  //   yPosition,
+  //   isGenotype = false,
+  //   isDrug = false,
+  //   isVariable = false,
+  //   isGen = false,
+  //   xSpace,
+  // }) {
+  //   legendData.forEach((legend, i) => {
+  //     const yFactor = (i % factor) * 24;
+  //     const xFactor = Math.floor(i / factor) * xSpace;
+
+  //     ((context.fillStyle = isGenotype
+  //       ? GenotypePatternRect(legend, legendData)
+  //       : isDrug
+  //         ? getColorForDrug(legend, colourPattern)
+  //         : isVariable
+  //           ? convergenceColourPallete(legend, colourPattern)
+  //           : isGen
+  //             ? i === legendData.length - 1
+  //               ? '#F5F4F6'
+  //               : colorForMarkers(i, colourPattern)
+  //             : legend.color),
+  //       context.beginPath());
+  //      {const radius = !colourPattern ? 5 : (i % 2 !== 0 ? 6 : 4.5);
+  //       context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, radius, 0, 2 * Math.PI);
+  //       }      
+  //     context.fill();
+  //     context.closePath();
+  //     context.fillStyle = 'black';
+  //     context.fillText(
+  //       isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
+  //       61 + xFactor,
+  //       yPosition + 4 - mobileFactor + yFactor,
+  //     );
+  //   });
+  // }
+
+  // Replace the drawLegend function in Graphs.jsx with this updated version:
+
+// Replace the drawLegend function in Graphs.jsx with this updated version:
+
   function drawLegend({
     legendData,
     context,
@@ -195,32 +245,178 @@ export const Graphs = () => {
     isVariable = false,
     isGen = false,
     xSpace,
+    topConvergenceData = [], // For convergence graph pattern sync
+    genotypesForFilterSelected = [], // For genotype pattern sync
+    KOForFilterSelected = [], // For KO pattern sync
   }) {
     legendData.forEach((legend, i) => {
       const yFactor = (i % factor) * 24;
       const xFactor = Math.floor(i / factor) * xSpace;
 
-      ((context.fillStyle = isGenotype
-        ? getGenotypeColor(legend)
-        : isDrug
-          ? getColorForDrug(legend)
-          : isVariable
-            ? convergenceColourPallete[legend]
-            : isGen
-              ? i === legendData.length - 1
-                ? '#F5F4F6'
-                : colorForMarkers[i]
-              : legend.color),
-        context.beginPath());
-      context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
-      context.fill();
-      context.closePath();
+      // Determine if we should use patterns (for genotypes OR variables when colourPattern is true)
+      const usePattern = colourPattern && (isGenotype || isVariable);
+
+      if (usePattern) {
+        // Draw rectangle with pattern for genotypes/variables when colourPattern is enabled
+        const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+        
+        let patternIndex;
+        if (isVariable) {
+          // For convergence graph: find index in topConvergenceData based on colorLabel
+          const variableIndex = topConvergenceData.findIndex(item => item.colorLabel === legend);
+          patternIndex = variableIndex !== -1 ? variableIndex % patternTypes.length : 0;
+        } else if (isGenotype) {
+          // For genotypes: use the appropriate data source
+          let dataSource = [];
+          if (currentCard?.id === 'GD') {
+            dataSource = genotypesForFilterSelected;
+          } else if (currentCard?.id === 'KOT') {
+            dataSource = KOForFilterSelected;
+          } else {
+            dataSource = legendData;
+          }
+          const genotypeIndex = dataSource.indexOf(legend);
+          patternIndex = genotypeIndex !== -1 ? genotypeIndex % patternTypes.length : 0;
+        } else {
+          patternIndex = 0;
+        }
+        
+        const patternType = patternTypes[patternIndex];
+        
+        // Get the base color
+        let baseColor;
+        if (isGenotype) {
+          baseColor = legend === 'Other' ? '#F5F4F6' : getGenotypeColor(legend);
+        } else if (isVariable) {
+          baseColor = convergenceColourPallete[legend] || '#F5F4F6';
+        } else {
+          baseColor = '#F5F4F6';
+        }
+        
+        // Create the pattern on canvas
+        const patternCanvas = document.createElement('canvas');
+        const patternCtx = patternCanvas.getContext('2d');
+        
+        switch (patternType) {
+          case 'solid':
+            patternCanvas.width = 16;
+            patternCanvas.height = 16;
+            patternCtx.fillStyle = baseColor;
+            patternCtx.fillRect(0, 0, 16, 16);
+            break;
+            
+          case 'stripes':
+            patternCanvas.width = 8;
+            patternCanvas.height = 8;
+            patternCtx.fillStyle = baseColor;
+            patternCtx.fillRect(0, 0, 8, 8);
+
+            // White semi-transparent stripe
+            patternCtx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+
+            // Create thin diagonal stripe pattern
+            patternCtx.save();
+            patternCtx.translate(4, 4);
+            patternCtx.rotate(45 * Math.PI / 180);
+            patternCtx.fillRect(-0.5, -6, 1, 12);  // thinner stripe
+            patternCtx.restore();
+            break;
+            
+          case 'dots':
+            patternCanvas.width = 8;
+            patternCanvas.height = 8;
+            patternCtx.fillStyle = baseColor;
+            patternCtx.fillRect(0, 0, 8, 8);
+            patternCtx.fillStyle = 'white';
+            // Create dot pattern
+            patternCtx.beginPath();
+            patternCtx.arc(4, 4, 1.5, 0, 2 * Math.PI);
+            patternCtx.fill();
+            patternCtx.beginPath();
+            patternCtx.arc(0, 0, 0.75, 0, 2 * Math.PI);
+            patternCtx.fill();
+            patternCtx.beginPath();
+            patternCtx.arc(8, 0, 0.75, 0, 2 * Math.PI);
+            patternCtx.fill();
+            patternCtx.beginPath();
+            patternCtx.arc(0, 8, 0.75, 0, 2 * Math.PI);
+            patternCtx.fill();
+            patternCtx.beginPath();
+            patternCtx.arc(8, 8, 0.75, 0, 2 * Math.PI);
+            patternCtx.fill();
+            break;
+            
+          case 'cross':
+            patternCanvas.width = 8;
+            patternCanvas.height = 8;
+            patternCtx.fillStyle = baseColor;
+            patternCtx.fillRect(0, 0, 8, 8);
+            patternCtx.strokeStyle = 'white';
+            patternCtx.lineWidth = 1.5;
+            // Draw cross pattern
+            patternCtx.beginPath();
+            patternCtx.moveTo(0, 0);
+            patternCtx.lineTo(8, 8);
+            patternCtx.moveTo(8, 0);
+            patternCtx.lineTo(0, 8);
+            patternCtx.stroke();
+            break;
+        }
+        
+        const pattern = context.createPattern(patternCanvas, 'repeat');
+        context.fillStyle = pattern;
+        const rectX = 46 + xFactor;
+        const rectY = yPosition - 8 - mobileFactor + yFactor;
+        context.fillRect(rectX, rectY, 16, 16);
+        
+        // Draw border around the rectangle
+        context.strokeStyle = '#ccc';
+        context.lineWidth = 0.5;
+        context.strokeRect(rectX, rectY, 16, 16);
+        
+      } else {
+        // Draw circle for non-pattern legends (original behavior)
+        let fillColor;
+        
+        if (isGenotype) {
+          fillColor = legend === 'Other' ? '#F5F4F6' : getGenotypeColor(legend);
+        } else if (isDrug) {
+          fillColor = getColorForDrug(legend, colourPattern);
+        } else if (isVariable) {
+          // convergenceColourPallete is an object, not a function
+          fillColor = convergenceColourPallete[legend] || '#F5F4F6';
+        } else if (isGen) {
+          fillColor = i === legendData.length - 1 ? '#F5F4F6' : colorForMarkers(i, colourPattern);
+        } else {
+          // For regular legend items with color property
+          fillColor = legend.color || '#F5F4F6';
+        }
+        
+        context.fillStyle = fillColor;
+        context.beginPath();
+        const radius = !colourPattern ? 5 : (i % 2 !== 0 ? 6 : 4.5);
+        context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, radius, 0, 2 * Math.PI);
+        context.fill();
+        context.closePath();
+      }
+      
+      // Draw text label
       context.fillStyle = 'black';
-      context.fillText(
-        isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
-        61 + xFactor,
-        yPosition + 4 - mobileFactor + yFactor,
-      );
+      const textX = usePattern ? 65 + xFactor : 61 + xFactor;
+      const textY = yPosition + 4 - mobileFactor + yFactor;
+      
+      // Determine text content
+      let textContent;
+      if (isGenotype || isDrug || isVariable) {
+        textContent = String(legend).replaceAll('β', 'B');
+      } else if (isGen) {
+        textContent = String(legend);
+      } else {
+        // For objects with name property
+        textContent = legend.name || String(legend);
+      }
+      
+      context.fillText(textContent, textX, textY);
     });
   }
 
@@ -381,7 +577,7 @@ export const Graphs = () => {
 
       const mobileFactor = matches1000 ? 100 : 0;
       if ('RFWG'.includes(currentCard.id)) {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
         const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
 
         drawLegend({
@@ -394,7 +590,7 @@ export const Graphs = () => {
           isDrug: true,
         });
       } else if ('DRT'.includes(currentCard.id)) {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
 
         // let legendDrugs;
 
@@ -424,7 +620,7 @@ export const Graphs = () => {
         });
       } else if (currentCard.id === 'RDWG') {
         const legendDataRD = drugClassesBars.filter(value => genotypesForFilterSelectedRD.includes(value.name));
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
           legendData: legendDataRD,
@@ -435,7 +631,7 @@ export const Graphs = () => {
           xSpace: 208,
         });
       } else if (currentCard.id === 'GD') {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
         console.log('genotypesForFilterSelected', genotypesForFilterSelected);
         drawLegend({
           legendData: genotypesForFilterSelected,
@@ -447,7 +643,7 @@ export const Graphs = () => {
           xSpace: orgBasedSpace,
         });
       } else if (currentCard.id === 'KOT') {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
           legendData: KOForFilterSelected,
@@ -463,7 +659,7 @@ export const Graphs = () => {
         if (organism === 'kenumon') legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
         console.log('legendGens', topGenesSlice, legendGens);
 
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
 
         ctx.fillStyle = '#F5F4F6';
         // ctx.fillText('GENES:', 50, 675);
@@ -488,28 +684,42 @@ export const Graphs = () => {
         //   isGenotype: true,
         //   xSpace: 87,
         // });
-      } else if (currentCard.id === 'KO') {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        drawLegend({
-          legendData: colorsForKODiversityGraph,
-          context: ctx,
-          factor: 5,
-          mobileFactor,
-          yPosition: 670,
-          xSpace: 330,
-        });
+      // } else if (currentCard.id === 'KO') {
+      //   ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
+      //   drawLegend({
+      //     legendData: colorsForKODiversityGraph,
+      //     context: ctx,
+      //     factor: 5,
+      //     mobileFactor,
+      //     yPosition: 670,
+      //     xSpace: 330,
+      //   });
       } else if (currentCard.id === 'convergence-graph') {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        const legendData = Object.keys(convergenceColourPallete);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
+        
+        // Create ordered legend data based on topConvergenceData order (same as ConvergenceGraph.js)
+        const orderedLegendKeys = [];
+        const seenKeys = new Set();
+        
+        // Get topConvergenceData to maintain the same sequence
+        const topConvergenceDataForLegend = convergenceData.slice(0, currentSliderValueCM);
+        
+        topConvergenceDataForLegend.forEach(item => {
+          if (!seenKeys.has(item.colorLabel)) {
+            orderedLegendKeys.push(item.colorLabel);
+            seenKeys.add(item.colorLabel);
+          }
+        });
 
         drawLegend({
-          legendData,
+          legendData: orderedLegendKeys,
           context: ctx,
           factor: variablesFactor,
           mobileFactor,
           yPosition: 670,
           xSpace: 270,
           isVariable: true,
+          topConvergenceData: topConvergenceDataForLegend,
         });
       }
 

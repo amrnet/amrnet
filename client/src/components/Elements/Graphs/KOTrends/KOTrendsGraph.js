@@ -21,14 +21,15 @@ import {
   setMaxSliderValueKOT,
   setKOTrendsGraphPlotOption,
 } from '../../../../stores/slices/graphSlice.ts';
-import { hoverColor, lightGrey } from '../../../../util/colorHelper';
+import { hoverColor, lightGrey , generatePalleteForGenotypes} from '../../../../util/colorHelper';
 import { useEffect, useMemo, useState } from 'react';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SliderSizes } from '../../Slider/SliderSizes';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 import { arraysEqual, getRange } from '../../../../util/helpers';
-import { setCaptureKOT, setKOForFilterSelected } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureKOT, setKOForFilterSelected, setColorPalleteKO } from '../../../../stores/slices/dashboardSlice';
+import GenotypePatternRect from '../GenotypePatternRect.js';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -58,6 +59,8 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
   const resetBool = useAppSelector(state => state.graph.resetBool);
   const topXKO = useAppSelector(state => state.graph.topXKO);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
+  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
 
   const currentData = useMemo(() => KOYearsData[KOTrendsGraphPlotOption], [KOYearsData, KOTrendsGraphPlotOption]);
   const colorPallete = useMemo(
@@ -104,6 +107,18 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
   //   setCurrentSliderValue(value);
   //  };
 
+  // const getPatternForGenotype = (genName) => {
+  //   const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+    
+  //   // Get the index of the genotype in topXGenotype array
+  //   const genotypeIndex = topXKO.indexOf(genName);
+    
+  //   // If genotype is found, use its index to determine pattern, otherwise default to 0
+  //   const patternIndex = genotypeIndex !== -1 ? genotypeIndex % patternTypes.length : 0;
+  //   const patternType = patternTypes[patternIndex];
+  //   return `url(#pattern-${patternType}-${genName})`;
+  // };
+
   const computedTopXKO = useMemo(() => {
     const map = new Map();
     currentData.forEach(cur => {
@@ -122,16 +137,23 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
   }, [currentData, currentSliderValueKOT]);
 
   useEffect(() => {
-    if (!arraysEqual(computedTopXKO, topXKO)) {
+    // if (!arraysEqual(computedTopXKO, topXKO)) {
       dispatch(setTopXKO(computedTopXKO));
+      // Generate palettes for each plot option using the same computedTopXKO array
+      const colorPalleteKOVar = {
+        O_locus: generatePalleteForGenotypes(computedTopXKO, distributionGraphVariable, colourPattern),
+        K_locus: generatePalleteForGenotypes(computedTopXKO, distributionGraphVariable, colourPattern),
+        O_type: generatePalleteForGenotypes(computedTopXKO,distributionGraphVariable, colourPattern),
+      };
+      dispatch(setColorPalleteKO(colorPalleteKOVar));
       dispatch(
         setKOForFilterSelected(
           currentSliderValueKOT === computedTopXKO.length ? computedTopXKO : [...computedTopXKO, 'Other'],
         ),
       );
-    }
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [computedTopXKO]);
+  }, [computedTopXKO, topXKO, distributionGraphVariable, colourPattern]);
 
   const { newArray, newArrayPercentage } = useMemo(() => {
     const exclusions = ['name', 'count'];
@@ -243,11 +265,55 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentData]);
 
+  // SVG pattern definitions for genotypes
+  const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+  const renderPatterns = () => (
+    <svg width="0" height="0" style={{ position: 'absolute' }}>
+      <defs>
+        {topXKO.map((genName) => {
+          const patternIndex = topXKO.indexOf(genName) !== -1 ? topXKO.indexOf(genName) % patternTypes.length : 0;
+          const patternType = patternTypes[patternIndex];
+          const color = getColor(genName);
+          if (patternType === 'solid') {
+            return (
+              <pattern id={`pattern-solid-${genName}`} key={genName} patternUnits="userSpaceOnUse" width="16" height="16">
+                <rect width="16" height="16" fill={color} />
+              </pattern>
+            );
+          } else if (patternType === 'stripes') {
+            return (
+              <pattern id={`pattern-stripes-${genName}`} key={genName} patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+                <rect width="8" height="8" fill={color} />
+                <rect x="0" y="0" width="4" height="8" fill="#fff" fillOpacity="0.4" />
+              </pattern>
+            );
+          } else if (patternType === 'dots') {
+            return (
+              <pattern id={`pattern-dots-${genName}`} key={genName} patternUnits="userSpaceOnUse" width="8" height="8">
+                <rect width="8" height="8" fill={color} />
+                <circle cx="4" cy="4" r="2" fill="#fff" fillOpacity="0.4" />
+              </pattern>
+            );
+          } else if (patternType === 'cross') {
+            return (
+              <pattern id={`pattern-cross-${genName}`} key={genName} patternUnits="userSpaceOnUse" width="8" height="8">
+                <rect width="8" height="8" fill={color} />
+                <path d="M0,0 L8,8 M8,0 L0,8" stroke="#fff" strokeWidth="1" strokeOpacity="0.4" />
+              </pattern>
+            );
+          }
+          return null;
+        })}
+      </defs>
+    </svg>
+  );
+
+
   const chartJSX = useMemo(() => {
     if (!canGetData) return null;
 
     const rawData = KOTrendsGraphView === 'number' ? newArray : newArrayPercentage;
-    const data = [...rawData]; // clone so we can safely mutate
+    const data = [...rawData];
 
     let allYears = [];
     if (data.length > 0) {
@@ -256,10 +322,6 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
 
       allYears.forEach(year => {
         if (!existingYears.includes(year)) {
-          // const index = data.findIndex(d => d.name === year);
-          //   if (index !== -1) {
-          //     data.splice(index, 1); // Remove existing entry in-place
-          //   }
           data.push({
             name: year,
             count: 0,
@@ -280,6 +342,63 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
           onClick={handleClickChart}
           maxBarSize={70}
         >
+          <defs>
+            {topXKO.map((genotype, i) => (
+              <pattern
+                key={`pattern-solid-${genotype}`}
+                id={`pattern-solid-${genotype}`}
+                patternUnits="userSpaceOnUse"
+                width={10}
+                height={10}
+              >
+                <rect width="10" height="10" fill={getColor(genotype)} />
+              </pattern>
+            ))}
+
+            {topXKO.map((genotype, i) => (
+              <pattern
+                key={`pattern-stripes-${genotype}`}
+                id={`pattern-stripes-${genotype}`}
+                patternUnits="userSpaceOnUse"
+                width={6}
+                height={6}
+                patternTransform="rotate(45)"
+              >
+                <rect width="6" height="6" fill={getColor(genotype)} />
+                <line x1="0" y1="0" x2="0" y2="6" stroke="white" strokeWidth={1} />
+              </pattern>
+            ))}
+
+            {topXKO.map((genotype, i) => (
+              <pattern
+                key={`pattern-dots-${genotype}`}
+                id={`pattern-dots-${genotype}`}
+                patternUnits="userSpaceOnUse"
+                width={8}
+                height={8}
+              >
+                <rect width="8" height="8" fill={getColor(genotype)} />
+                <circle cx="5" cy="5" r="0.5" fill="white" />
+                <circle cx="5" cy="1" r="0.5" fill="white" />
+                <circle cx="1" cy="5" r="0.5" fill="white" />
+                <circle cx="1" cy="1" r="0.5" fill="white" />
+              </pattern>
+            ))}
+
+            {topXKO.map((genotype, i) => (
+              <pattern
+                key={`pattern-cross-${genotype}`}
+                id={`pattern-cross-${genotype}`}
+                patternUnits="userSpaceOnUse"
+                width={8}
+                height={8}
+              >
+                <rect width="8" height="8" fill={getColor(genotype)} />
+                <path d="M0,0 L8,8 M8,0 L0,8" stroke="white" strokeWidth={0.5} />
+              </pattern>
+            ))}
+          </defs>
+
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
           <YAxis domain={getDomain()} allowDataOverflow allowDecimals={false}>
@@ -304,21 +423,32 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
           <Legend
             content={({ payload }) => (
               <div className={classes.legendWrapper}>
-                {payload.map(entry => {
+                {payload.map((entry, index) => {
                   const { dataKey, color } = entry;
-
                   if (dataKey === 'Insufficient data' || dataKey == null || dataKey === undefined || dataKey === '' || dataKey === '-' || dataKey.toString().trim() === '') {
                     return null;
                   }
-
                   if (dataKey === 'Other') {
                     const hasData = data.some(d => !!d[dataKey]);
                     if (!hasData) return null;
                   }
-
                   return (
-                    <div key={`legend-${dataKey}`} className={classes.legendItemWrapper}>
-                      <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                    <div key={`legend-${dataKey}-${index}`} className={classes.legendItemWrapper}>
+                      {colourPattern ? (
+                        <svg width="16" height="16" style={{ marginRight: 6, flexShrink: 0 }}>
+                          <rect
+                            x="0"
+                            y="0"
+                            width="16"
+                            height="16"
+                            fill={dataKey === 'Other' ? lightGrey : GenotypePatternRect(dataKey, topXKO)}
+                            stroke="#ccc"
+                            strokeWidth="0.5"
+                          />
+                        </svg>
+                      ) : (
+                        <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                      )}
                       <Typography variant="caption">{dataKey}</Typography>
                     </div>
                   );
@@ -337,18 +467,21 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
           {topXKO
             .filter(genotype => genotype != null && genotype !== undefined && genotype !== '' && genotype !== '-' && genotype.toString().trim() !== '')
             .map((genotype) => (
-              <Bar key={`bar-${genotype}`} dataKey={genotype} stackId={0} fill={getColor(genotype)} />
+              <Bar
+                key={`bar-${genotype}`}
+                dataKey={genotype}
+                stackId={0}
+                fill={colourPattern ? GenotypePatternRect(genotype, topXKO) : getColor(genotype)}
+              />
             ))}
-
           <Bar dataKey="Other" stackId={0} fill={lightGrey} />
           <Bar dataKey="Insufficient data" stackId={0} fill={getColor('Other')} />
         </BarChart>
       </ResponsiveContainer>
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentData, KOTrendsGraphView, topXKO, currentSliderValueKOT, colorPallete]);
-
-  return (
+  }, [currentData, KOTrendsGraphView, topXKO, currentSliderValueKOT, colorPallete, colourPattern]);
+    
+return (
     <CardContent className={classes.koTrendsGraph}>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="KOT">
@@ -356,6 +489,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
         </div>
         <div className={classes.rightSide}>
           <SliderSizes value={'KOT'} style={{ width: '100%' }} label={sliderLabel} />
+
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
@@ -374,12 +508,28 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
                     {currentTooltip.items.map((item, index) => {
                       return (
                         <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                          <Box
-                            className={classes.tooltipItemBox}
-                            style={{
-                              backgroundColor: item.color,
-                            }}
-                          />
+                          {colourPattern ? (
+                            <svg
+                              width="16"
+                              height="16"
+                              style={{ marginRight: 6, flexShrink: 0 }}
+                            >
+                              <rect
+                                x="0"
+                                y="0"
+                                width="16"
+                                height="16"
+                                fill={item.label === 'Other' ? item.color : GenotypePatternRect(item.label, topXKO)}
+                                stroke="#ccc"
+                                strokeWidth="0.5"
+                              />
+                            </svg>
+                          ) : (
+                            <Box
+                              className={classes.tooltipItemBox}
+                              style={{ backgroundColor: item.label === 'Other' ? item.color : getColor(item.label) }}
+                            />
+                          )}
                           <div className={classes.tooltipItemStats}>
                             <Typography variant="body2" fontWeight="500">
                               {item.label}

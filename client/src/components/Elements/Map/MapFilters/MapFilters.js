@@ -287,7 +287,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
   const getGenotypeColor = useCallback(
     genotype => {
-      return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+      return colorPallete[genotype] || '#F5F4F6';
     },
     [colorPallete, organism],
   );
