@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography, FormGroup, FormControlLabel, Switch } from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography, FormGroup, FormControlLabel, Switch, Slider } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
@@ -39,6 +39,9 @@ const dataViewOptions = [
 export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
+  const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
+  const [logScale, setLogScale] = useState(false);
+
 
   const dispatch = useAppDispatch();
   const distributionGraphView = useAppSelector(state => state.graph.distributionGraphView);
@@ -85,7 +88,24 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
     return colorPallete;
   }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
+  
+  function getDomain(max = null) {
+    if (distributionGraphView === 'number') {
+      return logScale? [yAxisSliderValue[0], yAxisSliderValue[1] ?? max ?? 'dataMax'] : distributionGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
+    }
+    // percentage view -> zoomable 0–100
+    return [yAxisSliderValue[0], yAxisSliderValue[1]];
+  }
 
+  function handleSwitchScale(event) {
+    setCurrentTooltip(null);
+    setLogScale(event.target.checked);
+  }
+
+  function handleSliderChangeDataView(event) {
+    setYAxisSliderValue(event.target.value);
+  }
+  
   const sliderLabel = useMemo(() => {
     if (organism !== 'kpneumo') {
       return undefined;
@@ -99,6 +119,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           ? 'NG-MAST'
           : 'ST';
   }, [distributionGraphVariable, organism]);
+
   useEffect(() => {
     let cnt = 0;
     // eslint-disable-next-line array-callback-return
@@ -120,9 +141,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentData]);
 
-  function getDomain() {
-    return distributionGraphView === 'number' ? undefined : [0, 100];
-  }
+  // function getDomain() {
+  //   return distributionGraphView === 'number' ? undefined : [0, 100];
+  // }
 
 
   //  const updateSlider = (value) =>{
@@ -144,6 +165,33 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       .slice(0, currentSliderValue)
       .map(([key]) => key);
   }, [currentData, currentSliderValue]);
+
+  const maxDataValue = useMemo(() => {
+    if (!currentData || currentData.length === 0) return 100;
+    
+    // For percentage view, max is always 100
+    if (distributionGraphView === 'percentage') return 100;
+    
+    // For number view, find the max value across all data points
+    let max = 0;
+    currentData.forEach(item => {
+      let yearTotal = 0;
+      Object.entries(item).forEach(([key, value]) => {
+        if (!['name', 'count'].includes(key)) {
+          if (typeof value === 'number') {
+            yearTotal += value;
+            if (value > max) max = value;
+          }
+        }
+      });
+      // Also check the total for the year as it might be higher than individual values
+      if (yearTotal > max) max = yearTotal;
+    });
+
+    // Round up to nearest nice number for better axis display
+    const niceMax = Math.ceil(max / 10) * 10;
+    return niceMax;
+  }, [currentData, distributionGraphView]);
 
   useEffect(() => {
 
@@ -369,8 +417,23 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           </defs>
 
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
-          <YAxis domain={getDomain()} allowDataOverflow allowDecimals={false}>
+              <XAxis
+                tickCount={20}
+                allowDecimals={false}
+                padding={{ left: 20, right: 20 }}
+                dataKey="name"
+                domain={(computedTopXGenotype ?? []).length > 0 ? ['dataMin', 'dataMax'] : undefined}
+                interval={'preserveStartEnd'}
+                tick={{ fontSize: 14 }}
+              />
+              <YAxis
+                tickCount={logScale ? 8 : 6}
+                padding={{ top: 20, bottom: 20 }}
+                allowDecimals={false}
+                domain={getDomain()}
+                allowDataOverflow={true}
+                scale={logScale ? 'linear' : undefined}
+              >
             <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
               {dataViewOptions.find(opt => opt.value === distributionGraphView)?.label}
             </Label>
@@ -456,7 +519,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentData, distributionGraphView, topXGenotype, currentSliderValue, currentColorPallete, colourPattern]);
+  }, [currentData, distributionGraphView, topXGenotype, currentSliderValue, currentColorPallete, colourPattern, computedTopXGenotype, logScale, yAxisSliderValue, maxDataValue]);
 
   // console.log(currentTooltip);
 
@@ -469,6 +532,25 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         <div className={classes.rightSide}>
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
           <SliderSizes value={'GD'} style={{ width: '100%' }} label={sliderLabel} />
+          <FormGroup className={classes.formGroup}>
+              <FormControlLabel
+                label={<Typography variant="caption">Change the y-axis scale</Typography>}
+                control={<Switch checked={logScale} onChange={handleSwitchScale} />}
+              />
+            </FormGroup>
+            {logScale ? (
+              <>
+                <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+                <Slider
+                  value={yAxisSliderValue}
+                  onChange={handleSliderChangeDataView}
+                  step={1}
+                  min={0}
+                  max={distributionGraphView === 'number'? maxDataValue : 100}
+                  valueLabelDisplay="auto"
+                />
+              </>
+            ) : null}
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>

@@ -12,6 +12,7 @@ import {
   Switch,
   Tooltip,
   Typography,
+  Slider
 } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
@@ -53,6 +54,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [logScale, setLogScale] = useState(false);
+  const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
 
   // const [colourPattern, setColourPattern] = useState(false);
   const [lineStyle, setLineStyle] = useState('');
@@ -117,9 +119,13 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     return drugsINTS.filter(item => item !== 'Pansusceptible'); // Default fallback
   }
 
-  function getDomain(max = null) {
-    return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
-  }
+ function getDomain(max = null) {
+   if (trendsGraphView === 'number') {
+     return logScale? [yAxisSliderValue[0], yAxisSliderValue[1] ?? max ?? 'dataMax'] : trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
+   }
+   // percentage view -> zoomable 0–100
+   return [yAxisSliderValue[0], yAxisSliderValue[1]];
+ }
 
   const yearsData = useMemo(() => {
     return (
@@ -212,6 +218,19 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     return slicedDataArray;
   }, [yearsData, topGenesSlice]);
 
+  const maxDataValue = useMemo(() => {
+    if (!slicedData || slicedData.length === 0) return 100;
+    let max = 0;
+    slicedData.forEach(item => {
+      Object.keys(item).forEach(key => {
+        if (!['name', 'totalCount', 'resistantCount'].includes(key)) {
+          if (item[key] > max) max = item[key];
+        }
+      });
+    });
+    return max;
+  }, [slicedData]);
+
   function getData() {
     if (trendsGraphView === 'number') {
       return slicedData;
@@ -235,6 +254,10 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   function handleChangeDataView(event) {
     dispatch(setTrendsGraphView(event.target.value));
   }
+
+    function handleSliderChangeDataView(event) {
+      setYAxisSliderValue(event.target.value);
+    }
 
   function handleChangeDrugClass(event) {
     setCurrentTooltip(null);
@@ -359,7 +382,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                 allowDecimals={false}
                 domain={getDomain()}
                 allowDataOverflow={true}
-                scale={logScale ? 'sqrt' : undefined}
+                scale={logScale ? 'linear' : undefined}
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   {dataViewOptionsGenomes.find(option => option.value === trendsGraphView).label}
@@ -472,7 +495,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale, colourPattern, lineStyle]);
+  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale, colourPattern, lineStyle, yAxisSliderValue]);
 
   return (
     <CardContent className={classes.markerTrendsGraph}>
@@ -489,6 +512,19 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
               control={<Switch checked={logScale} onChange={handleSwitchScale} />}
             />
           </FormGroup>
+          {logScale ? (
+            <>
+              <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+              <Slider
+                value={yAxisSliderValue}
+                onChange={handleSliderChangeDataView}
+                step={1}
+                min={0}
+                max={trendsGraphView === 'number'? maxDataValue : 100}
+                valueLabelDisplay="auto"
+              />
+            </>
+          ) : null}
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
