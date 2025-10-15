@@ -331,7 +331,7 @@ export const DownloadData = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return currentColorPallete[genotype] || '#F5F4F6';
+    return currentColorPallete[genotype]  || colorPalleteKO[KOTrendsGraphPlotOption][genotype] || '#F5F4F6';
   }
   const currentColorPallete = useMemo(() => {
     const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
@@ -567,14 +567,7 @@ export const DownloadData = () => {
         let fillColor;
 
         if (isGenotype) {
-          if (legend === 'Other') {
-            fillColor = '#F5F4F6';
-          } else if (KOForFilterSelected && KOForFilterSelected.includes(legend)) {
-            const colorMap = colorPalleteKO[KOTrendsGraphPlotOption] || {};
-            fillColor = colorMap[legend] || getGenotypeColor(legend);
-          } else {
-            fillColor = getGenotypeColor(legend);
-          }
+          fillColor = legend === 'Other' ? '#F5F4F6' : getGenotypeColor(legend);
         } else if (isDrug) {
           fillColor = getColorForDrug(legend, colourPattern);
         } else if (isVariable) {
