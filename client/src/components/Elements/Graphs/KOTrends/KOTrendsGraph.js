@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography, Slider , FormGroup, FormControlLabel, Switch} from '@mui/material';
 import { useStyles } from './KOTrendsGraphMUI';
 import {
   Bar,
@@ -46,6 +46,9 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
+  const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
+  const [logScale, setLogScale] = useState(false);
+
 
   const dispatch = useAppDispatch();
   const KOTrendsGraphView = useAppSelector(state => state.graph.KOTrendsGraphView);
@@ -99,9 +102,9 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentData]);
 
-  function getDomain() {
-    return KOTrendsGraphView === 'number' ? undefined : [0, 100];
-  }
+  // function getDomain() {
+  //   return KOTrendsGraphView === 'number' ? undefined : [0, 100];
+  // }
 
   //  const updateSlider = (value) =>{
   //   setCurrentSliderValue(value);
@@ -119,6 +122,26 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
   //   return `url(#pattern-${patternType}-${genName})`;
   // };
 
+    
+  function getDomain(max = null) {
+    if (KOTrendsGraphView === 'number') {
+      return logScale? [yAxisSliderValue[0], yAxisSliderValue[1] ?? max ?? 'dataMax'] : KOTrendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
+    }
+    // percentage view -> zoomable 0–100
+    return [yAxisSliderValue[0], yAxisSliderValue[1]];
+  }
+
+  function handleSwitchScale(event) {
+    setCurrentTooltip(null);
+    setLogScale(event.target.checked);
+  }
+
+  function handleSliderChangeDataView(event) {
+    setYAxisSliderValue(event.target.value);
+  }
+  
+
+
   const computedTopXKO = useMemo(() => {
     const map = new Map();
     currentData.forEach(cur => {
@@ -135,6 +158,35 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
       .map(([key]) => key)
       .filter(key => key != null && key !== undefined && key !== '' && key !== '-' && key.toString().trim() !== '');
   }, [currentData, currentSliderValueKOT]);
+
+
+  const maxDataValue = useMemo(() => {
+    if (!currentData || currentData.length === 0) return 100;
+    
+    // For percentage view, max is always 100
+    if (KOTrendsGraphView === 'percentage') return 100;
+    
+    // For number view, find the max value across all data points
+    let max = 0;
+    currentData.forEach(item => {
+      let yearTotal = 0;
+      Object.entries(item).forEach(([key, value]) => {
+        if (!['name', 'count'].includes(key)) {
+          if (typeof value === 'number') {
+            yearTotal += value;
+            if (value > max) max = value;
+          }
+        }
+      });
+      // Also check the total for the year as it might be higher than individual values
+      if (yearTotal > max) max = yearTotal;
+    });
+
+    // Round up to nearest nice number for better axis display
+    const niceMax = Math.ceil(max / 10) * 10;
+    return niceMax;
+  }, [currentData, KOTrendsGraphView]);
+
 
   useEffect(() => {
     // if (!arraysEqual(computedTopXKO, topXKO)) {
@@ -400,8 +452,24 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
           </defs>
 
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
-          <YAxis domain={getDomain()} allowDataOverflow allowDecimals={false}>
+              <XAxis
+                tickCount={20}
+                allowDecimals={false}
+                padding={{ left: 20, right: 20 }}
+                dataKey="name"
+                domain={(computedTopXKO ?? []).length > 0 ? ['dataMin', 'dataMax'] : undefined}
+                interval={'preserveStartEnd'}
+                tick={{ fontSize: 14 }}
+              />
+              <YAxis
+                tickCount={logScale ? 8 : 6}
+                padding={{ top: 20, bottom: 20 }}
+                allowDecimals={false}
+                domain={getDomain()}
+                allowDataOverflow={true}
+                scale={logScale ? 'linear' : undefined}
+              >
+
             <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
               {dataViewOptions.find(opt => opt.value === KOTrendsGraphView)?.label}
             </Label>
@@ -479,7 +547,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
         </BarChart>
       </ResponsiveContainer>
     );
-  }, [currentData, KOTrendsGraphView, topXKO, currentSliderValueKOT, colorPallete, colourPattern]);
+  }, [currentData, KOTrendsGraphView, topXKO, currentSliderValueKOT, colorPallete, colourPattern, computedTopXKO, logScale, yAxisSliderValue, maxDataValue]);
     
 return (
     <CardContent className={classes.koTrendsGraph}>
@@ -489,6 +557,25 @@ return (
         </div>
         <div className={classes.rightSide}>
           <SliderSizes value={'KOT'} style={{ width: '100%' }} label={sliderLabel} />
+            <FormGroup className={classes.formGroup}>
+              <FormControlLabel
+                label={<Typography variant="caption">Change the y-axis scale</Typography>}
+                control={<Switch checked={logScale} onChange={handleSwitchScale} />}
+              />
+            </FormGroup>
+            {logScale ? (
+              <>
+                <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+                <Slider
+                  value={yAxisSliderValue}
+                  onChange={handleSliderChangeDataView}
+                  step={1}
+                  min={0}
+                  max={KOTrendsGraphView === 'number'? maxDataValue : 100}
+                  valueLabelDisplay="auto"
+                />
+              </>
+            ) : null}
 
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
