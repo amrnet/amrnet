@@ -1,0 +1,143 @@
+{
+  "appTitle": "AMRnet",
+  "welcomeMessage": "Welcome to AMRnet dashboard",
+  "dashboard": {
+    "title": "AMRnet Dashboard ",
+    "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system."
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "team": "Team",
+    "contact": "Contact",
+    "database": "Database",
+    "userguide": "User Guide"
+  },
+  "team": {
+    "post": {
+      "Principal Investigator": "Principal Investigator",
+      "Genomic Epidemiologist": "Genomic Epidemiologist",
+      "Lead Software Engineer/Computational Biologist": "Lead Software Engineer/Computational Biologist",
+      "Software Engineer": "Software Engineer",
+      "Policy Engagement": "Policy Engagement",
+      "Bioinformatician": "Bioinformatician",
+      "Research Software Engineer": "Research Software Engineer"
+    }
+  },
+  "about": {
+    "title": "About",
+    "pageTitle": "About AMRnet",
+    "subtitle": "Antimicrobial Resistance Surveillance Network",
+    "paragraph1": "The AMRnet dashboard aims to make high-quality, robust and reliable genome-derived AMR surveillance data accessible to a wide audience. Visualisations are geared towards showing national annual AMR prevalence estimates and trends over time, which can be broken down and explored in terms of underlying genotypes and resistance mechanisms. We do not generate sequence data, but we hope that by making publicly deposited data more accessible and useful, we can encourage and motivate more sequencing and data sharing.",
+    "paragraph2": {
+      "intro": "We started with Salmonella Typhi and built on our",
+      "typhiNet": "TyphiNET",
+      "middle1": "dashboard which uses data that have been curated by the",
+      "globalTyphoid": "Global Typhoid Genomics Consortium",
+      "middle2": "(to improve data quality and identify which datasets are suitable for inclusion) and analysed in",
+      "pathogenwatch1": "Pathogenwatch",
+      "middle3": "(to call AMR determinants and lineages from sequence data). Additional organisms have been added, using data sourced from",
+      "pathogenwatch2": "Pathogenwatch",
+      "middle4": ", and",
+      "enterobase": "Enterobase",
+      "end": ", however these dashboards are in beta mode as data curation is still ongoing. More organisms will be added throughout 2025."
+    },
+    "paragraph3": {
+      "text": "A major barrier to using public data for surveillance is the need for careful data curation in order to identify which datasets are relevant for inclusion in pooled estimates of AMR and genotype prevalence. This kind of curation can benefit a wide range of users and we plan to work with additional organism-specific communities to curate data, and to contribute to wider efforts around metadata standards. Please get in touch if you would like to work with us (",
+      "contact": "amrnetdashboard@gmail.com",
+      "end": ")"
+    },
+    "paragraph4": {
+      "text": "Find out more about the project team (based at London School of Hygiene and Tropical Medicine), and our policy advisory group,",
+      "linkText": "here",
+      "end": "."
+    },
+    "paragraph5": {
+      "intro": "The dashboard code is open access and available in",
+      "github": "GitHub",
+      "middle1": ". along with",
+      "userGuide": "user guide",
+      "middle2": "and",
+      "api": "API",
+      "middle3": "to access the data. Issues and feature requests can be posted",
+      "issues": "here",
+      "end": "."
+    },
+    "citation": {
+      "title": "Citation for AMRnet",
+      "intro": "If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kathryn Holt),",
+      "githubLabel": "GitHub:",
+      "githubUrl": "https://github.com/amrnet/amrnet",
+      "doiLabel": "DOI:",
+      "doiUrl": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+    },
+    "funding": "The project is funded by the Wellcome Trust (grant 226432/Z/22/Z).",
+    "links": {
+      "typhiNet": "https://www.typhi.net",
+      "globalTyphoidGenomics": "http://typhoidgenomics.org",
+      "pathogenWatch": "http://pathogen.watch",
+      "enterobase": "https://enterobase.warwick.ac.uk/",
+      "contact": "mailto:amrnetdashboard@gmail.com",
+      "teamInfo": "https://www.lshtm.ac.uk/amrnet",
+      "github": "https://github.com/amrnet/amrnet",
+      "userGuide": "https://amrnet.readthedocs.io/en/latest",
+      "api": "https://amrnet.readthedocs.io/en/latest/data.html",
+      "issues": "https://github.com/amrnet/amrnet/issues",
+      "githubRepo": "https://github.com/amrnet/amrnet",
+      "doi": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+    }
+  },
+  "formValidation": {
+    "requiredField": "This field is required.",
+    "invalidEmail": "Please enter a valid email address."
+  },
+  "notifications": {
+    "success": "Operation successful!",
+    "error": "An error occurred. Please try again."
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View"
+  },
+  "table": {
+    "noData": "No data available.",
+    "rowsPerPage": "Rows per page:",
+    "of": "of"
+  },
+  "login": {
+    "title": "Login to AMRnet",
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Login",
+    "forgotPassword": "Forgot Password?",
+    "registerPrompt": "Don't have an account?",
+    "registerLink": "Register here"
+  },
+  "register": {
+    "title": "Register for AMRnet",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "registerButton": "Register",
+    "loginPrompt": "Already have an account?",
+    "loginLink": "Login here"
+  },
+  "profile": {
+    "title": "User Profile",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "lastLogin": "Last Login"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "notifications": "Notifications"
+  }
+}

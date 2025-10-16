@@ -1,4 +1,5 @@
 import './App.css';
+import './i18n'; // Import i18n configuration
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import registerServiceWorker from './registerServiceWorker';

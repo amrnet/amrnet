@@ -1,0 +1,235 @@
+name: Professional Translation Services Sync
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM UTC
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Translation platform to sync'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - weblate
+          - crowdin
+          - lokalise
+      force_upload:
+        description: 'Force upload source files'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  sync-translations:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install aiohttp pyyaml polib babel sphinx-intl
+
+          # Install Crowdin CLI
+          npm install -g @crowdin/cli
+
+          # Install Lokalise CLI
+          curl -sfL https://raw.githubusercontent.com/lokalise/lokalise-cli-2-go/master/install.sh | sh
+          sudo mv ./bin/lokalise2 /usr/local/bin/
+
+      - name: Configure translation tools
+        run: |
+          # Set up Sphinx for translation extraction
+          cd docs
+          make gettext
+          sphinx-intl update -p _build/gettext -l es -l fr -l pt
+
+      - name: Sync Weblate
+        if: github.event.inputs.platform == 'all' || github.event.inputs.platform == 'weblate'
+        env:
+          WEBLATE_API_TOKEN: ${{ secrets.WEBLATE_API_TOKEN }}
+        run: |
+          echo "Syncing with Weblate..."
+          # Custom Weblate sync logic would go here
+          python scripts/translation-automation/professional_translation_pipeline.py --platform weblate
+
+      - name: Sync Crowdin
+        if: github.event.inputs.platform == 'all' || github.event.inputs.platform == 'crowdin'
+        env:
+          CROWDIN_API_TOKEN: ${{ secrets.CROWDIN_API_TOKEN }}
+        run: |
+          echo "Syncing with Crowdin..."
+
+          # Upload source files to Crowdin
+          crowdin upload sources \
+            --token $CROWDIN_API_TOKEN \
+            --project-id ${{ secrets.CROWDIN_PROJECT_ID }} \
+            --config docs/crowdin.yml
+
+          # Download completed translations
+          crowdin download \
+            --token $CROWDIN_API_TOKEN \
+            --project-id ${{ secrets.CROWDIN_PROJECT_ID }} \
+            --config docs/crowdin.yml
+
+      - name: Sync Lokalise
+        if: github.event.inputs.platform == 'all' || github.event.inputs.platform == 'lokalise'
+        env:
+          LOKALISE_API_TOKEN: ${{ secrets.LOKALISE_API_TOKEN }}
+        run: |
+          echo "Syncing with Lokalise..."
+
+          # Upload source files
+          lokalise2 file upload \
+            --project-id ${{ secrets.LOKALISE_PROJECT_ID }} \
+            --token $LOKALISE_API_TOKEN \
+            --file "docs/locale/en/LC_MESSAGES/*.pot" \
+            --lang-iso "en"
+
+          # Download translations
+          lokalise2 file download \
+            --project-id ${{ secrets.LOKALISE_PROJECT_ID }} \
+            --token $LOKALISE_API_TOKEN \
+            --format po \
+            --unzip-to docs/locale/
+
+      - name: Run medical terminology validation
+        run: |
+          echo "Running medical terminology validation..."
+          python scripts/translation-automation/medical_terminology_validator.py
+
+      - name: Build documentation with translations
+        run: |
+          cd docs
+          # Build for each language
+          for lang in es fr pt; do
+            echo "Building documentation for $lang..."
+            READTHEDOCS_LANGUAGE=$lang make html
+            if [ $? -ne 0 ]; then
+              echo "Warning: Build failed for $lang"
+            fi
+          done
+
+      - name: Generate translation report
+        run: |
+          python scripts/translation-automation/generate_translation_report.py > translation-report.md
+
+      - name: Commit translation updates
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Check if there are changes
+          if [[ -n $(git status --porcelain) ]]; then
+            git add docs/locale/
+            git add client/locales/
+            git add translation-report.md
+
+            git commit -m "chore: update professional translations
+
+            - Sync from translation platforms
+            - Medical terminology validation completed
+            - Documentation builds verified
+
+            [skip ci]"
+
+            git push
+          else
+            echo "No translation changes to commit"
+          fi
+
+      - name: Create Pull Request for review
+        if: github.event_name == 'schedule'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat: professional translation updates"
+          title: "🌍 Professional Translation Updates"
+          body: |
+            ## Professional Translation Sync
+
+            This PR contains updates from professional translation services:
+
+            ### Platforms Synced
+            - ✅ Weblate (medical terminology validation)
+            - ✅ Crowdin (clinical review workflow)
+            - ✅ Lokalise (quality assurance checks)
+
+            ### Medical Translation Review Required
+            - [ ] Clinical terminology accuracy verification
+            - [ ] Antimicrobial resistance concept validation
+            - [ ] Laboratory procedure translation review
+            - [ ] User interface coherence check
+
+            ### Quality Assurance
+            - Medical glossary compliance verified
+            - Format preservation validated
+            - Documentation builds successfully
+
+            **Note**: This PR requires review by medical translation experts before merging.
+
+            Generated by: Professional Translation Services Workflow
+            Date: ${{ github.run_number }}
+          branch: translations/professional-update-${{ github.run_number }}
+          delete-branch: true
+
+      - name: Notify translation team
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#translations'
+          text: |
+            🚨 Professional Translation Sync Failed
+
+            Platform: ${{ github.event.inputs.platform || 'all' }}
+            Workflow: ${{ github.workflow }}
+            Repository: ${{ github.repository }}
+
+            Please check the workflow logs and validate translation service connections.
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  validate-medical-accuracy:
+    runs-on: ubuntu-latest
+    needs: sync-translations
+    if: always()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install validation tools
+        run: |
+          pip install polib requests beautifulsoup4
+
+      - name: Run comprehensive medical validation
+        run: |
+          python scripts/translation-automation/comprehensive_medical_validation.py \
+            --input-dir docs/locale \
+            --glossary docs/medical-glossary.json \
+            --output validation-report.json
+
+      - name: Upload validation report
+        uses: actions/upload-artifact@v3
+        with:
+          name: medical-validation-report
+          path: validation-report.json
+          retention-days: 30

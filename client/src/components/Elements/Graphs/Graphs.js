@@ -1,3 +1,4 @@
+import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -14,35 +15,28 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { useStyles } from './GraphsMUI';
-import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
-import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
-import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import domtoimage from 'dom-to-image';
-import LogoImg from '../../../assets/img/logo-prod.png';
 import download from 'downloadjs';
+import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { Circles } from 'react-loader-spinner';
+import LogoImg from '../../../assets/img/logo-prod.png';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import {
-  drugsST,
-  drugsKP,
-  drugsSTLegendsOnly,
-  drugsNGLegensOnly,
-  drugsINTSLegendsOnly,
-  drugsKlebLegendsOnly,
-} from '../../../util/drugs';
-import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
-import {
-  colorForDrugClassesKP,
   colorForDrugClassesNG,
   colorForDrugClassesST,
+  colorForMarkers,
   getColorForGenotype,
 } from '../../../util/colorHelper';
-import { isTouchDevice } from '../../../util/isTouchDevice';
-import { graphCards } from '../../../util/graphCards';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
-import { Circles } from 'react-loader-spinner';
+import { drugsKP, drugsST } from '../../../util/drugs';
+import { graphCards } from '../../../util/graphCards';
+import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
+import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
+import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
+import { useStyles } from './GraphsMUI';
+import GenotypePatternRect from '../../../components/Elements/Graphs/GenotypePatternRect.js';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -50,7 +44,7 @@ export const Graphs = () => {
   // const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currentTab, setCurrentTab] = useState('');
+  const [currentTab, setCurrentTab] = useState('DRT'); // Initialize with valid default
   const [showFilter, setShowFilter] = useState(true);
 
   const dispatch = useAppDispatch();
@@ -91,19 +85,26 @@ export const Graphs = () => {
   const starttimeDRT = useAppSelector(state => state.graph.starttimeDRT);
   const actualGenomesGD = useAppSelector(state => state.graph.actualGenomesGD);
   const actualGenomesDRT = useAppSelector(state => state.graph.actualGenomesDRT);
+  const actualGenomesKOT = useAppSelector(state => state.graph.actualGenomesKOT);
   const starttimeRDT = useAppSelector(state => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
   const actualGenomesRDT = useAppSelector(state => state.graph.actualGenomesRDT);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const loadingData = useAppSelector(state => state.dashboard.loadingData);
   const loadingMap = useAppSelector(state => state.map.loadingMap);
-  const downloadForPDF = useAppSelector(state => state.graph.download);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
   const resetBool = useAppSelector(state => state.graph.resetBool);
-
+  const colorPalleteCgST = useAppSelector(state => state.dashboard.colorPalleteCgST);
+  const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
+  const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
+  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const convergenceData = useAppSelector(state => state.graph.convergenceData);
+  const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  
   useEffect(() => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
@@ -112,13 +113,13 @@ export const Graphs = () => {
 
   useEffect(() => {
     const runAsync = async () => {
-      if (downloadForPDF) {
+      if (loadingPDF) {
         dispatch(setDownload(false));
       }
     };
     runAsync();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [downloadForPDF]);
+  }, [loadingPDF]);
 
   useEffect(() => {
     setShowFilter(true);
@@ -130,23 +131,45 @@ export const Graphs = () => {
 
   const currentCard = useMemo(() => organismCards.find(x => x.id === currentTab), [currentTab, organismCards]);
 
-  function getColor(item) {
-    if (currentCard.id === 'KOT') {
-      return colorPalleteKO[KOTrendsGraphPlotOption][item] || '#F5F4F6';
+  function getGenotypeColor(genotype) {
+    return  currentColorPallete[genotype] || '#F5F4F6';
+  }
+  const currentColorPallete = useMemo(() => {
+    const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
+
+    if (!isSpecialOrganism) {
+      return colorPallete;
     }
 
-    return organism === 'styphi' ? getColorForGenotype(item) : colorPallete[item] || '#F5F4F6';
-  }
+    if (distributionGraphVariable === 'Sublineage') {
+      return colorPalleteSublineages;
+    }
+
+    if (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE') {
+      return colorPalleteCgST;
+    }
+
+    return colorPallete;
+  }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
+
+  // function getColor(item) {
+  //   if (currentCard.id === 'KOT') {
+  //     return colorPalleteKO[KOTrendsGraphPlotOption][item] || '#F5F4F6';
+  //   }
+
+  //   return organism === 'styphi' ? getColorForGenotype(item) : colorPallete[item] || '#F5F4F6';
+  // }
 
   const getAxisLabel = () => {
     switch (organism) {
       case 'decoli':
       case 'shige':
-        return 'Selected Pathotypes :';
+        return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
       case 'sentericaints':
-        return 'Selected Serotypes :';
+      case 'kpneumo':
+        return `Selected Serotypes : ${selectedLineages.join(', ')}`;
       case 'ecoli':
-        return 'Selected Genotypes :';
+        return `Selected Genotypes : ${selectedLineages.join(', ')}`;
       default:
         return '';
     }
@@ -156,14 +179,60 @@ export const Graphs = () => {
     switch (organism) {
       case 'styphi':
         return colorForDrugClassesST[determinantsGraphDrugClass];
-      case 'kpneumo':
-        return colorForDrugClassesKP[determinantsGraphDrugClass];
+      // case 'kpneumo':
+      //   return colorForDrugClassesKP[determinantsGraphDrugClass];
       case 'ngono':
         return colorForDrugClassesNG[determinantsGraphDrugClass];
       default:
         return [];
     }
   }
+
+  // function drawLegend({
+  //   legendData,
+  //   context,
+  //   factor,
+  //   mobileFactor,
+  //   yPosition,
+  //   isGenotype = false,
+  //   isDrug = false,
+  //   isVariable = false,
+  //   isGen = false,
+  //   xSpace,
+  // }) {
+  //   legendData.forEach((legend, i) => {
+  //     const yFactor = (i % factor) * 24;
+  //     const xFactor = Math.floor(i / factor) * xSpace;
+
+  //     ((context.fillStyle = isGenotype
+  //       ? GenotypePatternRect(legend, legendData)
+  //       : isDrug
+  //         ? getColorForDrug(legend, colourPattern)
+  //         : isVariable
+  //           ? convergenceColourPallete(legend, colourPattern)
+  //           : isGen
+  //             ? i === legendData.length - 1
+  //               ? '#F5F4F6'
+  //               : colorForMarkers(i, colourPattern)
+  //             : legend.color),
+  //       context.beginPath());
+  //      {const radius = !colourPattern ? 5 : (i % 2 !== 0 ? 6 : 4.5);
+  //       context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, radius, 0, 2 * Math.PI);
+  //       }      
+  //     context.fill();
+  //     context.closePath();
+  //     context.fillStyle = 'black';
+  //     context.fillText(
+  //       isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
+  //       61 + xFactor,
+  //       yPosition + 4 - mobileFactor + yFactor,
+  //     );
+  //   });
+  // }
+
+  // Replace the drawLegend function in Graphs.jsx with this updated version:
+
+// Replace the drawLegend function in Graphs.jsx with this updated version:
 
   function drawLegend({
     legendData,
@@ -174,29 +243,148 @@ export const Graphs = () => {
     isGenotype = false,
     isDrug = false,
     isVariable = false,
+    isGen = false,
     xSpace,
+    topConvergenceData = [], 
+    genotypesForFilterSelected = [], 
+    KOForFilterSelected = [], 
   }) {
+    const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+    const getPatternTypeForGenotype = (
+      legend,
+      topConvergenceData = [],
+      genotypesForFilterSelected = [],
+      KOForFilterSelected = []
+    ) => {
+      let patternIndex = 0;
+
+      if (topConvergenceData?.length > 0) {
+        const idx = topConvergenceData.findIndex(item => item.colorLabel === legend);
+        if (idx !== -1) patternIndex = idx % patternTypes.length;
+      } else if (genotypesForFilterSelected?.length > 0) {
+        const idx = genotypesForFilterSelected.indexOf(legend);
+        if (idx !== -1) patternIndex = idx % patternTypes.length;
+      } else if (KOForFilterSelected?.length > 0) {
+        const idx = KOForFilterSelected.indexOf(legend);
+        if (idx !== -1) patternIndex = idx % patternTypes.length;
+      }
+
+      return patternTypes[patternIndex];
+    };
+
     legendData.forEach((legend, i) => {
       const yFactor = (i % factor) * 24;
       const xFactor = Math.floor(i / factor) * xSpace;
 
-      context.fillStyle = isGenotype
-        ? getColor(legend)
-        : isDrug
-        ? getColorForDrug(legend)
-        : isVariable
-        ? convergenceColourPallete[legend]
-        : legend.color;
-      context.beginPath();
-      context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, 5, 0, 2 * Math.PI);
-      context.fill();
-      context.closePath();
+      // Determine base color first
+      let baseColor;
+      if (isGenotype) {
+        baseColor = legend === 'Other' ? '#F5F4F6' : 
+                   KOForFilterSelected && KOForFilterSelected.includes(legend) ? 
+                   (colorPalleteKO[KOTrendsGraphPlotOption]?.[legend] || getGenotypeColor(legend)) :
+                   getGenotypeColor(legend);
+      } else if (isDrug) {
+        baseColor = getColorForDrug(legend, colourPattern);
+      } else if (isVariable) {
+        baseColor = convergenceColourPallete[legend] || '#F5F4F6';
+      } else if (isGen) {
+        baseColor = i === legendData.length - 1 ? '#F5F4F6' : colorForMarkers(i, colourPattern);
+      } else {
+        baseColor = legend.color || '#F5F4F6';
+      }
+
+      // Check if we should use patterns
+      const usePattern = colourPattern && (isGenotype || isVariable);
+
+      if (usePattern) {
+        const patternType = getPatternTypeForGenotype(
+          legend,
+          topConvergenceData,
+          genotypesForFilterSelected,
+          KOForFilterSelected
+        );
+
+        const patternCanvas = document.createElement('canvas');
+        const patternCtx = patternCanvas.getContext('2d');
+        
+        // Set base pattern size
+        const patternSize = patternType === 'solid' ? 16 : 8;
+        patternCanvas.width = patternSize;
+        patternCanvas.height = patternSize;
+        
+        // Fill base color
+        patternCtx.fillStyle = baseColor;
+        patternCtx.fillRect(0, 0, patternSize, patternSize);
+
+        // Apply pattern overlay
+        switch (patternType) {
+          case 'stripes':
+            patternCtx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            patternCtx.save();
+            patternCtx.translate(patternSize/2, patternSize/2);
+            patternCtx.rotate(45 * Math.PI / 180);
+            patternCtx.fillRect(-0.5, -patternSize, 1, patternSize * 2);
+            patternCtx.restore();
+            break;
+            
+          case 'dots':
+            patternCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            patternCtx.beginPath();
+            patternCtx.arc(patternSize/2, patternSize/2, 1.5, 0, 2 * Math.PI);
+            patternCtx.fill();
+            [[0,0], [patternSize,0], [0,patternSize], [patternSize,patternSize]].forEach(([x,y]) => {
+              patternCtx.beginPath();
+              patternCtx.arc(x, y, 0.75, 0, 2 * Math.PI);
+              patternCtx.fill();
+            });
+            break;
+            
+          case 'cross':
+            patternCtx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            patternCtx.lineWidth = 1.5;
+            patternCtx.beginPath();
+            patternCtx.moveTo(0, 0);
+            patternCtx.lineTo(patternSize, patternSize);
+            patternCtx.moveTo(patternSize, 0);
+            patternCtx.lineTo(0, patternSize);
+            patternCtx.stroke();
+            break;
+        }
+
+        const pattern = context.createPattern(patternCanvas, 'repeat');
+        context.fillStyle = pattern;
+
+        // Draw rectangle with pattern
+        const rectX = 46 + xFactor;
+        const rectY = yPosition - 8 - mobileFactor + yFactor;
+        const rectSize = 16;
+        
+        context.fillRect(rectX, rectY, rectSize, rectSize);
+        context.strokeStyle = '#999';
+        context.lineWidth = 0.5;
+        context.strokeRect(rectX, rectY, rectSize, rectSize);
+        
+      } else {
+        // Draw circle for non-pattern legends
+        context.fillStyle = baseColor;
+        context.beginPath();
+        const radius = !colourPattern ? 5 : (i % 2 !== 0 ? 6 : 4.5);
+        context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, radius, 0, 2 * Math.PI);
+        context.fill();
+        context.closePath();
+      }
+
+      // Draw text label
       context.fillStyle = 'black';
-      context.fillText(
-        isGenotype || isDrug || isVariable ? legend : legend.name,
-        61 + xFactor,
-        yPosition + 4 - mobileFactor + yFactor,
-      );
+      const textX = usePattern ? 65 + xFactor : 61 + xFactor;
+      const textY = yPosition + 4 - mobileFactor + yFactor;
+      
+      const textContent = isGenotype || isDrug || isVariable ? 
+                         String(legend).replaceAll('β', 'B') :
+                         isGen ? String(legend) :
+                         legend.name || String(legend);
+      
+      context.fillText(textContent, textX, textY);
     });
   }
 
@@ -285,9 +473,10 @@ export const Graphs = () => {
       } else if (currentCard.id === 'RDT') {
         genotypesFactor = Math.ceil(genotypesForFilter.length / 9);
         heightFactor += genotypesFactor * 22 + 50;
-      } else if (currentCard.id === 'BG') {
+      } else if (currentCard.id === 'convergence-graph') {
         variablesFactor = Math.ceil(Object.keys(convergenceColourPallete).length / 3);
         heightFactor += variablesFactor * 22;
+        // BG is replaced from CVM for BubbleGeographicGraph
       }
       ///TODO: improve the code below as its hardcode
       if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id))
@@ -319,13 +508,16 @@ export const Graphs = () => {
       ctx.font = '14px Montserrat';
       ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 95);
       ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 115);
-      ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 135);
+      // ctx.fillText(`${getAxisLabel()} ` + selectedLineages.join(', '), canvas.width / 2, 135);
+      ctx.fillText(`${getAxisLabel()} `, canvas.width / 2, 135);
+      //  Refrence Dashboard comment line 773 : unable to use actualGenomesGD, actualGenomesDRT, actualGenomesRD
+
       if (currentCard.id === 'GD') {
         ctx.fillText(`Time period: ${starttimeGD} to ${endtimeGD}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
       } else if (currentCard.id === 'KOT') {
         ctx.fillText(`Time period: ${startTimeKOT} to ${endTimeKOT}`, canvas.width / 2, 154);
-        ctx.fillText(`Total ${actualGenomesGD} genomes`, canvas.width / 2, 172);
+        ctx.fillText(`Total ${actualGenomesKOT} genomes`, canvas.width / 2, 172);
       } else if (currentCard.id === 'DRT') {
         ctx.fillText(`Time period: ${starttimeDRT} to ${endtimeDRT}`, canvas.width / 2, 154);
         ctx.fillText(`Total ${actualGenomesDRT} genomes`, canvas.width / 2, 172);
@@ -341,7 +533,7 @@ export const Graphs = () => {
       if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
       if (currentCard.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
       if (currentCard.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
-      if (currentCard.id === 'CVM') {
+      if (currentCard.id === 'convergence-graph') {
         const group = variablesOptions.find(option => option.value === convergenceGroupVariable).label;
         const colour = variablesOptions.find(option => option.value === convergenceColourVariable).label;
         ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
@@ -353,7 +545,7 @@ export const Graphs = () => {
 
       const mobileFactor = matches1000 ? 100 : 0;
       if ('RFWG'.includes(currentCard.id)) {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
         const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
 
         drawLegend({
@@ -366,36 +558,37 @@ export const Graphs = () => {
           isDrug: true,
         });
       } else if ('DRT'.includes(currentCard.id)) {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-        let legendDrugs;
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
 
-        switch (organism) {
-          case 'styphi':
-            legendDrugs = drugsSTLegendsOnly;
-            break;
-          case 'kpneumo':
-            legendDrugs = drugsKlebLegendsOnly;
-            break;
-          case 'ngono':
-            legendDrugs = drugsNGLegensOnly;
-            break;
-          default:
-            legendDrugs = drugsINTSLegendsOnly;
-            break;
-        }
+        // let legendDrugs;
+
+        // switch (organism) {
+        //   case 'styphi':
+        //     legendDrugs = drugsSTLegendsOnly;
+        //     break;
+        //   case 'kpneumo':
+        //     legendDrugs = drugsKlebLegendsOnly;
+        //     break;
+        //   case 'ngono':
+        //     legendDrugs = drugsNGLegendsOnly;
+        //     break;
+        //   default:
+        //     legendDrugs = drugsINTSLegendsOnly;
+        //     break;
+        // }
 
         drawLegend({
-          legendData: legendDrugs,
+          legendData: drugResistanceGraphView,
           context: ctx,
-          factor: 4,
+          factor: 8,
           mobileFactor,
           yPosition: 670,
-          xSpace: 200,
+          xSpace: 400, // Max 14 drugs we have for DRT in any org so we can use factor 8 and space 400 to keep them apart,
           isDrug: true,
         });
       } else if (currentCard.id === 'RDWG') {
         const legendDataRD = drugClassesBars.filter(value => genotypesForFilterSelectedRD.includes(value.name));
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
           legendData: legendDataRD,
@@ -406,8 +599,7 @@ export const Graphs = () => {
           xSpace: 208,
         });
       } else if (currentCard.id === 'GD') {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
         drawLegend({
           legendData: genotypesForFilterSelected,
           context: ctx,
@@ -416,30 +608,30 @@ export const Graphs = () => {
           yPosition: 670,
           isGenotype: true,
           xSpace: orgBasedSpace,
+          genotypesForFilterSelected: genotypesForFilterSelected, // Pass the selected genotypes
         });
       } else if (currentCard.id === 'KOT') {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
           legendData: KOForFilterSelected,
           context: ctx,
           factor: genotypesFactor,
           mobileFactor,
+          KOForFilterSelected: KOForFilterSelected, // Pass the KO selected items
           yPosition: 670,
           isGenotype: true,
           xSpace: orgBasedSpace,
         });
       } else if (currentCard.id === 'RDT') {
-        const legendGenotypes = genotypesForFilter
-          .filter(genotype => topGenotypeSlice.includes(genotype))
-          .map(genotype => genotype);
+        let legendGens = [...topGenesSlice.filter(g => g !== 'None'), ...topGenesSlice.filter(g => g === 'None')];
+        if (organism === 'kenumon') legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
+        console.log('legendGens', topGenesSlice, legendGens);
 
-        const legendGens = drugClassesBars.filter(value => topGenesSlice.includes(value.name));
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
 
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-
-        ctx.fillStyle = 'black';
-        ctx.fillText('GENES:', 50, 675);
+        ctx.fillStyle = '#F5F4F6';
+        // ctx.fillText('GENES:', 50, 675);
         drawLegend({
           legendData: legendGens,
           context: ctx,
@@ -447,46 +639,61 @@ export const Graphs = () => {
           mobileFactor,
           yPosition: 695,
           xSpace: 238,
+          isGen: true,
         });
 
-        ctx.fillStyle = 'black';
-        ctx.fillText('GENOTYPES:', 50, 900);
-        drawLegend({
-          legendData: legendGenotypes,
-          context: ctx,
-          factor: Math.ceil(legendGenotypes.length / 8),
-          mobileFactor,
-          yPosition: 930,
-          isGenotype: true,
-          xSpace: 87,
+        // ctx.fillStyle = 'black';
+        // ctx.fillText('GENOTYPES:', 50, 900);
+        // drawLegend({
+        //   legendData: legendGenotypes,
+        //   context: ctx,
+        //   factor: Math.ceil(legendGenotypes.length / 8),
+        //   mobileFactor,
+        //   yPosition: 930,
+        //   isGenotype: true,
+        //   xSpace: 87,
+        // });
+      // } else if (currentCard.id === 'KO') {
+      //   ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
+      //   drawLegend({
+      //     legendData: colorsForKODiversityGraph,
+      //     context: ctx,
+      //     factor: 5,
+      //     mobileFactor,
+      //     yPosition: 670,
+      //     xSpace: 330,
+      //   });
+      } else if (currentCard.id === 'convergence-graph') {
+        ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
+        
+        // Create ordered legend data based on topConvergenceData order (same as ConvergenceGraph.js)
+        const orderedLegendKeys = [];
+        const seenKeys = new Set();
+        
+        // Get topConvergenceData to maintain the same sequence
+        const topConvergenceDataForLegend = convergenceData.slice(0, currentSliderValueCM);
+        
+        topConvergenceDataForLegend.forEach(item => {
+          if (!seenKeys.has(item.colorLabel)) {
+            orderedLegendKeys.push(item.colorLabel);
+            seenKeys.add(item.colorLabel);
+          }
         });
-      } else if (currentCard.id === 'KO') {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
 
         drawLegend({
-          legendData: colorsForKODiversityGraph,
-          context: ctx,
-          factor: 5,
-          mobileFactor,
-          yPosition: 670,
-          xSpace: 330,
-        });
-      } else if (currentCard.id === 'BG') {
-        ctx.fillRect(0, 660 - mobileFactor, canvas.width, canvas.height);
-
-        drawLegend({
-          legendData: Object.keys(topColorSlice),
+          legendData: orderedLegendKeys,
           context: ctx,
           factor: variablesFactor,
           mobileFactor,
           yPosition: 670,
           xSpace: 270,
           isVariable: true,
+          topConvergenceData: topConvergenceDataForLegend,
         });
       }
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel} - ${currentCard.title}.png`);
+      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}_${currentCard.title}.png`);
     } catch {
       setShowAlert(true);
     } finally {
@@ -518,6 +725,12 @@ export const Graphs = () => {
   //   }
   // };
 
+  // Add validation to ensure currentTab is always valid
+  const safeCurrentTab = useMemo(() => {
+    const validTabs = organismCards.map(card => card.id);
+    return validTabs.includes(currentTab) ? currentTab : validTabs[0] || 'DRT';
+  }, [currentTab, organismCards]);
+
   return (
     <div className={classes.cardsWrapper}>
       <Card className={classes.card}>
@@ -538,8 +751,8 @@ export const Graphs = () => {
                 {actualCountry !== 'All'
                   ? `${actualCountry} (${actualRegion})`
                   : actualRegion === 'All'
-                  ? 'All Regions'
-                  : actualRegion}
+                    ? 'All Regions'
+                    : actualRegion}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
@@ -590,7 +803,7 @@ export const Graphs = () => {
         </CardActions>
         {collapses['all'] && (
           <Tabs
-            value={currentTab}
+            value={safeCurrentTab}
             onChange={handleChangeTab}
             variant="scrollable"
             scrollButtons
@@ -622,19 +835,30 @@ export const Graphs = () => {
         <Collapse in={collapses['all']} timeout="auto">
           <Box className={classes.boxWrapper}>
             {organismCards.map(card => {
+              const isActive = currentTab === card.id;
+              const shouldRender = loadingPDF || isActive;
+
               return (
                 <Box
                   key={`card-${card.id}`}
                   sx={{
-                    position: downloadForPDF ? 'absolute' : currentTab === card.id ? 'relative' : 'absolute',
-                    visibility: downloadForPDF ? 'visible' : currentTab === card.id ? 'visible' : 'hidden',
+                    position: loadingPDF ? 'relative' : isActive ? 'relative' : 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    zIndex: downloadForPDF === true ? 1 : 0,
+                    // Set all cards active when loadingPDF is true to avoid flickering and update PDF
+                    ...(loadingPDF
+                      ? {
+                          opacity: isActive ? 1 : 0,
+                          height: isActive ? 'auto' : 0,
+                          overflow: 'hidden',
+                        }
+                      : {
+                          visibility: isActive ? 'visible' : 'hidden',
+                        }),
                   }}
                 >
-                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  {shouldRender && cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
                 </Box>
               );
             })}

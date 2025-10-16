@@ -1,3 +1,4 @@
+import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -13,56 +14,114 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStyles } from './BubbleGeographicGraphMUI';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Cell,
+  Tooltip as ChartTooltip,
+  LabelList,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  ScatterChart,
-  Scatter,
   ZAxis,
-  Cell,
-  LabelList,
 } from 'recharts';
-import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { darkGrey, hoverColor } from '../../../../util/colorHelper';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
-import { drugAcronyms, drugAcronymsOpposite, markersDrugsKP } from '../../../../util/drugs';
-import { mixColorScale } from '../../Map/mapColorHelper';
-import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
-import { Clear, Close, InfoOutlined } from '@mui/icons-material';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setResetBool } from '../../../../stores/slices/graphSlice';
 import { setYAxisType, setYAxisTypeTrend } from '../../../../stores/slices/mapSlice';
+import { darkGrey, hoverColor } from '../../../../util/colorHelper';
+import { drugClassesRulesNG, drugClassesRulesSTHeatMap, statKeys } from '../../../../util/drugClassesRules';
+import {
+  drugAcronyms,
+  drugAcronymsOpposite,
+  markersDrugsINTS,
+  markersDrugsKP,
+  markersDrugsSH,
+} from '../../../../util/drugs';
+import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
+import { mixColorScale } from '../../Map/mapColorHelper';
+import { useStyles } from './BubbleGeographicGraphMUI';
 
-const kpTrendOptions = markersDrugsKP
-  .map(drug => {
-    const label = drug === 'ESBL' ? 'ESBLs' : drug;
-    return {
-      organism: 'kpneumo',
-      key: drug,
-      value: `kp-trends-${drug.toLowerCase()}`,
-      label: label,
-    };
-  })
-  .sort((a, b) => a.key.localeCompare(b.key));
+// Dynamic trend options generator
+const createTrendOptions = (organism, drugs, labelMap = {}) => {
+  return drugs
+    .map(drug => {
+      const label = labelMap[drug] || drug;
+      return {
+        organism,
+        key: drug,
+        value: `${organism}-trends-${drug.toLowerCase()}`,
+        label: label,
+      };
+    })
+    .sort((a, b) => a.key.localeCompare(b.key));
+};
 
-const stTrendOptions = Object.keys(drugClassesRulesSTHeatMap)
-  .map(drug => {
-    const label = drug === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : drug;
+const organismConfig = {
+  kpneumo: {
+    drugs: markersDrugsKP,
+    labelMap: { ESBL: 'ESBLs' },
+  },
+  styphi: {
+    drugs: Object.keys(drugClassesRulesSTHeatMap),
+    labelMap: {},
+  },
+  ngono: {
+    drugs: Object.keys(drugClassesRulesNG),
+    labelMap: {},
+  },
+  shige: {
+    drugs: markersDrugsSH,
+    labelMap: {},
+  },
+  ecoli: {
+    drugs: markersDrugsSH,
+    labelMap: {},
+  },
+  decoli: {
+    drugs: markersDrugsSH,
+    labelMap: {},
+  },
+  senterica: {
+    drugs: markersDrugsINTS,
+    labelMap: {},
+  },
+};
 
-    return {
-      organism: 'styphi',
-      key: drug,
-      value: `st-trends-${drug.toLowerCase()}`,
-      label: label,
-    };
-  })
-  .sort((a, b) => a.key.localeCompare(b.key));
+// function to get trend options for any organism
+const getAllTrendOptionsForOrganism = organism => {
+  const config = organismConfig[organism];
 
-const allTrendOptions = kpTrendOptions.concat(stTrendOptions);
+  if (!config) {
+    console.warn(`No trend options configuration found for organism: ${organism}`);
+    return [];
+  }
+
+  return createTrendOptions(organism, config.drugs, config.labelMap);
+};
+
+// Generate all trend options
+const kpTrendOptions = getAllTrendOptionsForOrganism('kpneumo');
+const stTrendOptions = getAllTrendOptionsForOrganism('styphi');
+const ngonoTrendOptions = getAllTrendOptionsForOrganism('ngono');
+const shigeTrendOptions = getAllTrendOptionsForOrganism('shige');
+const decoliTrendOptions = getAllTrendOptionsForOrganism('decoli');
+const ecoliTrendOptions = getAllTrendOptionsForOrganism('ecoli');
+const sentericaTrendOptions = getAllTrendOptionsForOrganism('senterica');
+const sentericaintsTrendOptions = getAllTrendOptionsForOrganism('sentericaints');
+
+const trendOptionsMap = {
+  kpneumo: kpTrendOptions,
+  styphi: stTrendOptions,
+  ngono: ngonoTrendOptions,
+  shige: shigeTrendOptions,
+  decoli: decoliTrendOptions,
+  ecoli: ecoliTrendOptions,
+  senterica: sentericaTrendOptions,
+  sentericaints: sentericaintsTrendOptions,
+};
 
 const yOptions = [
   {
@@ -82,7 +141,8 @@ const yOptions = [
   {
     value: 'determinant',
     label: 'Resistance marker',
-    organisms: ['styphi', 'kpneumo'],
+    // Adding market for all organisms
+    organisms: ['styphi', 'kpneumo', 'ngono', 'shige', 'ecoli', 'decoli', 'senterica', 'sentericaints'],
   },
   {
     value: 'pathotype',
@@ -112,14 +172,18 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
   const drugsRegionsData = useAppSelector(state => state.graph.drugsRegionsData);
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
+  const genotypesDrugClassesData = useAppSelector(state => state.graph.genotypesDrugClassesData);
   const yAxisType = useAppSelector(state => state.map.yAxisType);
   const yAxisTypeTrend = useAppSelector(state => state.map.yAxisTypeTrend);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
 
   useEffect(() => {
     setXAxisType('country');
     dispatch(setYAxisType('resistance'));
-  }, [organism, dispatch]);
-
+    dispatch(setResetBool(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [organism, resetBool]);
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
   const drugsData = useMemo(() => {
@@ -129,6 +193,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const resistanceOptions = useMemo(() => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
     const resistance = options.filter(option => option.resistanceView).map(option => option.name);
+
+    if (organism === 'ngono') {
+      resistance.splice(5, 0, ...['XDR', 'MDR']);
+    }
 
     const drugs = {};
 
@@ -156,34 +224,46 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [mapData, mapRegionData, organism, xAxisSelected, xAxisType]);
 
   const markersOptions = useMemo(() => {
-    const drugKey = allTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
+    const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
 
-    const data = drugsData?.[drugKey];
-    const filteredData = data?.filter(x => xAxisSelected.includes(x.name)) ?? [];
-    const drugs = {};
+    const drugKey = organismTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
 
-    filteredData.forEach(obj => {
-      Object.keys(obj).forEach(key => {
-        if (['None', 'name', 'resistantCount', 'totalCount'].includes(key)) {
-          return;
-        }
+    if (!drugKey) return [];
 
-        if (!(key in drugs)) {
-          drugs[key] = obj[key];
-          return;
-        }
+    // Common exclusions for all organisms
+    const EXCLUSIONS = new Set(['None', 'name', 'resistantCount', 'totalCount']);
 
-        drugs[key] += obj[key];
+    // Helper function to aggregate drug data
+    const aggregateDrugs = (dataArray, filterFn = () => true) => {
+      const drugs = {};
+
+      dataArray.filter(filterFn).forEach(item => {
+        Object.entries(item).forEach(([key, value]) => {
+          if (EXCLUSIONS.has(key)) return;
+          drugs[key] = (drugs[key] || 0) + (value || 0);
+        });
       });
-    });
 
-    return (
-      Object.entries(drugs)
-        .filter(x => x[1] > 0)
+      return Object.entries(drugs)
+        .filter(([, count]) => count > 0)
         .sort((a, b) => b[1] - a[1])
-        .map(x => x[0]) ?? []
-    );
-  }, [drugsData, xAxisSelected, yAxisTypeTrend]);
+        .map(([name]) => name);
+    };
+
+    // Get data source based on organism type
+    const isLegacyStructure = ['kpneumo', 'styphi', 'ngono'].includes(organism);
+    // const dataSource = isLegacyStructure
+    //   ? drugsData?.[drugKey]
+    //   : genotypesDrugClassesData[drugKey];
+    const dataSource = drugsData?.[drugKey];
+
+    if (!dataSource) return [];
+
+    // Apply filtering only for legacy structure
+    const filterFn = isLegacyStructure ? item => xAxisSelected.includes(item.name) : () => true;
+
+    return aggregateDrugs(dataSource, filterFn);
+  }, [drugsData, genotypesDrugClassesData, xAxisSelected, yAxisTypeTrend, organism]);
 
   const GLPSColumn = useMemo(
     () => (['serotype', 'pathotype'].includes(yAxisType) ? 'PATHOTYPE' : 'GENOTYPE'),
@@ -226,7 +306,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       case 'resistance':
         return resistanceOptions;
       case 'determinant':
-        return markersOptions.sort() ?? [];
+        return markersOptions ?? [];
       default:
         return (
           Object.entries(GLPSEntries)
@@ -239,7 +319,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const filteredYAxisOptions = useMemo(() => {
     const filteredOptions = yAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
 
-    if (yAxisType === 'serotype' || (yAxisType === 'genotype' && organismHasLotsOfGenotypes)) {
+    if (
+      yAxisType === 'serotype' ||
+      yAxisType === 'determinant' ||
+      (yAxisType === 'genotype' && organismHasLotsOfGenotypes)
+    ) {
       return filteredOptions.slice(0, 20);
     }
 
@@ -287,7 +371,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       case 'resistance':
         return 'drugs';
       case 'determinant':
-        return 'determinants';
+        return 'markers';
       case 'genotype':
         return ['sentericaints', 'senterica'].includes(organism) ? 'lineages' : 'genotypes';
       default:
@@ -304,7 +388,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     dispatch(setYAxisType(value));
 
     if (value === 'determinant') {
-      dispatch(setYAxisTypeTrend(allTrendOptions.filter(x => x.organism === organism)[0].value));
+      const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
+      if (organismTrendOptions.length > 0) {
+        dispatch(setYAxisTypeTrend(organismTrendOptions[0].value));
+      }
     }
   }
 
@@ -345,7 +432,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    if (!showSelectAll) {
+    if (
+      yAxisSelected.length === filteredYAxisOptions.length ||
+      yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+    ) {
       setYAxisSelected([]);
       return;
     }
@@ -371,6 +461,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       case 'ecoli':
       case 'kpneumo':
       case 'styphi':
+      case 'ngono':
         return 70;
       default:
         return 50;
@@ -391,7 +482,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       const item =
         organism === 'ngono' && stat === 'SUS'
           ? 'Susceptible'
-          : Object.keys(drugAcronyms).find(key => drugAcronyms[key] === stat) ?? stat;
+          : (Object.keys(drugAcronyms).find(key => drugAcronyms[key] === stat) ?? stat);
       // const regionCount = mapRegionData.find((x) => x.name === region).count;
 
       const items = [];
@@ -428,7 +519,16 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         }
 
         if (yAxisType === 'determinant') {
-          const count = drugsCountriesData?.[parent]?.find(g => g.name === x.name)?.[item] || 0;
+          // Enhanced to support all organisms
+          let count = 0;
+          if (['kpneumo', 'styphi'].includes(organism)) {
+            count = drugsCountriesData?.[parent]?.find(g => g.name === x.name)?.[item] || 0;
+          } else {
+            const relevantData = genotypesDrugClassesData[parent];
+            if (relevantData) {
+              count = relevantData.reduce((sum, dataItem) => sum + (dataItem[item] || 0), 0);
+            }
+          }
 
           if (count > 0) {
             info['itemCount'] = count;
@@ -456,7 +556,16 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         </div>
       );
     },
-    [GLPSColumn, drugsCountriesData, economicRegions, mapData, organism, xAxisType, yAxisType],
+    [
+      GLPSColumn,
+      drugsCountriesData,
+      genotypesDrugClassesData,
+      economicRegions,
+      mapData,
+      organism,
+      xAxisType,
+      yAxisType,
+    ],
   );
 
   const configuredMapData = useMemo(() => {
@@ -521,22 +630,44 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         }
 
         if (yAxisType === 'determinant') {
-          const drugKey = allTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
-          const locationDrugData = drugsData?.[drugKey];
-          const locationData = locationDrugData?.find(x => x.name === item.name);
+          const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
+          const drugKey = organismTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
 
+          if (!drugKey) return; // Early exit if no drugKey found
+
+          // Helper function to calculate percentage
+          const calculatePercentage = (count, total) =>
+            count && total ? Number(((count / total) * 100).toFixed(2)) : 0;
+
+          // Helper function to create item object
+          const createItem = (drug, count, total, typeName) => ({
+            itemName: drug.replaceAll(' + ', '/'),
+            percentage: calculatePercentage(count, total),
+            index: 1,
+            typeName,
+            count: count || 0,
+            total: total || 0,
+            parent: drugKey,
+          });
+
+          // Data extraction strategies
+          const getDataForOrganism = () => {
+            const locationData = drugsData?.[drugKey]?.find(x => x.name === item.name);
+            return {
+              getData: drug => locationData?.[drug] || 0,
+              getTotal: () => locationData?.totalCount || 0,
+            };
+          };
+
+          // Select appropriate strategy
+          // const isLegacy = ['kpneumo', 'styphi'].includes(organism);
+          const { getData, getTotal } = getDataForOrganism();
+          const totalCount = getTotal();
+
+          // Process all drugs with single loop
           yAxisSelected.forEach(drug => {
-            const drugCount = locationData ? locationData[drug] : 0;
-
-            data.items.push({
-              itemName: drug.replaceAll(' + ', '/'),
-              percentage: drugCount ? Number(((drugCount / locationData.totalCount) * 100).toFixed(2)) : 0,
-              index: 1,
-              typeName: item.name,
-              count: drugCount || 0,
-              total: locationData?.totalCount || 0,
-              parent: drugKey,
-            });
+            const drugCount = getData(drug);
+            data.items.push(createItem(drug, drugCount, totalCount, item.name));
           });
         }
 
@@ -545,6 +676,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [
     GLPSColumn,
     drugsData,
+    genotypesDrugClassesData,
     mapData,
     mapRegionData,
     organism,
@@ -555,7 +687,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     yAxisType,
     yAxisTypeTrend,
   ]);
-
   useEffect(() => {
     if (canGetData) {
       setPlotChart(() => {
@@ -574,39 +705,38 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
                     margin={{ bottom: index === 0 ? -20 : 20 }}
                   >
-                    // For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer for rotated, truncated labels.
-                    // For other charts, no custom tick renderer is used.
-                                        <XAxis
-                                          type="category"
-                                          dataKey="itemName"
-                                          interval={0}
-                                          tick={
-                                            index === 0
-                                              ? props => {
-                                                  const title = getTitle(props.payload.value);
+                    {/* For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer
+                    for rotated, truncated labels. // For other charts, no custom tick renderer is used. */}
+                    <XAxis
+                      type="category"
+                      dataKey="itemName"
+                      interval={0}
+                      tick={
+                        index === 0
+                          ? props => {
+                              const title = getTitle(props.payload.value);
 
-                                                  return (
-                                                    <Tooltip title={title} placement="top">
-                                                      <text
-                                                        x={props.x}
-                                                        y={props.y}
-                                                        fontSize="14px"
-                                                        dy={-10}
-                                                        textAnchor="start"
-                                                        transform={`rotate(-45, ${props.x}, ${props.y})`}
-                                                        fill="rgb(128,128,128)"
-                                                      >
-                                                        {truncateWord(props.payload.value)}
-                                                      </text>
-                                                    </Tooltip>
-                                                  );
-                                                }
-                                              : false
-                                          }
-                                          axisLine={false}
-                                          orientation="top"
-                                        />
-
+                              return (
+                                <Tooltip title={title} placement="top">
+                                  <text
+                                    x={props.x}
+                                    y={props.y}
+                                    fontSize="14px"
+                                    dy={-10}
+                                    textAnchor="start"
+                                    transform={`rotate(-45, ${props.x}, ${props.y})`}
+                                    fill="rgb(128,128,128)"
+                                  >
+                                    {truncateWord(props.payload.value)}
+                                  </text>
+                                </Tooltip>
+                              );
+                            }
+                          : false
+                      }
+                      axisLine={false}
+                      orientation="top"
+                    />
                     <YAxis
                       type="number"
                       dataKey="index"
@@ -618,9 +748,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       label={{ value: item.name, position: 'insideRight' }}
                       width={yAxisWidth}
                     />
-
                     <ZAxis type="number" dataKey="percentage" range={[3500, 3500]} />
-
                     <ChartTooltip
                       cursor={{ fill: hoverColor }}
                       wrapperStyle={{ zIndex: 100 }}
@@ -658,7 +786,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         return null;
                       }}
                     />
-
                     <Scatter data={item.items} shape="square">
                       {item.items.map((option, index) => (
                         <Cell
@@ -695,12 +822,24 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         );
       });
     }
-  }, [configuredMapData, yAxisWidth, canGetData, classes, getTitle, truncateWord, hoverColor, mixColorScale, countriesTooltipForRegion]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    configuredMapData,
+    yAxisWidth,
+    canGetData,
+    classes,
+    getTitle,
+    truncateWord,
+    hoverColor,
+    mixColorScale,
+    countriesTooltipForRegion,
+  ]);
 
   return (
     <CardContent className={classes.bubbleGeographicGraph}>
       <div className={classes.graphWrapper}>
-        <div className={classes.graph} id="CVM">
+        {/* // BG is replaced from CVM for BubbleGeographicGraph and overflow visible for Download PDF */}
+        <div className={classes.graph} style={loadingPDF ? { overflow: 'visible' } : undefined} id="BG">
           {plotChart}
         </div>
       </div>
@@ -737,7 +876,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Rows</Typography>
+                      <Typography variant="caption">Select region/country</Typography>
+                      <Tooltip title="Only show regions with N≥20 genomes." placement="top">
+                        <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
+                      </Tooltip>
                     </div>
                     <Select
                       value={xAxisType}
@@ -746,8 +888,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      <MenuItem value="country">Countries</MenuItem>
-                      <MenuItem value="region">Regions</MenuItem>
+                      <MenuItem value="country">Country</MenuItem>
+                      <MenuItem value="region">Region</MenuItem>
                     </Select>
                   </div>
                   <div className={classes.selectWrapper}>
@@ -813,7 +955,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   {yAxisType === 'determinant' && (
                     <div className={classes.selectWrapper}>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select trend</Typography>
+                        <Typography variant="caption">Select drugs</Typography>
                       </div>
                       <Select
                         value={yAxisTypeTrend}
@@ -822,18 +964,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         MenuProps={{ classes: { list: classes.selectMenu } }}
                         disabled={organism === 'none'}
                       >
-                        {organism === 'kpneumo' &&
-                          kpTrendOptions.map((option, index) => (
-                            <MenuItem key={`y-kp-option-${index}`} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        {organism === 'styphi' &&
-                          stTrendOptions.map((option, index) => (
-                            <MenuItem key={`y-st-option-${index}`} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
+                        {trendOptionsMap[organism]?.map((option, index) => (
+                          <MenuItem key={`y-${organism}-option-${index}`} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </div>
                   )}
@@ -861,9 +996,17 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           className={classes.selectButton}
                           onClick={() => handleChangeYAxisSelected({ all: true })}
                           disabled={organism === 'none'}
-                          color={!showSelectAll ? 'error' : 'primary'}
+                          color={
+                            yAxisSelected.length === filteredYAxisOptions.length ||
+                            yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+                              ? 'error'
+                              : 'primary'
+                          }
                         >
-                          {!showSelectAll ? 'Clear All' : 'Select All'}
+                          {yAxisSelected.length === filteredYAxisOptions.length ||
+                          yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
+                            ? 'Clear All'
+                            : 'Select 20'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}

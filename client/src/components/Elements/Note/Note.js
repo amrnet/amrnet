@@ -1,7 +1,7 @@
-import { useStyles } from './NoteMUI';
-import { Card, CardContent, Typography, Button } from '@mui/material';
-import { useAppSelector } from '../../../stores/hooks';
+import { Card, CardContent, Typography } from '@mui/material';
 import LogoImg from '../../../assets/img/logo-amrnet-prod.png';
+import { useAppSelector } from '../../../stores/hooks';
+import { useStyles } from './NoteMUI';
 // import Button from '@mui/material/Button';
 
 export const Note = () => {
@@ -77,9 +77,8 @@ export const Note = () => {
           <img src={LogoImg} alt="AMRnet" className={classes.logo} />
         ) : (
           // :organism === "ngono"? null
-          <Button className={classes.beta} variant="contained" href="#contained-buttons">
-            BETA
-          </Button>
+          // Removed unwanted link form button
+          <div></div>
         )}
         <Typography className={classes.note} variant="body1">
           {textNote()}

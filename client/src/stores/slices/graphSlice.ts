@@ -10,6 +10,7 @@ interface CollapsesModel {
 interface KOYearsDataModel {
   O_locus: [];
   K_locus: [];
+  O_type: [];
 }
 interface GraphState {
   countriesForFilter: Array<string>;
@@ -38,6 +39,7 @@ interface GraphState {
   customDropdownMapViewNG: Array<string>;
   genotypesDrugsData: Array<any>;
   genotypesDrugClassesData: Array<any>;
+  ngMastDrugClassesData: Array<any>;
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
   trendsGraphDrugClass: string;
@@ -80,10 +82,15 @@ interface GraphState {
   actualGenomesGD: number;
   actualGenomesDRT: number;
   actualGenomesRDT: number;
+  actualGenomesKOT: number; // Added KOT Brush genome value based on start and end Time
   topXGenotype: Array<any>;
   topXKO: Array<any>;
   topXGenotypeRDWG: Array<any>;
   download: boolean;
+  drugClass: Array<any>;
+  drugGene: string;
+  coloredOptions: Array<any>;
+  bubbleMarkersHeatmapGraphData: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -97,10 +104,11 @@ const initialState: GraphState = {
   genotypesYearData: [],
   cgSTYearData: [],
   sublineagesYearData: [],
-  KOYearsData: { K_locus: [], O_locus: [] },
+  KOYearsData: { K_locus: [], O_locus: [], O_type: [] },
   drugsYearData: [],
   genotypesDrugsData: [],
   genotypesDrugClassesData: [],
+  ngMastDrugClassesData: [],
   genotypesAndDrugsYearData: [],
   countriesYearData: [],
   regionsYearData: [],
@@ -160,10 +168,15 @@ const initialState: GraphState = {
   starttimeRDT: 0,
   endtimeRDT: 0,
   actualGenomesRDT: 0,
+  actualGenomesKOT: 0,
   topXGenotype: [],
   topXKO: [],
   topXGenotypeRDWG: [],
   download: false,
+  drugClass: [],
+  drugGene: '',
+  coloredOptions: [],
+  bubbleMarkersHeatmapGraphData: [],
 };
 
 export const graphSlice = createSlice({
@@ -247,6 +260,9 @@ export const graphSlice = createSlice({
     },
     setGenotypesDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesDrugClassesData = action.payload;
+    },
+    setNgMastDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
+      state.ngMastDrugClassesData = action.payload;
     },
     setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
       state.genotypesAndDrugsYearData = action.payload;
@@ -362,6 +378,9 @@ export const graphSlice = createSlice({
     setActualGenomesDRT: (state, action: PayloadAction<number>) => {
       state.actualGenomesDRT = action.payload;
     },
+    setActualGenomesKOT: (state, action: PayloadAction<number>) => {
+      state.actualGenomesKOT = action.payload;
+    },
     setStarttimeRDT: (state, action: PayloadAction<number>) => {
       state.starttimeRDT = action.payload;
     },
@@ -389,6 +408,18 @@ export const graphSlice = createSlice({
     setDownload: (state, action: PayloadAction<boolean>) => {
       state.download = action.payload;
     },
+    setDrugClass: (state, action: PayloadAction<Array<any>>) => {
+      state.drugClass = action.payload;
+    },
+    setDrugGene: (state, action: PayloadAction<string>) => {
+      state.drugGene = action.payload;
+    },
+    setColoredOptions: (state, action: PayloadAction<Array<any>>) => {
+      state.coloredOptions = action.payload;
+    },
+    setBubbleMarkersHeatmapGraphData: (state, action: PayloadAction<Array<any>>) => {
+      state.bubbleMarkersHeatmapGraphData = action.payload;
+    },
   },
 });
 
@@ -409,6 +440,7 @@ export const {
   setDeterminantsGraphView,
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,
+  setNgMastDrugClassesData,
   setGenotypesAndDrugsYearData,
   setTrendsGraphDrugClass,
   setTrendsGraphView,
@@ -443,6 +475,7 @@ export const {
   setEndtimeDRT,
   setActualGenomesGD,
   setActualGenomesDRT,
+  setActualGenomesKOT,
   setStarttimeRDT,
   setEndtimeRDT,
   setActualGenomesRDT,
@@ -466,6 +499,10 @@ export const {
   setBubbleMarkersHeatmapGraphVariable,
   setBubbleKOYAxisType,
   setBubbleMarkersYAxisType,
+  setDrugClass,
+  setDrugGene,
+  setColoredOptions,
+  setBubbleMarkersHeatmapGraphData,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

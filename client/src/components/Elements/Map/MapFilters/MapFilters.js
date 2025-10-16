@@ -1,4 +1,3 @@
-import { useStyles } from './MapFiltersMUI';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
@@ -14,17 +13,18 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setMapView } from '../../../../stores/slices/mapSlice';
-import { mapLegends } from '../../../../util/mapLegends';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
-import { genotypes } from '../../../../util/genotypes';
-import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
-import { statKeys } from '../../../../util/drugClassesRules';
-import { drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCustomDropdownMapViewNG, setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
+import { setMapView } from '../../../../stores/slices/mapSlice';
+import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
+import { statKeys } from '../../../../util/drugClassesRules';
+import { ciproAcronyms, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
+import { genotypes } from '../../../../util/genotypes';
+import { mapLegends } from '../../../../util/mapLegends';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
+import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
+import { useStyles } from './MapFiltersMUI';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
@@ -88,7 +88,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     [mapView],
   );
   const isOPrevalence = useMemo(() => mapView === 'O prevalence', [mapView]);
-  const isOHPrevalence = useMemo(() => mapView === 'OH prevalence', [mapView]);
+  const isOHPrevalence = useMemo(() => mapView === 'H prevalence', [mapView]);
 
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
@@ -96,12 +96,12 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     const column = isNGMASTPrevalence
       ? 'NGMAST'
       : isPathSerPrevalence
-      ? 'PATHOTYPE'
-      : isOPrevalence
-      ? 'O_PREV'
-      : isOHPrevalence
-      ? 'OH_PREV'
-      : 'GENOTYPE';
+        ? 'PATHOTYPE'
+        : isOPrevalence
+          ? 'O_PREV'
+          : isOHPrevalence
+            ? 'OH_PREV'
+            : 'GENOTYPE';
     const items = {};
 
     mapData.forEach(obj => {
@@ -125,9 +125,16 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   }, [customDropdownMapViewNG, isNGMASTPrevalence, prevalenceMapViewOptionsSelected]);
 
   const resistanceOptions = useMemo(() => {
-    const options = statKeys[organism] ?? statKeys['others'];
+    const options = statKeys?.[organism] ?? statKeys?.['others'] ?? [];
+    const filteredOptions = options
+      .filter(({ resistanceView, name }) => resistanceView && name !== 'Pansusceptible')
+      .map(({ name }) => name);
 
-    return options.filter(({ resistanceView }) => resistanceView).map(({ name }) => name);
+    if (organism === 'ngono') {
+      filteredOptions.splice(5, 0, ...['XDR', 'MDR']);
+    }
+
+    return filteredOptions;
   }, [organism]);
 
   const nonResistanceOptions = useMemo(() => {
@@ -161,7 +168,24 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (isResPrevalence) {
-      dispatch(setPrevalenceMapViewOptionsSelected(resistanceOptions[0] ? [resistanceOptions[0]] : []));
+      switch (organism) {
+        case 'kpneumo':
+          dispatch(setPrevalenceMapViewOptionsSelected(['Carbapenems']));
+          break;
+        case 'ecoli':
+          dispatch(setPrevalenceMapViewOptionsSelected(['ESBL']));
+          break;
+        case 'styphi':
+          dispatch(setPrevalenceMapViewOptionsSelected(['CipR']));
+          break;
+        case 'sentericaints':
+        case 'senterica':
+          dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin NS']));
+          break;
+        default:
+          dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin']));
+          break;
+      }
       return;
     }
 
@@ -170,7 +194,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     dispatch(setPrevalenceMapViewOptionsSelected(nonResistanceOptions[0] ? [nonResistanceOptions[0]] : []));
-  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions]);
+  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions, organism]);
 
   const currentMapLegends = useMemo(() => {
     return mapLegends.filter(legend => legend.organisms.includes(organism));
@@ -207,7 +231,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       case 'styphi':
         return 'XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)';
       case 'ngono':
-        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Penicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
+        return 'XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Benzylpenicillin, Ciprofloxacin and Spectinomycin [category II drugs])';
       default:
         return '';
     }
@@ -218,7 +242,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       case 'styphi':
         return 'MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)';
       case 'ngono':
-        return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Penicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
+        return 'MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Benzylpenicillin, Ciprofloxacin, Spectinomycin [category II drugs])';
       default:
         return '';
     }
@@ -230,7 +254,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     if (isOHPrevalence) {
-      return 'OH';
+      return 'H';
     }
 
     if (isPathSerPrevalence) {
@@ -263,7 +287,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
 
   const getGenotypeColor = useCallback(
     genotype => {
-      return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+      return colorPallete[genotype] || '#F5F4F6';
     },
     [colorPallete, organism],
   );
@@ -498,8 +522,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   {mapView === 'Resistance prevalence' ? (
                     <>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select Drugs</Typography>
-                        <Tooltip title="Select one or more drug categories to display its prevalence" placement="top">
+                        <Typography variant="caption">Select one or more drugs</Typography>
+                        <Tooltip
+                          title="Choose one or more drug categories to see their prevalence. Selecting multiple categories shows only their shared prevalence"
+                          placement="top"
+                        >
                           <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                         </Tooltip>
                       </div>
@@ -538,7 +565,10 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                             <Checkbox checked={prevalenceMapViewOptionsSelected.indexOf(option) > -1} />
                             <ListItemText
                               primary={
-                                ngonoSusceptibleRule(option, organism) || drugAcronymsOpposite2[option] || option
+                                ciproAcronyms[option] ||
+                                ngonoSusceptibleRule(option, organism) ||
+                                drugAcronymsOpposite2[option] ||
+                                option
                               }
                             />
                           </MenuItem>

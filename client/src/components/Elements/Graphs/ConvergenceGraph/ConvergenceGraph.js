@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CardContent, Divider, IconButton, MenuItem, Select, Tooltip, Typography, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
 import {
   CartesianGrid,
@@ -17,15 +17,22 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import {
   /*setConvergenceColourVariable,*/ setConvergenceGroupVariable,
   setTopColorSlice,
+  setConvergenceColourPallete
 } from '../../../../stores/slices/graphSlice';
 import { useEffect, useMemo, useState } from 'react';
-import { hoverColor } from '../../../../util/colorHelper';
+import { hoverColor, generatePalleteForGenotypes} from '../../../../util/colorHelper';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
-import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
+import { setCanFilterData} from '../../../../stores/slices/dashboardSlice';
 import { SliderSizes } from '../../Slider';
 import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
+import { getPatternForGenotype, sanitizeId } from '../GenotypePatternRect';
+const GRADIENT_COLORS = {
+  LIGHT_GREY: 200, // #c8c8c8 - lighter
+  DARK_GREY: 30, // #1e1e1e - darker for better contrast
+};
+
 
 export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -41,6 +48,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const convergenceColourPallete = useAppSelector(state => state.graph.convergenceColourPallete);
   const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
+  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -78,19 +86,109 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
     );
   }, [convergenceColourPallete, topConvergenceData]);
 
+  // const getPatternForGenotype = (option) => {
+  //   const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+  //   const genotypeIndex = topConvergenceData.findIndex(item => item.colorLabel === option.colorLabel);
+  //   const patternIndex = genotypeIndex !== -1 ? genotypeIndex % patternTypes.length : 0;
+  //   const patternType = patternTypes[patternIndex];
+  //   const safeLabel = sanitizeId(option.colorLabel);
+  //   return `url(#pattern-${patternType}-${safeLabel})`;
+  // };
+
+  // Helper function to get pattern type for a genotype (for use in legend and tooltip)
+  const getPatternTypeForGenotype = (colorLabel) => {
+    const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+    const genotypeIndex = topConvergenceData.findIndex(item => item.colorLabel === colorLabel);
+    const patternIndex = genotypeIndex !== -1 ? genotypeIndex % patternTypes.length : 0;
+    return patternTypes[patternIndex];
+  };
+
+  const topData = topConvergenceData.map(item => item.name);
+  // console.log("topColours", topData, topColours, convergenceGroupVariable);
   useEffect(() => {
+    const newPalette = generatePalleteForGenotypes(topData, convergenceGroupVariable, colourPattern);
+
+    // prevent infinite re-dispatch
+    const isSame =
+      JSON.stringify(newPalette) === JSON.stringify(convergenceColourPallete);
+
+    if (!isSame) {
+      dispatch(setConvergenceColourPallete(newPalette));
+    }
+
     dispatch(setTopColorSlice(topColours));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topColours]);
+  }, [topColours, colourPattern, convergenceData, convergenceGroupVariable]);
 
   useEffect(() => {
     if (canGetData) {
+
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
             <ScatterChart cursor={isTouchDevice() ? 'default' : 'pointer'}>
+              <defs>
+                {/* Pattern definitions for each colorLabel */}
+                {Object.keys(topColours).map((colorLabel) => {
+                  const color = topColours[colorLabel]; // Get the actual color value
+                  const safeLabel = sanitizeId(colorLabel);
+                  
+                  return [
+                    // Solid pattern
+                    <pattern
+                      key={`pattern-solid-${safeLabel}`}
+                      id={`pattern-solid-${safeLabel}`}
+                      patternUnits="userSpaceOnUse"
+                      width={10}
+                      height={10}
+                    >
+                      <rect width="10" height="10" fill={color} />
+                    </pattern>,
+
+                    // Stripes pattern
+                    <pattern
+                      key={`pattern-stripes-${safeLabel}`}
+                      id={`pattern-stripes-${safeLabel}`}
+                      patternUnits="userSpaceOnUse"
+                      width={6}
+                      height={6}
+                      patternTransform="rotate(45)"
+                    >
+                      <rect width="6" height="6" fill={color} />
+                      <line x1="0" y1="0" x2="0" y2="6" stroke="white" strokeWidth={1} />
+                    </pattern>,
+
+                    // Dots pattern
+                    <pattern
+                      key={`pattern-dots-${safeLabel}`}
+                      id={`pattern-dots-${safeLabel}`}
+                      patternUnits="userSpaceOnUse"
+                      width={8}
+                      height={8}
+                    >
+                      <rect width="8" height="8" fill={color} />
+                      <circle cx="4" cy="4" r="1" fill="white" />
+                      <circle cx="4" cy="0" r="0.5" fill="white" />
+                      <circle cx="0" cy="4" r="0.5" fill="white" />
+                      <circle cx="8" cy="4" r="0.5" fill="white" />
+                      <circle cx="4" cy="8" r="0.5" fill="white" />
+                    </pattern>,
+
+                    // Cross pattern
+                    <pattern
+                      key={`pattern-cross-${safeLabel}`}
+                      id={`pattern-cross-${safeLabel}`}
+                      patternUnits="userSpaceOnUse"
+                      width={8}
+                      height={8}
+                    >
+                      <rect width="8" height="8" fill={color} />
+                      <path d="M0,0 L8,8 M8,0 L0,8" stroke="white" strokeWidth={1} />
+                    </pattern>
+                  ];
+                })}
+              </defs>
+
               <CartesianGrid strokeDasharray="3 3" />
-              {/* <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} /> */}
               <XAxis
                 dataKey="x"
                 allowDecimals={false}
@@ -105,79 +203,58 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                   Mean virulence score
                 </Label>
               </XAxis>
-              <YAxis
-                type="number"
-                dataKey="y"
-                allowDataOverflow={true}
-                domain={[0, 4]}
-                padding={{ top: 20, bottom: 20 }}
-              >
+              <YAxis type="number" dataKey="y" allowDataOverflow={true} padding={{ top: 20, bottom: 20 }}>
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Mean resistance score
                 </Label>
               </YAxis>
               <ZAxis type="number" dataKey="z" range={[50, 1000]} />
 
-              {/* Hide the color/gradient legend and show only the size legend, centered */}
               <Legend
                 content={() => {
-                  // Circle size legend (for ZAxis)
-                  const zMin = 50;
-                  const zMax = 1000;
-                  const zMid = Math.round((zMin + zMax) / 2);
-                  const sizeScale = z => 10 + 30 * ((z - zMin) / (zMax - zMin)); // adjust as needed
-
+                  // Create ordered legend data based on topConvergenceData order, not alphabetical
+                  const orderedLegendKeys = [];
+                  const seenKeys = new Set();
+                  
+                  // Iterate through topConvergenceData to maintain order
+                  topConvergenceData.forEach(item => {
+                    if (!seenKeys.has(item.colorLabel)) {
+                      orderedLegendKeys.push(item.colorLabel);
+                      seenKeys.add(item.colorLabel);
+                    }
+                  });
+                  
                   return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        marginTop: 44,
-                        marginLeft: 60,
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          <svg width={sizeScale(zMin)} height={sizeScale(zMin)}>
-                            <circle
-                              cx={sizeScale(zMin) / 2}
-                              cy={sizeScale(zMin) / 2}
-                              r={sizeScale(zMin) / 2}
-                              fill="#888"
-                              opacity={0.5}
-                            />
-                          </svg>
-                          <Typography variant="caption">{zMin}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          <svg width={sizeScale(zMid)} height={sizeScale(zMid)}>
-                            <circle
-                              cx={sizeScale(zMid) / 2}
-                              cy={sizeScale(zMid) / 2}
-                              r={sizeScale(zMid) / 2}
-                              fill="#888"
-                              opacity={0.5}
-                            />
-                          </svg>
-                          <Typography variant="caption">{zMid}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          <svg width={sizeScale(zMax)} height={sizeScale(zMax)}>
-                            <circle
-                              cx={sizeScale(zMax) / 2}
-                              cy={sizeScale(zMax) / 2}
-                              r={sizeScale(zMax) / 2}
-                              fill="#888"
-                              opacity={0.5}
-                            />
-                          </svg>
-                          <Typography variant="caption">{zMax}</Typography>
-                        </div>
-                      </div>
-                      <Typography variant="caption" style={{ marginTop: 4, textAlign: 'center', width: '80%' }}>
-                        Number of items
-                      </Typography>
+                    <div className={classes.legendWrapper}>
+                      {orderedLegendKeys.map((key, index) => {
+                        const patternType = getPatternTypeForGenotype(key);
+                        const safeLabel = sanitizeId(key);
+                        return (
+                          <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
+                            {colourPattern ? 
+                              <svg width="16" height="16" style={{ marginRight: 6 }}>
+                                <rect
+                                  x="0"
+                                  y="0"
+                                  width="16"
+                                  height="16"
+                                  fill={`url(#pattern-${patternType}-${safeLabel})`}
+                                  stroke="#ccc"
+                                  strokeWidth="0.5"
+                                />
+                              </svg>
+                              :
+                              <Box
+                                className={classes.colorCircle}
+                                style={{
+                                  backgroundColor: convergenceColourPallete[key],
+                                }}
+                              />
+                            }
+                            <Typography variant="caption">{key}</Typography>
+                          </div>
+                        );
+                      })}
                     </div>
                   );
                 }}
@@ -195,19 +272,14 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
 
               <Scatter name="combinations" data={topConvergenceData}>
                 {topConvergenceData.map((option, index) => {
-                  // Create a grey gradient based on index or value
-                  // We'll use a scale from #e0e0e0 (light) to #333333 (dark)
-                  const total = topConvergenceData.length > 1 ? topConvergenceData.length - 1 : 1;
-                  const t = index / total;
-                  // Interpolate between 224 and 51 for R, G, B
-                  const grey = Math.round(224 + (51 - 224) * t);
-                  const color = `rgb(${grey},${grey},${grey})`;
+                  const color = convergenceColourPallete[option.colorLabel];
+                  const fillValue = colourPattern ? getPatternForGenotype(option, topConvergenceData) : color;
                   return (
                     <Cell
                       name={option.name}
                       onClick={() => handleClickChart(option.name)}
                       key={`combination-cell-${index}`}
-                      fill={color}
+                      fill={fillValue}
                     />
                   );
                 })}
@@ -218,12 +290,11 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topConvergenceData]);
+  }, [topConvergenceData, colourPattern, convergenceColourPallete, topColours]);
 
   return (
     <CardContent className={classes.convergenceGraph}>
       <div className={classes.graphWrapper}>
-        {/* changed id="CVM" to id="convergence-graph", as 'CVM' is used as 'id' for The "Heatmap View",  */}
         <div className={classes.graph} id="convergence-graph">
           {plotChart}
         </div>
@@ -236,7 +307,6 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                   <Typography variant="h5" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
-                  {/* <Typography noWrap variant="subtitle1" minWidth="90px" textAlign="end"> */}
                   <Typography variant="subtitle1">{'N = ' + currentTooltip.z}</Typography>
                 </div>
                 <div className={classes.tooltipContent}>
@@ -248,7 +318,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                       }}
                     />
                     <div className={classes.tooltipItemStats}>
-                      <Typography variant="body2" fontWeight="00">
+                      <Typography variant="body2" fontWeight="500">
                         Mean virulence score
                       </Typography>
                       <Typography variant="caption" noWrap>
@@ -314,24 +384,6 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                     })}
                   </Select>
                 </div>
-                {/* <div className={classes.selectWrapper}>
-          <Typography variant="caption">Colour variable</Typography>
-          <Select
-            value={convergenceColourVariable}
-            onChange={handleChangeColourVariable}
-            inputProps={{ className: classes.selectInput }}
-            MenuProps={{ classes: { list: classes.selectMenu } }}
-            disabled={organism === 'none'}
-          >
-            {variablesOptions.map((option, index) => {
-              return (
-                <MenuItem key={index + 'convergence-colour-variable'} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </div> */}
               </div>
             </CardContent>
           </Card>

@@ -1,147 +1,81 @@
 // Helper for colors
 import chroma from 'chroma-js';
-// Color for Salmonella genotypes
-export const getColorForGenotype = genotype => {
-  switch (genotype) {
-    case '0':
-    case '0.0.1':
-    case '0.0.2':
-    case '0.0.3':
-    case '0.1.0':
-    case '0.1':
-    case '0.1.1':
-    case '0.1.2':
-    case '0.1.3':
-      return '#808080';
-    case '1.1':
-    case '1.1.1':
-    case '1.1.2':
-    case '1.1.3':
-    case '1.1.4':
-      return '#ffff00';
-    case '1.2':
-    case '1.2.1':
-      return '#ffd700';
-    case '2':
-    case '2.0.0':
-    case '2.0.1':
-    case '2.0.2':
-      return '#32cd32';
-    case '2.1.0':
-    case '2.1':
-    case '2.1.1':
-    case '2.1.2':
-    case '2.1.3':
-    case '2.1.4':
-    case '2.1.5':
-    case '2.1.6':
-    case '2.1.7':
-    case '2.1.8':
-    case '2.1.9':
-    case '2.1.7.1':
-    case '2.1.7.2':
-      return '#adff2f';
-    case '2.2':
-    case '2.2.0':
-    case '2.2.1':
-    case '2.2.2':
-    case '2.2.3':
-    case '2.2.4':
-      return '#98fb98';
-    case '2.3':
-    case '2.3.1':
-    case '2.3.2':
-    case '2.3.3':
-    case '2.3.4':
-    case '2.3.5':
-      return '#6b8e23';
-    case '2.4.0':
-    case '2.4':
-    case '2.4.1':
-      return '#2e8b57';
-    case '2.5.0':
-    case '2.5':
-    case '2.5.1':
-    case '2.5.2':
-      return '#006400';
-    case '3.0.0':
-    case '3':
-    case '3.0.1':
-    case '3.0.2':
-      return '#0000cd';
-    case '3.1.0':
-    case '3.1':
-    case '3.1.1':
-    case '3.1.2':
-      return '#4682b4';
-    case '3.2.1':
-    case '3.2':
-    case '3.2.2':
-      return '#00bfff';
-    case '3.3.0':
-    case '3.3':
-    case '3.3.1':
-    case '3.3.2':
-    case '3.3.2.Bd1':
-    case '3.3.2.Bd2':
-      return '#1e90ff';
-    case '3.4':
-      return '#6a5acd';
-    case '3.5':
-    case '3.5.1':
-    case '3.5.2':
-    case '3.5.3':
-    case '3.5.4':
-    case '3.5.4.1':
-    case '3.5.4.2':
-    case '3.5.4.3':
-      return '#4b0082';
-    case '4':
-    case '4.1.0':
-    case '4.1':
-    case '4.1.1':
-      return '#8b0000';
-    case '4.2':
-    case '4.2.1':
-    case '4.2.2':
-    case '4.2.3':
-      return '#ff6347';
-    // case '4.3':
-    // case '4.3.0':
-    case '4.3.1':
-      return '#ff0000';
-    case '4.3.1.1':
-    case '4.3.1.1.EA1':
-      return '#f1b6da';
-    case '4.3.1.1.P1':
-      return 'black';
-    case '4.3.1.2':
-    case '4.3.1.2.EA2':
-    case '4.3.1.2.EA3':
-    case '4.3.1.2.1':
-    case '4.3.1.2.1.1':
-      return '#c51b7d';
-    case '4.3.1.3':
-    case '4.3.1.3.Bdq':
-      return '#fb8072';
-    default:
-      return '#F5F4F6';
-  }
-};
+
+// Color for Salmonella genotypes Dynamic and colorblind safe
 
 // Generate color pallete for Klebsiella genotypes
-let iwanthue = require('iwanthue');
-export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable) => {
+const iwanthue = require('iwanthue');
+
+// Dynamic colour palette for normal vision
+const light = iwanthue(20, {
+  clustering: 'force-vector',
+  quality: 1500,
+  seed: 'my-project-2024',
+  colorSpace: {
+    hmin: 0, hmax: 360,   
+    cmin: 10, cmax: 130,
+    lmin: 50, lmax: 80
+  }
+});
+const dark = iwanthue(10, {
+  clustering: 'force-vector',
+  quality: 1500,
+  seed: 'my-project-2024',
+  colorSpace: {
+    hmin: 0, hmax: 360,
+    cmin: 70, cmax: 130,
+    lmin: 10, lmax: 80
+  }
+});
+const colorPalette =  [...light, ...dark]
+
+// Fixed color palette for colorblind users
+export const colorForMarkersCVD = [
+  "#5ac980",
+  "#c365c6",
+  "#8fb63e",
+  "#746dd8",
+  "#d1972c",
+  "#5081db",
+  "#aea43f",
+  "#4d3687",
+  "#80bd61",
+  "#8c307d",
+  "#4fbe91",
+  "#ca427f",
+  "#36d0c3",
+  "#cf583b",
+  "#1fe1fb",
+  "#d5574f",
+  "#428040",
+  "#b884d4",
+  "#597421",
+  "#db79b7",
+  "#d79949",
+  "#6789cf",
+  "#b96422",
+  "#892c5a",
+  "#b69d56",
+  "#bf7848",
+  "#93273d",
+  "#de6b87",
+  "#d35760",
+  "#853017",
+]
+
+export const colorForMarkers = (index, colourPattern = false) => {
+  return colourPattern
+    ? colorForMarkersCVD[index % colorForMarkersCVD.length]
+    : colorPalette[index % colorPalette.length];
+};
+
+
+export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable, colourPatternSet = false) => {
   if (genotypes.length === 0) {
     return {};
   }
-  const colors = iwanthue(genotypes.length, {
-    clustering: 'force-vector',
-    seed: 'all',
-    quality: 100,
-  });
 
-  // Generate pallete for convergence Year dropdown
+  // Generate palette for convergence Year dropdown
   const colorScale = chroma.scale(['#e31a1c', '#f76b40', '#f9a65a', '#72b7e0', '#2171b5']).mode('lab');
   const pallete = {};
   if (convergenceGroupVariable === 'DATE') {
@@ -149,11 +83,12 @@ export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable)
       const t = genotypes.length === 1 ? 0.5 : i / (genotypes.length - 1); // avoid division by zero
       pallete[x] = colorScale(t).hex();
     });
-  } else
+  } else {
     genotypes.forEach((x, i) => {
-      pallete[x] = `${colors[i]}`;
-    });
+      pallete[x] = colourPatternSet ? colorForMarkersCVD[i] :  colorForMarkers(i) ;
 
+    });
+  }
   return pallete;
 };
 
@@ -203,19 +138,23 @@ export const colorForDrugClassesST = {
     { name: 'None', color: '#B9B9B9' },
   ],
   // 'Fluoroquinolones (CipNS)': [
-  'Ciprofloxacin NS': [
-    { name: '0_QRDR + qnrB (CipNS)', color: '#0066cc' },
-    { name: '0_QRDR + qnrS (CipNS)', color: '#009999' },
-    { name: '0_QRDR + qnrS + qnrD (CipNS)', color: '#a8ddb5' },
-    { name: '1_QRDR (CipNS)', color: '#ffcc00' },
-    { name: '1_QRDR + qnrB (CipNS)', color: '#993399' },
-    { name: '1_QRDR + qnrS (CipNS)', color: '#660066' },
-    { name: '2_QRDR (CipR)', color: '#ff6600' },
-    { name: '2_QRDR + qnrB (CipR)', color: '#ffcccc' },
-    { name: '2_QRDR + qnrS (CipR)', color: '#ff6666' },
-    { name: '3_QRDR (CipR)', color: '#cc0000' },
-    { name: '3_QRDR + qnrB (CipR)', color: '#660000' },
-    { name: '3_QRDR + qnrS (CipR)', color: 'black' },
+  'Ciprofloxacin': [
+    { name: 'qnrB', color: '#0066cc' },
+    { name: 'qnrS', color: '#009999' },
+    { name: 'qnrD', color: '#a8ddb5' },
+    { name: 'gyrA_S83F', color: '#ffcc00' },
+    { name: 'gyrA_S83Y', color: '#993399' },
+    { name: 'gyrA_D87A', color: '#660066' },
+    { name: 'gyrA_D87G', color: '#ff6600' },
+    { name: 'gyrA_D87N', color: '#ffcccc' },
+    { name: 'gyrA_D87V', color: '#ff6666' },
+    { name: 'gyrA_D87Y)', color: '#cc0000' },
+    { name: 'gyrB_S464F', color: '#660000' },
+    { name: 'gyrB_S464Y', color: '#ac7c0bff' },
+    { name: 'parC_S80I', color: '#370aeaff' },
+    { name: 'parC_S80R', color: '#f5ce74ff' },
+    { name: 'parC_E84G', color: '#ed0fc1ff' },
+    { name: 'parC_E84K', color: '#080808ff' },
     { name: 'None', color: '#B9B9B9' },
   ],
   Chloramphenicol: [
@@ -230,35 +169,35 @@ export const colorForDrugClassesST = {
   ],
   Sulfonamides: [
     { name: 'sul1', color: '#fd8d3c' },
-    { name: 'sul1 + sul2', color: '#B4DD70' },
+    // { name: 'sul1 + sul2', color: '#B4DD70' },
     { name: 'sul2', color: '#ffeda0' },
     { name: 'None', color: '#B9B9B9' },
   ],
   Trimethoprim: [
     { name: 'dfrA1', color: '#B4DD70' },
     { name: 'dfrA5', color: '#D7AEF7' },
-    { name: 'dfrA7', color: '#FFEC78' },
-    { name: 'dfrA7 + dfrA14', color: '#fd8d3c' },
+    // { name: 'dfrA7', color: '#FFEC78' },
+    // { name: 'dfrA7 + dfrA14', color: '#fd8d3c' },
     { name: 'dfrA14', color: '#6baed6' },
     { name: 'dfrA15', color: '#FBCFE5' },
     { name: 'dfrA17', color: '#FCB469' },
     { name: 'dfrA18', color: '#66c2a4' },
     { name: 'None', color: '#B9B9B9' },
   ],
-  Tetracyclines: [
+  Tetracycline: [
     { name: 'tetA(A)', color: 'rgb(174,227,154)' },
     { name: 'tetA(B)', color: '#D7AEF7' },
     { name: 'tetA(C)', color: '#FFEC78' },
     { name: 'tetA(D)', color: '#FCB469' },
     { name: 'None', color: '#B9B9B9' },
   ],
-  // ESBL: [
-  //   { name: 'blaCTX-M-15', color: '#6baed6' },
-  //   { name: 'blaCTX-M-55', color: '#FBCFE5' },
-  //   { name: 'blaOXA-7', color: '#9e9ac8' },
-  //   { name: 'blaSHV-12', color: '#addd8e' },
-  //   { name: 'None', color: '#B9B9B9' }
-  // ],
+  ESBL: [
+    { name: 'blaCTX-M-15', color: '#6baed6' },
+    { name: 'blaCTX-M-55', color: '#FBCFE5' },
+    { name: 'blaOXA-7', color: '#9e9ac8' },
+    { name: 'blaSHV-12', color: '#addd8e' },
+    { name: 'None', color: '#B9B9B9' },
+  ],
   Ceftriaxone: [
     { name: 'blaCTX-M-15', color: '#6baed6' },
     { name: 'blaCTX-M-55', color: '#FBCFE5' },
@@ -516,126 +455,7 @@ export const colorForDrugClassesKP = {
     { name: 'None', color: '#B9B9B9' },
   ],
 };
-
-export const colorForMarkers = [
-  '#543005',
-  '#8c510a',
-  '#f8961e',
-  '#f9844a',
-  '#f9c74f',
-  '#90be6d',
-  '#43aa8b',
-  '#4d908e',
-  '#577590',
-  '#277da1',
-  '#582f0e',
-  '#7f4f24',
-  '#936639',
-  '#a68a64',
-  '#b6ad90',
-  '#a4ac86',
-  '#656d4a',
-  '#414833',
-  '#333d29',
-  '#661d72',
-  '#70257c',
-  '#782f86',
-  '#7f3c8d',
-  '#854994',
-  '#8c559c',
-  '#9262a3',
-  '#996fab',
-  '#a079b1',
-  '#a883b8',
-  '#af8dbf',
-  '#b797c5',
-  '#bea0cc',
-  '#c6aad1',
-  '#ccb2d6',
-  '#d3bbdb',
-  '#dac4df',
-  '#e1cce4',
-  '#e7d5e8',
-  '#e4dae4',
-  '#e2dfe0',
-  '#dfe4dc',
-  '#dce9d8',
-  '#daeed4',
-  '#d3edcd',
-  '#c9e9c3',
-  '#c0e6ba',
-  '#b6e2b0',
-  '#addea7',
-  '#a2d99d',
-  '#94d191',
-  '#86c886',
-  '#78c07a',
-  '#6ab86e',
-  '#5caf63',
-  '#50a65a',
-  '#459c53',
-  '#39924b',
-  '#2d8843',
-  '#227e3b',
-  '#197435',
-  '#146a30',
-  '#0f612a',
-  '#0a5725',
-  '#054e20',
-  '#D1E5F0',
-  '#FDDBC7',
-  '#E7D4E8',
-  '#F6E8C3',
-  '#D9F0D3',
-  '#FDE0EF',
-  '#92C5DE',
-  '#DFC27D',
-  '#FFB6C1',
-  '#F1B6DA',
-  '#A6DBA0',
-  '#80CDC1',
-  '#00FFFF',
-  '#ADDD8E',
-  '#C2A5CF',
-  '#F4A582',
-  '#6BAED6',
-  '#21BCF9',
-  '#00FA99',
-  '#FEB24C',
-  '#FFD500',
-  '#BC8F8F',
-  '#9ACD32',
-  '#FFA300',
-  '#FD8D3C',
-  '#5AAE61',
-  '#DE77AE',
-  '#6495ED',
-  '#41AB5D',
-  '#35978F',
-  '#BF812D',
-  '#0088AF',
-  '#9970AB',
-  '#D6604D',
-  '#9270DB',
-  '#FC4E2A',
-  '#556B2F',
-  '#E31A1C',
-  '#2166AC',
-  '#1B7837',
-  '#C51B7D',
-  '#01665E',
-  '#88419D',
-  '#B2182B',
-  '#08519C',
-  '#8E0152',
-  '#810F7C',
-  '#00441B',
-  '#0000CD',
-  '#08306B',
-  '#67001F',
-  '#4A0082',
-  '#40004B',
-];
+// Replaced with colorForMarkersCVD
 
 // Color variables
 export const lightGrey = '#D3D3D3';
@@ -647,21 +467,30 @@ export const hoverColor = '#D2F1F6';
 // Colors for N. gono drug classes genes
 export const colorForDrugClassesNG = {
   Ceftriaxone: [
-    { name: 'CefR1', color: '#f9c74f' },
+    { name: 'penA.A501P + penA.G545T + penA.I312M + penA.V316T', color: '#f9c74f' },
+    { name: 'penA.A501V + penA.G542S + penA.insV346D', color: '#f9844a' },
     { name: 'None', color: '#B9B9B9' },
   ],
   Azithromycin: [
     { name: '23S_a2045g + mtrR_proDel', color: '#D1E5F0' },
-    { name: '23S_rDNA_a2045g + mtrR_G45D', color: '#FDDBC7' },
-    { name: 'mtrR_G45D + mtrC_loss + 23S_a2045g', color: '#E7D4E8' },
-    { name: '23S_c2597t + mtrR_proDel', color: '#F6E8C3' },
+    { name: '23S_rDNA_a2045g + mtrR_G45D', color: '#A20F17' },
+    { name: 'mtrR_G45D + mtrC_disrupt + 23S_a2045g', color: '#3811e7ff' },
+    { name: '23S_c2597t + mtrR_proDel', color: '#f53f0dff' },
     { name: '23S_c2597t + mtrR_A39T', color: '#67001F' },
     { name: '23S_c2597t + mtrR_G45D', color: '#4A0082' },
     { name: '23S_c2597t', color: '#20004D' },
-    { name: '23S_rDNA_c2597t + mtrC_loss', color: '#054e20' },
-    { name: 'mtrC_loss + mtrD_mos2', color: '#f9c74f' },
+    { name: '23S_rDNA_c2597t + mtrC_disrupt', color: '#054e20' },
+    { name: 'mtrC_disrupt + mtrD_mos2', color: '#f9c74f' },
     { name: 'mtrD_mos2 + mtr_mos2', color: '#f9844a' },
-    { name: 'mtr_mos2', color: '#543005' },
+    { name: 'mtr_mos2', color: '#ef9d38ff' },
+    { name: 'None', color: '#B9B9B9' },
+  ],
+  Cefixime: [
+    { name: 'penA.A501P + penA.G545S + penA.I312M + penA.V316T', color: '#f9c74f' },
+    { name: 'penA.G545S + penA.I312M + penA.V316T', color: '#4A0082' },
+    { name: 'penA.G545S + penA.I312M + penA.P551S, penA.V316T', color: '#f9844a' },
+    { name: 'mtrR.G45D + penA.G545S + penA.I312M + penA.V316T', color: '#f53f0dff' },
+    { name: 'mtrR.A39T + penA.G545S + penA.I312M + penA.V316T', color: '#054e20' },
     { name: 'None', color: '#B9B9B9' },
   ],
 };

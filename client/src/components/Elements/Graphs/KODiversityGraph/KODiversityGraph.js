@@ -331,3 +331,4 @@ export const KODiversityGraph = () => {
     </CardContent>
   );
 };
+export * from './KODiversityGraph';

@@ -1,13 +1,39 @@
 """Sphinx configuration."""
+import os
 
 # project information
 project = "AMRnet"
 copyright = "2023, The AMRnet Team"
 author = "The AMRnet Team" # noqa: A001
 
+# internationalization
+# Check for language-specific environment variables first, then fallback to generic ones
+language = 'en'  # default
+if os.environ.get('SPHINX_LANGUAGE_ES'):
+    language = 'es'
+elif os.environ.get('SPHINX_LANGUAGE_FR'):
+    language = 'fr'
+elif os.environ.get('SPHINX_LANGUAGE_PT'):
+    language = 'pt'
+else:
+    # Fallback to generic variables
+    language = os.environ.get('SPHINX_LANGUAGE', os.environ.get('READTHEDOCS_LANGUAGE', 'en'))
+
+locale_dirs = ['locale/']
+gettext_compact = False
+
+# Supported languages for translation
+supported_languages = ['en', 'es', 'fr', 'pt']
+language_map = {
+    'en': 'English',
+    'es': 'Español (Spanish)',
+    'fr': 'Français (French)',
+    'pt': 'Português (Portuguese)'
+}
+
 # sphinx config
 templates_path = ["_templates"]
-exclude_patterns = ["_build"]
+exclude_patterns = ["_build", "locale"]
 html_static_path = ["_static"]
 
 extensions = [
@@ -22,6 +48,15 @@ extensions = [
     "sphinx_copybutton",
     "sphinxext.opengraph",
 ]
+
+# Pygments style configuration
+highlight_language = 'python'
+highlight_options = {
+    'stripnl': False
+}
+
+# Suppress syntax highlighting warnings for better build output
+suppress_warnings = ['misc.highlighting_failure']
 
 # autodoc config
 autodoc_member_order = "bysource"
@@ -59,16 +94,18 @@ html_sidebars = {
 }
 # html theme
 html_theme = "furo"
-html_static_path = ["../docs/_static"]
+# html_static_path = ["../docs/_static"]
 html_favicon = "../docs/_static/favicon.ico"
 html_logo = "../docs/assets/amrnet-logo.png"
-html_css_files = ["../docs/assets/custom.css"]
+# html_css_files = "../docs/assets/custom.css"
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
 html_theme_options = {
     # "light_logo": "amrnet-logo.png",  # add light mode logo
     # "dark_logo": "amrnet-logo.png",  # add dark mode logo
     "sidebar_hide_name": True,  # hide name of project in sidebar (already in logo)
     "source_repository": "https://github.com/amrnet/amrnet",
-    "source_branch": "devrev",
+    "source_branch": "main",
     "source_directory": "docs/",
     "footer_icons": [
         {

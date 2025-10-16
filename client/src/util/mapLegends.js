@@ -66,7 +66,7 @@ export const mapLegends = [
   {
     value: 'Pathotype prevalence',
     label: 'Pathotype prevalence',
-    organisms: ['ecoli'],
+    organisms: ['ecoli', 'decoli', 'shige'],
   },
   {
     value: 'O prevalence',
@@ -74,8 +74,8 @@ export const mapLegends = [
     organisms: ['ecoli', 'decoli', 'shige'],
   },
   {
-    value: 'OH prevalence',
-    label: 'Oh prevalence',
+    value: 'H prevalence',
+    label: 'H prevalence',
     organisms: ['ecoli', 'decoli', 'shige'],
   },
   {

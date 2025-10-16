@@ -1,40 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Close } from '@mui/icons-material';
 import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
-import { useStyles } from './DeterminantsGraphMUI';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
   BarChart,
+  Brush,
   CartesianGrid,
+  Tooltip as ChartTooltip,
   Label,
   Legend,
   ResponsiveContainer,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  Brush,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
 import {
   setDeterminantsGraphDrugClass,
   setDeterminantsGraphView,
+  setMaxSliderValueRD,
   setResetBool,
   setSliderList,
-  setMaxSliderValueRD,
   setTopXGenotypeRDWG,
 } from '../../../../stores/slices/graphSlice';
-import { drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
-import { useEffect, useState } from 'react';
 import {
   colorForDrugClassesKP,
-  colorForDrugClassesST,
   colorForDrugClassesNG,
+  colorForDrugClassesST,
+  colorForMarkers,
   hoverColor,
 } from '../../../../util/colorHelper';
+import { drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { SliderSizes } from '../../Slider/SliderSizes';
-import { setCaptureRDWG, setGenotypesForFilterSelectedRD } from '../../../../stores/slices/dashboardSlice';
-import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
+import { SliderSizes } from '../../Slider/SliderSizes';
+import { useStyles } from './DeterminantsGraphMUI';
 
 const dataViewOptions = [
   {
@@ -85,33 +86,32 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     // dispatch(setResetBool(true));
     setCurrentTooltip(null);
-    // dispatch(setResetBool(false));
   }, [genotypesDrugClassesData]);
 
-  function getDrugClassesBars() {
+  const drugClassesBars = useMemo(() => {
     switch (organism) {
       case 'styphi':
         if (colorForDrugClassesST[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesST[determinantsGraphDrugClass].filter(
-            item => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesST[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       case 'kpneumo':
         if (colorForDrugClassesKP[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesKP[determinantsGraphDrugClass].filter(
-            item => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesKP[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       case 'ngono':
         if (colorForDrugClassesNG[determinantsGraphDrugClass] !== undefined)
-          return colorForDrugClassesNG[determinantsGraphDrugClass].filter(
-            item => topXGenotypeRDWG.includes(item.name) || item.label === 'Other' || item.label === 'None',
-          );
+          return colorForDrugClassesNG[determinantsGraphDrugClass].filter(item => topXGenotypeRDWG.includes(item.name));
         break;
       default:
-        return [];
+        return topXGenotypeRDWG
+          .filter(x => x !== 'None')
+          .map((x, i) => {
+            return { name: x, color: colorForMarkers(i) };
+          })
+          .concat([{ name: 'None', color: '#B9B9B9' }]);
     }
-  }
+  }, [determinantsGraphDrugClass, organism, topXGenotypeRDWG]);
+
   let data = 0;
   useEffect(() => {
     if (genotypesDrugClassesData[determinantsGraphDrugClass] !== undefined) {
@@ -123,9 +123,9 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
     return determinantsGraphView === 'number' ? undefined : [0, 100];
   }
 
-  let determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
+  const determinantsGraphDrugClassData = structuredClone(genotypesDrugClassesData[determinantsGraphDrugClass] ?? []);
   useEffect(() => {
-    let mp = new Map(); //mp = total count of a genotype in database(including all years)
+    const mp = new Map(); //mp = total count of a genotype in database(including all years)
     determinantsGraphDrugClassData.forEach(cur => {
       Object.keys(cur).forEach(it => {
         if (it !== 'name' && it !== 'count' && it !== 'resistantCount' && it !== 'totalCount') {
@@ -210,20 +210,6 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   function handleClickChart(event) {
     setCurrentEventSelected(event);
   }
-  //TODO: Check this fuction to work for all organisms
-  function getColorForDrug(drug) {
-    const colorForDrugClasses =
-      organism === 'styphi'
-        ? colorForDrugClassesST
-        : organism === 'kpneumo'
-        ? colorForDrugClassesKP
-        : colorForDrugClassesNG;
-    const drugClassColors = colorForDrugClasses[determinantsGraphDrugClass];
-    // Find the color for the specific drug from the drug class colors
-    const drugColorObject = drugClassColors.find(item => drug === item.name);
-    const drugColor = drugColorObject ? drugColorObject.color : '#DCDCDC'; // If drugColorObject exists, extract color, otherwise set to empty string
-    return drugColor;
-  }
 
   useEffect(() => {
     const data = newArray.find(item => item.name === currentEventSelected?.activeLabel);
@@ -252,13 +238,18 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          color: getColorForDrug(key),
+          color: drugClassesBars?.find(x => x.name === key)?.color || '#DCDCDC',
         });
 
-        // value.drugClasses = value.drugClasses.sort((a, b) => a.label.localeCompare(b.label));
-        value.drugClasses = value.drugClasses
-          .sort((a, b) => a.label.localeCompare(b.label))
-          .filter(item => topXGenotypeRDWG.includes(item.label) || item.label === 'Other');
+        value.drugClasses = value.drugClasses.filter(
+          item => topXGenotypeRDWG.includes(item.label) || item.label === 'Other',
+        );
+
+        value.drugClasses.sort((a, b) => {
+          if (a.label === 'None') return 1;
+          if (b.label === 'None') return -1;
+          return a.label.localeCompare(b.label);
+        });
       });
 
       setCurrentTooltip(value);
@@ -269,9 +260,8 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     if (!resetBool) handleClickChart(currentEventSelected);
     else {
-      // dispatch(setResetBool(true));
       setCurrentTooltip(null);
-      // dispatch(setResetBool(false));
+      dispatch(setResetBool(true));
     }
   }, [topXGenotypeRDWG, currentSliderValueRD]);
 
@@ -339,7 +329,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                 }}
               />
 
-              {getDrugClassesBars()?.map((option, index) => (
+              {drugClassesBars?.map((option, index) => (
                 <Bar
                   key={`determinants-bar-${index}`}
                   dataKey={option.name}
@@ -366,7 +356,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
         <div className={classes.rightSide}>
           <SliderSizes style={{ width: '100%' }} />
           <div className={classes.tooltipWrapper}>
-            {currentTooltip ? (
+            {currentTooltip?.count > 0 ? (
               <div className={classes.tooltip}>
                 <div className={classes.tooltipTitle}>
                   <Typography variant="h5" fontWeight="600">
@@ -396,6 +386,8 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
                   })}
                 </div>
               </div>
+            ) : currentTooltip?.count === 0 ? (
+              <div className={classes.insufficientData}>Insufficient data</div>
             ) : (
               <div className={classes.noGenotypeSelected}>No genotype selected</div>
             )}

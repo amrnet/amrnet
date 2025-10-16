@@ -1,60 +1,60 @@
-import './index.css';
-import React, { useEffect, useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TablePagination from '@mui/material/TablePagination';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import {
+  Close,
+  DeleteOutline,
+  Edit,
+  FirstPage,
+  Info,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  LastPage,
+  Search,
+} from '@mui/icons-material';
+import {
+  Box,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextField,
-  Tooltip,
-  Toolbar,
-  Typography,
-  Checkbox,
-  Box,
-  IconButton,
-  Select,
-  MenuItem,
   FormControl,
+  IconButton,
   InputAdornment,
+  MenuItem,
+  Select,
+  TextField,
+  Toolbar,
+  Tooltip,
+  Typography,
 } from '@mui/material';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { useTheme } from '@mui/styles';
+import axios from 'axios';
+import LZString from 'lz-string';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { Circles } from 'react-loader-spinner';
+import { API_ENDPOINT } from '../../constants';
+import './index.css';
 import {
-  FirstPage,
-  LastPage,
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
-  DeleteOutline,
-  Info,
-  Edit,
-  Search,
-  Close,
-} from '@mui/icons-material';
-import {
-  useStyles,
   ColorButton,
   ColorButton3,
   ColorButton4,
   ColorButton5,
-  StyledHeaderCell,
+  CustomCircularProgress,
   CustomTableContainer,
   CustomTableSortLabel,
-  CustomCircularProgress,
+  StyledHeaderCell,
+  useStyles,
 } from './materialUI';
-import { API_ENDPOINT } from '../../constants';
-import axios from 'axios';
-import LZString from 'lz-string';
-import { Circles } from 'react-loader-spinner';
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/styles';
 
 function createData(id, date, changes) {
   return { id, date, changes };
@@ -112,7 +112,7 @@ export const AdminPage = () => {
   };
 
   // Change number of rows per page and return to first page
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -143,7 +143,7 @@ export const AdminPage = () => {
       if (order !== 0) return order;
       return a[1] - b[1];
     });
-    return stabilizedThis.map((el) => el[0]);
+    return stabilizedThis.map(el => el[0]);
   }
 
   // Comparator to order table for stableSort
@@ -160,22 +160,22 @@ export const AdminPage = () => {
     const aux = JSON.parse(JSON.stringify(data));
     if (id > 0) {
       for (let index = 0; index < id; index++) {
-        Object.keys(rows[index].changes.added).forEach((element) => {
+        Object.keys(rows[index].changes.added).forEach(element => {
           const genome = rows[index].changes.added[element];
-          const gIndex = aux.findIndex((x) => x.NAME === genome.NAME);
+          const gIndex = aux.findIndex(x => x.NAME === genome.NAME);
           aux.splice(gIndex, 1);
         });
 
-        Object.keys(rows[index].changes.deleted).forEach((element) => {
+        Object.keys(rows[index].changes.deleted).forEach(element => {
           const genome = rows[index].changes.deleted[element];
           aux.push(genome);
           aux.sort((a, b) => (a.NAME < b.NAME ? -1 : 1));
         });
 
-        Object.keys(rows[index].changes.updated).forEach((element) => {
+        Object.keys(rows[index].changes.updated).forEach(element => {
           const keys = rows[index].changes.updated[element];
           for (const key in keys) {
-            const genome = aux.filter((x) => x.NAME === element);
+            const genome = aux.filter(x => x.NAME === element);
             if (genome.length > 0) {
               genome[0][key] = keys[key].old;
             }
@@ -195,7 +195,7 @@ export const AdminPage = () => {
     let updated = '';
 
     if (Object.keys(aux.updated).length > 0) {
-      updated = Object.entries(aux.updated).map((x) => {
+      updated = Object.entries(aux.updated).map(x => {
         const updates = Object.entries(x[1]);
         const changes = updates.map((y, i) => {
           const point = i === updates.length - 1 ? '.' : '';
@@ -241,7 +241,7 @@ export const AdminPage = () => {
   async function deleteChange() {
     axios
       .post(`${API_ENDPOINT}mongo/deleteChange`, { id: currentChange - 1 })
-      .then((res) => {
+      .then(res => {
         getChangeData(res.data);
         setCurrentData(0);
       })
@@ -256,7 +256,7 @@ export const AdminPage = () => {
     setLoading(true);
     return await axios
       .get(`${API_ENDPOINT}mongo/checkForChanges`)
-      .then(async (res) => {
+      .then(async res => {
         if (res.data.Status === 'Changes') {
           await resetChanges();
           await getData();
@@ -271,7 +271,7 @@ export const AdminPage = () => {
           return false;
         }
       })
-      .catch((error) => {
+      .catch(_error => {
         if (showPopup) {
           handleCheckChanges('Could not check for changes. Try again later.');
         }
@@ -285,9 +285,9 @@ export const AdminPage = () => {
   }
 
   // Handler for select all rows button
-  const handleSelectAllClick = (event) => {
+  const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = filteredData.map((n) => n.NAME);
+      const newSelecteds = filteredData.map(n => n.NAME);
       setSelected(newSelecteds);
       return;
     }
@@ -295,7 +295,7 @@ export const AdminPage = () => {
   };
 
   // Handler for selecting specific row
-  const handleClick = (name) => {
+  const handleClick = name => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -314,7 +314,7 @@ export const AdminPage = () => {
 
   // Delete selected row
   function deleteRow() {
-    const index = data.findIndex((x) => x.NAME === currentRow.NAME);
+    const index = data.findIndex(x => x.NAME === currentRow.NAME);
     const aux = JSON.parse(JSON.stringify(data));
     aux.splice(index, 1);
     setData(aux);
@@ -325,12 +325,12 @@ export const AdminPage = () => {
   function deleteRows() {
     const aux = JSON.parse(JSON.stringify(filteredData));
     const aux2 = JSON.parse(JSON.stringify(data));
-    selected.forEach((row) => {
-      const index = aux.findIndex((x) => x.NAME === row);
+    selected.forEach(row => {
+      const index = aux.findIndex(x => x.NAME === row);
       if (index !== -1) {
         aux.splice(index, 1);
       }
-      const index2 = aux2.findIndex((x) => x.NAME === row);
+      const index2 = aux2.findIndex(x => x.NAME === row);
       if (index2 !== -1) {
         aux2.splice(index2, 1);
       }
@@ -346,10 +346,10 @@ export const AdminPage = () => {
     const row = {};
     const aux = JSON.parse(JSON.stringify(data));
 
-    const rowIndex = aux.findIndex((x) => x.NAME === currentRow.NAME);
+    const rowIndex = aux.findIndex(x => x.NAME === currentRow.NAME);
 
     const inputs = document.getElementsByClassName('MuiOutlinedInput-input');
-    Object.values(inputs).forEach((input) => {
+    Object.values(inputs).forEach(input => {
       row[input.id] = input.value;
     });
 
@@ -366,7 +366,7 @@ export const AdminPage = () => {
     const aux = JSON.parse(JSON.stringify(data));
 
     const inputs = document.getElementsByClassName('MuiOutlinedInput-input');
-    Object.values(inputs).forEach((input) => {
+    Object.values(inputs).forEach(input => {
       row[input.id] = input.value;
     });
 
@@ -381,7 +381,7 @@ export const AdminPage = () => {
   // Reset all changes made on the table
   async function resetChanges() {
     setSearch('');
-    let aux = JSON.parse(JSON.stringify(filters));
+    const aux = JSON.parse(JSON.stringify(filters));
     for (const key in aux) {
       aux[key] = '';
     }
@@ -418,7 +418,7 @@ export const AdminPage = () => {
           parts: times,
           current: index + 1,
         })
-        .then((res) => {
+        .then(res => {
           if (res.data !== '' && res.data.Status === 'Uploaded') {
             axios
               .get(`${API_ENDPOINT}mongo/download`)
@@ -449,7 +449,7 @@ export const AdminPage = () => {
 
   // Helper for function getData to get only the changes
   function getChangeData(changeData) {
-    let aux = [];
+    const aux = [];
     for (let index = 0; index < changeData.length - 1; index++) {
       const date = new Date(changeData[index].updatedAt);
       aux.push(createData(index + 1, date.toLocaleString(), changeData[index].changes));
@@ -459,21 +459,21 @@ export const AdminPage = () => {
 
   // Main function to get data for all the admin page
   async function getData() {
-    await axios.get(`${API_ENDPOINT}file/databaseLog`).then((res) => {
-      let data = res.data;
+    await axios.get(`${API_ENDPOINT}file/databaseLog`).then(res => {
+      const data = res.data;
 
       getChangeData(data);
 
-      let aux2 = Object.values(data[data.length - 1].data);
-      let aux4 = {};
-      let aux5 = {};
+      const aux2 = Object.values(data[data.length - 1].data);
+      const aux4 = {};
+      const aux5 = {};
 
-      Object.keys(aux2[0]).forEach((key) => {
+      Object.keys(aux2[0]).forEach(key => {
         if (!exceptions.includes(key)) {
           aux4[key] = '';
           aux5[key] = [];
-          let options = aux2.map((value) => value[key]);
-          options.forEach((x) => {
+          const options = aux2.map(value => value[key]);
+          options.forEach(x => {
             if (!aux5[key].includes(x)) {
               aux5[key].push(x);
             }
@@ -495,7 +495,7 @@ export const AdminPage = () => {
   useEffect(() => {
     setLoadingMessage('Checking for changes...');
     checkChanges(false)
-      .then((response) => {
+      .then(response => {
         if (!response) {
           getData().finally(() => {
             setIsLoading(false);
@@ -516,11 +516,11 @@ export const AdminPage = () => {
     if (search === '' && Object.values(filters).join('') === '') {
       setFilteredData(aux);
     } else {
-      let s = search.toLowerCase();
+      const s = search.toLowerCase();
 
-      aux = aux.filter((x) => {
+      aux = aux.filter(x => {
         let pass = true;
-        Object.keys(x).forEach((y) => {
+        Object.keys(x).forEach(y => {
           if (!exceptions.includes(y) && filters[y] !== '' && x[y] !== filters[y]) {
             pass = false;
           }
@@ -536,7 +536,7 @@ export const AdminPage = () => {
   }, [search, data, filters, exceptions]);
 
   // Component table toolbar (Above table header)
-  const EnhancedTableToolbar = (props) => {
+  const EnhancedTableToolbar = props => {
     const { numSelected } = props;
 
     return (
@@ -590,7 +590,7 @@ export const AdminPage = () => {
                 </IconButton>
               </InputAdornment>
             ),
-            onKeyDown: (event) => {
+            onKeyDown: event => {
               if (event.key === 'Enter') {
                 const value = document.getElementById('search-input').value;
                 setSearch(value);
@@ -618,7 +618,7 @@ export const AdminPage = () => {
   // Component table header
   function EnhancedTableHead(props) {
     const { classes, order, orderBy, onRequestSort, onSelectAllClick, numSelected, rowCount } = props;
-    const createSortHandler = (property) => (event) => {
+    const createSortHandler = property => event => {
       onRequestSort(event, property);
     };
 
@@ -635,7 +635,7 @@ export const AdminPage = () => {
                 className={classes.checkbox}
               />
             </TableCell>
-            {tableKeys.map((headCell) => (
+            {tableKeys.map(headCell => (
               <StyledHeaderCell
                 key={headCell + 'table'}
                 align={'center'}
@@ -653,17 +653,17 @@ export const AdminPage = () => {
                       <FormControl>
                         <Select
                           value={filters[headCell]}
-                          onChange={(event) => {
+                          onChange={event => {
                             setPage(0);
-                            let aux = JSON.parse(JSON.stringify(filters));
+                            const aux = JSON.parse(JSON.stringify(filters));
                             aux[headCell] = event.target.value;
                             setFilters(aux);
                             event.stopPropagation();
                           }}
                           displayEmpty
                           className={classes.selectFilter}
-                          onOpen={(event) => event.stopPropagation()}
-                          onClose={(event) => event.stopPropagation()}
+                          onOpen={event => event.stopPropagation()}
+                          onClose={event => event.stopPropagation()}
                         >
                           <MenuItem value="">
                             <em>None</em>
@@ -699,19 +699,19 @@ export const AdminPage = () => {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
 
-    const handleFirstPageButtonClick = (event) => {
+    const handleFirstPageButtonClick = event => {
       onPageChange(event, 0);
     };
 
-    const handleBackButtonClick = (event) => {
+    const handleBackButtonClick = event => {
       onPageChange(event, page - 1);
     };
 
-    const handleNextButtonClick = (event) => {
+    const handleNextButtonClick = event => {
       onPageChange(event, page + 1);
     };
 
-    const handleLastPageButtonClick = (event) => {
+    const handleLastPageButtonClick = event => {
       onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     };
 
@@ -748,7 +748,7 @@ export const AdminPage = () => {
     rowsPerPage: PropTypes.number.isRequired,
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = name => selected.indexOf(name) !== -1;
 
   return (
     <div className="mainDiv">
@@ -938,7 +938,7 @@ export const AdminPage = () => {
                         <TableCell padding="checkbox">
                           <Checkbox color="primary" checked={isItemSelected} onClick={() => handleClick(row.NAME)} />
                         </TableCell>
-                        {Object.values(row).map((cell) => (
+                        {Object.values(row).map(cell => (
                           <TableCell key={Math.random() + 'cell'} align="center">
                             {cell}
                           </TableCell>
@@ -982,7 +982,7 @@ export const AdminPage = () => {
             {filteredData.length > 0 && (
               <Select
                 value={page}
-                onChange={(event) => {
+                onChange={event => {
                   setPage(event.target.value);
                 }}
                 className={classes.select}
@@ -1043,7 +1043,7 @@ export const AdminPage = () => {
       >
         <DialogTitle id="alert-dialog-title">{'Edit'}</DialogTitle>
         <DialogContent className={classes.dialog}>
-          {Object.entries(currentRow).map((item) => (
+          {Object.entries(currentRow).map(item => (
             <TextField
               key={item[0] + 'input'}
               id={item[0]}
@@ -1071,7 +1071,7 @@ export const AdminPage = () => {
         <DialogTitle id="alert-dialog-title">{'Add'}</DialogTitle>
         <DialogContent className={classes.dialog}>
           {data.length > 0 &&
-            Object.keys(data[0]).map((item) => (
+            Object.keys(data[0]).map(item => (
               <TextField key={item + 'input2'} id={item} className={classes.input2} label={item} variant="outlined" />
             ))}
         </DialogContent>

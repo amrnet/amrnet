@@ -1,23 +1,27 @@
 import { Divider, Typography, useMediaQuery } from '@mui/material';
-import { useStyles } from './InformationCardsMUI';
-import { useAppSelector } from '../../../stores/hooks';
 import { useMemo } from 'react';
+import { useAppSelector } from '../../../stores/hooks';
 import { graphCards } from '../../../util/graphCards';
+import { useStyles } from './InformationCardsMUI';
 
 export const InformationCards = () => {
   const classes = useStyles();
   const matches1000 = useMediaQuery('(max-width: 1000px)');
   const matches650 = useMediaQuery('(max-width: 650px)');
 
-  const totalGenomes = useAppSelector((state) => state.dashboard.totalGenomes);
-  const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
-  const totalGenotypes = useAppSelector((state) => state.dashboard.totalGenotypes);
-  const actualGenotypes = useAppSelector((state) => state.dashboard.actualGenotypes);
-  const organism = useAppSelector((state) => state.dashboard.organism);
+  const totalGenomes = useAppSelector(state => state.dashboard.totalGenomes);
+  const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
+  const totalGenotypes = useAppSelector(state => state.dashboard.totalGenotypes);
+  const actualGenotypes = useAppSelector(state => state.dashboard.actualGenotypes);
+  const organism = useAppSelector(state => state.dashboard.organism);
 
   const totalLabel = useMemo(() => {
-    const lineageCard = graphCards.find((card) => card.title.toLowerCase().includes('lineage'));
-    const STCard = graphCards.find((card) => card.title.toLowerCase().includes('st'));
+    const stOrganisms = ['kpneumo', 'shige', 'decoli', 'ecoli'];
+    if (stOrganisms.includes(organism)) {
+      return 'Total STs';
+    }
+    const lineageCard = graphCards.find(card => card.title.toLowerCase().includes('lineage'));
+    const STCard = graphCards.find(card => card.title.toLowerCase().includes('st'));
 
     if (lineageCard?.organisms?.includes(organism)) {
       return 'Total Lineages';

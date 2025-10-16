@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   determinantsGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -184,6 +184,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     columnGap: '8px',
     paddingBottom: '4px',
+  },
+  insufficientData: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    color: 'red',
+    fontWeight: '600',
   },
 }));
 
