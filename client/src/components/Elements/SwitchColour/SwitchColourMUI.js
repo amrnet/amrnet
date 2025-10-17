@@ -3,8 +3,8 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles(theme => ({
   fabGF: {
     position: 'fixed',
-    left: 8,
-    bottom: 60,
+    left: 70,
+    bottom: 0,
     padding: '16px',
     zIndex: 1,
 

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useStyles } from './SwitchColourMUI';
 import { TopLeftControls } from '../Map/TopLeftControls';
-import { useMediaQuery, ToggleButton } from '@mui/material';
+import { useMediaQuery, ToggleButton, Tooltip } from '@mui/material';
 
 import { useAppSelector, useAppDispatch } from '../../../stores/hooks';
 import { setColourPattern } from '../../../stores/slices/dashboardSlice';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import ColorLensIcon from "@mui/icons-material/ColorLens";
+import FilterBAndWIcon from "@mui/icons-material/FilterBAndW";
+
 
 export const SwitchColour = () => {
   const classes = useStyles();
@@ -38,25 +39,42 @@ export const SwitchColour = () => {
 
   return (
     <div className={classes.fabGF}>
-      <ToggleButton
-        value="pattern"
-        selected={colourPattern}
-        onChange={handleSwitchPattern}
-        sx={{
-          borderRadius: "50px",
-          px: 2,
-          py: 1,
-          fontSize: "0.8rem",
-          textTransform: "none",
-          background: colourPattern ? "#1976d2" : "#eee", // blue when ON, grey when OFF
-          color: colourPattern ? "white" : "#333",
-          "&:hover": {
-            background: colourPattern ? "#1565c0" : "#ddd", // darker blue on hover
-          },
-        }}
+    <Tooltip
+        title={colourPattern ? "Colour Accessibility Mode" : "Normal Mode"}
+        arrow
+        placement="top"
       >
-        {colourPattern ? <VisibilityIcon /> : <VisibilityOffIcon />}
-      </ToggleButton>
+        <ToggleButton
+          value="pattern"
+          selected={colourPattern}
+          onChange={handleSwitchPattern}
+          sx={{
+            borderRadius: "50px",
+            px: 1,
+            py: 1,
+            fontSize: "0.8rem",
+            textTransform: "none",
+            backgroundColor: "#1fbbd3", // default (OFF)
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#158293",
+            },
+            "&.Mui-selected": {
+              backgroundColor: "#1fbbd3", // ON state
+              color: "white",
+              "&:hover": {
+                backgroundColor: "##158293",
+              },
+            },
+          }}
+        >
+        {colourPattern ? (
+          <FilterBAndWIcon sx={{ fontSize: 20 }} /> // smaller icon
+        ) : (
+          <ColorLensIcon sx={{ fontSize: 20 }} /> // smaller icon
+        )}
+        </ToggleButton>
+      </Tooltip>
     </div>
   );
 };
