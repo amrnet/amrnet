@@ -54,7 +54,7 @@
     "express-fileupload": "^1.5.1",
     "express-openid-connect": "^2.18.1",
     "express-rate-limit": "8.0.1",
-    "express-validator": "^7.2.1",
+    "express-validator": "^7.3.0",
     "fast-csv": "^5.0.2",
     "gopd": "^1.2.0",
     "has-tostringtag": "^1.0.2",
