@@ -6,12 +6,14 @@ import { removeOrganism } from '../../stores/slices/dashboardSlice';
 import { MainLayout } from '../Layout';
 import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography, useMediaQuery } from '@mui/material';
 import { organismsCards } from '../../util/organismsCards';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 export const HomePage = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const matches600 = useMediaQuery('(max-width: 600px)');
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [organismCounts, setOrganismCounts] = useState({});
@@ -26,7 +28,7 @@ export const HomePage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get('/api/filters/getCollectionCounts');
+      const response = await axios.get('/api/getCollectionCounts');
       setOrganismCounts(response.data);
     } catch (error) {
       console.log('error while getting collections count:', error);
@@ -37,19 +39,12 @@ export const HomePage = () => {
 
   return (
     <MainLayout>
-      <Card className={classes.card}>
-        <CardContent className={classes.cardContent}>
-          <Typography variant="body4" fontWeight="500" align="justify" className={classes.title}>
-            AMRnet displays antimicrobial resistance data derived from genomic surveillance, for priority organisms.
-            Click an organism below to view its data dashboard.
-          </Typography>
-        </CardContent>
-
+      <Card className={classes.card} style={{ padding: matches600 ? '0px 0px' : '' }}>
         <CardContent className={classes.organisms}>
           <Grid container>
             {organismsCards
-              .filter((organism) => !organism.disabled)
-              .map((organism) => (
+              .filter(organism => !organism.disabled)
+              .map(organism => (
                 <Grid item xs={12} sm={4} md={3} key={organism.value} style={{ padding: matches600 ? '2px 16px' : '' }}>
                   <Link className={classes.organismLink} to={`/dashboard?organism=${organism.value}`} target="_blank">
                     <Card
@@ -86,7 +81,7 @@ export const HomePage = () => {
                           {organism.label}
                         </Typography>
                         <Typography sx={{ fontSize: 'smaller' }}>
-                          Genomes: {loading ? <CircularProgress size="1rem" /> : organismCounts[organism.value] ?? 0}
+                          Genomes: {loading ? <CircularProgress size="1rem" /> : (organismCounts[organism.value] ?? 0)}
                         </Typography>
                       </div>
                     </Card>

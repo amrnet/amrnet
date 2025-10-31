@@ -10,11 +10,13 @@ interface GlobalOverviewModel {
 interface ColorPalleteKOModel {
   O_locus: Object;
   K_locus: Object;
+  O_type: Object;
 }
 
 interface UniqueKOModel {
   O_locus: Array<any>;
   K_locus: Array<any>;
+  O_type: Array<any>;
 }
 
 interface DashboardState {
@@ -34,6 +36,7 @@ interface DashboardState {
   actualTimeInitial: number | string;
   actualTimeFinal: number | string;
   years: Array<number>;
+  yearsCompleteListToShowInGlobalFilter: Array<number>;
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
   genotypesForFilterSelectedRD: Array<string>;
@@ -55,6 +58,9 @@ interface DashboardState {
   pathovar: Array<string>;
   serotype: Array<string>;
   economicRegions: Object;
+  loadingPDF: boolean;
+  availableDrugs: Array<string>;
+  colourPattern: boolean;
 }
 
 const initialState: DashboardState = {
@@ -77,16 +83,17 @@ const initialState: DashboardState = {
   actualTimeInitial: '',
   actualTimeFinal: '',
   years: [],
+  yearsCompleteListToShowInGlobalFilter: [],
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
   genotypesForFilterSelectedRD: [],
   KOForFilterSelected: [],
   genotypesForFilterDynamic: [],
-  KOForFilterDynamic: { K_locus: [], O_locus: [] },
+  KOForFilterDynamic: { K_locus: [], O_locus: [], O_type: [] },
   colorPallete: {},
   colorPalleteCgST: {},
   colorPalleteSublineages: {},
-  colorPalleteKO: { K_locus: {}, O_locus: {} },
+  colorPalleteKO: { K_locus: {}, O_locus: {}, O_type: {} },
   listPMID: [],
   PMID: [],
   captureDRT: true,
@@ -98,6 +105,9 @@ const initialState: DashboardState = {
   pathovar: [],
   economicRegions: {},
   serotype: [],
+  loadingPDF: false,
+  availableDrugs: [],
+  colourPattern: false,
 };
 
 export const dashboardSlice = createSlice({
@@ -120,7 +130,7 @@ export const dashboardSlice = createSlice({
       const url = new URL(window.location.href);
       const hash = url.hash;
 
-      let [path, queryString] = hash.split('?');
+      const [path, queryString] = hash.split('?');
       const searchParams = new URLSearchParams(queryString);
 
       if (searchParams.get('organism') !== action.payload) {
@@ -166,6 +176,9 @@ export const dashboardSlice = createSlice({
     },
     setYears: (state, action: PayloadAction<Array<number>>) => {
       state.years = action.payload;
+    },
+    setYearsCompleteListToShowInGlobalFilter: (state, action: PayloadAction<Array<number>>) => {
+      state.yearsCompleteListToShowInGlobalFilter = action.payload;
     },
     setGenotypesForFilter: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilter = action.payload;
@@ -230,6 +243,15 @@ export const dashboardSlice = createSlice({
     setEconomicRegions: (state, action: PayloadAction<Object>) => {
       state.economicRegions = action.payload;
     },
+    setLoadingPDF: (state, action: PayloadAction<boolean>) => {
+      state.loadingPDF = action.payload;
+    },
+    setAvailableDrugs: (state, action: PayloadAction<Array<string>>) => {
+      state.availableDrugs = action.payload;
+    },
+    setColourPattern: (state, action: PayloadAction<boolean>) => {
+      state.colourPattern = action.payload;
+    },
   },
 });
 
@@ -250,6 +272,7 @@ export const {
   setActualTimeInitial,
   setActualTimeFinal,
   setYears,
+  setYearsCompleteListToShowInGlobalFilter,
   setGenotypesForFilter,
   setGenotypesForFilterSelected,
   setGenotypesForFilterSelectedRD,
@@ -272,6 +295,9 @@ export const {
   setColorPalleteKO,
   setCaptureKOT,
   setKOForFilterSelected,
+  setLoadingPDF,
+  setAvailableDrugs,
+  setColourPattern
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

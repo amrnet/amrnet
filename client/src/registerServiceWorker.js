@@ -41,7 +41,7 @@ function registerValidSW(swUrl) {
         }
       };
     })
-    .catch((error) => {
+    .catch((_error) => {
       // This occurs when the app is served over HTTP instead of HTTPS
       // The browser prevents service workers from being registered on insecure origins.
       if (error.name === 'SecurityError' && window.location.protocol === 'http:') {
@@ -91,7 +91,7 @@ export default function register() {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebookincubator/create-react-app/issues/2374
-      const swUrl = `${process.env.PUBLIC_URL.replace(/\/$/, '')}/service-worker.js`;
+      // The swUrl is defined below, so this line is not needed and has been removed.
     }
 
     window.addEventListener('load', () => {

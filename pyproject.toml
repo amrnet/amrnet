@@ -7,11 +7,11 @@ readme = "README.md"
 license = {file = "LICENSE"}
 authors = [
     { name = "Louise Cerdeira", email = "louise.cerdeira@gmail.com" },
-    { name = "Kat Holt", email = "drkatholt@gmail.com" }
+    { name = "Kathryn Holt", email = "drkatholt@gmail.com" }
 ]
 maintainers = [
    { name = "Louise Cerdeira", email = "louise.cerdeira@gmail.com" },
-   { name = "Vandana Sharma", email = "vandanasharma@gmail.comm" }
+   { name = "Vandana Sharma", email = "vandana.sharma18519@gmail.com" }
 ]
 keywords = [
     "AMR",
@@ -29,7 +29,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    
+
 ]
 requires-python = ">=3.11,<3.14"
 dependencies = [
@@ -84,3 +84,43 @@ venvPath = "."
 venv = ".venv"
 pythonVersion = "3.12"
 
+# Lint and format Python code
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+select = ["E", "F", "W", "C", "N", "UP", "S", "B", "I"]
+ignore = ["E501", "S101"]  # Line too long, assert statements
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]  # Unused imports in __init__.py
+"test_*.py" = ["S101"]    # Allow assert in tests
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.venv
+  | _build
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src"]
+python_files = ["test_*.py", "*_test.py"]
+python_functions = ["test_*"]
+addopts = "--strict-markers --disable-warnings"
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+]

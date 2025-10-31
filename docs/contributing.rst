@@ -1,180 +1,323 @@
 .. _label-contributing:
 
-Contributor Guide
-=================
+Contributor Guide: Issues & PRs
+===============================
+.. container:: justify-text
 
-Thank you for your interest in improving this project. This project is open-source
-under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__.
->`__ and welcomes
-contributions in the form of bug reports, feature requests, and pull requests.
+   Thank you for your interest in improving this project. This project is open-source
+   under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__.
+   and welcomes
+   contributions in the form of bug reports, feature requests, and pull requests.
 
-Here is a list of important resources for contributors:
+   Here is a list of important resources for contributors:
 
--  `Source Code <https://github.com/amrnet>`__
--  `Documentation <https://amrnet.readthedocs.io/>`__
--  `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__
--  :doc:`Code of Conduct <codeofconduct>`
+   -  `Source Code <https://github.com/amrnet>`__
+   -  `Documentation <https://amrnet.readthedocs.io/>`__
+   -  `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__
+   -  :doc:`Code of Conduct <codeofconduct>`
 
 How to report a bug
 -------------------
+.. container:: justify-text
 
-Report bugs on the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__.
+   Report bugs on the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__.
 
-When filing an issue, make sure to answer these questions:
+   When filing an issue, make sure to answer these questions:
 
--  Which operating system and Python version are you using?
--  Which version of this project are you using?
--  What did you do?
--  What did you expect to see?
--  What did you see instead?
+   -  Which operating system and Python version are you using?
+   -  Which version of this project are you using?
+   -  What did you do?
+   -  What did you expect to see?
+   -  What did you see instead?
 
-The best way to get your bug fixed is to provide a test case, and/or steps to reproduce
-the issue.
+   The best way to get your bug fixed is to provide a test case, and/or steps to reproduce
+   the issue.
 
 How to request a feature
 ------------------------
+.. container:: justify-text
 
-Features that improve ``AMRnet`` can be suggested on the
-`Issue Tracker <https://github.com/amrnet/amrnet/issues>`__.
-It's a good idea to first submit the proposal as a feature request prior to submitting a
-pull request as this allows for the best coordination of efforts by preventing the
-duplication of work, and allows for feedback on your ideas.
+   Features that improve ``AMRnet`` can be suggested on the
+   `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__.
+   It's a good idea to first submit the proposal as a feature request prior to submitting a
+   pull request as this allows for the best coordination of efforts by preventing the
+   duplication of work, and allows for feedback on your ideas.
+
+Contributor Guide: Research & Development
+=========================================
+.. container:: justify-text
+
+   Thank you for your interest in contributing to AMRnet! 🎉 We welcome contributions
+   from researchers, developers, and public health professionals worldwide. This project
+   is open-source under the `GPL-3.0 license <https://opensource.org/licenses/GPL-3.0>`__
+   and welcomes contributions in the form of bug reports, feature requests, and pull requests.
+
+   Here is a list of important resources for contributors:
+
+   -  `Source Code <https://github.com/amrnet/amrnet>`__
+   -  `Documentation <https://amrnet.readthedocs.io/>`__
+   -  `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__
+   -  `Discussions <https://github.com/amrnet/amrnet/discussions>`__
+   -  :doc:`Code of Conduct <codeofconduct>`
+
+Quick Start
+-----------
+.. container:: justify-text
+
+   Ready to contribute? Here's how to set up AMRnet for local development:
+
+   1. **Fork** the repository on GitHub
+   2. **Clone** your fork locally
+   3. **Create** a feature branch for your changes
+   4. **Make** your changes and test them
+   5. **Submit** a pull request
+
+Types of Contributions
+----------------------
+
+Bug Reports
+~~~~~~~~~~~
+.. container:: justify-text
+
+   Help us improve by reporting bugs using our `Issue Tracker <https://github.com/amrnet/amrnet/issues>`__.
+
+   **Before reporting a bug:**
+   - Search existing issues to avoid duplicates
+   - Test with the latest version
+   - Check if the issue occurs in different browsers
+
+   **When filing a bug report, please include:**
+   - Which operating system and browser you're using
+   - Which version of AMRnet you're using
+   - Steps to reproduce the issue
+   - What you expected to happen
+   - What actually happened
+   - Screenshots if applicable
+
+Feature Requests
+~~~~~~~~~~~~~~~~
+.. container:: justify-text
+
+   We welcome feature suggestions that improve AMRnet's functionality for AMR surveillance.
+
+   **Good feature requests include:**
+   - Clear description of the problem being solved
+   - Specific use cases from public health or research perspectives
+   - Consideration of different user types (researchers, policymakers, etc.)
+
+Documentation Improvements
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. container:: justify-text
+
+   Documentation improvements are always welcome, including:
+   - Fixing typos or clarifying instructions
+   - Adding examples or use cases
+   - Translating content to other languages
+   - Creating tutorials or guides
 
 How to set up your development environment
 ------------------------------------------
-``AMRnet`` uses ``uv`` for python project management. ``uv`` can be installed
-on using the standalone installer:
 
-.. code:: shell
+Prerequisites
+~~~~~~~~~~~~~
+.. container:: justify-text
 
-   curl -LsSf https://astral.sh/uv/install.sh | sh
+   Before you begin, ensure you have:
 
-Installation instructions for other methods and Windows can be found
-`here <https://docs.astral.sh/uv/getting-started/installation/>`__.
+   - **Node.js** 18+ with npm
+   - **Python** 3.8+ (for data processing)
+   - **MongoDB** 6.0+ (local or Atlas)
+   - **Git** for version control
 
-``uv`` can then be used to install the latest compatible version of python:
+Initial Setup
+~~~~~~~~~~~~~
+.. container:: justify-text
 
-.. code:: shell
+   .. code-block:: shell
 
-   uv python install 3.13
+      # Clone your fork
+      git clone https://github.com/YOUR_USERNAME/amrnet.git
+      cd amrnet
 
-``AMRnet`` and it's development dependencies can be installed with:
+      # Install dependencies
+      npm install
+      cd client && npm install && cd ..
 
-.. code:: shell
+      # Set up environment
+      cp .env.example .env
+      # Edit .env with your configuration
 
-   uv sync
+      # Start development servers
+      npm run start:dev
 
-Specific extras (e.g. ``numba``) can be installed with the ``--extra`` flag or all
-extras with the ``--all-extras`` flag:
+   The application will be available at ``http://localhost:3000`` with the API at ``http://localhost:8080``.
 
-.. code:: shell
+Code Quality Standards
+----------------------
 
-   uv sync --extra numba
-   uv sync --all-extras
+Linting and Formatting
+~~~~~~~~~~~~~~~~~~~~~~
+.. container:: justify-text
 
-If you want to build the documentation locally, you will need to install ``pandoc``. The
-`installation method <https://pandoc.org/installing.html>`__ depends on what OS you are
-running.
+   AMRnet uses ESLint and Prettier to maintain code quality:
 
-To run a script using the development virtual environment, you can run:
+   .. code-block:: shell
 
-.. code:: shell
+      # Lint JavaScript/React code
+      cd client && npm run lint
 
-   uv run example.py
+      # Format code with Prettier
+      npm run format
 
-Refer to the ``uv`` `documentation <https://docs.astral.sh/uv/>`__ for more information
-relating to using ``uv`` for project management.
+      # Fix linting issues automatically
+      cd client && npm run lint:fix
 
-How to test the project
------------------------
+Testing
+~~~~~~~
+.. container:: justify-text
 
-Pre-commit
----------- 
+   Always include tests with your contributions:
 
-`Pre-commit <https://pre-commit.com/>`__ ensures code quality and consistency by running
-the ``ruff`` linter and formatter, stripping out execution cells in jupyter notebooks,
-and running several pre-commit hooks.
+   .. code-block:: shell
 
-These can be run against all files in the project with:
+      # Run frontend tests
+      cd client && npm test
 
-.. code:: shell
+      # Run tests with coverage
+      cd client && npm test -- --coverage
 
-   uv run pre-commit run --all-files
+      # Run backend tests (if available)
+      npm run test:backend
 
-However, the best way to ensure code quality is by installing the git pre-commit hook:
+Git Hooks
+~~~~~~~~~
+.. container:: justify-text
 
-.. code:: shell
+   Pre-commit hooks automatically run linting and formatting:
+   - Configured via ``.editorconfig`` and ``.prettierrc.json``
+   - Ensures consistent code style across all contributions
 
-   uv run pre-commit install
+Development Workflow
+--------------------
 
-This will run ``pre-commit`` against all changed files when attempting to
-``git commit``. You will need to fix the offending files prior to being able to commit a
-change unless you run ``git commit --no-verify``.
+Branch Naming
+~~~~~~~~~~~~~
+.. container:: justify-text
 
-Type Checking
--------------
+   Use descriptive branch names:
+   - ``feature/add-organism-filtering``
+   - ``bugfix/map-rendering-issue``
+   - ``docs/update-installation-guide``
 
-``AMRnet`` uses ``pyright`` to ensure strict type-checking where possible.
-``pyright`` can be run on all files with:
+Commit Messages
+~~~~~~~~~~~~~~~
+.. container:: justify-text
 
-.. code:: shell
+   Follow conventional commit format:
+   - ``feat: add new organism filtering capability``
+   - ``fix: resolve map rendering issue on mobile``
+   - ``docs: update installation instructions``
 
-   uv run pyright
+Code Review Process
+~~~~~~~~~~~~~~~~~~~
+.. container:: justify-text
 
-Tests
------
+   All contributions go through code review:
+   1. Create a pull request with clear description
+   2. Automated tests must pass
+   3. Code review by maintainers
+   4. Address feedback and update as needed
+   5. Merge once approved
 
-The ``AMRnet`` tests are located in the tests directory and are written
-using the `pytest <https://pytest.readthedocs.io/>`__ testing framework. The test suite
-can be run with:
+Specific Contribution Areas
+---------------------------
 
-.. code:: shell
+Frontend Development
+~~~~~~~~~~~~~~~~~~~~
+.. container:: justify-text
 
-   uv run pytest -m 'not benchmark_suite'
+   **Technologies:** React 18, Material-UI, Redux, Recharts
 
+   **Key areas for contribution:**
+   - New visualization components
+   - Mobile responsiveness improvements
+   - Accessibility enhancements
+   - Performance optimizations
 
-If the code you are modifying may affect the performance of ``AMRnet``, it is
-recommended that you run the benchmarking tests to verify the performance before and
-after your changes. There are three different benchmarking suites: ``geometry``,
-``meshing`` and ``analysis``. These can be run like this:
+Backend Development
+~~~~~~~~~~~~~~~~~~~
+.. container:: justify-text
 
-.. code:: shell
+   **Technologies:** Node.js, Express.js, MongoDB
 
-   uv run pytest -m benchmark_geom
-   uv run pytest -m benchmark_mesh
-   uv run pytest -m benchmark_analysis
+   **Key areas for contribution:**
+   - API endpoint optimization
+   - Database query improvements
+   - Data validation and processing
+   - Security enhancements
 
-Note that a plot of the results can be generated by adding the ``--benchmark-histogram``
-option to the above commands.
+Data Processing
+~~~~~~~~~~~~~~~
+.. container:: justify-text
+
+   **Technologies:** Python, pandas, NumPy
+
+   **Key areas for contribution:**
+   - New organism data parsers
+   - Data quality validation
+   - Statistical analysis functions
+   - Export format support
 
 Documentation
--------------
+~~~~~~~~~~~~~
+.. container:: justify-text
 
-You can build the documentation locally with:
-
-.. code:: shell
-
-   uv run sphinx-build docs docs/_build
-
-Make sure that you have a recent version of ``pandoc`` installed so that the example
-notebooks can be generated.
-
-Note that all pull requests also build the documentation on Read the Docs, so building
-the documentation locally is not required.
+   **Areas needing help:**
+   - User guides and tutorials
+   - API documentation
+   - Developer onboarding
+   - Multi-language translations
 
 How to submit changes
 ---------------------
+.. container:: justify-text
 
-Open a `pull request <https://github.com/amrnet/amrnet/pulls>`__
-to submit changes to this project.
+   Open a `pull request <https://github.com/amrnet/amrnet/pulls>`__
+   to submit changes to this project.
 
-Your pull request needs to meet the following guidelines for acceptance:
+   **Your pull request should:**
+   - Include a clear description of changes
+   - Pass all automated tests
+   - Include relevant tests for new functionality
+   - Update documentation if needed
+   - Follow the project's coding standards
 
--  The test suite, pre-commit and pyright checks must pass without errors and warnings.
--  Include unit tests. This project aims for a high code coverage.
--  If your changes add functionality, update the documentation
-   accordingly.
+   **Pull request template includes:**
+   - Description of changes
+   - Type of change (bugfix, feature, docs, etc.)
+   - Testing checklist
+   - Screenshots for UI changes
 
-It is recommended to open an issue before starting work on anything.
-This will allow a chance to talk it over with the owners and validate
-your approach.
+Community Guidelines
+--------------------
+.. container:: justify-text
+
+   - Be respectful and inclusive
+   - Provide constructive feedback
+   - Focus on the scientific and public health mission
+   - Help newcomers get started
+   - Follow our :doc:`Code of Conduct <codeofconduct>`
+
+Getting Help
+------------
+.. container:: justify-text
+
+   **Need assistance?**
+   - Check existing `Issues <https://github.com/amrnet/amrnet/issues>`__
+   - Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`__
+   - Review the :doc:`Installation Guide <installation>`
+   - Read the `Developer Guide <../tutorial/developer_guide.md>`__
+
+   **For urgent issues:**
+   - Security vulnerabilities: See our Security Policy
+   - Critical bugs: Use the Issue Tracker with "urgent" label

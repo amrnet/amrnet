@@ -121,7 +121,7 @@ export const ContinentPathotypeGraphs = () => {
       graph.style.overflow = originalOverflow;
       graph.style.width = originalWidth;
 
-      let heightFactor = 0;
+      const heightFactor = 0;
       ///TODO: improve the code below as its hardcode
       // canvas.width = 1200;
 
@@ -162,7 +162,7 @@ export const ContinentPathotypeGraphs = () => {
       ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}.png`);
+      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}_Pathotype_comparisons.png`);
     } catch {
       setShowAlert(true);
     } finally {

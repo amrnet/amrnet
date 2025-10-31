@@ -1,70 +1,199 @@
 .. _label-installation:
 
-Installation
-============
+Developer Guide
+===============
 
-These instructions will get you a copy of ``AMRnet`` up and running on your
-machine. You will need a working copy of python 3.11, 3.12 or 3.13 to get started.
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    Features <feature>
+    Performance Optimization <performance>
+    Deployment Guide <deployment>
+    Security Guide <security>
+    Internationalization <internationalization>
+    Professional Translation Services <professional-translation-services>
+    Troubleshooting <troubleshooting>
+    Contributor Guide <contributing>
+    Code of Conduct <codeofconduct>
+    License <license>
 
 
-``AMRnet`` uses `shapely <https://github.com/shapely/shapely>`_ to prepare
-the cross-section geometry and `CyTriangle <https://github.com/m-clare/cytriangle>`_ to
-efficiently generate a conforming triangular mesh.
-`numpy <https://github.com/numpy/numpy>`_ and `scipy <https://github.com/scipy/scipy>`_
-are used to aid finite element computations, while
-`matplotlib <https://github.com/matplotlib/matplotlib>`_ and
-`rich <https://github.com/Textualize/rich>`_ are used for post-processing.
+.. container:: justify-text
 
-``AMRnet`` and all of its dependencies can be installed through the python
-package index:
+    These instructions will get you a copy of ``AMRnet`` up and running on your
+    machine for development and testing purposes. AMRnet is a full-stack web application
+    built with Node.js, React, and MongoDB.
 
-.. code-block:: shell
+Prerequisites
+-------------
+.. container:: justify-text
 
-    pip install AMRnet
+    Before installing AMRnet, make sure you have the following software installed:
 
-Installing ``Numba``
---------------------
+    - **Node.js**: v18.20.4 or higher (specified in ``.nvmrc``)
+    - **npm**: Latest version (comes with Node.js)
+    - **Python**: v3.8+ (for data processing components)
+    - **Git**: Latest version for version control
+    - **MongoDB**: v6.0+ (local installation or MongoDB Atlas cloud database)
 
-``Numba`` translates a subset of Python and NumPy code into fast machine code, allowing
-algorithms to approach the speeds of C. The speed of several ``AMRnet``
-analysis functions have been enhanced with `numba <https://github.com/numba/numba>`_.
-To take advantage of this increase in performance you can install ``numba`` alongside
-``AMRnet`` with:
+    You can check your installed versions with:
 
-.. code-block:: shell
+    .. code-block:: shell
 
-    pip install AMRnet[numba]
+        node --version
+        npm --version
+        python --version
+        git --version
 
-Installing ``PARDISO`` Solver
------------------------------
+Quick Start
+-----------
+.. container:: justify-text
 
-The default sparse solver used in ``scipy`` is ``SuperLU``.
-It performs okay for small matrices but appears to be slower for larger matrices. The
-``PARDISO`` solver is a much faster alternative
-(see `pypardiso <https://github.com/haasad/PyPardisoProject>`_), but it requires the
-installation of the ``MKL`` library, which takes a lot of disk space. Note that this
-library is only available for Linux and Windows systems.
+    Follow these steps to get AMRnet running locally:
 
-If you do not have a disk space constraint, you can install the ``PARDISO`` solver with:
+    **1. Clone the Repository**
 
-.. code-block:: shell
+    .. code-block:: shell
 
-    pip install AMRnet[pardiso]
+        git clone https://github.com/amrnet/amrnet.git
+        cd amrnet
 
-Installing CAD Modules
-----------------------
+    **2. Install Dependencies**
 
-The dependencies used to import from ``.dxf`` and ``.3dm`` (rhino) files are not
-included by default in the base installation.
-`cad-to-shapely <https://github.com/aegis1980/cad-to-shapely>`_ is used to import
-``.dxf`` files, while
-`rhino-shapely-interop <https://github.com/normanrichardson/rhino_shapely_interop>`_ is
-used to import ``.3dm`` files.
+    .. code-block:: shell
 
-To install ``AMRnet`` with the above functionality, use the ``dxf`` and/or
-``rhino`` options:
+        # Install backend dependencies
+        npm install
 
-.. code-block:: shell
+        # Install frontend dependencies
+        cd client && npm install && cd ..
 
-    pip install AMRnet[dxf]
-    pip install AMRnet[rhino]
+    **3. Environment Configuration**
+
+    .. code-block:: shell
+
+        # Create environment file from template
+        cp .env.example .env
+
+        # Edit .env file with your configuration
+        # Add your MongoDB connection string and other settings
+
+    **4. Start Development Servers**
+
+    .. code-block:: shell
+
+        # Start both backend and frontend in development mode
+        npm run start:dev
+
+        # Or start them individually:
+        npm run start:backend  # Backend only (port 8080)
+        npm run client         # Frontend only (port 3000)
+
+    **5. Access the Application**
+
+    Open your browser and navigate to ``http://localhost:3000`` to see the AMRnet dashboard.
+
+Development Setup
+-----------------
+.. container:: justify-text
+
+    For detailed development setup, including code quality tools and best practices:
+
+Node.js Version Management
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. container:: justify-text
+
+    AMRnet uses Node.js v18.20.4. If you use nvm (Node Version Manager):
+
+    .. code-block:: shell
+
+        # Use the project's specified Node.js version
+        nvm use
+
+        # Or install the specific version if not available
+        nvm install v18.20.4
+        nvm use v18.20.4
+
+Python Dependencies
+~~~~~~~~~~~~~~~~~~~
+.. container:: justify-text
+
+    For data processing components and documentation building:
+
+    .. code-block:: shell
+
+        # Install Python dependencies
+        pip install -r requirements.txt
+
+        # Install documentation dependencies
+        pip install -r docs/requirements.txt
+
+Environment Variables
+~~~~~~~~~~~~~~~~~~~~~
+.. container:: justify-text
+
+    Configure your ``.env`` file with the following variables:
+
+    .. code-block:: shell
+
+        # Application settings
+        NODE_ENV=development
+        PORT=8080
+
+        # Database configuration
+        MONGODB_URI=mongodb://localhost:27017/amrnet
+        # Or for MongoDB Atlas:
+        # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/amrnet
+
+        # Optional: Fixie proxy for Heroku deployment
+        # FIXIE_URL=socks5://username:password@proxy-host:port
+
+Production Build
+----------------
+.. container:: justify-text
+
+    To build AMRnet for production deployment:
+
+    .. code-block:: shell
+
+        # Build the client application
+        npm run build
+
+        # Start the production server
+        npm start
+
+    The built application will be served from the ``client/build`` directory.
+
+Docker Installation
+-------------------
+.. container:: justify-text
+
+    AMRnet can also be run using Docker:
+
+    .. code-block:: shell
+
+        # Build the Docker image
+        docker build -t amrnet .
+
+        # Run the container
+        docker run -p 8080:8080 -e MONGODB_URI=your_mongodb_uri amrnet
+
+    Make sure to replace ``your_mongodb_uri`` with your actual MongoDB connection string.
+
+Troubleshooting
+---------------
+.. container:: justify-text
+
+    **Common Installation Issues:**
+
+    1. **Node version mismatch**: Use ``nvm use`` to switch to the correct version
+    2. **Package conflicts**: Delete ``node_modules`` and run ``npm install`` again
+    3. **Port conflicts**: Make sure ports 3000 and 8080 are available
+    4. **MongoDB connection**: Verify your MongoDB service is running or Atlas credentials are correct
+
+    **Getting Help:**
+
+    - Check the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`_
+    - Review the `Development Guide <../tutorial/development.md>`_
+    - Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`_

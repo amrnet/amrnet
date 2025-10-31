@@ -25,12 +25,13 @@ import {
   Label,
 } from 'recharts';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAppSelector } from '../../../../stores/hooks';
+import { useAppSelector, useAppDispatch } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { hoverColor, lightGrey } from '../../../../util/colorHelper';
 import { Close, InfoOutlined } from '@mui/icons-material';
 import { drugAcronyms, drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
+import { setDrugClass, setDrugGene , setColoredOptions} from '../../../../stores/slices/graphSlice';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -39,6 +40,7 @@ const dataViewOptions = [
 
 export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [geoType, setGeoType] = useState('country');
@@ -57,9 +59,10 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
     (state) => state.graph.genotypesAndDrugsYearData,
   );
   const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
-
-  const [drugClass, setDrugClass] = useState(getDrugClasses(organism)?.[0] || '');
-  const [drugGene, setDrugGene] = useState('');
+  const drugClass = useAppSelector((state) => state.graph.drugClass);
+  const drugGene = useAppSelector((state) => state.graph.drugGene);
+  // const [drugClass, setDrugClass] = useState(getDrugClasses(organism)?.[0] || '');
+  // const [drugGene, setDrugGene] = useState('');
 
   const currentData = useMemo(() => {
     if (geoType === 'country') {
@@ -71,6 +74,10 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     setCurrentTooltip(null);
   }, [currentData]);
+
+  useEffect(() => {
+    dispatch(setDrugClass(getDrugClasses(organism)?.[0] || ''));
+  },[organism])
 
   const geneOptions = useMemo(() => {
     switch (organism) {
@@ -104,7 +111,8 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (geneOptions.length > 0) {
-      setDrugGene(geneOptions[0]);
+      // setDrugGene(geneOptions[0]);
+      dispatch(setDrugGene(geneOptions[0]));
     }
   }, [geneOptions]);
 
@@ -139,7 +147,15 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
     },
     [geoType, mapData, mapRegionData],
   );
-
+  //set coloredOptions variable in the redux store
+  // This is used to draw the legend in the Trend Line graph
+  useEffect(() => {
+    const options = geoOptions.map((name) => ({
+      name,
+      color: getColor(name),
+    }));
+    dispatch(setColoredOptions(options));
+  }, [geoOptions, getColor]);
   function handleChangeGeoType(event) {
     setCurrentTooltip(null);
     setGeoType(event.target.value);
@@ -163,12 +179,12 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
 
   function handleChangeDrugClass(event) {
     setCurrentTooltip(null);
-    setDrugClass(event.target.value);
+    dispatch(setDrugClass(event.target.value));// CHECK
   }
 
   function handleChangeDrugGene(event) {
     setCurrentTooltip(null);
-    setDrugGene(event.target.value);
+    dispatch(setDrugGene(event.target.value));
   }
 
   function handleChangeDataView(event) {
@@ -545,7 +561,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">Select countries/regions to display</Typography>
                       <Tooltip
-                        title="Navigate by typing the first letter of the country/region. The data is only shown for years with N≥10 genomes. When the data is insufficent per year to calculate annual info, there are no data points to show."
+                        title="Navigate by typing the first letter of the country/region. The data is only shown for years with N≥10 genomes. When the data is insufficient per year to calculate annual info, there are no data points to show."
                         placement="top"
                       >
                         <InfoOutlined

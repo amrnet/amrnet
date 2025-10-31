@@ -1,4 +1,6 @@
 // .eslintrc.js
+// eslint.config.js
+import js from "@eslint/js";
 
 module.exports = {
   // Specifies the ESLint parser for TypeScript.

@@ -1,104 +1,112 @@
 import { GitHub, RestartAlt } from '@mui/icons-material';
-import { useStyles } from './ResetButtonMUI';
 import { Fab, IconButton, Tooltip, useMediaQuery } from '@mui/material';
+// import { useIndexedDB } from '../../../context/IndexedDBContext';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import {
+  setActualCountry,
   setActualRegion,
   setActualTimeFinal,
   setActualTimeInitial,
   setCanFilterData,
   setCanGetData,
   setSelectedLineages,
-  setActualCountry
 } from '../../../stores/slices/dashboardSlice';
-import { setDataset, setDatasetKP, setMapView, setPosition } from '../../../stores/slices/mapSlice';
-import { setResetBool } from '../../../stores/slices/graphSlice';
 import {
-  setConvergenceColourPallete,
-  setConvergenceColourVariable,
-  setConvergenceGroupVariable,
-  setDeterminantsGraphDrugClass,
-  setDeterminantsGraphView,
-  setDistributionGraphView,
-  setDrugResistanceGraphView,
-  setFrequenciesGraphView,
-  setKODiversityGraphView,
-  setTrendsGraphDrugClass,
-  setTrendsGraphView,
-  setNgmastDrugsData,
-  setCustomDropdownMapViewNG,
-  setCurrentSliderValueRD,
-  setCurrentSliderValueCM,
-  setCurrentSliderValue,
-  setCurrentSliderValueKP_GT,
-  setCurrentSliderValueKP_GE,
-  setDistributionGraphVariable,
-  setKOTrendsGraphView,
-  setCurrentSliderValueKOT,
-  setKOTrendsGraphPlotOption,
   setBubbleHeatmapGraphVariable,
   setBubbleKOHeatmapGraphVariable,
   setBubbleKOYAxisType,
   setBubbleMarkersHeatmapGraphVariable,
   setBubbleMarkersYAxisType,
+  setConvergenceColourPallete,
+  setConvergenceColourVariable,
+  setConvergenceGroupVariable,
+  setCurrentSliderValue,
+  setCurrentSliderValueCM,
+  setCurrentSliderValueKOT,
+  setCurrentSliderValueKP_GE,
+  setCurrentSliderValueKP_GT,
+  setCurrentSliderValueRD,
+  // setCustomDropdownMapViewNG,
+  setDeterminantsGraphDrugClass,
+  setDeterminantsGraphView,
+  setDistributionGraphVariable,
+  setDistributionGraphView,
+  setDrugResistanceGraphView,
+  setFrequenciesGraphView,
+  setKODiversityGraphView,
+  setKOTrendsGraphPlotOption,
+  setKOTrendsGraphView,
+  // setNgmastDrugsData,
+  setResetBool,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
 } from '../../../stores/slices/graphSlice';
+import { setDataset, setDatasetKP, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import {
-  drugsKP,
-  defaultDrugsForDrugResistanceGraphST,
   defaultDrugsForDrugResistanceGraphNG,
+  defaultDrugsForDrugResistanceGraphST,
+  drugsECOLI,
+  drugsINTS,
+  drugsKP,
   markersDrugsKP,
 } from '../../../util/drugs';
-import { getNgmastData } from '../../Dashboard/filters';
-import { useIndexedDB } from '../../../context/IndexedDBContext';
+// import { getNgmastData } from '../../Dashboard/filters';
+import { useStyles } from './ResetButtonMUI';
 
 export const ResetButton = () => {
   const classes = useStyles();
-  const { getItems } = useIndexedDB();
+  // const { getItems } = useIndexedDB();
   const matches500 = useMediaQuery('(max-width: 500px)');
 
   const dispatch = useAppDispatch();
-  const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
-  const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
+  // const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
+  // const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
   const organism = useAppSelector(state => state.dashboard.organism);
   const pathovar = useAppSelector(state => state.dashboard.pathovar);
-  const ngmast = useAppSelector(state => state.graph.NGMAST);
+  // const ngmast = useAppSelector(state => state.graph.NGMAST);
   const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
   const loadingData = useAppSelector(state => state.dashboard.loadingData);
   const loadingMap = useAppSelector(state => state.map.loadingMap);
+  const yearsCompleteListToShowInGlobalFilter = useAppSelector(
+    state => state.dashboard.yearsCompleteListToShowInGlobalFilter,
+  );
 
   async function handleClick() {
-    dispatch(setResetBool(true))
+    dispatch(setResetBool(true));
     dispatch(setCanGetData(false));
 
     dispatch(setDataset('All'));
     dispatch(setDatasetKP('All'));
-    dispatch(setActualTimeInitial(timeInitial));
-    dispatch(setActualTimeFinal(timeFinal));
+    dispatch(setActualTimeInitial(yearsCompleteListToShowInGlobalFilter[0]));
+    dispatch(
+      setActualTimeFinal(yearsCompleteListToShowInGlobalFilter[yearsCompleteListToShowInGlobalFilter.length - 1]),
+    );
     dispatch(setPosition({ coordinates: [0, 0], zoom: 1 }));
     dispatch(setActualRegion('All'));
     dispatch(setActualCountry('All'));
 
-    const storeData = await getItems(organism);
-    const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
+    // const storeData = await getItems(organism);
+    // const ngmastData = getNgmastData({ data: storeData, ngmast, organism });
 
     if (organism === 'styphi') {
       dispatch(setMapView('Resistance prevalence'));
-      dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin NS'));
+      dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin'));
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
-      dispatch(setCurrentSliderValue(20));// to reset the genotype trend slider value for styphi
+      dispatch(setCurrentSliderValue(20)); // to reset the genotype trend slider value for styphi
       dispatch(setMapView('Resistance prevalence'));
-      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
-      dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
-      dispatch(setTrendsGraphDrugClass('Azithromycin'));
+      // dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
+      // dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+      // dispatch(setTrendsGraphDrugClass('Azithromycin'));
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setConvergenceColourPallete({}));
-      dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
-      dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map(x => x.name)));
+      dispatch(setBubbleMarkersYAxisType('Ciprofloxacin'));
+      // dispatch(setNgmastDrugsData(ngmastData.ngmastDrugData));
+      // dispatch(setCustomDropdownMapViewNG(ngmastData.ngmastDrugData.slice(0, 1).map(x => x.name)));
     } else {
       dispatch(setMapView('Resistance prevalence'));
       dispatch(setDrugResistanceGraphView(drugsKP));
       dispatch(setDeterminantsGraphDrugClass('Carbapenems'));
-      dispatch(setTrendsGraphDrugClass('Carbapenems'));
+      dispatch(setTrendsGraphDrugClass('ESBL'));
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setKODiversityGraphView('K_locus'));
       dispatch(setConvergenceGroupVariable('cgST'));
@@ -109,10 +117,17 @@ export const ResetButton = () => {
       dispatch(setCurrentSliderValueKOT(20));
       dispatch(setCurrentSliderValueKP_GT(20));
       dispatch(setCurrentSliderValueKP_GE(20));
+      dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
     }
-
     if (['shige', 'decoli', 'sentericaints'].includes(organism)) {
       dispatch(setSelectedLineages(pathovar));
+    }
+    if (['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'].includes(organism)) {
+      dispatch(setDrugResistanceGraphView(drugsINTS));
+      dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+    }
+    if (['decoli', 'ecoli', 'shige'].includes(organism)) {
+      dispatch(setDrugResistanceGraphView(drugsECOLI));
     }
 
     dispatch(setFrequenciesGraphView('percentage'));
@@ -125,9 +140,14 @@ export const ResetButton = () => {
     dispatch(setBubbleKOHeatmapGraphVariable('GENOTYPE'));
     dispatch(setBubbleKOYAxisType('O_locus'));
     dispatch(setBubbleMarkersHeatmapGraphVariable('GENOTYPE'));
-    dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
+    
 
-    if (organism === 'ngono') dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+    if (organism === 'ngono') {
+      dispatch(setCurrentSliderValueRD(maxSliderValueRD));
+      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
+      dispatch(setTrendsGraphDrugClass('Azithromycin'));
+      dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+    }
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));
     dispatch(setCanFilterData(true));
@@ -151,7 +171,7 @@ export const ResetButton = () => {
           </IconButton>
         </span>
       </Tooltip>
-      <Tooltip title="Reset Configurations" placement="left">
+      <Tooltip title="Reset Application" placement="left">
         <span>
           <Fab
             color="primary"

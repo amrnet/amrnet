@@ -1,4 +1,13 @@
-import { drugRulesINTS, drugRulesNG, drugRulesKP, statKeysKP } from './drugClassesRules';
+import {
+  drugClassesRulesNG,
+  drugRulesINTS,
+  drugRulesNG,
+  drugRulesST,
+  statKeysECOLI,
+  statKeysINTS,
+  statKeysKP,
+  statKeysKPOnlyMarkers,
+} from './drugClassesRules';
 
 // List of Salmonella drugs
 export const drugsST = [
@@ -6,12 +15,12 @@ export const drugsST = [
   'Azithromycin',
   'Ceftriaxone',
   'Chloramphenicol',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'XDR',
   'MDR',
   'Sulfonamides',
-  'Tetracyclines',
+  'Tetracycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
   'Pansusceptible',
@@ -27,7 +36,7 @@ export const drugsSTLegendsOnly = [
   'Extensively drug resistant (XDR)',
   'Multidrug resistant (MDR)',
   'Sulfonamides',
-  'Tetracyclines',
+  'Tetracycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
   'Pansusceptible',
@@ -36,7 +45,7 @@ export const drugsSTLegendsOnly = [
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'XDR',
   'MDR',
@@ -44,7 +53,7 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'Pansusceptible',
 ];
 
-// List of N. gono drug classes
+//List of N. gono drug classes
 export const drugsNG = [
   'Azithromycin',
   'Cefixime',
@@ -52,14 +61,14 @@ export const drugsNG = [
   'Ciprofloxacin',
   'XDR',
   'MDR',
-  'Penicillin',
+  'Benzylpenicillin',
   'Spectinomycin',
   'Sulfonamides',
-  'Tetracyclines',
+  'Tetracycline',
   'Pansusceptible',
 ];
 
-// export const drugsNGLegensOnly = [
+// export const drugsNGLegendsOnly = [
 //   'Azithromycin',
 //   'Ceftriaxone',
 //   'Ciprofloxacin',
@@ -81,42 +90,49 @@ export const defaultDrugsForDrugResistanceGraphNG = [
   'Ciprofloxacin',
   'XDR',
   'MDR',
-  'Penicillin',
+  'Benzylpenicillin',
   'Spectinomycin',
   'Pansusceptible',
 ];
 
 // List of Klebsiella drugs
 export const drugsKP = statKeysKP.map(x => x.name);
-export const markersDrugsKP = drugsKP.filter(x => !['Pansusceptible'].includes(x));
+export const markersDrugsKP = [
+  ...drugsKP.filter(x => !['Pansusceptible'].includes(x)),
+  ...statKeysKPOnlyMarkers.map(x => x.name),
+].sort();
+export const markersDrugsST = [...drugRulesST.map(x => x.name)].sort();
+export const markersDrugsSH = statKeysECOLI.map(x => x.name).filter(x => !['Pansusceptible'].includes(x));
+export const markersDrugsINTS = statKeysINTS.map(x => x.name).filter(x => !['Pansusceptible'].includes(x));
 
 // List of Salmonella Typhi drug classes
 export const drugClassesST = [
   'Ampicillin/Amoxicillin',
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Chloramphenicol',
-  'XDR',
-  'MDR',
+  // 'XDR',
+  // 'MDR',
   'Sulfonamides',
-  'Tetracyclines',
+  'Tetracycline',
   'Trimethoprim',
-  'Trimethoprim-sulfamethoxazole',
+  // 'Trimethoprim-sulfamethoxazole',
   // 'Pansusceptible',
 ];
 
-// List of Klebsiella drug classes
-export const drugClassesNG = ['Azithromycin', 'Ceftriaxone'];
+// List of NG drug classes
+export const drugClassesNG = Object.keys(drugClassesRulesNG).sort();
 
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMX',
   Ampicillin: 'AMP',
   Azithromycin: 'AZM',
+  ESBL: 'ESBL',
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CHL',
   Sulfonamides: 'SUL',
-  Tetracyclines: 'TET',
+  Tetracycline: 'TET',
   Trimethoprim: 'TMP',
   'Trimethoprim-sulfamethoxazole': 'SXT',
   Colistin: 'COL',
@@ -124,24 +140,28 @@ export const drugAcronyms = {
   Aminoglycosides: 'AGLY',
   Fluoroquinolones: 'FLQ',
   // 'β-lactamase inhibitors': 'β-lactamase inhibitors',
-  Phenicols: 'PHE',
+  // Phenicols: 'PHE',
   Tigecycline: 'TGC',
   '3rd gen cephalosporins (3GCs)': '3GCs',
   Sulfamethoxazole: 'SMX',
-  Gentamicin: 'GEN',
+  // Gentamicin: 'GEN',
   Cefixime: 'CFM',
   Ciprofloxacin: 'CIP',
-  Penicillin: 'PEN',
+  Benzylpenicillin: 'PEN',
   Spectinomycin: 'SPT',
   Pansusceptible: 'PAN',
+  Macrolides: 'MLS',
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
   Carbapenems: 'CARB',
+  'Ciprofloxacin R': 'CipR',
+  // Penicillins: 'PCN',
 };
 
 export const drugAcronymsOpposite = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
-  CIP: 'Ciprofloxacin (non-susceptible)',
+  CIP: 'Ciprofloxacin',
+  // CIP: 'Ciprofloxacin (non-susceptible)',
   AZM: 'Azithromycin',
   // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
   CipR: 'Ciprofloxacin (resistant)',
@@ -152,25 +172,26 @@ export const drugAcronymsOpposite = {
 
 export const drugAcronymsOpposite2 = {
   CipNS: 'Ciprofloxacin (non-susceptible)',
-  CIP: 'Ciprofloxacin (non-susceptible)',
-  // Implemneted for Consistency
+  CIP: 'Ciprofloxacin',
   AZM: 'Azithromycin',
-  // ESBL: 'Extended-Spectrum Beta-Lactamase',
+  ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',
 };
 
 export const ciproAcronyms = {
-  'Ciprofloxacin NS': 'Ciprofloxacin (non-susceptible)',
+  'Ciprofloxacin': 'Ciprofloxacin (non-susceptible)',
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
 export const drugsINTS = drugRulesINTS.map(x => x.key);
+export const drugsECOLI = statKeysECOLI.map(x => x.name);
 export const drugsINTSLegendsOnly = drugRulesINTS.map(x => x.legends || x.key).sort((a, b) => a.localeCompare(b));
-export const drugsNGLegensOnly = drugRulesNG.map(x => x.legends || x.key);
-export const drugsKlebLegendsOnly = drugRulesKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
+export const drugsNGLegendsOnly = drugRulesNG.map(x => x.legends || x.key);
+export const drugsKlebLegendsOnly = drugsKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
 // export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
+
 export function getDrugClasses(organism) {
   switch (organism) {
     case 'styphi':
@@ -179,8 +200,11 @@ export function getDrugClasses(organism) {
       return markersDrugsKP;
     case 'ngono':
       return drugClassesNG;
+    case 'senterica':
+    case 'sentericaints':
+      return drugsINTS.filter(x => x !== 'Pansusceptible');
     default:
-      return drugsINTS;
+      return drugsECOLI.filter(x => x !== 'Pansusceptible');
   }
 }
 

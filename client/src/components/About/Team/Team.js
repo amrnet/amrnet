@@ -1,17 +1,20 @@
-import { useStyles } from '../AboutMUI';
-import { Card, CardContent, Typography, CardMedia, Divider } from '@mui/material';
-import { teamCards } from './TeamCard';
+import { Card, CardContent, CardMedia, Divider, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
+import { useStyles } from '../AboutMUI';
+import { useTeamCards } from './TeamCard';
 
 export const Team = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
+  const teamCards = useTeamCards();
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} id="team-section">
       <CardContent className={classes.cardContent}>
         <Typography variant="h5" className={classes.heading}>
-          Team
+          {t('navigation.team')}
         </Typography>
         <Divider />
         <Swiper
@@ -41,7 +44,7 @@ export const Team = () => {
           modules={[Pagination, Navigation]}
           className={classes.carouselSwiper}
         >
-          {teamCards.map((card) => {
+          {teamCards.map(card => {
             return (
               <SwiperSlide>
                 <Card className={classes.swiperCard} elevation={2}>
@@ -50,10 +53,10 @@ export const Team = () => {
                     image={card.img}
                   />
                   <CardContent className={classes.swiperCardContent}>
-                    <Typography gutterBottom variant="h6" component="div">
+                    <Typography gutterBottom variant="button text" component="div" sx={{ fontWeight: '500' }}>
                       {card.name}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.7rem' }}>
                       {card.post}
                     </Typography>
                   </CardContent>

@@ -1,9 +1,10 @@
 {
   "name": "amrnet-client",
-  "version": "1.2.0",
+  "version": "1.1.1",
   "private": true,
   "proxy": "http://localhost:8080",
   "dependencies": {
+    "@craco/craco": "^7.1.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.11",
@@ -11,20 +12,33 @@
     "@mui/material": "^5.15.11",
     "@mui/styles": "^5.15.11",
     "@reduxjs/toolkit": "^1.9.3",
+    "@rgbyk/color": "1.3.6",
+    "@weable-tools/a11y-color-utils": "0.1.1",
+    "ajv": "^8",
+    "ajv-keywords": "5.1.0",
     "axios": "^1.6.2",
-    "html2canvas": "1.4.1",
+    "chroma-js": "3.1.2",
+    "color-blind": "0.1.3",
+    "color-blind-esm": "0.1.4",
     "framer-motion": "^11.0.8",
+    "html2canvas": "1.4.1",
+    "i18next": "^25.3.2",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-backend": "^3.0.2",
     "idb": "^8.0.0",
     "moment": "^2.30.1",
+    "polished": "4.3.1",
     "prop-types": "^15.8.1",
     "rainbowvis.js": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropdown-select": "^4.7.4",
+    "react-i18next": "^15.6.1",
     "react-icons": "^5.0.1",
     "react-loader-spinner": "^6.1.6",
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.23.1",
+    "react-scripts": "5.0.1",
     "react-simple-maps": "^2.3.0",
     "react-toastify": "^10.0.4",
     "react-tooltip": "^4.2.10",
@@ -37,15 +51,83 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "GENERATE_SOURCEMAP=false craco start",
+    "start:no-lint": "GENERATE_SOURCEMAP=false REACT_APP_ESLINT_ENABLE=false craco start",
+    "start:with-lint": "GENERATE_SOURCEMAP=false REACT_APP_ESLINT_ENABLE=true craco start",
     "build": "craco build",
+    "build:prod": "NODE_ENV=production npm run build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "test:ci": "craco test --ci --coverage --watchAll=false",
+    "test:coverage": "craco test --coverage --watchAll=false",
+    "eject": "react-scripts eject",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint src --max-warnings 0",
+    "lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint src --fix",
+    "lint:check": "ESLINT_USE_FLAT_CONFIG=false eslint src",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,md}",
+    "format:check": "prettier --check src/**/*.{js,jsx,ts,tsx,json,css,md}",
+    "precommit": "npm run lint && npm run format:check",
+    "analyze": "npm run build && npx bundle-analyzer build/static/js/*.js",
+    "locales:sync": "node scripts/sync-locales.js"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "rules": {
+      "no-console": [
+        "warn",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ],
+      "no-unused-vars": [
+        "warn",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ],
+      "no-undef": "warn",
+      "no-duplicate-imports": "error",
+      "default-case": "warn",
+      "eqeqeq": [
+        "warn",
+        "always",
+        {
+          "null": "ignore"
+        }
+      ]
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/**/*",
+          "**/*.test.*",
+          "**/*.spec.*"
+        ],
+        "rules": {
+          "no-console": "off",
+          "jest/no-conditional-expect": "off"
+        }
+      },
+      {
+        "files": [
+          "src/util/lz-string.js"
+        ],
+        "env": {
+          "amd": true
+        },
+        "globals": {
+          "define": "readonly"
+        },
+        "rules": {
+          "no-undef": "off"
+        }
+      }
     ]
   },
   "browserslist": {
@@ -61,11 +143,31 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^7.1.0",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "@types/react-simple-maps": "^3.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
     "typescript": "^5.4.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{json,css,md}": [
+      "prettier --write"
+    ]
   }
 }

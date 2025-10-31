@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((_theme) => ({
   drugResistanceGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -153,6 +153,12 @@ const useStyles = makeStyles((theme) => ({
   tooltipItemBox: {
     height: '18px',
     width: '18px',
+    border: 'solid rgb(0, 0, 0, 0.75) 0.5px',
+    flex: 'none',
+  },
+  tooltipItemBoxSmall: {
+    height: '12px',
+    width: '12px',
     border: 'solid rgb(0, 0, 0, 0.75) 0.5px',
     flex: 'none',
   },

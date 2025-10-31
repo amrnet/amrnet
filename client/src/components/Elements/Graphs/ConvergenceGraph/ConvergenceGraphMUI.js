@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   convergenceGraph: {
     display: 'flex',
     flexDirection: 'column',
@@ -174,6 +174,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     columnGap: '8px',
     paddingBottom: '4px',
+  },
+  gradientBox: {
+    width: '60px',
+    height: '12px',
+    background: 'linear-gradient(to right, #e0e0e0, #333333)',
+    border: '1px solid #ddd',
+    borderRadius: '2px',
   },
 }));
 

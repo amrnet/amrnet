@@ -1,15 +1,15 @@
+import { useMemo } from 'react';
 import { Circles } from 'react-loader-spinner';
+import { useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../stores/hooks';
 import { Header } from '../Elements/Header';
 import { useStyles } from './MainLayoutUI';
-import { useMemo } from 'react';
-import { useAppSelector } from '../../stores/hooks';
-import { useLocation } from 'react-router-dom';
 
 export const MainLayout = ({ children }) => {
   const classes = useStyles();
   const location = useLocation();
-  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
-  const loadingMap = useAppSelector((state) => state.map.loadingMap);
+  const loadingData = useAppSelector(state => state.dashboard.loadingData);
+  const loadingMap = useAppSelector(state => state.map.loadingMap);
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
   const isHomePage = useMemo(() => page === '', [page]);
   const isDashboardPage = useMemo(() => !['user-guide', 'about', 'contact', 'team'].includes(page), [page]);
@@ -25,7 +25,10 @@ export const MainLayout = ({ children }) => {
         </div>
         {(loadingData || loadingMap) && (
           <div className={classes.loading}>
-            <Circles wrapperClass={classes.loader} color="#6F2F9F" height={60} width={60} />
+            <Circles color="#6F2F9F" height={60} width={60} />
+            <p style={{ marginTop: '16px', color: '#6F2F9F', fontSize: '14px', textAlign: 'center' }}>
+              Thanks for your patience
+            </p>
           </div>
         )}
       </div>

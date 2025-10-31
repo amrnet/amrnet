@@ -1,4 +1,4 @@
-import { AppBar, Collapse, IconButton, Toolbar, useMediaQuery } from '@mui/material';
+import { AppBar, Collapse, IconButton, Toolbar, useMediaQuery, Box } from '@mui/material';
 import { useStyles } from './HeaderMUI';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import LSHTMImg from '../../../assets/img/LSHTM.Logo.png';
@@ -11,6 +11,7 @@ import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
 import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MenuHead } from '../MenuHead';
+import LanguageSwitcher from '../../LanguageSwitcher';
 
 export const Header = () => {
   const classes = useStyles();
@@ -69,11 +70,21 @@ export const Header = () => {
               </div>
               {isDashboardPage && !isHomePage && <SelectOrganism />}
             </div>
-            {((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && <MenuHead />}
+            {((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <MenuHead />
+                <LanguageSwitcher />
+              </Box>
+            )}
             {(!isDashboardPage || isHomePage) && matches200 && (
-              <Link to="https://www.lshtm.ac.uk/amrnet">
-                <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
-              </Link>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                {!((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && (
+                  <LanguageSwitcher />
+                )}
+                <a href="https://www.lshtm.ac.uk/amrnet" target="_blank" rel="noopener noreferrer">
+                  <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
+                </a>
+              </Box>
             )}
             {/* {!isHomePage && !isDashboardPage && !matches500 && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>

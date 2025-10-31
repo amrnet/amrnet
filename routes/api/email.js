@@ -1,7 +1,9 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
+import pkg from 'he';
 
 const router = express.Router();
+const { escape } = pkg;
 /* GET home page. */
 
 //Route POST to send an email body
@@ -25,10 +27,10 @@ router.post('/', async function (req, res, next) {
       subject: `New contact ${userInfo.firstName} ${userInfo.lastName} interested`, // Subject line
       text: '', // plain text body
       html: `
-      <p><b>E-mail: </b>${userInfo.email}</p>
-      <p><b>First Name: </b>${userInfo.firstName}</p>    
-      <p><b>Last Name: </b>${userInfo.lastName}</p>
-      <p><b>Message: </b>${userInfo.message}</p>        
+      <p><b>E-mail: </b>${escape(userInfo.email)}</p>
+      <p><b>First Name: </b>${escape(userInfo.firstName)}</p>    
+      <p><b>Last Name: </b>${escape(userInfo.lastName)}</p>
+      <p><b>Message: </b>${escape(userInfo.message)}</p>        
     `, // html body
     });
 

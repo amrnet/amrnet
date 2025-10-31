@@ -1,0 +1,441 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../contributing.rst:4 ../../contributing.rst:49
+msgid "Contributor Guide"
+msgstr ""
+
+#: ../../contributing.rst:7
+msgid ""
+"Thank you for your interest in improving this project. This project is "
+"open-source under the `GPL-3.0 license "
+"<https://opensource.org/licenses/GPL-3.0>`__. and welcomes contributions "
+"in the form of bug reports, feature requests, and pull requests."
+msgstr ""
+
+#: ../../contributing.rst:12 ../../contributing.rst:57
+msgid "Here is a list of important resources for contributors:"
+msgstr ""
+
+#: ../../contributing.rst:14
+msgid "`Source Code <https://github.com/amrnet>`__"
+msgstr ""
+
+#: ../../contributing.rst:15 ../../contributing.rst:60
+msgid "`Documentation <https://amrnet.readthedocs.io/>`__"
+msgstr ""
+
+#: ../../contributing.rst:16 ../../contributing.rst:61
+msgid "`Issue Tracker <https://github.com/amrnet/amrnet/issues>`__"
+msgstr ""
+
+#: ../../contributing.rst:17 ../../contributing.rst:63
+msgid ":doc:`Code of Conduct <codeofconduct>`"
+msgstr ""
+
+#: ../../contributing.rst:20
+msgid "How to report a bug"
+msgstr ""
+
+#: ../../contributing.rst:23
+msgid ""
+"Report bugs on the `Issue Tracker "
+"<https://github.com/amrnet/amrnet/issues>`__."
+msgstr ""
+
+#: ../../contributing.rst:25
+msgid "When filing an issue, make sure to answer these questions:"
+msgstr ""
+
+#: ../../contributing.rst:27
+msgid "Which operating system and Python version are you using?"
+msgstr ""
+
+#: ../../contributing.rst:28
+msgid "Which version of this project are you using?"
+msgstr ""
+
+#: ../../contributing.rst:29
+msgid "What did you do?"
+msgstr ""
+
+#: ../../contributing.rst:30
+msgid "What did you expect to see?"
+msgstr ""
+
+#: ../../contributing.rst:31
+msgid "What did you see instead?"
+msgstr ""
+
+#: ../../contributing.rst:33
+msgid ""
+"The best way to get your bug fixed is to provide a test case, and/or "
+"steps to reproduce the issue."
+msgstr ""
+
+#: ../../contributing.rst:37
+msgid "How to request a feature"
+msgstr ""
+
+#: ../../contributing.rst:40
+msgid ""
+"Features that improve ``AMRnet`` can be suggested on the `Issue Tracker "
+"<https://github.com/amrnet/amrnet/issues>`__. It's a good idea to first "
+"submit the proposal as a feature request prior to submitting a pull "
+"request as this allows for the best coordination of efforts by preventing"
+" the duplication of work, and allows for feedback on your ideas."
+msgstr ""
+
+#: ../../contributing.rst:52
+msgid ""
+"Thank you for your interest in contributing to AMRnet! 🎉 We welcome "
+"contributions from researchers, developers, and public health "
+"professionals worldwide. This project is open-source under the `GPL-3.0 "
+"license <https://opensource.org/licenses/GPL-3.0>`__ and welcomes "
+"contributions in the form of bug reports, feature requests, and pull "
+"requests."
+msgstr ""
+
+#: ../../contributing.rst:59
+msgid "`Source Code <https://github.com/amrnet/amrnet>`__"
+msgstr ""
+
+#: ../../contributing.rst:62
+msgid "`Discussions <https://github.com/amrnet/amrnet/discussions>`__"
+msgstr ""
+
+#: ../../contributing.rst:66
+msgid "Quick Start"
+msgstr "Inicio Rápido"
+
+#: ../../contributing.rst:69
+msgid "Ready to contribute? Here's how to set up AMRnet for local development:"
+msgstr ""
+
+#: ../../contributing.rst:71
+msgid "**Fork** the repository on GitHub"
+msgstr ""
+
+#: ../../contributing.rst:72
+msgid "**Clone** your fork locally"
+msgstr ""
+
+#: ../../contributing.rst:73
+msgid "**Create** a feature branch for your changes"
+msgstr ""
+
+#: ../../contributing.rst:74
+msgid "**Make** your changes and test them"
+msgstr ""
+
+#: ../../contributing.rst:75
+msgid "**Submit** a pull request"
+msgstr ""
+
+#: ../../contributing.rst:78
+msgid "Types of Contributions"
+msgstr ""
+
+#: ../../contributing.rst:81
+msgid "Bug Reports"
+msgstr ""
+
+#: ../../contributing.rst:84
+msgid ""
+"Help us improve by reporting bugs using our `Issue Tracker "
+"<https://github.com/amrnet/amrnet/issues>`__."
+msgstr ""
+
+#: ../../contributing.rst:86
+msgid ""
+"**Before reporting a bug:** - Search existing issues to avoid duplicates "
+"- Test with the latest version - Check if the issue occurs in different "
+"browsers"
+msgstr ""
+
+#: ../../contributing.rst:91
+msgid ""
+"**When filing a bug report, please include:** - Which operating system "
+"and browser you're using - Which version of AMRnet you're using - Steps "
+"to reproduce the issue - What you expected to happen - What actually "
+"happened - Screenshots if applicable"
+msgstr ""
+
+#: ../../contributing.rst:100
+msgid "Feature Requests"
+msgstr ""
+
+#: ../../contributing.rst:103
+msgid ""
+"We welcome feature suggestions that improve AMRnet's functionality for "
+"AMR surveillance."
+msgstr ""
+
+#: ../../contributing.rst:105
+msgid ""
+"**Good feature requests include:** - Clear description of the problem "
+"being solved - Specific use cases from public health or research "
+"perspectives - Consideration of different user types (researchers, "
+"policymakers, etc.)"
+msgstr ""
+
+#: ../../contributing.rst:111
+msgid "Documentation Improvements"
+msgstr ""
+
+#: ../../contributing.rst:114
+msgid ""
+"Documentation improvements are always welcome, including: - Fixing typos "
+"or clarifying instructions - Adding examples or use cases - Translating "
+"content to other languages - Creating tutorials or guides"
+msgstr ""
+
+#: ../../contributing.rst:121
+msgid "How to set up your development environment"
+msgstr ""
+
+#: ../../contributing.rst:124
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../contributing.rst:127
+msgid "Before you begin, ensure you have:"
+msgstr ""
+
+#: ../../contributing.rst:129
+msgid "**Node.js** 18+ with npm"
+msgstr ""
+
+#: ../../contributing.rst:130
+msgid "**Python** 3.8+ (for data processing)"
+msgstr ""
+
+#: ../../contributing.rst:131
+msgid "**MongoDB** 6.0+ (local or Atlas)"
+msgstr ""
+
+#: ../../contributing.rst:132
+msgid "**Git** for version control"
+msgstr ""
+
+#: ../../contributing.rst:135
+msgid "Initial Setup"
+msgstr ""
+
+#: ../../contributing.rst:155
+msgid ""
+"The application will be available at ``http://localhost:3000`` with the "
+"API at ``http://localhost:8080``."
+msgstr ""
+
+#: ../../contributing.rst:158
+msgid "Code Quality Standards"
+msgstr ""
+
+#: ../../contributing.rst:161
+msgid "Linting and Formatting"
+msgstr ""
+
+#: ../../contributing.rst:164
+msgid "AMRnet uses ESLint and Prettier to maintain code quality:"
+msgstr ""
+
+#: ../../contributing.rst:178
+msgid "Testing"
+msgstr ""
+
+#: ../../contributing.rst:181
+msgid "Always include tests with your contributions:"
+msgstr ""
+
+#: ../../contributing.rst:195
+msgid "Git Hooks"
+msgstr ""
+
+#: ../../contributing.rst:198
+msgid ""
+"Pre-commit hooks automatically run linting and formatting: - Configured "
+"via ``.editorconfig`` and ``.prettierrc.json`` - Ensures consistent code "
+"style across all contributions"
+msgstr ""
+
+#: ../../contributing.rst:203
+msgid "Development Workflow"
+msgstr ""
+
+#: ../../contributing.rst:206
+msgid "Branch Naming"
+msgstr ""
+
+#: ../../contributing.rst:209
+msgid ""
+"Use descriptive branch names: - ``feature/add-organism-filtering`` - "
+"``bugfix/map-rendering-issue`` - ``docs/update-installation-guide``"
+msgstr ""
+
+#: ../../contributing.rst:215
+msgid "Commit Messages"
+msgstr ""
+
+#: ../../contributing.rst:218
+msgid ""
+"Follow conventional commit format: - ``feat: add new organism filtering "
+"capability`` - ``fix: resolve map rendering issue on mobile`` - ``docs: "
+"update installation instructions``"
+msgstr ""
+
+#: ../../contributing.rst:224
+msgid "Code Review Process"
+msgstr ""
+
+#: ../../contributing.rst:227
+msgid ""
+"All contributions go through code review: 1. Create a pull request with "
+"clear description 2. Automated tests must pass 3. Code review by "
+"maintainers 4. Address feedback and update as needed 5. Merge once "
+"approved"
+msgstr ""
+
+#: ../../contributing.rst:235
+msgid "Specific Contribution Areas"
+msgstr ""
+
+#: ../../contributing.rst:238
+msgid "Frontend Development"
+msgstr ""
+
+#: ../../contributing.rst:241
+msgid "**Technologies:** React 18, Material-UI, Redux, Recharts"
+msgstr ""
+
+#: ../../contributing.rst:243
+msgid ""
+"**Key areas for contribution:** - New visualization components - Mobile "
+"responsiveness improvements - Accessibility enhancements - Performance "
+"optimizations"
+msgstr ""
+
+#: ../../contributing.rst:250
+msgid "Backend Development"
+msgstr ""
+
+#: ../../contributing.rst:253
+msgid "**Technologies:** Node.js, Express.js, MongoDB"
+msgstr ""
+
+#: ../../contributing.rst:255
+msgid ""
+"**Key areas for contribution:** - API endpoint optimization - Database "
+"query improvements - Data validation and processing - Security "
+"enhancements"
+msgstr ""
+
+#: ../../contributing.rst:262
+msgid "Data Processing"
+msgstr ""
+
+#: ../../contributing.rst:265
+msgid "**Technologies:** Python, pandas, NumPy"
+msgstr ""
+
+#: ../../contributing.rst:267
+msgid ""
+"**Key areas for contribution:** - New organism data parsers - Data "
+"quality validation - Statistical analysis functions - Export format "
+"support"
+msgstr ""
+
+#: ../../contributing.rst:274
+msgid "Documentation"
+msgstr "Documentación"
+
+#: ../../contributing.rst:277
+msgid ""
+"**Areas needing help:** - User guides and tutorials - API documentation -"
+" Developer onboarding - Multi-language translations"
+msgstr ""
+
+#: ../../contributing.rst:284
+msgid "How to submit changes"
+msgstr ""
+
+#: ../../contributing.rst:287
+msgid ""
+"Open a `pull request <https://github.com/amrnet/amrnet/pulls>`__ to "
+"submit changes to this project."
+msgstr ""
+
+#: ../../contributing.rst:290
+msgid ""
+"**Your pull request should:** - Include a clear description of changes - "
+"Pass all automated tests - Include relevant tests for new functionality -"
+" Update documentation if needed - Follow the project's coding standards"
+msgstr ""
+
+#: ../../contributing.rst:297
+msgid ""
+"**Pull request template includes:** - Description of changes - Type of "
+"change (bugfix, feature, docs, etc.) - Testing checklist - Screenshots "
+"for UI changes"
+msgstr ""
+
+#: ../../contributing.rst:304
+msgid "Community Guidelines"
+msgstr ""
+
+#: ../../contributing.rst:307
+msgid "Be respectful and inclusive"
+msgstr ""
+
+#: ../../contributing.rst:308
+msgid "Provide constructive feedback"
+msgstr ""
+
+#: ../../contributing.rst:309
+msgid "Focus on the scientific and public health mission"
+msgstr ""
+
+#: ../../contributing.rst:310
+msgid "Help newcomers get started"
+msgstr ""
+
+#: ../../contributing.rst:311
+msgid "Follow our :doc:`Code of Conduct <codeofconduct>`"
+msgstr ""
+
+#: ../../contributing.rst:314
+msgid "Getting Help"
+msgstr ""
+
+#: ../../contributing.rst:317
+msgid ""
+"**Need assistance?** - Check existing `Issues "
+"<https://github.com/amrnet/amrnet/issues>`__ - Join our `Discussions "
+"<https://github.com/amrnet/amrnet/discussions>`__ - Review the "
+":doc:`Installation Guide <installation>` - Read the `Developer Guide "
+"<../tutorial/developer_guide.md>`__"
+msgstr ""
+
+#: ../../contributing.rst:323
+msgid ""
+"**For urgent issues:** - Security vulnerabilities: See our Security "
+"Policy - Critical bugs: Use the Issue Tracker with \"urgent\" label"
+msgstr ""
+

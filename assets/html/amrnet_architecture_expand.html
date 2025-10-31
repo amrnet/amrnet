@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMRnet Data Architecture and Platform Overview</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            margin: 8px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .architecture-container {
+            padding: 30px;
+            background: #fafbfc;
+        }
+
+        .pipeline {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .stage {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 2px solid #e9ecef;
+            position: relative;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+        .stage-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .stage-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .stage-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            align-items: start;
+        }
+
+        .component-group {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+        }
+
+        .group-title {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .component {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .component:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+
+        .component-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: white;
+            font-weight: bold;
+        }
+
+        .pathogenwatch { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .enterobase { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .spyder { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .mongo { background: linear-gradient(135deg, #27ae60, #229954); }
+        .aws { background: linear-gradient(135deg, #ff9900, #cc7a00); }
+        .api { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .react { background: linear-gradient(135deg, #61dafb, #21b2d6); }
+        .heroku { background: linear-gradient(135deg, #6762a6, #553c9a); }
+
+        .component-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+        }
+
+        .component-desc {
+            font-size: 0.8em;
+            color: #6c757d;
+            line-height: 1.3;
+        }
+
+        .flow-arrow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 25px solid #3498db;
+            position: relative;
+        }
+
+        .arrow-down::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -2px;
+            width: 4px;
+            height: 20px;
+            background: #3498db;
+        }
+
+        .data-flow-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .data-flow-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .data-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .data-flow-item {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .tech-stats {
+            background: #e8f4f8;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .organisms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .organism-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .organism-item:nth-child(1) { border-left: 4px solid #e74c3c; }
+        .organism-item:nth-child(2) { border-left: 4px solid #f39c12; }
+        .organism-item:nth-child(3) { border-left: 4px solid #27ae60; }
+        .organism-item:nth-child(4) { border-left: 4px solid #3498db; }
+        .organism-item:nth-child(5) { border-left: 4px solid #9b59b6; }
+        .organism-item:nth-child(6) { border-left: 4px solid #e67e22; }
+        .organism-item:nth-child(7) { border-left: 4px solid #34495e; }
+        .organism-item:nth-child(8) { border-left: 4px solid #16a085; }
+
+        .key-features {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .features-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-icon {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .stage-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AMRnet: Data Architecture & Platform Overview</h1>
+            <p>A comprehensive platform for antimicrobial resistance genomic surveillance</p>
+        </div>
+
+        <div class="architecture-container">
+            <div class="pipeline">
+                <!-- Stage 1: Data Sources & Ingestion -->
+                <div class="stage">
+                    <div class="stage-header">
+                        <div class="stage-number">1</div>
+                        <div class="stage-title">Data Sources & Automated Ingestion</div>
+                    </div>
+                    <div class="stage-content">
+                        <div class="component-group">
+                            <div class="group-title">Public Genomic Databases</div>
+                            <div class="component">
+                                <div class="component-icon pathogenwatch">PW</div>
+                                <div class="component-title">Pathogenwatch</div>
+                                <div class="component-desc">S. Typhi, K. pneumoniae, N. gonorrhoeae data with AMR predictions</div>
+                            </div>
+                            <div class="component">
+                                <div class="component-icon enterobase">EB</div>
+                                <div class="component-title">Enterobase</div>
+                                <div class="component-desc">E. coli, Shigella, Salmonella with hierarchical clustering</div>
+                            </div>
+                        </div>
+                        
+                        <div class="component-group">
+                            <div class="group-title">Automated Data Harvesting</div>
+                            <div class="component">
+                                <div class="component-icon spyder">🕷️</div>
+                                <div class="component-title">Spyder Robot</div>
+                                <div class="component-desc">Automated web scraping tool for genomic data extraction</div>
+                            </div>
+                            <div class="component">
+                                <div class="component-icon api">API</div>
+                                <div class="component-title">Data Ingestion APIs</div>
+                                <div class="component-desc">Custom APIs for automated data retrieval and processing</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-arrow">
+                    <div class="arrow-down"></div>
+                </div>
+
+                <!-- Stage 2: Data Lake & Processing -->
+                <div class="stage">
+                    <div class="stage-header">
+                        <div class="stage-number">2</div>
+                        <div class="stage-title">Data Lake & Harmonization</div>
+                    </div>
+                    <div class="stage-content">
+                        <div class="component-group">
+                            <div class="group-title">Raw Data Storage</div>
+                            <div class="component">
+                                <div class="component-icon mongo">DB</div>
+                                <div class="component-title">MongoDB Atlas</div>
+                                <div class="component-desc">Raw data store with version control and organism-specific collections</div>
+                            </div>
+                            <div class="component">
+                                <div class="component-icon aws">S3</div>
+                                <div class="component-title">AWS S3 Storage</div>
+                                <div class="component-desc">Backup storage and direct data access buckets</div>
+                            </div>
+                        </div>
+
+                        <div class="component-group">
+                            <div class="group-title">Data Processing & QC</div>
+                            <div class="component">
+                                <div class="component-icon spyder">⚙️</div>
+                                <div class="component-title">Data Harmonization</div>
+                                <div class="component-desc">Country names, regions, date formats, spurious value cleanup</div>
+                            </div>
+                            <div class="component">
+                                <div class="component-icon mongo">🔍</div>
+                                <div class="component-title">Quality Control</div>
+                                <div class="component-desc">Validation, deduplication, and metadata standardization</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-arrow">
+                    <div class="arrow-down"></div>
+                </div>
+
+                <!-- Stage 3: Application Layer -->
+                <div class="stage">
+                    <div class="stage-header">
+                        <div class="stage-number">3</div>
+                        <div class="stage-title">MERN Application & Deployment</div>
+                    </div>
+                    <div class="stage-content">
+                        <div class="component-group">
+                            <div class="group-title">Frontend (React)</div>
+                            <div class="component">
+                                <div class="component-icon react">⚛️</div>
+                                <div class="component-title">Interactive Dashboard</div>
+                                <div class="component-desc">Maps, trends, heatmaps with multi-language support</div>
+                            </div>
+                            <div class="component">
+                                <div class="component-icon react">📊</div>
+                                <div class="component-title">Data Visualizations</div>
+                                <div class="component-desc">D3.js charts, geographic maps, temporal analysis</div>
+                            </div>
+                        </div>
+
+                        <div class="component-group">
+                            <div class="group-title">Backend & Deployment</div>
+                            <div class="component">
+                                <div class="component-icon api">🔧</div>
+                                <div class="component-title">Node.js/Express API</div>
+                                <div class="component-desc">RESTful endpoints with rate limiting and authentication</div>
+                            </div>
+                            <div class="component">
+                                <div class="component-icon heroku">🚀</div>
+                                <div class="component-title">Heroku Deployment</div>
+                                <div class="component-desc">Auto-scaling with Fixie proxy for secure DB connections</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-arrow">
+                    <div class="arrow-down"></div>
+                </div>
+
+                <!-- Stage 4: User Access -->
+                <div class="stage">
+                    <div class="stage-header">
+                        <div class="stage-number">4</div>
+                        <div class="stage-title">Multi-Modal Data Access</div>
+                    </div>
+                    <div class="stage-content">
+                        <div class="component-group">
+                            <div class="group-title">Web Interface</div>
+                            <div class="component">
+                                <div class="component-icon react">🌐</div>
+                                <div class="component-title">AMRnet Dashboard</div>
+                                <div class="component-desc">Interactive web application at amrnet.org</div>
+                            </div>
+                            <div class="component">
+                                <div class="component-icon react">📱</div>
+                                <div class="component-title">Responsive Design</div>
+                                <div class="component-desc">Mobile-friendly with accessibility features</div>
+                            </div>
+                        </div>
+
+                        <div class="component-group">
+                            <div class="group-title">Programmatic Access</div>
+                            <div class="component">
+                                <div class="component-icon api">🔌</div>
+                                <div class="component-title">RESTful API</div>
+                                <div class="component-desc">Comprehensive API with 10,000+ req/hour capacity</div>
+                            </div>
+                            <div class="component">
+                                <div class="component-icon aws">📁</div>
+                                <div class="component-title">Direct Downloads</div>
+                                <div class="component-desc">AWS S3 bucket access for bulk data retrieval</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Statistics -->
+            <div class="tech-stats">
+                <div class="stat-item">
+                    <span class="stat-number">8</span>
+                    <div class="stat-label">Pathogen Species</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">500K+</span>
+                    <div class="stat-label">Genomic Records</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">75+</span>
+                    <div class="stat-label">Countries</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">4</span>
+                    <div class="stat-label">Languages</div>
+                </div>
+            </div>
+
+            <!-- Supported Organisms -->
+            <div class="data-flow-section">
+                <div class="data-flow-title">Supported Organisms & Data Sources</div>
+                <div class="organisms-grid">
+                    <div class="organism-item">Salmonella Typhi<br><small>Pathogenwatch</small></div>
+                    <div class="organism-item">Klebsiella pneumoniae<br><small>Pathogenwatch</small></div>
+                    <div class="organism-item">Neisseria gonorrhoeae<br><small>Pathogenwatch</small></div>
+                    <div class="organism-item">Escherichia coli<br><small>Enterobase</small></div>
+                    <div class="organism-item">Diarrheagenic E. coli<br><small>Enterobase</small></div>
+                    <div class="organism-item">Shigella spp.<br><small>Enterobase</small></div>
+                    <div class="organism-item">Salmonella enterica<br><small>Enterobase</small></div>
+                    <div class="organism-item">Invasive Salmonella<br><small>Enterobase</small></div>
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            <div class="key-features">
+                <div class="features-title">Platform Capabilities & Performance</div>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <strong>70-87% Faster</strong><br>
+                        <small>Load time improvements with optimization</small>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🗜️</div>
+                        <strong>90% Compression</strong><br>
+                        <small>Payload size reduction techniques</small>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔄</div>
+                        <strong>Real-time Updates</strong><br>
+                        <small>Automated data synchronization</small>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🌍</div>
+                        <strong>Global Coverage</strong><br>
+                        <small>Multi-regional AMR surveillance</small>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <strong>Interactive Analytics</strong><br>
+                        <small>Maps, trends, heatmaps, comparisons</small>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔓</div>
+                        <strong>Open Access</strong><br>
+                        <small>Free platform with comprehensive API</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth animations on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const stages = document.querySelectorAll('.stage');
+            
+            stages.forEach((stage, index) => {
+                stage.style.opacity = '0';
+                stage.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    stage.style.transition = 'all 0.8s ease';
+                    stage.style.opacity = '1';
+                    stage.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            // Add hover effects to components
+            const components = document.querySelectorAll('.component');
+            components.forEach(component => {
+                component.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+                
+                component.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
