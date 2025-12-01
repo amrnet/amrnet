@@ -442,7 +442,8 @@ router.get('/genotypes/:organism', async (req, res) => {
 
     if (filters) {
       const parsedFilters = JSON.parse(filters);
-      Object.assign(query, parsedFilters);
+      const safeFilters = sanitizeFilters(parsedFilters);
+      Object.assign(query, safeFilters);
     }
 
     const projection = chartFields[organism]?.genotypes || {
