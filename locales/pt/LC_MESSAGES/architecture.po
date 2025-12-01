@@ -1,0 +1,519 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../architecture.rst:2
+msgid "Dashboard Architecture"
+msgstr ""
+
+#: ../../architecture.rst:4
+msgid ""
+"AMRnet is built using a modern, scalable MERN stack architecture designed"
+" to handle large-scale genomic surveillance data. This page provides both"
+" high-level overview and detailed component architecture diagrams."
+msgstr ""
+
+#: ../../architecture.rst:7
+msgid "Architecture Overview"
+msgstr ""
+
+#: ../../architecture.rst:9
+msgid ""
+"AMRnet employs a four-layer architecture optimized for performance, "
+"scalability, and user experience:"
+msgstr ""
+
+#: ../../architecture.rst:11
+msgid ""
+"**Data Sources & Ingestion** - Automated harvesting from public genomic "
+"databases"
+msgstr ""
+
+#: ../../architecture.rst:12
+msgid ""
+"**Data Lake & Processing** - Harmonization and quality control in MongoDB"
+" Atlas"
+msgstr ""
+
+#: ../../architecture.rst:13
+msgid ""
+"**Application Layer** - MERN stack with optimized APIs and interactive "
+"React frontend"
+msgstr ""
+
+#: ../../architecture.rst:14
+msgid "**User Access** - Multi-modal access via web interface and RESTful API"
+msgstr ""
+
+#: ../../architecture.rst:17
+msgid "Interactive Architecture Diagrams"
+msgstr ""
+
+#: ../../architecture.rst:19
+msgid "We provide two complementary views of the AMRnet architecture:"
+msgstr ""
+
+#: ../../architecture.rst:22
+msgid "Macro Architecture View"
+msgstr ""
+
+#: ../../architecture.rst:24
+msgid ""
+"The macro view provides a high-level overview of the four main "
+"architectural layers:"
+msgstr ""
+
+#: ../../architecture.rst:37
+msgid "Detailed Component View"
+msgstr ""
+
+#: ../../architecture.rst:39
+msgid "The expanded view shows detailed data flow and individual components:"
+msgstr ""
+
+#: ../../architecture.rst:52
+msgid "Platform Capabilities"
+msgstr ""
+
+#: ../../architecture.rst:55
+msgid "Technical Performance"
+msgstr ""
+
+#: ../../architecture.rst:57
+msgid ""
+"AMRnet delivers enterprise-grade performance with significant "
+"optimizations:"
+msgstr ""
+
+#: ../../architecture.rst:59
+#, python-format
+msgid "**70-87% faster load times** through advanced optimization techniques"
+msgstr ""
+
+#: ../../architecture.rst:60
+msgid "**90% payload compression** reducing bandwidth requirements"
+msgstr ""
+
+#: ../../architecture.rst:61
+msgid "**Real-time data synchronization** with automated updates"
+msgstr ""
+
+#: ../../architecture.rst:62
+msgid "**10,000+ API requests per hour** capacity"
+msgstr ""
+
+#: ../../architecture.rst:65
+msgid "Data Coverage"
+msgstr ""
+
+#: ../../architecture.rst:67
+msgid "Our platform provides comprehensive AMR surveillance data:"
+msgstr ""
+
+#: ../../architecture.rst:69
+msgid "**8 pathogen species** from major public databases"
+msgstr ""
+
+#: ../../architecture.rst:70
+msgid "**500,000+ genomic records** with AMR predictions"
+msgstr ""
+
+#: ../../architecture.rst:71
+msgid "**75+ countries** represented in the global dataset"
+msgstr ""
+
+#: ../../architecture.rst:72
+msgid "**4 languages** supported (English, Spanish, French, Portuguese)"
+msgstr ""
+
+#: ../../architecture.rst:75
+msgid "Architecture Components"
+msgstr ""
+
+#: ../../architecture.rst:78
+msgid "Frontend Layer"
+msgstr ""
+
+#: ../../architecture.rst:80
+msgid "**React 18 Application**"
+msgstr ""
+
+#: ../../architecture.rst:81
+msgid ""
+"Modern React application with hooks, state management, and optimized "
+"rendering"
+msgstr ""
+
+#: ../../architecture.rst:83
+msgid "**Interactive Visualizations**"
+msgstr ""
+
+#: ../../architecture.rst:84
+msgid "Charts, maps, and trend analysis using D3.js integration"
+msgstr ""
+
+#: ../../architecture.rst:86
+msgid "**Multi-language Support**"
+msgstr ""
+
+#: ../../architecture.rst:87
+msgid "Complete internationalization with professional medical translation"
+msgstr ""
+
+#: ../../architecture.rst:89
+msgid "**Responsive Design**"
+msgstr ""
+
+#: ../../architecture.rst:90
+msgid "Mobile-first approach with progressive web app capabilities"
+msgstr ""
+
+#: ../../architecture.rst:93
+msgid "Backend Layer"
+msgstr ""
+
+#: ../../architecture.rst:95
+msgid "**Node.js v18.20.4 Server**"
+msgstr ""
+
+#: ../../architecture.rst:96
+msgid "Express.js server with optimized endpoints and comprehensive middleware"
+msgstr ""
+
+#: ../../architecture.rst:98
+msgid "**RESTful API**"
+msgstr ""
+
+#: ../../architecture.rst:99
+msgid ""
+"Full-featured API with rate limiting, authentication, and detailed "
+"documentation"
+msgstr ""
+
+#: ../../architecture.rst:101
+msgid "**Performance Engine**"
+msgstr ""
+
+#: ../../architecture.rst:102
+msgid ""
+"Advanced optimization including pagination, compression, and intelligent "
+"caching"
+msgstr ""
+
+#: ../../architecture.rst:104
+msgid "**Security Framework**"
+msgstr ""
+
+#: ../../architecture.rst:105
+msgid "Helmet security, CORS protection, API authentication, and OAuth2 support"
+msgstr ""
+
+#: ../../architecture.rst:108
+msgid "Database Layer"
+msgstr ""
+
+#: ../../architecture.rst:110
+msgid "**MongoDB Atlas**"
+msgstr ""
+
+#: ../../architecture.rst:111
+msgid "Cloud-hosted MongoDB with automated backups and horizontal scaling"
+msgstr ""
+
+#: ../../architecture.rst:113
+msgid "**Organism Collections**"
+msgstr ""
+
+#: ../../architecture.rst:114
+msgid "Specialized collections for 8 major AMR organisms with optimized schemas"
+msgstr ""
+
+#: ../../architecture.rst:116
+msgid "**Performance Indexes**"
+msgstr ""
+
+#: ../../architecture.rst:117
+msgid "Compound indexes optimized for geographic, temporal, and genotype queries"
+msgstr ""
+
+#: ../../architecture.rst:119
+msgid "**Aggregation Pipeline**"
+msgstr ""
+
+#: ../../architecture.rst:120
+msgid "Server-side processing for efficient data filtering and analysis"
+msgstr ""
+
+#: ../../architecture.rst:123
+msgid "Infrastructure Layer"
+msgstr ""
+
+#: ../../architecture.rst:125
+msgid "**Heroku Platform**"
+msgstr ""
+
+#: ../../architecture.rst:126
+msgid "Cloud deployment with auto-scaling and continuous integration"
+msgstr ""
+
+#: ../../architecture.rst:128
+msgid "**Fixie Proxy Service**"
+msgstr ""
+
+#: ../../architecture.rst:129
+msgid "Secure database connections through SOCKS5 proxy"
+msgstr ""
+
+#: ../../architecture.rst:131
+msgid "**AWS S3 Storage**"
+msgstr ""
+
+#: ../../architecture.rst:132
+msgid "Data export storage and backup with public access capabilities"
+msgstr ""
+
+#: ../../architecture.rst:134
+msgid "**CI/CD Pipeline**"
+msgstr ""
+
+#: ../../architecture.rst:135
+msgid "Automated testing, building, and deployment through GitHub Actions"
+msgstr ""
+
+#: ../../architecture.rst:138
+msgid "Data Sources Integration"
+msgstr ""
+
+#: ../../architecture.rst:141
+msgid "Public Genomic Databases"
+msgstr ""
+
+#: ../../architecture.rst:143
+msgid "**Pathogenwatch**"
+msgstr ""
+
+#: ../../architecture.rst:144
+msgid "Salmonella Typhi with AMR predictions"
+msgstr ""
+
+#: ../../architecture.rst:145
+msgid "Klebsiella pneumoniae surveillance data"
+msgstr ""
+
+#: ../../architecture.rst:146
+msgid "Neisseria gonorrhoeae resistance profiles"
+msgstr ""
+
+#: ../../architecture.rst:148
+msgid "**Enterobase**"
+msgstr ""
+
+#: ../../architecture.rst:149
+msgid "Escherichia coli with hierarchical clustering"
+msgstr ""
+
+#: ../../architecture.rst:150
+msgid "Shigella species surveillance"
+msgstr ""
+
+#: ../../architecture.rst:151
+msgid "Salmonella enterica global dataset"
+msgstr ""
+
+#: ../../architecture.rst:154
+msgid "Automated Data Harvesting"
+msgstr ""
+
+#: ../../architecture.rst:156
+msgid "**Spyder Robot**"
+msgstr ""
+
+#: ../../architecture.rst:157
+msgid "Custom web scraping tool for automated genomic data extraction"
+msgstr ""
+
+#: ../../architecture.rst:159
+msgid "**Data Ingestion APIs**"
+msgstr ""
+
+#: ../../architecture.rst:160
+msgid "RESTful endpoints for programmatic data retrieval and processing"
+msgstr ""
+
+#: ../../architecture.rst:162
+msgid "**Quality Control Pipeline**"
+msgstr ""
+
+#: ../../architecture.rst:163
+msgid "Automated validation, harmonization, and metadata standardization"
+msgstr ""
+
+#: ../../architecture.rst:166
+msgid "Performance Optimizations"
+msgstr ""
+
+#: ../../architecture.rst:168
+msgid "The AMRnet platform incorporates numerous performance enhancements:"
+msgstr ""
+
+#: ../../architecture.rst:171
+msgid "Data Optimization"
+msgstr ""
+
+#: ../../architecture.rst:173
+msgid ""
+"**Optimized API endpoints** (``/api/optimized/*``) with parallel "
+"processing"
+msgstr ""
+
+#: ../../architecture.rst:174
+msgid "**Field projection** to minimize data transfer"
+msgstr ""
+
+#: ../../architecture.rst:175
+msgid "**Aggregation pipelines** for server-side computation"
+msgstr ""
+
+#: ../../architecture.rst:176
+msgid "**Connection pooling** for database efficiency"
+msgstr ""
+
+#: ../../architecture.rst:179
+msgid "Frontend Optimization"
+msgstr ""
+
+#: ../../architecture.rst:181
+msgid "**Code splitting** and lazy loading for faster initial loads"
+msgstr ""
+
+#: ../../architecture.rst:182
+msgid "**Service workers** for offline functionality"
+msgstr ""
+
+#: ../../architecture.rst:183
+msgid "**Compression** algorithms reducing payload sizes"
+msgstr ""
+
+#: ../../architecture.rst:184
+msgid "**Progressive web app** features for mobile experience"
+msgstr ""
+
+#: ../../architecture.rst:187
+msgid "Deployment Features"
+msgstr ""
+
+#: ../../architecture.rst:189
+msgid "**Auto-scaling** based on traffic demands"
+msgstr ""
+
+#: ../../architecture.rst:190
+msgid "**Health monitoring** with automated alerts"
+msgstr ""
+
+#: ../../architecture.rst:191
+msgid "**Performance tracking** and analytics"
+msgstr ""
+
+#: ../../architecture.rst:192
+msgid "**Error logging** with Sentry integration"
+msgstr ""
+
+#: ../../architecture.rst:195
+msgid "Quality Assurance"
+msgstr ""
+
+#: ../../architecture.rst:197
+msgid "Our architecture ensures data quality and system reliability:"
+msgstr ""
+
+#: ../../architecture.rst:200
+msgid "Data Quality"
+msgstr ""
+
+#: ../../architecture.rst:202
+msgid "**Source validation** from trusted genomic databases"
+msgstr ""
+
+#: ../../architecture.rst:203
+msgid "**Harmonization** of country names, regions, and date formats"
+msgstr ""
+
+#: ../../architecture.rst:204
+msgid "**Deduplication** algorithms preventing data redundancy"
+msgstr ""
+
+#: ../../architecture.rst:205
+msgid "**Version control** maintaining data provenance"
+msgstr ""
+
+#: ../../architecture.rst:208
+msgid "System Reliability"
+msgstr ""
+
+#: ../../architecture.rst:210
+msgid "**Automated testing** with comprehensive test suites"
+msgstr ""
+
+#: ../../architecture.rst:211
+msgid "**Continuous monitoring** of system performance"
+msgstr ""
+
+#: ../../architecture.rst:212
+msgid "**Backup strategies** ensuring data protection"
+msgstr ""
+
+#: ../../architecture.rst:213
+msgid "**Security auditing** with regular vulnerability assessments"
+msgstr ""
+
+#: ../../architecture.rst:216
+msgid "Future Architecture Plans"
+msgstr ""
+
+#: ../../architecture.rst:218
+msgid "Planned enhancements to the AMRnet architecture include:"
+msgstr ""
+
+#: ../../architecture.rst:220
+msgid "**Machine learning integration** for predictive AMR modeling"
+msgstr ""
+
+#: ../../architecture.rst:221
+msgid "**Real-time alerts** for emerging resistance patterns"
+msgstr ""
+
+#: ../../architecture.rst:222
+msgid "**Enhanced visualization** with 3D geographic modeling"
+msgstr ""
+
+#: ../../architecture.rst:223
+msgid "**Blockchain integration** for data provenance and sharing"
+msgstr ""
+
+#: ../../architecture.rst:224
+msgid "**Federated learning** capabilities for distributed AMR analysis"
+msgstr ""
+
+#: ../../architecture.rst:226
+msgid ""
+"For technical implementation details, please see our `GitHub repository "
+"<https://github.com/amrnet/amrnet>`_ and `API documentation <api.html>`_."
+msgstr ""
+

@@ -1,0 +1,558 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../usage.rst:2
+msgid "Dashboard overview"
+msgstr ""
+
+#: ../../usage.rst:5
+msgid ""
+"**Header**: Use the menu to **select a species or pathogen group** to "
+"display. Each pathogen has its own dashboard configuration that is "
+"customised to show genotypes, resistances and other relevant parameters. "
+"Numbers indicate the total number of genomes and genotypes currently "
+"available in the selected dashboard."
+msgstr ""
+
+#: ../../usage.rst:7
+msgid "header"
+msgstr ""
+
+#: ../../usage.rst:12
+msgid ""
+"**Map**: Use the **Plotting options** panel on the right to **select a "
+"variable to display per-country summary data** on the world map. "
+"Prevalence data are pooled weighted estimates of proportion for the "
+"selected resistance or genotype. Use the **Global filters** panel on the "
+"left to recalculate summary data for a specific time period and/or "
+"subgroup/s (options available vary by pathogen). A country must have N≥20"
+" samples (using the current filters) for summary data to be displayed "
+"otherwise, it will be coloured grey to indicate insufficient data are "
+"available. Filters set in this panel apply not only to the map, but to "
+"all plots on the page. **Clicking on a country in the map** also "
+"functions as a filter, so that the **Summary plots** in the panels below "
+"reflect data for the selected country only. Per-country values displayed "
+"in the map can be downloaded by clicking the downward-arrow button at the"
+" top right of the panel. A static image (PNG format) of the current map "
+"view can be downloaded by clicking the camera icon."
+msgstr ""
+
+#: ../../usage.rst:15
+msgid "map"
+msgstr ""
+
+#: ../../usage.rst:20
+msgid ""
+"**Summary plots**: This panel offers a series of summary plots. The "
+"default view is \"AMR trends\". **Click a plot title** in the rotating "
+"selector at the top of the panel, to choose a different plot. The "
+"specific plots available vary by pathogen, as do the definitions of AMR "
+"and genotype variables (see per-organism details below). Summary plots "
+"are intended to show region- or country-level summaries, but if no "
+"country is selected they will populate with pooled estimates of "
+"proportion across all data passing the current filters."
+msgstr ""
+
+#: ../../usage.rst:22
+msgid ""
+"All plots are interactive. Use the **Plotting options** panel on the "
+"right to modify the region/country to display, or to select other options"
+" available for the current plot such as which variables to display, and "
+"whether to show **counts or percentages**."
+msgstr ""
+
+#: ../../usage.rst:24
+msgid ""
+"Each plot has a dynamic legend to the right; click on an x-axis value to "
+"display counts and percentages of secondary variables calculated amongst "
+"genomes matching that x-axis value. For example, most pathogens will have"
+" a ‘AMR by genotype’ plot; click a genotype to display counts and "
+"percentages of resistance estimated for each drug or class."
+msgstr ""
+
+#: ../../usage.rst:26
+msgid ""
+"Summarised values displayed in the current plot can be downloaded by "
+"clicking the downward-arrow button at the top of the Summary plots panel."
+" A static image (PNG format) of the current plotting view can be "
+"downloaded by clicking the camera icon."
+msgstr ""
+
+#: ../../usage.rst:32
+msgid "summary"
+msgstr ""
+
+#: ../../usage.rst:37
+msgid ""
+"**Downloads**: At the bottom are buttons to download (1) the individual "
+"genome-level information that is used to populate the dashboard "
+"(‘Download database (CSV format)’); and (2) a static report of the "
+"currently displayed plots, together with a basic description of the data "
+"sources and variable definitions (‘Download PDF’). Please note PDF "
+"reports are not yet available for all organisms, they will be added in "
+"future updates."
+msgstr ""
+
+#: ../../usage.rst:39
+msgid "downloads"
+msgstr ""
+
+#: ../../usage.rst:45
+msgid ""
+"Please note PDF reports are not yet available for all organisms, they "
+"will be added in future updates."
+msgstr ""
+
+#: ../../usage.rst:48
+msgid "Individual pathogen details"
+msgstr ""
+
+#: ../../usage.rst:51
+msgid "*Salmonella* Typhi"
+msgstr ""
+
+#: ../../usage.rst:54
+msgid ""
+"*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch "
+"<http://Pathogen.watch>`__, which calls AMR determinants and `GenoTyphi "
+"<https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome "
+"assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by "
+"the `Global Typhoid Genomics Consortium "
+"<https://www.typhoidgenomics.org>`_, as described `here "
+"<https://doi.org/10.7554/eLife.85867>`_. The prevalence estimates shown "
+"are calculated using genome collections derived from non-targeted "
+"sampling frames (i.e. surveillance and burden studies, as opposed to AMR "
+"focused studies or outbreak investigations) with known year of isolation "
+"and country of origin. Last update: 12 November 2024."
+msgstr ""
+
+#: ../../usage.rst:56 ../../usage.rst:75 ../../usage.rst:95 ../../usage.rst:122
+#: ../../usage.rst:147 ../../usage.rst:165 ../../usage.rst:185
+msgid "**Variable definitions**"
+msgstr ""
+
+#: ../../usage.rst:58
+msgid ""
+"**Genotypes**: GenoTyphi scheme, see `Dyson & Holt, 2021 "
+"<https://doi.org/10.1093/infdis/jiab414>`_."
+msgstr ""
+
+#: ../../usage.rst:59
+msgid ""
+"**AMR determinants** are described in the `Typhi Pathogenwatch paper "
+"<https://doi.org/10.1038/s41467-021-23091-2>`_."
+msgstr ""
+
+#: ../../usage.rst:60
+msgid ""
+"**Travel-associated cases** are attributed to the country of travel, not "
+"the country of isolation, see `Ingle et al, 2019 "
+"<https://doi.org/10.1371/journal.pntd.0007620>`_."
+msgstr ""
+
+#: ../../usage.rst:62 ../../usage.rst:81 ../../usage.rst:102
+msgid "**Abbreviations**"
+msgstr ""
+
+#: ../../usage.rst:64
+msgid ""
+"**MDR**: multidrug resistant (resistant to ampicillin, chloramphenicol, "
+"and trimethoprim-sulfamethoxazole)"
+msgstr ""
+
+#: ../../usage.rst:65
+msgid ""
+"**XDR**: extensively drug resistant (MDR plus resistant to ciprofloxacin "
+"and ceftriaxone)"
+msgstr ""
+
+#: ../../usage.rst:66
+msgid ""
+"**Ciprofloxacin NS**: ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due"
+" to presence of one or more *qnr* genes or mutations in *gyrA/parC/gyrB*)"
+msgstr ""
+
+#: ../../usage.rst:67
+msgid ""
+"**Ciprofloxacin R**: ciprofloxacin resistant (MIC >=0.5 mg/L, due to "
+"presence of multiple mutations and/or genes)"
+msgstr ""
+
+#: ../../usage.rst:70
+msgid "*Klebsiella pneumoniae*"
+msgstr ""
+
+#: ../../usage.rst:71
+msgid ""
+"*Klebsiella pneumoniae* data are sourced from `Pathogenwatch "
+"<https://doi.org/10.1093/cid/ciab784>`__, which calls AMR (using "
+"`Kleborate <https://github.com/klebgenomics/Kleborate>`_) and genotypes "
+"(`MLST <https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`__) from genomes"
+" assembled from public data. Last update: 24 May 2025."
+msgstr ""
+
+#: ../../usage.rst:73
+msgid ""
+"The *Klebsiella pneumoniae* data used in AMRnet are not yet curated for "
+"purpose-of-sampling, and therefore reflect the biases of global "
+"sequencing efforts which have been largely directed at sequencing ESBL "
+"and carbapenemase-producing strains or hypervirulent strains. Data "
+"curation efforts are ongoing however until then, please be careful when "
+"interpreting the data in the dashboard."
+msgstr ""
+
+#: ../../usage.rst:77
+msgid ""
+"**Genotypes**: `7-locus MLST scheme "
+"<https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for Klebsiella "
+"pneumoniae, and sublineages (defined from core-genome MLST, as described "
+"`here <https://doi.org/10.1093/molbev/msac135>`__), maintained by "
+"`Institut Pasteur <https://bigsdb.pasteur.fr/klebsiella/>`_."
+msgstr ""
+
+#: ../../usage.rst:78
+msgid ""
+"**AMR determinants** are called using `Kleborate v3 "
+"<https://github.com/klebgenomics/Kleborate>`_, described `here "
+"<https://doi.org/10.1038/s41467-021-24448-3>`__. Fluoroquinolone "
+"resistance is defined as presence of an acquired qnr/qep gene OR a "
+"mutation in the quinolone-resistance determining regions of gyrA or parC."
+msgstr ""
+
+#: ../../usage.rst:79
+msgid ""
+"**No acquired resistance**: no resistance determinants identified besides"
+" a wildtype beta-lactamase SHV allele associated with intrinsic "
+"resistance to ampicillin (i.e. not an ESBL or inhibitor-resistant variant"
+" of SHV, see `Tsang et al 2024 "
+"<https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.001294>`_."
+msgstr ""
+
+#: ../../usage.rst:83
+msgid "**ESBL**: extended-spectrum beta-lactamase"
+msgstr ""
+
+#: ../../usage.rst:84
+msgid "**3GC**: third-generation cephalosporins"
+msgstr ""
+
+#: ../../usage.rst:85
+msgid "**ST**: sequence type"
+msgstr ""
+
+#: ../../usage.rst:86
+msgid "**cgST**: core-genome sequence type"
+msgstr ""
+
+#: ../../usage.rst:89
+msgid "*Neisseria gonorrhoeae*"
+msgstr ""
+
+#: ../../usage.rst:93
+msgid ""
+"*Neisseria gonorrhoeae* data are sourced from `Pathogenwatch "
+"<https://doi.org/10.1186/s13073-021-00858-2>`__, which calls AMR and "
+"lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST "
+"<https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST "
+"<https://doi.org/10.1086/383047>`_) from genomes assembled from public "
+"data. The prevalence estimates shown are calculated using genome "
+"collections derived from non-targeted sampling frames (i.e. surveillance "
+"and burden studies, as opposed to AMR focused studies or outbreak "
+"investigations). These include EuroGASP `2013 "
+"<https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 "
+"<https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national "
+"surveillance studies. Last update: 24 January 2024."
+msgstr ""
+
+#: ../../usage.rst:97
+msgid ""
+"**Genotypes**: sequence types from the `7-locus MLST scheme "
+"<https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for **Neisseria**, or"
+" 2-locus **N. gonorrhoeae** multi-antigen sequence typing (`NG-MAST "
+"<https://doi.org/10.1086/383047>`_) scheme, both hosted by `PubMLST "
+"<https://pubmlst.org/neisseria/>`_."
+msgstr ""
+
+#: ../../usage.rst:98
+msgid ""
+"**AMR determinants** are identified by Pathogenwatch using an inhouse "
+"dictionary developed and maintained in consultation with an expert "
+"advisory group, described `here "
+"<https://doi.org/10.1186/s13073-021-00858-2>`__."
+msgstr ""
+
+#: ../../usage.rst:99
+msgid ""
+"**AMR determinants within genotypes** - This plot shows combinations of "
+"determinants that result in clinical resistance to Azithromycin or "
+"Ceftriaxone, as defined in Figure 3 of `Sánchez-Busó et al (2021) "
+"<https://doi.org/10.1186/s13073-021-00858-2>`_."
+msgstr ""
+
+#: ../../usage.rst:100
+msgid ""
+"**Susceptible to cat I/II drugs** - No determinants found for "
+"Azithromycin, Ceftriaxone, Cefixime (category I) or Benzylpenicillin, "
+"Ciprofloxacin, Spectinomycin (category II)."
+msgstr ""
+
+#: ../../usage.rst:104
+msgid ""
+"**MDR**: multidrug resistant (Resistant to one of Azithromycin / "
+"Ceftriaxone / Cefixime [category I representatives], plus two or more of "
+"Benzylpenicillin / Ciprofloxacin / Spectinomycin [category II "
+"representatives])"
+msgstr ""
+
+#: ../../usage.rst:105
+msgid ""
+"**XDR**: extensively drug resistant (Resistant to two of Azithromycin / "
+"Ceftriaxone / Cefixime [category I representatives], plus three of "
+"Benzylpenicillin / Ciprofloxacin / Spectinomycin [category II "
+"representatives])"
+msgstr ""
+
+#: ../../usage.rst:109
+msgid ""
+"These definitions are based on those defined in the `European CDC "
+"Response Plan <https://www.ecdc.europa.eu/sites/default/files/documents"
+"/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-"
+"Europe-2019.pdf>`_, modified to use the specific representatives of "
+"category I and II antibiotic classes that are available in the dashboard."
+msgstr ""
+
+#: ../../usage.rst:113
+msgid "*Escherichia coli*"
+msgstr ""
+
+#: ../../usage.rst:117
+msgid ""
+"*Escherichia coli* data in AMRnet are drawn from `Enterobase "
+"<https://enterobase.warwick.ac.uk/>`__, which calls AMR genotypes using "
+"NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens"
+"/antimicrobial-resistance/AMRFinder/>`_ and assigns lineages using MLST, "
+"`cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical "
+"clustering <https://doi.org/10.1093/bioinformatics/btab234>`_. Last "
+"update: 24 January 2024."
+msgstr ""
+
+#: ../../usage.rst:120 ../../usage.rst:145
+msgid ""
+"The *E. coli* data used in AMRnet are not yet curated for purpose-of-"
+"sampling, and therefore reflect the biases of global sequencing efforts "
+"which may be skewed towards sequencing AMR strains and/or outbreaks. Data"
+" curation efforts are ongoing however until then, please be careful when "
+"interpreting the data in the dashboard."
+msgstr ""
+
+#: ../../usage.rst:124
+msgid "**Lineages**: Lineages are labeled by 7-locus sequence type (ST)."
+msgstr ""
+
+#: ../../usage.rst:126 ../../usage.rst:151 ../../usage.rst:197
+msgid ""
+"**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ "
+"identifies AMR determinants using NCBI’s `AMRFinderPlus "
+"<https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-"
+"resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and "
+"assigns them to drugs/classes in the dashboard using the Subclass curated"
+" in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_."
+msgstr ""
+
+#: ../../usage.rst:130
+msgid "*Escherichia coli* (diarrheagenic)"
+msgstr ""
+
+#: ../../usage.rst:134
+msgid ""
+"Enterobase classifies *E. coli* genomes to pathotypes using `this logic "
+"<https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-"
+"phylotypes.html?highlight=pathovar>`__. Pathotypes included in the *E. "
+"coli* (diarrheagenic) dashboard are:"
+msgstr ""
+
+#: ../../usage.rst:136
+msgid "Shiga toxin-producing *E. coli* (STEC)"
+msgstr ""
+
+#: ../../usage.rst:137
+msgid "Enterohemorrhagic *E. coli* (EHEC)"
+msgstr ""
+
+#: ../../usage.rst:138
+msgid "Enterotoxigenic *E. coli* (ETEC)"
+msgstr ""
+
+#: ../../usage.rst:139
+msgid "Enteropathogenic *E. coli* (EPEC)"
+msgstr ""
+
+#: ../../usage.rst:140
+msgid "Enteroinvasive *E. coli* (EIEC)"
+msgstr ""
+
+#: ../../usage.rst:142
+msgid "Last update: 24 January 2024."
+msgstr ""
+
+#: ../../usage.rst:149
+msgid ""
+"**Lineages**: Lineages are labeled by the pathovar followed by the "
+"(7-locus) ST."
+msgstr ""
+
+#: ../../usage.rst:155
+msgid "*Shigella* + EIEC"
+msgstr ""
+
+#: ../../usage.rst:159
+msgid ""
+"*Shigella* and enteroinvasive *E. coli* (EIEC) data in AMRnet are drawn "
+"from `Enterobase <https://enterobase.warwick.ac.uk/>`__, which calls AMR "
+"genotypes using NCBI’s `AMRFinderPlus "
+"<https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-"
+"resistance/AMRFinder/>`_ and assigns lineages using `cgMLST "
+"<https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering "
+"<https://doi.org/10.1093/bioinformatics/btab234>`_. Last update: 24 "
+"January 2024."
+msgstr ""
+
+#: ../../usage.rst:163
+msgid ""
+"The *Shigella* + EIEC data used in AMRnet are not yet curated for "
+"purpose-of-sampling, and therefore reflect the biases of global "
+"sequencing efforts which may be skewed towards sequencing AMR strains "
+"and/or outbreaks. Data curation efforts are ongoing however until then, "
+"please be careful when interpreting the data in the dashboard."
+msgstr ""
+
+#: ../../usage.rst:167
+msgid ""
+"**Lineages**: The logic used by `Enterobase "
+"<https://doi.org/10.1101/gr.251678.119>`__ to classify genomes as "
+"*Shigella* or EIEC are detailed `here "
+"<https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-"
+"phylotypes.html?highlight=shigella>`__. *Shigella sonnei* are "
+"monophyletic and labelled as lineage ‘S. *sonnei*’. For other *Shigella*,"
+" lineages are labeled by the species followed by the HC400 (`HierCC "
+"<https://enterobase.readthedocs.io/en/latest/features/clustering.html>`_)"
+" cluster ID (as this nomenclature has been `shown "
+"<https://doi.org/10.1038/s41467-022-28121-1>`_ to mirror the paraphyletic"
+" lineage structure of *Shigella*). EIEC lineages are labeled by ST (e.g. "
+"‘EIEC ST99’)."
+msgstr ""
+
+#: ../../usage.rst:168
+msgid ""
+"**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`__ "
+"identifies AMR determinants using NCBI’s `AMRFinderPlus "
+"<https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-"
+"resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and "
+"assigns them to drugs/classes in the dashboard using the Subclass curated"
+" in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_."
+msgstr ""
+
+#: ../../usage.rst:173
+msgid "*Salmonella* (invasive non-typhoidal)"
+msgstr ""
+
+#: ../../usage.rst:177
+#, python-format
+msgid ""
+"*Salmonella* (invasive non-typhoidal) data in AMRnet are drawn from "
+"`Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR "
+"genotypes using NCBI’s `AMRFinderPlus "
+"<https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-"
+"resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST "
+"<https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering "
+"<https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes"
+" using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. The iNTS "
+"dashboard currently includes all genomes identified as serotype "
+"Typhimurium or Enteritidis (which account for `>90% of iNTS "
+"<https://doi.org/10.1016/S1473-3099(21)00615-0>`_), and identifies "
+"lineages thereof using MLST. Last update: 24 January 2024."
+msgstr ""
+
+#: ../../usage.rst:180
+#, python-format
+msgid ""
+"The invasive non-typhoidal *Salmonella* (iNTS) dashboard is populated "
+"with data from specific *Salmonella enterica* lineages that are "
+"associated with invasive disease in low-income countries; namely serotype"
+" Typhimurium (ST19, ST313 and sublineages thereof as defined by `Van "
+"Puyvelde et al <https://doi.org/10.1038/s41467-023-41152-6>`_) and "
+"Enteritidis (Central/Eastern and West African clades as defined by `Fong "
+"et al <https://doi.org/10.1099/mgen.0.001017>`_). Together these account "
+"for `>90% of iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_. Data"
+" in AMRnet are drawn from `Enterobase "
+"<https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using "
+"NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens"
+"/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, "
+"`cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical "
+"clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and "
+"assigns serotypes using `SISTR "
+"<https://doi.org/10.1371/journal.pone.0147101>`_. Last update: 24 January"
+" 2024."
+msgstr ""
+
+#: ../../usage.rst:183
+msgid ""
+"The iNTS data used in AMRnet are not yet curated for purpose-of-sampling,"
+" and therefore reflect the biases of global sequencing efforts which may "
+"be skewed towards sequencing AMR strains and/or outbreaks. Data curation "
+"efforts are ongoing however until then, please be careful when "
+"interpreting the data in the dashboard."
+msgstr ""
+
+#: ../../usage.rst:187
+msgid ""
+"**Lineages**: Lineages are labeled by iTYM (invasive Typhimurium) or iENT"
+" (invasive Enteritidis) followed by the lineage name, defined from cgMLST"
+" as follows:"
+msgstr ""
+
+#: ../../usage.rst:189
+msgid "iTYM ST19-L1: HC150-305"
+msgstr ""
+
+#: ../../usage.rst:190
+msgid "iTYM ST19-L3: HC150=1547"
+msgstr ""
+
+#: ../../usage.rst:191
+msgid "iTYM ST19-L4: HC150=48"
+msgstr ""
+
+#: ../../usage.rst:192
+msgid "iTYM ST313-L1: HC150=9882"
+msgstr ""
+
+#: ../../usage.rst:193
+msgid "iTYM ST313-L2: HC150=728 and HC50=728"
+msgstr ""
+
+#: ../../usage.rst:194
+msgid "iENT CEAC: HC150=12675"
+msgstr ""
+
+#: ../../usage.rst:195
+msgid "iENT WAC: HC150=2452"
+msgstr ""
+

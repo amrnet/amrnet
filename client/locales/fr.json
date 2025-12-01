@@ -1,0 +1,143 @@
+{
+  "appTitle": "AMRnet",
+  "welcomeMessage": "Bienvenue sur le tableau de bord AMRnet",
+  "dashboard": {
+    "title": "Tableau de bord AMRnet",
+    "description": "Ceci est la page principale du tableau de bord AMRnet. Ici vous pouvez visualiser et gérer divers aspects du système."
+  },
+  "navigation": {
+    "home": "Accueil",
+    "about": "À propos",
+    "team": "Équipe",
+    "contact": "Contact",
+    "database": "Base de données",
+    "userguide": "Guide d'utilisation"
+  },
+  "about": {
+    "title": "À propos",
+    "pageTitle": "À propos d'AMRnet",
+    "subtitle": "Réseau de surveillance de la résistance antimicrobienne",
+    "paragraph1": "Le tableau de bord AMRnet vise à rendre accessibles à un large public des données de surveillance de la RAM de haute qualité, robustes et fiables dérivées du génome. Les visualisations sont orientées vers la présentation d'estimations annuelles nationales de prévalence de la RAM et des tendances dans le temps, qui peuvent être décomposées et explorées en termes de génotypes sous-jacents et de mécanismes de résistance. Nous ne générons pas de données de séquence, mais nous espérons qu'en rendant les données déposées publiquement plus accessibles et utiles, nous pouvons encourager et motiver plus de séquençage et de partage de données.",
+    "paragraph2": {
+      "intro": "Nous avons commencé avec Salmonella Typhi et nous sommes appuyés sur notre tableau de bord",
+      "typhiNet": "TyphiNET",
+      "middle1": "qui utilise des données qui ont été curées par le",
+      "globalTyphoid": "Consortium de génomique typhoïde mondial",
+      "middle2": "(pour améliorer la qualité des données et identifier quels ensembles de données sont adaptés à l'inclusion) et analysées dans",
+      "pathogenwatch1": "Pathogenwatch",
+      "middle3": "(pour identifier les déterminants de RAM et les lignées à partir des données de séquence). Des organismes supplémentaires ont été ajoutés, en utilisant des données provenant de",
+      "pathogenwatch2": "Pathogenwatch",
+      "middle4": ", et",
+      "enterobase": "Enterobase",
+      "end": ", cependant ces tableaux de bord sont en mode bêta car la curation des données est toujours en cours. Plus d'organismes seront ajoutés tout au long de 2025."
+    },
+    "paragraph3": {
+      "text": "Un obstacle majeur à l'utilisation de données publiques pour la surveillance est la nécessité d'une curation soigneuse des données afin d'identifier quels ensembles de données sont pertinents pour l'inclusion dans les estimations groupées de prévalence de RAM et de génotype. Ce type de curation peut bénéficier à un large éventail d'utilisateurs et nous prévoyons de travailler avec des communautés supplémentaires spécifiques aux organismes pour curer les données, et de contribuer aux efforts plus larges autour des normes de métadonnées. Veuillez nous contacter si vous souhaitez travailler avec nous (",
+      "contact": "amrnetdashboard@gmail.com",
+      "end": ")"
+    },
+    "paragraph4": {
+      "text": "Découvrez-en plus sur l'équipe du projet (basée à la London School of Hygiene and Tropical Medicine), et notre groupe consultatif politique,",
+      "linkText": "ici",
+      "end": "."
+    },
+    "paragraph5": {
+      "intro": "Le code du tableau de bord est en accès libre et disponible sur",
+      "github": "GitHub",
+      "middle1": ". ainsi qu'avec",
+      "userGuide": "guide d'utilisation",
+      "middle2": "et",
+      "api": "API",
+      "middle3": "pour accéder aux données. Les problèmes et demandes de fonctionnalités peuvent être postés",
+      "issues": "ici",
+      "end": "."
+    },
+    "citation": {
+      "title": "Citation pour AMRnet",
+      "intro": "Si vous utilisez le site web ou le code AMRnet, veuillez citer AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kathryn Holt),",
+      "githubLabel": "GitHub :",
+      "githubUrl": "https://github.com/amrnet/amrnet",
+      "doiLabel": "DOI :",
+      "doiUrl": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+    },
+    "funding": "Le projet est financé par le Wellcome Trust (subvention 226432/Z/22/Z).",
+    "links": {
+      "typhiNet": "https://www.typhi.net",
+      "globalTyphoidGenomics": "http://typhoidgenomics.org",
+      "pathogenWatch": "http://pathogen.watch",
+      "enterobase": "https://enterobase.warwick.ac.uk/",
+      "contact": "mailto:amrnetdashboard@gmail.com",
+      "teamInfo": "https://www.lshtm.ac.uk/amrnet",
+      "github": "https://github.com/amrnet/amrnet",
+      "userGuide": "https://amrnet.readthedocs.io/fr/latest",
+      "api": "https://amrnet.readthedocs.io/fr/latest/data.html",
+      "issues": "https://github.com/amrnet/amrnet/issues",
+      "githubRepo": "https://github.com/amrnet/amrnet",
+      "doi": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+    }
+  },
+  "formValidation": {
+    "requiredField": "Ce champ est obligatoire.",
+    "invalidEmail": "Veuillez saisir une adresse e-mail valide."
+  },
+  "notifications": {
+    "success": "Opération réussie !",
+    "error": "Une erreur s'est produite. Veuillez réessayer."
+  },
+  "buttons": {
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "view": "Voir"
+  },
+  "table": {
+    "noData": "Aucune donnée disponible.",
+    "rowsPerPage": "Lignes par page :",
+    "of": "de"
+  },
+  "login": {
+    "title": "Se connecter à AMRnet",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "loginButton": "Se connecter",
+    "forgotPassword": "Mot de passe oublié ?",
+    "registerPrompt": "Vous n'avez pas de compte ?",
+    "registerLink": "S'inscrire ici"
+  },
+  "register": {
+    "title": "S'inscrire à AMRnet",
+    "username": "Nom d'utilisateur",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "registerButton": "S'inscrire",
+    "loginPrompt": "Vous avez déjà un compte ?",
+    "loginLink": "Se connecter ici"
+  },
+  "team": {
+    "post": {
+      "Principal Investigator": "Investigateur principal",
+      "Genomic Epidemiologist": "Épidémiologiste génomique",
+      "Lead Software Engineer/Computational Biologist": "Ingénieur logiciel principal/Biologiste computationnel",
+      "Software Engineer": "Ingénieur logiciel",
+      "Policy Engagement": "Engagement politique",
+      "Bioinformatician": "Bioinformaticien",
+      "Enterics Expert": "Expert entériques"
+    }
+  },
+  "profile": {
+    "title": "Profil utilisateur",
+    "name": "Nom",
+    "email": "E-mail",
+    "role": "Rôle",
+    "lastLogin": "Dernière connexion"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "theme": "Thème",
+    "notifications": "Notifications"
+  }
+}

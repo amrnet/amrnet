@@ -1,0 +1,205 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../installation.rst:4
+msgid "Installation"
+msgstr "Installation"
+
+#: ../../installation.rst:7
+msgid ""
+"These instructions will get you a copy of ``AMRnet`` up and running on "
+"your machine for development and testing purposes. AMRnet is a full-stack"
+" web application built with Node.js, React, and MongoDB."
+msgstr ""
+
+#: ../../installation.rst:12
+msgid "Prerequisites"
+msgstr ""
+
+#: ../../installation.rst:15
+msgid ""
+"Before installing AMRnet, make sure you have the following software "
+"installed:"
+msgstr ""
+
+#: ../../installation.rst:17
+msgid "**Node.js**: v18.20.4 or higher (specified in ``.nvmrc``)"
+msgstr ""
+
+#: ../../installation.rst:18
+msgid "**npm**: Latest version (comes with Node.js)"
+msgstr ""
+
+#: ../../installation.rst:19
+msgid "**Python**: v3.8+ (for data processing components)"
+msgstr ""
+
+#: ../../installation.rst:20
+msgid "**Git**: Latest version for version control"
+msgstr ""
+
+#: ../../installation.rst:21
+msgid "**MongoDB**: v6.0+ (local installation or MongoDB Atlas cloud database)"
+msgstr ""
+
+#: ../../installation.rst:23
+msgid "You can check your installed versions with:"
+msgstr ""
+
+#: ../../installation.rst:33
+msgid "Quick Start"
+msgstr "Démarrage Rapide"
+
+#: ../../installation.rst:36
+msgid "Follow these steps to get AMRnet running locally:"
+msgstr ""
+
+#: ../../installation.rst:38
+msgid "**1. Clone the Repository**"
+msgstr ""
+
+#: ../../installation.rst:45
+msgid "**2. Install Dependencies**"
+msgstr ""
+
+#: ../../installation.rst:55
+msgid "**3. Environment Configuration**"
+msgstr ""
+
+#: ../../installation.rst:65
+msgid "**4. Start Development Servers**"
+msgstr ""
+
+#: ../../installation.rst:76
+msgid "**5. Access the Application**"
+msgstr ""
+
+#: ../../installation.rst:78
+msgid ""
+"Open your browser and navigate to ``http://localhost:3000`` to see the "
+"AMRnet dashboard."
+msgstr ""
+
+#: ../../installation.rst:81
+msgid "Development Setup"
+msgstr ""
+
+#: ../../installation.rst:84
+msgid ""
+"For detailed development setup, including code quality tools and best "
+"practices:"
+msgstr ""
+
+#: ../../installation.rst:87
+msgid "Node.js Version Management"
+msgstr ""
+
+#: ../../installation.rst:90
+msgid "AMRnet uses Node.js v18.20.4. If you use nvm (Node Version Manager):"
+msgstr ""
+
+#: ../../installation.rst:102
+msgid "Python Dependencies"
+msgstr ""
+
+#: ../../installation.rst:105
+msgid "For data processing components and documentation building:"
+msgstr ""
+
+#: ../../installation.rst:116
+msgid "Environment Variables"
+msgstr ""
+
+#: ../../installation.rst:119
+msgid "Configure your ``.env`` file with the following variables:"
+msgstr ""
+
+#: ../../installation.rst:136
+msgid "Production Build"
+msgstr ""
+
+#: ../../installation.rst:139
+msgid "To build AMRnet for production deployment:"
+msgstr ""
+
+#: ../../installation.rst:149
+msgid "The built application will be served from the ``client/build`` directory."
+msgstr ""
+
+#: ../../installation.rst:152
+msgid "Docker Installation"
+msgstr ""
+
+#: ../../installation.rst:155
+msgid "AMRnet can also be run using Docker:"
+msgstr ""
+
+#: ../../installation.rst:165
+msgid ""
+"Make sure to replace ``your_mongodb_uri`` with your actual MongoDB "
+"connection string."
+msgstr ""
+
+#: ../../installation.rst:168
+msgid "Troubleshooting"
+msgstr "Dépannage"
+
+#: ../../installation.rst:171
+msgid "**Common Installation Issues:**"
+msgstr ""
+
+#: ../../installation.rst:173
+msgid ""
+"**Node version mismatch**: Use ``nvm use`` to switch to the correct "
+"version"
+msgstr ""
+
+#: ../../installation.rst:174
+msgid ""
+"**Package conflicts**: Delete ``node_modules`` and run ``npm install`` "
+"again"
+msgstr ""
+
+#: ../../installation.rst:175
+msgid "**Port conflicts**: Make sure ports 3000 and 8080 are available"
+msgstr ""
+
+#: ../../installation.rst:176
+msgid ""
+"**MongoDB connection**: Verify your MongoDB service is running or Atlas "
+"credentials are correct"
+msgstr ""
+
+#: ../../installation.rst:178
+msgid "**Getting Help:**"
+msgstr ""
+
+#: ../../installation.rst:180
+msgid "Check the `Issue Tracker <https://github.com/amrnet/amrnet/issues>`_"
+msgstr ""
+
+#: ../../installation.rst:181
+msgid "Review the `Development Guide <../tutorial/development.md>`_"
+msgstr ""
+
+#: ../../installation.rst:182
+msgid "Join our `Discussions <https://github.com/amrnet/amrnet/discussions>`_"
+msgstr ""
+

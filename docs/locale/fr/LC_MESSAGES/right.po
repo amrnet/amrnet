@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-04 23:45+0100\n"
+"PO-Revision-Date: 2025-08-21 12:00+0000\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../right.rst:2
+msgid "Data Usage"
+msgstr ""
+
+#: ../../right.rst:5
+msgid ""
+"AMRnet retrieves and processes publicly accessible data from "
+"`Pathogenwatch <https://pathogen.watch/>`_ and `Enterobase "
+"<https://enterobase.warwick.ac.uk/>`_. All data is public domain and "
+"there are no usage restrictions, however we ask that if you use the "
+"`dashboard <https://www.amrnet.org/>`_ or data downloads, you provide "
+"appropriate attribution to:"
+msgstr ""
+
+#: ../../right.rst:7
+msgid "AMRnet (citation below)"
+msgstr ""
+
+#: ../../right.rst:8
+msgid ""
+"The relevant data source platform (Pathogenwatch or Enterobase, depending"
+" on the pathogen)"
+msgstr ""
+
+#: ../../right.rst:9
+msgid ""
+"The relevant primary data sources, if you are focusing on data from a "
+"specific country or set of studies. (Individual genome accessions, "
+"bioprojects, and pubmed identifiers for each genome can be found in the "
+"AMRnet database downloads.)"
+msgstr ""
+
+#: ../../right.rst:12
+msgid "Citation"
+msgstr ""
+
+#: ../../right.rst:16
+msgid ""
+"If you use the AMRnet website or code, please cite AMRnet (Louise "
+"Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kathryn "
+"Holt), **GitHub**: https://github.com/amrnet/amrnet, **DOI**: "
+"10.5281/zenodo.10810219"
+msgstr ""
+

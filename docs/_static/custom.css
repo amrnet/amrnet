@@ -1,0 +1,65 @@
+.justify-text {
+    text-align: justify;
+}
+.bold-text {
+    font-weight: bold;
+}
+.spacer {
+    margin-top: 1.5rem; /* or any amount of space you need */
+}
+.spacer1 {
+    margin-top: 1rem;
+}
+.inline-code {
+  background-color: #f5f5f5;
+  padding: 2px 4px;
+  font-family: monospace;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.justify-text {
+        text-align: justify;
+}
+.bold-text {
+        font-weight: bold;
+}
+.spacer {
+        margin-top: 1.5rem;
+}
+.spacer1 {
+        margin-top: 1rem;
+}
+.inline-code {
+    background-color: #f5f5f5;
+    padding: 2px 4px;
+    font-family: monospace;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo-img {
+    height: 48px;
+    vertical-align: middle;
+}
+.lang-switcher {
+    text-align: right;
+    margin: 1em 0;
+}
+
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo-img {
+    height: 48px;
+    vertical-align: middle;
+}
+.lang-switcher {
+    text-align: right;
+    margin: 1em 0;
+}
