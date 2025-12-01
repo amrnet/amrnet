@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import fs from 'fs';
+import rateLimit from 'express-rate-limit';
 import { client } from '../../config/db.js';
 import { exec } from 'child_process';
 import merge_rawdata_st from '../../models/AggregatePipeline/Styphi/merge_rawdata_st.js';
@@ -102,7 +103,14 @@ router.get('/sentericadata', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-router.get('/sentericaintsdata', async (req, res) => {
+// Rate limiter: max 5 requests per minute for this sensitive endpoint
+const sentericaintsLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 5, // limit each IP to 5 requests per windowMs
+  message: 'Too many requests, please try again later.'
+});
+
+router.get('/sentericaintsdata', sentericaintsLimiter, async (req, res) => {
   //console.log('i m in');
 
   try {
