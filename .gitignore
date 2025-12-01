@@ -8,6 +8,10 @@ node_modules/
 .yarn/install-state.gz
 .pnp.*
 
+# Data and model files
+assets/datasets/
+assets/models/
+
 #Code-workspace
 *.code-workspace
 
