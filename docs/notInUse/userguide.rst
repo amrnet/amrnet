@@ -18,7 +18,7 @@
 
 .. .. container:: justify-text
 
-..    If you use the AMRnet website or code, please cite AMRnet (Louise Cerdeira, Vandana Sharma, Kathryn Holt), **GitHub**: https://github.com/amrnet/amrnet, **DOI**: 10.5281/zenodo.10810219
+..    If you use the AMRnet website or code, please cite Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. Nucleic Acids Res. Published online November 6, 2025. doi:[10.1093/nar/gkaf1101](https://doi.org/10.1093/nar/gkaf1101)
 
 
 
