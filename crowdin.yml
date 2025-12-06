@@ -1,7 +1,0 @@
-files:
-  - source: /docs/medical-glossary.json
-    translation: /docs/medical-glossary.json
-    multilingual: 1
-  - source: /docs/locale/
-    translation: /docs/medical-glossary.json
-    multilingual: 1
