@@ -1,7 +1,7 @@
 {
   "name": "amrnet",
   "author": "Louise Cerdeira",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "AMRnet server",
   "main": "server.js",
   "type": "module",
@@ -88,7 +88,7 @@
     "react-window": "^1.8.11",
     "reactflow": "^11.11.4",
     "recharts": "^3.1.0",
-    "request": "^2.88.2",
+
     "save-svg-as-png": "^1.4.17",
     "tailwindcss-rich-docs": "^0.2.0",
     "uv": "^1.4.0",

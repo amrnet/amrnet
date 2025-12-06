@@ -19,4 +19,17 @@ module.exports = {
     devServerConfig.onAfterSetupMiddleware = undefined;
     return devServerConfig;
   },
+  webpack: {
+    configure: webpackConfig => {
+      // Remove ModuleScopePlugin so imports that resolve to absolute paths
+      // (for example react-refresh runtime injected by react-scripts) are allowed.
+      if (webpackConfig.resolve && Array.isArray(webpackConfig.resolve.plugins)) {
+        const idx = webpackConfig.resolve.plugins.findIndex(
+          p => p && p.constructor && p.constructor.name === 'ModuleScopePlugin',
+        );
+        if (idx !== -1) webpackConfig.resolve.plugins.splice(idx, 1);
+      }
+      return webpackConfig;
+    },
+  },
 };

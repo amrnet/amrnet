@@ -1,44 +1,55 @@
-
 <img src='assets/img/logo-prod.png' width="150" height="90">
 
-[![GitHub version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/amrnet/amrnet)
+[![GitHub version](https://img.shields.io/badge/version-1.1.2-blue.svg)](https://github.com/amrnet/amrnet)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet)](https://github.com/amrnet/amrnet/commits/main)
 [![Issues](https://img.shields.io/github/issues/amrnet/amrnet)](https://github.com/amrnet/amrnet/issues)
 [![Stars](https://img.shields.io/github/stars/amrnet/amrnet)](https://github.com/amrnet/amrnet/stargazers)
+[![Visitors](https://visitor-badge.laobi.icu/badge?page_id=amrnet.amrnet)](https://github.com/amrnet/amrnet)
 [![DOI](https://zenodo.org/badge/615052960.svg)](https://zenodo.org/doi/10.5281/zenodo.10810218)
+[![Citation](https://img.shields.io/badge/DOI-10.1093/nar/gkaf1101-blue)](https://doi.org/10.1093/nar/gkaf1101)
 
 <p align="center">
   <em><b>Making genome-derived AMR surveillance data accessible worldwide</b></em>
 </p>
 
-**🔗 Quick Links:** [🌐 Live Dashboard](https://www.amrnet.org) • [📖 Documentation](https://amrnet.readthedocs.io) • [🚀 Quick Start](#-quick-start) • [💬 Community](https://github.com/amrnet/amrnet/discussions)
-
+**🔗 Quick Links:** [🌐 Live Dashboard](https://www.amrnet.org) •
+[📖 Documentation](https://amrnet.readthedocs.io) •
+[🚀 Quick Start](#-quick-start) •
+[💬 Community](https://github.com/amrnet/amrnet/discussions)
 
 ## 🎯 Overview
 
-AMRnet is a comprehensive web-based platform that transforms complex antimicrobial resistance (AMR) genomic surveillance data into accessible, interactive visualizations. Our mission is to democratize access to high-quality AMR data for researchers, public health professionals, and policymakers worldwide.
+AMRnet is a comprehensive web-based platform that transforms complex
+antimicrobial resistance (AMR) genomic surveillance data into accessible,
+interactive visualizations. Our mission is to democratize access to high-quality
+AMR data for researchers, public health professionals, and policymakers
+worldwide.
 
 ### ✨ Key Features
 
-- **🗺️ Interactive Global Maps** - Visualize resistance patterns across countries and regions
+- **🗺️ Interactive Global Maps** - Visualize resistance patterns across
+  countries and regions
 - **📊 Trend Analysis** - Track resistance changes over time with dynamic graphs
-- **🔍 Advanced Filtering** - Explore data by organism, drug, genotype, and geography
-- **🌍 Multi-Language Support** - Available in English, French, Portuguese, and Spanish
+- **🔍 Advanced Filtering** - Explore data by organism, drug, genotype, and
+  geography
+- **🌍 Multi-Language Support** - Available in English, French, Portuguese, and
+  Spanish
 - **📱 Responsive Design** - Optimized for desktop, tablet, and mobile devices
 - **📁 Data Export** - Download filtered datasets for further analysis
-- **🔌 API Access** - Programmatic access to all data with comprehensive documentation
+- **🔌 API Access** - Programmatic access to all data with comprehensive
+  documentation
 
 ### 🦠 Supported Organisms
 
-| Organism | Scientific Name | Key Features |
-|----------|----------------|--------------|
-| **S. Typhi** | *Salmonella* Typhi | Typhoid fever surveillance |
-| **K. pneumoniae** | *Klebsiella pneumoniae* | Healthcare-associated infections |
-| **N. gonorrhoeae** | *Neisseria gonorrhoeae* | Gonorrhea resistance monitoring |
-| **E. coli** | *Escherichia coli* | ESBL and carbapenemase tracking |
-| **Shigella** | *Shigella* spp. | Dysentery and MDR monitoring |
-| **Salmonella** | *Salmonella enterica* | Non-typhoidal Salmonella surveillance |
+| Organism           | Scientific Name         | Key Features                          |
+| ------------------ | ----------------------- | ------------------------------------- |
+| **S. Typhi**       | _Salmonella_ Typhi      | Typhoid fever surveillance            |
+| **K. pneumoniae**  | _Klebsiella pneumoniae_ | Healthcare-associated infections      |
+| **N. gonorrhoeae** | _Neisseria gonorrhoeae_ | Gonorrhea resistance monitoring       |
+| **E. coli**        | _Escherichia coli_      | ESBL and carbapenemase tracking       |
+| **Shigella**       | _Shigella_ spp.         | Dysentery and MDR monitoring          |
+| **Salmonella**     | _Salmonella enterica_   | Non-typhoidal Salmonella surveillance |
 
 ## 🚀 Quick Start
 
@@ -71,11 +82,14 @@ npm run start:dev
 
 Visit `http://localhost:3000` to see the application running locally.
 
-**📚 Need more details?** Check our [Installation Guide](https://amrnet.readthedocs.io/en/latest/installation.html) and [Developer Guide](./tutorial/developer_guide.md).
+**📚 Need more details?** Check our
+[Installation Guide](https://amrnet.readthedocs.io/en/latest/installation.html)
+and [Developer Guide](./tutorial/developer_guide.md).
 
 ## 🏗️ Platform Architecture
 
-AMRnet employs a modern, scalable MERN stack architecture designed to handle large-scale genomic surveillance data with enterprise-grade performance.
+AMRnet employs a modern, scalable MERN stack architecture designed to handle
+large-scale genomic surveillance data with enterprise-grade performance.
 
 ### 🎯 Interactive Architecture Diagrams
 
@@ -89,7 +103,7 @@ We provide comprehensive visual documentation of our platform architecture:
 
 [![Macro Architecture](https://img.shields.io/badge/View-Macro_Architecture-blue?style=for-the-badge)](./assets/html/amrnet_architecture_macro.html)
 
-*High-level overview of the four main architectural layers*
+_High-level overview of the four main architectural layers_
 
 </td>
 <td align="center" width="50%">
@@ -98,7 +112,7 @@ We provide comprehensive visual documentation of our platform architecture:
 
 [![Detailed Architecture](https://img.shields.io/badge/View-Detailed_Architecture-green?style=for-the-badge)](./assets/html/amrnet_architecture_expand.html)
 
-*Comprehensive data pipeline and component breakdown*
+_Comprehensive data pipeline and component breakdown_
 
 </td>
 </tr>
@@ -169,22 +183,25 @@ Database & Infrastructure
 
 ### 🎯 Performance Metrics
 
-Our architecture delivers enterprise-grade performance with measurable improvements:
+Our architecture delivers enterprise-grade performance with measurable
+improvements:
 
-| Metric | Before Optimization | After Optimization | Improvement |
-|--------|-------------------|-------------------|-------------|
-| **Load Times** | 3.2s average | 0.4-1.0s average | **70-87% faster** |
-| **Payload Size** | 2.1MB average | 0.2-1.0MB average | **60-90% reduction** |
-| **API Capacity** | 2,000 req/hour | 10,000+ req/hour | **500% increase** |
-| **Database Queries** | 800ms average | 120ms average | **85% faster** |
+| Metric               | Before Optimization | After Optimization | Improvement          |
+| -------------------- | ------------------- | ------------------ | -------------------- |
+| **Load Times**       | 3.2s average        | 0.4-1.0s average   | **70-87% faster**    |
+| **Payload Size**     | 2.1MB average       | 0.2-1.0MB average  | **60-90% reduction** |
+| **API Capacity**     | 2,000 req/hour      | 10,000+ req/hour   | **500% increase**    |
+| **Database Queries** | 800ms average       | 120ms average      | **85% faster**       |
 
 ### 📊 Data Coverage & Sources
 
 AMRnet integrates surveillance data from major public genomic databases:
 
 **🦠 Supported Organisms (8 Species)**
+
 - **Salmonella Typhi** - Global typhoid surveillance from Pathogenwatch
-- **Klebsiella pneumoniae** - Healthcare-associated infections from Pathogenwatch
+- **Klebsiella pneumoniae** - Healthcare-associated infections from
+  Pathogenwatch
 - **Neisseria gonorrhoeae** - STI surveillance from Pathogenwatch
 - **Escherichia coli** - Enteric infections from Enterobase
 - **Diarrheagenic E. coli** - Diarrheal disease surveillance from Enterobase
@@ -193,32 +210,39 @@ AMRnet integrates surveillance data from major public genomic databases:
 - **Invasive Salmonella** - Bloodstream infections from Enterobase
 
 **🌍 Global Coverage**
+
 - **500,000+ genomic records** with AMR predictions
 - **75+ countries** represented across all continents
 - **4 languages** supported (English, Spanish, French, Portuguese)
 - **Real-time updates** from source databases
 
 **🔬 Data Sources**
+
 - **[Pathogenwatch](https://pathogen.watch)** - 3 organisms with AMR predictions
-- **[Enterobase](https://enterobase.warwick.ac.uk)** - 5 organisms with hierarchical clustering
+- **[Enterobase](https://enterobase.warwick.ac.uk)** - 5 organisms with
+  hierarchical clustering
 - **Academic consortiums** - Global Typhoid Genomics Consortium
 
 ### 🔗 Architecture Documentation
 
 For comprehensive technical documentation, visit:
 
-- **📊 [Interactive Architecture Diagrams](https://amrnet.readthedocs.io/en/latest/architecture.html)** - Visual platform overview
-- **🔧 [Developer Guide](DEVELOPER_GUIDE.md)** - Implementation details and contribution guide
-- **🌐 [API Documentation](https://amrnet.readthedocs.io/en/latest/api.html)** - Complete RESTful API reference
+- **📊
+  [Interactive Architecture Diagrams](https://amrnet.readthedocs.io/en/latest/architecture.html)** -
+  Visual platform overview
+- **🔧 [Developer Guide](DEVELOPER_GUIDE.md)** - Implementation details and
+  contribution guide
+- **🌐 [API Documentation](https://amrnet.readthedocs.io/en/latest/api.html)** -
+  Complete RESTful API reference
 
 ## 📖 Documentation
 
-| Resource | Description | Link |
-|----------|-------------|------|
-| **User Guide** | Complete dashboard usage instructions | [📖 Read the Docs](https://amrnet.readthedocs.io/en/latest/userguide.html) |
-| **API Documentation** | RESTful API reference and examples | [🔌 API Docs](https://amrnet.readthedocs.io/en/latest/api.html) |
-| **Developer Guide** | Adding new organisms and contributing | [🛠️ Dev Guide](DEVELOPER_GUIDE.md) |
-| **Data Dictionary** | Data structure and field definitions | [📊 Data Docs](https://amrnet.readthedocs.io/en/latest/data.html) |
+| Resource              | Description                           | Link                                                                       |
+| --------------------- | ------------------------------------- | -------------------------------------------------------------------------- |
+| **User Guide**        | Complete dashboard usage instructions | [📖 Read the Docs](https://amrnet.readthedocs.io/en/latest/userguide.html) |
+| **API Documentation** | RESTful API reference and examples    | [🔌 API Docs](https://amrnet.readthedocs.io/en/latest/api.html)            |
+| **Developer Guide**   | Adding new organisms and contributing | [🛠️ Dev Guide](DEVELOPER_GUIDE.md)                                         |
+| **Data Dictionary**   | Data structure and field definitions  | [📊 Data Docs](https://amrnet.readthedocs.io/en/latest/data.html)          |
 
 ## 🛠️ Installation
 
@@ -231,6 +255,7 @@ For comprehensive technical documentation, visit:
 ### Development Setup
 
 1. **Clone and Install**:
+
    ```bash
    git clone https://github.com/amrnet/amrnet.git
    cd amrnet
@@ -238,6 +263,7 @@ For comprehensive technical documentation, visit:
    ```
 
 2. **Client Dependencies**:
+
    ```bash
    cd client
    npm install
@@ -245,10 +271,13 @@ For comprehensive technical documentation, visit:
    ```
 
 3. **Environment Configuration**:
+
    ```bash
    cp .env.example .env
    ```
+
    Edit `.env` with your configuration:
+
    ```env
    MONGODB_URI=mongodb://localhost:27017/amrnet
    NODE_ENV=development
@@ -260,11 +289,13 @@ For comprehensive technical documentation, visit:
    npm run start:dev
    ```
 
-The application will be available at `http://localhost:3000` with hot reloading enabled.
+The application will be available at `http://localhost:3000` with hot reloading
+enabled.
 
 ### Production Deployment
 
-For production deployment instructions, see our [Deployment Guide](https://amrnet.readthedocs.io/en/latest/deployment.html).
+For production deployment instructions, see our
+[Deployment Guide](https://amrnet.readthedocs.io/en/latest/deployment.html).
 
 ## 🔌 API Access
 
@@ -299,7 +330,8 @@ df = pd.DataFrame(data['data'])
 print(f"Retrieved {len(df)} samples")
 ```
 
-**📚 Full API Documentation**: [amrnet.readthedocs.io/api](https://amrnet.readthedocs.io/en/latest/api.html)
+**📚 Full API Documentation**:
+[amrnet.readthedocs.io/api](https://amrnet.readthedocs.io/en/latest/api.html)
 
 ## 🤝 Contributing
 
@@ -307,9 +339,12 @@ We welcome contributions from the global AMR surveillance community!
 
 ### Ways to Contribute
 
-- **🐛 Report Bugs**: [Create an issue](https://github.com/amrnet/amrnet/issues/new?template=bug_report.md)
-- **💡 Suggest Features**: [Request features](https://github.com/amrnet/amrnet/issues/new?template=feature_request.md)
-- **🔧 Submit Code**: [Fork and create pull requests](https://github.com/amrnet/amrnet/fork)
+- **🐛 Report Bugs**:
+  [Create an issue](https://github.com/amrnet/amrnet/issues/new?template=bug_report.md)
+- **💡 Suggest Features**:
+  [Request features](https://github.com/amrnet/amrnet/issues/new?template=feature_request.md)
+- **🔧 Submit Code**:
+  [Fork and create pull requests](https://github.com/amrnet/amrnet/fork)
 - **📖 Improve Documentation**: Help us make docs better
 - **🦠 Add Organisms**: Follow our [Developer Guide](DEVELOPER_GUIDE.md)
 
@@ -336,17 +371,10 @@ We welcome contributions from the global AMR surveillance community!
 
 If you use **AMRnet** data or visualizations in your work, please cite:
 
-```bibtex
-@software{amrnet2023,
-  title = {AMRnet: Global Antimicrobial Resistance Surveillance Dashboard},
-  author = {Cerdeira, L, Sharma, V, Holt, Kathryn E. and {AMRnet Team}},
-  year = {2024},
-  url = {https://www.amrnet.org},
-  doi = {10.5281/zenodo.10810218}
-}
-```
-
-**DOI**: [10.5281/zenodo.10810218](https://zenodo.org/doi/10.5281/zenodo.10810218)
+Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to
+interactively explore pathogen variants and antimicrobial resistance. Nucleic
+Acids Res. Published online November 6, 2025.
+doi:[10.1093/nar/gkaf1101](https://doi.org/10.1093/nar/gkaf1101)
 
 ### License
 
@@ -384,12 +412,12 @@ We gratefully acknowledge:
 
 ### Getting Help
 
-| Type | Resource | Response Time |
-|------|----------|---------------|
-| 🐛 **Bugs** | [GitHub Issues](https://github.com/amrnet/amrnet/issues) | 1-3 days |
-| 💡 **Features** | [GitHub Discussions](https://github.com/amrnet/amrnet/discussions) | 3-7 days |
-| 📧 **General** | [amrnetdashboard@gmail.com](mailto:amrnetdashboard@gmail.com ) | 5-10 days |
-| 📖 **Documentation** | [Read the Docs](https://amrnet.readthedocs.io) | Self-service |
+| Type                 | Resource                                                           | Response Time |
+| -------------------- | ------------------------------------------------------------------ | ------------- |
+| 🐛 **Bugs**          | [GitHub Issues](https://github.com/amrnet/amrnet/issues)           | 1-3 days      |
+| 💡 **Features**      | [GitHub Discussions](https://github.com/amrnet/amrnet/discussions) | 3-7 days      |
+| 📧 **General**       | [amrnetdashboard@gmail.com](mailto:amrnetdashboard@gmail.com)      | 5-10 days     |
+| 📖 **Documentation** | [Read the Docs](https://amrnet.readthedocs.io)                     | Self-service  |
 
 ### Community Guidelines
 
@@ -407,6 +435,9 @@ We're committed to fostering an inclusive, welcoming community:
 
 **AMRnet** - Powered by AMRnet team.
 
-[🌐 Dashboard](https://www.amrnet.org) • [📖 Docs](https://amrnet.readthedocs.io) • [💻 GitHub](https://github.com/amrnet/amrnet) • [📧 Contact](mailto:amrnetdashboard@gmail.com)
+[🌐 Dashboard](https://www.amrnet.org) •
+[📖 Docs](https://amrnet.readthedocs.io) •
+[💻 GitHub](https://github.com/amrnet/amrnet) •
+[📧 Contact](mailto:amrnetdashboard@gmail.com)
 
 > Making AMR surveillance data accessible to everyone, everywhere
