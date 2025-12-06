@@ -1,10 +1,9 @@
 import csv from 'csv-parser';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import fs from 'fs';
 import { MongoClient } from 'mongodb';
 import { getMongoConfig } from '../../config/db.js';
-import rateLimit from 'express-rate-limit';
-
 
 const router = express.Router();
 
@@ -81,7 +80,7 @@ const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) =>
     // Execute aggregation with timeout
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), 15000)),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), 20000)),
     ]);
 
     return result;
@@ -507,8 +506,9 @@ const sentericaintsLimiter = rateLimit({
   message: { error: 'Too many requests, please try again later.' },
 });
 
-router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req, res, next) {
+router.get('/getDataForSentericaints', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['sentericaints'];
+
   try {
     const pipeline = [
       { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },

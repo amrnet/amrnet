@@ -134,6 +134,7 @@ export const drugAcronyms = {
   Tetracycline: 'TET',
   Trimethoprim: 'TMP',
   'Trimethoprim-sulfamethoxazole': 'SXT',
+  'Trimethoprim-Sulfamethoxazole': 'SXT',
   Colistin: 'COL',
   Fosfomycin: 'FOS',
   Aminoglycosides: 'AGLY',
@@ -180,7 +181,7 @@ export const drugAcronymsOpposite2 = {
 };
 
 export const ciproAcronyms = {
-  'Ciprofloxacin': 'Ciprofloxacin (non-susceptible)',
+  Ciprofloxacin: 'Ciprofloxacin (non-susceptible)',
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
