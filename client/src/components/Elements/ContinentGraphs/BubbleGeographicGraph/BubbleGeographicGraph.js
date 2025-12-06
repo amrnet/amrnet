@@ -154,6 +154,11 @@ const yOptions = [
     label: 'Serotype prevalence',
     organisms: ['sentericaints', 'senterica'],
   },
+  {
+    value: 'ngmast',
+    label: 'NG-MAST prevalence',
+    organisms: ['ngono'],
+  },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
@@ -263,12 +268,18 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     const filterFn = isLegacyStructure ? item => xAxisSelected.includes(item.name) : () => true;
 
     return aggregateDrugs(dataSource, filterFn);
-  }, [drugsData, genotypesDrugClassesData, xAxisSelected, yAxisTypeTrend, organism]);
+  }, [drugsData, xAxisSelected, yAxisTypeTrend, organism]);
 
-  const GLPSColumn = useMemo(
-    () => (['serotype', 'pathotype'].includes(yAxisType) ? 'PATHOTYPE' : 'GENOTYPE'),
-    [yAxisType],
-  );
+  const GLPSColumn = useMemo(() => {
+    if (['serotype', 'pathotype'].includes(yAxisType)) {
+      return 'PATHOTYPE';
+    }
+    if (yAxisType === 'ngmast') {
+      return 'NGMAST';
+    }
+
+    return 'GENOTYPE';
+  }, [yAxisType]);
 
   const GLPSEntries = useMemo(() => {
     const filteredData = (xAxisType === 'country' ? mapData : mapRegionData).filter(x =>
@@ -320,9 +331,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     const filteredOptions = yAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
 
     if (
-      yAxisType === 'serotype' ||
-      yAxisType === 'determinant' ||
-      (yAxisType === 'genotype' && organismHasLotsOfGenotypes)
+      ['serotype', 'determinant'].includes(yAxisType) ||
+      (['genotype', 'ngmast'].includes(yAxisType) && organismHasLotsOfGenotypes)
     ) {
       return filteredOptions.slice(0, 20);
     }
@@ -345,7 +355,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     setYAxisSelected(
-      ['genotype', 'serotype'].includes(yAxisType) || (yAxisType === 'determinant' && organism === 'kpneumo')
+      ['genotype', 'serotype', 'ngmast'].includes(yAxisType) || (yAxisType === 'determinant' && organism === 'kpneumo')
         ? yAxisOptions.slice(0, 10)
         : yAxisOptions,
     );
@@ -357,7 +367,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   const getOptionLabel = useCallback(
     item => {
-      if (!['genotype', 'serotype', 'pathotype'].includes(yAxisType)) {
+      if (!['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 
@@ -372,6 +382,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         return 'drugs';
       case 'determinant':
         return 'markers';
+      case 'ngmast':
+        return 'ng-mast';
       case 'genotype':
         return ['sentericaints', 'senterica'].includes(organism) ? 'lineages' : 'genotypes';
       default:
@@ -414,11 +426,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     setXAxisSelected(xAxisOptions.map(x => x.name));
   }
 
-  const showSelectAll = useMemo(() => {
-    return yAxisType !== 'genotype'
-      ? yAxisSelected?.length !== yAxisOptions?.length
-      : !organismHasLotsOfGenotypes && yAxisSelected?.length !== yAxisOptions?.length;
-  }, [organismHasLotsOfGenotypes, yAxisOptions?.length, yAxisSelected?.length, yAxisType]);
+  // const showSelectAll = useMemo(() => {
+  //   return yAxisType !== 'genotype'
+  //     ? yAxisSelected?.length !== yAxisOptions?.length
+  //     : !organismHasLotsOfGenotypes && yAxisSelected?.length !== yAxisOptions?.length;
+  // }, [organismHasLotsOfGenotypes, yAxisOptions?.length, yAxisSelected?.length, yAxisType]);
 
   function handleChangeYAxisSelected({ event = null, all = false }) {
     const value = event?.target.value;
@@ -508,7 +520,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           }
         }
 
-        if (['genotype', 'serotype', 'pathotype'].includes(yAxisType)) {
+        if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
           const gen = x.stats?.[GLPSColumn]?.items?.find(g => g.name === item);
 
           if (gen?.count > 0) {
@@ -614,7 +626,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           ['MDR', 'XDR', 'PAN', 'SUS'].forEach(moveToEnd);
         }
 
-        if (['genotype', 'serotype', 'pathotype'].includes(yAxisType)) {
+        if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
           yAxisSelected.forEach(selected => {
             const gen = item?.stats?.[GLPSColumn].items.find(g => g.name === selected);
 
@@ -797,7 +809,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       <LabelList
                         dataKey="percentage"
                         fontSize={12}
-                        content={({ x, y, value, z }) => {
+                        content={({ x, y, value }) => {
                           return (
                             <text
                               x={x + 33}
@@ -975,7 +987,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">Select {yAxisLabel}</Typography>
-                      {yAxisType === 'genotype' && (
+                      {['genotype', 'ngmast'].includes(yAxisType) && (
                         <Tooltip
                           title={`If the total ${yAxisLabel} are too many, only the first 20 options are shown at a time`}
                           placement="top"
@@ -1031,7 +1043,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         <TextField
                           variant="standard"
                           placeholder={
-                            organismHasLotsOfGenotypes && yAxisType === 'genotype' ? 'Search for more...' : 'Search...'
+                            organismHasLotsOfGenotypes && ['genotype', 'ngmast'].includes(yAxisType)
+                              ? 'Search for more...'
+                              : 'Search...'
                           }
                           fullWidth
                           value={genotypeSearch}
