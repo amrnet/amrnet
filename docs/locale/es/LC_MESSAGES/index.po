@@ -23,47 +23,47 @@ msgstr ""
 "Language: es_ES\n"
 
 #: ../../index.rst:53
-#: 
+#:
 msgid "Dashboard overview"
 msgstr "Resumen del tablero"
 
 #: ../../index.rst:53
-#: 
+#:
 msgid "Individual pathogen details"
 msgstr "Detalles del patógeno individual"
 
 #: ../../index.rst:53
-#: 
+#:
 msgid "Source data & tools"
 msgstr "Herramientas y datos de origen"
 
 #: ../../index.rst:53
-#: 
+#:
 msgid "Dashboard users"
 msgstr "Usuarios del panel"
 
 #: ../../index.rst:61
-#: 
+#:
 msgid "API Reference"
 msgstr "Referencia API"
 
 #: ../../index.rst:61
-#: 
+#:
 msgid "Data access"
 msgstr "Acceso a datos"
 
 #: ../../index.rst:61
-#: 
+#:
 msgid "API users"
 msgstr "Usuarios API"
 
 #: ../../index.rst:68
-#: 
+#:
 msgid "Developer Guide"
 msgstr "Guía de Desarrollador"
 
 #: ../../index.rst:68
-#: 
+#:
 msgid "Developers"
 msgstr "Desarrolladores"
 
@@ -134,8 +134,8 @@ msgstr "Si desea instalar el código AMRnet para desarrollar sus propias instanc
 
 #: ../../index.rst:35
 #: 09056d67fa444db58967a71b41015405
-msgid "If you use the AMRnet website or code, please cite **AMRnet** (https://www.amrnet.org) or **GitHub**: https://github.com/amrnet/amrnet, and **DOI**: 10.5281/zenodo.10810219 (Louise Cerdeira, Vandana Sharma, Kathryn Holt)."
-msgstr "Si utiliza el sitio web o código de AMRnet, por favor cite **AMRnet** (https://www.amrnet.org) o **GitHub**: https://github.com/amrnet/amrnet y **DOI**: 10.5281/zenodo.10810219 (Louise Cerdeira, Vandana Sharma, Kathryn Holt)."
+msgid "If you use the AMRnet website or code, please cite **AMRnet** Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. Nucleic Acids Res. Published online November 6, 2025. doi:[10.1093/nar/gkaf1101](https://doi.org/10.1093/nar/gkaf1101)"
+msgstr "Si utiliza el sitio web o código de AMRnet, por favor cite **AMRnet** Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. Nucleic Acids Res. Published online November 6, 2025. doi:[10.1093/nar/gkaf1101](https://doi.org/10.1093/nar/gkaf1101)"
 
 #: ../../index.rst:37
 #: 7d5e65df5da34ef1ac4a654c5b2d9c6e
@@ -156,4 +156,3 @@ msgstr "AMRnet es un proyecto de investigación de código abierto, que proporci
 #: 2fa31882b3264175926b1e3a6cf64886
 msgid "Refer to the :doc:`License <license>` for clarification of the conditions of use."
 msgstr "Consulte la :doc:`Licencia <license>para aclarar las condiciones de uso."
-
