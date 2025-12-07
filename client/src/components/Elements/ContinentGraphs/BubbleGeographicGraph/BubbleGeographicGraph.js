@@ -984,15 +984,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         disabled={organism === 'none'}
                       >
                         {/* Diagnostic: log trend options for this organism when determinant selected */}
-                        {(() => {
-                          // eslint-disable-next-line no-console
-                          console.debug('trendOptionsMap for', organism, trendOptionsMap[organism]);
-                          return (trendOptionsMap[organism] || []).map((option, index) => (
-                            <MenuItem key={`y-${organism}-option-${index}`} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ));
-                        })()}
+                        {(trendOptionsMap[organism] || []).map((option, index) => (
+                          <MenuItem key={`y-${organism}-option-${index}`} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </div>
                   )}
