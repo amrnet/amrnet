@@ -154,6 +154,7 @@ export const drugAcronyms = {
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
   Carbapenems: 'CARB',
+  Carbapenem: 'CARB',
   'Ciprofloxacin R': 'CipR',
   // Penicillins: 'PCN',
 };

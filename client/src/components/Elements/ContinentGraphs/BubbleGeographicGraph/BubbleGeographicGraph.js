@@ -88,6 +88,10 @@ const organismConfig = {
     drugs: markersDrugsINTS,
     labelMap: {},
   },
+  sentericaints: {
+    drugs: markersDrugsINTS,
+    labelMap: {},
+  },
 };
 
 // function to get trend options for any organism
@@ -521,7 +525,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         }
 
         if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
-          const gen = x.stats?.[GLPSColumn]?.items?.find(g => g.name === item);
+          const gen = x.stats?.[GLPSColumn]?.items?.find(g => g && g.name === item);
 
           if (gen?.count > 0) {
             info['itemCount'] = gen?.count || 0;
@@ -534,7 +538,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           // Enhanced to support all organisms
           let count = 0;
           if (['kpneumo', 'styphi'].includes(organism)) {
-            count = drugsCountriesData?.[parent]?.find(g => g.name === x.name)?.[item] || 0;
+            const bucketParent = drugsCountriesData?.[parent] || [];
+            count = Array.isArray(bucketParent) ? bucketParent.find(g => g && g.name === x.name)?.[item] || 0 : 0;
           } else {
             const relevantData = genotypesDrugClassesData[parent];
             if (relevantData) {
@@ -586,7 +591,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     }
 
     return (xAxisType === 'country' ? mapData : mapRegionData)
-      .filter(item => xAxisSelected.includes(item.name))
+      .filter(item => item && xAxisSelected.includes(item.name))
       .map(item => {
         const data = {
           name: item.name === 'United States of America' ? 'USA' : item.name,
@@ -628,7 +633,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
         if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
           yAxisSelected.forEach(selected => {
-            const gen = item?.stats?.[GLPSColumn].items.find(g => g.name === selected);
+            const gen = item?.stats?.[GLPSColumn].items.find(g => g && g.name === selected);
 
             data.items.push({
               itemName: selected,
@@ -664,10 +669,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
           // Data extraction strategies
           const getDataForOrganism = () => {
-            const locationData = drugsData?.[drugKey]?.find(x => x.name === item.name);
+            const bucket = drugsData?.[drugKey] || [];
+            const locationData = Array.isArray(bucket) ? bucket.find(x => x && x.name === item.name) : undefined;
             return {
-              getData: drug => locationData?.[drug] || 0,
-              getTotal: () => locationData?.totalCount || 0,
+              getData: drug => (locationData && locationData[drug]) || 0,
+              getTotal: () => (locationData && locationData.totalCount) || 0,
             };
           };
 
@@ -684,7 +690,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         }
 
         return data;
-      });
+      })
+      .filter(Boolean);
   }, [
     GLPSColumn,
     drugsData,
@@ -752,12 +759,12 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                     <YAxis
                       type="number"
                       dataKey="index"
-                      name={item.name.toLowerCase()}
+                      name={item?.name ? item.name.toLowerCase() : ''}
                       tick={false}
                       tickLine={false}
                       axisLine={false}
                       domain={[1, 1]}
-                      label={{ value: item.name, position: 'insideRight' }}
+                      label={{ value: item?.name ?? '', position: 'insideRight' }}
                       width={yAxisWidth}
                     />
                     <ZAxis type="number" dataKey="percentage" range={[3500, 3500]} />
@@ -976,11 +983,16 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         MenuProps={{ classes: { list: classes.selectMenu } }}
                         disabled={organism === 'none'}
                       >
-                        {trendOptionsMap[organism]?.map((option, index) => (
-                          <MenuItem key={`y-${organism}-option-${index}`} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
+                        {/* Diagnostic: log trend options for this organism when determinant selected */}
+                        {(() => {
+                          // eslint-disable-next-line no-console
+                          console.debug('trendOptionsMap for', organism, trendOptionsMap[organism]);
+                          return (trendOptionsMap[organism] || []).map((option, index) => (
+                            <MenuItem key={`y-${organism}-option-${index}`} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ));
+                        })()}
                       </Select>
                     </div>
                   )}
