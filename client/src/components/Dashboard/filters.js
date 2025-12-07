@@ -283,48 +283,53 @@ export { getCountryDisplayName };
 // Get specific drug count, percentage and al its types for the map component
 function getMapStatsData({
   itemData,
-  columnKey, // ignored for ECOLI
-  statsKey, // ignored for ECOLI
+  columnKey,
+  statsKey,
   organism,
   noItems = false,
   addNames = false,
   isPan = false,
 }) {
   const totalLength = itemData.length;
+  const columnKeys = Array.isArray(columnKey) ? columnKey : [columnKey];
+  const useECOLIRules = ['ecoli', 'decoli', 'shige'].includes(organism);
   const columnDataMap = {};
   let allDashCount = 0;
   const allDashNames = [];
 
-  const useECOLIRules = ['ecoli', 'decoli', 'shige'].includes(organism);
-
   for (const item of itemData) {
     const name = item.Uberstrain || item.Name || item.NAME || item['Genome Name'] || 'Unknown';
+
+    // Special handling for ECOLI-like organisms which use rule sets instead of
+    // direct column values. In those cases `statsKey` is the rule name and
+    // we must evaluate the rule definitions from `statKeysECOLI`.
+    const useECOLIRules = ['ecoli', 'decoli', 'shige'].includes(organism);
 
     let rawValues = [];
 
     if (useECOLIRules) {
-      // Get the corresponding drug from statKeysECOLI using statsKey
       const drug = statKeysECOLI.find(d => d.name === statsKey);
       if (!drug) continue;
 
-      // Evaluate rules
+      // Evaluate each rule for this item
       const ruleResults = drug.rules.map(rule => {
         const val = item[rule.column];
         if (val === 'ND') return false;
+        if (Array.isArray(rule.value)) {
+          return rule.equal ? rule.value.includes(val) : !rule.value.includes(val);
+        }
         return rule.equal ? val === rule.value : val !== rule.value;
       });
 
       const passes = drug.every ? ruleResults.every(Boolean) : ruleResults.some(Boolean);
       if (!passes) continue;
 
-      // Collect the actual column values from rules
+      // Collect the actual column values from rules to build gene list
       rawValues = drug.rules.map(r => item[r.column]).filter(v => v && v !== '-' && v !== 'ND');
-
       if (rawValues.length === 0) continue;
     } else {
-      // Original logic for other organisms
-      const columnKeys = Array.isArray(columnKey) ? columnKey : [columnKey];
       rawValues = columnKeys.map(k => item[k]);
+
       if (rawValues.every(val => val === '-')) {
         if (isPan) {
           allDashCount += 1;
@@ -344,7 +349,11 @@ function getMapStatsData({
 
     for (const gene of cleanedGenes) {
       const key = gene || '-';
-      if (!columnDataMap[key]) columnDataMap[key] = { count: 0, names: new Set() };
+
+      if (!columnDataMap[key]) {
+        columnDataMap[key] = { count: 0, names: new Set() };
+      }
+
       columnDataMap[key].count += 1;
       columnDataMap[key].names.add(name);
     }
@@ -355,10 +364,51 @@ function getMapStatsData({
     return { name, count, percentage: Number(percentage.toFixed(2)) };
   });
 
+  const statsList =
+    items.filter(item => {
+      if (statsKey === null) return true;
+
+      // For ECOLI-like organisms we already evaluated rules per item and
+      // collected matching gene/marker keys into `items`. Don't filter
+      // these items by `statsKey` (which is the rule name) — include all.
+      if (useECOLIRules) return true;
+
+      const itemName = item.name?.toString();
+      const statKeyStr = statsKey?.toString();
+
+      // For senterica/sentericaints the collected `items` are gene/marker names
+      // (e.g. `cmlA1`, `floR`) and `statsKey` is a class key (e.g. 'CHLORAMPHENICOL').
+      // We should not attempt to match the class key against gene names — include
+      // all collected items for these organisms (similar to ECOLI rules handling).
+      if (['senterica', 'sentericaints'].includes(organism)) {
+        return true;
+      }
+
+      if (['ecoli', 'decoli', 'shige'].includes(organism) && Array.isArray(statsKey)) {
+        return statsKey.some(k => itemName === k);
+      }
+
+      return statKeyStr === '-' ? itemName !== '-' : itemName === statKeyStr;
+    }) || [];
+
   const namesSet = new Set();
   for (const [key, { names }] of Object.entries(columnDataMap)) {
-    if (names) {
+    if (statsList.find(item => item.name === key) && names) {
       for (const n of names) namesSet.add(n);
+    }
+  }
+
+  // Additional diagnostics: if we collected item entries but ended up with no
+  // sample names, log detailed structures to help debug senterica/sentericaints.
+  if (
+    ['senterica', 'sentericaints', 'ecoli', 'decoli', 'shige'].includes(organism) &&
+    Object.keys(columnDataMap).length > 0 &&
+    namesSet.size === 0
+  ) {
+    try {
+      // diagnostics removed
+    } catch (e) {
+      // ignore
     }
   }
 
@@ -614,6 +664,35 @@ export function getMapData({ data, items, organism, type = 'country' }) {
         percentage: Number(((statsXDR.length / itemData.length) * 100).toFixed(2)),
         names: statsXDR?.map(item => item.NAME) || [],
       };
+    }
+
+    // Diagnostic logging for empty resistance-prevalence stats in geographic views
+    if (['ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism)) {
+      try {
+        const orgKey = organism in statKeys ? organism : 'others';
+        const resistanceKeys = statKeys[orgKey].filter(k => k.resistanceView).map(k => k.name);
+        const totalResCount = resistanceKeys.reduce((acc, k) => acc + (stats[k]?.count || 0), 0);
+        if (totalResCount === 0) {
+          // eslint-disable-next-line no-console
+          console.debug(
+            `getMapData: no resistance counts for ${organism} in item ${item} (samples=${itemData.length})`,
+          );
+          // Print per-drug stats to help debug why nothing is plotted
+          resistanceKeys.forEach(k => {
+            // eslint-disable-next-line no-console
+            console.debug(`  ${k}:`, stats[k]);
+          });
+
+          // Print a small sample of raw rows to inspect columns used by rules
+          // eslint-disable-next-line no-console
+          console.debug(
+            `  sample rows (first 3):`,
+            itemData.slice(0, 3).map(r => ({ NAME: r.NAME, GENOTYPE: r.GENOTYPE, COUNTRY_ONLY: r.COUNTRY_ONLY })),
+          );
+        }
+      } catch (e) {
+        // ignore diagnostics errors
+      }
     }
 
     mapData.push({

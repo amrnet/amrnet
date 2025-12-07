@@ -1210,7 +1210,7 @@ export const drugClassesRulesSENTERICA = {};
 
 // Sentericaints INTS
 export const drugRulesINTS = [
-  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
+  // { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
   { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
   { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
@@ -1218,10 +1218,9 @@ export const drugRulesINTS = [
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
   { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Macrolides', columnID: 'MACROLIDE', values: ['MACROLIDE'] },
-  { key: 'Meropenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
+  { key: 'Carbapenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
   { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
-  { key: 'Tigecycline', columnID: 'TETRACYCLINE', values: ['TIGECYCLINE'] },
   { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
   {
     key: 'Pansusceptible',
@@ -1242,6 +1241,7 @@ export const drugRulesINTS = [
 // Used for ints and senterica
 export const statKeysINTS = [
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
+  { name: 'Carbapenem', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
   { name: 'Macrolides', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
@@ -1250,7 +1250,6 @@ export const statKeysINTS = [
   { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
   { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
   { name: 'Tetracycline', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
-  { name: 'Tigecycline', column: 'TETRACYCLINE', key: 'TIGECYCLINE', resistanceView: true },
   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
   {
     name: 'Pansusceptible',
