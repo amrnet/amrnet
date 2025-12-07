@@ -666,34 +666,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       };
     }
 
-    // Diagnostic logging for empty resistance-prevalence stats in geographic views
-    if (['ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism)) {
-      try {
-        const orgKey = organism in statKeys ? organism : 'others';
-        const resistanceKeys = statKeys[orgKey].filter(k => k.resistanceView).map(k => k.name);
-        const totalResCount = resistanceKeys.reduce((acc, k) => acc + (stats[k]?.count || 0), 0);
-        if (totalResCount === 0) {
-          // eslint-disable-next-line no-console
-          console.debug(
-            `getMapData: no resistance counts for ${organism} in item ${item} (samples=${itemData.length})`,
-          );
-          // Print per-drug stats to help debug why nothing is plotted
-          resistanceKeys.forEach(k => {
-            // eslint-disable-next-line no-console
-            console.debug(`  ${k}:`, stats[k]);
-          });
-
-          // Print a small sample of raw rows to inspect columns used by rules
-          // eslint-disable-next-line no-console
-          console.debug(
-            `  sample rows (first 3):`,
-            itemData.slice(0, 3).map(r => ({ NAME: r.NAME, GENOTYPE: r.GENOTYPE, COUNTRY_ONLY: r.COUNTRY_ONLY })),
-          );
-        }
-      } catch (e) {
-        // ignore diagnostics errors
-      }
-    }
+    // diagnostics removed
 
     mapData.push({
       name: item,
@@ -1265,13 +1238,13 @@ export function getGenotypesData({
   data,
   genotypes,
   ngmast,
-  pathotypes,
-  serotypes,
+  _pathotypes,
+  _serotypes,
   organism,
-  years,
-  countries,
-  regions,
-  dataForGeographic,
+  _years,
+  _countries,
+  _regions,
+  _dataForGeographic,
 }) {
   // // Add validation for required parameters
   // if (!data || !Array.isArray(data)) {
