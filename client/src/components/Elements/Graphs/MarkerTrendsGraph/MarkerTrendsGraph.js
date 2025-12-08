@@ -90,9 +90,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       return markersDrugsKP;
     }
     if (organism === 'styphi') {
-      return drugClassesST.filter(
-        x => x !== 'Trimethoprim-sulfamethoxazole' && x !== 'XDR' && x !== 'MDR'
-      );
+      return drugClassesST.filter(x => x !== 'Trimethoprim-sulfamethoxazole' && x !== 'XDR' && x !== 'MDR');
     }
     if (organism === 'shige' || organism === 'decoli' || organism === 'ecoli') {
       return markersDrugsSH;
@@ -109,8 +107,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   }
 
   const yearsData = useMemo(() => {
+    const yearsArray = Array.isArray(genotypesAndDrugsYearData[trendsGraphDrugClass])
+      ? genotypesAndDrugsYearData[trendsGraphDrugClass]
+      : [];
     return (
-      genotypesAndDrugsYearData[trendsGraphDrugClass]?.map(x => {
+      yearsArray.map(x => {
         const object = {};
 
         Object.keys(x).forEach(key => {

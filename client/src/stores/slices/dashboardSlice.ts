@@ -37,16 +37,20 @@ interface DashboardState {
   actualTimeFinal: number | string;
   years: Array<number>;
   yearsCompleteListToShowInGlobalFilter: Array<number>;
+  uniqueGenotypes: Array<string>;
   genotypesForFilter: Array<string>;
   genotypesForFilterSelected: Array<string>;
   genotypesForFilterSelectedRD: Array<string>;
+  uniqueLineages: Array<string>;
   KOForFilterSelected: Array<string>;
   genotypesForFilterDynamic: Array<string>;
+  frequenciesGraphSelectedGenotypes: Array<string>;
   KOForFilterDynamic: UniqueKOModel;
   colorPallete: Object;
   colorPalleteCgST: Object;
   colorPalleteSublineages: Object;
   colorPalleteKO: ColorPalleteKOModel;
+  genotypesPalette: Record<string, string>;
   listPMID: Array<string>;
   PMID: Array<string>;
   captureDRT: boolean;
@@ -83,16 +87,20 @@ const initialState: DashboardState = {
   actualTimeFinal: '',
   years: [],
   yearsCompleteListToShowInGlobalFilter: [],
+  uniqueGenotypes: [],
   genotypesForFilter: [],
   genotypesForFilterSelected: [],
   genotypesForFilterSelectedRD: [],
+  uniqueLineages: [],
   KOForFilterSelected: [],
   genotypesForFilterDynamic: [],
+  frequenciesGraphSelectedGenotypes: [],
   KOForFilterDynamic: { K_locus: [], O_locus: [], O_type: [] },
   colorPallete: {},
   colorPalleteCgST: {},
   colorPalleteSublineages: {},
   colorPalleteKO: { K_locus: {}, O_locus: {}, O_type: {} },
+  genotypesPalette: {},
   listPMID: [],
   PMID: [],
   captureDRT: true,
@@ -154,6 +162,17 @@ export const dashboardSlice = createSlice({
     setTotalGenomes: (state, action: PayloadAction<number>) => {
       state.totalGenomes = action.payload;
     },
+    setUniqueGenotypes: (state, action: PayloadAction<Array<string>>) => {
+      const arr = Array.isArray(action.payload) ? action.payload : [];
+      state.uniqueGenotypes = arr;
+      // Default selected genotypes for frequencies graph if empty
+      if (
+        !Array.isArray(state.frequenciesGraphSelectedGenotypes) ||
+        state.frequenciesGraphSelectedGenotypes.length === 0
+      ) {
+        state.frequenciesGraphSelectedGenotypes = arr.slice(0, Math.min(10, arr.length));
+      }
+    },
     setActualGenomes: (state, action: PayloadAction<number>) => {
       state.actualGenomes = action.payload;
     },
@@ -181,6 +200,9 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilter: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilter = action.payload;
     },
+    setUniqueLineages: (state, action: PayloadAction<Array<string>>) => {
+      state.uniqueLineages = Array.isArray(action.payload) ? action.payload : [];
+    },
     setGenotypesForFilterSelected: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilterSelected = action.payload;
     },
@@ -193,11 +215,17 @@ export const dashboardSlice = createSlice({
     setGenotypesForFilterDynamic: (state, action: PayloadAction<Array<string>>) => {
       state.genotypesForFilterDynamic = action.payload;
     },
+    setFrequenciesGraphSelectedGenotypes: (state, action: PayloadAction<Array<string>>) => {
+      state.frequenciesGraphSelectedGenotypes = Array.isArray(action.payload) ? action.payload : [];
+    },
     setKOForFilterDynamic: (state, action: PayloadAction<UniqueKOModel>) => {
       state.KOForFilterDynamic = action.payload;
     },
     setColorPallete: (state, action: PayloadAction<Object>) => {
       state.colorPallete = action.payload;
+    },
+    setGenotypesPalette: (state, action: PayloadAction<Record<string, string>>) => {
+      state.genotypesPalette = action.payload && typeof action.payload === 'object' ? action.payload : {};
     },
     setColorPalleteCgST: (state, action: PayloadAction<Object>) => {
       state.colorPalleteCgST = action.payload;
