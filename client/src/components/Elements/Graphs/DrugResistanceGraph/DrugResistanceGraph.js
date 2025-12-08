@@ -93,7 +93,16 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   const trendsData = useMemo(() => {
     const exclusions = ['name', 'count'];
-    const drugsDataPercentages = structuredClone(drugsYearData);
+    const drugsDataPercentages = Array.isArray(drugsYearData) ? structuredClone(drugsYearData) : null;
+
+    if (!Array.isArray(drugsDataPercentages)) {
+      // Defensive: avoid crashing if store contains an unexpected shape
+      // Log the value so we can debug why it's not an array for certain organisms
+      // and return an empty array to keep the UI stable.
+      // eslint-disable-next-line no-console
+      console.warn('[DrugResistanceGraph] expected drugsYearData to be an array, got:', drugsYearData);
+      return [];
+    }
 
     return drugsDataPercentages.map(item => {
       const keys = Object.keys(item).filter(x => !exclusions.includes(x));

@@ -292,7 +292,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     const items = {};
 
     filteredData.forEach(obj => {
-      obj.stats?.[GLPSColumn].items.forEach(item => {
+      // Guard against missing stats or missing GLPSColumn entries
+      obj.stats?.[GLPSColumn]?.items?.forEach(item => {
         if (!(item.name in items)) {
           items[item.name] = item.count;
           return;
@@ -633,7 +634,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
         if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
           yAxisSelected.forEach(selected => {
-            const gen = item?.stats?.[GLPSColumn].items.find(g => g && g.name === selected);
+            const gen = item?.stats?.[GLPSColumn]?.items?.find(g => g && g.name === selected);
 
             data.items.push({
               itemName: selected,

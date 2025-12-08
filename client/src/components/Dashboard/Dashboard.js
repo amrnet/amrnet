@@ -224,7 +224,34 @@ export const DashboardPage = () => {
       }
     }
 
+      // Process data directly from IndexedDB in batches (fallback implementation)
+      async function getInfoFromIndexedDB(storeName, organism, batchSize = 5000) {
+        try {
+          // Load all items from the store (fallback). If this becomes memory-heavy,
+          // we can reintroduce cursor-based iteration in `idb.ts` later.
+          const allItems = await getItems(storeName);
+
+          // Get regions mapping
+          const regions = await getStoreOrGenerateData('unr', async () => {
+            return (await axios.get('/api/getUNR')).data;
+          });
+
+          // Reuse existing processing logic
+          await getInfoFromData(allItems, regions);
+        } catch (error) {
+          console.error('Error in getInfoFromIndexedDB:', error);
+          throw error;
+        }
+      }
+    
     const organismData = await handleGetData();
+
+    // If the handler already processed & stored pages into IndexedDB, it returns a sentinel
+    // so we must NOT call bulkAddItems again with that sentinel.
+    if (organismData === '__PROCESSED_FROM_IDB__') {
+      return organismData;
+    }
+
     await bulkAddItems(storeName, storeName.includes('convergence') ? [organismData] : organismData, clearStore);
 
     return organismData;
@@ -959,35 +986,92 @@ export const DashboardPage = () => {
         console.log(`🌐 [CLIENT] Fetching from API: /api/${endpoint}`);
         const apiStartTime = performance.now();
 
-        const response = await axios.get(`/api/${endpoint}`, {
+        // First request (page 1 or full response)
+        const firstResp = await axios.get(`/api/${endpoint}`, {
+          params: { page: 1, limit: 5000 },
           maxContentLength: Infinity,
           maxBodyLength: Infinity,
         });
 
         const apiEndTime = performance.now();
         const apiDuration = Math.round(apiEndTime - apiStartTime);
-        const dataSize = JSON.stringify(response.data).length;
+        const payload = firstResp.data;
 
-        console.log(
-          `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.data.length} records`,
-        );
+        // If the endpoint is paginated (returns { data, pagination }), fetch and store all pages
+        if (payload && payload.pagination && Array.isArray(payload.data)) {
+          const { pagination } = payload;
+          const pageLimit = pagination.limit || 5000;
+          const totalPages = pagination.totalPages || Math.ceil((pagination.totalDocuments || 0) / pageLimit);
 
-        return response.data;
+          // Store first chunk (clear store)
+          if (Array.isArray(payload.data)) {
+            // eslint-disable-next-line no-await-in-loop
+            await bulkAddItems(storeName, payload.data, true);
+          }
+
+          // Fetch remaining pages sequentially to avoid resource pressure
+          if (totalPages > 1) {
+            for (let p = 2; p <= totalPages; p++) {
+              // eslint-disable-next-line no-await-in-loop
+              const r = await axios.get(`/api/${endpoint}`, {
+                params: { page: p, limit: pageLimit },
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
+              });
+
+              if (r && r.data && Array.isArray(r.data.data)) {
+                const chunk = r.data.data;
+                // eslint-disable-next-line no-await-in-loop
+                await bulkAddItems(storeName, chunk, false);
+              }
+            }
+          }
+
+          console.log(`📈 [CLIENT] API Response (paginated -> stored): ${apiDuration}ms, pages fetched: ${totalPages}`);
+
+          // Signal that data was processed from IndexedDB and no further in-memory processing is required
+          return '__PROCESSED_FROM_IDB__';
+        }
+
+        // Non-paginated handling: normalize payload to array
+        const organismData = Array.isArray(payload) ? payload : payload && Array.isArray(payload.data) ? payload.data : [];
+        const dataSize = JSON.stringify(payload).length;
+        const recordCount = Array.isArray(payload) ? payload.length : payload && Array.isArray(payload.data) ? payload.data.length : 0;
+
+        console.log(`📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${recordCount} records`);
+
+        return organismData;
       });
 
-      const regions = await getStoreOrGenerateData('unr', async () => {
-        return (await axios.get('/api/getUNR')).data;
-      });
+      if (organismData === '__PROCESSED_FROM_IDB__') {
+        // Data was fetched and stored into IndexedDB by the handler. Process from IDB in batches.
+        const regions = await getStoreOrGenerateData('unr', async () => {
+          return (await axios.get('/api/getUNR')).data;
+        });
 
-      const dataProcessingStart = performance.now();
-      await getInfoFromData(organismData, regions);
-      const dataProcessingEnd = performance.now();
+        const dataProcessingStart = performance.now();
+        await getInfoFromIndexedDB(storeName, organism);
+        const dataProcessingEnd = performance.now();
+        console.log(`⚙️ [CLIENT] Data processing from IDB: ${Math.round(dataProcessingEnd - dataProcessingStart)}ms`);
 
-      console.log(`⚙️ [CLIENT] Data processing: ${Math.round(dataProcessingEnd - dataProcessingStart)}ms`);
+        // Set organism-specific configurations for paginated flow
+        dispatch(setDataset('All'));
+        setOrganismSpecificConfig(organism, true); // true = paginated
+      } else {
+        const regions = await getStoreOrGenerateData('unr', async () => {
+          return (await axios.get('/api/getUNR')).data;
+        });
 
-      // Set organism-specific configurations
-      dispatch(setDataset('All'));
-      setOrganismSpecificConfig(organism, false); // false = not paginated
+        const dataProcessingStart = performance.now();
+        await getInfoFromData(organismData, regions);
+        const dataProcessingEnd = performance.now();
+
+        console.log(`⚙️ [CLIENT] Data processing: ${Math.round(dataProcessingEnd - dataProcessingStart)}ms`);
+
+        // Set organism-specific configurations
+        dispatch(setDataset('All'));
+        setOrganismSpecificConfig(organism, false); // false = not paginated
+      }
 
       const clientEndTime = performance.now();
       const totalDuration = Math.round(clientEndTime - clientStartTime);

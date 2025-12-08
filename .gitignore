@@ -71,6 +71,7 @@ desktop.ini
 .env.test.local
 .env.production
 .env.production.local
+.env.devrev
 
 # Keep only the example file
 !.env.example

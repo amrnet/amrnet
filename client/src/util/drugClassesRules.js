@@ -1211,7 +1211,7 @@ export const drugClassesRulesSENTERICA = {};
 // Sentericaints INTS
 export const drugRulesINTS = [
   // { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
-  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
+  // { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
   { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
   { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin' },
@@ -1222,6 +1222,8 @@ export const drugRulesINTS = [
   { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
   { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
+  // { key: 'Trimethoprim-sulfamethoxazole', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM', 'SULFONAMIDE'] },
+
   {
     key: 'Pansusceptible',
     requirements: [
@@ -1359,6 +1361,26 @@ export const statKeysECOLI = (() => {
       rules: [
         { column: 'Trimethoprim', value: '-', equal: false },
         { column: 'Sulfonamide', value: '-', equal: false },
+      ],
+      every: true,
+    },
+    {
+      name: 'Pansusceptible',
+      resistanceView: true,
+      rules: [
+        { column: 'Trimethoprim', value: '-', equal: true },
+        { column: 'Sulfonamide', value: '-', equal: true },
+        { column: 'Phenicol', value: '-', equal: true },
+        { column: 'Tetracycline', value: '-', equal: true },
+        { column: 'Macrolide', value: '-', equal: true },
+        { column: 'Colistin', value: '-', equal: true },
+        { column: 'Quinolone', value: '-', equal: true },
+        { column: 'Carbapenemase', value: '-', equal: true },
+        { column: 'Aminoglycoside', value: '-', equal: true },
+        { column: 'Penicillin', value: '-', equal: true },
+        { column: 'ESBL', value: '-', equal: true },
+        { column: 'Fosfomycin', value: '-', equal: true },
+        { column: 'Ciprofloxacin', value: '-', equal: true },
       ],
       every: true,
     },
