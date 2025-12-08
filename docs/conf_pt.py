@@ -1,8 +1,11 @@
 # Configuration for pt documentation
 from conf import *
 
-language = 'pt'
+
+# Use RTD's default environment variable for language detection
+language = os.environ.get('READTHEDOCS_LANGUAGE', 'pt')
 locale_dirs = ['locale/']
+gettext_compact = False
 
 # Language-specific settings
 if language == 'es':
@@ -11,11 +14,6 @@ elif language == 'fr':
     html_title = 'AMRnet - Documentation en Français'
 elif language == 'pt':
     html_title = 'AMRnet - Documentação em Português'
-
-# internationalization
-language = os.environ.get('READTHEDOCS_LANGUAGE_PT', 'pt')
-locale_dirs = ['locale/']
-gettext_compact = False
 
 # Override any language-specific theme options
 html_theme_options.update({

@@ -126,6 +126,7 @@ msgstr "Os líderes da Comunidade têm o direito e a responsabilidade de remover
 #: 5802bb6e7ec644878370cc0477afdf84
 msgid "Scope"
 msgstr "Escopo"
+msgstr "Escopo"
 
 #: ../../codeofconduct.rst:63
 #: 21388780bbe248d49579ad0fca02977d
@@ -135,6 +136,7 @@ msgstr "Este Código de Conduta aplica-se em todos os espaços comunitários, e 
 #: ../../codeofconduct.rst:70
 #: bee2c4423000476b88eff34134188f97
 msgid "Enforcement"
+msgstr "Execução"
 msgstr "Execução"
 
 #: ../../codeofconduct.rst:73
@@ -160,6 +162,7 @@ msgstr "Os líderes comunitários seguirão estas orientações de impacto na de
 #: ../../codeofconduct.rst:90
 #: 6dbf3208e1214386ab7fa575e49099b4
 msgid "1. Correction"
+msgstr "1. Correção"
 msgstr "1. Correção"
 
 #: ../../codeofconduct.rst:93
@@ -236,4 +239,3 @@ msgstr "As diretrizes de impacto da Comunidade foram inspiradas pelo código de 
 #: 638bd9edce00426e985f1e58c15af0e7
 msgid "For answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
 msgstr "Para respostas a perguntas comuns sobre este código de conduta, veja o FAQ em https://www.contributor-covenant.org/faq. As traduções estão disponíveis em https://www.contributor-covenant.org/translations."
-
