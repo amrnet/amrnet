@@ -215,7 +215,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   function handleClickChart(event) {
     const year = event?.activeLabel;
-    const data = drugsYearData?.find(item => item.name.toString() === year?.toString());
+    const data = Array.isArray(drugsYearData)
+      ? drugsYearData.find(item => item?.name?.toString() === year?.toString())
+      : undefined;
 
     if (data && data.count >= 10 && drugResistanceGraphView.length > 0) {
       const currentData = structuredClone(data);

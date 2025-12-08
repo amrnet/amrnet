@@ -193,7 +193,7 @@ export const graphSlice = createSlice({
       state.countriesForFilter = action.payload;
     },
     setGenotypesYearData: (state, action: PayloadAction<Array<any>>) => {
-      state.genotypesYearData = action.payload;
+      state.genotypesYearData = Array.isArray(action.payload) ? action.payload : [];
     },
     setCgSTYearData: (state, action: PayloadAction<Array<any>>) => {
       state.cgSTYearData = action.payload;
@@ -205,7 +205,7 @@ export const graphSlice = createSlice({
       state.KOYearsData = action.payload;
     },
     setDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
-      state.drugsYearData = action.payload;
+      state.drugsYearData = Array.isArray(action.payload) ? action.payload : [];
     },
     setDistributionGraphView: (state, action: PayloadAction<string>) => {
       state.distributionGraphView = action.payload;
@@ -264,8 +264,16 @@ export const graphSlice = createSlice({
     setNgMastDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
       state.ngMastDrugClassesData = action.payload;
     },
-    setGenotypesAndDrugsYearData: (state, action: PayloadAction<Array<any>>) => {
-      state.genotypesAndDrugsYearData = action.payload;
+    setGenotypesAndDrugsYearData: (state, action: PayloadAction<any>) => {
+      const payloadObj = action.payload && typeof action.payload === 'object' ? action.payload : ({} as any);
+      state.genotypesAndDrugsYearData = payloadObj;
+      // Auto-select a default drug class if none selected and data available
+      if (!state.trendsGraphDrugClass) {
+        const keys = Object.keys(payloadObj || {});
+        if (keys.length > 0) {
+          state.trendsGraphDrugClass = keys[0];
+        }
+      }
     },
     setCountriesYearData: (state, action: PayloadAction<Array<any>>) => {
       state.countriesYearData = action.payload;
@@ -274,7 +282,7 @@ export const graphSlice = createSlice({
       state.regionsYearData = action.payload;
     },
     setTrendsGraphDrugClass: (state, action: PayloadAction<string>) => {
-      state.trendsGraphDrugClass = action.payload;
+      state.trendsGraphDrugClass = action.payload || state.trendsGraphDrugClass;
     },
     setTrendsGraphView: (state, action: PayloadAction<string>) => {
       state.trendsGraphView = action.payload;

@@ -132,9 +132,16 @@ export const getColorForGenotype = genotype => {
 // Generate color pallete for Klebsiella genotypes
 const iwanthue = require('iwanthue');
 export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable) => {
-  if (genotypes.length === 0) {
+  if (!Array.isArray(genotypes) || genotypes.length === 0) {
     return {};
   }
+  // Handle small counts without calling iwanthue (which requires > 1)
+  if (genotypes.length === 1) {
+    const only = genotypes[0];
+    const colorScale = chroma.scale(['#e31a1c', '#f76b40', '#f9a65a', '#72b7e0', '#2171b5']).mode('lab');
+    return { [only]: colorScale(0.5).hex() };
+  }
+
   const colors = iwanthue(genotypes.length, {
     clustering: 'force-vector',
     seed: 'all',
@@ -149,10 +156,11 @@ export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable)
       const t = genotypes.length === 1 ? 0.5 : i / (genotypes.length - 1); // avoid division by zero
       pallete[x] = colorScale(t).hex();
     });
-  } else
+  } else {
     genotypes.forEach((x, i) => {
       pallete[x] = `${colors[i]}`;
     });
+  }
 
   return pallete;
 };
@@ -203,7 +211,7 @@ export const colorForDrugClassesST = {
     { name: 'None', color: '#B9B9B9' },
   ],
   // 'Fluoroquinolones (CipNS)': [
-  'Ciprofloxacin': [
+  Ciprofloxacin: [
     { name: 'qnrB', color: '#0066cc' },
     { name: 'qnrS', color: '#009999' },
     { name: 'qnrD', color: '#a8ddb5' },

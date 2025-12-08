@@ -14,7 +14,7 @@ import {
   YAxis,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
-import { setCaptureGD, setGenotypesForFilterSelected, setColorPallete } from '../../../../stores/slices/dashboardSlice';
+import { setCaptureGD, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
 import {
   setDistributionGraphVariable,
   setDistributionGraphView,
@@ -22,7 +22,7 @@ import {
   setStarttimeGD,
   setTopXGenotype,
 } from '../../../../stores/slices/graphSlice.ts';
-import { getColorForGenotype, hoverColor, lightGrey, generatePalleteForGenotypes } from '../../../../util/colorHelper';
+import { getColorForGenotype, hoverColor, lightGrey } from '../../../../util/colorHelper';
 import { variableGraphOptions, variableGraphOptionsNG } from '../../../../util/convergenceVariablesOptions';
 import { arraysEqual, getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -57,14 +57,18 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   const currentData = useMemo(() => {
-    if (organism !== 'kpneumo' && organism !== 'ngono') {
-      return genotypesYearData;
-    }
-    return distributionGraphVariable === 'Sublineage'
-      ? sublineagesYearData
-      : (distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE')
-        ? cgSTYearData
-        : genotypesYearData;
+    const base = (() => {
+      if (organism !== 'kpneumo' && organism !== 'ngono') {
+        return genotypesYearData;
+      }
+      return distributionGraphVariable === 'Sublineage'
+        ? sublineagesYearData
+        : distributionGraphVariable === 'cgST' || distributionGraphVariable === 'NG-MAST TYPE'
+          ? cgSTYearData
+          : genotypesYearData;
+    })();
+
+    return Array.isArray(base) ? base : [];
   }, [cgSTYearData, distributionGraphVariable, genotypesYearData, organism, sublineagesYearData]);
 
   const currentColorPallete = useMemo(() => {
@@ -454,7 +458,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   })}
                 </Select>
               </div>
-              {(organism === 'kpneumo' || organism === 'ngono')  && (
+              {(organism === 'kpneumo' || organism === 'ngono') && (
                 <div className={classes.selectWrapper}>
                   <div className={classes.labelWrapper}>
                     <Typography variant="caption">Select variable</Typography>
@@ -466,21 +470,21 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                     MenuProps={{ classes: { list: classes.selectMenu } }}
                     disabled={organism === 'none'}
                   >
-                    {organism === 'ngono' ? 
-                      variableGraphOptionsNG.map((option, index) => {
-                        return (
-                          <MenuItem key={index + 'distribution-variable'} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        );
-                      })
+                    {organism === 'ngono'
+                      ? variableGraphOptionsNG.map((option, index) => {
+                          return (
+                            <MenuItem key={index + 'distribution-variable'} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          );
+                        })
                       : variableGraphOptions.map((option, index) => {
-                        return (
-                          <MenuItem key={index + 'distribution-variable'} value={option.value}>
-                            {option.label}
-                        </MenuItem>
-                      );
-                    })}
+                          return (
+                            <MenuItem key={index + 'distribution-variable'} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          );
+                        })}
                   </Select>
                 </div>
               )}
