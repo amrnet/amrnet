@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Close } from '@mui/icons-material';
 import {
   Box,
+  Card,
   CardContent,
   Divider,
+  FormControlLabel,
   FormGroup,
   IconButton,
   MenuItem,
@@ -13,40 +16,37 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStyles } from './TrendsGraphMUI';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
   Brush,
   CartesianGrid,
+  Tooltip as ChartTooltip,
   ComposedChart,
   Label,
   Legend,
   Line,
   ResponsiveContainer,
-  Tooltip as ChartTooltip,
   XAxis,
   YAxis,
 } from 'recharts';
-import React, { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
-import { colorForDrugClassesNG, hoverColor, lightGrey, colorForMarkers } from '../../../../util/colorHelper';
 import {
-  setTrendsGraphDrugClass,
-  setTrendsGraphView,
-  setResetBool,
+  setEndtimeRDT,
   setMaxSliderValueKP_GE,
+  setStarttimeRDT,
   setTopGenesSlice,
   setTopGenotypeSlice,
-  setStarttimeRDT,
-  setEndtimeRDT,
+  setTrendsGraphDrugClass,
+  setTrendsGraphView,
 } from '../../../../stores/slices/graphSlice';
+import { colorForDrugClassesNG, colorForMarkers, hoverColor, lightGrey } from '../../../../util/colorHelper';
 import { drugClassesNG, markersDrugsKP } from '../../../../util/drugs';
-import { SliderSizes } from '../../Slider';
-import { Card, FormControlLabel } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import { SelectCountry } from '../../SelectCountry';
 import { getRange } from '../../../../util/helpers';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { SelectCountry } from '../../SelectCountry';
+import { SliderSizes } from '../../Slider';
+import { useStyles } from './TrendsGraphMUI';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -106,6 +106,14 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     return drugClassesNG;
   }
 
+  // Ensure a valid default drug class is selected when data becomes available
+  useEffect(() => {
+    const classes = getDrugClasses();
+    if (!trendsGraphDrugClass && classes.length > 0) {
+      dispatch(setTrendsGraphDrugClass(classes[0]));
+    }
+  }, [organism, trendsGraphDrugClass, dispatch]);
+
   function getDomain(max = null) {
     return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
   }
@@ -115,7 +123,11 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
     const genotypes = {};
     const genes = {};
 
-    genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach(year => {
+    const yearsArray = Array.isArray(genotypesAndDrugsYearData[trendsGraphDrugClass])
+      ? genotypesAndDrugsYearData[trendsGraphDrugClass]
+      : [];
+
+    yearsArray.forEach(year => {
       Object.keys(year).forEach(key => {
         if (['name', 'totalCount', 'resistantCount'].includes(key)) {
           return;
@@ -164,8 +176,11 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
   // Step 3: Calculate the final data for the chart based on Redux state.
   const slicedData = useMemo(() => {
     const slicedDataArray = [];
+    const yearsArray = Array.isArray(genotypesAndDrugsYearData[trendsGraphDrugClass])
+      ? genotypesAndDrugsYearData[trendsGraphDrugClass]
+      : [];
 
-    genotypesAndDrugsYearData[trendsGraphDrugClass]?.forEach(year => {
+    yearsArray.forEach(year => {
       if (year.totalCount < 10) {
         //Filter data which is used to plot and include count greater and equal to 10 (Bla for Kleb and Marker for N.Gono)
         return;
@@ -323,7 +338,8 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
         allYears.forEach(year => {
           if (!years.includes(year)) {
             // Only add "Insufficient data" if there are actual filtered results
-            const hasFilteredData = (topGenesSlice && topGenesSlice.length > 0) || (topGenotypeSlice && topGenotypeSlice.length > 0);
+            const hasFilteredData =
+              (topGenesSlice && topGenesSlice.length > 0) || (topGenotypeSlice && topGenotypeSlice.length > 0);
             if (hasFilteredData) {
               data.push({
                 name: year,
