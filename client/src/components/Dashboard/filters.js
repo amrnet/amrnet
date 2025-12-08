@@ -539,15 +539,20 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
  */
 export function getMapData({ data, items, organism, type = 'country' }) {
   // Add validation for required parameters
-  // if (!data || !Array.isArray(data)) {
-  //   console.warn('getMapData: data is not a valid array');
-  //   return [];
-  // }
+  if (!data || !Array.isArray(data)) {
+    console.warn('getMapData: data is not a valid array');
+    return [];
+  }
 
-  // if (!items || (!Array.isArray(items) && typeof items !== 'object')) {
-  //   console.warn('getMapData: items is not a valid array or object');
-  //   return [];
-  // }
+  if (!items || (!Array.isArray(items) && typeof items !== 'object')) {
+    console.warn('getMapData: items is not a valid array or object');
+    return [];
+  }
+
+  // Prevent processing extremely large datasets that could cause stack overflow
+  if (data.length > 500000) {
+    console.warn('getMapData: data array is extremely large, this may cause performance issues');
+  }
 
   const mapData = [];
   const formattedItems = type === 'country' ? items : Object.keys({ ...items, All: '' }).sort();
@@ -797,11 +802,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           drugStats[rule.key] = drugData.length;
 
-          // if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin NS') {
-          //   const cipRCount = yearData.filter(x => x[rule.columnID] === 'CipR').length;
-          //   drugStats['Ciprofloxacin R'] = cipRCount;
-          //   drugStats['Ciprofloxacin NS'] += cipRCount;
-          // }
+          if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin') {
+            const cipRCount = yearData.filter(x => x[rule.columnID] === 'CipR').length;
+            drugStats['Ciprofloxacin R'] = cipRCount;
+            drugStats['Ciprofloxacin'] += cipRCount;
+          }
         });
 
         if (organism === 'ngono') {
@@ -1305,10 +1310,10 @@ export function getGenotypesData({
         const drugData = genotypeData.filter(x => rule.values.map(String).includes(String(x[rule.columnID])));
         response[rule.key] = drugData.length;
 
-        // if (rule.key === 'Ciprofloxacin NS') {
-        //   response['Ciprofloxacin R'] = genotypeData.filter(x => x[rule.columnID] === 'CipR').length;
-        //   response['Ciprofloxacin NS'] = response['Ciprofloxacin NS'] + response['Ciprofloxacin R'];
-        // }
+        if (rule.key === 'Ciprofloxacin') {
+          response['Ciprofloxacin R'] = genotypeData.filter(x => x[rule.columnID] === 'CipR').length;
+          response['Ciprofloxacin'] = response['Ciprofloxacin'] + response['Ciprofloxacin R'];
+        }
 
         // Only process drug classes if the rule key exists in drugClassesRulesST
         const key = rule.key === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : rule.key;

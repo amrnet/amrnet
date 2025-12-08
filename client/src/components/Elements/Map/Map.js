@@ -76,7 +76,7 @@ export const Map = () => {
   }, [mapView]);
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi' ? getColorForGenotype(genotype) : colorPallete[genotype] || '#F5F4F6';
+    return  colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleOnClick(countryData) {

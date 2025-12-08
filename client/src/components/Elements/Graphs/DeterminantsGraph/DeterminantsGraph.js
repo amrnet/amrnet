@@ -106,7 +106,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
         return topXGenotypeRDWG
           .filter(x => x !== 'None')
           .map((x, i) => {
-            return { name: x, color: colorForMarkers[i] };
+            return { name: x, color: colorForMarkers(i) };
           })
           .concat([{ name: 'None', color: '#B9B9B9' }]);
     }

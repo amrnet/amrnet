@@ -12,6 +12,7 @@ import {
   Switch,
   Tooltip,
   Typography,
+  Slider
 } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
@@ -35,8 +36,8 @@ import {
   setTrendsGraphDrugClass,
   setTrendsGraphView,
 } from '../../../../stores/slices/graphSlice';
-import { colorForMarkers, hoverColor } from '../../../../util/colorHelper';
-import { drugClassesNG, drugClassesST, drugsINTS, markersDrugsKP, markersDrugsSH } from '../../../../util/drugs';
+import { colorForMarkers, colorForMarkersCVD, hoverColor } from '../../../../util/colorHelper';
+import { drugClassesNG, drugClassesST, drugsINTS, markersDrugsKP, markersDrugsSH, ciproAcronyms } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -53,7 +54,19 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [logScale, setLogScale] = useState(false);
+  const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
 
+  // const [colourPattern, setColourPattern] = useState(false);
+  const [lineStyle, setLineStyle] = useState('');
+
+
+  const getLineStyleForDrug = (genName) => {
+   const lineStyles = ["Normal", "Thick"];
+
+    const drugIndex = [...(topGenesSlice || []).filter(x => x !== 'None'), 'Other Genes', 'None'].indexOf(genName);
+    return drugIndex !== -1 ? lineStyles[drugIndex % lineStyles.length] : lineStyles[0];
+  };
+  
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
@@ -67,6 +80,8 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const currentSliderValueKP_GE = useAppSelector(state => state.graph.currentSliderValueKP_GE);
   const topGenesSlice = useAppSelector(state => state.graph.topGenesSlice);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
+  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  
 
   useEffect(() => {
     //dispatch(setResetBool(true));
@@ -102,9 +117,13 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     return drugsINTS.filter(item => item !== 'Pansusceptible'); // Default fallback
   }
 
-  function getDomain(max = null) {
-    return trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
-  }
+ function getDomain(max = null) {
+   if (trendsGraphView === 'number') {
+     return logScale? [yAxisSliderValue[0], yAxisSliderValue[1] ?? max ?? 'dataMax'] : trendsGraphView === 'number' ? ['dataMin', max ?? 'dataMax'] : [0, 100];
+   }
+   // percentage view -> zoomable 0–100
+   return [yAxisSliderValue[0], yAxisSliderValue[1]];
+ }
 
   const yearsData = useMemo(() => {
     const yearsArray = Array.isArray(genotypesAndDrugsYearData[trendsGraphDrugClass])
@@ -200,6 +219,19 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     return slicedDataArray;
   }, [yearsData, topGenesSlice]);
 
+  const maxDataValue = useMemo(() => {
+    if (!slicedData || slicedData.length === 0) return 100;
+    let max = 0;
+    slicedData.forEach(item => {
+      Object.keys(item).forEach(key => {
+        if (!['name', 'totalCount', 'resistantCount'].includes(key)) {
+          if (item[key] > max) max = item[key];
+        }
+      });
+    });
+    return max;
+  }, [slicedData]);
+
   function getData() {
     if (trendsGraphView === 'number') {
       return slicedData;
@@ -223,6 +255,10 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   function handleChangeDataView(event) {
     dispatch(setTrendsGraphView(event.target.value));
   }
+
+    function handleSliderChangeDataView(event) {
+      setYAxisSliderValue(event.target.value);
+    }
 
   function handleChangeDrugClass(event) {
     setCurrentTooltip(null);
@@ -347,7 +383,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                 allowDecimals={false}
                 domain={getDomain()}
                 allowDataOverflow={true}
-                scale={logScale ? 'sqrt' : undefined}
+                scale={logScale ? 'linear' : undefined}
               >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   {dataViewOptionsGenomes.find(option => option.value === trendsGraphView).label}
@@ -391,12 +427,18 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                           return (
                             <React.Fragment key={`trends-legend-${index}`}>
                               <div className={classes.legendItemWrapper}>
-                                <Box
-                                  className={classes.colorCircle}
-                                  style={{
-                                    backgroundColor: color,
-                                  }}
-                                />
+                                {!colourPattern ? <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                                :<svg width={16} height={16}>
+                                  <circle
+                                    cx="8"
+                                    cy="8"
+                                    r="2"
+                                    fill="none"
+                                    stroke={color}
+                                    strokeWidth={index%2 == 0 ? 5 : 7}
+                                    strokeDasharray={getLineStyleForDrug(dataKey)}
+                                  />
+                                </svg>}
                                 <Typography variant="caption">{dataKey}</Typography>
                               </div>
                             </React.Fragment>
@@ -420,21 +462,28 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
 
               {[...(topGenesSlice || []).filter(x => x !== 'None'), 'Other Genes', 'None'].map((option, index) => {
                 let fillColor = '#F5F4F6';
+                let lineStyle = '';
 
                 if (option === 'Other Genes') {
                   fillColor = '#F5F4F6';
                 } else if (option === 'None') {
                   fillColor = '#B9B9B9';
                 } else {
-                  fillColor = colorForMarkers[index];
+                  if (!colourPattern){
+                    fillColor = colorForMarkers(index);
+                  }else{
+                    fillColor =  colorForMarkersCVD [index]
+                    lineStyle = getLineStyleForDrug(option);
+                  }
                 }
 
                 return (
                   <Line
                     key={`trends-line-${index}`}
                     dataKey={option}
-                    strokeWidth={2}
+                    strokeWidth={!colourPattern ? 2 : index%2 == 0 ? 2 : 3}
                     stroke={fillColor}
+                    strokeDasharray={!colourPattern ? 'solid': lineStyle}
                     connectNulls
                     type="monotone"
                     activeDot={timeInitial === timeFinal ? true : false}
@@ -447,10 +496,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale]);
+  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale, colourPattern, lineStyle, yAxisSliderValue]);
 
   return (
     <CardContent className={classes.markerTrendsGraph}>
+
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="RDT">
           {plotChart}
@@ -463,6 +513,19 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
               control={<Switch checked={logScale} onChange={handleSwitchScale} />}
             />
           </FormGroup>
+          {logScale ? (
+            <>
+              <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+              <Slider
+                value={yAxisSliderValue}
+                onChange={handleSliderChangeDataView}
+                step={1}
+                min={0}
+                max={trendsGraphView === 'number'? maxDataValue : 100}
+                valueLabelDisplay="auto"
+              />
+            </>
+          ) : null}
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
@@ -481,12 +544,28 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                     {currentTooltip.genes.map((item, index) => {
                       return (
                         <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                          <Box
-                            className={classes.tooltipItemBox}
-                            style={{
-                              backgroundColor: item.color,
-                            }}
-                          />
+                        {(() => {
+                          // Find the corresponding drug name for this tooltip item
+                            const drugKey = Object.keys(ciproAcronyms).find(key => ciproAcronyms[key] === item.label) || item.label;
+                            const lineStyle = getLineStyleForDrug(drugKey);
+                            
+                            return colourPattern && lineStyle !== 'Normal' ? (
+                              <div
+                                className={classes.tooltipItemBox}
+                                style={{
+                                  backgroundColor: item.color,
+                                }}
+                              />
+                            ) : (
+                              <div
+                                className={classes.tooltipItemBoxSmall}
+                                style={{
+                                  backgroundColor: item.color,
+                                }}
+                              />
+                            );
+                          })()} 
+
                           <div className={classes.tooltipItemStats}>
                             <Typography variant="body2" fontWeight="500">
                               {item.label}

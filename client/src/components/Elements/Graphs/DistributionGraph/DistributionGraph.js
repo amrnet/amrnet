@@ -1,5 +1,18 @@
 import { Close } from '@mui/icons-material';
-import { Box, Card, CardContent, IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  MenuItem,
+  Select,
+  Slider,
+  Switch,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
@@ -14,7 +27,13 @@ import {
   YAxis,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks.ts';
-import { setCaptureGD, setGenotypesForFilterSelected } from '../../../../stores/slices/dashboardSlice';
+import {
+  setCaptureGD,
+  setColorPallete,
+  setColorPalleteCgST,
+  setColorPalleteSublineages,
+  setGenotypesForFilterSelected,
+} from '../../../../stores/slices/dashboardSlice';
 import {
   setDistributionGraphVariable,
   setDistributionGraphView,
@@ -22,12 +41,13 @@ import {
   setStarttimeGD,
   setTopXGenotype,
 } from '../../../../stores/slices/graphSlice.ts';
-import { getColorForGenotype, hoverColor, lightGrey } from '../../../../util/colorHelper';
+import { generatePalleteForGenotypes, hoverColor, lightGrey } from '../../../../util/colorHelper';
 import { variableGraphOptions, variableGraphOptionsNG } from '../../../../util/convergenceVariablesOptions';
-import { arraysEqual, getRange } from '../../../../util/helpers';
+import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
 import { SliderSizes } from '../../Slider/SliderSizes';
+import GenotypePatternRect from '../GenotypePatternRect.js';
 import { useStyles } from './DistributionGraphMUI';
 
 const dataViewOptions = [
@@ -38,7 +58,8 @@ const dataViewOptions = [
 export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
-  // const [currentEventSelected, setCurrentEventSelected] = useState([]);
+  const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
+  const [logScale, setLogScale] = useState(false);
 
   const dispatch = useAppDispatch();
   const distributionGraphView = useAppSelector(state => state.graph.distributionGraphView);
@@ -55,6 +76,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   // const resetBool = useAppSelector(state => state.graph.resetBool);
   const topXGenotype = useAppSelector(state => state.graph.topXGenotype);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
+  const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
 
   const currentData = useMemo(() => {
     const base = (() => {
@@ -88,6 +110,27 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
     return colorPallete;
   }, [colorPallete, colorPalleteCgST, colorPalleteSublineages, distributionGraphVariable, organism]);
+
+  function getDomain(max = null) {
+    if (distributionGraphView === 'number') {
+      return logScale
+        ? [yAxisSliderValue[0], yAxisSliderValue[1] ?? max ?? 'dataMax']
+        : distributionGraphView === 'number'
+          ? ['dataMin', max ?? 'dataMax']
+          : [0, 100];
+    }
+    // percentage view -> zoomable 0–100
+    return [yAxisSliderValue[0], yAxisSliderValue[1]];
+  }
+
+  function handleSwitchScale(event) {
+    setCurrentTooltip(null);
+    setLogScale(event.target.checked);
+  }
+
+  function handleSliderChangeDataView(event) {
+    setYAxisSliderValue(event.target.value);
+  }
 
   const sliderLabel = useMemo(() => {
     if (organism !== 'kpneumo') {
@@ -124,9 +167,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentData]);
 
-  function getDomain() {
-    return distributionGraphView === 'number' ? undefined : [0, 100];
-  }
+  // function getDomain() {
+  //   return distributionGraphView === 'number' ? undefined : [0, 100];
+  // }
 
   //  const updateSlider = (value) =>{
   //   setCurrentSliderValue(value);
@@ -148,19 +191,56 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       .map(([key]) => key);
   }, [currentData, currentSliderValue]);
 
+  const maxDataValue = useMemo(() => {
+    if (!currentData || currentData.length === 0) return 100;
+
+    // For percentage view, max is always 100
+    if (distributionGraphView === 'percentage') return 100;
+
+    // For number view, find the max value across all data points
+    let max = 0;
+    currentData.forEach(item => {
+      let yearTotal = 0;
+      Object.entries(item).forEach(([key, value]) => {
+        if (!['name', 'count'].includes(key)) {
+          if (typeof value === 'number') {
+            yearTotal += value;
+            if (value > max) max = value;
+          }
+        }
+      });
+      // Also check the total for the year as it might be higher than individual values
+      if (yearTotal > max) max = yearTotal;
+    });
+
+    // Round up to nearest nice number for better axis display
+    const niceMax = Math.ceil(max / 10) * 10;
+    return niceMax;
+  }, [currentData, distributionGraphView]);
+
   useEffect(() => {
-    if (!arraysEqual(computedTopXGenotype, topXGenotype)) {
-      dispatch(setTopXGenotype(computedTopXGenotype));
-      dispatch(
-        setGenotypesForFilterSelected(
-          currentSliderValue === computedTopXGenotype.length
-            ? computedTopXGenotype
-            : [...computedTopXGenotype, 'Other'],
-        ),
-      );
-    }
+    // if (!arraysEqual(computedTopXGenotype, topXGenotype)) {
+
+    dispatch(setTopXGenotype(computedTopXGenotype));
+    dispatch(
+      setColorPalleteCgST(generatePalleteForGenotypes(computedTopXGenotype, distributionGraphVariable, colourPattern)),
+    );
+    dispatch(
+      setColorPalleteSublineages(
+        generatePalleteForGenotypes(computedTopXGenotype, distributionGraphVariable, colourPattern),
+      ),
+    );
+    dispatch(
+      setColorPallete(generatePalleteForGenotypes(computedTopXGenotype, distributionGraphVariable, colourPattern)),
+    );
+    dispatch(
+      setGenotypesForFilterSelected(
+        currentSliderValue === computedTopXGenotype.length ? computedTopXGenotype : [...computedTopXGenotype, 'Other'],
+      ),
+    );
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [computedTopXGenotype]);
+  }, [computedTopXGenotype, colourPattern, distributionGraphVariable]);
 
   const { newArray, newArrayPercentage } = useMemo(() => {
     const exclusions = ['name', 'count'];
@@ -196,7 +276,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   }, [currentColorPallete, currentData, organism, topXGenotype]);
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi' ? getColorForGenotype(genotype) : currentColorPallete[genotype] || '#F5F4F6';
+    return currentColorPallete[genotype] || '#F5F4F6';
   }
 
   function handleChangeDataView(event) {
@@ -305,9 +385,85 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           onClick={handleClickChart}
           maxBarSize={70}
         >
+          <defs>
+            {/* Solid pattern */}
+            {topXGenotype.map((genotype, i) => (
+              <pattern
+                key={`pattern-solid-${genotype}`}
+                id={`pattern-solid-${genotype}`}
+                patternUnits="userSpaceOnUse"
+                width={10}
+                height={10}
+              >
+                <rect width="10" height="10" fill={getGenotypeColor(genotype)} />
+              </pattern>
+            ))}
+
+            {/* Stripes */}
+            {topXGenotype.map((genotype, i) => (
+              <pattern
+                key={`pattern-stripes-${genotype}`}
+                id={`pattern-stripes-${genotype}`}
+                patternUnits="userSpaceOnUse"
+                width={6}
+                height={6}
+                patternTransform="rotate(45)"
+              >
+                <rect width="6" height="6" fill={getGenotypeColor(genotype)} />
+                <line x1="0" y1="0" x2="0" y2="6" stroke="white" strokeWidth={1} />
+              </pattern>
+            ))}
+
+            {/* Dots */}
+            {topXGenotype.map((genotype, i) => (
+              <pattern
+                key={`pattern-dots-${genotype}`}
+                id={`pattern-dots-${genotype}`}
+                patternUnits="userSpaceOnUse"
+                width={8}
+                height={8}
+              >
+                <rect width="8" height="8" fill={getGenotypeColor(genotype)} />
+                <circle cx="5" cy="5" r="0.5" fill="white" />
+                <circle cx="5" cy="1" r="0.5" fill="white" />
+                <circle cx="1" cy="5" r="0.5" fill="white" />
+                <circle cx="1" cy="1" r="0.5" fill="white" />
+              </pattern>
+            ))}
+
+            {/* Diagonal cross-hatch */}
+            {topXGenotype.map((genotype, i) => (
+              <pattern
+                key={`pattern-cross-${genotype}`}
+                id={`pattern-cross-${genotype}`}
+                patternUnits="userSpaceOnUse"
+                width={8}
+                height={8}
+              >
+                <rect width="8" height="8" fill={getGenotypeColor(genotype)} />
+                <path d="M0,0 L8,8 M8,0 L0,8" stroke="white" strokeWidth={0.5} />
+              </pattern>
+            ))}
+          </defs>
+
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
-          <YAxis domain={getDomain()} allowDataOverflow allowDecimals={false}>
+          <XAxis
+            tickCount={20}
+            allowDecimals={false}
+            padding={{ left: 20, right: 20 }}
+            dataKey="name"
+            domain={(computedTopXGenotype ?? []).length > 0 ? ['dataMin', 'dataMax'] : undefined}
+            interval={'preserveStartEnd'}
+            tick={{ fontSize: 14 }}
+          />
+          <YAxis
+            tickCount={logScale ? 8 : 6}
+            padding={{ top: 20, bottom: 20 }}
+            allowDecimals={false}
+            domain={getDomain()}
+            allowDataOverflow={true}
+            scale={logScale ? 'linear' : undefined}
+          >
             <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
               {dataViewOptions.find(opt => opt.value === distributionGraphView)?.label}
             </Label>
@@ -320,7 +476,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               stroke="rgb(31, 187, 211)"
               startIndex={allYears.findIndex(x => x === '2000') || 0}
               onChange={({ startIndex, endIndex }) => {
-                dispatch(setStarttimeGD(data[startIndex]?.name)); // updated value based on Brush drag
+                dispatch(setStarttimeGD(data[startIndex]?.name));
                 dispatch(setEndtimeGD(data[endIndex]?.name));
               }}
             />
@@ -331,19 +487,32 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               <div className={classes.legendWrapper}>
                 {payload.map(entry => {
                   const { dataKey, color } = entry;
+                  if (dataKey === 'Insufficient data') return null;
+                  if (dataKey === 'Other' && !data.some(d => d[dataKey] !== 0)) return null;
 
-                  if (dataKey === 'Insufficient data') {
-                    return null;
+                  // Rotate between the 4 pattern types
+                  {
+                    /* const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+                  const patternType = patternTypes[i % 4]; */
                   }
-
-                  if (dataKey === 'Other') {
-                    const hasData = data.some(d => d[dataKey] !== 0);
-                    if (!hasData) return null;
-                  }
-
                   return (
                     <div key={`legend-${dataKey}`} className={classes.legendItemWrapper}>
-                      <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                      {colourPattern ? (
+                        <svg width="16" height="16" style={{ marginRight: 6 }}>
+                          <rect
+                            x="0"
+                            y="0"
+                            width="16"
+                            height="16"
+                            fill={dataKey === 'Other' ? color : GenotypePatternRect(dataKey, topXGenotype)}
+                            stroke="#ccc"
+                            strokeWidth="0.5"
+                          />
+                        </svg>
+                      ) : (
+                        <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                      )}
+
                       <Typography variant="caption">{dataKey}</Typography>
                     </div>
                   );
@@ -359,17 +528,42 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
             }
           />
 
-          {topXGenotype.map((genotype, index) => (
-            <Bar key={`bar-${genotype}`} dataKey={genotype} stackId={0} fill={getGenotypeColor(genotype)} />
-          ))}
+          {topXGenotype.map((genotype, i) => {
+            // Assign a pattern type based on index
+            {
+              /* const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+            const patternType = patternTypes[i % 4]; */
+            }
+
+            return (
+              <Bar
+                key={`bar-${genotype}`}
+                dataKey={genotype}
+                stackId={0}
+                fill={colourPattern ? GenotypePatternRect(genotype, topXGenotype) : getGenotypeColor(genotype)}
+              />
+            );
+          })}
 
           <Bar dataKey="Other" stackId={0} fill={lightGrey} />
+          {/* <Bar dataKey="Insufficient data" stackId={0} fill={`url(#pattern-dots-Insufficient)`} /> */}
           <Bar dataKey="Insufficient data" stackId={0} fill={getGenotypeColor('Other')} />
         </BarChart>
       </ResponsiveContainer>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentData, distributionGraphView, topXGenotype, currentSliderValue, currentColorPallete]);
+  }, [
+    currentData,
+    distributionGraphView,
+    topXGenotype,
+    currentSliderValue,
+    currentColorPallete,
+    colourPattern,
+    computedTopXGenotype,
+    logScale,
+    yAxisSliderValue,
+    maxDataValue,
+  ]);
 
   // console.log(currentTooltip);
 
@@ -382,6 +576,25 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         <div className={classes.rightSide}>
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
           <SliderSizes value={'GD'} style={{ width: '100%' }} label={sliderLabel} />
+          <FormGroup className={classes.formGroup}>
+            <FormControlLabel
+              label={<Typography variant="caption">Change the y-axis scale</Typography>}
+              control={<Switch checked={logScale} onChange={handleSwitchScale} />}
+            />
+          </FormGroup>
+          {logScale ? (
+            <>
+              <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+              <Slider
+                value={yAxisSliderValue}
+                onChange={handleSliderChangeDataView}
+                step={1}
+                min={0}
+                max={distributionGraphView === 'number' ? maxDataValue : 100}
+                valueLabelDisplay="auto"
+              />
+            </>
+          ) : null}
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
@@ -400,12 +613,29 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                     {currentTooltip.genotypes.map((item, index) => {
                       return (
                         <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                          <Box
-                            className={classes.tooltipItemBox}
-                            style={{
-                              backgroundColor: item.color,
-                            }}
-                          />
+                          {colourPattern ? (
+                            <svg width="16" height="16" style={{ marginRight: 6, flexShrink: 0 }}>
+                              <rect
+                                x="0"
+                                y="0"
+                                width="16"
+                                height="16"
+                                fill={
+                                  item.label === 'Other' ? item.color : GenotypePatternRect(item.label, topXGenotype)
+                                }
+                                stroke="#ccc"
+                                strokeWidth="0.5"
+                              />
+                            </svg>
+                          ) : (
+                            <Box
+                              className={classes.tooltipItemBox}
+                              style={{
+                                backgroundColor: item.color,
+                              }}
+                            />
+                          )}
+
                           <div className={classes.tooltipItemStats}>
                             <Typography variant="body2" fontWeight="500">
                               {item.label}

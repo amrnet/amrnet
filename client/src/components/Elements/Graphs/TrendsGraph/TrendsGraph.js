@@ -476,7 +476,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                   const colorObj = colorForDrugClassesNG[trendsGraphDrugClass]?.find(x => x.name === option);
                   if (colorObj) fillColor = colorObj.color;
                 } else if (organism === 'kpneumo') {
-                  fillColor = colorForMarkers[index];
+                  fillColor = colorForMarkers(index);
                 }
 
                 return (
