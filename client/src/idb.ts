@@ -174,7 +174,7 @@ export const deleteItem = async (storeName: string, id: number): Promise<void> =
   }
 };
 
-export const bulkAddItems = async (storeName: string, items: Array<any>, clearStore: boolean = true) => {
+export const bulkAddItems = async (storeName: string, items: any, clearStore: boolean = true) => {
   if (!isValidStore(storeName)) {
     console.warn(`Invalid object store name: ${storeName}`);
     return;
@@ -189,11 +189,47 @@ export const bulkAddItems = async (storeName: string, items: Array<any>, clearSt
       await store.clear();
     }
 
-    for (const item of items) {
-      await store.put(item);
+    // Defensive handling: allow passing the whole paginated payload
+    // e.g., { data: [...], pagination: {...} }
+    if (items == null) {
+      await tx.done;
+      return;
+    }
+
+    // If caller passed a sentinel string (e.g. '__PROCESSED_FROM_IDB__'), ignore
+    if (typeof items === 'string') {
+      await tx.done;
+      return;
+    }
+
+    // If an object with .data array was provided, use that array
+    if (!Array.isArray(items) && typeof items === 'object' && items.data && Array.isArray(items.data)) {
+      // eslint-disable-next-line no-param-reassign
+      items = items.data;
+    }
+
+    // If a single object was passed, wrap it to store as one record
+    if (!Array.isArray(items)) {
+      items = [items];
+    }
+
+    let successCount = 0;
+    let failureCount = 0;
+
+    for (const originalItem of items) {
+      try {
+        // Shallow clone to avoid IDB auto-generated key conflicts and non-serializable props
+        const item = Object.assign({}, originalItem);
+        await store.put(item);
+        successCount += 1;
+      } catch (err) {
+        failureCount += 1;
+        console.warn(`Failed to put item into ${storeName}:`, err);
+      }
     }
 
     await tx.done;
+    console.info(`bulkAddItems summary for store ${storeName}: attempted=${successCount + failureCount}, success=${successCount}, failure=${failureCount}`);
   } catch (error) {
     console.error(`Error bulk adding items to ${storeName}:`, error);
   }

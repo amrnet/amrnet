@@ -125,7 +125,7 @@ const dbAndCollectionNames = {
   ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
   decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
   shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
-  senterica: { dbName: 'senterica', collectionName: 'merge_rawdata_se' },
+  senterica: { dbName: 'senterica', collectionName: 'senterica-hc2850' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
   unr: { dbName: 'unr', collectionName: 'unr' },
 };
@@ -455,42 +455,60 @@ router.get('/getDataForShige', async function (req, res, next) {
 router.get('/getDataForSenterica', async function (req, res, next) {
   const dbAndCollection = dbAndCollectionNames['senterica'];
   try {
-    const pipeline = [
-      // { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
-      { $match: { 'dashboard view': 'Include' } }, // Using exact match for performance
-      {
-        $project: {
-          GENOTYPE: {
-            $cond: {
-              if: { $ne: ['$MLST_Achtman', null] },
-              then: '$MLST_Achtman',
-              else: 'Unknown',
-            },
+    // Pagination params (use same pattern as Ecoli)
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 5000;
+    const skip = (page - 1) * limit;
+
+    // Query: include only dashboard-visible documents
+    const query = { 'dashboard view': { $regex: /^include$/i } };
+
+    // Get total count for pagination metadata
+    const client = await connectDB();
+    const totalDocuments = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .countDocuments(query);
+
+    // Use aggregation for projection so we can compute GENOTYPE similarly to previous implementation
+    const projectStage = {
+      $project: {
+        GENOTYPE: {
+          $cond: {
+            if: { $ne: ['$MLST_Achtman', null] },
+            then: '$MLST_Achtman',
+            else: 'Unknown',
           },
-
-          AMINOGLYCOSIDE: 1,
-          'BETA-LACTAM': 1,
-          SULFONAMIDE: 1,
-          TETRACYCLINE: 1,
-          NAME: 1,
-          DATE: 1,
-          COUNTRY_ONLY: 1,
-          'SISTR1 Serovar': 1,
-          // "dashboard view": 0,
-          QUINOLONE: 1,
-          TRIMETHOPRIM: 1,
-          PHENICOL: 1,
-          MACROLIDE: 1,
-          COLISTIN: 1,
         },
+
+        AMINOGLYCOSIDE: 1,
+        'BETA-LACTAM': 1,
+        SULFONAMIDE: 1,
+        TETRACYCLINE: 1,
+        NAME: 1,
+        DATE: 1,
+        COUNTRY_ONLY: 1,
+        'SISTR1 Serovar': 1,
+        QUINOLONE: 1,
+        TRIMETHOPRIM: 1,
+        PHENICOL: 1,
+        MACROLIDE: 1,
+        COLISTIN: 1,
       },
-    ];
+    };
 
-    const result = await getAggregatedDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, pipeline);
+    const pipeline = [{ $match: query }, projectStage, { $skip: skip }, { $limit: limit }];
 
-    console.log(`Found ${result.length} documents for Senterica.`);
-    if (result.length > 0) {
-      return res.json(result);
+    const results = await client
+      .db(dbAndCollection.dbName)
+      .collection(dbAndCollection.collectionName)
+      .aggregate(pipeline)
+      .toArray();
+
+    console.log(`Found ${totalDocuments} documents for Senterica (paged). Returning ${results.length} rows.`);
+
+    if (results.length > 0) {
+      return res.json({ data: results, pagination: { page, limit, totalDocuments, totalPages: Math.ceil(totalDocuments / limit) } });
     }
 
     return readCsvFallback(Tools.path_clean_se, res);

@@ -39,7 +39,7 @@ router.post('/download', async function (req, res, next) {
     collection = client.db('sentericaints').collection('merge_rawdata_sients');
     localFilePath = Tools.path_clean_all_sh;
   } else {
-    collection = client.db('senterica').collection('merge_rawdata_se');
+    collection = client.db('senterica').collection('senterica-hc2850');
     localFilePath = Tools.path_clean_all_se;
   }
   let data;

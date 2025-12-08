@@ -39,7 +39,7 @@ const dbAndCollectionNames = {
   ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
   decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
   shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
-  senterica: { dbName: 'senterica', collectionName: 'merge_rawdata_se' },
+  senterica: { dbName: 'senterica', collectionName: 'senterica-hc2850' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
 };
 
