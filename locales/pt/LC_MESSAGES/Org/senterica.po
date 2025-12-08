@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../Org/senterica.rst:2
+msgid "*Salmonella* (non-typhoidal)"
+msgstr ""
+
+#: ../../Org/senterica.rst:7
+msgid ""
+"Nontyphoidal *Salmonella* data in AMRnet are drawn from `Enterobase "
+"<https://enterobase.warwick.ac.uk/>`_, which calls AMR genotypes using "
+"NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens"
+"/antimicrobial-resistance/AMRFinder/>`_, assigns lineages using MLST, "
+"`cgMLST <https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical "
+"clustering <https://doi.org/10.1093/bioinformatics/btab234>`_, and "
+"assigns serotypes using `SISTR "
+"<https://doi.org/10.1371/journal.pone.0147101>`_. The *Salmonella* (non-"
+"typhoidal) dashboard includes all genomes classified as *S. enterica* "
+"subsp. *enterica* (based on hierarchical clustering level 2850, `HC2850=2"
+" <https://doi.org/10.1098/rstb.2021.0240>`_), and excluding all genomes "
+"with predicted serotype Typhi or Paratyphi A/B/C. Last update: 5 August "
+"2025."
+msgstr ""
+
+#: ../../Org/senterica.rst:9
+msgid ""
+"For information about *Salmonella* Typhi, please see the Typhi dashboard."
+" Inclusion of Paratyphi A is planned for 2026."
+msgstr ""
+
+#: ../../Org/senterica.rst:12
+msgid ""
+"The non-typhoidal *Salmonella* data used in AMRnet are not yet curated "
+"for purpose-of-sampling, and therefore reflect the biases of global "
+"sequencing efforts which may be skewed towards sequencing AMR strains "
+"and/or outbreaks. Data curation efforts are ongoing however until then, "
+"please be careful when interpreting the data in the dashboard."
+msgstr ""
+
+#: ../../Org/senterica.rst:16
+msgid "Variable definitions"
+msgstr ""
+
+#: ../../Org/senterica.rst:21
+msgid "**Lineages** -  Lineages are labeled by 7-locus sequence type (ST)."
+msgstr ""
+
+#: ../../Org/senterica.rst:22
+msgid ""
+"**AMR determinants:** - `Enterobase <https://enterobase.warwick.ac.uk/>`_"
+" identifies AMR determinants using NCBI’s `AMRFinderPlus "
+"<https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-"
+"resistance/AMRFinder/>`_ AMRnet imports these AMR genotype calls, and "
+"assigns them to drugs/classes in the dashboard using the Subclass curated"
+" in refgenes, see :ref:`the table <amr-definition-table>`."
+msgstr ""
+

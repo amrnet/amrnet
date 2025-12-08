@@ -12,7 +12,7 @@ Variable definitions
 .. container:: justify-text
 
    - **Genotypes**: GenoTyphi scheme, see `Dyson & Holt, 2021 <https://doi.org/10.1093/infdis/jiab414>`_.
-   - **AMR determinants** are described in the `Typhi Pathogenwatch paper <https://doi.org/10.1038/s41467-021-23091-2>`_, .
+   - **AMR determinants** and technical details of how they are called are described in the Typhi Pathogenwatch `paper <https://doi.org/10.1038/s41467-021-23091-2>`_ and `documentation <https://gitlab.com/cgps/pathogenwatch/amr-libraries/-/blob/master/90370.toml>`_.
    - **Travel-associated cases** are attributed to the country of travel, not the country of isolation, see `Ingle et al, 2019 <https://doi.org/10.1371/journal.pntd.0007620>`_.
 
 Abbreviations

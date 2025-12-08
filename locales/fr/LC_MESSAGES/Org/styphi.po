@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../Org/styphi.rst:2
+msgid "*Salmonella* Typhi"
+msgstr ""
+
+#: ../../Org/styphi.rst:5
+msgid ""
+"*Salmonella* Typhi data in AMRnet are drawn from `Pathogenwatch "
+"<http://Pathogen.watch>`__, which calls AMR determinants and `GenoTyphi "
+"<https://doi.org/10.1093/infdis/jiab414>`_ genotypes from genome "
+"assemblies. The *Salmonella* Typhi data in Pathogenwatch are curated by "
+"the `Global Typhoid Genomics Consortium "
+"<https://www.typhoidgenomics.org>`_, as described `here "
+"<https://doi.org/10.7554/eLife.85867>`_."
+msgstr ""
+
+#: ../../Org/styphi.rst:7
+msgid ""
+"The prevalence estimates shown are calculated using genome collections "
+"derived from non-targeted sampling frames (i.e. surveillance and burden "
+"studies, as opposed to AMR focused studies or outbreak investigations) "
+"with known year of isolation and country of origin. Last update: 5 August"
+" 2025."
+msgstr ""
+
+#: ../../Org/styphi.rst:10
+msgid "Variable definitions"
+msgstr ""
+
+#: ../../Org/styphi.rst:14
+msgid ""
+"**Genotypes**: GenoTyphi scheme, see `Dyson & Holt, 2021 "
+"<https://doi.org/10.1093/infdis/jiab414>`_."
+msgstr ""
+
+#: ../../Org/styphi.rst:15
+msgid ""
+"**AMR determinants** are described in the `Typhi Pathogenwatch paper "
+"<https://doi.org/10.1038/s41467-021-23091-2>`_, ."
+msgstr ""
+
+#: ../../Org/styphi.rst:16
+msgid ""
+"**Travel-associated cases** are attributed to the country of travel, not "
+"the country of isolation, see `Ingle et al, 2019 "
+"<https://doi.org/10.1371/journal.pntd.0007620>`_."
+msgstr ""
+
+#: ../../Org/styphi.rst:19
+msgid "Abbreviations"
+msgstr ""
+
+#: ../../Org/styphi.rst:23
+msgid ""
+"**MDR**: multidrug resistant (resistant to ampicillin, chloramphenicol, "
+"and trimethoprim-sulfamethoxazole)"
+msgstr ""
+
+#: ../../Org/styphi.rst:24
+msgid ""
+"**XDR**: extensively drug resistant (MDR plus resistant to ciprofloxacin "
+"and ceftriaxone)"
+msgstr ""
+
+#: ../../Org/styphi.rst:25
+msgid ""
+"**Ciprofloxacin NS**: ciprofloxacin non-susceptible (MIC >=0.06 mg/L, due"
+" to presence of one or more *qnr* genes or mutations in *gyrA/parC/gyrB*)"
+msgstr ""
+
+#: ../../Org/styphi.rst:26
+msgid ""
+"**Ciprofloxacin R**: ciprofloxacin resistant (MIC >=0.5 mg/L, due to "
+"presence of multiple mutations and/or genes)"
+msgstr ""
+
+#: ../../Org/styphi.rst:30
+msgid "Related tools"
+msgstr ""
+
+#: ../../Org/styphi.rst:32
+msgid ""
+"The AMRnet project is based on the TyphiNET dashboard, available at "
+"`https://www.typhi.net/ <https://www.typhi.net/>`_ and described in the "
+"paper: `Dyson et al, Genome Medicine 2025 "
+"<https://doi.org/10.1186/s13073-025-01470-4>`_. The TyphiNET dashboard "
+"includes some different visualisations to AMRnet, and is maintained in "
+"the form described in the TyphiNET paper, in parallel to AMRnet and "
+"populated with the same underlying data as curated by the GTGC. Notably, "
+"`TyphiNET <https://www.typhi.net/>`_ has the additional feature of "
+"plotting combinations of AMR markers (for a single drug/class), per "
+"genotype."
+msgstr ""
+
