@@ -23,6 +23,7 @@ export const getColorForDrug = drug => {
 
     // case 'Co-trimoxazole':
     case 'Trimethoprim-sulfamethoxazole':
+    case 'Trimethoprim-Sulfamethoxazole':
     case '3rd gen cephalosporins (3GCs) + β-lactamase inhibitors':
       return 'rgb(252,180,105)';
 
@@ -43,6 +44,7 @@ export const getColorForDrug = drug => {
 
     // case 'Fluoroquinolones (CipNS)':
     case 'Ciprofloxacin (non-susceptible)':
+    case 'Ciprofloxacin':
     case 'Ciprofloxacin NS':
     case 'Ciprofloxacin S':
       return '#f56207ff';
@@ -53,7 +55,7 @@ export const getColorForDrug = drug => {
     // case 'Fluoroquinolones (CipR)':
     case 'Ciprofloxacin R':
     case 'Ciprofloxacin (resistant)':
-    case 'Ciprofloxacin':
+      // case 'Ciprofloxacin':
       return '#9e9ac8';
 
     case 'Fluoroquinolones':

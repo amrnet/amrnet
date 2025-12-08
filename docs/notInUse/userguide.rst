@@ -1,6 +1,5 @@
-
-User Guide
-==========
+.. AMRnet
+.. ======
 
 .. .. container:: justify-text
 
