@@ -11,6 +11,9 @@ import {
   Select,
   Tooltip,
   Typography,
+  FormGroup,
+  FormControlLabel,
+  Switch
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -71,6 +74,15 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
+  const [lineStyle, setLineStyle] = useState('');
+
+  const getLineStyleForDrug = (drugName) => {
+      
+    const lineStyles = ["Normal", "Thick"];
+
+    const drugIndex = getDrugsForLegends().indexOf(drugName);
+    return drugIndex !== -1 ? lineStyles[drugIndex % lineStyles.length] : lineStyles[0];
+  };
 
   const dispatch = useAppDispatch();
   const drugResistanceGraphView = useAppSelector(state => state.graph.drugResistanceGraphView);
@@ -80,6 +92,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
   const organism = useAppSelector(state => state.dashboard.organism);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
+  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -290,7 +303,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         dispatch(setDrugResistanceGraphView(availableDrugs));
       }
     }
-  }, [organism, drugsYearData.length, drugResistanceGraphView.length, dispatch]);
+  }, [organism, drugsYearData]); // fixed the bug for kpneumo, ecoli and decoli, AMR trend drugs were showing all the drugs selected and not allowing to deselect and select to users.
   useEffect(() => {
     if (canGetData) {
       const doc = document.getElementById('DRT');
@@ -392,8 +405,22 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                             dataKeyElement = ciproAcronyms[dataKey] || dataKey;
                           }
                           return (
-                            <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
-                              <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                            <div
+                              key={`drug-resistance-legend-${index}`}
+                              className={classes.legendItemWrapper}
+                            >
+                              {!colourPattern ? <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                                :<svg width={16} height={16}>
+                                  <circle
+                                    cx="8"
+                                    cy="8"
+                                    r="2"
+                                    fill="none"
+                                    stroke={color}
+                                    strokeWidth={index%2 == 0 ? 5 : 7}
+                                    // strokeDasharray={getLineStyleForDrug(dataKey)}
+                                  />
+                                </svg>}
                               <Typography variant="caption">{dataKeyElement}</Typography>
                             </div>
                           );
@@ -403,7 +430,6 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                   }}
                 />
               )}
-
               <ChartTooltip
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active, label }) => {
@@ -414,17 +440,24 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                 }}
               />
 
-              {getDrugsForLegends().map((option, index) => (
+            {getDrugsForLegends().map((option, index) => {
+              const color = getColorForDrug(option, colourPattern);
+              const lineStyle = getLineStyleForDrug(option);
+              return (
                 <Line
                   key={`drug-resistance-bar-${index}`}
                   dataKey={option}
-                  strokeWidth={2}
-                  stroke={getColorForDrug(option)}
+                  // strokeWidth={2}
+                  stroke={color}
+                  strokeWidth={!colourPattern ? 2 : index%2 == 0 ? 2 : 3}
+                  // strokeDasharray={"solid"}
+                  strokeDasharray={!colourPattern ? "solid" : lineStyle}
                   connectNulls
                   type="monotone"
-                  activeDot={timeInitial === timeFinal ? true : false}
+                  activeDot={timeInitial === timeFinal}
                 />
-              ))}
+              );
+            })}
             </LineChart>
           </ResponsiveContainer>
         );
@@ -448,7 +481,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [drugsYearData, drugResistanceGraphView]);
+  }, [drugsYearData, drugResistanceGraphView, colourPattern, lineStyle]);
 
   return (
     <CardContent className={classes.drugResistanceGraph}>
@@ -471,47 +504,40 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.insufficientData}>Insufficient data</div>
               ) : (
                 <div className={classes.tooltipContent}>
-                  {currentTooltip.drugs.map((item, index) => {
-                    let itemLabel;
-                    if (item.label === 'XDR') {
-                      itemLabel = (
-                        <Tooltip title={getXDRDefinition()} placement="top">
-                          <span>XDR</span>
-                        </Tooltip>
-                      );
-                    } else if (item.label === 'MDR') {
-                      itemLabel = (
-                        <Tooltip title={getMDRDefinition()} placement="top">
-                          <span>MDR</span>
-                        </Tooltip>
-                      );
-                    } else if (item.label === 'Pansusceptible' && organism === 'ngono') {
-                      itemLabel = (
-                        <Tooltip title={getSusceptibleDefinition()} placement="top">
-                          <span>Susceptible to cat I/II drugs</span>
-                        </Tooltip>
-                      );
-                    } else {
-                      itemLabel = item.label;
-                    }
-                    return (
-                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                        <Box
+                {currentTooltip.drugs.map((item, index) => {
+                  const drugKey =
+                    Object.keys(ciproAcronyms).find(key => ciproAcronyms[key] === item.label) || item.label;
+
+                  const color = getColorForDrug(drugKey, colourPattern);
+                  const lineStyle = getLineStyleForDrug(drugKey);
+
+                  return (
+                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                      {colourPattern && lineStyle !== "Normal" ? (
+                        <div
                           className={classes.tooltipItemBox}
                           style={{
-                            backgroundColor: item.fill,
+                            backgroundColor: color,
                           }}
                         />
-                        <div className={classes.tooltipItemStats}>
-                          <Typography variant="body2" fontWeight="500">
-                            {itemLabel}
-                          </Typography>
-                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
-                        </div>
+                      ) : (
+                        <div
+                          className={classes.tooltipItemBoxSmall}
+                          style={{
+                            backgroundColor: color,
+                          }}
+                        />
+                      )}
+                      <div className={classes.tooltipItemStats}>
+                        <Typography variant="body2" fontWeight="500">
+                          {item.label}
+                        </Typography>
+                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                        <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
                       </div>
-                    );
-                  })}
+                    </div>
+                  );
+                })}
                 </div>
               )}
             </div>

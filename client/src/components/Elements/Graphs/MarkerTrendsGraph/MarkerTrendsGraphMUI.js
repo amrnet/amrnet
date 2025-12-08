@@ -146,6 +146,12 @@ const useStyles = makeStyles(theme => ({
     border: 'solid rgb(0, 0, 0, 0.75) 0.5px',
     flex: 'none',
   },
+  tooltipItemBoxSmall: {
+    height: '12px',
+    width: '12px',
+    border: 'solid rgb(0, 0, 0, 0.75) 0.5px',
+    flex: 'none',
+  },
   tooltipItemStats: {
     display: 'flex',
     flexDirection: 'column',
