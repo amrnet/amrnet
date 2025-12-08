@@ -1,154 +1,93 @@
 // Helper for colors
 import chroma from 'chroma-js';
-// Color for Salmonella genotypes
-export const getColorForGenotype = genotype => {
-  switch (genotype) {
-    case '0':
-    case '0.0.1':
-    case '0.0.2':
-    case '0.0.3':
-    case '0.1.0':
-    case '0.1':
-    case '0.1.1':
-    case '0.1.2':
-    case '0.1.3':
-      return '#808080';
-    case '1.1':
-    case '1.1.1':
-    case '1.1.2':
-    case '1.1.3':
-    case '1.1.4':
-      return '#ffff00';
-    case '1.2':
-    case '1.2.1':
-      return '#ffd700';
-    case '2':
-    case '2.0.0':
-    case '2.0.1':
-    case '2.0.2':
-      return '#32cd32';
-    case '2.1.0':
-    case '2.1':
-    case '2.1.1':
-    case '2.1.2':
-    case '2.1.3':
-    case '2.1.4':
-    case '2.1.5':
-    case '2.1.6':
-    case '2.1.7':
-    case '2.1.8':
-    case '2.1.9':
-    case '2.1.7.1':
-    case '2.1.7.2':
-      return '#adff2f';
-    case '2.2':
-    case '2.2.0':
-    case '2.2.1':
-    case '2.2.2':
-    case '2.2.3':
-    case '2.2.4':
-      return '#98fb98';
-    case '2.3':
-    case '2.3.1':
-    case '2.3.2':
-    case '2.3.3':
-    case '2.3.4':
-    case '2.3.5':
-      return '#6b8e23';
-    case '2.4.0':
-    case '2.4':
-    case '2.4.1':
-      return '#2e8b57';
-    case '2.5.0':
-    case '2.5':
-    case '2.5.1':
-    case '2.5.2':
-      return '#006400';
-    case '3.0.0':
-    case '3':
-    case '3.0.1':
-    case '3.0.2':
-      return '#0000cd';
-    case '3.1.0':
-    case '3.1':
-    case '3.1.1':
-    case '3.1.2':
-      return '#4682b4';
-    case '3.2.1':
-    case '3.2':
-    case '3.2.2':
-      return '#00bfff';
-    case '3.3.0':
-    case '3.3':
-    case '3.3.1':
-    case '3.3.2':
-    case '3.3.2.Bd1':
-    case '3.3.2.Bd2':
-      return '#1e90ff';
-    case '3.4':
-      return '#6a5acd';
-    case '3.5':
-    case '3.5.1':
-    case '3.5.2':
-    case '3.5.3':
-    case '3.5.4':
-    case '3.5.4.1':
-    case '3.5.4.2':
-    case '3.5.4.3':
-      return '#4b0082';
-    case '4':
-    case '4.1.0':
-    case '4.1':
-    case '4.1.1':
-      return '#8b0000';
-    case '4.2':
-    case '4.2.1':
-    case '4.2.2':
-    case '4.2.3':
-      return '#ff6347';
-    // case '4.3':
-    // case '4.3.0':
-    case '4.3.1':
-      return '#ff0000';
-    case '4.3.1.1':
-    case '4.3.1.1.EA1':
-      return '#f1b6da';
-    case '4.3.1.1.P1':
-      return 'black';
-    case '4.3.1.2':
-    case '4.3.1.2.EA2':
-    case '4.3.1.2.EA3':
-    case '4.3.1.2.1':
-    case '4.3.1.2.1.1':
-      return '#c51b7d';
-    case '4.3.1.3':
-    case '4.3.1.3.Bdq':
-      return '#fb8072';
-    default:
-      return '#F5F4F6';
-  }
-};
+
+// Color for Salmonella genotypes Dynamic and colorblind safe
 
 // Generate color pallete for Klebsiella genotypes
 const iwanthue = require('iwanthue');
-export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable) => {
-  if (!Array.isArray(genotypes) || genotypes.length === 0) {
+
+// Dynamic colour palette for normal vision
+const light = iwanthue(20, {
+  clustering: 'force-vector',
+  quality: 1500,
+  seed: 'my-project-2024',
+  colorSpace: {
+    hmin: 0,
+    hmax: 360,
+    cmin: 10,
+    cmax: 130,
+    lmin: 50,
+    lmax: 80,
+  },
+});
+const dark = iwanthue(10, {
+  clustering: 'force-vector',
+  quality: 1500,
+  seed: 'my-project-2024',
+  colorSpace: {
+    hmin: 0,
+    hmax: 360,
+    cmin: 70,
+    cmax: 130,
+    lmin: 10,
+    lmax: 80,
+  },
+});
+const colorPalette = [...light, ...dark];
+
+// Fixed color palette for colorblind users
+export const colorForMarkersCVD = [
+  '#5ac980',
+  '#c365c6',
+  '#8fb63e',
+  '#746dd8',
+  '#d1972c',
+  '#5081db',
+  '#aea43f',
+  '#4d3687',
+  '#80bd61',
+  '#8c307d',
+  '#4fbe91',
+  '#ca427f',
+  '#36d0c3',
+  '#cf583b',
+  '#1fe1fb',
+  '#d5574f',
+  '#428040',
+  '#b884d4',
+  '#597421',
+  '#db79b7',
+  '#d79949',
+  '#6789cf',
+  '#b96422',
+  '#892c5a',
+  '#b69d56',
+  '#bf7848',
+  '#93273d',
+  '#de6b87',
+  '#d35760',
+  '#853017',
+];
+
+export const colorForMarkers = (index, colourPattern = false) => {
+  return colourPattern
+    ? colorForMarkersCVD[index % colorForMarkersCVD.length]
+    : colorPalette[index % colorPalette.length];
+};
+
+export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable, colourPatternSet = false) => {
+  // Guard against non-array or undefined input
+  if (!genotypes || !Array.isArray(genotypes) || genotypes.length === 0) {
     return {};
   }
-  // Handle small counts without calling iwanthue (which requires > 1)
-  if (genotypes.length === 1) {
-    const only = genotypes[0];
-    const colorScale = chroma.scale(['#e31a1c', '#f76b40', '#f9a65a', '#72b7e0', '#2171b5']).mode('lab');
-    return { [only]: colorScale(0.5).hex() };
+
+  // Prevent infinite loops by limiting array size
+  if (genotypes.length > 10000) {
+    console.warn('generatePalleteForGenotypes: genotypes array is very large, limiting to 10000');
+    genotypes = genotypes.slice(0, 10000);
   }
 
-  const colors = iwanthue(genotypes.length, {
-    clustering: 'force-vector',
-    seed: 'all',
-    quality: 100,
-  });
-
-  // Generate pallete for convergence Year dropdown
+  // Generate palette for convergence Year dropdown
   const colorScale = chroma.scale(['#e31a1c', '#f76b40', '#f9a65a', '#72b7e0', '#2171b5']).mode('lab');
   const pallete = {};
   if (convergenceGroupVariable === 'DATE') {
@@ -158,10 +97,9 @@ export const generatePalleteForGenotypes = (genotypes, convergenceGroupVariable)
     });
   } else {
     genotypes.forEach((x, i) => {
-      pallete[x] = `${colors[i]}`;
+      pallete[x] = colourPatternSet ? colorForMarkersCVD[i] : colorForMarkers(i);
     });
   }
-
   return pallete;
 };
 
@@ -528,87 +466,7 @@ export const colorForDrugClassesKP = {
     { name: 'None', color: '#B9B9B9' },
   ],
 };
-
-export const colorForMarkers = [
-  '#543005',
-  '#8c510a',
-  '#f8961e',
-  '#f9844a',
-  '#f9c74f',
-  '#90be6d',
-  '#43aa8b',
-  '#4d908e',
-  '#577590',
-  '#277da1',
-  '#582f0e',
-  '#7f4f24',
-  '#936639',
-  '#a68a64',
-  '#b6ad90',
-  '#a4ac86',
-  '#656d4a',
-  '#414833',
-  '#333d29',
-  '#661d72',
-  '#dfe4dc',
-  '#a2d99d',
-  '#39924b',
-  '#227e3b',
-  '#054e20',
-  '#D1E5F0',
-  '#FDDBC7',
-  '#E7D4E8',
-  '#F6E8C3',
-  '#D9F0D3',
-  '#FDE0EF',
-  '#92C5DE',
-  '#DFC27D',
-  '#FFB6C1',
-  '#F1B6DA',
-  '#A6DBA0',
-  '#80CDC1',
-  '#00FFFF',
-  '#ADDD8E',
-  '#C2A5CF',
-  '#F4A582',
-  '#6BAED6',
-  '#21BCF9',
-  '#00FA99',
-  '#FEB24C',
-  '#FFD500',
-  '#BC8F8F',
-  '#9ACD32',
-  '#FFA300',
-  '#FD8D3C',
-  '#5AAE61',
-  '#DE77AE',
-  '#6495ED',
-  '#41AB5D',
-  '#35978F',
-  '#BF812D',
-  '#0088AF',
-  '#9970AB',
-  '#D6604D',
-  '#9270DB',
-  '#FC4E2A',
-  '#556B2F',
-  '#E31A1C',
-  '#2166AC',
-  '#1B7837',
-  '#C51B7D',
-  '#01665E',
-  '#88419D',
-  '#B2182B',
-  '#08519C',
-  '#8E0152',
-  '#810F7C',
-  '#00441B',
-  '#0000CD',
-  '#08306B',
-  '#67001F',
-  '#4A0082',
-  '#40004B',
-];
+// Replaced with colorForMarkersCVD
 
 // Color variables
 export const lightGrey = '#D3D3D3';

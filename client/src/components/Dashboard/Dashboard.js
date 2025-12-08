@@ -18,10 +18,6 @@ import {
   setActualTimeInitial,
   setAvailableDrugs,
   setCanFilterData,
-  setColorPallete,
-  setColorPalleteCgST,
-  setColorPalleteKO,
-  setColorPalleteSublineages,
   setEconomicRegions,
   setGenotypesForFilter,
   setGenotypesForFilterDynamic,
@@ -100,7 +96,6 @@ import {
   setMapView,
   setPosition,
 } from '../../stores/slices/mapSlice.ts';
-import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import {
   defaultDrugsForDrugResistanceGraphNG,
   defaultDrugsForDrugResistanceGraphST,
@@ -119,6 +114,7 @@ import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
 import GenotypeLoadingIndicator from '../Elements/GenotypeLoadingIndicator';
 import { Graphs } from '../Elements/Graphs';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
+import { SwitchColour } from '../Elements/SwitchColour';
 import {
   filterBrushData,
   filterData,
@@ -528,21 +524,16 @@ export const DashboardPage = () => {
           // if (organism === 'senterica') {
           //   paletteSource = uniqueGenotypes;
           // }
-
-          dispatch(setColorPallete(generatePalleteForGenotypes(safeUniqueGenotypes)));
+          // dispatch(setColorPallete(generatePalleteForGenotypes(uniqueGenotypes)));
 
           if (organism === 'kpneumo') {
-            dispatch(setCgSTYearData(Array.isArray(cgSTData) ? cgSTData : []));
-            dispatch(setSublineagesYearData(Array.isArray(sublineageData) ? sublineageData : []));
-            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(Array.isArray(uniqueCgST) ? uniqueCgST : [])));
-            dispatch(
-              setColorPalleteSublineages(
-                generatePalleteForGenotypes(Array.isArray(uniqueSublineages) ? uniqueSublineages : []),
-              ),
-            );
+            dispatch(setCgSTYearData(cgSTData));
+            dispatch(setSublineagesYearData(sublineageData));
+            // dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueCgST)));
+            // dispatch(setColorPalleteSublineages(generatePalleteForGenotypes(uniqueSublineages)));
           } else if (organism === 'ngono') {
             dispatch(setCgSTYearData(NGMASTData));
-            dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueNGMAST)));
+            // dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueNGMAST)));
           }
         },
       ),
@@ -554,12 +545,12 @@ export const DashboardPage = () => {
           }).then(([KOYearsData, uniqueKO]) => {
             dispatch(setKOYearsData(KOYearsData));
             dispatch(setKOForFilterDynamic(uniqueKO));
-            const colorPalleteKO = {
-              O_locus: generatePalleteForGenotypes(uniqueKO['O_locus']),
-              K_locus: generatePalleteForGenotypes(uniqueKO['K_locus']),
-              O_type: generatePalleteForGenotypes(uniqueKO['O_type']),
-            };
-            dispatch(setColorPalleteKO(colorPalleteKO));
+            // const colorPalleteKO = {
+            //   O_locus: generatePalleteForGenotypes(uniqueKO['O_locus']),
+            //   K_locus: generatePalleteForGenotypes(uniqueKO['K_locus']),
+            //   O_type: generatePalleteForGenotypes(uniqueKO['O_type']),
+            // };
+            // dispatch(setColorPalleteKO(colorPalleteKO));
           })
         : Promise.resolve(),
 
@@ -616,11 +607,11 @@ export const DashboardPage = () => {
               data: dt.data,
             };
           }).then(convergenceData => {
-            dispatch(
-              setConvergenceColourPallete(
-                generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable), // Generate pallete for convergence Year dropdown
-              ),
-            );
+            // dispatch(
+            //   setConvergenceColourPallete(
+            //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern), // Generate pallete for convergence Year dropdown
+            //   ),
+            // );
             dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
             dispatch(setConvergenceData(convergenceData.data));
           })
@@ -912,8 +903,7 @@ export const DashboardPage = () => {
           dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphST));
         }
         dispatch(setDeterminantsGraphDrugClass('Ciprofloxacin'));
-        // Let auto-select in reducer pick trendsGraphDrugClass from cached data
-        // dispatch(setTrendsGraphDrugClass('Ciprofloxacin'));
+        dispatch(setTrendsGraphDrugClass('Ciprofloxacin'));
         dispatch(setBubbleMarkersYAxisType('Ciprofloxacin'));
         break;
       case 'kpneumo':
@@ -1350,13 +1340,15 @@ export const DashboardPage = () => {
         false,
       );
 
-      dispatch(
-        setConvergenceColourPallete(
-          generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable),
-        ),
-      );
-      dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
-      dispatch(setConvergenceData(convergenceData.data));
+      // dispatch(
+      //   setConvergenceColourPallete(
+      //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern),
+      //   ),
+      // );
+      if (convergenceData && convergenceData.colourVariables) {
+        dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
+        dispatch(setConvergenceData(convergenceData.data));
+      }
     } else {
       const filters = filterData({
         data: storeData,
@@ -1489,15 +1481,13 @@ export const DashboardPage = () => {
         dispatch(setKOForFilterDynamic(koData.uniqueKO));
         // dispatch(setKODiversityData(koDiversityData));
 
-        if (convergenceData && convergenceData.colourVariables) {
-          dispatch(
-            setConvergenceColourPallete(
-              generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable),
-            ),
-          );
-          dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
-          dispatch(setConvergenceData(convergenceData.data));
-        }
+        // dispatch(
+        //   setConvergenceColourPallete(
+        //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern),
+        //   ),
+        // );
+        dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
+        dispatch(setConvergenceData(convergenceData.data));
       } else if (organism === 'ngono') {
         dispatch(setCgSTYearData(yearsData.NGMASTData));
       }
@@ -1562,6 +1552,7 @@ export const DashboardPage = () => {
         {/* <Footer /> */}
         <ResetButton data={data} />
       </MainLayout>
+      <SwitchColour />
       <FloatingGlobalFilters />
       <GenotypeLoadingIndicator />
     </>

@@ -167,9 +167,9 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const filteredXAxisOptions = useMemo(() => {
     const filteredOptions = xAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
 
-    if (!organismHasLotsOfGenotypes) {
-      return filteredOptions;
-    }
+    // if (!organismHasLotsOfGenotypes) {
+    //   return filteredOptions;
+    // }
 
     return filteredOptions.slice(0, 20);
   }, [xAxisOptions, organismHasLotsOfGenotypes, genotypeSearch]);
@@ -591,7 +591,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                           {xAxisSelected.length === filteredXAxisOptions.length ||
                           xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
                             ? 'Clear All'
-                            : 'Select 20'}
+                            :'Select 20'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
@@ -609,7 +609,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                       >
                         <TextField
                           variant="standard"
-                          placeholder={organismHasLotsOfGenotypes ? 'Search for more...' : 'Search...'}
+                          placeholder={'Search for more...'}
                           fullWidth
                           value={genotypeSearch}
                           onChange={hangleChangeSearch}

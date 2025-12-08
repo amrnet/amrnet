@@ -247,6 +247,9 @@ export const DownloadData = () => {
   const colorPalleteCgST = useAppSelector(state => state.dashboard.colorPalleteCgST);
   const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
   const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
+  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const convergenceData = useAppSelector(state => state.graph.convergenceData);
+  const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -328,7 +331,7 @@ export const DownloadData = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return organism === 'styphi' ? getColorForGenotype(genotype) : currentColorPallete[genotype] || '#F5F4F6';
+    return currentColorPallete[genotype]  || colorPalleteKO[KOTrendsGraphPlotOption][genotype] || '#F5F4F6';
   }
   const currentColorPallete = useMemo(() => {
     const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
@@ -393,99 +396,228 @@ export const DownloadData = () => {
   //   document.text(`NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`, 160, 20, { align: 'center', maxWidth: pageWidth - 36  });
   //   document.setFontSize(12);
   // }
-
   function drawLegend({
-    id = null,
+    document, // jsPDF document instance
     legendData,
-    document,
     factor,
     rectY,
     isGenotype = false,
     isDrug = false,
     isVariable = false,
-    xSpace,
-    twoPages = false,
-    threePages = false,
     isGen = false,
-    factorMultiply = organism === 'ngono' ? 6 : 3,
+    xSpace,
+    topConvergenceData = [], // For convergence graph pattern sync
+    genotypesForFilterSelected = [], // For genotype pattern sync
+    KOForFilterSelected = [], // For KO pattern sync
+    factorMultiply = 3,
   }) {
-    let firstLegendData = legendData.slice();
-    let secondLegendData = [];
+    // --- shared pattern configuration ---
+    const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
+    const getPatternTypeForGenotype = (
+      legend,
+      topConvergenceData = [],
+      genotypesForFilterSelected = [],
+      KOForFilterSelected = []
+    ) => {
+      let patternIndex = 0;
 
-    let firstLegendFactor = factor;
-    let secondLegendFactor;
+      if (topConvergenceData?.length > 0) {
+        const idx = topConvergenceData.findIndex(
+          (item) => item.colorLabel === legend
+        );
+        if (idx !== -1) patternIndex = idx % patternTypes.length;
+      } else if (genotypesForFilterSelected?.length > 0) {
+        const idx = genotypesForFilterSelected.indexOf(legend);
+        if (idx !== -1) patternIndex = idx % patternTypes.length;
+      } else if (KOForFilterSelected?.length > 0) {
+        const idx = KOForFilterSelected.indexOf(legend);
+        if (idx !== -1) patternIndex = idx % patternTypes.length;
+      }
 
-    if (twoPages) {
-      firstLegendData = legendData.slice(0, 26 * factorMultiply);
-      secondLegendData = legendData.slice(26 * factorMultiply);
-      secondLegendFactor = factor - 26;
-      firstLegendFactor = 26;
-    }
-    if (threePages) {
-      firstLegendData = legendData.slice(0, 50 * factorMultiply);
-      secondLegendData = legendData.slice(50 * factorMultiply);
-      secondLegendFactor = factor - 50;
-      firstLegendFactor = 50;
-    }
+      return patternTypes[patternIndex];
+    };
 
-    firstLegendData.forEach((legend, i) => {
-      const yFactor = (i % firstLegendFactor) * 10;
-      const xFactor = Math.floor(i / firstLegendFactor) * xSpace;
+    // --- main legend drawing loop ---
+    legendData.forEach((legend, i) => {
+      const yFactor = (i % factor) * 10;
+      const xFactor = Math.floor(i / factor) * xSpace;
 
-      document.setFillColor(
-        isGenotype
-          ? getGenotypeColor(legend)
-          : isDrug
-            ? getColorForDrug(legend)
-            : isVariable
-              ? convergenceColourPallete[legend]
-              : isGen
-                ? i === firstLegendData.length - 1
-                  ? '#F5F4F6'
-                  : colorForMarkers[i]
-                : legend.color,
-      );
-      document.circle(50 + xFactor, rectY + 10 + yFactor, 2.5, 'F');
+      // Determine if we should use patterns (for genotypes OR variables)
+      const usePattern = colourPattern && (isGenotype || isVariable);
 
-      // if (id === 'RDT' && i < 2) {
-      //   if (i === 0) {
-      //     document.setFont(undefined, 'bold');
-      //   } else {
-      document.setFont(undefined, 'normal');
-      //   }
-      // }
-      document.text(
-        isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
-        56 + xFactor,
-        rectY + 12 + yFactor,
-      );
+      if (usePattern) {
+        // Determine pattern type
+        const patternType = getPatternTypeForGenotype(
+          legend,
+          topConvergenceData,
+          genotypesForFilterSelected,
+          KOForFilterSelected
+        );
+
+        // Determine base color
+        let baseColor;
+        if (isGenotype) {
+          if (legend === 'Other') {
+            baseColor = '#F5F4F6';
+          } else if (KOForFilterSelected && KOForFilterSelected.includes(legend)) {
+            const colorMap = colorPalleteKO[KOTrendsGraphPlotOption] || {};
+            baseColor = colorMap[legend] || getGenotypeColor(legend);
+          } else {
+            baseColor = getGenotypeColor(legend);
+          }
+        } else if (isVariable) {
+          baseColor = convergenceColourPallete[legend] || '#F5F4F6';
+        } else {
+          baseColor = '#F5F4F6';
+        }
+
+        // --- create high-res pattern canvas ---
+        const patternCanvas = window.document.createElement('canvas');
+        const patternCtx = patternCanvas.getContext('2d');
+        patternCtx.imageSmoothingEnabled = true;
+        patternCtx.imageSmoothingQuality = 'high';
+
+        const patternResolution = 64; // internal pixel size for clarity
+        const logicalSize = 8; // logical units (like SVG viewBox)
+        const scale = patternResolution / logicalSize;
+
+        patternCanvas.width = patternResolution;
+        patternCanvas.height = patternResolution;
+        patternCtx.scale(scale, scale);
+
+        // --- draw pattern background ---
+        patternCtx.fillStyle = baseColor;
+        patternCtx.fillRect(0, 0, logicalSize, logicalSize);
+
+        // --- draw pattern details (match SVG logic) ---
+        switch (patternType) {
+          case 'solid':
+            // already filled
+            break;
+
+          case 'stripes':
+            patternCtx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+            patternCtx.lineWidth = 0.5;
+            patternCtx.beginPath();
+            for (let j = -8; j < 16; j += 3) {
+              patternCtx.moveTo(j, 8);
+              patternCtx.lineTo(j + 8, 0);
+            }
+            patternCtx.stroke();
+            break;
+
+          case 'dots':
+            patternCanvas.width = 6;
+            patternCanvas.height = 6;
+
+            patternCtx.fillStyle = baseColor;
+            patternCtx.fillRect(0, 0, 6, 6);
+
+            patternCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+
+            // 2x2 grid of small dots
+            const dotRadius = 0.5;
+            for (let x = 1.5; x <= 4.5; x += 3) {
+              for (let y = 1.5; y <= 4.5; y += 3) {
+                patternCtx.beginPath();
+                patternCtx.arc(x, y, dotRadius, 0, 2 * Math.PI);
+                patternCtx.fill();
+              }
+            }
+
+            break;
+
+          case 'cross':
+            patternCtx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+            patternCtx.lineWidth = 0.5;
+            patternCtx.beginPath();
+            for (let j = -8; j < 16; j += 3) {
+              patternCtx.moveTo(j, 8);
+              patternCtx.lineTo(j + 8, 0);
+            }
+            for (let j = -8; j < 16; j += 3) {
+              patternCtx.moveTo(j, 0);
+              patternCtx.lineTo(j + 8, 8);
+            }
+            patternCtx.stroke();
+            break;
+        }
+
+        // --- render to PDF ---
+        const patternDataUrl = patternCanvas.toDataURL('image/png');
+        const rectX = 46 + xFactor;
+        const rectYPos = rectY + 26 + yFactor;
+
+        // // Draw the image as pattern box
+        // document.addImage(patternDataUrl, 'PNG', rectX, rectYPos, 16, 16, undefined, 'FAST');
+
+        // Add border
+        document.setDrawColor(204, 204, 204);
+        const boxSize = 8; // new smaller size
+
+        // Draw the image as pattern box
+        document.addImage(patternDataUrl, 'PNG', rectX, rectYPos, boxSize, boxSize, undefined, 'MEDIUM');
+
+        // Add border
+        document.setDrawColor(204, 204, 204);
+        document.setLineWidth(0.5);
+        document.rect(rectX, rectYPos, boxSize, boxSize);
+      } else {
+        // --- non-pattern (color only) legend items ---
+        let fillColor;
+
+        if (isGenotype) {
+          fillColor = legend === 'Other' ? '#F5F4F6' : getGenotypeColor(legend);
+        } else if (isDrug) {
+          fillColor = getColorForDrug(legend, colourPattern);
+        } else if (isVariable) {
+          fillColor = convergenceColourPallete[legend] || '#F5F4F6';
+        } else if (isGen) {
+          fillColor = i === legendData.length - 1 ? '#F5F4F6' : colorForMarkers(i, colourPattern);
+        } else {
+          fillColor = legend.color || '#F5F4F6';
+        }
+
+        // Convert hex to RGB
+        const hexToRgb = (hex) => {
+          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          return result
+            ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16),
+              }
+            : { r: 245, g: 244, b: 246 };
+        };
+
+        const rgb = hexToRgb(fillColor);
+        document.setFillColor(rgb.r, rgb.g, rgb.b);
+
+        const radius = !colourPattern ? 3 : i % 2 !== 0 ? 3.5 : 3;
+        const circleX = 52 + xFactor;
+        const circleY = rectY + 30 + yFactor;
+
+        document.circle(circleX, circleY, radius, 'F');
+      }
+
+      // --- text label ---
+      document.setTextColor(0, 0, 0);
+      const textX = usePattern ? 65 + xFactor : 61 + xFactor;
+      const textY = rectY + 32 + yFactor;
+
+      let textContent;
+      if (isGenotype || isDrug || isVariable) {
+        textContent = String(legend).replaceAll('β', 'B');
+      } else if (isGen) {
+        textContent = String(legend);
+      } else {
+        textContent = legend.name || String(legend);
+      }
+
+      document.text(textContent, textX, textY);
     });
-
-    if (twoPages || threePages) {
-      document.addPage();
-
-      secondLegendData.forEach((legend, i) => {
-        const yFactor = (i % secondLegendFactor) * 10;
-        const xFactor = Math.floor(i / secondLegendFactor) * xSpace;
-
-        document.setFillColor(
-          isGenotype
-            ? getGenotypeColor(legend)
-            : isDrug
-              ? getColorForDrug(legend)
-              : isVariable
-                ? convergenceColourPallete[legend]
-                : legend.color,
-        );
-        document.circle(50 + xFactor, 34 + yFactor, 2.5, 'F');
-        document.text(
-          isGenotype || isDrug || isVariable ? legend.replaceAll('β', 'B') : isGen ? legend : legend.name,
-          56 + xFactor,
-          36 + yFactor,
-        );
-      });
-    }
   }
+
 
   async function handleClickDownloadPDF() {
     dispatch(setLoadingPDF(true));
@@ -1460,7 +1592,6 @@ export const DownloadData = () => {
         // Plot re-size for PDF
         const aspectRatio = graphImg.width / graphImg.height;
         const isSmallImage = graphImg.width <= 700 && graphImg.height <= 700;
-
         const topMargin = isSmallImage ? 70 : 120;
         const bottomMargin = isSmallImage ? 70 : 30;
         const leftMargin = 16;
@@ -1494,7 +1625,7 @@ export const DownloadData = () => {
         doc.addImage(graphImg, 'PNG', xPosition, yPosition, displayWidth, displayHeight, undefined, 'FAST');
 
         // const rectY = matches1000 ? 390 : 340;
-        const rectY = yPosition + displayHeight * 0.7; // updated Legends position based on image height and Y position on PDF
+        const rectY = yPosition + displayHeight * (cards[index].id === 'DRT' ? isSmallImage ? 0.6 : 0.7 : 0.7); // updated Legends position based on image height and Y position on PDF
         if (
           cards[index].id !== 'HSG2' &&
           cards[index].id !== 'BG' &&
@@ -1503,7 +1634,7 @@ export const DownloadData = () => {
         ) {
           // BG is replaced from CVM for BubbleGeographicGraph
           doc.setFillColor(255, 255, 255); // white
-          doc.rect(0, rectY, pageWidth, 200, 'F'); // fill with white
+          doc.rect(0, rectY+10, pageWidth, 200, 'F'); // fill with white
         }
 
         doc.setFontSize(9);
@@ -1565,7 +1696,6 @@ export const DownloadData = () => {
           }
         } else if (cards[index].id === 'GD') {
           // console.log('legendGens2', genotypesForFilterSelected )
-
           drawLegend({
             document: doc,
             legendData: genotypesForFilterSelected,
@@ -1573,6 +1703,7 @@ export const DownloadData = () => {
             rectY,
             xSpace: 65,
             isGenotype: true,
+            genotypesForFilterSelected: genotypesForFilterSelected,
             twoPages: isNgono && genotypesForFilterSelected.length > 156,
           });
           if (isNgono) {
@@ -1591,8 +1722,7 @@ export const DownloadData = () => {
           //   : topGenesSlice;
 
           let legendGens = [...topGenesSlice.filter(g => g !== 'None'), ...topGenesSlice.filter(g => g === 'None')];
-          if (organism === 'kpneumo') legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name));
-          // console.log('legendGens',topGenesSlice, legendGens )
+          // if (organism === 'kpneumo') legendGens = drugClassesBars?.filter(value => topGenesSlice.includes(value.name)); // wrong formate
           drawLegend({
             id: 'RDT',
             document: doc,
@@ -1625,31 +1755,41 @@ export const DownloadData = () => {
 
           drawLegend({
             document: doc,
-            legendData: [...legendKOT],
-            factor: Math.ceil(legendKOT.length / 4), // Adjust based on rows per column
+            legendData: KOForFilterSelected,
+            factor: Math.ceil(KOForFilterSelected.length / 4),
             rectY,
             xSpace: 90,
-            // twoPages: isKlebe
+            isGenotype: true,
+            KOForFilterSelected: KOForFilterSelected,
           });
           // id= convergence-graph for AMR/virulence (Kleb) ,
-        } else if (cards[index].id === 'convergence-graph') {
-          // console.log("convergenceColourPallete",topColorSlice)
-          drawLegend({
-            document: doc,
-            legendData: Object.keys(convergenceColourPallete),
-            factor: variablesFactor,
-            rectY: rectY,
-            xSpace: isYersiniabactin ? 190 : 127,
-            isVariable: true,
-            factorMultiply: isYersiniabactin ? 2 : 3,
-            // twoPages: isKlebe,
-          });
+          } else if (cards[index].id === 'convergence-graph') {
+            // Create ordered legend data based on topConvergenceData order
+            const orderedLegendKeys = [];
+            const seenKeys = new Set();
+            
+            const topConvergenceDataForLegend = convergenceData.slice(0, currentSliderValueCM);
+            
+            topConvergenceDataForLegend.forEach(item => {
+              if (!seenKeys.has(item.colorLabel)) {
+                orderedLegendKeys.push(item.colorLabel);
+                seenKeys.add(item.colorLabel);
+              }
+            });
 
-          // if (isKlebe) {
-          //   drawHeader({ document: doc, pageWidth });
-          //   drawFooter({ document: doc, pageHeight, pageWidth, date });
-          // }
-        }
+
+            drawLegend({
+              document: doc,
+              legendData: orderedLegendKeys,
+              factor: variablesFactor,
+              rectY: rectY,
+              xSpace: isYersiniabactin ? 190 : 127,
+              isVariable: true,
+              factorMultiply: isYersiniabactin ? 2 : 3,
+              topConvergenceData: topConvergenceDataForLegend,
+            });
+          }
+
       }
 
       doc.save(`AMRnet ${firstName} ${secondName} Report.pdf`);

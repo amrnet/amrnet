@@ -51,6 +51,9 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const [markerSearch, setMarkerSearch] = useState('');
   const [plotChart, setPlotChart] = useState(() => {});
+  // keep track of full selection of 'Select genotypes' manually at the time of changing the County or Region
+  const [savedSelection, setSavedSelection] = useState([]);
+  const [reset20, setReset20] = useState(false);
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
@@ -171,18 +174,44 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [selectedCRData?.stats, statColumn]);
 
   const filteredXAxisOptions = useMemo(() => {
-    const filteredOptions = xAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
+    const filteredOptions = xAxisOptions.filter(option =>
+      option.toLowerCase().includes(genotypeSearch.toLowerCase())
+    );
 
-    if (!organismHasLotsOfGenotypes) {
-      return filteredOptions;
+    const topOptions = filteredOptions.slice(0, 20);
+
+    // Only add items from savedSelection if they’re not already in topOptions and reset20 is false
+    let result = topOptions;
+    if (!reset20) {
+      // Only include extraSaved if count > 0
+      const extraSaved = savedSelection.filter(sel => {
+        if (topOptions.includes(sel)) return false;
+        // Find the item in selectedCRData?.stats[statColumn]?.items
+        const item = selectedCRData?.stats?.[statColumn]?.items?.find(x => x.name === sel);
+        return item && item.count > 0;
+      });
+      result = [...topOptions, ...extraSaved];
     }
+    return result;
+  }, [xAxisOptions, savedSelection, genotypeSearch, reset20, selectedCRData?.stats, statColumn]);
 
-    return filteredOptions.slice(0, 20);
-  }, [xAxisOptions, organismHasLotsOfGenotypes, genotypeSearch]);
+  // Reset reset20 to false after xAxisOptions change or after selection update
+  useEffect(() => {
+    if (reset20) setReset20(false);
+  }, [xAxisOptions, reset20]);
 
   useEffect(() => {
-    setXAxisSelected(xAxisOptions?.slice(0, 10));
+    if (savedSelection?.length) {
+      // Keep only common values between xAxisOptions & savedSelection
+      const common = savedSelection.filter((val) => xAxisOptions.includes(val));
+      setXAxisSelected(common);
+    }
   }, [xAxisOptions]);
+
+  useEffect(() => {
+    setSavedSelection(xAxisOptions?.slice(0, 10));
+    setXAxisSelected(xAxisOptions?.slice(0, 10));
+  }, [bubbleMarkersYAxisType]);
 
   useEffect(() => {
     setYAxisSelected(yAxisOptions?.slice(0, 10));
@@ -204,6 +233,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   );
 
   function handleChangeXAxisSelected({ event = null, all = false }) {
+    setReset20(true)
     const value = event?.target.value;
 
     if (value?.length === 1 && value[0] === undefined) {
@@ -211,6 +241,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     }
 
     if (!all) {
+      setSavedSelection(value);
       setXAxisSelected(value);
       return;
     }
@@ -219,9 +250,15 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
       xAxisSelected.length === filteredXAxisOptions.length ||
       xAxisSelected.some(x => !xAxisSelected.slice(0, 20).includes(x))
     ) {
+    //   if (savedSelection?.length) {
+    //   // Keep only common values between xAxisOptions & savedSelection
+    //   const common = savedSelection.filter((val) => xAxisOptions.includes(val));
+    //   setXAxisSelected(common.slice(0, 10));
+    // }
       setXAxisSelected([]);
       return;
     }
+    setSavedSelection(filteredXAxisOptions);
     setXAxisSelected(filteredXAxisOptions);
   }
 
@@ -348,6 +385,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
 
     return [];
   }, [bubbleMarkersYAxisType, selectedCRData, statColumn, xAxisSelected, yAxisSelected, organism, drugClassesData]);
+console.log('savedSelection', savedSelection, xAxisSelected, filteredXAxisOptions);
 
   useEffect(() => {
     dispatch(setBubbleMarkersHeatmapGraphData(configuredMapData));
@@ -596,16 +634,17 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                           onClick={() => handleChangeXAxisSelected({ all: true })}
                           disabled={organism === 'none'}
                           color={
-                            xAxisSelected.length === filteredXAxisOptions.length ||
-                            xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
+                            xAxisSelected.length === filteredXAxisOptions.length 
+                            // || xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
                               ? 'error'
                               : 'primary'
                           }
                         >
-                          {xAxisSelected.length === filteredXAxisOptions.length ||
-                          xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
+                          {xAxisSelected.length === filteredXAxisOptions.length 
+                          // || xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
                             ? 'Clear All'
-                            : 'Select 20'}
+                            /* 'Select All' for Styphi*/
+                            : 'Select 20'} 
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
@@ -623,7 +662,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       >
                         <TextField
                           variant="standard"
-                          placeholder={organismHasLotsOfGenotypes ? 'Search for more...' : 'Search...'}
+                          placeholder={'Search for more...'}
                           fullWidth
                           value={genotypeSearch}
                           onChange={handleChangeSearch}
@@ -715,7 +754,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       >
                         <TextField
                           variant="standard"
-                          placeholder={organismHasLotsOfGenotypes ? 'Search for more...' : 'Search...'}
+                          placeholder={'Search for more...'}
                           fullWidth
                           value={markerSearch}
                           onChange={handleChangeYSearch}

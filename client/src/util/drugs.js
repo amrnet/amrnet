@@ -16,6 +16,7 @@ export const drugsST = [
   'Ceftriaxone',
   'Chloramphenicol',
   'Ciprofloxacin',
+  'Ciprofloxacin R',
   'XDR',
   'MDR',
   'Sulfonamides',
