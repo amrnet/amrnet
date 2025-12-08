@@ -1222,7 +1222,7 @@ export const DashboardPage = () => {
           getData({ storeName: organism, endpoint: 'getDataForShige' });
           break;
         case 'senterica':
-          getData({ storeName: organism, endpoint: 'getDataForSenterica' });
+          getDataQuick(organism);
           break;
         case 'sentericaints':
           getData({ storeName: organism, endpoint: 'getDataForSentericaints' });

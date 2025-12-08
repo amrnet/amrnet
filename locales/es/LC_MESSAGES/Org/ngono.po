@@ -1,0 +1,506 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../Org/ngono.rst:2
+msgid "*Neisseria gonorrhoeae*"
+msgstr ""
+
+#: ../../Org/ngono.rst:6
+msgid ""
+"*Neisseria gonorrhoeae* data are sourced from `Pathogenwatch "
+"<https://doi.org/10.1186/s13073-021-00858-2>`__, which calls AMR and "
+"lineage `genotypes <https://pubmlst.org/neisseria/>`_ (`MLST "
+"<https://doi.org/10.1186/1741-7007-5-35>`_, `NG-MAST "
+"<https://doi.org/10.1086/383047>`_) from genomes assembled from public "
+"data. The prevalence estimates shown are calculated using genome "
+"collections derived from non-targeted sampling frames (i.e. surveillance "
+"and burden studies, as opposed to AMR focused studies or outbreak "
+"investigations). These include EuroGASP `2013 "
+"<https://doi.org/10.1016/s1473-3099(18)30225-1>`_ & `2018 "
+"<https://doi.org/10.1016/s2666-5247(22)00044-1>`_, and several national "
+"surveillance studies. Last update: 5 August 2025."
+msgstr ""
+
+#: ../../Org/ngono.rst:9
+msgid "Variable definitions"
+msgstr ""
+
+#: ../../Org/ngono.rst:13
+msgid ""
+"**Genotypes**: sequence types from the `7-locus MLST scheme "
+"<https://doi.org/10.1128/jcm.43.8.4178-4182.2005>`_ for *Neisseria*, or "
+"2-locus *N. gonorrhoeae* multi-antigen sequence typing (`NG-MAST "
+"<https://doi.org/10.1086/383047>`_) scheme, both hosted by `PubMLST "
+"<https://pubmlst.org/neisseria/>`_."
+msgstr ""
+
+#: ../../Org/ngono.rst:14
+msgid ""
+"**AMR determinants** are identified by Pathogenwatch using an inhouse "
+"dictionary developed and maintained in consultation with an expert "
+"advisory group, described `here "
+"<https://doi.org/10.1186/s13073-021-00858-2>`__."
+msgstr ""
+
+#: ../../Org/ngono.rst:15
+msgid ""
+"**AMR determinants within genotypes** - This plot shows combinations of "
+"determinants that result in clinical resistance to Azithromycin or "
+"Ceftriaxone, as defined in Figure 3 of `Sánchez-Busó et al (2021) "
+"<https://doi.org/10.1186/s13073-021-00858-2>`_."
+msgstr ""
+
+#: ../../Org/ngono.rst:16
+msgid ""
+"**Susceptible to cat I/II drugs** - No determinants found for "
+"Azithromycin, Ceftriaxone, Cefixime (category I) or Benzylpenicillin, "
+"Ciprofloxacin, Spectinomycin (category II)."
+msgstr ""
+
+#: ../../Org/ngono.rst:19
+msgid "Abbreviations"
+msgstr ""
+
+#: ../../Org/ngono.rst:23
+msgid ""
+"**MDR**: multidrug resistant (Resistant to one of Azithromycin / "
+"Ceftriaxone / Cefixime [category I representatives], plus two or more of "
+"Benzylpenicillin / Ciprofloxacin / Spectinomycin [category II "
+"representatives])"
+msgstr ""
+
+#: ../../Org/ngono.rst:24
+msgid ""
+"**XDR**: extensively drug resistant (Resistant to two of Azithromycin / "
+"Ceftriaxone / Cefixime [category I representatives], plus three of "
+"Benzylpenicillin / Ciprofloxacin / Spectinomycin [category II "
+"representatives])"
+msgstr ""
+
+#: ../../Org/ngono.rst:28
+msgid ""
+"These definitions are based on those defined in the `European CDC "
+"Response Plan <https://www.ecdc.europa.eu/sites/default/files/documents"
+"/multi-and-extensively-drug-resistant-gonorrhoea-response-plan-"
+"Europe-2019.pdf>`_, modified to use the specific representatives of "
+"category I and II antibiotic classes that are available in the dashboard."
+msgstr ""
+
+#: ../../Org/ngono.rst:31
+msgid "Data source"
+msgstr ""
+
+#: ../../Org/ngono.rst:33
+msgid "The data are collated from studies with the following PubMed IDs:"
+msgstr ""
+
+#: ../../Org/ngono.rst:38
+msgid "**Study accession**"
+msgstr ""
+
+#: ../../Org/ngono.rst:39
+msgid "**PMID**"
+msgstr ""
+
+#: ../../Org/ngono.rst:40
+msgid "PRJEB58139"
+msgstr ""
+
+#: ../../Org/ngono.rst:41
+msgid "38614111"
+msgstr ""
+
+#: ../../Org/ngono.rst:42 ../../Org/ngono.rst:44
+msgid "PRJEB4024"
+msgstr ""
+
+#: ../../Org/ngono.rst:43
+msgid "32013864"
+msgstr ""
+
+#: ../../Org/ngono.rst:45
+msgid "31358980"
+msgstr ""
+
+#: ../../Org/ngono.rst:46
+msgid "PRJNA266539"
+msgstr ""
+
+#: ../../Org/ngono.rst:47
+msgid "25378573"
+msgstr ""
+
+#: ../../Org/ngono.rst:48
+msgid "PRJNA298332"
+msgstr ""
+
+#: ../../Org/ngono.rst:49
+msgid "26935729"
+msgstr ""
+
+#: ../../Org/ngono.rst:50
+msgid "PRJEB7904"
+msgstr ""
+
+#: ../../Org/ngono.rst:51
+msgid "27638945"
+msgstr ""
+
+#: ../../Org/ngono.rst:52
+msgid "PRJNA348107"
+msgstr ""
+
+#: ../../Org/ngono.rst:53
+msgid "28510723"
+msgstr ""
+
+#: ../../Org/ngono.rst:54
+msgid "PRJEB23008"
+msgstr ""
+
+#: ../../Org/ngono.rst:55
+msgid "29523496"
+msgstr ""
+
+#: ../../Org/ngono.rst:56
+msgid "PRJEB14168"
+msgstr ""
+
+#: ../../Org/ngono.rst:57
+msgid "28348871"
+msgstr ""
+
+#: ../../Org/ngono.rst:58
+msgid ""
+"PRJNA209340, PRJNA209376, PRJNA209345, PRJNA209319 PRJNA209352, "
+"PRJNA209333, PRJNA209347, PRJNA209316 PRJNA209466, PRJNA209373, "
+"PRJNA209465, PRJNA209351 PRJNA209342, PRJNA209343, PRJNA209320, "
+"PRJNA209470"
+msgstr ""
+
+#: ../../Org/ngono.rst:62
+msgid "25780762"
+msgstr ""
+
+#: ../../Org/ngono.rst:63
+msgid "PRJEB17738"
+msgstr ""
+
+#: ../../Org/ngono.rst:64
+msgid "29247013"
+msgstr ""
+
+#: ../../Org/ngono.rst:65
+msgid "PRJEB10104"
+msgstr ""
+
+#: ../../Org/ngono.rst:66
+msgid "29701830"
+msgstr ""
+
+#: ../../Org/ngono.rst:67
+msgid "PRJDB6504,PRJDB6496"
+msgstr ""
+
+#: ../../Org/ngono.rst:68
+msgid "30063202"
+msgstr ""
+
+#: ../../Org/ngono.rst:69 ../../Org/ngono.rst:91
+msgid "PRJEB34425"
+msgstr ""
+
+#: ../../Org/ngono.rst:70 ../../Org/ngono.rst:92
+msgid "32068837"
+msgstr ""
+
+#: ../../Org/ngono.rst:71
+msgid "PRJEB10016"
+msgstr ""
+
+#: ../../Org/ngono.rst:72
+msgid "32829411"
+msgstr ""
+
+#: ../../Org/ngono.rst:73
+msgid "PRJNA392203"
+msgstr ""
+
+#: ../../Org/ngono.rst:74
+msgid "29367612"
+msgstr ""
+
+#: ../../Org/ngono.rst:75
+msgid "PRJNA473385"
+msgstr ""
+
+#: ../../Org/ngono.rst:76
+msgid "29882175"
+msgstr ""
+
+#: ../../Org/ngono.rst:77
+msgid "PRJEB19989"
+msgstr ""
+
+#: ../../Org/ngono.rst:78
+msgid "31978353"
+msgstr ""
+
+#: ../../Org/ngono.rst:79
+msgid "PRJEB9227"
+msgstr ""
+
+#: ../../Org/ngono.rst:80
+msgid "29776807"
+msgstr ""
+
+#: ../../Org/ngono.rst:81
+msgid "PRJNA394216"
+msgstr ""
+
+#: ../../Org/ngono.rst:82
+msgid "29182725"
+msgstr ""
+
+#: ../../Org/ngono.rst:83 ../../Org/ngono.rst:121
+msgid "PRJNA317462"
+msgstr ""
+
+#: ../../Org/ngono.rst:84
+msgid "30788502"
+msgstr ""
+
+#: ../../Org/ngono.rst:85
+msgid "PRJEB14933"
+msgstr ""
+
+#: ../../Org/ngono.rst:86
+msgid "26601852"
+msgstr ""
+
+#: ../../Org/ngono.rst:87 ../../Org/ngono.rst:95 ../../Org/ngono.rst:103
+msgid "PRJEB32435"
+msgstr ""
+
+#: ../../Org/ngono.rst:88
+msgid "33200978"
+msgstr ""
+
+#: ../../Org/ngono.rst:89 ../../Org/ngono.rst:119
+msgid "PRJNA315363"
+msgstr ""
+
+#: ../../Org/ngono.rst:90 ../../Org/ngono.rst:120
+msgid "27427203"
+msgstr ""
+
+#: ../../Org/ngono.rst:93
+msgid "PRJNA317462, PRJNA329501"
+msgstr ""
+
+#: ../../Org/ngono.rst:94
+msgid "32071056"
+msgstr ""
+
+#: ../../Org/ngono.rst:96 ../../Org/ngono.rst:104
+msgid "32213251"
+msgstr ""
+
+#: ../../Org/ngono.rst:97
+msgid "PRJNA520805"
+msgstr ""
+
+#: ../../Org/ngono.rst:98
+msgid "31488838"
+msgstr ""
+
+#: ../../Org/ngono.rst:99
+msgid "PRJEB34068"
+msgstr ""
+
+#: ../../Org/ngono.rst:100
+msgid "35659907"
+msgstr ""
+
+#: ../../Org/ngono.rst:101
+msgid "PRJEB2999"
+msgstr ""
+
+#: ../../Org/ngono.rst:102
+msgid "24462211"
+msgstr ""
+
+#: ../../Org/ngono.rst:105
+msgid "PRJEB49317"
+msgstr ""
+
+#: ../../Org/ngono.rst:106
+msgid "35467402"
+msgstr ""
+
+#: ../../Org/ngono.rst:107
+msgid "PRJEB47922"
+msgstr ""
+
+#: ../../Org/ngono.rst:108
+msgid "35095823"
+msgstr ""
+
+#: ../../Org/ngono.rst:109
+msgid "PRJEB50649"
+msgstr ""
+
+#: ../../Org/ngono.rst:110
+msgid "37216766"
+msgstr ""
+
+#: ../../Org/ngono.rst:111
+msgid "PRJEB36607"
+msgstr ""
+
+#: ../../Org/ngono.rst:112
+msgid "32785692"
+msgstr ""
+
+#: ../../Org/ngono.rst:113
+msgid "PRJEB36608"
+msgstr ""
+
+#: ../../Org/ngono.rst:114
+msgid "30820563"
+msgstr ""
+
+#: ../../Org/ngono.rst:115
+msgid "PRJEB40983"
+msgstr ""
+
+#: ../../Org/ngono.rst:116
+msgid "33739419"
+msgstr ""
+
+#: ../../Org/ngono.rst:117
+msgid "PRJEB41007"
+msgstr ""
+
+#: ../../Org/ngono.rst:118
+msgid "34424175"
+msgstr ""
+
+#: ../../Org/ngono.rst:122
+msgid "30788502, 33005903, 33993166, 37171855"
+msgstr ""
+
+#: ../../Org/ngono.rst:123
+msgid "PRJNA329501"
+msgstr ""
+
+#: ../../Org/ngono.rst:124
+msgid "33005903"
+msgstr ""
+
+#: ../../Org/ngono.rst:125
+msgid "PRJNA278367"
+msgstr ""
+
+#: ../../Org/ngono.rst:126
+msgid "26358608"
+msgstr ""
+
+#: ../../Org/ngono.rst:127
+msgid "PRJNA481622"
+msgstr ""
+
+#: ../../Org/ngono.rst:128
+msgid "32977759"
+msgstr ""
+
+#: ../../Org/ngono.rst:129
+msgid "PRJNA575338"
+msgstr ""
+
+#: ../../Org/ngono.rst:130
+msgid "32868325"
+msgstr ""
+
+#: ../../Org/ngono.rst:131
+msgid "PRJNA594714"
+msgstr ""
+
+#: ../../Org/ngono.rst:132
+msgid "32571818"
+msgstr ""
+
+#: ../../Org/ngono.rst:133
+msgid "PRJNA664319"
+msgstr ""
+
+#: ../../Org/ngono.rst:134
+msgid "33760080"
+msgstr ""
+
+#: ../../Org/ngono.rst:135
+msgid "PRJNA681740"
+msgstr ""
+
+#: ../../Org/ngono.rst:136
+msgid "34280016"
+msgstr ""
+
+#: ../../Org/ngono.rst:137
+msgid "PRJNA684048"
+msgstr ""
+
+#: ../../Org/ngono.rst:138
+msgid "34683991"
+msgstr ""
+
+#: ../../Org/ngono.rst:139
+msgid "PRJNA738299"
+msgstr ""
+
+#: ../../Org/ngono.rst:140
+msgid "34755593"
+msgstr ""
+
+#: ../../Org/ngono.rst:141
+msgid "PRJNA522696"
+msgstr ""
+
+#: ../../Org/ngono.rst:142
+msgid "10.1136/sextrans-2019-054025"
+msgstr ""
+
+#: ../../Org/ngono.rst:143
+msgid "PRJNA776899"
+msgstr ""
+
+#: ../../Org/ngono.rst:144
+msgid "36735316"
+msgstr ""
+
+#: ../../Org/ngono.rst:145
+msgid "PRJNA785548"
+msgstr ""
+
+#: ../../Org/ngono.rst:146
+msgid "34978884"
+msgstr ""
+

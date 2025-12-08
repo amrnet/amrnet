@@ -1,0 +1,434 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../troubleshooting.rst:4
+msgid "Troubleshooting Guide"
+msgstr ""
+
+#: ../../troubleshooting.rst:8
+msgid ""
+"This comprehensive troubleshooting guide covers common issues encountered"
+" when developing, deploying, and maintaining AMRnet. The solutions are "
+"based on real-world problems and their tested fixes."
+msgstr ""
+
+#: ../../troubleshooting.rst:13
+msgid "Performance Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:16
+msgid "Slow Data Loading (2+ Minute Load Times)"
+msgstr ""
+
+#: ../../troubleshooting.rst:20
+msgid ""
+"**Symptoms:** - E. coli data taking 3+ minutes to load - K. pneumoniae "
+"taking 2+ minutes - Browser freezing during data fetch - Large payload "
+"sizes (75MB+)"
+msgstr ""
+
+#: ../../troubleshooting.rst:26
+msgid "**Diagnosis Script:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:33
+msgid ""
+"**Root Causes:** - Unoptimized MongoDB queries returning all fields - "
+"Large datasets (227K+ documents for E. coli) - Single monolithic API "
+"calls - Lack of pagination or progressive loading"
+msgstr ""
+
+#: ../../troubleshooting.rst:39 ../../troubleshooting.rst:98
+#: ../../troubleshooting.rst:262
+msgid "**Solutions:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:41
+msgid "**Use Optimized Endpoints:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:51
+msgid "**Implement Pagination for Large Datasets:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:63
+msgid "**Use Parallel Loading:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:74
+msgid "**Performance Validation:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:82
+msgid "Browser Freezing on Large Datasets"
+msgstr ""
+
+#: ../../troubleshooting.rst:86
+msgid ""
+"**Symptoms:** - Browser becomes unresponsive - UI freezes during data "
+"processing - \"Page Unresponsive\" warnings"
+msgstr ""
+
+#: ../../troubleshooting.rst:91 ../../troubleshooting.rst:207
+#: ../../troubleshooting.rst:350
+msgid "**Diagnosis:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:100
+msgid "**Progressive Genotype Loading:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:124
+msgid "**Web Workers for Heavy Processing:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:137 ../../troubleshooting.rst:285
+#: ../../troubleshooting.rst:388
+msgid "**Validation:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:145
+msgid "Development Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:148
+msgid "ESLint Errors and Warnings"
+msgstr ""
+
+#: ../../troubleshooting.rst:152
+msgid ""
+"**Symptoms:** - Build failures due to linting errors - Unused variable "
+"warnings - Import/export errors"
+msgstr ""
+
+#: ../../troubleshooting.rst:157
+msgid "**Quick Fix:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:164
+msgid "**Manual Fixes:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:175
+msgid "**Common Issues and Fixes:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:198
+msgid "MongoDB Connection Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:202
+msgid ""
+"**Symptoms:** - \"Failed to load resource: 500 Internal Server Error\" - "
+"Connection timeouts - Authentication failures"
+msgstr ""
+
+#: ../../troubleshooting.rst:214
+msgid "**Common Solutions:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:216
+msgid "**Check Environment Variables:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:224
+msgid "**Fix Connection String Format:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:231
+msgid "**Test Connection with Retry Logic:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:253
+msgid "Server Startup Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:257
+msgid ""
+"**Symptoms:** - Server not starting on correct port - \"EADDRINUSE\" port"
+" errors - Import/export syntax errors"
+msgstr ""
+
+#: ../../troubleshooting.rst:264
+msgid "**Port Configuration:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:271
+msgid "**Kill Existing Processes:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:278
+msgid "**Use Minimal Test Server:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:293
+msgid "Deployment Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:296
+msgid "Heroku Deployment Failures"
+msgstr ""
+
+#: ../../troubleshooting.rst:300
+msgid ""
+"**Symptoms:** - Build failures during deployment - Memory limit exceeded "
+"- Slow response times"
+msgstr ""
+
+#: ../../troubleshooting.rst:305
+msgid "**Pre-deployment Check:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:312 ../../troubleshooting.rst:395
+msgid "**Common Fixes:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:314
+msgid "**Environment Variables:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:322
+msgid "**Optimize for Heroku:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:329
+msgid "**Build Script Issues:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:341
+msgid "MongoDB Atlas Performance"
+msgstr ""
+
+#: ../../troubleshooting.rst:345
+msgid ""
+"**Symptoms:** - High latency connections - Timeout errors - Poor query "
+"performance"
+msgstr ""
+
+#: ../../troubleshooting.rst:357
+msgid "**Optimizations:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:359
+msgid ""
+"1. **Region Proximity:** - Ensure Heroku and Atlas are in same region - "
+"Use ``us-east-1`` for both services"
+msgstr ""
+
+#: ../../troubleshooting.rst:363
+msgid "**Connection Pooling:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:376
+msgid "Translation and Internationalization"
+msgstr ""
+
+#: ../../troubleshooting.rst:379
+msgid "Translation Workflow Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:383
+msgid ""
+"**Symptoms:** - Missing translation keys - Translation workflow not "
+"triggering - JSON syntax errors"
+msgstr ""
+
+#: ../../troubleshooting.rst:397
+msgid "**File Structure:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:411
+msgid "**JSON Validation:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:418
+msgid "**GitHub Workflow:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:430
+msgid "Code Quality Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:433
+msgid "Cleanup and Maintenance"
+msgstr ""
+
+#: ../../troubleshooting.rst:437
+msgid ""
+"**Symptoms:** - Excessive console.log statements - Commented-out code - "
+"Unused files and dependencies"
+msgstr ""
+
+#: ../../troubleshooting.rst:442
+msgid "**Automated Cleanup:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:452
+msgid "**Manual Cleanup:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:463
+msgid "Security Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:467
+msgid ""
+"**Symptoms:** - Exposed credentials in repository - Security warnings - "
+"Vulnerable dependencies"
+msgstr ""
+
+#: ../../troubleshooting.rst:472
+msgid "**Immediate Actions:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:485
+msgid "**Prevention:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:495
+msgid "Performance Optimization"
+msgstr ""
+
+#: ../../troubleshooting.rst:498
+msgid "Monitoring and Validation"
+msgstr ""
+
+#: ../../troubleshooting.rst:502
+msgid "**Real-time Monitoring:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:509
+msgid "**Load Testing:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:516
+msgid "**Performance Benchmarks:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:523
+msgid ""
+"**Expected Results:** - K. pneumoniae: <2s load time - E. coli: <7s with "
+"pagination - E. coli (diarrheagenic): <3s load time - Payload reduction: "
+"60-90%"
+msgstr ""
+
+#: ../../troubleshooting.rst:530
+msgid "Diagnostic Scripts Reference"
+msgstr ""
+
+#: ../../troubleshooting.rst:534
+msgid "**Quick Diagnostics:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:547
+msgid "**Comprehensive Analysis:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:560
+msgid "**Status Checks:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:571
+msgid "Emergency Procedures"
+msgstr ""
+
+#: ../../troubleshooting.rst:574
+msgid "Critical Performance Issues"
+msgstr ""
+
+#: ../../troubleshooting.rst:578
+msgid "**If users report 2+ minute load times:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:580
+msgid "**Immediate Response:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:587
+msgid "**Verify Fix:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:593
+msgid "**Monitor Results:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:600
+msgid "Server Down Emergency"
+msgstr ""
+
+#: ../../troubleshooting.rst:604
+msgid "**If server is unresponsive:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:606
+msgid "**Start Minimal Server:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:612
+msgid "**Check Logs:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:618
+msgid "**Restart with Fixed Configuration:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:625
+msgid "Getting Help"
+msgstr ""
+
+#: ../../troubleshooting.rst:629
+msgid "**When to Use Each Script:**"
+msgstr ""
+
+#: ../../troubleshooting.rst:631
+msgid "**Performance Issues**: ``organism-performance-debugger.js``"
+msgstr ""
+
+#: ../../troubleshooting.rst:632
+msgid "**Deployment Problems**: ``deployment-readiness.js``"
+msgstr ""
+
+#: ../../troubleshooting.rst:633
+msgid "**MongoDB Issues**: ``test-fixie-connection.js``"
+msgstr ""
+
+#: ../../troubleshooting.rst:634
+msgid "**Code Quality**: ``cleanup_script.sh``"
+msgstr ""
+
+#: ../../troubleshooting.rst:635
+msgid "**Translation Issues**: ``test-translation-setup.sh``"
+msgstr ""
+
+#: ../../troubleshooting.rst:637
+msgid ""
+"**Community Support:** - GitHub Issues: "
+"https://github.com/amrnet/amrnet/issues - Discussions: "
+"https://github.com/amrnet/amrnet/discussions - Email: "
+"amrnetdashboard@gmail.com"
+msgstr ""
+
+#: ../../troubleshooting.rst:642
+msgid ""
+"**Emergency Contacts:** - Critical bugs: GitHub Issues with \"urgent\" "
+"label - Security issues: amrnetdashboard@gmail.com"
+msgstr ""
+

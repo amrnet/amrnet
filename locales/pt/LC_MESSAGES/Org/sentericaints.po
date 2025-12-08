@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../Org/sentericaints.rst:3
+msgid "*Salmonella* (invasive non-typhoidal)"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:7
+#, python-format
+msgid ""
+"*Salmonella* (invasive non-typhoidal) data in AMRnet are drawn from "
+"`Enterobase <https://enterobase.warwick.ac.uk/>`_, which calls AMR "
+"genotypes using NCBI’s `AMRFinderPlus "
+"<https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-"
+"resistance/AMRFinder/>`_, assigns lineages using MLST, `cgMLST "
+"<https://doi.org/10.1101/gr.251678.119>`_ and `hierarchical clustering "
+"<https://doi.org/10.1093/bioinformatics/btab234>`_, and assigns serotypes"
+" using `SISTR <https://doi.org/10.1371/journal.pone.0147101>`_. The iNTS "
+"dashboard currently includes all genomes identified as serotype "
+"Typhimurium or Enteritidis (which account for `>90% of iNTS "
+"<https://doi.org/10.1016/S1473-3099(21)00615-0>`_), and identifies "
+"lineages thereof using MLST. Last update: 5 August 2025."
+msgstr ""
+
+#: ../../Org/sentericaints.rst:10
+#, python-format
+msgid ""
+"The invasive non-typhoidal *Salmonella* (iNTS) dashboard is populated "
+"with data from specific *Salmonella enterica* lineages that are "
+"associated with invasive disease in low-income countries; namely serotype"
+" Typhimurium (ST19, ST313 and sublineages thereof as defined by `Van "
+"Puyvelde et al <https://doi.org/10.1038/s41467-023-41152-6>`_) and "
+"Enteritidis (Central/Eastern and West African clades as defined by `Fong "
+"et al <https://doi.org/10.1099/mgen.0.001017>`_). Together these account "
+"for `>90% of iNTS <https://doi.org/10.1016/S1473-3099(21)00615-0>`_."
+msgstr ""
+
+#: ../../Org/sentericaints.rst:13
+msgid ""
+"The iNTS data used in AMRnet are not yet curated for purpose-of-sampling,"
+" and therefore reflect the biases of global sequencing efforts which may "
+"be skewed towards sequencing AMR strains and/or outbreaks. Data curation "
+"efforts are ongoing however until then, please be careful when "
+"interpreting the data in the dashboard."
+msgstr ""
+
+#: ../../Org/sentericaints.rst:16
+msgid "Variable definitions"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:20
+msgid ""
+"**Lineages**: Lineages are labeled by iTYM (invasive Typhimurium) or iENT"
+" (invasive Enteritidis) followed by the lineage name, defined from cgMLST"
+" as follows:"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:22
+msgid "iTYM ST19-L1: HC150=305"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:23
+msgid "iTYM ST19-L3: HC150=1547"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:24
+msgid "iTYM ST19-L4: HC150=48"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:25
+msgid "iTYM ST313-L1: HC150=9882"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:26
+msgid "iTYM ST313-L2: HC150=728 and HC50=728"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:27
+msgid "iENT CEAC: HC150=12675"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:28
+msgid "iENT WAC: HC150=2452"
+msgstr ""
+
+#: ../../Org/sentericaints.rst:30
+msgid ""
+"**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ "
+"identifies AMR determinants using NCBI’s `AMRFinderPlus "
+"<https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-"
+"resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and "
+"assigns them to drugs/classes in the dashboard using the Subclass curated"
+" in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :ref:`the "
+"table <amr-definition-table>`."
+msgstr ""
+

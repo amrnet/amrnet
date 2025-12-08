@@ -1,0 +1,389 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../performance.rst:4
+msgid "Performance Optimization"
+msgstr ""
+
+#: ../../performance.rst:8
+msgid ""
+"AMRnet has been extensively optimized to handle large genomic "
+"surveillance datasets efficiently. This guide covers performance "
+"considerations, optimization strategies, and deployment best practices."
+msgstr ""
+
+#: ../../performance.rst:12
+msgid "Architecture Overview"
+msgstr ""
+
+#: ../../performance.rst:16
+msgid "AMRnet's performance optimizations span the entire application stack:"
+msgstr ""
+
+#: ../../performance.rst:18
+msgid "**Frontend Optimizations:**"
+msgstr ""
+
+#: ../../performance.rst:20
+msgid "**Lazy Loading**: Components and data loaded on-demand"
+msgstr ""
+
+#: ../../performance.rst:21
+msgid "**Virtual Scrolling**: Efficient rendering of large datasets"
+msgstr ""
+
+#: ../../performance.rst:22
+msgid ""
+"**Intelligent Caching**: Browser-based storage for frequently accessed "
+"data"
+msgstr ""
+
+#: ../../performance.rst:23
+msgid "**Compression**: Gzipped responses reduce transfer by up to 96%"
+msgstr ""
+
+#: ../../performance.rst:24
+msgid "**Progressive Loading**: Priority-based data fetching"
+msgstr ""
+
+#: ../../performance.rst:26
+msgid "**Backend Optimizations:**"
+msgstr ""
+
+#: ../../performance.rst:28
+msgid "**Database Indexing**: Optimized MongoDB indexes for common queries"
+msgstr ""
+
+#: ../../performance.rst:29
+msgid "**Aggregation Pipelines**: Server-side data processing"
+msgstr ""
+
+#: ../../performance.rst:30
+msgid "**Connection Pooling**: Efficient database connection management"
+msgstr ""
+
+#: ../../performance.rst:31
+msgid "**Field Projection**: Transfer only necessary data fields"
+msgstr ""
+
+#: ../../performance.rst:32
+msgid "**Parallel Processing**: Concurrent data processing for multiple requests"
+msgstr ""
+
+#: ../../performance.rst:35 ../../performance.rst:43
+msgid "Load Time Improvements"
+msgstr ""
+
+#: ../../performance.rst:39
+msgid ""
+"Recent optimizations have dramatically improved load times across all "
+"organisms:"
+msgstr ""
+
+#: ../../performance.rst:41
+msgid "**Performance Benchmarks:**"
+msgstr ""
+
+#: ../../performance.rst:47
+msgid "Organism"
+msgstr ""
+
+#: ../../performance.rst:48
+msgid "Before (seconds)"
+msgstr ""
+
+#: ../../performance.rst:49
+msgid "After (seconds)"
+msgstr ""
+
+#: ../../performance.rst:50
+msgid "Improvement"
+msgstr ""
+
+#: ../../performance.rst:51
+msgid "pneumoniae"
+msgstr ""
+
+#: ../../performance.rst:52
+msgid "7-8s (63MB)"
+msgstr ""
+
+#: ../../performance.rst:53
+msgid "1.4s (2.3MB)"
+msgstr ""
+
+#: ../../performance.rst:54
+#, python-format
+msgid "81% faster"
+msgstr ""
+
+#: ../../performance.rst:55
+msgid "coli"
+msgstr ""
+
+#: ../../performance.rst:56
+msgid "21-23s (186MB)"
+msgstr ""
+
+#: ../../performance.rst:57
+msgid "7s (13MB)"
+msgstr ""
+
+#: ../../performance.rst:58
+#, python-format
+msgid "70% faster"
+msgstr ""
+
+#: ../../performance.rst:59
+msgid "coli (diarrheagenic)"
+msgstr ""
+
+#: ../../performance.rst:60
+msgid "6-15s (51MB)"
+msgstr ""
+
+#: ../../performance.rst:61
+msgid "2s (4MB)"
+msgstr ""
+
+#: ../../performance.rst:62
+#, python-format
+msgid "87% faster"
+msgstr ""
+
+#: ../../performance.rst:64
+msgid "**Optimization Strategies:**"
+msgstr ""
+
+#: ../../performance.rst:66
+msgid "**Optimized Endpoints**: ``/api/optimized/*`` routes with minimal payloads"
+msgstr ""
+
+#: ../../performance.rst:67
+msgid "**Pagination**: Large datasets split into manageable chunks"
+msgstr ""
+
+#: ../../performance.rst:68
+msgid "**Parallel Loading**: Multiple chart sections loaded simultaneously"
+msgstr ""
+
+#: ../../performance.rst:69
+msgid "**Smart Caching**: Frequently accessed data cached locally"
+msgstr ""
+
+#: ../../performance.rst:72
+msgid "Database Optimization"
+msgstr ""
+
+#: ../../performance.rst:76
+msgid "MongoDB performance optimizations ensure fast query responses:"
+msgstr ""
+
+#: ../../performance.rst:78
+msgid "**Indexing Strategy:**"
+msgstr ""
+
+#: ../../performance.rst:87
+msgid "**Aggregation Pipelines:**"
+msgstr ""
+
+#: ../../performance.rst:108
+msgid "**Connection Optimization:**"
+msgstr ""
+
+#: ../../performance.rst:123
+msgid "Frontend Performance"
+msgstr ""
+
+#: ../../performance.rst:127
+msgid "React application optimizations for smooth user experience:"
+msgstr ""
+
+#: ../../performance.rst:129
+msgid "**Component Optimization:**"
+msgstr ""
+
+#: ../../performance.rst:149
+msgid "**Data Loading Optimization:**"
+msgstr ""
+
+#: ../../performance.rst:168
+msgid "**Virtual Scrolling for Large Lists:**"
+msgstr ""
+
+#: ../../performance.rst:191
+msgid "Deployment Optimization"
+msgstr ""
+
+#: ../../performance.rst:195
+msgid "Production deployment configurations for optimal performance:"
+msgstr ""
+
+#: ../../performance.rst:197
+msgid "**Heroku Configuration:**"
+msgstr ""
+
+#: ../../performance.rst:214
+msgid "**CDN Integration:**"
+msgstr ""
+
+#: ../../performance.rst:232
+msgid "**Monitoring and Alerting:**"
+msgstr ""
+
+#: ../../performance.rst:252
+msgid "Caching Strategies"
+msgstr ""
+
+#: ../../performance.rst:256
+msgid "Multi-level caching for optimal performance:"
+msgstr ""
+
+#: ../../performance.rst:258
+msgid "**Browser Caching:**"
+msgstr ""
+
+#: ../../performance.rst:278
+msgid "**Redis Caching (Optional):**"
+msgstr ""
+
+#: ../../performance.rst:296
+msgid "Performance Monitoring"
+msgstr ""
+
+#: ../../performance.rst:300
+msgid "Real-time performance tracking and optimization:"
+msgstr ""
+
+#: ../../performance.rst:302
+msgid "**Client-Side Metrics:**"
+msgstr ""
+
+#: ../../performance.rst:323
+msgid "**Server-Side Monitoring:**"
+msgstr ""
+
+#: ../../performance.rst:345
+msgid "Best Practices"
+msgstr ""
+
+#: ../../performance.rst:349
+msgid "**Development Best Practices:**"
+msgstr ""
+
+#: ../../performance.rst:351
+msgid "**Measure First**: Use browser dev tools to identify bottlenecks"
+msgstr ""
+
+#: ../../performance.rst:352
+msgid "**Optimize Queries**: Use database explain plans to optimize queries"
+msgstr ""
+
+#: ../../performance.rst:353
+msgid "**Monitor Bundle Size**: Keep JavaScript bundles under 250KB"
+msgstr ""
+
+#: ../../performance.rst:354
+msgid ""
+"**Image Optimization**: Use modern formats (WebP, AVIF) and responsive "
+"images"
+msgstr ""
+
+#: ../../performance.rst:355
+msgid "**Code Splitting**: Load only necessary code for each page"
+msgstr ""
+
+#: ../../performance.rst:357
+msgid "**Production Best Practices:**"
+msgstr ""
+
+#: ../../performance.rst:359
+msgid "**Enable Compression**: Use gzip/brotli compression"
+msgstr ""
+
+#: ../../performance.rst:360
+msgid "**CDN Usage**: Serve static assets from CDN"
+msgstr ""
+
+#: ../../performance.rst:361
+msgid "**Database Indexes**: Ensure proper indexing for all queries"
+msgstr ""
+
+#: ../../performance.rst:362
+msgid "**Connection Pooling**: Optimize database connection pools"
+msgstr ""
+
+#: ../../performance.rst:363
+msgid "**Performance Monitoring**: Set up alerts for performance degradation"
+msgstr ""
+
+#: ../../performance.rst:366
+msgid "Troubleshooting"
+msgstr ""
+
+#: ../../performance.rst:370
+msgid "**Common Performance Issues:**"
+msgstr ""
+
+#: ../../performance.rst:372
+msgid "**Slow Page Loads**: Check network tab for large payloads"
+msgstr ""
+
+#: ../../performance.rst:373
+msgid "**High Memory Usage**: Use Chrome DevTools Memory tab"
+msgstr ""
+
+#: ../../performance.rst:374
+msgid "**Database Timeouts**: Review MongoDB slow query logs"
+msgstr ""
+
+#: ../../performance.rst:375
+msgid "**Cache Misses**: Verify cache configuration and TTL settings"
+msgstr ""
+
+#: ../../performance.rst:377
+msgid "**Performance Testing:**"
+msgstr ""
+
+#: ../../performance.rst:389
+msgid "**Monitoring Tools:**"
+msgstr ""
+
+#: ../../performance.rst:391
+msgid "Browser DevTools (Performance tab)"
+msgstr ""
+
+#: ../../performance.rst:392
+msgid "MongoDB Compass (Query performance)"
+msgstr ""
+
+#: ../../performance.rst:393
+msgid "Heroku metrics (if deployed on Heroku)"
+msgstr ""
+
+#: ../../performance.rst:394
+msgid "Web Vitals extension"
+msgstr ""
+
+#: ../../performance.rst:395
+msgid "Lighthouse CI for automated testing"
+msgstr ""
+

@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-04 04:43-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../Org/decoli.rst:2
+msgid "*Escherichia coli* diarrheagenic"
+msgstr ""
+
+#: ../../Org/decoli.rst:6
+msgid ""
+"Enterobase classifies *E. coli* genomes to pathotypes using `this logic "
+"<https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-"
+"phylotypes.html?highlight=pathovar>`__. Pathotypes included in the *E. "
+"coli* (diarrheagenic) dashboard are:"
+msgstr ""
+
+#: ../../Org/decoli.rst:8
+msgid "Shiga toxin-producing *E. coli* (STEC)"
+msgstr ""
+
+#: ../../Org/decoli.rst:9
+msgid "Enterohemorrhagic *E. coli* (EHEC)"
+msgstr ""
+
+#: ../../Org/decoli.rst:10
+msgid "Enterotoxigenic *E. coli* (ETEC)"
+msgstr ""
+
+#: ../../Org/decoli.rst:11
+msgid "Enteropathogenic *E. coli* (EPEC)"
+msgstr ""
+
+#: ../../Org/decoli.rst:12
+msgid "Enteroinvasive *E. coli* (EIEC)"
+msgstr ""
+
+#: ../../Org/decoli.rst:14
+msgid "Last update: 5 August 2025."
+msgstr ""
+
+#: ../../Org/decoli.rst:17
+msgid ""
+"The *E. coli* data used in AMRnet are not yet curated for purpose-of-"
+"sampling, and therefore reflect the biases of global sequencing efforts "
+"which may be skewed towards sequencing AMR strains and/or outbreaks. Data"
+" curation efforts are ongoing however until then, please be careful when "
+"interpreting the data in the dashboard."
+msgstr ""
+
+#: ../../Org/decoli.rst:20
+msgid "Variable definitions"
+msgstr ""
+
+#: ../../Org/decoli.rst:24
+msgid ""
+"**Lineages**: Lineages are labeled by the pathovar followed by the "
+"(7-locus) ST."
+msgstr ""
+
+#: ../../Org/decoli.rst:26
+msgid ""
+"**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ "
+"identifies AMR determinants using NCBI’s `AMRFinderPlus "
+"<https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-"
+"resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and "
+"assigns them to drugs/classes in the dashboard using the Subclass curated"
+" in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :ref:`the "
+"table <amr-definition-table>`."
+msgstr ""
+
