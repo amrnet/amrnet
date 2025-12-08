@@ -196,6 +196,7 @@ const mapFields = {
     Fosfomycin: 1,
     Penicillin: 1,
     Phenicol: 1,
+    Macrolide: 1,
     Sulfonamide: 1,
     Tetracycline: 1,
     Trimethoprim: 1,
@@ -219,6 +220,7 @@ const mapFields = {
     Fosfomycin: 1,
     Penicillin: 1,
     Phenicol: 1,
+    Macrolide: 1,
     Sulfonamide: 1,
     Tetracycline: 1,
     Trimethoprim: 1,
@@ -728,11 +730,7 @@ router.get('/paginated/:organism', async (req, res) => {
       const parsedFilters = JSON.parse(filters);
       // Validate that all filter values are primitives (string, number, boolean, or null)
       for (const [key, value] of Object.entries(parsedFilters)) {
-        if (
-          typeof value === 'object' && value !== null ||
-          typeof value === 'function' ||
-          Array.isArray(value)
-        ) {
+        if ((typeof value === 'object' && value !== null) || typeof value === 'function' || Array.isArray(value)) {
           return res.status(400).json({ error: 'Invalid filter value: must be a primitive.' });
         }
         query[key] = value;

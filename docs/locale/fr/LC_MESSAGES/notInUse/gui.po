@@ -1,0 +1,390 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../notInUse/gui.rst:5 81c2438a9ee54df3abc8ee2aa07c8af0
+msgid "FARM Stack GUI Guide"
+msgstr ""
+
+#: ../../notInUse/gui.rst:9 2df7bb66413649d8bfc5273465c7e9fd
+msgid ""
+"AMRnet's next-generation interface is built with the FARM (FastAPI + "
+"React + MongoDB) stack, providing a modern, responsive, and highly "
+"interactive user experience for antimicrobial resistance data exploration"
+" and analysis."
+msgstr ""
+
+#: ../../notInUse/gui.rst:16 687d2b24a9aa49b8a8e67f89e1e561b5
+msgid "Overview"
+msgstr ""
+
+#: ../../notInUse/gui.rst:20 b81b96a1c7ac4d549a64fd1c8c47b301
+msgid ""
+"The FARM stack GUI represents a significant evolution of the AMRnet "
+"platform, offering:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:22 cf03ef5749fc491d849f0057b583a618
+msgid "**⚡ Performance**: 3x faster load times with server-side rendering"
+msgstr ""
+
+#: ../../notInUse/gui.rst:23 476bcfdbd84f41eb8b5eb830705ff908
+msgid "**🎨 Modern UI**: Material Design 3.0 with dark/light theme support"
+msgstr ""
+
+#: ../../notInUse/gui.rst:24 9d796c8818d145b19f99a3ac9c73e030
+msgid "**📱 Responsive**: Mobile-first design that works on all devices"
+msgstr ""
+
+#: ../../notInUse/gui.rst:25 b76497ca4119443ba296adb9e8795062
+msgid "**🔄 Real-time**: Live data updates and collaborative features"
+msgstr ""
+
+#: ../../notInUse/gui.rst:26 96d7f4448dca44088320b1f153b51ecd
+msgid "**🌍 Accessibility**: WCAG 2.1 AA compliant interface"
+msgstr ""
+
+#: ../../notInUse/gui.rst:27 06227185b1334d9da95c3caf5690393e
+msgid "**🚀 Progressive**: Offline capabilities with service workers"
+msgstr ""
+
+#: ../../notInUse/gui.rst:30 74331730a9464da0a4d90a89a94ba8d6
+msgid "Technology Stack"
+msgstr ""
+
+#: ../../notInUse/gui.rst:33 60a8ad38c13c4ca4b0866b4759904fb5
+msgid "Frontend Architecture"
+msgstr ""
+
+#: ../../notInUse/gui.rst:37 bbdca05fd1b24b3f8ff140c382208f12
+msgid ""
+"The React frontend leverages modern development practices and cutting-"
+"edge libraries:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:39 abd6e390230c4a9c876aebaa27b8d96a
+msgid "**Core Technologies:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:52 81d55baf622f43c19bcad208309e6cca
+msgid "**Key Libraries:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:54 ce9cc8c1c2344cb5bbffd35a5f8d0d4e
+msgid "**Next.js 14**: Server-side rendering and app router"
+msgstr ""
+
+#: ../../notInUse/gui.rst:55 87de8c71bd1f470eaa40b1db4ff2b46f
+msgid "**TypeScript**: Type-safe development"
+msgstr ""
+
+#: ../../notInUse/gui.rst:56 2e7a5c4df5ff463ab5a5a239a109ea91
+msgid "**Tailwind CSS**: Utility-first styling"
+msgstr ""
+
+#: ../../notInUse/gui.rst:57 355158b690b54e1f8492b47653c45036
+msgid "**Framer Motion**: Smooth animations and transitions"
+msgstr ""
+
+#: ../../notInUse/gui.rst:58 eb79cefed6d04772942d29fe0a28abf2
+msgid "**React Query**: Server state management"
+msgstr ""
+
+#: ../../notInUse/gui.rst:59 f5e6b9aded5d43338e01b9e25619561f
+msgid "**Zustand**: Client state management"
+msgstr ""
+
+#: ../../notInUse/gui.rst:60 eff9771486a74e8c95090d13de684f20
+msgid "**React Hook Form**: Form handling with validation"
+msgstr ""
+
+#: ../../notInUse/gui.rst:61 ce7e4f6d8e784c7e80c3289d1fd9809b
+msgid "**Recharts**: Advanced data visualizations"
+msgstr ""
+
+#: ../../notInUse/gui.rst:62 3ee6db6a9f9f42c39edfa8ebc3b4ed4a
+msgid "**Mapbox GL**: Interactive geographic mapping"
+msgstr ""
+
+#: ../../notInUse/gui.rst:64 578860d6eed544868ceb3bfc93415316
+msgid "**Component Architecture:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:95 782932cc60cb4e2083fed5e074af5aed
+msgid "Backend Infrastructure"
+msgstr ""
+
+#: ../../notInUse/gui.rst:99 c13c1d4433d44887934c847f1167ae79
+msgid ""
+"The FastAPI backend provides high-performance APIs with automatic "
+"documentation:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:101 6b3bc0e050d846299f79311e186aa17b
+msgid "**FastAPI Application:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:138 0328c8e9cc0c4ba48c0606abbc9d967e
+msgid "**MongoDB Integration:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:169 c824460c0f9047f9acaa7b8dfd3956a1
+msgid "Key Features"
+msgstr ""
+
+#: ../../notInUse/gui.rst:172 a63761f2875845faac1973f7f8c28f4a
+msgid "Interactive Dashboard Components"
+msgstr ""
+
+#: ../../notInUse/gui.rst:174 6d30a1242d864effb3924a0e78e6fcb7
+msgid "**Organism Selector:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:230 a5403803f5ae4feb82e6f3fab6bc65fb
+msgid "**Real-time Resistance Chart:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:324 8a3460c92b034e45b44bc746ee30dce5
+msgid "**Interactive Geographic Map:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:424 5510cace04be4c76b742ed683e9dfcf7
+msgid "Advanced Analytics Interface"
+msgstr ""
+
+#: ../../notInUse/gui.rst:426 e8b2268613224dc6872094e236f9a248
+msgid "**Statistical Analysis Dashboard:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:503 d6c50cfa38554fd695f10192b30c1e29
+msgid "**API Explorer Interface:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:633 0a853222be4e488c9d847a2637b0982e
+msgid "Real-time Features"
+msgstr ""
+
+#: ../../notInUse/gui.rst:636 80143e06513143438955c451bb0d82bf
+msgid "WebSocket Integration"
+msgstr ""
+
+#: ../../notInUse/gui.rst:640 bffb5e45b3564288b403cd49c33a0c24
+msgid ""
+"The FARM stack GUI leverages WebSocket connections for real-time data "
+"updates and collaborative features:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:642 6f96e89752634b179fa2148959547c13
+msgid "**Real-time Data Streaming:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:696 9912568f63b7407685473a31ab81fa23
+msgid "**Frontend WebSocket Hook:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:768 3b701183c23347408f8ba37d4616aadd
+msgid "Progressive Web App Features"
+msgstr ""
+
+#: ../../notInUse/gui.rst:770 e7b76563c2f94e9cad93615c4622221f
+msgid "**Service Worker Configuration:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:809 008118b28a0341049b69ecf101e76bd5
+msgid "**Offline Data Management:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:894 19fba0b43707419abb7d5edcb1c07cf8
+msgid "Accessibility Features"
+msgstr ""
+
+#: ../../notInUse/gui.rst:898 2b30f1c4fe1d43879394c51d03149f2e
+msgid ""
+"The FARM stack GUI prioritizes accessibility to ensure the platform is "
+"usable by all researchers, regardless of their abilities:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:900 350861dafb5748fdae38e6fcaf050950
+msgid "**WCAG 2.1 AA Compliance:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:993 430f536130db468592157d2e6268e337
+msgid "**Screen Reader Support:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1101 ee340cdc6e8f410094efb0504e0b40f7
+msgid "Deployment and Performance"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1105 b36ed5dca0da4156b3b486917eb01751
+msgid ""
+"The FARM stack is optimized for production deployment with modern DevOps "
+"practices:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1107 e07d518843264309a1d4b2b02093b608
+msgid "**Docker Configuration:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1143 13f2d43df99a4946b41f8a2455fa7e4f
+msgid "**Performance Optimization:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1186 1bd4c699aaad4ae89956b927d377e375
+msgid "Getting Started"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1189 4bc99ac24cac4b04a07d74bb1173364e
+msgid "Development Setup"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1193 5285e0cf023a4e9fbd795d5b378a9bcd
+msgid "Set up the FARM stack development environment:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1195 d5b96e46e4c6490cbef22a146dccf5ec
+msgid "**1. Clone and Install Dependencies:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1211 39e26a1b17b94004911a837b59c352ff
+msgid "**2. Environment Configuration:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1225 33e9aed553f84ef8a8da022c97cb873a
+msgid "**3. Start Development Servers:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1237 23fc0a9f0de84054a6e809040021263e
+msgid "**4. Access the Application:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1239 ba9ee436a981453893ffb9f592272163
+msgid "**Frontend**: http://localhost:3000"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1240 18c7784500ef4eb899c70a6db38e413c
+msgid "**Backend API**: http://localhost:8000"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1241 786ddd8786c5444cbcd7b8e5cf29c618
+msgid "**API Documentation**: http://localhost:8000/docs"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1244 59c9197096ff41868eed2b22865f80fb
+msgid "Production Deployment"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1248 86f2872eac24449d8e0432bdcb688a51
+msgid "Deploy using Docker Compose for production:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1304 1010fcfe203f4909a9be9af27af63d9e
+msgid "Support and Community"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1308 482a29dbc94e4a4690c1a66d3c256637
+msgid "Get help with the FARM stack implementation:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1311 8f9568454cdc4235adfaa49cfe674c89
+msgid "Resources"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1313 f1cdf7994a2f4e39a1ce877d37914230
+msgid ""
+"**📖 Component Library**: Storybook documentation at `storybook.amrnet.org"
+" <https://storybook.amrnet.org>`_"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1314 11254fa0cbb14c909a2bd5d32333e528
+msgid "**🎨 Design System**: Figma design tokens and components"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1315 9a86daf9598e43ce8bdad2438556ee11
+msgid "**🧪 Testing Guide**: Jest and Cypress testing patterns"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1316 6a0e5b61d7a54e9fa8c7df35d0129767
+msgid "**🚀 Deployment Guide**: Production deployment best practices"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1319 65b1109a33a24aa6a9c393b195302ba7
+msgid "Contributing"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1323 260769c70fe44a509c15110f45630936
+msgid "Contribute to the FARM stack development:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1325 f03d78d97347487b9ba1d065a6ae0f97
+msgid "**Frontend Issues**: React components, UI/UX improvements"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1326 ad84e74f81a94beeb8703bc6a12a50ef
+msgid "**Backend Issues**: FastAPI endpoints, performance optimization"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1327 735d68c386b0401b8ed885145883a728
+msgid "**Documentation**: User guides and API documentation"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1328 d7b08afb4ba84cf2a8731403eba41a50
+msgid "**Testing**: Unit tests, integration tests, e2e tests"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1330 dc00488615b8429d87f7a067419de108
+msgid "**Development Workflow:**"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1349 f376b88755404a84b00e7c8edeefb4af
+msgid "Future Roadmap"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1353 14e1ba3802d7439eaccff619871d368f
+msgid "Planned enhancements for the FARM stack GUI:"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1355 4dcbf37b8a734026bce4fcb391724428
+msgid ""
+"**Q1 2025:** - 🤖 AI-powered data insights and recommendations - 📱 Native "
+"mobile applications (React Native) - 🔍 Advanced search with natural "
+"language queries - 📊 Custom dashboard builder interface"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1361 57aaa859d18c40c8baa680ad40c19df2
+msgid ""
+"**Q2 2025:** - 🌐 Multi-language support expansion (Chinese, Arabic, "
+"Hindi) - 🔒 Advanced security features (2FA, SSO integration) - 📈 Machine "
+"learning model explanations - 🎮 Gamification for data exploration"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1367 b279a4b5ba7a48f2a0564b1cd00825a9
+msgid ""
+"**Q3 2025:** - 🗣️ Voice interface for accessibility - 🔗 Enhanced data "
+"integration (HL7 FHIR, SNOMED CT) - 📋 Collaborative workspaces and "
+"sharing - 🎯 Personalized research recommendations"
+msgstr ""
+
+#: ../../notInUse/gui.rst:1373 a035df0006be4a92a95f6983cc9328bf
+msgid ""
+"**Long-term Vision:** - Virtual reality data exploration environments - "
+"Blockchain-based data provenance tracking - Quantum computing integration"
+" for complex analyses - Global real-time surveillance network integration"
+msgstr ""
+

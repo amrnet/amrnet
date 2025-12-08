@@ -15,7 +15,8 @@ export const drugsST = [
   'Azithromycin',
   'Ceftriaxone',
   'Chloramphenicol',
-  'Ciprofloxacin',
+  'Ciprofloxacin NS',
+  'Ciprofloxacin R',
   'XDR',
   'MDR',
   'Sulfonamides',
@@ -44,7 +45,7 @@ export const drugsSTLegendsOnly = [
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'XDR',
   'MDR',
@@ -134,6 +135,7 @@ export const drugAcronyms = {
   Tetracycline: 'TET',
   Trimethoprim: 'TMP',
   'Trimethoprim-sulfamethoxazole': 'SXT',
+  'Trimethoprim-Sulfamethoxazole': 'SXT',
   Colistin: 'COL',
   Fosfomycin: 'FOS',
   Aminoglycosides: 'AGLY',
@@ -180,7 +182,7 @@ export const drugAcronymsOpposite2 = {
 };
 
 export const ciproAcronyms = {
-  'Ciprofloxacin': 'Ciprofloxacin (non-susceptible)',
+  'Ciprofloxacin NS': 'Ciprofloxacin (non-susceptible)',
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 

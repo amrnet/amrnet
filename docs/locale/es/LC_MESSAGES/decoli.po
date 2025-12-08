@@ -1,0 +1,84 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2023, The AMRnet Team
+# This file is distributed under the same license as the AMRnet package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMRnet \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-01 10:38+0100\n"
+"PO-Revision-Date: 2025-09-01 09:53\n"
+"Last-Translator: AMRnet Team <amrnetdashboard@gmail.com>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: AMRnet\n"
+"X-Crowdin-Project-ID: 825302\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: decoli.pot\n"
+"X-Crowdin-File-ID: 45\n"
+"Language: es_ES\n"
+
+#: ../../decoli.rst:2
+#: fbe56bed43a94dcb9d9abe8d86a95893
+msgid "*Escherichia coli* diarrheagenic"
+msgstr "Diarreagénico *Escherichia coli*"
+
+#: ../../decoli.rst:6
+#: 67355d48ff5f4d608a9bc370f846d562
+msgid "Enterobase classifies *E. coli* genomes to pathotypes using `this logic <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__. Pathotypes included in the *E. coli* (diarrheagenic) dashboard are:"
+msgstr "Enterobase clasifica los genomas *E. coli* a los patotipos usando `este lógico <https://enterobase.readthedocs.io/en/latest/pipelines/backend-pipeline-phylotypes.html?highlight=pathovar>`__. Los patotipos incluidos en el panel *E. coli* (diarrheagenic) son:"
+
+#: ../../decoli.rst:8
+#: 83e6bff2b1ba46e7b3d28a3e68626ec2
+msgid "Shiga toxin-producing *E. coli* (STEC)"
+msgstr "Producción de toxinas de Shiga *E. coli* (STEC)"
+
+#: ../../decoli.rst:9
+#: 480067ab2a0b43a2831379d8b122b8e5
+msgid "Enterohemorrhagic *E. coli* (EHEC)"
+msgstr "Enterohemorrágico *E. coli* (EHEC)"
+
+#: ../../decoli.rst:10
+#: 1fe778a54ec94764bc7dc669200f16d1
+msgid "Enterotoxigenic *E. coli* (ETEC)"
+msgstr "Enterotoxigénico *E. coli* (ETEC)"
+
+#: ../../decoli.rst:11
+#: 93c977867e794eb6a03b841674fd3077
+msgid "Enteropathogenic *E. coli* (EPEC)"
+msgstr "Enteropathogénica *E. coli* (EPEC)"
+
+#: ../../decoli.rst:12
+#: 87589c41ef484535b810efb5840af37b
+msgid "Enteroinvasive *E. coli* (EIEC)"
+msgstr "Enteroinvasivo *E. coli* (EIEC)"
+
+#: ../../decoli.rst:14
+#: 7eb82e8b2660421b95a92f3d25b6165c
+msgid "Last update: 5 August 2025."
+msgstr "Última actualización: 5 de agosto de 2025."
+
+#: ../../decoli.rst:17
+#: 293d8d75bc9b41b3b7c5dd11ce386f5c
+msgid "The *E. coli* data used in AMRnet are not yet curated for purpose-of-sampling, and therefore reflect the biases of global sequencing efforts which may be skewed towards sequencing AMR strains and/or outbreaks. Data curation efforts are ongoing however until then, please be careful when interpreting the data in the dashboard."
+msgstr "La *E. los datos coli* utilizados en AMRnet no están aún curados para el propósito de muestreo, y por lo tanto reflejan los sesgos de los esfuerzos de secuenciación global que pueden ser sesgados hacia la secuenciación de cepas de AMR y/o brotes. Los esfuerzos de curación de datos están en curso sin embargo hasta entonces, por favor tenga cuidado al interpretar los datos en el panel."
+
+#: ../../decoli.rst:20
+#: 87d79ad5f9474f41a876a629c55fe7ef
+msgid "Variable definitions"
+msgstr "Definiciones variables"
+
+#: ../../decoli.rst:24
+#: 6c30f10fac9b428cbedf1057414faf56
+msgid "**Lineages**: Lineages are labeled by the pathovar followed by the (7-locus) ST."
+msgstr "**Lineamientos**: Los linajes son etiquetados por el pathovar seguido por el (7-locus) ST."
+
+#: ../../decoli.rst:26
+#: 3ddb2b51322844acbd08a93f8b99dd63
+msgid "**AMR determinants**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifies AMR determinants using NCBI’s `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet imports these AMR genotype calls, and assigns them to drugs/classes in the dashboard using the Subclass curated in `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :ref:`the table <amr-definition-table>`."
+msgstr "**determinantes AMR**: `Enterobase <https://enterobase.warwick.ac.uk/>`_ identifica los determinantes de AMR usando `AMRFinderPlus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_. AMRnet importa estas llamadas genotípicas de AMR, y las asigna a drogas/clases en el panel de control usando la Subclase curada en `refgenes <https://doi.org/10.1099/mgen.0.000832>`_, see :ref:`la tabla <amr-definition-table>`."
+
