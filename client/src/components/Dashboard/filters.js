@@ -549,6 +549,11 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     return [];
   }
 
+  if (type === 'country' && !Array.isArray(items)) {
+    console.warn('getMapData: expected `items` to be an array for type "country"');
+    return [];
+  }
+
   // Prevent processing extremely large datasets that could cause stack overflow
   if (data.length > 500000) {
     console.warn('getMapData: data array is extremely large, this may cause performance issues');
@@ -574,7 +579,8 @@ export function getMapData({ data, items, organism, type = 'country' }) {
   if (type !== 'country') {
     for (const item of formattedItems) {
       if (item !== 'All') {
-        itemSets[item] = new Set(items[item]);
+        const listForItem = items && items[item];
+        itemSets[item] = Array.isArray(listForItem) ? new Set(listForItem) : new Set();
       }
     }
   }
@@ -587,11 +593,15 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     } else if (item === 'All') {
       itemData = data;
     } else {
-      // Merge all countries in region
+      // Merge all countries in region (use safe concatenation to avoid spread on very large arrays)
       itemData = [];
-      for (const country of itemSets[item]) {
-        if (dataByCountry[country]) {
-          itemData.push(...dataByCountry[country]);
+      const countriesInRegion = itemSets[item];
+      if (countriesInRegion && countriesInRegion.size) {
+        for (const country of countriesInRegion) {
+          const countryData = dataByCountry[country];
+          if (Array.isArray(countryData) && countryData.length) {
+            itemData = itemData.concat(countryData);
+          }
         }
       }
     }

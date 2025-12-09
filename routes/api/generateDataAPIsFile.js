@@ -240,7 +240,7 @@ router.get('/clean/:organism', async function (req, res, next) {
     folderName = 'senterica';
     ext = 'se';
     collection_ext = 'se';
-    database = 'senterica';
+    database = 'senterica-hc2850';
   }
 
   try {
