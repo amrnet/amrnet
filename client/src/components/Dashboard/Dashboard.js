@@ -126,6 +126,7 @@ import {
   getMapData,
   getYearsData,
 } from './filters';
+import { generatePalleteForGenotypes } from '../../util/colorHelper';
 
 // The optimized data service is already imported as an instance
 // No need to create a new instance
@@ -157,6 +158,7 @@ export const DashboardPage = () => {
   // const [currentConvergenceColourVariable, setCurrentConvergenceColourVariable] = useState('DATE');
   const [currentTimeInitial, setCurrentTimeInitial] = useState('');
   const [currentTimeFinal, setCurrentTimeFinal] = useState('');
+  const isApplyingFilters = useRef(false);
 
   const { hasItems, bulkAddItems, getItems } = useIndexedDB();
 
@@ -179,6 +181,7 @@ export const DashboardPage = () => {
   const convergenceGroupVariable = useAppSelector(state => state.graph.convergenceGroupVariable);
   // const convergenceColourVariable = useAppSelector((state) => state.graph.convergenceColourVariable);
   const maxSliderValueRD = useAppSelector(state => state.graph.maxSliderValueRD);
+  const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
   const endtimeGD = useAppSelector(state => state.graph.endtimeGD);
   const starttimeGD = useAppSelector(state => state.graph.starttimeGD);
   const endtimeDRT = useAppSelector(state => state.graph.endtimeDRT);
@@ -209,6 +212,12 @@ export const DashboardPage = () => {
         // Return cached immediately for all stores, including convergence
         // Convergence consumers can pick needed object from array
         if (Array.isArray(storeData) && storeData.length > 0) {
+          // If this is a convergence store we previously saved as [object],
+          // unwrap and return the single object for callers that expect an object.
+          if (storeName.includes('convergence')) {
+            return storeData[0];
+          }
+
           return storeData;
         }
       }
@@ -216,25 +225,7 @@ export const DashboardPage = () => {
       console.warn(`[IDB] Cache check failed for ${storeName}:`, e);
     }
 
-    // Process data directly from IndexedDB (fallback implementation)
-    async function getInfoFromIndexedDB(storeName, organism) {
-      try {
-        const allItems = await getItems(storeName);
-        const regions = await getStoreOrGenerateData(
-          'unr',
-          async () => {
-            const { regions } = getRegions({ data: allItems, organism });
-            return regions;
-          },
-          false,
-        );
-
-        await getInfoFromData(allItems, regions);
-      } catch (error) {
-        console.error('Error in getInfoFromIndexedDB:', error);
-        throw error;
-      }
-    }
+    // NOTE: getInfoFromIndexedDB is implemented as a top-level helper below
 
     const organismData = await handleGetData();
 
@@ -253,6 +244,26 @@ export const DashboardPage = () => {
     return organismData;
   }
 
+  // Helper to process organism data already stored in IndexedDB (used by paginated handlers)
+  async function getInfoFromIndexedDB(storeName, organism) {
+    try {
+      const allItems = await getItems(storeName);
+      const regions = await getStoreOrGenerateData(
+        'unr',
+        async () => {
+          // Fetch UNR regions list from API (consistent with other data-load paths)
+          return (await axios.get('/api/getUNR')).data;
+        },
+        false,
+      );
+
+      await getInfoFromData(allItems, regions);
+    } catch (error) {
+      console.error('Error in getInfoFromIndexedDB:', error);
+      throw error;
+    }
+  }
+
   /**
    * Process and initialize data for a specific organism
    *
@@ -268,8 +279,10 @@ export const DashboardPage = () => {
    * @returns {Promise<void>}
    */
   async function getInfoFromData(responseData, regions) {
-    const dataLength = responseData.length;
+    console.time('[getInfoFromData] total');
+    const dataLength = Array.isArray(responseData) ? responseData.length : 0;
 
+    console.timeLog && console.timeLog('[getInfoFromData] total', 'start');
     dispatch(setTotalGenomes(dataLength));
     dispatch(setActualGenomes(dataLength));
 
@@ -288,6 +301,32 @@ export const DashboardPage = () => {
       const country = getCountryDisplayName(item['Country or Area']);
       ecRegions[region].push(country);
     });
+
+    // Special-case mapping: many Salmonella datasets use 'MLST_Achtman' as the genotype field
+    if (organism === 'senterica' || organism === 'sentericaints') {
+      try {
+        const sampleSize = Math.min(responseData.length, 1000);
+        let found = false;
+        for (let i = 0; i < sampleSize; i++) {
+          const r = responseData[i];
+          if (r && r['MLST_Achtman'] && `${r['MLST_Achtman']}`.trim() !== '') {
+            found = true;
+            break;
+          }
+        }
+
+        if (found) {
+          console.log(`🔁 [getInfoFromData] Mapping 'MLST_Achtman' -> GENOTYPE for ${organism}`);
+          responseData.forEach(r => {
+            if (r && (r['MLST_Achtman'] || r['MLST_Achtman'] === 0)) {
+              r.GENOTYPE = r['MLST_Achtman'];
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Error checking MLST_Achtman mapping:', e);
+      }
+    }
 
     // Get mapped values
     const genotypesSet = new Set();
@@ -346,7 +385,79 @@ export const DashboardPage = () => {
       }
     });
 
-    const genotypes = Array.from(genotypesSet).filter(Boolean);
+    // Diagnostics: check for missing or unexpected GENOTYPE values
+    let missingGenotypeCount = 0;
+    const genotypeExamples = new Set();
+    for (let i = 0; i < Math.min(responseData.length, 5000); i++) {
+      const row = responseData[i];
+      if (!row) continue;
+      if (!row.GENOTYPE || row.GENOTYPE === '') missingGenotypeCount++;
+      else genotypeExamples.add(row.GENOTYPE?.toString());
+    }
+
+    console.time('[getInfoFromData] post-scan');
+    console.timeEnd('[getInfoFromData] post-scan');
+    console.log(`📊 [getInfoFromData] ${organism} - dataLength=${dataLength}, sampleChecked=${Math.min(responseData.length,5000)}, missingGenotypeCount=${missingGenotypeCount}, genotypeExamplesSample=${Array.from(genotypeExamples).slice(0,5)}`);
+
+    if (genotypeExamples.size <= 2 && dataLength > 100 && ['ecoli', 'senterica'].includes(organism)) {
+      console.warn(`⚠️ [getInfoFromData] ${organism} has very few genotype values in the first 5k rows — dumping a small sample for inspection.`);
+      console.log('Sample rows (0..10):', responseData.slice(0, 10));
+    }
+
+    let genotypes = Array.from(genotypesSet).filter(Boolean);
+
+    // If no GENOTYPE values found (common for Salmonella / senterica), try to auto-detect
+    if (genotypes.length === 0 && responseData.length > 0) {
+      try {
+        console.warn(`🕵️ [getInfoFromData] No 'GENOTYPE' values detected for ${organism}, attempting auto-detect`);
+        const sampleSize = Math.min(responseData.length, 5000);
+        const fieldCounts = {};
+        for (let i = 0; i < sampleSize; i++) {
+          const row = responseData[i];
+          if (!row || typeof row !== 'object') continue;
+          Object.keys(row).forEach(k => {
+            if (!fieldCounts[k]) fieldCounts[k] = new Set();
+            const v = row[k];
+            if (v !== null && v !== undefined && `${v}`.trim() !== '') fieldCounts[k].add(`${v}`);
+          });
+        }
+
+        // Convert sets to sizes, filter out obvious non-genotype fields
+        const excludeFields = new Set(['COUNTRY_ONLY', 'DATE', 'PMID', 'ID', 'id', '_id', 'NAME']);
+
+        // If there is any field that looks like an MLST field, prefer it
+        const mlstCandidate = Object.keys(fieldCounts).find(k => /mlst/i.test(k));
+        let fieldSizes = Object.entries(fieldCounts)
+          .map(([k, s]) => ({ k, size: s.size }))
+          .filter(f => !excludeFields.has(f.k) && f.size > 1)
+          // Exclude fields that are almost-unique per row (likely an identifier)
+          .filter(f => f.size < Math.max(2, Math.floor(sampleSize * 0.9)))
+          .sort((a, b) => b.size - a.size);
+
+        if (mlstCandidate && fieldCounts[mlstCandidate] && fieldCounts[mlstCandidate].size > 1) {
+          fieldSizes.unshift({ k: mlstCandidate, size: fieldCounts[mlstCandidate].size });
+        }
+
+        if (fieldSizes.length > 0) {
+          const top = fieldSizes[0];
+          console.log(`🕵️ [getInfoFromData] Auto-detected genotype-like field: ${top.k} (unique=${top.size})`);
+          // Re-populate genotypesSet from this field
+          for (let i = 0; i < responseData.length; i++) {
+            const r = responseData[i];
+            if (!r) continue;
+            const v = r[top.k];
+            if (v !== null && v !== undefined && `${v}`.trim() !== '') genotypesSet.add(`${v}`);
+          }
+        } else {
+          console.warn(`🕵️ [getInfoFromData] Auto-detect found no suitable genotype-like field for ${organism}`);
+        }
+      } catch (e) {
+        console.error('Error during genotype auto-detect:', e);
+      }
+
+      // refresh genotypes array safely (avoid push.apply with very large arrays)
+      genotypes = Array.from(genotypesSet).filter(Boolean);
+    }
     const ngmast = Array.from(ngmastSet);
     const years = Array.from(yearsSet).filter(Boolean);
     const countries = Array.from(countriesSet).filter(Boolean);
@@ -406,7 +517,7 @@ export const DashboardPage = () => {
     });
 
     dispatch(setEconomicRegions(ecRegions));
-
+    console.time('[getInfoFromData] heavy');
     await Promise.all([
       // Get map data
       getStoreOrGenerateData(`${organism}_map`, async () =>
@@ -607,16 +718,25 @@ export const DashboardPage = () => {
               data: dt.data,
             };
           }).then(convergenceData => {
-            // dispatch(
-            //   setConvergenceColourPallete(
-            //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern), // Generate pallete for convergence Year dropdown
-            //   ),
-            // );
-            dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
-            dispatch(setConvergenceData(convergenceData.data));
+                // Safely handle convergenceData and its colourVariables
+                if (convergenceData && Array.isArray(convergenceData.colourVariables) && convergenceData.colourVariables.length > 0) {
+                  // dispatch(
+                  //   setConvergenceColourPallete(
+                  //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern), // Generate pallete for convergence Year dropdown
+                  //   ),
+                  // );
+                  dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
+                  dispatch(setConvergenceData(convergenceData.data));
+                } else {
+                  // Ensure we have safe defaults
+                  dispatch(setMaxSliderValueCM(0));
+                  dispatch(setConvergenceData([]));
+                }
           })
         : Promise.resolve(),
     ]);
+      console.timeEnd('[getInfoFromData] heavy');
+      console.timeEnd('[getInfoFromData] total');
   }
 
   /**
@@ -645,12 +765,24 @@ export const DashboardPage = () => {
         return (await axios.get('/api/getUNR')).data;
       });
 
-      // Process the data
+      // Seed essential UI quickly with a small sample to avoid freezing
+      try {
+        const sample = Array.isArray(organismData) ? organismData.slice(0, 1000) : [];
+        if (sample.length > 0) {
+          await loadEssentialGraphData(sample, organism, regions);
+        }
+      } catch (e) {
+        console.warn('[QUICK SEED] loadEssentialGraphData failed:', e);
+      }
+
+      // Process the data (full)
       await getInfoFromData(organismData, regions);
 
       // Set organism-specific configurations
       dispatch(setDataset('All'));
       setOrganismSpecificConfig(organism, true); // true = isPaginated
+      // Enable filtering pipeline so graphs update on initial/tab load
+      dispatch(setCanFilterData(true));
 
       const endTime = performance.now();
     } catch (error) {
@@ -700,12 +832,24 @@ export const DashboardPage = () => {
         return (await axios.get('/api/getUNR')).data;
       });
 
-      // Process the data
+      // Seed essential UI quickly with a small sample to avoid freezing
+      try {
+        const sample = Array.isArray(organismData) ? organismData.slice(0, 1000) : [];
+        if (sample.length > 0) {
+          await loadEssentialGraphData(sample, organism, regions);
+        }
+      } catch (e) {
+        console.warn('[QUICK SEED] loadEssentialGraphData failed:', e);
+      }
+
+      // Process the data (full)
       await getInfoFromData(organismData, regions);
 
       // Set organism configs
       dispatch(setDataset('All'));
       setOrganismSpecificConfig(organism, true); // true = isPaginated
+      // Enable filtering pipeline so graphs update on initial/tab load
+      dispatch(setCanFilterData(true));
 
       const endTime = performance.now();
       console.log(`✅ [QUICK FIX] ${organism} loaded in ${Math.round(endTime - startTime)}ms`);
@@ -1069,10 +1213,22 @@ export const DashboardPage = () => {
         // Set organism-specific configurations for paginated flow
         dispatch(setDataset('All'));
         setOrganismSpecificConfig(organism, true); // true = paginated
+        // Enable filtering pipeline so graphs update on initial/tab load
+        dispatch(setCanFilterData(true));
       } else {
         const regions = await getStoreOrGenerateData('unr', async () => {
           return (await axios.get('/api/getUNR')).data;
         });
+
+        // Seed essential UI quickly with a small sample to avoid freezing
+        try {
+          const sample = Array.isArray(organismData) ? organismData.slice(0, 1000) : [];
+          if (sample.length > 0) {
+            await loadEssentialGraphData(sample, storeName, regions);
+          }
+        } catch (e) {
+          console.warn('[QUICK SEED] loadEssentialGraphData failed:', e);
+        }
 
         const dataProcessingStart = performance.now();
         await getInfoFromData(organismData, regions);
@@ -1083,6 +1239,8 @@ export const DashboardPage = () => {
         // Set organism-specific configurations
         dispatch(setDataset('All'));
         setOrganismSpecificConfig(organism, false); // false = not paginated
+        // Enable filtering pipeline so graphs update on initial/tab load
+        dispatch(setCanFilterData(true));
       }
 
       const clientEndTime = performance.now();
@@ -1318,6 +1476,12 @@ export const DashboardPage = () => {
   ]);
 
   async function updateDataOnFilters() {
+    if (isApplyingFilters.current) {
+      console.debug('[Dashboard] updateDataOnFilters: already running, skipping concurrent call');
+      return;
+    }
+    isApplyingFilters.current = true;
+    console.debug('[Dashboard] updateDataOnFilters: start');
     const storeData = await getItems(organism);
 
     if (organism === 'kpneumo' && convergenceGroupVariable !== currentConvergenceGroupVariable) {
@@ -1340,12 +1504,16 @@ export const DashboardPage = () => {
         false,
       );
 
-      // dispatch(
-      //   setConvergenceColourPallete(
-      //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern),
-      //   ),
-      // );
-      if (convergenceData && convergenceData.colourVariables) {
+      if (
+        convergenceData &&
+        Array.isArray(convergenceData.colourVariables) &&
+        convergenceData.colourVariables.length > 0
+      ) {
+        dispatch(
+          setConvergenceColourPallete(
+            generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern),
+          ),
+        );
         dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
         dispatch(setConvergenceData(convergenceData.data));
       }
@@ -1481,13 +1649,23 @@ export const DashboardPage = () => {
         dispatch(setKOForFilterDynamic(koData.uniqueKO));
         // dispatch(setKODiversityData(koDiversityData));
 
-        // dispatch(
-        //   setConvergenceColourPallete(
-        //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern),
-        //   ),
-        // );
-        dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
-        dispatch(setConvergenceData(convergenceData.data));
+        if (
+          convergenceData &&
+          Array.isArray(convergenceData.colourVariables) &&
+          convergenceData.colourVariables.length > 0
+        ) {
+          dispatch(
+            setConvergenceColourPallete(
+              generatePalleteForGenotypes(
+                convergenceData.colourVariables,
+                convergenceGroupVariable,
+                colourPattern,
+              ),
+            ),
+          );
+          dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
+          dispatch(setConvergenceData(convergenceData.data));
+        }
       } else if (organism === 'ngono') {
         dispatch(setCgSTYearData(yearsData.NGMASTData));
       }
@@ -1500,6 +1678,8 @@ export const DashboardPage = () => {
     }
 
     dispatch(setCanFilterData(false));
+    isApplyingFilters.current = false;
+    console.debug('[Dashboard] updateDataOnFilters: end');
   }
 
   /* COMMENTED DUE TO RETURNING AN ERROR ON THE CONSOLE EVERYTIME THE WEBSITE IS OPEN, NEED TO DO A RE-EVALUATION

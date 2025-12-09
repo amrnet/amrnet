@@ -461,7 +461,7 @@ router.get('/getDataForSenterica', async function (req, res, next) {
     const skip = (page - 1) * limit;
 
     // Query: include only dashboard-visible documents
-    const query = { 'dashboard view': { $regex: /^include$/i } };
+    const query = { 'dashboard view': { $regex: /^Include$/i } };
 
     // Get total count for pagination metadata
     const client = await connectDB();
@@ -508,7 +508,10 @@ router.get('/getDataForSenterica', async function (req, res, next) {
     console.log(`Found ${totalDocuments} documents for Senterica (paged). Returning ${results.length} rows.`);
 
     if (results.length > 0) {
-      return res.json({ data: results, pagination: { page, limit, totalDocuments, totalPages: Math.ceil(totalDocuments / limit) } });
+      return res.json({
+        data: results,
+        pagination: { page, limit, totalDocuments, totalPages: Math.ceil(totalDocuments / limit) },
+      });
     }
 
     return readCsvFallback(Tools.path_clean_se, res);

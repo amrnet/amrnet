@@ -16,7 +16,7 @@ export const InformationCards = () => {
   const organism = useAppSelector(state => state.dashboard.organism);
 
   const totalLabel = useMemo(() => {
-    const stOrganisms = ['kpneumo', 'shige', 'decoli', 'ecoli'];
+    const stOrganisms = ['kpneumo', 'shige', 'decoli', 'ecoli', 'senterica'];
     if (stOrganisms.includes(organism)) {
       return 'Total STs';
     }

@@ -65,11 +65,11 @@
     },
     "citation": {
       "title": "Citation for AMRnet",
-      "intro": "If you use the AMRnet website or code, please cite Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. Nucleic Acids Res. Published online November 6, 2025. doi:[10.1093/nar/gkaf1101](https://doi.org/10.1093/nar/gkaf1101)",
+      "intro": "If you use the AMRnet website or code, please cite Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. Nucleic Acids Res. Published online November 6, 2025.",
       "githubLabel": "GitHub:",
       "githubUrl": "https://github.com/amrnet/amrnet",
       "doiLabel": "DOI:",
-      "doiUrl": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+      "doiUrl": "https://doi.org/10.1093/nar/gkaf1101"
     },
     "funding": "The project is funded by the Wellcome Trust (grant 226432/Z/22/Z).",
     "links": {

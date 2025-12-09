@@ -1,17 +1,14 @@
-import { BubbleChart, StackedBarChart, Timeline, ViewModule, BarChart } from '@mui/icons-material';
-import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
-import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
-import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
-import { TrendsGraph } from '../components/Elements/Graphs/TrendsGraph';
-import { KODiversityGraph } from '../components/Elements/Graphs/KODiversityGraph';
-import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
+import { BubbleChart, StackedBarChart, Timeline, ViewModule } from '@mui/icons-material';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
-import { amrLikeOrganisms, organismsCards } from './organismsCards';
-import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
+import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
+import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
+import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
+import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
+import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
-import { FrequenciesGraph } from '../components/Elements/Graphs/FrequenciesGraph';
+import { amrLikeOrganisms, organismsCards } from './organismsCards';
 
 function getHeatMapsTitle(organism) {
   switch (organism) {
@@ -163,5 +160,5 @@ export const continentGraphCard = {
 export const continentPGraphCard = {
   title: 'Pathotype Comparisons',
   icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli', 'sentericaints'],
+  organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
 };
