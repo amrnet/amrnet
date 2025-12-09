@@ -6,51 +6,74 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
   console.log(`🚀 [QUICK FIX] Loading ${organism} with pagination`);
 
   try {
-    // Step 1: Get summary
-    onProgress('Getting data size...');
-    const summaryResponse = await axios.get(`/api/optimized/summary/${organism}`);
-    const totalDocuments = summaryResponse.data.totalDocuments;
+    // Map organisms to their correct endpoint names
+    const endpointMap = {
+      styphi: 'STyphi',
+      kpneumo: 'Kpneumo',
+      ngono: 'Ngono',
+      ecoli: 'Ecoli',
+      decoli: 'DEcoli',
+      shige: 'Shige',
+      senterica: 'Senterica',
+      sentericaints: 'Sentericaints',
+    };
 
-    console.log(`📊 [QUICK FIX] ${organism} has ${totalDocuments.toLocaleString()} documents`);
+    const endpointName = endpointMap[organism] || organism;
 
-    // Always use pagination for kpneumo, regardless of size
-    if (organism === 'kpneumo' || totalDocuments > 20000) {
-      const pageSize = totalDocuments > 200000 ? 3000 : 5000;
-      const totalPages = Math.ceil(totalDocuments / pageSize);
-      let allData = [];
+    // Use the paginated endpoint that has proper field projections
+    const pageSize = 3000;
+    let allData = [];
+    let page = 1;
+    let hasMoreData = true;
 
-      for (let page = 1; page <= totalPages; page++) {
-        onProgress(`Loading page ${page}/${totalPages}...`);
+    while (hasMoreData) {
+      onProgress(`Loading page ${page}...`);
 
-        const response = await axios.get(`/api/optimized/paginated/${organism}`, {
+      try {
+        const response = await axios.get(`/api/getDataFor${endpointName}`, {
           params: { page, limit: pageSize },
-          timeout: 45000,
+          timeout: 60000,
         });
 
-        const pageData = response.data.data || [];
+        const pageData = response.data.data || response.data || [];
+        if (!Array.isArray(pageData) || pageData.length === 0) {
+          hasMoreData = false;
+          break;
+        }
+
         allData = allData.concat(pageData);
+        console.log(
+          `📄 [QUICK FIX] Page ${page}: ${pageData.length} records (total: ${allData.length})`,
+        );
 
-        console.log(`📄 [QUICK FIX] Page ${page}: ${pageData.length} records (total: ${allData.length})`);
+        // Check if we've got all data (response includes pagination metadata)
+        if (response.data.pagination) {
+          const { totalPages } = response.data.pagination;
+          if (page >= totalPages) {
+            hasMoreData = false;
+          }
+        }
 
-        if (totalDocuments > 200000 && page % 1 === 0) {
+        // Throttle to avoid overwhelming the server
+        if (page % 5 === 0) {
           await new Promise(resolve => setTimeout(resolve, 100));
-        } else if (page % 2 === 0) {
-          await new Promise(resolve => setTimeout(resolve, 50));
+        }
+
+        page++;
+      } catch (pageError) {
+        console.warn(`⚠️ [QUICK FIX] Error loading page ${page}:`, pageError);
+        // If we got at least some data, return it; otherwise throw
+        if (allData.length > 0) {
+          console.log(`⚠️ [QUICK FIX] Returning ${allData.length} records despite page error`);
+          hasMoreData = false;
+        } else {
+          throw pageError;
         }
       }
-
-      return allData;
-    } else {
-      // Small dataset - load normally
-      onProgress('Loading data...');
-      const response = await axios.get(
-        `/api/optimized/getDataFor${organism.charAt(0).toUpperCase() + organism.slice(1)}`,
-        {
-          timeout: 60000,
-        },
-      );
-      return response.data;
     }
+
+    console.log(`✅ [QUICK FIX] Loaded total of ${allData.length} records for ${organism}`);
+    return allData;
   } catch (error) {
     console.error(`❌ [QUICK FIX] Error loading ${organism}:`, error);
     throw error;

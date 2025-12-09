@@ -96,6 +96,7 @@ import {
   setMapView,
   setPosition,
 } from '../../stores/slices/mapSlice.ts';
+import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import {
   defaultDrugsForDrugResistanceGraphNG,
   defaultDrugsForDrugResistanceGraphST,
@@ -126,7 +127,6 @@ import {
   getMapData,
   getYearsData,
 } from './filters';
-import { generatePalleteForGenotypes } from '../../util/colorHelper';
 
 // The optimized data service is already imported as an instance
 // No need to create a new instance
@@ -305,6 +305,11 @@ export const DashboardPage = () => {
     // Special-case mapping: many Salmonella datasets use 'MLST_Achtman' as the genotype field
     if (organism === 'senterica' || organism === 'sentericaints') {
       try {
+        if (responseData.length > 0) {
+          console.log('🔍 [SENTERICA DEBUG] First row sample:', JSON.stringify(responseData[0], null, 2));
+          console.log('🔍 [SENTERICA DEBUG] Field names:', Object.keys(responseData[0]));
+        }
+
         const sampleSize = Math.min(responseData.length, 1000);
         let found = false;
         for (let i = 0; i < sampleSize; i++) {
@@ -322,6 +327,8 @@ export const DashboardPage = () => {
               r.GENOTYPE = r['MLST_Achtman'];
             }
           });
+        } else {
+          console.warn('⚠️ [SENTERICA DEBUG] MLST_Achtman not found, will try auto-detect');
         }
       } catch (e) {
         console.warn('Error checking MLST_Achtman mapping:', e);
@@ -397,11 +404,18 @@ export const DashboardPage = () => {
 
     console.time('[getInfoFromData] post-scan');
     console.timeEnd('[getInfoFromData] post-scan');
-    console.log(`📊 [getInfoFromData] ${organism} - dataLength=${dataLength}, sampleChecked=${Math.min(responseData.length,5000)}, missingGenotypeCount=${missingGenotypeCount}, genotypeExamplesSample=${Array.from(genotypeExamples).slice(0,5)}`);
+    console.log(
+      `📊 [getInfoFromData] ${organism} - dataLength=${dataLength}, sampleChecked=${Math.min(responseData.length, 5000)}, missingGenotypeCount=${missingGenotypeCount}, genotypeExamplesSample=${Array.from(genotypeExamples).slice(0, 5)}`,
+    );
 
     if (genotypeExamples.size <= 2 && dataLength > 100 && ['ecoli', 'senterica'].includes(organism)) {
-      console.warn(`⚠️ [getInfoFromData] ${organism} has very few genotype values in the first 5k rows — dumping a small sample for inspection.`);
+      console.warn(
+        `⚠️ [getInfoFromData] ${organism} has very few genotype values in the first 5k rows — dumping a small sample for inspection.`,
+      );
       console.log('Sample rows (0..10):', responseData.slice(0, 10));
+      if (organism === 'senterica' && responseData.length > 0) {
+        console.log('🔍 Field names in first row:', Object.keys(responseData[0]));
+      }
     }
 
     let genotypes = Array.from(genotypesSet).filter(Boolean);
@@ -423,11 +437,11 @@ export const DashboardPage = () => {
         }
 
         // Convert sets to sizes, filter out obvious non-genotype fields
-        const excludeFields = new Set(['COUNTRY_ONLY', 'DATE', 'PMID', 'ID', 'id', '_id', 'NAME']);
+        const excludeFields = new Set(['ID', 'id', '_id']);
 
         // If there is any field that looks like an MLST field, prefer it
         const mlstCandidate = Object.keys(fieldCounts).find(k => /mlst/i.test(k));
-        let fieldSizes = Object.entries(fieldCounts)
+        const fieldSizes = Object.entries(fieldCounts)
           .map(([k, s]) => ({ k, size: s.size }))
           .filter(f => !excludeFields.has(f.k) && f.size > 1)
           // Exclude fields that are almost-unique per row (likely an identifier)
@@ -718,25 +732,29 @@ export const DashboardPage = () => {
               data: dt.data,
             };
           }).then(convergenceData => {
-                // Safely handle convergenceData and its colourVariables
-                if (convergenceData && Array.isArray(convergenceData.colourVariables) && convergenceData.colourVariables.length > 0) {
-                  // dispatch(
-                  //   setConvergenceColourPallete(
-                  //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern), // Generate pallete for convergence Year dropdown
-                  //   ),
-                  // );
-                  dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
-                  dispatch(setConvergenceData(convergenceData.data));
-                } else {
-                  // Ensure we have safe defaults
-                  dispatch(setMaxSliderValueCM(0));
-                  dispatch(setConvergenceData([]));
-                }
+            // Safely handle convergenceData and its colourVariables
+            if (
+              convergenceData &&
+              Array.isArray(convergenceData.colourVariables) &&
+              convergenceData.colourVariables.length > 0
+            ) {
+              // dispatch(
+              //   setConvergenceColourPallete(
+              //     generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern), // Generate pallete for convergence Year dropdown
+              //   ),
+              // );
+              dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
+              dispatch(setConvergenceData(convergenceData.data));
+            } else {
+              // Ensure we have safe defaults
+              dispatch(setMaxSliderValueCM(0));
+              dispatch(setConvergenceData([]));
+            }
           })
         : Promise.resolve(),
     ]);
-      console.timeEnd('[getInfoFromData] heavy');
-      console.timeEnd('[getInfoFromData] total');
+    console.timeEnd('[getInfoFromData] heavy');
+    console.timeEnd('[getInfoFromData] total');
   }
 
   /**
@@ -1656,11 +1674,7 @@ export const DashboardPage = () => {
         ) {
           dispatch(
             setConvergenceColourPallete(
-              generatePalleteForGenotypes(
-                convergenceData.colourVariables,
-                convergenceGroupVariable,
-                colourPattern,
-              ),
+              generatePalleteForGenotypes(convergenceData.colourVariables, convergenceGroupVariable, colourPattern),
             ),
           );
           dispatch(setMaxSliderValueCM(convergenceData.colourVariables.length));
