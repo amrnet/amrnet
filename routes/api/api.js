@@ -365,6 +365,39 @@ router.get('/getDataForEcoli', async function (req, res, next) {
       .limit(limit)
       .toArray();
     console.log(`Found ${result.length} documents for Ecoli (page ${page}).`);
+    
+    // On page 1, also return metadata (unique years, countries, genotypes) for faster initialization
+    let metadata = null;
+    if (page === 1) {
+      try {
+        const metadataPipeline = [
+          { $match: query },
+          { $group: {
+              _id: null,
+              uniqueYears: { $addToSet: '$DATE' },
+              uniqueCountries: { $addToSet: '$COUNTRY_ONLY' },
+              uniqueGenotypes: { $addToSet: '$GENOTYPE' },
+            },
+          },
+        ];
+        const metaResult = await client
+          .db(dbAndCollection.dbName)
+          .collection(dbAndCollection.collectionName)
+          .aggregate(metadataPipeline)
+          .toArray();
+        if (metaResult.length > 0) {
+          const m = metaResult[0];
+          metadata = {
+            years: (m.uniqueYears || []).filter(Boolean).sort(),
+            countries: (m.uniqueCountries || []).filter(Boolean).sort(),
+            genotypes: (m.uniqueGenotypes || []).filter(Boolean).sort((a, b) => a.localeCompare(b)),
+          };
+        }
+      } catch (e) {
+        console.warn('Failed to fetch metadata for Ecoli:', e);
+      }
+    }
+    
     return res.json({
       data: result,
       pagination: {
@@ -373,6 +406,7 @@ router.get('/getDataForEcoli', async function (req, res, next) {
         totalDocuments,
         totalPages: Math.ceil(totalDocuments / limit),
       },
+      metadata, // Include metadata on page 1
     });
   } catch (error) {
     console.error(error);
@@ -507,10 +541,51 @@ router.get('/getDataForSenterica', async function (req, res, next) {
 
     console.log(`Found ${totalDocuments} documents for Senterica (paged). Returning ${results.length} rows.`);
 
+    // On page 1, also return metadata (unique years, countries, genotypes) for faster initialization
+    let metadata = null;
+    if (page === 1) {
+      try {
+        const metadataPipeline = [
+          { $match: query },
+          { $group: {
+              _id: null,
+              uniqueYears: { $addToSet: '$DATE' },
+              uniqueCountries: { $addToSet: '$COUNTRY_ONLY' },
+              uniqueGenotypes: {
+                $addToSet: {
+                  $cond: {
+                    if: { $ne: ['$MLST_Achtman', null] },
+                    then: '$MLST_Achtman',
+                    else: 'Unknown',
+                  },
+                },
+              },
+            },
+          },
+        ];
+        const metaResult = await client
+          .db(dbAndCollection.dbName)
+          .collection(dbAndCollection.collectionName)
+          .aggregate(metadataPipeline)
+          .toArray();
+        if (metaResult.length > 0) {
+          const m = metaResult[0];
+          metadata = {
+            years: (m.uniqueYears || []).filter(Boolean).sort(),
+            countries: (m.uniqueCountries || []).filter(Boolean).sort(),
+            genotypes: (m.uniqueGenotypes || []).filter(Boolean).sort((a, b) => a.localeCompare(b)),
+          };
+        }
+      } catch (e) {
+        console.warn('Failed to fetch metadata for Senterica:', e);
+      }
+    }
+
     if (results.length > 0) {
       return res.json({
         data: results,
         pagination: { page, limit, totalDocuments, totalPages: Math.ceil(totalDocuments / limit) },
+        metadata, // Include metadata on page 1
       });
     }
 
