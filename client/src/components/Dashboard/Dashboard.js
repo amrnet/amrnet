@@ -822,7 +822,10 @@ export const DashboardPage = () => {
     try {
       console.log(`🚀 [QUICK FIX] Starting quick load for ${organism}`);
 
-      const organismData = await getStoreOrGenerateData(organism, async () => {
+      let organismData = null;
+      let metadata = null;
+
+      const result = await getStoreOrGenerateData(organism, async () => {
         console.log(`🌐 [CLIENT] Fetching from loadOrganismQuickly`);
         const apiStartTime = performance.now();
 
@@ -835,11 +838,22 @@ export const DashboardPage = () => {
         const dataSize = JSON.stringify(response).length;
 
         console.log(
-          `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.length} records`,
+          `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.data.length} records`,
         );
 
         return response;
       });
+
+      // Extract data and metadata from result
+      if (result && typeof result === 'object' && result.data) {
+        // Result is { data: [...], metadata: {...} }
+        organismData = result.data;
+        metadata = result.metadata;
+      } else {
+        // Fallback for legacy format
+        organismData = result;
+        metadata = null;
+      }
 
       // CRITICAL FIX: Store organism data in IndexedDB (was missing)
       // console.log(`💾 [QUICK FIX] Storing ${organism} data in IndexedDB (${organismData.length} records)`);
@@ -868,14 +882,24 @@ export const DashboardPage = () => {
       setOrganismSpecificConfig(organism, true); // true = isPaginated
 
       // CRITICAL: Initialize filter values before enabling filter pipeline
-      // This ensures updateDataOnFilters has valid state when it runs
-      const years = Array.from(
-        new Set((Array.isArray(organismData) ? organismData : []).map(x => x.DATE).filter(Boolean)),
-      ).sort();
+      // Use server-provided metadata if available (much faster), otherwise compute from data
+      let years = [];
+      let countries = [];
 
-      const countries = Array.from(
-        new Set((Array.isArray(organismData) ? organismData : []).map(x => x.COUNTRY_ONLY).filter(Boolean)),
-      ).sort();
+      if (metadata && metadata.years && metadata.countries) {
+        years = metadata.years;
+        countries = metadata.countries;
+        console.log(`⚡ [QUICK FIX] Using server metadata: ${years.length} years, ${countries.length} countries`);
+      } else {
+        // Fallback: compute from data (slower but handles all organisms)
+        years = Array.from(
+          new Set((Array.isArray(organismData) ? organismData : []).map(x => x.DATE).filter(Boolean)),
+        ).sort();
+        countries = Array.from(
+          new Set((Array.isArray(organismData) ? organismData : []).map(x => x.COUNTRY_ONLY).filter(Boolean)),
+        ).sort();
+        console.log(`⏳ [QUICK FIX] Computed from data: ${years.length} years, ${countries.length} countries`);
+      }
 
       if (years.length > 0) {
         dispatch(setActualTimeInitial(years[0]));
@@ -1584,7 +1608,7 @@ export const DashboardPage = () => {
       dispatch(setActualGenotypes(filters.genotypesCount));
       dispatch(setListPMID(filters.listPMID));
 
-      // Prepare data in parallel
+      // Prepare data in parallel - back to Promise.all for speed
       const [
         mapData,
         mapRegionData,
@@ -1625,18 +1649,20 @@ export const DashboardPage = () => {
           : Promise.resolve({ KOYearsData: [], uniqueKO: { O_locus: [], K_locus: [], O_type: [] } }),
         // organism === 'kpneumo' ? Promise.resolve(getKODiversityData({ data: filteredData })) : Promise.resolve([]),
         organism === 'kpneumo'
-          ? getStoreOrGenerateData(`${organism}_convergence`, () => {
-              const dt = getConvergenceData({
-                data: filteredData,
-                groupVariable: convergenceGroupVariable,
-                colourVariable: convergenceGroupVariable,
-              });
-              return {
-                name: `${convergenceGroupVariable}_${convergenceGroupVariable}`,
-                colourVariables: dt.colourVariables,
-                data: dt.data,
-              };
-            })
+          ? Promise.resolve(
+              (() => {
+                const dt = getConvergenceData({
+                  data: filteredData,
+                  groupVariable: convergenceGroupVariable,
+                  colourVariable: convergenceGroupVariable,
+                });
+                return {
+                  name: `${convergenceGroupVariable}_${convergenceGroupVariable}`,
+                  colourVariables: dt.colourVariables,
+                  data: dt.data,
+                };
+              })(),
+            )
           : Promise.resolve({ data: [], colourVariables: [] }),
         // ['styphi', 'kpneumo'].includes(organism)
         //   ?

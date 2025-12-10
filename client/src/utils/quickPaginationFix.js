@@ -25,6 +25,7 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
     let allData = [];
     let page = 1;
     let hasMoreData = true;
+    let metadata = null;
 
     while (hasMoreData) {
       onProgress(`Loading page ${page}...`);
@@ -36,6 +37,17 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
         });
 
         const pageData = response.data.data || response.data || [];
+        
+        // Capture metadata from page 1 to avoid re-processing all records
+        if (page === 1 && response.data.metadata) {
+          metadata = response.data.metadata;
+          console.log(`📊 [QUICK FIX] Got metadata for ${organism}:`, {
+            years: metadata.years?.length,
+            countries: metadata.countries?.length,
+            genotypes: metadata.genotypes?.length,
+          });
+        }
+        
         if (!Array.isArray(pageData) || pageData.length === 0) {
           hasMoreData = false;
           break;
@@ -71,7 +83,9 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
     }
 
     console.log(`✅ [QUICK FIX] Loaded total of ${allData.length} records for ${organism}`);
-    return allData;
+    
+    // Return both the data and the metadata for fast initialization
+    return { data: allData, metadata };
   } catch (error) {
     console.error(`❌ [QUICK FIX] Error loading ${organism}:`, error);
     throw error;
