@@ -869,17 +869,13 @@ export const DashboardPage = () => {
 
       // CRITICAL: Initialize filter values before enabling filter pipeline
       // This ensures updateDataOnFilters has valid state when it runs
-      const years = Array.from(new Set(
-        (Array.isArray(organismData) ? organismData : [])
-          .map(x => x.DATE)
-          .filter(Boolean)
-      )).sort();
+      const years = Array.from(
+        new Set((Array.isArray(organismData) ? organismData : []).map(x => x.DATE).filter(Boolean)),
+      ).sort();
 
-      const countries = Array.from(new Set(
-        (Array.isArray(organismData) ? organismData : [])
-          .map(x => x.COUNTRY_ONLY)
-          .filter(Boolean)
-      )).sort();
+      const countries = Array.from(
+        new Set((Array.isArray(organismData) ? organismData : []).map(x => x.COUNTRY_ONLY).filter(Boolean)),
+      ).sort();
 
       if (years.length > 0) {
         dispatch(setActualTimeInitial(years[0]));
