@@ -866,6 +866,31 @@ export const DashboardPage = () => {
       // Set organism configs
       dispatch(setDataset('All'));
       setOrganismSpecificConfig(organism, true); // true = isPaginated
+
+      // CRITICAL: Initialize filter values before enabling filter pipeline
+      // This ensures updateDataOnFilters has valid state when it runs
+      const years = Array.from(new Set(
+        (Array.isArray(organismData) ? organismData : [])
+          .map(x => x.DATE)
+          .filter(Boolean)
+      )).sort();
+
+      const countries = Array.from(new Set(
+        (Array.isArray(organismData) ? organismData : [])
+          .map(x => x.COUNTRY_ONLY)
+          .filter(Boolean)
+      )).sort();
+
+      if (years.length > 0) {
+        dispatch(setActualTimeInitial(years[0]));
+        dispatch(setActualTimeFinal(years[years.length - 1]));
+      }
+
+      if (countries.length > 0) {
+        dispatch(setActualCountry(countries.length > 0 ? 'All' : ''));
+        dispatch(setActualRegion('All'));
+      }
+
       // Enable filtering pipeline so graphs update on initial/tab load
       dispatch(setCanFilterData(true));
 

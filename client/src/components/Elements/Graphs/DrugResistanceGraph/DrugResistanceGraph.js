@@ -288,8 +288,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   // Effect to ensure all drugs are selected by default for paginated organisms
   useEffect(() => {
-    // Handle auto-selection for paginated organisms (kpneumo, ecoli, decoli)
-    if (['kpneumo', 'ecoli', 'decoli'].includes(organism) && drugsYearData.length > 0) {
+    // Handle auto-selection for paginated organisms (kpneumo, ecoli, decoli, senterica, sentericaints)
+    if (['kpneumo', 'ecoli', 'decoli', 'senterica', 'sentericaints'].includes(organism) && drugsYearData.length > 0) {
       const dataKeys = Object.keys(drugsYearData[0]).filter(key => !['name', 'count'].includes(key));
       const availableDrugs = getDrugs().filter(drug => dataKeys.includes(drug));
 
