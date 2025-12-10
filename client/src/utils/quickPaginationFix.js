@@ -42,9 +42,7 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
         }
 
         allData = allData.concat(pageData);
-        console.log(
-          `📄 [QUICK FIX] Page ${page}: ${pageData.length} records (total: ${allData.length})`,
-        );
+        console.log(`📄 [QUICK FIX] Page ${page}: ${pageData.length} records (total: ${allData.length})`);
 
         // Check if we've got all data (response includes pagination metadata)
         if (response.data.pagination) {
