@@ -240,7 +240,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     if (!drugKey) return [];
 
     // Common exclusions for all organisms
-    const EXCLUSIONS = new Set(['None', 'name', 'resistantCount', 'totalCount']);
+    const EXCLUSIONS = new Set(['None', 'name', 'count', 'resistantCount', 'totalCount']);
 
     // Helper function to aggregate drug data
     const aggregateDrugs = (dataArray, filterFn = () => true) => {
@@ -259,17 +259,13 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         .map(([name]) => name);
     };
 
-    // Get data source based on organism type
-    const isLegacyStructure = ['kpneumo', 'styphi', 'ngono'].includes(organism);
-    // const dataSource = isLegacyStructure
-    //   ? drugsData?.[drugKey]
-    //   : genotypesDrugClassesData[drugKey];
+    // Get data source - for geographic comparisons, all organisms use drugsData
     const dataSource = drugsData?.[drugKey];
 
     if (!dataSource) return [];
 
-    // Apply filtering only for legacy structure
-    const filterFn = isLegacyStructure ? item => xAxisSelected.includes(item.name) : () => true;
+    // Apply filtering to only show selected countries/regions
+    const filterFn = item => xAxisSelected.includes(item.name);
 
     return aggregateDrugs(dataSource, filterFn);
   }, [drugsData, xAxisSelected, yAxisTypeTrend, organism]);
@@ -536,17 +532,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         }
 
         if (yAxisType === 'determinant') {
-          // Enhanced to support all organisms
-          let count = 0;
-          if (['kpneumo', 'styphi'].includes(organism)) {
-            const bucketParent = drugsCountriesData?.[parent] || [];
-            count = Array.isArray(bucketParent) ? bucketParent.find(g => g && g.name === x.name)?.[item] || 0 : 0;
-          } else {
-            const relevantData = genotypesDrugClassesData[parent];
-            if (relevantData) {
-              count = relevantData.reduce((sum, dataItem) => sum + (dataItem[item] || 0), 0);
-            }
-          }
+          // For all organisms, use drugsCountriesData for geographic comparisons
+          const bucketParent = drugsCountriesData?.[parent] || [];
+          const count = Array.isArray(bucketParent) ? bucketParent.find(g => g && g.name === x.name)?.[item] || 0 : 0;
 
           if (count > 0) {
             info['itemCount'] = count;
@@ -577,7 +565,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     [
       GLPSColumn,
       drugsCountriesData,
-      genotypesDrugClassesData,
       economicRegions,
       mapData,
       organism,
@@ -668,19 +655,12 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
             parent: drugKey,
           });
 
-          // Data extraction strategies
-          const getDataForOrganism = () => {
-            const bucket = drugsData?.[drugKey] || [];
-            const locationData = Array.isArray(bucket) ? bucket.find(x => x && x.name === item.name) : undefined;
-            return {
-              getData: drug => (locationData && locationData[drug]) || 0,
-              getTotal: () => (locationData && locationData.totalCount) || 0,
-            };
-          };
-
-          // Select appropriate strategy
-          // const isLegacy = ['kpneumo', 'styphi'].includes(organism);
-          const { getData, getTotal } = getDataForOrganism();
+          // Data extraction for geographic comparisons - all organisms use drugsData
+          const bucket = drugsData?.[drugKey] || [];
+          const locationData = Array.isArray(bucket) ? bucket.find(x => x && x.name === item.name) : undefined;
+          
+          const getData = drug => (locationData && locationData[drug]) || 0;
+          const getTotal = () => (locationData && locationData.totalCount) || 0;
           const totalCount = getTotal();
 
           // Process all drugs with single loop
@@ -696,7 +676,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }, [
     GLPSColumn,
     drugsData,
-    genotypesDrugClassesData,
     mapData,
     mapRegionData,
     organism,
