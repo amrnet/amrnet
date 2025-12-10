@@ -11,9 +11,6 @@ import {
   Select,
   Tooltip,
   Typography,
-  FormGroup,
-  FormControlLabel,
-  Switch
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -76,9 +73,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const [plotChart, setPlotChart] = useState(() => {});
   const [lineStyle, setLineStyle] = useState('');
 
-  const getLineStyleForDrug = (drugName) => {
-      
-    const lineStyles = ["Normal", "Thick"];
+  const getLineStyleForDrug = drugName => {
+    const lineStyles = ['Normal', 'Thick'];
 
     const drugIndex = getDrugsForLegends().indexOf(drugName);
     return drugIndex !== -1 ? lineStyles[drugIndex % lineStyles.length] : lineStyles[0];
@@ -92,7 +88,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
   const organism = useAppSelector(state => state.dashboard.organism);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
-  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -405,22 +401,22 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                             dataKeyElement = ciproAcronyms[dataKey] || dataKey;
                           }
                           return (
-                            <div
-                              key={`drug-resistance-legend-${index}`}
-                              className={classes.legendItemWrapper}
-                            >
-                              {!colourPattern ? <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
-                                :<svg width={16} height={16}>
+                            <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
+                              {!colourPattern ? (
+                                <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                              ) : (
+                                <svg width={16} height={16}>
                                   <circle
                                     cx="8"
                                     cy="8"
                                     r="2"
                                     fill="none"
                                     stroke={color}
-                                    strokeWidth={index%2 == 0 ? 5 : 7}
+                                    strokeWidth={index % 2 == 0 ? 5 : 7}
                                     // strokeDasharray={getLineStyleForDrug(dataKey)}
                                   />
-                                </svg>}
+                                </svg>
+                              )}
                               <Typography variant="caption">{dataKeyElement}</Typography>
                             </div>
                           );
@@ -440,24 +436,24 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                 }}
               />
 
-            {getDrugsForLegends().map((option, index) => {
-              const color = getColorForDrug(option, colourPattern);
-              const lineStyle = getLineStyleForDrug(option);
-              return (
-                <Line
-                  key={`drug-resistance-bar-${index}`}
-                  dataKey={option}
-                  // strokeWidth={2}
-                  stroke={color}
-                  strokeWidth={!colourPattern ? 2 : index%2 == 0 ? 2 : 3}
-                  // strokeDasharray={"solid"}
-                  strokeDasharray={!colourPattern ? "solid" : lineStyle}
-                  connectNulls
-                  type="monotone"
-                  activeDot={timeInitial === timeFinal}
-                />
-              );
-            })}
+              {getDrugsForLegends().map((option, index) => {
+                const color = getColorForDrug(option, colourPattern);
+                const lineStyle = getLineStyleForDrug(option);
+                return (
+                  <Line
+                    key={`drug-resistance-bar-${index}`}
+                    dataKey={option}
+                    // strokeWidth={2}
+                    stroke={color}
+                    strokeWidth={!colourPattern ? 2 : index % 2 == 0 ? 2 : 3}
+                    // strokeDasharray={"solid"}
+                    strokeDasharray={!colourPattern ? 'solid' : lineStyle}
+                    connectNulls
+                    type="monotone"
+                    activeDot={timeInitial === timeFinal}
+                  />
+                );
+              })}
             </LineChart>
           </ResponsiveContainer>
         );
@@ -504,40 +500,40 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.insufficientData}>Insufficient data</div>
               ) : (
                 <div className={classes.tooltipContent}>
-                {currentTooltip.drugs.map((item, index) => {
-                  const drugKey =
-                    Object.keys(ciproAcronyms).find(key => ciproAcronyms[key] === item.label) || item.label;
+                  {currentTooltip.drugs.map((item, index) => {
+                    const drugKey =
+                      Object.keys(ciproAcronyms).find(key => ciproAcronyms[key] === item.label) || item.label;
 
-                  const color = getColorForDrug(drugKey, colourPattern);
-                  const lineStyle = getLineStyleForDrug(drugKey);
+                    const color = getColorForDrug(drugKey, colourPattern);
+                    const lineStyle = getLineStyleForDrug(drugKey);
 
-                  return (
-                    <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                      {colourPattern && lineStyle !== "Normal" ? (
-                        <div
-                          className={classes.tooltipItemBox}
-                          style={{
-                            backgroundColor: color,
-                          }}
-                        />
-                      ) : (
-                        <div
-                          className={classes.tooltipItemBoxSmall}
-                          style={{
-                            backgroundColor: color,
-                          }}
-                        />
-                      )}
-                      <div className={classes.tooltipItemStats}>
-                        <Typography variant="body2" fontWeight="500">
-                          {item.label}
-                        </Typography>
-                        <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                        <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                    return (
+                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                        {colourPattern && lineStyle !== 'Normal' ? (
+                          <div
+                            className={classes.tooltipItemBox}
+                            style={{
+                              backgroundColor: color,
+                            }}
+                          />
+                        ) : (
+                          <div
+                            className={classes.tooltipItemBoxSmall}
+                            style={{
+                              backgroundColor: color,
+                            }}
+                          />
+                        )}
+                        <div className={classes.tooltipItemStats}>
+                          <Typography variant="body2" fontWeight="500">
+                            {item.label}
+                          </Typography>
+                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
                 </div>
               )}
             </div>
