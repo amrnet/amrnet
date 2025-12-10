@@ -1212,14 +1212,34 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
 
     if (count === 0) return response;
 
-    // OPTIMIZATION: Skip detailed drug computation during initial load
-    // This is called during page load when drug graphs aren't visible yet
-    // Drug data will be computed on-demand when user views drug resistance graphs
+    // Compute drug marker data for geographic comparisons
     if (count >= 10) {
       rules.forEach(key => {
-        // For now, just return zeros to avoid expensive computation
-        // TODO: Compute lazily when drug graphs become visible
-        drugsData[key].push({ ...response, totalCount: count });
+        const drugClassData = { ...response, totalCount: count };
+        
+        // Compute marker counts based on organism type
+        if (isKP) {
+          Object.assign(drugClassData, getKPDrugClassData({ drugKey: key, dataToFilter: itemData }));
+        } else if (isST) {
+          Object.assign(drugClassData, getDrugClassData({
+            columnID: key,
+            dataToFilter: itemData,
+            drugClassesRules: drugClassesRulesST,
+          }));
+        } else if (isSGono) {
+          Object.assign(drugClassData, getDrugClassData({
+            columnID: key,
+            dataToFilter: itemData,
+            drugClassesRules: drugClassesRulesNG,
+          }));
+        } else if (['senterica', 'sentericaints'].includes(organism)) {
+          Object.assign(drugClassData, getDrugClassDataINTS({ drugKey: key, dataToFilter: itemData }));
+        } else {
+          // For ecoli, decoli, shige
+          Object.assign(drugClassData, getECOLIDrugClassData({ drugKey: key, dataToFilter: itemData }));
+        }
+        
+        drugsData[key].push(drugClassData);
       });
     }
   });
