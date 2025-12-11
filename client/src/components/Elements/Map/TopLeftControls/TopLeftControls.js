@@ -1,4 +1,5 @@
-import { useStyles } from './TopLeftControlsMUI';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import {
   Autocomplete,
   Box,
@@ -15,18 +16,17 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { setDataset, setDatasetKP } from '../../../../stores/slices/mapSlice.ts';
 import {
   setActualTimeFinal,
   setActualTimeInitial,
   setCanFilterData,
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
+import { setDataset, setDatasetKP } from '../../../../stores/slices/mapSlice.ts';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
-import { useEffect, useState } from 'react';
+import { useStyles } from './TopLeftControlsMUI';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
@@ -40,7 +40,9 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
   const datasetKP = useAppSelector(state => state.map.datasetKP);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
-  const yearsCompleteListToShowInGlobalFilter = useAppSelector(state => state.dashboard.yearsCompleteListToShowInGlobalFilter);
+  const yearsCompleteListToShowInGlobalFilter = useAppSelector(
+    state => state.dashboard.yearsCompleteListToShowInGlobalFilter,
+  );
   const pathovar = useAppSelector(state => state.dashboard.pathovar);
   const organism = useAppSelector(state => state.dashboard.organism);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
@@ -202,9 +204,10 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                   }}
                   renderTags={(value, getTagProps) => (
                     <Box sx={{ maxHeight: 80, overflowY: 'auto' }}>
-                      {value.map((option, index) => (
-                        <Chip key={index} label={option} {...getTagProps({ index })} onDelete={undefined} />
-                      ))}
+                      {value.map((option, index) => {
+                        const { key, ...tagProps } = getTagProps({ index });
+                        return <Chip key={key} label={option} {...tagProps} onDelete={undefined} />;
+                      })}
                     </Box>
                   )}
                   sx={{
