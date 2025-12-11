@@ -102,7 +102,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   const trendsData = useMemo(() => {
     const exclusions = ['name', 'count'];
-    const drugsDataPercentages = Array.isArray(drugsYearData) ? structuredClone(drugsYearData) : null;
+    const drugsDataPercentages = Array.isArray(drugsYearData) ? JSON.parse(JSON.stringify(drugsYearData)) : null;
 
     if (!Array.isArray(drugsDataPercentages)) {
       // Defensive: avoid crashing if store contains an unexpected shape
@@ -229,7 +229,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       : undefined;
 
     if (data && data.count >= 10 && drugResistanceGraphView.length > 0) {
-      const currentData = structuredClone(data);
+      const currentData = JSON.parse(JSON.stringify(data));
 
       const value = {
         name: currentData.name,

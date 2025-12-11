@@ -183,7 +183,7 @@ export const drugAcronymsOpposite2 = {
 };
 
 export const ciproAcronyms = {
-  Ciprofloxacin: 'Ciprofloxacin (non-susceptible)',
+  Ciprofloxacin: 'Ciprofloxacin',
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
