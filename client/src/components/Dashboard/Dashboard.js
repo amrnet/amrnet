@@ -1165,6 +1165,7 @@ export const DashboardPage = () => {
         dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
         break;
       case 'decoli':
+        dispatch(setDrugResistanceGraphView(drugsECOLI));
         dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
         dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
         dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));

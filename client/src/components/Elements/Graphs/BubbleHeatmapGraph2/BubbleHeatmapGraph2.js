@@ -288,10 +288,11 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
         if (yAxisType === 'resistance') {
           Object.entries(item.drugs).forEach(([key, value]) => {
             if (yAxisSelected.includes(key)) {
+              const pct = item.count ? Number((((value?.count || 0) / item.count) * 100).toFixed(2)) : 0;
               itemData.items.push({
                 itemName: drugAcronyms[key] ?? key,
-                percentage: value.percentage,
-                count: value.count,
+                percentage: pct,
+                count: value?.count || 0,
                 index: 1,
                 typeName: item.name,
                 total: item.count,
@@ -591,7 +592,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                           {xAxisSelected.length === filteredXAxisOptions.length ||
                           xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
                             ? 'Clear All'
-                            :'Select 20'}
+                            : 'Select 20'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}

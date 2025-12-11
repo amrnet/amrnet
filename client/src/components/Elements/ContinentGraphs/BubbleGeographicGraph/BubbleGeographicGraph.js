@@ -239,8 +239,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
     if (!drugKey) return [];
 
-    // Common exclusions for all organisms
-    const EXCLUSIONS = new Set(['None', 'name', 'count', 'resistantCount', 'totalCount']);
+    // Common exclusions for all organisms (exclude non-determinant placeholders)
+    const EXCLUSIONS = new Set(['None', 'name', 'count', 'resistantCount', 'totalCount', '-', 'ND', '']);
 
     // Helper function to aggregate drug data
     const aggregateDrugs = (dataArray, filterFn = () => true) => {
@@ -562,15 +562,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         </div>
       );
     },
-    [
-      GLPSColumn,
-      drugsCountriesData,
-      economicRegions,
-      mapData,
-      organism,
-      xAxisType,
-      yAxisType,
-    ],
+    [GLPSColumn, drugsCountriesData, economicRegions, mapData, organism, xAxisType, yAxisType],
   );
 
   const configuredMapData = useMemo(() => {
@@ -655,12 +647,17 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
             parent: drugKey,
           });
 
-          // Data extraction for geographic comparisons - all organisms use drugsData
-          const bucket = drugsData?.[drugKey] || [];
-          const locationData = Array.isArray(bucket) ? bucket.find(x => x && x.name === item.name) : undefined;
-          
-          const getData = drug => (locationData && locationData[drug]) || 0;
-          const getTotal = () => (locationData && locationData.totalCount) || 0;
+          // Data extraction strategies
+          const getDataForOrganism = () => {
+            const locationData = drugsData?.[drugKey]?.find(x => x.name === item.name);
+            return {
+              getData: drug => locationData?.[drug] || 0,
+              getTotal: () => locationData?.totalCount || 0,
+            };
+          };
+
+          // Select appropriate strategy
+          const { getData, getTotal } = getDataForOrganism();
           const totalCount = getTotal();
 
           // Process all drugs with single loop

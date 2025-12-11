@@ -340,8 +340,22 @@ router.get('/getDataForEcoli', async function (req, res, next) {
       GENOTYPE: 1,
       COUNTRY_ONLY: 1,
       DATE: 1,
-      ESBL_category: 1,
-      'dashboard view': 1,
+      Pathovar: 1,
+      Aminoglycoside: 1,
+      Carbapenemase: 1,
+      Colistin: 1,
+      ESBL: 1,
+      Fosfomycin: 1,
+      Macrolide: 1,
+      Penicillin: 1,
+      Quinolone: 1,
+      Sulfonamide: 1,
+      Tetracycline: 1,
+      Trimethoprim: 1,
+      Phenicol: 1,
+      'O Antigen': 1,
+      'H Antigen': 1,
+      'dashboard view': 1, // add more fields as needed
       // add more fields as needed
     };
     // Query
@@ -365,14 +379,15 @@ router.get('/getDataForEcoli', async function (req, res, next) {
       .limit(limit)
       .toArray();
     console.log(`Found ${result.length} documents for Ecoli (page ${page}).`);
-    
+
     // On page 1, also return metadata (unique years, countries, genotypes) for faster initialization
     let metadata = null;
     if (page === 1) {
       try {
         const metadataPipeline = [
           { $match: query },
-          { $group: {
+          {
+            $group: {
               _id: null,
               uniqueYears: { $addToSet: '$DATE' },
               uniqueCountries: { $addToSet: '$COUNTRY_ONLY' },
@@ -397,7 +412,7 @@ router.get('/getDataForEcoli', async function (req, res, next) {
         console.warn('Failed to fetch metadata for Ecoli:', e);
       }
     }
-    
+
     return res.json({
       data: result,
       pagination: {
@@ -426,9 +441,22 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
       GENOTYPE: 1,
       COUNTRY_ONLY: 1,
       DATE: 1,
-      ESBL_category: 1,
-      'dashboard view': 1,
-      // add more fields as needed
+      Pathovar: 1,
+      Aminoglycoside: 1,
+      Carbapenemase: 1,
+      Colistin: 1,
+      ESBL: 1,
+      Fosfomycin: 1,
+      Macrolide: 1,
+      Penicillin: 1,
+      Quinolone: 1,
+      Sulfonamide: 1,
+      Tetracycline: 1,
+      Trimethoprim: 1,
+      Phenicol: 1,
+      'O Antigen': 1,
+      'H Antigen': 1,
+      'dashboard view': 1, // add more fields as needed
     };
     // Query
     const query = {
@@ -547,7 +575,8 @@ router.get('/getDataForSenterica', async function (req, res, next) {
       try {
         const metadataPipeline = [
           { $match: query },
-          { $group: {
+          {
+            $group: {
               _id: null,
               uniqueYears: { $addToSet: '$DATE' },
               uniqueCountries: { $addToSet: '$COUNTRY_ONLY' },
