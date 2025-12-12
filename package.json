@@ -75,7 +75,7 @@
     "mongoose-seed": "^0.6.0",
     "mongoose-seed-csv": "^0.0.4",
     "morgan": "~1.10.0",
-    "next": "^15.5.7",
+    "next": "^15.5.9",
     "node-gyp": "^11.2.0",
     "nodemailer": "^7.0.11",
     "objects-to-csv": "^1.3.6",
