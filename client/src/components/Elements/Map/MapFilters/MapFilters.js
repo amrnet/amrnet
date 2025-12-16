@@ -14,10 +14,11 @@ import {
   Typography,
 } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCustomDropdownMapViewNG, setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
 import { setMapView } from '../../../../stores/slices/mapSlice';
-import { darkGrey, getColorForGenotype, lightGrey } from '../../../../util/colorHelper';
+import { darkGrey, lightGrey } from '../../../../util/colorHelper';
 import { statKeys } from '../../../../util/drugClassesRules';
 import { ciproAcronyms, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../../util/drugs';
 import { genotypes } from '../../../../util/genotypes';
@@ -25,7 +26,6 @@ import { mapLegends } from '../../../../util/mapLegends';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { useStyles } from './MapFiltersMUI';
-import { useTranslation } from 'react-i18next';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
@@ -277,9 +277,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     return 'genotypes';
   }, [isOPrevalence, isOHPrevalence, isPathSerPrevalence, isNGMASTPrevalence, organism]);
 
-  const nonResPrevalenceLabel = t(
-    `dashboard.filters.plotOptions.labels.${nonResPrevalenceLabelKey}`,
-  );
+  const nonResPrevalenceLabel = t(`dashboard.filters.plotOptions.labels.${nonResPrevalenceLabelKey}`);
 
   const nonResPrevalenceTooltip = useMemo(() => {
     const baseTooltip = t('dashboard.filters.plotOptions.nonResTooltip', {
@@ -450,10 +448,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
               <div className={classes.selectWrapper}>
                 <div className={classes.labelWrapper}>
                   <Typography variant="caption">{t('dashboard.filters.plotOptions.colorBy')}</Typography>
-                  <Tooltip
-                    title={t('dashboard.filters.plotOptions.percentageTooltip')}
-                    placement="top"
-                  >
+                  <Tooltip title={t('dashboard.filters.plotOptions.percentageTooltip')} placement="top">
                     <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                   </Tooltip>
                 </div>
@@ -532,13 +527,8 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   {mapView === 'Resistance prevalence' ? (
                     <>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">
-                          {t('dashboard.filters.plotOptions.selectDrugs')}
-                        </Typography>
-                        <Tooltip
-                          title={t('dashboard.filters.plotOptions.chooseDrugsTooltip')}
-                          placement="top"
-                        >
+                        <Typography variant="caption">{t('dashboard.filters.plotOptions.selectDrugs')}</Typography>
+                        <Tooltip title={t('dashboard.filters.plotOptions.chooseDrugsTooltip')} placement="top">
                           <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                         </Tooltip>
                       </div>

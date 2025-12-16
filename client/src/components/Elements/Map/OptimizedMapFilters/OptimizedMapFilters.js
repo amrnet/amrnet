@@ -1,18 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  MenuItem,
-  Select,
-  Typography,
-  CircularProgress
-} from '@mui/material';
+import { Box, Button, Card, CardContent, CircularProgress, MenuItem, Select, Typography } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { updateGlobalOverviewData } from '../../../../services/optimizedDataService';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setMapView } from '../../../../stores/slices/mapSlice';
-import { updateGlobalOverviewData } from '../../../../services/optimizedDataService';
-import { useTranslation } from 'react-i18next';
 
 export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
   const dispatch = useAppDispatch();
@@ -22,7 +13,7 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
   const [loading, setLoading] = useState(false);
   const [availableOptions, setAvailableOptions] = useState({
     colorBy: [],
-    drugs: []
+    drugs: [],
   });
   const { t } = useTranslation();
 
@@ -48,49 +39,53 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
   }, [organism]);
 
   // Handle color by country change
-  const handleColorByChange = useCallback(async (event) => {
-    const newColorBy = event.target.value;
-    setLoading(true);
+  const handleColorByChange = useCallback(
+    async event => {
+      const newColorBy = event.target.value;
+      setLoading(true);
 
-    try {
-      console.log(`Updating map view with colorBy: ${newColorBy}`);
+      try {
+        console.log(`Updating map view with colorBy: ${newColorBy}`);
 
-      // Load updated data for the new color scheme
-      const updatedData = await updateGlobalOverviewData(organism, newColorBy, null);
+        // Load updated data for the new color scheme
+        const updatedData = await updateGlobalOverviewData(organism, newColorBy, null);
 
-      // Update map view
-      dispatch(setMapView(newColorBy));
+        // Update map view
+        dispatch(setMapView(newColorBy));
 
-      // The data service will handle updating the relevant stores
-      console.log('Map view updated successfully');
-
-    } catch (error) {
-      console.error('Error updating color by:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [organism, dispatch]);
+        // The data service will handle updating the relevant stores
+        console.log('Map view updated successfully');
+      } catch (error) {
+        console.error('Error updating color by:', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [organism, dispatch],
+  );
 
   // Handle drug selection change
-  const handleDrugSelectionChange = useCallback(async (event) => {
-    const selectedDrugs = event.target.value;
-    setLoading(true);
+  const handleDrugSelectionChange = useCallback(
+    async event => {
+      const selectedDrugs = event.target.value;
+      setLoading(true);
 
-    try {
-      console.log(`Updating drug selection: ${selectedDrugs}`);
+      try {
+        console.log(`Updating drug selection: ${selectedDrugs}`);
 
-      // Load updated data for the new drug selection
-      const updatedData = await updateGlobalOverviewData(organism, null, selectedDrugs);
+        // Load updated data for the new drug selection
+        const updatedData = await updateGlobalOverviewData(organism, null, selectedDrugs);
 
-      // The data service will handle updating the relevant stores
-      console.log('Drug selection updated successfully');
-
-    } catch (error) {
-      console.error('Error updating drug selection:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [organism]);
+        // The data service will handle updating the relevant stores
+        console.log('Drug selection updated successfully');
+      } catch (error) {
+        console.error('Error updating drug selection:', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [organism],
+  );
 
   // Get color by options based on organism
   const getColorByOptions = () => {
@@ -99,14 +94,14 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
         return [
           { value: 'country', label: 'Country' },
           { value: 'genotype', label: 'Genotype' },
-          { value: 'resistance', label: 'Resistance Profile' }
+          { value: 'resistance', label: 'Resistance Profile' },
         ];
       case 'kpneumo':
         return [
           { value: 'country', label: 'Country' },
           { value: 'genotype', label: 'Genotype' },
           { value: 'cgst', label: 'cgST' },
-          { value: 'sublineage', label: 'Sublineage' }
+          { value: 'sublineage', label: 'Sublineage' },
         ];
       case 'decoli':
       case 'ecoli':
@@ -114,18 +109,18 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
           { value: 'country', label: 'Country' },
           { value: 'genotype', label: 'Genotype' },
           { value: 'pathotype', label: 'Pathotype' },
-          { value: 'serotype', label: 'Serotype' }
+          { value: 'serotype', label: 'Serotype' },
         ];
       case 'shige':
         return [
           { value: 'country', label: 'Country' },
           { value: 'genotype', label: 'Genotype' },
-          { value: 'pathotype', label: 'Pathotype' }
+          { value: 'pathotype', label: 'Pathotype' },
         ];
       default:
         return [
           { value: 'country', label: 'Country' },
-          { value: 'genotype', label: 'Genotype' }
+          { value: 'genotype', label: 'Genotype' },
         ];
     }
   };
@@ -138,7 +133,7 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
     if (availableDrugs && availableDrugs.length > 0) {
       return availableDrugs.map(drug => ({
         value: drug.toLowerCase().replace(/[^a-z0-9]/gi, ''),
-        label: drug
+        label: drug,
       }));
     }
 
@@ -149,13 +144,13 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
           { value: 'ciprofloxacin', label: 'Ciprofloxacin' },
           { value: 'azithromycin', label: 'Azithromycin' },
           { value: 'mdr', label: 'MDR' },
-          { value: 'xdr', label: 'XDR' }
+          { value: 'xdr', label: 'XDR' },
         ];
       case 'kpneumo':
         return [
           { value: 'carbapenems', label: 'Carbapenems' },
           { value: 'esbl', label: 'ESBL' },
-          { value: 'colistin', label: 'Colistin' }
+          { value: 'colistin', label: 'Colistin' },
         ];
       default:
         return [];
@@ -182,13 +177,7 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
           <Typography variant="subtitle2" gutterBottom>
             {t('dashboard.filters.optimized.colorBy')}
           </Typography>
-          <Select
-            fullWidth
-            value={mapView}
-            onChange={handleColorByChange}
-            disabled={loading}
-            size="small"
-          >
+          <Select fullWidth value={mapView} onChange={handleColorByChange} disabled={loading} size="small">
             {getColorByOptions().map(option => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
@@ -209,7 +198,7 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
             disabled={loading}
             size="small"
             displayEmpty
-            renderValue={(selected) =>
+            renderValue={selected =>
               selected.length === 0
                 ? t('dashboard.filters.optimized.allDrugs')
                 : t('dashboard.filters.optimized.selectedCount', { count: selected.length })
@@ -223,14 +212,9 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
           </Select>
         </Box>
 
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => setShowFilter(false)}
-            fullWidth
-          >
-            {t('dashboard.filters.optimized.close')}
-          </Button>
+        <Button variant="outlined" size="small" onClick={() => setShowFilter(false)} fullWidth>
+          {t('dashboard.filters.optimized.close')}
+        </Button>
       </CardContent>
     </Card>
   );
