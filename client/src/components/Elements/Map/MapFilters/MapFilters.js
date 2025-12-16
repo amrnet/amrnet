@@ -25,6 +25,7 @@ import { mapLegends } from '../../../../util/mapLegends';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { redColorScale, samplesColorScale, sensitiveColorScale } from '../mapColorHelper';
 import { useStyles } from './MapFiltersMUI';
+import { useTranslation } from 'react-i18next';
 
 const generalSteps = ['>0 and ≤2%', '>2% and ≤10%', '>10% and ≤50%', '>50%'];
 const sensitiveSteps = ['0 - 10%', '10 - 20%', '20 - 50%', '50 - 90%', '90 - 100%'];
@@ -59,11 +60,11 @@ const mapViewsWithZeroPercentOption = [
   'Resistance prevalence',
 ];
 
-const INFO_ICON_TEXTS = {
-  decoli: 'Lineages are labelled as Pathovar (ST) and 7-locus MLST',
-  kpneumo: 'Sequence type are labelled as 7-locus MLST',
-  shige: 'Lineages are labelled as Species + HC400 cluster',
-  sentericaints: 'Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster',
+const INFO_ICON_TEXT_KEYS = {
+  decoli: 'dashboard.filters.plotOptions.info.decoli',
+  kpneumo: 'dashboard.filters.plotOptions.info.kpneumo',
+  shige: 'dashboard.filters.plotOptions.info.shige',
+  sentericaints: 'dashboard.filters.plotOptions.info.sentericaints',
 };
 
 export const MapFilters = ({ showFilter, setShowFilter }) => {
@@ -71,6 +72,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   const [genotypeSearch, setGenotypeSearch] = useState('');
 
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const mapView = useAppSelector(state => state.map.mapView);
   const organism = useAppSelector(state => state.dashboard.organism);
   const mapData = useAppSelector(state => state.map.mapData);
@@ -248,7 +250,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
   }, [organism]);
 
-  const nonResPrevalenceLabel = useMemo(() => {
+  const nonResPrevalenceLabelKey = useMemo(() => {
     if (isOPrevalence) {
       return 'O';
     }
@@ -262,7 +264,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     if (isNGMASTPrevalence) {
-      return 'NG-MAST';
+      return 'NGMAST';
     }
 
     if (['sentericaints', 'senterica'].includes(organism)) {
@@ -275,15 +277,23 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     return 'genotypes';
   }, [isOPrevalence, isOHPrevalence, isPathSerPrevalence, isNGMASTPrevalence, organism]);
 
-  const nonResPrevalenceTooltip = useMemo(() => {
-    const text = `If the total ${nonResPrevalenceLabel} are too many, only the first 20 options are shown at a time`;
+  const nonResPrevalenceLabel = t(
+    `dashboard.filters.plotOptions.labels.${nonResPrevalenceLabelKey}`,
+  );
 
-    if (!isOPrevalence && !isOHPrevalence && Object.keys(INFO_ICON_TEXTS).includes(organism)) {
-      return `${INFO_ICON_TEXTS[organism]}. ${text}`;
+  const nonResPrevalenceTooltip = useMemo(() => {
+    const baseTooltip = t('dashboard.filters.plotOptions.nonResTooltip', {
+      label: nonResPrevalenceLabel,
+    });
+    const infoTextKey = INFO_ICON_TEXT_KEYS[organism];
+    const infoText = infoTextKey ? t(infoTextKey) : '';
+
+    if (!isOPrevalence && !isOHPrevalence && infoText) {
+      return `${infoText}. ${baseTooltip}`;
     }
 
-    return text;
-  }, [isOHPrevalence, isOPrevalence, nonResPrevalenceLabel, organism]);
+    return baseTooltip;
+  }, [isOHPrevalence, isOPrevalence, nonResPrevalenceLabel, organism, t]);
 
   const getGenotypeColor = useCallback(
     genotype => {
@@ -428,8 +438,8 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       <Card elevation={3}>
         <CardContent>
           <div className={classes.titleWrapper}>
-            <Typography variant="h6">Plotting options</Typography>
-            <Tooltip title="Hide plotting options" placement="top">
+            <Typography variant="h6">{t('dashboard.filters.plotOptions.title')}</Typography>
+            <Tooltip title={t('dashboard.filters.plotOptions.hideTooltip')} placement="top">
               <IconButton onClick={() => setShowFilter(false)}>
                 <Close fontSize="small" />
               </IconButton>
@@ -439,9 +449,9 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
             <div className={classes.selectPreWrapper}>
               <div className={classes.selectWrapper}>
                 <div className={classes.labelWrapper}>
-                  <Typography variant="caption">Colour country by</Typography>
+                  <Typography variant="caption">{t('dashboard.filters.plotOptions.colorBy')}</Typography>
                   <Tooltip
-                    title="Percentage frequency data is shown only for countries with N≥20 genomes except 'No. Samples'"
+                    title={t('dashboard.filters.plotOptions.percentageTooltip')}
                     placement="top"
                   >
                     <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
@@ -473,12 +483,12 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   <div className={classes.legendWrapper}>
                     <div className={classes.legend}>
                       <Box className={classes.legendColorBox} style={{ backgroundColor: lightGrey }} />
-                      <span className={classes.legendText}>Insufficient data</span>
+                      <span className={classes.legendText}>{t('dashboard.legend.insufficientData')}</span>
                     </div>
                     {hasZeroPercentOption && (
                       <div className={classes.legend}>
                         <Box className={classes.legendColorBox} style={{ backgroundColor: darkGrey }} />
-                        <span className={classes.legendText}>0%</span>
+                        <span className={classes.legendText}>{t('dashboard.legend.zeroPercent')}</span>
                       </div>
                     )}
                     {excludedViews.includes(mapView) ? (
@@ -522,9 +532,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   {mapView === 'Resistance prevalence' ? (
                     <>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select one or more drugs</Typography>
+                        <Typography variant="caption">
+                          {t('dashboard.filters.plotOptions.selectDrugs')}
+                        </Typography>
                         <Tooltip
-                          title="Choose one or more drug categories to see their prevalence. Selecting multiple categories shows only their shared prevalence"
+                          title={t('dashboard.filters.plotOptions.chooseDrugsTooltip')}
                           placement="top"
                         >
                           <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
@@ -547,8 +559,8 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                             }
                           >
                             {resistanceOptions.length === prevalenceMapViewOptionsSelected.length
-                              ? 'Clear All'
-                              : 'Select All'}
+                              ? t('dashboard.filters.plotOptions.clearAll')
+                              : t('dashboard.filters.plotOptions.selectAll')}
                           </Button>
                         }
                         inputProps={{ className: classes.multipleSelectInput }}
@@ -557,7 +569,12 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                           classes: { paper: classes.menuPaper, list: classes.selectMenu },
                         }}
                         renderValue={selected => (
-                          <div>{`${selected.length} of ${resistanceOptions.length} selected`}</div>
+                          <div>
+                            {t('dashboard.filters.plotOptions.selectedCount', {
+                              count: selected.length,
+                              total: resistanceOptions.length,
+                            })}
+                          </div>
                         )}
                       >
                         {resistanceOptions.map((option, index) => (
@@ -578,7 +595,9 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   ) : (
                     <>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">{`Select ${nonResPrevalenceLabel}`}</Typography>
+                        <Typography variant="caption">
+                          {t('dashboard.filters.plotOptions.selectLabel', { label: nonResPrevalenceLabel })}
+                        </Typography>
                         {!isPathSerPrevalence && (
                           <Tooltip title={nonResPrevalenceTooltip} placement="top">
                             <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
@@ -599,7 +618,9 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                             disabled={organism === 'none'}
                             color={currentOptions.length === optionsSelected.length ? 'error' : 'primary'}
                           >
-                            {currentOptions.length === optionsSelected.length ? 'Clear All' : 'Select All'}
+                            {currentOptions.length === optionsSelected.length
+                              ? t('dashboard.filters.plotOptions.clearAll')
+                              : t('dashboard.filters.plotOptions.selectAll')}
                           </Button>
                         }
                         inputProps={{ className: classes.multipleSelectInput }}
@@ -608,7 +629,12 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                           classes: { paper: classes.menuPaper, list: classes.selectMenu },
                         }}
                         renderValue={selected => (
-                          <div>{`${selected.length} of ${nonResistanceOptions.length} selected`}</div>
+                          <div>
+                            {t('dashboard.filters.plotOptions.selectedCount', {
+                              count: selected.length,
+                              total: nonResistanceOptions.length,
+                            })}
+                          </div>
                         )}
                         onClose={clearSearch}
                       >
@@ -619,7 +645,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                         >
                           <TextField
                             variant="standard"
-                            placeholder={organismHasLotsOfGenotypes ? 'Search for more...' : 'Search...'}
+                            placeholder={
+                              organismHasLotsOfGenotypes
+                                ? t('dashboard.filters.plotOptions.searchMore')
+                                : t('dashboard.filters.plotOptions.search')
+                            }
                             fullWidth
                             value={genotypeSearch}
                             onChange={hangleChangeSearch}

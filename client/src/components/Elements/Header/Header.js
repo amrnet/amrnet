@@ -86,6 +86,11 @@ export const Header = () => {
                 </a>
               </Box>
             )}
+            {isDashboardPage && !isHomePage && (
+              <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
+                <LanguageSwitcher />
+              </Box>
+            )}
             {/* {!isHomePage && !isDashboardPage && !matches500 && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}

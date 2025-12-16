@@ -12,6 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setMapView } from '../../../../stores/slices/mapSlice';
 import { updateGlobalOverviewData } from '../../../../services/optimizedDataService';
+import { useTranslation } from 'react-i18next';
 
 export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
     colorBy: [],
     drugs: []
   });
+  const { t } = useTranslation();
 
   // Load initial filter options
   useEffect(() => {
@@ -166,7 +168,7 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
     <Card style={{ position: 'absolute', top: 10, right: 10, minWidth: 300, zIndex: 1000 }}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Global Overview Options
+          {t('dashboard.filters.optimized.title')}
         </Typography>
 
         {loading && (
@@ -178,7 +180,7 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
         {/* Color Country By */}
         <Box mb={2}>
           <Typography variant="subtitle2" gutterBottom>
-            Color country by:
+            {t('dashboard.filters.optimized.colorBy')}
           </Typography>
           <Select
             fullWidth
@@ -198,7 +200,7 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
         {/* Select Drugs */}
         <Box mb={2}>
           <Typography variant="subtitle2" gutterBottom>
-            Select drugs:
+            {t('dashboard.filters.optimized.selectDrugs')}
           </Typography>
           <Select
             fullWidth
@@ -208,7 +210,9 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
             size="small"
             displayEmpty
             renderValue={(selected) =>
-              selected.length === 0 ? 'All drugs' : `${selected.length} selected`
+              selected.length === 0
+                ? t('dashboard.filters.optimized.allDrugs')
+                : t('dashboard.filters.optimized.selectedCount', { count: selected.length })
             }
           >
             {getDrugOptions().map(option => (
@@ -219,14 +223,14 @@ export const OptimizedMapFilters = ({ showFilter, setShowFilter }) => {
           </Select>
         </Box>
 
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={() => setShowFilter(false)}
-          fullWidth
-        >
-          Close
-        </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => setShowFilter(false)}
+            fullWidth
+          >
+            {t('dashboard.filters.optimized.close')}
+          </Button>
       </CardContent>
     </Card>
   );
