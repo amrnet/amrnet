@@ -1,48 +1,28 @@
 import { Card, CardContent, Typography } from '@mui/material';
+import { Trans } from 'react-i18next';
 import LogoImg from '../../../assets/img/logo-amrnet-prod.png';
 import { useAppSelector } from '../../../stores/hooks';
 import { useStyles } from './NoteMUI';
-import { Trans } from 'react-i18next';
 
 const noteTranslationConfig = {
   styphi: {
     key: 'note.styphi',
     components: [
-      <a
-        href="https://www.typhoidgenomics.org"
-        target="_blank"
-        rel="noopener noreferrer"
-        key="styphi-consortium"
-      />,
-      <a
-        href="https://pathogen.watch"
-        target="_blank"
-        rel="noopener noreferrer"
-        key="styphi-pathogenwatch"
-      />,
+      <a href="https://www.typhoidgenomics.org" target="_blank" rel="noopener noreferrer" key="styphi-consortium" />,
+      <a href="https://pathogen.watch" target="_blank" rel="noopener noreferrer" key="styphi-pathogenwatch" />,
     ],
   },
   ngono: {
     key: 'note.ngono',
     components: [
       <i key="ngono-italic" />,
-      <a
-        href="https://pathogen.watch"
-        target="_blank"
-        rel="noopener noreferrer"
-        key="ngono-pathogenwatch"
-      />,
+      <a href="https://pathogen.watch" target="_blank" rel="noopener noreferrer" key="ngono-pathogenwatch" />,
     ],
   },
   kpneumo: {
     key: 'note.kpneumo',
     components: [
-      <a
-        href="https://pathogen.watch"
-        target="_blank"
-        rel="noopener noreferrer"
-        key="kpneumo-pathogenwatch"
-      />,
+      <a href="https://pathogen.watch" target="_blank" rel="noopener noreferrer" key="kpneumo-pathogenwatch" />,
       <a
         href="https://github.com/klebgenomics/KlebNET-Metadata-Repository-Database"
         target="_blank"
@@ -54,12 +34,7 @@ const noteTranslationConfig = {
   default: {
     key: 'note.default',
     components: [
-      <a
-        href="https://enterobase.warwick.ac.uk/"
-        target="_blank"
-        rel="noopener noreferrer"
-        key="default-enterobase"
-      />,
+      <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noopener noreferrer" key="default-enterobase" />,
     ],
   },
 };
@@ -72,11 +47,7 @@ export const Note = () => {
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardContent}>
-        {organism === 'styphi' ? (
-          <img src={LogoImg} alt="AMRnet" className={classes.logo} />
-        ) : (
-          <div />
-        )}
+        {organism === 'styphi' ? <img src={LogoImg} alt="AMRnet" className={classes.logo} /> : <div />}
         <Typography className={classes.note} variant="body1">
           <Trans i18nKey={translation.key} components={translation.components} />
         </Typography>

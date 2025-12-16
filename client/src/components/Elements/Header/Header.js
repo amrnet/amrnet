@@ -1,17 +1,17 @@
-import { AppBar, Collapse, IconButton, Toolbar, useMediaQuery, Box } from '@mui/material';
-import { useStyles } from './HeaderMUI';
-import LogoImg from '../../../assets/img/logo-prod.png';
-import LSHTMImg from '../../../assets/img/LSHTM.Logo.png';
 import { ExpandLess, ExpandMore, Menu } from '@mui/icons-material';
-import { Drawer } from '../Drawer';
-import { SelectOrganism } from '../SelectOrganism';
-import { InformationCards } from '../InformationCards/InformationCards';
-import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
+import { AppBar, Box, Collapse, IconButton, Toolbar, useMediaQuery } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuHead } from '../MenuHead';
+import LogoImg from '../../../assets/img/logo-prod.png';
+import LSHTMImg from '../../../assets/img/LSHTM.Logo.png';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { setOpenDrawer } from '../../../stores/slices/appSlice.ts';
 import LanguageSwitcher from '../../LanguageSwitcher';
+import { Drawer } from '../Drawer';
+import { InformationCards } from '../InformationCards/InformationCards';
+import { MenuHead } from '../MenuHead';
+import { SelectOrganism } from '../SelectOrganism';
+import { useStyles } from './HeaderMUI';
 
 export const Header = () => {
   const classes = useStyles();
@@ -25,7 +25,7 @@ export const Header = () => {
   const [infoCollapse, setInfoCollapse] = useState(false);
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
+  const organism = useAppSelector(state => state.dashboard.organism);
 
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
   const isHomePage = useMemo(() => page === '', [page]);
@@ -60,7 +60,7 @@ export const Header = () => {
             <div className={`${classes.leftWrapper} `}>
               <div className={classes.drawerTitleWrapper}>
                 {((isDashboardPage && !isHomePage) || matches999) && (
-                  <IconButton edge="start" color="inherit" onClick={(event) => handleToggleDrawer(event, true)}>
+                  <IconButton edge="start" color="inherit" onClick={event => handleToggleDrawer(event, true)}>
                     <Menu sx={{ fontSize: '1.7rem' }} />
                   </IconButton>
                 )}
@@ -78,9 +78,7 @@ export const Header = () => {
             )}
             {(!isDashboardPage || isHomePage) && matches200 && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                {!((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && (
-                  <LanguageSwitcher />
-                )}
+                {!((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && <LanguageSwitcher />}
                 <a href="https://www.lshtm.ac.uk/amrnet" target="_blank" rel="noopener noreferrer">
                   <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
                 </a>
