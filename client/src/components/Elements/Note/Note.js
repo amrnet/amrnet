@@ -2,73 +2,72 @@ import { Card, CardContent, Typography } from '@mui/material';
 import LogoImg from '../../../assets/img/logo-amrnet-prod.png';
 import { useAppSelector } from '../../../stores/hooks';
 import { useStyles } from './NoteMUI';
-// import Button from '@mui/material/Button';
+import { Trans } from 'react-i18next';
+
+const noteTranslationConfig = {
+  styphi: {
+    key: 'note.styphi',
+    components: [
+      <a
+        href="https://www.typhoidgenomics.org"
+        target="_blank"
+        rel="noopener noreferrer"
+        key="styphi-consortium"
+      />,
+      <a
+        href="https://pathogen.watch"
+        target="_blank"
+        rel="noopener noreferrer"
+        key="styphi-pathogenwatch"
+      />,
+    ],
+  },
+  ngono: {
+    key: 'note.ngono',
+    components: [
+      <i key="ngono-italic" />,
+      <a
+        href="https://pathogen.watch"
+        target="_blank"
+        rel="noopener noreferrer"
+        key="ngono-pathogenwatch"
+      />,
+    ],
+  },
+  kpneumo: {
+    key: 'note.kpneumo',
+    components: [
+      <a
+        href="https://pathogen.watch"
+        target="_blank"
+        rel="noopener noreferrer"
+        key="kpneumo-pathogenwatch"
+      />,
+      <a
+        href="https://github.com/klebgenomics/KlebNET-Metadata-Repository-Database"
+        target="_blank"
+        rel="noopener noreferrer"
+        key="kpneumo-klebnet"
+      />,
+    ],
+  },
+  default: {
+    key: 'note.default',
+    components: [
+      <a
+        href="https://enterobase.warwick.ac.uk/"
+        target="_blank"
+        rel="noopener noreferrer"
+        key="default-enterobase"
+      />,
+    ],
+  },
+};
 
 export const Note = () => {
   const classes = useStyles();
-  // const dispatch = useAppDispatch();
-  // const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
-  // const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
-  // const dataset = useAppSelector((state) => state.map.dataset);
-  // const actualTimeInitial = useAppSelector((state) => state.dashboard.actualTimeInitial);
-  // const actualTimeFinal = useAppSelector((state) => state.dashboard.actualTimeFinal);
   const organism = useAppSelector(state => state.dashboard.organism);
-
-  const textNote = () => {
-    if (organism === 'styphi') {
-      return (
-        <span>
-          Typhi data are curated by the{' '}
-          <a href="https://www.typhoidgenomics.org" target="_blank" rel="noreferrer">
-            Global Typhoid Genomics Consortium
-          </a>{' '}
-          and analysed using{' '}
-          <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
-            Pathogenwatch
-          </a>
-        </span>
-      );
-    } else if (organism === 'ngono') {
-      return (
-        <span>
-          <i>N. gonorrhoeae</i> data represent national and regional surveillance projects, sourced from{' '}
-          <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
-            Pathogenwatch
-          </a>
-        </span>
-      );
-    } else if (organism === 'kpneumo') {
-      return (
-        <span>
-          This data is pulled from{' '}
-          <a href="https://pathogen.watch" target="_blank" rel="noreferrer">
-            Pathogenwatch
-          </a>{' '}
-          and represents unfiltered data deposited in NCBI/ENA. It includes diverse sources of bacteria (not just human
-          clinical infections) and is biased towards sequencing of resistant strains. In future updates this will be
-          mitigated using metadata curated by the{' '}
-          <a
-            href="https://github.com/klebgenomics/KlebNET-Metadata-Repository-Database"
-            target="_blank"
-            rel="noreferrer"
-          >
-            KlebNET Epidemiology Consortium
-          </a>{' '}
-        </span>
-      );
-    } else {
-      return (
-        <span>
-          This data is pulled from{' '}
-          <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noreferrer">
-            Enterobase
-          </a>{' '}
-          and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards
-          sequencing of resistant strains and/or outbreaks. This will change in future updates.
-        </span>
-      );
-    }
-  };
+  const translation = noteTranslationConfig[organism] || noteTranslationConfig.default;
 
   return (
     <Card className={classes.card}>
@@ -76,12 +75,10 @@ export const Note = () => {
         {organism === 'styphi' ? (
           <img src={LogoImg} alt="AMRnet" className={classes.logo} />
         ) : (
-          // :organism === "ngono"? null
-          // Removed unwanted link form button
-          <div></div>
+          <div />
         )}
         <Typography className={classes.note} variant="body1">
-          {textNote()}
+          <Trans i18nKey={translation.key} components={translation.components} />
         </Typography>
       </CardContent>
     </Card>

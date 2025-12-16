@@ -1,19 +1,19 @@
-import { Link } from 'react-router-dom';
-import { useStyles } from './HomeMUI';
-import { useAppDispatch } from '../../stores/hooks';
-import { useEffect, useState } from 'react';
-import { removeOrganism } from '../../stores/slices/dashboardSlice';
-import { MainLayout } from '../Layout';
 import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography, useMediaQuery } from '@mui/material';
-import { organismsCards } from '../../util/organismsCards';
-import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../stores/hooks';
+import { removeOrganism } from '../../stores/slices/dashboardSlice';
+import { organismsCards } from '../../util/organismsCards';
+import { MainLayout } from '../Layout';
+import { useStyles } from './HomeMUI';
 
 export const HomePage = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const matches600 = useMediaQuery('(max-width: 600px)');
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [organismCounts, setOrganismCounts] = useState({});
@@ -36,6 +36,16 @@ export const HomePage = () => {
       setLoading(false);
     }
   }
+
+  const renderOrganismTitle = organism => {
+    const translationKey = `home.organisms.${organism.value}`;
+
+    if (i18n.exists(translationKey)) {
+      return <Trans components={[<i key="italic" />]} i18nKey={translationKey} />;
+    }
+
+    return organism.label;
+  };
 
   return (
     <MainLayout>
@@ -78,10 +88,11 @@ export const HomePage = () => {
                         }}
                       >
                         <Typography fontWeight="600" sx={{ fontSize: 'small' }}>
-                          {organism.label}
+                          {renderOrganismTitle(organism)}
                         </Typography>
                         <Typography sx={{ fontSize: 'smaller' }}>
-                          Genomes: {loading ? <CircularProgress size="1rem" /> : (organismCounts[organism.value] ?? 0)}
+                          {t('home.genomes')}:{' '}
+                          {loading ? <CircularProgress size="1rem" /> : (organismCounts[organism.value] ?? 0)}
                         </Typography>
                       </div>
                     </Card>

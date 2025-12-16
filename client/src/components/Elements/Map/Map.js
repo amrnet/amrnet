@@ -22,6 +22,7 @@ import { drugAcronymsOpposite, drugAcronymsOpposite2, ngonoSusceptibleRule } fro
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { BottomLeftControls } from './BottomLeftControls';
 import { MapActions } from './MapActions/MapActions';
+import { useTranslation } from 'react-i18next';
 import { differentColorScale, redColorScale, samplesColorScale, sensitiveColorScale } from './mapColorHelper';
 import { MapFilters } from './MapFilters/MapFilters';
 import { useStyles } from './MapMUI';
@@ -46,6 +47,7 @@ export const Map = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
   const [showFilter, setShowFilter] = useState(!matches500);
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const position = useAppSelector(state => state.map.position);
@@ -296,12 +298,13 @@ export const Map = () => {
       optionsSelected?.length > 5 ? ` +${optionsSelected?.length - 5} other(s)` : ''
     }`;
 
-    return `Showing: ${
+    const legendValue =
       ngonoSusceptibleRule(optionsSelected.join(', '), organism) ||
       drugAcronymsOpposite[optionsSelected.join(', ')] ||
-      prevalenceView
-    }`;
-  }, [customDropdownMapViewNG, mapView, organism, prevalenceMapViewOptionsSelected]);
+      prevalenceView;
+
+    return t('dashboard.legend.showing', { value: legendValue });
+  }, [customDropdownMapViewNG, mapView, organism, prevalenceMapViewOptionsSelected, t]);
 
   const globalOverviewLabel = useMemo(() => {
     let dataview = '';
@@ -316,9 +319,8 @@ export const Map = () => {
       dataview = ` (${selectedLineages.join(', ')})`;
     }
 
-    return `Global Overview${dataview}: ${mapView}`;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [organism, datasetKP, dataset, selectedLineages, mapView]);
+    return t('dashboard.globalOverviewLabel', { dataview, mapView });
+  }, [organism, datasetKP, dataset, selectedLineages, mapView, pathovar, t]);
 
   return (
     <Card className={classes.card}>
@@ -347,7 +349,10 @@ export const Map = () => {
           {collapses['map'] && (
             <>
               <MapActions />
-              <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
+              <Tooltip
+                title={t(showFilter ? 'dashboard.tooltip.hideFilters' : 'dashboard.tooltip.showFilters')}
+                placement="top"
+              >
                 <span>
                   <IconButton color="primary" onClick={event => handleClickFilter(event)}>
                     {showFilter ? <FilterListOff /> : <FilterList />}
@@ -613,7 +618,9 @@ export const Map = () => {
                 <span className={classes.country}>{tooltipContent.name}</span>
                 {tooltipContent.total !== null && (
                   <>
-                    <span className={classes.total}>Total: {tooltipContent.total}</span>
+                    <span className={classes.total}>
+                      {t('dashboard.tooltip.total', { total: tooltipContent.total })}
+                    </span>
                     <br />
                   </>
                 )}
@@ -641,7 +648,11 @@ export const Map = () => {
                     );
                   })}
                   {Object.keys(tooltipContent.content).length === 0 && (
-                    <span>{tooltipContent.smallerThan20 ? '0%' : 'Insufficient data'}</span>
+                    <span>
+                      {tooltipContent.smallerThan20
+                        ? t('dashboard.legend.zeroPercent')
+                        : t('dashboard.tooltip.insufficientData')}
+                    </span>
                   )}
                 </div>
               </div>

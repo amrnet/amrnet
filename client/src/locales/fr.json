@@ -3,7 +3,83 @@
   "welcomeMessage": "Bienvenue sur le tableau de bord AMRnet",
   "dashboard": {
     "title": "Tableau de bord AMRnet",
-    "description": "Ceci est la page principale du tableau de bord AMRnet. Ici vous pouvez visualiser et gérer divers aspects du système."
+    "description": "Ceci est la page principale du tableau de bord AMRnet. Ici vous pouvez visualiser et gérer divers aspects du système.",
+    "legend": {
+      "showing": "Affichage : {{value}}",
+      "insufficientData": "Données insuffisantes",
+      "zeroPercent": "0%"
+    },
+    "tooltip": {
+      "total": "Total : {{total}}",
+      "insufficientData": "Données insuffisantes",
+      "showFilters": "Afficher les filtres",
+      "hideFilters": "Masquer les filtres"
+    },
+    "globalOverviewLabel": "Vue d'ensemble{{dataview}} : {{mapView}}",
+    "filters": {
+      "optimized": {
+        "title": "Options de vue d'ensemble mondiale",
+        "colorBy": "Colorer les pays par :",
+        "selectDrugs": "Sélectionner des médicaments :",
+        "allDrugs": "Tous les médicaments",
+        "selectedCount": "{{count}} sélectionnés",
+        "close": "Fermer"
+      },
+      "plotOptions": {
+        "title": "Options de tracé",
+        "hideTooltip": "Masquer les options de tracé",
+        "colorBy": "Colorer les pays par",
+        "percentageTooltip": "Les données en pourcentage sont affichées uniquement pour les pays avec ≥20 génomes, sauf « No. Samples »",
+        "selectDrugs": "Sélectionnez un ou plusieurs médicaments",
+        "chooseDrugsTooltip": "Choisissez une ou plusieurs catégories de médicaments pour voir leur prévalence. Sélectionner plusieurs catégories affiche uniquement leur prévalence partagée",
+        "selectLabel": "Sélectionner {{label}}",
+        "search": "Rechercher...",
+        "searchMore": "Rechercher plus...",
+        "clearAll": "Tout effacer",
+        "selectAll": "Tout sélectionner",
+        "selectedCount": "{{count}} sur {{total}} sélectionnés",
+        "nonResTooltip": "Si le total de {{label}} est trop élevé, seules les 20 premières options sont affichées à la fois",
+        "labels": {
+          "O": "O",
+          "H": "H",
+          "pathotypes": "pathotypes",
+          "serotypes": "sérotypes",
+          "NGMAST": "NG-MAST",
+          "lineages": "lignées",
+          "STs": "STs",
+          "genotypes": "génotypes"
+        },
+        "definitions": {
+          "XDR": {
+            "styphi": "XDR, résistant à de multiples médicaments (MDR plus résistant à la ciprofloxacine et à la ceftriaxone)",
+            "ngono": "XDR, résistant à de multiples médicaments (résistant à deux des azithromycine, ceftriaxone, cefixime [catégorie I], ET résistant à la benzylpénicilline, ciprofloxacine et spectinomycine [catégorie II])"
+          },
+          "MDR": {
+            "styphi": "MDR, résistant à de multiples médicaments (résistant à l'ampicilline, au chloramphénicol et au triméthoprime-sulfaméthoxazole)",
+            "ngono": "MDR, résistant à de multiples médicaments (résistant à l'une des azithromycine, ceftriaxone, cefixime [catégorie I], plus deux ou plus de benzylpénicilline, ciprofloxacine, spectinomycine [catégorie II])"
+          }
+        },
+        "info": {
+          "decoli": "Les lignées sont étiquetées comme Patovar (ST) et MLST sur 7 loci",
+          "kpneumo": "Les types de séquence sont étiquetés comme MLST sur 7 loci",
+          "shige": "Les lignées sont étiquetées comme Espèce + cluster HC400",
+          "sentericaints": "Les lignées sont étiquetées comme MLST sur 7 loci et cluster HC150(305,1547,48,9882,728,12675,2452)"
+        }
+      }
+    }
+  },
+  "home": {
+    "genomes": "Génomes",
+    "organisms": {
+      "styphi": "<0>Salmonella</0> Typhi",
+      "sentericaints": "<0>Salmonella</0> (invasive non typhoïde)",
+      "senterica": "<0>Salmonella enterica</0> (non typhoïde)",
+      "ngono": "<0>Neisseria gonorrhoeae</0>",
+      "kpneumo": "<0>Klebsiella pneumoniae</0>",
+      "shige": "<0>Shigella</0> + EIEC",
+      "decoli": "<0>Escherichia coli</0> (diarrhéagène)",
+      "ecoli": "<0>Escherichia coli</0>"
+    }
   },
   "navigation": {
     "home": "Accueil",
@@ -107,6 +183,15 @@
     "noData": "Aucune donnée disponible.",
     "rowsPerPage": "Lignes par page :",
     "of": "de"
+  },
+  "layout": {
+    "loadingThanks": "Merci de votre patience"
+  },
+  "note": {
+    "styphi": "Les données de Typhi sont triées par le <0>Consortium mondial de génomique typhoïde</0> et analysées avec <1>Pathogenwatch</1>.",
+    "ngono": "<0>N. gonorrhoeae</0> représente des projets de surveillance nationaux et régionaux, issus de <1>Pathogenwatch</1>.",
+    "kpneumo": "Ces données proviennent de <0>Pathogenwatch</0> et représentent des données non filtrées déposées dans NCBI/ENA. Elles incluent diverses sources bactériennes (pas seulement des infections cliniques humaines) et sont biaisées vers les souches résistantes. Dans de futures versions, cela sera atténué grâce aux métadonnées curées par le <1>Consortium d'épidémiologie KlebNET</1>.",
+    "default": "Ces données proviennent de <0>Enterobase</0> et représentent des données non filtrées déposées dans Enterobase/NCBI/ENA, et peuvent donc refléter un biais vers le séquençage de souches résistantes et/ou des flambées. Cela changera dans les prochaines mises à jour."
   },
   "login": {
     "title": "Se connecter à AMRnet",
