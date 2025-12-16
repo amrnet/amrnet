@@ -3,7 +3,83 @@
   "welcomeMessage": "Bem-vindo ao painel do AMRnet",
   "dashboard": {
     "title": "Painel AMRnet",
-    "description": "Esta é a página principal do painel do AMRnet. Aqui você pode visualizar e gerenciar vários aspectos do sistema."
+    "description": "Esta é a página principal do painel do AMRnet. Aqui você pode visualizar e gerenciar vários aspectos do sistema.",
+    "legend": {
+      "showing": "Mostrando: {{value}}",
+      "insufficientData": "Dados insuficientes",
+      "zeroPercent": "0%"
+    },
+    "tooltip": {
+      "total": "Total: {{total}}",
+      "insufficientData": "Dados insuficientes",
+      "showFilters": "Mostrar filtros",
+      "hideFilters": "Ocultar filtros"
+    },
+    "globalOverviewLabel": "Visão geral{{dataview}}: {{mapView}}",
+    "filters": {
+      "optimized": {
+        "title": "Opções de visualização geral global",
+        "colorBy": "Colorir países por:",
+        "selectDrugs": "Selecionar medicamentos:",
+        "allDrugs": "Todos os medicamentos",
+        "selectedCount": "{{count}} selecionados",
+        "close": "Fechar"
+      },
+      "plotOptions": {
+        "title": "Opções de plotagem",
+        "hideTooltip": "Ocultar opções de plotagem",
+        "colorBy": "Colorir países por",
+        "percentageTooltip": "Os dados percentuais são exibidos apenas para países com ≥20 genomas, exceto 'No. Samples'",
+        "selectDrugs": "Selecione um ou mais medicamentos",
+        "chooseDrugsTooltip": "Escolha uma ou mais categorias de medicamentos para ver sua prevalência. Selecionar várias categorias mostra apenas sua prevalência compartilhada",
+        "selectLabel": "Selecionar {{label}}",
+        "search": "Buscar...",
+        "searchMore": "Buscar mais...",
+        "clearAll": "Limpar tudo",
+        "selectAll": "Selecionar tudo",
+        "selectedCount": "{{count}} de {{total}} selecionados",
+        "nonResTooltip": "Se o total de {{label}} for muito grande, apenas as primeiras 20 opções são mostradas por vez",
+        "labels": {
+          "O": "O",
+          "H": "H",
+          "pathotypes": "patotipos",
+          "serotypes": "sorotipos",
+          "NGMAST": "NG-MAST",
+          "lineages": "linhagens",
+          "STs": "STs",
+          "genotypes": "genótipos"
+        },
+        "definitions": {
+          "XDR": {
+            "styphi": "XDR, extremamente resistente a múltiplos medicamentos (MDR mais resistente a ciprofloxacino e ceftriaxona)",
+            "ngono": "XDR, extremamente resistente a múltiplos medicamentos (resistente a dois de Azitromicina, Ceftriaxona, Cefixima [drogas da categoria I], E resistente a Benzilpenicilina, Ciprofloxacino e Spectinomicina [categoria II])"
+          },
+          "MDR": {
+            "styphi": "MDR, resistente a múltiplos medicamentos (resistente a ampicilina, cloranfenicol e trimetoprima-sulfametoxazol)",
+            "ngono": "MDR, resistente a múltiplos medicamentos (resistente a um dos Azitromicina, Ceftriaxona, Cefixima [categoria I], mais dois ou mais de Benzilpenicilina, Ciprofloxacino, Spectinomicina [categoria II])"
+          }
+        },
+        "info": {
+          "decoli": "As linhagens são rotuladas como Patovar (ST) e MLST de 7 loci",
+          "kpneumo": "Os tipos de sequência são rotulados como MLST de 7 loci",
+          "shige": "As linhagens são rotuladas como Espécie + cluster HC400",
+          "sentericaints": "As linhagens são rotuladas como MLST de 7 loci e cluster HC150(305,1547,48,9882,728,12675,2452)"
+        }
+      }
+    }
+  },
+  "home": {
+    "genomes": "Genomas",
+    "organisms": {
+      "styphi": "<0>Salmonella</0> Typhi",
+      "sentericaints": "<0>Salmonella</0> (invasiva não tifóide)",
+      "senterica": "<0>Salmonella enterica</0> (não tifóide)",
+      "ngono": "<0>Neisseria gonorrhoeae</0>",
+      "kpneumo": "<0>Klebsiella pneumoniae</0>",
+      "shige": "<0>Shigella</0> + EIEC",
+      "decoli": "<0>Escherichia coli</0> (diarreogênico)",
+      "ecoli": "<0>Escherichia coli</0>"
+    }
   },
   "navigation": {
     "home": "Início",
@@ -107,6 +183,15 @@
     "noData": "Nenhum dado disponível.",
     "rowsPerPage": "Linhas por página:",
     "of": "de"
+  },
+  "layout": {
+    "loadingThanks": "Obrigado por sua paciência"
+  },
+  "note": {
+    "styphi": "Os dados de Typhi são curados pelo <0>Consórcio Global de Genômica de Tifoide</0> e analisados usando o <1>Pathogenwatch</1>.",
+    "ngono": "<0>N. gonorrhoeae</0> representa projetos de vigilância nacionais e regionais, com dados obtidos do <1>Pathogenwatch</1>.",
+    "kpneumo": "Esses dados são retirados do <0>Pathogenwatch</0> e representam dados não filtrados depositados no NCBI/ENA. Incluem diversas fontes de bactérias (não apenas infecções clínicas humanas) e têm viés para sequenciamento de linhagens resistentes. Nas próximas atualizações isso será compensado com metadados curados pelo <1>Consórcio Epidemiológico KlebNET</1>.",
+    "default": "Esses dados são retirados do <0>Enterobase</0> e representam dados não filtrados depositados no Enterobase/NCBI/ENA, portanto podem refletir um viés para sequenciamento de linhagens resistentes e/ou surtos. Isso mudará nas próximas atualizações."
   },
   "login": {
     "title": "Entrar no AMRnet",

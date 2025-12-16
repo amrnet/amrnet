@@ -3,7 +3,83 @@
   "welcomeMessage": "Welcome to AMRnet dashboard",
   "dashboard": {
     "title": "AMRnet Dashboard ",
-    "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system."
+    "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system.",
+    "legend": {
+      "showing": "Showing: {{value}}",
+      "insufficientData": "Insufficient data",
+      "zeroPercent": "0%"
+    },
+    "tooltip": {
+      "total": "Total: {{total}}",
+      "insufficientData": "Insufficient data",
+      "showFilters": "Show Filters",
+      "hideFilters": "Hide Filters"
+    },
+    "globalOverviewLabel": "Global Overview{{dataview}}: {{mapView}}",
+    "filters": {
+      "optimized": {
+        "title": "Global Overview Options",
+        "colorBy": "Color country by:",
+        "selectDrugs": "Select drugs:",
+        "allDrugs": "All drugs",
+        "selectedCount": "{{count}} selected",
+        "close": "Close"
+      },
+      "plotOptions": {
+        "title": "Plotting options",
+        "hideTooltip": "Hide plotting options",
+        "colorBy": "Colour country by",
+        "percentageTooltip": "Percentage frequency data is shown only for countries with N≥20 genomes except 'No. Samples'",
+        "selectDrugs": "Select one or more drugs",
+        "chooseDrugsTooltip": "Choose one or more drug categories to see their prevalence. Selecting multiple categories shows only their shared prevalence",
+        "selectLabel": "Select {{label}}",
+        "search": "Search...",
+        "searchMore": "Search for more...",
+        "clearAll": "Clear All",
+        "selectAll": "Select All",
+        "selectedCount": "{{count}} of {{total}} selected",
+        "nonResTooltip": "If the total {{label}} are too many, only the first 20 options are shown at a time",
+        "labels": {
+          "O": "O",
+          "H": "H",
+          "pathotypes": "pathotypes",
+          "serotypes": "serotypes",
+          "NGMAST": "NG-MAST",
+          "lineages": "lineages",
+          "STs": "STs",
+          "genotypes": "genotypes"
+        },
+        "definitions": {
+          "XDR": {
+            "styphi": "XDR, extensively drug resistant (MDR plus resistant to ciprofloxacin and ceftriaxone)",
+            "ngono": "XDR, extensively drug resistant (resistant to two of Azithromycin, Ceftriaxone, Cefixime [category I drugs], AND resistant to Benzylpenicillin, Ciprofloxacin and Spectinomycin [category II drugs])"
+          },
+          "MDR": {
+            "styphi": "MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)",
+            "ngono": "MDR, multidrug resistant (resistant to one of Azithromycin, Ceftriaxone, Cefixime [category I drugs], plus two or more of Benzylpenicillin, Ciprofloxacin, Spectinomycin [category II drugs])"
+          }
+        },
+        "info": {
+          "decoli": "Lineages are labelled as Pathovar (ST) and 7-locus MLST",
+          "kpneumo": "Sequence type are labelled as 7-locus MLST",
+          "shige": "Lineages are labelled as Species + HC400 cluster",
+          "sentericaints": "Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster"
+        }
+      }
+    }
+  },
+  "home": {
+    "genomes": "Genomes",
+    "organisms": {
+      "styphi": "<0>Salmonella</0> Typhi",
+      "sentericaints": "<0>Salmonella</0> (invasive non-typhoidal)",
+      "senterica": "<0>Salmonella enterica</0> (non-typhoidal)",
+      "ngono": "<0>Neisseria gonorrhoeae</0>",
+      "kpneumo": "<0>Klebsiella pneumoniae</0>",
+      "shige": "<0>Shigella</0> + EIEC",
+      "decoli": "<0>Escherichia coli</0> (diarrheagenic)",
+      "ecoli": "<0>Escherichia coli</0>"
+    }
   },
   "navigation": {
     "home": "Home",
@@ -107,6 +183,15 @@
     "noData": "No data available.",
     "rowsPerPage": "Rows per page:",
     "of": "of"
+  },
+  "layout": {
+    "loadingThanks": "Thanks for your patience"
+  },
+  "note": {
+    "styphi": "Typhi data are curated by the <0>Global Typhoid Genomics Consortium</0> and analysed using <1>Pathogenwatch</1>.",
+    "ngono": "<0>N. gonorrhoeae</0> data represent national and regional surveillance projects, sourced from <1>Pathogenwatch</1>.",
+    "kpneumo": "This data is pulled from <0>Pathogenwatch</0> and represents unfiltered data deposited in NCBI/ENA. It includes diverse sources of bacteria (not just human clinical infections) and is biased towards sequencing of resistant strains. In future updates this will be mitigated using metadata curated by the <1>KlebNET Epidemiology Consortium</1>.",
+    "default": "This data is pulled from <0>Enterobase</0> and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates."
   },
   "login": {
     "title": "Login to AMRnet",

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Circles } from 'react-loader-spinner';
 import { useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../stores/hooks';
@@ -10,6 +11,7 @@ export const MainLayout = ({ children }) => {
   const location = useLocation();
   const loadingData = useAppSelector(state => state.dashboard.loadingData);
   const loadingMap = useAppSelector(state => state.map.loadingMap);
+  const { t } = useTranslation();
   const page = useMemo(() => location.pathname.replace('/', ''), [location.pathname]);
   const isHomePage = useMemo(() => page === '', [page]);
   const isDashboardPage = useMemo(() => !['user-guide', 'about', 'contact', 'team'].includes(page), [page]);
@@ -27,7 +29,7 @@ export const MainLayout = ({ children }) => {
           <div className={classes.loading}>
             <Circles color="#6F2F9F" height={60} width={60} />
             <p style={{ marginTop: '16px', color: '#6F2F9F', fontSize: '14px', textAlign: 'center' }}>
-              Thanks for your patience
+              {t('layout.loadingThanks')}
             </p>
           </div>
         )}
