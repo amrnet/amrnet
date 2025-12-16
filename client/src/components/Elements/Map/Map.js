@@ -10,6 +10,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup } from 'react-simple-maps';
 import ReactTooltip from 'react-tooltip';
 import geography from '../../../assets/world-50m.json';
@@ -17,12 +18,11 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setActualCountry, setActualRegion, setCanFilterData } from '../../../stores/slices/dashboardSlice.ts';
 import { setCollapse } from '../../../stores/slices/graphSlice';
 import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.ts';
-import { darkGrey, getColorForGenotype, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
+import { darkGrey, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
 import { drugAcronymsOpposite, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../util/drugs';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { BottomLeftControls } from './BottomLeftControls';
 import { MapActions } from './MapActions/MapActions';
-import { useTranslation } from 'react-i18next';
 import { differentColorScale, redColorScale, samplesColorScale, sensitiveColorScale } from './mapColorHelper';
 import { MapFilters } from './MapFilters/MapFilters';
 import { useStyles } from './MapMUI';
@@ -78,7 +78,7 @@ export const Map = () => {
   }, [mapView]);
 
   function getGenotypeColor(genotype) {
-    return  colorPallete[genotype] || '#F5F4F6';
+    return colorPallete[genotype] || '#F5F4F6';
   }
 
   function handleOnClick(countryData) {
