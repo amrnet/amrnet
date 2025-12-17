@@ -4,6 +4,7 @@ import { TopLeftControls } from '../Map/TopLeftControls';
 import { Fab, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import { Close, FilterList } from '@mui/icons-material';
 import { useAppSelector } from '../../../stores/hooks';
+import { useTranslation } from 'react-i18next';
 
 export const FloatingGlobalFilters = () => {
   const classes = useStyles();
@@ -80,15 +81,17 @@ export const FloatingGlobalFilters = () => {
   //   return !loadingData && !loadingMap && organism !== 'none' && scrollPosition > position;
   // }, [loadingData, loadingMap, matches500, matches700, organism, scrollPosition]);
 
+  const { t } = useTranslation();
+
   return (
     <div>
       {showFilter && !loadingData && !loadingMap && (
         <TopLeftControls
           style={{ top: 'unset', bottom: '16px', left }}
-          title="Global Filters"
+            title={t('floatingGlobalFilters.title')}
           closeButton={
             matches1750 ? (
-              <Tooltip title="Hide Filters" placement="top">
+              <Tooltip title={t('floatingGlobalFilters.tooltip.hideFilters')} placement="top">
                 <IconButton onClick={() => setShowFilter(false)}>
                   <Close fontSize="small" />
                 </IconButton>
@@ -99,7 +102,7 @@ export const FloatingGlobalFilters = () => {
       )}
       {!showFilter && matches1750 && (
         <div className={classes.fabGF}>
-          <Tooltip title="Global Filters" placement="right">
+          <Tooltip title={t('floatingGlobalFilters.tooltip.openFilters')} placement="right">
             <span>
               <Fab
                 color="primary"

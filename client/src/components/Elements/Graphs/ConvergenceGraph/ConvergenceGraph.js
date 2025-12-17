@@ -1,5 +1,6 @@
-import { Box, Card, CardContent, Divider, IconButton, MenuItem, Select, Tooltip, Typography, FormGroup, FormControlLabel, Switch } from '@mui/material';
+import { Box, Card, CardContent, Divider, MenuItem, Select, Typography, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { useStyles } from './ConvergenceGraphMUI';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import {
   CartesianGrid,
   Label,
@@ -25,7 +26,6 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
 import { setCanFilterData} from '../../../../stores/slices/dashboardSlice';
 import { SliderSizes } from '../../Slider';
-import { Close } from '@mui/icons-material';
 import { SelectCountry } from '../../SelectCountry';
 import { getPatternForGenotype, sanitizeId } from '../GenotypePatternRect';
 const GRADIENT_COLORS = {
@@ -354,14 +354,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectWrapper}>
