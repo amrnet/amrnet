@@ -1,8 +1,10 @@
+import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff } from '@mui/icons-material';
 import {
   Alert,
   Box,
   Card,
   CardActions,
+  CircularProgress,
   Collapse,
   IconButton,
   Snackbar,
@@ -11,22 +13,20 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-  CircularProgress,
 } from '@mui/material';
-import { useStyles } from './ContinentGraphsMUI';
+import domtoimage from 'dom-to-image';
+import download from 'downloadjs';
+import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import LogoImg from '../../../assets/img/logo-prod.png';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
-import { isTouchDevice } from '../../../util/isTouchDevice';
 import { continentGraphCard } from '../../../util/graphCards';
-import { BubbleGeographicGraph } from './BubbleGeographicGraph';
-import { ExpandLess, ExpandMore, FilterList, FilterListOff, CameraAlt } from '@mui/icons-material';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
-import download from 'downloadjs';
-import domtoimage from 'dom-to-image';
-import LogoImg from '../../../assets/img/logo-prod.png';
+import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
-import { useTranslation } from 'react-i18next';
+import { BubbleGeographicGraph } from './BubbleGeographicGraph';
+import { useStyles } from './ContinentGraphsMUI';
 
 const TABS = [
   {
@@ -180,11 +180,7 @@ export const ContinentGraphs = () => {
         154,
       );
       ctx.fillText(t('continentGraphs.pdf.totalGenomes', { count: actualGenomes }), canvas.width / 2, 174);
-      ctx.fillText(
-        t('continentGraphs.pdf.drugGene', { drugClass, gene: drugGene }),
-        canvas.width / 2,
-        194,
-      );
+      ctx.fillText(t('continentGraphs.pdf.drugGene', { drugClass, gene: drugGene }), canvas.width / 2, 194);
 
       // This is a component that renders the continent graphs legends based on the selected organism
 
@@ -227,7 +223,10 @@ export const ContinentGraphs = () => {
       ctx.font = '12px Montserrat';
 
       const base64 = canvas.toDataURL();
-      await download(base64, `AMRnet - ${globalOverviewLabel.stringLabel}_Geographic_Comparisons_${yAxisType}_prevalence .png`);
+      await download(
+        base64,
+        `AMRnet - ${globalOverviewLabel.stringLabel}_Geographic_Comparisons_${yAxisType}_prevalence .png`,
+      );
     } catch {
       setShowAlert(true);
     } finally {
@@ -299,7 +298,9 @@ export const ContinentGraphs = () => {
                   </span>
                 </Tooltip>
                 <Tooltip
-                  title={showFilter ? t('continentGraphs.tooltip.hideFilters') : t('continentGraphs.tooltip.showFilters')}
+                  title={
+                    showFilter ? t('continentGraphs.tooltip.hideFilters') : t('continentGraphs.tooltip.showFilters')
+                  }
                   placement="top"
                 >
                   <span>
@@ -351,11 +352,11 @@ export const ContinentGraphs = () => {
           </Box>
         </Collapse>
       </Card>
-        <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
-          <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
-            {t('continentGraphs.alert.downloadError')}
-          </Alert>
-        </Snackbar>
+      <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+          {t('continentGraphs.alert.downloadError')}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

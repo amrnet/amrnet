@@ -1,18 +1,12 @@
-import { Alert, CircularProgress, IconButton, Snackbar, Tooltip } from '@mui/material';
-import { useStyles } from './MapActionsMUI';
 import { CameraAlt } from '@mui/icons-material';
-import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { Alert, CircularProgress, IconButton, Snackbar, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { setPosition } from '../../../../stores/slices/mapSlice';
-import { svgAsPngUri } from 'save-svg-as-png';
-import { imgOnLoadPromise } from '../../../../util/imgOnLoadPromise';
-import download from 'downloadjs';
-import LogoImg from '../../../../assets/img/logo-prod.png';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { mapLegends } from '../../../../util/mapLegends';
+import { DownloadMapSS } from './DownloadMapSS';
 import { DownloadMapViewData } from './DownloadMapViewData';
-import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
-import { DownloadMapSS } from './DownloadMapSS'
+import { useStyles } from './MapActionsMUI';
 
 export const MapActions = () => {
   const classes = useStyles();
@@ -33,33 +27,30 @@ export const MapActions = () => {
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
   const { t } = useTranslation();
   const mapLegend = mapLegends.find(x => x.value === mapView);
-  const mapLegendLabel = mapLegend
-    ? mapLegend.labelKey
-      ? t(mapLegend.labelKey)
-      : mapLegend.label
-    : mapView;
+  const mapLegendLabel = mapLegend ? (mapLegend.labelKey ? t(mapLegend.labelKey) : mapLegend.label) : mapView;
 
-    async function handleClick(event) { // Function to handle the click event for downloading the map as PNG
-      await DownloadMapSS({
-        event,
-        setLoading,
-        setShowAlert,
-        dispatch,
-        organism,
-        mapView,
-        dataset,
-        actualTimeInitial,
-        actualTimeFinal,
-        globalOverviewLabel,
-        prevalenceMapViewOptionsSelected,
-        customDropdownMapViewNG,
-        actualGenomes,
-        actualCountry,
-        selectedLineages,
-        mapLegendLabel,
-      });
-    }
-  
+  async function handleClick(event) {
+    // Function to handle the click event for downloading the map as PNG
+    await DownloadMapSS({
+      event,
+      setLoading,
+      setShowAlert,
+      dispatch,
+      organism,
+      mapView,
+      dataset,
+      actualTimeInitial,
+      actualTimeFinal,
+      globalOverviewLabel,
+      prevalenceMapViewOptionsSelected,
+      customDropdownMapViewNG,
+      actualGenomes,
+      actualCountry,
+      selectedLineages,
+      mapLegendLabel,
+    });
+  }
+
   function handleCloseAlert() {
     setShowAlert(false);
   }

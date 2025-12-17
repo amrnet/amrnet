@@ -1,38 +1,37 @@
-import { Box, Card, CardContent, Divider, MenuItem, Select, Typography, FormGroup, FormControlLabel, Switch } from '@mui/material';
-import { useStyles } from './ConvergenceGraphMUI';
-import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { Box, Card, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
 import {
   CartesianGrid,
+  Cell,
+  Tooltip as ChartTooltip,
   Label,
   Legend,
   ResponsiveContainer,
+  Scatter,
+  ScatterChart,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  ScatterChart,
-  Scatter,
   ZAxis,
-  Cell,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { setCanFilterData } from '../../../../stores/slices/dashboardSlice';
 import {
+  setConvergenceColourPallete,
   /*setConvergenceColourVariable,*/ setConvergenceGroupVariable,
   setTopColorSlice,
-  setConvergenceColourPallete
 } from '../../../../stores/slices/graphSlice';
-import { useEffect, useMemo, useState } from 'react';
-import { hoverColor, generatePalleteForGenotypes} from '../../../../util/colorHelper';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { generatePalleteForGenotypes, hoverColor } from '../../../../util/colorHelper';
 import { variablesOptions } from '../../../../util/convergenceVariablesOptions';
-import { setCanFilterData} from '../../../../stores/slices/dashboardSlice';
-import { SliderSizes } from '../../Slider';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { SliderSizes } from '../../Slider';
 import { getPatternForGenotype, sanitizeId } from '../GenotypePatternRect';
+import { useStyles } from './ConvergenceGraphMUI';
 const GRADIENT_COLORS = {
   LIGHT_GREY: 200, // #c8c8c8 - lighter
   DARK_GREY: 30, // #1e1e1e - darker for better contrast
 };
-
 
 export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -48,7 +47,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   const convergenceColourPallete = useAppSelector(state => state.graph.convergenceColourPallete);
   const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
-  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -96,7 +95,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
   // };
 
   // Helper function to get pattern type for a genotype (for use in legend and tooltip)
-  const getPatternTypeForGenotype = (colorLabel) => {
+  const getPatternTypeForGenotype = colorLabel => {
     const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
     const genotypeIndex = topConvergenceData.findIndex(item => item.colorLabel === colorLabel);
     const patternIndex = genotypeIndex !== -1 ? genotypeIndex % patternTypes.length : 0;
@@ -109,8 +108,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
     const newPalette = generatePalleteForGenotypes(topData, convergenceGroupVariable, colourPattern);
 
     // prevent infinite re-dispatch
-    const isSame =
-      JSON.stringify(newPalette) === JSON.stringify(convergenceColourPallete);
+    const isSame = JSON.stringify(newPalette) === JSON.stringify(convergenceColourPallete);
 
     if (!isSame) {
       dispatch(setConvergenceColourPallete(newPalette));
@@ -121,17 +119,16 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     if (canGetData) {
-
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
             <ScatterChart cursor={isTouchDevice() ? 'default' : 'pointer'}>
               <defs>
                 {/* Pattern definitions for each colorLabel */}
-                {Object.keys(topColours).map((colorLabel) => {
+                {Object.keys(topColours).map(colorLabel => {
                   const color = topColours[colorLabel]; // Get the actual color value
                   const safeLabel = sanitizeId(colorLabel);
-                  
+
                   return [
                     // Solid pattern
                     <pattern
@@ -183,7 +180,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                     >
                       <rect width="8" height="8" fill={color} />
                       <path d="M0,0 L8,8 M8,0 L0,8" stroke="white" strokeWidth={1} />
-                    </pattern>
+                    </pattern>,
                   ];
                 })}
               </defs>
@@ -215,7 +212,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                   // Create ordered legend data based on topConvergenceData order, not alphabetical
                   const orderedLegendKeys = [];
                   const seenKeys = new Set();
-                  
+
                   // Iterate through topConvergenceData to maintain order
                   topConvergenceData.forEach(item => {
                     if (!seenKeys.has(item.colorLabel)) {
@@ -223,7 +220,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                       seenKeys.add(item.colorLabel);
                     }
                   });
-                  
+
                   return (
                     <div className={classes.legendWrapper}>
                       {orderedLegendKeys.map((key, index) => {
@@ -231,7 +228,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                         const safeLabel = sanitizeId(key);
                         return (
                           <div key={`convergence-legend-${index}`} className={classes.legendItemWrapper}>
-                            {colourPattern ? 
+                            {colourPattern ? (
                               <svg width="16" height="16" style={{ marginRight: 6 }}>
                                 <rect
                                   x="0"
@@ -243,14 +240,14 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                                   strokeWidth="0.5"
                                 />
                               </svg>
-                              :
+                            ) : (
                               <Box
                                 className={classes.colorCircle}
                                 style={{
                                   backgroundColor: convergenceColourPallete[key],
                                 }}
                               />
-                            }
+                            )}
                             <Typography variant="caption">{key}</Typography>
                           </div>
                         );

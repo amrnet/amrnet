@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useStyles } from './FloatingGlobalFiltersMUI';
-import { TopLeftControls } from '../Map/TopLeftControls';
-import { Fab, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import { Close, FilterList } from '@mui/icons-material';
-import { useAppSelector } from '../../../stores/hooks';
+import { Fab, IconButton, Tooltip, useMediaQuery } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAppSelector } from '../../../stores/hooks';
+import { TopLeftControls } from '../Map/TopLeftControls';
+import { useStyles } from './FloatingGlobalFiltersMUI';
 
 export const FloatingGlobalFilters = () => {
   const classes = useStyles();
@@ -12,9 +12,9 @@ export const FloatingGlobalFilters = () => {
   // const matches700 = useMediaQuery('(max-width: 700px)');
   const matches1750 = useMediaQuery('(max-width: 1750px)');
 
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const loadingData = useAppSelector((state) => state.dashboard.loadingData);
-  const loadingMap = useAppSelector((state) => state.map.loadingMap);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const loadingData = useAppSelector(state => state.dashboard.loadingData);
+  const loadingMap = useAppSelector(state => state.map.loadingMap);
 
   const [left, setLeft] = useState(16);
   // const [scrollPosition, setScrollPosition] = useState(0);
@@ -88,7 +88,7 @@ export const FloatingGlobalFilters = () => {
       {showFilter && !loadingData && !loadingMap && (
         <TopLeftControls
           style={{ top: 'unset', bottom: '16px', left }}
-            title={t('floatingGlobalFilters.title')}
+          title={t('floatingGlobalFilters.title')}
           closeButton={
             matches1750 ? (
               <Tooltip title={t('floatingGlobalFilters.tooltip.hideFilters')} placement="top">
