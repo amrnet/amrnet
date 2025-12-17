@@ -3,6 +3,7 @@ import { useStyles } from './MapActionsMUI';
 import { CameraAlt } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { setPosition } from '../../../../stores/slices/mapSlice';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { imgOnLoadPromise } from '../../../../util/imgOnLoadPromise';
@@ -30,6 +31,13 @@ export const MapActions = () => {
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
+  const { t } = useTranslation();
+  const mapLegend = mapLegends.find(x => x.value === mapView);
+  const mapLegendLabel = mapLegend
+    ? mapLegend.labelKey
+      ? t(mapLegend.labelKey)
+      : mapLegend.label
+    : mapView;
 
     async function handleClick(event) { // Function to handle the click event for downloading the map as PNG
       await DownloadMapSS({
@@ -48,6 +56,7 @@ export const MapActions = () => {
         actualGenomes,
         actualCountry,
         selectedLineages,
+        mapLegendLabel,
       });
     }
   
@@ -57,19 +66,19 @@ export const MapActions = () => {
 
   return (
     <div className={classes.mapActions}>
-      <Tooltip title="Download Data" placement="top" onClick={e => e.stopPropagation()}>
+      <Tooltip title={t('continentGraphs.tooltip.downloadData')} placement="top" onClick={e => e.stopPropagation()}>
         <IconButton color="primary" disabled={organism === 'none' || loading}>
           <DownloadMapViewData fontSize="inherit" value="map" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Download Map as PNG" placement="top">
+      <Tooltip title={t('continentGraphs.tooltip.downloadMap')} placement="top">
         <IconButton color="primary" onClick={handleClick} disabled={organism === 'none' || loading}>
           {loading ? <CircularProgress color="primary" size={25} /> : <CameraAlt fontSize="inherit" />}
         </IconButton>
       </Tooltip>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
-          Something went wrong with the download, please try again later.
+          {t('continentGraphs.alert.downloadError')}
         </Alert>
       </Snackbar>
     </div>

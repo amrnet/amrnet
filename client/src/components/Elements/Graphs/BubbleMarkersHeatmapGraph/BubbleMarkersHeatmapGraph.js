@@ -1,4 +1,4 @@
-import { Clear, Close, InfoOutlined } from '@mui/icons-material';
+import { Clear, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -43,6 +43,7 @@ import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { mixColorScale } from '../../Map/mapColorHelper';
 import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './BubbleMarkersHeatmapGraphMUI';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 
 export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -551,14 +552,7 @@ console.log('savedSelection', savedSelection, xAxisSelected, filteredXAxisOption
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectPreWrapper}>

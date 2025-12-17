@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useStyles } from './TrendLineGraphMUI';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import {
   Brush,
   CartesianGrid,
@@ -28,7 +29,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { hoverColor, lightGrey } from '../../../../util/colorHelper';
-import { Close, InfoOutlined } from '@mui/icons-material';
+import { InfoOutlined } from '@mui/icons-material';
 import { drugAcronyms, getDrugClasses } from '../../../../util/drugs';
 
 export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
@@ -389,14 +390,7 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <div className={classes.selectsWrapper}>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>

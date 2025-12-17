@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useAppSelector } from '../../../stores/hooks';
 import { graphCards } from '../../../util/graphCards';
 import { useStyles } from './InformationCardsMUI';
+import { useTranslation } from 'react-i18next';
 
 export const InformationCards = () => {
   const classes = useStyles();
@@ -14,30 +15,33 @@ export const InformationCards = () => {
   const totalGenotypes = useAppSelector(state => state.dashboard.totalGenotypes);
   const actualGenotypes = useAppSelector(state => state.dashboard.actualGenotypes);
   const organism = useAppSelector(state => state.dashboard.organism);
+  const { t } = useTranslation();
 
-  const totalLabel = useMemo(() => {
+  const totalLabelKey = useMemo(() => {
     const stOrganisms = ['kpneumo', 'shige', 'decoli', 'ecoli', 'senterica'];
     if (stOrganisms.includes(organism)) {
-      return 'Total STs';
+      return 'informationCards.totalSTs';
     }
     const lineageCard = graphCards.find(card => card.title.toLowerCase().includes('lineage'));
     const STCard = graphCards.find(card => card.title.toLowerCase().includes('st'));
 
     if (lineageCard?.organisms?.includes(organism)) {
-      return 'Total Lineages';
+      return 'informationCards.totalLineages';
     }
     if (STCard?.organisms?.includes(organism)) {
-      return 'Total STs';
+      return 'informationCards.totalSTs';
     }
-    return 'Total Genotypes';
+    return 'informationCards.totalGenotypes';
   }, [organism]);
+
+  const totalLabel = t(totalLabelKey);
 
   return (
     <div className={classes.cardsWrapper}>
       <div className={classes.card}>
         <div className={classes.cardContent}>
           <Typography variant={matches650 ? 'body2' : 'body1'} component="div" className={classes.title}>
-            {`Total Genomes${matches1000 ? ':' : ''}`}
+            {`${t('informationCards.totalGenomes')}${matches1000 ? ':' : ''}`}
           </Typography>
           <Typography variant={matches650 ? 'h6' : 'h5'} sx={{ fontWeight: '500' }}>
             {totalGenomes === actualGenomes ? (
