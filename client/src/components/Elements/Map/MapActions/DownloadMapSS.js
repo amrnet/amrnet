@@ -8,7 +8,6 @@ import { svgAsPngUri } from 'save-svg-as-png';
 import { imgOnLoadPromise } from '../../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
 import LogoImg from '../../../../assets/img/logo-prod.png';
-import { mapLegends } from '../../../../util/mapLegends';
 import { DownloadMapViewData } from './DownloadMapViewData';
 import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/drugs';
 
@@ -29,6 +28,7 @@ import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/dru
     actualGenomes,
     actualCountry,
     selectedLineages,
+    mapLegendLabel,
     }) => {
     event.stopPropagation();
     setLoading(true);
@@ -54,7 +54,6 @@ import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/dru
         const textHeight = 250;
         const legendHeight = 350;
 
-        // const mapView = mapLegends.find(x => x.value === mapView).label;
         const genotypesTextLength = (
           mapView +
           (mapView === 'NG-MAST prevalence'
@@ -72,8 +71,8 @@ import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/dru
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         // Draw the entire text with the original font style
-        if (organism === 'sentericaints') ctx.fillText(`Global Overview of ${mapView}`, canvas.width * 0.5, 80);
-        else ctx.fillText(`Global Overview of ${mapView}`, canvas.width * 0.5, 80);
+        if (organism === 'sentericaints') ctx.fillText(`Global Overview of ${mapLegendLabel}`, canvas.width * 0.5, 80);
+        else ctx.fillText(`Global Overview of ${mapLegendLabel}`, canvas.width * 0.5, 80);
         // Set the font style for "Salmonella" to italic
         // ctx.font = 'italic bold 50px Montserrat';
         // ctx.fillText(globalOverviewLabel.label0, canvas.width * 0.55, 80);
@@ -124,7 +123,7 @@ import { drugAcronymsOpposite, ngonoSusceptibleRule } from '../../../../util/dru
         ctx.font = '35px Montserrat';
         ctx.textAlign = 'center';
 
-        const actualMapView = mapLegends.find(x => x.value === mapView).label;
+        const actualMapView = mapLegendLabel;
 
         // ctx.fillText('Map View: ' + actualMapView, canvas.width / 2, 140);
 

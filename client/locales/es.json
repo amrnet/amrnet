@@ -3,7 +3,19 @@
   "welcomeMessage": "Bienvenido al panel de AMRnet",
   "dashboard": {
     "title": "Panel de AMRnet",
-    "description": "Esta es la página principal del panel de AMRnet. Aquí puedes ver y gestionar varios aspectos del sistema."
+    "description": "Esta es la página principal del panel de AMRnet. Aquí puedes ver y gestionar varios aspectos del sistema.",
+    "mapViews": {
+      "dominantGenotype": "Genotipo dominante",
+      "resistancePrevalence": "Prevalencia de resistencia",
+      "genotypePrevalence": "Prevalencia de genotipo",
+      "stPrevalence": "Prevalencia de ST",
+      "lineagePrevalence": "Prevalencia de linaje",
+      "serotypePrevalence": "Prevalencia de ST (MLST 7 loci)",
+      "pathotypePrevalence": "Prevalencia de patotipo",
+      "oPrevalence": "Prevalencia de O",
+      "hPrevalence": "Prevalencia de H",
+      "sampleCount": "Número de muestras"
+    }
   },
   "navigation": {
     "home": "Inicio",
@@ -139,5 +151,11 @@
     "language": "Idioma",
     "theme": "Tema",
     "notifications": "Notificaciones"
+  },
+  "note": {
+    "styphi": "AMRnet utiliza datos curados de Salmonella Typhi del <0>Consorcio Mundial de Genómica de Tifoidea</0> y análisis realizados en <1>Pathogenwatch</1>.",
+    "ngono": "<0>Las cifras de gonorrea siguen la guía de respuesta del ECDC.</0> Usamos <1>Pathogenwatch</1> para detectar determinantes de RAM.",
+    "kpneumo": "Los datos de Klebsiella combinan la curaduría de <0>Pathogenwatch</0> con los metadatos del <1>repositorio KlebNET</1>.",
+    "default": "Los demás organismos provienen de entradas de Enterobase revisadas con nuestro flujo de QC estándar."
   }
 }

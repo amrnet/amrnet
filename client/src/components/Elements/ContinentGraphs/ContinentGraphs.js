@@ -26,28 +26,16 @@ import download from 'downloadjs';
 import domtoimage from 'dom-to-image';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
+import { useTranslation } from 'react-i18next';
 
 const TABS = [
   {
-    label: 'Heatmap',
+    labelKey: 'continentGraphs.tabs.heatmap',
     value: 'BG',
     disabled: false,
     component: <BubbleGeographicGraph />,
     notShow: [],
   },
-  // {
-  //   label: 'Trend line',
-  //   value: 'TL',
-  //   disabled: false,
-  //   component: <TrendLineGraph />,
-  //   notShow: [],
-  // },
-  // {
-  //   label: 'Trend line 2',
-  //   value: 'TL2',
-  //   disabled: false,
-  //   component: <TrendLineGraph2 />,
-  // },
 ];
 
 export const ContinentGraphs = () => {
@@ -58,6 +46,7 @@ export const ContinentGraphs = () => {
   const [showFilter, setShowFilter] = useState(!matches500);
   const [loading, setLoading] = useState(false);
   const matches1000 = useMediaQuery('(max-width:1000px)');
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector(state => state.graph.collapses);
@@ -172,18 +161,30 @@ export const ContinentGraphs = () => {
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
-      ctx.fillText('Geographic Comparisons', canvas.width / 2, 50);
+      ctx.fillText(t('continentGraphs.pdf.title'), canvas.width / 2, 50);
 
       ctx.font = '12px Montserrat';
       // ctx.fillText(currentCard.description.join(' / '), canvas.width / 2, 72);
 
       ctx.font = '14px Montserrat';
-      ctx.fillText(`Organism: ${globalOverviewLabel.stringLabel}`, canvas.width / 2, 110);
-      ctx.fillText(`Dataset: ${dataset}`, canvas.width / 2, 132);
+      ctx.fillText(
+        t('continentGraphs.pdf.organism', { label: globalOverviewLabel.stringLabel }),
+        canvas.width / 2,
+        110,
+      );
+      ctx.fillText(t('continentGraphs.pdf.dataset', { label: dataset }), canvas.width / 2, 132);
 
-      ctx.fillText(`Time period: ${actualTimeInitial} to ${actualTimeFinal}`, canvas.width / 2, 154);
-      ctx.fillText(`Total: ${actualGenomes} genomes`, canvas.width / 2, 174);
-      ctx.fillText(`${drugClass} : ${drugGene} Gene`, canvas.width / 2, 194); // Add drug class and gene to the title to PDF
+      ctx.fillText(
+        t('continentGraphs.pdf.timePeriod', { start: actualTimeInitial, end: actualTimeFinal }),
+        canvas.width / 2,
+        154,
+      );
+      ctx.fillText(t('continentGraphs.pdf.totalGenomes', { count: actualGenomes }), canvas.width / 2, 174);
+      ctx.fillText(
+        t('continentGraphs.pdf.drugGene', { drugClass, gene: drugGene }),
+        canvas.width / 2,
+        194,
+      );
 
       // This is a component that renders the continent graphs legends based on the selected organism
 
@@ -263,11 +264,14 @@ export const ContinentGraphs = () => {
               </Typography>
               {collapses['continent'] && (
                 <Typography fontSize="10px" component="span">
-                  {currentTab.includes('TL') && <div>Data are plotted for years with N ≥ 10 genomes</div>}
+                  {currentTab.includes('TL') && <div>{t('continentGraphs.plottedYears')}</div>}
                   {
                     <div>
-                      Data are restricted to the Global filters selected (Year {actualTimeInitial} - {actualTimeFinal}){' '}
-                      {datasetStatemnet()}, and regions/countries with N≥20 passing these filters.
+                      {t('continentGraphs.restrictedData', {
+                        start: actualTimeInitial,
+                        end: actualTimeFinal,
+                        dataset: datasetStatemnet(),
+                      })}
                     </div>
                   }
                 </Typography>
@@ -277,7 +281,7 @@ export const ContinentGraphs = () => {
           <div className={classes.actionsWrapper}>
             {collapses['continent'] && (
               <>
-                <Tooltip title="Download Data" placement="top">
+                <Tooltip title={t('continentGraphs.tooltip.downloadData')} placement="top">
                   <IconButton
                     className={classes.actionButton}
                     color="primary"
@@ -287,14 +291,17 @@ export const ContinentGraphs = () => {
                     <DownloadMapViewData fontSize="inherit" value={currentTab} />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Download Chart as PNG" placement="top">
+                <Tooltip title={t('continentGraphs.tooltip.downloadChart')} placement="top">
                   <span>
                     <IconButton color="primary" onClick={event => handleClick(event)} disabled={organism === 'none'}>
                       {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
                     </IconButton>
                   </span>
                 </Tooltip>
-                <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
+                <Tooltip
+                  title={showFilter ? t('continentGraphs.tooltip.hideFilters') : t('continentGraphs.tooltip.showFilters')}
+                  placement="top"
+                >
                   <span>
                     <IconButton color="primary" onClick={event => handleClickFilter(event)}>
                       {showFilter ? <FilterListOff /> : <FilterList />}
@@ -312,7 +319,7 @@ export const ContinentGraphs = () => {
               return (
                 <Tab
                   key={`geo-tab-${i}`}
-                  label={tab.label}
+                  label={t(tab.labelKey)}
                   value={tab.value}
                   sx={{ flexGrow: 1 }}
                   disabled={tab.disabled}
@@ -344,11 +351,11 @@ export const ContinentGraphs = () => {
           </Box>
         </Collapse>
       </Card>
-      <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
-          Something went wrong with the download, please try again later.
-        </Alert>
-      </Snackbar>
+        <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+            {t('continentGraphs.alert.downloadError')}
+          </Alert>
+        </Snackbar>
     </div>
   );
 };

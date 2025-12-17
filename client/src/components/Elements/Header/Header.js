@@ -70,25 +70,15 @@ export const Header = () => {
               </div>
               {isDashboardPage && !isHomePage && <SelectOrganism />}
             </div>
-            {((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <MenuHead />
-                <LanguageSwitcher />
-              </Box>
-            )}
-            {(!isDashboardPage || isHomePage) && matches200 && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                {!((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && <LanguageSwitcher />}
+            {((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && <MenuHead />}
+            <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
+              <LanguageSwitcher />
+              {(!isDashboardPage || isHomePage) && matches200 && (
                 <a href="https://www.lshtm.ac.uk/amrnet" target="_blank" rel="noopener noreferrer">
                   <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
                 </a>
-              </Box>
-            )}
-            {isDashboardPage && !isHomePage && (
-              <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
-                <LanguageSwitcher />
-              </Box>
-            )}
+              )}
+            </Box>
             {/* {!isHomePage && !isDashboardPage && !matches500 && (
               <Typography className={classes.title} variant={matches500 ? 'h6' : 'h5'} fontWeight={500}>
                 {getPageTitle()}

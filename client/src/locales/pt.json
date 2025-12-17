@@ -28,11 +28,13 @@
       "plotOptions": {
         "title": "Opções de plotagem",
         "hideTooltip": "Ocultar opções de plotagem",
+        "showTooltip": "Mostrar opções de plotagem",
         "colorBy": "Colorir países por",
         "percentageTooltip": "Os dados percentuais são exibidos apenas para países com ≥20 genomas, exceto 'No. Samples'",
         "selectDrugs": "Selecione um ou mais medicamentos",
         "chooseDrugsTooltip": "Escolha uma ou mais categorias de medicamentos para ver sua prevalência. Selecionar várias categorias mostra apenas sua prevalência compartilhada",
         "selectLabel": "Selecionar {{label}}",
+        "selectDrugsLabel": "Selecionar medicamentos/classes para exibir",
         "search": "Buscar...",
         "searchMore": "Buscar mais...",
         "clearAll": "Limpar tudo",
@@ -66,6 +68,10 @@
           "sentericaints": "As linhagens são rotuladas como MLST de 7 loci e cluster HC150(305,1547,48,9882,728,12675,2452)"
         }
       }
+    },
+    "mapViews": {
+      "resistancePrevalence": "Prevalência de resistência",
+      "sampleCount": "Número de amostras"
     }
   },
   "home": {
@@ -192,6 +198,59 @@
     "ngono": "<0>N. gonorrhoeae</0> representa projetos de vigilância nacionais e regionais, com dados obtidos do <1>Pathogenwatch</1>.",
     "kpneumo": "Esses dados são retirados do <0>Pathogenwatch</0> e representam dados não filtrados depositados no NCBI/ENA. Incluem diversas fontes de bactérias (não apenas infecções clínicas humanas) e têm viés para sequenciamento de linhagens resistentes. Nas próximas atualizações isso será compensado com metadados curados pelo <1>Consórcio Epidemiológico KlebNET</1>.",
     "default": "Esses dados são retirados do <0>Enterobase</0> e representam dados não filtrados depositados no Enterobase/NCBI/ENA, portanto podem refletir um viés para sequenciamento de linhagens resistentes e/ou surtos. Isso mudará nas próximas atualizações."
+  },
+  "graphs": {
+    "selectedPathotypes": "Patotipos selecionados: {{selected}}",
+    "selectedSerotypes": "Sorotipos selecionados: {{selected}}",
+    "selectedGenotypes": "Genótipos selecionados: {{selected}}"
+  },
+  "continentGraphs": {
+    "tabs": {
+      "heatmap": "Mapa de calor"
+    },
+    "plottedYears": "Os dados são plotados para anos com N ≥ 10 genomas",
+    "restrictedData": "Os dados são restritos aos filtros globais selecionados (Ano {{start}} - {{end}}) {{dataset}}, e às regiões/países com N≥20 que passam nesses filtros.",
+    "tooltip": {
+      "downloadData": "Baixar dados",
+      "downloadChart": "Baixar gráfico como PNG",
+      "downloadMap": "Baixar mapa como PNG",
+      "hideFilters": "Ocultar filtros",
+      "showFilters": "Mostrar filtros"
+    },
+    "alert": {
+      "downloadError": "Algo deu errado com o download, por favor tente novamente mais tarde."
+    },
+    "pdf": {
+      "title": "Comparações geográficas",
+      "organism": "Organismo: {{label}}",
+      "dataset": "Conjunto de dados: {{label}}",
+      "timePeriod": "Período: {{start}} a {{end}}",
+      "totalGenomes": "Total: {{count}} genomas",
+      "drugGene": "{{drugClass}} : Gene {{gene}}"
+    }
+  },
+  "floatingGlobalFilters": {
+    "title": "Filtros globais",
+    "tooltip": {
+      "hideFilters": "Ocultar filtros",
+      "openFilters": "Filtros globais"
+    }
+  },
+  "topLeftControls": {
+    "title": "Filtros",
+    "appliedToPlots": "Aplicado a todos os gráficos",
+    "selectDataset": "Selecionar conjunto de dados",
+    "selectSerotype": "Selecionar sorotipo",
+    "selectPathotype": "Selecionar patotipo",
+    "placeholder": {
+      "select": "Selecionar..."
+    }
+  },
+  "informationCards": {
+    "totalGenomes": "Total de genomas",
+    "totalLineages": "Total de linhagens",
+    "totalSTs": "Total de STs",
+    "totalGenotypes": "Total de genótipos"
   },
   "login": {
     "title": "Entrar no AMRnet",

@@ -39,21 +39,25 @@ export const mapLegends = [
   {
     value: 'Resistance prevalence',
     label: 'Resistance prevalence',
+    labelKey: 'dashboard.mapViews.resistancePrevalence',
     organisms: organismsCards.map(x => x.value),
   },
   {
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
+    labelKey: 'dashboard.mapViews.genotypePrevalence',
     organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'kpneumo', 'senterica'].includes(x)),
   },
   {
     value: 'ST prevalence',
     label: 'ST prevalence',
+    labelKey: 'dashboard.mapViews.stPrevalence',
     organisms: ['kpneumo'],
   },
   {
     value: 'Lineage prevalence',
     label: 'Lineage prevalence',
+    labelKey: 'dashboard.mapViews.lineagePrevalence',
     organisms: ['sentericaints', 'senterica'],
   },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
@@ -61,26 +65,31 @@ export const mapLegends = [
   {
     value: 'Serotype prevalence',
     label: 'ST Prevalence (7-locus MLST)',
+    labelKey: 'dashboard.mapViews.serotypePrevalence',
     organisms: ['senterica'],
   },
   {
     value: 'Pathotype prevalence',
     label: 'Pathotype prevalence',
+    labelKey: 'dashboard.mapViews.pathotypePrevalence',
     organisms: ['ecoli', 'decoli', 'shige'],
   },
   {
     value: 'O prevalence',
     label: 'O prevalence',
+    labelKey: 'dashboard.mapViews.oPrevalence',
     organisms: ['ecoli', 'decoli', 'shige'],
   },
   {
     value: 'H prevalence',
     label: 'H prevalence',
+    labelKey: 'dashboard.mapViews.hPrevalence',
     organisms: ['ecoli', 'decoli', 'shige'],
   },
   {
     value: 'No. Samples',
     label: 'No. Samples',
+    labelKey: 'dashboard.mapViews.sampleCount',
     organisms: organismsCards.map(x => x.value),
   },
 ];

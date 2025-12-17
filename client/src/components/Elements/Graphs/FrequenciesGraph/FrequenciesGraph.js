@@ -14,7 +14,8 @@ import {
   IconButton,
 } from '@mui/material';
 import { useStyles } from './FrequenciesGraphMUI';
-import { Close, InfoOutlined } from '@mui/icons-material';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { InfoOutlined } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import {
@@ -401,14 +402,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <SelectCountry />
               <div className={classes.selectsWrapper}>
                 <div className={classes.labelWrapper}>

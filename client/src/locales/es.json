@@ -33,6 +33,8 @@
         "selectDrugs": "Selecciona uno o más medicamentos",
         "chooseDrugsTooltip": "Elige una o más categorías de medicamentos para ver su prevalencia. Seleccionar múltiples categorías muestra solo su prevalencia compartida",
         "selectLabel": "Seleccionar {{label}}",
+        "selectDrugsLabel": "Seleccionar fármacos/clases para mostrar",
+        "showTooltip": "Mostrar opciones de gráficos",
         "search": "Buscar...",
         "searchMore": "Buscar más...",
         "clearAll": "Borrar todo",
@@ -66,6 +68,10 @@
           "sentericaints": "Los linajes se etiquetan como MLST de 7 loci y clúster HC150(305,1547,48,9882,728,12675,2452)"
         }
       }
+    },
+    "mapViews": {
+      "resistancePrevalence": "Prevalencia de resistencia",
+      "sampleCount": "Número de muestras"
     }
   },
   "home": {
@@ -192,6 +198,59 @@
     "ngono": "<0>N. gonorrhoeae</0> representa proyectos de vigilancia nacionales y regionales, con datos obtenidos de <1>Pathogenwatch</1>.",
     "kpneumo": "Estos datos provienen de <0>Pathogenwatch</0> y representan datos sin filtrar depositados en NCBI/ENA. Incluyen diversas fuentes bacterianas (no solo infecciones clínicas humanas) y están sesgados hacia muestras resistentes. En futuras actualizaciones esto se mitigará con metadatos curados por el <1>Consorcio Epidemiológico KlebNET</1>.",
     "default": "Estos datos provienen de <0>Enterobase</0> y representan datos sin filtrar depositados en Enterobase/NCBI/ENA, por lo que pueden reflejar un sesgo hacia la secuenciación de cepas resistentes y/o brotes. Esto cambiará en próximas actualizaciones."
+  },
+  "graphs": {
+    "selectedPathotypes": "Patotipos seleccionados: {{selected}}",
+    "selectedSerotypes": "Serotipos seleccionados: {{selected}}",
+    "selectedGenotypes": "Genotipos seleccionados: {{selected}}"
+  },
+  "continentGraphs": {
+    "tabs": {
+      "heatmap": "Mapa de calor"
+    },
+    "plottedYears": "Los datos se representan para años con N ≥ 10 genomas",
+    "restrictedData": "Los datos se restringen a los filtros globales seleccionados (Año {{start}} - {{end}}) {{dataset}}, y regiones/países con N≥20 que cumplen esos filtros.",
+    "tooltip": {
+      "downloadData": "Descargar datos",
+      "downloadChart": "Descargar gráfico como PNG",
+      "downloadMap": "Descargar mapa como PNG",
+      "hideFilters": "Ocultar filtros",
+      "showFilters": "Mostrar filtros"
+    },
+    "alert": {
+      "downloadError": "Algo salió mal con la descarga, inténtalo más tarde."
+    },
+    "pdf": {
+      "title": "Comparaciones geográficas",
+      "organism": "Organismo: {{label}}",
+      "dataset": "Conjunto de datos: {{label}}",
+      "timePeriod": "Periodo de tiempo: {{start}} a {{end}}",
+      "totalGenomes": "Total: {{count}} genomas",
+      "drugGene": "{{drugClass}} : Gen {{gene}}"
+    }
+  },
+  "floatingGlobalFilters": {
+    "title": "Filtros globales",
+    "tooltip": {
+      "hideFilters": "Ocultar filtros",
+      "openFilters": "Filtros globales"
+    }
+  },
+  "topLeftControls": {
+    "title": "Filtros",
+    "appliedToPlots": "Aplicado a todos los gráficos",
+    "selectDataset": "Seleccionar conjunto de datos",
+    "selectSerotype": "Seleccionar serotipo",
+    "selectPathotype": "Seleccionar patotipo",
+    "placeholder": {
+      "select": "Seleccionar..."
+    }
+  },
+  "informationCards": {
+    "totalGenomes": "Total de genomas",
+    "totalLineages": "Total de linajes",
+    "totalSTs": "Total de STs",
+    "totalGenotypes": "Total de genotipos"
   },
   "login": {
     "title": "Iniciar sesión en AMRnet",

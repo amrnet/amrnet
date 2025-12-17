@@ -460,15 +460,16 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   disabled={organism === 'none'}
                 >
                   {currentMapLegends.map((legend, index) => {
+                    const legendLabel = legend.labelKey ? t(legend.labelKey) : legend.label;
                     const tooltipTitle = getLegendTitle(legend.label);
                     return (
                       <MenuItem key={index + 'mapview'} value={legend.value}>
                         {tooltipTitle ? (
                           <Tooltip title={tooltipTitle} placement="top">
-                            <span>{legend.label}</span>
+                            <span>{legendLabel}</span>
                           </Tooltip>
                         ) : (
-                          legend.label
+                          legendLabel
                         )}
                       </MenuItem>
                     );

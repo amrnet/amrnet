@@ -28,11 +28,13 @@
       "plotOptions": {
         "title": "Options de tracé",
         "hideTooltip": "Masquer les options de tracé",
+        "showTooltip": "Afficher les options de tracé",
         "colorBy": "Colorer les pays par",
         "percentageTooltip": "Les données en pourcentage sont affichées uniquement pour les pays avec ≥20 génomes, sauf « No. Samples »",
         "selectDrugs": "Sélectionnez un ou plusieurs médicaments",
         "chooseDrugsTooltip": "Choisissez une ou plusieurs catégories de médicaments pour voir leur prévalence. Sélectionner plusieurs catégories affiche uniquement leur prévalence partagée",
         "selectLabel": "Sélectionner {{label}}",
+        "selectDrugsLabel": "Sélectionnez les médicaments/classes à afficher",
         "search": "Rechercher...",
         "searchMore": "Rechercher plus...",
         "clearAll": "Tout effacer",
@@ -66,6 +68,10 @@
           "sentericaints": "Les lignées sont étiquetées comme MLST sur 7 loci et cluster HC150(305,1547,48,9882,728,12675,2452)"
         }
       }
+    },
+    "mapViews": {
+      "resistancePrevalence": "Prévalence de la résistance",
+      "sampleCount": "Nombre d'échantillons"
     }
   },
   "home": {
@@ -192,6 +198,59 @@
     "ngono": "<0>N. gonorrhoeae</0> représente des projets de surveillance nationaux et régionaux, issus de <1>Pathogenwatch</1>.",
     "kpneumo": "Ces données proviennent de <0>Pathogenwatch</0> et représentent des données non filtrées déposées dans NCBI/ENA. Elles incluent diverses sources bactériennes (pas seulement des infections cliniques humaines) et sont biaisées vers les souches résistantes. Dans de futures versions, cela sera atténué grâce aux métadonnées curées par le <1>Consortium d'épidémiologie KlebNET</1>.",
     "default": "Ces données proviennent de <0>Enterobase</0> et représentent des données non filtrées déposées dans Enterobase/NCBI/ENA, et peuvent donc refléter un biais vers le séquençage de souches résistantes et/ou des flambées. Cela changera dans les prochaines mises à jour."
+  },
+  "graphs": {
+    "selectedPathotypes": "Pathotypes sélectionnés : {{selected}}",
+    "selectedSerotypes": "Sérotypes sélectionnés : {{selected}}",
+    "selectedGenotypes": "Génotypes sélectionnés : {{selected}}"
+  },
+  "continentGraphs": {
+    "tabs": {
+      "heatmap": "Carte thermique"
+    },
+    "plottedYears": "Les données sont tracées pour les années avec N ≥ 10 génomes",
+    "restrictedData": "Les données sont limitées aux filtres globaux sélectionnés (Année {{start}} - {{end}}) {{dataset}}, et aux régions/pays avec N≥20 répondant à ces filtres.",
+    "tooltip": {
+      "downloadData": "Télécharger les données",
+      "downloadChart": "Télécharger le graphique en PNG",
+      "downloadMap": "Télécharger la carte en PNG",
+      "hideFilters": "Masquer les filtres",
+      "showFilters": "Afficher les filtres"
+    },
+    "alert": {
+      "downloadError": "Une erreur est survenue lors du téléchargement, merci de réessayer plus tard."
+    },
+    "pdf": {
+      "title": "Comparaisons géographiques",
+      "organism": "Organisme : {{label}}",
+      "dataset": "Ensemble de données : {{label}}",
+      "timePeriod": "Période : {{start}} à {{end}}",
+      "totalGenomes": "Total : {{count}} génomes",
+      "drugGene": "{{drugClass}} : Gène {{gene}}"
+    }
+  },
+  "floatingGlobalFilters": {
+    "title": "Filtres globaux",
+    "tooltip": {
+      "hideFilters": "Masquer les filtres",
+      "openFilters": "Filtres globaux"
+    }
+  },
+  "topLeftControls": {
+    "title": "Filtres",
+    "appliedToPlots": "Appliqué à tous les graphiques",
+    "selectDataset": "Sélectionner un ensemble de données",
+    "selectSerotype": "Sélectionner un sérotype",
+    "selectPathotype": "Sélectionner un pathotype",
+    "placeholder": {
+      "select": "Sélectionner..."
+    }
+  },
+  "informationCards": {
+    "totalGenomes": "Total de génomes",
+    "totalLineages": "Total des lignées",
+    "totalSTs": "Total des STs",
+    "totalGenotypes": "Total des génotypes"
   },
   "login": {
     "title": "Se connecter à AMRnet",

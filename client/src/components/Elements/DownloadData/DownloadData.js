@@ -9,6 +9,7 @@ import { PictureAsPdf, Storage, TableChart } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import jsPDF from 'jspdf';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { setPosition } from '../../../stores/slices/mapSlice';
 // import EUFlagImg from '../../../assets/img/eu_flag.jpg';
@@ -193,6 +194,7 @@ export const DownloadData = () => {
   const [loadingCSV, setLoadingCSV] = useState(false);
   // const [loadingPDF, setLoadingPDF] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
@@ -1270,7 +1272,12 @@ export const DownloadData = () => {
 
       // Map
       // Add 'Global Overview of {mapView}' title
-      const actualMapView = mapLegends.find(x => x.value === mapView).label;
+      const mapLegend = mapLegends.find(x => x.value === mapView);
+      const actualMapView = mapLegend
+        ? mapLegend.labelKey
+          ? t(mapLegend.labelKey)
+          : mapLegend.label
+        : mapView;
       doc.addPage();
       drawHeader({ document: doc, pageWidth });
       drawFooter({ document: doc, pageHeight, pageWidth, date });
@@ -1387,28 +1394,28 @@ export const DownloadData = () => {
         doc.addImage(img, 'PNG', 0, y + 40, pageWidth, 223, undefined, 'FAST');
       });
 
-      const mapLegend = new Image();
+      const mapLegendImage = new Image();
       let legendWidth = 58.85;
 
       switch (mapView) {
         case 'Genotype prevalence':
           // legendWidth = organism === 'styphi' ? 414.21 : 394.28;
-          mapLegend.src = `legends/MapView_prevalence.png`;
+          mapLegendImage.src = `legends/MapView_prevalence.png`;
           break;
         case 'No. Samples':
-          mapLegend.src = 'legends/MapView_NoSamples.png';
+          mapLegendImage.src = 'legends/MapView_NoSamples.png';
           break;
         case 'Pansusceptible':
-          mapLegend.src = 'legends/MapView_Sensitive.png';
+          mapLegendImage.src = 'legends/MapView_Sensitive.png';
           break;
         default:
-          mapLegend.src = 'legends/MapView_Others.png';
+          mapLegendImage.src = 'legends/MapView_Others.png';
           break;
       }
       if (mapView === 'Dominant Genotype') {
-        doc.addImage(mapLegend, 'PNG', pageWidth / 2 - legendWidth / 2, y, legendWidth, 47, undefined, 'FAST');
+        doc.addImage(mapLegendImage, 'PNG', pageWidth / 2 - legendWidth / 2, y, legendWidth, 47, undefined, 'FAST');
       } else {
-        doc.addImage(mapLegend, 'PNG', pageWidth - pageWidth / 5, y, legendWidth, 47, undefined, 'FAST');
+        doc.addImage(mapLegendImage, 'PNG', pageWidth - pageWidth / 5, y, legendWidth, 47, undefined, 'FAST');
       }
 
       //Heatmap
@@ -1459,11 +1466,12 @@ export const DownloadData = () => {
       const commonSubtitle2 = `Dataset: ${dataset}${
         dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''
       }`;
+      const heatmapTitle = `${t('continentGraphs.pdf.title')} (${t('continentGraphs.tabs.heatmap')})`;
 
       // Heatmap Page
       addStandardPage({
         doc,
-        title: 'Geographic Comparisons (Heatmap)',
+        title: heatmapTitle,
         subtitle1: commonSubtitle1,
         subtitle2: commonSubtitle2,
         date,

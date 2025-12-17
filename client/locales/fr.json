@@ -3,7 +3,19 @@
   "welcomeMessage": "Bienvenue sur le tableau de bord AMRnet",
   "dashboard": {
     "title": "Tableau de bord AMRnet",
-    "description": "Ceci est la page principale du tableau de bord AMRnet. Ici vous pouvez visualiser et gérer divers aspects du système."
+    "description": "Ceci est la page principale du tableau de bord AMRnet. Ici vous pouvez visualiser et gérer divers aspects du système.",
+    "mapViews": {
+      "dominantGenotype": "Génotype dominant",
+      "resistancePrevalence": "Prévalence de la résistance",
+      "genotypePrevalence": "Prévalence des génotypes",
+      "stPrevalence": "Prévalence ST",
+      "lineagePrevalence": "Prévalence des lignées",
+      "serotypePrevalence": "Prévalence ST (MLST 7 loci)",
+      "pathotypePrevalence": "Prévalence des pathotypes",
+      "oPrevalence": "Prévalence O",
+      "hPrevalence": "Prévalence H",
+      "sampleCount": "Nombre d'échantillons"
+    }
   },
   "navigation": {
     "home": "Accueil",
@@ -139,5 +151,11 @@
     "language": "Langue",
     "theme": "Thème",
     "notifications": "Notifications"
+  },
+  "note": {
+    "styphi": "AMRnet utilise des données Typhi curées par le <0>Consortium mondial de génomique typhoïde</0> et analysées sur <1>Pathogenwatch</1>.",
+    "ngono": "<0>Les chiffres de la gonorrhée suivent les recommandations de réponse du ECDC.</0> Nous utilisons <1>Pathogenwatch</1> pour identifier les déterminants de RAM.",
+    "kpneumo": "Les données de Klebsiella combinent <0>Pathogenwatch</0> et le référentiel de métadonnées <1>KlebNET</1>.",
+    "default": "Les autres organismes proviennent d’entrées Enterobase validées par notre flux QC habituel."
   }
 }

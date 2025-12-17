@@ -21,6 +21,7 @@ import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { Circles } from 'react-loader-spinner';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { useTranslation } from 'react-i18next';
 import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import {
   colorForDrugClassesNG,
@@ -40,6 +41,7 @@ import GenotypePatternRect from '../../../components/Elements/Graphs/GenotypePat
 
 export const Graphs = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const matches1000 = useMediaQuery('(max-width:1000px)');
   // const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
@@ -164,12 +166,12 @@ export const Graphs = () => {
     switch (organism) {
       case 'decoli':
       case 'shige':
-        return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
+        return t('graphs.selectedPathotypes', { selected: selectedLineages.join(', ') });
       case 'sentericaints':
       case 'kpneumo':
-        return `Selected Serotypes : ${selectedLineages.join(', ')}`;
+        return t('graphs.selectedSerotypes', { selected: selectedLineages.join(', ') });
       case 'ecoli':
-        return `Selected Genotypes : ${selectedLineages.join(', ')}`;
+        return t('graphs.selectedGenotypes', { selected: selectedLineages.join(', ') });
       default:
         return '';
     }

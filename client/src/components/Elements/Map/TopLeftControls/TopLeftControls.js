@@ -27,13 +27,15 @@ import {
 import { setDataset, setDatasetKP } from '../../../../stores/slices/mapSlice.ts';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { useStyles } from './TopLeftControlsMUI';
+import { useTranslation } from 'react-i18next';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 
-export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }) => {
+export const TopLeftControls = ({ style, closeButton = null, title }) => {
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:700px)');
   const [currentSelectedLineages, setCurrentSelectedLineages] = useState([]);
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const dataset = useAppSelector(state => state.map.dataset);
@@ -123,14 +125,14 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
       <Card elevation={3} className={classes.card}>
         <CardContent className={classes.cardContent}>
           <div className={classes.titleWrapper}>
-            <Typography variant="h6">Global Filter</Typography>
+            <Typography variant="h6">{title || t('topLeftControls.title')}</Typography>
             {closeButton}
           </div>
-          <Typography variant="caption">Applied to all plots</Typography>
+          <Typography variant="caption">{t('topLeftControls.appliedToPlots')}</Typography>
           {organism !== 'styphi' ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
-                Select dataset
+                {t('topLeftControls.selectDataset')}
               </Typography>
               <ToggleButtonGroup value={dataset} exclusive size="small" onChange={handleChangeST}>
                 {datasetOptions.map((option, index) => (
@@ -159,7 +161,9 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
           {!amrLikeOrganisms.filter(x => !['ecoli', 'senterica'].includes(x)).includes(organism) ? null : (
             <div className={classes.datasetWrapper}>
               <Typography gutterBottom variant="caption">
-                {organism === 'sentericaints' ? 'Select serotype' : 'Select pathotype'}
+                {organism === 'sentericaints'
+                  ? t('topLeftControls.selectSerotype')
+                  : t('topLeftControls.selectPathotype')}
               </Typography>
               {organism === 'decoli' ? (
                 <Autocomplete
@@ -175,7 +179,9 @@ export const TopLeftControls = ({ style, closeButton = null, title = 'Filters' }
                   onClose={handleCloseLineages}
                   limitTags={1}
                   clearIcon={null}
-                  renderInput={params => <TextField {...params} variant="standard" placeholder="Select..." />}
+                  renderInput={params => (
+                    <TextField {...params} variant="standard" placeholder={t('topLeftControls.placeholder.select')} />
+                  )}
                   slotProps={{
                     popper: { placement: 'bottom-start', style: { width: 'fit-content' } },
                   }}

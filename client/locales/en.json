@@ -3,7 +3,19 @@
   "welcomeMessage": "Welcome to AMRnet dashboard",
   "dashboard": {
     "title": "AMRnet Dashboard ",
-    "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system."
+    "description": "This is the main dashboard page of AMRnet. Here you can view and manage various aspects of the system.",
+    "mapViews": {
+      "dominantGenotype": "Dominant Genotype",
+      "resistancePrevalence": "Resistance prevalence",
+      "genotypePrevalence": "Genotype prevalence",
+      "stPrevalence": "ST prevalence",
+      "lineagePrevalence": "Lineage prevalence",
+      "serotypePrevalence": "ST prevalence (7-locus MLST)",
+      "pathotypePrevalence": "Pathotype prevalence",
+      "oPrevalence": "O prevalence",
+      "hPrevalence": "H prevalence",
+      "sampleCount": "No. Samples"
+    }
   },
   "navigation": {
     "home": "Home",
@@ -222,5 +234,11 @@
     "language": "Language",
     "theme": "Theme",
     "notifications": "Notifications"
+  },
+  "note": {
+    "styphi": "AMRnet draws on curated Salmonella Typhi data from the <0>Global Typhoid Genomics Consortium</0> and analyses carried out in <1>Pathogenwatch</1>.",
+    "ngono": "<0>The gonorrhoea figures follow the European CDC response guidance.</0> We use <1>Pathogenwatch</1> to call AMR determinants.",
+    "kpneumo": "Klebsiella data combine <0>Pathogenwatch</0> curation with metadata hosted by the <1>KlebNET repository</1>.",
+    "default": "Other organisms derive from Enterobase entries reviewed via our standard QC workflow."
   }
 }
