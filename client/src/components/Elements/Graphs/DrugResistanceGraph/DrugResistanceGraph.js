@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   Checkbox,
-  IconButton,
   ListItemText,
   MenuItem,
   Select,
@@ -41,9 +40,9 @@ import {
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { getColorForDrug } from '../graphColorHelper';
 import { useStyles } from './DrugResistanceGraphMUI';
-import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 
 /**
  * DrugResistanceGraph - Interactive line chart for visualizing drug resistance trends

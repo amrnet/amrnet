@@ -1,49 +1,44 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { InfoOutlined } from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   Button,
+  Card,
   CardContent,
   Checkbox,
+  InputAdornment,
   ListItemText,
   MenuItem,
   Select,
   Tooltip,
   Typography,
-  InputAdornment,
-  Card,
-  IconButton,
 } from '@mui/material';
-import { useStyles } from './FrequenciesGraphMUI';
-import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
-import { InfoOutlined } from '@mui/icons-material';
-import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Bar,
   BarChart,
+  Brush,
   CartesianGrid,
-  ResponsiveContainer,
   Tooltip as ChartTooltip,
-  XAxis,
-  YAxis,
   Label,
   Legend,
-  Brush,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
 } from 'recharts';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import {
-  setFrequenciesGraphSelectedGenotypes,
-  setFrequenciesGraphView,
-  setResetBool,
-} from '../../../../stores/slices/graphSlice';
-import { useEffect, useMemo, useState } from 'react';
-import { hoverColor } from '../../../../util/colorHelper';
-import { getColorForDrug } from '../graphColorHelper';
-import { drugsST, drugsKP, drugsNG, drugsINTS } from '../../../../util/drugs';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { setCaptureRFWG } from '../../../../stores/slices/dashboardSlice';
-import { SelectCountry } from '../../SelectCountry';
+import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView } from '../../../../stores/slices/graphSlice';
+import { hoverColor } from '../../../../util/colorHelper';
+import { drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { SelectCountry } from '../../SelectCountry';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { getColorForDrug } from '../graphColorHelper';
+import { useStyles } from './FrequenciesGraphMUI';
 
 export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -52,13 +47,13 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   const [searchValue2, setSearchValue2] = useState('');
 
   const dispatch = useAppDispatch();
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const genotypesDrugsData = useAppSelector((state) => state.graph.genotypesDrugsData);
-  const frequenciesGraphView = useAppSelector((state) => state.graph.frequenciesGraphView);
-  const frequenciesGraphSelectedGenotypes = useAppSelector((state) => state.graph.frequenciesGraphSelectedGenotypes);
-  const resetBool = useAppSelector((state) => state.graph.resetBool);
-  const canFilterData = useAppSelector((state) => state.dashboard.canFilterData);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const genotypesDrugsData = useAppSelector(state => state.graph.genotypesDrugsData);
+  const frequenciesGraphView = useAppSelector(state => state.graph.frequenciesGraphView);
+  const frequenciesGraphSelectedGenotypes = useAppSelector(state => state.graph.frequenciesGraphSelectedGenotypes);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
+  const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
 
   const organismNomination = useMemo(() => (['sentericaints'].includes(organism) ? 'lineage' : 'genotype'), [organism]);
   const dataViewOptions = useMemo(
@@ -73,10 +68,10 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   let sumOfBarDataToShowOnPlot = 0;
 
   useEffect(() => {
-    data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
+    data = data.filter(genotype => frequenciesGraphSelectedGenotypes.includes(genotype.name));
 
     // eslint-disable-next-line array-callback-return
-    data.map((item) => {
+    data.map(item => {
       sumOfBarDataToShowOnPlot += item.totalCount;
     });
     if (frequenciesGraphSelectedGenotypes.length <= 0 || sumOfBarDataToShowOnPlot === 0) {
@@ -89,7 +84,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     //dispatch(setResetBool(true));
     setCurrentTooltip(null);
-    dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map((x) => x.name)));
+    dispatch(setFrequenciesGraphSelectedGenotypes(genotypesDrugsData.slice(0, 5).map(x => x.name)));
   }, [genotypesDrugsData]);
 
   function getSelectGenotypeLabel(genotype) {
@@ -148,7 +143,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   }
 
   function getData() {
-    data = data.filter((genotype) => frequenciesGraphSelectedGenotypes.includes(genotype.name));
+    data = data.filter(genotype => frequenciesGraphSelectedGenotypes.includes(genotype.name));
 
     if (frequenciesGraphView === 'number') {
       return data;
@@ -156,10 +151,10 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
 
     const exclusions = ['name', 'totalCount', 'resistantCount'];
     let genotypeDataPercentage = structuredClone(data);
-    genotypeDataPercentage = genotypeDataPercentage.map((item) => {
-      const keys = Object.keys(item).filter((x) => !exclusions.includes(x));
+    genotypeDataPercentage = genotypeDataPercentage.map(item => {
+      const keys = Object.keys(item).filter(x => !exclusions.includes(x));
 
-      keys.forEach((key) => {
+      keys.forEach(key => {
         item[key] = Number(((item[key] / item.totalCount) * 100).toFixed(2));
       });
 
@@ -178,7 +173,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   // }
 
   function handleClickChart(event) {
-    const data = genotypesDrugsData.find((item) => item.name === event?.activeLabel);
+    const data = genotypesDrugsData.find(item => item.name === event?.activeLabel);
 
     if (data) {
       const currentData = structuredClone(data);
@@ -193,7 +188,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
       delete currentData.totalCount;
       delete currentData.resistantCount;
 
-      Object.keys(currentData).forEach((key) => {
+      Object.keys(currentData).forEach(key => {
         const count = currentData[key];
 
         if (count === 0) {
@@ -204,7 +199,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          fill: event.activePayload.find((x) => x.name === key).fill,
+          fill: event.activePayload.find(x => x.name === key).fill,
         });
         value.drugs.sort((a, b) => b.count - a.count);
       });
@@ -252,7 +247,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   }
 
   const filteredData = data.filter(
-    (genotype) =>
+    genotype =>
       genotype.name.includes(searchValue2.toLowerCase()) || genotype.name.includes(searchValue2.toUpperCase()),
   );
 
@@ -266,13 +261,13 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
               <XAxis dataKey="name" interval="preserveStartEnd" tick={{ fontSize: 14 }} />
               <YAxis domain={getDomain()} allowDecimals={false}>
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                  {dataViewOptions.find((option) => option.value === frequenciesGraphView).label}
+                  {dataViewOptions.find(option => option.value === frequenciesGraphView).label}
                 </Label>
               </YAxis>
               {genotypesDrugsData.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
 
               <Legend
-                content={(props) => {
+                content={props => {
                   const { payload } = props;
                   return (
                     <div className={classes.legendWrapper}>
@@ -431,7 +426,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
                     className={classes.select}
                     multiple
                     value={frequenciesGraphSelectedGenotypes}
-                    onChange={(event) => handleChangeSelectedGenotypes({ event })}
+                    onChange={event => handleChangeSelectedGenotypes({ event })}
                     displayEmpty
                     // endAdornment={
                     //   <Button
@@ -451,7 +446,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
                         list: classes.genotypesSelectMenu,
                       },
                     }}
-                    renderValue={(selected) => (
+                    renderValue={selected => (
                       <div>{`Select ${organismNomination}s (currently showing ${selected.length} )`}</div>
                     )}
                   >
@@ -482,8 +477,8 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
                         ),
                       }}
                       sx={{ width: '98%', margin: '0% 1%' }}
-                      onChange={(e) => setSearchValue(e)}
-                      onKeyDown={(e) => e.stopPropagation()}
+                      onChange={e => setSearchValue(e)}
+                      onKeyDown={e => e.stopPropagation()}
                     />
                     {filteredData.map((genotype, index) => (
                       <MenuItem key={`frequencies-option-${index}`} value={genotype.name}>

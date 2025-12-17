@@ -6,13 +6,11 @@ import {
   Divider,
   FormControlLabel,
   FormGroup,
-  IconButton,
   MenuItem,
   Select,
   Switch,
   Tab,
   Tabs,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -44,9 +42,9 @@ import { drugClassesNG, markersDrugsKP } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { SliderSizes } from '../../Slider';
 import { useStyles } from './TrendsGraphMUI';
-import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },

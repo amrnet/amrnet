@@ -17,6 +17,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import {
   setActualTimeFinal,
@@ -27,7 +28,6 @@ import {
 import { setDataset, setDatasetKP } from '../../../../stores/slices/mapSlice.ts';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { useStyles } from './TopLeftControlsMUI';
-import { useTranslation } from 'react-i18next';
 
 const datasetOptions = ['All', 'Local', 'Travel'];
 

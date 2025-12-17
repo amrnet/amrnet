@@ -1,9 +1,9 @@
 import { Divider, Typography, useMediaQuery } from '@mui/material';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../../stores/hooks';
 import { graphCards } from '../../../util/graphCards';
 import { useStyles } from './InformationCardsMUI';
-import { useTranslation } from 'react-i18next';
 
 export const InformationCards = () => {
   const classes = useStyles();
