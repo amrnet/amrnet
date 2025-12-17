@@ -18,26 +18,20 @@ import {
 import domtoimage from 'dom-to-image';
 import download from 'downloadjs';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Circles } from 'react-loader-spinner';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
-import { useTranslation } from 'react-i18next';
 import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
-import {
-  colorForDrugClassesNG,
-  colorForDrugClassesST,
-  colorForMarkers,
-  getColorForGenotype,
-} from '../../../util/colorHelper';
+import { colorForDrugClassesNG, colorForDrugClassesST, colorForMarkers } from '../../../util/colorHelper';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import { drugsKP, drugsST } from '../../../util/drugs';
 import { graphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
-import { colorsForKODiversityGraph, getColorForDrug } from './graphColorHelper';
+import { getColorForDrug } from './graphColorHelper';
 import { useStyles } from './GraphsMUI';
-import GenotypePatternRect from '../../../components/Elements/Graphs/GenotypePatternRect.js';
 
 export const Graphs = () => {
   const classes = useStyles();
@@ -103,10 +97,10 @@ export const Graphs = () => {
   const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
   const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
-  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
   const convergenceData = useAppSelector(state => state.graph.convergenceData);
   const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
-  
+
   useEffect(() => {
     if (organismCards.length > 0) {
       setCurrentTab(organismCards[0].id);
@@ -134,7 +128,7 @@ export const Graphs = () => {
   const currentCard = useMemo(() => organismCards.find(x => x.id === currentTab), [currentTab, organismCards]);
 
   function getGenotypeColor(genotype) {
-    return  currentColorPallete[genotype] || '#F5F4F6';
+    return currentColorPallete[genotype] || '#F5F4F6';
   }
   const currentColorPallete = useMemo(() => {
     const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
@@ -220,7 +214,7 @@ export const Graphs = () => {
   //       context.beginPath());
   //      {const radius = !colourPattern ? 5 : (i % 2 !== 0 ? 6 : 4.5);
   //       context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, radius, 0, 2 * Math.PI);
-  //       }      
+  //       }
   //     context.fill();
   //     context.closePath();
   //     context.fillStyle = 'black';
@@ -234,7 +228,7 @@ export const Graphs = () => {
 
   // Replace the drawLegend function in Graphs.jsx with this updated version:
 
-// Replace the drawLegend function in Graphs.jsx with this updated version:
+  // Replace the drawLegend function in Graphs.jsx with this updated version:
 
   function drawLegend({
     legendData,
@@ -247,16 +241,16 @@ export const Graphs = () => {
     isVariable = false,
     isGen = false,
     xSpace,
-    topConvergenceData = [], 
-    genotypesForFilterSelected = [], 
-    KOForFilterSelected = [], 
+    topConvergenceData = [],
+    genotypesForFilterSelected = [],
+    KOForFilterSelected = [],
   }) {
     const patternTypes = ['solid', 'stripes', 'dots', 'cross'];
     const getPatternTypeForGenotype = (
       legend,
       topConvergenceData = [],
       genotypesForFilterSelected = [],
-      KOForFilterSelected = []
+      KOForFilterSelected = [],
     ) => {
       let patternIndex = 0;
 
@@ -281,10 +275,12 @@ export const Graphs = () => {
       // Determine base color first
       let baseColor;
       if (isGenotype) {
-        baseColor = legend === 'Other' ? '#F5F4F6' : 
-                   KOForFilterSelected && KOForFilterSelected.includes(legend) ? 
-                   (colorPalleteKO[KOTrendsGraphPlotOption]?.[legend] || getGenotypeColor(legend)) :
-                   getGenotypeColor(legend);
+        baseColor =
+          legend === 'Other'
+            ? '#F5F4F6'
+            : KOForFilterSelected && KOForFilterSelected.includes(legend)
+              ? colorPalleteKO[KOTrendsGraphPlotOption]?.[legend] || getGenotypeColor(legend)
+              : getGenotypeColor(legend);
       } else if (isDrug) {
         baseColor = getColorForDrug(legend, colourPattern);
       } else if (isVariable) {
@@ -303,17 +299,17 @@ export const Graphs = () => {
           legend,
           topConvergenceData,
           genotypesForFilterSelected,
-          KOForFilterSelected
+          KOForFilterSelected,
         );
 
         const patternCanvas = document.createElement('canvas');
         const patternCtx = patternCanvas.getContext('2d');
-        
+
         // Set base pattern size
         const patternSize = patternType === 'solid' ? 16 : 8;
         patternCanvas.width = patternSize;
         patternCanvas.height = patternSize;
-        
+
         // Fill base color
         patternCtx.fillStyle = baseColor;
         patternCtx.fillRect(0, 0, patternSize, patternSize);
@@ -323,24 +319,29 @@ export const Graphs = () => {
           case 'stripes':
             patternCtx.fillStyle = 'rgba(255, 255, 255, 0.4)';
             patternCtx.save();
-            patternCtx.translate(patternSize/2, patternSize/2);
-            patternCtx.rotate(45 * Math.PI / 180);
+            patternCtx.translate(patternSize / 2, patternSize / 2);
+            patternCtx.rotate((45 * Math.PI) / 180);
             patternCtx.fillRect(-0.5, -patternSize, 1, patternSize * 2);
             patternCtx.restore();
             break;
-            
+
           case 'dots':
             patternCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
             patternCtx.beginPath();
-            patternCtx.arc(patternSize/2, patternSize/2, 1.5, 0, 2 * Math.PI);
+            patternCtx.arc(patternSize / 2, patternSize / 2, 1.5, 0, 2 * Math.PI);
             patternCtx.fill();
-            [[0,0], [patternSize,0], [0,patternSize], [patternSize,patternSize]].forEach(([x,y]) => {
+            [
+              [0, 0],
+              [patternSize, 0],
+              [0, patternSize],
+              [patternSize, patternSize],
+            ].forEach(([x, y]) => {
               patternCtx.beginPath();
               patternCtx.arc(x, y, 0.75, 0, 2 * Math.PI);
               patternCtx.fill();
             });
             break;
-            
+
           case 'cross':
             patternCtx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
             patternCtx.lineWidth = 1.5;
@@ -360,17 +361,16 @@ export const Graphs = () => {
         const rectX = 46 + xFactor;
         const rectY = yPosition - 8 - mobileFactor + yFactor;
         const rectSize = 16;
-        
+
         context.fillRect(rectX, rectY, rectSize, rectSize);
         context.strokeStyle = '#999';
         context.lineWidth = 0.5;
         context.strokeRect(rectX, rectY, rectSize, rectSize);
-        
       } else {
         // Draw circle for non-pattern legends
         context.fillStyle = baseColor;
         context.beginPath();
-        const radius = !colourPattern ? 5 : (i % 2 !== 0 ? 6 : 4.5);
+        const radius = !colourPattern ? 5 : i % 2 !== 0 ? 6 : 4.5;
         context.arc(52 + xFactor, yPosition - mobileFactor + yFactor, radius, 0, 2 * Math.PI);
         context.fill();
         context.closePath();
@@ -380,12 +380,14 @@ export const Graphs = () => {
       context.fillStyle = 'black';
       const textX = usePattern ? 65 + xFactor : 61 + xFactor;
       const textY = yPosition + 4 - mobileFactor + yFactor;
-      
-      const textContent = isGenotype || isDrug || isVariable ? 
-                         String(legend).replaceAll('β', 'B') :
-                         isGen ? String(legend) :
-                         legend.name || String(legend);
-      
+
+      const textContent =
+        isGenotype || isDrug || isVariable
+          ? String(legend).replaceAll('β', 'B')
+          : isGen
+            ? String(legend)
+            : legend.name || String(legend);
+
       context.fillText(textContent, textX, textY);
     });
   }
@@ -655,26 +657,26 @@ export const Graphs = () => {
         //   isGenotype: true,
         //   xSpace: 87,
         // });
-      // } else if (currentCard.id === 'KO') {
-      //   ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
-      //   drawLegend({
-      //     legendData: colorsForKODiversityGraph,
-      //     context: ctx,
-      //     factor: 5,
-      //     mobileFactor,
-      //     yPosition: 670,
-      //     xSpace: 330,
-      //   });
+        // } else if (currentCard.id === 'KO') {
+        //   ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
+        //   drawLegend({
+        //     legendData: colorsForKODiversityGraph,
+        //     context: ctx,
+        //     factor: 5,
+        //     mobileFactor,
+        //     yPosition: 670,
+        //     xSpace: 330,
+        //   });
       } else if (currentCard.id === 'convergence-graph') {
         ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
-        
+
         // Create ordered legend data based on topConvergenceData order (same as ConvergenceGraph.js)
         const orderedLegendKeys = [];
         const seenKeys = new Set();
-        
+
         // Get topConvergenceData to maintain the same sequence
         const topConvergenceDataForLegend = convergenceData.slice(0, currentSliderValueCM);
-        
+
         topConvergenceDataForLegend.forEach(item => {
           if (!seenKeys.has(item.colorLabel)) {
             orderedLegendKeys.push(item.colorLabel);

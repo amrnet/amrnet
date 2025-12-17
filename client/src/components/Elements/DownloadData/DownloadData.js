@@ -18,17 +18,17 @@ import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
-import { drugAcronymsOpposite, ngonoSusceptibleRule, drugsKP, drugsNG, drugsST  } from '../../../util/drugs';
+import { drugAcronymsOpposite, drugsKP, drugsNG, drugsST, ngonoSusceptibleRule } from '../../../util/drugs';
 import { graphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { mapLegends } from '../../../util/mapLegends';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
+import Papa from 'papaparse';
 import {
   colorForDrugClassesKP,
   colorForDrugClassesNG,
   colorForDrugClassesST,
   colorForMarkers,
-  getColorForGenotype,
 } from '../../../util/colorHelper';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import {
@@ -42,7 +42,6 @@ import {
   getShigeTexts,
 } from '../../../util/reportInfoTexts';
 import { getColorForDrug } from '../Graphs/graphColorHelper';
-import Papa from 'papaparse';
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -249,7 +248,7 @@ export const DownloadData = () => {
   const colorPalleteCgST = useAppSelector(state => state.dashboard.colorPalleteCgST);
   const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
   const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
-  const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
   const convergenceData = useAppSelector(state => state.graph.convergenceData);
   const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
 
@@ -290,7 +289,6 @@ export const DownloadData = () => {
 
       const lines = parsed.data;
 
-
       const replacements = {
         COUNTRY_ONLY: 'Country',
         NAME: 'Name',
@@ -311,9 +309,7 @@ export const DownloadData = () => {
         .sort((a, b) => b - a); // Reverse sort for safe removal
 
       // Remove columns
-      const newLines = lines.map(row =>
-        row.filter((_, i) => !indexesToRemove.includes(i))
-      );
+      const newLines = lines.map(row => row.filter((_, i) => !indexesToRemove.includes(i)));
 
       // create TSV
       const newTSV = newLines.map(row => row.join('\t')).join('\n');
@@ -333,7 +329,7 @@ export const DownloadData = () => {
   }
 
   function getGenotypeColor(genotype) {
-    return currentColorPallete[genotype]  || colorPalleteKO[KOTrendsGraphPlotOption][genotype] || '#F5F4F6';
+    return currentColorPallete[genotype] || colorPalleteKO[KOTrendsGraphPlotOption][genotype] || '#F5F4F6';
   }
   const currentColorPallete = useMemo(() => {
     const isSpecialOrganism = organism === 'kpneumo' || organism === 'ngono';
@@ -419,14 +415,12 @@ export const DownloadData = () => {
       legend,
       topConvergenceData = [],
       genotypesForFilterSelected = [],
-      KOForFilterSelected = []
+      KOForFilterSelected = [],
     ) => {
       let patternIndex = 0;
 
       if (topConvergenceData?.length > 0) {
-        const idx = topConvergenceData.findIndex(
-          (item) => item.colorLabel === legend
-        );
+        const idx = topConvergenceData.findIndex(item => item.colorLabel === legend);
         if (idx !== -1) patternIndex = idx % patternTypes.length;
       } else if (genotypesForFilterSelected?.length > 0) {
         const idx = genotypesForFilterSelected.indexOf(legend);
@@ -453,7 +447,7 @@ export const DownloadData = () => {
           legend,
           topConvergenceData,
           genotypesForFilterSelected,
-          KOForFilterSelected
+          KOForFilterSelected,
         );
 
         // Determine base color
@@ -581,7 +575,7 @@ export const DownloadData = () => {
         }
 
         // Convert hex to RGB
-        const hexToRgb = (hex) => {
+        const hexToRgb = hex => {
           const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
           return result
             ? {
@@ -619,7 +613,6 @@ export const DownloadData = () => {
       document.text(textContent, textX, textY);
     });
   }
-
 
   async function handleClickDownloadPDF() {
     dispatch(setLoadingPDF(true));
@@ -1273,11 +1266,7 @@ export const DownloadData = () => {
       // Map
       // Add 'Global Overview of {mapView}' title
       const mapLegend = mapLegends.find(x => x.value === mapView);
-      const actualMapView = mapLegend
-        ? mapLegend.labelKey
-          ? t(mapLegend.labelKey)
-          : mapLegend.label
-        : mapView;
+      const actualMapView = mapLegend ? (mapLegend.labelKey ? t(mapLegend.labelKey) : mapLegend.label) : mapView;
       doc.addPage();
       drawHeader({ document: doc, pageWidth });
       drawFooter({ document: doc, pageHeight, pageWidth, date });
@@ -1633,7 +1622,7 @@ export const DownloadData = () => {
         doc.addImage(graphImg, 'PNG', xPosition, yPosition, displayWidth, displayHeight, undefined, 'FAST');
 
         // const rectY = matches1000 ? 390 : 340;
-        const rectY = yPosition + displayHeight * (cards[index].id === 'DRT' ? isSmallImage ? 0.6 : 0.7 : 0.7); // updated Legends position based on image height and Y position on PDF
+        const rectY = yPosition + displayHeight * (cards[index].id === 'DRT' ? (isSmallImage ? 0.6 : 0.7) : 0.7); // updated Legends position based on image height and Y position on PDF
         if (
           cards[index].id !== 'HSG2' &&
           cards[index].id !== 'BG' &&
@@ -1642,7 +1631,7 @@ export const DownloadData = () => {
         ) {
           // BG is replaced from CVM for BubbleGeographicGraph
           doc.setFillColor(255, 255, 255); // white
-          doc.rect(0, rectY+10, pageWidth, 200, 'F'); // fill with white
+          doc.rect(0, rectY + 10, pageWidth, 200, 'F'); // fill with white
         }
 
         doc.setFontSize(9);
@@ -1771,33 +1760,31 @@ export const DownloadData = () => {
             KOForFilterSelected: KOForFilterSelected,
           });
           // id= convergence-graph for AMR/virulence (Kleb) ,
-          } else if (cards[index].id === 'convergence-graph') {
-            // Create ordered legend data based on topConvergenceData order
-            const orderedLegendKeys = [];
-            const seenKeys = new Set();
-            
-            const topConvergenceDataForLegend = convergenceData.slice(0, currentSliderValueCM);
-            
-            topConvergenceDataForLegend.forEach(item => {
-              if (!seenKeys.has(item.colorLabel)) {
-                orderedLegendKeys.push(item.colorLabel);
-                seenKeys.add(item.colorLabel);
-              }
-            });
+        } else if (cards[index].id === 'convergence-graph') {
+          // Create ordered legend data based on topConvergenceData order
+          const orderedLegendKeys = [];
+          const seenKeys = new Set();
 
+          const topConvergenceDataForLegend = convergenceData.slice(0, currentSliderValueCM);
 
-            drawLegend({
-              document: doc,
-              legendData: orderedLegendKeys,
-              factor: variablesFactor,
-              rectY: rectY,
-              xSpace: isYersiniabactin ? 190 : 127,
-              isVariable: true,
-              factorMultiply: isYersiniabactin ? 2 : 3,
-              topConvergenceData: topConvergenceDataForLegend,
-            });
-          }
+          topConvergenceDataForLegend.forEach(item => {
+            if (!seenKeys.has(item.colorLabel)) {
+              orderedLegendKeys.push(item.colorLabel);
+              seenKeys.add(item.colorLabel);
+            }
+          });
 
+          drawLegend({
+            document: doc,
+            legendData: orderedLegendKeys,
+            factor: variablesFactor,
+            rectY: rectY,
+            xSpace: isYersiniabactin ? 190 : 127,
+            isVariable: true,
+            factorMultiply: isYersiniabactin ? 2 : 3,
+            topConvergenceData: topConvergenceDataForLegend,
+          });
+        }
       }
 
       doc.save(`AMRnet ${firstName} ${secondName} Report.pdf`);

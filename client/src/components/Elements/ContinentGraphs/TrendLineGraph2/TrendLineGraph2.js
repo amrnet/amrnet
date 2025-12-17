@@ -1,36 +1,35 @@
+import { InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
   Card,
   CardContent,
   Checkbox,
-  IconButton,
   ListItemText,
   MenuItem,
   Select,
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStyles } from './TrendLineGraphMUI';
-import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Brush,
   CartesianGrid,
+  Tooltip as ChartTooltip,
+  Label,
   Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
-  Tooltip as ChartTooltip,
-  LineChart,
-  Line,
-  Label,
 } from 'recharts';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
-import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { hoverColor, lightGrey } from '../../../../util/colorHelper';
-import { InfoOutlined } from '@mui/icons-material';
 import { drugAcronyms, getDrugClasses } from '../../../../util/drugs';
+import { isTouchDevice } from '../../../../util/isTouchDevice';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { useStyles } from './TrendLineGraphMUI';
 
 export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -39,20 +38,18 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
   const [geoType, setGeoType] = useState('country');
   const [geoSelected, setGeoSelected] = useState([]);
 
-  const countriesYearData = useAppSelector((state) => state.graph.countriesYearData);
-  const regionsYearData = useAppSelector((state) => state.graph.regionsYearData);
-  const canGetData = useAppSelector((state) => state.dashboard.canGetData);
-  const timeInitial = useAppSelector((state) => state.dashboard.timeInitial);
-  const timeFinal = useAppSelector((state) => state.dashboard.timeFinal);
-  const organism = useAppSelector((state) => state.dashboard.organism);
-  const countriesForFilter = useAppSelector((state) => state.graph.countriesForFilter);
-  const economicRegions = useAppSelector((state) => state.dashboard.economicRegions);
-  const mapData = useAppSelector((state) => state.map.mapData);
-  const mapRegionData = useAppSelector((state) => state.map.mapRegionData);
-  const genotypesAndDrugsYearData = useAppSelector(
-    (state) => state.graph.genotypesAndDrugsYearData,
-  );
-  const genotypesForFilter = useAppSelector((state) => state.dashboard.genotypesForFilter);
+  const countriesYearData = useAppSelector(state => state.graph.countriesYearData);
+  const regionsYearData = useAppSelector(state => state.graph.regionsYearData);
+  const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
+  const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
+  const organism = useAppSelector(state => state.dashboard.organism);
+  const countriesForFilter = useAppSelector(state => state.graph.countriesForFilter);
+  const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
+  const mapData = useAppSelector(state => state.map.mapData);
+  const mapRegionData = useAppSelector(state => state.map.mapRegionData);
+  const genotypesAndDrugsYearData = useAppSelector(state => state.graph.genotypesAndDrugsYearData);
+  const genotypesForFilter = useAppSelector(state => state.dashboard.genotypesForFilter);
 
   const [drugClass, setDrugClass] = useState(getDrugClasses(organism)?.[0] || '');
   const [drugGene, setDrugGene] = useState('');
@@ -65,8 +62,8 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
   }, [geoType, regionsYearData, drugClass, countriesYearData]);
 
   const linesWithZero = useMemo(() => {
-    return (geoType === 'country' ? countriesForFilter : Object.keys(economicRegions)).filter(
-      (key) => currentData?.some((item) => item[key] && item[key] !== 0),
+    return (geoType === 'country' ? countriesForFilter : Object.keys(economicRegions)).filter(key =>
+      currentData?.some(item => item[key] && item[key] !== 0),
     );
   }, [countriesForFilter, currentData, economicRegions, geoType]);
 
@@ -79,17 +76,14 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
       case 'styphi':
       case 'ngono':
         return Object.keys(Object.values(currentData?.[0]?.['items'] || {})?.[0] || []).filter(
-          (key) => !['totalCount', 'resistantCount', 'None'].includes(key),
+          key => !['totalCount', 'resistantCount', 'None'].includes(key),
         );
 
       case 'kpneumo':
         const genes = [];
-        genotypesAndDrugsYearData[drugClass]?.forEach((year) => {
-          Object.keys(year).forEach((key) => {
-            if (
-              ['name', 'totalCount', 'resistantCount', 'None'].includes(key) ||
-              genotypesForFilter.includes(key)
-            ) {
+        genotypesAndDrugsYearData[drugClass]?.forEach(year => {
+          Object.keys(year).forEach(key => {
+            if (['name', 'totalCount', 'resistantCount', 'None'].includes(key) || genotypesForFilter.includes(key)) {
               return;
             }
 
@@ -113,10 +107,10 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
   const geoOptions = useMemo(() => {
     switch (geoType) {
       case 'country':
-        return countriesForFilter.filter((x) => linesWithZero.includes(x));
+        return countriesForFilter.filter(x => linesWithZero.includes(x));
       case 'region':
         return Object.keys(economicRegions)
-          .filter((x) => linesWithZero.includes(x))
+          .filter(x => linesWithZero.includes(x))
           .sort();
       default:
         return [];
@@ -128,18 +122,15 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
       (geoType === 'country' ? mapData : mapRegionData)
         .slice()
         .sort((a, b) => b.count - a.count)
-        .filter((item) => geoOptions.includes(item.name))
+        .filter(item => geoOptions.includes(item.name))
         .slice(0, 10)
-        .map((item) => item.name),
+        .map(item => item.name),
     );
   }, [mapData, mapRegionData, geoType, geoOptions]);
 
   const getColor = useCallback(
-    (item) => {
-      return (
-        (geoType === 'country' ? mapData : mapRegionData)?.find((x) => x?.name === item)?.color ||
-        lightGrey
-      );
+    item => {
+      return (geoType === 'country' ? mapData : mapRegionData)?.find(x => x?.name === item)?.color || lightGrey;
     },
     [geoType, mapData, mapRegionData],
   );
@@ -176,12 +167,12 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
   }
 
   const geneData = useMemo(() => {
-    return currentData.map((item) => {
+    return currentData.map(item => {
       const currentItem = { ...item };
       const keys = Object.keys(currentItem).filter(
-        (key) => !['items', 'name', 'resistantCount', 'totalCount'].includes(key),
+        key => !['items', 'name', 'resistantCount', 'totalCount'].includes(key),
       );
-      keys.forEach((key) => {
+      keys.forEach(key => {
         currentItem[key] = currentItem.items[key][drugGene] || 0;
       });
       return currentItem;
@@ -189,7 +180,7 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
   }, [currentData, drugGene]);
 
   function handleClickChart(event) {
-    const data = geneData?.find((item) => item.name === event?.activeLabel);
+    const data = geneData?.find(item => item.name === event?.activeLabel);
     if (data && geoSelected.length > 0) {
       const actualData = structuredClone(data);
 
@@ -201,7 +192,7 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
       delete actualData.name;
       delete actualData.count;
 
-      Object.keys(actualData).forEach((key) => {
+      Object.keys(actualData).forEach(key => {
         if (!geoSelected.includes(key)) {
           return;
         }
@@ -216,7 +207,7 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
           label: key,
           count,
           percentage: Number(((count / value.count) * 100).toFixed(2)),
-          fill: event.activePayload.find((x) => x.name === key).stroke,
+          fill: event.activePayload.find(x => x.name === key).stroke,
         });
         value.geo.sort((a, b) => b.count - a.count);
       });
@@ -239,11 +230,7 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
       setPlotChart(() => {
         return (
           <ResponsiveContainer width="100%">
-            <LineChart
-              data={geneData}
-              cursor={isTouchDevice() ? 'default' : 'pointer'}
-              onClick={handleClickChart}
-            >
+            <LineChart data={geneData} cursor={isTouchDevice() ? 'default' : 'pointer'} onClick={handleClickChart}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 tickCount={20}
@@ -258,8 +245,8 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
                 padding={{ top: 20, bottom: 20 }}
                 allowDecimals={false}
                 domain={[
-                  (dataMin) => dataMin,
-                  (dataMax) => {
+                  dataMin => dataMin,
+                  dataMax => {
                     const multiple = dataMax < 100 ? 25 : 50;
                     return Math.ceil(dataMax / multiple) * multiple;
                   },
@@ -269,13 +256,11 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
                   {`Number of genomes (${drugAcronyms[drugClass] ?? drugClass})`}
                 </Label>
               </YAxis>
-              {currentData?.length > 0 && (
-                <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />
-              )}
+              {currentData?.length > 0 && <Brush dataKey="name" height={20} stroke={'rgb(31, 187, 211)'} />}
 
               {organism !== 'none' && (
                 <Legend
-                  content={(props) => {
+                  content={props => {
                     const { payload } = props;
                     return (
                       <div className={classes.legendWrapper}>
@@ -285,14 +270,8 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
                           if (!currentData?.length || !geoSelected.includes(dataKey)) return null;
 
                           return (
-                            <div
-                              key={`geo-trend-line-legend-${index}`}
-                              className={classes.legendItemWrapper}
-                            >
-                              <Box
-                                className={classes.colorCircle}
-                                style={{ backgroundColor: color }}
-                              />
+                            <div key={`geo-trend-line-legend-${index}`} className={classes.legendItemWrapper}>
+                              <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
                               <Typography variant="caption">{dataKey}</Typography>
                             </div>
                           );
@@ -449,17 +428,13 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
                         title="Navigate by typing the first letter of the country/region. The data is only shown for years with N≥10 genomes. When the data is insufficient per year to calculate annual info, there are no data points to show."
                         placement="top"
                       >
-                        <InfoOutlined
-                          color="action"
-                          fontSize="small"
-                          className={classes.labelTooltipIcon}
-                        />
+                        <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
                     </div>
                     <Select
                       multiple
                       value={geoSelected}
-                      onChange={(event) => handleChangeGeoSelected({ event })}
+                      onChange={event => handleChangeGeoSelected({ event })}
                       displayEmpty
                       disabled={organism === 'none'}
                       endAdornment={
@@ -477,9 +452,7 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
                       MenuProps={{
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={(selected) => (
-                        <div>{`${selected.length} of ${geoOptions.length} selected`}</div>
-                      )}
+                      renderValue={selected => <div>{`${selected.length} of ${geoOptions.length} selected`}</div>}
                     >
                       {geoOptions.map((option, index) => (
                         <MenuItem key={`geo-x-axis-option-${index}`} value={option}>

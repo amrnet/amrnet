@@ -42,8 +42,8 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { mixColorScale } from '../../Map/mapColorHelper';
 import { SelectCountry } from '../../SelectCountry';
-import { useStyles } from './BubbleMarkersHeatmapGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { useStyles } from './BubbleMarkersHeatmapGraphMUI';
 
 export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -175,9 +175,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [selectedCRData?.stats, statColumn]);
 
   const filteredXAxisOptions = useMemo(() => {
-    const filteredOptions = xAxisOptions.filter(option =>
-      option.toLowerCase().includes(genotypeSearch.toLowerCase())
-    );
+    const filteredOptions = xAxisOptions.filter(option => option.toLowerCase().includes(genotypeSearch.toLowerCase()));
 
     const topOptions = filteredOptions.slice(0, 20);
 
@@ -204,7 +202,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     if (savedSelection?.length) {
       // Keep only common values between xAxisOptions & savedSelection
-      const common = savedSelection.filter((val) => xAxisOptions.includes(val));
+      const common = savedSelection.filter(val => xAxisOptions.includes(val));
       setXAxisSelected(common);
     }
   }, [xAxisOptions]);
@@ -234,7 +232,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   );
 
   function handleChangeXAxisSelected({ event = null, all = false }) {
-    setReset20(true)
+    setReset20(true);
     const value = event?.target.value;
 
     if (value?.length === 1 && value[0] === undefined) {
@@ -251,11 +249,11 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
       xAxisSelected.length === filteredXAxisOptions.length ||
       xAxisSelected.some(x => !xAxisSelected.slice(0, 20).includes(x))
     ) {
-    //   if (savedSelection?.length) {
-    //   // Keep only common values between xAxisOptions & savedSelection
-    //   const common = savedSelection.filter((val) => xAxisOptions.includes(val));
-    //   setXAxisSelected(common.slice(0, 10));
-    // }
+      //   if (savedSelection?.length) {
+      //   // Keep only common values between xAxisOptions & savedSelection
+      //   const common = savedSelection.filter((val) => xAxisOptions.includes(val));
+      //   setXAxisSelected(common.slice(0, 10));
+      // }
       setXAxisSelected([]);
       return;
     }
@@ -386,7 +384,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
 
     return [];
   }, [bubbleMarkersYAxisType, selectedCRData, statColumn, xAxisSelected, yAxisSelected, organism, drugClassesData]);
-console.log('savedSelection', savedSelection, xAxisSelected, filteredXAxisOptions);
+  console.log('savedSelection', savedSelection, xAxisSelected, filteredXAxisOptions);
 
   useEffect(() => {
     dispatch(setBubbleMarkersHeatmapGraphData(configuredMapData));
@@ -628,17 +626,17 @@ console.log('savedSelection', savedSelection, xAxisSelected, filteredXAxisOption
                           onClick={() => handleChangeXAxisSelected({ all: true })}
                           disabled={organism === 'none'}
                           color={
-                            xAxisSelected.length === filteredXAxisOptions.length 
-                            // || xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
-                              ? 'error'
+                            xAxisSelected.length === filteredXAxisOptions.length
+                              ? // || xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
+                                'error'
                               : 'primary'
                           }
                         >
-                          {xAxisSelected.length === filteredXAxisOptions.length 
-                          // || xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
-                            ? 'Clear All'
-                            /* 'Select All' for Styphi*/
-                            : 'Select 20'} 
+                          {xAxisSelected.length === filteredXAxisOptions.length
+                            ? // || xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
+                              'Clear All'
+                            : /* 'Select All' for Styphi*/
+                              'Select 20'}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
