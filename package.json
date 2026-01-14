@@ -61,7 +61,7 @@
     "hasown": "^2.0.2",
     "he": "1.2.0",
     "helmet": "^8.1.0",
-    "html2pdf.js": "^0.10.3",
+    "html2pdf.js": "^0.14.0",
     "http-errors": "~2.0.0",
     "iwanthue": "^2.0.0",
     "jest": "^30.0.2",
