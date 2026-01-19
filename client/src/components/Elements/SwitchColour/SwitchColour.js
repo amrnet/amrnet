@@ -40,7 +40,7 @@ export const SwitchColour = () => {
   return (
     <div className={classes.fabGF}>
     <Tooltip
-        title={colourPattern ? "Colour Accessibility Mode" : "Normal Mode"}
+        title={`Accessibility colour control: ${colourPattern ? "Accessibility Mode" : "Normal Mode"}`}
         arrow
         placement="top"
       >
