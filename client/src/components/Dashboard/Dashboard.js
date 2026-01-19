@@ -115,7 +115,6 @@ import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
 import GenotypeLoadingIndicator from '../Elements/GenotypeLoadingIndicator';
 import { Graphs } from '../Elements/Graphs';
 import { ResetButton } from '../Elements/ResetButton/ResetButton';
-import { SwitchColour } from '../Elements/SwitchColour';
 import {
   filterBrushData,
   filterData,
@@ -1794,7 +1793,6 @@ export const DashboardPage = () => {
         {/* <Footer /> */}
         <ResetButton data={data} />
       </MainLayout>
-      <SwitchColour />
       <FloatingGlobalFilters />
       <GenotypeLoadingIndicator />
     </>
