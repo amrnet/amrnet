@@ -180,10 +180,6 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
         case 'styphi':
           dispatch(setPrevalenceMapViewOptionsSelected(['CipR']));
           break;
-        // case 'sentericaints':
-        // case 'senterica':
-        //   dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin']));
-        //   break;
         default:
           dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin']));
           break;
