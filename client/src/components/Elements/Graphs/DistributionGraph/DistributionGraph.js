@@ -47,7 +47,7 @@ import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
 import { SliderSizes } from '../../Slider/SliderSizes';
-import GenotypePatternRect from '../GenotypePatternRect.js';
+import GenotypePatternRect, { sanitizeId } from '../GenotypePatternRect.js';
 import { useStyles } from './DistributionGraphMUI';
 
 const dataViewOptions = [
@@ -389,8 +389,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
             {/* Solid pattern */}
             {topXGenotype.map((genotype, i) => (
               <pattern
-                key={`pattern-solid-${genotype}`}
-                id={`pattern-solid-${genotype}`}
+                key={`pattern-solid-${sanitizeId(genotype)}`}
+                id={`pattern-solid-${sanitizeId(genotype)}`}
                 patternUnits="userSpaceOnUse"
                 width={10}
                 height={10}
@@ -402,8 +402,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
             {/* Stripes */}
             {topXGenotype.map((genotype, i) => (
               <pattern
-                key={`pattern-stripes-${genotype}`}
-                id={`pattern-stripes-${genotype}`}
+                key={`pattern-stripes-${sanitizeId(genotype)}`}
+                id={`pattern-stripes-${sanitizeId(genotype)}`}
                 patternUnits="userSpaceOnUse"
                 width={6}
                 height={6}
@@ -417,8 +417,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
             {/* Dots */}
             {topXGenotype.map((genotype, i) => (
               <pattern
-                key={`pattern-dots-${genotype}`}
-                id={`pattern-dots-${genotype}`}
+                key={`pattern-dots-${sanitizeId(genotype)}`}
+                id={`pattern-dots-${sanitizeId(genotype)}`}
                 patternUnits="userSpaceOnUse"
                 width={8}
                 height={8}
@@ -434,8 +434,8 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
             {/* Diagonal cross-hatch */}
             {topXGenotype.map((genotype, i) => (
               <pattern
-                key={`pattern-cross-${genotype}`}
-                id={`pattern-cross-${genotype}`}
+                key={`pattern-cross-${sanitizeId(genotype)}`}
+                id={`pattern-cross-${sanitizeId(genotype)}`}
                 patternUnits="userSpaceOnUse"
                 width={8}
                 height={8}
