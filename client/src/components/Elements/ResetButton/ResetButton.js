@@ -52,6 +52,7 @@ import {
 } from '../../../util/drugs';
 // import { getNgmastData } from '../../Dashboard/filters';
 import { useStyles } from './ResetButtonMUI';
+import { SwitchColour } from '../SwitchColour/SwitchColour';
 
 export const ResetButton = () => {
   const classes = useStyles();
@@ -159,18 +160,9 @@ export const ResetButton = () => {
 
   return (
     <div className={classes.resetButton}>
-      <Tooltip title="Github" placement="left">
         <span>
-          <IconButton
-            href="https://github.com/amrnet/amrnet"
-            target="_blank"
-            disabled={organism === 'none' || loadingData || loadingMap}
-            sx={{ padding: 0 }}
-          >
-            <GitHub sx={{ color: '#000', fontSize: '32px' }} />
-          </IconButton>
+          <SwitchColour />
         </span>
-      </Tooltip>
       <Tooltip title="Reset Application" placement="left">
         <span>
           <Fab
@@ -181,6 +173,18 @@ export const ResetButton = () => {
           >
             <RestartAlt sx={{ color: '#fff' }} />
           </Fab>
+        </span>
+      </Tooltip>
+      <Tooltip title="Github" placement="left">
+        <span>
+          <IconButton
+            href="https://github.com/amrnet/amrnet"
+            target="_blank"
+            disabled={organism === 'none' || loadingData || loadingMap}
+            sx={{ padding: 0 }}
+          >
+            <GitHub sx={{ color: '#000', fontSize: '32px' }} />
+          </IconButton>
         </span>
       </Tooltip>
     </div>
