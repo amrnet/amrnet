@@ -21,6 +21,8 @@ AMRnet
 
 
 Citation, Code and License
+--------------------------
+
 .. container:: justify-text
 
    AMRnet is free and open source software, distributed under the terms of the :doc:`GPLv3 License <license>`.
@@ -57,8 +59,7 @@ Disclaimer
    AMRnet is an open source research project, providing access to data and visualisations sourced from publicly accessible sequence databases and analysis platforms. The content on our service is provided for general information only. It is not intended to amount to advice on which you should rely. You must obtain professional or specialist advice before taking, or refraining from, any action on the basis of the content on our service. Although we make reasonable efforts to update the information on our service, we make no representations, warranties or guarantees, whether express or implied, that the content on our service is accurate, complete or up to date. We are not responsible for the results of reliance on any such information.
    AMRnet is an open source research project, providing access to data and visualisations sourced from publicly accessible sequence databases and analysis platforms. The content on our service is provided for general information only. It is not intended to amount to advice on which you should rely. You must obtain professional or specialist advice before taking, or refraining from, any action on the basis of the content on our service. Although we make reasonable efforts to update the information on our service, we make no representations, warranties or guarantees, whether express or implied, that the content on our service is accurate, complete or up to date. We are not responsible for the results of reliance on any such information.
 
-   Refer to the
-   :doc:`License <license>` for clarification of the conditions of use.
+   Refer to the :doc:`License <license>` for clarification of the conditions of use.
 
 .. autosummary::
     :toctree: gen
