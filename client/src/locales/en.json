@@ -68,12 +68,13 @@
           "sentericaints": "Lineages are labelled as 7-locus MLST and HC150(305,1547,48,9882,728,12675,2452) cluster"
         }
       }
+    },
+    "mapViews": {
+      "resistancePrevalence": "Resistance prevalence",
+      "sampleCount": "No. Samples"
     }
   },
-  "mapViews": {
-    "resistancePrevalence": "Resistance prevalence",
-    "sampleCount": "No. Samples"
-  },
+  
   "home": {
     "genomes": "Genomes",
     "organisms": {
