@@ -71,7 +71,15 @@
     },
     "mapViews": {
       "resistancePrevalence": "Resistance prevalence",
-      "sampleCount": "No. Samples"
+      "sampleCount": "No. Samples",
+      "genotypePrevalence": "Genotype prevalence",
+      "stPrevalence": "ST prevalence",
+      "lineagePrevalence": "Lineage prevalence",
+      "ngmastPrevalence": "NG-MAST prevalence",
+      "serotypePrevalence": "Serotype prevalence",
+      "pathotypePrevalence": "Pathotype prevalence",
+      "oPrevalence": "O prevalence",
+      "hPrevalence": "H prevalence"
     }
   },
   
