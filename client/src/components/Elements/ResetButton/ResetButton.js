@@ -160,21 +160,7 @@ export const ResetButton = () => {
 
   return (
     <div className={classes.resetButton}>
-        <span>
-          <SwitchColour />
-        </span>
-      <Tooltip title="Reset Application" placement="left">
-        <span>
-          <Fab
-            color="primary"
-            size={matches500 ? 'medium' : 'large'}
-            onClick={handleClick}
-            disabled={organism === 'none' || loadingData || loadingMap}
-          >
-            <RestartAlt sx={{ color: '#fff' }} />
-          </Fab>
-        </span>
-      </Tooltip>
+        
       <Tooltip title="Github" placement="left">
         <span>
           <IconButton
@@ -185,6 +171,21 @@ export const ResetButton = () => {
           >
             <GitHub sx={{ color: '#000', fontSize: '32px' }} />
           </IconButton>
+        </span>
+      </Tooltip>
+      <span>
+        <SwitchColour />
+      </span>
+      <Tooltip title="Reset Application" placement="left">
+        <span>
+          <Fab
+            color="primary"
+            size={matches500 ? 'medium' : 'large'}
+            onClick={handleClick}
+            disabled={organism === 'none' || loadingData || loadingMap}
+          >
+            <RestartAlt sx={{ color: '#fff' }} />
+          </Fab>
         </span>
       </Tooltip>
     </div>
