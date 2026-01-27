@@ -771,7 +771,7 @@ export const Graphs = () => {
             {collapses['all'] && currentTab !== 'HSG' && (
               <>
                 <span>
-                  {currentTab !== 'RDWG' && currentTab !== 'BAMRH' && currentTab !== 'KOT' && currentTab !== 'BKOH' && currentTab !== 'HSG2' && (<SwitchColour />)}
+                  {currentTab !== 'RDWG' && currentTab !== 'BAMRH'  && currentTab !== 'BKOH' && currentTab !== 'HSG2' && (<SwitchColour />)}
                 </span>
                 <Tooltip title="Download Data" placement="top">
                   <IconButton
