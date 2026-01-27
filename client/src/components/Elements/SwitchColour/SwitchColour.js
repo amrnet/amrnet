@@ -48,22 +48,24 @@ export const SwitchColour = () => {
           value="pattern"
           selected={colourPattern}
           onChange={handleSwitchPattern}
+          onClick={(e) => e.stopPropagation()}
           sx={{
-            borderRadius: "50px",
+            border: 'none',
+            borderRadius: '50%',
             px: 1,
             py: 1,
-            fontSize: "0.8rem",
-            textTransform: "none",
-            backgroundColor: "#1fbbd3", // default (OFF)
-            color: "white",
-            "&:hover": {
-              backgroundColor: "#158293",
+            minWidth: 48,
+            minHeight: 48,
+            backgroundColor: 'transparent',
+            color: '#1fbbd3',
+            '&:hover': {
+              backgroundColor: 'rgba(31, 187, 211, 0.1)',
             },
-            "&.Mui-selected": {
-              backgroundColor: "#1fbbd3", // ON state
-              color: "white",
-              "&:hover": {
-                backgroundColor: "##158293",
+            '&.Mui-selected': {
+              backgroundColor: 'transparent',
+              color: '#1fbbd3',
+              '&:hover': {
+                backgroundColor: 'rgba(31, 187, 211, 0.1)',
               },
             },
           }}
