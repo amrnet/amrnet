@@ -449,6 +449,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   </Tooltip>
                 </div>
                 <Select
+                  className={classes.autoWidthSelect}
                   value={mapView}
                   onChange={handleChangeMapView}
                   inputProps={{ className: classes.selectInput }}
@@ -530,6 +531,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                         </Tooltip>
                       </div>
                       <Select
+                        className={classes.autoWidthSelect}
                         multiple
                         value={prevalenceMapViewOptionsSelected}
                         onChange={event => handleResistanceChange({ event })}
@@ -592,6 +594,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                         )}
                       </div>
                       <Select
+                        className={classes.autoWidthSelect}
                         multiple
                         value={optionsSelected}
                         onChange={event => handleNonResistanceChange({ event })}
