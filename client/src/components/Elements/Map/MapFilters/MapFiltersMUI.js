@@ -5,7 +5,7 @@ const useStyles = makeStyles((_theme) => ({
     position: 'absolute',
     top: 16,
     right: -(280 + 16),
-    width: '280px',
+    width: 'auto',
     zIndex: 1,
 
     '@media (max-width: 1900px)': {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((_theme) => ({
   selectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
-    padding: '8px 32px 8px 8px !important',
+    padding: '8px 56px 8px 8px !important',
     textAlign: 'left',
   },
   selectMenu: {
@@ -74,6 +74,7 @@ const useStyles = makeStyles((_theme) => ({
     fontSize: '10px',
   },
   selectButton: {
+    width: '100%',
     height: '20px',
     fontSize: '10px !important',
     padding: '3px 5px !important',
@@ -81,11 +82,16 @@ const useStyles = makeStyles((_theme) => ({
     position: 'absolute',
     right: '18px',
   },
+  autoWidthSelect: {
+    width: 'auto',
+    display: 'inline-flex',
+    position: 'relative',
+    minWidth: '80px',
+  },
   multipleSelectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
-    padding: '8px 32px 8px 8px !important',
-    marginRight: '-80px !important',
+    padding: '8px 56px 8px 8px !important',
     textAlign: 'left',
   },
   menuPaper: {
