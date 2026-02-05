@@ -409,7 +409,10 @@ function getMapStatsData({
       // We should not attempt to match the class key against gene names — include
       // all collected items for these organisms (similar to ECOLI rules handling).
       if (['senterica', 'sentericaints'].includes(organism)) {
-        return true;
+        if (Array.isArray(statsKey)) {
+          return statsKey.some(k => itemName.includes(k));
+        }
+        return itemName.includes(statKeyStr);
       }
 
       if (['ecoli', 'decoli', 'shige'].includes(organism) && Array.isArray(statsKey)) {

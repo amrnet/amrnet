@@ -21,44 +21,31 @@ AMRnet
 
 
 Citation, Code and License
+--------------------------
+
 .. container:: justify-text
 
-   AMRnet is free and open source software, distributed under the terms of the :doc:`GPLv3 License <license>`.
    AMRnet is free and open source software, distributed under the terms of the :doc:`GPLv3 License <license>`.
 
    - The dashboard code is open access and available in `GitHub <https://github.com/amrnet/amrnet>`_.
 
-   - Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__.
    - Issues and feature requests can be posted `here <https://github.com/amrnet/amrnet/issues>`__.
 
    - API access is described on the :doc:`/data` page.
 
    - If you want to install the AMRnet code to develop your own dashboard instances, see the :doc:`Installation Guide <installation>`.
 
-   If you use the AMRnet website or code, please cite **AMRnet** Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. NucleicAcids Res. Published online November 6, 2025.doi:[10.1093/nar/gkaf1101](https://doi.org/10.1093/nar/gkaf1101)
-
+   If you use the AMRnet website or code, please cite **AMRnet** Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. Nucleic Acids Res. Published online November 6, 2025.doi:[`10.1093/nar/gkaf1101 <https://doi.org/10.1093/nar/gkaf1101>`_].
    Depending on what data and visualizations you are using in AMRnet, you should also consider citing the upstream source databases and typing tools (noted in the pathogen-specific pages and :ref:`here <source>`), or individual source studies (via PubMed IDs or DOIs available in the TSV download at the bottom of each dashboard).
-
-
-.. toctree::
-    :maxdepth: 2
-    :caption: Contents
-
-    architecture
-    gui
-    right
-    tutorial
-    userguide
+  
 
 Disclaimer
 ----------
 .. container:: justify-text
 
    AMRnet is an open source research project, providing access to data and visualisations sourced from publicly accessible sequence databases and analysis platforms. The content on our service is provided for general information only. It is not intended to amount to advice on which you should rely. You must obtain professional or specialist advice before taking, or refraining from, any action on the basis of the content on our service. Although we make reasonable efforts to update the information on our service, we make no representations, warranties or guarantees, whether express or implied, that the content on our service is accurate, complete or up to date. We are not responsible for the results of reliance on any such information.
-   AMRnet is an open source research project, providing access to data and visualisations sourced from publicly accessible sequence databases and analysis platforms. The content on our service is provided for general information only. It is not intended to amount to advice on which you should rely. You must obtain professional or specialist advice before taking, or refraining from, any action on the basis of the content on our service. Although we make reasonable efforts to update the information on our service, we make no representations, warranties or guarantees, whether express or implied, that the content on our service is accurate, complete or up to date. We are not responsible for the results of reliance on any such information.
 
-   Refer to the
-   :doc:`License <license>` for clarification of the conditions of use.
+   Refer to the :doc:`License <license>` for clarification of the conditions of use.
 
 .. autosummary::
     :toctree: gen
