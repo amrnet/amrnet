@@ -130,7 +130,7 @@ msgstr "L'accès à l'API est décrit sur la page :doc:`/data`."
 #: ../../index.rst:33
 #: 82f49aaa1eb64b28bb53eb3f8b1ceb26
 msgid "If you want to install the AMRnet code to develop your own dashboard instances, see the :doc:`Installation Guide <installation>`."
-msgstr "Si vous voulez installer le code AMRnet pour développer votre propre tableau de bord, consultez le `Guide d'installation :doc: <installation>`."
+msgstr "Si vous voulez installer le code AMRnet pour développer votre propre tableau de bord, consultez le :doc:`Guide d'installation <installation>`."
 
 #: ../../index.rst:35
 #: 09056d67fa444db58967a71b41015405
@@ -155,4 +155,4 @@ msgstr "AMRnet est un projet de recherche open source, fournissant un accès aux
 #: ../../index.rst:45
 #: 2fa31882b3264175926b1e3a6cf64886
 msgid "Refer to the :doc:`License <license>` for clarification of the conditions of use."
-msgstr "Reportez-vous à la `Licence :doc: <license>` pour clarifier les conditions d'utilisation."
+msgstr "Reportez-vous à la :doc:`Licence <license>` pour clarifier les conditions d'utilisation."

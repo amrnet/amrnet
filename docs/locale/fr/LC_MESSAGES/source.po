@@ -80,7 +80,7 @@ msgstr "Outils de saisie"
 #: ../../source.rst:28
 #: e2a4e7dd6d2d4152a4cf66fdd716265f
 msgid "AMRFinderPlus"
-msgstr "format@@0 AMRFinderPlus"
+msgstr "AMRFinderPlus"
 
 #: ../../source.rst:30
 #: 407928aed32e439ebfbed577d982efa1

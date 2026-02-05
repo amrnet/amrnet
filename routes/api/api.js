@@ -337,6 +337,7 @@ router.get('/getDataForEcoli', async function (req, res, next) {
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
     const projection = {
+      Name:1,
       GENOTYPE: 1,
       COUNTRY_ONLY: 1,
       DATE: 1,
@@ -438,6 +439,7 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
     const projection = {
+      Name:1,
       GENOTYPE: 1,
       COUNTRY_ONLY: 1,
       DATE: 1,

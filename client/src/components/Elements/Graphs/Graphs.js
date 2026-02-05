@@ -32,7 +32,7 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { getColorForDrug } from './graphColorHelper';
 import { useStyles } from './GraphsMUI';
-
+import { SwitchColour } from '../SwitchColour/SwitchColour';
 export const Graphs = () => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -770,6 +770,9 @@ export const Graphs = () => {
           <div className={classes.actionsWrapper}>
             {collapses['all'] && currentTab !== 'HSG' && (
               <>
+                <span>
+                  {currentTab !== 'RDWG' && currentTab !== 'BAMRH'  && currentTab !== 'BKOH' && currentTab !== 'HSG2' && (<SwitchColour />)}
+                </span>
                 <Tooltip title="Download Data" placement="top">
                   <IconButton
                     className={classes.actionButton}

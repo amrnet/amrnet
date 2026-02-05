@@ -71,7 +71,15 @@
     },
     "mapViews": {
       "resistancePrevalence": "Prévalence de la résistance",
-      "sampleCount": "Nombre d'échantillons"
+      "sampleCount": "Nombre d'échantillons",
+      "genotypePrevalence": "Prévalence des génotypes",
+      "stPrevalence": "Prévalence des ST",
+      "lineagePrevalence": "Prévalence des lignées",
+      "ngmastPrevalence": "Prévalence NG-MAST",
+      "serotypePrevalence": "Prévalence des sérotypes",
+      "pathotypePrevalence": "Prévalence des pathotypes",
+      "oPrevalence": "Prévalence O",
+      "hPrevalence": "Prévalence H"
     }
   },
   "home": {

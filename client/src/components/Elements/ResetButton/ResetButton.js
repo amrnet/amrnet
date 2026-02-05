@@ -52,6 +52,7 @@ import {
 } from '../../../util/drugs';
 // import { getNgmastData } from '../../Dashboard/filters';
 import { useStyles } from './ResetButtonMUI';
+import { SwitchColour } from '../SwitchColour/SwitchColour';
 
 export const ResetButton = () => {
   const classes = useStyles();
@@ -159,6 +160,7 @@ export const ResetButton = () => {
 
   return (
     <div className={classes.resetButton}>
+        
       <Tooltip title="Github" placement="left">
         <span>
           <IconButton
