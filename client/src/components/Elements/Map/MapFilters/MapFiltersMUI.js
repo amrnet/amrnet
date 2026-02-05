@@ -91,8 +91,13 @@ const useStyles = makeStyles((_theme) => ({
   multipleSelectInput: {
     fontSize: '14px !important',
     fontWeight: '600 !important',
-    padding: '8px 56px 8px 8px !important',
+    padding: '8px 50px 8px 8px !important',
     textAlign: 'left',
+
+    '@media (max-width: 400px)': {
+      fontSize: '10px !important',
+      padding: '8px 40px 8px 8px !important',
+    },
   },
   menuPaper: {
     maxHeight: '350px !important',
