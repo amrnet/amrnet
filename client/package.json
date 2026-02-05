@@ -54,13 +54,13 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
-    "start": "cross-env FAST_REFRESH=false GENERATE_SOURCEMAP=false craco start",
-    "start:no-lint": "cross-env FAST_REFRESH=false GENERATE_SOURCEMAP=false REACT_APP_ESLINT_ENABLE=false craco start",
-    "start:with-lint": "cross-env FAST_REFRESH=false GENERATE_SOURCEMAP=false REACT_APP_ESLINT_ENABLE=true craco start",
+    "start": " FAST_REFRESH=false GENERATE_SOURCEMAP=false craco start",
+    "start:no-lint": " FAST_REFRESH=false GENERATE_SOURCEMAP=false REACT_APP_ESLINT_ENABLE=false craco start",
+    "start:with-lint": " FAST_REFRESH=false GENERATE_SOURCEMAP=false REACT_APP_ESLINT_ENABLE=true craco start",
     "build": "craco build",
     "build:prod": "NODE_ENV=production npm run build",
     "dev": "vite",
-    "start:vite": "cross-env GENERATE_SOURCEMAP=false vite",
+    "start:vite": " GENERATE_SOURCEMAP=false vite",
     "build:vite": "vite build",
     "preview": "vite preview --port 5000",
     "test": "craco test",
