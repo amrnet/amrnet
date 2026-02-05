@@ -180,10 +180,6 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
         case 'styphi':
           dispatch(setPrevalenceMapViewOptionsSelected(['CipR']));
           break;
-        case 'sentericaints':
-        case 'senterica':
-          dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin NS']));
-          break;
         default:
           dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin']));
           break;
@@ -453,6 +449,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                   </Tooltip>
                 </div>
                 <Select
+                  className={classes.autoWidthSelect}
                   value={mapView}
                   onChange={handleChangeMapView}
                   inputProps={{ className: classes.selectInput }}
@@ -534,6 +531,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                         </Tooltip>
                       </div>
                       <Select
+                        className={classes.autoWidthSelect}
                         multiple
                         value={prevalenceMapViewOptionsSelected}
                         onChange={event => handleResistanceChange({ event })}
@@ -596,6 +594,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                         )}
                       </div>
                       <Select
+                        className={classes.autoWidthSelect}
                         multiple
                         value={optionsSelected}
                         onChange={event => handleNonResistanceChange({ event })}

@@ -1274,9 +1274,9 @@ export const statKeysECOLI = (() => {
       name: 'Ampicillin',
       resistanceView: true,
       rules: [
-        { column: 'Penicillin', value: ['-'], equal: false },
-        { column: 'Carbapenemase', value: ['-'], equal: false },
-        { column: 'ESBL', value: ['-'], equal: false },
+        { column: 'Penicillin', value: '-', equal: false },
+        { column: 'Carbapenemase', value: '-', equal: false },
+        { column: 'ESBL', value: '-', equal: false },
       ],
       every: false,
     },

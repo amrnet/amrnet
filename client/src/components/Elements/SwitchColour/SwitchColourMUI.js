@@ -2,15 +2,10 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   fabGF: {
-    position: 'fixed',
-    left: 70,
-    bottom: 0,
-    padding: '16px',
-    zIndex: 1,
-
-    '@media (max-width: 500px)': {
-      padding: '16px 8px',
-    },
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    alignItems: 'center',
   },
 }));
 
