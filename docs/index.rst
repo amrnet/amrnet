@@ -35,7 +35,7 @@ Citation, Code and License
 
    - If you want to install the AMRnet code to develop your own dashboard instances, see the :doc:`Installation Guide <installation>`.
 
-   If you use the AMRnet website or code, please cite **AMRnet** Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. NucleicAcids Res. Published online November 6, 2025.doi:[`10.1093/nar/gkaf1101 <https://doi.org/10.1093/nar/gkaf1101>`_].
+   If you use the AMRnet website or code, please cite **AMRnet** Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. Nucleic Acids Res. Published online November 6, 2025.doi:[`10.1093/nar/gkaf1101 <https://doi.org/10.1093/nar/gkaf1101>`_].
    Depending on what data and visualizations you are using in AMRnet, you should also consider citing the upstream source databases and typing tools (noted in the pathogen-specific pages and :ref:`here <source>`), or individual source studies (via PubMed IDs or DOIs available in the TSV download at the bottom of each dashboard).
   
 
