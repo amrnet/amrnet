@@ -1261,6 +1261,90 @@ export const statKeysINTS = [
   },
 ];
 
+
+export const statKeysINTS2 = (() => {
+  const items = [
+    {
+      name: 'Aminoglycosides',
+      resistanceView: true,
+      rules: [{ column: 'AMINOGLYCOSIDE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Ampicillin',
+      resistanceView: true,
+      rules: [
+        { column: 'BETA-LACTAM', value: '-', equal: false },
+      ],
+      every: true,
+    },
+    {
+      name: 'Carbapenems',
+      resistanceView: true,
+      rules: [{ column: 'BETA-LACTAM', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Chloramphenicol',
+      resistanceView: true,
+      rules: [{ column: 'PHENICOL', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'ESBL',
+      resistanceView: true,
+      rules: [{ column: 'BETA-LACTAM', value: '-', equal: false },],
+      every: true,
+    },
+    {
+      name: 'Ciprofloxacin',
+      resistanceView: true,
+      rules: [{ column: 'QUINOLONE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Colistin',
+      resistanceView: true,
+      rules: [{ column: 'COLISTIN', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Macrolides',
+      resistanceView: true,
+      rules: [{ column: 'MACROLIDE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Sulfamethoxazole',
+      resistanceView: true,
+      rules: [{ column: 'SULFONAMIDE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Tetracycline',
+      resistanceView: true,
+      rules: [{ column: 'TETRACYCLINE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Trimethoprim',
+      resistanceView: true,
+      rules: [{ column: 'TRIMETHOPRIM', value: '-', equal: false }],
+      every: true,
+    },
+  ];
+
+  const uniqueColumns = [...new Set(items.flatMap(item => item.rules.map(rule => rule.column)))];
+  return items.concat({
+    name: 'Pansusceptible',
+    resistanceView: true,
+    rules: uniqueColumns.map(col => {
+      return { column: col, value: '-', equal: true };
+    }),
+    every: true,
+  });
+})();
+
 // Used for shige, ecoli and decoli
 export const statKeysECOLI = (() => {
   const items = [
@@ -1409,7 +1493,7 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
-  sentericaints: statKeysINTS,
+  sentericaints: statKeysINTS2,
   shige: statKeysECOLI,
   senterica: statKeysINTS,
   ecoli: statKeysECOLI,
