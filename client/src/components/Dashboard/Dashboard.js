@@ -352,8 +352,12 @@ export const DashboardPage = () => {
 
       // genotype
       const genotypeKey = 'GENOTYPE';
-      if (genotypeKey in x && x[genotypeKey] && x[genotypeKey] !== '') {
-        genotypesSet.add(x[genotypeKey]?.toString());
+      if (genotypeKey in x) {
+        const g = x[genotypeKey];
+        // Accept numeric 0 as a valid genotype value. Only skip null/undefined/empty-string. Fix the Total Genotype issue where many rows have GENOTYPE=0.
+        if (g !== null && g !== undefined && `${g}`.trim() !== '') {
+          genotypesSet.add(String(g));
+        }
       }
 
       // year
@@ -1606,6 +1610,8 @@ export const DashboardPage = () => {
       dispatch(setYears(uniqueDates)); // to Set the years for the Global Filters based on Datasets and lineages
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
+      console.log('genotypes.length filtered', filters.genotypesCount);
+
       dispatch(setListPMID(filters.listPMID));
 
       // Prepare data in parallel - back to Promise.all for speed
