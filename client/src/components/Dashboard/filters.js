@@ -890,6 +890,8 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             .slice(0, 10)
             .reduce((acc, [genotype, count]) => {
               acc[genotype] = count;
+              return acc;
+            }, {});
 
           (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
           const drugClass = getDrugClassData({
