@@ -890,12 +890,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             .slice(0, 10)
             .reduce((acc, [genotype, count]) => {
               acc[genotype] = count;
-              return acc;
-            }, {});
 
-          if (!genotypesAndDrugsDataUniqueGenotypes[key]) {
-            genotypesAndDrugsDataUniqueGenotypes[key] = [];
-          }
           (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
           const drugClass = getDrugClassData({
             columnID: key,
@@ -904,9 +899,6 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
-          if (!genotypesAndDrugsData[key]) {
-            genotypesAndDrugsData[key] = [];
-          }
           (genotypesAndDrugsData[key] ??= []).push(item);
         });
       // } else if (['senterica'].includes(organism)) {
