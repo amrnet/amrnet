@@ -69,10 +69,13 @@ export const Header = () => {
                 </Link>
               </div>
               {isDashboardPage && !isHomePage && <SelectOrganism />}
+              <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
+                {(!isDashboardPage || !isHomePage) && matches200 && (<LanguageSwitcher />)}
+              </Box>
             </div>
             {((!isDashboardPage && matches1000) || (isHomePage && !matches999)) && <MenuHead />}
             <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
-              <LanguageSwitcher />
+              {(isHomePage) && (<LanguageSwitcher />)}
               {(!isDashboardPage || isHomePage) && matches200 && (
                 <a href="https://www.lshtm.ac.uk/amrnet" target="_blank" rel="noopener noreferrer">
                   <img src={LSHTMImg} alt="AMRnet" className={classes.logo} />
