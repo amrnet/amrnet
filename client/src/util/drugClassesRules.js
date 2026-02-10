@@ -1240,7 +1240,7 @@ export const drugRulesINTS = [
   },
 ];
 
-// Used for ints and senterica
+// Used for senterica
 export const statKeysINTS = [
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Carbapenem', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
@@ -1261,7 +1261,7 @@ export const statKeysINTS = [
   },
 ];
 
-
+// only for ints
 export const statKeysINTS2 = (() => {
   const items = [
     {
@@ -1274,12 +1274,14 @@ export const statKeysINTS2 = (() => {
       name: 'Ampicillin',
       resistanceView: true,
       rules: [
+        { column: 'PENICILLIN', value: '-', equal: false },
         { column: 'BETA-LACTAM', value: '-', equal: false },
+        { column: 'ESBL', value: '-', equal: false },
       ],
-      every: true,
+      every: false,
     },
     {
-      name: 'Carbapenems',
+      name: 'Carbapenem',
       resistanceView: true,
       rules: [{ column: 'BETA-LACTAM', value: '-', equal: false }],
       every: true,
@@ -1293,8 +1295,14 @@ export const statKeysINTS2 = (() => {
     {
       name: 'ESBL',
       resistanceView: true,
-      rules: [{ column: 'BETA-LACTAM', value: '-', equal: false },],
-      every: true,
+      rules: [
+        { column: 'Carbapenemase', value: 'blaOXA-24', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-244', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-48', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-181', equal: true },
+        { column: 'ESBL', value: '-', equal: false },
+      ],
+      every: false,
     },
     {
       name: 'Ciprofloxacin',
@@ -1332,6 +1340,15 @@ export const statKeysINTS2 = (() => {
       rules: [{ column: 'TRIMETHOPRIM', value: '-', equal: false }],
       every: true,
     },
+    // {
+    //   name: 'Trimethoprim-Sulfamethoxazole',
+    //   resistanceView: true,
+    //   rules: [
+    //     { column: 'TRIMETHOPRIM', value: '-', equal: false },
+    //     { column: 'SULFONAMIDE', value: '-', equal: false },
+    //   ],
+    //   every: true,
+    // },
   ];
 
   const uniqueColumns = [...new Set(items.flatMap(item => item.rules.map(rule => rule.column)))];
