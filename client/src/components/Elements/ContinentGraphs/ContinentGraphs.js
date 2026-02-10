@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
-import { continentGraphCard } from '../../../util/graphCards';
+import { getContinentGraphCard } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
@@ -92,7 +92,7 @@ export const ContinentGraphs = () => {
     setShowFilter(!showFilter);
   }
 
-  if (!continentGraphCard.organisms.includes(organism)) {
+  if (!getContinentGraphCard(t).organisms.includes(organism)) {
     return null;
   }
   // This is a component that renders the continent graphs legends based on the selected organism
@@ -256,10 +256,10 @@ export const ContinentGraphs = () => {
           sx={{ padding: collapses['continent'] ? '16px 16px 0px !important' : '16px !important' }}
         >
           <div className={classes.titleWrapper}>
-            {continentGraphCard.icon}
+            {getContinentGraphCard(t).icon}
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-                {continentGraphCard.title}
+                {getContinentGraphCard(t).title}
               </Typography>
               {collapses['continent'] && (
                 <Typography fontSize="10px" component="span">

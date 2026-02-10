@@ -43,6 +43,7 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { mixColorScale } from '../../Map/mapColorHelper';
 import { useStyles } from './BubbleGeographicGraphMUI';
+import { useTranslation } from 'react-i18next';
 
 // Dynamic trend options generator
 const createTrendOptions = (organism, drugs, labelMap = {}) => {
@@ -172,6 +173,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const [plotChart, setPlotChart] = useState(null);
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
@@ -861,8 +863,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
+                <Typography variant="h6">{t('dashboard.filters.plotOptions.title')}</Typography>
+                <Tooltip title={t('dashboard.filters.plotOptions.hideTooltip')} placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />
                   </IconButton>

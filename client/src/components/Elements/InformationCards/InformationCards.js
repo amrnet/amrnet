@@ -2,7 +2,7 @@ import { Divider, Typography, useMediaQuery } from '@mui/material';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../../stores/hooks';
-import { graphCards } from '../../../util/graphCards';
+import { getGraphCards } from '../../../util/graphCards';
 import { useStyles } from './InformationCardsMUI';
 
 export const InformationCards = () => {
@@ -16,6 +16,7 @@ export const InformationCards = () => {
   const actualGenotypes = useAppSelector(state => state.dashboard.actualGenotypes);
   const organism = useAppSelector(state => state.dashboard.organism);
   const { t } = useTranslation();
+  const graphCards = useMemo(() => getGraphCards(t), [t]);
 
   const totalLabelKey = useMemo(() => {
     const stOrganisms = ['kpneumo', 'shige', 'decoli', 'ecoli', 'senterica'];
