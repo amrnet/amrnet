@@ -7,6 +7,8 @@ export const mapViewToTranslationKey = {
   'NG-MAST prevalence': 'ngmastPrevalence',
   'Serotype prevalence': 'serotypePrevalence',
   'Pathotype prevalence': 'pathotypePrevalence',
+  'Geographic Comparisons': 'geographicComparisons',
+  'Pathotype Comparisons': 'pathotypeComparisons',
   'O prevalence': 'oPrevalence',
   'H prevalence': 'hPrevalence',
   'Dominant Genotype': 'dominantGenotype',
