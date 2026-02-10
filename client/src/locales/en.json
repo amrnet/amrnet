@@ -203,7 +203,7 @@
     "loadingThanks": "Thanks for your patience"
   },
   "note": {
-    "styphi": "Typhi data are curated by the <0>Global Typhoid Genomics Consortium</0> and analysed using <1>Pathogenwatch</1>.",
+    "styphi": "TyphiNET is now integrated into AMRnet. Typhi data are curated by the <0>Global Typhoid Genomics Consortium</0> and  using <1>Pathogenwatch</1>.",
     "ngono": "<0>N. gonorrhoeae</0> data represent national and regional surveillance projects, sourced from <1>Pathogenwatch</1>.",
     "kpneumo": "This data is pulled from <0>Pathogenwatch</0> and represents unfiltered data deposited in NCBI/ENA. It includes diverse sources of bacteria (not just human clinical infections) and is biased towards sequencing of resistant strains. In future updates this will be mitigated using metadata curated by the <1>KlebNET Epidemiology Consortium</1>.",
     "default": "This data is pulled from <0>Enterobase</0> and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates."
