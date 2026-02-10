@@ -1612,7 +1612,7 @@ export const DashboardPage = () => {
       dispatch(setYears(uniqueDates)); // to Set the years for the Global Filters based on Datasets and lineages
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
-      console.log('genotypes.length filtered', filters.genotypesCount);
+      // console.log('genotypes.length filtered', filters.genotypesCount);
 
       dispatch(setListPMID(filters.listPMID));
 
