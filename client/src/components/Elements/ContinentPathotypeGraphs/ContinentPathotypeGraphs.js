@@ -17,8 +17,9 @@ import { useStyles } from './ContinentPathotypeGraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { isTouchDevice } from '../../../util/isTouchDevice';
-import { continentPGraphCard } from '../../../util/graphCards';
+import { getContinentPGraphCard } from '../../../util/graphCards';
 import { ExpandLess, ExpandMore, FilterList, FilterListOff, CameraAlt } from '@mui/icons-material';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
@@ -44,6 +45,7 @@ export const ContinentPathotypeGraphs = () => {
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
   const [showFilter, setShowFilter] = useState(!matches500);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const collapses = useAppSelector((state) => state.graph.collapses);
@@ -55,6 +57,7 @@ export const ContinentPathotypeGraphs = () => {
   const dataset = useAppSelector((state) => state.map.dataset);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
+  const continentPGraphCard = useMemo(() => getContinentPGraphCard(t), [t]);
 
   useEffect(() => {
     setShowFilter(!matches500);

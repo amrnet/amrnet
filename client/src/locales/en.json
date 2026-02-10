@@ -211,7 +211,21 @@
   "graphs": {
     "selectedPathotypes": "Selected Pathotypes : {{selected}}",
     "selectedSerotypes": "Selected Serotypes : {{selected}}",
-    "selectedGenotypes": "Selected Genotypes : {{selected}}"
+    "selectedGenotypes": "Selected Genotypes : {{selected}}",
+    "graphs": "Summary plots",
+    "dataPlottedForYearsWithNGreaterThan10Genomes": "Data are plotted for years with N ≥ 10 genomes",
+    "amrTrends": "AMR Trends",
+    "genotypeTrends": "Genotype Trends",
+    "amrByLineage": "AMR by Lineage",
+    "amrByGenotype": "AMR by Genotype",
+    "amrMarkerTrends": "AMR Marker Trends",
+    "amrMarkerByGenotype": "AMR Marker by Genotype",
+    "amrVirulence": "AMR by Virulence",
+    "lineageTrends": "Lineage Trends",
+    "koTrends": "KO Trends",
+    "koByGenotype": "KO by Genotype",
+    "geographicComparisons": "Geographic Comparisons",
+    "pathotypeComparisons": "Pathotype Comparisons"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",
@@ -292,5 +306,10 @@
     "language": "Language",
     "theme": "Theme",
     "notifications": "Notifications"
+  },
+  "downloadData": {
+    "downloadDatabase": "Download database (TSV format)",
+    "downloadPDF": "Download PDF",
+    "infoAndDefinitions": "Info and Definitions"
   }
 }
