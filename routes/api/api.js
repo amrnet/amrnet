@@ -24,6 +24,15 @@ const connectDB = async () => {
 
         // Test connection
         await client.db('ecoli2').command({ ping: 1 });
+        // Ensure index on lookup collection to avoid $lookup full collection scans
+        try {
+          const lookupDb = client.db('sentericaints');
+          const lookupColl = lookupDb.collection('ints_collection_from_enterica');
+          // createIndex is idempotent if the index already exists
+          await lookupColl.createIndex({ NAME: 1 });
+        } catch (indexErr) {
+          console.warn(indexErr.message);
+        }
         console.log('✅ API routes: MongoDB connection established');
         connectionAttempts = 0; // Reset on success
         break;
@@ -80,7 +89,7 @@ const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) =>
     // Execute aggregation with timeout
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), 20000)),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), 60000)),
     ]);
 
     return result;
@@ -641,9 +650,9 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
       { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
       {
         $lookup: {
-          from: 'senterica-output-full',
-          let: { nameField: '$NAME' },
-          pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }, { $project: fieldsToProject }],
+          from: 'ints_collection_from_enterica',
+          localField: 'NAME',
+          foreignField: 'NAME',
           as: 'extraData',
         },
       },
