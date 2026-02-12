@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation} from 'react-i18next';
 import LogoImg from '../../../assets/img/logo-amrnet-prod.png';
 import { useAppSelector } from '../../../stores/hooks';
 import { useStyles } from './NoteMUI';
@@ -42,6 +42,7 @@ const noteTranslationConfig = {
 export const Note = () => {
   const classes = useStyles();
   const organism = useAppSelector(state => state.dashboard.organism);
+  useTranslation();
   const translation = noteTranslationConfig[organism] || noteTranslationConfig.default;
 
   return (

@@ -26,7 +26,7 @@ import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import { colorForDrugClassesNG, colorForDrugClassesST, colorForMarkers } from '../../../util/colorHelper';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
 import { drugsKP, drugsST } from '../../../util/drugs';
-import { graphCards } from '../../../util/graphCards';
+import { getGraphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
@@ -96,7 +96,8 @@ export const Graphs = () => {
   const colorPalleteSublineages = useAppSelector(state => state.dashboard.colorPalleteSublineages);
   const distributionGraphVariable = useAppSelector(state => state.graph.distributionGraphVariable);
   const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
-  const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism]);
+  const graphCards = useMemo(() => getGraphCards(t), [t]);
+  const organismCards = useMemo(() => graphCards.filter(card => card.organisms.includes(organism)), [organism, graphCards]);
   const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
   const convergenceData = useAppSelector(state => state.graph.convergenceData);
   const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
@@ -751,7 +752,7 @@ export const Graphs = () => {
             <StackedBarChart color="primary" />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-                Summary plots:{' '}
+                {t('graphs.graphs')}:{' '}
                 {actualCountry !== 'All'
                   ? `${actualCountry} (${actualRegion})`
                   : actualRegion === 'All'
