@@ -35,6 +35,7 @@ import { mixColorScale } from '../../Map/mapColorHelper';
 import { longestVisualWidth } from '../../../../util/helpers';
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
 import {setResetBool} from '../../../../stores/slices/graphSlice';
+import { useTranslation } from 'react-i18next';
 
 export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -46,6 +47,7 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const [plotChart, setPlotChart] = useState(() => {});
   const [resetCounter, setResetCounter] = useState(0);
+  const { t } = useTranslation();
 
   const organism = useAppSelector((state) => state.dashboard.organism);
   const canGetData = useAppSelector((state) => state.dashboard.canGetData);
@@ -446,8 +448,8 @@ useEffect(() => {
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
+                <Typography variant="h6">{t('dashboard.filters.plotOptions.title')}</Typography>
+                <Tooltip title={t('dashboard.filters.plotOptions.hideTooltip')} placement="top">
                   <IconButton onClick={() => setShowFilter(false)}>
                     <Close fontSize="small" />
                   </IconButton>

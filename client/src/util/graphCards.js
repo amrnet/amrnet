@@ -10,105 +10,108 @@ import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 
-function getHeatMapsTitle(organism) {
+function getHeatMapsTitle(organism, t) {
   switch (organism) {
     case 'sentericaints':
-      return 'AMR by lineage';
+      return t('graphs.amrByLineage');
     default:
-      return 'AMR by genotype';
+      return t('graphs.amrByGenotype');
   }
 }
 
-const heatmapCards = organismsCards.map(organismCard => ({
-  title: getHeatMapsTitle(organismCard.value),
-  description: [''],
-  icon: <ViewModule color="primary" />,
-  id: 'HSG2',
-  organisms: [organismCard.value],
-  component: <BubbleHeatmapGraph2 />,
-}));
+export const getGraphCards = (t) => {
+  const heatmapCards = organismsCards.map(organismCard => ({
+    title: getHeatMapsTitle(organismCard.value, t),
+    description: [''],
+    icon: <ViewModule color="primary" />,
+    id: 'HSG2',
+    organisms: [organismCard.value],
+    component: <BubbleHeatmapGraph2 />,
+  }));
 
-export const graphCards = [
-  {
-    title: 'AMR Trends',
-    description: ['Data are plotted for years with N ≥ 10 genomes'],
-    icon: <Timeline color="primary" />,
-    id: 'DRT',
-    organisms: organismsCards.map(x => x.value),
-    component: <DrugResistanceGraph />,
-  },
-  ...heatmapCards,
-  {
-    title: 'AMR marker trends',
-    description: ['Data are plotted for years with N ≥ 10 genomes'],
-    icon: <Timeline color="primary" />,
-    id: 'RDT',
-    organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
-    component: <MarkerTrendsGraph />,
-  },
-  {
-    title: 'AMR marker by genotype',
-    description: ['Top Genotypes (up to 10)'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'RDWG',
-    organisms: [],
-    component: <DeterminantsGraph />,
-  },
-  {
-    title: 'AMR marker by genotype',
-    description: [''],
-    icon: <ViewModule color="primary" />,
-    id: 'BAMRH',
-    organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
-    component: <BubbleMarkersHeatmapGraph />,
-  },
-  {
-    title: 'AMR/virulence',
-    description: ['Top Genotypes (up to 30)'],
-    icon: <BubbleChart color="primary" />,
-    // changed id="CVM" to id="convergence-graph", as 'CVM' is used as 'id' for The "Heatmap View",
-    id: 'convergence-graph',
-    organisms: ['kpneumo'],
-    component: <ConvergenceGraph />,
-  },
-  {
-    title: 'Genotype trends',
-    description: ['Data are plotted for years with N ≥ 10 genomes'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'GD',
-    organisms: [
-      'styphi',
-      'ngono',
-      'kpneumo',
-      // 'senterica',
-      ...amrLikeOrganisms.filter(x => !['sentericaints', 'senterica'].includes(x)),
-    ],
-    component: <DistributionGraph />,
-  },
-  {
-    title: 'Lineage trends',
-    description: ['Data are plotted for years with N ≥ 10 genomes'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'GD',
-    organisms: ['sentericaints', 'senterica'],
-    component: <DistributionGraph />,
-  },
-  {
-    title: 'KO trends',
-    description: ['Data are plotted for years with N ≥ 10 genomes'],
-    icon: <StackedBarChart color="primary" />,
-    id: 'KOT',
-    organisms: ['kpneumo'],
-    component: <KOTrendsGraph />,
-  },
-  {
-    title: 'KO by genotype',
-    description: [''],
-    icon: <ViewModule color="primary" />,
-    id: 'BKOH',
-    organisms: ['kpneumo'],
-    component: <BubbleKOHeatmapGraph />,
-  },
+  return [
+    {
+      title: t('graphs.amrTrends'),
+      description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
+      icon: <Timeline color="primary" />,
+      id: 'DRT',
+      organisms: organismsCards.map(x => x.value),
+      component: <DrugResistanceGraph />,
+    },
+    ...heatmapCards,
+    {
+      title: t('graphs.amrMarkerTrends'),
+      description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
+      icon: <Timeline color="primary" />,
+      id: 'RDT',
+      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
+      component: <MarkerTrendsGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByGenotype'),
+      description: [t('graphs.topGenotypesUpTo10')],
+      icon: <StackedBarChart color="primary" />,
+      id: 'RDWG',
+      organisms: [],
+      component: <DeterminantsGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByGenotype'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BAMRH',
+      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
+      component: <BubbleMarkersHeatmapGraph />,
+    },
+    {
+      title: t('graphs.amrVirulence'),
+      description: [t('graphs.topGenotypesUpTo30')],
+      icon: <BubbleChart color="primary" />,
+      // changed id="CVM" to id="convergence-graph", as 'CVM' is used as 'id' for The "Heatmap View",
+      id: 'convergence-graph',
+      organisms: ['kpneumo'],
+      component: <ConvergenceGraph />,
+    },
+    {
+      title: t('graphs.genotypeTrends'),
+      description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
+      icon: <StackedBarChart color="primary" />,
+      id: 'GD',
+      organisms: [
+        'styphi',
+        'ngono',
+        'kpneumo',
+        // 'senterica',
+        ...amrLikeOrganisms.filter(x => !['sentericaints', 'senterica'].includes(x)),
+      ],
+      component: <DistributionGraph />,
+    },
+    {
+      title: t('graphs.lineageTrends'),
+      description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
+      icon: <StackedBarChart color="primary" />,
+      id: 'GD',
+      organisms: ['sentericaints', 'senterica'],
+      component: <DistributionGraph />,
+    },
+    {
+      title: t('graphs.koTrends'),
+      description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
+      icon: <StackedBarChart color="primary" />,
+      id: 'KOT',
+      organisms: ['kpneumo'],
+      component: <KOTrendsGraph />,
+    },
+    {
+      title: t('graphs.koByGenotype'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BKOH',
+      organisms: ['kpneumo'],
+      component: <BubbleKOHeatmapGraph />,
+    },
+  ];
+};
   // {
   //   title: 'Resistance frequencies within genotypes',
   //   description: ['Top Genotypes (up to 7)'],
@@ -149,16 +152,16 @@ export const graphCards = [
   //   organisms: [],
   //   component: <TrendsGraph />,
   // },
-];
+// ];
 
-export const continentGraphCard = {
-  title: 'Geographic Comparisons',
+export const getContinentGraphCard = (t) => ({
+  title: t('graphs.geographicComparisons'),
   icon: <ViewModule color="primary" />,
   organisms: organismsCards.map(x => x.value),
-};
+});
 
-export const continentPGraphCard = {
-  title: 'Pathotype Comparisons',
+export const getContinentPGraphCard = (t) => ({
+  title: t('graphs.pathotypeComparisons'),
   icon: <ViewModule color="primary" />,
   organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
-};
+});

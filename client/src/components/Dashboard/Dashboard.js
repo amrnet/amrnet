@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { loadOrganismQuickly } from '../../utils/quickPaginationFix';
 import { DownloadData } from '../Elements/DownloadData';
@@ -108,7 +109,7 @@ import {
   markersDrugsKP,
   markersDrugsSH,
 } from '../../util/drugs';
-import { continentPGraphCard } from '../../util/graphCards';
+import { getContinentGraphCard } from '../../util/graphCards';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
@@ -158,6 +159,7 @@ export const DashboardPage = () => {
   const [currentTimeInitial, setCurrentTimeInitial] = useState('');
   const [currentTimeFinal, setCurrentTimeFinal] = useState('');
   const isApplyingFilters = useRef(false);
+  const { t } = useTranslation();
 
   const { hasItems, bulkAddItems, getItems } = useIndexedDB();
 
@@ -352,8 +354,12 @@ export const DashboardPage = () => {
 
       // genotype
       const genotypeKey = 'GENOTYPE';
-      if (genotypeKey in x && x[genotypeKey] && x[genotypeKey] !== '') {
-        genotypesSet.add(x[genotypeKey]?.toString());
+      if (genotypeKey in x) {
+        const g = x[genotypeKey];
+        // Accept numeric 0 as a valid genotype value. Only skip null/undefined/empty-string. Fix the Total Genotype issue where many rows have GENOTYPE=0.
+        if (g !== null && g !== undefined && `${g}`.trim() !== '') {
+          genotypesSet.add(String(g));
+        }
       }
 
       // year
@@ -1606,6 +1612,8 @@ export const DashboardPage = () => {
       dispatch(setYears(uniqueDates)); // to Set the years for the Global Filters based on Datasets and lineages
       dispatch(setActualGenomes(filters.genomesCount));
       dispatch(setActualGenotypes(filters.genotypesCount));
+      // console.log('genotypes.length filtered', filters.genotypesCount);
+
       dispatch(setListPMID(filters.listPMID));
 
       // Prepare data in parallel - back to Promise.all for speed
@@ -1679,7 +1687,7 @@ export const DashboardPage = () => {
       dispatch(setMapData(mapData));
       dispatch(setMapRegionData(mapRegionData));
       if (
-        continentPGraphCard.organisms.includes(organism) &&
+        getContinentGraphCard(t).organisms.includes(organism) &&
         (currentTimeInitial !== actualTimeInitial || currentTimeFinal !== actualTimeFinal)
       ) {
         dispatch(setMapDataNoPathotype(mapData));

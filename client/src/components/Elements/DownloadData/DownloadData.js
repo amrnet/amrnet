@@ -19,7 +19,7 @@ import { svgAsPngUri } from 'save-svg-as-png';
 import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
 import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
 import { drugAcronymsOpposite, drugsKP, drugsNG, drugsST, ngonoSusceptibleRule } from '../../../util/drugs';
-import { graphCards } from '../../../util/graphCards';
+import { getGraphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { mapLegends } from '../../../util/mapLegends';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
@@ -1832,7 +1832,7 @@ export const DownloadData = () => {
         loadingPosition="start"
         disabled={organism === 'none'}
       >
-        Download database (TSV format)
+        {t('downloadData.downloadDatabase')}
       </LoadingButton>
       <LoadingButton
         className={classes.button}
@@ -1843,7 +1843,7 @@ export const DownloadData = () => {
         loadingPosition="start"
         // disabled={['ecoli'].includes(organism)} //'styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'
       >
-        Download PDF
+        {t('downloadData.downloadPDF')}
       </LoadingButton>
       <Button
         className={classes.button}
@@ -1852,7 +1852,7 @@ export const DownloadData = () => {
         startIcon={<Storage />}
       >
         {/* Rename based on Feedback documnet 24 June */}
-        Info and Definitions
+        {t('downloadData.infoAndDefinitions')}
       </Button>
       <Snackbar open={showAlert} autoHideDuration={5000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>

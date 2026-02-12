@@ -21,6 +21,7 @@ import { setPosition, setTooltipContent } from '../../../stores/slices/mapSlice.
 import { darkGrey, lightGrey, zeroCountColor, zeroPercentColor } from '../../../util/colorHelper';
 import { drugAcronymsOpposite, drugAcronymsOpposite2, ngonoSusceptibleRule } from '../../../util/drugs';
 import { isTouchDevice } from '../../../util/isTouchDevice';
+import { mapViewToTranslationKey } from '../../../util/mapViewTranslationKeys';
 import { BottomLeftControls } from './BottomLeftControls';
 import { MapActions } from './MapActions/MapActions';
 import { differentColorScale, redColorScale, samplesColorScale, sensitiveColorScale } from './mapColorHelper';
@@ -319,7 +320,8 @@ export const Map = () => {
       dataview = ` (${selectedLineages.join(', ')})`;
     }
 
-    return t('dashboard.globalOverviewLabel', { dataview, mapView });
+    const mapViewKey = mapViewToTranslationKey[mapView] || mapView;
+    return t('dashboard.globalOverviewLabel', { dataview, mapView: t(`dashboard.mapViews.${mapViewKey}`) });
   }, [organism, datasetKP, dataset, selectedLineages, mapView, pathovar, t]);
 
   return (
