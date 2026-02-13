@@ -1210,7 +1210,7 @@ export const drugClassesRulesSENTERICA = {};
 
 // Sentericaints INTS
 export const drugRulesINTS = [
-  // { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
+  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
   // { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
   { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
