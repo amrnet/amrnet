@@ -26,6 +26,7 @@ const connectDB = async () => {
         await client.db('ecoli2').command({ ping: 1 });
         // Ensure index on lookup collection to avoid $lookup full collection scans
         try {
+          //TODO: change to actual collection name to keep same for entericaints and senterica
           const lookupDb = client.db('sentericaints');
           const lookupColl = lookupDb.collection('ints_collection_from_enterica');
           // createIndex is idempotent if the index already exists
@@ -650,7 +651,7 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
       { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
       {
         $lookup: {
-          from: 'ints_collection_from_enterica',
+          from: 'ints_collection_from_enterica',//TODO: change to actual collection name to keep same for entericaints and senterica 
           localField: 'NAME',
           foreignField: 'NAME',
           as: 'extraData',
