@@ -1240,7 +1240,7 @@ export const drugRulesINTS = [
   },
 ];
 
-// Used for ints and senterica
+// Used for senterica
 export const statKeysINTS = [
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Carbapenem', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
@@ -1260,6 +1260,107 @@ export const statKeysINTS = [
     resistanceView: true,
   },
 ];
+
+// only for ints
+export const statKeysINTS2 = (() => {
+  const items = [
+    {
+      name: 'Aminoglycosides',
+      resistanceView: true,
+      rules: [{ column: 'AMINOGLYCOSIDE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Ampicillin',
+      resistanceView: true,
+      rules: [
+        { column: 'PENICILLIN', value: '-', equal: false },
+        { column: 'BETA-LACTAM', value: '-', equal: false },
+        { column: 'ESBL', value: '-', equal: false },
+      ],
+      every: false,
+    },
+    {
+      name: 'Carbapenem',
+      resistanceView: true,
+      rules: [{ column: 'BETA-LACTAM', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Chloramphenicol',
+      resistanceView: true,
+      rules: [{ column: 'PHENICOL', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'ESBL',
+      resistanceView: true,
+      rules: [
+        { column: 'Carbapenemase', value: 'blaOXA-24', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-244', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-48', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-181', equal: true },
+        { column: 'ESBL', value: '-', equal: false },
+      ],
+      every: false,
+    },
+    {
+      name: 'Ciprofloxacin',
+      resistanceView: true,
+      rules: [{ column: 'QUINOLONE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Colistin',
+      resistanceView: true,
+      rules: [{ column: 'COLISTIN', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Macrolides',
+      resistanceView: true,
+      rules: [{ column: 'MACROLIDE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Sulfamethoxazole',
+      resistanceView: true,
+      rules: [{ column: 'SULFONAMIDE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Tetracycline',
+      resistanceView: true,
+      rules: [{ column: 'TETRACYCLINE', value: '-', equal: false }],
+      every: true,
+    },
+    {
+      name: 'Trimethoprim',
+      resistanceView: true,
+      rules: [{ column: 'TRIMETHOPRIM', value: '-', equal: false }],
+      every: true,
+    },
+    // {
+    //   name: 'Trimethoprim-Sulfamethoxazole',
+    //   resistanceView: true,
+    //   rules: [
+    //     { column: 'TRIMETHOPRIM', value: '-', equal: false },
+    //     { column: 'SULFONAMIDE', value: '-', equal: false },
+    //   ],
+    //   every: true,
+    // },
+  ];
+
+  const uniqueColumns = [...new Set(items.flatMap(item => item.rules.map(rule => rule.column)))];
+  return items.concat({
+    name: 'Pansusceptible',
+    resistanceView: true,
+    rules: uniqueColumns.map(col => {
+      return { column: col, value: '-', equal: true };
+    }),
+    every: true,
+  });
+})();
 
 // Used for shige, ecoli and decoli
 export const statKeysECOLI = (() => {
@@ -1409,7 +1510,7 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
-  sentericaints: statKeysINTS,
+  sentericaints: statKeysINTS2,
   shige: statKeysECOLI,
   senterica: statKeysINTS,
   ecoli: statKeysECOLI,
