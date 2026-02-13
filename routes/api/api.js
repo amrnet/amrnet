@@ -88,9 +88,17 @@ const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) =>
     ]);
 
     // Execute aggregation with timeout
+    const aggregationTimeoutMs =
+      Number.parseInt(process.env.AGGREGATION_TIMEOUT_MS ?? '60000', 10);
+
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), 60000)),
+      new Promise((_, reject) =>
+        setTimeout(
+          () => reject(new Error('Aggregation timeout')),
+          Number.isNaN(aggregationTimeoutMs) ? 60000 : aggregationTimeoutMs,
+        ),
+      ),
     ]);
 
     return result;
