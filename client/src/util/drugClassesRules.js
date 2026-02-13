@@ -1510,7 +1510,7 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
-  sentericaints: statKeysINTS2,
+  sentericaints: statKeysINTS,
   shige: statKeysECOLI,
   senterica: statKeysINTS,
   ecoli: statKeysECOLI,

@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview Data filtering and processing utilities for AMRnet Dashboard
  *
@@ -28,30 +29,11 @@ import {
   statKeys,
   statKeysECOLI,
   statKeysINTS,
-  statKeysINTS2,
   statKeysKP,
   statKeysKPOnlyMarkers,
 } from '../../util/drugClassesRules';
 import { markersDrugsINTS, markersDrugsKP, markersDrugsSH } from '../../util/drugs';
 import { amrLikeOrganisms } from '../../util/organismsCards';
-
-/**
- * Process large arrays in chunks with async yields to prevent UI freezing
- * @param {Array} array - Array to process
- * @param {Function} processor - Function to process each chunk
- * @param {number} chunkSize - Size of each chunk (default 500)
- * @returns {Promise<Array>} - Results from all chunks
- */
-async function processInChunks(array, processor, chunkSize = 500) {
-  const results = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    const chunk = array.slice(i, i + chunkSize);
-    results.push(...processor(chunk));
-    // Yield to browser to allow UI updates
-    await new Promise(resolve => setTimeout(resolve, 0));
-  }
-  return results;
-}
 
 /**
  * Filter organism data based on multiple criteria
@@ -97,11 +79,6 @@ export function filterData({
   };
   const checkLineages = item => {
     if (!['sentericaints', 'decoli', 'shige'].includes(organism)) {
-      return true;
-    }
-
-    // If no lineages are selected, allow all items through
-    if (!selectedLineages || selectedLineages.length === 0) {
       return true;
     }
 
@@ -186,11 +163,6 @@ export function filterBrushData({
   const filterByTimeRange = (item, start, end) => item.DATE >= start && item.DATE <= end;
   const filterByLineages = item => {
     if (!['sentericaints', 'decoli', 'shige'].includes(organism)) {
-      return true;
-    }
-
-    // If no lineages are selected, allow all items through
-    if (!selectedLineages || selectedLineages.length === 0) {
       return true;
     }
 
@@ -312,57 +284,48 @@ export { getCountryDisplayName };
 // Get specific drug count, percentage and al its types for the map component
 function getMapStatsData({
   itemData,
-  columnKey,
-  statsKey,
+  columnKey, // ignored for ECOLI
+  statsKey, // ignored for ECOLI
   organism,
   noItems = false,
   addNames = false,
   isPan = false,
 }) {
   const totalLength = itemData.length;
-  const columnKeys = Array.isArray(columnKey) ? columnKey : [columnKey];
   const columnDataMap = {};
-  const useECOLIRules = ['ecoli', 'decoli', 'shige', 'sentericaints'].includes(organism);
-
   let allDashCount = 0;
   const allDashNames = [];
+
+  const useECOLIRules = ['ecoli', 'decoli', 'shige'].includes(organism);
 
   for (const item of itemData) {
     const name = item.Uberstrain || item.Name || item.NAME || item['Genome Name'] || 'Unknown';
 
-    // Special handling for ECOLI-like organisms (and `sentericaints`) which use
-    // rule sets instead of direct column values. In those cases `statsKey` is
-    // the rule name and we must evaluate the rule definitions from the
-    // appropriate statKeys (e.g. `statKeysECOLI` or `statKeysINTS2`).
-    // const useECOLIRules = ['ecoli', 'decoli', 'shige', 'sentericaints'].includes(organism);
-
     let rawValues = [];
 
     if (useECOLIRules) {
-        const drug = ['sentericaints'].includes(organism)
-          ? statKeysINTS2.find(d => d.name === statsKey)
-          : statKeysECOLI.find(d => d.name === statsKey);
+      // Get the corresponding drug from statKeysECOLI using statsKey
+      const drug = statKeysECOLI.find(d => d.name === statsKey);
       if (!drug) continue;
 
-      // Evaluate each rule for this item
+      // Evaluate rules
       const ruleResults = drug.rules.map(rule => {
         const val = item[rule.column];
         if (val === 'ND') return false;
-        if (Array.isArray(rule.value)) {
-          return rule.equal ? rule.value.includes(val) : !rule.value.includes(val);
-        }
         return rule.equal ? val === rule.value : val !== rule.value;
       });
 
       const passes = drug.every ? ruleResults.every(Boolean) : ruleResults.some(Boolean);
       if (!passes) continue;
 
-      // Collect the actual column values from rules to build gene list
+      // Collect the actual column values from rules
       rawValues = drug.rules.map(r => item[r.column]).filter(v => v && v !== '-' && v !== 'ND');
+
       if (rawValues.length === 0) continue;
     } else {
+      // Original logic for other organisms
+      const columnKeys = Array.isArray(columnKey) ? columnKey : [columnKey];
       rawValues = columnKeys.map(k => item[k]);
-
       if (rawValues.every(val => val === '-')) {
         if (isPan) {
           allDashCount += 1;
@@ -382,11 +345,7 @@ function getMapStatsData({
 
     for (const gene of cleanedGenes) {
       const key = gene || '-';
-
-      if (!columnDataMap[key]) {
-        columnDataMap[key] = { count: 0, names: new Set() };
-      }
-
+      if (!columnDataMap[key]) columnDataMap[key] = { count: 0, names: new Set() };
       columnDataMap[key].count += 1;
       columnDataMap[key].names.add(name);
     }
@@ -397,54 +356,10 @@ function getMapStatsData({
     return { name, count, percentage: Number(percentage.toFixed(2)) };
   });
 
-  const statsList =
-    items.filter(item => {
-      if (statsKey === null) return true;
-
-      // For ECOLI-like organisms we already evaluated rules per item and
-      // collected matching gene/marker keys into `items`. Don't filter
-      // these items by `statsKey` (which is the rule name) — include all.
-      if (useECOLIRules) return true;
-
-      const itemName = item.name?.toString();
-      const statKeyStr = statsKey?.toString();
-
-      // For senterica/sentericaints the collected `items` are gene/marker names
-      // (e.g. `cmlA1`, `floR`) and `statsKey` is a class key (e.g. 'CHLORAMPHENICOL').
-      // We should not attempt to match the class key against gene names — include
-      // all collected items for these organisms (similar to ECOLI rules handling).
-      if (['senterica', 'sentericaints'].includes(organism)) {
-        if (Array.isArray(statsKey)) {
-          return statsKey.some(k => itemName.includes(k));
-        }
-        return itemName.includes(statKeyStr);
-      }
-
-      if (['ecoli', 'decoli', 'shige', 'sentericaints'].includes(organism) && Array.isArray(statsKey)) {
-        return statsKey.some(k => itemName === k);
-      }
-
-      return statKeyStr === '-' ? itemName !== '-' : itemName === statKeyStr;
-    }) || [];
-
   const namesSet = new Set();
   for (const [key, { names }] of Object.entries(columnDataMap)) {
-    if (statsList.find(item => item.name === key) && names) {
+    if (names) {
       for (const n of names) namesSet.add(n);
-    }
-  }
-
-  // Additional diagnostics: if we collected item entries but ended up with no
-  // sample names, log detailed structures to help debug senterica/sentericaints.
-  if (
-    ['senterica', 'sentericaints', 'ecoli', 'decoli', 'shige'].includes(organism) &&
-    Object.keys(columnDataMap).length > 0 &&
-    namesSet.size === 0
-  ) {
-    try {
-      // diagnostics removed
-    } catch (e) {
-      // ignore
     }
   }
 
@@ -522,15 +437,13 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
       const sKeys = organism === 'kpneumo' ? statKeys[orgKey].concat(statKeysKPOnlyMarkers) : statKeys[orgKey];
 
       for (const { name, column, key } of sKeys) {
-        // For GENOTYPE stats, always include items array so BubbleHeatmapGraph2 can show individual markers
         const noItems =
-          statKey !== 'GENOTYPE' &&
-          (!['kpneumo', 'ngono'].includes(organism) || !variableOptions.includes(statKey) || name === 'Pansusceptible');
+          !['kpneumo', 'ngono'].includes(organism) || !variableOptions.includes(statKey) || name === 'Pansusceptible';
 
         result.drugs[name] = getMapStatsData({
           itemData: dataWithGenFilter,
           columnKey: column, // can be string or array
-          statsKey: ['ecoli', 'decoli', 'shige', 'sentericaints'].includes(organism) ? name : key, // use name for ECOLI rules
+          statsKey: ['ecoli', 'decoli', 'shige'].includes(organism) ? name : key, // use name for ECOLI rules
           noItems,
           organism,
         });
@@ -577,25 +490,15 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
  */
 export function getMapData({ data, items, organism, type = 'country' }) {
   // Add validation for required parameters
-  if (!data || !Array.isArray(data)) {
-    console.warn('getMapData: data is not a valid array');
-    return [];
-  }
+  // if (!data || !Array.isArray(data)) {
+  //   console.warn('getMapData: data is not a valid array');
+  //   return [];
+  // }
 
-  if (!items || (!Array.isArray(items) && typeof items !== 'object')) {
-    console.warn('getMapData: items is not a valid array or object');
-    return [];
-  }
-
-  if (type === 'country' && !Array.isArray(items)) {
-    console.warn('getMapData: expected `items` to be an array for type "country"');
-    return [];
-  }
-
-  // Prevent processing extremely large datasets that could cause stack overflow
-  if (data.length > 500000) {
-    console.warn('getMapData: data array is extremely large, this may cause performance issues');
-  }
+  // if (!items || (!Array.isArray(items) && typeof items !== 'object')) {
+  //   console.warn('getMapData: items is not a valid array or object');
+  //   return [];
+  // }
 
   const mapData = [];
   const formattedItems = type === 'country' ? items : Object.keys({ ...items, All: '' }).sort();
@@ -617,8 +520,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
   if (type !== 'country') {
     for (const item of formattedItems) {
       if (item !== 'All') {
-        const listForItem = items && items[item];
-        itemSets[item] = Array.isArray(listForItem) ? new Set(listForItem) : new Set();
+        itemSets[item] = new Set(items[item]);
       }
     }
   }
@@ -631,15 +533,11 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     } else if (item === 'All') {
       itemData = data;
     } else {
-      // Merge all countries in region (use safe concatenation to avoid spread on very large arrays)
+      // Merge all countries in region
       itemData = [];
-      const countriesInRegion = itemSets[item];
-      if (countriesInRegion && countriesInRegion.size) {
-        for (const country of countriesInRegion) {
-          const countryData = dataByCountry[country];
-          if (Array.isArray(countryData) && countryData.length) {
-            itemData = itemData.concat(countryData);
-          }
+      for (const country of itemSets[item]) {
+        if (dataByCountry[country]) {
+          itemData.push(...dataByCountry[country]);
         }
       }
     }
@@ -692,7 +590,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       stats[name] = getMapStatsData({
         itemData,
         columnKey: column, // still used for non-ECOLI organisms
-        statsKey: ['ecoli', 'decoli', 'shige', 'sentericaints'].includes(organism) ? name : key, // use name for ECOLI rules
+        statsKey: ['ecoli', 'decoli', 'shige'].includes(organism) ? name : key, // use name for ECOLI rules
         addNames: type === 'country',
         noItems: name === 'Pansusceptible',
         isPan: name === 'Pansusceptible' && amrLikeOrganisms.includes(organism),
@@ -719,8 +617,6 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       };
     }
 
-    // diagnostics removed
-
     mapData.push({
       name: item,
       count: itemData.length,
@@ -744,22 +640,6 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   //   console.warn('getYearsData: years is not a valid array');
   //   return { genotypesData: [], drugsData: [], genotypesAndDrugsData: {}, uniqueGenotypes: [] };
   // }
-
-  // SINGLE-PASS PRE-INDEX: Build year index in ONE loop (much faster than calling filter 100+ times)
-  const t0 = performance.now();
-  const dataByYear = {};
-  const yearSet = new Set(years.map(y => y.toString()));
-
-  data.forEach(x => {
-    const yearKey = x.DATE.toString();
-    if (yearSet.has(yearKey)) {
-      if (!dataByYear[yearKey]) {
-        dataByYear[yearKey] = [];
-      }
-      dataByYear[yearKey].push(x);
-    }
-  });
-  console.log(`⚡ Indexed ${data.length} records by year in ${(performance.now() - t0).toFixed(1)}ms`);
 
   const drugsData = [];
   const genotypesAndDrugsData = {};
@@ -792,7 +672,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     initializeDataStructures(markersDrugsSH);
   }
   const genotypesData = years.map(year => {
-    const yearData = dataByYear[year.toString()] || [];
+    const yearData = data.filter(x => x.DATE.toString() === year.toString());
     const count = yearData.length;
     const response = { name: year, count };
 
@@ -866,11 +746,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           drugStats[rule.key] = drugData.length;
 
-          if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin') {
-            const cipRCount = yearData.filter(x => x[rule.columnID] === 'CipR').length;
-            drugStats['Ciprofloxacin R'] = cipRCount;
-            drugStats['Ciprofloxacin'] += cipRCount;
-          }
+          // if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin NS') {
+          //   const cipRCount = yearData.filter(x => x[rule.columnID] === 'CipR').length;
+          //   drugStats['Ciprofloxacin R'] = cipRCount;
+          //   drugStats['Ciprofloxacin NS'] += cipRCount;
+          // }
         });
 
         if (organism === 'ngono') {
@@ -893,7 +773,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
               return acc;
             }, {});
 
-          (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
+          genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
           const drugClass = getDrugClassData({
             columnID: key,
             dataToFilter: yearData,
@@ -901,44 +781,16 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
-          (genotypesAndDrugsData[key] ??= []).push(item);
+          genotypesAndDrugsData[key].push(item);
         });
-      // } else if (['senterica'].includes(organism)) {
-      //   // calculateDrugStats(drugRulesINTS);
-      //   statKeysINTS.forEach(drug => {
-      //     const drugData = yearData.filter(x => {
-      //       if (Array.isArray(drug.column)) {
-      //         return drug.column.every(d => x[d] === '-');
-      //       }
-
-      //       return x[drug.column] !== '-';
-      //     });
-      //     drugStats[drug.name] = drugData.length;
-      //   });
-
-      //   markersDrugsINTS.forEach(key => {
-      //     const filteredGenotypes = Object.entries(genotypeStats)
-      //       .sort(([, a], [, b]) => b - a)
-      //       .slice(0, 10)
-      //       .reduce((acc, [genotype, count]) => {
-      //         acc[genotype] = count;
-      //         return acc;
-      //       }, {});
-
-      //     (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
-
-      //     const drugClass = getDrugClassDataINTS({ drugKey: key, dataToFilter: yearData });
-
-      //     const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
-      //     delete item.count;
-
-      //     (genotypesAndDrugsData[key] ??= []).push(item);
-      //   });
-      } else if (organism === 'senterica') {
-        // senterica uses statKeysINTS (column-based)
+      } else if (['senterica', 'sentericaints'].includes(organism)) {
+        // calculateDrugStats(drugRulesINTS);
         statKeysINTS.forEach(drug => {
           const drugData = yearData.filter(x => {
-            if (Array.isArray(drug.column)) return drug.column.every(d => x[d] === '-');
+            if (Array.isArray(drug.column)) {
+              return drug.column.every(d => x[d] === '-');
+            }
+
             return x[drug.column] !== '-';
           });
           drugStats[drug.name] = drugData.length;
@@ -953,48 +805,14 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
               return acc;
             }, {});
 
-          (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
+          genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
 
           const drugClass = getDrugClassDataINTS({ drugKey: key, dataToFilter: yearData });
 
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
 
-          (genotypesAndDrugsData[key] ??= []).push(item);
-        });
-
-      } else if (organism === 'sentericaints') {
-        // sentericaints uses rule-based statKeysINTS2
-        statKeysINTS2.forEach(drug => {
-          const drugData = yearData.filter(x => {
-            const results = drug.rules.map(rule => {
-              const val = x[rule.column];
-              if (val === 'ND') return false;
-              if (Array.isArray(rule.value)) return rule.equal ? rule.value.includes(val) : !rule.value.includes(val);
-              return rule.equal ? val === rule.value : val !== rule.value;
-            });
-            return drug.every ? results.every(Boolean) : results.some(Boolean);
-          });
-          drugStats[drug.name] = drugData.length;
-        });
-
-        markersDrugsINTS.forEach(key => {
-          const filteredGenotypes = Object.entries(genotypeStats)
-            .sort(([, a], [, b]) => b - a)
-            .slice(0, 10)
-            .reduce((acc, [genotype, count]) => {
-              acc[genotype] = count;
-              return acc;
-            }, {});
-
-          (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
-
-          const drugClass = getINTS2DrugClassData({ drugKey: key, dataToFilter: yearData });
-
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
-          delete item.count;
-
-          (genotypesAndDrugsData[key] ??= []).push(item);
+          genotypesAndDrugsData[key].push(item);
         });
       } else if (organism === 'kpneumo') {
         drugRulesKP.forEach(rule => {
@@ -1010,7 +828,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           drugStats[rule.key] = drugData.length;
         });
 
-        drugStats['Pansusceptible'] = yearData.filter(x => x.num_resistance_classes === '0').length;
+        drugStats['Pansusceptible'] = yearData.filter(x => x.num_resistance_classes?.toString() === '0').length;
 
         markersDrugsKP.forEach(key => {
           const filteredGenotypes = Object.entries(genotypeStats)
@@ -1021,13 +839,13 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
               return acc;
             }, {});
 
-          (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
+          genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
 
           const drugClass = getKPDrugClassData({ drugKey: key, dataToFilter: yearData });
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
 
-          (genotypesAndDrugsData[key] ??= []).push(item);
+          genotypesAndDrugsData[key].push(item);
         });
       } else if (organism === 'ngono') {
         calculateDrugStats(drugRulesNG);
@@ -1041,7 +859,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
               return acc;
             }, {});
 
-          (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
+          genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
           const drugClass = getDrugClassData({
             columnID: key,
             dataToFilter: yearData,
@@ -1050,7 +868,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
 
-          (genotypesAndDrugsData[key] ??= []).push(item);
+          genotypesAndDrugsData[key].push(item);
         });
       } else {
         statKeysECOLI.forEach(drug => {
@@ -1078,13 +896,13 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
               return acc;
             }, {});
 
-          (genotypesAndDrugsDataUniqueGenotypes[key] ??= []).push(...Object.keys(filteredGenotypes));
+          genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
 
           const drugClass = getECOLIDrugClassData({ drugKey: key, dataToFilter: yearData });
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
 
-          (genotypesAndDrugsData[key] ??= []).push(item);
+          genotypesAndDrugsData[key].push(item);
         });
       }
       drugsData.push({ ...response, ...drugStats });
@@ -1202,13 +1020,13 @@ export function getKOYearsData({ data, years }) {
     const response = { name: year, count };
 
     if (count === 0) {
-      statKeys.forEach(key => (KOData[key] ??= []).push(response));
+      statKeys.forEach(key => KOData[key].push(response));
       return;
     }
 
     statKeys.forEach(key => {
       const { stats, topKeys } = computeStats(yearData, key);
-      (KOData[key] ??= []).push({ ...response, ...stats });
+      KOData[key].push({ ...response, ...stats });
       uniqueKO[key] = uniqueKO[key].concat(topKeys);
     });
   });
@@ -1243,100 +1061,73 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
         ? Object.keys(drugClassesRulesNG)
         : statKeys[organism]?.map(drug => drug.name) || [];
 
-  if (rules.length === 0) {
-    console.warn(`getDrugsCountriesData: No rules found for organism ${organism}`);
-  }
-
   initializeDataStructures(rules);
 
-  // SINGLE-PASS PRE-INDEX: Build country/region index in ONE loop
-  const t0 = performance.now();
-  const dataByCountry = {};
-  const itemList = type === 'country' ? items : Object.keys(items).sort();
+  (type === 'country' ? items : Object.keys(items).sort()).forEach(item => {
+    const itemData = data.filter(x => {
+      const country = getCountryDisplayName(x.COUNTRY_ONLY);
 
-  // Initialize empty arrays for all items
-  itemList.forEach(item => {
-    dataByCountry[item] = [];
-  });
-
-  // For region-type, build a reverse lookup: country -> [regions]
-  const countryToRegions = {};
-  if (type === 'region') {
-    Object.entries(items).forEach(([region, countries]) => {
-      countries.forEach(country => {
-        if (!countryToRegions[country]) {
-          countryToRegions[country] = [];
-        }
-        countryToRegions[country].push(region);
-      });
+      if (type === 'country') {
+        return country === item;
+      }
+      return items[item].includes(country);
     });
-  }
-
-  // Single pass through data with O(1) lookup
-  data.forEach(x => {
-    const country = getCountryDisplayName(x.COUNTRY_ONLY);
-    if (type === 'country') {
-      if (country in dataByCountry) {
-        dataByCountry[country].push(x);
-      }
-    } else {
-      // Region-type: use reverse lookup for O(1) instead of O(m)
-      const regions = countryToRegions[country];
-      if (regions) {
-        regions.forEach(region => {
-          dataByCountry[region].push(x);
-        });
-      }
-    }
-  });
-  console.log(`⚡ Indexed ${data.length} records by ${type} in ${(performance.now() - t0).toFixed(1)}ms`);
-
-  itemList.forEach(item => {
-    const itemData = dataByCountry[item] || [];
     const count = itemData.length;
     const response = { name: item, count };
 
     if (count === 0) return response;
 
-    // Compute drug marker data for geographic comparisons
     if (count >= 10) {
       rules.forEach(key => {
-        const drugClassData = { ...response, totalCount: count };
+        let drugClass = {};
 
-        // Compute marker counts based on organism type
         if (isKP) {
-          Object.assign(drugClassData, getKPDrugClassData({ drugKey: key, dataToFilter: itemData }));
-        } else if (isST) {
-          Object.assign(
-            drugClassData,
-            getDrugClassData({
-              columnID: key,
-              dataToFilter: itemData,
-              drugClassesRules: drugClassesRulesST,
-            }),
-          );
-        } else if (isSGono) {
-          Object.assign(
-            drugClassData,
-            getDrugClassData({
-              columnID: key,
-              dataToFilter: itemData,
-              drugClassesRules: drugClassesRulesNG,
-            }),
-          );
-        } else if (organism === 'senterica') {
-          Object.assign(drugClassData, getDrugClassDataINTS({ drugKey: key, dataToFilter: itemData }));
-        } else if (organism === 'sentericaints') {
-          Object.assign(drugClassData, getINTS2DrugClassData({ drugKey: key, dataToFilter: itemData }));
+          drugClass = getKPDrugClassData({ drugKey: key, dataToFilter: itemData });
+        } else if (isST && drugClassesRulesST[key]) {
+          drugClassesRulesST[key].forEach(classRule => {
+            const classRuleName = classRule.name;
+            if (classRuleName === 'None') return;
+
+            drugClass[classRuleName] = itemData.filter(x =>
+              classRule.rules.every(r =>
+                key === 'Pansusceptible' && !classRule.susceptible
+                  ? x[r.columnID]?.toString() !== r.value.toString()
+                  : x[r.columnID]?.toString() === r.value.toString(),
+              ),
+            ).length;
+
+            if (classRule.susceptible) {
+              drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
+            }
+          });
+        } else if (isSGono && drugClassesRulesNG[key]) {
+          drugClassesRulesNG[key].forEach(classRule => {
+            const classRuleName = classRule.name;
+            if (classRuleName === 'None') return;
+
+            drugClass[classRuleName] = itemData.filter(x =>
+              classRule.rules.every(r =>
+                key === 'Pansusceptible' && !classRule.susceptible
+                  ? x[r.columnID]?.toString() !== r.value.toString()
+                  : x[r.columnID]?.toString() === r.value.toString(),
+              ),
+            ).length;
+
+            if (classRule.susceptible) {
+              drugClass.resistantCount = drugClass.totalCount - drugClass[classRuleName];
+            }
+          });
+        } else if (['ecoli', 'decoli', 'shige'].includes(organism)) {
+          drugClass = getECOLIDrugClassData({ drugKey: key, dataToFilter: itemData });
         } else {
-          // For ecoli, decoli, shige
-          Object.assign(drugClassData, getECOLIDrugClassData({ drugKey: key, dataToFilter: itemData }));
+          // Handle all other organisms
+          drugClass = getDrugClassDataINTS({ drugKey: key, dataToFilter: itemData });
         }
 
-        if (!drugsData[key]) {
-          drugsData[key] = [];
-        }
-        (drugsData[key] ??= []).push(drugClassData);
+        const item = { ...response, ...drugClass, totalCount: count };
+        delete item.count;
+
+        drugsData[key].push(item);
       });
     }
   });
@@ -1396,13 +1187,13 @@ export function getGenotypesData({
   data,
   genotypes,
   ngmast,
-  _pathotypes,
-  _serotypes,
+  pathotypes,
+  serotypes,
   organism,
-  _years,
-  _countries,
-  _regions,
-  _dataForGeographic,
+  years,
+  countries,
+  regions,
+  dataForGeographic,
 }) {
   // // Add validation for required parameters
   // if (!data || !Array.isArray(data)) {
@@ -1442,25 +1233,10 @@ export function getGenotypesData({
     });
   }
 
-  // SINGLE-PASS PRE-INDEX: Build genotype index in ONE loop
-  const t0 = performance.now();
-  const dataByGenotype = {};
-  const genotypeSet = new Set(genotypes.map(g => g.toString()));
-
-  data.forEach(x => {
-    const genotypeKey = x.GENOTYPE?.toString();
-    if (genotypeKey && genotypeSet.has(genotypeKey)) {
-      if (!dataByGenotype[genotypeKey]) {
-        dataByGenotype[genotypeKey] = [];
-      }
-      dataByGenotype[genotypeKey].push(x);
-    }
-  });
-  console.log(`⚡ Indexed ${data.length} records by genotype in ${(performance.now() - t0).toFixed(1)}ms`);
-
   // Genotypes
   const genotypesDrugsData = genotypes.map(genotype => {
-    const genotypeData = dataByGenotype[genotype.toString()] || [];
+    // const genotypeData = data.filter((x) => x.GENOTYPE === genotype);
+    const genotypeData = data.filter(x => x.GENOTYPE?.toString() === genotype);
     const response = {
       name: genotype,
       totalCount: genotypeData.length,
@@ -1478,10 +1254,10 @@ export function getGenotypesData({
         const drugData = genotypeData.filter(x => rule.values.map(String).includes(String(x[rule.columnID])));
         response[rule.key] = drugData.length;
 
-        if (rule.key === 'Ciprofloxacin') {
-          response['Ciprofloxacin R'] = genotypeData.filter(x => x[rule.columnID] === 'CipR').length;
-          response['Ciprofloxacin'] = response['Ciprofloxacin'] + response['Ciprofloxacin R'];
-        }
+        // if (rule.key === 'Ciprofloxacin NS') {
+        //   response['Ciprofloxacin R'] = genotypeData.filter(x => x[rule.columnID] === 'CipR').length;
+        //   response['Ciprofloxacin NS'] = response['Ciprofloxacin NS'] + response['Ciprofloxacin R'];
+        // }
 
         // Only process drug classes if the rule key exists in drugClassesRulesST
         const key = rule.key === 'Ciprofloxacin NS' ? 'Ciprofloxacin' : rule.key;
@@ -1504,10 +1280,7 @@ export function getGenotypesData({
             }
           });
 
-          if (!genotypesDrugClassesData[key]) {
-            genotypesDrugClassesData[key] = [];
-          }
-          (genotypesDrugClassesData[key] ??= []).push(drugClass);
+          genotypesDrugClassesData[key].push(drugClass);
         }
       });
     } else if (organism === 'kpneumo') {
@@ -1532,7 +1305,7 @@ export function getGenotypesData({
           ...drugClassResponse,
           ...getKPDrugClassData({ drugKey: key, dataToFilter: genotypeData }),
         };
-        (genotypesDrugClassesData[key] ??= []).push(drugClass);
+        genotypesDrugClassesData[key].push(drugClass);
       });
     } else if (organism === 'ngono') {
       drugRulesNG.forEach(rule => {
@@ -1556,71 +1329,26 @@ export function getGenotypesData({
           genotypesDrugClassesData[rule.key].push(drugClass);
         }
       });
-    } else if (organism === 'senterica') {
-      // Drug counts for each genotype - `senterica` uses statKeysINTS (column-based)
+    } else if (['senterica', 'sentericaints'].includes(organism)) {
+      // Drug counts for each genotype - matches getYearsData logic
       statKeysINTS.forEach(drug => {
         const drugData = genotypeData.filter(x => {
-          if (Array.isArray(drug.column)) return drug.column.every(d => x[d] === '-');
+          if (Array.isArray(drug.column)) {
+            return drug.column.every(d => x[d] === '-');
+          }
           return x[drug.column] !== '-';
         });
         response[drug.name] = drugData.length;
       });
 
-      // Marker counts for each genotype
+      // Marker counts for each genotype - matches getYearsData logic exactly
       markersDrugsINTS.forEach(key => {
         const drugClass = {
           ...drugClassResponse,
           ...getDrugClassDataINTS({ drugKey: key, dataToFilter: genotypeData }),
         };
-        (genotypesDrugClassesData[key] ??= []).push(drugClass);
+        genotypesDrugClassesData[key].push(drugClass);
       });
-
-    } else if (organism === 'sentericaints') {
-      // `sentericaints` is rule-based (statKeysINTS2)
-      statKeysINTS2.forEach(drug => {
-        const drugData = genotypeData.filter(x => {
-          const results = drug.rules.map(rule => {
-            const val = x[rule.column];
-            if (val === 'ND') return false;
-            if (Array.isArray(rule.value)) return rule.equal ? rule.value.includes(val) : !rule.value.includes(val);
-            return rule.equal ? val === rule.value : val !== rule.value;
-          });
-          return drug.every ? results.every(Boolean) : results.some(Boolean);
-        });
-        response[drug.name] = drugData.length;
-      });
-
-      markersDrugsINTS.forEach(key => {
-        const drugClass = {
-          ...drugClassResponse,
-          ...getINTS2DrugClassData({ drugKey: key, dataToFilter: genotypeData }),
-        };
-        (genotypesDrugClassesData[key] ??= []).push(drugClass);
-      });
-    // } else if (['sentericaints'].includes(organism)){
-    //   statKeysINTS2.forEach(drug => {
-    //     const drugData = genotypeData.filter(x => {
-    //       const results = drug.rules.map(rule => {
-    //         if (rule.equal) {
-    //           return x[rule.column] === rule.value;
-    //         } else {
-    //           return x[rule.column] !== rule.value;
-    //         }
-    //       });
-
-    //       return drug.every ? results.every(Boolean) : results.some(Boolean);
-    //     });
-
-    //     response[drug.name] = drugData.length;
-
-    //     if (drug.name !== 'Pansusceptible') {
-    //       const drugClass = {
-    //         ...drugClassResponse,
-    //         ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: genotypeData }),
-    //       };
-    //       genotypesDrugClassesData[drug.name].push(drugClass);
-    //     }
-    //   });
     } else {
       statKeysECOLI.forEach(drug => {
         const drugData = genotypeData.filter(x => {
@@ -1738,7 +1466,7 @@ export function getGenotypesData({
   //         organism,
   //         rule: key,
   //       });
-  //       (countriesDrugClassesData[key] ??= []).push({ ...drugClassResponse, ...countryDrugClass });
+  //       countriesDrugClassesData[key].push({ ...drugClassResponse, ...countryDrugClass });
 
   //       const regionDrugClass = getYearsLocationData({
   //         drugClassResponse: drugClassResponseR,
@@ -1748,7 +1476,7 @@ export function getGenotypesData({
   //         organism,
   //         rule: key,
   //       });
-  //       (regionsDrugClassesData[key] ??= []).push({ ...drugClassResponseR, ...regionDrugClass });
+  //       regionsDrugClassesData[key].push({ ...drugClassResponseR, ...regionDrugClass });
   //     });
   //   } else if (organism === 'ngono') {
   //     const drugClassesToInclude = ['Azithromycin', 'Ceftriaxone'];
@@ -1863,7 +1591,7 @@ export function getGenotypesData({
 //     // Create and push drugClass objects
 //     Object.keys(drugClassesRulesNG).forEach(key => {
 //       const drugClass = { ...drugClassResponse };
-//       (ngmastDrugClassesData[key] ??= []).push(drugClass);
+//       ngmastDrugClassesData[key].push(drugClass);
 //     });
 
 //     return response;
@@ -2173,47 +1901,6 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
   drugClass['None'] = dataToFilter.length - resistantCount;
   drugClass.resistantCount = resistantCount;
 
-  return drugClass;
-}
-
-// Rule-based drug class extraction for `sentericaints` using `statKeysINTS2`
-function getINTS2DrugClassData({ drugKey, dataToFilter }) {
-  const drugClass = {};
-  const drug = statKeysINTS2.find(x => x.name === drugKey);
-  const splitRegex = /[;,]/;
-  let resistantCount = 0;
-
-  if (!drug) {
-    console.warn(`Drug ${drugKey} not found in statKeysINTS2`);
-    return {};
-  }
-
-  dataToFilter.forEach(x => {
-    const ruleResults = drug.rules.map(rule => {
-      const cellValue = x[rule.column];
-      if (cellValue === 'ND') return false;
-      if (Array.isArray(rule.value)) {
-        return rule.equal ? rule.value.includes(cellValue) : !rule.value.includes(cellValue);
-      }
-      return rule.equal ? cellValue === rule.value : cellValue !== rule.value;
-    });
-
-    const passes = drug.every ? ruleResults.every(Boolean) : ruleResults.some(Boolean);
-    if (!passes) return;
-
-    const columnsValues = drug.rules.map(r => x[r.column]).filter(v => v !== 'ND' && v !== '-' && v != null);
-    if (columnsValues.length === 0) return;
-
-    const genes = removeChars(columnsValues.join(';').split(splitRegex));
-    resistantCount++;
-
-    genes.forEach(g => {
-      drugClass[g] = (drugClass[g] || 0) + 1;
-    });
-  });
-
-  drugClass['None'] = dataToFilter.length - resistantCount;
-  drugClass.resistantCount = resistantCount;
   return drugClass;
 }
 
