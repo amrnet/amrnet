@@ -790,8 +790,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             if (Array.isArray(drug.column)) {
               return drug.column.every(d => x[d] === '-');
             }
-
-            return x[drug.column] !== '-';
+            return x[drug.column].includes(drug.key);
           });
           drugStats[drug.name] = drugData.length;
         });
@@ -1336,7 +1335,7 @@ export function getGenotypesData({
           if (Array.isArray(drug.column)) {
             return drug.column.every(d => x[d] === '-');
           }
-          return x[drug.column] !== '-';
+          return x[drug.column].includes(drug.key);
         });
         response[drug.name] = drugData.length;
       });
