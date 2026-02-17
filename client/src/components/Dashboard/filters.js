@@ -326,7 +326,7 @@ function getMapStatsData({
       // Original logic for other organisms
       const columnKeys = Array.isArray(columnKey) ? columnKey : [columnKey];
       rawValues = columnKeys.map(k => item[k]);
-      if (rawValues.every(val => val === '-')) {
+      if (rawValues.every(val => (val === '-' || !val.includes(statsKey)))) {
         if (isPan) {
           allDashCount += 1;
           allDashNames.push(name);
