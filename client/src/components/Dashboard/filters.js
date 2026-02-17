@@ -1919,14 +1919,22 @@ function getDrugClassDataINTS({ drugKey, dataToFilter }) {
   dataToFilter.forEach(x => {
     const value = x[columnName]; // e.g. x['TRIMETHOPRIM']
 
+    // Check if foundItem.key matches (handle both string and array cases)
+    const keyArray = Array.isArray(foundItem.key) ? foundItem.key : [foundItem.key];
+    const keyMatches = keyArray.some(k => value?.includes(k));
+    
     // Only count if value is present and not in the exclusion list
-    if (value && !['-', '0', 'NA', 'ND'].includes(value)) {
+    if (value && !['-', '0', 'NA', 'ND'].includes(value) && keyMatches) {
       resistantCount++;
 
       // Split multiple gene values if needed (supports ";" or ",")
+      // Filter to only include entries that contain any of the foundItem.key values
       const genes = value
-        .split(/[;,]/)
+        .split(/[;]/)
         .map(g => g.trim())
+        .filter(Boolean)
+        .filter(g => keyArray.some(k => g.includes(k)))
+        .map(g => g.split(',')[1]?.trim()) // keep part after comma
         .filter(Boolean);
 
       genes.forEach(gene => {
@@ -1934,7 +1942,6 @@ function getDrugClassDataINTS({ drugKey, dataToFilter }) {
       });
     }
   });
-
   drugClass['None'] = dataToFilter.length - resistantCount;
   drugClass.resistantCount = resistantCount;
 
