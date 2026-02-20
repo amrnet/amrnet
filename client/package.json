@@ -38,7 +38,7 @@
     "react-tooltip": "^4.2.10",
     "recharts": "^2.12.7",
     "rodal": "^1.8.1",
-    "swiper": "^11.2.2",
+    "swiper": "^12.1.2",
     "web-vitals": "^3.5.2"
   },
   "resolutions": {
