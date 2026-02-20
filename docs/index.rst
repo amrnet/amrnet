@@ -64,7 +64,8 @@ Disclaimer
     :caption: API users
     :hidden:
 
-    API Reference <api>
+    .. API Reference <api> //TODO: add API reference page
+
     Data access <data>
 
 .. toctree::
