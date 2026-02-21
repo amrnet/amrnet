@@ -1210,15 +1210,15 @@ export const drugClassesRulesSENTERICA = {};
 
 // Sentericaints INTS
 export const drugRulesINTS = [
-  // { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
+  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },//TODO: test correct values
   // { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
-  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
+  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },//TODO: test correct values
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
   { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin' },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
   { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Macrolides', columnID: 'MACROLIDE', values: ['MACROLIDE'] },
-  { key: 'Carbapenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
+  { key: 'Carbapenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },//TODO: test correct values
   { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
   { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
@@ -1510,7 +1510,7 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
-  sentericaints: statKeysINTS2,
+  sentericaints: statKeysINTS,
   shige: statKeysECOLI,
   senterica: statKeysINTS,
   ecoli: statKeysECOLI,
