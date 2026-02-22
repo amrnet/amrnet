@@ -24,6 +24,29 @@ const connectDB = async () => {
 
         // Test connection
         await client.db('ecoli2').command({ ping: 1 });
+        
+        // Optional: Ensure indexes on startup (gated by env flag for edge cases where API must manage indexes)
+        if (process.env.CREATE_INDEXES_ON_STARTUP === 'true') {
+          try {
+            // Ensure index on lookup collection to avoid $lookup full collection scans
+            // NOTE: Prefer running 'npm run db:indexes' during deployment instead of this
+            const lookupDb = client.db('sentericaints');
+            const lookupColl = lookupDb.collection('ints_collection_from_enterica');
+            const indexSpec = { NAME: 1 };
+            // createIndex is idempotent if the index already exists
+            await lookupColl.createIndex(indexSpec, { name: 'name_1_lookup' });
+            console.log('✅ API routes: Lookup index ensured on startup');
+          } catch (indexErr) {
+            console.warn('API routes: Failed to ensure index on lookup collection (this is OK if already exists)', {
+              dbName: 'sentericaints',
+              collection: 'ints_collection_from_enterica',
+              indexSpec: { NAME: 1 },
+              errorName: indexErr?.name,
+              errorMessage: indexErr?.message,
+            });
+          }
+        }
+        
         console.log('✅ API routes: MongoDB connection established');
         connectionAttempts = 0; // Reset on success
         break;
@@ -44,6 +67,27 @@ const connectDB = async () => {
     }
   }
   return client;
+};
+
+// Helper function to validate and clamp timeout values
+// Ensures timeout is a positive integer, falls back to default if invalid
+const getValidatedTimeoutMs = (envValue, defaultMs = 60000) => {
+  if (!envValue) return defaultMs;
+  
+  const parsed = Number.parseInt(envValue, 10);
+  
+  // Check if parsing failed or value is non-positive
+  if (Number.isNaN(parsed) || parsed <= 0) {
+    console.warn(`⚠️ Invalid AGGREGATION_TIMEOUT_MS value "${envValue}" (must be > 0). Using default ${defaultMs}ms`);
+    return defaultMs;
+  }
+  
+  // Optionally warn if value seems unreasonably high (> 5 minutes)
+  if (parsed > 300000) {
+    console.warn(`⚠️ AGGREGATION_TIMEOUT_MS is very high (${parsed}ms). Consider reducing to avoid long-running queries.`);
+  }
+  
+  return parsed;
 };
 
 // Helper function to get data with timeout protection
@@ -78,9 +122,12 @@ const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) =>
     ]);
 
     // Execute aggregation with timeout
+    const aggregationTimeoutMs = getValidatedTimeoutMs(process.env.AGGREGATION_TIMEOUT_MS, 60000);
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), 20000)),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Aggregation timeout')), aggregationTimeoutMs),
+      ),
     ]);
 
     return result;
@@ -337,7 +384,7 @@ router.get('/getDataForEcoli', async function (req, res, next) {
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
     const projection = {
-      Name:1,
+      Name: 1,
       GENOTYPE: 1,
       COUNTRY_ONLY: 1,
       DATE: 1,
@@ -439,7 +486,7 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
     const projection = {
-      Name:1,
+      Name: 1,
       GENOTYPE: 1,
       COUNTRY_ONLY: 1,
       DATE: 1,
@@ -641,9 +688,12 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
       { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
       {
         $lookup: {
-          from: 'senterica-output-full',
-          let: { nameField: '$NAME' },
-          pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }, { $project: fieldsToProject }],
+          from: 'ints_collection_from_enterica', //TODO: change to actual collection name to keep same for entericaints and senterica
+          localField: 'NAME',
+          foreignField: 'NAME',
+          // from: 'senterica-output-full',
+          // let: { nameField: '$NAME' },
+          // pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }, { $project: fieldsToProject }],
           as: 'extraData',
         },
       },
