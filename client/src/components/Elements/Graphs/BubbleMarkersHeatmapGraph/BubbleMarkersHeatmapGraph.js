@@ -384,7 +384,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
 
     return [];
   }, [bubbleMarkersYAxisType, selectedCRData, statColumn, xAxisSelected, yAxisSelected, organism, drugClassesData]);
-  console.log('savedSelection', savedSelection, xAxisSelected, filteredXAxisOptions);
+  //console.log('savedSelection', savedSelection, xAxisSelected, filteredXAxisOptions);
 
   useEffect(() => {
     dispatch(setBubbleMarkersHeatmapGraphData(configuredMapData));
