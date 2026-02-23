@@ -24,7 +24,7 @@ const connectDB = async () => {
 
         // Test connection
         await client.db('ecoli2').command({ ping: 1 });
-        
+
         // Optional: Ensure indexes on startup (gated by env flag for edge cases where API must manage indexes)
         if (process.env.CREATE_INDEXES_ON_STARTUP === 'true') {
           try {
@@ -46,7 +46,7 @@ const connectDB = async () => {
             });
           }
         }
-        
+
         console.log('✅ API routes: MongoDB connection established');
         connectionAttempts = 0; // Reset on success
         break;
@@ -73,20 +73,22 @@ const connectDB = async () => {
 // Ensures timeout is a positive integer, falls back to default if invalid
 const getValidatedTimeoutMs = (envValue, defaultMs = 60000) => {
   if (!envValue) return defaultMs;
-  
+
   const parsed = Number.parseInt(envValue, 10);
-  
+
   // Check if parsing failed or value is non-positive
   if (Number.isNaN(parsed) || parsed <= 0) {
     console.warn(`⚠️ Invalid AGGREGATION_TIMEOUT_MS value "${envValue}" (must be > 0). Using default ${defaultMs}ms`);
     return defaultMs;
   }
-  
+
   // Optionally warn if value seems unreasonably high (> 5 minutes)
   if (parsed > 300000) {
-    console.warn(`⚠️ AGGREGATION_TIMEOUT_MS is very high (${parsed}ms). Consider reducing to avoid long-running queries.`);
+    console.warn(
+      `⚠️ AGGREGATION_TIMEOUT_MS is very high (${parsed}ms). Consider reducing to avoid long-running queries.`,
+    );
   }
-  
+
   return parsed;
 };
 
@@ -125,9 +127,7 @@ const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) =>
     const aggregationTimeoutMs = getValidatedTimeoutMs(process.env.AGGREGATION_TIMEOUT_MS, 60000);
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Aggregation timeout')), aggregationTimeoutMs),
-      ),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), aggregationTimeoutMs)),
     ]);
 
     return result;

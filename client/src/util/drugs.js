@@ -15,7 +15,7 @@ export const drugsST = [
   'Azithromycin',
   'Ceftriaxone',
   'Chloramphenicol',
-  'Ciprofloxacin',
+  'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'XDR',
   'MDR',
@@ -45,7 +45,7 @@ export const drugsSTLegendsOnly = [
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin',
+  'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'XDR',
   'MDR',
@@ -161,11 +161,10 @@ export const drugAcronyms = {
 };
 
 export const drugAcronymsOpposite = {
-  CipNS: 'Ciprofloxacin (non-susceptible)',
   CIP: 'Ciprofloxacin',
-  // CIP: 'Ciprofloxacin (non-susceptible)',
   AZM: 'Azithromycin',
   // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
+  CipNS: 'Ciprofloxacin (non-susceptible)',
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',
@@ -173,10 +172,10 @@ export const drugAcronymsOpposite = {
 };
 
 export const drugAcronymsOpposite2 = {
-  CipNS: 'Ciprofloxacin (non-susceptible)',
   CIP: 'Ciprofloxacin',
   AZM: 'Azithromycin',
   ESBL: 'Extended-Spectrum Beta-Lactamase',
+  CipNS: 'Ciprofloxacin (non-susceptible)',
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',
@@ -184,6 +183,7 @@ export const drugAcronymsOpposite2 = {
 
 export const ciproAcronyms = {
   Ciprofloxacin: 'Ciprofloxacin',
+  'Ciprofloxacin NS': 'Ciprofloxacin (non-susceptible)',
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
@@ -192,7 +192,7 @@ export const drugsECOLI = statKeysECOLI.map(x => x.name);
 export const drugsINTSLegendsOnly = drugRulesINTS.map(x => x.legends || x.key).sort((a, b) => a.localeCompare(b));
 export const drugsNGLegendsOnly = drugRulesNG.map(x => x.legends || x.key);
 export const drugsKlebLegendsOnly = drugsKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
-// export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
+//export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
 
 export function getDrugClasses(organism) {
   switch (organism) {

@@ -7,12 +7,18 @@ export const drugRulesST = [
   { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
   {
-    key: 'Ciprofloxacin',
+    key: 'Ciprofloxacin NS',
     columnID: 'cip_pred_pheno',
     values: ['CipNS'],
     legends: 'Ciprofloxacin (non-susceptible)',
   },
   { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)' },
+  {
+    key: 'Ciprofloxacin',
+    columnID: 'cip_pred_pheno',
+    values: ['CipNS', 'CipR'],
+    legends: 'Ciprofloxacin',
+  },
   { key: 'Sulfonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracycline', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
@@ -1210,14 +1216,17 @@ export const drugClassesRulesSENTERICA = {};
 
 // Sentericaints INTS
 export const drugRulesINTS = [
-  // { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
+  //TODO: test correct values
+  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
   // { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
+  //TODO: test correct values
   { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
   { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin' },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
   { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Macrolides', columnID: 'MACROLIDE', values: ['MACROLIDE'] },
+  //TODO: test correct values
   { key: 'Carbapenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
   { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
@@ -1242,7 +1251,7 @@ export const drugRulesINTS = [
 
 // Used for senterica
 export const statKeysINTS = [
-  { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
+  // { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Carbapenem', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
   { name: 'Macrolides', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
   { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
@@ -1270,16 +1279,16 @@ export const statKeysINTS2 = (() => {
       rules: [{ column: 'AMINOGLYCOSIDE', value: '-', equal: false }],
       every: true,
     },
-    {
-      name: 'Ampicillin',
-      resistanceView: true,
-      rules: [
-        { column: 'PENICILLIN', value: '-', equal: false },
-        { column: 'BETA-LACTAM', value: '-', equal: false },
-        { column: 'ESBL', value: '-', equal: false },
-      ],
-      every: false,
-    },
+    // {
+    //   name: 'Ampicillin',
+    //   resistanceView: true,
+    //   rules: [
+    //     { column: 'PENICILLIN', value: '-', equal: false },
+    //     { column: 'BETA-LACTAM', value: '-', equal: false },
+    //     { column: 'ESBL', value: '-', equal: false },
+    //   ],
+    //   every: false,
+    // },
     {
       name: 'Carbapenem',
       resistanceView: true,
@@ -1323,6 +1332,12 @@ export const statKeysINTS2 = (() => {
       every: true,
     },
     {
+      name: 'Trimethoprim',
+      resistanceView: true,
+      rules: [{ column: 'TRIMETHOPRIM', value: '-', equal: false }],
+      every: true,
+    },
+    {
       name: 'Sulfamethoxazole',
       resistanceView: true,
       rules: [{ column: 'SULFONAMIDE', value: '-', equal: false }],
@@ -1335,20 +1350,14 @@ export const statKeysINTS2 = (() => {
       every: true,
     },
     {
-      name: 'Trimethoprim',
+      name: 'Trimethoprim-Sulfamethoxazole',
       resistanceView: true,
-      rules: [{ column: 'TRIMETHOPRIM', value: '-', equal: false }],
+      rules: [
+        { column: 'SULFONAMIDE', value: '-', equal: false },
+        { column: 'TRIMETHOPRIM', value: '-', equal: false },
+      ],
       every: true,
     },
-    // {
-    //   name: 'Trimethoprim-Sulfamethoxazole',
-    //   resistanceView: true,
-    //   rules: [
-    //     { column: 'TRIMETHOPRIM', value: '-', equal: false },
-    //     { column: 'SULFONAMIDE', value: '-', equal: false },
-    //   ],
-    //   every: true,
-    // },
   ];
 
   const uniqueColumns = [...new Set(items.flatMap(item => item.rules.map(rule => rule.column)))];
@@ -1510,6 +1519,7 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
+  // sentericaints: statKeysINTS,
   sentericaints: statKeysINTS2,
   shige: statKeysECOLI,
   senterica: statKeysINTS,
