@@ -331,7 +331,7 @@ function getMapStatsData({
     // Special handling for ECOLI-like organisms which use rule sets instead of
     // direct column values. In those cases `statsKey` is the rule name and
     // we must evaluate the rule definitions from `statKeysECOLI`.
-    const useECOLIRules = ['ecoli', 'decoli', 'shige'].includes(organism);
+    // const useECOLIRules = ['ecoli', 'decoli', 'shige'].includes(organism); // Removed duplicated code and moved to top of function since it's used in multiple places
 
     let rawValues = [];
 
