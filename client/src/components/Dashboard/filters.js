@@ -361,9 +361,10 @@ function getMapStatsData({
       // If statsKey is an array, check if ANY key is present in ANY column value
         if (Array.isArray(statsKey)) {
           const found = rawValues.some(val =>
-            statsKey.some(key =>
-              val && typeof val === 'string' ? val.includes(key) : false
-            )
+            statsKey.some(key => {
+              const strVal = val == null ? '' : String(val);
+              return strVal.includes(key);
+            })
           );
           if (!found) {
             if (isPan) {
@@ -373,9 +374,11 @@ function getMapStatsData({
             continue;
           }
         } else {
+          
           if (rawValues.every(val => {
             if (val === '-' || !val) return true;
-            return typeof val === 'string' ? !val.includes(statsKey) : true;
+            const strVal = String(val);
+            return !strVal.includes(statsKey);
           })) {
             if (isPan) {
               allDashCount += 1;
@@ -739,7 +742,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       color: pallete[item],
     });
   }
-
+  console.log('getMapStatsData generated mapData for', mapData);
   return mapData;
 }
 
