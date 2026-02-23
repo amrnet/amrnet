@@ -355,6 +355,15 @@ function getMapStatsData({
       // Collect the actual column values from rules to build gene list
       rawValues = drug.rules.map(r => item[r.column]).filter(v => v && v !== '-' && v !== 'ND');
       if (rawValues.length === 0) continue;
+    } else if (['kpneumo'].includes(organism)) {
+        rawValues = columnKeys.map(k => item[k]);
+          if (rawValues.every(val => val === '-')) {
+            if (isPan) {
+              allDashCount += 1;
+              allDashNames.push(name);
+            }
+            continue;
+          }
     } else {
       rawValues = columnKeys.map(k => item[k]);
 
@@ -374,11 +383,9 @@ function getMapStatsData({
             continue;
           }
         } else {
-          
           if (rawValues.every(val => {
-            if (val === '-' || !val) return true;
-            const strVal = String(val);
-            return !strVal.includes(statsKey);
+            if (val === '-' || val == null) return true;
+            return !String(val).includes(statsKey);
           })) {
             if (isPan) {
               allDashCount += 1;
