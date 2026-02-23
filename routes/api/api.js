@@ -24,24 +24,6 @@ const connectDB = async () => {
 
         // Test connection
         await client.db('ecoli2').command({ ping: 1 });
-        // Ensure index on lookup collection to avoid $lookup full collection scans
-        try {
-          //TODO: change to actual collection name to keep same for entericaints and senterica
-          const lookupDb = client.db('sentericaints');
-          const lookupColl = lookupDb.collection('ints_collection_from_enterica');
-          const indexSpec = { NAME: 1 };
-          // createIndex is idempotent if the index already exists
-          await lookupColl.createIndex(indexSpec);
-        } catch (indexErr) {
-          console.error('Failed to ensure index on lookup collection', {
-            dbName: 'sentericaints',
-            collection: 'ints_collection_from_enterica',
-            indexSpec: { NAME: 1 },
-            errorName: indexErr?.name,
-            errorMessage: indexErr?.message,
-            errorStack: indexErr?.stack,
-          });
-        }
         console.log('✅ API routes: MongoDB connection established');
         connectionAttempts = 0; // Reset on success
         break;
