@@ -359,28 +359,31 @@ function getMapStatsData({
       rawValues = columnKeys.map(k => item[k]);
 
       // If statsKey is an array, check if ANY key is present in ANY column value
-      if (Array.isArray(statsKey)) {
-        const found = rawValues.some(val =>
-          Array.isArray(statsKey)
-            ? statsKey.some(key => val && typeof val === 'string' && val.includes(key))
-            : val && typeof val === 'string' && val.includes(statsKey)
-        );
-        if (!found) {
-          if (isPan) {
-            allDashCount += 1;
-            allDashNames.push(name);
+        if (Array.isArray(statsKey)) {
+          const found = rawValues.some(val =>
+            statsKey.some(key =>
+              val && typeof val === 'string' ? val.includes(key) : false
+            )
+          );
+          if (!found) {
+            if (isPan) {
+              allDashCount += 1;
+              allDashNames.push(name);
+            }
+            continue;
           }
-          continue;
-        }
-      } else {
-        if (rawValues.every(val => (val === '-' || !val || !val.includes(statsKey)))) {
-          if (isPan) {
-            allDashCount += 1;
-            allDashNames.push(name);
+        } else {
+          if (rawValues.every(val => {
+            if (val === '-' || !val) return true;
+            return typeof val === 'string' ? !val.includes(statsKey) : true;
+          })) {
+            if (isPan) {
+              allDashCount += 1;
+              allDashNames.push(name);
+            }
+            continue;
           }
-          continue;
         }
-      }
     }
 
     // Clean & collect gene values
