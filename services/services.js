@@ -13,6 +13,8 @@ const path_clean_dec = path.join(__dirname, '../assets/webscrap/clean/decoli/cle
 const path_clean_sh = path.join(__dirname, '../assets/webscrap/clean/shige/clean_sh.csv');
 const path_clean_se = path.join(__dirname, '../assets/webscrap/clean/senterica/clean_se.csv');
 const path_clean_seints = path.join(__dirname, '../assets/webscrap/clean/sentericaints/clean_seints.csv');
+const path_clean_sa = path.join(__dirname, '../assets/webscrap/clean/saureus/clean_sa.csv');
+const path_clean_sp = path.join(__dirname, '../assets/webscrap/clean/spneumo/clean_sp.csv');
 const path_clean_all_kp = path.join(__dirname, '../assets/webscrap/clean/kpneumo/cleanAll_kp.csv');
 const path_clean_all_st = path.join(__dirname, '../assets/webscrap/clean/styphi/cleanAll_st.csv');
 const path_clean_all_ng = path.join(__dirname, '../assets/webscrap/clean/ngono/cleanAll_ng.csv');
@@ -21,6 +23,8 @@ const path_clean_all_sh = path.join(__dirname, '../assets/webscrap/clean/shige/c
 const path_clean_all_se = path.join(__dirname, '../assets/webscrap/clean/senterica/cleanAll_se.csv');
 const path_clean_all_decoli = path.join(__dirname, '../assets/webscrap/clean/decoli/cleanAll_decoli.csv');
 const path_clean_all_seints = path.join(__dirname, '../assets/webscrap/clean/sentericaints/cleanAll_seints.csv');
+const path_clean_all_sa = path.join(__dirname, '../assets/webscrap/clean/saureus/cleanAll_sa.csv');
+const path_clean_all_sp = path.join(__dirname, '../assets/webscrap/clean/spneumo/cleanAll_sp.csv');
 var path_clean_db_st;
 const watcher = chokidar.watch(path.join(__dirname, '../assets/webscrap/clean/styphi/'), {
   ignored: /^\./,
@@ -62,10 +66,14 @@ export {
   path_clean_ec,
   path_clean_sh,
   path_clean_se,
+  path_clean_sa,
+  path_clean_sp,
   path_clean_all_st,
   path_clean_all_kp,
   path_clean_all_ec,
   path_clean_all_ng,
   path_clean_all_sh,
   path_clean_all_se,
+  path_clean_all_sa,
+  path_clean_all_sp,
 };

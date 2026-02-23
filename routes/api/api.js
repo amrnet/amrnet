@@ -172,6 +172,8 @@ const dbAndCollectionNames = {
   ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
   decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
   shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
+  saureus: { dbName: 'saureus', collectionName: 'amrnetdb_saureus' },
+  spneumo: { dbName: 'strepneumo', collectionName: 'amrnetdb_spneumo' },
   senterica: { dbName: 'senterica', collectionName: 'senterica-hc2850' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
   unr: { dbName: 'unr', collectionName: 'unr' },
@@ -713,6 +715,52 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/getDataForSaureus', async function (req, res, next) {
+  const dbAndCollection = dbAndCollectionNames['saureus'];
+  try {
+    const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
+      'dashboard view': { $regex: /^include$/, $options: 'i' },
+    });
+
+    console.log(`[Saureus API] Found ${result.length} documents for Saureus.`);
+
+    if (result.length > 0) {
+      return res.json(result);
+    }
+
+    console.warn('[Saureus API] No documents found in the database, falling back to TSV.');
+
+    // Fallback to reading from TSV if no data found in MongoDB
+    return readCsvFallback(Tools.path_clean_sa, res);
+  } catch (error) {
+    console.error(`[Saureus API] Error retrieving data for Saureus: ${error.message}`);
+    res.status(500).json({ error: `Failed to retrieve Saureus data: ${error.message}` });
+  }
+});
+
+router.get('/getDataForSpneumo', async function (req, res, next) {
+  const dbAndCollection = dbAndCollectionNames['spneumo'];
+  try {
+    const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
+      'dashboard view': { $regex: /^include$/, $options: 'i' },
+    });
+
+    console.log(`[Spneumo API] Found ${result.length} documents for Spneumo.`);
+
+    if (result.length > 0) {
+      return res.json(result);
+    }
+
+    console.warn('[Spneumo API] No documents found in the database, falling back to TSV.');
+
+    // Fallback to reading from TSV if no data found in MongoDB
+    return readCsvFallback(Tools.path_clean_sp, res);
+  } catch (error) {
+    console.error(`[Spneumo API] Error retrieving data for Spneumo: ${error.message}`);
+    res.status(500).json({ error: `Failed to retrieve Spneumo data: ${error.message}` });
   }
 });
 

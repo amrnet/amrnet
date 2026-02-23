@@ -1,4 +1,4 @@
-import { decoli, ecoli, ints, kleb, ngono, senterica, shig, typhi } from '../assets/organisms';
+import { decoli, ecoli, ints, kleb, ngono, saureus, senterica, shig, spneumo, typhi } from '../assets/organisms';
 
 export const organismsCards = [
   {
@@ -89,6 +89,28 @@ export const organismsCards = [
     value: 'ecoli',
     abbr: 'E. coli',
     img: ecoli,
+  },
+  {
+    label: (
+      <span>
+        <i>Staphylococcus aureus</i>
+      </span>
+    ),
+    stringLabel: 'Staphylococcus aureus',
+    value: 'saureus',
+    abbr: 'S. aureus',
+    img: saureus,
+  },
+  {
+    label: (
+      <span>
+        <i>Streptococcus pneumoniae</i>
+      </span>
+    ),
+    stringLabel: 'Streptococcus pneumoniae',
+    value: 'spneumo',
+    abbr: 'S. pneumoniae',
+    img: spneumo,
   },
 ];
 

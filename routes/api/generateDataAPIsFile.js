@@ -35,6 +35,12 @@ router.post('/download', async function (req, res, next) {
   } else if (organism === 'shige') {
     collection = client.db('shige').collection('amrnetdb_shige');
     localFilePath = Tools.path_clean_all_sh;
+  } else if (organism === 'saureus') {
+    collection = client.db('saureus').collection('amrnetdb_saureus');
+    localFilePath = Tools.path_clean_all_sa;
+  } else if (organism === 'spneumo') {
+    collection = client.db('strepneumo').collection('amrnetdb_spneumo');
+    localFilePath = Tools.path_clean_all_sp;
   } else if (organism === 'sentericaints') {
     collection = client.db('sentericaints').collection('merge_rawdata_sients');
     localFilePath = Tools.path_clean_all_sh;
@@ -155,6 +161,18 @@ router.get('/generate/:organism', async function (req, res, next) {
     ext = 'sh';
     collection_ext = 'sh';
     fileName = 'cleanAll_sh.csv';
+  } else if (organism === 'saureus') {
+    collection = client.db('saureus').collection('amrnetdb_saureus');
+    folderName = 'saureus';
+    ext = 'sa';
+    collection_ext = 'sa';
+    fileName = 'cleanAll_sa.csv';
+  } else if (organism === 'spneumo') {
+    collection = client.db('strepneumo').collection('amrnetdb_spneumo');
+    folderName = 'spneumo';
+    ext = 'sp';
+    collection_ext = 'sp';
+    fileName = 'cleanAll_sp.csv';
   } else if (organism === 'sentericaints') {
     collection = client.db('sentericaints').collection('merge_rawdata_sients');
     folderName = 'sentericaints';
@@ -231,6 +249,16 @@ router.get('/clean/:organism', async function (req, res, next) {
     ext = 'sh';
     collection_ext = 'sh';
     database = 'shige';
+  } else if (organism === 'saureus') {
+    folderName = 'saureus';
+    ext = 'sa';
+    collection_ext = 'sa';
+    database = 'saureus';
+  } else if (organism === 'spneumo') {
+    folderName = 'spneumo';
+    ext = 'sp';
+    collection_ext = 'sp';
+    database = 'strepneumo';
   } else if (organism === 'sentericaints') {
     folderName = 'sentericaints';
     ext = 'seints';

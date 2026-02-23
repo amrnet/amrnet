@@ -592,17 +592,6 @@ export const DashboardPage = () => {
         },
       ),
 
-      // Get ngmast data
-      // organism === 'ngono'
-      //   ? getStoreOrGenerateData(`${organism}_ngmast`, () => {
-      // const dt = getNgmastData({ data: responseData, ngmast, organism });
-      //       return [dt.ngmastDrugData, dt.ngmastDrugClassesData];
-      //     }).then(([ngmastDrugData, ngmastDrugClassesData]) => {
-      //       dispatch(setNgmastDrugsData(ngmastDrugData));
-      //       dispatch(setCustomDropdownMapViewNG(ngmastDrugData.slice(0, 1).map(x => x.name)));
-      //     })
-      //   : Promise.resolve(),
-
       // Get years data
       getStoreOrGenerateData(`${organism}_years`, () => {
         const dt = getYearsData({
@@ -1076,6 +1065,8 @@ export const DashboardPage = () => {
       shige: 'getDataForShige',
       senterica: 'getDataForSenterica',
       sentericaints: 'getDataForSentericaints',
+      saureus: 'getDataForSaureus',
+      spneumo: 'getDataForSpneumo',
     };
     return endpoints[organism] || 'getDataForSTyphi';
   }

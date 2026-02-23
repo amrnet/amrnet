@@ -29,6 +29,8 @@ class SmartDataProcessor {
         'ecoli': 'getDataForEcoli',
         'decoli': 'getDataForDEcoli',
         'shige': 'getDataForShige',
+        'saureus': 'getDataForSaureus',
+        'spneumo': 'getDataForSpneumo',
         'senterica': 'getDataForSenterica',
         'sentericaints': 'getDataForSentericaints'
       };

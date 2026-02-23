@@ -1,13 +1,12 @@
-import CombinedModel from '../models/combined.js';
-import express from 'express';
-import csv from 'csv-parser';
-import { promisify } from 'util';
 import { exec as execCallback } from 'child_process';
-import fs from 'fs';
 import { detailedDiff } from 'deep-object-diff';
+import express from 'express';
+import fs from 'fs';
 import LZString from 'lz-string';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { promisify } from 'util';
+import CombinedModel from '../models/combined.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 let URI = process.env.MONGODB_URI;
 
@@ -39,7 +38,7 @@ router.post('/upload/admin', (req, res) => {
       if (count > 0) {
         CombinedModel.collection.drop();
       }
-      CombinedModel.insertMany(aux.data, (error) => {
+      CombinedModel.insertMany(aux.data, error => {
         if (error) return res.json({ Status: `Error! ${error}` });
         res.json({ Status: 'Uploaded' });
       });
@@ -53,7 +52,7 @@ router.post('/upload/admin', (req, res) => {
 router.get('/checkForChanges', async (req, res) => {
   let response = [];
 
-  response = await CombinedModel.find().then(async (comb) => {
+  response = await CombinedModel.find().then(async comb => {
     let send_comb = [];
     for (let data of comb) {
       let aux_data = JSON.parse(JSON.stringify(data));
@@ -81,7 +80,7 @@ router.get('/checkForChanges', async (req, res) => {
     res.json({ Status: 'New Data' });
   } else {
     const difference = detailedDiff(collection, data);
-    Object.keys(difference.updated).forEach((element) => {
+    Object.keys(difference.updated).forEach(element => {
       for (const key in difference.updated[element]) {
         difference.updated[element][key] = {
           new: difference.updated[element][key],
@@ -89,11 +88,11 @@ router.get('/checkForChanges', async (req, res) => {
         };
       }
     });
-    Object.keys(difference.deleted).forEach((element) => {
+    Object.keys(difference.deleted).forEach(element => {
       difference.deleted[element] = collection[element];
     });
 
-    if (Object.keys(difference).filter((x) => Object.keys(difference[x]).length > 0).length > 0) {
+    if (Object.keys(difference).filter(x => Object.keys(difference[x]).length > 0).length > 0) {
       const currentDate = new Date();
       aux.splice(0, 0, {
         updatedAt: currentDate.toISOString(),
@@ -136,7 +135,7 @@ router.post('/deleteChange', (req, res) => {
 
 const STyphifolderPath = path.join(__dirname, '../assets/webscrap/clean/styphi');
 router.get('/import/styphi', async (req, res) => {
-  const jsonFiles = fs.readdirSync(STyphifolderPath).filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(STyphifolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'styphi';
 
@@ -162,7 +161,7 @@ router.get('/import/styphi', async (req, res) => {
 
 const KlebfolderPath = path.join(__dirname, '../assets/webscrap/clean/kpneumo');
 router.get('/import/kpneumo', async (req, res) => {
-  const jsonFiles = fs.readdirSync(KlebfolderPath).filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(KlebfolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'kpneumo';
   try {
@@ -186,7 +185,7 @@ router.get('/import/kpneumo', async (req, res) => {
 
 const NgonofolderPath = path.join(__dirname, '../assets/webscrap/clean/ngono');
 router.get('/import/ngono', async (req, res) => {
-  const jsonFiles = fs.readdirSync(NgonofolderPath).filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(NgonofolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'ngono';
   try {
@@ -210,7 +209,7 @@ router.get('/import/ngono', async (req, res) => {
 
 const EcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/ecoli');
 router.get('/import/ecoli', async (req, res) => {
-  const jsonFiles = fs.readdirSync(EcolifolderPath).filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(EcolifolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'ecoli';
   try {
@@ -233,7 +232,7 @@ router.get('/import/ecoli', async (req, res) => {
 });
 const DEcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/decoli');
 router.get('/import/decoli', async (req, res) => {
-  const jsonFiles = fs.readdirSync(DEcolifolderPath).filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(DEcolifolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'decoli';
   try {
@@ -256,8 +255,10 @@ router.get('/import/decoli', async (req, res) => {
 });
 
 const ShigefolderPath = path.join(__dirname, '../assets/webscrap/clean/shige');
+const SAureusfolderPath = path.join(__dirname, '../assets/webscrap/clean/saureus');
+const SPneumofolderPath = path.join(__dirname, '../assets/webscrap/clean/spneumo');
 router.get('/import/shige', async (req, res) => {
-  const jsonFiles = fs.readdirSync(ShigefolderPath).filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(ShigefolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'shige';
   try {
@@ -279,9 +280,55 @@ router.get('/import/shige', async (req, res) => {
   }
 });
 
+router.get('/import/saureus', async (req, res) => {
+  const jsonFiles = fs.readdirSync(SAureusfolderPath).filter(file => file.endsWith('.json'));
+
+  const dbName = 'saureus';
+  try {
+    const importPromises = [];
+    for (const jsonFile of jsonFiles) {
+      const collectionName = jsonFile.replace('.json', '');
+      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${SAureusfolderPath}/${jsonFile}' --jsonArray`;
+      const importPromise = exec(command);
+      importPromises.push(importPromise);
+      console.log(`jsonFile: ${jsonFile}`);
+    }
+    await Promise.all(importPromises);
+
+    console.log(`All data imported successfully`);
+    return res.status(200).send('All data imported successfully');
+  } catch (error) {
+    console.error('Error importing data:', error);
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
+router.get('/import/spneumo', async (req, res) => {
+  const jsonFiles = fs.readdirSync(SPneumofolderPath).filter(file => file.endsWith('.json'));
+
+  const dbName = 'strepneumo';
+  try {
+    const importPromises = [];
+    for (const jsonFile of jsonFiles) {
+      const collectionName = jsonFile.replace('.json', '');
+      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${SPneumofolderPath}/${jsonFile}' --jsonArray`;
+      const importPromise = exec(command);
+      importPromises.push(importPromise);
+      console.log(`jsonFile: ${jsonFile}`);
+    }
+    await Promise.all(importPromises);
+
+    console.log(`All data imported successfully`);
+    return res.status(200).send('All data imported successfully');
+  } catch (error) {
+    console.error('Error importing data:', error);
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
 const SentericafolderPath = path.join(__dirname, '../assets/webscrap/clean/senterica');
 router.get('/import/senterica', async (req, res) => {
-  const jsonFiles = fs.readdirSync(SentericafolderPath).filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(SentericafolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'senterica';
   try {
@@ -305,7 +352,7 @@ router.get('/import/senterica', async (req, res) => {
 
 const SentericaintsfolderPath = path.join(__dirname, '../assets/webscrap/clean/sentericaints');
 router.get('/import/sentericaints', async (req, res) => {
-  const jsonFiles = fs.readdirSync(SentericaintsfolderPath).filter((file) => file.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(SentericaintsfolderPath).filter(file => file.endsWith('.json'));
 
   const dbName = 'sentericaints';
   try {
