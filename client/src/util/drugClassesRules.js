@@ -1279,16 +1279,16 @@ export const statKeysINTS2 = (() => {
       rules: [{ column: 'AMINOGLYCOSIDE', value: '-', equal: false }],
       every: true,
     },
-    // {
-    //   name: 'Ampicillin',
-    //   resistanceView: true,
-    //   rules: [
-    //     { column: 'PENICILLIN', value: '-', equal: false },
-    //     { column: 'BETA-LACTAM', value: '-', equal: false },
-    //     { column: 'ESBL', value: '-', equal: false },
-    //   ],
-    //   every: false,
-    // },
+    {
+      name: 'Ampicillin',
+      resistanceView: true,
+      rules: [
+        { column: 'PENICILLIN', value: '-', equal: false },
+        { column: 'BETA-LACTAM', value: '-', equal: false },
+        { column: 'ESBL', value: '-', equal: false },
+      ],
+      every: false,
+    },
     {
       name: 'Carbapenem',
       resistanceView: true,
@@ -1519,7 +1519,7 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
-  // sentericaints: statKeysINTS,
+  //sentericaints: statKeysINTS,
   sentericaints: statKeysINTS2,
   shige: statKeysECOLI,
   senterica: statKeysINTS,
