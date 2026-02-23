@@ -1240,7 +1240,7 @@ export const drugRulesINTS = [
   },
 ];
 
-// Used for senterica
+// Used for senterica, statKeysINTS2 is not used anymore, statKeysINTS is the only one used for senterica and sentericaints both
 export const statKeysINTS = [
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
   { name: 'Carbapenem', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
@@ -1260,8 +1260,6 @@ export const statKeysINTS = [
     resistanceView: true,
   },
 ];
-
-// statKeysINTS2 is not used anymore, statKeysINTS is the only one used for senterica and sentericaints both
 
 // Used for shige, ecoli and decoli
 export const statKeysECOLI = (() => {
