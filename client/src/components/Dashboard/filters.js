@@ -749,7 +749,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       color: pallete[item],
     });
   }
-  console.log('getMapStatsData generated mapData for', mapData);
+  // console.log('getMapStatsData generated mapData for', mapData);
   return mapData;
 }
 
