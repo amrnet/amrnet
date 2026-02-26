@@ -65,7 +65,7 @@ export const drugsNG = [
   'Spectinomycin',
   'Sulfonamides',
   'Tetracycline',
-  'Pansusceptible',
+  'Susceptible to cat I/II drugs',
 ];
 
 // export const drugsNGLegendsOnly = [
@@ -92,7 +92,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
   'MDR',
   'Benzylpenicillin',
   'Spectinomycin',
-  'Pansusceptible',
+  'Susceptible to cat I/II drugs',
 ];
 
 // List of Klebsiella drugs
