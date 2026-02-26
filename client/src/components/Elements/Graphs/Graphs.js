@@ -498,8 +498,15 @@ export const Graphs = () => {
       logo.src = LogoImg;
       await logoPromise;
 
+      const legendImg = document.createElement('img');
+      const legendPromise = imgOnLoadPromise(legendImg);
+      legendImg.src = '/legends/HeatMapLegend.png';
+      await legendPromise;
       ctx.drawImage(logo, 10, 10, 155, 80);
-      if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id)) ctx.drawImage(graphImg, 40, 220);
+      if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id)){
+        ctx.drawImage(graphImg, 40, 220);
+        ctx.drawImage(legendImg, canvas.width/1.5, 200);        
+      }
       else ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
 
       ctx.font = 'bold 18px Montserrat';
