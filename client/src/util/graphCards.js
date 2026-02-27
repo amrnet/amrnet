@@ -9,6 +9,8 @@ import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanc
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { useTranslation } from 'react-i18next';
+import { t } from 'react-i18next';
 
 function getHeatMapsTitle(organism, t) {
   switch (organism) {
@@ -19,7 +21,7 @@ function getHeatMapsTitle(organism, t) {
   }
 }
 
-export const getGraphCards = (t) => {
+export function getGraphCards(t){
   const heatmapCards = organismsCards.map(organismCard => ({
     title: getHeatMapsTitle(organismCard.value, t),
     description: [''],
