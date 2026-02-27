@@ -391,7 +391,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                                 <span>{drugAcronymsOpposite['MDR']}</span>
                               </Tooltip>
                             );
-                          } else if (dataKey === 'Pansusceptible' && organism === 'ngono') {
+                          } else if (dataKey === 'Susceptible to cat I/II drugs' && organism === 'ngono') {
                             dataKeyElement = (
                               <Tooltip title={getSusceptibleDefinition()} placement="top">
                                 <span>Susceptible to cat I/II drugs</span>

@@ -94,7 +94,7 @@ export const drugRulesNG = [
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Benzylpenicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Pansusceptible', columnID: ['Susceptible'], values: ['1'], legends: 'Susceptible to cat I/II drugs' },
+  { key: 'Susceptible to cat I/II drugs', columnID: ['Susceptible'], values: ['1'], legends: 'Susceptible to cat I/II drugs' },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
   { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
   { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
