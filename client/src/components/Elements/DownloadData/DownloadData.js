@@ -325,7 +325,8 @@ export const DownloadData = () => {
   }
 
   function getOrganismCards() {
-    return graphCards.filter(card => card.organisms.includes(organism));
+    const cards = getGraphCards(t);
+    return cards.filter(card => card.organisms.includes(organism));
   }
 
   function getGenotypeColor(genotype) {
@@ -1356,7 +1357,7 @@ export const DownloadData = () => {
           drugAcronymsOpposite[prevalenceMapViewOptionsSelected] ||
           prevalenceMapViewOptionsSelected;
 
-        const genotypesText = resolvedOptions.join(', ');
+        const genotypesText = resolvedOptions;
         drawWrappedText(mapView, genotypesText);
       }
 
