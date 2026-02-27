@@ -75,6 +75,7 @@ const drugColorMap = {
   'Multidrug resistant (MDR)': 14,
   MDR: 14,
   Pansusceptible: '#808080', // fixed gray
+  'Susceptible to cat I/II drugs': '#808080', // fixed gray
   Spectinomycin: 15,
   Sulfamethoxazole: 15,
   Tetracycline: 16,

@@ -33,6 +33,7 @@ import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { getColorForDrug } from './graphColorHelper';
 import { useStyles } from './GraphsMUI';
 import { SwitchColour } from '../SwitchColour/SwitchColour';
+import { variableGraphOptions, variableGraphOptionsNG } from '../../../util/convergenceVariablesOptions';
 export const Graphs = () => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -498,8 +499,15 @@ export const Graphs = () => {
       logo.src = LogoImg;
       await logoPromise;
 
+      const legendImg = document.createElement('img');
+      const legendPromise = imgOnLoadPromise(legendImg);
+      legendImg.src = '/legends/HeatMapLegend.png';
+      await legendPromise;
       ctx.drawImage(logo, 10, 10, 155, 80);
-      if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id)) ctx.drawImage(graphImg, 40, 220);
+      if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id)){
+        ctx.drawImage(graphImg, 40, 220);
+        ctx.drawImage(legendImg, canvas.width/1.5, 200);        
+      }
       else ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
 
       ctx.font = 'bold 18px Montserrat';
@@ -537,11 +545,21 @@ export const Graphs = () => {
       ctx.fillText(`Country: ${actualCountry}`, canvas.width / 2, 186);
       if (currentCard.id === 'RDWG') ctx.fillText(`Drug Class: ${determinantsGraphDrugClass}`, canvas.width / 2, 198);
       if (currentCard.id === 'RDT') ctx.fillText(`Drug Class: ${trendsGraphDrugClass}`, canvas.width / 2, 198);
-      if (currentCard.id === 'KO') ctx.fillText(`Data view: ${KODiversityGraphView}`, canvas.width / 2, 198);
+      if (currentCard.id === 'KOT') {
+        ctx.fillText(`Selected Options to plot: ${KODiversityGraphView}`, canvas.width / 2, 198);
+      }if (currentCard.id === 'BKOH') {
+        ctx.fillText(`Selected K/O type: ${KODiversityGraphView}`, canvas.width / 2, 198);
+        const group = variablesOptions.find(option => option.value === convergenceGroupVariable).label;
+        ctx.fillText(`Selected Genotype: ${group}`, canvas.width / 2, 210);
+      }
       if (currentCard.id === 'convergence-graph') {
         const group = variablesOptions.find(option => option.value === convergenceGroupVariable).label;
-        const colour = variablesOptions.find(option => option.value === convergenceColourVariable).label;
-        ctx.fillText(`Group variable: ${group} / Colour variable: ${colour}`, canvas.width / 2, 198);
+        ctx.fillText(`Group variable: ${group}`, canvas.width / 2, 198);
+      }if (currentCard.id === 'GD') {
+        const group = organism === 'ngono'
+          ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+          : variablesOptions.find(option => option.value === distributionGraphVariable)?.label;
+        ctx.fillText(`Select variable: ${group}`, canvas.width / 2, 198);
       }
 
       ctx.fillStyle = 'white';
@@ -552,7 +570,6 @@ export const Graphs = () => {
       if ('RFWG'.includes(currentCard.id)) {
         ctx.fillRect(0, 650 - mobileFactor, canvas.width, canvas.height);
         const legendDrugs = organism === 'styphi' ? drugsST : drugsKP;
-
         drawLegend({
           legendData: legendDrugs,
           context: ctx,
