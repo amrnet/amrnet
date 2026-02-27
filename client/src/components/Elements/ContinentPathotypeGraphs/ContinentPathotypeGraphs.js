@@ -115,6 +115,10 @@ export const ContinentPathotypeGraphs = () => {
 
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
+      const legendImg = document.createElement('img');
+      const legendPromise = imgOnLoadPromise(legendImg);
+      legendImg.src = '/legends/HeatMapLegend.png';
+      await legendPromise;
 
       graphImg.src = await domtoimage.toPng(graph, { quality: 0.1, bgcolor: 'white' });
 
@@ -140,6 +144,7 @@ export const ContinentPathotypeGraphs = () => {
 
       ctx.drawImage(logo, 10, 10, 155, 80);
       ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
+      ctx.drawImage(legendImg, canvas.width/1.5, 200);
 
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
