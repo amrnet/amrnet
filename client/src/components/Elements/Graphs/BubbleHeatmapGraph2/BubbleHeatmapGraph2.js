@@ -113,7 +113,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
 
     return (
       Object.entries(drugs)
-        .filter(x => x[1] > 0)
+        // .filter(x => x[1] > 0) // optionally filter out drugs with 0 count
         .map(x => x[0]) ?? []
     );
   }, [organism, selectedCRData?.stats]);
