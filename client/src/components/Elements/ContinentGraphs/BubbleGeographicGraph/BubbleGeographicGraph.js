@@ -136,7 +136,7 @@ const yOptions = [
   },
   {
     value: 'genotype',
-    label: 'Lineage prevalence',
+    label: 'Lineage prevalence (ST)',
     organisms: ['sentericaints', 'senterica'],
   },
   {

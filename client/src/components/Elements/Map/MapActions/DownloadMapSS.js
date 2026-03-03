@@ -141,7 +141,7 @@ export const DownloadMapSS = async ({
 
       const prevalenceMapViews = [
         'Genotype prevalence',
-        'Lineage prevalence',
+        'Lineage prevalence (ST)',
         'ST prevalence',
         'Sublineage prevalence',
         'Pathotype prevalence',
@@ -218,7 +218,7 @@ export const DownloadMapSS = async ({
           break;
         case 'NG-MAST prevalence':
         case 'Genotype prevalence':
-        case 'Lineage prevalence':
+        case 'Lineage prevalence (ST)':
         case 'ST prevalence':
         case 'Sublineage prevalence':
           legendImg.src = 'legends/MapView_prevalence.png';
