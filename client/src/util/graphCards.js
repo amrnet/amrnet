@@ -15,6 +15,7 @@ import { t } from 'react-i18next';
 function getHeatMapsTitle(organism, t) {
   switch (organism) {
     case 'sentericaints':
+    case 'senterica':
       return t('graphs.amrByLineage');
     default:
       return t('graphs.amrByGenotype');
@@ -62,7 +63,15 @@ export function getGraphCards(t){
       description: [''],
       icon: <ViewModule color="primary" />,
       id: 'BAMRH',
-      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
+      organisms: ['ngono', 'kpneumo', 'styphi', 'shige',, 'decoli', 'ecoli',],
+      component: <BubbleMarkersHeatmapGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByLineage'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BAMRH',
+      organisms: ['senterica','sentericaints'],
       component: <BubbleMarkersHeatmapGraph />,
     },
     {
