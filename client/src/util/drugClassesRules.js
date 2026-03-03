@@ -1213,7 +1213,7 @@ export const drugRulesINTS = [
   { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },//TODO: test correct values
   // { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
-  { key: 'Carbapenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },//TODO: test correct values
+  { key: 'Carbapenems', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },//TODO: test correct values
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
   { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin' },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
@@ -1244,7 +1244,7 @@ export const drugRulesINTS = [
 export const statKeysINTS = [
   { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
-  { name: 'Carbapenem', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
+  { name: 'Carbapenems', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'Ciprofloxacin', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
