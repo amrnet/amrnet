@@ -220,6 +220,7 @@
     "amrByGenotype": "AMR by Genotype",
     "amrMarkerTrends": "AMR Marker Trends",
     "amrMarkerByGenotype": "AMR Marker by Genotype",
+    "amrMarkerByLineage": "AMR Marker by Lineage",
     "amrVirulence": "AMR by Virulence",
     "lineageTrends": "Lineage Trends",
     "koTrends": "KO Trends",
