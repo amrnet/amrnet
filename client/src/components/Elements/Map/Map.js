@@ -167,7 +167,7 @@ export const Map = () => {
           break;
         case 'Genotype prevalence':
         case 'ST prevalence':
-        case 'Lineage prevalence':
+        case 'Lineage prevalence (ST)':
         case 'Serotype prevalence':
         case 'O prevalence':
         case 'H prevalence':
@@ -274,7 +274,7 @@ export const Map = () => {
       'Resistance prevalence',
       'No. Samples',
       'NG-MAST prevalence',
-      'Lineage prevalence',
+      'Lineage prevalence (ST)',
     ].includes(mapView);
   }
 
@@ -455,7 +455,7 @@ export const Map = () => {
                             break;
                           }
                           case 'Genotype prevalence':
-                          case 'Lineage prevalence':
+                          case 'Lineage prevalence (ST)':
                           case 'ST prevalence':
                           case 'Serotype prevalence':
                           case 'Pathotype prevalence':

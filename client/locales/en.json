@@ -9,7 +9,7 @@
       "resistancePrevalence": "Resistance prevalence",
       "genotypePrevalence": "Genotype prevalence",
       "stPrevalence": "ST prevalence",
-      "lineagePrevalence": "Lineage prevalence",
+      "lineagePrevalence": "Lineage prevalence (ST)",
       "serotypePrevalence": "ST prevalence (7-locus MLST)",
       "pathotypePrevalence": "Pathotype prevalence",
       "oPrevalence": "O prevalence",
