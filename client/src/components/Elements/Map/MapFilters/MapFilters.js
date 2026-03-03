@@ -264,7 +264,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     if (['sentericaints', 'senterica'].includes(organism)) {
-      return 'lineages';
+      return 'STs';
     }
     if (['kpneumo'].includes(organism)) {
       return 'STs';

@@ -3,7 +3,7 @@ export const mapViewToTranslationKey = {
   'Resistance prevalence': 'resistancePrevalence',
   'Genotype prevalence': 'genotypePrevalence',
   'ST prevalence': 'stPrevalence',
-  'Lineage prevalence': 'lineagePrevalence',
+  'Lineage prevalence (ST)': 'lineagePrevalence',
   'NG-MAST prevalence': 'ngmastPrevalence',
   'Serotype prevalence': 'serotypePrevalence',
   'Pathotype prevalence': 'pathotypePrevalence',
