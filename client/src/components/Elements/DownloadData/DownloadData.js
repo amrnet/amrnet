@@ -1309,7 +1309,7 @@ export const DownloadData = () => {
       // Improve PDF for long list of "prevalenceMapViews"
       const prevalenceMapViews = [
         'Genotype prevalence',
-        'Lineage prevalence',
+        'Lineage prevalence (ST)',
         'ST prevalence',
         'Sublineage prevalence',
         'Pathotype prevalence',
