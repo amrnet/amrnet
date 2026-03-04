@@ -150,7 +150,7 @@ export const ContinentPathotypeGraphs = () => {
       ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
       ctx.fillText(
-        `${organism === 'sentericaints' ? 'Serotype' : 'Pathotype'} Comparisons`,
+        `${organism.includes('sentericaints') || organism.includes('senterica') ? 'Serotype' : 'Pathotype'} Comparisons`,
         canvas.width / 2,
         50,
       );
@@ -205,7 +205,7 @@ export const ContinentPathotypeGraphs = () => {
             {continentPGraphCard.icon}
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-                {organism === 'sentericaints' ? 'Serotype Comparisons' : continentPGraphCard.title}
+                {organism.includes('sentericaints') || organism.includes('senterica') ? 'Serotype Comparisons' : continentPGraphCard.title}
               </Typography>
               {collapses['continentP'] && (
                 <Typography fontSize="10px" component="span">

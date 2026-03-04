@@ -388,7 +388,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       case 'ngmast':
         return 'ng-mast';
       case 'genotype':
-        return ['sentericaints', 'senterica'].includes(organism) ? 'lineages' : 'genotypes';
+        return ['sentericaints', 'senterica'].includes(organism) ? 'lineages (ST)' : 'genotypes';
       default:
         return organism === 'sentericaints' ? 'serotypes' : 'pathotypes';
     }
