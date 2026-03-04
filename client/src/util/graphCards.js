@@ -180,6 +180,7 @@ export const getContinentGraphCard = (t) => ({
   organisms: organismsCards.map(x => x.value),
 });
 
+//NOTE: This card is currently not used, but we may want to use it in the future if we add the AMR by serotype graph back in.
 // export const getContinentPGraphCard = (t) => ({
 //   title: t('graphs.pathotypeComparisons'),
 //   icon: <ViewModule color="primary" />,
