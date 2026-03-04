@@ -226,7 +226,7 @@
     "koTrends": "KO Trends",
     "koByGenotype": "KO by Genotype",
     "geographicComparisons": "Geographic Comparisons",
-    "pathotypeComparisons": "Pathotype Comparisons"
+    "pathotypeComparisons": "AMR by serotype"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",

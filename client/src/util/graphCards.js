@@ -8,6 +8,7 @@ import { DistributionGraph } from '../components/Elements/Graphs/DistributionGra
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
+import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 import { useTranslation } from 'react-i18next';
 import { t } from 'react-i18next';
@@ -121,6 +122,14 @@ export function getGraphCards(t){
       organisms: ['kpneumo'],
       component: <BubbleKOHeatmapGraph />,
     },
+    {
+      title: t('graphs.pathotypeComparisons'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BHP',
+      organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
+      component: <BubbleHPGraph />,
+    },
   ];
 };
   // {
@@ -171,8 +180,8 @@ export const getContinentGraphCard = (t) => ({
   organisms: organismsCards.map(x => x.value),
 });
 
-export const getContinentPGraphCard = (t) => ({
-  title: t('graphs.pathotypeComparisons'),
-  icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
-});
+// export const getContinentPGraphCard = (t) => ({
+//   title: t('graphs.pathotypeComparisons'),
+//   icon: <ViewModule color="primary" />,
+//   organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
+// });
