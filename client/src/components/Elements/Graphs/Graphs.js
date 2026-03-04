@@ -164,6 +164,7 @@ export const Graphs = () => {
       case 'shige':
         return t('graphs.selectedPathotypes', { selected: selectedLineages.join(', ') });
       case 'sentericaints':
+      case 'senterica':
       case 'kpneumo':
         return t('graphs.selectedSerotypes', { selected: selectedLineages.join(', ') });
       case 'ecoli':

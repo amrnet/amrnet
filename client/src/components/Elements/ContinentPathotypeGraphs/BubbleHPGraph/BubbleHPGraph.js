@@ -59,7 +59,7 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
   const resetBool = useAppSelector(state => state.graph.resetBool);
 
   const selectLabel = useMemo(
-    () => (organism === 'sentericaints' ? 'serotypes' : 'pathotypes'),
+    () => (organism.includes('sentericaints') || organism.includes('senterica') ? 'serotypes' : 'pathotypes'),
     [organism],
   );
 
@@ -596,7 +596,7 @@ useEffect(() => {
                   </div>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select drug</Typography>
+                      <Typography variant="caption">Select drugs</Typography>
                     </div>
                     <Select
                       multiple
