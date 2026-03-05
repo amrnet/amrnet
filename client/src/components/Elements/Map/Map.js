@@ -302,7 +302,7 @@ export const Map = () => {
     const legendValue =
       ngonoSusceptibleRule(optionsSelected.join(', '), organism) ||
       drugAcronymsOpposite[optionsSelected.join(', ')] ||
-      prevalenceView;
+      (mapView === 'Lineage prevalence (ST)' && prevalenceView ? `ST ${prevalenceView}`: prevalenceView);
 
     return t('dashboard.legend.showing', { value: legendValue });
   }, [customDropdownMapViewNG, mapView, organism, prevalenceMapViewOptionsSelected, t]);
