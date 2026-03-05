@@ -1212,7 +1212,7 @@ export const drugClassesRulesSENTERICA = {};
 export const drugRulesINTS = [
   { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
   { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },//TODO: test correct values
-  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['MACROLIDE'] },
+  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['mph(A)', 'acrB_R717L' ] },
   // { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
   { key: 'Carbapenems', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },//TODO: test correct values
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
@@ -1244,7 +1244,7 @@ export const drugRulesINTS = [
 export const statKeysINTS = [
   { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
-  { name: 'Azithromycin', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
+  { name: 'Azithromycin', column: 'MACROLIDE', key: ['mph(A)', 'acrB_R717L' ], resistanceView: true },
   { name: 'Carbapenems', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'Ciprofloxacin', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
