@@ -8,6 +8,7 @@ import { DistributionGraph } from '../components/Elements/Graphs/DistributionGra
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
+import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 import { useTranslation } from 'react-i18next';
 import { t } from 'react-i18next';
@@ -15,6 +16,7 @@ import { t } from 'react-i18next';
 function getHeatMapsTitle(organism, t) {
   switch (organism) {
     case 'sentericaints':
+    case 'senterica':
       return t('graphs.amrByLineage');
     default:
       return t('graphs.amrByGenotype');
@@ -62,7 +64,15 @@ export function getGraphCards(t){
       description: [''],
       icon: <ViewModule color="primary" />,
       id: 'BAMRH',
-      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
+      organisms: ['ngono', 'kpneumo', 'styphi', 'shige',, 'decoli', 'ecoli',],
+      component: <BubbleMarkersHeatmapGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByLineage'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BAMRH',
+      organisms: ['senterica','sentericaints'],
       component: <BubbleMarkersHeatmapGraph />,
     },
     {
@@ -111,6 +121,14 @@ export function getGraphCards(t){
       id: 'BKOH',
       organisms: ['kpneumo'],
       component: <BubbleKOHeatmapGraph />,
+    },
+    {
+      title: t('graphs.pathotypeComparisons'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BHP',
+      organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
+      component: <BubbleHPGraph />,
     },
   ];
 };
@@ -162,8 +180,9 @@ export const getContinentGraphCard = (t) => ({
   organisms: organismsCards.map(x => x.value),
 });
 
-export const getContinentPGraphCard = (t) => ({
-  title: t('graphs.pathotypeComparisons'),
-  icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
-});
+//NOTE: This card is currently not used, but we may want to use it in the future if we add the AMR by serotype graph back in.
+// export const getContinentPGraphCard = (t) => ({
+//   title: t('graphs.pathotypeComparisons'),
+//   icon: <ViewModule color="primary" />,
+//   organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
+// });
