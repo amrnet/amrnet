@@ -345,7 +345,6 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
         return (
           <>
             {configuredMapData?.map((item, index) => {
-              console.log('configuredMapData item:', item);
               return (
                 <ResponsiveContainer
                   key={`heatmap-graph-${index}`}
