@@ -197,7 +197,6 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   const currentMapLegends = useMemo(() => {
     return mapLegends.filter(legend => legend.organisms.includes(organism));
   }, [organism]);
-console.log('currentMapLegends', currentMapLegends);
   const hasZeroPercentOption = useMemo(() => {
     return mapViewsWithZeroPercentOption.includes(mapView);
   }, [mapView]);
