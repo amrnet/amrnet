@@ -9,6 +9,7 @@ import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanc
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
 import { useTranslation } from 'react-i18next';
 import { t } from 'react-i18next';
 
