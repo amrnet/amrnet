@@ -16,8 +16,9 @@ import { t } from 'react-i18next';
 function getHeatMapsTitle(organism, t) {
   switch (organism) {
     case 'sentericaints':
-    case 'senterica':
       return t('graphs.amrByLineage');
+    case 'senterica':
+      return t('graphs.amrByST');
     default:
       return t('graphs.amrByGenotype');
   }
@@ -72,7 +73,15 @@ export function getGraphCards(t){
       description: [''],
       icon: <ViewModule color="primary" />,
       id: 'BAMRH',
-      organisms: ['senterica','sentericaints'],
+      organisms: ['sentericaints'],
+      component: <BubbleMarkersHeatmapGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByST'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BAMRH',
+      organisms: ['senterica'],
       component: <BubbleMarkersHeatmapGraph />,
     },
     {
@@ -103,7 +112,15 @@ export function getGraphCards(t){
       description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
       icon: <StackedBarChart color="primary" />,
       id: 'GD',
-      organisms: ['sentericaints', 'senterica'],
+      organisms: ['sentericaints'],
+      component: <DistributionGraph />,
+    },
+    {
+      title: t('graphs.stTrends'),
+      description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
+      icon: <StackedBarChart color="primary" />,
+      id: 'GD',
+      organisms: ['senterica'],
       component: <DistributionGraph />,
     },
     {
