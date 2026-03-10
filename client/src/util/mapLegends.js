@@ -55,8 +55,8 @@ export const mapLegends = [
     organisms: ['kpneumo'],
   },
   {
-    value: 'Lineage prevalence',
-    label: 'Lineage prevalence',
+    value: 'Lineage prevalence (ST)',
+    label: 'Lineage prevalence (ST)',
     labelKey: 'dashboard.mapViews.lineagePrevalence',
     organisms: ['sentericaints', 'senterica'],
   },

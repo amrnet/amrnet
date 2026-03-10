@@ -65,7 +65,7 @@ export const drugsNG = [
   'Spectinomycin',
   'Sulfonamides',
   'Tetracycline',
-  'Pansusceptible',
+  'Susceptible to cat I/II drugs',
 ];
 
 // export const drugsNGLegendsOnly = [
@@ -92,7 +92,7 @@ export const defaultDrugsForDrugResistanceGraphNG = [
   'MDR',
   'Benzylpenicillin',
   'Spectinomycin',
-  'Pansusceptible',
+  'Susceptible to cat I/II drugs',
 ];
 
 // List of Klebsiella drugs
@@ -174,8 +174,7 @@ export const drugAcronymsOpposite = {
 export const drugAcronymsOpposite2 = {
   CIP: 'Ciprofloxacin',
   AZM: 'Azithromycin',
-  ESBL: 'Extended-Spectrum Beta-Lactamase',
-  CipNS: 'Ciprofloxacin (non-susceptible)',
+  // ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',

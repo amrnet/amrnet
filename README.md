@@ -297,7 +297,7 @@ enabled.
 For production deployment instructions, see our
 [Deployment Guide](https://amrnet.readthedocs.io/en/latest/deployment.html).
 
-## 🔌 API Access
+<!-- ## 🔌 API Access
 
 AMRnet provides a comprehensive RESTful API for programmatic access to all data.
 
@@ -331,7 +331,7 @@ print(f"Retrieved {len(df)} samples")
 ```
 
 **📚 Full API Documentation**:
-[amrnet.readthedocs.io/api](https://amrnet.readthedocs.io/en/latest/api.html)
+[amrnet.readthedocs.io/api](https://amrnet.readthedocs.io/en/latest/api.html) -->
 
 ## 🤝 Contributing
 

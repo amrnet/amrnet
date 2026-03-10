@@ -19,7 +19,7 @@ import { setCollapse } from '../../../stores/slices/graphSlice';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isTouchDevice } from '../../../util/isTouchDevice';
-import { getContinentPGraphCard } from '../../../util/graphCards';
+// import { getContinentPGraphCard } from '../../../util/graphCards';
 import { ExpandLess, ExpandMore, FilterList, FilterListOff, CameraAlt } from '@mui/icons-material';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
@@ -57,7 +57,7 @@ export const ContinentPathotypeGraphs = () => {
   const dataset = useAppSelector((state) => state.map.dataset);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
-  const continentPGraphCard = useMemo(() => getContinentPGraphCard(t), [t]);
+  // const continentPGraphCard = useMemo(() => getContinentPGraphCard(t), [t]);
 
   useEffect(() => {
     setShowFilter(!matches500);
@@ -90,9 +90,9 @@ export const ContinentPathotypeGraphs = () => {
     setShowFilter(!showFilter);
   }
 
-  if (!continentPGraphCard.organisms.includes(organism)) {
-    return null;
-  }
+  // if (!continentPGraphCard.organisms.includes(organism)) {
+  //   return null;
+  // }
 
   async function handleClick(event) {
     event.stopPropagation();
@@ -115,6 +115,10 @@ export const ContinentPathotypeGraphs = () => {
 
       const graphImg = document.createElement('img');
       const graphImgPromise = imgOnLoadPromise(graphImg);
+      const legendImg = document.createElement('img');
+      const legendPromise = imgOnLoadPromise(legendImg);
+      legendImg.src = '/legends/HeatMapLegend.png';
+      await legendPromise;
 
       graphImg.src = await domtoimage.toPng(graph, { quality: 0.1, bgcolor: 'white' });
 
@@ -140,12 +144,13 @@ export const ContinentPathotypeGraphs = () => {
 
       ctx.drawImage(logo, 10, 10, 155, 80);
       ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
+      ctx.drawImage(legendImg, canvas.width/1.5, 200);
 
       ctx.font = 'bold 18px Montserrat';
       ctx.fillStyle = 'black';
       ctx.textAlign = 'center';
       ctx.fillText(
-        `${organism === 'sentericaints' ? 'Serotype' : 'Pathotype'} Comparisons`,
+        `${organism.includes('sentericaints') || organism.includes('senterica') ? 'Serotype' : 'Pathotype'} Comparisons`,
         canvas.width / 2,
         50,
       );
@@ -197,10 +202,10 @@ export const ContinentPathotypeGraphs = () => {
           sx={{ padding: collapses['continentP'] ? '16px 16px 0px !important' : '16px !important' }}
         >
           <div className={classes.titleWrapper}>
-            {continentPGraphCard.icon}
+            {/* continentPGraphCard.icon */}
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
-                {organism === 'sentericaints' ? 'Serotype Comparisons' : continentPGraphCard.title}
+                {/* {organism.includes('sentericaints') || organism.includes('senterica') ? 'Serotype Comparisons' : continentPGraphCard.title} */}
               </Typography>
               {collapses['continentP'] && (
                 <Typography fontSize="10px" component="span">
