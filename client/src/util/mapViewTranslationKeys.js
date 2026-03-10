@@ -8,7 +8,7 @@ export const mapViewToTranslationKey = {
   'Serotype prevalence': 'serotypePrevalence',
   'Pathotype prevalence': 'pathotypePrevalence',
   'Geographic Comparisons': 'geographicComparisons',
-  'Pathotype Comparisons': 'pathotypeComparisons',
+  'Serotype Comparisons': 'serotypeComparisons',
   'O prevalence': 'oPrevalence',
   'H prevalence': 'hPrevalence',
   'Dominant Genotype': 'dominantGenotype',

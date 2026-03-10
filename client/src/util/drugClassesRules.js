@@ -1302,18 +1302,6 @@ export const statKeysECOLI = (() => {
       every: true,
     },
     {
-      name: 'ESBL',
-      resistanceView: true,
-      rules: [
-        { column: 'Carbapenemase', value: 'blaOXA-24', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-244', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-48', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-181', equal: true },
-        { column: 'ESBL', value: '-', equal: false },
-      ],
-      every: false,
-    },
-    {
       name: 'Ciprofloxacin',
       resistanceView: true,
       rules: [{ column: 'Quinolone', value: '-', equal: false }],
@@ -1326,17 +1314,29 @@ export const statKeysECOLI = (() => {
       every: true,
     },
     {
+      name: 'ESBL',
+      resistanceView: true,
+      rules: [
+        { column: 'Carbapenemase', value: 'blaOXA-24', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-244', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-48', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-181', equal: true },
+        { column: 'ESBL', value: '-', equal: false },
+      ],
+      every: false,
+    },
+    {
       name: 'Fosfomycin',
       resistanceView: true,
       rules: [{ column: 'Fosfomycin', value: '-', equal: false }],
       every: true,
     },
-    {
-      name: 'Macrolides',
-      resistanceView: true,
-      rules: [{ column: 'Macrolide', value: '-', equal: false }],
-      every: true,
-    },
+    // {
+    //   name: 'Macrolides',
+    //   resistanceView: true,
+    //   rules: [{ column: 'Macrolide', value: '-', equal: false }],
+    //   every: true,
+    // },
     {
       name: 'Sulfamethoxazole',
       resistanceView: true,
