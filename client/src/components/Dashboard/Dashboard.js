@@ -1796,7 +1796,7 @@ export const DashboardPage = () => {
         {/* <SelectCountry /> */}
         <Graphs />
         <ContinentGraphs />
-        <ContinentPathotypeGraphs />
+        {/* <ContinentPathotypeGraphs /> */}
         <DownloadData />
         {/* <Footer /> */}
         <ResetButton data={data} />

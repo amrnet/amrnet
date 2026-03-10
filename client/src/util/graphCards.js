@@ -9,17 +9,22 @@ import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanc
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
+import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
+import { useTranslation } from 'react-i18next';
+import { t } from 'react-i18next';
 
 function getHeatMapsTitle(organism, t) {
   switch (organism) {
     case 'sentericaints':
       return t('graphs.amrByLineage');
+    case 'senterica':
+      return t('graphs.amrByST');
     default:
       return t('graphs.amrByGenotype');
   }
 }
 
-export const getGraphCards = (t) => {
+export function getGraphCards(t){
   const heatmapCards = organismsCards.map(organismCard => ({
     title: getHeatMapsTitle(organismCard.value, t),
     description: [''],
@@ -60,7 +65,23 @@ export const getGraphCards = (t) => {
       description: [''],
       icon: <ViewModule color="primary" />,
       id: 'BAMRH',
-      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
+      organisms: ['ngono', 'kpneumo', 'styphi', 'shige',, 'decoli', 'ecoli',],
+      component: <BubbleMarkersHeatmapGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByLineage'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BAMRH',
+      organisms: ['sentericaints'],
+      component: <BubbleMarkersHeatmapGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByST'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BAMRH',
+      organisms: ['senterica'],
       component: <BubbleMarkersHeatmapGraph />,
     },
     {
@@ -91,7 +112,15 @@ export const getGraphCards = (t) => {
       description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
       icon: <StackedBarChart color="primary" />,
       id: 'GD',
-      organisms: ['sentericaints', 'senterica'],
+      organisms: ['sentericaints'],
+      component: <DistributionGraph />,
+    },
+    {
+      title: t('graphs.stTrends'),
+      description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
+      icon: <StackedBarChart color="primary" />,
+      id: 'GD',
+      organisms: ['senterica'],
       component: <DistributionGraph />,
     },
     {
@@ -109,6 +138,14 @@ export const getGraphCards = (t) => {
       id: 'BKOH',
       organisms: ['kpneumo'],
       component: <BubbleKOHeatmapGraph />,
+    },
+    {
+      title: t('graphs.amrbyserotype'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BHP',
+      organisms: ['senterica'],
+      component: <BubbleHPGraph />,
     },
   ];
 };
@@ -161,7 +198,7 @@ export const getContinentGraphCard = (t) => ({
 });
 
 export const getContinentPGraphCard = (t) => ({
-  title: t('graphs.pathotypeComparisons'),
+  title: t('graphs.serotypeComparisons'),
   icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
+  organisms: ['shige', 'decoli', 'sentericaints',],
 });
