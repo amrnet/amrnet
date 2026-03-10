@@ -23,7 +23,7 @@ import { getGraphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { mapLegends } from '../../../util/mapLegends';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
-import Papa from 'papaparse';
+import Papa from 'papaparse/papaparse.js';
 import {
   colorForDrugClassesKP,
   colorForDrugClassesNG,
