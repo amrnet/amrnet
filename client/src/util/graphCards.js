@@ -8,7 +8,6 @@ import { DistributionGraph } from '../components/Elements/Graphs/DistributionGra
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
-import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 import { useTranslation } from 'react-i18next';
 import { t } from 'react-i18next';
@@ -123,11 +122,11 @@ export function getGraphCards(t){
       component: <BubbleKOHeatmapGraph />,
     },
     {
-      title: t('graphs.pathotypeComparisons'),
+      title: t('graphs.amrbyserotype'),
       description: [''],
       icon: <ViewModule color="primary" />,
       id: 'BHP',
-      organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
+      organisms: ['senterica'],
       component: <BubbleHPGraph />,
     },
   ];
@@ -180,9 +179,8 @@ export const getContinentGraphCard = (t) => ({
   organisms: organismsCards.map(x => x.value),
 });
 
-//NOTE: This card is currently not used, but we may want to use it in the future if we add the AMR by serotype graph back in.
-// export const getContinentPGraphCard = (t) => ({
-//   title: t('graphs.pathotypeComparisons'),
-//   icon: <ViewModule color="primary" />,
-//   organisms: ['shige', 'decoli', 'sentericaints', 'senterica'],
-// });
+export const getContinentPGraphCard = (t) => ({
+  title: t('graphs.serotypeComparisons'),
+  icon: <ViewModule color="primary" />,
+  organisms: ['shige', 'decoli', 'sentericaints',],
+});
