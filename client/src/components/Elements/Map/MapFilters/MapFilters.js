@@ -38,7 +38,7 @@ const excludedViews = [
   'O prevalence',
   'ST prevalence',
   'NG-MAST prevalence',
-  'Lineage prevalence',
+  'Lineage prevalence (ST)',
   // 'Resistance prevalence',
 ];
 const mapViewsWithZeroPercentOption = [
@@ -56,7 +56,7 @@ const mapViewsWithZeroPercentOption = [
   'O prevalence',
   'ST prevalence',
   'NG-MAST prevalence',
-  'Lineage prevalence',
+  'Lineage prevalence (ST)',
   'Resistance prevalence',
 ];
 
@@ -197,7 +197,6 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   const currentMapLegends = useMemo(() => {
     return mapLegends.filter(legend => legend.organisms.includes(organism));
   }, [organism]);
-
   const hasZeroPercentOption = useMemo(() => {
     return mapViewsWithZeroPercentOption.includes(mapView);
   }, [mapView]);
@@ -215,7 +214,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       case 'Serotype prevalence':
       case 'Pathotype prevalence':
       case 'O prevalence':
-      case 'Lineage prevalence':
+      case 'Lineage prevalence (ST)':
         return gradientStyle;
       case '':
         return [];
@@ -264,7 +263,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     if (['sentericaints', 'senterica'].includes(organism)) {
-      return 'lineages';
+      return 'STs';
     }
     if (['kpneumo'].includes(organism)) {
       return 'STs';
