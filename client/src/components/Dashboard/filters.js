@@ -234,11 +234,13 @@ function getCountryDisplayName(country) {
     case 'Democratic Republic of the Congo':
     case 'Democratic Republic of Congo':
     case 'DR Congo':
-    case 'DRC':
-      return 'Dem. Rep. Congo';
     case 'Republic of the Congo':
     case 'Congo Republic':
-      return 'Congo';
+    case 'DRC':
+    case 'Congo (Kinshasa)':
+    case 'Congo (Brazzaville)':
+    case 'Congo':
+      return 'Dem. Rep. Congo';
     case 'Channel Islands':
       return 'Jersey';
     case 'Czech Republic':
