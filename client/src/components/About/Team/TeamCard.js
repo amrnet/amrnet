@@ -6,6 +6,7 @@ import MC from '../../../assets/img/Team/MC.jpeg';
 import MM from '../../../assets/img/Team/MM.jpeg';
 import VS from '../../../assets/img/Team/VS.jpeg';
 import ZD from '../../../assets/img/Team/ZD.jpeg';
+import NC from '../../../assets/img/Team/NC.png';
 
 export const useTeamCards = () => {
   const { t } = useTranslation();
@@ -52,6 +53,12 @@ export const useTeamCards = () => {
       post: t('Enterics Expert'),
       img: EB,
       redirect: 'https://www.lshtm.ac.uk/aboutus/people/foster-nyarko.ebenn',
+    },
+    {
+      name: 'Natacha Couto',
+      post: t('Staphylococcus expert'),
+      img: NC,
+      redirect: 'https://www.lshtm.ac.uk/aboutus/people/couto.natacha',
     },
   ];
 };

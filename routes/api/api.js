@@ -124,10 +124,17 @@ const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) =>
     ]);
 
     // Execute aggregation with timeout
-    const aggregationTimeoutMs = getValidatedTimeoutMs(process.env.AGGREGATION_TIMEOUT_MS, 60000);
+    const aggregationTimeoutMs =
+      Number.parseInt(process.env.AGGREGATION_TIMEOUT_MS ?? '60000', 10);
+
     const result = await Promise.race([
       connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Aggregation timeout')), aggregationTimeoutMs)),
+      new Promise((_, reject) =>
+        setTimeout(
+          () => reject(new Error('Aggregation timeout')),
+          Number.isNaN(aggregationTimeoutMs) ? 60000 : aggregationTimeoutMs,
+        ),
+      ),
     ]);
 
     return result;
@@ -688,12 +695,9 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
       { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
       {
         $lookup: {
-          from: 'ints_collection_from_enterica', //TODO: change to actual collection name to keep same for entericaints and senterica
+          from: 'ints_collection_from_enterica',//TODO: change to actual collection name to keep same for entericaints and senterica 
           localField: 'NAME',
           foreignField: 'NAME',
-          // from: 'senterica-output-full',
-          // let: { nameField: '$NAME' },
-          // pipeline: [{ $match: { $expr: { $eq: ['$NAME', '$$nameField'] } } }, { $project: fieldsToProject }],
           as: 'extraData',
         },
       },

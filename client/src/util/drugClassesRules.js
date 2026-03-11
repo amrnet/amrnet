@@ -100,7 +100,7 @@ export const drugRulesNG = [
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
   { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Benzylpenicillin', columnID: ['Penicillin'], values: ['1'] },
-  { key: 'Pansusceptible', columnID: ['Susceptible'], values: ['1'], legends: 'Susceptible to cat I/II drugs' },
+  { key: 'Susceptible to cat I/II drugs', columnID: ['Susceptible'], values: ['1'], legends: 'Susceptible to cat I/II drugs' },
   { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
   { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
   { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
@@ -1216,18 +1216,15 @@ export const drugClassesRulesSENTERICA = {};
 
 // Sentericaints INTS
 export const drugRulesINTS = [
-  //TODO: test correct values
-  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
+  { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
+  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },//TODO: test correct values
+  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['mph(A)', 'acrB_R717L' ] },
   // { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
-  //TODO: test correct values
-  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
+  { key: 'Carbapenems', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },//TODO: test correct values
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
   { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin' },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
-  { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
-  { key: 'Macrolides', columnID: 'MACROLIDE', values: ['MACROLIDE'] },
-  //TODO: test correct values
-  { key: 'Carbapenem', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
+  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },//TODO: test correct values
   { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
   { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
@@ -1249,16 +1246,16 @@ export const drugRulesINTS = [
   },
 ];
 
-// Used for senterica
+// Used for senterica, statKeysINTS2 is not used anymore, statKeysINTS is the only one used for senterica and sentericaints both
 export const statKeysINTS = [
-  // { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
-  { name: 'Carbapenem', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
-  { name: 'Macrolides', column: 'MACROLIDE', key: 'AZITHROMYCIN', resistanceView: true },
-  { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
+  { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
+  { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
+  { name: 'Azithromycin', column: 'MACROLIDE', key: ['mph(A)', 'acrB_R717L' ], resistanceView: true },
+  { name: 'Carbapenems', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
   { name: 'Ciprofloxacin', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
-  { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
+  { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
   { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
   { name: 'Tetracycline', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
@@ -1269,107 +1266,6 @@ export const statKeysINTS = [
     resistanceView: true,
   },
 ];
-
-// only for ints
-export const statKeysINTS2 = (() => {
-  const items = [
-    {
-      name: 'Aminoglycosides',
-      resistanceView: true,
-      rules: [{ column: 'AMINOGLYCOSIDE', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Ampicillin',
-      resistanceView: true,
-      rules: [
-        { column: 'PENICILLIN', value: '-', equal: false },
-        { column: 'BETA-LACTAM', value: '-', equal: false },
-        { column: 'ESBL', value: '-', equal: false },
-      ],
-      every: false,
-    },
-    {
-      name: 'Carbapenem',
-      resistanceView: true,
-      rules: [{ column: 'BETA-LACTAM', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Chloramphenicol',
-      resistanceView: true,
-      rules: [{ column: 'PHENICOL', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'ESBL',
-      resistanceView: true,
-      rules: [
-        { column: 'Carbapenemase', value: 'blaOXA-24', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-244', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-48', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-181', equal: true },
-        { column: 'ESBL', value: '-', equal: false },
-      ],
-      every: false,
-    },
-    {
-      name: 'Ciprofloxacin',
-      resistanceView: true,
-      rules: [{ column: 'QUINOLONE', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Colistin',
-      resistanceView: true,
-      rules: [{ column: 'COLISTIN', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Macrolides',
-      resistanceView: true,
-      rules: [{ column: 'MACROLIDE', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Trimethoprim',
-      resistanceView: true,
-      rules: [{ column: 'TRIMETHOPRIM', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Sulfamethoxazole',
-      resistanceView: true,
-      rules: [{ column: 'SULFONAMIDE', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Tetracycline',
-      resistanceView: true,
-      rules: [{ column: 'TETRACYCLINE', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Trimethoprim-Sulfamethoxazole',
-      resistanceView: true,
-      rules: [
-        { column: 'SULFONAMIDE', value: '-', equal: false },
-        { column: 'TRIMETHOPRIM', value: '-', equal: false },
-      ],
-      every: true,
-    },
-  ];
-
-  const uniqueColumns = [...new Set(items.flatMap(item => item.rules.map(rule => rule.column)))];
-  return items.concat({
-    name: 'Pansusceptible',
-    resistanceView: true,
-    rules: uniqueColumns.map(col => {
-      return { column: col, value: '-', equal: true };
-    }),
-    every: true,
-  });
-})();
 
 // Used for shige, ecoli and decoli
 export const statKeysECOLI = (() => {
@@ -1412,18 +1308,6 @@ export const statKeysECOLI = (() => {
       every: true,
     },
     {
-      name: 'ESBL',
-      resistanceView: true,
-      rules: [
-        { column: 'Carbapenemase', value: 'blaOXA-24', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-244', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-48', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-181', equal: true },
-        { column: 'ESBL', value: '-', equal: false },
-      ],
-      every: false,
-    },
-    {
       name: 'Ciprofloxacin',
       resistanceView: true,
       rules: [{ column: 'Quinolone', value: '-', equal: false }],
@@ -1436,17 +1320,29 @@ export const statKeysECOLI = (() => {
       every: true,
     },
     {
+      name: 'ESBL',
+      resistanceView: true,
+      rules: [
+        { column: 'Carbapenemase', value: 'blaOXA-24', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-244', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-48', equal: true },
+        { column: 'Carbapenemase', value: 'blaOXA-181', equal: true },
+        { column: 'ESBL', value: '-', equal: false },
+      ],
+      every: false,
+    },
+    {
       name: 'Fosfomycin',
       resistanceView: true,
       rules: [{ column: 'Fosfomycin', value: '-', equal: false }],
       every: true,
     },
-    {
-      name: 'Macrolides',
-      resistanceView: true,
-      rules: [{ column: 'Macrolide', value: '-', equal: false }],
-      every: true,
-    },
+    // {
+    //   name: 'Macrolides',
+    //   resistanceView: true,
+    //   rules: [{ column: 'Macrolide', value: '-', equal: false }],
+    //   every: true,
+    // },
     {
       name: 'Sulfamethoxazole',
       resistanceView: true,
@@ -1519,8 +1415,7 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
-  //sentericaints: statKeysINTS,
-  sentericaints: statKeysINTS2,
+  sentericaints: statKeysINTS,
   shige: statKeysECOLI,
   senterica: statKeysINTS,
   ecoli: statKeysECOLI,

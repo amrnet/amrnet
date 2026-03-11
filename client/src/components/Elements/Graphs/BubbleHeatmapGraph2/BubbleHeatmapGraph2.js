@@ -113,7 +113,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
 
     return (
       Object.entries(drugs)
-        .filter(x => x[1] > 0)
+        // .filter(x => x[1] > 0) // optionally filter out drugs with 0 count
         .map(x => x[0]) ?? []
     );
   }, [organism, selectedCRData?.stats]);
@@ -294,7 +294,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                 percentage: pct,
                 count: value?.count || 0,
                 index: 1,
-                typeName: item.name,
+                typeName:item.name,//typeName: ['senterica'].includes(organism) ? `ST ${item.name}` : item.name,
                 total: item.count,
               });
             }
@@ -364,7 +364,6 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                         index === 0
                           ? props => {
                               const title = getTitle(props.payload.value);
-
                               return (
                                 <Tooltip title={title} placement="top">
                                   <text

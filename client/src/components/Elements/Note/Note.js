@@ -31,6 +31,13 @@ const noteTranslationConfig = {
       />,
     ],
   },
+  senterica: {
+    key: 'note.senterica',
+    components: [
+      <a href="https://enterobase.warwick.ac.uk/" target="_blank" rel="noopener noreferrer" key="default-enterobase" />,
+      <a href="#/dashboard?organism=styphi" target="_blank" rel="noopener noreferrer" key="typhinet" />,
+    ],
+  },
   default: {
     key: 'note.default',
     components: [

@@ -94,7 +94,7 @@ export function getAxisLabel(organism, variable = null) {
   switch (organism) {
     case 'sentericaints':
     case 'senterica':
-      return 'lineages';
+      return 'lineages (ST)';
     case 'kpneumo':
       if (variable === 'cgST') return 'cgSTs';
       if (variable === 'Sublineage') return 'sublineages';

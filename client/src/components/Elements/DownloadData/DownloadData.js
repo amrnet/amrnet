@@ -23,7 +23,7 @@ import { getGraphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { mapLegends } from '../../../util/mapLegends';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
-import Papa from 'papaparse';
+import Papa from 'papaparse/papaparse.js';
 import {
   colorForDrugClassesKP,
   colorForDrugClassesNG,
@@ -325,7 +325,8 @@ export const DownloadData = () => {
   }
 
   function getOrganismCards() {
-    return graphCards.filter(card => card.organisms.includes(organism));
+    const cards = getGraphCards(t);
+    return cards.filter(card => card.organisms.includes(organism));
   }
 
   function getGenotypeColor(genotype) {
@@ -378,13 +379,14 @@ export const DownloadData = () => {
   function drawHeader({ document, pageWidth }) {
     document.setFontSize(8);
     document.line(0, 26, pageWidth, 26);
-    if (organism !== 'styphi' && organism !== 'ngono')
-      document.text(
-        `NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`,
-        16,
-        10,
-        { align: 'left', maxWidth: pageWidth - 16 },
-      );
+    let note = `NOTE: these estimates are derived from unfiltered genome data deposited in public databases, which reflects a strong bias towards sequencing of resistant strains. This will change in future updates.`;
+    if (organism === 'senterica') {
+      note += ' Salmonella Typhi has a dedicated dashboard curated by TyphiNET.';
+    }
+    // Only show for organisms other than styphi or ngono
+    if (organism !== 'styphi' && organism !== 'ngono') {
+      document.text(note, 16, 10, { align: 'left', maxWidth: pageWidth - 16 });
+    }
     document.setFontSize(12);
   }
 
@@ -1308,7 +1310,7 @@ export const DownloadData = () => {
       // Improve PDF for long list of "prevalenceMapViews"
       const prevalenceMapViews = [
         'Genotype prevalence',
-        'Lineage prevalence',
+        'Lineage prevalence (ST)',
         'ST prevalence',
         'Sublineage prevalence',
         'Pathotype prevalence',
@@ -1356,7 +1358,7 @@ export const DownloadData = () => {
           drugAcronymsOpposite[prevalenceMapViewOptionsSelected] ||
           prevalenceMapViewOptionsSelected;
 
-        const genotypesText = resolvedOptions.join(', ');
+        const genotypesText = resolvedOptions;
         drawWrappedText(mapView, genotypesText);
       }
 

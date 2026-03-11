@@ -74,7 +74,7 @@
       "sampleCount": "No. Samples",
       "genotypePrevalence": "Genotype prevalence",
       "stPrevalence": "ST prevalence",
-      "lineagePrevalence": "Lineage prevalence",
+      "lineagePrevalence": "Lineage prevalence (ST)",
       "ngmastPrevalence": "NG-MAST prevalence",
       "serotypePrevalence": "Serotype prevalence",
       "pathotypePrevalence": "Pathotype prevalence",
@@ -205,6 +205,7 @@
   "note": {
     "styphi": "TyphiNET is now integrated into AMRnet. Typhi data are curated by the <0>Global Typhoid Genomics Consortium</0> and analysed using <1>Pathogenwatch</1>.",
     "ngono": "<0>N. gonorrhoeae</0> data represent national and regional surveillance projects, sourced from <1>Pathogenwatch</1>.",
+    "senterica": "This data is pulled from <0>Enterobase</0> and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates. Salmonella Typhi has a dedicated dashboard curated by <1>TyphiNET</1>.",
     "kpneumo": "This data is pulled from <0>Pathogenwatch</0> and represents unfiltered data deposited in NCBI/ENA. It includes diverse sources of bacteria (not just human clinical infections) and is biased towards sequencing of resistant strains. In future updates this will be mitigated using metadata curated by the <1>KlebNET Epidemiology Consortium</1>.",
     "default": "This data is pulled from <0>Enterobase</0> and represents unfiltered data deposited in Enterobase/NCBI/ENA, therefore may reflect a bias towards sequencing of resistant strains and/or outbreaks. This will change in future updates."
   },
@@ -217,15 +218,20 @@
     "amrTrends": "AMR Trends",
     "genotypeTrends": "Genotype Trends",
     "amrByLineage": "AMR by Lineage",
+    "amrByST": "AMR by ST",
     "amrByGenotype": "AMR by Genotype",
     "amrMarkerTrends": "AMR Marker Trends",
     "amrMarkerByGenotype": "AMR Marker by Genotype",
+    "amrMarkerByLineage": "AMR Marker by Lineage",
+    "amrMarkerByST": "AMR Marker by ST",
     "amrVirulence": "AMR by Virulence",
     "lineageTrends": "Lineage Trends",
+    "stTrends": "ST Trends",
     "koTrends": "KO Trends",
     "koByGenotype": "KO by Genotype",
     "geographicComparisons": "Geographic Comparisons",
-    "pathotypeComparisons": "Pathotype Comparisons"
+    "serotypeComparisons": "Serotype Comparisons",
+    "amrbyserotype": "AMR by serotype"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",
