@@ -4,9 +4,9 @@ import KH from '../../../assets/img/Team/KH.jpeg';
 import LC from '../../../assets/img/Team/LC.jpeg';
 import MC from '../../../assets/img/Team/MC.jpeg';
 import MM from '../../../assets/img/Team/MM.jpeg';
+import NC from '../../../assets/img/Team/NC.png';
 import VS from '../../../assets/img/Team/VS.jpeg';
 import ZD from '../../../assets/img/Team/ZD.jpeg';
-import NC from '../../../assets/img/Team/NC.png';
 
 export const useTeamCards = () => {
   const { t } = useTranslation();
@@ -56,7 +56,7 @@ export const useTeamCards = () => {
     },
     {
       name: 'Natacha Couto',
-      post: t('Staphylococcus expert'),
+      post: t('Staphylococcus Expert'),
       img: NC,
       redirect: 'https://www.lshtm.ac.uk/aboutus/people/couto.natacha',
     },

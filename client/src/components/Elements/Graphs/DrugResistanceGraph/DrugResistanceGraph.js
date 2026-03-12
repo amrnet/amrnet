@@ -34,6 +34,7 @@ import {
   drugsECOLI,
   drugsINTS,
   drugsKP,
+  defaultDrugsForDrugResistanceGraphNG,
   drugsNG,
   drugsST,
 } from '../../../../util/drugs';
@@ -137,11 +138,15 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     } else if (organism === 'kpneumo') {
       drugs = drugsKP;
     } else if (organism === 'ngono') {
-      drugs = drugsNG;
+      drugs = defaultDrugsForDrugResistanceGraphNG;
     } else if (['senterica', 'sentericaints'].includes(organism)) {
       drugs = drugsINTS;
     } else if (['ecoli', 'decoli', 'shige'].includes(organism)) {
       drugs = drugsECOLI;
+    }
+
+    if (drugsYearData.length > 0) {
+      drugs = drugs.filter(drug => drugsYearData.some(yearData => yearData[drug] > 0));
     }
 
     return drugs;
@@ -152,10 +157,13 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       return [];
     }
 
-    // Filter drugResistanceGraphView to only include drugs that have data
-    const dataKeys =
-      drugsYearData.length > 0 ? Object.keys(drugsYearData[0]).filter(key => !['name', 'count'].includes(key)) : [];
-    const filteredView = drugResistanceGraphView.filter(drug => dataKeys.includes(drug));
+    // Filter drugResistanceGraphView to only include drugs that have at least one non-zero value across all years
+    const drugsWithData = drugsYearData.length > 0
+      ? Object.keys(drugsYearData[0])
+          .filter(key => !['name', 'count'].includes(key))
+          .filter(drug => drugsYearData.some(yearData => yearData[drug] > 0))
+      : [];
+    const filteredView = drugResistanceGraphView.filter(drug => drugsWithData.includes(drug));
 
     return filteredView;
   } //TODO: check the comment above code duplicate

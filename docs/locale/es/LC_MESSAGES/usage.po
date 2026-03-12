@@ -139,11 +139,10 @@ msgstr "Descargas"
 
 #: ../../usage.rst:79
 #: 8282fb8c7d504d57905a87a7529286a3
-msgid "At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (TSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Download PDF’)."
+msgid "At the bottom are buttons to download (1) the individual genome-level information that is used to populate the dashboard (‘Download database (TSV format)’); and (2) a static report of the currently displayed plots, together with a basic description of the data sources and variable definitions (‘Report view’)."
 msgstr "En la parte inferior hay botones para descargar (1) la información individual a nivel de genoma que se utiliza para rellenar el panel de control (‘Descargar base de datos (formato TSV)’); y (2) un informe estático de las gráficas mostradas actualmente, junto con una descripción básica de las fuentes de datos y definiciones de variables (‘Descargar PDF’)."
 
 #: ../../usage.rst:81
 #: 39b65142f602482fb989347873a7fb59
 msgid "downloads"
 msgstr "descargas"
-

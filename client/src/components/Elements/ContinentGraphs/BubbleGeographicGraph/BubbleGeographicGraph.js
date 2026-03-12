@@ -15,6 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Cell,
   Tooltip as ChartTooltip,
@@ -43,7 +44,6 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { mixColorScale } from '../../Map/mapColorHelper';
 import { useStyles } from './BubbleGeographicGraphMUI';
-import { useTranslation } from 'react-i18next';
 
 // Dynamic trend options generator
 const createTrendOptions = (organism, drugs, labelMap = {}) => {
@@ -229,7 +229,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
     return (
       Object.entries(drugs)
-        .filter(x => x[1] > 0)
+        .filter(x => x[1] > 0 || x[0] === 'Pansusceptible')
         .map(x => x[0]) ?? []
     );
   }, [mapData, mapRegionData, organism, xAxisSelected, xAxisType]);

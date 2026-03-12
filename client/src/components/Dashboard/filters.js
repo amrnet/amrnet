@@ -240,6 +240,7 @@ function getCountryDisplayName(country) {
     case 'Congo (Kinshasa)':
     case 'Congo (Brazzaville)':
     case 'Congo':
+    case 'Republic of Congo':
       return 'Dem. Rep. Congo';
     case 'Channel Islands':
       return 'Jersey';
@@ -278,7 +279,9 @@ function getCountryDisplayName(country) {
     case 'United Kingdom of Great Britain and Northern Ireland':
     case 'Northern Ireland':
     case 'England':
+    case 'Great Britain':
     case 'Scotland':
+    case 'Ireland':
     case 'Wales':
     case 'UK':
       return 'United Kingdom';
@@ -356,46 +359,53 @@ function getMapStatsData({
 
       // Collect the actual column values from rules to build gene list
       rawValues = drug.rules.map(r => item[r.column]).filter(v => v && v !== '-' && v !== 'ND');
-      if (rawValues.length === 0) continue;
+      if (rawValues.length === 0) {
+        // Pansusceptible: all columns are '-', so track via allDash counters
+        allDashCount += 1;
+        allDashNames.push(name);
+        continue;
+      }
     } else if (['kpneumo'].includes(organism)) {
-        rawValues = columnKeys.map(k => item[k]);
-          if (rawValues.every(val => val === '-')) {
-            if (isPan) {
-              allDashCount += 1;
-              allDashNames.push(name);
-            }
-            continue;
-          }
+      rawValues = columnKeys.map(k => item[k]);
+      if (rawValues.every(val => val === '-')) {
+        if (isPan) {
+          allDashCount += 1;
+          allDashNames.push(name);
+        }
+        continue;
+      }
     } else {
       rawValues = columnKeys.map(k => item[k]);
 
       // If statsKey is an array, check if ANY key is present in ANY column value
-        if (Array.isArray(statsKey)) {
-          const found = rawValues.some(val =>
-            statsKey.some(key => {
-              const strVal = val == null ? '' : String(val);
-              return strVal.includes(key);
-            })
-          );
-          if (!found) {
-            if (isPan) {
-              allDashCount += 1;
-              allDashNames.push(name);
-            }
-            continue;
+      if (Array.isArray(statsKey)) {
+        const found = rawValues.some(val =>
+          statsKey.some(key => {
+            const strVal = val == null ? '' : String(val);
+            return strVal.includes(key);
+          }),
+        );
+        if (!found) {
+          if (isPan) {
+            allDashCount += 1;
+            allDashNames.push(name);
           }
-        } else {
-          if (rawValues.every(val => {
+          continue;
+        }
+      } else {
+        if (
+          rawValues.every(val => {
             if (val === '-' || val == null) return true;
             return !String(val).includes(statsKey);
-          })) {
-            if (isPan) {
-              allDashCount += 1;
-              allDashNames.push(name);
-            }
-            continue;
+          })
+        ) {
+          if (isPan) {
+            allDashCount += 1;
+            allDashNames.push(name);
           }
+          continue;
         }
+      }
     }
 
     // Clean & collect gene values
@@ -485,7 +495,7 @@ function getMapStatsData({
 
   if (addNames) baseReturn.names = isPan ? allDashNames : stats.names;
   if (noItems) delete baseReturn.items;
-  if (isPan) {
+  if (isPan || (useECOLIRules && allDashCount > 0)) {
     return {
       ...baseReturn,
       count: allDashCount,
@@ -929,18 +939,18 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
       } else if (['senterica', 'sentericaints'].includes(organism)) {
         // calculateDrugStats(drugRulesINTS);
         statKeysINTS.forEach(drug => {
-        const drugData = yearData.filter(x => {
-          if (Array.isArray(drug.column)) {
-            return drug.column.every(d => x[d] === '-');
-          }
+          const drugData = yearData.filter(x => {
+            if (Array.isArray(drug.column)) {
+              return drug.column.every(d => x[d] === '-');
+            }
 
-          if (Array.isArray(drug.key)) {
-            // Check if any key in drug.key is included in x[drug.column]
-            return drug.key.some(key => x[drug.column].includes(key));
-          }
+            if (Array.isArray(drug.key)) {
+              // Check if any key in drug.key is included in x[drug.column]
+              return drug.key.some(key => x[drug.column].includes(key));
+            }
 
-          return x[drug.column].includes(drug.key);
-        });
+            return x[drug.column].includes(drug.key);
+          });
           drugStats[drug.name] = drugData.length;
         });
 
@@ -1517,18 +1527,18 @@ export function getGenotypesData({
     } else if (['senterica', 'sentericaints'].includes(organism)) {
       // Drug counts for each genotype - matches getYearsData logic
       statKeysINTS.forEach(drug => {
-      const drugData = genotypeData.filter(x => {
-        if (Array.isArray(drug.column)) {
-          return drug.column.every(d => x[d] === '-');
-        }
+        const drugData = genotypeData.filter(x => {
+          if (Array.isArray(drug.column)) {
+            return drug.column.every(d => x[d] === '-');
+          }
 
-        if (Array.isArray(drug.key)) {
-          // Check if any key in drug.key is included in x[drug.column]
-          return drug.key.some(key => x[drug.column].includes(key));
-        }
+          if (Array.isArray(drug.key)) {
+            // Check if any key in drug.key is included in x[drug.column]
+            return drug.key.some(key => x[drug.column].includes(key));
+          }
 
-        return x[drug.column].includes(drug.key);
-      });
+          return x[drug.column].includes(drug.key);
+        });
         response[drug.name] = drugData.length;
       });
 
