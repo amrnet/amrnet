@@ -309,9 +309,9 @@ export function getSentericaintsTexts() {
     'and therefore reflect the biases of global sequencing efforts.',
 
     ' Variable definitions',
-    'Genotype - Pathogenwatch assigns sequence types (STs) using the 7-locus MLST scheme for Salmonella enterica, defined by XX.',
-    'The genotypes reported here are from the X.',
-    'Antimicrobial resistance determinants are described in the paper XXXX',
+    'Genotype - Enterobase assigns sequence types (STs) using the 7-locus MLST scheme for Salmonella enterica, defined by Achtman et al. 2022 (https://doi.org/10.1098/rstb.2021.0240).',
+    'The genotypes reported here are from Enterobase.',
+    'Antimicrobial resistance determinants are described in Cerdeira et al., Nucleic Acids Res, 2026 (https://doi.org/10.1093/nar/gkaf1101).',
 
     'Abbreviations',
     `1. MDR, multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole)`,
