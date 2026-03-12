@@ -82,7 +82,7 @@
       "hPrevalence": "H prevalence"
     }
   },
-  
+
   "home": {
     "genomes": "Genomes",
     "organisms": {
@@ -315,7 +315,7 @@
   },
   "downloadData": {
     "downloadDatabase": "Download database (TSV format)",
-    "downloadPDF": "Download PDF",
+    "downloadPDF": "Report view",
     "infoAndDefinitions": "Info and Definitions"
   }
 }
