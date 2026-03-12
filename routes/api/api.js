@@ -127,14 +127,14 @@ router.get('/getDataForKpneumo', async function (req, res) {
     const skip = (page - 1) * limit;
     const query = { 'dashboard view': 'include', GENOTYPE: { $ne: null } };
     const projection = {
-      GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1, ESBL_category: 1,
-      Carbapenems_category: 1, cgST: 1, Sublineage: 1, AGly_acquired: 1,
-      Bla_Carb_acquired: 1, Bla_ESBL_acquired: 1, Bla_ESBL_inhR_acquired: 1,
-      Flq_acquired: 1, Flq_mutations: 1, Col_acquired: 1, Col_mutations: 1,
-      Fcyn_acquired: 1, Phe_acquired: 1, Sul_acquired: 1, Tet_acquired: 1,
-      Tgc_acquired: 1, Tmt_acquired: 1, SHV_mutations: 1, Omp_mutations: 1,
-      num_resistance_classes: 1, virulence_score: 1, O_locus: 1, K_locus: 1,
-      O_type: 1, NAME: 1, _id: 0,
+      GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1, TRAVEL: 1, PMID: 1,
+      ESBL_category: 1, Carbapenems_category: 1, cgST: 1, Sublineage: 1,
+      AGly_acquired: 1, Bla_Carb_acquired: 1, Bla_ESBL_acquired: 1,
+      Bla_ESBL_inhR_acquired: 1, Flq_acquired: 1, Flq_mutations: 1,
+      Col_acquired: 1, Col_mutations: 1, Fcyn_acquired: 1, Phe_acquired: 1,
+      Sul_acquired: 1, Tet_acquired: 1, Tgc_acquired: 1, Tmt_acquired: 1,
+      SHV_mutations: 1, Omp_mutations: 1, num_resistance_classes: 1,
+      virulence_score: 1, O_locus: 1, K_locus: 1, O_type: 1, NAME: 1, _id: 0,
     };
 
     const client = await connectDB();
@@ -188,27 +188,11 @@ router.get('/getDataForEcoli', async function (req, res) {
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
     const projection = {
-      Name: 1,
-      GENOTYPE: 1,
-      COUNTRY_ONLY: 1,
-      DATE: 1,
-      Pathovar: 1,
-      Aminoglycoside: 1,
-      Carbapenemase: 1,
-      Colistin: 1,
-      ESBL: 1,
-      Fosfomycin: 1,
-      Macrolide: 1,
-      Penicillin: 1,
-      Quinolone: 1,
-      Sulfonamide: 1,
-      Tetracycline: 1,
-      Trimethoprim: 1,
-      Phenicol: 1,
-      'O Antigen': 1,
-      'H Antigen': 1,
-      'dashboard view': 1, // add more fields as needed
-      // add more fields as needed
+      Name: 1, GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1, TRAVEL: 1, PMID: 1,
+      Pathovar: 1, Aminoglycoside: 1, Carbapenemase: 1, Colistin: 1, ESBL: 1,
+      Fosfomycin: 1, Macrolide: 1, Penicillin: 1, Quinolone: 1, Sulfonamide: 1,
+      Tetracycline: 1, Trimethoprim: 1, Phenicol: 1, 'O Antigen': 1, 'H Antigen': 1,
+      'dashboard view': 1,
     };
     // Query
     const query = {
@@ -282,26 +266,11 @@ router.get('/getDataForDEcoli', async function (req, res) {
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
     const projection = {
-      Name: 1,
-      GENOTYPE: 1,
-      COUNTRY_ONLY: 1,
-      DATE: 1,
-      Pathovar: 1,
-      Aminoglycoside: 1,
-      Carbapenemase: 1,
-      Colistin: 1,
-      ESBL: 1,
-      Fosfomycin: 1,
-      Macrolide: 1,
-      Penicillin: 1,
-      Quinolone: 1,
-      Sulfonamide: 1,
-      Tetracycline: 1,
-      Trimethoprim: 1,
-      Phenicol: 1,
-      'O Antigen': 1,
-      'H Antigen': 1,
-      'dashboard view': 1, // add more fields as needed
+      Name: 1, GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1, TRAVEL: 1, PMID: 1,
+      Pathovar: 1, Aminoglycoside: 1, Carbapenemase: 1, Colistin: 1, ESBL: 1,
+      Fosfomycin: 1, Macrolide: 1, Penicillin: 1, Quinolone: 1, Sulfonamide: 1,
+      Tetracycline: 1, Trimethoprim: 1, Phenicol: 1, 'O Antigen': 1, 'H Antigen': 1,
+      'dashboard view': 1,
     };
     // Query
     const query = {
