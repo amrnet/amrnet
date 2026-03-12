@@ -206,9 +206,11 @@ export const DashboardPage = () => {
    * @param {string} storeName - Name of the data store
    * @param {Function} handleGetData - Function to retrieve data if not cached
    * @param {boolean} clearStore - Whether to clear the store before adding new data
+   * @param {boolean} backgroundWrite - When true, write to IndexedDB asynchronously without blocking the return.
+   *   Use for large organism stores where cross-session caching matters but blocking the caller is not worth it.
    * @returns {Promise<any>} Retrieved or generated data
    */
-  async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
+  async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true, backgroundWrite = false) {
     // Prefer cached data from IndexedDB when available
     try {
       if (await hasItems(storeName)) {
@@ -239,10 +241,18 @@ export const DashboardPage = () => {
       return organismData;
     }
 
-    try {
-      await bulkAddItems(storeName, storeName.includes('convergence') ? [organismData] : organismData, clearStore);
-    } catch (e) {
-      console.warn(`[IDB] bulkAddItems failed for ${storeName}:`, e);
+    const writePayload = storeName.includes('convergence') ? [organismData] : organismData;
+    if (backgroundWrite) {
+      // Fire-and-forget: don't block the caller. Cross-session cache will be populated in background.
+      bulkAddItems(storeName, writePayload, clearStore).catch(e =>
+        console.warn(`[IDB] background write failed for ${storeName}:`, e),
+      );
+    } else {
+      try {
+        await bulkAddItems(storeName, writePayload, clearStore);
+      } catch (e) {
+        console.warn(`[IDB] bulkAddItems failed for ${storeName}:`, e);
+      }
     }
 
     return organismData;
@@ -845,7 +855,7 @@ export const DashboardPage = () => {
         );
 
         return response;
-      });
+      }, true, true); // clearStore=true, backgroundWrite=true
 
       // Extract data and metadata from result
       if (result && typeof result === 'object' && result.data) {
@@ -1195,6 +1205,7 @@ export const DashboardPage = () => {
     try {
       console.log(`📊 [CLIENT] Loading data for ${storeName} using endpoint: ${endpoint}...`);
 
+      // backgroundWrite=true: IDB write is fire-and-forget so getInfoFromData can start immediately.
       const organismData = await getStoreOrGenerateData(storeName, async () => {
         console.log(`🌐 [CLIENT] Fetching from API: /api/${endpoint}`);
         const apiStartTime = performance.now();
@@ -1264,7 +1275,7 @@ export const DashboardPage = () => {
         );
 
         return organismData;
-      });
+      }, true, true); // clearStore=true, backgroundWrite=true
 
       if (organismData === '__PROCESSED_FROM_IDB__') {
         // Data was fetched and stored into IndexedDB by the handler. Process from IDB in batches.
