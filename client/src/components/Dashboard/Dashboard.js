@@ -303,14 +303,10 @@ export const DashboardPage = () => {
       ecRegions[region].push(country);
     });
 
-    // Special-case mapping: many Salmonella datasets use 'MLST_Achtman' as the genotype field
-    if (organism === 'senterica' || organism === 'sentericaints') {
+    // senterica stores MLST_Achtman instead of GENOTYPE — map it.
+    // sentericaints already has a pre-computed GENOTYPE field (e.g. 'iTYM ST19-L1') so skip it.
+    if (organism === 'senterica') {
       try {
-        if (responseData.length > 0) {
-          console.log('🔍 [SENTERICA DEBUG] First row sample:', JSON.stringify(responseData[0], null, 2));
-          console.log('🔍 [SENTERICA DEBUG] Field names:', Object.keys(responseData[0]));
-        }
-
         const sampleSize = Math.min(responseData.length, 1000);
         let found = false;
         for (let i = 0; i < sampleSize; i++) {
@@ -320,16 +316,12 @@ export const DashboardPage = () => {
             break;
           }
         }
-
         if (found) {
-          console.log(`🔁 [getInfoFromData] Mapping 'MLST_Achtman' -> GENOTYPE for ${organism}`);
           responseData.forEach(r => {
             if (r && (r['MLST_Achtman'] || r['MLST_Achtman'] === 0)) {
               r.GENOTYPE = r['MLST_Achtman'];
             }
           });
-        } else {
-          console.warn('⚠️ [SENTERICA DEBUG] MLST_Achtman not found, will try auto-detect');
         }
       } catch (e) {
         console.warn('Error checking MLST_Achtman mapping:', e);
@@ -1587,6 +1579,12 @@ export const DashboardPage = () => {
         dispatch(setConvergenceData(convergenceData.data));
       }
     } else {
+      // When all lineages are selected, pass [] so filterData treats it as "no filter"
+      const effectiveLineages =
+        selectedLineages?.length > 0 && selectedLineages.length < pathovarForFilter.length
+          ? selectedLineages
+          : [];
+
       const filters = filterData({
         data: storeData,
         dataset,
@@ -1595,7 +1593,7 @@ export const DashboardPage = () => {
         actualTimeFinal,
         organism,
         actualCountry,
-        selectedLineages,
+        selectedLineages: effectiveLineages,
         actualRegion,
         economicRegions,
       });
@@ -1616,12 +1614,48 @@ export const DashboardPage = () => {
 
       dispatch(setListPMID(filters.listPMID));
 
+      // Build query params for server-side /yearly aggregation endpoint.
+      // When a country/region filter is active, extract the raw COUNTRY_ONLY values from
+      // already-filtered IndexedDB records so the server can apply the same restriction
+      // without needing the client-side name-normalisation function.
+      const rawCountriesParam =
+        actualRegion !== 'All' || actualCountry !== 'All'
+          ? [...new Set(filteredData.map(x => x.COUNTRY_ONLY))].join(',')
+          : null;
+
+      const aggParams = {
+        ...(actualTimeInitial && { dateFrom: actualTimeInitial }),
+        ...(actualTimeFinal && { dateTo: actualTimeFinal }),
+        ...(dataset !== 'All' && { dataset }),
+        ...(rawCountriesParam && { countries: rawCountriesParam }),
+        // Only send lineage params when a specific subset is selected (not all).
+        // When "All" is selected, selectedLineages === pathovarForFilter (all values); skip filter.
+        ...(['ecoli', 'decoli', 'shige'].includes(organism) &&
+          selectedLineages?.length > 0 &&
+          selectedLineages.length < pathovarForFilter.length && { pathotype: selectedLineages.join(',') }),
+        ...(organism === 'sentericaints' &&
+          selectedLineages?.length > 0 &&
+          selectedLineages.length < pathovarForFilter.length && { serotype: selectedLineages.join(',') }),
+      };
+
+      // senterica: IndexedDB records lack GENOTYPE (stored as MLST_Achtman) — map it here
+      // so getYearsData sees the correct GENOTYPE values.
+      // sentericaints: GENOTYPE is already stored in the collection; no mapping needed.
+      if (organism === 'senterica' && filteredData.length > 0) {
+        filteredData.forEach(r => {
+          if (r && !r.GENOTYPE && (r['MLST_Achtman'] || r['MLST_Achtman'] === 0)) {
+            r.GENOTYPE = r['MLST_Achtman'];
+          }
+        });
+      }
+
       // Prepare data in parallel - back to Promise.all for speed
       const [
         mapData,
         mapRegionData,
         genotypesData,
-        yearsData,
+        yearlyServerResponse, // server-side agg (drugsData, genotypesData, uniqueGenotypes)
+        yearsData,            // client-side getYearsData (genotypesAndDrugsData + kp/ng-specific)
         koData,
         // koDiversityData,
         convergenceData,
@@ -1644,6 +1678,15 @@ export const DashboardPage = () => {
             ngmast: NGMAST,
           }),
         ),
+        // Server-side aggregation: faster drug/genotype yearly counts (MongoDB pipeline).
+        // Resolves to null on error so the client result below is used as fallback.
+        axios.get(`/api/agg/${organism}/yearly`, { params: aggParams }).catch(err => {
+          console.warn(`[agg/${organism}/yearly] Server call failed, using client data:`, err.message);
+          return null;
+        }),
+        // Client-side getYearsData: still required for genotypesAndDrugsData (AMR MARKER TRENDS)
+        // and organism-specific yearly fields (kpneumo cgST/Sublineage, ngono NG-MAST TYPE).
+        // Runs in parallel with the server call — no extra wall-clock cost.
         Promise.resolve(
           getYearsData({
             data: filteredData,
@@ -1683,6 +1726,15 @@ export const DashboardPage = () => {
         ), // : Promise.resolve({ drugsData: [] }),
       ]);
 
+      // Prefer server results for drugsData / genotypesData / uniqueGenotypes when valid.
+      // Fall back to client getYearsData results when the server call failed or returned empty data.
+      const serverYd = yearlyServerResponse?.data;
+      const serverOk = Array.isArray(serverYd?.drugsData) && serverYd.drugsData.length > 0;
+
+      const finalGenotypesData   = serverOk ? serverYd.genotypesData   : (yearsData.genotypesData   ?? []);
+      const finalDrugsData       = serverOk ? serverYd.drugsData       : (yearsData.drugsData       ?? []);
+      const finalUniqueGenotypes = serverOk ? serverYd.uniqueGenotypes : (yearsData.uniqueGenotypes ?? []);
+
       // Dispatch map data
       dispatch(setMapData(mapData));
       dispatch(setMapRegionData(mapRegionData));
@@ -1708,10 +1760,12 @@ export const DashboardPage = () => {
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
       dispatch(setNgMastDrugClassesData(genotypesData.ngMastDrugClassesData));
 
-      dispatch(setGenotypesYearData(yearsData.genotypesData));
-      dispatch(setDrugsYearData(yearsData.drugsData));
+      // Dispatch yearly trends data (server preferred, client fallback)
+      dispatch(setGenotypesYearData(finalGenotypesData));
+      dispatch(setDrugsYearData(finalDrugsData));
+      dispatch(setGenotypesForFilterDynamic(finalUniqueGenotypes));
+      // genotypesAndDrugsData powers AMR MARKER TRENDS — always use client result
       dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
-      dispatch(setGenotypesForFilterDynamic(yearsData.uniqueGenotypes));
 
       // Dispatch KO and convergence data (kpneumo only)
       if (organism === 'kpneumo') {
