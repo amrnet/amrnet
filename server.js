@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
 import mongo_controller from './controllers/controller_DB.js';
 import performanceMonitor from './middleware/performanceMonitor.js';
+import aggregations from './routes/api/aggregations.js';
 import api from './routes/api/api.js';
 import combine_files from './routes/api/combine_files.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
@@ -57,6 +58,7 @@ app.use(function (req, res, next) {
 });
 
 // Define routes API here
+app.use('/api', aggregations);
 app.use('/api', api);
 app.use('/api/optimized', optimized);
 app.use('/api/file', generateFile);
