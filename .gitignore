@@ -235,6 +235,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+django-tailwind/
 
 # Spyder project settings
 .spyderproject

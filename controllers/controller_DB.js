@@ -1,17 +1,16 @@
-import CombinedModel from '../models/combined.js';
-import express from 'express';
-import csv from 'csv-parser';
-import { promisify } from 'util';
-import { exec as execCallback } from 'child_process';
-import fs from 'fs';
+import { execFile as execFileCallback } from 'child_process';
 import { detailedDiff } from 'deep-object-diff';
+import express from 'express';
+import fs from 'fs';
 import LZString from 'lz-string';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { promisify } from 'util';
+import CombinedModel from '../models/combined.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
-let URI = process.env.MONGODB_URI;
+const URI = process.env.MONGODB_URI;
 
-const exec = promisify(execCallback);
+const execFile = promisify(execFileCallback);
 const router = express.Router();
 
 // Upload data from admin page to MongoDB
@@ -39,7 +38,7 @@ router.post('/upload/admin', (req, res) => {
       if (count > 0) {
         CombinedModel.collection.drop();
       }
-      CombinedModel.insertMany(aux.data, (error) => {
+      CombinedModel.insertMany(aux.data, error => {
         if (error) return res.json({ Status: `Error! ${error}` });
         res.json({ Status: 'Uploaded' });
       });
@@ -53,7 +52,7 @@ router.post('/upload/admin', (req, res) => {
 router.get('/checkForChanges', async (req, res) => {
   let response = [];
 
-  response = await CombinedModel.find().then(async (comb) => {
+  response = await CombinedModel.find().then(async comb => {
     let send_comb = [];
     for (let data of comb) {
       let aux_data = JSON.parse(JSON.stringify(data));
@@ -81,7 +80,7 @@ router.get('/checkForChanges', async (req, res) => {
     res.json({ Status: 'New Data' });
   } else {
     const difference = detailedDiff(collection, data);
-    Object.keys(difference.updated).forEach((element) => {
+    Object.keys(difference.updated).forEach(element => {
       for (const key in difference.updated[element]) {
         difference.updated[element][key] = {
           new: difference.updated[element][key],
@@ -89,11 +88,11 @@ router.get('/checkForChanges', async (req, res) => {
         };
       }
     });
-    Object.keys(difference.deleted).forEach((element) => {
+    Object.keys(difference.deleted).forEach(element => {
       difference.deleted[element] = collection[element];
     });
 
-    if (Object.keys(difference).filter((x) => Object.keys(difference[x]).length > 0).length > 0) {
+    if (Object.keys(difference).filter(x => Object.keys(difference[x]).length > 0).length > 0) {
       const currentDate = new Date();
       aux.splice(0, 0, {
         updatedAt: currentDate.toISOString(),
@@ -132,199 +131,54 @@ router.post('/deleteChange', (req, res) => {
   return res.json(aux);
 });
 
-//Import raw json data into mongoDB
+// Import raw json data into mongoDB
+const importRouteConfig = {
+  styphi: path.join(__dirname, '../assets/webscrap/clean/styphi'),
+  kpneumo: path.join(__dirname, '../assets/webscrap/clean/kpneumo'),
+  ngono: path.join(__dirname, '../assets/webscrap/clean/ngono'),
+  ecoli: path.join(__dirname, '../assets/webscrap/clean/ecoli'),
+  decoli: path.join(__dirname, '../assets/webscrap/clean/decoli'),
+  shige: path.join(__dirname, '../assets/webscrap/clean/shige'),
+  senterica: path.join(__dirname, '../assets/webscrap/clean/senterica'),
+  sentericaints: path.join(__dirname, '../assets/webscrap/clean/sentericaints'),
+};
 
-const STyphifolderPath = path.join(__dirname, '../assets/webscrap/clean/styphi');
-router.get('/import/styphi', async (req, res) => {
-  const jsonFiles = fs.readdirSync(STyphifolderPath).filter((file) => file.endsWith('.json'));
+const importOrganismJsonFiles = async (organism, folderPath) => {
+  const jsonFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.json'));
 
-  const dbName = 'styphi';
+  const importPromises = jsonFiles.map(jsonFile => {
+    const collectionName = jsonFile.replace('.json', '');
+    const args = [
+      '--uri',
+      `${URI}${organism}`,
+      '--collection',
+      collectionName,
+      '--upsert',
+      '--upsertFields',
+      'name,Genome Name,NAME',
+      '--file',
+      path.join(folderPath, jsonFile),
+      '--jsonArray',
+    ];
 
-  try {
-    const importPromises = [];
-    for (const jsonFile of jsonFiles) {
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${STyphifolderPath}/${jsonFile}' --jsonArray`;
+    console.log(`jsonFile: ${jsonFile}`);
+    return execFile('mongoimport', args);
+  });
 
-      const importPromise = exec(command);
-      importPromises.push(importPromise);
-      console.log(`jsonFile: ${jsonFile}`);
+  await Promise.all(importPromises);
+};
+
+Object.entries(importRouteConfig).forEach(([organism, folderPath]) => {
+  router.get(`/import/${organism}`, async (req, res) => {
+    try {
+      await importOrganismJsonFiles(organism, folderPath);
+      console.log('All data imported successfully');
+      return res.status(200).send('All data imported successfully');
+    } catch (error) {
+      console.error(`Error importing data for ${organism}:`, error);
+      return res.status(500).send('Internal Server Error');
     }
-    await Promise.all(importPromises);
-
-    console.log(`All data imported successfully`);
-    return res.status(200).send('All data imported successfully');
-  } catch (error) {
-    console.error('Error importing data:', error);
-    return res.status(500).send('Internal Server Error');
-  }
-});
-
-const KlebfolderPath = path.join(__dirname, '../assets/webscrap/clean/kpneumo');
-router.get('/import/kpneumo', async (req, res) => {
-  const jsonFiles = fs.readdirSync(KlebfolderPath).filter((file) => file.endsWith('.json'));
-
-  const dbName = 'kpneumo';
-  try {
-    const importPromises = [];
-    for (const jsonFile of jsonFiles) {
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${KlebfolderPath}/${jsonFile}' --jsonArray`;
-      const importPromise = exec(command);
-      importPromises.push(importPromise);
-      console.log(`jsonFile: ${jsonFile}`);
-    }
-    await Promise.all(importPromises);
-
-    console.log(`All data imported successfully`);
-    return res.status(200).send('All data imported successfully');
-  } catch (error) {
-    console.error('Error importing data:', error);
-    return res.status(500).send('Internal Server Error');
-  }
-});
-
-const NgonofolderPath = path.join(__dirname, '../assets/webscrap/clean/ngono');
-router.get('/import/ngono', async (req, res) => {
-  const jsonFiles = fs.readdirSync(NgonofolderPath).filter((file) => file.endsWith('.json'));
-
-  const dbName = 'ngono';
-  try {
-    const importPromises = [];
-    for (const jsonFile of jsonFiles) {
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${NgonofolderPath}/${jsonFile}' --jsonArray`;
-      const importPromise = exec(command);
-      importPromises.push(importPromise);
-      console.log(`jsonFile: ${jsonFile}`);
-    }
-    await Promise.all(importPromises);
-
-    console.log(`All data imported successfully`);
-    return res.status(200).send('All data imported successfully');
-  } catch (error) {
-    console.error('Error importing data:', error);
-    return res.status(500).send('Internal Server Error');
-  }
-});
-
-const EcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/ecoli');
-router.get('/import/ecoli', async (req, res) => {
-  const jsonFiles = fs.readdirSync(EcolifolderPath).filter((file) => file.endsWith('.json'));
-
-  const dbName = 'ecoli';
-  try {
-    const importPromises = [];
-    for (const jsonFile of jsonFiles) {
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${EcolifolderPath}/${jsonFile}' --jsonArray`;
-      const importPromise = exec(command);
-      importPromises.push(importPromise);
-      console.log(`jsonFile: ${jsonFile}`);
-    }
-    await Promise.all(importPromises);
-
-    console.log(`All data imported successfully`);
-    return res.status(200).send('All data imported successfully');
-  } catch (error) {
-    console.error('Error importing data:', error);
-    return res.status(500).send('Internal Server Error');
-  }
-});
-const DEcolifolderPath = path.join(__dirname, '../assets/webscrap/clean/decoli');
-router.get('/import/decoli', async (req, res) => {
-  const jsonFiles = fs.readdirSync(DEcolifolderPath).filter((file) => file.endsWith('.json'));
-
-  const dbName = 'decoli';
-  try {
-    const importPromises = [];
-    for (const jsonFile of jsonFiles) {
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${DEcolifolderPath}/${jsonFile}' --jsonArray`;
-      const importPromise = exec(command);
-      importPromises.push(importPromise);
-      console.log(`jsonFile: ${jsonFile}`);
-    }
-    await Promise.all(importPromises);
-
-    console.log(`All data imported successfully`);
-    return res.status(200).send('All data imported successfully');
-  } catch (error) {
-    console.error('Error importing data:', error);
-    return res.status(500).send('Internal Server Error');
-  }
-});
-
-const ShigefolderPath = path.join(__dirname, '../assets/webscrap/clean/shige');
-router.get('/import/shige', async (req, res) => {
-  const jsonFiles = fs.readdirSync(ShigefolderPath).filter((file) => file.endsWith('.json'));
-
-  const dbName = 'shige';
-  try {
-    const importPromises = [];
-    for (const jsonFile of jsonFiles) {
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${ShigefolderPath}/${jsonFile}' --jsonArray`;
-      const importPromise = exec(command);
-      importPromises.push(importPromise);
-      console.log(`jsonFile: ${jsonFile}`);
-    }
-    await Promise.all(importPromises);
-
-    console.log(`All data imported successfully`);
-    return res.status(200).send('All data imported successfully');
-  } catch (error) {
-    console.error('Error importing data:', error);
-    return res.status(500).send('Internal Server Error');
-  }
-});
-
-const SentericafolderPath = path.join(__dirname, '../assets/webscrap/clean/senterica');
-router.get('/import/senterica', async (req, res) => {
-  const jsonFiles = fs.readdirSync(SentericafolderPath).filter((file) => file.endsWith('.json'));
-
-  const dbName = 'senterica';
-  try {
-    const importPromises = [];
-    for (const jsonFile of jsonFiles) {
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${SentericafolderPath}/${jsonFile}' --jsonArray`;
-      const importPromise = exec(command);
-      importPromises.push(importPromise);
-      console.log(`jsonFile: ${jsonFile}`);
-    }
-    await Promise.all(importPromises);
-
-    console.log(`All data imported successfully`);
-    return res.status(200).send('All data imported successfully');
-  } catch (error) {
-    console.error('Error importing data:', error);
-    return res.status(500).send('Internal Server Error');
-  }
-});
-
-const SentericaintsfolderPath = path.join(__dirname, '../assets/webscrap/clean/sentericaints');
-router.get('/import/sentericaints', async (req, res) => {
-  const jsonFiles = fs.readdirSync(SentericaintsfolderPath).filter((file) => file.endsWith('.json'));
-
-  const dbName = 'sentericaints';
-  try {
-    const importPromises = [];
-    for (const jsonFile of jsonFiles) {
-      const collectionName = jsonFile.replace('.json', '');
-      const command = `mongoimport --uri '${URI}${dbName}' --collection '${collectionName}' --upsert --upsertFields 'name,Genome Name,NAME'  --file '${SentericaintsfolderPath}/${jsonFile}' --jsonArray`;
-      const importPromise = exec(command);
-      importPromises.push(importPromise);
-      console.log(`jsonFile: ${jsonFile}`);
-    }
-    await Promise.all(importPromises);
-
-    console.log(`All data imported successfully`);
-    return res.status(200).send('All data imported successfully');
-  } catch (error) {
-    console.error('Error importing data:', error);
-    return res.status(500).send('Internal Server Error');
-  }
+  });
 });
 
 export default router;
