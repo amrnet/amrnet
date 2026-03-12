@@ -1655,6 +1655,7 @@ export const DashboardPage = () => {
         mapRegionData,
         genotypesData,
         yearlyServerResponse, // server-side agg (drugsData, genotypesData, uniqueGenotypes)
+        genotypesServerResponse, // server-side agg (genotypesDrugsData)
         yearsData,            // client-side getYearsData (genotypesAndDrugsData + kp/ng-specific)
         koData,
         // koDiversityData,
@@ -1682,6 +1683,12 @@ export const DashboardPage = () => {
         // Resolves to null on error so the client result below is used as fallback.
         axios.get(`/api/agg/${organism}/yearly`, { params: aggParams }).catch(err => {
           console.warn(`[agg/${organism}/yearly] Server call failed, using client data:`, err.message);
+          return null;
+        }),
+        // Server-side aggregation: per-genotype drug counts for AMR BY GENOTYPE chart.
+        // Resolves to null on error so the client getGenotypesData result is used as fallback.
+        axios.get(`/api/agg/${organism}/genotypes`, { params: aggParams }).catch(err => {
+          console.warn(`[agg/${organism}/genotypes] Server call failed, using client data:`, err.message);
           return null;
         }),
         // Client-side getYearsData: still required for genotypesAndDrugsData (AMR MARKER TRENDS)
@@ -1746,13 +1753,20 @@ export const DashboardPage = () => {
         dispatch(setMapRegionDataNoPathotype(mapRegionData));
       }
 
+      // Prefer server result for genotypesDrugsData (AMR BY GENOTYPE).
+      // Server returns { name, count, [drug]: n } — map count → totalCount for FrequenciesGraph.
+      // Fall back to client getGenotypesData result when the server call failed or returned empty.
+      const serverGd = genotypesServerResponse?.data?.genotypesData;
+      const serverGdOk = Array.isArray(serverGd) && serverGd.length > 0;
+      const finalGenotypesDrugsData = serverGdOk
+        ? serverGd.map(({ count, ...rest }) => ({ ...rest, totalCount: count }))
+        : (genotypesData.genotypesDrugsData ?? []);
+
       // Dispatch genotypes and time-based data
-      dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
+      dispatch(setGenotypesDrugsData(finalGenotypesDrugsData));
       dispatch(
         setFrequenciesGraphSelectedGenotypes(
-          (Array.isArray(genotypesData.genotypesDrugsData) ? genotypesData.genotypesDrugsData : [])
-            .slice(0, 5)
-            .map(x => x.name),
+          finalGenotypesDrugsData.slice(0, 5).map(x => x.name),
         ),
       );
       dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
