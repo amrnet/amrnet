@@ -129,12 +129,12 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   const resistanceOptions = useMemo(() => {
     const options = statKeys?.[organism] ?? statKeys?.['others'] ?? [];
     const filteredOptions = options
-      .filter(({ resistanceView, name }) => resistanceView && name !== 'Pansusceptible')
+      .filter(({ resistanceView, name }) => {
+        if (!resistanceView || name === 'Pansusceptible') return false;
+        if (organism === 'ngono' && name === 'Susceptible') return false;
+        return true;
+      })
       .map(({ name }) => name);
-
-    if (organism === 'ngono') {
-      filteredOptions.splice(5, 0, ...['XDR', 'MDR']);
-    }
 
     return filteredOptions;
   }, [organism]);

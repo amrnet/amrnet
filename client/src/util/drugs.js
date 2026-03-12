@@ -59,13 +59,10 @@ export const drugsNG = [
   'Cefixime',
   'Ceftriaxone',
   'Ciprofloxacin',
-  'XDR',
-  'MDR',
   'Benzylpenicillin',
   'Spectinomycin',
   'Sulfonamides',
   'Tetracycline',
-  'Susceptible to cat I/II drugs',
 ];
 
 // export const drugsNGLegendsOnly = [
