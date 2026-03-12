@@ -1852,7 +1852,10 @@ export const DashboardPage = () => {
     }
     const fetchDataAndFilter = async () => {
       try {
-        const data = await getItems(organism);
+        const data =
+          cachedOrganismData.current.key === organism && cachedOrganismData.current.data.length > 0
+            ? cachedOrganismData.current.data
+            : await getItems(organism);
         if (data.length > 0) {
           const filters = filterBrushData({
             data,
