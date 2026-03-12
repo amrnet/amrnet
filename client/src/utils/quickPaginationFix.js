@@ -22,66 +22,60 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
 
     // Use the paginated endpoint that has proper field projections
     const pageSize = 3000;
-    let allData = [];
-    let page = 1;
-    let hasMoreData = true;
+    const CONCURRENCY = 5;
     let metadata = null;
 
-    while (hasMoreData) {
-      onProgress(`Loading page ${page}...`);
+    // Fetch page 1 first to discover totalPages and capture metadata
+    onProgress(`Loading page 1...`);
+    const firstResponse = await axios.get(`/api/getDataFor${endpointName}`, {
+      params: { page: 1, limit: pageSize },
+      timeout: 60000,
+    });
 
-      try {
-        const response = await axios.get(`/api/getDataFor${endpointName}`, {
-          params: { page, limit: pageSize },
-          timeout: 60000,
-        });
+    const firstPageData = firstResponse.data.data || firstResponse.data || [];
+    if (firstResponse.data.metadata) {
+      metadata = firstResponse.data.metadata;
+      console.log(`📊 [QUICK FIX] Got metadata for ${organism}:`, {
+        years: metadata.years?.length,
+        countries: metadata.countries?.length,
+        genotypes: metadata.genotypes?.length,
+      });
+    }
 
-        const pageData = response.data.data || response.data || [];
-        
-        // Capture metadata from page 1 to avoid re-processing all records
-        if (page === 1 && response.data.metadata) {
-          metadata = response.data.metadata;
-          console.log(`📊 [QUICK FIX] Got metadata for ${organism}:`, {
-            years: metadata.years?.length,
-            countries: metadata.countries?.length,
-            genotypes: metadata.genotypes?.length,
-          });
-        }
-        
-        if (!Array.isArray(pageData) || pageData.length === 0) {
-          hasMoreData = false;
-          break;
-        }
+    const totalPages = firstResponse.data.pagination?.totalPages ?? 1;
+    console.log(`📄 [QUICK FIX] Page 1/${totalPages}: ${firstPageData.length} records`);
 
-        allData = allData.concat(pageData);
-        console.log(`📄 [QUICK FIX] Page ${page}: ${pageData.length} records (total: ${allData.length})`);
+    // Fetch remaining pages in parallel, CONCURRENCY at a time
+    const remainingPages = Array.from({ length: totalPages - 1 }, (_, i) => i + 2);
+    const extraData = new Array(remainingPages.length);
 
-        // Check if we've got all data (response includes pagination metadata)
-        if (response.data.pagination) {
-          const { totalPages } = response.data.pagination;
-          if (page >= totalPages) {
-            hasMoreData = false;
-          }
-        }
+    for (let i = 0; i < remainingPages.length; i += CONCURRENCY) {
+      const chunk = remainingPages.slice(i, i + CONCURRENCY);
+      onProgress(`Loading pages ${chunk[0]}–${chunk[chunk.length - 1]} of ${totalPages}...`);
 
-        // Throttle to avoid overwhelming the server
-        if (page % 5 === 0) {
-          await new Promise(resolve => setTimeout(resolve, 100));
-        }
+      const responses = await Promise.allSettled(
+        chunk.map(p =>
+          axios.get(`/api/getDataFor${endpointName}`, {
+            params: { page: p, limit: pageSize },
+            timeout: 60000,
+          }),
+        ),
+      );
 
-        page++;
-      } catch (pageError) {
-        console.warn(`⚠️ [QUICK FIX] Error loading page ${page}:`, pageError);
-        // If we got at least some data, return it; otherwise throw
-        if (allData.length > 0) {
-          console.log(`⚠️ [QUICK FIX] Returning ${allData.length} records despite page error`);
-          hasMoreData = false;
+      for (let j = 0; j < responses.length; j++) {
+        const result = responses[j];
+        if (result.status === 'fulfilled') {
+          const pageData = result.value.data.data || result.value.data || [];
+          extraData[i + j] = pageData;
+          console.log(`📄 [QUICK FIX] Page ${chunk[j]}/${totalPages}: ${pageData.length} records`);
         } else {
-          throw pageError;
+          console.warn(`⚠️ [QUICK FIX] Error loading page ${chunk[j]}:`, result.reason);
+          extraData[i + j] = [];
         }
       }
     }
 
+    const allData = [firstPageData, ...extraData].flat();
     console.log(`✅ [QUICK FIX] Loaded total of ${allData.length} records for ${organism}`);
     
     // Return both the data and the metadata for fast initialization

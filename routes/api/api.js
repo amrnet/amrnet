@@ -3,7 +3,6 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import fs from 'fs';
 import connectDB, {
-  getAggregatedDataWithTimeout,
   getCollectionCountWithTimeout,
   getDataWithTimeout,
 } from '../../config/db.js';
@@ -82,11 +81,6 @@ const sentericaintsFieldsToAdd = {
 //   _id: 0,
 // };
 
-const fieldsToProject = Object.keys(sentericaintsFieldsToAdd).reduce(
-  (acc, key) => ({ ...acc, [key]: 1 }),
-  { NAME: 1 }, // always include NAME for matching
-);
-
 const readCsvFallback = (filePath, res) => {
   const results = [];
   fs.createReadStream(filePath)
@@ -102,7 +96,7 @@ const readCsvFallback = (filePath, res) => {
 };
 
 // Main organism data endpoints
-router.get('/getDataForSTyphi', async function (req, res, next) {
+router.get('/getDataForSTyphi', async function (_req, res) {
   const dbAndCollection = dbAndCollectionNames['styphi'];
   try {
     const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
@@ -125,74 +119,39 @@ router.get('/getDataForSTyphi', async function (req, res, next) {
   }
 });
 
-router.get('/getDataForKpneumo', async function (req, res, next) {
+router.get('/getDataForKpneumo', async function (req, res) {
   const dbAndCollection = dbAndCollectionNames['kpneumo'];
   try {
-    // Pagination params
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5000;
     const skip = (page - 1) * limit;
-    // Projection: only return needed fields
+    const query = { 'dashboard view': 'include', GENOTYPE: { $ne: null } };
     const projection = {
-      GENOTYPE: 1,
-      COUNTRY_ONLY: 1,
-      DATE: 1,
-      ESBL_category: 1,
-      Carbapenems_category: 1,
-      cgST: 1,
-      Sublineage: 1,
-      AGly_acquired: 1,
-      Bla_Carb_acquired: 1,
-      Bla_ESBL_acquired: 1,
-      Bla_ESBL_inhR_acquired: 1,
-      Flq_acquired: 1,
-      Flq_mutations: 1,
-      Col_acquired: 1,
-      Col_mutations: 1,
-      Fcyn_acquired: 1,
-      Phe_acquired: 1,
-      Sul_acquired: 1,
-      Tet_acquired: 1,
-      Tgc_acquired: 1,
-      Tmt_acquired: 1,
-      SHV_mutations: 1,
-      Omp_mutations: 1,
-      num_resistance_classes: 1,
-      virulence_score: 1,
-      O_locus: 1,
-      K_locus: 1,
-      O_type: 1,
-      NAME: 1,
-      _id: 0,
+      GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1, ESBL_category: 1,
+      Carbapenems_category: 1, cgST: 1, Sublineage: 1, AGly_acquired: 1,
+      Bla_Carb_acquired: 1, Bla_ESBL_acquired: 1, Bla_ESBL_inhR_acquired: 1,
+      Flq_acquired: 1, Flq_mutations: 1, Col_acquired: 1, Col_mutations: 1,
+      Fcyn_acquired: 1, Phe_acquired: 1, Sul_acquired: 1, Tet_acquired: 1,
+      Tgc_acquired: 1, Tmt_acquired: 1, SHV_mutations: 1, Omp_mutations: 1,
+      num_resistance_classes: 1, virulence_score: 1, O_locus: 1, K_locus: 1,
+      O_type: 1, NAME: 1, _id: 0,
     };
-    // Query
-    const query = {
-      'dashboard view': 'include',
-      GENOTYPE: { $ne: null },
-    };
-    // Get total count
+
     const client = await connectDB();
-    const totalDocuments = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .countDocuments(query);
-    // Get paginated data
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query)
-      .project(projection)
-      .skip(skip)
-      .limit(limit)
-      .toArray();
+    const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    // Only count on page 1 — subsequent pages reuse the totalPages from the first response
+    const [totalDocuments, result] = await Promise.all([
+      page === 1 ? collection.countDocuments(query) : Promise.resolve(null),
+      collection.find(query).project(projection).skip(skip).limit(limit).toArray(),
+    ]);
+
     console.log(`Found ${result.length} documents for Kpneumo (page ${page}).`);
     return res.json({
       data: result,
       pagination: {
-        page,
-        limit,
-        totalDocuments,
-        totalPages: Math.ceil(totalDocuments / limit),
+        page, limit,
+        ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
       },
     });
   } catch (error) {
@@ -201,7 +160,7 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
   }
 });
 
-router.get('/getDataForNgono', async function (req, res, next) {
+router.get('/getDataForNgono', async function (_req, res) {
   const dbAndCollection = dbAndCollectionNames['ngono'];
   try {
     const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
@@ -220,7 +179,7 @@ router.get('/getDataForNgono', async function (req, res, next) {
   }
 });
 
-router.get('/getDataForEcoli', async function (req, res, next) {
+router.get('/getDataForEcoli', async function (req, res) {
   const dbAndCollection = dbAndCollectionNames['ecoli'];
   try {
     // Pagination params
@@ -256,24 +215,16 @@ router.get('/getDataForEcoli', async function (req, res, next) {
       'dashboard view': { $regex: /^include$/, $options: 'i' },
       GENOTYPE: { $ne: null },
     };
-    // Get total count
     const client = await connectDB();
-    const totalDocuments = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .countDocuments(query);
-    // Get paginated data
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query)
-      .project(projection)
-      .skip(skip)
-      .limit(limit)
-      .toArray();
+    const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    // Only count on page 1 — subsequent pages reuse totalPages from the first response
+    const [totalDocuments, result] = await Promise.all([
+      page === 1 ? collection.countDocuments(query) : Promise.resolve(null),
+      collection.find(query).project(projection).skip(skip).limit(limit).toArray(),
+    ]);
     console.log(`Found ${result.length} documents for Ecoli (page ${page}).`);
 
-    // On page 1, also return metadata (unique years, countries, genotypes) for faster initialization
     let metadata = null;
     if (page === 1) {
       try {
@@ -322,7 +273,7 @@ router.get('/getDataForEcoli', async function (req, res, next) {
   }
 });
 
-router.get('/getDataForDEcoli', async function (req, res, next) {
+router.get('/getDataForDEcoli', async function (req, res) {
   const dbAndCollection = dbAndCollectionNames['decoli'];
   try {
     // Pagination params
@@ -357,29 +308,20 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
       'dashboard view': { $regex: /^include$/, $options: 'i' },
       GENOTYPE: { $ne: null },
     };
-    // Get total count
     const client = await connectDB();
-    const totalDocuments = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .countDocuments(query);
-    // Get paginated data
-    const result = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .find(query)
-      .project(projection)
-      .skip(skip)
-      .limit(limit)
-      .toArray();
+    const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    // Only count on page 1
+    const [totalDocuments, result] = await Promise.all([
+      page === 1 ? collection.countDocuments(query) : Promise.resolve(null),
+      collection.find(query).project(projection).skip(skip).limit(limit).toArray(),
+    ]);
     console.log(`Found ${result.length} documents for DEcoli (page ${page}).`);
     return res.json({
       data: result,
       pagination: {
-        page,
-        limit,
-        totalDocuments,
-        totalPages: Math.ceil(totalDocuments / limit),
+        page, limit,
+        ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
       },
     });
   } catch (error) {
@@ -388,17 +330,39 @@ router.get('/getDataForDEcoli', async function (req, res, next) {
   }
 });
 
-router.get('/getDataForShige', async function (req, res, next) {
+router.get('/getDataForShige', async function (req, res) {
   const dbAndCollection = dbAndCollectionNames['shige'];
   try {
-    const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 5000;
+    const skip = (page - 1) * limit;
+    const query = {
       'dashboard view': { $regex: /^include$/, $options: 'i' },
       GENOTYPE: { $ne: null },
-    });
+    };
 
-    console.log(`Found ${result.length} documents for Shige.`);
-    if (result.length > 0) {
-      return res.json(result);
+    const client = await connectDB();
+    const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    // No projection — Shige uses individual drug resistance columns (Aminoglycoside, Penicillin,
+    // Carbapenemase, ESBL, Macrolide, Phenicol, Quinolone, Colistin, Fosfomycin, Sulfonamide,
+    // Tetracycline, Trimethoprim) as well as O/H serotype fields; stripping any would break charts.
+    // Only count on page 1
+    const [totalDocuments, result] = await Promise.all([
+      page === 1 ? collection.countDocuments(query) : Promise.resolve(null),
+      collection.find(query).skip(skip).limit(limit).toArray(),
+    ]);
+
+    console.log(`Found ${result.length} documents for Shige (page ${page}).`);
+
+    if (page === 1 ? totalDocuments > 0 : result.length > 0) {
+      return res.json({
+        data: result,
+        pagination: {
+          page, limit,
+          ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
+        },
+      });
     }
 
     return readCsvFallback(Tools.path_clean_sh, res);
@@ -408,7 +372,7 @@ router.get('/getDataForShige', async function (req, res, next) {
   }
 });
 
-router.get('/getDataForSenterica', async function (req, res, next) {
+router.get('/getDataForSenterica', async function (req, res) {
   const dbAndCollection = dbAndCollectionNames['senterica'];
   try {
     // Pagination params (use same pattern as Ecoli)
@@ -419,12 +383,11 @@ router.get('/getDataForSenterica', async function (req, res, next) {
     // Query: include only dashboard-visible documents
     const query = { 'dashboard view': { $regex: /^Include$/i } };
 
-    // Get total count for pagination metadata
     const client = await connectDB();
-    const totalDocuments = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .countDocuments(query);
+    const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    // Only count on page 1
+    const totalDocuments = page === 1 ? await collection.countDocuments(query) : null;
 
     // Use aggregation for projection so we can compute GENOTYPE similarly to previous implementation
     const projectStage = {
@@ -455,11 +418,7 @@ router.get('/getDataForSenterica', async function (req, res, next) {
 
     const pipeline = [{ $match: query }, projectStage, { $skip: skip }, { $limit: limit }];
 
-    const results = await client
-      .db(dbAndCollection.dbName)
-      .collection(dbAndCollection.collectionName)
-      .aggregate(pipeline)
-      .toArray();
+    const results = await collection.aggregate(pipeline).toArray();
 
     console.log(`Found ${totalDocuments} documents for Senterica (paged). Returning ${results.length} rows.`);
 
@@ -507,8 +466,11 @@ router.get('/getDataForSenterica', async function (req, res, next) {
     if (results.length > 0) {
       return res.json({
         data: results,
-        pagination: { page, limit, totalDocuments, totalPages: Math.ceil(totalDocuments / limit) },
-        metadata, // Include metadata on page 1
+        pagination: {
+          page, limit,
+          ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
+        },
+        metadata,
       });
     }
 
@@ -520,35 +482,56 @@ router.get('/getDataForSenterica', async function (req, res, next) {
 });
 
 const sentericaintsLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: { error: 'Too many requests, please try again later.' },
 });
 
-router.get('/getDataForSentericaints', async function (req, res, next) {
+router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req, res) {
   const dbAndCollection = dbAndCollectionNames['sentericaints'];
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 5000;
+  const skip = (page - 1) * limit;
+  const matchStage = { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } };
 
   try {
-    const pipeline = [
-      { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
-      {
-        $lookup: {
-          from: 'ints_collection_from_enterica', //TODO: change to actual collection name to keep same for entericaints and senterica
-          localField: 'NAME',
-          foreignField: 'NAME',
-          as: 'extraData',
+    const client = await connectDB();
+    const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+
+    // Only count on page 1
+    const [countResult, result] = await Promise.all([
+      page === 1
+        ? collection.countDocuments({ 'dashboard view': { $regex: /^include$/, $options: 'i' } })
+        : Promise.resolve(null),
+      collection.aggregate([
+        matchStage,
+        {
+          $lookup: {
+            from: 'ints_collection_from_enterica',
+            localField: 'NAME',
+            foreignField: 'NAME',
+            as: 'extraData',
+          },
         },
-      },
-      { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-      { $addFields: sentericaintsFieldsToAdd },
-      { $project: { extraData: 0 } },
-    ];
+        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+        { $addFields: sentericaintsFieldsToAdd },
+        { $project: { extraData: 0 } },
+        { $skip: skip },
+        { $limit: limit },
+      ]).toArray(),
+    ]);
 
-    const result = await getAggregatedDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, pipeline);
+    const totalDocuments = countResult;
+    console.log(`Found ${result.length} documents for Sentericaints (page ${page}).`);
 
-    console.log(`Found ${result.length} documents for Sentericaints.`);
-    if (result.length > 0) {
-      return res.json(result);
+    if (page === 1 ? totalDocuments > 0 : result.length > 0) {
+      return res.json({
+        data: result,
+        pagination: {
+          page, limit,
+          ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
+        },
+      });
     }
 
     return readCsvFallback(Tools.path_clean_seints, res);
@@ -558,7 +541,7 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
   }
 });
 
-router.get('/getUNR', async function (req, res, next) {
+router.get('/getUNR', async function (_req, res) {
   const dbAndCollection = dbAndCollectionNames['unr'];
   try {
     const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {});
@@ -571,10 +554,10 @@ router.get('/getUNR', async function (req, res, next) {
   }
 });
 
-router.get('/getCollectionCounts', async function (req, res, next) {
+router.get('/getCollectionCounts', async function (_req, res) {
   try {
     // Perform asynchronous counting of documents in parallel across databases
-    const countPromises = Object.entries(dbAndCollectionNames).map(([key, { dbName, collectionName }]) => {
+    const countPromises = Object.entries(dbAndCollectionNames).map(([, { dbName, collectionName }]) => {
       return getCollectionCountWithTimeout(dbName, collectionName, {
         'dashboard view': { $regex: /^include$/, $options: 'i' },
         $or: [{ GENOTYPE: { $ne: null } }, { ST: { $ne: null } }, { MLST_Achtman: { $ne: null } }],
