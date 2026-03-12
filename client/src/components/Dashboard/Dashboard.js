@@ -159,6 +159,9 @@ export const DashboardPage = () => {
   const [currentTimeInitial, setCurrentTimeInitial] = useState('');
   const [currentTimeFinal, setCurrentTimeFinal] = useState('');
   const isApplyingFilters = useRef(false);
+  // In-memory cache of the full organism dataset. Populated by getInfoFromData so that
+  // updateDataOnFilters can skip the IndexedDB read on every filter change.
+  const cachedOrganismData = useRef({ key: null, data: [] });
   const { t } = useTranslation();
 
   const { hasItems, bulkAddItems, getItems } = useIndexedDB();
@@ -282,6 +285,9 @@ export const DashboardPage = () => {
   async function getInfoFromData(responseData, regions) {
     console.time('[getInfoFromData] total');
     const dataLength = Array.isArray(responseData) ? responseData.length : 0;
+
+    // Cache the full dataset so updateDataOnFilters can avoid re-reading IndexedDB.
+    cachedOrganismData.current = { key: organism, data: responseData };
 
     console.timeLog && console.timeLog('[getInfoFromData] total', 'start');
     dispatch(setTotalGenomes(dataLength));
@@ -1358,6 +1364,7 @@ export const DashboardPage = () => {
 
       // Clear state only if switching organisms, not on initial mount or reopen
       if (isOrganismChange && !needsInitialLoad) {
+        cachedOrganismData.current = { key: null, data: [] };
         // Clear all that needs to be cleared
         dispatch(
           setCollapses({
@@ -1543,7 +1550,11 @@ export const DashboardPage = () => {
     }
     isApplyingFilters.current = true;
     console.debug('[Dashboard] updateDataOnFilters: start');
-    const storeData = await getItems(organism);
+    // Use in-memory cache when available — avoids reading all records from IndexedDB on every filter change.
+    const storeData =
+      cachedOrganismData.current.key === organism && cachedOrganismData.current.data.length > 0
+        ? cachedOrganismData.current.data
+        : await getItems(organism);
 
     if (organism === 'kpneumo' && convergenceGroupVariable !== currentConvergenceGroupVariable) {
       setCurrentConvergenceGroupVariable(convergenceGroupVariable);
