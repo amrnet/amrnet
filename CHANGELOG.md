@@ -9,17 +9,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial CHANGELOG.md file to track project changes
-- Comprehensive contribution guidelines
-- Code of conduct for community participation
+- Enhanced database configuration with timeout protection helpers (getDataWithTimeout, getAggregatedDataWithTimeout, getCollectionCountWithTimeout, getConnectedClient)
+- Input validation middleware for email endpoint using express-validator
 
 ### Changed
 
-- Improved project documentation structure
+- Consolidated duplicated MongoDB connection logic across api.js and optimized.js to use shared config/db.js
+- Refactored 8 duplicated MongoDB import routes into single parameterized importOrganismJsonFiles function
+- Improved command execution security: migrated from exec() to execFile() with argument arrays to prevent shell injection
+- Removed unnecessary configuration files: .travis.yml, webpack.config.js, ruff.toml, .eslintrc.js, .readthedocs.translations.yaml
+- Extracted helper functions from route modules to centralized config/db.js for reusability
 
 ### Fixed
 
-- Various bug fixes and performance improvements
+- Removed 8 unused/dead code files: enhanced-server.js, worker.js, processData.js, generate_file.js, filters_functions.js, useGraphWorker.js, ProgressiveDataLoader.js, paginationLoader.js
+- Fixed server startup with proper database connection retry logic (exponential backoff with max 3 attempts)
+- Improved code maintainability and reduced duplication across backend modules
+
+## [1.1.1] - 2026-03-12
+
+### Added
+
+- Enhanced database configuration with timeout protection helpers (getDataWithTimeout, getAggregatedDataWithTimeout, getCollectionCountWithTimeout, getConnectedClient)
+- Input validation middleware for email endpoint using express-validator
+
+### Changed
+
+- Consolidated duplicated MongoDB connection logic across api.js and optimized.js to use shared config/db.js
+- Refactored 8 duplicated MongoDB import routes into single parameterized importOrganismJsonFiles function
+- Improved command execution security: migrated from exec() to execFile() with argument arrays to prevent shell injection
+- Removed unnecessary configuration files: .travis.yml, webpack.config.js, ruff.toml, .eslintrc.js, .readthedocs.translations.yaml
+- Extracted helper functions from route modules to centralized config/db.js for reusability
+
+### Fixed
+
+- Removed 8 unused/dead code files: enhanced-server.js, worker.js, processData.js, generate_file.js, filters_functions.js, useGraphWorker.js, ProgressiveDataLoader.js, paginationLoader.js
+- Fixed server startup with proper database connection retry logic (exponential backoff with max 3 attempts)
+- Improved code maintainability and reduced duplication across backend modules
 
 ## [1.1.0] - 2024-XX-XX
 
