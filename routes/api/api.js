@@ -2,175 +2,13 @@ import csv from 'csv-parser';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import fs from 'fs';
-import { MongoClient } from 'mongodb';
-import { getMongoConfig } from '../../config/db.js';
+import connectDB, {
+  getAggregatedDataWithTimeout,
+  getCollectionCountWithTimeout,
+  getDataWithTimeout,
+} from '../../config/db.js';
 
 const router = express.Router();
-
-// MongoDB client setup for production deployment
-let client;
-let connectionAttempts = 0;
-const MAX_CONNECTION_ATTEMPTS = 3;
-
-const connectDB = async () => {
-  if (!client) {
-    const { uri, options } = getMongoConfig();
-    client = new MongoClient(uri, options);
-
-    for (let attempt = 1; attempt <= MAX_CONNECTION_ATTEMPTS; attempt++) {
-      try {
-        console.log(`API routes: Connection attempt ${attempt}/${MAX_CONNECTION_ATTEMPTS}`);
-        await client.connect();
-
-        // Test connection
-        await client.db('ecoli2').command({ ping: 1 });
-
-        // Optional: Ensure indexes on startup (gated by env flag for edge cases where API must manage indexes)
-        if (process.env.CREATE_INDEXES_ON_STARTUP === 'true') {
-          try {
-            // Ensure index on lookup collection to avoid $lookup full collection scans
-            // NOTE: Prefer running 'npm run db:indexes' during deployment instead of this
-            const lookupDb = client.db('sentericaints');
-            const lookupColl = lookupDb.collection('ints_collection_from_enterica');
-            const indexSpec = { NAME: 1 };
-            // createIndex is idempotent if the index already exists
-            await lookupColl.createIndex(indexSpec, { name: 'name_1_lookup' });
-            console.log('✅ API routes: Lookup index ensured on startup');
-          } catch (indexErr) {
-            console.warn('API routes: Failed to ensure index on lookup collection (this is OK if already exists)', {
-              dbName: 'sentericaints',
-              collection: 'ints_collection_from_enterica',
-              indexSpec: { NAME: 1 },
-              errorName: indexErr?.name,
-              errorMessage: indexErr?.message,
-            });
-          }
-        }
-
-        console.log('✅ API routes: MongoDB connection established');
-        connectionAttempts = 0; // Reset on success
-        break;
-      } catch (error) {
-        console.error(`❌ API routes: Connection attempt ${attempt} failed:`, error.message);
-
-        if (attempt === MAX_CONNECTION_ATTEMPTS) {
-          console.error('🚨 API routes: Max connection attempts reached');
-          client = null; // Reset client for next request
-          throw new Error(`MongoDB connection failed after ${MAX_CONNECTION_ATTEMPTS} attempts: ${error.message}`);
-        }
-
-        // Wait before retrying (exponential backoff)
-        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-        console.log(`⏳ Retrying in ${delay}ms...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
-    }
-  }
-  return client;
-};
-
-// Helper function to validate and clamp timeout values
-// Ensures timeout is a positive integer, falls back to default if invalid
-const getValidatedTimeoutMs = (envValue, defaultMs = 60000) => {
-  if (!envValue) return defaultMs;
-
-  const parsed = Number.parseInt(envValue, 10);
-
-  // Check if parsing failed or value is non-positive
-  if (Number.isNaN(parsed) || parsed <= 0) {
-    console.warn(`⚠️ Invalid AGGREGATION_TIMEOUT_MS value "${envValue}" (must be > 0). Using default ${defaultMs}ms`);
-    return defaultMs;
-  }
-
-  // Optionally warn if value seems unreasonably high (> 5 minutes)
-  if (parsed > 300000) {
-    console.warn(
-      `⚠️ AGGREGATION_TIMEOUT_MS is very high (${parsed}ms). Consider reducing to avoid long-running queries.`,
-    );
-  }
-
-  return parsed;
-};
-
-// Helper function to get data with timeout protection
-const getDataWithTimeout = async (dbName, collectionName, query) => {
-  try {
-    // Ensure client is connected
-    const connectedClient = await Promise.race([
-      connectDB(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
-    ]);
-
-    // Execute query with timeout
-    const result = await Promise.race([
-      connectedClient.db(dbName).collection(collectionName).find(query).toArray(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Query timout')), 100000)),
-    ]);
-
-    return result;
-  } catch (error) {
-    console.error(`Error retrieving data from ${collectionName}:`, error.message);
-    throw error;
-  }
-};
-
-// Helper function for aggregation with timeout protection
-const getAggregatedDataWithTimeout = async (dbName, collectionName, pipeline) => {
-  try {
-    // Ensure client is connected
-    const connectedClient = await Promise.race([
-      connectDB(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
-    ]);
-
-    // Execute aggregation with timeout
-    const aggregationTimeoutMs =
-      Number.parseInt(process.env.AGGREGATION_TIMEOUT_MS ?? '60000', 10);
-
-    const result = await Promise.race([
-      connectedClient.db(dbName).collection(collectionName).aggregate(pipeline).toArray(),
-      new Promise((_, reject) =>
-        setTimeout(
-          () => reject(new Error('Aggregation timeout')),
-          Number.isNaN(aggregationTimeoutMs) ? 60000 : aggregationTimeoutMs,
-        ),
-      ),
-    ]);
-
-    return result;
-  } catch (error) {
-    console.error(`Error running aggregation on ${collectionName}:`, error.message);
-    throw error;
-  }
-};
-
-// Helper function for counting documents with timeout protection
-const getCollectionCountWithTimeout = async (dbName, collectionName, query) => {
-  try {
-    // Ensure client is connected
-    const connectedClient = await Promise.race([
-      connectDB(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
-    ]);
-
-    // Execute count with timeout
-    const count = await Promise.race([
-      connectedClient.db(dbName).collection(collectionName).countDocuments(query),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Count timeout')), 15000)),
-    ]);
-
-    return count;
-  } catch (error) {
-    console.error(`Error counting documents in ${collectionName}:`, error.message);
-    throw error;
-  }
-};
-
-// Initialize client on module load with timeout handling
-connectDB().catch(error => {
-  console.warn('API routes: MongoDB connection failed:', error.message);
-  console.log('API routes will attempt to reconnect on first request');
-});
 
 const dbAndCollectionNames = {
   styphi: { dbName: 'styphi', collectionName: 'amrnetdb_styphi' },
@@ -695,7 +533,7 @@ router.get('/getDataForSentericaints', async function (req, res, next) {
       { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } },
       {
         $lookup: {
-          from: 'ints_collection_from_enterica',//TODO: change to actual collection name to keep same for entericaints and senterica 
+          from: 'ints_collection_from_enterica', //TODO: change to actual collection name to keep same for entericaints and senterica
           localField: 'NAME',
           foreignField: 'NAME',
           as: 'extraData',

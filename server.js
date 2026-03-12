@@ -10,12 +10,9 @@ import mongo_controller from './controllers/controller_DB.js';
 import performanceMonitor from './middleware/performanceMonitor.js';
 import api from './routes/api/api.js';
 import combine_files from './routes/api/combine_files.js';
-import emailRouter from './routes/api/email.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
 import generateFileClean from './routes/api/generateDataClean.js';
 import optimized from './routes/api/optimized.js';
-
-// REMOVED: import bodyParser from 'body-parser';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -44,8 +41,6 @@ app.use(
     },
   }),
 );
-// REMOVED: app.use(bodyParser.json({ limit: '400mb' }));
-
 // Middleware
 app.use(performanceMonitor); // Add performance monitoring first
 app.use(cors());
@@ -64,7 +59,6 @@ app.use(function (req, res, next) {
 // Define routes API here
 app.use('/api', api);
 app.use('/api/optimized', optimized);
-app.use('/api/email', emailRouter);
 app.use('/api/file', generateFile);
 app.use('/api/data', generateFileClean);
 app.use('/api/combine', combine_files);
