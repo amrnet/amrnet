@@ -3,7 +3,7 @@ import { IDBPDatabase, openDB } from 'idb';
 
 const DB_NAME = 'amrnetdb';
 // Bump version when schema changes (e.g., new indexes)
-const DB_VERSION = 37;
+const DB_VERSION = 38;
 
 // List of all stores used by the app
 const OBJECT_STORES = [
@@ -85,17 +85,24 @@ export const initDB = async () => {
           db.deleteObjectStore(storeName);
         });
 
+        // Base organism stores that benefit from a DATE index for range queries
+        const ORGANISM_STORES = new Set([
+          'styphi', 'kpneumo', 'ngono', 'ecoli', 'decoli',
+          'shige', 'senterica', 'sentericaints',
+        ]);
+
         // Recreate object stores with the updated schema
         OBJECT_STORES.forEach(store => {
           if (!db.objectStoreNames.contains(store)) {
             const os = db.createObjectStore(store, { keyPath: 'id', autoIncrement: true });
-            // Create composite index only for styphi: [TRAVEL, DATE]
-            if (store === 'styphi') {
-              try {
+
+            if (ORGANISM_STORES.has(store)) {
+              // DATE index for fast year-range filtering on every organism
+              os.createIndex('dateIndex', 'DATE', { unique: false });
+
+              if (store === 'styphi') {
+                // Composite index for styphi which also filters by TRAVEL
                 os.createIndex('travelDateIndex', ['TRAVEL', 'DATE'], { unique: false });
-              } catch (e) {
-                // Ignore if index already exists or cannot be created
-                console.warn('Could not create travelDateIndex on styphi:', e);
               }
             }
           }
@@ -213,22 +220,34 @@ export const bulkAddItems = async (storeName: string, items: any, clearStore: bo
       items = [items];
     }
 
+    const BATCH_SIZE = 2000;
     let successCount = 0;
     let failureCount = 0;
 
-    for (const originalItem of items) {
-      try {
-        // Shallow clone to avoid IDB auto-generated key conflicts and non-serializable props
-        const item = Object.assign({}, originalItem);
-        await store.put(item);
-        successCount += 1;
-      } catch (err) {
-        failureCount += 1;
-        console.warn(`Failed to put item into ${storeName}:`, err);
+    // Commit in batches: each batch opens its own transaction so the browser
+    // doesn't keep a single giant transaction alive for 100k+ records.
+    await tx.done; // close the initial (possibly clear-only) transaction first
+
+    for (let i = 0; i < items.length; i += BATCH_SIZE) {
+      const batch = items.slice(i, i + BATCH_SIZE);
+      const batchTx = db.transaction(storeName, 'readwrite');
+      const batchStore = batchTx.objectStore(storeName);
+
+      const results = await Promise.allSettled(
+        batch.map((originalItem: any) => batchStore.put(Object.assign({}, originalItem))),
+      );
+
+      await batchTx.done;
+
+      for (const r of results) {
+        if (r.status === 'fulfilled') successCount++;
+        else {
+          failureCount++;
+          console.warn(`Failed to put item into ${storeName}:`, r.reason);
+        }
       }
     }
 
-    await tx.done;
     console.info(`bulkAddItems summary for store ${storeName}: attempted=${successCount + failureCount}, success=${successCount}, failure=${failureCount}`);
   } catch (error) {
     console.error(`Error bulk adding items to ${storeName}:`, error);
@@ -251,50 +270,57 @@ export const filterItems = async (
     const db = await getDB();
     const tx = db.transaction(storeName, 'readonly');
     const store = tx.objectStore(storeName);
-    if (storeName !== 'styphi') {
-      // Fallback: scan and filter for non-styphi stores (index not defined)
-      const all: any[] = await store.getAll();
-      return all.filter(item => {
-        const dateOk =
-          startDate !== undefined && endDate !== undefined ? item?.DATE >= startDate && item?.DATE <= endDate : true;
-        const travelOk = travel !== undefined ? item?.TRAVEL === travel : true;
-        return dateOk && travelOk;
-      });
+
+    // Use composite travelDateIndex for styphi (travel + date range)
+    if (storeName === 'styphi' && travel !== undefined) {
+      let index: any;
+      try {
+        index = store.index('travelDateIndex');
+      } catch (_e) {
+        // Older DB version without index — fall through to date scan below
+      }
+      if (index) {
+        const range =
+          startDate !== undefined && endDate !== undefined
+            ? IDBKeyRange.bound([travel, startDate], [travel, endDate])
+            : undefined;
+        const results: any[] = [];
+        for await (const cursor of index.iterate(range)) {
+          results.push(cursor.value);
+        }
+        return results;
+      }
     }
 
-    let index: any;
-    try {
-      index = store.index('travelDateIndex');
-    } catch (_e) {
-      // Index not available yet (older DB). Fallback to scan.
-      const all: any[] = await store.getAll();
-      return all.filter(item => {
-        const dateOk =
-          startDate !== undefined && endDate !== undefined ? item?.DATE >= startDate && item?.DATE <= endDate : true;
-        const travelOk = travel !== undefined ? item?.TRAVEL === travel : true;
-        return dateOk && travelOk;
-      });
+    // Use dateIndex for all organism stores when filtering by date range
+    if (startDate !== undefined && endDate !== undefined) {
+      let index: any;
+      try {
+        index = store.index('dateIndex');
+      } catch (_e) {
+        // Older DB version without index — fall through to full scan
+      }
+      if (index) {
+        const range = IDBKeyRange.bound(startDate, endDate);
+        const results: any[] = [];
+        for await (const cursor of index.iterate(range)) {
+          // Apply in-memory travel filter if needed (only styphi has TRAVEL field)
+          if (travel === undefined || cursor.value?.TRAVEL === travel) {
+            results.push(cursor.value);
+          }
+        }
+        return results;
+      }
     }
 
-    let range: IDBKeyRange | undefined;
-
-    if (travel !== undefined && startDate !== undefined && endDate !== undefined) {
-      // Define the range for DATE with TRAVEL filter
-      range = IDBKeyRange.bound([travel, startDate], [travel, endDate], false, false);
-    } else if (startDate !== undefined && endDate !== undefined) {
-      // Define the range for DATE without TRAVEL filter
-      range = IDBKeyRange.bound([null, startDate], [null, endDate], true, false);
-    } else {
-      // If no DATE range is provided, return all items
-      range = undefined;
-    }
-
-    const results: any[] = [];
-    for await (const cursor of index.iterate(range)) {
-      results.push(cursor.value);
-    }
-
-    return results;
+    // Final fallback: full table scan (no indexes available or no filters applied)
+    const all: any[] = await store.getAll();
+    return all.filter(item => {
+      const dateOk =
+        startDate !== undefined && endDate !== undefined ? item?.DATE >= startDate && item?.DATE <= endDate : true;
+      const travelOk = travel !== undefined ? item?.TRAVEL === travel : true;
+      return dateOk && travelOk;
+    });
   } catch (error) {
     console.error('Error filtering items:', error);
     return [];

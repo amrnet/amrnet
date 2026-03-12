@@ -13,6 +13,10 @@ async function main() {
       { db: 'kpneumo', collection: 'amrnetdb_kpneumo' },
       { db: 'decoli', collection: 'amrnetdb_decoli' },
       { db: 'ecoli', collection: 'amrnetdb_ecoli' },
+      { db: 'shige', collection: 'amrnetdb_shige' },
+      { db: 'styphi', collection: 'amrnetdb_styphi' },
+      { db: 'ngono', collection: 'amrnetdb_ngono' },
+      { db: 'senterica', collection: 'senterica-hc2850' },
       { db: 'sentericaints', collection: 'ints_collection_from_enterica' },
     ];
 
