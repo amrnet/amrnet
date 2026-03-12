@@ -725,53 +725,32 @@ router.get('/summary/:organism', async (req, res) => {
 // ========== OPTIMIZED FULL DATA ENDPOINTS ==========
 // These endpoints replace the original slow API calls with streaming and progress monitoring
 
-// Optimized streaming endpoint for K. pneumoniae
-router.get('/getDataForKpneumo', async function (req, res, next) {
+// Optimized paginated endpoint for K. pneumoniae
+router.get('/getDataForKpneumo', async function (req, res) {
   const startTime = performance.now();
   const dbAndCollection = dbAndCollectionNames['kpneumo'];
+  const query = { 'dashboard view': 'include', GENOTYPE: { $ne: null } };
+
+  const page = parseInt(req.query.page, 10) || 1;
+  const pageSize = parseInt(req.query.limit, 10) || 3000;
+  const skip = (page - 1) * pageSize;
 
   try {
-    console.log('🔄 [OPTIMIZED] Starting Kpneumo paginated data fetch...');
-
     const connectedClient = await getConnectedClient();
     const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
 
-    // Get count first for progress tracking
-    const totalCount = await collection.countDocuments({ 'dashboard view': 'include', GENOTYPE: { $ne: null } });
-    console.log(`📊 [OPTIMIZED] Total Kpneumo documents to fetch: ${totalCount}`);
+    const [totalCount, results] = await Promise.all([
+      collection.countDocuments(query),
+      collection.find(query, { projection: mapFields['kpneumo'] }).skip(skip).limit(pageSize).toArray(),
+    ]);
 
-    // Pagination parameters
-    const page = parseInt(req.query.page, 10) || 1;
-    const pageSize = parseInt(req.query.pageSize, 10) || 1000;
-    const skip = (page - 1) * pageSize;
-
-    // Use cursor for memory-efficient streaming
-    const docs = await collection
-      .find({ 'dashboard view': 'include', GENOTYPE: { $ne: null } })
-      .skip(skip)
-      .limit(pageSize)
-      .toArray();
-
-    const results = [];
-    let processedCount = 0;
-
-    // Stream processing
-    results.push(...docs);
-    processedCount = docs.length;
-
-    const endTime = performance.now();
-    const totalTime = Math.round(endTime - startTime);
-    const rate = Math.round(results.length / (totalTime / 1000));
-    console.log(
-      `✅ [OPTIMIZED] Kpneumo fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`,
-    );
+    const totalPages = Math.ceil(totalCount / pageSize);
+    const elapsed = Math.round(performance.now() - startTime);
+    console.log(`✅ [OPTIMIZED] Kpneumo page ${page}/${totalPages}: ${results.length} docs in ${elapsed}ms`);
 
     res.json({
       data: results,
-      page,
-      pageSize,
-      totalCount,
-      totalPages: Math.ceil(totalCount / pageSize),
+      pagination: { page, totalPages, totalCount, hasNext: page < totalPages },
     });
   } catch (error) {
     console.error('❌ [OPTIMIZED] Kpneumo error:', error);
@@ -779,97 +758,66 @@ router.get('/getDataForKpneumo', async function (req, res, next) {
   }
 });
 
-// Optimized streaming endpoint for E. coli
-router.get('/getDataForEcoli', async function (req, res, next) {
+// Optimized paginated endpoint for E. coli
+router.get('/getDataForEcoli', async function (req, res) {
   const startTime = performance.now();
   const dbAndCollection = dbAndCollectionNames['ecoli'];
 
-  try {
-    console.log('🔄 [OPTIMIZED] Starting Ecoli data fetch...');
+  const page = parseInt(req.query.page, 10) || 1;
+  const pageSize = parseInt(req.query.limit, 10) || 3000;
+  const skip = (page - 1) * pageSize;
+  const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } };
 
+  try {
     const connectedClient = await getConnectedClient();
     const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
 
-    const totalCount = await collection.countDocuments({
-      'dashboard view': { $regex: /^include$/, $options: 'i' },
-      GENOTYPE: { $ne: null },
+    const [totalCount, results] = await Promise.all([
+      collection.countDocuments(query),
+      collection.find(query, { projection: mapFields['ecoli'] }).skip(skip).limit(pageSize).toArray(),
+    ]);
+
+    const totalPages = Math.ceil(totalCount / pageSize);
+    const elapsed = Math.round(performance.now() - startTime);
+    console.log(`✅ [OPTIMIZED] Ecoli page ${page}/${totalPages}: ${results.length} docs in ${elapsed}ms`);
+
+    res.json({
+      data: results,
+      pagination: { page, totalPages, totalCount, hasNext: page < totalPages },
     });
-    console.log(`📊 [OPTIMIZED] Total Ecoli documents to fetch: ${totalCount}`);
-
-    const cursor = collection
-      .find({ 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } })
-      .batchSize(2000);
-
-    const results = [];
-    let processedCount = 0;
-
-    for await (const doc of cursor) {
-      results.push(doc);
-      processedCount++;
-
-      if (processedCount % 10000 === 0) {
-        const elapsed = performance.now() - startTime;
-        const rate = Math.round(processedCount / (elapsed / 1000));
-        console.log(
-          `⏳ [OPTIMIZED] Ecoli progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`,
-        );
-      }
-    }
-
-    const endTime = performance.now();
-    const totalTime = Math.round(endTime - startTime);
-    const rate = Math.round(results.length / (totalTime / 1000));
-    console.log(
-      `✅ [OPTIMIZED] Ecoli fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`,
-    );
-
-    res.json(results);
   } catch (error) {
     console.error('❌ [OPTIMIZED] Ecoli error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// Optimized streaming endpoint for E. coli (diarrheagenic)
-router.get('/getDataForDEcoli', async function (req, res, next) {
+// Optimized paginated endpoint for E. coli (diarrheagenic)
+router.get('/getDataForDEcoli', async function (req, res) {
   const startTime = performance.now();
   const dbAndCollection = dbAndCollectionNames['decoli'];
+  const query = { 'dashboard view': 'include', GENOTYPE: { $ne: null } };
+
+  const page = parseInt(req.query.page, 10) || 1;
+  const pageSize = parseInt(req.query.limit, 10) || 3000;
+  const skip = (page - 1) * pageSize;
 
   try {
-    console.log('🔄 [OPTIMIZED] Starting DEcoli data fetch...');
-
     const connectedClient = await getConnectedClient();
     const collection = connectedClient.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
 
-    const totalCount = await collection.countDocuments({ 'dashboard view': 'include', GENOTYPE: { $ne: null } });
-    console.log(`📊 [OPTIMIZED] Total DEcoli documents to fetch: ${totalCount}`);
+    const [totalCount, results] = await Promise.all([
+      collection.countDocuments(query),
+      collection.find(query, { projection: mapFields['decoli'] }).skip(skip).limit(pageSize).toArray(),
+    ]);
 
-    const cursor = collection.find({ 'dashboard view': 'include', GENOTYPE: { $ne: null } }).batchSize(2000);
+    const totalPages = Math.ceil(totalCount / pageSize);
+    const elapsed = Math.round(performance.now() - startTime);
+    console.log(`✅ [OPTIMIZED] DEcoli page ${page}/${totalPages}: ${results.length} docs in ${elapsed}ms`);
 
-    const results = [];
-    let processedCount = 0;
-
-    for await (const doc of cursor) {
-      results.push(doc);
-      processedCount++;
-
-      if (processedCount % 10000 === 0) {
-        const elapsed = performance.now() - startTime;
-        const rate = Math.round(processedCount / (elapsed / 1000));
-        console.log(
-          `⏳ [OPTIMIZED] DEcoli progress: ${processedCount}/${totalCount} (${Math.round(elapsed)}ms, ${rate} docs/sec)`,
-        );
-      }
-    }
-
-    const endTime = performance.now();
-    const totalTime = Math.round(endTime - startTime);
-    const rate = Math.round(results.length / (totalTime / 1000));
-    console.log(
-      `✅ [OPTIMIZED] DEcoli fetch completed: ${results.length} documents in ${totalTime}ms (${rate} docs/sec)`,
-    );
-
-    res.json(results);
+    res.json({
+      data: results,
+      pagination: { page, totalPages, totalCount, hasNext: page < totalPages },
+    });
   } catch (error) {
     console.error('❌ [OPTIMIZED] DEcoli error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
