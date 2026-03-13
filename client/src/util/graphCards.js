@@ -198,7 +198,7 @@ export const getContinentGraphCard = (t) => ({
 });
 
 export const getContinentPGraphCard = (t) => ({
-  title: t('graphs.serotypeComparisons'),
+  title: t('graphs.pathotypeComparisons'),
   icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli', 'sentericaints',],
+  organisms: ['shige', 'decoli','ecoli', 'sentericaints',],
 });
