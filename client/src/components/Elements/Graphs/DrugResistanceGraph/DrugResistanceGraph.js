@@ -10,6 +10,10 @@ import {
   Select,
   Tooltip,
   Typography,
+  FormGroup,
+  Switch,
+  Slider,
+  FormControlLabel,
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -43,6 +47,7 @@ import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { getColorForDrug } from '../graphColorHelper';
 import { useStyles } from './DrugResistanceGraphMUI';
+import { SliderSizes } from '../../Slider';
 
 /**
  * DrugResistanceGraph - Interactive line chart for visualizing drug resistance trends
@@ -71,7 +76,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
+  
   const [lineStyle, setLineStyle] = useState('');
+  const [logScale, setLogScale] = useState(false);
+  const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
 
   const getLineStyleForDrug = drugName => {
     const lineStyles = ['Normal', 'Thick'];
@@ -169,6 +177,15 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   //   // }
   //   // return drugsKP;
   // }
+
+  function handleSwitchScale(event) {
+    setCurrentTooltip(null);
+    setLogScale(event.target.checked);
+  }
+
+  function handleSliderChangeDataView(event) {
+      setYAxisSliderValue(event.target.value);
+  }
 
   function getXDRDefinition() {
     switch (organism) {
@@ -331,8 +348,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
       }
 
-      setPlotChart(() => {
-        return (
+      setPlotChart(
           <ResponsiveContainer width="100%">
             <LineChart
               data={data}
@@ -350,7 +366,13 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                 interval={'preserveStartEnd'}
                 tick={{ fontSize: 14 }}
               />
-              <YAxis tickCount={6} padding={{ top: 20, bottom: 20 }} allowDecimals={false}>
+              <YAxis
+                domain={[yAxisSliderValue[0], yAxisSliderValue[1]]}
+                tickCount={6}
+                padding={{ top: 20, bottom: 20 }}
+                allowDecimals={false}
+                allowDataOverflow={true}
+              >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Resistant (%)
                 </Label>
@@ -457,16 +479,20 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
             </LineChart>
           </ResponsiveContainer>
         );
-      });
     } else {
       // Fallback when canGetData is false - still show basic chart structure with grid
-      setPlotChart(() => {
-        return (
+      setPlotChart(
           <ResponsiveContainer width="100%">
             <LineChart data={[]} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.8} />
               <XAxis tickCount={20} allowDecimals={false} padding={{ left: 20, right: 20 }} tick={{ fontSize: 14 }} />
-              <YAxis tickCount={6} padding={{ top: 20, bottom: 20 }} allowDecimals={false}>
+              <YAxis
+                domain={[yAxisSliderValue[0], yAxisSliderValue[1]]}
+                tickCount={6}
+                padding={{ top: 20, bottom: 20 }}
+                allowDecimals={false}
+                allowDataOverflow={true}
+              >
                 <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
                   Resistant (%)
                 </Label>
@@ -474,10 +500,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
             </LineChart>
           </ResponsiveContainer>
         );
-      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [drugsYearData, drugResistanceGraphView, colourPattern, lineStyle]);
+  }, [drugsYearData, drugResistanceGraphView, colourPattern, lineStyle, yAxisSliderValue]);
 
   return (
     <CardContent className={classes.drugResistanceGraph}>
@@ -485,63 +510,85 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         <div className={classes.graph} id="DRT">
           {plotChart}
         </div>
-        <div className={classes.tooltipWrapper}>
-          {currentTooltip ? (
-            <div className={classes.tooltip}>
-              <div className={classes.tooltipTitle}>
-                <Typography variant="h5" fontWeight="600">
-                  {currentTooltip.name}
-                </Typography>
-                {currentTooltip.count !== 'ID' && (
-                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+        <div className={classes.rightSide}>
+          {/* <SliderSizes value={'KP_GE'} style={{ width: '100%' }} /> */}
+            <FormGroup className={classes.formGroup}>
+              <FormControlLabel
+                label={<Typography variant="caption">Change the y-axis scale</Typography>}
+                control={<Switch checked={logScale} onChange={handleSwitchScale} />}
+              />
+            </FormGroup>
+            {logScale ? (
+              <>
+                <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+                <Slider
+                  value={yAxisSliderValue}
+                  onChange={handleSliderChangeDataView}
+                  step={1}
+                  min={0}
+                  max={100}
+                  valueLabelDisplay="auto"
+                />
+              </>
+            ) : null}
+          <div className={classes.tooltipWrapper}>
+            {currentTooltip ? (
+              <div className={classes.tooltip}>
+                <div className={classes.tooltipTitle}>
+                  <Typography variant="h5" fontWeight="600">
+                    {currentTooltip.name}
+                  </Typography>
+                  {currentTooltip.count !== 'ID' && (
+                    <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                  )}
+                </div>
+                {currentTooltip.count === 'ID' ? (
+                  <div className={classes.insufficientData}>Insufficient data</div>
+                ) : (
+                  <div className={classes.tooltipContent}>
+                    {currentTooltip.drugs.map((item, index) => {
+                      const drugKey =
+                        Object.keys(ciproAcronyms).find(key => ciproAcronyms[key] === item.label) || item.label;
+
+                      const color = getColorForDrug(drugKey, colourPattern);
+                      const lineStyle = getLineStyleForDrug(drugKey);
+
+                      return (
+                        <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
+                          {colourPattern && lineStyle !== 'Normal' ? (
+                            <div
+                              className={classes.tooltipItemBox}
+                              style={{
+                                backgroundColor: color,
+                              }}
+                            />
+                          ) : (
+                            <div
+                              className={classes.tooltipItemBoxSmall}
+                              style={{
+                                backgroundColor: color,
+                              }}
+                            />
+                          )}
+                          <div className={classes.tooltipItemStats}>
+                            <Typography variant="body2" fontWeight="500">
+                              {item.label}
+                            </Typography>
+                            <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
+                            <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 )}
               </div>
-              {currentTooltip.count === 'ID' ? (
-                <div className={classes.insufficientData}>Insufficient data</div>
-              ) : (
-                <div className={classes.tooltipContent}>
-                  {currentTooltip.drugs.map((item, index) => {
-                    const drugKey =
-                      Object.keys(ciproAcronyms).find(key => ciproAcronyms[key] === item.label) || item.label;
-
-                    const color = getColorForDrug(drugKey, colourPattern);
-                    const lineStyle = getLineStyleForDrug(drugKey);
-
-                    return (
-                      <div key={`tooltip-content-${index}`} className={classes.tooltipItemWrapper}>
-                        {colourPattern && lineStyle !== 'Normal' ? (
-                          <div
-                            className={classes.tooltipItemBox}
-                            style={{
-                              backgroundColor: color,
-                            }}
-                          />
-                        ) : (
-                          <div
-                            className={classes.tooltipItemBoxSmall}
-                            style={{
-                              backgroundColor: color,
-                            }}
-                          />
-                        )}
-                        <div className={classes.tooltipItemStats}>
-                          <Typography variant="body2" fontWeight="500">
-                            {item.label}
-                          </Typography>
-                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className={classes.noYearSelected}>
-              {drugResistanceGraphView.length === 0 ? 'No drug selected' : 'No year selected'}{' '}
-            </div>
-          )}
+            ) : (
+              <div className={classes.noYearSelected}>
+                {drugResistanceGraphView.length === 0 ? 'No drug selected' : 'No year selected'}{' '}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       {showFilter && !canFilterData && (
