@@ -78,8 +78,8 @@ import { SliderSizes } from '../../Slider';
 export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
-  const [chartData, setChartData] = useState([]);
-  const [allYears, setAllYears] = useState([]);
+  const [plotChart, setPlotChart] = useState(() => {});
+  
   const [lineStyle, setLineStyle] = useState('');
   const [logScale, setLogScale] = useState(false);
   const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
@@ -363,170 +363,173 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
         data.sort((a, b) => a.name.toString().localeCompare(b.name).toString());
       }
 
-      setChartData(data);
-      setAllYears(computedAllYears);
+      setPlotChart(
+          <ResponsiveContainer width="100%">
+            <LineChart
+              data={data}
+              cursor={isTouchDevice() ? 'default' : 'pointer'}
+              onClick={handleClickChart}
+              margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.8} />
+              <XAxis
+                tickCount={20}
+                allowDecimals={false}
+                padding={{ left: 20, right: 20 }}
+                dataKey="name"
+                domain={drugsYearData.length > 0 ? ['dataMin', 'dataMax'] : undefined}
+                interval={'preserveStartEnd'}
+                tick={{ fontSize: 14 }}
+              />
+              <YAxis
+                domain={[yAxisSliderValue[0], yAxisSliderValue[1]]}
+                tickCount={6}
+                padding={{ top: 20, bottom: 20 }}
+                allowDecimals={false}
+                allowDataOverflow={true}
+              >
+                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
+                  Resistant (%)
+                </Label>
+              </YAxis>
+              {drugsYearData.length > 0 && (
+                <Brush
+                  dataKey="name"
+                  height={20}
+                  stroke={'rgb(31, 187, 211)'}
+                  startIndex={computedAllYears.findIndex(x => x === '2000') || 0}
+                  onChange={brushRange => {
+                    setCurrentTooltip(null);
+                    dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
+                    dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                  }}
+                />
+              )}
+
+              {organism !== 'none' && (
+                <Legend
+                  content={props => {
+                    const { payload } = props;
+                    return (
+                      <div className={classes.legendWrapper}>
+                        {payload.map((entry, index) => {
+                          if (!drugsYearData.length) return null;
+                          const { dataKey, color } = entry;
+                          let dataKeyElement;
+                          if (dataKey === 'XDR') {
+                            dataKeyElement = (
+                              <Tooltip title={getXDRDefinition()} placement="top">
+                                <span>{drugAcronymsOpposite['XDR']}</span>
+                              </Tooltip>
+                            );
+                          } else if (dataKey === 'MDR') {
+                            dataKeyElement = (
+                              <Tooltip title={getMDRDefinition()} placement="top">
+                                <span>{drugAcronymsOpposite['MDR']}</span>
+                              </Tooltip>
+                            );
+                          } else if (dataKey === 'Susceptible to cat I/II drugs' && organism === 'ngono') {
+                            dataKeyElement = (
+                              <Tooltip title={getSusceptibleDefinition()} placement="top">
+                                <span>Susceptible to cat I/II drugs</span>
+                              </Tooltip>
+                            );
+                          } else {
+                            dataKeyElement = ciproAcronyms[dataKey] || dataKey;
+                          }
+                          return (
+                            <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
+                              {!colourPattern ? (
+                                <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
+                              ) : (
+                                <svg width={16} height={16}>
+                                  <circle
+                                    cx="8"
+                                    cy="8"
+                                    r="2"
+                                    fill="none"
+                                    stroke={color}
+                                    strokeWidth={index % 2 == 0 ? 5 : 7}
+                                    // strokeDasharray={getLineStyleForDrug(dataKey)}
+                                  />
+                                </svg>
+                              )}
+                              <Typography variant="caption">{dataKeyElement}</Typography>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  }}
+                />
+              )}
+              <ChartTooltip
+                cursor={{ fill: hoverColor }}
+                content={({ payload, active, label }) => {
+                  if (payload !== null && active) {
+                    return <div className={classes.chartTooltipLabel}>{label}</div>;
+                  }
+                  return null;
+                }}
+              />
+
+              {getDrugsForLegends().map((option, index) => {
+                const color = getColorForDrug(option, colourPattern);
+                const lineStyle = getLineStyleForDrug(option);
+                return (
+                  <Line
+                    key={`drug-resistance-bar-${index}`}
+                    dataKey={option}
+                    // strokeWidth={2}
+                    stroke={color}
+                    strokeWidth={!colourPattern ? 2 : index % 2 == 0 ? 2 : 3}
+                    // strokeDasharray={"solid"}
+                    strokeDasharray={!colourPattern ? 'solid' : lineStyle}
+                    connectNulls
+                    type="monotone"
+                    activeDot={timeInitial === timeFinal}
+                  />
+                );
+              })}
+            </LineChart>
+          </ResponsiveContainer>
+        );
     } else {
-      setChartData([]);
-      setAllYears([]);
+      // Fallback when canGetData is false - still show basic chart structure with grid
+      setPlotChart(
+          <ResponsiveContainer width="100%">
+            <LineChart data={[]} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.8} />
+              <XAxis tickCount={20} allowDecimals={false} padding={{ left: 20, right: 20 }} tick={{ fontSize: 14 }} />
+              <YAxis
+                domain={[yAxisSliderValue[0], yAxisSliderValue[1]]}
+                tickCount={6}
+                padding={{ top: 20, bottom: 20 }}
+                allowDecimals={false}
+                allowDataOverflow={true}
+              >
+                <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
+                  Resistant (%)
+                </Label>
+              </YAxis>
+            </LineChart>
+          </ResponsiveContainer>
+        );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [drugsYearData, drugResistanceGraphView, colourPattern, lineStyle, canGetData]);
+  }, [drugsYearData, drugResistanceGraphView, colourPattern, lineStyle, yAxisSliderValue]);
+
   return (
     <CardContent className={classes.drugResistanceGraph}>
       <div className={classes.graphWrapper}>
         <div className={classes.graph} id="DRT">
-          {canGetData ? (
-            <ResponsiveContainer width="100%">
-              <LineChart
-                data={chartData}
-                cursor={isTouchDevice() ? 'default' : 'pointer'}
-                onClick={handleClickChart}
-                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.8} />
-                <XAxis
-                  tickCount={20}
-                  allowDecimals={false}
-                  padding={{ left: 20, right: 20 }}
-                  dataKey="name"
-                  domain={drugsYearData.length > 0 ? ['dataMin', 'dataMax'] : undefined}
-                  interval={'preserveStartEnd'}
-                  tick={{ fontSize: 14 }}
-                />
-                <YAxis
-                  domain={[yAxisSliderValue[0], yAxisSliderValue[1]]}
-                  tickCount={6}
-                  padding={{ top: 20, bottom: 20 }}
-                  allowDecimals={false}
-                  allowDataOverflow={true}
-                >
-                  <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                    Resistant (%)
-                  </Label>
-                </YAxis>
-                {drugsYearData.length > 0 && (
-                  <Brush
-                    dataKey="name"
-                    height={20}
-                    stroke={'rgb(31, 187, 211)'}
-                    startIndex={allYears.findIndex(x => x === '2000') || 0}
-                    onChange={brushRange => {
-                      setCurrentTooltip(null);
-                      dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
-                      dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name));
-                    }}
-                  />
-                )}
-                {organism !== 'none' && (
-                  <Legend
-                    content={props => {
-                      const { payload } = props;
-                      return (
-                        <div className={classes.legendWrapper}>
-                          {payload.map((entry, index) => {
-                            if (!drugsYearData.length) return null;
-                            const { dataKey, color } = entry;
-                            let dataKeyElement;
-                            if (dataKey === 'XDR') {
-                              dataKeyElement = (
-                                <Tooltip title={getXDRDefinition()} placement="top">
-                                  <span>{drugAcronymsOpposite['XDR']}</span>
-                                </Tooltip>
-                              );
-                            } else if (dataKey === 'MDR') {
-                              dataKeyElement = (
-                                <Tooltip title={getMDRDefinition()} placement="top">
-                                  <span>{drugAcronymsOpposite['MDR']}</span>
-                                </Tooltip>
-                              );
-                            } else if (dataKey === 'Susceptible to cat I/II drugs' && organism === 'ngono') {
-                              dataKeyElement = (
-                                <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                  <span>Susceptible to cat I/II drugs</span>
-                                </Tooltip>
-                              );
-                            } else {
-                              dataKeyElement = ciproAcronyms[dataKey] || dataKey;
-                            }
-                            return (
-                              <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
-                                {!colourPattern ? (
-                                  <Box className={classes.colorCircle} style={{ backgroundColor: color }} />
-                                ) : (
-                                  <svg width={16} height={16}>
-                                    <circle
-                                      cx="8"
-                                      cy="8"
-                                      r="2"
-                                      fill="none"
-                                      stroke={color}
-                                      strokeWidth={index % 2 == 0 ? 5 : 7}
-                                    />
-                                  </svg>
-                                )}
-                                <Typography variant="caption">{dataKeyElement}</Typography>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      );
-                    }}
-                  />
-                )}
-                <ChartTooltip
-                  cursor={{ fill: hoverColor }}
-                  content={({ payload, active, label }) => {
-                    if (payload !== null && active) {
-                      return <div className={classes.chartTooltipLabel}>{label}</div>;
-                    }
-                    return null;
-                  }}
-                />
-                {getDrugsForLegends().map((option, index) => {
-                  const color = getColorForDrug(option, colourPattern);
-                  const drugLineStyle = getLineStyleForDrug(option);
-                  return (
-                    <Line
-                      key={`drug-resistance-bar-${index}`}
-                      dataKey={option}
-                      stroke={color}
-                      strokeWidth={!colourPattern ? 2 : index % 2 == 0 ? 2 : 3}
-                      strokeDasharray={!colourPattern ? 'solid' : drugLineStyle}
-                      connectNulls
-                      type="monotone"
-                      activeDot={timeInitial === timeFinal}
-                    />
-                  );
-                })}
-              </LineChart>
-            </ResponsiveContainer>
-          ) : (
-            <ResponsiveContainer width="100%">
-              <LineChart data={[]} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.8} />
-                <XAxis tickCount={20} allowDecimals={false} padding={{ left: 20, right: 20 }} tick={{ fontSize: 14 }} />
-                <YAxis tickCount={0} padding={{ top: 20, bottom: 20 }} allowDecimals={false} domain={[0, 1000]}>
-                  <Label angle={-90} position="insideLeft" className={classes.graphLabel}>
-                    Resistant (%)
-                  </Label>
-                </YAxis>
-              </LineChart>
-            </ResponsiveContainer>
-          )}
+          {plotChart}
         </div>
         <div className={classes.rightSide}>
           {/* <SliderSizes value={'KP_GE'} style={{ width: '100%' }} /> */}
             <FormGroup className={classes.formGroup}>
               <FormControlLabel
-              label={
-                <Box display="flex" alignItems="center" gap={0.5}>
-                 Change the y-axis scale <Typography variant="caption">
-                  </Typography>
-                  <Tooltip title="Data zoom-in features" placement="top">
-                    <InfoOutlined color="action" fontSize="small" />
-                  </Tooltip>
-                </Box>
-              }
+                label={<Typography variant="caption">Change the y-axis scale</Typography>}
                 control={<Switch checked={logScale} onChange={handleSwitchScale} />}
               />
             </FormGroup>
