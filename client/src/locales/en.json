@@ -231,6 +231,7 @@
     "koByGenotype": "KO by Genotype",
     "geographicComparisons": "Geographic Comparisons",
     "serotypeComparisons": "Serotype Comparisons",
+    "pathotypeComparisons": "Pathotype Comparisons",
     "amrbyserotype": "AMR by serotype"
   },
   "floatingGlobalFilters": {
