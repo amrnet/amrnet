@@ -49,7 +49,7 @@ export function getGraphCards(t){
       description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
       icon: <Timeline color="primary" />,
       id: 'RDT',
-      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints'],
+      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints', 'saureus', 'strepneumo'],
       component: <MarkerTrendsGraph />,
     },
     {
@@ -65,7 +65,7 @@ export function getGraphCards(t){
       description: [''],
       icon: <ViewModule color="primary" />,
       id: 'BAMRH',
-      organisms: ['ngono', 'kpneumo', 'styphi', 'shige',, 'decoli', 'ecoli',],
+      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'decoli', 'ecoli', 'saureus', 'strepneumo'],
       component: <BubbleMarkersHeatmapGraph />,
     },
     {
@@ -102,6 +102,8 @@ export function getGraphCards(t){
         'styphi',
         'ngono',
         'kpneumo',
+        'saureus',
+        'strepneumo',
         // 'senterica',
         ...amrLikeOrganisms.filter(x => !['sentericaints', 'senterica'].includes(x)),
       ],

@@ -35,6 +35,8 @@ import { drugClassesRulesNG, drugClassesRulesSTHeatMap, statKeys } from '../../.
 import {
   drugAcronyms,
   drugAcronymsOpposite,
+  drugsSA,
+  drugsSP,
   markersDrugsINTS,
   markersDrugsKP,
   markersDrugsSH,
@@ -93,6 +95,14 @@ const organismConfig = {
     drugs: markersDrugsINTS,
     labelMap: {},
   },
+  saureus: {
+    drugs: drugsSA,
+    labelMap: {},
+  },
+  strepneumo: {
+    drugs: drugsSP,
+    labelMap: {},
+  },
 };
 
 // function to get trend options for any organism
@@ -116,6 +126,8 @@ const decoliTrendOptions = getAllTrendOptionsForOrganism('decoli');
 const ecoliTrendOptions = getAllTrendOptionsForOrganism('ecoli');
 const sentericaTrendOptions = getAllTrendOptionsForOrganism('senterica');
 const sentericaintsTrendOptions = getAllTrendOptionsForOrganism('sentericaints');
+const saureusTrendOptions = getAllTrendOptionsForOrganism('saureus');
+const strepneumoTrendOptions = getAllTrendOptionsForOrganism('strepneumo');
 
 const trendOptionsMap = {
   kpneumo: kpTrendOptions,
@@ -126,6 +138,8 @@ const trendOptionsMap = {
   ecoli: ecoliTrendOptions,
   senterica: sentericaTrendOptions,
   sentericaints: sentericaintsTrendOptions,
+  saureus: saureusTrendOptions,
+  strepneumo: strepneumoTrendOptions,
 };
 
 const yOptions = [
@@ -147,7 +161,7 @@ const yOptions = [
     value: 'determinant',
     label: 'Resistance marker',
     // Adding market for all organisms
-    organisms: ['styphi', 'kpneumo', 'ngono', 'shige', 'ecoli', 'decoli', 'senterica', 'sentericaints'],
+    organisms: ['styphi', 'kpneumo', 'ngono', 'shige', 'ecoli', 'decoli', 'senterica', 'sentericaints', 'saureus', 'strepneumo'],
   },
   {
     value: 'pathotype',
