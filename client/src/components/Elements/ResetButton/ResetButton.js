@@ -48,6 +48,8 @@ import {
   drugsECOLI,
   drugsINTS,
   drugsKP,
+  drugsSA,
+  drugsSP,
   markersDrugsKP,
 } from '../../../util/drugs';
 // import { getNgmastData } from '../../Dashboard/filters';
@@ -148,6 +150,12 @@ export const ResetButton = () => {
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphNG));
       dispatch(setTrendsGraphDrugClass('Azithromycin'));
       dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
+    }
+    if (organism === 'saureus') {
+      dispatch(setDrugResistanceGraphView(drugsSA));
+    }
+    if (organism === 'strepneumo') {
+      dispatch(setDrugResistanceGraphView(drugsSP));
     }
     dispatch(setCurrentSliderValueRD(20));
     dispatch(setCanGetData(true));

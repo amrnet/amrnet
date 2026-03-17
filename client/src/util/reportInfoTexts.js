@@ -294,6 +294,40 @@ export function getShigeTexts() {
   ];
 }
 
+export function getSaureusTexts() {
+  return [
+    'Staphylococcus aureus',
+    'data visualised in AMRnet are drawn from a curated collection of publicly available whole-genome sequences. AMR genotypes are called using a specialised pipeline integrating acquired resistance gene detection and point mutation identification. Genotypes are assigned using MLST (multilocus sequence typing).',
+
+    'Variable definitions',
+    'Genotype',
+    'Genotypes are assigned based on MLST clonal complexes (CCs), which group sequence types (STs) sharing a common ancestor.',
+    'AMR determinants',
+    'Resistance is detected via acquired genes (e.g. mecA, blaZ, erm genes) and chromosomal point mutations (e.g. in grlA, gyrA, rpoB, fusA). Binary resistance calls (1 = resistant, 0 = susceptible) are stored per drug.',
+
+    'Abbreviations',
+    '1. MRSA, methicillin-resistant Staphylococcus aureus (presence of mecA or mecC)',
+    '2. Pansusceptible, no resistance detected across all tested drugs',
+  ];
+}
+
+export function getStrepneumoTexts() {
+  return [
+    'Streptococcus pneumoniae',
+    'data visualised in AMRnet are drawn from a curated collection of publicly available whole-genome sequences. AMR genotypes are called using a specialised pipeline integrating acquired resistance gene detection and point mutation identification. Genotypes are assigned using MLST.',
+
+    'Variable definitions',
+    'Genotype',
+    'Genotypes are assigned based on MLST sequence types (STs) and Global Pneumococcal Sequence Cluster (GPSC) lineages.',
+    'AMR determinants',
+    'Resistance is detected via acquired genes (e.g. erm, tet, cat genes) and chromosomal point mutations (e.g. in parC, gyrA, folA, folP). Binary resistance calls (1 = resistant, 0 = susceptible) are stored per drug.',
+
+    'Abbreviations',
+    '1. Pansusceptible, no resistance detected across all tested drugs',
+    '2. Co-Trimoxazole, combined trimethoprim-sulfamethoxazole resistance',
+  ];
+}
+
 export function getSentericaintsTexts() {
   return [
     'Salmonella enterica',

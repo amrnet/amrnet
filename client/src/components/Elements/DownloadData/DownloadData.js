@@ -37,8 +37,10 @@ import {
   getKlebsiellaTexts,
   getNgonoTexts,
   getSalmonellaTexts,
+  getSaureusTexts,
   getSentericaintsTexts,
   getShigeTexts,
+  getStrepneumoTexts,
 } from '../../../util/reportInfoTexts';
 import { getColorForDrug } from '../Graphs/graphColorHelper';
 import { PDFPreviewModal } from './PDFPreviewModal';
@@ -277,6 +279,12 @@ export const DownloadData = () => {
     } else if (organism === 'senterica') {
       firstName = 'Salmonella enterica';
       secondName = '(non-typhoidal)';
+    } else if (organism === 'saureus') {
+      firstName = 'Staphylococcus';
+      secondName = 'aureus';
+    } else if (organism === 'strepneumo') {
+      firstName = 'Streptococcus';
+      secondName = 'pneumoniae';
     }
     if (organism !== 'styphi') columnsToRemove = [...columnsToRemoveNonTyphi, ...columnsToRemove];
     setLoadingCSV(true);
@@ -636,6 +644,8 @@ export const DownloadData = () => {
         ecoli: ['Escherichia', 'coli'],
         decoli: ['Escherichia coli', '(diarrheagenic)'],
         sentericaints: ['Salmonella', '(invasive non-typhoidal)'],
+        saureus: ['Staphylococcus', 'aureus'],
+        strepneumo: ['Streptococcus', 'pneumoniae'],
       };
       const [firstName, secondName] = nameMap[organism] ?? ['Unknown', 'organism'];
 
@@ -649,6 +659,8 @@ export const DownloadData = () => {
         ecoli: getEcoliTexts,
         decoli: getDEcoliTexts,
         sentericaints: getIntsTexts,
+        saureus: getSaureusTexts,
+        strepneumo: getStrepneumoTexts,
       };
       const texts = textsMap[organism]?.() ?? [];
 
@@ -740,6 +752,10 @@ export const DownloadData = () => {
       Name = 'diarrheagenic-e-coli';
     } else if (organism === 'sentericaints') {
       Name = 'invasive-non-typhoidal-salmonella';
+    } else if (organism === 'saureus') {
+      Name = 'staphylococcus-aureus';
+    } else if (organism === 'strepneumo') {
+      Name = 'streptococcus-pneumoniae';
     }
     const url = `https://amrnet.readthedocs.io/en/latest/usage.html#${Name}`;
     // console.log('url', url);

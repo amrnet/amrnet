@@ -105,6 +105,8 @@ import {
   drugsECOLI,
   drugsINTS,
   drugsKP,
+  drugsSA,
+  drugsSP,
   getDrugClasses,
   markersDrugsKP,
   markersDrugsSH,
@@ -395,6 +397,11 @@ export const DashboardPage = () => {
           serotypeSet.add(x.Serotype);
         }
       }
+      if (organism === 'strepneumo') {
+        if (x.Serotype && x.Serotype !== '') {
+          serotypeSet.add(x.Serotype);
+        }
+      }
     });
 
     // Diagnostics: check for missing or unexpected GENOTYPE values
@@ -521,6 +528,8 @@ export const DashboardPage = () => {
       ecoli: drugsECOLI,
       decoli: drugsECOLI,
       shige: drugsECOLI,
+      saureus: drugsSA,
+      strepneumo: drugsSP,
     };
 
     const availableDrugs = organismDrugMap[organism] || [];
@@ -555,7 +564,8 @@ export const DashboardPage = () => {
       }),
 
       // Get genotypes data
-      getStoreOrGenerateData(`${organism}_genotype`, () => {
+      // Use versioned key for organisms with marker-level genotype breakdown to bust stale cache
+      getStoreOrGenerateData(`${organism}_genotype${['saureus', 'strepneumo'].includes(organism) ? '_v2' : ''}`, () => {
         const dt = getGenotypesData({
           data: responseData,
           genotypes,
@@ -685,8 +695,9 @@ export const DashboardPage = () => {
         : Promise.resolve(),
 
       // Get drugs carb and esbl data for countries
+      // Use versioned cache key for organisms with marker-level breakdown to bust stale cache
       // !['styphi', 'kpneumo'].includes(organism)
-      getStoreOrGenerateData(`${organism}_drugs_countries`, () => {
+      getStoreOrGenerateData(`${organism}_drugs_countries${['saureus', 'strepneumo'].includes(organism) ? '_v2' : ''}`, () => {
         const { drugsData } = getDrugsCountriesData({
           data: responseData,
           items: countries,
@@ -700,7 +711,7 @@ export const DashboardPage = () => {
 
       // Get drugs carb and esbl data for regions
       // ['styphi', 'kpneumo'].includes(organism)
-      getStoreOrGenerateData(`${organism}_drugs_regions`, () => {
+      getStoreOrGenerateData(`${organism}_drugs_regions${['saureus', 'strepneumo'].includes(organism) ? '_v2' : ''}`, () => {
         const { drugsData } = getDrugsCountriesData({
           data: responseData,
           items: ecRegions,
@@ -929,6 +940,8 @@ export const DashboardPage = () => {
         ecoli: 'getDataForEcoli',
         decoli: 'getDataForDEcoli',
         ngono: 'getDataForNgono',
+        saureus: 'getDataForSaureus',
+        strepneumo: 'getDataForStrepneumo',
       };
       const endpoint = endpointMap[organism];
       if (endpoint) {
@@ -1183,6 +1196,18 @@ export const DashboardPage = () => {
           dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
           dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         }
+        break;
+      case 'saureus':
+        dispatch(setDrugResistanceGraphView(drugsSA));
+        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
+        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
+        dispatch(setBubbleMarkersYAxisType(drugsSA.filter(x => x !== 'Pansusceptible')[0]));
+        break;
+      case 'strepneumo':
+        dispatch(setDrugResistanceGraphView(drugsSP));
+        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
+        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
+        dispatch(setBubbleMarkersYAxisType(drugsSP.filter(x => x !== 'Pansusceptible')[0]));
         break;
       default:
         break;
@@ -1454,6 +1479,12 @@ export const DashboardPage = () => {
         case 'sentericaints':
           getData({ storeName: organism, endpoint: 'getDataForSentericaints' });
           break;
+        case 'saureus':
+          getDataQuick(organism);
+          break;
+        case 'strepneumo':
+          getDataQuick(organism);
+          break;
         default:
           break;
       }
@@ -1469,6 +1500,8 @@ export const DashboardPage = () => {
         ecoli: drugsECOLI,
         decoli: drugsECOLI,
         shige: drugsECOLI,
+        saureus: drugsSA,
+        strepneumo: drugsSP,
       };
 
       const fallbackDrugs = organismDrugMap[organism] || [];
@@ -1740,7 +1773,7 @@ export const DashboardPage = () => {
       }
 
       // Dispatch drug countries resistance data
-      if (['styphi', 'kpneumo'].includes(organism)) {
+      if (['styphi', 'kpneumo', 'saureus', 'strepneumo'].includes(organism)) {
         dispatch(setDrugsCountriesData(drugsCountriesData.drugsData));
         dispatch(setDrugsRegionsData(drugsRegionsData.drugsData));
       }
