@@ -142,11 +142,19 @@ export function getGraphCards(t){
       component: <BubbleKOHeatmapGraph />,
     },
     {
-      title: t('graphs.amrbyserotype'),
+      title: t('graphs.amrBySerotype'),
       description: [''],
       icon: <ViewModule color="primary" />,
       id: 'BHP',
-      organisms: ['senterica'],
+      organisms: ['senterica','sentericaints',],
+      component: <BubbleHPGraph />,
+    },
+    {
+      title: t('graphs.amrByPathotype'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BHP',
+      organisms: ['shige', 'decoli','ecoli',],
       component: <BubbleHPGraph />,
     },
   ];
@@ -199,8 +207,8 @@ export const getContinentGraphCard = (t) => ({
   organisms: organismsCards.map(x => x.value),
 });
 
-export const getContinentPGraphCard = (t) => ({
-  title: t('graphs.pathotypeComparisons'),
-  icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli','ecoli', 'sentericaints',],
-});
+// export const getContinentPGraphCard = (t) => ({
+//   title: t('graphs.pathotypeComparisons'),
+//   icon: <ViewModule color="primary" />,
+//   organisms: ['shige', 'decoli','ecoli', 'sentericaints',],
+// });
