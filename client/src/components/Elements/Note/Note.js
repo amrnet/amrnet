@@ -38,6 +38,18 @@ const noteTranslationConfig = {
       <a href="#/dashboard?organism=styphi" target="_blank" rel="noopener noreferrer" key="typhinet" />,
     ],
   },
+  saureus: {
+    key: 'note.saureus',
+    components: [
+      <a href="https://pathogen.watch" target="_blank" rel="noopener noreferrer" key="saureus-pathogenwatch" />,
+    ],
+  },
+  strepneumo: {
+    key: 'note.strepneumo',
+    components: [
+      <a href="https://pathogen.watch" target="_blank" rel="noopener noreferrer" key="strepneumo-pathogenwatch" />,
+    ],
+  },
   default: {
     key: 'note.default',
     components: [

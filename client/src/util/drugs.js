@@ -2,6 +2,8 @@ import {
   drugClassesRulesNG,
   drugRulesINTS,
   drugRulesNG,
+  drugRulesSA,
+  drugRulesSP,
   drugRulesST,
   statKeysECOLI,
   statKeysINTS,
@@ -53,7 +55,6 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'Pansusceptible',
 ];
 
-//List of N. gono drug classes
 export const drugsNG = [
   'Azithromycin',
   'Cefixime',
@@ -65,21 +66,6 @@ export const drugsNG = [
   'Tetracycline',
 ];
 
-// export const drugsNGLegendsOnly = [
-//   'Azithromycin',
-//   'Ceftriaxone',
-//   'Ciprofloxacin',
-//   'Sulfonamides',
-//   'Tetracycline',
-//   'Cefixime',
-//   'Penicillin',
-//   'Spectinomycin',
-//   'Susceptible to cat I/II drugs',
-//   'Extensively drug resistant (XDR)',
-//   'Multidrug resistant (MDR)',
-// ];
-
-// List of N. gono drug classes default
 export const defaultDrugsForDrugResistanceGraphNG = [
   'Azithromycin',
   'Cefixime',
@@ -121,6 +107,12 @@ export const drugClassesST = [
 // List of NG drug classes
 export const drugClassesNG = Object.keys(drugClassesRulesNG).sort();
 
+// S. aureus drug list
+export const drugsSA = drugRulesSA.map(x => x.key);
+
+// S. pneumoniae drug list
+export const drugsSP = drugRulesSP.map(x => x.key);
+
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMX',
   Ampicillin: 'AMP',
@@ -142,25 +134,43 @@ export const drugAcronyms = {
   Tigecycline: 'TGC',
   '3rd gen cephalosporins (3GCs)': '3GCs',
   Sulfamethoxazole: 'SMX',
-  // Gentamicin: 'GEN',
+  Gentamicin: 'GEN',
   Cefixime: 'CFM',
   Ciprofloxacin: 'CIP',
   Benzylpenicillin: 'PEN',
   Spectinomycin: 'SPT',
   Pansusceptible: 'PAN',
   Macrolides: 'MLS',
+  Gentamicin: 'GEN',
+  Tobramycin: 'TOB',
+  Kanamycin: 'KAN',
+  Methicillin: 'MET',
+  Vancomycin: 'VAN',
+  Clindamycin: 'CLI',
+  Erythromycin: 'ERY',
+  Mupirocin: 'MUP',
+  Linezolid: 'LNZ',
+  Tetracycline: 'TET',
+  Daptomycin: 'DAP',
+  Rifampicin: 'RIF',
+  Moxifloxacin: 'MFX',
+  Teicoplanin: 'TEC',
+  'Fusidic Acid': 'FUS',
+  Fluoroquinolone: 'FLQ',
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
   Carbapenems: 'CARB',
   Carbapenem: 'CARB',
   'Ciprofloxacin R': 'CipR',
-  // Penicillins: 'PCN',
+  Amikacin: 'AMI',
+  'Co-Trimoxazole': 'SXT',
+  Penicillin: 'PEN',
 };
 
 export const drugAcronymsOpposite = {
   CIP: 'Ciprofloxacin',
   AZM: 'Azithromycin',
-  // ESBL: 'Extended-Spectrum Beta-Lactamase', // No need to change this from ESBL
+  // ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipNS: 'Ciprofloxacin (non-susceptible)',
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
@@ -201,6 +211,10 @@ export function getDrugClasses(organism) {
     case 'senterica':
     case 'sentericaints':
       return drugsINTS.filter(x => x !== 'Pansusceptible');
+    case 'saureus':
+      return drugsSA;
+    case 'strepneumo':
+      return drugsSP;
     default:
       return drugsECOLI.filter(x => x !== 'Pansusceptible');
   }

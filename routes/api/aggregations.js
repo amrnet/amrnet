@@ -36,6 +36,8 @@ const DB_CONFIG = {
   kpneumo:      { dbName: 'kpneumo',      collectionName: 'amrnetdb_kpneumo' },
   styphi:       { dbName: 'styphi',       collectionName: 'amrnetdb_styphi' },
   ngono:        { dbName: 'ngono',        collectionName: 'amrnetdb_ngono' },
+  saureus:      { dbName: 'saureus',      collectionName: 'amrnetdb_saureus' },
+  strepneumo:   { dbName: 'strepneumo',   collectionName: 'amrnetdb_spneumo' },
 };
 
 // ---------------------------------------------------------------------------
@@ -290,6 +292,82 @@ const DRUG_CONDITIONS = {
     Spectinomycin:              { $in: ['$Spectinomycin', ['1', 1]] },
     MDR:                        { $in: ['$MDR',           ['1', 1]] },
     XDR:                        { $in: ['$XDR',           ['1', 1]] },
+  },
+
+  // S. aureus — resistance stored as 1 (resistant) / 0 (susceptible)
+  saureus: {
+    Amikacin:       { $in: ['$Amikacin',     ['1', 1]] },
+    Gentamicin:     { $in: ['$Gentamicin',   ['1', 1]] },
+    Tobramycin:     { $in: ['$Tobramycin',   ['1', 1]] },
+    Kanamycin:      { $in: ['$Kanamycin',    ['1', 1]] },
+    Methicillin:    { $in: ['$Methicillin',  ['1', 1]] },
+    Penicillin:     { $in: ['$Penicillin',   ['1', 1]] },
+    'Fusidic Acid': { $in: ['$Fusidic Acid', ['1', 1]] },
+    Vancomycin:     { $in: ['$Vancomycin',   ['1', 1]] },
+    Clindamycin:    { $in: ['$Clindamycin',  ['1', 1]] },
+    Erythromycin:   { $in: ['$Erythromycin', ['1', 1]] },
+    Mupirocin:      { $in: ['$Mupirocin',    ['1', 1]] },
+    Linezolid:      { $in: ['$Linezolid',    ['1', 1]] },
+    Tetracycline:   { $in: ['$Tetracycline', ['1', 1]] },
+    Trimethoprim:   { $in: ['$Trimethoprim', ['1', 1]] },
+    Daptomycin:     { $in: ['$Daptomycin',   ['1', 1]] },
+    Rifampicin:     { $in: ['$Rifampicin',   ['1', 1]] },
+    Ciprofloxacin:  { $in: ['$Ciprofloxacin',['1', 1]] },
+    Moxifloxacin:   { $in: ['$Moxifloxacin', ['1', 1]] },
+    Teicoplanin:    { $in: ['$Teicoplanin',  ['1', 1]] },
+    // Pansusceptible: none of the drug fields equal 1
+    Pansusceptible: {
+      $and: [
+        { $not: { $in: ['$Amikacin',      ['1', 1]] } },
+        { $not: { $in: ['$Gentamicin',    ['1', 1]] } },
+        { $not: { $in: ['$Tobramycin',    ['1', 1]] } },
+        { $not: { $in: ['$Kanamycin',     ['1', 1]] } },
+        { $not: { $in: ['$Methicillin',   ['1', 1]] } },
+        { $not: { $in: ['$Penicillin',    ['1', 1]] } },
+        { $not: { $in: ['$Fusidic Acid',  ['1', 1]] } },
+        { $not: { $in: ['$Vancomycin',    ['1', 1]] } },
+        { $not: { $in: ['$Clindamycin',   ['1', 1]] } },
+        { $not: { $in: ['$Erythromycin',  ['1', 1]] } },
+        { $not: { $in: ['$Mupirocin',     ['1', 1]] } },
+        { $not: { $in: ['$Linezolid',     ['1', 1]] } },
+        { $not: { $in: ['$Tetracycline',  ['1', 1]] } },
+        { $not: { $in: ['$Trimethoprim',  ['1', 1]] } },
+        { $not: { $in: ['$Daptomycin',    ['1', 1]] } },
+        { $not: { $in: ['$Rifampicin',    ['1', 1]] } },
+        { $not: { $in: ['$Ciprofloxacin', ['1', 1]] } },
+        { $not: { $in: ['$Moxifloxacin',  ['1', 1]] } },
+        { $not: { $in: ['$Teicoplanin',   ['1', 1]] } },
+      ],
+    },
+  },
+
+  // S. pneumoniae — resistance stored as 1 (resistant) / 0 (susceptible)
+  strepneumo: {
+    Chloramphenicol: { $in: ['$Chloramphenicol', ['1', 1]] },
+    Clindamycin:     { $in: ['$Clindamycin',     ['1', 1]] },
+    Erythromycin:    { $in: ['$Erythromycin',    ['1', 1]] },
+    Fluoroquinolone: { $in: ['$Fluoroquinolone', ['1', 1]] },
+    Kanamycin:       { $in: ['$Kanamycin',       ['1', 1]] },
+    Linezolid:       { $in: ['$Linezolid',       ['1', 1]] },
+    Tetracycline:    { $in: ['$Tetracycline',     ['1', 1]] },
+    Trimethoprim:    { $in: ['$Trimethoprim',     ['1', 1]] },
+    Sulfamethoxazole:{ $in: ['$Sulfamethoxazole', ['1', 1]] },
+    'Co-Trimoxazole':{ $in: ["$Co-Trimoxazole",  ['1', 1]] },
+    // Pansusceptible: none of the drug fields equal 1
+    Pansusceptible: {
+      $and: [
+        { $not: { $in: ['$Chloramphenicol', ['1', 1]] } },
+        { $not: { $in: ['$Clindamycin',     ['1', 1]] } },
+        { $not: { $in: ['$Erythromycin',    ['1', 1]] } },
+        { $not: { $in: ['$Fluoroquinolone', ['1', 1]] } },
+        { $not: { $in: ['$Kanamycin',       ['1', 1]] } },
+        { $not: { $in: ['$Linezolid',       ['1', 1]] } },
+        { $not: { $in: ['$Tetracycline',    ['1', 1]] } },
+        { $not: { $in: ['$Trimethoprim',    ['1', 1]] } },
+        { $not: { $in: ['$Sulfamethoxazole',['1', 1]] } },
+        { $not: { $in: ["$Co-Trimoxazole",  ['1', 1]] } },
+      ],
+    },
   },
 };
 

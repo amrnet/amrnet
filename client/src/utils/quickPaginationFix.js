@@ -16,6 +16,8 @@ export async function loadOrganismQuickly(organism, onProgress = () => {}) {
       shige: 'Shige',
       senterica: 'Senterica',
       sentericaints: 'Sentericaints',
+      saureus: 'Saureus',
+      strepneumo: 'Strepneumo',
     };
 
     const endpointName = endpointMap[organism] || organism;

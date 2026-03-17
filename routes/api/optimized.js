@@ -14,6 +14,8 @@ const dbAndCollectionNames = {
   senterica: { dbName: 'senterica', collectionName: 'senterica-hc2850' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
   unr: { dbName: 'unr', collectionName: 'unr' },
+  saureus:    { dbName: 'saureus',    collectionName: 'amrnetdb_saureus' },
+  strepneumo: { dbName: 'strepneumo', collectionName: 'amrnetdb_spneumo' },
 };
 
 // Essential fields for map data
@@ -125,6 +127,18 @@ const mapFields = {
     MDR: 1,
     XDR: 1,
     amr_category: 1,
+    _id: 0,
+  },
+  saureus: {
+    COUNTRY_ONLY: 1, DATE: 1, GENOTYPE: 1,
+    Amikacin: 1, Gentamicin: 1, Tobramycin: 1, Kanamycin: 1, Methicillin: 1, Penicillin: 1, 'Fusidic Acid': 1, Vancomycin: 1,
+    Clindamycin: 1, Erythromycin: 1, Mupirocin: 1, Linezolid: 1, Tetracycline: 1, Trimethoprim: 1, Daptomycin: 1, Rifampicin: 1,
+    Ciprofloxacin: 1, Moxifloxacin: 1, Teicoplanin: 1,
+    _id: 0,
+  },
+  strepneumo: {
+    COUNTRY_ONLY: 1, DATE: 1, GENOTYPE: 1, Lineage: 1, Serotype: 1,
+    Chloramphenicol: 1, Clindamycin: 1, Erythromycin: 1, Fluoroquinolone: 1, Kanamycin: 1, Linezolid: 1, Tetracycline: 1, Trimethoprim: 1, Sulfamethoxazole: 1, 'Co-Trimoxazole': 1,
     _id: 0,
   },
   // Add other organisms as needed
@@ -268,6 +282,16 @@ const chartFields = {
       Serotype: 1,
       _id: 0,
     },
+  },
+  saureus: {
+    genotypes:  { COUNTRY_ONLY: 1, DATE: 1, GENOTYPE: 1, _id: 0 },
+    resistance: { COUNTRY_ONLY: 1, DATE: 1, Methicillin: 1, Vancomycin: 1, _id: 0 },
+    trends:     { COUNTRY_ONLY: 1, DATE: 1, GENOTYPE: 1, Methicillin: 1, Vancomycin: 1, _id: 0 },
+  },
+  strepneumo: {
+    genotypes:  { COUNTRY_ONLY: 1, DATE: 1, GENOTYPE: 1, Lineage: 1, Serotype: 1, _id: 0 },
+    resistance: { COUNTRY_ONLY: 1, DATE: 1, Erythromycin: 1, Tetracycline: 1, _id: 0 },
+    trends:     { COUNTRY_ONLY: 1, DATE: 1, GENOTYPE: 1, Serotype: 1, Erythromycin: 1, Tetracycline: 1, _id: 0 },
   },
 };
 

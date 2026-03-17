@@ -3,7 +3,7 @@ import { IDBPDatabase, openDB } from 'idb';
 
 const DB_NAME = 'amrnetdb';
 // Bump version when schema changes (e.g., new indexes)
-const DB_VERSION = 38;
+const DB_VERSION = 39;
 
 // List of all stores used by the app
 const OBJECT_STORES = [
@@ -68,6 +68,20 @@ const OBJECT_STORES = [
   'senterica_years',
   'senterica_drugs_countries',
   'senterica_drugs_regions',
+  'saureus',
+  'saureus_map',
+  'saureus_map_regions',
+  'saureus_genotype',
+  'saureus_years',
+  'saureus_drugs_countries',
+  'saureus_drugs_regions',
+  'strepneumo',
+  'strepneumo_map',
+  'strepneumo_map_regions',
+  'strepneumo_genotype',
+  'strepneumo_years',
+  'strepneumo_drugs_countries',
+  'strepneumo_drugs_regions',
   'unr',
 ];
 
@@ -88,7 +102,7 @@ export const initDB = async () => {
         // Base organism stores that benefit from a DATE index for range queries
         const ORGANISM_STORES = new Set([
           'styphi', 'kpneumo', 'ngono', 'ecoli', 'decoli',
-          'shige', 'senterica', 'sentericaints',
+          'shige', 'senterica', 'sentericaints', 'saureus', 'strepneumo',
         ]);
 
         // Recreate object stores with the updated schema

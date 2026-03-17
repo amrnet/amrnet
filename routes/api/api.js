@@ -19,6 +19,8 @@ const dbAndCollectionNames = {
   senterica: { dbName: 'senterica', collectionName: 'senterica-hc2850' },
   sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
   unr: { dbName: 'unr', collectionName: 'unr' },
+  saureus:    { dbName: 'saureus',    collectionName: 'amrnetdb_saureus' },
+  strepneumo: { dbName: 'strepneumo', collectionName: 'amrnetdb_spneumo' },
 };
 
 const sentericaintsFieldsToAdd = {
@@ -504,6 +506,83 @@ router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req
     }
 
     return readCsvFallback(Tools.path_clean_seints, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/getDataForSaureus', async function (req, res) {
+  const dbAndCollection = dbAndCollectionNames['saureus'];
+  try {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 5000;
+    const skip = (page - 1) * limit;
+    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const projection = {
+      NAME: 1, DATE: 1, COUNTRY_ONLY: 1, GENOTYPE: 1,
+      Amikacin: 1, Gentamicin: 1, Tobramycin: 1, Kanamycin: 1, Methicillin: 1,
+      Penicillin: 1, 'Fusidic Acid': 1, Vancomycin: 1, Clindamycin: 1, Erythromycin: 1,
+      Mupirocin: 1, Linezolid: 1, Tetracycline: 1, Trimethoprim: 1, Daptomycin: 1,
+      Rifampicin: 1, Ciprofloxacin: 1, Moxifloxacin: 1, Teicoplanin: 1,
+      Acquired: 1, Variants: 1,
+      _id: 0,
+    };
+    const client = await connectDB();
+    const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+    const [totalDocuments, result] = await Promise.all([
+      page === 1 ? collection.countDocuments(query) : Promise.resolve(null),
+      collection.find(query).project(projection).skip(skip).limit(limit).toArray(),
+    ]);
+    console.log(`Found ${result.length} documents for Saureus (page ${page}).`);
+    if (page === 1 ? totalDocuments > 0 : result.length > 0) {
+      return res.json({
+        data: result,
+        pagination: {
+          page, limit,
+          ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
+        },
+      });
+    }
+    return res.json({ data: [], pagination: { page, limit, totalDocuments: 0, totalPages: 0 } });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/getDataForStrepneumo', async function (req, res) {
+  const dbAndCollection = dbAndCollectionNames['strepneumo'];
+  try {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 5000;
+    const skip = (page - 1) * limit;
+    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const projection = {
+      NAME: 1, DATE: 1, COUNTRY_ONLY: 1, GENOTYPE: 1, Lineage: 1, Serotype: 1,
+      Chloramphenicol: 1, Clindamycin: 1, Erythromycin: 1, Fluoroquinolone: 1,
+      Kanamycin: 1, Linezolid: 1, Tetracycline: 1, Trimethoprim: 1,
+      Sulfamethoxazole: 1, 'Co-Trimoxazole': 1,
+      Acquired: 1, Variants: 1,
+      _id: 0,
+    };
+    const client = await connectDB();
+    const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
+    const [totalDocuments, result] = await Promise.all([
+      page === 1 ? collection.countDocuments(query) : Promise.resolve(null),
+      collection.find(query).project(projection).skip(skip).limit(limit).toArray(),
+    ]);
+    console.log(`Found ${result.length} documents for Strepneumo (page ${page}).`);
+    if (page === 1 ? totalDocuments > 0 : result.length > 0) {
+      return res.json({
+        data: result,
+        pagination: {
+          page, limit,
+          ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
+        },
+      });
+    }
+    return res.json({ data: [], pagination: { page, limit, totalDocuments: 0, totalPages: 0 } });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

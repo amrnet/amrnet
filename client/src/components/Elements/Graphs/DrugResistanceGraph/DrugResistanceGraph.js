@@ -41,6 +41,8 @@ import {
   defaultDrugsForDrugResistanceGraphNG,
   drugsNG,
   drugsST,
+  drugsSA,
+  drugsSP,
 } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -151,6 +153,10 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       drugs = drugsINTS;
     } else if (['ecoli', 'decoli', 'shige'].includes(organism)) {
       drugs = drugsECOLI;
+    } else if (organism === 'saureus') {
+      drugs = drugsSA;
+    } else if (organism === 'strepneumo') {
+      drugs = drugsSP;
     }
 
     if (drugsYearData.length > 0) {

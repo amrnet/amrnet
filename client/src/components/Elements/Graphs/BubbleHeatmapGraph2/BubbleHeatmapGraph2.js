@@ -44,7 +44,7 @@ const xOptionsByOrganism = [
   {
     label: 'Genotype',
     value: 'genotype',
-    organisms: ['styphi', 'ngono', 'kpneumo', 'ecoli', 'shige', 'decoli'],
+    organisms: ['styphi', 'ngono', 'kpneumo', 'ecoli', 'shige', 'decoli', 'saureus', 'strepneumo'],
   },
   {
     label: 'Lineage',
@@ -79,7 +79,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   }, [organism]);
 
   useEffect(() => {
-    setXAxisType(xOptions[0].value ?? '');
+    setXAxisType(xOptions[0]?.value ?? '');
   }, [xOptions]);
 
   const selectedCRData = useMemo(() => {

@@ -37,7 +37,7 @@ import {
   setTrendsGraphView,
 } from '../../../../stores/slices/graphSlice';
 import { colorForMarkers, colorForMarkersCVD, hoverColor } from '../../../../util/colorHelper';
-import { drugClassesNG, drugClassesST, drugsINTS, markersDrugsKP, markersDrugsSH, ciproAcronyms } from '../../../../util/drugs';
+import { drugClassesNG, drugClassesST, drugsINTS, drugsSA, drugsSP, markersDrugsKP, markersDrugsSH, ciproAcronyms } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -111,7 +111,13 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       return markersDrugsSH;
     }
     if (organism === 'ngono') {
-      return drugClassesNG; // This should return the correct drug classes for ngono
+      return drugClassesNG;
+    }
+    if (organism === 'saureus') {
+      return drugsSA.filter(x => x !== 'Pansusceptible');
+    }
+    if (organism === 'strepneumo') {
+      return drugsSP.filter(x => x !== 'Pansusceptible');
     }
 
     return drugsINTS.filter(item => item !== 'Pansusceptible'); // Default fallback

@@ -21,6 +21,13 @@ const dynamicColors = [
   '#ff7f4f',
   '#aa8a5b',
   '#DC227F',
+  // Extended palette for saureus / strepneumo
+  '#1a6b8a', // 19 - Vancomycin / Teicoplanin (glycopeptides)
+  '#e65c00', // 20 - Fusidic Acid
+  '#7b2fa0', // 21 - Mupirocin
+  '#1abc9c', // 22 - Linezolid
+  '#6d4c1f', // 23 - Daptomycin
+  '#c0392b', // 24 - Rifampicin
 ];
 
 // Safe colors for colorblind users - high contrast and distinguishable
@@ -45,6 +52,13 @@ const safeColors = [
   '#a44739',
   '#c75a92',
   '#9b3b5b',
+  // Extended palette for saureus / strepneumo
+  '#1a6b8a', // 19 - Vancomycin / Teicoplanin
+  '#e65c00', // 20 - Fusidic Acid
+  '#7b2fa0', // 21 - Mupirocin
+  '#1abc9c', // 22 - Linezolid
+  '#6d4c1f', // 23 - Daptomycin
+  '#c0392b', // 24 - Rifampicin
 ];
 
 const drugColorMap = {
@@ -82,6 +96,26 @@ const drugColorMap = {
   Trimethoprim: 17,
   'Trimethoprim-sulfamethoxazole': 18,
   'Trimethoprim-Sulfamethoxazole': 18,
+  // S. aureus drugs
+  Amikacin: 1,       // aminoglycoside
+  Gentamicin: 1,     // aminoglycoside
+  Tobramycin: 1,     // aminoglycoside
+  Kanamycin: 1,      // aminoglycoside
+  Methicillin: 0,    // beta-lactam
+  Penicillin: 0,     // beta-lactam
+  'Fusidic Acid': 20,
+  Vancomycin: 19,    // glycopeptide
+  Clindamycin: 13,   // lincosamide (grouped with macrolides)
+  Erythromycin: 13,  // macrolide
+  Mupirocin: 21,
+  Linezolid: 22,
+  Daptomycin: 23,
+  Rifampicin: 24,
+  Moxifloxacin: 8,   // fluoroquinolone
+  Teicoplanin: 19,   // glycopeptide
+  // S. pneumoniae drugs
+  Fluoroquinolone: 8,
+  'Co-Trimoxazole': 18,
 };
 
 // Based on drug name
