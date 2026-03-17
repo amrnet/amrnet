@@ -141,6 +141,8 @@ const importRouteConfig = {
   shige: path.join(__dirname, '../assets/webscrap/clean/shige'),
   senterica: path.join(__dirname, '../assets/webscrap/clean/senterica'),
   sentericaints: path.join(__dirname, '../assets/webscrap/clean/sentericaints'),
+  saureus:       path.join(__dirname, '../assets/webscrap/clean/saureus'),
+  strepneumo:    path.join(__dirname, '../assets/webscrap/clean/strepneumo'),
 };
 
 const importOrganismJsonFiles = async (organism, folderPath) => {

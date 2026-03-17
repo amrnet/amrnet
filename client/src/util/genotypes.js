@@ -102,6 +102,12 @@ export function getAxisLabel(organism, variable = null) {
     case 'ngono':
       if (variable === 'NG-MAST TYPE') return 'ng-mast';
       return 'genotypes';
+    case 'strepneumo':
+      if (variable === 'Serotype') return 'serotypes';
+      if (variable === 'Lineage') return 'lineages';
+      return 'genotypes';
+    case 'saureus':
+      return 'genotypes';
     default:
       return 'genotypes';
   }
