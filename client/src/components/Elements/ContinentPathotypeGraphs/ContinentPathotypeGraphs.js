@@ -19,7 +19,7 @@ import { setCollapse } from '../../../stores/slices/graphSlice';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isTouchDevice } from '../../../util/isTouchDevice';
-import { getContinentPGraphCard } from '../../../util/graphCards';
+// import { getContinentPGraphCard } from '../../../util/graphCards';
 import { ExpandLess, ExpandMore, FilterList, FilterListOff, CameraAlt } from '@mui/icons-material';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
@@ -57,7 +57,7 @@ export const ContinentPathotypeGraphs = () => {
   const dataset = useAppSelector((state) => state.map.dataset);
   const globalOverviewLabel = useAppSelector((state) => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector((state) => state.dashboard.actualGenomes);
-  const continentPGraphCard = useMemo(() => getContinentPGraphCard(t), [t]);
+  // const continentPGraphCard = useMemo(() => getContinentPGraphCard(t), [t]);
 
   useEffect(() => {
     setShowFilter(!matches500);
@@ -90,9 +90,9 @@ export const ContinentPathotypeGraphs = () => {
     setShowFilter(!showFilter);
   }
 
-  if (!continentPGraphCard.organisms.includes(organism)) {
-    return null;
-  }
+  // if (!continentPGraphCard.organisms.includes(organism)) {
+  //   return null;
+  // }
 
   async function handleClick(event) {
     event.stopPropagation();
