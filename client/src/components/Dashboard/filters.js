@@ -260,12 +260,15 @@ function getCountryDisplayName(country) {
     case 'East Timor':
       return 'Timor-Leste';
     case 'State of Palestine':
+    case 'Gaza Strip':
+    case 'Gaze':
       return 'Palestine';
     case 'Dominican Republic':
       return 'Dominican Rep.';
     case 'Viet Nam':
       return 'Vietnam';
     case 'Myanmar [Burma]':
+    case 'Myanmar (Burma)':
       return 'Myanmar';
     case 'French Polynesia':
       return 'Fr. Polynesia';
@@ -273,6 +276,7 @@ function getCountryDisplayName(country) {
     case 'Netherlands (Kingdom of the)':
       return 'Netherlands';
     case 'USA':
+    case 'U.S.A.':
     case 'United States':
       return 'United States of America';
     case 'Cape Verde':
@@ -289,6 +293,7 @@ function getCountryDisplayName(country) {
     case 'Ireland':
     case 'Wales':
     case 'UK':
+    case 'Scotland, UK':
       return 'United Kingdom';
     case 'The Gambia':
       return 'Gambia';
@@ -567,9 +572,7 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
           ).length;
           result.drugs[name] = {
             count: panCount,
-            percentage: dataWithGenFilter.length
-              ? Number(((panCount / dataWithGenFilter.length) * 100).toFixed(2))
-              : 0,
+            percentage: dataWithGenFilter.length ? Number(((panCount / dataWithGenFilter.length) * 100).toFixed(2)) : 0,
           };
           continue;
         }
@@ -1088,7 +1091,12 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return;
           }
 
-          const drugClass = getMarkerDrugClassData({ drugKey: rule.key, dataToFilter: yearData, markerRules: markerRulesSA, fallbackDrugRules: drugRulesSA });
+          const drugClass = getMarkerDrugClassData({
+            drugKey: rule.key,
+            dataToFilter: yearData,
+            markerRules: markerRulesSA,
+            fallbackDrugRules: drugRulesSA,
+          });
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
 
@@ -1120,7 +1128,12 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return;
           }
 
-          const drugClass = getMarkerDrugClassData({ drugKey: rule.key, dataToFilter: yearData, markerRules: markerRulesSP, fallbackDrugRules: drugRulesSP });
+          const drugClass = getMarkerDrugClassData({
+            drugKey: rule.key,
+            dataToFilter: yearData,
+            markerRules: markerRulesSP,
+            fallbackDrugRules: drugRulesSP,
+          });
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
 
@@ -1408,7 +1421,15 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
               const panCount = itemData.filter(x => nonPanRules.every(r => x[r.columnID]?.toString() !== '1')).length;
               Object.assign(drugClassData, { None: panCount, resistantCount: 0 });
             } else {
-              Object.assign(drugClassData, getMarkerDrugClassData({ drugKey: key, dataToFilter: itemData, markerRules: markerRulesSA, fallbackDrugRules: drugRulesSA }));
+              Object.assign(
+                drugClassData,
+                getMarkerDrugClassData({
+                  drugKey: key,
+                  dataToFilter: itemData,
+                  markerRules: markerRulesSA,
+                  fallbackDrugRules: drugRulesSA,
+                }),
+              );
             }
           }
         } else if (organism === 'strepneumo') {
@@ -1419,7 +1440,15 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
               const panCount = itemData.filter(x => nonPanRules.every(r => x[r.columnID]?.toString() !== '1')).length;
               Object.assign(drugClassData, { None: panCount, resistantCount: 0 });
             } else {
-              Object.assign(drugClassData, getMarkerDrugClassData({ drugKey: key, dataToFilter: itemData, markerRules: markerRulesSP, fallbackDrugRules: drugRulesSP }));
+              Object.assign(
+                drugClassData,
+                getMarkerDrugClassData({
+                  drugKey: key,
+                  dataToFilter: itemData,
+                  markerRules: markerRulesSP,
+                  fallbackDrugRules: drugRulesSP,
+                }),
+              );
             }
           }
         } else {
@@ -1676,9 +1705,7 @@ export function getGenotypesData({
       const nonPanRulesSA = drugRulesSA.filter(r => !r.pansusceptible);
       drugRulesSA.forEach(rule => {
         if (rule.pansusceptible) {
-          const panCount = genotypeData.filter(x =>
-            nonPanRulesSA.every(r => x[r.columnID]?.toString() !== '1'),
-          ).length;
+          const panCount = genotypeData.filter(x => nonPanRulesSA.every(r => x[r.columnID]?.toString() !== '1')).length;
           response[rule.key] = panCount;
           genotypesDrugClassesData[rule.key].push({ ...drugClassResponse, None: panCount, resistantCount: 0 });
           return;
@@ -1690,7 +1717,12 @@ export function getGenotypesData({
 
         const drugClass = {
           ...drugClassResponse,
-          ...getMarkerDrugClassData({ drugKey: rule.key, dataToFilter: genotypeData, markerRules: markerRulesSA, fallbackDrugRules: drugRulesSA }),
+          ...getMarkerDrugClassData({
+            drugKey: rule.key,
+            dataToFilter: genotypeData,
+            markerRules: markerRulesSA,
+            fallbackDrugRules: drugRulesSA,
+          }),
         };
         genotypesDrugClassesData[rule.key].push(drugClass);
       });
@@ -1698,9 +1730,7 @@ export function getGenotypesData({
       const nonPanRulesSP = drugRulesSP.filter(r => !r.pansusceptible);
       drugRulesSP.forEach(rule => {
         if (rule.pansusceptible) {
-          const panCount = genotypeData.filter(x =>
-            nonPanRulesSP.every(r => x[r.columnID]?.toString() !== '1'),
-          ).length;
+          const panCount = genotypeData.filter(x => nonPanRulesSP.every(r => x[r.columnID]?.toString() !== '1')).length;
           response[rule.key] = panCount;
           genotypesDrugClassesData[rule.key].push({ ...drugClassResponse, None: panCount, resistantCount: 0 });
           return;
@@ -1712,7 +1742,12 @@ export function getGenotypesData({
 
         const drugClass = {
           ...drugClassResponse,
-          ...getMarkerDrugClassData({ drugKey: rule.key, dataToFilter: genotypeData, markerRules: markerRulesSP, fallbackDrugRules: drugRulesSP }),
+          ...getMarkerDrugClassData({
+            drugKey: rule.key,
+            dataToFilter: genotypeData,
+            markerRules: markerRulesSP,
+            fallbackDrugRules: drugRulesSP,
+          }),
         };
         genotypesDrugClassesData[rule.key].push(drugClass);
       });
@@ -1742,9 +1777,8 @@ export function getGenotypesData({
       });
     }
 
-    response.resistantCount = response['Pansusceptible'] != null
-      ? response.totalCount - response['Pansusceptible']
-      : response.totalCount;
+    response.resistantCount =
+      response['Pansusceptible'] != null ? response.totalCount - response['Pansusceptible'] : response.totalCount;
     return response;
   });
 
@@ -2247,10 +2281,14 @@ function getMarkerDrugClassData({ drugKey, dataToFilter, markerRules, fallbackDr
 
   dataToFilter.forEach(record => {
     const acquiredGenes = record.Acquired
-      ? record.Acquired.split(';').map(s => s.trim()).filter(Boolean)
+      ? record.Acquired.split(';')
+          .map(s => s.trim())
+          .filter(Boolean)
       : [];
     const variantsList = record.Variants
-      ? record.Variants.split(';').map(s => s.trim()).filter(Boolean)
+      ? record.Variants.split(';')
+          .map(s => s.trim())
+          .filter(Boolean)
       : [];
 
     let isResistant = false;

@@ -1,4 +1,4 @@
-import { Close } from '@mui/icons-material';
+import { Close, InfoOutlined } from '@mui/icons-material';
 import {
   Box,
   Card,
@@ -578,7 +578,15 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           <SliderSizes value={'GD'} style={{ width: '100%' }} label={sliderLabel} />
           <FormGroup className={classes.formGroup}>
             <FormControlLabel
-              label={<Typography variant="caption">Change the y-axis scale</Typography>}
+              label={
+                <Box display="flex" alignItems="center" gap={0.5}>
+                 Change the y-axis scale <Typography variant="caption">
+                  </Typography>
+                  <Tooltip title="Data zoom-in features" placement="top">
+                    <InfoOutlined color="action" fontSize="small" />
+                  </Tooltip>
+                </Box>
+              }
               control={<Switch checked={logScale} onChange={handleSwitchScale} />}
             />
           </FormGroup>
