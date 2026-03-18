@@ -161,6 +161,9 @@ export const DashboardPage = () => {
   const [currentTimeInitial, setCurrentTimeInitial] = useState('');
   const [currentTimeFinal, setCurrentTimeFinal] = useState('');
   const isApplyingFilters = useRef(false);
+  // In-memory cache of the full organism dataset. Populated by getInfoFromData so that
+  // updateDataOnFilters can skip the IndexedDB read on every filter change.
+  // const cachedOrganismData = useRef({ key: null, data: [] });
   const { t } = useTranslation();
 
   const { hasItems, bulkAddItems, getItems } = useIndexedDB();
@@ -205,9 +208,11 @@ export const DashboardPage = () => {
    * @param {string} storeName - Name of the data store
    * @param {Function} handleGetData - Function to retrieve data if not cached
    * @param {boolean} clearStore - Whether to clear the store before adding new data
+   * @param {boolean} backgroundWrite - When true, write to IndexedDB asynchronously without blocking the return.
+   *   Use for large organism stores where cross-session caching matters but blocking the caller is not worth it.
    * @returns {Promise<any>} Retrieved or generated data
    */
-  async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true) {
+  async function getStoreOrGenerateData(storeName, handleGetData, clearStore = true, backgroundWrite = false) {
     // Prefer cached data from IndexedDB when available
     try {
       if (await hasItems(storeName)) {
@@ -238,10 +243,18 @@ export const DashboardPage = () => {
       return organismData;
     }
 
-    try {
-      await bulkAddItems(storeName, storeName.includes('convergence') ? [organismData] : organismData, clearStore);
-    } catch (e) {
-      console.warn(`[IDB] bulkAddItems failed for ${storeName}:`, e);
+    const writePayload = storeName.includes('convergence') ? [organismData] : organismData;
+    if (backgroundWrite) {
+      // Fire-and-forget: don't block the caller. Cross-session cache will be populated in background.
+      bulkAddItems(storeName, writePayload, clearStore).catch(e =>
+        console.warn(`[IDB] background write failed for ${storeName}:`, e),
+      );
+    } else {
+      try {
+        await bulkAddItems(storeName, writePayload, clearStore);
+      } catch (e) {
+        console.warn(`[IDB] bulkAddItems failed for ${storeName}:`, e);
+      }
     }
 
     return organismData;
@@ -284,6 +297,9 @@ export const DashboardPage = () => {
   async function getInfoFromData(responseData, regions) {
     console.time('[getInfoFromData] total');
     const dataLength = Array.isArray(responseData) ? responseData.length : 0;
+
+    // Cache the full dataset so updateDataOnFilters can avoid re-reading IndexedDB.
+    // cachedOrganismData.current = { key: organism, data: responseData };
 
     console.timeLog && console.timeLog('[getInfoFromData] total', 'start');
     dispatch(setTotalGenomes(dataLength));
@@ -850,7 +866,7 @@ export const DashboardPage = () => {
         );
 
         return response;
-      });
+      }, true, true); // clearStore=true, backgroundWrite=true
 
       // Extract data and metadata from result
       if (result && typeof result === 'object' && result.data) {
@@ -1201,18 +1217,6 @@ export const DashboardPage = () => {
         dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
         dispatch(setBubbleMarkersYAxisType(drugsSP.filter(x => x !== 'Pansusceptible')[0]));
         break;
-      case 'saureus':
-        dispatch(setDrugResistanceGraphView(drugsSA));
-        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setBubbleMarkersYAxisType(drugsSA.filter(x => x !== 'Pansusceptible')[0]));
-        break;
-      case 'strepneumo':
-        dispatch(setDrugResistanceGraphView(drugsSP));
-        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setBubbleMarkersYAxisType(drugsSP.filter(x => x !== 'Pansusceptible')[0]));
-        break;
       default:
         break;
     }
@@ -1296,7 +1300,7 @@ export const DashboardPage = () => {
         );
 
         return organismData;
-      });
+      }, true, true); // clearStore=true, backgroundWrite=true
 
       if (organismData === '__PROCESSED_FROM_IDB__') {
         // Data was fetched and stored into IndexedDB by the handler. Process from IDB in batches.
@@ -1396,6 +1400,7 @@ export const DashboardPage = () => {
 
       // Clear state only if switching organisms, not on initial mount or reopen
       if (isOrganismChange && !needsInitialLoad) {
+        // cachedOrganismData.current = { key: null, data: [] };
         // Clear all that needs to be cleared
         dispatch(
           setCollapses({
