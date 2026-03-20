@@ -30,6 +30,7 @@ import { SelectCountry } from '../../SelectCountry';
 import { arraysEqual, getRange } from '../../../../util/helpers';
 import { setCaptureKOT, setKOForFilterSelected, setColorPalleteKO } from '../../../../stores/slices/dashboardSlice';
 import GenotypePatternRect from '../GenotypePatternRect.js';
+import { InfoOutlined } from '@mui/icons-material';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },

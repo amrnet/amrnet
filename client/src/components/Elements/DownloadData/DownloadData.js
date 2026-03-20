@@ -21,6 +21,7 @@ import { drugAcronymsOpposite, drugsKP, drugsNG, drugsST, ngonoSusceptibleRule }
 import { getGraphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { mapLegends } from '../../../util/mapLegends';
+import { variableGraphOptions, variableGraphOptionsNG } from '../../../util/convergenceVariablesOptions';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import Papa from 'papaparse/papaparse.js';
 import {
@@ -44,6 +45,7 @@ import {
 } from '../../../util/reportInfoTexts';
 import { getColorForDrug } from '../Graphs/graphColorHelper';
 import { PDFPreviewModal } from './PDFPreviewModal';
+import domtoimage from 'dom-to-image';
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -238,6 +240,9 @@ export const DownloadData = () => {
   const starttimeRDT = useAppSelector(state => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
   const actualGenomesRDT = useAppSelector(state => state.graph.actualGenomesRDT);
+  const endTimeKOT = useAppSelector(state => state.graph.endTimeKOT);
+  const startTimeKOT = useAppSelector(state => state.graph.startTimeKOT);
+  const actualGenomesKOT = useAppSelector(state => state.graph.actualGenomesKOT);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
   const coloredOptions = useAppSelector(state => state.graph.coloredOptions);
   const drugClass = useAppSelector(state => state.graph.drugClass); // Drug class selected in the graph for PDF
@@ -255,6 +260,10 @@ export const DownloadData = () => {
   const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
   const convergenceData = useAppSelector(state => state.graph.convergenceData);
   const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  const bubbleMarkersYAxisType = useAppSelector(state => state.graph.bubbleMarkersYAxisType);
+  const bubbleHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleHeatmapGraphVariable);
+  const bubbleKOHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleKOHeatmapGraphVariable);
+  const bubbleKOYAxisType = useAppSelector(state => state.graph.bubbleKOYAxisType);
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -678,13 +687,54 @@ export const DownloadData = () => {
         mapImage = await svgAsPngUri(mapEl, { backgroundColor: 'white', width: 1200, left: -200 });
       }
 
-      // Helper: capture a DOM element as { dataUrl, width, height }
       async function captureElement(id) {
         const el = document.getElementById(id);
         if (!el) return null;
-        const canvas = await html2canvas(el, { backgroundColor: 'white', scale: 2, useCORS: true });
+
+        const isHeatmap = ['BAMRH', 'HSG2', 'BKOH', 'BG', 'BHP'].includes(id);
+
+        if (isHeatmap) {
+          const originalOverflow = el.style.overflow;
+          const originalWidth = el.style.width;
+
+          el.style.overflow = 'visible';
+          el.style.width = el.scrollWidth + 'px';
+          await new Promise(r => setTimeout(r, 200));
+
+          const dataUrl = await domtoimage.toPng(el, { bgcolor: 'white' });
+
+          el.style.overflow = originalOverflow;
+          el.style.width = originalWidth;
+
+          const img = new Image();
+          await new Promise(r => { img.onload = r; img.src = dataUrl; });
+          return { dataUrl, width: img.naturalWidth / 2, height: img.naturalHeight / 2 };
+        }
+
+        const canvas = await html2canvas(el, {
+          backgroundColor: 'white',
+          scale: 2,
+          useCORS: true,
+          scrollX: 0,
+          scrollY: -window.scrollY,
+        });
         return { dataUrl: canvas.toDataURL('image/png'), width: canvas.width / 2, height: canvas.height / 2 };
       }
+
+      // Helper: capture a DOM element as { dataUrl, width, height }
+      // async function captureElement(id) {
+      //   const el = document.getElementById(id);
+      //   if (!el) return null;
+      //   // const target = id === 'BAMRH' ? (el.parentElement ?? el) : el;
+      //   const canvas = await html2canvas(el, {
+      //     backgroundColor: 'white',
+      //     scale: 2,
+      //     useCORS: true,
+      //     scrollX: 0,
+      //     scrollY: 0,
+      //   });
+      //   return { dataUrl: canvas.toDataURL('image/png'), width: canvas.width / 2, height: canvas.height / 2 };
+      // }
 
       // Capture Geographic Comparisons
       const bgCapture = await captureElement('BG');
@@ -698,11 +748,37 @@ export const DownloadData = () => {
       // Capture each organism graph card
       const cards = getOrganismCards();
       const capturedGraphs = [];
+      const drugInfo = (id) => {
+        if (id.includes('BAMRH')) return `Genotype: ${organism === 'ngono'
+                  ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+                  : organism === 'kpneumo' ? variablesOptions.find(option => option.value === distributionGraphVariable)?.label : null} | Drug: ${bubbleMarkersYAxisType}`;
+        if (id.includes('RDT'))   return `Drug class: ${trendsGraphDrugClass}`;
+        if (id.includes('convergence-graph')) return `Convergence group: ${convergenceGroupVariable}`;
+        if (id.includes('BKOH'))   return `Genotype: ${organism === 'ngono'
+                  ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+                  : variablesOptions.find(option => option.value === distributionGraphVariable)?.label} | K/O Type: ${bubbleKOYAxisType}`;
+        if (id.includes('HSG2'))   return `Genotype: ${organism === 'ngono'
+                  ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+                  : organism === 'kpneumo' ? bubbleHeatmapGraphVariable.find(option => option.value === distributionGraphVariable)?.label : null}`;
+        if (id.includes('GD'))   return `Genotype: ${organism === 'ngono'
+                  ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+                  : organism === 'kpneumo' ? variablesOptions.find(option => option.value === distributionGraphVariable)?.label : null}`;
+        if (id.includes('KOT'))   return `K/O Type: ${bubbleKOYAxisType}`;
+        return null;
+      };
+
       for (const card of cards) {
         dispatch(setDownload(true));
         const capture = await captureElement(card.id);
         if (!capture) continue;
-        capturedGraphs.push({ ...card, image: capture.dataUrl, width: capture.width, height: capture.height });
+        capturedGraphs.push({
+          ...card,
+          image:    capture.dataUrl,
+          width:    capture.width,
+          height:   capture.height,
+          subtitle: buildCardSubtitle(card.id),
+          drugInfo: drugInfo(card.id),
+        });
       }
       dispatch(setDownload(false));
 
@@ -761,6 +837,19 @@ export const DownloadData = () => {
     // console.log('url', url);
     window.open(url, '_blank');
     // window.open('https://amrnet.readthedocs.io/en/latest/', '_blank');
+  }
+
+  function buildCardSubtitle(cardId) {
+    const ds = `${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`;
+    // Fall back to global time/genome values when card-specific redux state is uninitialised (0 / falsy)
+    const safeGenomes = v => (v && v !== 0) ? v : actualGenomes;
+    const safeStart   = v => (v && v !== 0) ? v : actualTimeInitial;
+    const safeEnd     = v => (v && v !== 0) ? v : actualTimeFinal;
+    if (cardId === 'GD')  return `Total: ${safeGenomes(actualGenomesGD)} genomes | Time period: ${safeStart(starttimeGD)} to ${safeEnd(endtimeGD)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    if (cardId === 'DRT') return `Total: ${safeGenomes(actualGenomesDRT)} genomes | Time period: ${safeStart(starttimeDRT)} to ${safeEnd(endtimeDRT)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    if (cardId === 'RDT') return `Total: ${safeGenomes(actualGenomesRDT)} genomes | Time period: ${safeStart(starttimeRDT)} to ${safeEnd(endtimeRDT)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    if (cardId === 'KOT') return `Total: ${safeGenomes(actualGenomesKOT)} genomes | Time period: ${safeStart(startTimeKOT)} to ${safeEnd(endTimeKOT)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    return `Total: ${actualGenomes} genomes | Time period: ${actualTimeInitial} to ${actualTimeFinal} | Country: ${actualCountry} | Dataset: ${ds}`;
   }
 
   return (

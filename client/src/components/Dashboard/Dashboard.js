@@ -163,7 +163,7 @@ export const DashboardPage = () => {
   const isApplyingFilters = useRef(false);
   // In-memory cache of the full organism dataset. Populated by getInfoFromData so that
   // updateDataOnFilters can skip the IndexedDB read on every filter change.
-  const cachedOrganismData = useRef({ key: null, data: [] });
+  // const cachedOrganismData = useRef({ key: null, data: [] });
   const { t } = useTranslation();
 
   const { hasItems, bulkAddItems, getItems } = useIndexedDB();
@@ -299,7 +299,7 @@ export const DashboardPage = () => {
     const dataLength = Array.isArray(responseData) ? responseData.length : 0;
 
     // Cache the full dataset so updateDataOnFilters can avoid re-reading IndexedDB.
-    cachedOrganismData.current = { key: organism, data: responseData };
+    // cachedOrganismData.current = { key: organism, data: responseData };
 
     console.timeLog && console.timeLog('[getInfoFromData] total', 'start');
     dispatch(setTotalGenomes(dataLength));
@@ -1197,13 +1197,13 @@ export const DashboardPage = () => {
         dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         break;
       case 'shige':
-        if (!isPaginated) {
+        // if (!isPaginated) {
           // Don't set drug selection for paginated organisms - let auto-selection effect handle it
           dispatch(setDrugResistanceGraphView(drugsECOLI));
           dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
           dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
           dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
-        }
+        // }
         break;
       case 'saureus':
         dispatch(setDrugResistanceGraphView(drugsSA));
@@ -1400,7 +1400,7 @@ export const DashboardPage = () => {
 
       // Clear state only if switching organisms, not on initial mount or reopen
       if (isOrganismChange && !needsInitialLoad) {
-        cachedOrganismData.current = { key: null, data: [] };
+        // cachedOrganismData.current = { key: null, data: [] };
         // Clear all that needs to be cleared
         dispatch(
           setCollapses({
@@ -1595,10 +1595,7 @@ export const DashboardPage = () => {
     isApplyingFilters.current = true;
     console.debug('[Dashboard] updateDataOnFilters: start');
     // Use in-memory cache when available — avoids reading all records from IndexedDB on every filter change.
-    const storeData =
-      cachedOrganismData.current.key === organism && cachedOrganismData.current.data.length > 0
-        ? cachedOrganismData.current.data
-        : await getItems(organism);
+    const storeData = await getItems(organism);
 
     if (organism === 'kpneumo' && convergenceGroupVariable !== currentConvergenceGroupVariable) {
       setCurrentConvergenceGroupVariable(convergenceGroupVariable);
@@ -1634,12 +1631,6 @@ export const DashboardPage = () => {
         dispatch(setConvergenceData(convergenceData.data));
       }
     } else {
-      // When all lineages are selected, pass [] so filterData treats it as "no filter"
-      const effectiveLineages =
-        selectedLineages?.length > 0 && selectedLineages.length < pathovarForFilter.length
-          ? selectedLineages
-          : [];
-
       const filters = filterData({
         data: storeData,
         dataset,
@@ -1648,7 +1639,7 @@ export const DashboardPage = () => {
         actualTimeFinal,
         organism,
         actualCountry,
-        selectedLineages: effectiveLineages,
+        selectedLineages,
         actualRegion,
         economicRegions,
       });
@@ -1788,15 +1779,6 @@ export const DashboardPage = () => {
         ), // : Promise.resolve({ drugsData: [] }),
       ]);
 
-      // Prefer server results for drugsData / genotypesData / uniqueGenotypes when valid.
-      // Fall back to client getYearsData results when the server call failed or returned empty data.
-      const serverYd = yearlyServerResponse?.data;
-      const serverOk = Array.isArray(serverYd?.drugsData) && serverYd.drugsData.length > 0;
-
-      const finalGenotypesData   = serverOk ? serverYd.genotypesData   : (yearsData.genotypesData   ?? []);
-      const finalDrugsData       = serverOk ? serverYd.drugsData       : (yearsData.drugsData       ?? []);
-      const finalUniqueGenotypes = serverOk ? serverYd.uniqueGenotypes : (yearsData.uniqueGenotypes ?? []);
-
       // Dispatch map data
       dispatch(setMapData(mapData));
       dispatch(setMapRegionData(mapRegionData));
@@ -1808,20 +1790,13 @@ export const DashboardPage = () => {
         dispatch(setMapRegionDataNoPathotype(mapRegionData));
       }
 
-      // Prefer server result for genotypesDrugsData (AMR BY GENOTYPE).
-      // Server returns { name, count, [drug]: n } — map count → totalCount for FrequenciesGraph.
-      // Fall back to client getGenotypesData result when the server call failed or returned empty.
-      const serverGd = genotypesServerResponse?.data?.genotypesData;
-      const serverGdOk = Array.isArray(serverGd) && serverGd.length > 0;
-      const finalGenotypesDrugsData = serverGdOk
-        ? serverGd.map(({ count, ...rest }) => ({ ...rest, totalCount: count }))
-        : (genotypesData.genotypesDrugsData ?? []);
-
       // Dispatch genotypes and time-based data
-      dispatch(setGenotypesDrugsData(finalGenotypesDrugsData));
+      dispatch(setGenotypesDrugsData(genotypesData.genotypesDrugsData));
       dispatch(
         setFrequenciesGraphSelectedGenotypes(
-          finalGenotypesDrugsData.slice(0, 5).map(x => x.name),
+          (Array.isArray(genotypesData.genotypesDrugsData) ? genotypesData.genotypesDrugsData : [])
+            .slice(0, 5)
+            .map(x => x.name),
         ),
       );
       dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
@@ -1829,12 +1804,10 @@ export const DashboardPage = () => {
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
       dispatch(setNgMastDrugClassesData(genotypesData.ngMastDrugClassesData));
 
-      // Dispatch yearly trends data (server preferred, client fallback)
-      dispatch(setGenotypesYearData(finalGenotypesData));
-      dispatch(setDrugsYearData(finalDrugsData));
-      dispatch(setGenotypesForFilterDynamic(finalUniqueGenotypes));
-      // genotypesAndDrugsData powers AMR MARKER TRENDS — always use client result
+      dispatch(setGenotypesYearData(yearsData.genotypesData));
+      dispatch(setDrugsYearData(yearsData.drugsData));
       dispatch(setGenotypesAndDrugsYearData(yearsData.genotypesAndDrugsData));
+      dispatch(setGenotypesForFilterDynamic(yearsData.uniqueGenotypes));
 
       // Dispatch KO and convergence data (kpneumo only)
       if (organism === 'kpneumo') {
@@ -1885,10 +1858,7 @@ export const DashboardPage = () => {
     }
     const fetchDataAndFilter = async () => {
       try {
-        const data =
-          cachedOrganismData.current.key === organism && cachedOrganismData.current.data.length > 0
-            ? cachedOrganismData.current.data
-            : await getItems(organism);
+        const data = await getItems(organism);
         if (data.length > 0) {
           const filters = filterBrushData({
             data,
