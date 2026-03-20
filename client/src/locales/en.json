@@ -237,7 +237,8 @@
     "serotypeComparisons": "Serotype Comparisons",
     "pathotypeComparisons": "Pathotype Comparisons",
     "amrBySerotype": "AMR by serotype",
-    "amrByPathotype": "AMR by pathotype"
+    "amrByPathotype": "AMR by pathotype",
+    "topGenotypesUpTo30": "Top genotypes up to 30"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",
