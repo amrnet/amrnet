@@ -30,8 +30,8 @@ export function getSalmonellaTexts() {
     h('Abbreviations'),
     li('MDR: Multidrug resistant (resistant to ampicillin, chloramphenicol, and trimethoprim-sulfamethoxazole).'),
     li('XDR: Extensively drug resistant (MDR plus resistance to ciprofloxacin and ceftriaxone).'),
-    li('Ciprofloxacin NS: Ciprofloxacin non-susceptible (MIC ≥ 0.06 mg/L, due to presence of one or more resistance genes or mutations).'),
-    li('Ciprofloxacin R: Ciprofloxacin resistant (MIC ≥ 0.5 mg/L, due to multiple mutations and/or resistance genes; see Carey et al., 2023 https://doi.org/10.7554/eLife.85867).'),
+    li('Ciprofloxacin NS: Ciprofloxacin non-susceptible (MIC >= 0.06 mg/L, due to presence of one or more resistance genes or mutations).'),
+    li('Ciprofloxacin R: Ciprofloxacin resistant (MIC >= 0.5 mg/L, due to multiple mutations and/or resistance genes; see Carey et al., 2023 https://doi.org/10.7554/eLife.85867).'),
   ];
 }
 
