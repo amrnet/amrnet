@@ -255,6 +255,7 @@ export const DownloadData = () => {
   const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
   const convergenceData = useAppSelector(state => state.graph.convergenceData);
   const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  const bubbleMarkersYAxisType = useAppSelector(state => state.graph.bubbleMarkersYAxisType);
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -682,7 +683,15 @@ export const DownloadData = () => {
       async function captureElement(id) {
         const el = document.getElementById(id);
         if (!el) return null;
-        const canvas = await html2canvas(el, { backgroundColor: 'white', scale: 2, useCORS: true });
+        const canvas = await html2canvas(el, {
+          backgroundColor: 'white',
+          scale: 2,
+          useCORS: true,
+          scrollX: 0,
+          scrollY: window.scrollY,        // ← accounts for page scroll offset
+          windowWidth: document.documentElement.scrollWidth,
+          windowHeight: document.documentElement.scrollHeight,
+        });
         return { dataUrl: canvas.toDataURL('image/png'), width: canvas.width / 2, height: canvas.height / 2 };
       }
 
@@ -698,11 +707,24 @@ export const DownloadData = () => {
       // Capture each organism graph card
       const cards = getOrganismCards();
       const capturedGraphs = [];
+      const drugInfo = (id) => {
+        if (id.includes('BAMRH')) return bubbleMarkersYAxisType;
+        if (id.includes('RDT'))   return trendsGraphDrugClass;
+        return null;
+      };
+
       for (const card of cards) {
         dispatch(setDownload(true));
         const capture = await captureElement(card.id);
         if (!capture) continue;
-        capturedGraphs.push({ ...card, image: capture.dataUrl, width: capture.width, height: capture.height });
+        capturedGraphs.push({
+          ...card,
+          image:    capture.dataUrl,
+          width:    capture.width,
+          height:   capture.height,
+          subtitle: buildCardSubtitle(card.id),
+          drugInfo: drugInfo(card.id),
+        });
       }
       dispatch(setDownload(false));
 
@@ -761,6 +783,18 @@ export const DownloadData = () => {
     // console.log('url', url);
     window.open(url, '_blank');
     // window.open('https://amrnet.readthedocs.io/en/latest/', '_blank');
+  }
+
+  function buildCardSubtitle(cardId) {
+    const ds = `${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`;
+    // Fall back to global time/genome values when card-specific redux state is uninitialised (0 / falsy)
+    const safeGenomes = v => (v && v !== 0) ? v : actualGenomes;
+    const safeStart   = v => (v && v !== 0) ? v : actualTimeInitial;
+    const safeEnd     = v => (v && v !== 0) ? v : actualTimeFinal;
+    if (cardId === 'GD')  return `Total: ${safeGenomes(actualGenomesGD)} genomes | Time period: ${safeStart(starttimeGD)} to ${safeEnd(endtimeGD)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    if (cardId === 'DRT') return `Total: ${safeGenomes(actualGenomesDRT)} genomes | Time period: ${safeStart(starttimeDRT)} to ${safeEnd(endtimeDRT)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    if (cardId === 'RDT') return `Total: ${safeGenomes(actualGenomesRDT)} genomes | Time period: ${safeStart(starttimeRDT)} to ${safeEnd(endtimeRDT)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    return `Total: ${actualGenomes} genomes | Time period: ${actualTimeInitial} to ${actualTimeFinal} | Country: ${actualCountry} | Dataset: ${ds}`;
   }
 
   return (

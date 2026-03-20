@@ -8,11 +8,12 @@ import LogoImg from '../../../assets/img/logo-prod.png';
 // ─── helpers ────────────────────────────────────────────────────────────────
 
 const PDF_PURPLE      = [74, 20, 140];
+const PDF_HEADER      = [255, 246, 246];
 const PDF_PURPLE_LITE = [243, 229, 245];
 const PDF_MARGIN      = 24;
 
 function drawPDFHeader(doc, logo, pageWidth) {
-  doc.setFillColor(...PDF_PURPLE);
+  doc.setFillColor(...PDF_HEADER);
   doc.rect(0, 0, pageWidth, 32, 'F');
   doc.addImage(logo, 'PNG', PDF_MARGIN, 4, 44, 23, undefined, 'FAST');
   doc.setFontSize(8).setFont(undefined, 'normal').setTextColor(220, 200, 240);
@@ -168,8 +169,8 @@ async function generatePDF(data, setLoading) {
       ['Time Period',   `${metadata.timeInitial} – ${metadata.timeFinal}`],
       ['Total Genomes', String(metadata.genomes ?? '')],
       ['Dataset',       metadata.dataset],
-      ['Map View',      metadata.mapView],
-      ['Organism',      metadata.organism],
+      // ['Map View',      metadata.mapView],
+      // ['Organism',      metadata.organism],
     ].filter(([, v]) => v);
 
     const cellW = contentW / 2, cellH = 22;
@@ -206,7 +207,11 @@ async function generatePDF(data, setLoading) {
     }
     for (const graph of graphs) {
       if (!graph.image) continue;
-      addImagePage({ doc, logo, title: graph.title, subtitle: graph.description?.filter(Boolean).join(' / ').replaceAll('≥', '>='), imageDataUrl: graph.image, imgW: graph.width, imgH: graph.height, pageWidth, pageHeight, pageNumRef });
+      addImagePage({ doc, logo, title: graph.title, subtitle: [
+        graph.description?.filter(Boolean).join(' / ').replaceAll('≥', '>='),
+        graph.subtitle,
+        graph.drugInfo,
+      ].filter(Boolean).join('\n'), imageDataUrl: graph.image, imgW: graph.width, imgH: graph.height, pageWidth, pageHeight, pageNumRef });
     }
 
     doc.save(`AMRnet - ${firstName} ${secondName} Report.pdf`);
@@ -251,7 +256,7 @@ function PreviewBlock({ block }) {
 }
 
 // ─── Preview card wrapper ─────────────────────────────────────────────────────
-function ReportCard({ title, subtitle, children, accent }) {
+function ReportCard({ title, subtitle, subtitle2, children, accent }) {
   return (
     <Box sx={{ bgcolor: 'white', borderRadius: 2, boxShadow: '0 1px 6px rgba(0,0,0,0.08)', overflow: 'hidden' }}>
       {(title || accent) && (
@@ -260,6 +265,7 @@ function ReportCard({ title, subtitle, children, accent }) {
           <Box>
             {title    && <Typography variant="subtitle1" fontWeight={700} lineHeight={1.2}>{title}</Typography>}
             {subtitle && <Typography variant="caption" color="text.secondary">{subtitle}</Typography>}
+            {subtitle2 && <Typography variant="caption" color="text.secondary" display="block">{subtitle2}</Typography>}  {/* ← add this */}
           </Box>
         </Box>
       )}
@@ -359,7 +365,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
 
         {/* Graphs */}
         {graphs.filter(g => g.image).map((g, i) => (
-          <ReportCard key={i} title={g.title} subtitle={g.description?.filter(Boolean).join(' / ')} accent={accentColor}>
+          <ReportCard key={i} title={g.title} subtitle={g.description?.filter(Boolean).join(' / ')} subtitle2={[g.subtitle, g.drugInfo].filter(Boolean).join(' | ')} accent={accentColor}>
             <Box component="img" src={g.image} alt={g.title} sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
           </ReportCard>
         ))}
