@@ -162,6 +162,12 @@ export const drugAcronyms = {
   Carbapenems: 'CARB',
   Carbapenem: 'CARB',
   'Ciprofloxacin R': 'CipR',
+  CipNS: 'CipNS',
+  CipR: 'CipR',
+  'QRDR mutations': 'QRDR',
+  MDR: 'MDR',
+  XDR: 'XDR',
+  PDR: 'PDR',
   Amikacin: 'AMI',
   'Co-Trimoxazole': 'SXT',
   Penicillin: 'PEN',
@@ -173,8 +179,10 @@ export const drugAcronymsOpposite = {
   // ESBL: 'Extended-Spectrum Beta-Lactamase',
   CipNS: 'Ciprofloxacin (non-susceptible)',
   CipR: 'Ciprofloxacin (resistant)',
+  QRDR: 'QRDR mutations',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',
+  PDR: 'Pan-drug resistant (PDR)',
   SUS: 'Susceptible to cat I/II drugs',
 };
 
@@ -193,9 +201,17 @@ export const ciproAcronyms = {
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
-export const drugsINTS = drugRulesINTS.map(x => x.key);
+export const drugsINTS = [...drugRulesINTS.map(x => x.key), 'CipNS', 'CipR', 'QRDR mutations', 'MDR', 'XDR', 'PDR'];
 export const drugsECOLI = statKeysECOLI.map(x => x.name);
-export const drugsINTSLegendsOnly = drugRulesINTS.map(x => x.legends || x.key).sort((a, b) => a.localeCompare(b));
+export const drugsINTSLegendsOnly = [
+  ...drugRulesINTS.map(x => x.legends || x.key),
+  'Ciprofloxacin (non-susceptible)',
+  'Ciprofloxacin (resistant)',
+  'QRDR mutations',
+  'Multidrug resistant (MDR)',
+  'Extensively drug resistant (XDR)',
+  'Pan-drug resistant (PDR)',
+].sort((a, b) => a.localeCompare(b));
 export const drugsNGLegendsOnly = drugRulesNG.map(x => x.legends || x.key);
 export const drugsKlebLegendsOnly = drugsKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
 //export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);

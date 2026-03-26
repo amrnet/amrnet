@@ -5,6 +5,7 @@ interface CollapsesModel {
   map: boolean;
   all: boolean;
   continentP: boolean;
+  insights: boolean;
 }
 
 interface KOYearsDataModel {
@@ -91,6 +92,7 @@ interface GraphState {
   drugGene: string;
   coloredOptions: Array<any>;
   bubbleMarkersHeatmapGraphData: Array<any>;
+  rawOrganismData: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -99,6 +101,7 @@ const initialState: GraphState = {
     continent: false,
     map: true,
     continentP: false,
+    insights: false,
   },
   countriesForFilter: [],
   genotypesYearData: [],
@@ -177,6 +180,7 @@ const initialState: GraphState = {
   drugGene: '',
   coloredOptions: [],
   bubbleMarkersHeatmapGraphData: [],
+  rawOrganismData: [],
 };
 
 export const graphSlice = createSlice({
@@ -428,6 +432,9 @@ export const graphSlice = createSlice({
     setBubbleMarkersHeatmapGraphData: (state, action: PayloadAction<Array<any>>) => {
       state.bubbleMarkersHeatmapGraphData = action.payload;
     },
+    setRawOrganismData: (state, action: PayloadAction<Array<any>>) => {
+      state.rawOrganismData = action.payload;
+    },
   },
 });
 
@@ -511,6 +518,7 @@ export const {
   setDrugGene,
   setColoredOptions,
   setBubbleMarkersHeatmapGraphData,
+  setRawOrganismData,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

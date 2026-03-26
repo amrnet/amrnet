@@ -1,4 +1,5 @@
 import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff } from '@mui/icons-material';
+import { ShareButton } from '../Shared/ShareButton';
 import {
   Alert,
   Box,
@@ -315,6 +316,7 @@ export const ContinentGraphs = () => {
                     </IconButton>
                   </span>
                 </Tooltip>
+                <ShareButton organism={organism} section="Geographic Comparisons" />
               </>
             )}
             <IconButton>{collapses['continent'] ? <ExpandLess /> : <ExpandMore />}</IconButton>
