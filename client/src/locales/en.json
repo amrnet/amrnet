@@ -236,7 +236,15 @@
     "geographicComparisons": "Geographic Comparisons",
     "serotypeComparisons": "Serotype Comparisons",
     "pathotypeComparisons": "Pathotype Comparisons",
-    "amrbyserotype": "AMR by serotype"
+    "amrbyserotype": "AMR by serotype",
+    "radarProfile": "AMR Radar Profile",
+    "radarProfileDescription": "Compare multi-drug resistance profiles between countries/regions (N≥20)",
+    "temporalHeatmap": "Temporal Emergence Heatmap",
+    "temporalHeatmapDescription": "Resistance prevalence by country over time for a selected drug",
+    "topGenotypesUpTo10": "Top Genotypes (up to 10)",
+    "topGenotypesUpTo30": "Top Genotypes (up to 30)",
+    "emergenceRate": "Resistance Emergence Rate",
+    "emergenceRateDescription": "Average annual change in resistance prevalence (%/year) — identifies accelerating resistance"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",
@@ -260,6 +268,18 @@
     "totalLineages": "Total Lineages",
     "totalSTs": "Total STs",
     "totalGenotypes": "Total Genotypes"
+  },
+  "amrInsights": {
+    "title": "AMR Insights",
+    "tabs": {
+      "genomicVsPhenotypic": "Genomic vs Phenotypic",
+      "convergenceMap": "Virulence-Resistance",
+      "geneMap": "Gene-level Resistance",
+      "qrdrPathway": "QRDR Mutations",
+      "serotypeResistance": "Serotype × Resistance",
+      "cooccurrence": "AMR Co-occurrence",
+      "atbCorrelation": "ATB Usage vs Resistance"
+    }
   },
   "continentGraphs": {
     "tabs": {

@@ -72,6 +72,7 @@ import {
   setDrugsRegionsData,
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
+  setRawOrganismData,
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
@@ -112,6 +113,7 @@ import {
   markersDrugsSH,
 } from '../../util/drugs';
 import { getContinentGraphCard } from '../../util/graphCards';
+import { AMRInsights } from '../Elements/AMRInsights';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
@@ -300,6 +302,9 @@ export const DashboardPage = () => {
 
     // Cache the full dataset so updateDataOnFilters can avoid re-reading IndexedDB.
     cachedOrganismData.current = { key: organism, data: responseData };
+
+    // Store raw data in Redux for AMR Insights graphs (GeneMap, QRDR, Serotype)
+    dispatch(setRawOrganismData(Array.isArray(responseData) ? responseData : []));
 
     console.timeLog && console.timeLog('[getInfoFromData] total', 'start');
     dispatch(setTotalGenomes(dataLength));
@@ -1661,6 +1666,8 @@ export const DashboardPage = () => {
             : economicRegions[actualRegion];
 
       const filteredData = filters.data.filter(x => filteredCountries.includes(getCountryDisplayName(x.COUNTRY_ONLY)));
+      // Update raw organism data for AMR Insights graphs with filtered data
+      dispatch(setRawOrganismData(filteredData));
       const uniqueDates = [...new Set(filteredData.map(x => x.DATE))].sort(); // Get unique years from the filtered data
       dispatch(setYears(uniqueDates)); // to Set the years for the Global Filters based on Datasets and lineages
       dispatch(setActualGenomes(filters.genomesCount));
@@ -1922,6 +1929,7 @@ export const DashboardPage = () => {
         {/* <SelectCountry /> */}
         <Graphs />
         <ContinentGraphs />
+        <AMRInsights />
         {/* <ContinentPathotypeGraphs /> */}
         <DownloadData />
         {/* <Footer /> */}

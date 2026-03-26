@@ -57,6 +57,112 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Normalize GLASS country names to match AMRnet's getCountryDisplayName format
+function normalizeGLASSCountry(name) {
+  if (!name) return '';
+  const map = {
+    'United Kingdom of Great Britain and Northern Ireland': 'United Kingdom',
+    'United States of America': 'United States of America',
+    'Iran (Islamic Republic of)': 'Iran',
+    'Republic of Korea': 'South Korea',
+    'Republic of Moldova': 'Moldova',
+    'Russian Federation': 'Russia',
+    'Viet Nam': 'Vietnam',
+    'Lao People\'s Democratic Republic': 'Laos',
+    'Syrian Arab Republic': 'Syria',
+    'United Republic of Tanzania': 'Tanzania',
+    'Türkiye': 'Turkey',
+    'Czechia': 'Czechia',
+    'Czech Republic': 'Czechia',
+    'Bolivia (Plurinational State of)': 'Bolivia',
+    'Venezuela (Bolivarian Republic of)': 'Venezuela',
+    'Democratic People\'s Republic of Korea': 'North Korea',
+    'Democratic Republic of the Congo': 'Dem. Rep. Congo',
+    'State of Palestine': 'Palestine',
+    'Congo': 'Congo',
+    'Eswatini': 'Eswatini',
+    'Côte d\'Ivoire': "Côte d'Ivoire",
+    'The Netherlands': 'Netherlands',
+    'The Gambia': 'Gambia',
+    'Dominican Republic': 'Dominican Rep.',
+    'Central African Republic': 'Central African Rep.',
+    'Brunei Darussalam': 'Brunei',
+    'Republic of North Macedonia': 'North Macedonia',
+    'Bosnia and Herzegovina': 'Bosnia and Herzegovina',
+    'United Arab Emirates': 'United Arab Emirates',
+    'Saudi Arabia': 'Saudi Arabia',
+  };
+  return map[name] || name.trim();
+}
+
+// GLASS compiled phenotypic data proxy (from qleclerc/GLASS2022 GitHub repo)
+let glassCSVCache = null;
+let glassCSVCacheTime = 0;
+const GLASS_CSV_CACHE_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+app.get('/api/glass-phenotypic', async (req, res) => {
+  try {
+    const now = Date.now();
+    if (glassCSVCache && (now - glassCSVCacheTime) < GLASS_CSV_CACHE_MS) {
+      return res.json(glassCSVCache);
+    }
+    const csvUrl = 'https://raw.githubusercontent.com/qleclerc/GLASS2022/master/compiled_WHO_GLASS_2022.csv';
+    const response = await fetch(csvUrl);
+    if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
+    const text = await response.text();
+    const lines = text.split('\n').filter(l => l.trim());
+    const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(',').map(v => v.replace(/"/g, '').trim());
+      if (values.length < headers.length) continue;
+      const row = {};
+      headers.forEach((h, j) => { row[h] = values[j]; });
+      // Include relevant specimen types for different organisms
+      if (['BLOOD', 'STOOL', 'URINE', 'GENITAL'].includes(row.Specimen)) {
+        data.push({
+          country: normalizeGLASSCountry(row.CountryTerritoryArea),
+          iso3: row.Iso3,
+          region: row.WHORegionName,
+          year: parseInt(row.Year),
+          specimen: row.Specimen,
+          pathogen: row.PathogenName,
+          antibiotic: row.AbTargets,
+          tested: parseInt(row.InterpretableAST) || 0,
+          resistant: parseInt(row.Resistant) || 0,
+          percentResistant: parseFloat(row.PercentResistant) || 0,
+        });
+      }
+    }
+    glassCSVCache = data;
+    glassCSVCacheTime = now;
+    console.log(`[GLASS Phenotypic] Parsed ${data.length} records from GLASS CSV`);
+    res.json(data);
+  } catch (error) {
+    console.error('[GLASS Phenotypic]', error.message);
+    res.status(502).json({ error: 'Failed to fetch GLASS phenotypic data' });
+  }
+});
+
+// GHO OData API proxy (avoids CORS issues with WHO API)
+app.get('/api/gho/:indicator', async (req, res) => {
+  try {
+    const indicator = req.params.indicator;
+    // Whitelist allowed indicators to prevent abuse
+    const allowed = ['GLASSAMC_TC', 'GLASSAMC_AWARE', 'AMR_INFECT_ECOLI', 'AMR_INFECT_MRSA', 'GASPRSCIP', 'GASPRSAZM', 'GASPRSCRO', 'GASPRSCFM', 'GASPRSESC'];
+    if (!allowed.includes(indicator)) {
+      return res.status(400).json({ error: 'Invalid indicator' });
+    }
+    const response = await fetch(`https://ghoapi.azureedge.net/api/${indicator}`);
+    if (!response.ok) throw new Error(`GHO API returned ${response.status}`);
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('[GHO Proxy]', error.message);
+    res.status(502).json({ error: 'Failed to fetch from WHO GHO API' });
+  }
+});
+
 // Define routes API here
 app.use('/api', aggregations);
 app.use('/api', api);

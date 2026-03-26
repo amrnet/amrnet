@@ -32,6 +32,7 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { getColorForDrug } from './graphColorHelper';
 import { useStyles } from './GraphsMUI';
+import { ShareButton } from '../Shared/ShareButton';
 import { SwitchColour } from '../SwitchColour/SwitchColour';
 import { variableGraphOptions, variableGraphOptionsNG } from '../../../util/convergenceVariablesOptions';
 export const Graphs = () => {
@@ -816,13 +817,16 @@ export const Graphs = () => {
               </>
             )}
             {collapses['all'] && (
-              <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
-                <span>
-                  <IconButton color="primary" onClick={event => handleClickFilter(event)}>
-                    {showFilter ? <FilterListOff /> : <FilterList />}
-                  </IconButton>
-                </span>
-              </Tooltip>
+              <>
+                <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
+                  <span>
+                    <IconButton color="primary" onClick={event => handleClickFilter(event)}>
+                      {showFilter ? <FilterListOff /> : <FilterList />}
+                    </IconButton>
+                  </span>
+                </Tooltip>
+                <ShareButton organism={organism} section={`Summary Plots — ${currentCard?.title || ''}`} />
+              </>
             )}
             <IconButton>{collapses['all'] ? <ExpandLess /> : <ExpandMore />}</IconButton>
           </div>

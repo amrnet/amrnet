@@ -1,4 +1,5 @@
 import { ExpandLess, ExpandMore, FilterList, FilterListOff, Public } from '@mui/icons-material';
+import { ShareButton } from '../Shared/ShareButton';
 import {
   Card,
   CardActions,
@@ -360,6 +361,7 @@ export const Map = () => {
                   </IconButton>
                 </span>
               </Tooltip>
+              <ShareButton organism={organism} section="Global Overview" />
             </>
           )}
           <IconButton>{collapses['map'] ? <ExpandLess /> : <ExpandMore />}</IconButton>

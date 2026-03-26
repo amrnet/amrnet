@@ -226,9 +226,6 @@ export function filterBrushData({
     genomesCountKOT: newDataKOT.length,
   };
 }
-
-//TODO: change for the mongo
-// Adjust the country names to its correct name
 //TODO: change for the mongo
 // Adjust the country names to its correct name
 function getCountryDisplayName(country) {
@@ -261,6 +258,8 @@ function getCountryDisplayName(country) {
       return 'Timor-Leste';
     case 'State of Palestine':
     case 'Gaza Strip':
+    case 'Palestinian Territory':
+    case 'West Bank':
     case 'Gaze':
       return 'Palestine';
     case 'Dominican Republic':
@@ -311,10 +310,37 @@ function getCountryDisplayName(country) {
       return 'Canada';
     case 'Cameroon ':
       return 'Cameroon';
-    // case 'South Korea':
-    //   return 'Republic of Korea';
-    // case 'Iran':
-    //   return 'Iran (Islamic Republic of)';
+    case 'Curacao':
+    case 'Curaçao':
+      return 'Curaçao';
+    case 'Macedonia':
+    case 'Republic of Macedonia':
+    case 'FYROM':
+      return 'North Macedonia';
+    case 'West Bank':
+    case 'West Bank and Gaza':
+      return 'Palestine';
+    case 'Russian Federation':
+      return 'Russia';
+    case 'Venezuela (Bolivarian Republic of)':
+      return 'Venezuela';
+    case 'Hong Kong SAR':
+    case 'Hong Kong SAR, China':
+      return 'Hong Kong';
+    case 'Republic of Korea':
+    case 'Korea, Republic of':
+      return 'South Korea';
+    case 'Iran (Islamic Republic of)':
+      return 'Iran';
+    case 'Bolivia (Plurinational State of)':
+      return 'Bolivia';
+    case 'Tanzania, United Republic of':
+      return 'Tanzania';
+    case 'Brunei Darussalam':
+      return 'Brunei';
+    case 'Eswatini':
+    case 'Swaziland':
+      return 'eSwatini';
     default:
       return trimmed;
   }
@@ -352,7 +378,7 @@ function getMapStatsData({
 
     if (useECOLIRules) {
       const drug = statKeysECOLI.find(d => d.name === statsKey);
-      if (!drug) continue;
+      if (!drug || drug.computed) continue;
 
       // Evaluate each rule for this item
       const ruleResults = drug.rules.map(rule => {
@@ -564,7 +590,10 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
       result.drugs = {};
       const sKeys = organism === 'kpneumo' ? statKeys[orgKey].concat(statKeysKPOnlyMarkers) : statKeys[orgKey];
 
-      for (const { name, column, key, pansusceptible } of sKeys) {
+      for (const statKeyItem of sKeys) {
+        const { name, column, key, pansusceptible, computed } = statKeyItem;
+        // Skip computed combination drugs (MDR, XDR, CipNS, CipR, PDR) — they don't map to DB columns
+        if (computed) continue;
         if (pansusceptible && (organism === 'saureus' || organism === 'strepneumo')) {
           const nonPanRules = (organism === 'saureus' ? drugRulesSA : drugRulesSP).filter(r => !r.pansusceptible);
           const panCount = dataWithGenFilter.filter(x =>
@@ -974,15 +1003,17 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           genotypesAndDrugsData[key].push(item);
         });
       } else if (['senterica', 'sentericaints'].includes(organism)) {
-        // calculateDrugStats(drugRulesINTS);
+        // Calculate per-drug resistance from statKeys
         statKeysINTS.forEach(drug => {
+          // Skip computed combination drugs — they're calculated below
+          if (drug.computed) return;
+
           const drugData = yearData.filter(x => {
             if (Array.isArray(drug.column)) {
               return drug.column.every(d => x[d] === '-');
             }
 
             if (Array.isArray(drug.key)) {
-              // Check if any key in drug.key is included in x[drug.column]
               return drug.key.some(key => x[drug.column].includes(key));
             }
 
@@ -990,6 +1021,70 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           drugStats[drug.name] = drugData.length;
         });
+
+        // Compute drug combinations for NTS: CipNS, CipR, QRDR mutations, MDR, XDR, PDR
+        // Reference: Van Puyvelde et al. 2023 Nat Commun (doi:10.1038/s41467-023-41152-6)
+        //
+        // Regex patterns for QUINOLONE field parsing (AMRFinderPlus output)
+        const qrdrPattern = /gyr[AB]|par[CE]/i;
+        const qnrPattern = /qnr[A-Z]/i;
+        const aacCrPattern = /aac.*Ib.*cr/i;
+
+        let cipNSCount = 0;
+        let cipRCount = 0;
+        let qrdrMutationsCount = 0;
+
+        yearData.forEach(x => {
+          const quinoloneField = x['QUINOLONE'];
+          if (!quinoloneField || quinoloneField === '-') return;
+
+          const entries = quinoloneField.split(';').map(e => e.trim());
+
+          let numQRDR = 0;
+          let hasQnr = false;
+          let hasAacCr = false;
+
+          entries.forEach(entry => {
+            if (qrdrPattern.test(entry)) numQRDR++;
+            if (qnrPattern.test(entry)) hasQnr = true;
+            if (aacCrPattern.test(entry)) hasAacCr = true;
+          });
+
+          // CipNS: any quinolone resistance (≥1 qnr gene OR ≥1 QRDR mutation in gyrA/parC/gyrB)
+          // MIC ≥0.06 mg/L
+          cipNSCount++;
+          if (numQRDR > 0) qrdrMutationsCount++;
+
+          // CipR: multiple mutations and/or genes → MIC ≥0.5 mg/L
+          // ≥2 QRDR mutations, OR QRDR + qnr, OR QRDR + aac(6')-Ib-cr
+          if (numQRDR >= 2 || (numQRDR >= 1 && (hasQnr || hasAacCr))) {
+            cipRCount++;
+          }
+        });
+
+        drugStats['CipNS'] = cipNSCount;
+        drugStats['CipR'] = cipRCount;
+        drugStats['QRDR mutations'] = qrdrMutationsCount;
+
+        // Helper: check if genome is resistant to a specific drug
+        const isResistantAmpicillin = x => x['BETA-LACTAM']?.includes('BETA-LACTAM');
+        const isResistantChloramphenicol = x => x['PHENICOL']?.includes('CHLORAMPHENICOL');
+        const isResistantTrimSulfa = x => (x['TRIMETHOPRIM'] && x['TRIMETHOPRIM'] !== '-') || (x['SULFONAMIDE'] && x['SULFONAMIDE'] !== '-');
+        const isResistantCiprofloxacin = x => x['QUINOLONE'] && x['QUINOLONE'] !== '-';
+        const isResistantCeftriaxone = x => x['BETA-LACTAM']?.includes('CEPHALOSPORIN');
+        const isResistantAzithromycin = x => x['MACROLIDE']?.includes('mph(A)') || x['MACROLIDE']?.includes('acrB_R717L');
+
+        // MDR: resistant to ampicillin + chloramphenicol + trimethoprim-sulfamethoxazole
+        const isMDR = x => isResistantAmpicillin(x) && isResistantChloramphenicol(x) && isResistantTrimSulfa(x);
+        drugStats['MDR'] = yearData.filter(isMDR).length;
+
+        // XDR: MDR + (ciprofloxacin AND ceftriaxone) OR (azithromycin AND ceftriaxone)
+        const isXDR = x => isMDR(x) && isResistantCeftriaxone(x) && (isResistantCiprofloxacin(x) || isResistantAzithromycin(x));
+        drugStats['XDR'] = yearData.filter(isXDR).length;
+
+        // PDR: MDR + ciprofloxacin + azithromycin + ceftriaxone (pan-drug resistant)
+        const isPDR = x => isMDR(x) && isResistantCiprofloxacin(x) && isResistantAzithromycin(x) && isResistantCeftriaxone(x);
+        drugStats['PDR'] = yearData.filter(isPDR).length;
 
         markersDrugsINTS.forEach(key => {
           const filteredGenotypes = Object.entries(genotypeStats)
@@ -1140,7 +1235,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           genotypesAndDrugsData[rule.key].push(item);
         });
       } else {
+        // ecoli, decoli, shige — Enterobase data with AMRFinderPlus fields
         statKeysECOLI.forEach(drug => {
+          // Skip computed drugs — handled below
+          if (drug.computed) return;
+
           const drugData = yearData.filter(x => {
             const results = drug.rules.map(rule => {
               if (rule.equal) {
@@ -1155,6 +1254,69 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
           drugStats[drug.name] = drugData.length;
         });
+
+        // Computed drug combinations for E. coli / Shigella / diarrheagenic E. coli
+        // Reference: Mason et al. 2023 Nat Commun (Shigella sonnei XDR)
+        const qrdrPatternEC = /gyr[AB]|par[CE]/i;
+        const qnrPatternEC = /qnr[A-Z]/i;
+        const aacCrPatternEC = /aac.*Ib.*cr/i;
+
+        let cipNSCountEC = 0;
+        let cipRCountEC = 0;
+
+        yearData.forEach(x => {
+          const quinoloneField = x['Quinolone'];
+          if (!quinoloneField || quinoloneField === '-') return;
+
+          const entries = quinoloneField.split(';').map(e => e.trim());
+          let numMarkers = 0;
+          entries.forEach(entry => {
+            if (qrdrPatternEC.test(entry) || qnrPatternEC.test(entry) || aacCrPatternEC.test(entry)) numMarkers++;
+          });
+
+          // CipNS: one resistance marker (qnr gene OR single QRDR mutation)
+          if (numMarkers >= 1) cipNSCountEC++;
+          // CipR: two or more ciprofloxacin resistance markers
+          if (numMarkers >= 2) cipRCountEC++;
+        });
+
+        drugStats['CipNS'] = cipNSCountEC;
+        drugStats['CipR'] = cipRCountEC;
+
+        // Resistance helpers for E. coli / Shigella
+        const isResCipEC = x => x['Quinolone'] && x['Quinolone'] !== '-';
+        const isResAzmEC = x => x['Macrolide']?.includes('mph(A)') || x['Macrolide']?.includes('acrB_R717L');
+        const isResESBLEC = x => x['ESBL'] && x['ESBL'] !== '-';
+        // CipR check: ≥2 markers
+        const isCipREC = x => {
+          const q = x['Quinolone'];
+          if (!q || q === '-') return false;
+          let n = 0;
+          q.split(';').forEach(e => {
+            if (qrdrPatternEC.test(e) || qnrPatternEC.test(e) || aacCrPatternEC.test(e)) n++;
+          });
+          return n >= 2;
+        };
+
+        // MDR for Shigella/E. coli: resistant to drugs from ≥3 of the following pairs:
+        // (ciprofloxacin OR azithromycin), (azithromycin OR ceftriaxone/ESBL), (ciprofloxacin OR ceftriaxone/ESBL)
+        // i.e., at least 2 of {ciprofloxacin, azithromycin, ESBL} must be resistant
+        const isMDREC = x => {
+          let count = 0;
+          if (isResCipEC(x)) count++;
+          if (isResAzmEC(x)) count++;
+          if (isResESBLEC(x)) count++;
+          return count >= 2;
+        };
+        drugStats['MDR'] = yearData.filter(isMDREC).length;
+
+        // XDR: CipR + ESBL + Azithromycin, OR MDR + CipR + Azithromycin
+        const isXDREC = x => {
+          if (isCipREC(x) && isResESBLEC(x) && isResAzmEC(x)) return true;
+          if (isMDREC(x) && isCipREC(x) && isResAzmEC(x)) return true;
+          return false;
+        };
+        drugStats['XDR'] = yearData.filter(isXDREC).length;
 
         markersDrugsSH.forEach(key => {
           const filteredGenotypes = Object.entries(genotypeStats)
@@ -1678,17 +1840,22 @@ export function getGenotypesData({
     } else if (['senterica', 'sentericaints'].includes(organism)) {
       // Drug counts for each genotype - matches getYearsData logic
       statKeysINTS.forEach(drug => {
+        // Skip computed drugs — not applicable per-genotype
+        if (drug.computed) {
+          response[drug.name] = 0;
+          return;
+        }
+
         const drugData = genotypeData.filter(x => {
           if (Array.isArray(drug.column)) {
             return drug.column.every(d => x[d] === '-');
           }
 
           if (Array.isArray(drug.key)) {
-            // Check if any key in drug.key is included in x[drug.column]
-            return drug.key.some(key => x[drug.column].includes(key));
+            return drug.key.some(key => x[drug.column]?.includes(key));
           }
 
-          return x[drug.column].includes(drug.key);
+          return x[drug.column]?.includes(drug.key);
         });
         response[drug.name] = drugData.length;
       });
@@ -1753,6 +1920,12 @@ export function getGenotypesData({
       });
     } else {
       statKeysECOLI.forEach(drug => {
+        // Skip computed drugs — not applicable per-genotype
+        if (drug.computed) {
+          response[drug.name] = 0;
+          return;
+        }
+
         const drugData = genotypeData.filter(x => {
           const results = drug.rules.map(rule => {
             if (rule.equal) {
@@ -2327,6 +2500,37 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
     return {};
   }
 
+  // Handle computed combination drugs (CipNS, CipR, MDR, XDR)
+  if (drug.computed) {
+    const qrdrP = /gyr[AB]|par[CE]/i;
+    const qnrP = /qnr[A-Z]/i;
+    const aacP = /aac.*Ib.*cr/i;
+    const countMarkers = q => {
+      if (!q || q === '-') return 0;
+      let n = 0;
+      q.split(';').forEach(e => { if (qrdrP.test(e) || qnrP.test(e) || aacP.test(e)) n++; });
+      return n;
+    };
+    const isResCip = x => x['Quinolone'] && x['Quinolone'] !== '-';
+    const isResAzm = x => x['Macrolide']?.includes('mph(A)') || x['Macrolide']?.includes('acrB_R717L');
+    const isResESBL = x => x['ESBL'] && x['ESBL'] !== '-';
+    const isCipR = x => countMarkers(x['Quinolone']) >= 2;
+    const isMDR = x => { let c = 0; if (isResCip(x)) c++; if (isResAzm(x)) c++; if (isResESBL(x)) c++; return c >= 2; };
+
+    if (drugKey === 'CipNS') {
+      resistantCount = dataToFilter.filter(x => countMarkers(x['Quinolone']) >= 1).length;
+    } else if (drugKey === 'CipR') {
+      resistantCount = dataToFilter.filter(x => isCipR(x)).length;
+    } else if (drugKey === 'MDR') {
+      resistantCount = dataToFilter.filter(x => isMDR(x)).length;
+    } else if (drugKey === 'XDR') {
+      resistantCount = dataToFilter.filter(x => (isCipR(x) && isResESBL(x) && isResAzm(x)) || (isMDR(x) && isCipR(x) && isResAzm(x))).length;
+    }
+    drugClass['None'] = dataToFilter.length - resistantCount;
+    drugClass.resistantCount = resistantCount;
+    return drugClass;
+  }
+
   dataToFilter.forEach(x => {
     // Evaluate each rule
     const ruleResults = drug.rules.map(rule => {
@@ -2368,6 +2572,69 @@ function getDrugClassDataINTS({ drugKey, dataToFilter }) {
   if (!foundItem) {
     console.warn(`Drug key "${drugKey}" not found in statKeysINTS`);
     return {};
+  }
+
+  // Handle computed combination drugs (CipNS, CipR, QRDR mutations, MDR, XDR)
+  if (foundItem.computed) {
+    const qrdrPattern = /gyr[AB]|par[CE]/i;
+    const qnrPattern = /qnr[A-Z]/i;
+    const aacCrPattern = /aac.*Ib.*cr/i;
+
+    if (drugKey === 'CipNS') {
+      resistantCount = dataToFilter.filter(x => x['QUINOLONE'] && x['QUINOLONE'] !== '-').length;
+    } else if (drugKey === 'CipR') {
+      resistantCount = dataToFilter.filter(x => {
+        const q = x['QUINOLONE'];
+        if (!q || q === '-') return false;
+        const entries = q.split(';').map(e => e.trim());
+        let numQRDR = 0, hasQnr = false, hasAacCr = false;
+        entries.forEach(entry => {
+          if (qrdrPattern.test(entry)) numQRDR++;
+          if (qnrPattern.test(entry)) hasQnr = true;
+          if (aacCrPattern.test(entry)) hasAacCr = true;
+        });
+        return numQRDR >= 2 || (numQRDR >= 1 && (hasQnr || hasAacCr));
+      }).length;
+    } else if (drugKey === 'QRDR mutations') {
+      resistantCount = dataToFilter.filter(x => {
+        const q = x['QUINOLONE'];
+        if (!q || q === '-') return false;
+        return q.split(';').some(entry => qrdrPattern.test(entry));
+      }).length;
+    } else if (drugKey === 'MDR') {
+      resistantCount = dataToFilter.filter(x =>
+        x['BETA-LACTAM']?.includes('BETA-LACTAM') &&
+        x['PHENICOL']?.includes('CHLORAMPHENICOL') &&
+        x['TRIMETHOPRIM'] && x['TRIMETHOPRIM'] !== '-',
+      ).length;
+    } else if (drugKey === 'XDR') {
+      // XDR: MDR + (ciprofloxacin AND ceftriaxone) OR (azithromycin AND ceftriaxone)
+      const isMDR = x =>
+        x['BETA-LACTAM']?.includes('BETA-LACTAM') &&
+        x['PHENICOL']?.includes('CHLORAMPHENICOL') &&
+        ((x['TRIMETHOPRIM'] && x['TRIMETHOPRIM'] !== '-') || (x['SULFONAMIDE'] && x['SULFONAMIDE'] !== '-'));
+      const isCeftriaxone = x => x['BETA-LACTAM']?.includes('CEPHALOSPORIN');
+      const isCiprofloxacin = x => x['QUINOLONE'] && x['QUINOLONE'] !== '-';
+      const isAzithromycin = x => x['MACROLIDE']?.includes('mph(A)') || x['MACROLIDE']?.includes('acrB_R717L');
+      resistantCount = dataToFilter.filter(x =>
+        isMDR(x) && isCeftriaxone(x) && (isCiprofloxacin(x) || isAzithromycin(x)),
+      ).length;
+    } else if (drugKey === 'PDR') {
+      // PDR: MDR + ciprofloxacin + azithromycin + ceftriaxone
+      const isMDR = x =>
+        x['BETA-LACTAM']?.includes('BETA-LACTAM') &&
+        x['PHENICOL']?.includes('CHLORAMPHENICOL') &&
+        ((x['TRIMETHOPRIM'] && x['TRIMETHOPRIM'] !== '-') || (x['SULFONAMIDE'] && x['SULFONAMIDE'] !== '-'));
+      resistantCount = dataToFilter.filter(x =>
+        isMDR(x) &&
+        x['QUINOLONE'] && x['QUINOLONE'] !== '-' &&
+        (x['MACROLIDE']?.includes('mph(A)') || x['MACROLIDE']?.includes('acrB_R717L')) &&
+        x['BETA-LACTAM']?.includes('CEPHALOSPORIN'),
+      ).length;
+    }
+    drugClass['None'] = dataToFilter.length - resistantCount;
+    drugClass.resistantCount = resistantCount;
+    return drugClass;
   }
 
   const columnName = foundItem.column; // e.g. 'TRIMETHOPRIM'

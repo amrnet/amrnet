@@ -1220,20 +1220,21 @@ export const drugClassesRulesNG = {
 // export const drugClassesRulesSENTERICA = {};
 
 // Sentericaints INTS
+// Drug combination rules for non-typhoidal Salmonella (senterica + sentericaints)
+// Data from Enterobase, AMR genes identified by AMRFinderPlus
+// QUINOLONE field contains gene/class names from AMRFinderPlus (e.g., "QUINOLONE", "aac(6')-Ib-cr;gyrA_D87Y")
 export const drugRulesINTS = [
   { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
-  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] }, //TODO: test correct values
+  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
   { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['mph(A)', 'acrB_R717L'] },
-  // { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['AZITHROMYCIN'] },
-  { key: 'Carbapenems', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] }, //TODO: test correct values
+  { key: 'Carbapenems', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
-  { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin' },
+  { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin (any quinolone resistance)' },
   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
-  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] }, //TODO: test correct values
+  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
   { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
   { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
-  // { key: 'Trimethoprim-sulfamethoxazole', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM', 'SULFONAMIDE'] },
 
   {
     key: 'Pansusceptible',
@@ -1251,7 +1252,28 @@ export const drugRulesINTS = [
   },
 ];
 
-// Used for senterica, statKeysINTS2 is not used anymore, statKeysINTS is the only one used for senterica and sentericaints both
+// Drug combination rules for NTS — MDR, XDR, CipNS, CipR, QRDR mutations
+// These are computed client-side from the raw Enterobase data fields
+// Applied in getYearsData (filters.js) via calculateDrugStatsINTSCombinations
+// Drug combination definitions for NTS — Reference: Van Puyvelde et al. 2023 Nat Commun (doi:10.1038/s41467-023-41152-6)
+export const drugCombinationRulesINTS = {
+  // CipNS: ciprofloxacin non-susceptible (MIC ≥0.06 mg/L)
+  // Due to presence of ≥1 qnr gene OR ≥1 QRDR mutation in gyrA/parC/gyrB
+  CipNS: { key: 'CipNS', legends: 'Ciprofloxacin (non-susceptible)' },
+  // CipR: ciprofloxacin resistant (MIC ≥0.5 mg/L)
+  // Due to presence of multiple mutations and/or genes (≥2 QRDR mutations, OR QRDR + qnr/aac(6')-Ib-cr)
+  CipR: { key: 'CipR', legends: 'Ciprofloxacin (resistant)' },
+  // QRDR mutations: presence of any gyrA/gyrB/parC/parE mutation
+  QRDR: { key: 'QRDR mutations', legends: 'QRDR mutations' },
+  // MDR: resistant to ampicillin + chloramphenicol + trimethoprim-sulfamethoxazole
+  MDR: { key: 'MDR', legends: 'Multidrug resistant (MDR)' },
+  // XDR: MDR plus resistant to either (i) ciprofloxacin AND ceftriaxone, OR (ii) azithromycin AND ceftriaxone
+  XDR: { key: 'XDR', legends: 'Extensively drug resistant (XDR)' },
+  // PDR: MDR plus resistant to ciprofloxacin + azithromycin + ceftriaxone
+  PDR: { key: 'PDR', legends: 'Pan-drug resistant (PDR)' },
+};
+
+// Used for senterica and sentericaints both
 export const statKeysINTS = [
   { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
@@ -1264,6 +1286,19 @@ export const statKeysINTS = [
   { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
   { name: 'Tetracycline', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
+  // Drug combinations — computed client-side in getYearsData from QUINOLONE field parsing
+  // CipNS: any quinolone resistance mechanism (single QRDR mutation OR qnr gene)
+  { name: 'CipNS', column: '_computed', key: 'CipNS', resistanceView: true, computed: true },
+  // CipR: ≥2 QRDR mutations, OR QRDR + qnr/aac(6')-Ib-cr (high-level resistance)
+  { name: 'CipR', column: '_computed', key: 'CipR', resistanceView: true, computed: true },
+  // QRDR mutations: count of genomes with any gyrA/gyrB/parC/parE mutation
+  { name: 'QRDR mutations', column: '_computed', key: 'QRDR mutations', resistanceView: true, computed: true },
+  // MDR: Ampicillin + Chloramphenicol + Trimethoprim-Sulfamethoxazole
+  { name: 'MDR', column: '_computed', key: 'MDR', resistanceView: true, computed: true },
+  // XDR: MDR + (Ciprofloxacin + Ceftriaxone) OR (Azithromycin + Ceftriaxone)
+  { name: 'XDR', column: '_computed', key: 'XDR', resistanceView: true, computed: true },
+  // PDR: MDR + Ciprofloxacin + Azithromycin + Ceftriaxone
+  { name: 'PDR', column: '_computed', key: 'PDR', resistanceView: true, computed: true },
   {
     name: 'Pansusceptible',
     column: drugRulesINTS.find(x => x.key === 'Pansusceptible').requirements.map(x => x.columnID),
@@ -1397,7 +1432,17 @@ export const statKeysECOLI = (() => {
     // },
   ];
 
-  const uniqueColumns = [...new Set(items.flatMap(item => item.rules.map(rule => rule.column)))];
+  // Drug combinations — computed client-side
+  // CipNS: one ciprofloxacin resistance marker (qnr gene OR single QRDR mutation)
+  items.push({ name: 'CipNS', resistanceView: true, computed: true, rules: [] });
+  // CipR: two or more ciprofloxacin resistance markers
+  items.push({ name: 'CipR', resistanceView: true, computed: true, rules: [] });
+  // MDR: resistant to ≥2 of {ciprofloxacin, azithromycin, ESBL/ceftriaxone}
+  items.push({ name: 'MDR', resistanceView: true, computed: true, rules: [] });
+  // XDR: CipR + ESBL + azithromycin, OR MDR + CipR + azithromycin
+  items.push({ name: 'XDR', resistanceView: true, computed: true, rules: [] });
+
+  const uniqueColumns = [...new Set(items.filter(i => !i.computed).flatMap(item => item.rules.map(rule => rule.column)))];
   return items.concat({
     name: 'Pansusceptible',
     resistanceView: true,

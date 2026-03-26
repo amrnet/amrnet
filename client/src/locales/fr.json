@@ -92,7 +92,9 @@
       "kpneumo": "<0>Klebsiella pneumoniae</0>",
       "shige": "<0>Shigella</0> + EIEC",
       "decoli": "<0>Escherichia coli</0> (diarrhéagène)",
-      "ecoli": "<0>Escherichia coli</0>"
+      "ecoli": "<0>Escherichia coli</0>",
+      "saureus": "<0>Staphylococcus aureus</0>",
+      "strepneumo": "<0>Streptococcus pneumoniae</0>"
     }
   },
   "navigation": {
@@ -155,11 +157,11 @@
     },
     "citation": {
       "title": "Citation pour AMRnet",
-      "intro": "Si vous utilisez le site web ou le code AMRnet, veuillez citer AMRnet (Louise Cerdeira, Vandana Sharma, Mary Maranga, Megan Carey, Zoe Dyson, Kathryn Holt),",
+      "intro": "Si vous utilisez le site web ou le code AMRnet, veuillez citer Cerdeira LT, Dyson ZA, Sharma V, et al. AMRnet: a data visualization platform to interactively explore pathogen variants and antimicrobial resistance. Nucleic Acids Res. Published online November 6, 2025.",
       "githubLabel": "GitHub :",
       "githubUrl": "https://github.com/amrnet/amrnet",
       "doiLabel": "DOI :",
-      "doiUrl": "https://zenodo.org/doi/10.5281/zenodo.10810218"
+      "doiUrl": "https://doi.org/10.1093/nar/gkaf1101"
     },
     "funding": "Le projet est financé par le Wellcome Trust (subvention 226432/Z/22/Z).",
     "links": {
@@ -205,12 +207,55 @@
     "styphi": "Les données de Typhi sont triées par le <0>Consortium mondial de génomique typhoïde</0> et analysées avec <1>Pathogenwatch</1>.",
     "ngono": "<0>N. gonorrhoeae</0> représente des projets de surveillance nationaux et régionaux, issus de <1>Pathogenwatch</1>.",
     "kpneumo": "Ces données proviennent de <0>Pathogenwatch</0> et représentent des données non filtrées déposées dans NCBI/ENA. Elles incluent diverses sources bactériennes (pas seulement des infections cliniques humaines) et sont biaisées vers les souches résistantes. Dans de futures versions, cela sera atténué grâce aux métadonnées curées par le <1>Consortium d'épidémiologie KlebNET</1>.",
-    "default": "Ces données proviennent de <0>Enterobase</0> et représentent des données non filtrées déposées dans Enterobase/NCBI/ENA, et peuvent donc refléter un biais vers le séquençage de souches résistantes et/ou des flambées. Cela changera dans les prochaines mises à jour."
+    "default": "Ces données proviennent de <0>Enterobase</0> et représentent des données non filtrées déposées dans Enterobase/NCBI/ENA, et peuvent donc refléter un biais vers le séquençage de souches résistantes et/ou des flambées. Cela changera dans les prochaines mises à jour.",
+    "senterica": "Ces données proviennent de <0>Enterobase</0> et représentent des données non filtrées. Salmonella Typhi dispose d'un tableau de bord dédié curé par <1>TyphiNET</1>.",
+    "saureus": "Ces données proviennent de <0>Pathogenwatch</0> et peuvent refléter un biais vers le séquençage de souches résistantes. Cela changera dans les prochaines mises à jour.",
+    "strepneumo": "Ces données proviennent de <0>Pathogenwatch</0> et peuvent refléter un biais vers le séquençage de souches résistantes. Cela changera dans les prochaines mises à jour."
   },
   "graphs": {
     "selectedPathotypes": "Pathotypes sélectionnés : {{selected}}",
     "selectedSerotypes": "Sérotypes sélectionnés : {{selected}}",
-    "selectedGenotypes": "Génotypes sélectionnés : {{selected}}"
+    "selectedGenotypes": "Génotypes sélectionnés : {{selected}}",
+    "graphs": "Graphiques récapitulatifs",
+    "dataPlottedForYearsWithNGreaterThan10Genomes": "Les données sont tracées pour les années avec N ≥ 10 génomes",
+    "amrTrends": "Tendances RAM",
+    "genotypeTrends": "Tendances des Génotypes",
+    "amrByLineage": "RAM par Lignée",
+    "amrByST": "RAM par ST",
+    "amrByGenotype": "RAM par Génotype",
+    "amrMarkerTrends": "Tendances des Marqueurs RAM",
+    "amrMarkerByGenotype": "Marqueurs RAM par Génotype",
+    "amrMarkerByLineage": "Marqueurs RAM par Lignée",
+    "amrMarkerByST": "Marqueurs RAM par ST",
+    "amrVirulence": "RAM par Virulence",
+    "lineageTrends": "Tendances des Lignées",
+    "stTrends": "Tendances ST",
+    "koTrends": "Tendances K/O",
+    "koByGenotype": "K/O par Génotype",
+    "geographicComparisons": "Comparaisons Géographiques",
+    "serotypeComparisons": "Comparaisons par Sérotype",
+    "pathotypeComparisons": "Comparaisons par Pathotype",
+    "amrbyserotype": "RAM par sérotype",
+    "topGenotypesUpTo10": "Principaux Génotypes (jusqu'à 10)",
+    "topGenotypesUpTo30": "Principaux Génotypes (jusqu'à 30)",
+    "radarProfile": "Profil Radar RAM",
+    "radarProfileDescription": "Comparer les profils de multirésistance entre pays/régions (N≥20)",
+    "temporalHeatmap": "Carte Thermique Temporelle",
+    "temporalHeatmapDescription": "Prévalence de la résistance par pays au fil du temps pour un antibiotique sélectionné",
+    "emergenceRate": "Taux d'Émergence de la Résistance",
+    "emergenceRateDescription": "Changement annuel moyen de la prévalence de résistance (%/an) — identifie les résistances en accélération"
+  },
+  "amrInsights": {
+    "title": "Analyses RAM",
+    "tabs": {
+      "genomicVsPhenotypic": "Génomique vs Phénotypique",
+      "convergenceMap": "Virulence-Résistance",
+      "geneMap": "Résistance par Gène",
+      "qrdrPathway": "Mutations QRDR",
+      "serotypeResistance": "Sérotype × Résistance",
+      "cooccurrence": "Co-occurrence RAM",
+      "atbCorrelation": "Usage ATB vs Résistance"
+    }
   },
   "continentGraphs": {
     "tabs": {
@@ -291,5 +336,10 @@
     "language": "Langue",
     "theme": "Thème",
     "notifications": "Notifications"
+  },
+  "downloadData": {
+    "downloadDatabase": "Télécharger la base de données (format TSV)",
+    "downloadPDF": "Voir le rapport",
+    "infoAndDefinitions": "Informations et Définitions"
   }
 }
