@@ -253,6 +253,7 @@
       "geneMap": "Resistência por Gene",
       "qrdrPathway": "Mutações QRDR",
       "serotypeResistance": "Cobertura Vacinal",
+      "pmenClones": "Clones PMEN",
       "cooccurrence": "Co-ocorrência de RAM",
       "atbCorrelation": "Uso de ATB vs Resistência"
     }

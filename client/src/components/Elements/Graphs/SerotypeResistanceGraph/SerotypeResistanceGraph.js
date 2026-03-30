@@ -8,66 +8,29 @@ import { useStyles } from './SerotypeResistanceGraphMUI';
 const MIN_SEROTYPE_COUNT = 10;
 const MAX_SEROTYPES = 30;
 
-// PCV vaccine coverage — serotypes by first introduction
-const PCV7_SEROTYPES = ['4', '04', '06B', '6B', '09V', '9V', '14', '18C', '19F', '23F'];
-const PCV10_SEROTYPES = ['1', '01', '04', '4', '05', '5', '06B', '6B', '7F', '09V', '9V', '14', '18C', '19F', '23F'];
-const PCV13_SEROTYPES = [
-  '1',
-  '01',
-  '03',
-  '3',
-  '04',
-  '4',
-  '05',
-  '5',
-  '06A',
-  '6A',
-  '06B',
-  '6B',
-  '7F',
-  '07F',
-  '09V',
-  '9V',
-  '14',
-  '18C',
-  '19A',
-  '19F',
-  '23F',
-];
-const PCV15_SEROTYPES = [
-  '01',
-  '1',
-  '03',
-  '3',
-  '04',
-  '4',
-  '05',
-  '5',
-  '06A',
-  '6A',
-  '06B',
-  '6B',
-  '7F',
-  '07F',
-  '09V',
-  '9V',
-  '14',
-  '18C',
-  '19A',
-  '19F',
-  '22F',
-  '23F',
-  '33F',
-];
-const PCV20_EXTRA = ['8', '08', '10A', '11A', '12F', '15B', '22F', '33F'];
+/** Strip leading zeros from serotype numeric prefix: "06B"→"6B", "09V"→"9V", "03"→"3" */
+function normalizeSerotype(st) {
+  if (!st) return st;
+  return st
+    .toString()
+    .trim()
+    .replace(/^0+(\d)/, '$1');
+}
+
+// PCV vaccine coverage — canonical (non-zero-padded) serotype lists
+const PCV7_SEROTYPES = ['4', '6B', '9V', '14', '18C', '19F', '23F'];
+const PCV10_SEROTYPES = ['1', '4', '5', '6B', '7F', '9V', '14', '18C', '19F', '23F'];
+const PCV13_SEROTYPES = ['1', '3', '4', '5', '6A', '6B', '7F', '9V', '14', '18C', '19A', '19F', '23F'];
+const PCV15_SEROTYPES = ['1', '3', '4', '5', '6A', '6B', '7F', '9V', '14', '18C', '19A', '19F', '22F', '23F', '33F'];
+const PCV20_EXTRA = ['8', '10A', '11A', '12F', '15B', '22F', '33F'];
 const PCV20_SEROTYPES = [...PCV13_SEROTYPES, ...PCV20_EXTRA];
 
-// Sets for "first introduced in" coloring
+// Sets for "first introduced in" coloring (canonical forms only)
 const PCV7_FIRST = new Set(PCV7_SEROTYPES);
 const PCV10_FIRST = new Set(PCV10_SEROTYPES.filter(s => !PCV7_FIRST.has(s)));
 const PCV13_FIRST = new Set(PCV13_SEROTYPES.filter(s => !PCV10_SEROTYPES.includes(s)));
 const PCV15_FIRST = new Set(['22F', '33F']);
-const PCV20_FIRST = new Set(['8', '08', '10A', '11A', '12F', '15B']);
+const PCV20_FIRST = new Set(['8', '10A', '11A', '12F', '15B']);
 
 const VACCINE_COLORS = {
   pcv7: '#e65c00',
@@ -78,11 +41,12 @@ const VACCINE_COLORS = {
 };
 
 function getVaccineColor(st) {
-  if (PCV7_FIRST.has(st)) return VACCINE_COLORS.pcv7;
-  if (PCV10_FIRST.has(st)) return VACCINE_COLORS.pcv10;
-  if (PCV13_FIRST.has(st)) return VACCINE_COLORS.pcv13;
-  if (PCV15_FIRST.has(st)) return VACCINE_COLORS.pcv15;
-  if (PCV20_FIRST.has(st)) return VACCINE_COLORS.pcv20;
+  const n = normalizeSerotype(st);
+  if (PCV7_FIRST.has(n)) return VACCINE_COLORS.pcv7;
+  if (PCV10_FIRST.has(n)) return VACCINE_COLORS.pcv10;
+  if (PCV13_FIRST.has(n)) return VACCINE_COLORS.pcv13;
+  if (PCV15_FIRST.has(n)) return VACCINE_COLORS.pcv15;
+  if (PCV20_FIRST.has(n)) return VACCINE_COLORS.pcv20;
   return null;
 }
 
@@ -137,13 +101,14 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
     Object.entries(bySerotype).forEach(([st, items]) => {
       if (items.length < MIN_SEROTYPE_COUNT) return;
 
-      // Apply vaccine filter
-      if (vaccineFilter === 'pcv7' && !PCV7_SEROTYPES.includes(st)) return;
-      if (vaccineFilter === 'pcv10' && !PCV10_SEROTYPES.includes(st)) return;
-      if (vaccineFilter === 'pcv13' && !PCV13_SEROTYPES.includes(st)) return;
-      if (vaccineFilter === 'pcv15' && !PCV15_SEROTYPES.includes(st)) return;
-      if (vaccineFilter === 'pcv20' && !PCV20_SEROTYPES.includes(st)) return;
-      if (vaccineFilter === 'non-vaccine' && PCV20_SEROTYPES.includes(st)) return;
+      // Apply vaccine filter — normalize before comparing
+      const nst = normalizeSerotype(st);
+      if (vaccineFilter === 'pcv7' && !PCV7_SEROTYPES.includes(nst)) return;
+      if (vaccineFilter === 'pcv10' && !PCV10_SEROTYPES.includes(nst)) return;
+      if (vaccineFilter === 'pcv13' && !PCV13_SEROTYPES.includes(nst)) return;
+      if (vaccineFilter === 'pcv15' && !PCV15_SEROTYPES.includes(nst)) return;
+      if (vaccineFilter === 'pcv20' && !PCV20_SEROTYPES.includes(nst)) return;
+      if (vaccineFilter === 'non-vaccine' && PCV20_SEROTYPES.includes(nst)) return;
 
       data[st] = { count: items.length, drugs: {} };
 
@@ -163,12 +128,44 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
       data[st].mdr = Number(((mdrCount / items.length) * 100).toFixed(1));
     });
 
-    // Sort serotypes
-    const sorted = Object.keys(data);
+    // Build "Others" aggregate row when a specific vaccine filter is active
+    const VACCINE_FILTER_SETS = {
+      pcv7: PCV7_SEROTYPES,
+      pcv10: PCV10_SEROTYPES,
+      pcv13: PCV13_SEROTYPES,
+      pcv15: PCV15_SEROTYPES,
+      pcv20: PCV20_SEROTYPES,
+    };
+    const activeSet = VACCINE_FILTER_SETS[vaccineFilter];
+    if (activeSet) {
+      const otherItems = rawData.filter(item => !activeSet.includes(normalizeSerotype(item.Serotype)));
+      if (otherItems.length > 0) {
+        const otherCount = otherItems.length;
+        const otherDrugs = {};
+        drugs.forEach(drug => {
+          const resistant = otherItems.filter(x => x[drug] === '1' || x[drug] === 1).length;
+          otherDrugs[drug] = {
+            count: resistant,
+            prevalence: Number(((resistant / otherCount) * 100).toFixed(1)),
+          };
+        });
+        const otherMdr = otherItems.filter(item => {
+          return drugs.filter(d => item[d] === '1' || item[d] === 1).length >= 3;
+        }).length;
+        data['__OTHERS__'] = {
+          count: otherCount,
+          drugs: otherDrugs,
+          mdr: Number(((otherMdr / otherCount) * 100).toFixed(1)),
+          isOthers: true,
+        };
+      }
+    }
+
+    // Sort serotypes (exclude __OTHERS__ — always goes last)
+    const sorted = Object.keys(data).filter(k => k !== '__OTHERS__');
     if (sortBy === 'count') {
       sorted.sort((a, b) => data[b].count - data[a].count);
     } else if (sortBy === 'resistance') {
-      // Sort by average resistance across all drugs
       sorted.sort((a, b) => {
         const aAvg = drugs.reduce((s, d) => s + (data[a].drugs[d]?.prevalence || 0), 0) / drugs.length;
         const bAvg = drugs.reduce((s, d) => s + (data[b].drugs[d]?.prevalence || 0), 0) / drugs.length;
@@ -180,7 +177,10 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
       sorted.sort((a, b) => a.localeCompare(b));
     }
 
-    return { serotypes: sorted.slice(0, MAX_SEROTYPES), serotypeData: data };
+    const finalList = sorted.slice(0, MAX_SEROTYPES);
+    if (data['__OTHERS__']) finalList.push('__OTHERS__');
+
+    return { serotypes: finalList, serotypeData: data };
   }, [rawData, organism, drugs, sortBy, vaccineFilter]);
 
   if (!canGetData || organism !== 'strepneumo') return null;
@@ -314,10 +314,19 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
               {serotypes.map(st => {
                 const data = serotypeData[st];
                 if (!data) return null;
-                const vaccineColor = getVaccineColor(st);
+                const isOthers = st === '__OTHERS__';
+                const vaccineColor = isOthers ? null : getVaccineColor(st);
 
                 return (
-                  <Box key={st} className={classes.dataRow}>
+                  <Box
+                    key={st}
+                    className={classes.dataRow}
+                    sx={
+                      isOthers
+                        ? { borderTop: '2px dashed #bbb', marginTop: '4px', backgroundColor: 'rgba(0,0,0,0.03)' }
+                        : {}
+                    }
+                  >
                     <Box
                       className={classes.serotypeLabel}
                       sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '4px' }}
@@ -335,10 +344,14 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
                       )}
                       <Typography
                         variant="caption"
-                        sx={{ fontSize: '11px', fontWeight: vaccineColor ? 600 : 400 }}
+                        sx={{
+                          fontSize: '11px',
+                          fontWeight: isOthers ? 600 : vaccineColor ? 600 : 400,
+                          fontStyle: isOthers ? 'italic' : 'normal',
+                        }}
                         noWrap
                       >
-                        {st}
+                        {isOthers ? 'Others' : st}
                       </Typography>
                       <Typography variant="caption" sx={{ fontSize: '9px', color: '#999' }}>
                         ({data.count})
@@ -353,7 +366,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
                           title={
                             <Box>
                               <Typography variant="caption" fontWeight={600}>
-                                Serotype {st} — {drug}
+                                {isOthers ? 'Others' : `Serotype ${st}`} — {drug}
                               </Typography>
                               <br />
                               <Typography variant="caption">
@@ -401,10 +414,19 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
           </Typography>
           <Box className={classes.tooltipWrapper}>
             <Typography variant="caption" sx={{ lineHeight: 1.6 }}>
-              <strong>PCV13 serotypes:</strong> {PCV13_SEROTYPES.join(', ')}
+              <strong>PCV7:</strong> {PCV7_SEROTYPES.join(', ')}
               <br />
               <br />
-              <strong>PCV20 additional:</strong> {PCV20_EXTRA.join(', ')}
+              <strong>PCV10 additional:</strong> {PCV10_SEROTYPES.filter(s => !PCV7_SEROTYPES.includes(s)).join(', ')}
+              <br />
+              <br />
+              <strong>PCV13 additional:</strong> {PCV13_SEROTYPES.filter(s => !PCV10_SEROTYPES.includes(s)).join(', ')}
+              <br />
+              <br />
+              <strong>PCV15 additional:</strong> {PCV15_SEROTYPES.filter(s => !PCV13_SEROTYPES.includes(s)).join(', ')}
+              <br />
+              <br />
+              <strong>PCV20 additional:</strong> {PCV20_EXTRA.filter(s => !PCV15_SEROTYPES.includes(s)).join(', ')}
               <br />
               <br />
               <strong>Clinical significance:</strong> If vaccine-type serotypes carry high resistance, vaccination

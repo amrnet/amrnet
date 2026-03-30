@@ -23,6 +23,7 @@ import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
 import { QRDRPathwayGraph } from '../Graphs/QRDRPathwayGraph';
 import { SerotypeResistanceGraph } from '../Graphs/SerotypeResistanceGraph';
+import { PMENCloneGraph } from '../Graphs/PMENCloneGraph/PMENCloneGraph';
 import { useStyles } from './AMRInsightsMUI';
 
 const TABS = [
@@ -54,6 +55,12 @@ const TABS = [
     labelKey: 'amrInsights.tabs.serotypeResistance',
     value: 'SRT',
     component: <SerotypeResistanceGraph />,
+    onlyFor: ['strepneumo'],
+  },
+  {
+    labelKey: 'amrInsights.tabs.pmenClones',
+    value: 'PMEN',
+    component: <PMENCloneGraph />,
     onlyFor: ['strepneumo'],
   },
   {
