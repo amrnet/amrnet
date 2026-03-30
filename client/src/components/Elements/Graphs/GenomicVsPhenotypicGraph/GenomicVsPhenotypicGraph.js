@@ -237,14 +237,19 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
         else if (diff > 0) category = 'overestimate';
         else category = 'underestimate';
 
+        const yVal = Number(genomicPct.toFixed(1));
+        const ciLower = Number(ci.lower.toFixed(1));
+        const ciUpper = Number(ci.upper.toFixed(1));
+
         points.push({
           country,
           x: Number(pheno.value.toFixed(1)),
-          y: Number(genomicPct.toFixed(1)),
+          y: yVal,
+          yError: [yVal - ciLower, ciUpper - yVal],
           genomes: total,
           genomicResistant: resistant,
-          genomicCILower: Number(ci.lower.toFixed(1)),
-          genomicCIUpper: Number(ci.upper.toFixed(1)),
+          genomicCILower: ciLower,
+          genomicCIUpper: ciUpper,
           phenoYear,
           phenoTested: pheno.tested || 'N/A',
           diff: Number(diff.toFixed(1)),
@@ -360,7 +365,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
                   ))}
                   {/* 95% CI error bars on genomic estimate (Y-axis) */}
                   <ErrorBar
-                    dataKey="y"
+                    dataKey="yError"
                     width={4}
                     strokeWidth={1}
                     stroke="#666"
