@@ -210,9 +210,9 @@ export function getGLASSIndicatorForOrganism(organism) {
     // E. coli (all) — GHO API has bloodstream 3GC resistance
     case 'ecoli':
       return { code: 'AMR_INFECT_ECOLI', label: 'E. coli bloodstream 3GC resistance (GLASS)', drug: 'ESBL', source: 'gho' };
-    // Diarrheagenic E. coli — use GLASS CSV with STOOL specimen E. coli + ciprofloxacin
+    // Diarrheagenic E. coli — GLASS 2022 CSV has no STOOL E. coli data; use blood+urine (all specimens)
     case 'decoli':
-      return { code: 'GLASS_CSV', label: 'E. coli ciprofloxacin resistance - stool (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin', specimen: 'STOOL' };
+      return { code: 'GLASS_CSV', label: 'E. coli ciprofloxacin resistance - blood+urine (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin' };
     // Shigella + EIEC — GLASS CSV has Shigella as separate pathogen
     case 'shige':
       return { code: 'GLASS_CSV', label: 'Shigella ciprofloxacin resistance (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Shigella', antibiotic: 'Ciprofloxacin' };

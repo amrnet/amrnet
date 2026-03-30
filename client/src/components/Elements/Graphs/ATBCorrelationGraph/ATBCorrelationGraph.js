@@ -191,7 +191,10 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
 
   if (!canGetData) return null;
 
-  const xMax = scatterData.length > 0 ? Math.max(...scatterData.map(d => d.x)) * 1.1 : 10;
+  const xMin = scatterData.length > 0 ? Math.min(...scatterData.map(d => d.x)) : 0;
+  const xMax = scatterData.length > 0 ? Math.max(...scatterData.map(d => d.x)) * 1.05 : 10;
+  const trendY1 = Math.max(0, Math.min(100, regression.slope * xMin + regression.intercept));
+  const trendY2 = Math.max(0, Math.min(100, regression.slope * xMax + regression.intercept));
 
   return (
     <CardContent className={classes.atbCorrelationGraph}>
@@ -251,7 +254,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
             <ResponsiveContainer width="100%" height="100%">
               <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" dataKey="x" domain={[0, 'auto']}>
+                <XAxis type="number" dataKey="x" domain={['auto', 'auto']}>
                   <Label value="ATB Consumption (DDD/1000 inhabitants/day)" position="bottom" offset={20} style={{ fontSize: 12 }} />
                 </XAxis>
                 <YAxis type="number" dataKey="y" domain={[0, 100]}>
@@ -264,12 +267,11 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
                     <Cell key={`cell-${i}`} fill={entry.color} />
                   ))}
                 </Scatter>
-                {showTrendLine && regression.r2 > 0 && (
+                {showTrendLine && scatterData.length >= 2 && (
                   <ReferenceLine
-                    ifOverflow="extendDomain"
                     segment={[
-                      { x: 0, y: regression.intercept },
-                      { x: xMax, y: regression.slope * xMax + regression.intercept },
+                      { x: xMin, y: trendY1 },
+                      { x: xMax, y: trendY2 },
                     ]}
                     stroke="#333"
                     strokeDasharray="5 5"
