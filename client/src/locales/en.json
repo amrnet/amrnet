@@ -276,14 +276,15 @@
       "convergenceMap": "Virulence-Resistance",
       "geneMap": "Gene-level Resistance",
       "qrdrPathway": "QRDR Mutations",
-      "serotypeResistance": "Serotype × Resistance",
+      "serotypeResistance": "Vaccine Coverage",
       "cooccurrence": "AMR Co-occurrence",
       "atbCorrelation": "ATB Usage vs Resistance"
     }
   },
   "continentGraphs": {
     "tabs": {
-      "heatmap": "Heatmap"
+      "heatmap": "Heatmap",
+      "radarProfile": "AMR Radar Profile"
     },
     "plottedYears": "Data are plotted for years with N ≥ 10 genomes",
     "restrictedData": "Data are restricted to the Global filters selected (Year {{start}} - {{end}}) {{dataset}}, and regions/countries with N≥20 passing these filters.",

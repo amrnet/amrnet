@@ -1,4 +1,4 @@
-import { BubbleChart, GridOn, Radar, ShowChart, StackedBarChart, Timeline, ViewModule } from '@mui/icons-material';
+import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule } from '@mui/icons-material';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
@@ -8,7 +8,6 @@ import { DistributionGraph } from '../components/Elements/Graphs/DistributionGra
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
-import { RadarProfileGraph } from '../components/Elements/Graphs/RadarProfileGraph';
 import { TemporalHeatmapGraph } from '../components/Elements/Graphs/TemporalHeatmapGraph';
 import { EmergenceRateGraph } from '../components/Elements/Graphs/EmergenceRateGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
@@ -47,19 +46,11 @@ export function getGraphCards(t){
       component: <DrugResistanceGraph />,
     },
     {
-      title: t('graphs.radarProfile'),
-      description: [t('graphs.radarProfileDescription')],
-      icon: <Radar color="primary" />,
-      id: 'RAD',
-      organisms: organismsCards.map(x => x.value),
-      component: <RadarProfileGraph />,
-    },
-    {
       title: t('graphs.temporalHeatmap'),
       description: [t('graphs.temporalHeatmapDescription')],
       icon: <GridOn color="primary" />,
       id: 'TEH',
-      organisms: organismsCards.map(x => x.value),
+      organisms: [],
       component: <TemporalHeatmapGraph />,
     },
     {
@@ -67,7 +58,7 @@ export function getGraphCards(t){
       description: [t('graphs.emergenceRateDescription')],
       icon: <ShowChart color="primary" />,
       id: 'EMR',
-      organisms: organismsCards.map(x => x.value),
+      organisms: [],
       component: <EmergenceRateGraph />,
     },
     ...heatmapCards,

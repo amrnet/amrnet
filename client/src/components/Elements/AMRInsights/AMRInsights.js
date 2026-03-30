@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, TipsAndUpdates } from '@mui/icons-material';
 import {
   Box,
   Card,
@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { cloneElement, useMemo, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
@@ -30,36 +30,43 @@ const TABS = [
     labelKey: 'amrInsights.tabs.genomicVsPhenotypic',
     value: 'GVP',
     component: <GenomicVsPhenotypicGraph />,
+    onlyFor: null,
   },
   {
     labelKey: 'amrInsights.tabs.convergenceMap',
     value: 'CVM',
     component: <ConvergenceMapGraph />,
+    onlyFor: ['kpneumo'],
   },
   {
     labelKey: 'amrInsights.tabs.geneMap',
     value: 'GMP',
     component: <GeneMapGraph />,
+    onlyFor: [],
   },
   {
     labelKey: 'amrInsights.tabs.qrdrPathway',
     value: 'QRDR',
     component: <QRDRPathwayGraph />,
+    onlyFor: ['styphi'],
   },
   {
     labelKey: 'amrInsights.tabs.serotypeResistance',
     value: 'SRT',
     component: <SerotypeResistanceGraph />,
+    onlyFor: ['strepneumo'],
   },
   {
     labelKey: 'amrInsights.tabs.cooccurrence',
     value: 'COO',
     component: <CooccurrenceGraph />,
+    onlyFor: null,
   },
   {
     labelKey: 'amrInsights.tabs.atbCorrelation',
     value: 'ATB',
     component: <ATBCorrelationGraph />,
+    onlyFor: null,
   },
 ];
 
@@ -82,6 +89,17 @@ export const AMRInsights = () => {
     return showFilter && !loadingData && !loadingMap;
   }, [loadingData, loadingMap, showFilter]);
 
+  const filteredTabs = useMemo(() => {
+    return TABS.filter(tab => tab.onlyFor === null || tab.onlyFor.includes(organism));
+  }, [organism]);
+
+  // Reset to first visible tab when organism changes and current tab is no longer visible
+  useEffect(() => {
+    if (!filteredTabs.find(tab => tab.value === currentTab)) {
+      setCurrentTab(filteredTabs[0]?.value ?? 'GVP');
+    }
+  }, [filteredTabs, currentTab]);
+
   function handleExpandClick() {
     dispatch(setCollapse({ key: 'insights', value: !(collapses['insights'] ?? false) }));
   }
@@ -96,7 +114,7 @@ export const AMRInsights = () => {
   }
 
   // Get current tab label for sharing
-  const currentTabConfig = TABS.find(tab => tab.value === currentTab);
+  const currentTabConfig = filteredTabs.find(tab => tab.value === currentTab);
   const currentTabLabel = currentTabConfig ? t(currentTabConfig.labelKey) : 'AMR Insights';
 
   // Build CSV data from available Redux data based on current tab
@@ -139,6 +157,7 @@ export const AMRInsights = () => {
           sx={{ padding: isExpanded ? '16px 16px 0px !important' : '16px !important' }}
         >
           <div className={classes.titleWrapper}>
+            <TipsAndUpdates color="primary" sx={{ marginRight: '8px' }} />
             <div className={classes.title}>
               <Typography fontSize="18px" fontWeight="500">
                 {t('amrInsights.title')}
@@ -174,7 +193,7 @@ export const AMRInsights = () => {
 
         {isExpanded && (
           <Tabs value={currentTab} onChange={handleChangeTab} variant="fullWidth">
-            {TABS.map((tab, i) => (
+            {filteredTabs.map((tab, i) => (
               <Tab key={`insights-tab-${i}`} label={t(tab.labelKey)} value={tab.value} sx={{ flexGrow: 1 }} />
             ))}
           </Tabs>
@@ -182,7 +201,7 @@ export const AMRInsights = () => {
 
         <Collapse in={isExpanded} timeout="auto">
           <Box id="amr-insights-content" className={classes.boxWrapper}>
-            {TABS.map(card => (
+            {filteredTabs.map(card => (
               <Box
                 key={`insights-card-${card.value}`}
                 sx={{

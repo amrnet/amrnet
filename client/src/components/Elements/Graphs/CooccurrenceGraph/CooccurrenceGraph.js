@@ -1,30 +1,32 @@
 import { InfoOutlined } from '@mui/icons-material';
-import {
-  Box,
-  CardContent,
-  Slider,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, CardContent, Slider, Tooltip, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
-import { drugAcronyms } from '../../../../util/drugs';
 import {
-  drugRulesST,
   drugRulesKP,
   drugRulesNG,
   drugRulesSA,
   drugRulesSP,
-  statKeysINTS,
+  drugRulesST,
   statKeysECOLI,
+  statKeysINTS,
 } from '../../../../util/drugClassesRules';
-import { amrLikeOrganisms } from '../../../../util/organismsCards';
+import { drugAcronyms } from '../../../../util/drugs';
 import { useStyles } from './CooccurrenceGraphMUI';
 
 const CELL_SIZE = 36;
 const LABEL_WIDTH = 120;
-const EXCLUSIONS = ['MDR', 'XDR', 'Pansusceptible', 'Susceptible', 'Susceptible to cat I/II drugs', 'H58',
-  'Ciprofloxacin NS', 'Ciprofloxacin R', 'Trimethoprim-sulfamethoxazole'];
+const EXCLUSIONS = [
+  'MDR',
+  'XDR',
+  'Pansusceptible',
+  'Susceptible',
+  'Susceptible to cat I/II drugs',
+  'H58',
+  'Ciprofloxacin NS',
+  'Ciprofloxacin R',
+  'Trimethoprim-sulfamethoxazole',
+];
 
 /**
  * Determine which drugs a single genome is resistant to.
@@ -141,8 +143,8 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
     const total = rawOrganismData.length;
 
     // Count per-drug resistance and per-pair co-occurrence
-    const drugCount = {};    // drug → count of resistant genomes
-    const pairCount = {};    // "drugA|||drugB" → count of genomes resistant to both
+    const drugCount = {}; // drug → count of resistant genomes
+    const pairCount = {}; // "drugA|||drugB" → count of genomes resistant to both
 
     rawOrganismData.forEach(genome => {
       const resistantDrugs = getResistantDrugs(genome, organism);
@@ -173,31 +175,31 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
 
       allDrugs.forEach(drugB => {
         if (drugA === drugB) {
-          mat[drugA][drugB] = { value: prevA, type: 'self', count: countA };
+          // Diagonal: a drug always co-occurs with itself → 100%
+          mat[drugA][drugB] = { value: 100, type: 'self', count: countA, prevA };
         } else {
           const countB = drugCount[drugB];
           const key = drugA < drugB ? `${drugA}|||${drugB}` : `${drugB}|||${drugA}`;
           const coCount = pairCount[key] || 0;
-          const coPercent = (coCount / total) * 100;
 
-          // Jaccard index: intersection / union
+          // Jaccard index: |A ∩ B| / |A ∪ B| × 100
+          // → 100% when A and B always co-occur, 0% when never
           const union = countA + countB - coCount;
           const jaccard = union > 0 ? (coCount / union) * 100 : 0;
 
+          const coPercent = (coCount / total) * 100;
+          const expected = (countA / total) * (countB / total) * total;
+
           mat[drugA][drugB] = {
-            value: coPercent,      // % of ALL genomes with both
-            jaccard,               // Jaccard similarity %
-            coCount,               // Absolute co-occurrence count
+            value: jaccard, // Jaccard similarity % (primary display metric)
+            coPercent, // % of ALL genomes with both (for tooltip)
+            coCount,
             countA,
             countB,
             prevA,
             prevB: (countB / total) * 100,
-            // Expected co-occurrence if independent
-            expected: (countA / total) * (countB / total) * total,
-            // Observed / Expected ratio
-            oeRatio: ((countA / total) * (countB / total) * total) > 0
-              ? coCount / ((countA / total) * (countB / total) * total)
-              : 0,
+            expected,
+            oeRatio: expected > 0 ? coCount / expected : 0,
           };
         }
       });
@@ -225,12 +227,22 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
       <Box className={classes.controlsRow}>
         <Box className={classes.selectWrapper}>
           <Box className={classes.labelWrapper}>
-            <Typography variant="body2" fontWeight={600}>Min. prevalence threshold (%)</Typography>
+            <Typography variant="body2" fontWeight={600}>
+              Min. prevalence threshold (%)
+            </Typography>
             <Tooltip title="Only show drugs with prevalence above this threshold. Co-occurrence is computed from per-genome data (real, not estimated).">
               <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
             </Tooltip>
           </Box>
-          <Slider value={minThreshold} onChange={(_, val) => setMinThreshold(val)} min={0} max={50} step={1} valueLabelDisplay="auto" sx={{ width: 200 }} />
+          <Slider
+            value={minThreshold}
+            onChange={(_, val) => setMinThreshold(val)}
+            min={0}
+            max={50}
+            step={1}
+            valueLabelDisplay="auto"
+            sx={{ width: 200 }}
+          />
         </Box>
         {totalGenomes > 0 && (
           <Typography variant="caption" sx={{ color: '#666', paddingBottom: '4px' }}>
@@ -241,10 +253,16 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
 
       <Box className={classes.legendBar}>
         <Typography variant="caption">0%</Typography>
-        <Box className={classes.legendGradient} sx={{ background: 'linear-gradient(to right, #f0f0f0 0%, #d4e4f7 10%, #a8c8ef 20%, #6ca4e0 35%, #3b7dd8 50%, #1a56b0 70%, #0a3580 100%)' }} />
+        <Box
+          className={classes.legendGradient}
+          sx={{
+            background:
+              'linear-gradient(to right, #f0f0f0 0%, #d4e4f7 10%, #a8c8ef 20%, #6ca4e0 35%, #3b7dd8 50%, #1a56b0 70%, #0a3580 100%)',
+          }}
+        />
         <Typography variant="caption">60%+</Typography>
         <Typography variant="caption" sx={{ marginLeft: '8px', color: '#666' }}>
-          (% of all genomes carrying both drugs)
+          Jaccard similarity (100% = always co-occur, 0% = never)
         </Typography>
       </Box>
 
@@ -260,33 +278,60 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
             <svg width={svgWidth} height={svgHeight}>
               {/* Column labels */}
               {filteredDrugs.map((drug, i) => (
-                <text key={`col-${drug}`} x={LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2} y={LABEL_WIDTH - 6} textAnchor="end" fontSize="10" fontWeight="600" transform={`rotate(-45, ${LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}, ${LABEL_WIDTH - 6})`}>
+                <text
+                  key={`col-${drug}`}
+                  x={LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}
+                  y={LABEL_WIDTH - 20}
+                  textAnchor="end"
+                  fontSize="10"
+                  fontWeight="600"
+                  transform={`rotate(-45, ${LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}, ${LABEL_WIDTH - 20})`}
+                >
                   {drugAcronyms[drug] || drug.substring(0, 6)}
                 </text>
               ))}
               {/* Rows */}
               {filteredDrugs.map((drugRow, rowIdx) => (
                 <g key={`row-${drugRow}`}>
-                  <text x={LABEL_WIDTH - 6} y={LABEL_WIDTH + rowIdx * CELL_SIZE + CELL_SIZE / 2 + 4} textAnchor="end" fontSize="10" fontWeight="600">
+                  <text
+                    x={LABEL_WIDTH - 20}
+                    y={LABEL_WIDTH + rowIdx * CELL_SIZE + CELL_SIZE / 2 + 4}
+                    textAnchor="end"
+                    fontSize="10"
+                    fontWeight="600"
+                  >
                     {drugAcronyms[drugRow] || drugRow.substring(0, 8)}
                   </text>
                   {filteredDrugs.map((drugCol, colIdx) => {
                     const cellData = matrix[drugRow]?.[drugCol];
                     const value = cellData?.value ?? 0;
-                    const bgColor = cellData?.type === 'self' ? getCooccurrenceColor(value) : getCooccurrenceColor(value);
+                    const bgColor =
+                      cellData?.type === 'self' ? getCooccurrenceColor(value) : getCooccurrenceColor(value);
                     const isHovered = hoveredCell?.row === drugRow && hoveredCell?.col === drugCol;
                     return (
                       <g key={`cell-${drugRow}-${drugCol}`}>
                         <rect
-                          x={LABEL_WIDTH + colIdx * CELL_SIZE} y={LABEL_WIDTH + rowIdx * CELL_SIZE}
-                          width={CELL_SIZE - 1} height={CELL_SIZE - 1}
-                          fill={bgColor} stroke={isHovered ? '#333' : '#fff'} strokeWidth={isHovered ? 2 : 0.5} rx={2}
+                          x={LABEL_WIDTH + colIdx * CELL_SIZE}
+                          y={LABEL_WIDTH + rowIdx * CELL_SIZE}
+                          width={CELL_SIZE - 1}
+                          height={CELL_SIZE - 1}
+                          fill={bgColor}
+                          stroke={isHovered ? '#333' : '#fff'}
+                          strokeWidth={isHovered ? 2 : 0.5}
+                          rx={2}
                           onMouseEnter={() => setHoveredCell({ row: drugRow, col: drugCol, data: cellData })}
                           onMouseLeave={() => setHoveredCell(null)}
                           style={{ cursor: 'pointer' }}
                         />
                         {value > 0 && CELL_SIZE >= 30 && (
-                          <text x={LABEL_WIDTH + colIdx * CELL_SIZE + CELL_SIZE / 2 - 0.5} y={LABEL_WIDTH + rowIdx * CELL_SIZE + CELL_SIZE / 2 + 3.5} textAnchor="middle" fontSize="9" fill={getTextColorForBg(value)} pointerEvents="none">
+                          <text
+                            x={LABEL_WIDTH + colIdx * CELL_SIZE + CELL_SIZE / 2 - 0.5}
+                            y={LABEL_WIDTH + rowIdx * CELL_SIZE + CELL_SIZE / 2 + 3.5}
+                            textAnchor="middle"
+                            fontSize="9"
+                            fill={getTextColorForBg(value)}
+                            pointerEvents="none"
+                          >
                             {value.toFixed(0)}
                           </text>
                         )}
@@ -300,32 +345,63 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
         </Box>
 
         <Box className={classes.rightSide}>
-          <Typography variant="body2" fontWeight={600}>Details</Typography>
+          <Typography variant="body2" fontWeight={600}>
+            Details
+          </Typography>
           <Box className={classes.tooltipWrapper}>
             {hoveredCell ? (
               <Box>
-                <Typography variant="body2" fontWeight={600}>{hoveredCell.row} × {hoveredCell.col}</Typography>
+                <Typography variant="body2" fontWeight={600}>
+                  {hoveredCell.row} × {hoveredCell.col}
+                </Typography>
                 {hoveredCell.data?.type === 'self' ? (
                   <>
-                    <Typography variant="caption" display="block">Prevalence: {hoveredCell.data.value.toFixed(1)}%</Typography>
-                    <Typography variant="caption" display="block">Count: {hoveredCell.data.count} / {totalGenomes}</Typography>
+                    <Typography variant="caption" display="block">
+                      Prevalence: {hoveredCell.data.prevA.toFixed(1)}%
+                    </Typography>
+                    <Typography variant="caption" display="block">
+                      Count: {hoveredCell.data.count} / {totalGenomes}
+                    </Typography>
+                    <Typography variant="caption" display="block" sx={{ color: '#666', marginTop: '4px' }}>
+                      Jaccard: 100% (same drug)
+                    </Typography>
                   </>
                 ) : (
                   <>
                     <Typography variant="caption" display="block" sx={{ fontWeight: 600, marginBottom: '4px' }}>
-                      Co-occurrence: {hoveredCell.data.value.toFixed(1)}% ({hoveredCell.data.coCount} genomes)
+                      Jaccard similarity: {hoveredCell.data.value.toFixed(1)}%
                     </Typography>
-                    <Typography variant="caption" display="block">{hoveredCell.row}: {hoveredCell.data.prevA.toFixed(1)}% ({hoveredCell.data.countA})</Typography>
-                    <Typography variant="caption" display="block">{hoveredCell.col}: {hoveredCell.data.prevB.toFixed(1)}% ({hoveredCell.data.countB})</Typography>
+                    <Typography variant="caption" display="block">
+                      {hoveredCell.row}: {hoveredCell.data.prevA.toFixed(1)}% ({hoveredCell.data.countA})
+                    </Typography>
+                    <Typography variant="caption" display="block">
+                      {hoveredCell.col}: {hoveredCell.data.prevB.toFixed(1)}% ({hoveredCell.data.countB})
+                    </Typography>
                     <Typography variant="caption" display="block" sx={{ marginTop: '4px' }}>
-                      Jaccard similarity: {hoveredCell.data.jaccard.toFixed(1)}%
+                      Co-occurring genomes: {hoveredCell.data.coCount} ({hoveredCell.data.coPercent.toFixed(1)}% of
+                      total)
                     </Typography>
                     <Typography variant="caption" display="block">
                       Expected if independent: {hoveredCell.data.expected.toFixed(0)} genomes
                     </Typography>
-                    <Typography variant="caption" display="block" sx={{ color: hoveredCell.data.oeRatio > 1.5 ? '#c62828' : hoveredCell.data.oeRatio < 0.5 ? '#2e7d32' : '#666' }}>
+                    <Typography
+                      variant="caption"
+                      display="block"
+                      sx={{
+                        color:
+                          hoveredCell.data.oeRatio > 1.5
+                            ? '#c62828'
+                            : hoveredCell.data.oeRatio < 0.5
+                              ? '#2e7d32'
+                              : '#666',
+                      }}
+                    >
                       O/E ratio: {hoveredCell.data.oeRatio.toFixed(2)}
-                      {hoveredCell.data.oeRatio > 1.5 ? ' (co-selected)' : hoveredCell.data.oeRatio < 0.5 ? ' (negatively associated)' : ''}
+                      {hoveredCell.data.oeRatio > 1.5
+                        ? ' (co-selected)'
+                        : hoveredCell.data.oeRatio < 0.5
+                          ? ' (negatively associated)'
+                          : ''}
                     </Typography>
                   </>
                 )}
@@ -333,20 +409,26 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
             ) : (
               <Typography variant="caption" sx={{ lineHeight: 1.6 }}>
                 Hover over a cell to see details.
-                <br /><br />
-                <strong>Values:</strong> % of all genomes resistant to BOTH drugs simultaneously.
-                <br /><br />
+                <br />
+                <br />
+                <strong>Values:</strong> Jaccard similarity — |A∩B| / |A∪B| × 100. Diagonal is always 100% (same drug).
+                100% off-diagonal means both drugs always co-occur.
+                <br />
+                <br />
                 <strong>O/E ratio:</strong> Observed/Expected co-occurrence.
                 {'>'}1.5 = co-selected (resistance to both found together more than expected by chance).
-                {'<'}0.5 = negatively associated (rarely found together).
-                Co-selection may reflect co-located genes, clonal expansion, or shared selective pressures.
-                <br /><br />
-                <strong>Method:</strong> Per-genome analysis. For each genome, resistance is determined using
-                the same rules as AMR Trends. Then all pairwise co-occurrences are counted.
+                {'<'}0.5 = negatively associated (rarely found together). Co-selection may reflect co-located genes,
+                clonal expansion, or shared selective pressures.
+                <br />
+                <br />
+                <strong>Method:</strong> Per-genome analysis. For each genome, resistance is determined using the same
+                rules as AMR Trends. Then all pairwise co-occurrences are counted.
               </Typography>
             )}
           </Box>
-          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>Drug Abbreviations</Typography>
+          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>
+            Drug Abbreviations
+          </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px', maxHeight: '200px', overflowY: 'auto' }}>
             {filteredDrugs.map(drug => (
               <Typography key={drug} variant="caption" sx={{ lineHeight: 1.4 }}>

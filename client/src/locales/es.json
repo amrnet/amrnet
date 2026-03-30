@@ -252,14 +252,15 @@
       "convergenceMap": "Virulencia-Resistencia",
       "geneMap": "Resistencia por Gen",
       "qrdrPathway": "Mutaciones QRDR",
-      "serotypeResistance": "Serotipo × Resistencia",
+      "serotypeResistance": "Cobertura Vacunal",
       "cooccurrence": "Co-ocurrencia de RAM",
       "atbCorrelation": "Uso de ATB vs Resistencia"
     }
   },
   "continentGraphs": {
     "tabs": {
-      "heatmap": "Mapa de calor"
+      "heatmap": "Mapa de calor",
+      "radarProfile": "Perfil de Radar AMR"
     },
     "plottedYears": "Los datos se representan para años con N ≥ 10 genomas",
     "restrictedData": "Los datos se restringen a los filtros globales seleccionados (Año {{start}} - {{end}}) {{dataset}}, y regiones/países con N≥20 que cumplen esos filtros.",
