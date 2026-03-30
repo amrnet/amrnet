@@ -277,6 +277,7 @@
       "geneMap": "Gene-level Resistance",
       "qrdrPathway": "QRDR Mutations",
       "serotypeResistance": "Vaccine Coverage",
+      "pmenClones": "PMEN Clones",
       "cooccurrence": "AMR Co-occurrence",
       "atbCorrelation": "ATB Usage vs Resistance"
     }
