@@ -1,0 +1,409 @@
+{
+  "_meta": {
+    "description": "Country-level phenotypic ciprofloxacin non-susceptibility (CipNS) rates for Salmonella Typhi (NOT NTS). CipNS is defined as intermediate + resistant (MIC ≥0.06–0.125 mg/L depending on CLSI/EUCAST breakpoint used by source), or by presence of QRDR mutations in genomic proxies. Sources are peer-reviewed publications, surveillance networks, and WHO-linked programmes covering 2008–2022.",
+    "fields": {
+      "country": "Country name",
+      "iso3": "ISO 3166-1 alpha-3 country code",
+      "region": "WHO / geographic region",
+      "yearRange": "Year(s) isolates were collected",
+      "cipNS_pct": "% ciprofloxacin non-susceptible (resistant + intermediate unless noted). null = not available.",
+      "cipR_pct": "% fully resistant (MIC ≥1 mg/L) where separately reported. null = not available.",
+      "N": "Number of S. Typhi isolates tested for ciprofloxacin susceptibility. null = not reported.",
+      "definition": "Susceptibility testing method / breakpoint system used",
+      "notes": "Additional context",
+      "source": "Citation (first author, journal, year)",
+      "doi_or_url": "DOI or URL"
+    },
+    "generated": "2026-03-30",
+    "caveats": [
+      "Genomic CipNS proxies (QRDR mutations ≥1) from TyphiNET / Global Typhoid Genomics Consortium may differ from phenotypic MIC-based rates.",
+      "Hospital-based studies may overestimate resistance relative to community burden.",
+      "SEAP (Surveillance for Enteric Fever in Asia Project) uses CLSI disc diffusion; 'FQ non-susceptibility' = combined intermediate + resistant.",
+      "South Asian figures approaching 100% likely reflect facility selection bias toward referral hospitals.",
+      "African figures are generally lower but vary substantially between sub-regions.",
+      "Data should be treated as indicative benchmarks, not definitive national prevalence estimates."
+    ]
+  },
+  "data": [
+    {
+      "country": "Bangladesh",
+      "iso3": "BGD",
+      "region": "South Asia",
+      "yearRange": "2016–2019",
+      "cipNS_pct": 97.7,
+      "cipR_pct": null,
+      "N": 4131,
+      "definition": "CLSI disc diffusion (FQ non-susceptibility = I + R)",
+      "notes": "SEAP Phase II prospective surveillance (Dhaka). CipNS persisted >90% since 2001; reached 98% by 2022 in 24-year surveillance (N=12,435 total).",
+      "source": "Qamar et al. Clin Infect Dis 2020 (SEAP); Islam et al. PLOS NTD 2024",
+      "doi_or_url": "https://doi.org/10.1093/cid/ciaa1212"
+    },
+    {
+      "country": "Bangladesh",
+      "iso3": "BGD",
+      "region": "South Asia",
+      "yearRange": "1999–2022",
+      "cipNS_pct": 95,
+      "cipR_pct": null,
+      "N": 12435,
+      "definition": "CLSI; phenotypic disc diffusion + MIC",
+      "notes": "24-year retrospective surveillance at paediatric hospitals and private clinics in Dhaka. CipNS reached 95% by 2001 and remained >90% throughout. In 2022: 98% (1,266/1,298). Representative long-term trend estimate for 2015–2022 is ≥95%.",
+      "source": "Islam et al. PLOS Negl Trop Dis 2024",
+      "doi_or_url": "https://doi.org/10.1371/journal.pntd.0012558"
+    },
+    {
+      "country": "Nepal",
+      "iso3": "NPL",
+      "region": "South Asia",
+      "yearRange": "2016–2019",
+      "cipNS_pct": 86.8,
+      "cipR_pct": null,
+      "N": 1367,
+      "definition": "CLSI disc diffusion (FQ non-susceptibility = I + R)",
+      "notes": "SEAP Phase II prospective surveillance (Kathmandu). A separate 2018 single-centre study (Kathmandu, N=46) found 97.8% FQ non-susceptibility (43.5% R + 54.3% I).",
+      "source": "Qamar et al. Clin Infect Dis 2020 (SEAP); Acharya et al. Front Microbiol 2021",
+      "doi_or_url": "https://doi.org/10.1093/cid/ciaa1212"
+    },
+    {
+      "country": "Pakistan",
+      "iso3": "PAK",
+      "region": "South Asia",
+      "yearRange": "2016–2019",
+      "cipNS_pct": 95.1,
+      "cipR_pct": null,
+      "N": 2093,
+      "definition": "CLSI disc diffusion (FQ non-susceptibility = I + R)",
+      "notes": "SEAP Phase II prospective surveillance (Karachi). Year-by-year breakdown from national surveillance (Continued Outbreak paper, N=1,803): 2017 ciprofloxacin non-susceptible 93% (N=93), 2018 95% (N=175), 2019 98% (N=1,535). XDR typhoid (ceftriaxone-resistant + ciprofloxacin non-susceptible) reached 57% of all S. Typhi 2017–2019; fully ciprofloxacin-resistant fraction rose from 19% (2017) to 58% (2019).",
+      "source": "Qamar et al. Clin Infect Dis 2020 (SEAP); Klemm et al. mBio 2018; Fatima et al. PMC8045622",
+      "doi_or_url": "https://doi.org/10.1093/cid/ciaa1212"
+    },
+    {
+      "country": "India",
+      "iso3": "IND",
+      "region": "South Asia",
+      "yearRange": "2017–2020",
+      "cipNS_pct": 97.9,
+      "cipR_pct": 37.0,
+      "N": 2032,
+      "definition": "CLSI MIC; CipNS = MIC ≥0.12 µg/mL; CipR = MIC ≥1 µg/mL",
+      "notes": "Large multicentre surveillance across India (northern and southern). Only 2.1% susceptible. Northern India: 41% fully resistant; Southern India: 29% fully resistant. A post-COVID-19 surveillance study found 99.3% CipNS. One Kolkata tertiary centre (2017–2019) found 0% CipR in 2017, 45.5% in 2018, and 100% from 2019 onwards—reflecting rapid escalation.",
+      "source": "Britto et al. J Infect Dis 2021 (PMC8892543); Mandal et al. Antibiotics 2022",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8892543/"
+    },
+    {
+      "country": "Cambodia",
+      "iso3": "KHM",
+      "region": "Southeast Asia",
+      "yearRange": "2008–2015",
+      "cipNS_pct": 96.9,
+      "cipR_pct": 0.0,
+      "N": 64,
+      "definition": "CLSI; decreased ciprofloxacin susceptibility (DCS) = MIC ≥0.12 to ≤0.5 µg/mL; full resistance not detected",
+      "notes": "Phnom Penh hospital surveillance. 2008–2012: 100% DCS (N=35); 2013–2015: 93.1% DCS (N=29). gyrA Ser83Phe mutation in 60/62 DCS isolates. No fully resistant isolates detected.",
+      "source": "Bodhidatta et al. PLOS NTD 2017 (PMC5624643)",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5624643/"
+    },
+    {
+      "country": "Vietnam",
+      "iso3": "VNM",
+      "region": "Southeast Asia",
+      "yearRange": "2002–2008",
+      "cipNS_pct": 90,
+      "cipR_pct": null,
+      "N": null,
+      "definition": "MIC-based; DCS ≥0.12 µg/mL",
+      "notes": "Southern Vietnam has been a fluoroquinolone resistance hotspot since the 1990s. DCS/NARST rates reached 90–98% by early 2000s and remained very high through 2008. More recent data (2015–2022 period) not retrieved with precise N; genomic data from TyphiNET/Global Genomics Consortium indicate continued high CipNS. Indonesia study covering Vietnam isolates (2007–2008, N=51) showed 0% resistance, suggesting northern hospital sampling—likely an outlier relative to endemic southern data.",
+      "source": "Pham Van Minh et al. various; Kariuki et al. AAC 2015 (PMC4249406)",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4249406/"
+    },
+    {
+      "country": "Laos (Lao PDR)",
+      "iso3": "LAO",
+      "region": "Southeast Asia",
+      "yearRange": "2000–2018",
+      "cipNS_pct": 6.0,
+      "cipR_pct": 1.4,
+      "N": 854,
+      "definition": "CLSI; intermediate = MIC 0.12–0.5 µg/mL; resistant = MIC ≥1 µg/mL",
+      "notes": "18-year Mahosot Hospital surveillance (Vientiane). Resistant: 12/854 (1.4%); Intermediate: 39/854 (4.6%); Combined CipNS ~6%. Majority of isolates pan-susceptible. Ofloxacin remains first-line treatment. Period 2015–2018 not separately stratified but overall rate is very low.",
+      "source": "Dance et al. Am J Trop Med Hyg 2020 (PMC7124924)",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7124924/"
+    },
+    {
+      "country": "Indonesia",
+      "iso3": "IDN",
+      "region": "Southeast Asia",
+      "yearRange": "2011–2015",
+      "cipNS_pct": null,
+      "cipR_pct": 0,
+      "N": 55,
+      "definition": "CLSI disc diffusion",
+      "notes": "Five-year review from Tangerang hospital found low ciprofloxacin resistance (<5%); 2007–2009 multi-country study (N=55 Indonesian isolates) showed 0% resistant. ARSP Philippines 2013–2014 genomic data showed sparse QRDR mutations. Indonesia generally remains low-resistance but surveillance is limited.",
+      "source": "Surjadjaja et al. Southeast Asian J Trop Med 2017 (PMID 28484494); Kariuki et al. AAC 2015",
+      "doi_or_url": "https://pubmed.ncbi.nlm.nih.gov/28484494/"
+    },
+    {
+      "country": "Philippines",
+      "iso3": "PHL",
+      "region": "Southeast Asia",
+      "yearRange": "2004–2018",
+      "cipNS_pct": null,
+      "cipR_pct": null,
+      "N": null,
+      "definition": "ARSP disc diffusion; CLSI breakpoints",
+      "notes": "ARSP 15-year report (2004–2018): S. Typhi ciprofloxacin resistance remained <10% without significant variation. 2013–2014 genomic surveillance (N=17 S. Typhi) showed sparse QRDR mutations (5/17 with DCS genotype). Exact phenotypic % not published in accessible tables. iNTS ciprofloxacin resistance was 8.7% (2014–2018), but this is NTS not Typhi.",
+      "source": "ARSP 15-year report (Issuu); Argimón et al. Trans R Soc Trop Med Hyg 2022 (PMC9717386)",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9717386/"
+    },
+    {
+      "country": "Kenya",
+      "iso3": "KEN",
+      "region": "Sub-Saharan Africa — East",
+      "yearRange": "2010–2017",
+      "cipNS_pct": 43,
+      "cipR_pct": null,
+      "N": 144,
+      "definition": "Disc diffusion; EUCAST/CLSI breakpoints; reduced susceptibility = MIC ≥0.125 µg/mL",
+      "notes": "Nairobi (Mukuru informal settlement) study reported 43% reduced susceptibility in contemporary S. Typhi. An earlier Kenya Medical Research Institute multi-site study found 20% (2012) rising to 43% (2013). A 2004–2007 retrospective study found 69% (100/144) reduced susceptibility in Nairobi isolates. Trend is upward. Multicountry sub-Saharan Africa molecular analysis (PMC4772832) identified Kenya as having the highest DCS rates in the region.",
+      "source": "Omulo et al. BMC Microbiol 2018 (PMC); Okoko et al. PLOS ONE 2024 (PMC10889635)",
+      "doi_or_url": "https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-018-1332-3"
+    },
+    {
+      "country": "Tanzania (Zanzibar)",
+      "iso3": "TZA",
+      "region": "Sub-Saharan Africa — East",
+      "yearRange": "2015–2016",
+      "cipNS_pct": 69,
+      "cipR_pct": null,
+      "N": 62,
+      "definition": "EUCAST MIC; low-level resistance = MIC 0.125–0.25 µg/mL",
+      "notes": "Predominance of MDR genotype 4.3.1.1 (H58) with low-level ciprofloxacin resistance via gyrA D87G mutation. 43/62 (69%) had low-level CipNS; no full resistance detected. Pilot study 2012–2013 showed similar pattern.",
+      "source": "Deen et al. PLOS NTD 2024 (PMC; doi:10.1371/journal.pntd.0012132)",
+      "doi_or_url": "https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0012132"
+    },
+    {
+      "country": "Zimbabwe",
+      "iso3": "ZWE",
+      "region": "Sub-Saharan Africa — Southern",
+      "yearRange": "2009–2017",
+      "cipNS_pct": 22,
+      "cipR_pct": 22,
+      "N": 276,
+      "definition": "Disc diffusion + E-test; CLSI/EUCAST breakpoints",
+      "notes": "National reference laboratory isolates. CipR rose from 0% (2012) to 4.2% (2014) to 22% (2017). During the 2018 Harare outbreak, ciprofloxacin resistance was 33% among hospitalised patients and reached 75% in Kuwadzana suburb. The H58 genotype (93.2% of isolates) carries qnrS on IncN plasmid. CipNS ~= CipR in this dataset (no separate intermediate category reported).",
+      "source": "Munyenyiwa et al. BMC Infect Dis 2019 (PMC6544939); Tickell et al. Lancet Microbe 2023",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6544939/"
+    },
+    {
+      "country": "Malawi",
+      "iso3": "MWI",
+      "region": "Sub-Saharan Africa — Southern",
+      "yearRange": "2016–2019",
+      "cipNS_pct": 2,
+      "cipR_pct": null,
+      "N": 177,
+      "definition": "QRDR mutation genotyping (genomic proxy); phenotypic: 29 DCS + 1 fully resistant / 502 isolates = 6%",
+      "notes": "Blantyre (Queen Elizabeth Central Hospital). Oct 2016–Aug 2019: 4/177 (2%) QRDR mutations. Sept–Oct 2019: 6/18 (33%) spike coinciding with increased ciprofloxacin prescribing. Broader hospital screening (2019–2022, N=502): 30/502 (6%) with DCS or full resistance. Dramatic emergence driven by prescribing pressure.",
+      "source": "Carey et al. Lancet Microbe 2024 (PMC10914669)",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10914669/"
+    },
+    {
+      "country": "Democratic Republic of Congo (DRC)",
+      "iso3": "COD",
+      "region": "Sub-Saharan Africa — Central",
+      "yearRange": "2007–2017",
+      "cipNS_pct": 25,
+      "cipR_pct": 0,
+      "N": 469,
+      "definition": "MIC-based; DCS = MIC 0.125–0.5 µg/mL; full resistance not detected",
+      "notes": "Kinshasa 10-year surveillance. Period breakdown: 2007–2010: 14.0% DCS (27/193); 2011–2014: 36.3% DCS (61/168); 2015–2017: 25.0% DCS (27/108). No full resistance across entire decade. Rate for 2015–2017 period is 25%.",
+      "source": "Makwela et al. PMC6405282 / Antimicrob Resist Infect Control 2019",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6405282/"
+    },
+    {
+      "country": "Zambia",
+      "iso3": "ZMB",
+      "region": "Sub-Saharan Africa — Southern",
+      "yearRange": "2018–2019",
+      "cipNS_pct": 35,
+      "cipR_pct": 5,
+      "N": 58,
+      "definition": "EUCAST MIC; intermediate + resistant combined",
+      "notes": "Tertiary referral hospital (Lusaka). Resistant: 5%; Intermediate: 30%. Authors noted the 30% intermediate rate as 'alarming'. Low absolute N; interpret with caution.",
+      "source": "Mwine et al. PMC9216281 / J Glob Antimicrob Resist 2022",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9216281/"
+    },
+    {
+      "country": "South Africa",
+      "iso3": "ZAF",
+      "region": "Sub-Saharan Africa — Southern",
+      "yearRange": "2015–2020",
+      "cipNS_pct": 16,
+      "cipR_pct": null,
+      "N": null,
+      "definition": "CLSI; phenotypic disc diffusion (NICD national surveillance)",
+      "notes": "NICD enteric fever surveillance: since 2015, ~16% of S. Typhi isolates tested not susceptible to ciprofloxacin (stable). In 2020, 12/69 (17%) not susceptible. 2003–2013 cumulative: 9.1% resistant (69/758). Cluster genomic study (2020–2021, N=38) showed 100% susceptibility—but these were clustered outbreak strains, not representative of all circulating isolates. The Global Typhoid Genomics Consortium noted >85% CipNS in South Africa based on genomic proxies, which may reflect imported/travel-associated lineages or referral bias.",
+      "source": "NICD South Africa surveillance reports; Coetzee et al. Microb Genom 2023 (PMC10327498)",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10327498/"
+    },
+    {
+      "country": "Ghana",
+      "iso3": "GHA",
+      "region": "Sub-Saharan Africa — West",
+      "yearRange": "2007–2018",
+      "cipNS_pct": null,
+      "cipR_pct": 0,
+      "N": null,
+      "definition": "Disc diffusion; CLSI/EUCAST",
+      "notes": "A 2007–2012 rural Ghana study (bloodstream infections) found all S. Typhi susceptible to ciprofloxacin. A 2001–2009 surveillance study also found 100% susceptibility among S. Typhi. 2016–2018 study (N=68 S. Typhi) reported gyrA/gyrB QRDR mutations emerging (exact % not published in accessible full text). Ghana appears historically low-resistance but genomic surveillance suggests emerging DCS.",
+      "source": "Marks et al. Clin Infect Dis 2016 (PMID 26933017); Oduro-Mensah et al. BMC Infect Dis 2019 (PMC)",
+      "doi_or_url": "https://academic.oup.com/cid/article/62/suppl_1/S32/2566523"
+    },
+    {
+      "country": "Nigeria",
+      "iso3": "NGA",
+      "region": "Sub-Saharan Africa — West",
+      "yearRange": "2016–2020",
+      "cipNS_pct": null,
+      "cipR_pct": null,
+      "N": null,
+      "definition": "Disc diffusion; varied breakpoints across studies",
+      "notes": "Data quality for Nigeria is poor — most typhoid diagnoses rely on Widal serology rather than blood culture. Small culture-confirmed studies: pre-2016 studies showed 100% susceptibility in Kano (malnourished children) and Lagos. 2016–2020 analysis (ESBL-producing isolates) showed 69% ciprofloxacin resistance, but this likely includes NTS and may represent resistant clones at tertiary referral centres. No nationally representative blood culture surveillance data retrievable for the 2015–2022 period.",
+      "source": "Umoru et al. Afr Health Sci 2019; IOSR PHAR 2015 review",
+      "doi_or_url": "https://www.iosrphr.org/papers/vol15-issue4/E15045254.pdf"
+    },
+    {
+      "country": "Uganda",
+      "iso3": "UGA",
+      "region": "Sub-Saharan Africa — East",
+      "yearRange": null,
+      "cipNS_pct": null,
+      "cipR_pct": null,
+      "N": null,
+      "definition": null,
+      "notes": "No retrievable peer-reviewed blood culture–confirmed S. Typhi ciprofloxacin phenotypic surveillance data found for Uganda in 2015–2022. The multicountry sub-Saharan Africa molecular analysis (PMC4772832) did not identify Uganda-origin reduced-susceptibility isolates. TyphiNET lists Uganda as a country with limited genome data. Data gap.",
+      "source": "Data gap — see multicountry African analysis: Kariuki et al. J Infect Dev Ctries 2015 (PMC4772832)",
+      "doi_or_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4772832/"
+    }
+  ],
+  "regionalSummary": {
+    "southAsia": {
+      "description": "Fluoroquinolone non-susceptibility is near-universal (85–98%) across Bangladesh, India, Nepal, and Pakistan for the 2016–2022 period. Pakistan additionally carries a high burden of XDR typhoid (ceftriaxone co-resistance, ~57% of isolates 2017–2019). India, Bangladesh, and Nepal show slightly lower XDR rates but ciprofloxacin monotherapy should be considered inactive.",
+      "representativeRange_pct": "87–98"
+    },
+    "southeastAsia": {
+      "description": "Cambodia and Vietnam have very high DCS (>90%), though full resistance (MIC ≥1) is rare. Laos has exceptionally low CipNS (~6% combined over 2000–2018). Indonesia and Philippines maintain low rates (<10%) but surveillance is sparse. The region has marked geographic heterogeneity.",
+      "representativeRange_pct": "6–97"
+    },
+    "subSaharanAfrica": {
+      "description": "Generally lower than South Asia. East Africa (Kenya ~43%, Tanzania/Zanzibar 69%) is higher than West Africa (Ghana ~0%) and Central Africa (DRC ~25%). Southern Africa is heterogeneous: Malawi rapidly emerging (2–33% in 2019), Zimbabwe escalating (4–22% over 2014–2017, then outbreak peaks of 75%), Zambia intermediate (35%), South Africa relatively stable (~16%). Nigeria lacks quality surveillance data.",
+      "representativeRange_pct": "0–75"
+    }
+  },
+  "keyReferences": [
+    {
+      "id": "SEAP_2020",
+      "citation": "Qamar FN et al. Antimicrobial Resistance in Typhoidal Salmonella: Surveillance for Enteric Fever in Asia Project, 2016–2019. Clin Infect Dis. 2020;71(Suppl 3):S276–S284.",
+      "url": "https://doi.org/10.1093/cid/ciaa1212",
+      "countries": ["Bangladesh", "Nepal", "Pakistan"],
+      "yearRange": "2016–2019",
+      "dataType": "Phenotypic (disc diffusion, CLSI)"
+    },
+    {
+      "id": "Islam_2024",
+      "citation": "Islam MT et al. Trends in antimicrobial resistance amongst Salmonella Typhi in Bangladesh: A 24-year retrospective observational study (1999–2022). PLOS Negl Trop Dis. 2024;18(10):e0012558.",
+      "url": "https://doi.org/10.1371/journal.pntd.0012558",
+      "countries": ["Bangladesh"],
+      "yearRange": "1999–2022",
+      "dataType": "Phenotypic (disc diffusion + MIC)"
+    },
+    {
+      "id": "Britto_2021",
+      "citation": "Britto CD et al. Evaluation of Antimicrobial Susceptibility Profile in Salmonella Typhi and Salmonella Paratyphi A: Presenting the Current Scenario in India and Strategy for Future Management. J Infect Dis. 2021;224(Suppl 5):S502–S511.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8892543/",
+      "countries": ["India"],
+      "yearRange": "2017–2020",
+      "dataType": "Phenotypic (MIC, CLSI)"
+    },
+    {
+      "id": "Bodhidatta_2017",
+      "citation": "Bodhidatta L et al. The clinical and microbiological characteristics of enteric fever in Cambodia, 2008–2015. PLOS Negl Trop Dis. 2017;11(9):e0005964.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5624643/",
+      "countries": ["Cambodia"],
+      "yearRange": "2008–2015",
+      "dataType": "Phenotypic (CLSI MIC)"
+    },
+    {
+      "id": "Dance_2020",
+      "citation": "Dance DAB et al. Typhoid in Laos: An 18-Year Perspective. Am J Trop Med Hyg. 2020;102(5):1141–1146.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7124924/",
+      "countries": ["Laos"],
+      "yearRange": "2000–2018",
+      "dataType": "Phenotypic (CLSI disc diffusion + MIC)"
+    },
+    {
+      "id": "Deen_2024",
+      "citation": "Deen J et al. Predominance of multidrug-resistant Salmonella Typhi genotype 4.3.1 with low-level ciprofloxacin resistance in Zanzibar. PLOS Negl Trop Dis. 2024;18(2):e0012132.",
+      "url": "https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0012132",
+      "countries": ["Tanzania"],
+      "yearRange": "2015–2016",
+      "dataType": "Phenotypic (EUCAST MIC) + genomic"
+    },
+    {
+      "id": "Munyenyiwa_2019",
+      "citation": "Munyenyiwa A et al. Laboratory characterisation of Salmonella enterica serotype Typhi isolates from Zimbabwe, 2009–2017. BMC Infect Dis. 2019;19(1):499.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6544939/",
+      "countries": ["Zimbabwe"],
+      "yearRange": "2009–2017",
+      "dataType": "Phenotypic (disc diffusion + E-test, CLSI/EUCAST)"
+    },
+    {
+      "id": "Carey_2024",
+      "citation": "Carey ME et al. Evaluating the relationship between ciprofloxacin prescription and non-susceptibility in Salmonella Typhi in Blantyre, Malawi: an observational study. Lancet Microbe. 2024;5(3):e256–e266.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10914669/",
+      "countries": ["Malawi"],
+      "yearRange": "2016–2022",
+      "dataType": "Phenotypic + QRDR genomic"
+    },
+    {
+      "id": "Makwela_2019",
+      "citation": "Makwela MN et al. Salmonella Typhi from blood cultures in the Democratic Republic of the Congo: a 10-year surveillance. Antimicrob Resist Infect Control. 2019;8:38.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6405282/",
+      "countries": ["DRC"],
+      "yearRange": "2007–2017",
+      "dataType": "Phenotypic (MIC, EUCAST)"
+    },
+    {
+      "id": "Mwine_2022",
+      "citation": "Mwine MK et al. Antimicrobial susceptibility and genomic profiling of Salmonella enterica from bloodstream infections at a tertiary referral hospital in Lusaka, Zambia, 2018–2019. J Glob Antimicrob Resist. 2022;30:234–240.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9216281/",
+      "countries": ["Zambia"],
+      "yearRange": "2018–2019",
+      "dataType": "Phenotypic (MIC, EUCAST)"
+    },
+    {
+      "id": "Fatima_2021",
+      "citation": "Fatima M et al. Continued Outbreak of Ceftriaxone-Resistant Salmonella enterica Serotype Typhi across Pakistan 2016–2019. Emerg Infect Dis. 2021;27(4).",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8045622/",
+      "countries": ["Pakistan"],
+      "yearRange": "2017–2019",
+      "dataType": "Phenotypic (CLSI disc diffusion)"
+    },
+    {
+      "id": "GlobalGenomics_2023",
+      "citation": "Wong VK et al. Global diversity and antimicrobial resistance of typhoid fever pathogens: Insights from a meta-analysis of 13,000 Salmonella Typhi genomes. eLife. 2023;12:e85867.",
+      "url": "https://elifesciences.org/articles/85867",
+      "countries": ["Global — 101 countries"],
+      "yearRange": "Various (to 2022)",
+      "dataType": "Genomic proxy (QRDR mutations ≥1 = CipNS)"
+    },
+    {
+      "id": "TyphiNET_2025",
+      "citation": "Argimón S et al. The TyphiNET data visualisation dashboard: unlocking Salmonella Typhi genomics data to support public health. Genome Medicine. 2025;17:44.",
+      "url": "https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-025-01470-4",
+      "countries": ["Global — 101 countries (n=11,836 genomes)"],
+      "yearRange": "Various (to 2024)",
+      "dataType": "Genomic proxy (QRDR mutations, accessible via typhiinet.net)"
+    }
+  ]
+}

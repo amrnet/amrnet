@@ -10,7 +10,7 @@ const useStyles = makeStyles((_theme) => ({
     display: 'flex',
     gap: '16px',
     flexWrap: 'wrap',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     paddingTop: '8px',
   },
   selectWrapper: {

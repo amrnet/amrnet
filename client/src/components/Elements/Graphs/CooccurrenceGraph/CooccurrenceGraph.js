@@ -26,6 +26,7 @@ const EXCLUSIONS = [
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
   'Trimethoprim-sulfamethoxazole',
+  'Trimethoprim-Sulfamethoxazole',
 ];
 
 /**
@@ -82,14 +83,15 @@ function getResistantDrugs(genome, organism) {
   } else if (['ecoli', 'decoli', 'shige'].includes(organism)) {
     statKeysECOLI.forEach(drug => {
       if (EXCLUSIONS.includes(drug.name) || !drug.resistanceView || drug.computed) return;
-      if (Array.isArray(drug.column)) return;
-      const val = genome[drug.column];
-      if (!val || val === '-') return;
-      if (Array.isArray(drug.key)) {
-        if (drug.key.some(k => val.includes(k))) resistant.add(drug.name);
-      } else {
-        if (val.includes(drug.key)) resistant.add(drug.name);
-      }
+      if (!drug.rules || drug.rules.length === 0) return;
+      const matchRule = rule => {
+        const val = genome[rule.column];
+        const strVal = val !== undefined && val !== null ? String(val) : '-';
+        if (rule.equal) return strVal === rule.value || strVal.includes(rule.value);
+        return strVal !== rule.value;
+      };
+      const isResistant = drug.every ? drug.rules.every(matchRule) : drug.rules.some(matchRule);
+      if (isResistant) resistant.add(drug.name);
     });
   } else if (organism === 'saureus') {
     drugRulesSA.forEach(rule => {
@@ -212,8 +214,8 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
   const filteredDrugs = useMemo(() => {
     if (totalGenomes === 0) return [];
     return drugNames.filter(d => {
-      const selfVal = matrix[d]?.[d]?.value || 0;
-      return selfVal >= minThreshold;
+      const prevalence = matrix[d]?.[d]?.prevA ?? 0;
+      return prevalence >= minThreshold;
     });
   }, [drugNames, matrix, minThreshold, totalGenomes]);
 
@@ -427,7 +429,7 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
             )}
           </Box>
           <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>
-            Drug Abbreviations
+            Drug abbreviations
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px', maxHeight: '200px', overflowY: 'auto' }}>
             {filteredDrugs.map(drug => (
