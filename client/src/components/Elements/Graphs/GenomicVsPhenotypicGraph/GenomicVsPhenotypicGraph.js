@@ -12,6 +12,14 @@ import {
   Typography,
 } from '@mui/material';
 import typhiCipNSRaw from '../../../../assets/typhiCipNS.json';
+import ecoliESBLRaw from '../../../../assets/ecoliESBL.json';
+import kpneumoCarbapenemRaw from '../../../../assets/kpneumoCarbapenem.json';
+import saureusMRSARaw from '../../../../assets/saureusMRSA.json';
+import salmonellaCiprofloxacinRaw from '../../../../assets/salmonellaCiprofloxacin.json';
+import decoliCiprofloxacinRaw from '../../../../assets/decoliCiprofloxacin.json';
+import shigeCiprofloxacinRaw from '../../../../assets/shigeCiprofloxacin.json';
+import ngonoCiprofloxacinRaw from '../../../../assets/ngonoCiprofloxacin.json';
+import strepneumoCoTrimoxazoleRaw from '../../../../assets/strepneumoCoTrimoxazole.json';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   CartesianGrid,
@@ -30,6 +38,33 @@ import {
 import { useAppSelector } from '../../../../stores/hooks';
 import { fetchGLASSData, getGLASSIndicatorForOrganism, getGLASSPhenotypicByOrganismDrug } from '../../../../data/glass_data';
 import { useStyles } from './GenomicVsPhenotypicGraphMUI';
+
+// Organisms that have bundled literature surveillance data
+const LITERATURE_ORGANISMS = new Set([
+  'styphi', 'ecoli', 'kpneumo', 'saureus',
+  'senterica', 'sentericaints', 'decoli', 'shige', 'ngono', 'strepneumo',
+]);
+
+// Lookup map: organism → raw JSON (null = handled separately for styphi)
+// senterica and sentericaints share the same Salmonella CIP dataset
+const LITERATURE_RAW = {
+  ecoli: ecoliESBLRaw,
+  kpneumo: kpneumoCarbapenemRaw,
+  saureus: saureusMRSARaw,
+  senterica: salmonellaCiprofloxacinRaw,
+  sentericaints: salmonellaCiprofloxacinRaw,
+  decoli: decoliCiprofloxacinRaw,
+  shige: shigeCiprofloxacinRaw,
+  ngono: ngonoCiprofloxacinRaw,
+  strepneumo: strepneumoCoTrimoxazoleRaw,
+};
+
+// Default phenoSource per organism
+function defaultPhenoSource(organism) {
+  if (organism === 'styphi') return 'typhi_literature';
+  if (LITERATURE_ORGANISMS.has(organism)) return 'literature';
+  return 'glass';
+}
 
 // ISO3 → AMRnet country name for Typhi literature data matching
 const TYPHI_ISO3_TO_AMRNET = {
@@ -163,9 +198,14 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [glassData, setGlassData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [phenoSource, setPhenoSource] = useState('typhi_literature'); // styphi only
+  const [phenoSource, setPhenoSource] = useState('glass');
 
   const organism = useAppSelector(state => state.dashboard.organism);
+
+  // Reset phenoSource when organism changes
+  useEffect(() => {
+    setPhenoSource(defaultPhenoSource(organism));
+  }, [organism]);
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
   const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
   const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
@@ -190,16 +230,31 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
     if (!glassIndicator || !drugsCountriesData || typeof drugsCountriesData !== 'object') {
       return empty;
     }
-    // For typhi_literature, we don't need glassData
-    if (organism !== 'styphi' || phenoSource !== 'typhi_literature') {
-      if (!glassData) return empty;
-    }
+    // For literature sources, we don't need glassData
+    const usingLiterature = phenoSource === 'typhi_literature' || phenoSource === 'literature';
+    if (!usingLiterature && !glassData) return empty;
 
     // Get phenotypic data
     let phenoData = [];
     let phenoSourceLabel = 'GLASS';
 
-    if (organism === 'styphi' && phenoSource === 'typhi_literature') {
+    if (phenoSource === 'literature' && LITERATURE_ORGANISMS.has(organism) && organism !== 'styphi') {
+      // Bundled surveillance literature data — use LITERATURE_RAW lookup
+      const rawLit = LITERATURE_RAW[organism] || null;
+      if (rawLit) {
+        phenoData = rawLit.data
+          .filter(e => e.resistance_pct !== null)
+          .map(e => ({
+            country: e.country,
+            year: parseInt((e.yearRange || '').match(/(\d{4})/g)?.slice(-1)[0] || '0'),
+            yearRange: e.yearRange,
+            value: e.resistance_pct,
+            tested: e.N ?? 'N/A',
+            source: e.source,
+          }));
+        phenoSourceLabel = 'Literature';
+      }
+    } else if (organism === 'styphi' && phenoSource === 'typhi_literature') {
       // Build from bundled Typhi-specific literature data (de-duplicated: keep most-recent year range per ISO3)
       const typhiByIso3 = {};
       typhiCipNSRaw.data.forEach(entry => {
@@ -379,6 +434,17 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
       ]);
       csv = toCSV(headers, rows);
       filename = 'amrnet_styphi_ciprofloxacin_phenotypic_literature.csv';
+    } else if (phenoSource === 'literature' && LITERATURE_ORGANISMS.has(organism)) {
+      // Bundled literature data — use LITERATURE_RAW lookup
+      const rawLit = LITERATURE_RAW[organism] || null;
+      if (!rawLit) return;
+      const headers = ['country', 'iso3', 'region', 'year_range', 'resistance_pct', 'n_tested', 'definition', 'antibiotic', 'source', 'doi_or_url'];
+      const rows = rawLit.data.map(r => [
+        r.country, r.iso3, r.region, r.yearRange,
+        r.resistance_pct ?? '', r.N ?? '', r.definition ?? '', r.antibiotic ?? '', r.source ?? '', r.doi_or_url ?? '',
+      ]);
+      csv = toCSV(headers, rows);
+      filename = `amrnet_${organism}_phenotypic_literature.csv`;
     } else if (rawPhenoData?.length) {
       // GLASS data (styphi+glass or any other organism)
       const hasSpecimen = rawPhenoData[0]?.specimen !== undefined;
@@ -417,8 +483,8 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
         </Tooltip>
 
-        {/* Phenotypic data source selector — styphi only */}
-        {organism === 'styphi' && (
+        {/* Phenotypic data source selector — organisms with literature data */}
+        {LITERATURE_ORGANISMS.has(organism) && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <Typography variant="caption" fontWeight={600} sx={{ whiteSpace: 'nowrap' }}>Phenotypic source:</Typography>
             <Select
@@ -427,12 +493,16 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
               size="small"
               sx={{ fontSize: '12px', minWidth: 240 }}
             >
-              <MenuItem value="typhi_literature">Typhi-specific literature (recommended)</MenuItem>
-              <MenuItem value="glass">WHO GLASS (Salmonella, includes NTS)</MenuItem>
+              {organism === 'styphi' && <MenuItem value="typhi_literature">Typhi-specific literature (recommended)</MenuItem>}
+              {organism !== 'styphi' && <MenuItem value="literature">Published surveillance literature (recommended)</MenuItem>}
+              {organism === 'styphi'
+                ? <MenuItem value="glass">WHO GLASS (Salmonella, includes NTS)</MenuItem>
+                : <MenuItem value="glass">WHO GLASS</MenuItem>}
             </Select>
-            <Tooltip title={`Download phenotypic source data as CSV (${phenoSource === 'typhi_literature' ? 'Typhi literature dataset' : 'WHO GLASS Salmonella'})`}>
+            <Tooltip title="Download phenotypic source data as CSV">
               <span>
-                <IconButton size="small" onClick={downloadPhenoCSV} disabled={!rawPhenoData?.length && phenoSource !== 'typhi_literature'}>
+                <IconButton size="small" onClick={downloadPhenoCSV}
+                  disabled={phenoSource === 'glass' ? !rawPhenoData?.length : false}>
                   <FileDownload fontSize="small" />
                 </IconButton>
               </span>
@@ -440,8 +510,8 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           </Box>
         )}
 
-        {loading && organism !== 'styphi' && <CircularProgress size={16} />}
-        {!loading && glassIndicator && organism !== 'styphi' && (
+        {loading && (!LITERATURE_ORGANISMS.has(organism) || phenoSource === 'glass') && <CircularProgress size={16} />}
+        {!loading && glassIndicator && !LITERATURE_ORGANISMS.has(organism) && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Chip label={glassIndicator.label} size="small" variant="outlined" color="primary" />
             <Tooltip title="Download phenotypic source data as CSV (WHO GLASS)">
@@ -481,6 +551,28 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
         </Alert>
       )}
 
+      {/* Literature source info for all non-styphi LITERATURE_ORGANISMS */}
+      {organism !== 'styphi' && LITERATURE_ORGANISMS.has(organism) && phenoSource === 'literature' && (() => {
+        const msgMap = {
+          ecoli: { title: 'E. coli ESBL/3GC resistance', detail: 'ECDC EARS-Net 2021 (32 EU countries) + national reports. Bloodstream isolates. EUCAST/CLSI breakpoints.' },
+          kpneumo: { title: 'K. pneumoniae carbapenem resistance', detail: 'ECDC EARS-Net 2021 (31 EU countries) + national reports. Bloodstream isolates. EUCAST/CLSI breakpoints.' },
+          saureus: { title: 'MRSA prevalence (S. aureus)', detail: 'ECDC EARS-Net 2021 (31 EU countries) + national reports. Bloodstream isolates. mecA/mecC or oxacillin phenotype.' },
+          senterica: { title: 'NTS ciprofloxacin resistance (Salmonella)', detail: 'WHO GLASS 2022 + ECDC EARS-Net 2021 + national surveillance. Blood and stool isolates. Note: GLASS data may include S. Typhi in blood specimens.' },
+          sentericaints: { title: 'Invasive NTS ciprofloxacin resistance (Salmonella, blood)', detail: 'WHO GLASS 2022 + ECDC EARS-Net 2021 + national surveillance. Shared dataset with non-invasive NTS (senterica); bloodstream-specific breakdown not available in all studies.' },
+          decoli: { title: 'E. coli ciprofloxacin resistance (enteric/community)', detail: 'WHO GLASS 2022 + GEMS/MALED studies + national surveillance. Stool and enteric isolates where available; blood/urine used as surrogate for European data. Limited diarrheagenic-specific data.' },
+          shige: { title: 'Shigella ciprofloxacin resistance', detail: 'WHO GLASS 2022 + GEMS studies + CHINET + national surveillance. Stool and blood isolates. EUCAST/CLSI breakpoints.' },
+          ngono: { title: 'N. gonorrhoeae ciprofloxacin resistance', detail: 'WHO GASP 2017–2018 + ECDC GASP 2021 + CDC GISP 2020. Urogenital isolates. High resistance in Asia-Pacific (>65%), moderate in Europe (25–48%), lower in Americas.' },
+          strepneumo: { title: 'S. pneumoniae co-trimoxazole resistance', detail: 'ECDC EARS-Net 2021 (27 EU countries) + WHO GLASS 2022 + national reports. Bloodstream/CSF isolates. High in sub-Saharan Africa (>50%), lower in Europe and East Asia.' },
+        };
+        const msg = msgMap[organism];
+        if (!msg) return null;
+        return (
+          <Alert severity="info" sx={{ marginBottom: '8px', fontSize: '12px', padding: '2px 12px' }}>
+            <strong>{msg.title}:</strong> {msg.detail}
+          </Alert>
+        );
+      })()}
+
       <Box className={classes.graphWrapper}>
         <Box className={classes.graph}>
           {!glassIndicator ? (
@@ -492,7 +584,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           ) : scatterData.length === 0 ? (
             <Box className={classes.noSelection}>
               <Typography variant="body2" color="textSecondary">
-                {loading && !(organism === 'styphi' && phenoSource === 'typhi_literature')
+                {loading && phenoSource !== 'typhi_literature' && phenoSource !== 'literature'
                   ? 'Loading data...'
                   : 'No matching countries between AMRnet and phenotypic data (N≥20 genomes required).'}
               </Typography>
@@ -503,9 +595,13 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" dataKey="x" domain={[0, 100]}>
                   <Label
-                    value={organism === 'styphi' && phenoSource === 'typhi_literature'
-                      ? 'Phenotypic CipNS — Literature (%)'
-                      : 'Phenotypic Resistance — WHO GLASS (%)'}
+                    value={
+                      phenoSource === 'typhi_literature' ? 'Phenotypic CipNS — Literature (%)' :
+                      phenoSource === 'literature' && organism === 'ngono' ? 'Phenotypic CIP Resistance — WHO GASP/Literature (%)' :
+                      phenoSource === 'literature' && organism === 'strepneumo' ? 'Phenotypic SXT Resistance — Literature (%)' :
+                      phenoSource === 'literature' ? 'Phenotypic Resistance — Literature (%)' :
+                      'Phenotypic Resistance — WHO GLASS (%)'
+                    }
                     position="bottom" offset={20} style={{ fontSize: 12 }}
                   />
                 </XAxis>
@@ -605,14 +701,32 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
               <strong>Correlations:</strong> Pearson r measures linear association. Spearman ρ measures rank correlation (robust to outliers and non-normal distributions).
               <br /><br />
               <strong>Drug mapping:</strong>{' '}
-              {organism === 'styphi' && phenoSource === 'typhi_literature'
+              {phenoSource === 'typhi_literature'
                 ? 'Phenotypic = CipNS (I+R) from country-specific literature. Genomic = Ciprofloxacin NS markers (AMRnet). CipNS defined as ≥1 QRDR mutation (gyrA/parC) or acquired fluoroquinolone resistance gene.'
+                : phenoSource === 'literature' && organism === 'ecoli'
+                ? 'Phenotypic = 3GC non-susceptibility (ESBL proxy) from ECDC EARS-Net 2021 / national reports. Genomic = ESBL gene carriage (AMRnet).'
+                : phenoSource === 'literature' && organism === 'kpneumo'
+                ? 'Phenotypic = Carbapenem non-susceptibility from ECDC EARS-Net 2021 / national reports. Genomic = Carbapenemase gene carriage (AMRnet).'
+                : phenoSource === 'literature' && organism === 'saureus'
+                ? 'Phenotypic = MRSA (mecA/mecC or phenotypic oxacillin resistance) from ECDC EARS-Net 2021 / national reports. Genomic = mecA/mecC gene carriage (AMRnet Methicillin).'
+                : phenoSource === 'literature' && (organism === 'senterica' || organism === 'sentericaints')
+                ? 'Phenotypic = Salmonella ciprofloxacin non-susceptibility from WHO GLASS 2022 / ECDC EARS-Net 2021 / national reports. Genomic = Ciprofloxacin resistance markers (AMRnet).'
+                : phenoSource === 'literature' && organism === 'decoli'
+                ? 'Phenotypic = E. coli ciprofloxacin resistance from community/enteric studies (WHO GLASS, GEMS). Genomic = Ciprofloxacin resistance markers (AMRnet). Note: phenotypic data not specific to diarrheagenic pathotypes.'
+                : phenoSource === 'literature' && organism === 'shige'
+                ? 'Phenotypic = Shigella ciprofloxacin non-susceptibility from WHO GLASS 2022 / GEMS studies / CHINET. Genomic = Ciprofloxacin resistance markers (AMRnet).'
+                : phenoSource === 'literature' && organism === 'ngono'
+                ? 'Phenotypic = N. gonorrhoeae ciprofloxacin resistance (MIC ≥1 mg/L) from WHO GASP / ECDC GASP / CDC GISP. Genomic = Ciprofloxacin resistance markers — primarily GyrA/ParC QRDR mutations (AMRnet).'
+                : phenoSource === 'literature' && organism === 'strepneumo'
+                ? 'Phenotypic = S. pneumoniae co-trimoxazole (SXT) non-susceptibility from ECDC EARS-Net 2021 / WHO GLASS 2022 / national reports. Genomic = Co-Trimoxazole resistance markers — folP/folA variants (AMRnet).'
                 : `${glassIndicator?.label || '—'}. AMRnet = genome-derived (${glassIndicator?.drug || '—'}). Note: genotypic and phenotypic definitions may differ.`
               }
               <br /><br />
               <strong>Caveats:</strong>{' '}
-              {organism === 'styphi' && phenoSource === 'typhi_literature'
+              {phenoSource === 'typhi_literature'
                 ? '(1) Literature data uses different year ranges per country — not a single snapshot; (2) Most studies are hospital-based and may overestimate resistance vs community burden; (3) Genomic CipNS (QRDR mutations) may slightly overestimate phenotypic CipNS MIC ≥0.06 breakpoints; (4) AMRnet public genomes may over-represent resistant isolates.'
+                : phenoSource === 'literature'
+                ? '(1) Literature data uses different year ranges per country — not a single unified dataset; (2) ECDC EARS-Net covers EU/EEA only; non-EU data sourced from multiple national programs with different methodologies; (3) AMRnet public genomes may over-represent resistant isolates from outbreak investigations; (4) Genotypic and phenotypic breakpoints may differ slightly.'
                 : '(1) Time period mismatch — AMRnet pools across available years, GLASS uses single-year estimates; (2) Sampling bias — public genomes may over-represent resistant isolates; (3) Population differences — GLASS captures clinical specimens, AMRnet captures all public genomes.'
               }
               <br /><br />
