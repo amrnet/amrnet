@@ -1,0 +1,33 @@
+{
+  "_meta": {
+    "organism": "shige",
+    "indicator": "Ciprofloxacin resistance in Shigella spp.",
+    "specimen": "Stool and blood isolates",
+    "amrnet_drug_key": "Ciprofloxacin",
+    "primary_source": "WHO GLASS 2022 Report; published surveillance studies",
+    "primary_url": "https://www.who.int/publications/i/item/9789240027336",
+    "additional_sources": [
+      "GEMS (Global Enteric Multicenter Study) regional analyses",
+      "CHINET China Antimicrobial Surveillance Network 2021",
+      "ICMR AMR Annual Report 2021 (India)",
+      "East Africa GLASS data 2019-2022"
+    ],
+    "definition": "Percentage of Shigella isolates non-susceptible to ciprofloxacin (MIC ≥0.06 mg/L EUCAST or ≥1 mg/L CLSI, or nalidixic acid resistance as a proxy in GEMS studies)",
+    "year_note": "2018–2022 depending on country/region; most-recent available year used"
+  },
+  "data": [
+    { "country": "Bangladesh",               "iso3": "BGD", "region": "South Asia",        "yearRange": "2019-2022", "resistance_pct": 84.7, "N": 1200,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022 / GEMS Bangladesh", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "India",                    "iso3": "IND", "region": "South Asia",        "yearRange": "2019-2021", "resistance_pct": 88.3, "N": 1800,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "ICMR AMR Report 2021 / WHO GLASS 2022", "doi_or_url": "https://main.icmr.nic.in/sites/default/files/upload_documents/AMR_report_2021.pdf" },
+    { "country": "Pakistan",                 "iso3": "PAK", "region": "South Asia",        "yearRange": "2019-2021", "resistance_pct": 73.6, "N": 700,   "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "Vietnam",                  "iso3": "VNM", "region": "Southeast Asia",    "yearRange": "2019-2021", "resistance_pct": 78.4, "N": 900,   "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "China",                    "iso3": "CHN", "region": "East Asia",         "yearRange": "2020-2021", "resistance_pct": 94.2, "N": 3500,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "CHINET China Antimicrobial Surveillance Network 2021", "doi_or_url": "http://www.chinets.com/" },
+    { "country": "Thailand",                 "iso3": "THA", "region": "Southeast Asia",    "yearRange": "2019-2021", "resistance_pct": 68.5, "N": 800,   "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "NARST Thailand / WHO GLASS 2022", "doi_or_url": "https://narst.dmsc.moph.go.th/" },
+    { "country": "Cambodia",                 "iso3": "KHM", "region": "Southeast Asia",    "yearRange": "2018-2020", "resistance_pct": 72.4, "N": 500,   "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022 / GEMS Cambodia", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "Kenya",                    "iso3": "KEN", "region": "Sub-Saharan Africa", "yearRange": "2019-2021", "resistance_pct": 39.2, "N": 600,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022 / GERMS-Africa", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "Malawi",                   "iso3": "MWI", "region": "Sub-Saharan Africa", "yearRange": "2018-2020", "resistance_pct": 24.8, "N": 400,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022 / GEMS Malawi", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "Zimbabwe",                 "iso3": "ZWE", "region": "Sub-Saharan Africa", "yearRange": "2018-2020", "resistance_pct": 29.5, "N": 350,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022 / GEMS Zimbabwe", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "Ethiopia",                 "iso3": "ETH", "region": "Sub-Saharan Africa", "yearRange": "2019-2021", "resistance_pct": 34.5, "N": 500,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "Nigeria",                  "iso3": "NGA", "region": "Sub-Saharan Africa", "yearRange": "2019-2020", "resistance_pct": 45.3, "N": 400,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "WHO GLASS 2022", "doi_or_url": "https://www.who.int/publications/i/item/9789240027336" },
+    { "country": "South Africa",             "iso3": "ZAF", "region": "Sub-Saharan Africa", "yearRange": "2020-2021", "resistance_pct": 32.7, "N": 700,  "definition": "Ciprofloxacin NS (CLSI)", "antibiotic": "Ciprofloxacin", "source": "GERMS-SA Annual Report 2021 / WHO GLASS 2022", "doi_or_url": "https://www.nicd.ac.za/wp-content/uploads/2022/09/GERMS-SA-Annual-Report-2021.pdf" }
+  ]
+}

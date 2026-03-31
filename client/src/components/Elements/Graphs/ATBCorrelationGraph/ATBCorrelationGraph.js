@@ -1,17 +1,18 @@
-import { InfoOutlined } from '@mui/icons-material';
+import { InfoOutlined, FileDownload } from '@mui/icons-material';
 import {
   Box,
   CardContent,
   Chip,
   CircularProgress,
   FormControlLabel,
+  IconButton,
   MenuItem,
   Select,
   Switch,
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   CartesianGrid,
   Label,
@@ -189,6 +190,27 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
     return { scatterData: points, regression: linearRegression(points) };
   }, [drugsCountriesData, selectedATBClass, organism, glassData, dataSource, countryToRegion, regionColors]);
 
+  const downloadCSV = useCallback(() => {
+    if (!scatterData.length) return;
+    const amrnetDrugs = getAmrnetDrugsForATBClass(organism, selectedATBClass);
+    const escape = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const headers = ['country', 'region', 'atb_class', 'amrnet_drug', 'consumption_ddd_per_1000_day', 'consumption_year', 'consumption_source', 'resistance_pct', 'n_genomes'];
+    const rows = scatterData.map(d => [
+      d.country, d.region, selectedATBClass, amrnetDrugs.join(';'),
+      d.x, d.consumptionYear, d.source, d.y, d.genomes,
+    ]);
+    const csv = [headers, ...rows].map(r => r.map(escape).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `amrnet_atb_correlation_${organism}_${selectedATBClass.replace(/\W+/g, '_')}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, [scatterData, organism, selectedATBClass]);
+
   if (!canGetData) return null;
 
   const xMin = scatterData.length > 0 ? Math.min(...scatterData.map(d => d.x)) : 0;
@@ -212,9 +234,17 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
             size="small"
             sx={{ minWidth: 220, fontSize: '14px' }}
           >
-            {atbClasses.map(cls => (
-              <MenuItem key={cls} value={cls}>{cls}</MenuItem>
-            ))}
+            {atbClasses.map(cls => {
+              const amrnetDrugs = getAmrnetDrugsForATBClass(organism, cls);
+              return (
+                <MenuItem key={cls} value={cls}>
+                  {cls}
+                  <Typography component="span" variant="caption" sx={{ ml: 0.5, color: 'text.secondary' }}>
+                    ({amrnetDrugs.join(', ')})
+                  </Typography>
+                </MenuItem>
+              );
+            })}
           </Select>
         </Box>
 
@@ -223,7 +253,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
           label={<Typography variant="body2">Show trend line</Typography>}
         />
 
-        {/* Data source indicator */}
+        {/* Data source indicator + download */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           {loadingGlass ? (
             <Chip label="Loading GLASS data..." size="small" icon={<CircularProgress size={12} />} />
@@ -235,6 +265,13 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
               variant="outlined"
             />
           )}
+          <Tooltip title={`Download plotted data as CSV (${scatterData.length} countries, ${selectedATBClass})`}>
+            <span>
+              <IconButton size="small" onClick={downloadCSV} disabled={scatterData.length === 0}>
+                <FileDownload fontSize="small" />
+              </IconButton>
+            </span>
+          </Tooltip>
         </Box>
       </Box>
 

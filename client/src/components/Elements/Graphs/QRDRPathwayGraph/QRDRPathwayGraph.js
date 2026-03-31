@@ -23,7 +23,7 @@ import { useAppSelector } from '../../../../stores/hooks';
 import { useStyles } from './QRDRPathwayGraphMUI';
 
 // All QRDR mutation fields in S. Typhi
-const QRDR_MUTATIONS = [
+const STYPHI_QRDR_MUTATIONS = [
   'gyrA_S83F', 'gyrA_S83Y',
   'gyrA_D87A', 'gyrA_D87G', 'gyrA_D87N', 'gyrA_D87V', 'gyrA_D87Y',
   'gyrB_S464F', 'gyrB_S464Y',
@@ -34,6 +34,54 @@ const QRDR_MUTATIONS = [
 ];
 
 const ACRB_MUTATIONS = ['acrB_R717Q', 'acrB_R717L'];
+
+// N. gonorrhoeae QRDR mutations (from drugClassesRulesNG.Ciprofloxacin columns)
+const NGONO_GYRA_MUTATIONS = ['gyrA_S91F', 'gyrA_D95G', 'gyrA_D95N'];
+const NGONO_PARC_MUTATIONS = ['parC_D86N', 'parC_S87R', 'parC_S87I', 'parC_S88P', 'parC_E91Q'];
+
+/**
+ * Classify a single ngono genome into a named QRDR resistance pattern.
+ *
+ * QRDR_0  No gyrA S91F and no parC S87R → fully susceptible
+ * QRDR_1  gyrA S91F only, no parC mutation → low-level resistance
+ * QRDR_2  (gyrA S91F + D95G) OR (parC S87R) → intermediate resistance
+ * QRDR_3  gyrA S91F + D95N + (parC D86N+S88P OR parC S87R+E91Q) → high-level resistance
+ */
+function classifyNgonoQRDR(item) {
+  const has = col => item[col] === '1' || item[col] === 1;
+  const hasS91F  = has('gyrA_S91F');
+  const hasD95N  = has('gyrA_D95N');
+  const hasD95G  = has('gyrA_D95G');
+  const hasS87R  = has('parC_S87R');
+  const hasD86N  = has('parC_D86N');
+  const hasS88P  = has('parC_S88P');
+  const hasE91Q  = has('parC_E91Q');
+
+  // QRDR_3: gyrA S91F + D95N + specific parC combo
+  if (hasS91F && hasD95N && ((hasD86N && hasS88P) || (hasS87R && hasE91Q))) return 'QRDR_3';
+  // QRDR_2: gyrA S91F + D95G   OR   parC S87R alone
+  if ((hasS91F && hasD95G) || hasS87R) return 'QRDR_2';
+  // QRDR_1: gyrA S91F only
+  if (hasS91F) return 'QRDR_1';
+  // QRDR_0: no qualifying mutations
+  return 'QRDR_0';
+}
+
+const NGONO_PATTERN_COLORS = {
+  QRDR_0: '#4caf50',
+  QRDR_1: '#ff9800',
+  QRDR_2: '#f44336',
+  QRDR_3: '#9c27b0',
+  Other:  '#9e9e9e',
+};
+
+const NGONO_PATTERN_LABELS = {
+  QRDR_0: 'QRDR_0 — Susceptible',
+  QRDR_1: 'QRDR_1 — Low resistance (gyrA S91F)',
+  QRDR_2: 'QRDR_2 — Intermediate (S91F+D95G or parC S87R)',
+  QRDR_3: 'QRDR_3 — High resistance (S91F+D95N + parC combo)',
+  Other:  'Other pattern',
+};
 
 const PATHWAY_COLORS = {
   '0 QRDR': '#4caf50',
@@ -75,11 +123,61 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
   const rawData = useAppSelector(state => state.graph.rawOrganismData);
 
-  // Compute QRDR mutation pathway data from raw S. Typhi data
-  const { pathwayData, mutationPrevalence, totalGenomes, cipCorrelation } = useMemo(() => {
-    if (rawData.length === 0 || organism !== 'styphi') {
-      return { pathwayData: [], mutationPrevalence: {}, totalGenomes: 0, cipCorrelation: [] };
+  // Compute QRDR mutation pathway data from raw S. Typhi or N. gonorrhoeae data
+  const { pathwayData, mutationPrevalence, totalGenomes, cipCorrelation, isNgono } = useMemo(() => {
+    const empty = { pathwayData: [], mutationPrevalence: {}, totalGenomes: 0, cipCorrelation: [], isNgono: false };
+    if (rawData.length === 0) return empty;
+
+    // --- N. gonorrhoeae branch ---
+    if (organism === 'ngono') {
+      const total = rawData.length;
+      const yearBuckets = {};
+      const mutPrev = {};
+      const cipBuckets = {
+        QRDR_0: { CipS: 0, CipR: 0 },
+        QRDR_1: { CipS: 0, CipR: 0 },
+        QRDR_2: { CipS: 0, CipR: 0 },
+        QRDR_3: { CipS: 0, CipR: 0 },
+      };
+      [...NGONO_GYRA_MUTATIONS, ...NGONO_PARC_MUTATIONS].forEach(m => { mutPrev[m] = 0; });
+
+      rawData.forEach(item => {
+        const year = typeof item.DATE === 'string' ? parseInt(item.DATE) : item.DATE;
+        if (isNaN(year)) return;
+
+        [...NGONO_GYRA_MUTATIONS, ...NGONO_PARC_MUTATIONS].forEach(m => {
+          if (item[m] === '1' || item[m] === 1) mutPrev[m]++;
+        });
+
+        const pattern = classifyNgonoQRDR(item);
+        if (!yearBuckets[year]) {
+          yearBuckets[year] = { year, count: 0, QRDR_0: 0, QRDR_1: 0, QRDR_2: 0, QRDR_3: 0 };
+        }
+        yearBuckets[year].count++;
+        yearBuckets[year][pattern]++;
+
+        // Cipro phenotype: ngono uses binary Ciprofloxacin column (1 = resistant)
+        if (item.Ciprofloxacin === '1' || item.Ciprofloxacin === 1) {
+          cipBuckets[pattern].CipR++;
+        } else {
+          cipBuckets[pattern].CipS++;
+        }
+      });
+
+      const pathway = Object.values(yearBuckets)
+        .filter(y => y.count >= 10)
+        .sort((a, b) => a.year - b.year);
+
+      const cipData = Object.entries(cipBuckets).map(([pattern, counts]) => {
+        const t = counts.CipS + counts.CipR;
+        return { qrdr: pattern, ...counts, total: t };
+      });
+
+      return { pathwayData: pathway, mutationPrevalence: mutPrev, totalGenomes: total, cipCorrelation: cipData, isNgono: true };
     }
+
+    // --- S. Typhi branch ---
+    if (organism !== 'styphi') return empty;
 
     const total = rawData.length;
     const yearBuckets = {};
@@ -87,7 +185,7 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
     const cipBuckets = { '0': { CipS: 0, CipNS: 0, CipR: 0 }, '1': { CipS: 0, CipNS: 0, CipR: 0 }, '2': { CipS: 0, CipNS: 0, CipR: 0 }, '3+': { CipS: 0, CipNS: 0, CipR: 0 } };
 
     // Count individual mutation prevalence
-    QRDR_MUTATIONS.forEach(m => { mutPrev[m] = 0; });
+    STYPHI_QRDR_MUTATIONS.forEach(m => { mutPrev[m] = 0; });
     ACRB_MUTATIONS.forEach(m => { mutPrev[m] = 0; });
 
     rawData.forEach(item => {
@@ -96,7 +194,7 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
 
       // Count QRDR mutations
       let qrdrCount = 0;
-      QRDR_MUTATIONS.forEach(m => {
+      STYPHI_QRDR_MUTATIONS.forEach(m => {
         if (item[m] === '1' || item[m] === 1) {
           qrdrCount++;
           mutPrev[m]++;
@@ -144,18 +242,21 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
       };
     });
 
-    return { pathwayData: pathway, mutationPrevalence: mutPrev, totalGenomes: total, cipCorrelation: cipData };
+    return { pathwayData: pathway, mutationPrevalence: mutPrev, totalGenomes: total, cipCorrelation: cipData, isNgono: false };
   }, [rawData, organism]);
 
-  if (!canGetData || organism !== 'styphi') return null;
+  if (!canGetData || (organism !== 'styphi' && organism !== 'ngono')) return null;
 
   return (
     <CardContent className={classes.qrdrPathwayGraph}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '8px' }}>
         <Typography variant="body2" fontWeight={600}>
-          QRDR Mutation Accumulation Over Time
+          {isNgono ? 'QRDR Resistance Pattern Over Time' : 'QRDR Mutation Accumulation Over Time'}
         </Typography>
-        <Tooltip title="Shows how S. Typhi genomes accumulate QRDR (Quinolone Resistance-Determining Region) mutations over time. More mutations = higher ciprofloxacin resistance. Based on 17 tracked gyrA/gyrB/parC/parE mutations.">
+        <Tooltip title={isNgono
+          ? 'Classifies N. gonorrhoeae genomes into QRDR_0–QRDR_3 patterns. QRDR_2: gyrA S91F+D95G or parC S87R. QRDR_3: gyrA S91F+D95N with parC D86N+S88P or S87R+E91Q.'
+          : 'Shows how S. Typhi genomes accumulate QRDR (Quinolone Resistance-Determining Region) mutations over time. More mutations = higher ciprofloxacin resistance. Based on 17 tracked gyrA/gyrB/parC/parE mutations.'
+        }>
           <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
         </Tooltip>
       </Box>
@@ -164,10 +265,22 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
         <Box className={classes.graph}>
           {pathwayData.length === 0 ? (
             <Box className={classes.noSelection}>
-              <Typography variant="body2" color="textSecondary">
-                {organism !== 'styphi' ? 'QRDR analysis is available for S. Typhi only' : 'No data available'}
-              </Typography>
+              <Typography variant="body2" color="textSecondary">No data available</Typography>
             </Box>
+          ) : isNgono ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={pathwayData} margin={{ top: 10, right: 20, bottom: 20, left: 20 }} stackOffset="expand">
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" tick={{ fontSize: 11 }} />
+                <YAxis tickFormatter={v => `${(v * 100).toFixed(0)}%`} tick={{ fontSize: 11 }} />
+                <ChartTooltip content={<CustomTooltip />} />
+                <Legend />
+                <Bar dataKey="QRDR_0" stackId="a" fill={NGONO_PATTERN_COLORS.QRDR_0} name={NGONO_PATTERN_LABELS.QRDR_0} />
+                <Bar dataKey="QRDR_1" stackId="a" fill={NGONO_PATTERN_COLORS.QRDR_1} name={NGONO_PATTERN_LABELS.QRDR_1} />
+                <Bar dataKey="QRDR_2" stackId="a" fill={NGONO_PATTERN_COLORS.QRDR_2} name={NGONO_PATTERN_LABELS.QRDR_2} />
+                <Bar dataKey="QRDR_3" stackId="a" fill={NGONO_PATTERN_COLORS.QRDR_3} name={NGONO_PATTERN_LABELS.QRDR_3} />
+              </BarChart>
+            </ResponsiveContainer>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={pathwayData} margin={{ top: 10, right: 20, bottom: 20, left: 20 }} stackOffset="expand">
@@ -186,17 +299,30 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
         </Box>
 
         <Box className={classes.rightSide}>
-          {/* Cipro correlation summary */}
-          <Typography variant="body2" fontWeight={600}>QRDR Count → Ciprofloxacin Phenotype</Typography>
+          {/* Ngono: pattern legend */}
+          {isNgono && (
+            <Box sx={{ mb: 1 }}>
+              <Typography variant="body2" fontWeight={600} sx={{ mb: 0.5 }}>QRDR Pattern Legend</Typography>
+              {Object.entries(NGONO_PATTERN_LABELS).filter(([k]) => k !== 'Other').map(([key, label]) => (
+                <Box key={key} sx={{ display: 'flex', alignItems: 'center', gap: '6px', mb: '2px' }}>
+                  <Box sx={{ width: 10, height: 10, borderRadius: '2px', backgroundColor: NGONO_PATTERN_COLORS[key], flexShrink: 0 }} />
+                  <Typography variant="caption" sx={{ fontSize: '9px' }}>{label}</Typography>
+                </Box>
+              ))}
+            </Box>
+          )}
+
+          {/* Cipro correlation summary — both styphi and ngono */}
+          <Typography variant="body2" fontWeight={600}>QRDR Pattern → Ciprofloxacin Phenotype</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '4px 0' }}>
             {cipCorrelation.map(d => (
               <Box key={d.qrdr} sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <Typography variant="caption" sx={{ width: '85px', fontSize: '10px', fontWeight: 600 }}>{d.qrdr}</Typography>
+                <Typography variant="caption" sx={{ width: '65px', fontSize: '10px', fontWeight: 600 }}>{d.qrdr}</Typography>
                 <Box sx={{ flex: 1, display: 'flex', height: '16px', borderRadius: '2px', overflow: 'hidden' }}>
                   {d.total > 0 && (
                     <>
                       <Box sx={{ width: `${(d.CipS / d.total) * 100}%`, backgroundColor: CIPRO_CATEGORY_COLORS.CipS }} />
-                      <Box sx={{ width: `${(d.CipNS / d.total) * 100}%`, backgroundColor: CIPRO_CATEGORY_COLORS.CipNS }} />
+                      {!isNgono && <Box sx={{ width: `${((d.CipNS ?? 0) / d.total) * 100}%`, backgroundColor: CIPRO_CATEGORY_COLORS.CipNS }} />}
                       <Box sx={{ width: `${(d.CipR / d.total) * 100}%`, backgroundColor: CIPRO_CATEGORY_COLORS.CipR }} />
                     </>
                   )}
@@ -209,10 +335,12 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
                 <Box sx={{ width: 8, height: 8, backgroundColor: CIPRO_CATEGORY_COLORS.CipS, borderRadius: '1px' }} />
                 <Typography variant="caption" sx={{ fontSize: '9px' }}>CipS</Typography>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                <Box sx={{ width: 8, height: 8, backgroundColor: CIPRO_CATEGORY_COLORS.CipNS, borderRadius: '1px' }} />
-                <Typography variant="caption" sx={{ fontSize: '9px' }}>CipNS</Typography>
-              </Box>
+              {!isNgono && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                  <Box sx={{ width: 8, height: 8, backgroundColor: CIPRO_CATEGORY_COLORS.CipNS, borderRadius: '1px' }} />
+                  <Typography variant="caption" sx={{ fontSize: '9px' }}>CipNS</Typography>
+                </Box>
+              )}
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                 <Box sx={{ width: 8, height: 8, backgroundColor: CIPRO_CATEGORY_COLORS.CipR, borderRadius: '1px' }} />
                 <Typography variant="caption" sx={{ fontSize: '9px' }}>CipR</Typography>
@@ -224,7 +352,7 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
           <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>Individual Mutation Prevalence</Typography>
           <Box className={classes.tooltipWrapper}>
             <Box className={classes.mutationGrid}>
-              {[...QRDR_MUTATIONS, ...ACRB_MUTATIONS]
+              {(isNgono ? [...NGONO_GYRA_MUTATIONS, ...NGONO_PARC_MUTATIONS] : [...STYPHI_QRDR_MUTATIONS, ...ACRB_MUTATIONS])
                 .filter(m => mutationPrevalence[m] > 0)
                 .sort((a, b) => mutationPrevalence[b] - mutationPrevalence[a])
                 .map(m => {
