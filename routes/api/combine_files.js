@@ -90,7 +90,7 @@ router.get('/sentericadata', async (req, res) => {
   //console.log('i m in');
 
   try {
-    await client.db('senterica').collection('senterica-hc2850').drop();
+    await client.db('senterica').collection('amrnetdb_senterica').drop();
     //No aggregate needs (Note: flag to check)
     // const result = await client.db("senterica").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
     return res.status(200).send('All data merged successfully');
@@ -103,7 +103,7 @@ router.get('/sentericaintsdata', async (req, res) => {
   //console.log('i m in');
 
   try {
-    await client.db('sentericaints').collection('merge_rawdata_seints').drop();
+    await client.db('sentericaints').collection('amrnetdb_ints').drop();
     //No aggregate needs (Note: flag to check)
     // const result = await client.db("senterica").collection("merge_rawdata_st").aggregate(clean_merge_st).toArray();
     return res.status(200).send('All data merged successfully');

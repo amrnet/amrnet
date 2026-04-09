@@ -28,16 +28,16 @@ const router = express.Router();
 // Database configuration per organism
 // ---------------------------------------------------------------------------
 const DB_CONFIG = {
-  ecoli:        { dbName: 'ecoli',        collectionName: 'amrnetdb_ecoli' },
-  decoli:       { dbName: 'decoli',       collectionName: 'amrnetdb_decoli' },
-  shige:        { dbName: 'shige',        collectionName: 'amrnetdb_shige' },
-  senterica:    { dbName: 'senterica',    collectionName: 'senterica-hc2850' },
-  sentericaints:{ dbName: 'sentericaints',collectionName: 'merge_rawdata_sients' },
-  kpneumo:      { dbName: 'kpneumo',      collectionName: 'amrnetdb_kpneumo' },
-  styphi:       { dbName: 'styphi',       collectionName: 'amrnetdb_styphi' },
-  ngono:        { dbName: 'ngono',        collectionName: 'amrnetdb_ngono' },
-  saureus:      { dbName: 'saureus',      collectionName: 'amrnetdb_saureus' },
-  strepneumo:   { dbName: 'strepneumo',   collectionName: 'amrnetdb_spneumo' },
+  ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
+  decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
+  shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
+  senterica: { dbName: 'senterica', collectionName: 'amrnetdb_senterica' },
+  sentericaints: { dbName: 'sentericaints', collectionName: 'amrnetdb_ints' },
+  kpneumo: { dbName: 'kpneumo', collectionName: 'amrnetdb_kpneumo' },
+  styphi: { dbName: 'styphi', collectionName: 'amrnetdb_styphi' },
+  ngono: { dbName: 'ngono', collectionName: 'amrnetdb_ngono' },
+  saureus: { dbName: 'saureus', collectionName: 'amrnetdb_saureus' },
+  strepneumo: { dbName: 'strepneumo', collectionName: 'amrnetdb_spneumo' },
 };
 
 // ---------------------------------------------------------------------------
@@ -80,18 +80,11 @@ function buildEcoliConditions() {
     Aminoglycosides: { $ne: ['$Aminoglycoside', '-'] },
 
     Ampicillin: {
-      $or: [
-        { $ne: ['$Penicillin', '-'] },
-        { $ne: ['$Carbapenemase', '-'] },
-        { $ne: ['$ESBL', '-'] },
-      ],
+      $or: [{ $ne: ['$Penicillin', '-'] }, { $ne: ['$Carbapenemase', '-'] }, { $ne: ['$ESBL', '-'] }],
     },
 
     Azithromycin: {
-      $or: [
-        includesExpr('$Macrolide', 'mph(A)'),
-        includesExpr('$Macrolide', 'acrB_R717L'),
-      ],
+      $or: [includesExpr('$Macrolide', 'mph(A)'), includesExpr('$Macrolide', 'acrB_R717L')],
     },
 
     Carbapenems: { $ne: ['$Carbapenemase', '-'] },
@@ -105,9 +98,9 @@ function buildEcoliConditions() {
     // ESBL: specific OXA carbapenemases count OR any ESBL gene
     ESBL: {
       $or: [
-        { $eq: ['$Carbapenemase', 'blaOXA-24']  },
+        { $eq: ['$Carbapenemase', 'blaOXA-24'] },
         { $eq: ['$Carbapenemase', 'blaOXA-244'] },
-        { $eq: ['$Carbapenemase', 'blaOXA-48']  },
+        { $eq: ['$Carbapenemase', 'blaOXA-48'] },
         { $eq: ['$Carbapenemase', 'blaOXA-181'] },
         { $ne: ['$ESBL', '-'] },
       ],
@@ -122,27 +115,24 @@ function buildEcoliConditions() {
     Trimethoprim: { $ne: ['$Trimethoprim', '-'] },
 
     'Trimethoprim-Sulfamethoxazole': {
-      $and: [
-        { $ne: ['$Trimethoprim', '-'] },
-        { $ne: ['$Sulfonamide',  '-'] },
-      ],
+      $and: [{ $ne: ['$Trimethoprim', '-'] }, { $ne: ['$Sulfonamide', '-'] }],
     },
 
     // Pansusceptible: all resistance columns are '-'
     Pansusceptible: {
       $and: [
         { $eq: ['$Aminoglycoside', '-'] },
-        { $eq: ['$Penicillin',     '-'] },
-        { $eq: ['$Carbapenemase',  '-'] },
-        { $eq: ['$ESBL',           '-'] },
-        { $eq: ['$Macrolide',      '-'] },
-        { $eq: ['$Phenicol',       '-'] },
-        { $eq: ['$Quinolone',      '-'] },
-        { $eq: ['$Colistin',       '-'] },
-        { $eq: ['$Fosfomycin',     '-'] },
-        { $eq: ['$Sulfonamide',    '-'] },
-        { $eq: ['$Tetracycline',   '-'] },
-        { $eq: ['$Trimethoprim',   '-'] },
+        { $eq: ['$Penicillin', '-'] },
+        { $eq: ['$Carbapenemase', '-'] },
+        { $eq: ['$ESBL', '-'] },
+        { $eq: ['$Macrolide', '-'] },
+        { $eq: ['$Phenicol', '-'] },
+        { $eq: ['$Quinolone', '-'] },
+        { $eq: ['$Colistin', '-'] },
+        { $eq: ['$Fosfomycin', '-'] },
+        { $eq: ['$Sulfonamide', '-'] },
+        { $eq: ['$Tetracycline', '-'] },
+        { $eq: ['$Trimethoprim', '-'] },
       ],
     },
   };
@@ -155,20 +145,14 @@ function buildEcoliConditions() {
 function buildSentericaConditions() {
   return {
     Aminoglycosides: {
-      $or: [
-        includesExpr('$AMINOGLYCOSIDE', 'GENTAMICIN'),
-        includesExpr('$AMINOGLYCOSIDE', 'AMINOGLYCOSIDE'),
-      ],
+      $or: [includesExpr('$AMINOGLYCOSIDE', 'GENTAMICIN'), includesExpr('$AMINOGLYCOSIDE', 'AMINOGLYCOSIDE')],
     },
 
     // BETALACTAM is the renamed BETA-LACTAM field
     Ampicillin: includesExpr('$BETALACTAM', 'BETA-LACTAM'),
 
     Azithromycin: {
-      $or: [
-        includesExpr('$MACROLIDE', 'mph(A)'),
-        includesExpr('$MACROLIDE', 'acrB_R717L'),
-      ],
+      $or: [includesExpr('$MACROLIDE', 'mph(A)'), includesExpr('$MACROLIDE', 'acrB_R717L')],
     },
 
     Carbapenems: includesExpr('$BETALACTAM', 'CARBAPENEM'),
@@ -191,14 +175,14 @@ function buildSentericaConditions() {
     Pansusceptible: {
       $and: [
         { $eq: ['$AMINOGLYCOSIDE', '-'] },
-        { $eq: ['$BETALACTAM',     '-'] },
-        { $eq: ['$SULFONAMIDE',    '-'] },
-        { $eq: ['$TETRACYCLINE',   '-'] },
-        { $eq: ['$QUINOLONE',      '-'] },
-        { $eq: ['$MACROLIDE',      '-'] },
-        { $eq: ['$COLISTIN',       '-'] },
-        { $eq: ['$TRIMETHOPRIM',   '-'] },
-        { $eq: ['$PHENICOL',       '-'] },
+        { $eq: ['$BETALACTAM', '-'] },
+        { $eq: ['$SULFONAMIDE', '-'] },
+        { $eq: ['$TETRACYCLINE', '-'] },
+        { $eq: ['$QUINOLONE', '-'] },
+        { $eq: ['$MACROLIDE', '-'] },
+        { $eq: ['$COLISTIN', '-'] },
+        { $eq: ['$TRIMETHOPRIM', '-'] },
+        { $eq: ['$PHENICOL', '-'] },
       ],
     },
   };
@@ -206,12 +190,12 @@ function buildSentericaConditions() {
 
 const DRUG_CONDITIONS = {
   // Ecoli, DEcoli, Shige all use identical statKeysECOLI logic
-  ecoli:  buildEcoliConditions(),
+  ecoli: buildEcoliConditions(),
   decoli: buildEcoliConditions(),
-  shige:  buildEcoliConditions(),
+  shige: buildEcoliConditions(),
 
   // Senterica and SentericaINTS use statKeysINTS logic (with BETALACTAM rename)
-  senterica:     buildSentericaConditions(),
+  senterica: buildSentericaConditions(),
   sentericaints: buildSentericaConditions(),
 
   // K. pneumoniae — drugRulesKP (any column != '-' = resistant)
@@ -222,38 +206,29 @@ const DRUG_CONDITIONS = {
 
     ESBL: {
       $or: [
-        { $ne: ['$Bla_ESBL_acquired',      '-'] },
-        { $ne: ['$Bla_Carb_acquired',      '-'] },
+        { $ne: ['$Bla_ESBL_acquired', '-'] },
+        { $ne: ['$Bla_Carb_acquired', '-'] },
         { $ne: ['$Bla_ESBL_inhR_acquired', '-'] },
       ],
     },
 
     'Ciprofloxacin R': {
-      $or: [
-        { $ne: ['$Flq_acquired',   '-'] },
-        { $ne: ['$Flq_mutations',  '-'] },
-      ],
+      $or: [{ $ne: ['$Flq_acquired', '-'] }, { $ne: ['$Flq_mutations', '-'] }],
     },
 
     Colistin: {
-      $or: [
-        { $ne: ['$Col_acquired',  '-'] },
-        { $ne: ['$Col_mutations', '-'] },
-      ],
+      $or: [{ $ne: ['$Col_acquired', '-'] }, { $ne: ['$Col_mutations', '-'] }],
     },
 
-    Fosfomycin:    { $ne: ['$Fcyn_acquired', '-'] },
+    Fosfomycin: { $ne: ['$Fcyn_acquired', '-'] },
     Chloramphenicol: { $ne: ['$Phe_acquired', '-'] },
-    Sulfonamides:  { $ne: ['$Sul_acquired',  '-'] },
-    Tetracycline:  { $ne: ['$Tet_acquired',  '-'] },
-    Tigecycline:   { $ne: ['$Tgc_acquired',  '-'] },
-    Trimethoprim:  { $ne: ['$Tmt_acquired',  '-'] },
+    Sulfonamides: { $ne: ['$Sul_acquired', '-'] },
+    Tetracycline: { $ne: ['$Tet_acquired', '-'] },
+    Tigecycline: { $ne: ['$Tgc_acquired', '-'] },
+    Trimethoprim: { $ne: ['$Tmt_acquired', '-'] },
 
     'Trimethoprim-sulfamethoxazole': {
-      $and: [
-        { $ne: ['$Tmt_acquired', '-'] },
-        { $ne: ['$Sul_acquired', '-'] },
-      ],
+      $and: [{ $ne: ['$Tmt_acquired', '-'] }, { $ne: ['$Sul_acquired', '-'] }],
     },
 
     // num_resistance_classes may be stored as number or string '0'
@@ -264,79 +239,79 @@ const DRUG_CONDITIONS = {
   // blaTEM-1D has a hyphen: must use $getField
   styphi: {
     'Ampicillin/Amoxicillin': { $eq: [getHyphenField('blaTEM-1D'), '1'] },
-    Azithromycin:             { $eq: ['$azith_pred_pheno', 'AzithR'] },
-    Chloramphenicol:          { $eq: ['$chloramphenicol_category', 'ChlR'] },
+    Azithromycin: { $eq: ['$azith_pred_pheno', 'AzithR'] },
+    Chloramphenicol: { $eq: ['$chloramphenicol_category', 'ChlR'] },
     'Trimethoprim-sulfamethoxazole': { $eq: ['$co_trim', '1'] },
-    Ceftriaxone:              { $eq: ['$ESBL_category', 'ESBL'] },
-    'Ciprofloxacin NS':       { $eq: ['$cip_pred_pheno', 'CipNS'] },
-    'Ciprofloxacin R':        { $eq: ['$cip_pred_pheno', 'CipR'] },
-    Ciprofloxacin:            { $in: ['$cip_pred_pheno', ['CipNS', 'CipR']] },
-    Sulfonamides:             { $eq: ['$sul_any', '1'] },
-    Tetracycline:             { $eq: ['$tetracycline_category', 'TetR'] },
-    Trimethoprim:             { $eq: ['$dfra_any', '1'] },
-    MDR:                      { $eq: ['$MDR', 'MDR'] },
-    XDR:                      { $eq: ['$XDR', 'XDR'] },
-    Pansusceptible:           { $eq: ['$amr_category', 'No AMR detected'] },
+    Ceftriaxone: { $eq: ['$ESBL_category', 'ESBL'] },
+    'Ciprofloxacin NS': { $eq: ['$cip_pred_pheno', 'CipNS'] },
+    'Ciprofloxacin R': { $eq: ['$cip_pred_pheno', 'CipR'] },
+    Ciprofloxacin: { $in: ['$cip_pred_pheno', ['CipNS', 'CipR']] },
+    Sulfonamides: { $eq: ['$sul_any', '1'] },
+    Tetracycline: { $eq: ['$tetracycline_category', 'TetR'] },
+    Trimethoprim: { $eq: ['$dfra_any', '1'] },
+    MDR: { $eq: ['$MDR', 'MDR'] },
+    XDR: { $eq: ['$XDR', 'XDR'] },
+    Pansusceptible: { $eq: ['$amr_category', 'No AMR detected'] },
   },
 
   // N. gonorrhoeae — drugRulesNG (column === 1 or '1'; stored as integer in MongoDB)
   ngono: {
-    Azithromycin:               { $in: ['$Azithromycin',  ['1', 1]] },
-    Ceftriaxone:                { $in: ['$CefR1',         ['1', 1]] },
-    Ciprofloxacin:              { $in: ['$Ciprofloxacin', ['1', 1]] },
-    Sulfonamides:               { $in: ['$Sulfonamides',  ['1', 1]] },
-    Tetracycline:               { $in: ['$Tetracycline',  ['1', 1]] },
-    Cefixime:                   { $in: ['$Cefixime',      ['1', 1]] },
-    Benzylpenicillin:           { $in: ['$Penicillin',    ['1', 1]] },
+    Azithromycin: { $in: ['$Azithromycin', ['1', 1]] },
+    Ceftriaxone: { $in: ['$CefR1', ['1', 1]] },
+    Ciprofloxacin: { $in: ['$Ciprofloxacin', ['1', 1]] },
+    Sulfonamides: { $in: ['$Sulfonamides', ['1', 1]] },
+    Tetracycline: { $in: ['$Tetracycline', ['1', 1]] },
+    Cefixime: { $in: ['$Cefixime', ['1', 1]] },
+    Benzylpenicillin: { $in: ['$Penicillin', ['1', 1]] },
     'Susceptible to cat I/II drugs': { $in: ['$Susceptible', ['1', 1]] },
-    Spectinomycin:              { $in: ['$Spectinomycin', ['1', 1]] },
-    MDR:                        { $in: ['$MDR',           ['1', 1]] },
-    XDR:                        { $in: ['$XDR',           ['1', 1]] },
+    Spectinomycin: { $in: ['$Spectinomycin', ['1', 1]] },
+    MDR: { $in: ['$MDR', ['1', 1]] },
+    XDR: { $in: ['$XDR', ['1', 1]] },
   },
 
   // S. aureus — resistance stored as 1 (resistant) / 0 (susceptible)
   saureus: {
-    Amikacin:       { $in: ['$Amikacin',     ['1', 1]] },
-    Gentamicin:     { $in: ['$Gentamicin',   ['1', 1]] },
-    Tobramycin:     { $in: ['$Tobramycin',   ['1', 1]] },
-    Kanamycin:      { $in: ['$Kanamycin',    ['1', 1]] },
-    Methicillin:    { $in: ['$Methicillin',  ['1', 1]] },
-    Penicillin:     { $in: ['$Penicillin',   ['1', 1]] },
+    Amikacin: { $in: ['$Amikacin', ['1', 1]] },
+    Gentamicin: { $in: ['$Gentamicin', ['1', 1]] },
+    Tobramycin: { $in: ['$Tobramycin', ['1', 1]] },
+    Kanamycin: { $in: ['$Kanamycin', ['1', 1]] },
+    Methicillin: { $in: ['$Methicillin', ['1', 1]] },
+    Penicillin: { $in: ['$Penicillin', ['1', 1]] },
     'Fusidic Acid': { $in: ['$Fusidic Acid', ['1', 1]] },
-    Vancomycin:     { $in: ['$Vancomycin',   ['1', 1]] },
-    Clindamycin:    { $in: ['$Clindamycin',  ['1', 1]] },
-    Erythromycin:   { $in: ['$Erythromycin', ['1', 1]] },
-    Mupirocin:      { $in: ['$Mupirocin',    ['1', 1]] },
-    Linezolid:      { $in: ['$Linezolid',    ['1', 1]] },
-    Tetracycline:   { $in: ['$Tetracycline', ['1', 1]] },
-    Trimethoprim:   { $in: ['$Trimethoprim', ['1', 1]] },
-    Daptomycin:     { $in: ['$Daptomycin',   ['1', 1]] },
-    Rifampicin:     { $in: ['$Rifampicin',   ['1', 1]] },
-    Ciprofloxacin:  { $in: ['$Ciprofloxacin',['1', 1]] },
-    Moxifloxacin:   { $in: ['$Moxifloxacin', ['1', 1]] },
-    Teicoplanin:    { $in: ['$Teicoplanin',  ['1', 1]] },
+    Vancomycin: { $in: ['$Vancomycin', ['1', 1]] },
+    Clindamycin: { $in: ['$Clindamycin', ['1', 1]] },
+    Erythromycin: { $in: ['$Erythromycin', ['1', 1]] },
+    Mupirocin: { $in: ['$Mupirocin', ['1', 1]] },
+    Linezolid: { $in: ['$Linezolid', ['1', 1]] },
+    Tetracycline: { $in: ['$Tetracycline', ['1', 1]] },
+    Trimethoprim: { $in: ['$Trimethoprim', ['1', 1]] },
+    Daptomycin: { $in: ['$Daptomycin', ['1', 1]] },
+    Rifampicin: { $in: ['$Rifampicin', ['1', 1]] },
+    Ciprofloxacin: { $in: ['$Ciprofloxacin', ['1', 1]] },
+    Moxifloxacin: { $in: ['$Moxifloxacin', ['1', 1]] },
+    Teicoplanin: { $in: ['$Teicoplanin', ['1', 1]] },
     // Pansusceptible: none of the drug fields equal 1
     Pansusceptible: {
       $and: [
-        { $not: { $in: ['$Amikacin',      ['1', 1]] } },
-        { $not: { $in: ['$Gentamicin',    ['1', 1]] } },
-        { $not: { $in: ['$Tobramycin',    ['1', 1]] } },
-        { $not: { $in: ['$Kanamycin',     ['1', 1]] } },
-        { $not: { $in: ['$Methicillin',   ['1', 1]] } },
-        { $not: { $in: ['$Penicillin',    ['1', 1]] } },
-        { $not: { $in: ['$Fusidic Acid',  ['1', 1]] } },
-        { $not: { $in: ['$Vancomycin',    ['1', 1]] } },
-        { $not: { $in: ['$Clindamycin',   ['1', 1]] } },
-        { $not: { $in: ['$Erythromycin',  ['1', 1]] } },
-        { $not: { $in: ['$Mupirocin',     ['1', 1]] } },
-        { $not: { $in: ['$Linezolid',     ['1', 1]] } },
-        { $not: { $in: ['$Tetracycline',  ['1', 1]] } },
-        { $not: { $in: ['$Trimethoprim',  ['1', 1]] } },
-        { $not: { $in: ['$Daptomycin',    ['1', 1]] } },
-        { $not: { $in: ['$Rifampicin',    ['1', 1]] } },
+        { $not: { $in: ['$Amikacin', ['1', 1]] } },
+        { $not: { $in: ['$Gentamicin', ['1', 1]] } },
+        { $not: { $in: ['$Tobramycin', ['1', 1]] } },
+        { $not: { $in: ['$Kanamycin', ['1', 1]] } },
+        { $not: { $in: ['$Methicillin', ['1', 1]] } },
+        { $not: { $in: ['$Penicillin', ['1', 1]] } },
+        { $not: { $in: ['$Fusidic Acid', ['1', 1]] } },
+        { $not: { $in: ['$Vancomycin', ['1', 1]] } },
+        { $not: { $in: ['$Clindamycin', ['1', 1]] } },
+        { $not: { $in: ['$Erythromycin', ['1', 1]] } },
+        { $not: { $in: ['$Mupirocin', ['1', 1]] } },
+        { $not: { $in: ['$Linezolid', ['1', 1]] } },
+        { $not: { $in: ['$Tetracycline', ['1', 1]] } },
+        { $not: { $in: ['$Trimethoprim', ['1', 1]] } },
+        { $not: { $in: ['$Daptomycin', ['1', 1]] } },
+        { $not: { $in: ['$Rifampicin', ['1', 1]] } },
         { $not: { $in: ['$Ciprofloxacin', ['1', 1]] } },
-        { $not: { $in: ['$Moxifloxacin',  ['1', 1]] } },
-        { $not: { $in: ['$Teicoplanin',   ['1', 1]] } },
+        { $not: { $in: ['$Moxifloxacin', ['1', 1]] } },
+        { $not: { $in: ['$Teicoplanin', ['1', 1]] } },
       ],
     },
   },
@@ -344,28 +319,28 @@ const DRUG_CONDITIONS = {
   // S. pneumoniae — resistance stored as 1 (resistant) / 0 (susceptible)
   strepneumo: {
     Chloramphenicol: { $in: ['$Chloramphenicol', ['1', 1]] },
-    Clindamycin:     { $in: ['$Clindamycin',     ['1', 1]] },
-    Erythromycin:    { $in: ['$Erythromycin',    ['1', 1]] },
+    Clindamycin: { $in: ['$Clindamycin', ['1', 1]] },
+    Erythromycin: { $in: ['$Erythromycin', ['1', 1]] },
     Fluoroquinolone: { $in: ['$Fluoroquinolone', ['1', 1]] },
-    Kanamycin:       { $in: ['$Kanamycin',       ['1', 1]] },
-    Linezolid:       { $in: ['$Linezolid',       ['1', 1]] },
-    Tetracycline:    { $in: ['$Tetracycline',     ['1', 1]] },
-    Trimethoprim:    { $in: ['$Trimethoprim',     ['1', 1]] },
-    Sulfamethoxazole:{ $in: ['$Sulfamethoxazole', ['1', 1]] },
-    'Co-Trimoxazole':{ $in: ["$Co-Trimoxazole",  ['1', 1]] },
+    Kanamycin: { $in: ['$Kanamycin', ['1', 1]] },
+    Linezolid: { $in: ['$Linezolid', ['1', 1]] },
+    Tetracycline: { $in: ['$Tetracycline', ['1', 1]] },
+    Trimethoprim: { $in: ['$Trimethoprim', ['1', 1]] },
+    Sulfamethoxazole: { $in: ['$Sulfamethoxazole', ['1', 1]] },
+    'Co-Trimoxazole': { $in: ['$Co-Trimoxazole', ['1', 1]] },
     // Pansusceptible: none of the drug fields equal 1
     Pansusceptible: {
       $and: [
         { $not: { $in: ['$Chloramphenicol', ['1', 1]] } },
-        { $not: { $in: ['$Clindamycin',     ['1', 1]] } },
-        { $not: { $in: ['$Erythromycin',    ['1', 1]] } },
+        { $not: { $in: ['$Clindamycin', ['1', 1]] } },
+        { $not: { $in: ['$Erythromycin', ['1', 1]] } },
         { $not: { $in: ['$Fluoroquinolone', ['1', 1]] } },
-        { $not: { $in: ['$Kanamycin',       ['1', 1]] } },
-        { $not: { $in: ['$Linezolid',       ['1', 1]] } },
-        { $not: { $in: ['$Tetracycline',    ['1', 1]] } },
-        { $not: { $in: ['$Trimethoprim',    ['1', 1]] } },
-        { $not: { $in: ['$Sulfamethoxazole',['1', 1]] } },
-        { $not: { $in: ["$Co-Trimoxazole",  ['1', 1]] } },
+        { $not: { $in: ['$Kanamycin', ['1', 1]] } },
+        { $not: { $in: ['$Linezolid', ['1', 1]] } },
+        { $not: { $in: ['$Tetracycline', ['1', 1]] } },
+        { $not: { $in: ['$Trimethoprim', ['1', 1]] } },
+        { $not: { $in: ['$Sulfamethoxazole', ['1', 1]] } },
+        { $not: { $in: ['$Co-Trimoxazole', ['1', 1]] } },
       ],
     },
   },
@@ -400,8 +375,8 @@ function buildMatchStage(organism, query) {
   // as an integer (2001) or a string ('2001'), which varies across organisms.
   if (dateFrom || dateTo) {
     const dateFromInt = dateFrom ? parseInt(dateFrom, 10) : null;
-    const dateToInt   = dateTo   ? parseInt(dateTo,   10) : null;
-    const dateExprs   = [];
+    const dateToInt = dateTo ? parseInt(dateTo, 10) : null;
+    const dateExprs = [];
     if (dateFromInt !== null && !isNaN(dateFromInt)) {
       dateExprs.push({ $gte: [{ $toInt: { $ifNull: ['$DATE', 0] } }, dateFromInt] });
     }
@@ -416,7 +391,10 @@ function buildMatchStage(organism, query) {
   if (countries) {
     const list = Array.isArray(countries)
       ? countries
-      : countries.split(',').map(c => c.trim()).filter(Boolean);
+      : countries
+          .split(',')
+          .map(c => c.trim())
+          .filter(Boolean);
     if (list.length === 1) {
       match.COUNTRY_ONLY = list[0];
     } else if (list.length > 1) {
@@ -431,18 +409,20 @@ function buildMatchStage(organism, query) {
 
   // Pathotype filter (ecoli, decoli, shige) — accepts a single value or comma-separated list
   if (pathotype && pathotype !== 'All' && ['ecoli', 'decoli', 'shige'].includes(organism)) {
-    const list = pathotype.split(',').map(s => s.trim()).filter(Boolean);
-    match.Pathovar = list.length === 1
-      ? { $regex: list[0], $options: 'i' }
-      : { $in: list };
+    const list = pathotype
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
+    match.Pathovar = list.length === 1 ? { $regex: list[0], $options: 'i' } : { $in: list };
   }
 
   // Serotype filter (sentericaints) — accepts a single value or comma-separated list
   if (serotype && serotype !== 'All' && organism === 'sentericaints') {
-    const list = serotype.split(',').map(s => s.trim()).filter(Boolean);
-    match.SISTR1_Serovar = list.length === 1
-      ? { $regex: list[0], $options: 'i' }
-      : { $in: list };
+    const list = serotype
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
+    match.SISTR1_Serovar = list.length === 1 ? { $regex: list[0], $options: 'i' } : { $in: list };
   }
 
   // Kpneumo dataset filter — must carry a non-'-' value in the specified column
@@ -471,26 +451,26 @@ function getPrepipelineStages(organism) {
             // Compute GENOTYPE from MLST_Achtman (mirrors existing getDataForSenterica pipeline)
             GENOTYPE: {
               $cond: {
-                if:   { $ne: ['$MLST_Achtman', null] },
+                if: { $ne: ['$MLST_Achtman', null] },
                 then: '$MLST_Achtman',
                 else: 'Unknown',
               },
             },
             COUNTRY_ONLY: 1,
-            DATE:         1,
-            TRAVEL:       1,
-            PMID:         1,
-            NAME:         1,
+            DATE: 1,
+            TRAVEL: 1,
+            PMID: 1,
+            NAME: 1,
             // Rename BETA-LACTAM (hyphenated) to a safe field name
-            BETALACTAM:    { $getField: 'BETA-LACTAM' },
+            BETALACTAM: { $getField: 'BETA-LACTAM' },
             AMINOGLYCOSIDE: 1,
-            SULFONAMIDE:   1,
-            TETRACYCLINE:  1,
-            QUINOLONE:     1,
-            TRIMETHOPRIM:  1,
-            PHENICOL:      1,
-            MACROLIDE:     1,
-            COLISTIN:      1,
+            SULFONAMIDE: 1,
+            TETRACYCLINE: 1,
+            QUINOLONE: 1,
+            TRIMETHOPRIM: 1,
+            PHENICOL: 1,
+            MACROLIDE: 1,
+            COLISTIN: 1,
           },
         },
       ];
@@ -500,10 +480,10 @@ function getPrepipelineStages(organism) {
         // Join resistance data from the INTS lookup collection
         {
           $lookup: {
-            from:         'ints_collection_from_enterica',
-            localField:   'NAME',
+            from: 'ints_collection_from_enterica',
+            localField: 'NAME',
             foreignField: 'NAME',
-            as:           'extraData',
+            as: 'extraData',
           },
         },
         { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
@@ -511,14 +491,14 @@ function getPrepipelineStages(organism) {
         {
           $addFields: {
             AMINOGLYCOSIDE: '$extraData.AMINOGLYCOSIDE',
-            BETALACTAM:     getHyphenFieldFrom('BETA-LACTAM', '$extraData'),
-            SULFONAMIDE:    '$extraData.SULFONAMIDE',
-            TETRACYCLINE:   '$extraData.TETRACYCLINE',
-            QUINOLONE:      '$extraData.QUINOLONE',
-            TRIMETHOPRIM:   '$extraData.TRIMETHOPRIM',
-            PHENICOL:       '$extraData.PHENICOL',
-            MACROLIDE:      '$extraData.MACROLIDE',
-            COLISTIN:       '$extraData.COLISTIN',
+            BETALACTAM: getHyphenFieldFrom('BETA-LACTAM', '$extraData'),
+            SULFONAMIDE: '$extraData.SULFONAMIDE',
+            TETRACYCLINE: '$extraData.TETRACYCLINE',
+            QUINOLONE: '$extraData.QUINOLONE',
+            TRIMETHOPRIM: '$extraData.TRIMETHOPRIM',
+            PHENICOL: '$extraData.PHENICOL',
+            MACROLIDE: '$extraData.MACROLIDE',
+            COLISTIN: '$extraData.COLISTIN',
           },
         },
         // Drop raw join data to keep documents lean.
@@ -542,10 +522,7 @@ function buildDrugAccumulators(organism) {
   const conditions = DRUG_CONDITIONS[organism];
   if (!conditions) return {};
   return Object.fromEntries(
-    Object.entries(conditions).map(([drug, condition]) => [
-      drug,
-      { $sum: { $cond: [condition, 1, 0] } },
-    ]),
+    Object.entries(conditions).map(([drug, condition]) => [drug, { $sum: { $cond: [condition, 1, 0] } }]),
   );
 }
 
@@ -571,10 +548,10 @@ router.get('/agg/:organism/yearly', async (req, res) => {
     const client = await connectDB();
     const collection = client.db(config.dbName).collection(config.collectionName);
 
-    const matchStage        = buildMatchStage(organism, req.query);
+    const matchStage = buildMatchStage(organism, req.query);
     const prepipelineStages = getPrepipelineStages(organism);
-    const drugAccumulators  = buildDrugAccumulators(organism);
-    const baseStages        = [matchStage, ...prepipelineStages];
+    const drugAccumulators = buildDrugAccumulators(organism);
+    const baseStages = [matchStage, ...prepipelineStages];
 
     // Step 1: run top-genotypes and yearly-drug-counts in parallel
     const [topGenoResult, yearlyDrugsResult] = await Promise.all([
@@ -592,7 +569,7 @@ router.get('/agg/:organism/yearly', async (req, res) => {
           ...baseStages,
           {
             $group: {
-              _id:   '$DATE',
+              _id: '$DATE',
               count: { $sum: 1 },
               ...drugAccumulators,
             },
@@ -603,7 +580,7 @@ router.get('/agg/:organism/yearly', async (req, res) => {
     ]);
 
     const topGenotypes = topGenoResult.map(g => g._id).filter(Boolean);
-    const drugsKeys    = Object.keys(drugAccumulators);
+    const drugsKeys = Object.keys(drugAccumulators);
 
     // Step 2: per-year genotype counts for top 20 only (avoids huge $push arrays)
     const yearlyGenoResult = await collection
@@ -612,7 +589,7 @@ router.get('/agg/:organism/yearly', async (req, res) => {
         { $match: { GENOTYPE: { $in: topGenotypes } } },
         {
           $group: {
-            _id:   { year: '$DATE', genotype: '$GENOTYPE' },
+            _id: { year: '$DATE', genotype: '$GENOTYPE' },
             count: { $sum: 1 },
           },
         },
@@ -625,7 +602,10 @@ router.get('/agg/:organism/yearly', async (req, res) => {
 
     // Pivot yearlyGenoResult into { year → { genotype → count } }
     const genoByYear = {};
-    for (const { _id: { year, genotype }, count } of yearlyGenoResult) {
+    for (const {
+      _id: { year, genotype },
+      count,
+    } of yearlyGenoResult) {
       if (!genoByYear[year]) genoByYear[year] = {};
       genoByYear[year][genotype] = count;
     }
@@ -633,13 +613,12 @@ router.get('/agg/:organism/yearly', async (req, res) => {
     // Build genotypesData: one entry per year with top-20 genotype counts as keys.
     // No "Other Genotypes" bucket — the client-side getYearsData never added that label
     // and graph components don't expect it.
-    const allYears = [...new Set([
-      ...yearlyDrugsResult.map(y => y._id),
-      ...Object.keys(genoByYear).map(Number),
-    ])].filter(Boolean).sort();
+    const allYears = [...new Set([...yearlyDrugsResult.map(y => y._id), ...Object.keys(genoByYear).map(Number)])]
+      .filter(Boolean)
+      .sort();
 
     const genotypesData = allYears.map(year => {
-      const row     = { name: year, count: yearTotals[year] ?? 0 };
+      const row = { name: year, count: yearTotals[year] ?? 0 };
       const genoMap = genoByYear[year] ?? {};
       for (const g of topGenotypes) row[g] = genoMap[g] ?? 0;
       return row;
@@ -680,11 +659,11 @@ router.get('/agg/:organism/countries', async (req, res) => {
     const client = await connectDB();
     const collection = client.db(config.dbName).collection(config.collectionName);
 
-    const matchStage        = buildMatchStage(organism, req.query);
+    const matchStage = buildMatchStage(organism, req.query);
     const prepipelineStages = getPrepipelineStages(organism);
-    const drugAccumulators  = buildDrugAccumulators(organism);
-    const baseStages        = [matchStage, ...prepipelineStages];
-    const drugsKeys         = Object.keys(drugAccumulators);
+    const drugAccumulators = buildDrugAccumulators(organism);
+    const baseStages = [matchStage, ...prepipelineStages];
+    const drugsKeys = Object.keys(drugAccumulators);
 
     // Country-level drug counts + top genotype via $facet
     const [facetResult] = await collection
@@ -696,7 +675,7 @@ router.get('/agg/:organism/countries', async (req, res) => {
             drugsByCountry: [
               {
                 $group: {
-                  _id:   '$COUNTRY_ONLY',
+                  _id: '$COUNTRY_ONLY',
                   count: { $sum: 1 },
                   ...drugAccumulators,
                 },
@@ -707,15 +686,15 @@ router.get('/agg/:organism/countries', async (req, res) => {
             topGenoByCountry: [
               {
                 $group: {
-                  _id:   { country: '$COUNTRY_ONLY', genotype: '$GENOTYPE' },
+                  _id: { country: '$COUNTRY_ONLY', genotype: '$GENOTYPE' },
                   count: { $sum: 1 },
                 },
               },
               { $sort: { count: -1 } },
               {
                 $group: {
-                  _id:            '$_id.country',
-                  topGenotype:    { $first: '$_id.genotype' },
+                  _id: '$_id.country',
+                  topGenotype: { $first: '$_id.genotype' },
                   topGenotypeCount: { $first: '$count' },
                 },
               },
@@ -737,13 +716,13 @@ router.get('/agg/:organism/countries', async (req, res) => {
       .filter(r => r._id && r.count >= 5) // filter spurious entries with very few samples
       .map(r => {
         const row = {
-          name:  r._id,
+          name: r._id,
           count: r.count,
           ...(topGenoMap[r._id] ?? {}),
         };
         for (const drug of drugsKeys) {
-          row[drug]          = r[drug] ?? 0;
-          row[`${drug}_pct`] = r.count > 0 ? +((r[drug] ?? 0) / r.count * 100).toFixed(2) : 0;
+          row[drug] = r[drug] ?? 0;
+          row[`${drug}_pct`] = r.count > 0 ? +(((r[drug] ?? 0) / r.count) * 100).toFixed(2) : 0;
         }
         return row;
       });
@@ -773,10 +752,10 @@ router.get('/agg/:organism/genotypes', async (req, res) => {
     const client = await connectDB();
     const collection = client.db(config.dbName).collection(config.collectionName);
 
-    const matchStage        = buildMatchStage(organism, req.query);
+    const matchStage = buildMatchStage(organism, req.query);
     const prepipelineStages = getPrepipelineStages(organism);
-    const drugAccumulators  = buildDrugAccumulators(organism);
-    const drugsKeys         = Object.keys(drugAccumulators);
+    const drugAccumulators = buildDrugAccumulators(organism);
+    const drugsKeys = Object.keys(drugAccumulators);
 
     const results = await collection
       .aggregate([
@@ -784,7 +763,7 @@ router.get('/agg/:organism/genotypes', async (req, res) => {
         ...prepipelineStages,
         {
           $group: {
-            _id:   '$GENOTYPE',
+            _id: '$GENOTYPE',
             count: { $sum: 1 },
             ...drugAccumulators,
           },
@@ -797,8 +776,8 @@ router.get('/agg/:organism/genotypes', async (req, res) => {
     const genotypesData = results.map(r => {
       const row = { name: r._id ?? 'Unknown', count: r.count };
       for (const drug of drugsKeys) {
-        row[drug]          = r[drug] ?? 0;
-        row[`${drug}_pct`] = r.count > 0 ? +((r[drug] ?? 0) / r.count * 100).toFixed(2) : 0;
+        row[drug] = r[drug] ?? 0;
+        row[`${drug}_pct`] = r.count > 0 ? +(((r[drug] ?? 0) / r.count) * 100).toFixed(2) : 0;
       }
       return row;
     });

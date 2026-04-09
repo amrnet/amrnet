@@ -2,10 +2,7 @@ import csv from 'csv-parser';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import fs from 'fs';
-import connectDB, {
-  getCollectionCountWithTimeout,
-  getDataWithTimeout,
-} from '../../config/db.js';
+import connectDB, { getCollectionCountWithTimeout, getDataWithTimeout } from '../../config/db.js';
 
 const router = express.Router();
 
@@ -16,10 +13,10 @@ const dbAndCollectionNames = {
   ecoli: { dbName: 'ecoli', collectionName: 'amrnetdb_ecoli' },
   decoli: { dbName: 'decoli', collectionName: 'amrnetdb_decoli' },
   shige: { dbName: 'shige', collectionName: 'amrnetdb_shige' },
-  senterica: { dbName: 'senterica', collectionName: 'senterica-hc2850' },
-  sentericaints: { dbName: 'sentericaints', collectionName: 'merge_rawdata_sients' },
+  senterica: { dbName: 'senterica', collectionName: 'amrnetdb_senterica' },
+  sentericaints: { dbName: 'sentericaints', collectionName: 'amrnetdb_ints' },
   unr: { dbName: 'unr', collectionName: 'unr' },
-  saureus:    { dbName: 'saureus',    collectionName: 'amrnetdb_saureus' },
+  saureus: { dbName: 'saureus', collectionName: 'amrnetdb_saureus' },
   strepneumo: { dbName: 'strepneumo', collectionName: 'amrnetdb_spneumo' },
 };
 
@@ -129,14 +126,38 @@ router.get('/getDataForKpneumo', async function (req, res) {
     const skip = (page - 1) * limit;
     const query = { 'dashboard view': 'include', GENOTYPE: { $ne: null } };
     const projection = {
-      GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1, TRAVEL: 1, PMID: 1,
-      ESBL_category: 1, Carbapenems_category: 1, cgST: 1, Sublineage: 1,
-      AGly_acquired: 1, Bla_Carb_acquired: 1, Bla_ESBL_acquired: 1,
-      Bla_ESBL_inhR_acquired: 1, Flq_acquired: 1, Flq_mutations: 1,
-      Col_acquired: 1, Col_mutations: 1, Fcyn_acquired: 1, Phe_acquired: 1,
-      Sul_acquired: 1, Tet_acquired: 1, Tgc_acquired: 1, Tmt_acquired: 1,
-      SHV_mutations: 1, Omp_mutations: 1, num_resistance_classes: 1,
-      virulence_score: 1, O_locus: 1, K_locus: 1, O_type: 1, NAME: 1, _id: 0,
+      GENOTYPE: 1,
+      COUNTRY_ONLY: 1,
+      DATE: 1,
+      TRAVEL: 1,
+      PMID: 1,
+      ESBL_category: 1,
+      Carbapenems_category: 1,
+      cgST: 1,
+      Sublineage: 1,
+      AGly_acquired: 1,
+      Bla_Carb_acquired: 1,
+      Bla_ESBL_acquired: 1,
+      Bla_ESBL_inhR_acquired: 1,
+      Flq_acquired: 1,
+      Flq_mutations: 1,
+      Col_acquired: 1,
+      Col_mutations: 1,
+      Fcyn_acquired: 1,
+      Phe_acquired: 1,
+      Sul_acquired: 1,
+      Tet_acquired: 1,
+      Tgc_acquired: 1,
+      Tmt_acquired: 1,
+      SHV_mutations: 1,
+      Omp_mutations: 1,
+      num_resistance_classes: 1,
+      virulence_score: 1,
+      O_locus: 1,
+      K_locus: 1,
+      O_type: 1,
+      NAME: 1,
+      _id: 0,
     };
 
     const client = await connectDB();
@@ -152,7 +173,8 @@ router.get('/getDataForKpneumo', async function (req, res) {
     return res.json({
       data: result,
       pagination: {
-        page, limit,
+        page,
+        limit,
         ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
       },
     });
@@ -190,10 +212,27 @@ router.get('/getDataForEcoli', async function (req, res) {
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
     const projection = {
-      Name: 1, GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1, TRAVEL: 1, PMID: 1,
-      Pathovar: 1, Aminoglycoside: 1, Carbapenemase: 1, Colistin: 1, ESBL: 1,
-      Fosfomycin: 1, Macrolide: 1, Penicillin: 1, Quinolone: 1, Sulfonamide: 1,
-      Tetracycline: 1, Trimethoprim: 1, Phenicol: 1, 'O Antigen': 1, 'H Antigen': 1,
+      Name: 1,
+      GENOTYPE: 1,
+      COUNTRY_ONLY: 1,
+      DATE: 1,
+      TRAVEL: 1,
+      PMID: 1,
+      Pathovar: 1,
+      Aminoglycoside: 1,
+      Carbapenemase: 1,
+      Colistin: 1,
+      ESBL: 1,
+      Fosfomycin: 1,
+      Macrolide: 1,
+      Penicillin: 1,
+      Quinolone: 1,
+      Sulfonamide: 1,
+      Tetracycline: 1,
+      Trimethoprim: 1,
+      Phenicol: 1,
+      'O Antigen': 1,
+      'H Antigen': 1,
       'dashboard view': 1,
     };
     // Query
@@ -268,10 +307,27 @@ router.get('/getDataForDEcoli', async function (req, res) {
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
     const projection = {
-      Name: 1, GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1, TRAVEL: 1, PMID: 1,
-      Pathovar: 1, Aminoglycoside: 1, Carbapenemase: 1, Colistin: 1, ESBL: 1,
-      Fosfomycin: 1, Macrolide: 1, Penicillin: 1, Quinolone: 1, Sulfonamide: 1,
-      Tetracycline: 1, Trimethoprim: 1, Phenicol: 1, 'O Antigen': 1, 'H Antigen': 1,
+      Name: 1,
+      GENOTYPE: 1,
+      COUNTRY_ONLY: 1,
+      DATE: 1,
+      TRAVEL: 1,
+      PMID: 1,
+      Pathovar: 1,
+      Aminoglycoside: 1,
+      Carbapenemase: 1,
+      Colistin: 1,
+      ESBL: 1,
+      Fosfomycin: 1,
+      Macrolide: 1,
+      Penicillin: 1,
+      Quinolone: 1,
+      Sulfonamide: 1,
+      Tetracycline: 1,
+      Trimethoprim: 1,
+      Phenicol: 1,
+      'O Antigen': 1,
+      'H Antigen': 1,
       'dashboard view': 1,
     };
     // Query
@@ -291,7 +347,8 @@ router.get('/getDataForDEcoli', async function (req, res) {
     return res.json({
       data: result,
       pagination: {
-        page, limit,
+        page,
+        limit,
         ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
       },
     });
@@ -330,7 +387,8 @@ router.get('/getDataForShige', async function (req, res) {
       return res.json({
         data: result,
         pagination: {
-          page, limit,
+          page,
+          limit,
           ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
         },
       });
@@ -438,7 +496,8 @@ router.get('/getDataForSenterica', async function (req, res) {
       return res.json({
         data: results,
         pagination: {
-          page, limit,
+          page,
+          limit,
           ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
         },
         metadata,
@@ -474,22 +533,24 @@ router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req
       page === 1
         ? collection.countDocuments({ 'dashboard view': { $regex: /^include$/, $options: 'i' } })
         : Promise.resolve(null),
-      collection.aggregate([
-        matchStage,
-        {
-          $lookup: {
-            from: 'ints_collection_from_enterica',
-            localField: 'NAME',
-            foreignField: 'NAME',
-            as: 'extraData',
+      collection
+        .aggregate([
+          matchStage,
+          {
+            $lookup: {
+              from: 'ints_collection_from_enterica',
+              localField: 'NAME',
+              foreignField: 'NAME',
+              as: 'extraData',
+            },
           },
-        },
-        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-        { $addFields: sentericaintsFieldsToAdd },
-        { $project: { extraData: 0 } },
-        { $skip: skip },
-        { $limit: limit },
-      ]).toArray(),
+          { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
+          { $addFields: sentericaintsFieldsToAdd },
+          { $project: { extraData: 0 } },
+          { $skip: skip },
+          { $limit: limit },
+        ])
+        .toArray(),
     ]);
 
     const totalDocuments = countResult;
@@ -499,7 +560,8 @@ router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req
       return res.json({
         data: result,
         pagination: {
-          page, limit,
+          page,
+          limit,
           ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
         },
       });
@@ -520,12 +582,31 @@ router.get('/getDataForSaureus', async function (req, res) {
     const skip = (page - 1) * limit;
     const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
     const projection = {
-      NAME: 1, DATE: 1, COUNTRY_ONLY: 1, GENOTYPE: 1,
-      Amikacin: 1, Gentamicin: 1, Tobramycin: 1, Kanamycin: 1, Methicillin: 1,
-      Penicillin: 1, 'Fusidic Acid': 1, Vancomycin: 1, Clindamycin: 1, Erythromycin: 1,
-      Mupirocin: 1, Linezolid: 1, Tetracycline: 1, Trimethoprim: 1, Daptomycin: 1,
-      Rifampicin: 1, Ciprofloxacin: 1, Moxifloxacin: 1, Teicoplanin: 1,
-      Acquired: 1, Variants: 1,
+      NAME: 1,
+      DATE: 1,
+      COUNTRY_ONLY: 1,
+      GENOTYPE: 1,
+      Amikacin: 1,
+      Gentamicin: 1,
+      Tobramycin: 1,
+      Kanamycin: 1,
+      Methicillin: 1,
+      Penicillin: 1,
+      'Fusidic Acid': 1,
+      Vancomycin: 1,
+      Clindamycin: 1,
+      Erythromycin: 1,
+      Mupirocin: 1,
+      Linezolid: 1,
+      Tetracycline: 1,
+      Trimethoprim: 1,
+      Daptomycin: 1,
+      Rifampicin: 1,
+      Ciprofloxacin: 1,
+      Moxifloxacin: 1,
+      Teicoplanin: 1,
+      Acquired: 1,
+      Variants: 1,
       _id: 0,
     };
     const client = await connectDB();
@@ -539,7 +620,8 @@ router.get('/getDataForSaureus', async function (req, res) {
       return res.json({
         data: result,
         pagination: {
-          page, limit,
+          page,
+          limit,
           ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
         },
       });
@@ -559,11 +641,24 @@ router.get('/getDataForStrepneumo', async function (req, res) {
     const skip = (page - 1) * limit;
     const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
     const projection = {
-      NAME: 1, DATE: 1, COUNTRY_ONLY: 1, GENOTYPE: 1, Lineage: 1, Serotype: 1,
-      Chloramphenicol: 1, Clindamycin: 1, Erythromycin: 1, Fluoroquinolone: 1,
-      Kanamycin: 1, Linezolid: 1, Tetracycline: 1, Trimethoprim: 1,
-      Sulfamethoxazole: 1, 'Co-Trimoxazole': 1,
-      Acquired: 1, Variants: 1,
+      NAME: 1,
+      DATE: 1,
+      COUNTRY_ONLY: 1,
+      GENOTYPE: 1,
+      Lineage: 1,
+      Serotype: 1,
+      Chloramphenicol: 1,
+      Clindamycin: 1,
+      Erythromycin: 1,
+      Fluoroquinolone: 1,
+      Kanamycin: 1,
+      Linezolid: 1,
+      Tetracycline: 1,
+      Trimethoprim: 1,
+      Sulfamethoxazole: 1,
+      'Co-Trimoxazole': 1,
+      Acquired: 1,
+      Variants: 1,
       _id: 0,
     };
     const client = await connectDB();
@@ -577,7 +672,8 @@ router.get('/getDataForStrepneumo', async function (req, res) {
       return res.json({
         data: result,
         pagination: {
-          page, limit,
+          page,
+          limit,
           ...(totalDocuments !== null && { totalDocuments, totalPages: Math.ceil(totalDocuments / limit) }),
         },
       });

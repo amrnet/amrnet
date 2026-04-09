@@ -36,10 +36,10 @@ router.post('/download', async function (req, res, next) {
     collection = client.db('shige').collection('amrnetdb_shige');
     localFilePath = Tools.path_clean_all_sh;
   } else if (organism === 'sentericaints') {
-    collection = client.db('sentericaints').collection('merge_rawdata_sients');
+    collection = client.db('sentericaints').collection('amrnetdb_ints');
     localFilePath = Tools.path_clean_all_sh;
   } else {
-    collection = client.db('senterica').collection('senterica-hc2850');
+    collection = client.db('senterica').collection('amrnetdb_senterica');
     localFilePath = Tools.path_clean_all_se;
   }
   let data;
@@ -240,7 +240,7 @@ router.get('/clean/:organism', async function (req, res, next) {
     folderName = 'senterica';
     ext = 'se';
     collection_ext = 'se';
-    database = 'senterica-hc2850';
+    database = 'senterica';
   }
 
   try {

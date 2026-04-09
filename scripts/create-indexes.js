@@ -16,8 +16,8 @@ async function main() {
       { db: 'shige', collection: 'amrnetdb_shige' },
       { db: 'styphi', collection: 'amrnetdb_styphi' },
       { db: 'ngono', collection: 'amrnetdb_ngono' },
-      { db: 'senterica', collection: 'senterica-hc2850' },
-      { db: 'sentericaints', collection: 'ints_collection_from_enterica' },
+      { db: 'senterica', collection: 'amrnetdb_senterica' },
+      { db: 'sentericaints', collection: 'amrnetdb_ints' },
     ];
 
     for (const { db, collection } of targets) {
