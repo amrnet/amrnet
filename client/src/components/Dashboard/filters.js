@@ -365,7 +365,12 @@ function getMapStatsData({
   let resistantGenomeCount = 0; // direct count of genomes passing resistance check
 
   for (const item of itemData) {
-    const name = item.Uberstrain || item.Name || item.NAME || item['Genome Name'] || String(item._id || `g${resistantGenomeCount}`);
+    const name =
+      item.Uberstrain ||
+      item.Name ||
+      item.NAME ||
+      item['Genome Name'] ||
+      String(item._id || `g${resistantGenomeCount}`);
 
     // Special handling for ECOLI-like organisms which use rule sets instead of
     // direct column values. In those cases `statsKey` is the rule name and
@@ -765,10 +770,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
 
     if (['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'].includes(organism)) {
       stats['PATHOTYPE'] = { items: [], count: 0 };
-      const col =
-        organism === 'sentericaints' || organism === 'senterica'
-          ? 'seqsero2'
-          : 'Pathovar';
+      const col = organism === 'sentericaints' || organism === 'senterica' ? 'seqsero2' : 'Pathovar';
       generateStats(itemData, stats, organism, 'PATHOTYPE', col);
     }
 
@@ -1182,7 +1184,10 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         drugStats['CipR'] = cipRCountEC;
 
         // Resistance helpers — resistant if column has a non-empty, non-'-' value
-        const hasRes = (x, col) => { const v = x[col]; return v != null && v !== '' && v !== '-'; };
+        const hasRes = (x, col) => {
+          const v = x[col];
+          return v != null && v !== '' && v !== '-';
+        };
         const isResCipEC = x => hasRes(x, 'Quinolone');
         const isResAzmEC = x => hasRes(x, 'Macrolide');
         const isResBetaLactamEC = x => hasRes(x, 'Beta-lactam');
@@ -2376,7 +2381,10 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
       });
       return n;
     };
-    const hasR = (x, c) => { const v = x[c]; return v != null && v !== '' && v !== '-'; };
+    const hasR = (x, c) => {
+      const v = x[c];
+      return v != null && v !== '' && v !== '-';
+    };
     const isResCip = x => hasR(x, 'Quinolone');
     const isResAzm = x => hasR(x, 'Macrolide');
     const isResBL = x => hasR(x, 'Beta-lactam');
@@ -2419,7 +2427,9 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
     if (!passes) return;
 
     // Collect values from all relevant columns
-    const columnsValues = drug.rules.map(rule => x[rule.column]).filter(val => val != null && val !== '' && val !== '-' && val !== 'ND');
+    const columnsValues = drug.rules
+      .map(rule => x[rule.column])
+      .filter(val => val != null && val !== '' && val !== '-' && val !== 'ND');
 
     if (columnsValues.length === 0) return;
 
