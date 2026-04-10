@@ -37,7 +37,7 @@ import {
   setTrendsGraphView,
 } from '../../../../stores/slices/graphSlice';
 import { colorForMarkers, colorForMarkersCVD, hoverColor } from '../../../../util/colorHelper';
-import { drugClassesNG, drugClassesST, drugsINTS, drugsSA, drugsSP, markersDrugsKP, markersDrugsSH, ciproAcronyms } from '../../../../util/drugs';
+import { drugClassesNG, drugClassesST, drugsECOLI, drugsSA, drugsSP, markersDrugsKP, markersDrugsSH, ciproAcronyms } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -120,7 +120,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       return drugsSP.filter(x => x !== 'Pansusceptible');
     }
 
-    return drugsINTS.filter(item => item !== 'Pansusceptible'); // Default fallback
+    return drugsECOLI.filter(item => item !== 'Pansusceptible'); // Default fallback
   }
 
  function getDomain(max = null) {

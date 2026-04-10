@@ -20,34 +20,6 @@ const dbAndCollectionNames = {
   strepneumo: { dbName: 'strepneumo', collectionName: 'amrnetdb_spneumo' },
 };
 
-const sentericaintsFieldsToAdd = {
-  AMINOGLYCOSIDE: '$extraData.AMINOGLYCOSIDE',
-  'BETA-LACTAM': '$extraData.BETA-LACTAM',
-  SULFONAMIDE: '$extraData.SULFONAMIDE',
-  TETRACYCLINE: '$extraData.TETRACYCLINE',
-  QUINOLONE: '$extraData.QUINOLONE',
-  'QUATERNARY AMMONIUM': '$extraData.QUATERNARY AMMONIUM',
-  'QUINOLONE/TRICLOSAN': '$extraData.QUINOLONE/TRICLOSAN',
-  TRIMETHOPRIM: '$extraData.TRIMETHOPRIM',
-  PHENICOL: '$extraData.PHENICOL',
-  FOSFOMYCIN: '$extraData.FOSFOMYCIN',
-  BLEOMYCIN: '$extraData.BLEOMYCIN',
-  MACROLIDE: '$extraData.MACROLIDE',
-  'AMINOGLYCOSIDE/QUINOLONE': '$extraData.AMINOGLYCOSIDE/QUINOLONE',
-  RIFAMYCIN: '$extraData.RIFAMYCIN',
-  'LINCOSAMIDE/MACROLIDE/STREPTOGRAMIN': '$extraData.LINCOSAMIDE/MACROLIDE/STREPTOGRAMIN',
-  STREPTOTHRICIN: '$extraData.STREPTOTHRICIN',
-  MULTIDRUG: '$extraData.MULTIDRUG',
-  'PHENICOL/QUINOLONE': '$extraData.PHENICOL/QUINOLONE',
-  'MACROLIDE/STREPTOGRAMIN': '$extraData.MACROLIDE/STREPTOGRAMIN',
-  COLISTIN: '$extraData.COLISTIN',
-  LINCOSAMIDE: '$extraData.LINCOSAMIDE',
-  'LINCOSAMIDE/MACROLIDE': '$extraData.LINCOSAMIDE/MACROLIDE',
-  STREPTOGRAMIN: '$extraData.STREPTOGRAMIN',
-  'PHENICOL/LINCOSAMIDE/OXAZOLIDINONE/PLEUROMUTILIN/STREPTOGRAMIN':
-    '$extraData.PHENICOL/LINCOSAMIDE/OXAZOLIDINONE/PLEUROMUTILIN/STREPTOGRAMIN',
-  NITROIMIDAZOLE: '$extraData.NITROIMIDAZOLE',
-};
 
 // const kpneumoFieldsToIgnore = {
 //   Amrnet_id: 0,
@@ -220,17 +192,19 @@ router.get('/getDataForEcoli', async function (req, res) {
       PMID: 1,
       Pathovar: 1,
       Aminoglycoside: 1,
-      Carbapenemase: 1,
-      Colistin: 1,
-      ESBL: 1,
-      Fosfomycin: 1,
-      Macrolide: 1,
-      Penicillin: 1,
-      Quinolone: 1,
+      'Beta-lactam': 1,
       Sulfonamide: 1,
       Tetracycline: 1,
-      Trimethoprim: 1,
       Phenicol: 1,
+      Quinolone: 1,
+      Fosfomycin: 1,
+      Trimethoprim: 1,
+      Macrolide: 1,
+      Lincosamide: 1,
+      Streptothricin: 1,
+      Rifamycin: 1,
+      Colistin: 1,
+      Bleomycin: 1,
       'O Antigen': 1,
       'H Antigen': 1,
       'dashboard view': 1,
@@ -315,17 +289,19 @@ router.get('/getDataForDEcoli', async function (req, res) {
       PMID: 1,
       Pathovar: 1,
       Aminoglycoside: 1,
-      Carbapenemase: 1,
-      Colistin: 1,
-      ESBL: 1,
-      Fosfomycin: 1,
-      Macrolide: 1,
-      Penicillin: 1,
-      Quinolone: 1,
+      'Beta-lactam': 1,
       Sulfonamide: 1,
       Tetracycline: 1,
-      Trimethoprim: 1,
       Phenicol: 1,
+      Quinolone: 1,
+      Fosfomycin: 1,
+      Trimethoprim: 1,
+      Macrolide: 1,
+      Lincosamide: 1,
+      Streptothricin: 1,
+      Rifamycin: 1,
+      Colistin: 1,
+      Bleomycin: 1,
       'O Antigen': 1,
       'H Antigen': 1,
       'dashboard view': 1,
@@ -372,9 +348,9 @@ router.get('/getDataForShige', async function (req, res) {
     const client = await connectDB();
     const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
 
-    // No projection — Shige uses individual drug resistance columns (Aminoglycoside, Penicillin,
-    // Carbapenemase, ESBL, Macrolide, Phenicol, Quinolone, Colistin, Fosfomycin, Sulfonamide,
-    // Tetracycline, Trimethoprim) as well as O/H serotype fields; stripping any would break charts.
+    // No projection — Shige uses individual drug resistance columns (Aminoglycoside, Beta-lactam,
+    // Sulfonamide, Tetracycline, Phenicol, Quinolone, Fosfomycin, Trimethoprim, Macrolide,
+    // Lincosamide, Streptothricin, Rifamycin, Colistin, Bleomycin) and O/H serotype fields.
     // Only count on page 1
     const [totalDocuments, result] = await Promise.all([
       page === 1 ? collection.countDocuments(query) : Promise.resolve(null),
@@ -423,25 +399,30 @@ router.get('/getDataForSenterica', async function (req, res) {
       $project: {
         GENOTYPE: {
           $cond: {
-            if: { $ne: ['$MLST_Achtman', null] },
-            then: '$MLST_Achtman',
+            if: { $ne: ['$GENOTYPE', null] },
+            then: '$GENOTYPE',
             else: 'Unknown',
           },
         },
 
-        AMINOGLYCOSIDE: 1,
-        'BETA-LACTAM': 1,
-        SULFONAMIDE: 1,
-        TETRACYCLINE: 1,
         NAME: 1,
         DATE: 1,
         COUNTRY_ONLY: 1,
-        'SISTR1 Serovar': 1,
-        QUINOLONE: 1,
-        TRIMETHOPRIM: 1,
-        PHENICOL: 1,
-        MACROLIDE: 1,
-        COLISTIN: 1,
+        seqsero2: 1,
+        Aminoglycoside: 1,
+        'Beta-lactam': 1,
+        Sulfonamide: 1,
+        Tetracycline: 1,
+        Phenicol: 1,
+        Quinolone: 1,
+        Fosfomycin: 1,
+        Trimethoprim: 1,
+        Macrolide: 1,
+        Lincosamide: 1,
+        Streptothricin: 1,
+        Rifamycin: 1,
+        Colistin: 1,
+        Bleomycin: 1,
       },
     };
 
@@ -465,8 +446,8 @@ router.get('/getDataForSenterica', async function (req, res) {
               uniqueGenotypes: {
                 $addToSet: {
                   $cond: {
-                    if: { $ne: ['$MLST_Achtman', null] },
-                    then: '$MLST_Achtman',
+                    if: { $ne: ['$GENOTYPE', null] },
+                    then: '$GENOTYPE',
                     else: 'Unknown',
                   },
                 },
@@ -522,35 +503,42 @@ router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req
   const page = parseInt(req.query.page, 10) || 1;
   const limit = parseInt(req.query.limit, 10) || 5000;
   const skip = (page - 1) * limit;
-  const matchStage = { $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } } };
 
   try {
     const client = await connectDB();
     const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
 
     // Only count on page 1
+    const projection = {
+      NAME: 1,
+      GENOTYPE: 1,
+      COUNTRY_ONLY: 1,
+      DATE: 1,
+      TRAVEL: 1,
+      PMID: 1,
+      seqsero2: 1,
+      Aminoglycoside: 1,
+      'Beta-lactam': 1,
+      Sulfonamide: 1,
+      Tetracycline: 1,
+      Phenicol: 1,
+      Quinolone: 1,
+      Fosfomycin: 1,
+      Trimethoprim: 1,
+      Macrolide: 1,
+      Lincosamide: 1,
+      Streptothricin: 1,
+      Rifamycin: 1,
+      Colistin: 1,
+      Bleomycin: 1,
+      'dashboard view': 1,
+    };
+
+    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+
     const [countResult, result] = await Promise.all([
-      page === 1
-        ? collection.countDocuments({ 'dashboard view': { $regex: /^include$/, $options: 'i' } })
-        : Promise.resolve(null),
-      collection
-        .aggregate([
-          matchStage,
-          {
-            $lookup: {
-              from: 'ints_collection_from_enterica',
-              localField: 'NAME',
-              foreignField: 'NAME',
-              as: 'extraData',
-            },
-          },
-          { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-          { $addFields: sentericaintsFieldsToAdd },
-          { $project: { extraData: 0 } },
-          { $skip: skip },
-          { $limit: limit },
-        ])
-        .toArray(),
+      page === 1 ? collection.countDocuments(query) : Promise.resolve(null),
+      collection.find(query).project(projection).skip(skip).limit(limit).toArray(),
     ]);
 
     const totalDocuments = countResult;
@@ -704,7 +692,7 @@ router.get('/getCollectionCounts', async function (_req, res) {
     const countPromises = Object.entries(dbAndCollectionNames).map(([, { dbName, collectionName }]) => {
       return getCollectionCountWithTimeout(dbName, collectionName, {
         'dashboard view': { $regex: /^include$/, $options: 'i' },
-        $or: [{ GENOTYPE: { $ne: null } }, { ST: { $ne: null } }, { MLST_Achtman: { $ne: null } }],
+        $or: [{ GENOTYPE: { $ne: null } }, { ST: { $ne: null } }, { GENOTYPE: { $ne: null } }],
       });
     });
 

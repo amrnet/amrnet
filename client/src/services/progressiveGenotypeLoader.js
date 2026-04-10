@@ -61,13 +61,13 @@ class ProgressiveGenotypeLoader {
 
       // Extract pathotype/serotype data
       if (['sentericaints'].includes(organism)) {
-        pathovarSet.add(x.SISTR1_Serovar);
+        pathovarSet.add(x.seqsero2);
       }
       if (['ecoli', 'shige', 'decoli'].includes(organism)) {
         pathovarSet.add(x.Pathovar);
       }
       if (['senterica'].includes(organism)) {
-        pathovarSet.add(x['SISTR1 Serovar']);
+        pathovarSet.add(x.seqsero2);
       }
       if (['decoli', 'ecoli', 'shige'].includes(organism)) {
         serotypeSet.add(x.Serotype);
@@ -113,7 +113,7 @@ class ProgressiveGenotypeLoader {
       countries,
       PMID,
       pathovar,
-      serotype
+      serotype,
     };
   }
 
@@ -130,8 +130,8 @@ class ProgressiveGenotypeLoader {
     console.log('🧬 Progressive Loading: Starting genotype extraction in background...');
 
     // Use requestIdleCallback for non-blocking processing
-    return new Promise((resolve) => {
-      const processGenotypes = (deadline) => {
+    return new Promise(resolve => {
+      const processGenotypes = deadline => {
         const genotypesSet = new Set();
         let processed = 0;
         const batchSize = 1000; // Process in batches
@@ -173,20 +173,24 @@ class ProgressiveGenotypeLoader {
           // Generate color palette for genotypes
           if (organism !== 'styphi' && organism !== 'senterica') {
             // Import dynamically when needed
-            import('../util/colorHelper').then(({ generatePalleteForGenotypes }) => {
-              dispatch(actions.setColorPallete(generatePalleteForGenotypes(genotypes)));
-            }).catch(console.error);
+            import('../util/colorHelper')
+              .then(({ generatePalleteForGenotypes }) => {
+                dispatch(actions.setColorPallete(generatePalleteForGenotypes(genotypes)));
+              })
+              .catch(console.error);
           } else if (organism === 'senterica') {
             // Import dynamically when needed
-            import('../util/colorHelper').then(({ generatePalleteForGenotypes }) => {
-              dispatch(actions.setColorPallete(generatePalleteForGenotypes(genotypes)));
-            }).catch(console.error);
+            import('../util/colorHelper')
+              .then(({ generatePalleteForGenotypes }) => {
+                dispatch(actions.setColorPallete(generatePalleteForGenotypes(genotypes)));
+              })
+              .catch(console.error);
           }
 
           this.isLoading = false;
           resolve({
             genotypes,
-            ...immediateData
+            ...immediateData,
           });
         }
       };
@@ -209,7 +213,7 @@ class ProgressiveGenotypeLoader {
     // Return immediate data so UI can render, genotypes will update when ready
     return {
       immediate: immediateData,
-      genotypesPromise: genotypePromise
+      genotypesPromise: genotypePromise,
     };
   }
 
@@ -219,7 +223,7 @@ class ProgressiveGenotypeLoader {
   getCountryDisplayName(country) {
     // Simple implementation - the actual function can be imported when needed
     return country || ' ';
-  }  /**
+  } /**
    * Check if genotypes are still loading
    */
   isGenotypeLoading() {

@@ -72,7 +72,6 @@ import {
   setDrugsRegionsData,
   setDrugsYearData,
   setFrequenciesGraphSelectedGenotypes,
-  setRawOrganismData,
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
@@ -83,6 +82,7 @@ import {
   setKOTrendsGraphView,
   setKOYearsData,
   setMaxSliderValueCM,
+  setRawOrganismData,
   setRegionsYearData,
   setSublineagesYearData,
   setTrendsGraphDrugClass,
@@ -104,7 +104,6 @@ import {
   defaultDrugsForDrugResistanceGraphST,
   drugClassesNG,
   drugsECOLI,
-  drugsINTS,
   drugsKP,
   drugsSA,
   drugsSP,
@@ -115,7 +114,6 @@ import {
 import { getContinentGraphCard } from '../../util/graphCards';
 import { AMRInsights } from '../Elements/AMRInsights';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
-import { ContinentPathotypeGraphs } from '../Elements/ContinentPathotypeGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
 import GenotypeLoadingIndicator from '../Elements/GenotypeLoadingIndicator';
 import { Graphs } from '../Elements/Graphs';
@@ -326,7 +324,7 @@ export const DashboardPage = () => {
       ecRegions[region].push(country);
     });
 
-    // senterica stores MLST_Achtman instead of GENOTYPE — map it.
+    // senterica stores MLST_Achtman instead of GENOTYPE — map it. Updated to GENOTYPE 04/26
     // sentericaints already has a pre-computed GENOTYPE field (e.g. 'iTYM ST19-L1') so skip it.
     if (organism === 'senterica') {
       try {
@@ -334,20 +332,20 @@ export const DashboardPage = () => {
         let found = false;
         for (let i = 0; i < sampleSize; i++) {
           const r = responseData[i];
-          if (r && r['MLST_Achtman'] && `${r['MLST_Achtman']}`.trim() !== '') {
+          if (r && r['GENOTYPE'] && `${r['GENOTYPE']}`.trim() !== '') {
             found = true;
             break;
           }
         }
         if (found) {
           responseData.forEach(r => {
-            if (r && (r['MLST_Achtman'] || r['MLST_Achtman'] === 0)) {
-              r.GENOTYPE = r['MLST_Achtman'];
+            if (r && (r['GENOTYPE'] || r['GENOTYPE'] === 0)) {
+              r.GENOTYPE = r['GENOTYPE'];
             }
           });
         }
       } catch (e) {
-        console.warn('Error checking MLST_Achtman mapping:', e);
+        console.warn('Error checking GENOTYPE mapping:', e);
       }
     }
 
@@ -390,8 +388,8 @@ export const DashboardPage = () => {
 
       // pathovar and serotype
       if (['sentericaints'].includes(organism)) {
-        if (x.SISTR1_Serovar && x.SISTR1_Serovar !== '') {
-          pathovarSet.add(x.SISTR1_Serovar);
+        if (x.seqsero2 && x.seqsero2 !== '') {
+          pathovarSet.add(x.seqsero2);
         }
       }
       if (['ecoli', 'shige', 'decoli'].includes(organism)) {
@@ -400,9 +398,8 @@ export const DashboardPage = () => {
         }
       }
       if (['senterica'].includes(organism)) {
-        // pathovarSet.add(x.SeqSero2_Serovar);
-        if (x['SISTR1 Serovar'] && x['SISTR1 Serovar'] !== '') {
-          pathovarSet.add(x['SISTR1 Serovar']);
+        if (x.seqsero2 && x.seqsero2 !== '') {
+          pathovarSet.add(x.seqsero2);
         }
       }
       if (['decoli', 'ecoli', 'shige'].includes(organism)) {
@@ -536,8 +533,8 @@ export const DashboardPage = () => {
       styphi: defaultDrugsForDrugResistanceGraphST,
       ngono: defaultDrugsForDrugResistanceGraphNG,
       kpneumo: drugsKP,
-      senterica: drugsINTS,
-      sentericaints: drugsINTS,
+      senterica: drugsECOLI,
+      sentericaints: drugsECOLI,
       ecoli: drugsECOLI,
       decoli: drugsECOLI,
       shige: drugsECOLI,
@@ -561,7 +558,7 @@ export const DashboardPage = () => {
     console.time('[getInfoFromData] heavy');
     await Promise.all([
       // Get map data
-      getStoreOrGenerateData(`${organism}_map`, async () =>
+      getStoreOrGenerateData(`${organism}_map_v2`, async () =>
         getMapData({ data: responseData, items: countries, organism }),
       ).then(mapData => {
         dispatch(setMapData(mapData));
@@ -569,7 +566,7 @@ export const DashboardPage = () => {
       }),
 
       // Get regions data
-      getStoreOrGenerateData(`${organism}_map_regions`, async () =>
+      getStoreOrGenerateData(`${organism}_map_regions_v2`, async () =>
         getMapData({ data: responseData, items: ecRegions, organism, type: 'region' }),
       ).then(mapData => {
         dispatch(setMapRegionData(mapData));
@@ -578,7 +575,7 @@ export const DashboardPage = () => {
 
       // Get genotypes data
       // Use versioned key for organisms with marker-level genotype breakdown to bust stale cache
-      getStoreOrGenerateData(`${organism}_genotype${['saureus', 'strepneumo'].includes(organism) ? '_v2' : ''}`, () => {
+      getStoreOrGenerateData(`${organism}_genotype_v3`, () => {
         const dt = getGenotypesData({
           data: responseData,
           genotypes,
@@ -626,8 +623,8 @@ export const DashboardPage = () => {
       //     })
       //   : Promise.resolve(),
 
-      // Get years data
-      getStoreOrGenerateData(`${organism}_years`, () => {
+      // Get years data (v2: new drug column format for ecoli-like organisms)
+      getStoreOrGenerateData(`${organism}_years_v2`, () => {
         const dt = getYearsData({
           data: responseData,
           years,
@@ -710,29 +707,35 @@ export const DashboardPage = () => {
       // Get drugs carb and esbl data for countries
       // Use versioned cache key for organisms with marker-level breakdown to bust stale cache
       // !['styphi', 'kpneumo'].includes(organism)
-      getStoreOrGenerateData(`${organism}_drugs_countries${['saureus', 'strepneumo'].includes(organism) ? '_v2' : ''}`, () => {
-        const { drugsData } = getDrugsCountriesData({
-          data: responseData,
-          items: countries,
-          organism,
-        });
-        return [drugsData];
-      }).then(([drugsData]) => {
+      getStoreOrGenerateData(
+        `${organism}_drugs_countries_v3`,
+        () => {
+          const { drugsData } = getDrugsCountriesData({
+            data: responseData,
+            items: countries,
+            organism,
+          });
+          return [drugsData];
+        },
+      ).then(([drugsData]) => {
         dispatch(setDrugsCountriesData(drugsData));
       }),
       // : Promise.resolve(),
 
       // Get drugs carb and esbl data for regions
       // ['styphi', 'kpneumo'].includes(organism)
-      getStoreOrGenerateData(`${organism}_drugs_regions${['saureus', 'strepneumo'].includes(organism) ? '_v2' : ''}`, () => {
-        const { drugsData } = getDrugsCountriesData({
-          data: responseData,
-          items: ecRegions,
-          type: 'region',
-          organism,
-        });
-        return [drugsData];
-      }).then(([drugsData]) => {
+      getStoreOrGenerateData(
+        `${organism}_drugs_regions_v3`,
+        () => {
+          const { drugsData } = getDrugsCountriesData({
+            data: responseData,
+            items: ecRegions,
+            type: 'region',
+            organism,
+          });
+          return [drugsData];
+        },
+      ).then(([drugsData]) => {
         dispatch(setDrugsRegionsData(drugsData));
       }),
       // : Promise.resolve(),
@@ -854,24 +857,29 @@ export const DashboardPage = () => {
       let organismData = null;
       let metadata = null;
 
-      const result = await getStoreOrGenerateData(organism, async () => {
-        console.log(`🌐 [CLIENT] Fetching from loadOrganismQuickly`);
-        const apiStartTime = performance.now();
+      const result = await getStoreOrGenerateData(
+        organism,
+        async () => {
+          console.log(`🌐 [CLIENT] Fetching from loadOrganismQuickly`);
+          const apiStartTime = performance.now();
 
-        const response = await loadOrganismQuickly(organism, message => {
-          console.log(`⏳ [QUICK FIX] ${message}`);
-        });
+          const response = await loadOrganismQuickly(organism, message => {
+            console.log(`⏳ [QUICK FIX] ${message}`);
+          });
 
-        const apiEndTime = performance.now();
-        const apiDuration = Math.round(apiEndTime - apiStartTime);
-        const dataSize = JSON.stringify(response).length;
+          const apiEndTime = performance.now();
+          const apiDuration = Math.round(apiEndTime - apiStartTime);
+          const dataSize = JSON.stringify(response).length;
 
-        console.log(
-          `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.data.length} records`,
-        );
+          console.log(
+            `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${response.data.length} records`,
+          );
 
-        return response;
-      }, true, true); // clearStore=true, backgroundWrite=true
+          return response;
+        },
+        true,
+        true,
+      ); // clearStore=true, backgroundWrite=true
 
       // Extract data and metadata from result
       if (result && typeof result === 'object' && result.data) {
@@ -1184,7 +1192,7 @@ export const DashboardPage = () => {
       case 'sentericaints':
       case 'senterica':
         if (!isPaginated) {
-          dispatch(setDrugResistanceGraphView(drugsINTS));
+          dispatch(setDrugResistanceGraphView(drugsECOLI));
         }
         dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
         dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
@@ -1236,76 +1244,83 @@ export const DashboardPage = () => {
       console.log(`📊 [CLIENT] Loading data for ${storeName} using endpoint: ${endpoint}...`);
 
       // backgroundWrite=true: IDB write is fire-and-forget so getInfoFromData can start immediately.
-      const organismData = await getStoreOrGenerateData(storeName, async () => {
-        console.log(`🌐 [CLIENT] Fetching from API: /api/${endpoint}`);
-        const apiStartTime = performance.now();
+      const organismData = await getStoreOrGenerateData(
+        storeName,
+        async () => {
+          console.log(`🌐 [CLIENT] Fetching from API: /api/${endpoint}`);
+          const apiStartTime = performance.now();
 
-        // First request (page 1 or full response)
-        const firstResp = await axios.get(`/api/${endpoint}`, {
-          params: { page: 1, limit: 5000 },
-          maxContentLength: Infinity,
-          maxBodyLength: Infinity,
-        });
+          // First request (page 1 or full response)
+          const firstResp = await axios.get(`/api/${endpoint}`, {
+            params: { page: 1, limit: 5000 },
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
+          });
 
-        const apiEndTime = performance.now();
-        const apiDuration = Math.round(apiEndTime - apiStartTime);
-        const payload = firstResp.data;
+          const apiEndTime = performance.now();
+          const apiDuration = Math.round(apiEndTime - apiStartTime);
+          const payload = firstResp.data;
 
-        // If the endpoint is paginated (returns { data, pagination }), fetch and store all pages
-        if (payload && payload.pagination && Array.isArray(payload.data)) {
-          const { pagination } = payload;
-          const pageLimit = pagination.limit || 5000;
-          const totalPages = pagination.totalPages || Math.ceil((pagination.totalDocuments || 0) / pageLimit);
+          // If the endpoint is paginated (returns { data, pagination }), fetch and store all pages
+          if (payload && payload.pagination && Array.isArray(payload.data)) {
+            const { pagination } = payload;
+            const pageLimit = pagination.limit || 5000;
+            const totalPages = pagination.totalPages || Math.ceil((pagination.totalDocuments || 0) / pageLimit);
 
-          // Store first chunk (clear store)
-          if (Array.isArray(payload.data)) {
-            // eslint-disable-next-line no-await-in-loop
-            await bulkAddItems(storeName, payload.data, true);
-          }
-
-          // Fetch remaining pages sequentially to avoid resource pressure
-          if (totalPages > 1) {
-            for (let p = 2; p <= totalPages; p++) {
+            // Store first chunk (clear store)
+            if (Array.isArray(payload.data)) {
               // eslint-disable-next-line no-await-in-loop
-              const r = await axios.get(`/api/${endpoint}`, {
-                params: { page: p, limit: pageLimit },
-                maxContentLength: Infinity,
-                maxBodyLength: Infinity,
-              });
+              await bulkAddItems(storeName, payload.data, true);
+            }
 
-              if (r && r.data && Array.isArray(r.data.data)) {
-                const chunk = r.data.data;
+            // Fetch remaining pages sequentially to avoid resource pressure
+            if (totalPages > 1) {
+              for (let p = 2; p <= totalPages; p++) {
                 // eslint-disable-next-line no-await-in-loop
-                await bulkAddItems(storeName, chunk, false);
+                const r = await axios.get(`/api/${endpoint}`, {
+                  params: { page: p, limit: pageLimit },
+                  maxContentLength: Infinity,
+                  maxBodyLength: Infinity,
+                });
+
+                if (r && r.data && Array.isArray(r.data.data)) {
+                  const chunk = r.data.data;
+                  // eslint-disable-next-line no-await-in-loop
+                  await bulkAddItems(storeName, chunk, false);
+                }
               }
             }
+
+            console.log(
+              `📈 [CLIENT] API Response (paginated -> stored): ${apiDuration}ms, pages fetched: ${totalPages}`,
+            );
+
+            // Signal that data was processed from IndexedDB and no further in-memory processing is required
+            return '__PROCESSED_FROM_IDB__';
           }
 
-          console.log(`📈 [CLIENT] API Response (paginated -> stored): ${apiDuration}ms, pages fetched: ${totalPages}`);
+          // Non-paginated handling: normalize payload to array
+          const organismData = Array.isArray(payload)
+            ? payload
+            : payload && Array.isArray(payload.data)
+              ? payload.data
+              : [];
+          const dataSize = JSON.stringify(payload).length;
+          const recordCount = Array.isArray(payload)
+            ? payload.length
+            : payload && Array.isArray(payload.data)
+              ? payload.data.length
+              : 0;
 
-          // Signal that data was processed from IndexedDB and no further in-memory processing is required
-          return '__PROCESSED_FROM_IDB__';
-        }
+          console.log(
+            `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${recordCount} records`,
+          );
 
-        // Non-paginated handling: normalize payload to array
-        const organismData = Array.isArray(payload)
-          ? payload
-          : payload && Array.isArray(payload.data)
-            ? payload.data
-            : [];
-        const dataSize = JSON.stringify(payload).length;
-        const recordCount = Array.isArray(payload)
-          ? payload.length
-          : payload && Array.isArray(payload.data)
-            ? payload.data.length
-            : 0;
-
-        console.log(
-          `📈 [CLIENT] API Response: ${apiDuration}ms, ${Math.round(dataSize / 1024)}KB, ${recordCount} records`,
-        );
-
-        return organismData;
-      }, true, true); // clearStore=true, backgroundWrite=true
+          return organismData;
+        },
+        true,
+        true,
+      ); // clearStore=true, backgroundWrite=true
 
       if (organismData === '__PROCESSED_FROM_IDB__') {
         // Data was fetched and stored into IndexedDB by the handler. Process from IDB in batches.
@@ -1510,8 +1525,8 @@ export const DashboardPage = () => {
         styphi: defaultDrugsForDrugResistanceGraphST,
         ngono: defaultDrugsForDrugResistanceGraphNG,
         kpneumo: drugsKP,
-        senterica: drugsINTS,
-        sentericaints: drugsINTS,
+        senterica: drugsECOLI,
+        sentericaints: drugsECOLI,
         ecoli: drugsECOLI,
         decoli: drugsECOLI,
         shige: drugsECOLI,
@@ -1641,9 +1656,7 @@ export const DashboardPage = () => {
     } else {
       // When all lineages are selected, pass [] so filterData treats it as "no filter"
       const effectiveLineages =
-        selectedLineages?.length > 0 && selectedLineages.length < pathovarForFilter.length
-          ? selectedLineages
-          : [];
+        selectedLineages?.length > 0 && selectedLineages.length < pathovarForFilter.length ? selectedLineages : [];
 
       const filters = filterData({
         data: storeData,
@@ -1700,13 +1713,13 @@ export const DashboardPage = () => {
           selectedLineages.length < pathovarForFilter.length && { serotype: selectedLineages.join(',') }),
       };
 
-      // senterica: IndexedDB records lack GENOTYPE (stored as MLST_Achtman) — map it here
+      // senterica: IndexedDB records lack GENOTYPE (stored as GENOTYPE — map it here
       // so getYearsData sees the correct GENOTYPE values.
       // sentericaints: GENOTYPE is already stored in the collection; no mapping needed.
       if (organism === 'senterica' && filteredData.length > 0) {
         filteredData.forEach(r => {
-          if (r && !r.GENOTYPE && (r['MLST_Achtman'] || r['MLST_Achtman'] === 0)) {
-            r.GENOTYPE = r['MLST_Achtman'];
+          if (r && !r.GENOTYPE && (r['GENOTYPE'] || r['GENOTYPE'] === 0)) {
+            r.GENOTYPE = r['GENOTYPE'];
           }
         });
       }
@@ -1718,7 +1731,7 @@ export const DashboardPage = () => {
         genotypesData,
         yearlyServerResponse, // server-side agg (drugsData, genotypesData, uniqueGenotypes)
         genotypesServerResponse, // server-side agg (genotypesDrugsData)
-        yearsData,            // client-side getYearsData (genotypesAndDrugsData + kp/ng-specific)
+        yearsData, // client-side getYearsData (genotypesAndDrugsData + kp/ng-specific)
         koData,
         // koDiversityData,
         convergenceData,
@@ -1800,8 +1813,8 @@ export const DashboardPage = () => {
       const serverYd = yearlyServerResponse?.data;
       const serverOk = Array.isArray(serverYd?.drugsData) && serverYd.drugsData.length > 0;
 
-      const finalGenotypesData   = serverOk ? serverYd.genotypesData   : (yearsData.genotypesData   ?? []);
-      const finalDrugsData       = serverOk ? serverYd.drugsData       : (yearsData.drugsData       ?? []);
+      const finalGenotypesData = serverOk ? serverYd.genotypesData : (yearsData.genotypesData ?? []);
+      const finalDrugsData = serverOk ? serverYd.drugsData : (yearsData.drugsData ?? []);
       const finalUniqueGenotypes = serverOk ? serverYd.uniqueGenotypes : (yearsData.uniqueGenotypes ?? []);
 
       // Dispatch map data
@@ -1826,11 +1839,7 @@ export const DashboardPage = () => {
 
       // Dispatch genotypes and time-based data
       dispatch(setGenotypesDrugsData(finalGenotypesDrugsData));
-      dispatch(
-        setFrequenciesGraphSelectedGenotypes(
-          finalGenotypesDrugsData.slice(0, 5).map(x => x.name),
-        ),
-      );
+      dispatch(setFrequenciesGraphSelectedGenotypes(finalGenotypesDrugsData.slice(0, 5).map(x => x.name)));
       dispatch(setGenotypesDrugClassesData(genotypesData.genotypesDrugClassesData));
       dispatch(setCountriesYearData(genotypesData.countriesDrugClassesData));
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));

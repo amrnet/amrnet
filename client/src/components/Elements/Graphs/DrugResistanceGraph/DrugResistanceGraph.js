@@ -36,7 +36,6 @@ import {
   ciproAcronyms,
   drugAcronymsOpposite,
   drugsECOLI,
-  drugsINTS,
   drugsKP,
   defaultDrugsForDrugResistanceGraphNG,
   drugsNG,
@@ -149,9 +148,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       drugs = drugsKP;
     } else if (organism === 'ngono') {
       drugs = defaultDrugsForDrugResistanceGraphNG;
-    } else if (['senterica', 'sentericaints'].includes(organism)) {
-      drugs = drugsINTS;
-    } else if (['ecoli', 'decoli', 'shige'].includes(organism)) {
+    } else if (['senterica', 'sentericaints', 'ecoli', 'decoli', 'shige'].includes(organism)) {
       drugs = drugsECOLI;
     } else if (organism === 'saureus') {
       drugs = drugsSA;

@@ -37,9 +37,8 @@ import {
   drugAcronymsOpposite,
   drugsSA,
   drugsSP,
-  markersDrugsINTS,
-  markersDrugsKP,
   markersDrugsSH,
+  markersDrugsKP,
 } from '../../../../util/drugs';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
@@ -88,11 +87,11 @@ const organismConfig = {
     labelMap: {},
   },
   senterica: {
-    drugs: markersDrugsINTS,
+    drugs: markersDrugsSH,
     labelMap: {},
   },
   sentericaints: {
-    drugs: markersDrugsINTS,
+    drugs: markersDrugsSH,
     labelMap: {},
   },
   saureus: {

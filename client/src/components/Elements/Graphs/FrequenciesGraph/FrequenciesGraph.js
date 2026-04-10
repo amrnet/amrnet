@@ -32,7 +32,7 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCaptureRFWG } from '../../../../stores/slices/dashboardSlice';
 import { setFrequenciesGraphSelectedGenotypes, setFrequenciesGraphView } from '../../../../stores/slices/graphSlice';
 import { hoverColor } from '../../../../util/colorHelper';
-import { drugsINTS, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
+import { drugsECOLI, drugsKP, drugsNG, drugsST } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { SelectCountry } from '../../SelectCountry';
@@ -109,7 +109,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
     } else if (organism === 'ngono') {
       return drugsNG;
     } else if (amrLikeOrganisms.includes(organism)) {
-      return drugsINTS;
+      return drugsECOLI;
     }
   }
 

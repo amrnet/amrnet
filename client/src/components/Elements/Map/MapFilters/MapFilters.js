@@ -174,11 +174,15 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
         case 'kpneumo':
           dispatch(setPrevalenceMapViewOptionsSelected(['Carbapenems']));
           break;
-        case 'ecoli':
-          dispatch(setPrevalenceMapViewOptionsSelected(['ESBL']));
-          break;
         case 'styphi':
           dispatch(setPrevalenceMapViewOptionsSelected(['CipR']));
+          break;
+        case 'ecoli':
+        case 'decoli':
+        case 'shige':
+        case 'senterica':
+        case 'sentericaints':
+          dispatch(setPrevalenceMapViewOptionsSelected(['Quinolone']));
           break;
         default:
           dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin']));

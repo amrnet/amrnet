@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
-import { drugAcronyms, drugsECOLI, drugsINTS, drugsKP, drugsNG, drugsSA, drugsSP, drugsST } from '../../../../util/drugs';
+import { drugAcronyms, drugsECOLI, drugsKP, drugsNG, drugsSA, drugsSP, drugsST } from '../../../../util/drugs';
 import { useStyles } from './TemporalHeatmapGraphMUI';
 
 const MIN_SAMPLES_PER_CELL = 10;
@@ -37,12 +37,12 @@ function getDrugsForOrganism(organism) {
     case 'kpneumo': return drugsKP.filter(d => !['Pansusceptible'].includes(d));
     case 'ngono': return drugsNG;
     case 'senterica':
-    case 'sentericaints': return drugsINTS.filter(d => !['Pansusceptible'].includes(d));
-    case 'saureus': return drugsSA;
-    case 'strepneumo': return drugsSP;
+    case 'sentericaints':
     case 'ecoli':
     case 'decoli':
     case 'shige': return drugsECOLI.filter(d => !['Pansusceptible'].includes(d));
+    case 'saureus': return drugsSA;
+    case 'strepneumo': return drugsSP;
     default: return [];
   }
 }

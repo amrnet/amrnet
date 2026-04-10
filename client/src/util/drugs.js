@@ -1,12 +1,10 @@
 import {
   drugClassesRulesNG,
-  drugRulesINTS,
   drugRulesNG,
   drugRulesSA,
   drugRulesSP,
   drugRulesST,
   statKeysECOLI,
-  statKeysINTS,
   statKeysKP,
   statKeysKPOnlyMarkers,
 } from './drugClassesRules';
@@ -86,7 +84,7 @@ export const markersDrugsKP = [
 ].sort();
 export const markersDrugsST = [...drugRulesST.map(x => x.name)].sort();
 export const markersDrugsSH = statKeysECOLI.map(x => x.name).filter(x => !['Pansusceptible'].includes(x));
-export const markersDrugsINTS = statKeysINTS.map(x => x.name).filter(x => !['Pansusceptible'].includes(x));
+export const markersDrugsINTS = statKeysECOLI.map(x => x.name).filter(x => !['Pansusceptible'].includes(x));
 
 // List of Salmonella Typhi drug classes
 export const drugClassesST = [
@@ -121,6 +119,7 @@ export const drugAcronyms = {
   Ceftriaxone: 'CRO',
   Chloramphenicol: 'CHL',
   Sulfonamides: 'SUL',
+  Sulfonamide: 'SUL',
   Tetracycline: 'TET',
   Trimethoprim: 'TMP',
   'Trimethoprim-sulfamethoxazole': 'SXT',
@@ -161,6 +160,15 @@ export const drugAcronyms = {
   Susceptible: 'SUS',
   Carbapenems: 'CARB',
   Carbapenem: 'CARB',
+  Aminoglycoside: 'AGLY',
+  'Beta-lactam': 'BLA',
+  Quinolone: 'QNL',
+  Phenicol: 'PHE',
+  Macrolide: 'MLS',
+  Lincosamide: 'LIN',
+  Streptothricin: 'STN',
+  Rifamycin: 'RIF',
+  Bleomycin: 'BLE',
   'Ciprofloxacin R': 'CipR',
   CipNS: 'CipNS',
   CipR: 'CipR',
@@ -201,17 +209,17 @@ export const ciproAcronyms = {
   'Ciprofloxacin R': 'Ciprofloxacin (resistant)',
 };
 
-export const drugsINTS = [...drugRulesINTS.map(x => x.key), 'CipNS', 'CipR', 'QRDR mutations', 'MDR', 'XDR', 'PDR'];
+// export const drugsINTS = [...drugRulesINTS.map(x => x.key), 'CipNS', 'CipR', 'QRDR mutations', 'MDR', 'XDR', 'PDR'];
 export const drugsECOLI = statKeysECOLI.map(x => x.name);
-export const drugsINTSLegendsOnly = [
-  ...drugRulesINTS.map(x => x.legends || x.key),
-  'Ciprofloxacin (non-susceptible)',
-  'Ciprofloxacin (resistant)',
-  'QRDR mutations',
-  'Multidrug resistant (MDR)',
-  'Extensively drug resistant (XDR)',
-  'Pan-drug resistant (PDR)',
-].sort((a, b) => a.localeCompare(b));
+// export const drugsINTSLegendsOnly = [
+//   ...drugRulesINTS.map(x => x.legends || x.key),
+//   // 'Ciprofloxacin (non-susceptible)',
+//   // 'Ciprofloxacin (resistant)',
+//   // 'QRDR mutations',
+//   // 'Multidrug resistant (MDR)',
+//   // 'Extensively drug resistant (XDR)',
+//   // 'Pan-drug resistant (PDR)',
+// ].sort((a, b) => a.localeCompare(b));
 export const drugsNGLegendsOnly = drugRulesNG.map(x => x.legends || x.key);
 export const drugsKlebLegendsOnly = drugsKP.map(x => x.key).sort((a, b) => a.localeCompare(b));
 //export const drugsSTLegendsOnly = drugsSTLegendsOnlyOk.map((x) => x.legends || x.key);
@@ -226,7 +234,7 @@ export function getDrugClasses(organism) {
       return drugClassesNG;
     case 'senterica':
     case 'sentericaints':
-      return drugsINTS.filter(x => x !== 'Pansusceptible');
+      return drugsECOLI.filter(x => x !== 'Pansusceptible');
     case 'saureus':
       return drugsSA;
     case 'strepneumo':
