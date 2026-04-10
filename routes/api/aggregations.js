@@ -74,118 +74,51 @@ const getHyphenFieldFrom = (fieldName, inputExpr) => ({
 // Each condition evaluates to truthy (used inside $cond: [condition, 1, 0]).
 // ---------------------------------------------------------------------------
 
-/** statKeysECOLI rules — used by ecoli, decoli, and shige. */
-function buildEcoliConditions() {
-  return {
-    Aminoglycosides: { $ne: ['$Aminoglycoside', '-'] },
-
-    Ampicillin: {
-      $or: [{ $ne: ['$Penicillin', '-'] }, { $ne: ['$Carbapenemase', '-'] }, { $ne: ['$ESBL', '-'] }],
-    },
-
-    Azithromycin: {
-      $or: [includesExpr('$Macrolide', 'mph(A)'), includesExpr('$Macrolide', 'acrB_R717L')],
-    },
-
-    Carbapenems: { $ne: ['$Carbapenemase', '-'] },
-
-    Chloramphenicol: { $ne: ['$Phenicol', '-'] },
-
-    Ciprofloxacin: { $ne: ['$Quinolone', '-'] },
-
-    Colistin: { $ne: ['$Colistin', '-'] },
-
-    // ESBL: specific OXA carbapenemases count OR any ESBL gene
-    ESBL: {
-      $or: [
-        { $eq: ['$Carbapenemase', 'blaOXA-24'] },
-        { $eq: ['$Carbapenemase', 'blaOXA-244'] },
-        { $eq: ['$Carbapenemase', 'blaOXA-48'] },
-        { $eq: ['$Carbapenemase', 'blaOXA-181'] },
-        { $ne: ['$ESBL', '-'] },
-      ],
-    },
-
-    Fosfomycin: { $ne: ['$Fosfomycin', '-'] },
-
-    Sulfamethoxazole: { $ne: ['$Sulfonamide', '-'] },
-
-    Tetracycline: { $ne: ['$Tetracycline', '-'] },
-
-    Trimethoprim: { $ne: ['$Trimethoprim', '-'] },
-
-    'Trimethoprim-Sulfamethoxazole': {
-      $and: [{ $ne: ['$Trimethoprim', '-'] }, { $ne: ['$Sulfonamide', '-'] }],
-    },
-
-    // Pansusceptible: all resistance columns are '-'
-    Pansusceptible: {
-      $and: [
-        { $eq: ['$Aminoglycoside', '-'] },
-        { $eq: ['$Penicillin', '-'] },
-        { $eq: ['$Carbapenemase', '-'] },
-        { $eq: ['$ESBL', '-'] },
-        { $eq: ['$Macrolide', '-'] },
-        { $eq: ['$Phenicol', '-'] },
-        { $eq: ['$Quinolone', '-'] },
-        { $eq: ['$Colistin', '-'] },
-        { $eq: ['$Fosfomycin', '-'] },
-        { $eq: ['$Sulfonamide', '-'] },
-        { $eq: ['$Tetracycline', '-'] },
-        { $eq: ['$Trimethoprim', '-'] },
-      ],
-    },
-  };
-}
-
 /**
- * statKeysINTS / drugRulesINTS — used by senterica and sentericaints.
- * IMPORTANT: 'BETA-LACTAM' is renamed to 'BETALACTAM' in the normalization stage.
+ * Shared drug conditions for ecoli, decoli, shige, senterica, sentericaints.
+ * Resistant = column has a non-empty value (not '', '-', null).
  */
-function buildSentericaConditions() {
-  return {
-    Aminoglycosides: {
-      $or: [includesExpr('$AMINOGLYCOSIDE', 'GENTAMICIN'), includesExpr('$AMINOGLYCOSIDE', 'AMINOGLYCOSIDE')],
-    },
+function buildEcoliConditions() {
+  const drugColumns = [
+    'Aminoglycoside', 'Beta-lactam', 'Sulfonamide', 'Tetracycline',
+    'Phenicol', 'Quinolone', 'Fosfomycin', 'Trimethoprim',
+    'Macrolide', 'Lincosamide', 'Streptothricin', 'Rifamycin',
+    'Colistin', 'Bleomycin',
+  ];
 
-    // BETALACTAM is the renamed BETA-LACTAM field
-    Ampicillin: includesExpr('$BETALACTAM', 'BETA-LACTAM'),
+  // Helper: get field expression (Beta-lactam needs $getField due to hyphen)
+  const fieldExpr = col => col === 'Beta-lactam' ? { $getField: 'Beta-lactam' } : `$${col}`;
 
-    Azithromycin: {
-      $or: [includesExpr('$MACROLIDE', 'mph(A)'), includesExpr('$MACROLIDE', 'acrB_R717L')],
-    },
+  // Resistant: field is not null, not '', not '-'
+  const isResistant = col => ({
+    $and: [
+      { $ne: [{ $ifNull: [fieldExpr(col), ''] }, ''] },
+      { $ne: [{ $ifNull: [fieldExpr(col), '-'] }, '-'] },
+    ],
+  });
 
-    Carbapenems: includesExpr('$BETALACTAM', 'CARBAPENEM'),
+  // Susceptible: field is null, '', or '-'
+  const isSusceptible = col => ({
+    $or: [
+      { $eq: [{ $ifNull: [fieldExpr(col), ''] }, ''] },
+      { $eq: [fieldExpr(col), '-'] },
+    ],
+  });
 
-    Chloramphenicol: includesExpr('$PHENICOL', 'CHLORAMPHENICOL'),
+  const conditions = {};
+  drugColumns.forEach(col => {
+    conditions[col] = isResistant(col);
+  });
 
-    Ciprofloxacin: includesExpr('$QUINOLONE', 'QUINOLONE'),
-
-    Colistin: includesExpr('$COLISTIN', 'COLISTIN'),
-
-    ESBL: includesExpr('$BETALACTAM', 'CEPHALOSPORIN'),
-
-    Sulfamethoxazole: includesExpr('$SULFONAMIDE', 'SULFONAMIDE'),
-
-    Tetracycline: includesExpr('$TETRACYCLINE', 'TETRACYCLINE'),
-
-    Trimethoprim: includesExpr('$TRIMETHOPRIM', 'TRIMETHOPRIM'),
-
-    // Pansusceptible: all drug columns are '-'
-    Pansusceptible: {
-      $and: [
-        { $eq: ['$AMINOGLYCOSIDE', '-'] },
-        { $eq: ['$BETALACTAM', '-'] },
-        { $eq: ['$SULFONAMIDE', '-'] },
-        { $eq: ['$TETRACYCLINE', '-'] },
-        { $eq: ['$QUINOLONE', '-'] },
-        { $eq: ['$MACROLIDE', '-'] },
-        { $eq: ['$COLISTIN', '-'] },
-        { $eq: ['$TRIMETHOPRIM', '-'] },
-        { $eq: ['$PHENICOL', '-'] },
-      ],
-    },
+  conditions['Trimethoprim-Sulfamethoxazole'] = {
+    $and: [isResistant('Trimethoprim'), isResistant('Sulfonamide')],
   };
+
+  conditions.Pansusceptible = {
+    $and: drugColumns.map(col => isSusceptible(col)),
+  };
+
+  return conditions;
 }
 
 const DRUG_CONDITIONS = {
@@ -194,9 +127,8 @@ const DRUG_CONDITIONS = {
   decoli: buildEcoliConditions(),
   shige: buildEcoliConditions(),
 
-  // Senterica and SentericaINTS use statKeysINTS logic (with BETALACTAM rename)
-  senterica: buildSentericaConditions(),
-  sentericaints: buildSentericaConditions(),
+  senterica: buildEcoliConditions(),
+  sentericaints: buildEcoliConditions(),
 
   // K. pneumoniae — drugRulesKP (any column != '-' = resistant)
   kpneumo: {
@@ -422,7 +354,7 @@ function buildMatchStage(organism, query) {
       .split(',')
       .map(s => s.trim())
       .filter(Boolean);
-    match.SISTR1_Serovar = list.length === 1 ? { $regex: list[0], $options: 'i' } : { $in: list };
+    match.seqsero2 = list.length === 1 ? { $regex: list[0], $options: 'i' } : { $in: list };
   }
 
   // Kpneumo dataset filter — must carry a non-'-' value in the specified column
@@ -438,77 +370,31 @@ function buildMatchStage(organism, query) {
 
 /**
  * Return organism-specific pipeline stages that must run between $match and $group.
- * These handle:
- *  - senterica: compute GENOTYPE from MLST_Achtman; rename BETA-LACTAM → BETALACTAM
- *  - sentericaints: $lookup resistance data; rename BETA-LACTAM → BETALACTAM
+ * Senterica needs GENOTYPE computation; sentericaints needs $lookup join.
+ * Drug columns are now in new format (Aminoglycoside, Beta-lactam, etc.) for all organisms.
  */
 function getPrepipelineStages(organism) {
   switch (organism) {
     case 'senterica':
       return [
         {
-          $project: {
-            // Compute GENOTYPE from MLST_Achtman (mirrors existing getDataForSenterica pipeline)
+          $addFields: {
             GENOTYPE: {
               $cond: {
-                if: { $ne: ['$MLST_Achtman', null] },
-                then: '$MLST_Achtman',
+                if: { $ne: ['$GENOTYPE', null] },
+                then: '$GENOTYPE',
                 else: 'Unknown',
               },
             },
-            COUNTRY_ONLY: 1,
-            DATE: 1,
-            TRAVEL: 1,
-            PMID: 1,
-            NAME: 1,
-            // Rename BETA-LACTAM (hyphenated) to a safe field name
-            BETALACTAM: { $getField: 'BETA-LACTAM' },
-            AMINOGLYCOSIDE: 1,
-            SULFONAMIDE: 1,
-            TETRACYCLINE: 1,
-            QUINOLONE: 1,
-            TRIMETHOPRIM: 1,
-            PHENICOL: 1,
-            MACROLIDE: 1,
-            COLISTIN: 1,
           },
         },
       ];
 
     case 'sentericaints':
-      return [
-        // Join resistance data from the INTS lookup collection
-        {
-          $lookup: {
-            from: 'ints_collection_from_enterica',
-            localField: 'NAME',
-            foreignField: 'NAME',
-            as: 'extraData',
-          },
-        },
-        { $addFields: { extraData: { $arrayElemAt: ['$extraData', 0] } } },
-        // Flatten the joined fields to top-level; rename BETA-LACTAM
-        {
-          $addFields: {
-            AMINOGLYCOSIDE: '$extraData.AMINOGLYCOSIDE',
-            BETALACTAM: getHyphenFieldFrom('BETA-LACTAM', '$extraData'),
-            SULFONAMIDE: '$extraData.SULFONAMIDE',
-            TETRACYCLINE: '$extraData.TETRACYCLINE',
-            QUINOLONE: '$extraData.QUINOLONE',
-            TRIMETHOPRIM: '$extraData.TRIMETHOPRIM',
-            PHENICOL: '$extraData.PHENICOL',
-            MACROLIDE: '$extraData.MACROLIDE',
-            COLISTIN: '$extraData.COLISTIN',
-          },
-        },
-        // Drop raw join data to keep documents lean.
-        // GENOTYPE is already present in the sentericaints collection (e.g. 'iTYM ST19-L1')
-        // so no further mapping is needed.
-        { $project: { extraData: 0 } },
-      ];
+      // Drug columns are now directly in amrnetdb_ints — no $lookup needed
+      return [];
 
     default:
-      // ecoli, decoli, shige, kpneumo, styphi, ngono need no preprocessing
       return [];
   }
 }

@@ -1223,232 +1223,140 @@ export const drugClassesRulesNG = {
 // Drug combination rules for non-typhoidal Salmonella (senterica + sentericaints)
 // Data from Enterobase, AMR genes identified by AMRFinderPlus
 // QUINOLONE field contains gene/class names from AMRFinderPlus (e.g., "QUINOLONE", "aac(6')-Ib-cr;gyrA_D87Y")
-export const drugRulesINTS = [
-  { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
-  { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
-  { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['mph(A)', 'acrB_R717L'] },
-  { key: 'Carbapenems', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
-  { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
-  { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin (any quinolone resistance)' },
-  { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
-  { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
-  { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
-  { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
-  { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
+// export const drugRulesINTS = [
+//   { key: 'Aminoglycosides', columnID: 'AMINOGLYCOSIDE', values: ['GENTAMICIN', 'AMINOGLYCOSIDE'] },
+//   { key: 'Ampicillin', columnID: 'BETA-LACTAM', values: ['BETA-LACTAM'] },
+//   { key: 'Azithromycin', columnID: 'MACROLIDE', values: ['mph(A)', 'acrB_R717L'] },
+//   { key: 'Carbapenems', columnID: 'BETA-LACTAM', values: ['CARBAPENEM'] },
+//   { key: 'Chloramphenicol', columnID: 'PHENICOL', values: ['CHLORAMPHENICOL'] },
+//   { key: 'Ciprofloxacin', columnID: 'QUINOLONE', values: ['QUINOLONE'], legends: 'Ciprofloxacin (any quinolone resistance)' },
+//   { key: 'Colistin', columnID: 'COLISTIN', values: ['COLISTIN'] },
+//   { key: 'ESBL', columnID: 'BETA-LACTAM', values: ['CEPHALOSPORIN'] },
+//   { key: 'Sulfamethoxazole', columnID: 'SULFONAMIDE', values: ['SULFONAMIDE'] },
+//   { key: 'Tetracycline', columnID: 'TETRACYCLINE', values: ['TETRACYCLINE'] },
+//   { key: 'Trimethoprim', columnID: 'TRIMETHOPRIM', values: ['TRIMETHOPRIM'] },
 
-  {
-    key: 'Pansusceptible',
-    requirements: [
-      { columnID: 'AMINOGLYCOSIDE', values: ['-'] },
-      { columnID: 'BETA-LACTAM', values: ['-'] },
-      { columnID: 'SULFONAMIDE', values: ['-'] },
-      { columnID: 'TETRACYCLINE', values: ['-'] },
-      { columnID: 'QUINOLONE', values: ['-'] },
-      { columnID: 'MACROLIDE', values: ['-'] },
-      { columnID: 'COLISTIN', values: ['-'] },
-      { columnID: 'TRIMETHOPRIM', values: ['-'] },
-      { columnID: 'PHENICOL', values: ['-'] },
-    ],
-  },
-];
+// {
+//   key: 'Pansusceptible',
+//   requirements: [
+//     { columnID: 'AMINOGLYCOSIDE', values: ['-'] },
+//     { columnID: 'BETA-LACTAM', values: ['-'] },
+//     { columnID: 'SULFONAMIDE', values: ['-'] },
+//     { columnID: 'TETRACYCLINE', values: ['-'] },
+//     { columnID: 'QUINOLONE', values: ['-'] },
+//     { columnID: 'MACROLIDE', values: ['-'] },
+//     { columnID: 'COLISTIN', values: ['-'] },
+//     { columnID: 'TRIMETHOPRIM', values: ['-'] },
+//     { columnID: 'PHENICOL', values: ['-'] },
+//   ],
+// },
+// ];
 
 // Drug combination rules for NTS — MDR, XDR, CipNS, CipR, QRDR mutations
 // These are computed client-side from the raw Enterobase data fields
 // Applied in getYearsData (filters.js) via calculateDrugStatsINTSCombinations
 // Drug combination definitions for NTS — Reference: Van Puyvelde et al. 2023 Nat Commun (doi:10.1038/s41467-023-41152-6)
-export const drugCombinationRulesINTS = {
-  // CipNS: ciprofloxacin non-susceptible (MIC ≥0.06 mg/L)
-  // Due to presence of ≥1 qnr gene OR ≥1 QRDR mutation in gyrA/parC/gyrB
-  CipNS: { key: 'CipNS', legends: 'Ciprofloxacin (non-susceptible)' },
-  // CipR: ciprofloxacin resistant (MIC ≥0.5 mg/L)
-  // Due to presence of multiple mutations and/or genes (≥2 QRDR mutations, OR QRDR + qnr/aac(6')-Ib-cr)
-  CipR: { key: 'CipR', legends: 'Ciprofloxacin (resistant)' },
-  // QRDR mutations: presence of any gyrA/gyrB/parC/parE mutation
-  QRDR: { key: 'QRDR mutations', legends: 'QRDR mutations' },
-  // MDR: resistant to ampicillin + chloramphenicol + trimethoprim-sulfamethoxazole
-  MDR: { key: 'MDR', legends: 'Multidrug resistant (MDR)' },
-  // XDR: MDR plus resistant to either (i) ciprofloxacin AND ceftriaxone, OR (ii) azithromycin AND ceftriaxone
-  XDR: { key: 'XDR', legends: 'Extensively drug resistant (XDR)' },
-  // PDR: MDR plus resistant to ciprofloxacin + azithromycin + ceftriaxone
-  PDR: { key: 'PDR', legends: 'Pan-drug resistant (PDR)' },
-};
+// export const drugCombinationRulesINTS = {
+//   // CipNS: ciprofloxacin non-susceptible (MIC ≥0.06 mg/L)
+//   // Due to presence of ≥1 qnr gene OR ≥1 QRDR mutation in gyrA/parC/gyrB
+//   CipNS: { key: 'CipNS', legends: 'Ciprofloxacin (non-susceptible)' },
+//   // CipR: ciprofloxacin resistant (MIC ≥0.5 mg/L)
+//   // Due to presence of multiple mutations and/or genes (≥2 QRDR mutations, OR QRDR + qnr/aac(6')-Ib-cr)
+//   CipR: { key: 'CipR', legends: 'Ciprofloxacin (resistant)' },
+//   // QRDR mutations: presence of any gyrA/gyrB/parC/parE mutation
+//   QRDR: { key: 'QRDR mutations', legends: 'QRDR mutations' },
+//   // MDR: resistant to ampicillin + chloramphenicol + trimethoprim-sulfamethoxazole
+//   MDR: { key: 'MDR', legends: 'Multidrug resistant (MDR)' },
+//   // XDR: MDR plus resistant to either (i) ciprofloxacin AND ceftriaxone, OR (ii) azithromycin AND ceftriaxone
+//   XDR: { key: 'XDR', legends: 'Extensively drug resistant (XDR)' },
+//   // PDR: MDR plus resistant to ciprofloxacin + azithromycin + ceftriaxone
+//   PDR: { key: 'PDR', legends: 'Pan-drug resistant (PDR)' },
+// };
 
 // Used for senterica and sentericaints both
-export const statKeysINTS = [
-  { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
-  { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
-  { name: 'Azithromycin', column: 'MACROLIDE', key: ['mph(A)', 'acrB_R717L'], resistanceView: true },
-  { name: 'Carbapenems', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
-  { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
-  { name: 'Ciprofloxacin', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
-  { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
-  { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
-  { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
-  { name: 'Tetracycline', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
-  { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
-  // Drug combinations — computed client-side in getYearsData from QUINOLONE field parsing
-  // CipNS: any quinolone resistance mechanism (single QRDR mutation OR qnr gene)
-  { name: 'CipNS', column: '_computed', key: 'CipNS', resistanceView: true, computed: true },
-  // CipR: ≥2 QRDR mutations, OR QRDR + qnr/aac(6')-Ib-cr (high-level resistance)
-  { name: 'CipR', column: '_computed', key: 'CipR', resistanceView: true, computed: true },
-  // QRDR mutations: count of genomes with any gyrA/gyrB/parC/parE mutation
-  { name: 'QRDR mutations', column: '_computed', key: 'QRDR mutations', resistanceView: true, computed: true },
-  // MDR: Ampicillin + Chloramphenicol + Trimethoprim-Sulfamethoxazole
-  { name: 'MDR', column: '_computed', key: 'MDR', resistanceView: true, computed: true },
-  // XDR: MDR + (Ciprofloxacin + Ceftriaxone) OR (Azithromycin + Ceftriaxone)
-  { name: 'XDR', column: '_computed', key: 'XDR', resistanceView: true, computed: true },
-  // PDR: MDR + Ciprofloxacin + Azithromycin + Ceftriaxone
-  { name: 'PDR', column: '_computed', key: 'PDR', resistanceView: true, computed: true },
-  {
-    name: 'Pansusceptible',
-    column: drugRulesINTS.find(x => x.key === 'Pansusceptible').requirements.map(x => x.columnID),
-    key: '-',
-    resistanceView: true,
-  },
-];
+// export const statKeysINTS = [
+//   { name: 'Aminoglycosides', column: 'AMINOGLYCOSIDE', key: ['GENTAMICIN', 'AMINOGLYCOSIDE'], resistanceView: true },
+//   { name: 'Ampicillin', column: 'BETA-LACTAM', key: 'BETA-LACTAM', resistanceView: true },
+//   { name: 'Azithromycin', column: 'MACROLIDE', key: ['mph(A)', 'acrB_R717L'], resistanceView: true },
+//   { name: 'Carbapenems', column: 'BETA-LACTAM', key: 'CARBAPENEM', resistanceView: true },
+//   { name: 'Chloramphenicol', column: 'PHENICOL', key: 'CHLORAMPHENICOL', resistanceView: true },
+//   { name: 'Ciprofloxacin', column: 'QUINOLONE', key: 'QUINOLONE', resistanceView: true },
+//   { name: 'Colistin', column: 'COLISTIN', key: 'COLISTIN', resistanceView: true },
+//   { name: 'ESBL', column: 'BETA-LACTAM', key: 'CEPHALOSPORIN', resistanceView: true },
+//   { name: 'Sulfamethoxazole', column: 'SULFONAMIDE', key: 'SULFONAMIDE', resistanceView: true },
+//   { name: 'Tetracycline', column: 'TETRACYCLINE', key: 'TETRACYCLINE', resistanceView: true },
+//   { name: 'Trimethoprim', column: 'TRIMETHOPRIM', key: 'TRIMETHOPRIM', resistanceView: true },
+//   // Drug combinations — computed client-side in getYearsData from QUINOLONE field parsing
+//   // CipNS: any quinolone resistance mechanism (single QRDR mutation OR qnr gene)
+//   { name: 'CipNS', column: '_computed', key: 'CipNS', resistanceView: true, computed: true },
+//   // CipR: ≥2 QRDR mutations, OR QRDR + qnr/aac(6')-Ib-cr (high-level resistance)
+//   { name: 'CipR', column: '_computed', key: 'CipR', resistanceView: true, computed: true },
+//   // QRDR mutations: count of genomes with any gyrA/gyrB/parC/parE mutation
+//   { name: 'QRDR mutations', column: '_computed', key: 'QRDR mutations', resistanceView: true, computed: true },
+//   // MDR: Ampicillin + Chloramphenicol + Trimethoprim-Sulfamethoxazole
+//   { name: 'MDR', column: '_computed', key: 'MDR', resistanceView: true, computed: true },
+//   // XDR: MDR + (Ciprofloxacin + Ceftriaxone) OR (Azithromycin + Ceftriaxone)
+//   { name: 'XDR', column: '_computed', key: 'XDR', resistanceView: true, computed: true },
+//   // PDR: MDR + Ciprofloxacin + Azithromycin + Ceftriaxone
+//   { name: 'PDR', column: '_computed', key: 'PDR', resistanceView: true, computed: true },
+//   {
+//     name: 'Pansusceptible',
+//     column: drugRulesINTS.find(x => x.key === 'Pansusceptible').requirements.map(x => x.columnID),
+//     key: '-',
+//     resistanceView: true,
+//   },
+// ];
 
 // Used for shige, ecoli and decoli
+// Shared drug rules for ecoli, decoli, shige, senterica, sentericaints
+// Each drug maps 1:1 to a DB column; resistant = column has a non-empty value (not '', '-', null)
 export const statKeysECOLI = (() => {
-  const items = [
-    {
-      name: 'Aminoglycosides',
-      resistanceView: true,
-      rules: [{ column: 'Aminoglycoside', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Ampicillin',
-      resistanceView: true,
-      rules: [
-        { column: 'Penicillin', value: '-', equal: false },
-        { column: 'Carbapenemase', value: '-', equal: false },
-        { column: 'ESBL', value: '-', equal: false },
-      ],
-      every: false,
-    },
-    {
-      name: 'Azithromycin',
-      resistanceView: true,
-      rules: [
-        { column: 'Macrolide', value: 'mph(A)', equal: true },
-        { column: 'Macrolide', value: 'acrB_R717L', equal: true },
-      ],
-      every: false,
-    },
-    {
-      name: 'Carbapenems',
-      resistanceView: true,
-      rules: [{ column: 'Carbapenemase', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Chloramphenicol',
-      resistanceView: true,
-      rules: [{ column: 'Phenicol', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Ciprofloxacin',
-      resistanceView: true,
-      rules: [{ column: 'Quinolone', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Colistin',
-      resistanceView: true,
-      rules: [{ column: 'Colistin', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'ESBL',
-      resistanceView: true,
-      rules: [
-        { column: 'Carbapenemase', value: 'blaOXA-24', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-244', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-48', equal: true },
-        { column: 'Carbapenemase', value: 'blaOXA-181', equal: true },
-        { column: 'ESBL', value: '-', equal: false },
-      ],
-      every: false,
-    },
-    {
-      name: 'Fosfomycin',
-      resistanceView: true,
-      rules: [{ column: 'Fosfomycin', value: '-', equal: false }],
-      every: true,
-    },
-    // {
-    //   name: 'Macrolides',
-    //   resistanceView: true,
-    //   rules: [{ column: 'Macrolide', value: '-', equal: false }],
-    //   every: true,
-    // },
-    {
-      name: 'Sulfamethoxazole',
-      resistanceView: true,
-      rules: [{ column: 'Sulfonamide', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Tetracycline',
-      resistanceView: true,
-      rules: [{ column: 'Tetracycline', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Trimethoprim',
-      resistanceView: true,
-      rules: [{ column: 'Trimethoprim', value: '-', equal: false }],
-      every: true,
-    },
-    {
-      name: 'Trimethoprim-Sulfamethoxazole',
-      resistanceView: true,
-      rules: [
-        { column: 'Trimethoprim', value: '-', equal: false },
-        { column: 'Sulfonamide', value: '-', equal: false },
-      ],
-      every: true,
-    },
-    // {
-    //   name: 'Pansusceptible',
-    //   resistanceView: true,
-    //   rules: [
-    //     { column: 'Trimethoprim', value: '-', equal: true },
-    //     { column: 'Sulfonamide', value: '-', equal: true },
-    //     { column: 'Phenicol', value: '-', equal: true },
-    //     { column: 'Tetracycline', value: '-', equal: true },
-    //     { column: 'Macrolide', value: '-', equal: true },
-    //     { column: 'Colistin', value: '-', equal: true },
-    //     { column: 'Quinolone', value: '-', equal: true },
-    //     { column: 'Carbapenemase', value: '-', equal: true },
-    //     { column: 'Aminoglycoside', value: '-', equal: true },
-    //     { column: 'Penicillin', value: '-', equal: true },
-    //     { column: 'ESBL', value: '-', equal: true },
-    //     { column: 'Fosfomycin', value: '-', equal: true },
-    //     { column: 'Ciprofloxacin', value: '-', equal: true },
-    //   ],
-    //   every: true,
-    // },
+  const drugColumns = [
+    'Aminoglycoside',
+    'Beta-lactam',
+    'Sulfonamide',
+    'Tetracycline',
+    'Phenicol',
+    'Quinolone',
+    'Fosfomycin',
+    'Trimethoprim',
+    'Macrolide',
+    'Lincosamide',
+    'Streptothricin',
+    'Rifamycin',
+    'Colistin',
+    'Bleomycin',
   ];
 
-  // Drug combinations — computed client-side
-  // CipNS: one ciprofloxacin resistance marker (qnr gene OR single QRDR mutation)
-  items.push({ name: 'CipNS', resistanceView: true, computed: true, rules: [] });
-  // CipR: two or more ciprofloxacin resistance markers
-  items.push({ name: 'CipR', resistanceView: true, computed: true, rules: [] });
-  // MDR: resistant to ≥2 of {ciprofloxacin, azithromycin, ESBL/ceftriaxone}
-  items.push({ name: 'MDR', resistanceView: true, computed: true, rules: [] });
-  // XDR: CipR + ESBL + azithromycin, OR MDR + CipR + azithromycin
-  items.push({ name: 'XDR', resistanceView: true, computed: true, rules: [] });
+  const items = drugColumns.map(col => ({
+    name: col,
+    resistanceView: true,
+    rules: [{ column: col, value: '-', equal: false }],
+    every: true,
+  }));
 
-  const uniqueColumns = [...new Set(items.filter(i => !i.computed).flatMap(item => item.rules.map(rule => rule.column)))];
+  // Computed combinations
+  items.push({
+    name: 'Trimethoprim-Sulfamethoxazole',
+    resistanceView: true,
+    rules: [
+      { column: 'Trimethoprim', value: '-', equal: false },
+      { column: 'Sulfonamide', value: '-', equal: false },
+    ],
+    every: true,
+  });
+  // items.push({ name: 'CipNS', resistanceView: true, computed: true, rules: [] });
+  // items.push({ name: 'CipR', resistanceView: true, computed: true, rules: [] });
+  // items.push({ name: 'MDR', resistanceView: true, computed: true, rules: [] });
+  // items.push({ name: 'XDR', resistanceView: true, computed: true, rules: [] });
+
+  const uniqueColumns = [
+    ...new Set(items.filter(i => !i.computed).flatMap(item => item.rules.map(rule => rule.column))),
+  ];
   return items.concat({
     name: 'Pansusceptible',
     resistanceView: true,
-    rules: uniqueColumns.map(col => {
-      return { column: col, value: '-', equal: true };
-    }),
+    rules: uniqueColumns.map(col => ({ column: col, value: '-', equal: true })),
     every: true,
   });
 })();
@@ -1502,9 +1410,9 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
-  sentericaints: statKeysINTS,
+  sentericaints: statKeysECOLI,
   shige: statKeysECOLI,
-  senterica: statKeysINTS,
+  senterica: statKeysECOLI,
   ecoli: statKeysECOLI,
   decoli: statKeysECOLI,
   saureus: statKeysSA,
@@ -1701,18 +1609,58 @@ export const markerRulesSA = {
 // confer resistance to that drug.
 // ---------------------------------------------------------------------------
 const _ermSP = [
-  'erm30', 'erm31', 'erm32', 'erm33', 'erm34', 'erm36', 'erm38', 'erm39',
-  'erm40', 'erm42', 'ermA', 'ermB', 'ermC_13', 'ermB_UPST', 'ermD', 'ermE',
-  'ermF', 'ermG', 'ermN', 'ermO', 'ermQ', 'ermS', 'ermT', 'ermW', 'ermX',
-  'ermY', 'ermZ',
+  'erm30',
+  'erm31',
+  'erm32',
+  'erm33',
+  'erm34',
+  'erm36',
+  'erm38',
+  'erm39',
+  'erm40',
+  'erm42',
+  'ermA',
+  'ermB',
+  'ermC_13',
+  'ermB_UPST',
+  'ermD',
+  'ermE',
+  'ermF',
+  'ermG',
+  'ermN',
+  'ermO',
+  'ermQ',
+  'ermS',
+  'ermT',
+  'ermW',
+  'ermX',
+  'ermY',
+  'ermZ',
 ];
 export const markerRulesSP = {
   Chloramphenicol: {
     acquired: [
-      'cat_1', 'cat_2', 'cat_3', 'cat_4', 'cat_5', 'cat86',
-      'catA1', 'catA2', 'catA3', 'catB', 'catB1', 'catB2', 'catB3',
-      'catB7', 'catB9', 'catB10', 'catP', 'catQ',
-      'cat_pC194', 'cat_pC221', 'cat_pC233',
+      'cat_1',
+      'cat_2',
+      'cat_3',
+      'cat_4',
+      'cat_5',
+      'cat86',
+      'catA1',
+      'catA2',
+      'catA3',
+      'catB',
+      'catB1',
+      'catB2',
+      'catB3',
+      'catB7',
+      'catB9',
+      'catB10',
+      'catP',
+      'catQ',
+      'cat_pC194',
+      'cat_pC221',
+      'cat_pC233',
     ],
     variants: [],
   },
@@ -1727,16 +1675,45 @@ export const markerRulesSP = {
   Fluoroquinolone: {
     acquired: [],
     variants: [
-      'gyrA_S81F', 'gyrA_S81Y', 'gyrA_S81C', 'gyrA_S81I', 'gyrA_E85K', 'gyrA_Q118K',
+      'gyrA_S81F',
+      'gyrA_S81Y',
+      'gyrA_S81C',
+      'gyrA_S81I',
+      'gyrA_E85K',
+      'gyrA_Q118K',
       'gyrB_E474K',
-      'parC_A63T', 'parC_S79F', 'parC_S79Y', 'parC_S79L', 'parC_D83G', 'parC_D83N',
-      'parE_E474K', 'parE_D435N', 'parE_D435H', 'parE_P454S',
+      'parC_A63T',
+      'parC_S79F',
+      'parC_S79Y',
+      'parC_S79L',
+      'parC_D83G',
+      'parC_D83N',
+      'parE_E474K',
+      'parE_D435N',
+      'parE_D435H',
+      'parE_P454S',
     ],
   },
-  Kanamycin:      { acquired: ['aph_3prime_III_1'], variants: [] },
-  Linezolid:      { acquired: [], variants: [] },
-  Tetracycline:   { acquired: ['tet32', 'tetK', 'tetM_1', 'tetM_2', 'tetM_4', 'tetM_5', 'tetM_8', 'tetM_10', 'tetM_11', 'tetM_12', 'tetM_13', 'tetS_M'], variants: [] },
-  Trimethoprim:   { acquired: [], variants: ['folA_I100L'] },
+  Kanamycin: { acquired: ['aph_3prime_III_1'], variants: [] },
+  Linezolid: { acquired: [], variants: [] },
+  Tetracycline: {
+    acquired: [
+      'tet32',
+      'tetK',
+      'tetM_1',
+      'tetM_2',
+      'tetM_4',
+      'tetM_5',
+      'tetM_8',
+      'tetM_10',
+      'tetM_11',
+      'tetM_12',
+      'tetM_13',
+      'tetS_M',
+    ],
+    variants: [],
+  },
+  Trimethoprim: { acquired: [], variants: ['folA_I100L'] },
   Sulfamethoxazole: { acquired: [], variants: ['folP_aa_insert_57-70'] },
   'Co-Trimoxazole': { acquired: [], variants: ['folP_aa_insert_57-70', 'folA_I100L'] },
 };

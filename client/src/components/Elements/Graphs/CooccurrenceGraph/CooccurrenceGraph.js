@@ -9,7 +9,6 @@ import {
   drugRulesSP,
   drugRulesST,
   statKeysECOLI,
-  statKeysINTS,
 } from '../../../../util/drugClassesRules';
 import { drugAcronyms } from '../../../../util/drugs';
 import { useStyles } from './CooccurrenceGraphMUI';
@@ -65,30 +64,16 @@ function getResistantDrugs(genome, organism) {
         resistant.add(rule.key);
       }
     });
-  } else if (['senterica', 'sentericaints'].includes(organism)) {
-    statKeysINTS.forEach(drug => {
-      if (EXCLUSIONS.includes(drug.name) || !drug.resistanceView || drug.computed) return;
-      if (Array.isArray(drug.column)) {
-        // Pansusceptible-like: skip
-        return;
-      }
-      const val = genome[drug.column];
-      if (!val || val === '-') return;
-      if (Array.isArray(drug.key)) {
-        if (drug.key.some(k => val.includes(k))) resistant.add(drug.name);
-      } else {
-        if (val.includes(drug.key)) resistant.add(drug.name);
-      }
-    });
-  } else if (['ecoli', 'decoli', 'shige'].includes(organism)) {
+  } else if (['senterica', 'sentericaints', 'ecoli', 'decoli', 'shige'].includes(organism)) {
     statKeysECOLI.forEach(drug => {
       if (EXCLUSIONS.includes(drug.name) || !drug.resistanceView || drug.computed) return;
       if (!drug.rules || drug.rules.length === 0) return;
       const matchRule = rule => {
-        const val = genome[rule.column];
-        const strVal = val !== undefined && val !== null ? String(val) : '-';
-        if (rule.equal) return strVal === rule.value || strVal.includes(rule.value);
-        return strVal !== rule.value;
+        const raw = genome[rule.column];
+        const isEmpty = raw == null || raw === '' || raw === '-';
+        // equal: true → susceptible check (value IS empty/'-')
+        // equal: false → resistance check (value has actual gene content)
+        return rule.equal ? isEmpty : !isEmpty;
       };
       const isResistant = drug.every ? drug.rules.every(matchRule) : drug.rules.some(matchRule);
       if (isResistant) resistant.add(drug.name);

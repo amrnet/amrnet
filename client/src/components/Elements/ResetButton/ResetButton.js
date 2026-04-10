@@ -46,7 +46,6 @@ import {
   defaultDrugsForDrugResistanceGraphNG,
   defaultDrugsForDrugResistanceGraphST,
   drugsECOLI,
-  drugsINTS,
   drugsKP,
   drugsSA,
   drugsSP,
@@ -126,7 +125,7 @@ export const ResetButton = () => {
       dispatch(setSelectedLineages(pathovar));
     }
     if (['shige', 'decoli', 'sentericaints', 'ecoli', 'senterica'].includes(organism)) {
-      dispatch(setDrugResistanceGraphView(drugsINTS));
+      dispatch(setDrugResistanceGraphView(drugsECOLI));
       dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
     }
     if (['decoli', 'ecoli', 'shige'].includes(organism)) {

@@ -24,7 +24,6 @@ import {
 import { useAppSelector } from '../../../../stores/hooks';
 import {
   drugsECOLI,
-  drugsINTS,
   drugsKP,
   drugsNG,
   drugsSA,
@@ -41,9 +40,7 @@ function getDrugsForOrganism(organism) {
     case 'kpneumo': return drugsKP.filter(d => !exclusions.includes(d));
     case 'ngono': return drugsNG;
     case 'senterica':
-    case 'sentericaints': return drugsINTS.filter(d => !exclusions.includes(d));
-    case 'saureus': return drugsSA;
-    case 'strepneumo': return drugsSP;
+    case 'sentericaints':
     case 'ecoli':
     case 'decoli':
     case 'shige': return drugsECOLI.filter(d => !exclusions.includes(d));

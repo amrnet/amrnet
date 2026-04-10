@@ -23,14 +23,14 @@ class SmartDataProcessor {
     try {
       // Map organism to correct endpoint
       const endpointMap = {
-        'styphi': 'getDataForSTyphi',
-        'kpneumo': 'getDataForKpneumo',
-        'ngono': 'getDataForNgono',
-        'ecoli': 'getDataForEcoli',
-        'decoli': 'getDataForDEcoli',
-        'shige': 'getDataForShige',
-        'senterica': 'getDataForSenterica',
-        'sentericaints': 'getDataForSentericaints'
+        styphi: 'getDataForSTyphi',
+        kpneumo: 'getDataForKpneumo',
+        ngono: 'getDataForNgono',
+        ecoli: 'getDataForEcoli',
+        decoli: 'getDataForDEcoli',
+        shige: 'getDataForShige',
+        senterica: 'getDataForSenterica',
+        sentericaints: 'getDataForSentericaints',
       };
 
       const endpoint = endpointMap[organism];
@@ -45,8 +45,8 @@ class SmartDataProcessor {
       const response = await fetch(`/api/${endpoint}`, {
         signal: controller.signal,
         headers: {
-          'Accept': 'application/json',
-        }
+          Accept: 'application/json',
+        },
       });
 
       clearTimeout(timeoutId);
@@ -65,23 +65,22 @@ class SmartDataProcessor {
         success: true,
         data: processedData,
         totalProcessed: data.length,
-        method: 'smart-processor'
+        method: 'smart-processor',
       };
-
     } catch (error) {
       if (error.name === 'AbortError') {
         console.error(`⏰ Request timeout for ${organism} - trying fallback...`);
         return {
           success: false,
           error: 'Request timeout - please try again',
-          fallback: true
+          fallback: true,
         };
       }
 
       console.error(`❌ Error loading ${organism}:`, error);
       return {
         success: false,
-        error: error.message || 'Unknown error occurred'
+        error: error.message || 'Unknown error occurred',
       };
     }
   }
@@ -102,10 +101,28 @@ class SmartDataProcessor {
 
     // For large datasets, use batch processing
     if (data.length > 50000) {
-      await this.processBatchedData(data, organism, allGenotypes, allCountries, allYears, allPMID, allPathovar, allSerotype);
+      await this.processBatchedData(
+        data,
+        organism,
+        allGenotypes,
+        allCountries,
+        allYears,
+        allPMID,
+        allPathovar,
+        allSerotype,
+      );
     } else {
       // For smaller datasets, process normally but with yielding
-      await this.processWithYieldingData(data, organism, allGenotypes, allCountries, allYears, allPMID, allPathovar, allSerotype);
+      await this.processWithYieldingData(
+        data,
+        organism,
+        allGenotypes,
+        allCountries,
+        allYears,
+        allPMID,
+        allPathovar,
+        allSerotype,
+      );
     }
 
     // Convert to arrays and sort
@@ -128,8 +145,8 @@ class SmartDataProcessor {
         genotypes: genotypesArray,
         pmid: pmidArray,
         pathovar: pathovarArray,
-        serotype: serotypeArray
-      }
+        serotype: serotypeArray,
+      },
     };
   }
 
@@ -147,7 +164,16 @@ class SmartDataProcessor {
       const end = Math.min(start + batchSize, data.length);
       const batch = data.slice(start, end);
 
-      this.extractDataFromBatchSimple(batch, organism, allGenotypes, allCountries, allYears, allPMID, allPathovar, allSerotype);
+      this.extractDataFromBatchSimple(
+        batch,
+        organism,
+        allGenotypes,
+        allCountries,
+        allYears,
+        allPMID,
+        allPathovar,
+        allSerotype,
+      );
 
       // Yield control after each batch
       if (i < totalBatches - 1) {
@@ -172,14 +198,32 @@ class SmartDataProcessor {
   /**
    * Process smaller datasets with periodic yielding (without Redux dispatch)
    */
-  async processWithYieldingData(data, organism, allGenotypes, allCountries, allYears, allPMID, allPathovar, allSerotype) {
+  async processWithYieldingData(
+    data,
+    organism,
+    allGenotypes,
+    allCountries,
+    allYears,
+    allPMID,
+    allPathovar,
+    allSerotype,
+  ) {
     console.log(`⚡ Processing ${data.length} records with yielding...`);
 
     const yieldInterval = 2000; // Yield every 2000 records
 
     for (let i = 0; i < data.length; i += yieldInterval) {
       const batch = data.slice(i, i + yieldInterval);
-      this.extractDataFromBatchSimple(batch, organism, allGenotypes, allCountries, allYears, allPMID, allPathovar, allSerotype);
+      this.extractDataFromBatchSimple(
+        batch,
+        organism,
+        allGenotypes,
+        allCountries,
+        allYears,
+        allPMID,
+        allPathovar,
+        allSerotype,
+      );
 
       // Yield control back to browser
       if (i + yieldInterval < data.length) {
@@ -224,12 +268,12 @@ class SmartDataProcessor {
         allSerotype.add(record.Serotype);
       }
 
-      if (['sentericaints'].includes(organism) && record.SISTR1_Serovar) {
-        allPathovar.add(record.SISTR1_Serovar);
+      if (['sentericaints'].includes(organism) && record.seqsero2) {
+        allPathovar.add(record.seqsero2);
       }
 
-      if (['senterica'].includes(organism) && record['SISTR1 Serovar']) {
-        allPathovar.add(record['SISTR1 Serovar']);
+      if (['senterica'].includes(organism) && record.seqsero2) {
+        allPathovar.add(record.seqsero2);
       }
     });
   }
@@ -255,7 +299,17 @@ class SmartDataProcessor {
     this.extractDataFromBatch(firstBatch, organism, allGenotypes, allCountries, allYears, allPathovar, allSerotype);
 
     // Update UI with first batch
-    this.updateUIWithData(organism, dispatch, actions, allGenotypes, allCountries, allYears, allPathovar, allSerotype, data.length);
+    this.updateUIWithData(
+      organism,
+      dispatch,
+      actions,
+      allGenotypes,
+      allCountries,
+      allYears,
+      allPathovar,
+      allSerotype,
+      data.length,
+    );
 
     // Process remaining batches with yielding
     for (let i = 1; i < totalBatches; i++) {
@@ -268,10 +322,20 @@ class SmartDataProcessor {
 
           // Update UI every few batches
           if (i % 3 === 0 || i === totalBatches - 1) {
-            this.updateUIWithData(organism, dispatch, actions, allGenotypes, allCountries, allYears, allPathovar, allSerotype, data.length);
+            this.updateUIWithData(
+              organism,
+              dispatch,
+              actions,
+              allGenotypes,
+              allCountries,
+              allYears,
+              allPathovar,
+              allSerotype,
+              data.length,
+            );
           }
 
-          console.log(`📊 Processed batch ${i + 1}/${totalBatches} (${Math.round((i + 1) / totalBatches * 100)}%)`);
+          console.log(`📊 Processed batch ${i + 1}/${totalBatches} (${Math.round(((i + 1) / totalBatches) * 100)}%)`);
           resolve();
         };
 
@@ -311,7 +375,17 @@ class SmartDataProcessor {
     }
 
     // Update UI with final data
-    this.updateUIWithData(organism, dispatch, actions, allGenotypes, allCountries, allYears, allPathovar, allSerotype, data.length);
+    this.updateUIWithData(
+      organism,
+      dispatch,
+      actions,
+      allGenotypes,
+      allCountries,
+      allYears,
+      allPathovar,
+      allSerotype,
+      data.length,
+    );
 
     console.log(`✅ Processing complete: ${allGenotypes.size} genotypes found`);
   }
@@ -345,12 +419,12 @@ class SmartDataProcessor {
         allSerotype.add(record.Serotype);
       }
 
-      if (['sentericaints'].includes(organism) && record.SISTR1_Serovar) {
-        allPathovar.add(record.SISTR1_Serovar);
+      if (['sentericaints'].includes(organism) && record.seqsero2) {
+        allPathovar.add(record.seqsero2);
       }
 
-      if (['senterica'].includes(organism) && record['SISTR1 Serovar']) {
-        allPathovar.add(record['SISTR1 Serovar']);
+      if (['senterica'].includes(organism) && record.seqsero2) {
+        allPathovar.add(record.seqsero2);
       }
     });
   }
@@ -358,7 +432,17 @@ class SmartDataProcessor {
   /**
    * Update Redux state with processed data
    */
-  updateUIWithData(organism, dispatch, actions, allGenotypes, allCountries, allYears, allPathovar, allSerotype, totalRecords) {
+  updateUIWithData(
+    organism,
+    dispatch,
+    actions,
+    allGenotypes,
+    allCountries,
+    allYears,
+    allPathovar,
+    allSerotype,
+    totalRecords,
+  ) {
     const genotypesArray = Array.from(allGenotypes).sort();
     const countriesArray = Array.from(allCountries).sort();
     const yearsArray = Array.from(allYears).sort();
@@ -398,7 +482,7 @@ class SmartDataProcessor {
     try {
       // Try the optimized summary endpoint
       const summaryResponse = await fetch(`/api/optimized/summary/${organism}`, {
-        timeout: 15000
+        timeout: 15000,
       });
 
       if (summaryResponse.ok) {
@@ -416,7 +500,7 @@ class SmartDataProcessor {
         return {
           fallback: true,
           summary: summary,
-          message: 'Loaded summary data due to timeout. Some features may be limited.'
+          message: 'Loaded summary data due to timeout. Some features may be limited.',
         };
       }
     } catch (fallbackError) {

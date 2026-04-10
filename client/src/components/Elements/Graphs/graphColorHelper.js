@@ -96,6 +96,17 @@ const drugColorMap = {
   Trimethoprim: 17,
   'Trimethoprim-sulfamethoxazole': 18,
   'Trimethoprim-Sulfamethoxazole': 18,
+  // New shared drug columns (ecoli, decoli, shige, senterica, sentericaints)
+  Aminoglycoside: 1,
+  'Beta-lactam': 0,
+  Sulfonamide: 5,
+  Phenicol: 7,
+  Quinolone: 8,
+  Macrolide: 2,
+  Lincosamide: 13,
+  Streptothricin: 3,
+  Rifamycin: 24,
+  Bleomycin: 15,
   // S. aureus drugs
   Amikacin: 1,       // aminoglycoside
   Gentamicin: 1,     // aminoglycoside
