@@ -14,6 +14,9 @@ import combine_files from './routes/api/combine_files.js';
 import generateFile from './routes/api/generateDataAPIsFile.js';
 import generateFileClean from './routes/api/generateDataClean.js';
 import optimized from './routes/api/optimized.js';
+import apiRegistration from './routes/api/apiRegistration.js';
+import publicApi from './routes/api/publicApi.js';
+import swaggerDocs from './routes/api/swagger.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -163,6 +166,11 @@ app.get('/api/gho/:indicator', async (req, res) => {
   }
 });
 
+// Public API with Swagger docs and self-service registration
+app.use('/api-register', apiRegistration);
+app.use('/api-docs', swaggerDocs);
+app.use('/api/v1', publicApi);
+
 // Define routes API here
 app.use('/api', aggregations);
 app.use('/api', api);
@@ -173,8 +181,11 @@ app.use('/api/combine', combine_files);
 app.use('/api/mongo', mongo_controller);
 app.use(express.static(path.join(__dirname, './client', 'build')));
 
-// If no API routes are hit, send the React app
-app.use('/', function (req, res) {
+// If no API routes are hit, send the React app (but not for /api-docs or /api/v1)
+app.use('/', function (req, res, next) {
+  if (req.path.startsWith('/api-docs') || req.path.startsWith('/api/v1') || req.path.startsWith('/api-register')) {
+    return next();
+  }
   res.sendFile(path.join(__dirname, './client/build/index.html'));
 });
 
