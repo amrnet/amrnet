@@ -1,6 +1,6 @@
 <img src='assets/img/logo-prod.png' width="150" height="90">
 
-[![GitHub version](https://img.shields.io/badge/version-1.1.2-blue.svg)](https://github.com/amrnet/amrnet)
+[![GitHub version](https://img.shields.io/badge/version-1.1.4-blue.svg)](https://github.com/amrnet/amrnet)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Last Commit](https://img.shields.io/github/last-commit/amrnet/amrnet)](https://github.com/amrnet/amrnet/commits/main)
 [![Issues](https://img.shields.io/github/issues/amrnet/amrnet)](https://github.com/amrnet/amrnet/issues)
@@ -40,16 +40,20 @@ worldwide.
 - **🔌 API Access** - Programmatic access to all data with comprehensive
   documentation
 
-### 🦠 Supported Organisms
+### 🦠 Supported Organisms (10 Species)
 
-| Organism           | Scientific Name         | Key Features                          |
-| ------------------ | ----------------------- | ------------------------------------- |
-| **S. Typhi**       | _Salmonella_ Typhi      | Typhoid fever surveillance            |
-| **K. pneumoniae**  | _Klebsiella pneumoniae_ | Healthcare-associated infections      |
-| **N. gonorrhoeae** | _Neisseria gonorrhoeae_ | Gonorrhea resistance monitoring       |
-| **E. coli**        | _Escherichia coli_      | ESBL and carbapenemase tracking       |
-| **Shigella**       | _Shigella_ spp.         | Dysentery and MDR monitoring          |
-| **Salmonella**     | _Salmonella enterica_   | Non-typhoidal Salmonella surveillance |
+| Organism                    | Scientific Name              | Key Features                                |
+| --------------------------- | ---------------------------- | ------------------------------------------- |
+| **S. Typhi**                | _Salmonella_ Typhi           | Typhoid fever, QRDR pathway analysis        |
+| **Salmonella**              | _Salmonella enterica_        | Non-typhoidal Salmonella, QRDR + qnr rules |
+| **Invasive Salmonella**     | _Salmonella_ (invasive NTS)  | Bloodstream infections, QRDR analysis       |
+| **K. pneumoniae**           | _Klebsiella pneumoniae_      | Healthcare-associated, convergence mapping  |
+| **N. gonorrhoeae**          | _Neisseria gonorrhoeae_      | STI surveillance, QRDR patterns             |
+| **E. coli**                 | _Escherichia coli_           | AMR gene tracking                           |
+| **Diarrheagenic E. coli**   | _Escherichia coli_ (DEC)     | Diarrheal disease surveillance              |
+| **Shigella**                | _Shigella_ spp.              | Dysentery and MDR monitoring                |
+| **S. aureus**               | _Staphylococcus aureus_      | MRSA surveillance                           |
+| **S. pneumoniae**           | _Streptococcus pneumoniae_   | PMEN clone tracking, PCV serotypes          |
 
 ## 🚀 Quick Start
 
@@ -135,18 +139,20 @@ _Comprehensive data pipeline and component breakdown_
 ├── 🔒 Security Framework (Helmet, CORS, OAuth2)
 └── 📊 Real-time Data Processing Pipelines
 
-🗄️ Database Layer (MongoDB Atlas)
-├── 📋 8 Organism Collections (500K+ Records)
-├── � Performance Indexes for Geographic & Temporal Queries
+🗄️ Database Layer (MongoDB 7)
+├── 📋 10 Organism Databases (1.6M+ Genomes)
+├── ⚡ Performance Indexes for Geographic & Temporal Queries
 ├── 🔄 Aggregation Pipelines for Server-side Processing
-├── � Advanced Filtering by Country, Drug, Genotype
-└── ☁️ Cloud-hosted with Automated Backups
+├── 🔐 Authentication with Role-based Access Control
+└── 💾 Daily Automated Backups to AWS S3
 
-🌐 Infrastructure Layer
-├── 🚀 Heroku Deployment with Auto-scaling
-├── 🔗 Fixie Proxy for Secure Database Connections
-├── 📁 AWS S3 for Data Export & Backup Storage
-└── � CI/CD Pipeline with GitHub Actions
+🌐 Infrastructure Layer (AWS)
+├── 🖥️ EC2 (t3.xlarge) — Production + MongoDB co-hosted
+├── 🌍 CloudFront CDN — Global edge caching + HTTPS
+├── 📁 S3 Data Lake — Exports, backups, raw data
+├── 🔒 ACM SSL Certificate — Auto-renewing HTTPS for amrnet.org
+├── 🔌 Public REST API — Swagger docs + token authentication
+└── 🔄 CI/CD — Git-based deploy scripts (main → production)
 ```
 
 ### 🔧 Technology Stack
@@ -164,21 +170,23 @@ Frontend Technologies
 └── ⚡ Performance: Code Splitting, Lazy Loading, Service Workers
 
 Backend Technologies
-├── 🟢 Node.js v18.20.4 with Express.js Framework
-├── 🗄️ MongoDB with Mongoose ODM
-├── 🔒 Authentication: JWT, OAuth2, API Keys
-├── 🛡️ Security: Helmet, CORS, Rate Limiting
-├── � Data Processing: Aggregation Pipelines, Field Projection
-├── 🗜️ Compression: gzip, brotli for Payload Optimization
-└── 📝 Logging: Winston with Sentry Error Tracking
+├── 🟢 Node.js v22 with Express.js Framework
+├── 🗄️ MongoDB 7 with native driver
+├── 🔒 Authentication: API Keys with self-service registration
+├── 🛡️ Security: CORS, Rate Limiting (nginx), MongoDB auth
+├── ⚡ Data Processing: Aggregation Pipelines, Field Projection
+├── 🗜️ Compression: gzip (nginx + Express)
+├── 📖 Swagger/OpenAPI Documentation
+└── 📊 PM2 Process Manager with auto-restart
 
 Database & Infrastructure
-├── ☁️ MongoDB Atlas Cloud Database
-├── 📁 AWS S3 for File Storage & Data Exports
-├── 🚀 Heroku Platform for Application Hosting
-├── � Fixie SOCKS5 Proxy for Secure Connections
-├── 🔄 GitHub Actions for CI/CD Automation
-└── 📊 Performance Monitoring & Health Checks
+├── 🗄️ MongoDB 7 (self-hosted on EC2, auth enabled)
+├── 📁 AWS S3 Data Lake (exports, backups, raw data)
+├── 🖥️ AWS EC2 (t3.xlarge) for Production
+├── 🌍 AWS CloudFront CDN for Global Access
+├── 🔒 AWS ACM for SSL Certificates
+├── 🔄 Git-based deployment (development → main)
+└── 📊 Health checks + daily S3 backups
 ```
 
 ### 🎯 Performance Metrics
@@ -197,30 +205,33 @@ improvements:
 
 AMRnet integrates surveillance data from major public genomic databases:
 
-**🦠 Supported Organisms (8 Species)**
+**🦠 Supported Organisms (10 Species)**
 
 - **Salmonella Typhi** - Global typhoid surveillance from Pathogenwatch
-- **Klebsiella pneumoniae** - Healthcare-associated infections from
-  Pathogenwatch
-- **Neisseria gonorrhoeae** - STI surveillance from Pathogenwatch
-- **Escherichia coli** - Enteric infections from Enterobase
-- **Diarrheagenic E. coli** - Diarrheal disease surveillance from Enterobase
-- **Shigella species** - Shigellosis surveillance from Enterobase
 - **Salmonella enterica** - Non-typhoidal Salmonella from Enterobase
 - **Invasive Salmonella** - Bloodstream infections from Enterobase
+- **Klebsiella pneumoniae** - Healthcare-associated infections from Pathogenwatch
+- **Neisseria gonorrhoeae** - STI surveillance from Pathogenwatch
+- **Escherichia coli** - AMR gene tracking from Enterobase
+- **Diarrheagenic E. coli** - Diarrheal disease surveillance from Enterobase
+- **Shigella species** - Shigellosis surveillance from Enterobase
+- **Staphylococcus aureus** - MRSA surveillance from Pathogenwatch
+- **Streptococcus pneumoniae** - Pneumococcal resistance from Pathogenwatch
 
 **🌍 Global Coverage**
 
-- **500,000+ genomic records** with AMR predictions
-- **75+ countries** represented across all continents
+- **1,600,000+ genomic records** with AMR predictions
+- **100+ countries** represented across all continents
 - **4 languages** supported (English, Spanish, French, Portuguese)
-- **Real-time updates** from source databases
+- **WHO GLASS integration** for phenotypic surveillance data
 
 **🔬 Data Sources**
 
-- **[Pathogenwatch](https://pathogen.watch)** - 3 organisms with AMR predictions
-- **[Enterobase](https://enterobase.warwick.ac.uk)** - 5 organisms with
-  hierarchical clustering
+- **[Pathogenwatch](https://pathogen.watch)** - S. Typhi, K. pneumoniae, N. gonorrhoeae, S. aureus, S. pneumoniae
+- **[Enterobase](https://enterobase.warwick.ac.uk)** - E. coli, Shigella, Salmonella enterica, invasive NTS, DEC
+- **[NCBI](https://www.ncbi.nlm.nih.gov)** - Public genome repositories
+- **[PubMLST](https://pubmlst.org)** - Multi-locus sequence typing
+- **[WHO GLASS](https://www.who.int/initiatives/glass)** - Global antimicrobial resistance surveillance
 - **Academic consortiums** - Global Typhoid Genomics Consortium
 
 ### 🔗 Architecture Documentation
@@ -248,9 +259,10 @@ For comprehensive technical documentation, visit:
 
 ### Prerequisites
 
-- **Node.js** 18+ with npm
-- **MongoDB** 6.0+ (local or Atlas cloud)
+- **Node.js** 22+ with npm
+- **MongoDB** 7.0+ (local or Atlas cloud)
 - **Git** for version control
+- **AWS CLI** (for deployment to production)
 
 ### Development Setup
 
@@ -279,9 +291,10 @@ For comprehensive technical documentation, visit:
    Edit `.env` with your configuration:
 
    ```env
-   MONGODB_URI=mongodb://localhost:27017/amrnet
+   MONGODB_URI=mongodb://localhost:27017
    NODE_ENV=development
-   PORT=3000
+   PORT=8080
+   REACT_APP_API_URL=/api/
    ```
 
 4. **Start Development Servers**:
@@ -292,26 +305,58 @@ For comprehensive technical documentation, visit:
 The application will be available at `http://localhost:3000` with hot reloading
 enabled.
 
-### Production Deployment
+### Production Deployment (AWS)
 
-For production deployment instructions, see our
-[Deployment Guide](https://amrnet.readthedocs.io/en/latest/deployment.html).
+AMRnet runs on AWS EC2 with MongoDB, nginx, and CloudFront CDN.
 
-<!-- ## 🔌 API Access
+```bash
+# Deploy scripts are in deploy/
+./deploy/deploy-production.sh   # Deploy main branch to production
+./deploy/deploy-dev.sh          # Deploy development branch to dev instance
+./deploy/promote-to-production.sh  # Merge dev → main and deploy
+```
 
-AMRnet provides a comprehensive RESTful API for programmatic access to all data.
+**Infrastructure:**
+
+| Component | Service | Details |
+| --------- | ------- | ------- |
+| **App + DB** | EC2 t3.xlarge | Node.js 22 + MongoDB 7 (co-hosted) |
+| **CDN** | CloudFront | Global edge caching, HTTPS via ACM |
+| **Data Lake** | S3 | Exports, backups, raw data pipeline |
+| **Domain** | amrnet.org | SSL certificate auto-renewed by ACM |
+| **Backups** | S3 + cron | Daily MongoDB backups at 3 AM UTC |
+
+**Git Workflow:**
+
+```text
+development branch → deploy to dev → researchers validate → promote to main → production
+```
+
+## 🔌 API Access
+
+AMRnet provides a public REST API with Swagger documentation for programmatic access to all data.
+
+**🔗 API Links:**
+[📖 Swagger Docs](https://www.amrnet.org/api-docs) |
+[🔑 Register for API Key](https://www.amrnet.org/api-register)
 
 ### Quick Examples
 
 ```bash
-# Get all S. Typhi data
-curl "https://api.amrnet.org/styphi"
+# Register for an API key at https://www.amrnet.org/api-register
+# Then use it in all requests:
 
-# Filter by country and year
-curl "https://api.amrnet.org/styphi?country=BGD&year_start=2020"
+# List all organisms
+curl -H "X-API-Key: YOUR_KEY" https://www.amrnet.org/api/v1/organisms
 
-# Get summary statistics
-curl "https://api.amrnet.org/styphi/summary"
+# Get resistance summary for Salmonella
+curl -H "X-API-Key: YOUR_KEY" "https://www.amrnet.org/api/v1/organisms/senterica/resistance?country=Brazil"
+
+# Get per-country genome counts
+curl -H "X-API-Key: YOUR_KEY" https://www.amrnet.org/api/v1/organisms/ecoli/countries
+
+# Download full dataset as CSV
+curl -H "X-API-Key: YOUR_KEY" "https://www.amrnet.org/api/v1/organisms/styphi/download?format=csv" -o styphi.csv
 ```
 
 ### Python Integration
@@ -320,18 +365,34 @@ curl "https://api.amrnet.org/styphi/summary"
 import requests
 import pandas as pd
 
-# Fetch AMR data
-response = requests.get('https://api.amrnet.org/styphi',
-                       params={'country': 'USA', 'limit': 1000})
-data = response.json()
+API_KEY = "your-api-key-here"
+BASE = "https://www.amrnet.org/api/v1"
+HEADERS = {"X-API-Key": API_KEY}
 
-# Convert to DataFrame
-df = pd.DataFrame(data['data'])
-print(f"Retrieved {len(df)} samples")
+# Get resistance data for E. coli filtered by country and year
+response = requests.get(f"{BASE}/organisms/ecoli/resistance",
+                       params={"country": "United Kingdom", "year_from": 2020},
+                       headers=HEADERS)
+data = response.json()
+print(f"Resistance data for {data['organism']}: {data['sampled']} genomes")
+
+# Download paginated genome data
+response = requests.get(f"{BASE}/organisms/senterica/genomes",
+                       params={"page": 1, "limit": 500},
+                       headers=HEADERS)
+df = pd.DataFrame(response.json()["data"])
+print(f"Retrieved {len(df)} genomes")
 ```
 
-**📚 Full API Documentation**:
-[amrnet.readthedocs.io/api](https://amrnet.readthedocs.io/en/latest/api.html) -->
+### Available Endpoints
+
+| Endpoint | Description |
+| -------- | ----------- |
+| `GET /api/v1/organisms` | List all organisms with genome counts |
+| `GET /api/v1/organisms/{id}/resistance` | Resistance prevalence by drug |
+| `GET /api/v1/organisms/{id}/genomes` | Paginated individual genome records |
+| `GET /api/v1/organisms/{id}/countries` | Per-country summary with year ranges |
+| `GET /api/v1/organisms/{id}/download` | Full dataset download (JSON or CSV) |
 
 ## 🤝 Contributing
 
