@@ -126,6 +126,7 @@ const drugColorMap = {
   Teicoplanin: 19,   // glycopeptide
   // S. pneumoniae drugs
   Fluoroquinolone: 8,
+  Fluoroquinolones: 8,
   'Co-Trimoxazole': 18,
 };
 

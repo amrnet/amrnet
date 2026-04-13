@@ -88,8 +88,23 @@ export async function fetchGLASSData() {
     return glassDataCache;
   }
 
-  // Fetch all GLASS indicators in parallel
+  // Try MongoDB first (pre-loaded by scripts/check-glass-data.js)
+  try {
+    const mongoResponse = await fetch('/api/glass-mongodb');
+    if (mongoResponse.ok) {
+      const mongoData = await mongoResponse.json();
+      if (mongoData.consumption?.length > 0) {
+        glassDataCache = mongoData;
+        lastFetchTime = now;
+        console.log('[GLASS] Loaded from MongoDB:', mongoData.consumption.length, 'consumption +', mongoData.phenotypic?.length || 0, 'CSV records');
+        return glassDataCache;
+      }
+    }
+  } catch (err) {
+    console.warn('[GLASS] MongoDB fallback failed, trying external APIs:', err.message);
+  }
 
+  // Fallback: fetch from external APIs
   const [consumption, ecoliRes, mrsaRes, ngCip, ngAzm, ngCro, ngCfm] = await Promise.all([
     fetchIndicator('GLASSAMC_TC'),
     fetchIndicator('AMR_INFECT_ECOLI'),
@@ -101,43 +116,27 @@ export async function fetchGLASSData() {
   ]);
 
   glassDataCache = {
-    consumption,    // Total ATB consumption (DDD/1000/day)
+    consumption,
     resistance: {
-      ecoli_3gc: ecoliRes,     // E. coli 3rd-gen cephalosporin resistance
-      mrsa: mrsaRes,           // MRSA proportion
-      ng_ciprofloxacin: ngCip, // N. gonorrhoeae ciprofloxacin
-      ng_azithromycin: ngAzm,  // N. gonorrhoeae azithromycin
-      ng_ceftriaxone: ngCro,   // N. gonorrhoeae ceftriaxone
-      ng_cefixime: ngCfm,      // N. gonorrhoeae cefixime
-    },
-    metadata: {
-      source: 'WHO Global Health Observatory (GHO) OData API',
-      apiBase: GHO_API_BASE,
-      fetchedAt: new Date().toISOString(),
-      indicators: {
-        GLASSAMC_TC: 'Total antibiotic consumption (DDD/1000/day)',
-        AMR_INFECT_ECOLI: 'E. coli bloodstream infection - 3GC resistance (%)',
-        AMR_INFECT_MRSA: 'MRSA bloodstream infection proportion (%)',
-        GASPRSCIP: 'N. gonorrhoeae ciprofloxacin resistance (%)',
-        GASPRSAZM: 'N. gonorrhoeae azithromycin resistance (%)',
-        GASPRSCRO: 'N. gonorrhoeae ceftriaxone DS/R (%)',
-        GASPRSCFM: 'N. gonorrhoeae cefixime DS/R (%)',
-      },
+      ecoli_3gc: ecoliRes,
+      mrsa: mrsaRes,
+      ng_ciprofloxacin: ngCip,
+      ng_azithromycin: ngAzm,
+      ng_ceftriaxone: ngCro,
+      ng_cefixime: ngCfm,
     },
   };
 
   lastFetchTime = now;
 
-  // Also fetch the compiled GLASS phenotypic CSV (Klebsiella, Salmonella, etc.)
+  // Also fetch the compiled GLASS phenotypic CSV
   try {
     const phenoResponse = await fetch('/api/glass-phenotypic');
     if (phenoResponse.ok) {
-      const phenoData = await phenoResponse.json();
-      glassDataCache.phenotypic = phenoData;
-      // Phenotypic CSV data loaded successfully
+      glassDataCache.phenotypic = await phenoResponse.json();
     }
   } catch (err) {
-    console.warn('[GLASS] Failed to fetch phenotypic CSV data:', err.message);
+    console.warn('[GLASS] Failed to fetch phenotypic CSV:', err.message);
     glassDataCache.phenotypic = [];
   }
 
@@ -203,39 +202,98 @@ export function getPhenotypicResistanceForOrganism(data, organism) {
 }
 
 /**
- * Map AMRnet organism to the relevant GLASS phenotypic indicator
+ * Map ATB class + organism to the GLASS resistance indicator.
+ * Returns { pathogen, antibiotic, specimen?, source, label } or null if no GLASS data for that combo.
+ */
+export function getGLASSIndicatorForATBClass(organism, atbClass) {
+  const mapping = {
+    styphi: {
+      'Fluoroquinolones': { pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', specimen: 'BLOOD', source: 'csv' },
+      'Cephalosporins': { pathogen: 'Salmonella', antibiotic: 'Ceftriaxone', specimen: 'BLOOD', source: 'csv' },
+      'Sulfonamides+Trimethoprim': { pathogen: 'Salmonella', antibiotic: 'Trimethoprim/sulfamethoxazole', specimen: 'BLOOD', source: 'csv' },
+    },
+    senterica: {
+      'Fluoroquinolones': { pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', source: 'csv' },
+      'Cephalosporins': { pathogen: 'Salmonella', antibiotic: 'Ceftriaxone', source: 'csv' },
+    },
+    sentericaints: {
+      'Fluoroquinolones': { pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', specimen: 'BLOOD', source: 'csv' },
+      'Cephalosporins': { pathogen: 'Salmonella', antibiotic: 'Ceftriaxone', specimen: 'BLOOD', source: 'csv' },
+    },
+    ecoli: {
+      'Fluoroquinolones': { pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin', source: 'csv' },
+      'Cephalosporins': { pathogen: 'Escherichia coli', antibiotic: 'Ceftriaxone', source: 'csv' },
+      'Penicillins': { pathogen: 'Escherichia coli', antibiotic: 'Ampicillin', source: 'csv' },
+      'Sulfonamides+Trimethoprim': { pathogen: 'Escherichia coli', antibiotic: 'Trimethoprim/sulfamethoxazole', source: 'csv' },
+    },
+    decoli: {
+      'Fluoroquinolones': { pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin', source: 'csv' },
+      'Cephalosporins': { pathogen: 'Escherichia coli', antibiotic: 'Ceftriaxone', source: 'csv' },
+      'Penicillins': { pathogen: 'Escherichia coli', antibiotic: 'Ampicillin', source: 'csv' },
+      'Sulfonamides+Trimethoprim': { pathogen: 'Escherichia coli', antibiotic: 'Trimethoprim/sulfamethoxazole', source: 'csv' },
+    },
+    shige: {
+      'Fluoroquinolones': { pathogen: 'Shigella', antibiotic: 'Ciprofloxacin', source: 'csv' },
+      'Cephalosporins': { pathogen: 'Shigella', antibiotic: 'Ceftriaxone', source: 'csv' },
+    },
+    kpneumo: {
+      'Carbapenems': { pathogen: 'Klebsiella pneumoniae', antibiotic: 'Meropenem', specimen: 'BLOOD', source: 'csv' },
+      'Fluoroquinolones': { pathogen: 'Klebsiella pneumoniae', antibiotic: 'Ciprofloxacin', source: 'csv' },
+      'Cephalosporins': { pathogen: 'Klebsiella pneumoniae', antibiotic: 'Ceftriaxone', source: 'csv' },
+      'Sulfonamides+Trimethoprim': { pathogen: 'Klebsiella pneumoniae', antibiotic: 'Trimethoprim/sulfamethoxazole', source: 'csv' },
+    },
+    saureus: {
+      'Penicillins': { code: 'AMR_INFECT_MRSA', source: 'gho', ghoKey: 'mrsa' },
+    },
+    ngono: {
+      'Fluoroquinolones': { code: 'GASPRSCIP', source: 'gho', ghoKey: 'ng_ciprofloxacin' },
+      'Macrolides': { code: 'GASPRSAZM', source: 'gho', ghoKey: 'ng_azithromycin' },
+      'Cephalosporins': { code: 'GASPRSCRO', source: 'gho', ghoKey: 'ng_ceftriaxone' },
+    },
+    strepneumo: {
+      'Sulfonamides+Trimethoprim': { pathogen: 'Streptococcus pneumoniae', antibiotic: 'Trimethoprim/sulfamethoxazole', source: 'csv' },
+      'Fluoroquinolones': { pathogen: 'Streptococcus pneumoniae', antibiotic: 'Levofloxacin', source: 'csv' },
+      'Tetracyclines': { pathogen: 'Streptococcus pneumoniae', antibiotic: 'Tetracycline', source: 'csv' },
+      'Macrolides': { pathogen: 'Streptococcus pneumoniae', antibiotic: 'Erythromycin', source: 'csv' },
+    },
+  };
+
+  return mapping[organism]?.[atbClass] || null;
+}
+
+/**
+ * Map AMRnet organism to the relevant GLASS phenotypic indicator (default/primary)
  */
 export function getGLASSIndicatorForOrganism(organism) {
   switch (organism) {
-    // E. coli (all) — GHO API has bloodstream 3GC resistance
+    // E. coli — GHO API has bloodstream 3GC resistance; drugsCountriesData key = 'Beta-lactam'
     case 'ecoli':
-      return { code: 'AMR_INFECT_ECOLI', label: 'E. coli bloodstream 3GC resistance (GLASS)', drug: 'ESBL', source: 'gho' };
-    // Diarrheagenic E. coli — GLASS 2022 CSV has no STOOL E. coli data; use blood+urine (all specimens)
+      return { code: 'AMR_INFECT_ECOLI', label: 'E. coli bloodstream 3GC resistance (GLASS)', drug: 'Beta-lactam', source: 'gho' };
+    // Diarrheagenic E. coli — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Quinolone'
     case 'decoli':
-      return { code: 'GLASS_CSV', label: 'E. coli ciprofloxacin resistance - blood+urine (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin' };
-    // Shigella + EIEC — GLASS CSV has Shigella as separate pathogen
+      return { code: 'GLASS_CSV', label: 'E. coli ciprofloxacin resistance - blood+urine (GLASS)', drug: 'Quinolone', source: 'csv', pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin' };
+    // Shigella — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Quinolone'
     case 'shige':
-      return { code: 'GLASS_CSV', label: 'Shigella ciprofloxacin resistance (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Shigella', antibiotic: 'Ciprofloxacin' };
-    // K. pneumoniae — GLASS CSV has carbapenem (meropenem) resistance in blood
+      return { code: 'GLASS_CSV', label: 'Shigella ciprofloxacin resistance (GLASS)', drug: 'Quinolone', source: 'csv', pathogen: 'Shigella', antibiotic: 'Ciprofloxacin' };
+    // K. pneumoniae — GLASS CSV meropenem; drugsCountriesData key = 'Carbapenems'
     case 'kpneumo':
       return { code: 'GLASS_CSV', label: 'K. pneumoniae meropenem resistance - blood (GLASS)', drug: 'Carbapenems', source: 'csv', pathogen: 'Klebsiella pneumoniae', antibiotic: 'Meropenem', specimen: 'BLOOD' };
-    // S. aureus — GHO API has MRSA bloodstream proportion
+    // S. aureus — GHO API MRSA; drugsCountriesData key = 'Methicillin'
     case 'saureus':
       return { code: 'AMR_INFECT_MRSA', label: 'MRSA bloodstream prevalence (GLASS)', drug: 'Methicillin', source: 'gho' };
-    // N. gonorrhoeae — GHO API has WHO-GASP ciprofloxacin resistance
+    // N. gonorrhoeae — GHO API ciprofloxacin; drugsCountriesData key = 'Ciprofloxacin'
     case 'ngono':
       return { code: 'GASPRSCIP', label: 'N. gonorrhoeae CIP resistance (WHO-GASP)', drug: 'Ciprofloxacin', source: 'gho' };
-    // S. Typhi — GLASS CSV has Salmonella in BLOOD (includes Typhi + NTS mixed, caveat shown)
-    // drugsCountriesData for styphi uses drugClassesRulesST keys: 'Ciprofloxacin' (not 'Ciprofloxacin NS')
+    // S. Typhi — GLASS CSV Salmonella blood; drugsCountriesData key = 'Ciprofloxacin'
     case 'styphi':
       return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance - blood (GLASS, includes NTS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', specimen: 'BLOOD' };
-    // Non-typhoidal Salmonella — GLASS CSV Salmonella + ciprofloxacin (blood + stool)
+    // Non-typhoidal Salmonella — GLASS CSV; drugsCountriesData key = 'Quinolone'
     case 'senterica':
-      return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance (GLASS, includes Typhi)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin' };
-    // Invasive non-typhoidal Salmonella — GLASS CSV Salmonella BLOOD only
+      return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance (GLASS, includes Typhi)', drug: 'Quinolone', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin' };
+    // Invasive NTS — GLASS CSV blood; drugsCountriesData key = 'Quinolone'
     case 'sentericaints':
-      return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance - blood (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', specimen: 'BLOOD' };
-    // S. pneumoniae — GLASS CSV has trimethoprim/sulfamethoxazole resistance
+      return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance - blood (GLASS)', drug: 'Quinolone', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', specimen: 'BLOOD' };
+    // S. pneumoniae — GLASS CSV SXT; drugsCountriesData key = 'Co-Trimoxazole'
     case 'strepneumo':
       return { code: 'GLASS_CSV', label: 'S. pneumoniae SXT resistance (GLASS)', drug: 'Co-Trimoxazole', source: 'csv', pathogen: 'Streptococcus pneumoniae', antibiotic: 'Trimethoprim/sulfamethoxazole' };
     default:

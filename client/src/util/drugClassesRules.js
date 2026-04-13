@@ -1345,10 +1345,7 @@ export const statKeysECOLI = (() => {
     ],
     every: true,
   });
-  // items.push({ name: 'CipNS', resistanceView: true, computed: true, rules: [] });
-  // items.push({ name: 'CipR', resistanceView: true, computed: true, rules: [] });
-  // items.push({ name: 'MDR', resistanceView: true, computed: true, rules: [] });
-  // items.push({ name: 'XDR', resistanceView: true, computed: true, rules: [] });
+  // CipNS/CipR are not applicable for these organisms — computed separately per organism where needed
 
   const uniqueColumns = [
     ...new Set(items.filter(i => !i.computed).flatMap(item => item.rules.map(rule => rule.column))),
@@ -1396,14 +1393,14 @@ export const statKeysSP = [
   { name: 'Chloramphenicol', column: 'Chloramphenicol', key: '1', resistanceView: true },
   { name: 'Clindamycin', column: 'Clindamycin', key: '1', resistanceView: true },
   { name: 'Erythromycin', column: 'Erythromycin', key: '1', resistanceView: true },
-  { name: 'Fluoroquinolone', column: 'Fluoroquinolone', key: '1', resistanceView: true },
+  { name: 'Fluoroquinolones', column: 'Fluoroquinolones', key: '1', resistanceView: true },
   { name: 'Kanamycin', column: 'Kanamycin', key: '1', resistanceView: true },
-  { name: 'Linezolid', column: 'Linezolid', key: '1', resistanceView: true },
+  // { name: 'Linezolid', column: 'Linezolid', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
   { name: 'Trimethoprim', column: 'Trimethoprim', key: '1', resistanceView: true },
   { name: 'Sulfamethoxazole', column: 'Sulfamethoxazole', key: '1', resistanceView: true },
   { name: 'Co-Trimoxazole', column: 'Co-Trimoxazole', key: '1', resistanceView: true },
-  { name: 'Pansusceptible', column: null, key: null, resistanceView: true, pansusceptible: true },
+  { name: 'Pansusceptible', column: 'amr_gene_count', key: '0', resistanceView: true, pansusceptible: true },
 ];
 
 export const statKeys = {
@@ -1453,14 +1450,14 @@ export const drugRulesSP = [
   { key: 'Chloramphenicol', columnID: 'Chloramphenicol', values: ['1'] },
   { key: 'Clindamycin', columnID: 'Clindamycin', values: ['1'] },
   { key: 'Erythromycin', columnID: 'Erythromycin', values: ['1'] },
-  { key: 'Fluoroquinolone', columnID: 'Fluoroquinolone', values: ['1'] },
+  { key: 'Fluoroquinolones', columnID: 'Fluoroquinolones', values: ['1'] },
   { key: 'Kanamycin', columnID: 'Kanamycin', values: ['1'] },
-  { key: 'Linezolid', columnID: 'Linezolid', values: ['1'] },
+  // { key: 'Linezolid', columnID: 'Linezolid', values: ['1'] },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
   { key: 'Trimethoprim', columnID: 'Trimethoprim', values: ['1'] },
   { key: 'Sulfamethoxazole', columnID: 'Sulfamethoxazole', values: ['1'] },
   { key: 'Co-Trimoxazole', columnID: 'Co-Trimoxazole', values: ['1'] },
-  { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
+  { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
 ];
 
 // ---------------------------------------------------------------------------
@@ -1672,7 +1669,7 @@ export const markerRulesSP = {
     acquired: ['mefA_3', 'mefA_10', 'mefB', ..._ermSP],
     variants: ['23S_rRNA_a2062g'],
   },
-  Fluoroquinolone: {
+  Fluoroquinolones: {
     acquired: [],
     variants: [
       'gyrA_S81F',

@@ -80,29 +80,33 @@ const getHyphenFieldFrom = (fieldName, inputExpr) => ({
  */
 function buildEcoliConditions() {
   const drugColumns = [
-    'Aminoglycoside', 'Beta-lactam', 'Sulfonamide', 'Tetracycline',
-    'Phenicol', 'Quinolone', 'Fosfomycin', 'Trimethoprim',
-    'Macrolide', 'Lincosamide', 'Streptothricin', 'Rifamycin',
-    'Colistin', 'Bleomycin',
+    'Aminoglycoside',
+    'Beta-lactam',
+    'Sulfonamide',
+    'Tetracycline',
+    'Phenicol',
+    'Quinolone',
+    'Fosfomycin',
+    'Trimethoprim',
+    'Macrolide',
+    'Lincosamide',
+    'Streptothricin',
+    'Rifamycin',
+    'Colistin',
+    'Bleomycin',
   ];
 
   // Helper: get field expression (Beta-lactam needs $getField due to hyphen)
-  const fieldExpr = col => col === 'Beta-lactam' ? { $getField: 'Beta-lactam' } : `$${col}`;
+  const fieldExpr = col => (col === 'Beta-lactam' ? { $getField: 'Beta-lactam' } : `$${col}`);
 
   // Resistant: field is not null, not '', not '-'
   const isResistant = col => ({
-    $and: [
-      { $ne: [{ $ifNull: [fieldExpr(col), ''] }, ''] },
-      { $ne: [{ $ifNull: [fieldExpr(col), '-'] }, '-'] },
-    ],
+    $and: [{ $ne: [{ $ifNull: [fieldExpr(col), ''] }, ''] }, { $ne: [{ $ifNull: [fieldExpr(col), '-'] }, '-'] }],
   });
 
   // Susceptible: field is null, '', or '-'
   const isSusceptible = col => ({
-    $or: [
-      { $eq: [{ $ifNull: [fieldExpr(col), ''] }, ''] },
-      { $eq: [fieldExpr(col), '-'] },
-    ],
+    $or: [{ $eq: [{ $ifNull: [fieldExpr(col), ''] }, ''] }, { $eq: [fieldExpr(col), '-'] }],
   });
 
   const conditions = {};
@@ -253,9 +257,9 @@ const DRUG_CONDITIONS = {
     Chloramphenicol: { $in: ['$Chloramphenicol', ['1', 1]] },
     Clindamycin: { $in: ['$Clindamycin', ['1', 1]] },
     Erythromycin: { $in: ['$Erythromycin', ['1', 1]] },
-    Fluoroquinolone: { $in: ['$Fluoroquinolone', ['1', 1]] },
+    Fluoroquinolones: { $in: ['$Fluoroquinolones', ['1', 1]] },
     Kanamycin: { $in: ['$Kanamycin', ['1', 1]] },
-    Linezolid: { $in: ['$Linezolid', ['1', 1]] },
+    // Linezolid: { $in: ['$Linezolid', ['1', 1]] },
     Tetracycline: { $in: ['$Tetracycline', ['1', 1]] },
     Trimethoprim: { $in: ['$Trimethoprim', ['1', 1]] },
     Sulfamethoxazole: { $in: ['$Sulfamethoxazole', ['1', 1]] },
@@ -266,9 +270,9 @@ const DRUG_CONDITIONS = {
         { $not: { $in: ['$Chloramphenicol', ['1', 1]] } },
         { $not: { $in: ['$Clindamycin', ['1', 1]] } },
         { $not: { $in: ['$Erythromycin', ['1', 1]] } },
-        { $not: { $in: ['$Fluoroquinolone', ['1', 1]] } },
+        { $not: { $in: ['$Fluoroquinolones', ['1', 1]] } },
         { $not: { $in: ['$Kanamycin', ['1', 1]] } },
-        { $not: { $in: ['$Linezolid', ['1', 1]] } },
+        // { $not: { $in: ['$Linezolid', ['1', 1]] } },
         { $not: { $in: ['$Tetracycline', ['1', 1]] } },
         { $not: { $in: ['$Trimethoprim', ['1', 1]] } },
         { $not: { $in: ['$Sulfamethoxazole', ['1', 1]] } },

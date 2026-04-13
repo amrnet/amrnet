@@ -184,6 +184,12 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
         case 'sentericaints':
           dispatch(setPrevalenceMapViewOptionsSelected(['Quinolone']));
           break;
+        case 'strepneumo':
+          dispatch(setPrevalenceMapViewOptionsSelected(['Co-Trimoxazole']));
+          break;
+        case 'saureus':
+          dispatch(setPrevalenceMapViewOptionsSelected(['Methicillin']));
+          break;
         default:
           dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin']));
           break;

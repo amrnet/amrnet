@@ -156,6 +156,7 @@ export const drugAcronyms = {
   Teicoplanin: 'TEC',
   'Fusidic Acid': 'FUS',
   Fluoroquinolone: 'FLQ',
+  Fluoroquinolones: 'FLQ',
   'Susceptible to cat I/II drugs': 'SUS',
   Susceptible: 'SUS',
   Carbapenems: 'CARB',

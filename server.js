@@ -147,6 +147,37 @@ app.get('/api/glass-phenotypic', async (req, res) => {
   }
 });
 
+// GLASS data from MongoDB (populated by scripts/check-glass-data.js)
+app.get('/api/glass-mongodb', async (req, res) => {
+  try {
+    const client = await connectDB();
+    const col = client.db('amrnet_admin').collection('glass_data');
+    const count = await col.estimatedDocumentCount();
+    if (count === 0) {
+      return res.status(404).json({ error: 'No GLASS data in MongoDB. Run: node scripts/check-glass-data.js' });
+    }
+
+    const ghoRecords = await col.find({ source: 'GHO_API' }).toArray();
+    const csvRecords = await col.find({ source: 'GLASS_CSV' }).toArray();
+
+    // Build the same structure as fetchGLASSData()
+    const consumption = ghoRecords.filter(r => r.indicator === 'GLASSAMC_TC');
+    const resistance = {
+      ecoli_3gc: ghoRecords.filter(r => r.indicator === 'AMR_INFECT_ECOLI'),
+      mrsa: ghoRecords.filter(r => r.indicator === 'AMR_INFECT_MRSA'),
+      ng_ciprofloxacin: ghoRecords.filter(r => r.indicator === 'GASPRSCIP'),
+      ng_azithromycin: ghoRecords.filter(r => r.indicator === 'GASPRSAZM'),
+      ng_ceftriaxone: ghoRecords.filter(r => r.indicator === 'GASPRSCRO'),
+      ng_cefixime: ghoRecords.filter(r => r.indicator === 'GASPRSCFM'),
+    };
+
+    res.json({ consumption, resistance, phenotypic: csvRecords, source: 'mongodb' });
+  } catch (error) {
+    console.error('[GLASS MongoDB]', error.message);
+    res.status(500).json({ error: 'Failed to read GLASS data from MongoDB' });
+  }
+});
+
 // GHO OData API proxy (avoids CORS issues with WHO API)
 app.get('/api/gho/:indicator', async (req, res) => {
   try {

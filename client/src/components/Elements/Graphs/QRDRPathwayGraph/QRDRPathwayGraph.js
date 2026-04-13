@@ -83,6 +83,65 @@ const NGONO_PATTERN_LABELS = {
   Other:  'Other pattern',
 };
 
+// ─── Salmonella (senterica / sentericaints) ────────────────────────────
+// QRDR mutations are stored INSIDE the Quinolone column as semicolon-separated entries
+const SALMONELLA_QRDR_MUTATIONS = [
+  'gyrA_S83F', 'gyrA_S83Y',
+  'gyrA_D87A', 'gyrA_D87G', 'gyrA_D87N', 'gyrA_D87V', 'gyrA_D87Y',
+  'gyrB_S464F', 'gyrB_S464Y',
+  'parC_S80I', 'parC_E84G', 'parC_E84K',
+];
+const QNR_PATTERN = /^qnr[SBD]/i;
+
+/**
+ * Parse the Quinolone field for a Salmonella genome.
+ * Returns { qrdrCount, qrdrMutations, hasQnr, entries }
+ */
+function parseSalmonellaQuinolone(item) {
+  const raw = item.Quinolone || item.QUINOLONE || '';
+  if (!raw || raw === '-' || raw === '') return { qrdrCount: 0, qrdrMutations: [], hasQnr: false, entries: [] };
+
+  const entries = raw.split(';').map(e => e.trim()).filter(Boolean);
+  const qrdrMutations = [];
+  let hasQnr = false;
+
+  entries.forEach(e => {
+    if (SALMONELLA_QRDR_MUTATIONS.includes(e)) qrdrMutations.push(e);
+    if (QNR_PATTERN.test(e)) hasQnr = true;
+  });
+
+  return { qrdrCount: qrdrMutations.length, qrdrMutations, hasQnr, entries };
+}
+
+/**
+ * Classify Salmonella cipro phenotype from QRDR count + qnr presence
+ * 0_QRDR → CipS  |  0_QRDR+qnr → CipNS
+ * 1_QRDR → CipNS |  1_QRDR+qnr → CipR
+ * 2_QRDR → CipNS |  2_QRDR+qnr → CipR
+ * 3_QRDR → CipR  |  3_QRDR+qnr → CipR
+ */
+function classifySalmonellaCipro(qrdrCount, hasQnr) {
+  if (qrdrCount === 0 && !hasQnr) return 'CipS';
+  if (qrdrCount === 0 && hasQnr) return 'CipNS';
+  if (qrdrCount >= 3) return 'CipR';
+  if (hasQnr) return 'CipR'; // 1 or 2 QRDR + qnr
+  return 'CipNS'; // 1 or 2 QRDR without qnr
+}
+
+const SALMONELLA_PATTERN_COLORS = {
+  '0_QRDR': '#4caf50',
+  '1_QRDR': '#ff9800',
+  '2_QRDR': '#f44336',
+  '3_QRDR': '#9c27b0',
+};
+
+const SALMONELLA_PATTERN_LABELS = {
+  '0_QRDR': '0 QRDR — CipS (no QRDR mutations)',
+  '1_QRDR': '1 QRDR — CipNS (single mutation)',
+  '2_QRDR': '2 QRDR — CipNS (two mutations)',
+  '3_QRDR': '3+ QRDR — CipR (triple mutation)',
+};
+
 const PATHWAY_COLORS = {
   '0 QRDR': '#4caf50',
   '1 QRDR': '#ff9800',
@@ -123,10 +182,66 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
   const rawData = useAppSelector(state => state.graph.rawOrganismData);
 
-  // Compute QRDR mutation pathway data from raw S. Typhi or N. gonorrhoeae data
+  const isSalmonella = organism === 'senterica' || organism === 'sentericaints';
+
+  // Compute QRDR mutation pathway data
   const { pathwayData, mutationPrevalence, totalGenomes, cipCorrelation, isNgono } = useMemo(() => {
     const empty = { pathwayData: [], mutationPrevalence: {}, totalGenomes: 0, cipCorrelation: [], isNgono: false };
     if (rawData.length === 0) return empty;
+
+    // --- Salmonella (senterica / sentericaints) branch ---
+    if (organism === 'senterica' || organism === 'sentericaints') {
+      const total = rawData.length;
+      const yearBuckets = {};
+      const mutPrev = {};
+      const cipBuckets = {
+        '0_QRDR': { CipS: 0, CipNS: 0, CipR: 0 },
+        '1_QRDR': { CipS: 0, CipNS: 0, CipR: 0 },
+        '2_QRDR': { CipS: 0, CipNS: 0, CipR: 0 },
+        '3_QRDR': { CipS: 0, CipNS: 0, CipR: 0 },
+      };
+      SALMONELLA_QRDR_MUTATIONS.forEach(m => { mutPrev[m] = 0; });
+      mutPrev['qnrS'] = 0;
+      mutPrev['qnrB'] = 0;
+      mutPrev['qnrD'] = 0;
+
+      rawData.forEach(item => {
+        const year = typeof item.DATE === 'string' ? parseInt(item.DATE) : item.DATE;
+        if (isNaN(year)) return;
+
+        const { qrdrCount, qrdrMutations, hasQnr, entries } = parseSalmonellaQuinolone(item);
+
+        // Count individual mutations
+        qrdrMutations.forEach(m => { mutPrev[m]++; });
+        entries.forEach(e => {
+          if (/^qnrS/i.test(e)) mutPrev['qnrS']++;
+          else if (/^qnrB/i.test(e)) mutPrev['qnrB']++;
+          else if (/^qnrD/i.test(e)) mutPrev['qnrD']++;
+        });
+
+        const category = qrdrCount >= 3 ? '3_QRDR' : `${qrdrCount}_QRDR`;
+        if (!yearBuckets[year]) {
+          yearBuckets[year] = { year, count: 0, '0_QRDR': 0, '1_QRDR': 0, '2_QRDR': 0, '3_QRDR': 0 };
+        }
+        yearBuckets[year].count++;
+        yearBuckets[year][category]++;
+
+        // Cipro phenotype classification
+        const cipPheno = classifySalmonellaCipro(qrdrCount, hasQnr);
+        cipBuckets[category][cipPheno]++;
+      });
+
+      const pathway = Object.values(yearBuckets)
+        .filter(y => y.count >= 10)
+        .sort((a, b) => a.year - b.year);
+
+      const cipData = Object.entries(cipBuckets).map(([pattern, counts]) => {
+        const t = counts.CipS + counts.CipNS + counts.CipR;
+        return { qrdr: pattern, ...counts, total: t };
+      });
+
+      return { pathwayData: pathway, mutationPrevalence: mutPrev, totalGenomes: total, cipCorrelation: cipData, isNgono: false };
+    }
 
     // --- N. gonorrhoeae branch ---
     if (organism === 'ngono') {
@@ -245,15 +360,17 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
     return { pathwayData: pathway, mutationPrevalence: mutPrev, totalGenomes: total, cipCorrelation: cipData, isNgono: false };
   }, [rawData, organism]);
 
-  if (!canGetData || (organism !== 'styphi' && organism !== 'ngono')) return null;
+  if (!canGetData || (organism !== 'styphi' && organism !== 'ngono' && !isSalmonella)) return null;
 
   return (
     <CardContent className={classes.qrdrPathwayGraph}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '8px' }}>
         <Typography variant="body2" fontWeight={600}>
-          {isNgono ? 'QRDR Resistance Pattern Over Time' : 'QRDR Mutation Accumulation Over Time'}
+          {isSalmonella ? 'QRDR Mutation Pathway & Ciprofloxacin Resistance' : isNgono ? 'QRDR Resistance Pattern Over Time' : 'QRDR Mutation Accumulation Over Time'}
         </Typography>
-        <Tooltip title={isNgono
+        <Tooltip title={isSalmonella
+          ? 'Classifies Salmonella genomes by QRDR mutation count (0–3+) from the Quinolone field. 0 QRDR = CipS; 1–2 QRDR = CipNS; 3+ QRDR = CipR. Presence of qnr genes (qnrS/B/D) upgrades CipS→CipNS or CipNS→CipR.'
+          : isNgono
           ? 'Classifies N. gonorrhoeae genomes into QRDR_0–QRDR_3 patterns. QRDR_2: gyrA S91F+D95G or parC S87R. QRDR_3: gyrA S91F+D95N with parC D86N+S88P or S87R+E91Q.'
           : 'Shows how S. Typhi genomes accumulate QRDR (Quinolone Resistance-Determining Region) mutations over time. More mutations = higher ciprofloxacin resistance. Based on 17 tracked gyrA/gyrB/parC/parE mutations.'
         }>
@@ -267,6 +384,20 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
             <Box className={classes.noSelection}>
               <Typography variant="body2" color="textSecondary">No data available</Typography>
             </Box>
+          ) : isSalmonella ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={pathwayData} margin={{ top: 10, right: 20, bottom: 20, left: 20 }} stackOffset="expand">
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" tick={{ fontSize: 11 }} />
+                <YAxis tickFormatter={v => `${(v * 100).toFixed(0)}%`} tick={{ fontSize: 11 }} />
+                <ChartTooltip content={<CustomTooltip />} />
+                <Legend />
+                <Bar dataKey="0_QRDR" stackId="a" fill={SALMONELLA_PATTERN_COLORS['0_QRDR']} name={SALMONELLA_PATTERN_LABELS['0_QRDR']} />
+                <Bar dataKey="1_QRDR" stackId="a" fill={SALMONELLA_PATTERN_COLORS['1_QRDR']} name={SALMONELLA_PATTERN_LABELS['1_QRDR']} />
+                <Bar dataKey="2_QRDR" stackId="a" fill={SALMONELLA_PATTERN_COLORS['2_QRDR']} name={SALMONELLA_PATTERN_LABELS['2_QRDR']} />
+                <Bar dataKey="3_QRDR" stackId="a" fill={SALMONELLA_PATTERN_COLORS['3_QRDR']} name={SALMONELLA_PATTERN_LABELS['3_QRDR']} />
+              </BarChart>
+            </ResponsiveContainer>
           ) : isNgono ? (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={pathwayData} margin={{ top: 10, right: 20, bottom: 20, left: 20 }} stackOffset="expand">
@@ -352,7 +483,7 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
           <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>Individual Mutation Prevalence</Typography>
           <Box className={classes.tooltipWrapper}>
             <Box className={classes.mutationGrid}>
-              {(isNgono ? [...NGONO_GYRA_MUTATIONS, ...NGONO_PARC_MUTATIONS] : [...STYPHI_QRDR_MUTATIONS, ...ACRB_MUTATIONS])
+              {(isSalmonella ? [...SALMONELLA_QRDR_MUTATIONS, 'qnrS', 'qnrB', 'qnrD'] : isNgono ? [...NGONO_GYRA_MUTATIONS, ...NGONO_PARC_MUTATIONS] : [...STYPHI_QRDR_MUTATIONS, ...ACRB_MUTATIONS])
                 .filter(m => mutationPrevalence[m] > 0)
                 .sort((a, b) => mutationPrevalence[b] - mutationPrevalence[a])
                 .map(m => {
