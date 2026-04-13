@@ -296,35 +296,54 @@ export function getShigeTexts() {
 
 export function getSaureusTexts() {
   return [
+    'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation.',
+
+    'Source Data',
+    'AMRnet displays information on antimicrobial resistance (AMR) and genotype (sequence type) for the bacterial pathogen ',
     'Staphylococcus aureus',
-    'data visualised in AMRnet are drawn from a curated collection of publicly available whole-genome sequences. AMR genotypes are called using a specialised pipeline integrating acquired resistance gene detection and point mutation identification. Genotypes are assigned using MLST (multilocus sequence typing).',
+    ', derived from public genome data.',
+    'Staphylococcus aureus',
+    ' data are sourced from Pathogenwatch (https://pathogen.watch), which calls AMR and lineage genotypes (ST) from genomes assembled from public data. See below for details of how the genotyping is undertaken. The prevalence estimates shown are calculated using genome collections derived from targeted and non-targeted sampling frames.',
+    'Individual genome information, including AMR, MLST calls, sequence data accession numbers, and source information (PubMedID for citation) can be downloaded as a spreadsheet from the AMRnet dashboard (https://www.amrnet.org).',
+    "AMRnet's ",
+    'Staphylococcus aureus',
+    ' database was last updated on 16th February 2026.',
 
     'Variable definitions',
-    'Genotype',
-    'Genotypes are assigned based on MLST clonal complexes (CCs), which group sequence types (STs) sharing a common ancestor.',
-    'AMR determinants',
-    'Resistance is detected via acquired genes (e.g. mecA, blaZ, erm genes) and chromosomal point mutations (e.g. in grlA, gyrA, rpoB, fusA). Binary resistance calls (1 = resistant, 0 = susceptible) are stored per drug.',
+    'Genotypes - Users can download sequence types (STs) assigned using the 7-locus MLST scheme for Staphylococcus aureus, defined by Enright et al. 2000, Journal of Clinical Microbiology (https://doi.org/10.1128/JCM.38.3.1008-1015.2000).',
+    'Antimicrobial resistance determinants - These are identified by Pathogenwatch using an in-house dictionary developed and maintained in consultation with an expert advisory group, as described by Aanensen et al. 2016, mBio (https://doi.org/10.1128/mBio.00444-16).',
+    'AMR determinants within genotypes - This plot shows combinations of determinants that result in clinical resistance by Aanensen et al. 2016, mBio (https://doi.org/10.1128/mBio.00444-16).',
+    'Pansusceptible - This category represents genomes with no identified genotypic determinants.',
 
     'Abbreviations',
-    '1. MRSA, methicillin-resistant Staphylococcus aureus (presence of mecA or mecC)',
-    '2. Pansusceptible, no resistance detected across all tested drugs',
+    'MDR: multidrug resistant (genomes with markers associated with resistance to three or more drugs of different drug classes).',
   ];
 }
 
 export function getStrepneumoTexts() {
   return [
+    'This report was using the AMRnet dashboard (https://www.amrnet.org), see website for documentation.',
+
+    'Source Data',
+    'AMRnet displays information on antimicrobial resistance (AMR) and genotype (sequence type) for the bacterial pathogen ',
     'Streptococcus pneumoniae',
-    'data visualised in AMRnet are drawn from a curated collection of publicly available whole-genome sequences. AMR genotypes are called using a specialised pipeline integrating acquired resistance gene detection and point mutation identification. Genotypes are assigned using MLST.',
+    ', derived from public genome data.',
+    'The prevalence estimates shown are calculated using genome collections derived from targeted and non-targeted sampling frames. ',
+    'Streptococcus pneumoniae',
+    ' data in AMRnet are sourced from Pathogenwatch (https://pathogen.watch), which calls AMR and lineage genotypes (MLST, GPSC) from genomes assembled from public data. See below for details of how the genotyping is undertaken.',
+    'Individual genome information, including AMR, MLST and GPSC calls, sequence data accession numbers, and source information (PubMedID for citation) can be downloaded as a spreadsheet from the AMRnet dashboard (https://www.amrnet.org).',
+    "AMRnet's ",
+    'Streptococcus pneumoniae',
+    ' database was last updated on 16th February 2026.',
 
     'Variable definitions',
-    'Genotype',
-    'Genotypes are assigned based on MLST sequence types (STs) and Global Pneumococcal Sequence Cluster (GPSC) lineages.',
-    'AMR determinants',
-    'Resistance is detected via acquired genes (e.g. erm, tet, cat genes) and chromosomal point mutations (e.g. in parC, gyrA, folA, folP). Binary resistance calls (1 = resistant, 0 = susceptible) are stored per drug.',
+    'Genotype - Users can choose from (i) sequence types (STs) assigned using the 7-locus MLST scheme for Streptococcus pneumoniae, defined by Enright & Spratt 1998, Microbiology (Reading) (https://doi.org/10.1099/00221287-144-11-3049); or (ii) GPSC lineages defined by Gladstone et al. 2019, eBioMedicine (https://doi.org/10.1016/j.ebiom.2019.04.021).',
+    'Antimicrobial resistance determinants - These are identified by Pathogenwatch using an in house dictionary developed and maintained in consultation with an expert advisory group (https://github.com/pathogenwatch-oss/amr-libraries/blob/main/README.md).',
+    'AMR determinants within genotypes - This plot shows combinations of determinants that result in clinical resistance.',
+    'Pansusceptible - This category represents genomes with no identified genotypic determinants.',
 
     'Abbreviations',
-    '1. Pansusceptible, no resistance detected across all tested drugs',
-    '2. Co-Trimoxazole, combined trimethoprim-sulfamethoxazole resistance',
+    'MDR: multidrug resistant (genomes with markers associated with resistance to three or more drugs of different drug classes).',
   ];
 }
 
