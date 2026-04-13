@@ -87,7 +87,7 @@ export const atbToAmrnetMapping = {
     'Sulfonamides+Trimethoprim': ['Trimethoprim'],
   },
   strepneumo: {
-    'Fluoroquinolones': ['Fluoroquinolone'],
+    'Fluoroquinolones': ['Fluoroquinolones'],
     'Macrolides': ['Erythromycin'],
     'Tetracyclines': ['Tetracycline'],
     'Sulfonamides+Trimethoprim': ['Co-Trimoxazole'],

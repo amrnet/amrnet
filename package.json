@@ -91,6 +91,7 @@
     "recharts": "^3.1.0",
     "save-svg-as-png": "^1.4.17",
     "stream-browserify": "3.0.0",
+    "swagger-ui-express": "5.0.1",
     "tailwindcss-rich-docs": "^0.2.0",
     "uv": "^1.4.0",
     "web-vitals": "^5.0.3",

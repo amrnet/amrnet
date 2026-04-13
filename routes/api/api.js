@@ -20,7 +20,6 @@ const dbAndCollectionNames = {
   strepneumo: { dbName: 'strepneumo', collectionName: 'amrnetdb_spneumo' },
 };
 
-
 // const kpneumoFieldsToIgnore = {
 //   Amrnet_id: 0,
 //   Amrnet_version: 0,
@@ -638,9 +637,9 @@ router.get('/getDataForStrepneumo', async function (req, res) {
       Chloramphenicol: 1,
       Clindamycin: 1,
       Erythromycin: 1,
-      Fluoroquinolone: 1,
+      Fluoroquinolones: 1,
       Kanamycin: 1,
-      Linezolid: 1,
+      // Linezolid: 1,
       Tetracycline: 1,
       Trimethoprim: 1,
       Sulfamethoxazole: 1,

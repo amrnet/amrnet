@@ -92,12 +92,18 @@ function normalizeSerotype(serotype) {
   return serotype.toString().trim().replace(/^0+(\d)/, '$1');
 }
 
-function getPMENInfo(genotype, serotype) {
-  if (!genotype || !serotype) return null;
-  const g = genotype.toString().trim();
+function getPMENInfo(lineage, serotype) {
+  if (!lineage || !serotype) return null;
   const s = normalizeSerotype(serotype);
-  const key = `${g}_${s}`;
-  return PMEN_LOOKUP[key] ?? null;
+  // Lineage can contain multiple CCs separated by ";" (e.g. "22;857;882")
+  const lineages = lineage.toString().split(';').map(l => l.trim()).filter(Boolean);
+  for (const l of lineages) {
+    const ccKey = `CC${l}_${s}`;
+    const plainKey = `${l}_${s}`;
+    const match = PMEN_LOOKUP[ccKey] ?? PMEN_LOOKUP[plainKey];
+    if (match) return match;
+  }
+  return null;
 }
 
 const CustomTooltip = ({ active, payload }) => {
@@ -140,13 +146,15 @@ export const PMENCloneGraph = () => {
   const cloneData = useMemo(() => {
     if (!rawData?.length || organism !== 'strepneumo') return [];
 
-    // Group by GENOTYPE + Serotype combination
+    // Group by Lineage (CC) + Serotype combination
     const byClone = {};
     rawData.forEach(item => {
-      const genotype = item.GENOTYPE || 'Unknown';
+      const lineage = item.Lineage || 'Unknown';
       const serotype = normalizeSerotype(item.Serotype) || 'Unknown';
-      const key = `${genotype}__${serotype}`;
-      if (!byClone[key]) byClone[key] = { genotype, serotype, items: [] };
+      // Use first lineage for grouping key (multi-CC genomes grouped by primary)
+      const primaryLineage = lineage.split(';')[0].trim();
+      const key = `${primaryLineage}__${serotype}`;
+      if (!byClone[key]) byClone[key] = { lineage: primaryLineage, fullLineage: lineage, serotype, items: [] };
       byClone[key].items.push(item);
     });
 
@@ -154,8 +162,8 @@ export const PMENCloneGraph = () => {
 
     const entries = Object.values(byClone)
       .filter(({ items }) => items.length >= MIN_COUNT)
-      .map(({ genotype, serotype, items }) => {
-        const pmenInfo = getPMENInfo(genotype, serotype);
+      .map(({ lineage, fullLineage, serotype, items }) => {
+        const pmenInfo = getPMENInfo(fullLineage, serotype);
         const count = items.length;
         const prevalence = (count / total) * 100;
 
@@ -167,10 +175,10 @@ export const PMENCloneGraph = () => {
           .filter(d => d.prevalence > 0);
 
         const label = pmenInfo
-          ? `${pmenInfo.pmen} (${genotype}/${serotype})`
-          : `${genotype} / ${serotype}`;
+          ? `${pmenInfo.pmen} (CC${lineage}/${serotype})`
+          : `CC${lineage} / ${serotype}`;
 
-        return { label, genotype, serotype, pmenInfo, count, prevalence, drugs: drugStats, isPMEN: !!pmenInfo };
+        return { label, lineage, serotype, pmenInfo, count, prevalence, drugs: drugStats, isPMEN: !!pmenInfo };
       });
 
     if (sortBy === 'prevalence') entries.sort((a, b) => b.prevalence - a.prevalence);
@@ -196,7 +204,7 @@ export const PMENCloneGraph = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', paddingBottom: '4px' }}>
             <Typography variant="body2" fontWeight={600}>PMEN Clone Prevalence</Typography>
-            <Tooltip title="Groups genomes by GENOTYPE (CC/ST) + Serotype. Combinations matching established PMEN clone definitions (Beall 2006, Hanage et al.) are highlighted in blue.">
+            <Tooltip title="Groups genomes by Lineage (CC) + Serotype. Combinations matching established PMEN clone definitions (Beall 2006, Hanage et al.) are highlighted in blue.">
               <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
             </Tooltip>
           </Box>
@@ -248,7 +256,7 @@ export const PMENCloneGraph = () => {
       {cloneData.length === 0 ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
           <Typography variant="body2" color="textSecondary">
-            {rawData.length === 0 ? 'Loading genome data...' : `No GENOTYPE+Serotype combinations with N≥${MIN_COUNT}`}
+            {rawData.length === 0 ? 'Loading genome data...' : `No Lineage+Serotype combinations with N≥${MIN_COUNT}`}
           </Typography>
         </Box>
       ) : (
@@ -260,7 +268,7 @@ export const PMENCloneGraph = () => {
             <ChartTooltip content={CustomTooltip} />
             <Bar dataKey="prevalence" radius={[0, 3, 3, 0]}>
               {cloneData.map(entry => (
-                <Cell key={`${entry.genotype}_${entry.serotype}`} fill={entry.isPMEN ? PMEN_COLOR : OTHER_COLOR} />
+                <Cell key={`${entry.lineage}_${entry.serotype}`} fill={entry.isPMEN ? PMEN_COLOR : OTHER_COLOR} />
               ))}
             </Bar>
           </BarChart>
@@ -273,7 +281,7 @@ export const PMENCloneGraph = () => {
           <Typography variant="body2" fontWeight={600} sx={{ marginBottom: '6px' }}>PMEN Clone Reference</Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {cloneData.filter(d => d.isPMEN).map(d => (
-              <Box key={`${d.genotype}_${d.serotype}`} sx={{ padding: '4px 10px', backgroundColor: '#e3f2fd', borderRadius: '12px', border: '1px solid #90caf9' }}>
+              <Box key={`${d.lineage}_${d.serotype}`} sx={{ padding: '4px 10px', backgroundColor: '#e3f2fd', borderRadius: '12px', border: '1px solid #90caf9' }}>
                 <Typography variant="caption" sx={{ fontWeight: 600, color: PMEN_COLOR }}>{d.pmenInfo.pmen}</Typography>
                 <Typography variant="caption"> · {d.pmenInfo.name} · {d.prevalence.toFixed(1)}%</Typography>
               </Box>

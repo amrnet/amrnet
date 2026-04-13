@@ -1156,32 +1156,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         });
 
         // Computed drug combinations for E. coli / Shigella / diarrheagenic E. coli
-        // Reference: Mason et al. 2023 Nat Commun (Shigella sonnei XDR)
         const qrdrPatternEC = /gyr[AB]|par[CE]/i;
         const qnrPatternEC = /qnr[A-Z]/i;
         const aacCrPatternEC = /aac.*Ib.*cr/i;
-
-        let cipNSCountEC = 0;
-        let cipRCountEC = 0;
-
-        yearData.forEach(x => {
-          const quinoloneField = x['Quinolone'];
-          if (!quinoloneField || quinoloneField === '-') return;
-
-          const entries = quinoloneField.split(';').map(e => e.trim());
-          let numMarkers = 0;
-          entries.forEach(entry => {
-            if (qrdrPatternEC.test(entry) || qnrPatternEC.test(entry) || aacCrPatternEC.test(entry)) numMarkers++;
-          });
-
-          // CipNS: one resistance marker (qnr gene OR single QRDR mutation)
-          if (numMarkers >= 1) cipNSCountEC++;
-          // CipR: two or more ciprofloxacin resistance markers
-          if (numMarkers >= 2) cipRCountEC++;
-        });
-
-        drugStats['CipNS'] = cipNSCountEC;
-        drugStats['CipR'] = cipRCountEC;
 
         // Resistance helpers — resistant if column has a non-empty, non-'-' value
         const hasRes = (x, col) => {
@@ -2381,32 +2358,10 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
       });
       return n;
     };
-    const hasR = (x, c) => {
-      const v = x[c];
-      return v != null && v !== '' && v !== '-';
-    };
-    const isResCip = x => hasR(x, 'Quinolone');
-    const isResAzm = x => hasR(x, 'Macrolide');
-    const isResBL = x => hasR(x, 'Beta-lactam');
-    const isCipR = x => countMarkers(x['Quinolone']) >= 2;
-    const isMDR = x => {
-      let c = 0;
-      if (isResCip(x)) c++;
-      if (isResAzm(x)) c++;
-      if (isResBL(x)) c++;
-      return c >= 2;
-    };
-
     if (drugKey === 'CipNS') {
       resistantCount = dataToFilter.filter(x => countMarkers(x['Quinolone']) >= 1).length;
     } else if (drugKey === 'CipR') {
-      resistantCount = dataToFilter.filter(x => isCipR(x)).length;
-    } else if (drugKey === 'MDR') {
-      resistantCount = dataToFilter.filter(x => isMDR(x)).length;
-    } else if (drugKey === 'XDR') {
-      resistantCount = dataToFilter.filter(
-        x => (isCipR(x) && isResBL(x) && isResAzm(x)) || (isMDR(x) && isCipR(x) && isResAzm(x)),
-      ).length;
+      resistantCount = dataToFilter.filter(x => countMarkers(x['Quinolone']) >= 2).length;
     }
     drugClass['None'] = dataToFilter.length - resistantCount;
     drugClass.resistantCount = resistantCount;

@@ -49,7 +49,7 @@ const TABS = [
     labelKey: 'amrInsights.tabs.qrdrPathway',
     value: 'QRDR',
     component: <QRDRPathwayGraph />,
-    onlyFor: ['styphi', 'ngono'],
+    onlyFor: ['styphi', 'ngono', 'senterica', 'sentericaints'],
   },
   {
     labelKey: 'amrInsights.tabs.serotypeResistance',
