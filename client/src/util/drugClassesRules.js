@@ -1313,7 +1313,6 @@ export const drugClassesRulesNG = {
 export const statKeysECOLI = (() => {
   const drugColumns = [
     'Aminoglycoside',
-    'Beta-lactam',
     'Sulfonamide',
     'Tetracycline',
     'Phenicol',
@@ -1321,11 +1320,11 @@ export const statKeysECOLI = (() => {
     'Fosfomycin',
     'Trimethoprim',
     'Macrolide',
-    'Lincosamide',
-    'Streptothricin',
-    'Rifamycin',
+    // 'Lincosamide',
+    // 'Streptothricin',
+    // 'Rifamycin',
     'Colistin',
-    'Bleomycin',
+    // 'Bleomycin',
   ];
 
   const items = drugColumns.map(col => ({
@@ -1345,6 +1344,32 @@ export const statKeysECOLI = (() => {
     ],
     every: true,
   });
+  items.push({
+    name: 'Ampicillin',
+    resistanceView: true,
+    rules: [
+      { column: 'Beta-lactam', value: 'BETA-LACTAM', equal: false },
+    ],
+    every: true,
+  });
+  //TODO: ADD CARBAPENEMASES and ESBL based on feedback
+  // items.push({
+  //   name: 'Carbapenems',
+  //   resistanceView: true,
+  //   rules: [
+  //     { column: 'Carbapenemase', value: '-', equal: false },
+  //   ],
+  //   every: true,
+  // });
+  // items.push({
+  //   name: 'ESBL',
+  //   resistanceView: true,
+  //   rules: [
+  //     { column: 'Carbapenemase', value: '-', equal: false },
+  //     { column: 'ESBL', value: '-', equal: false },
+  //   ],
+  //   every: true,
+  // });
   // CipNS/CipR are not applicable for these organisms — computed separately per organism where needed
 
   const uniqueColumns = [
@@ -1356,7 +1381,7 @@ export const statKeysECOLI = (() => {
     rules: uniqueColumns.map(col => ({ column: col, value: '-', equal: true })),
     every: true,
   });
-})();
+})().sort((a, b) => a.name.localeCompare(b.name));
 
 export const statKeysOthers = [
   { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0' },
