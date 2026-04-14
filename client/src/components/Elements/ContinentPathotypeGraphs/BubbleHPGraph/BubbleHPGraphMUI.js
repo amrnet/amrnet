@@ -114,9 +114,9 @@ const useStyles = makeStyles((_theme) => ({
     width: '100px',
     backgroundImage: `linear-gradient(to right,
       #D3D3D3 0%,
-      #FFE0B2 1%,
-      #DD2C24 20%,
-      #0288D1 100%)`,
+      #0288D1 1%,
+      #FFE0B2 50%,
+      #DD2C24 100%)`,
   },
   divider: {
     paddingTop: '16px',
