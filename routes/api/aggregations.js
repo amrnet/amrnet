@@ -450,7 +450,7 @@ router.get('/agg/:organism/yearly', async (req, res) => {
           ...baseStages,
           { $group: { _id: '$GENOTYPE', count: { $sum: 1 } } },
           { $sort: { count: -1 } },
-          { $limit: 20 },
+          // { $limit: 30 },
         ])
         .toArray(),
 
