@@ -389,7 +389,7 @@ export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
                               textAnchor="middle"
                               fontSize={15}
                               fontWeight={600}
-                              fill={value === 0 || value > 25 ? '#fff' : '#000'}
+                              fill={value === 0 || value > 10 ?  '#000' : '#fff'}
                               pointerEvents="none"
                             >
                               {value}

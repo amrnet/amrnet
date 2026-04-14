@@ -82,6 +82,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const [lineStyle, setLineStyle] = useState('');
   const [logScale, setLogScale] = useState(false);
   const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
+  // Brush state
+  const [brushStartIndex, setBrushStartIndex] = useState(0);
+  const [brushEndIndex, setBrushEndIndex] = useState(0);
 
   const getLineStyleForDrug = drugName => {
     const lineStyles = ['Normal', 'Thick'];
@@ -362,9 +365,18 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
       setChartData(data);
       setAllYears(computedAllYears);
+
+      // Initialize brush indices if allYears changes
+      if (computedAllYears.length > 0) {
+        const initialStart = computedAllYears.findIndex(x => x === '2000');
+        setBrushStartIndex(initialStart !== -1 ? initialStart : 0);
+        setBrushEndIndex(computedAllYears.length - 1);
+      }
     } else {
       setChartData([]);
       setAllYears([]);
+      setBrushStartIndex(0);
+      setBrushEndIndex(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drugsYearData, drugResistanceGraphView, colourPattern, lineStyle, canGetData]);
@@ -406,7 +418,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                     dataKey="name"
                     height={20}
                     stroke={'rgb(31, 187, 211)'}
-                    startIndex={allYears.findIndex(x => x === '2000') || 0}
+                    startIndex={brushStartIndex}
+                    endIndex={brushEndIndex}
                     onChange={brushRange => {
                       setCurrentTooltip(null);
                       dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
