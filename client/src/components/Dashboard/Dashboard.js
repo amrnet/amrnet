@@ -1210,13 +1210,13 @@ export const DashboardPage = () => {
         dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         break;
       case 'shige':
-        if (!isPaginated) {
+        // if (!isPaginated) {
           // Don't set drug selection for paginated organisms - let auto-selection effect handle it
           dispatch(setDrugResistanceGraphView(drugsECOLI));
           dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
           dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
           dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
-        }
+        // }
         break;
       case 'saureus':
         dispatch(setDrugResistanceGraphView(drugsSA));
