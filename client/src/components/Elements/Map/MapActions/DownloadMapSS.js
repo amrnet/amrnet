@@ -81,10 +81,10 @@ export const DownloadMapSS = async ({
         switch (organism) {
           case 'decoli':
           case 'shige':
-            return `Selected Pathotypes : ${selectedLineages.join(', ')} `; //improve heading with Selected Pathotypes and Organism for Screenshots
+            return `Selected Pathotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')} `; //improve heading with Selected Pathotypes and Organism for Screenshots
           case 'sentericaints':
           case 'kpneumo':
-            return `Selected Serotypes : ${selectedLineages.join(', ')}`;
+            return `Selected Serotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')}`;
           default:
             return ``;
         }
