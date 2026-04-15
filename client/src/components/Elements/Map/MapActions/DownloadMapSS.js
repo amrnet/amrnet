@@ -83,8 +83,9 @@ export const DownloadMapSS = async ({
           case 'shige':
             return `Selected Pathotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')} `; //improve heading with Selected Pathotypes and Organism for Screenshots
           case 'sentericaints':
-          case 'kpneumo':
             return `Selected Serotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')}`;
+          case 'kpneumo':
+            return `Selected data : ${ dataset === 'All'? "All": selectedLineages.join(', ')}`;
           default:
             return ``;
         }
