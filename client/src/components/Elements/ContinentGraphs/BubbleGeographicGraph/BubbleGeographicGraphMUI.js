@@ -111,7 +111,7 @@ const useStyles = makeStyles(theme => ({
     backgroundImage: `linear-gradient(to right,
       #D3D3D3 0%,
       #0288D1 1%,
-      #FFE0B2 50%,
+      #FFE0B2 20%,
       #DD2C24 100%)`,
   },
   // gradientBox: {
