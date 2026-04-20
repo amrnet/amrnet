@@ -1814,7 +1814,7 @@ export const DashboardPage = () => {
       const serverOk = Array.isArray(serverYd?.drugsData) && serverYd.drugsData.length > 0;
 
       const finalGenotypesData = serverOk ? serverYd.genotypesData : (yearsData.genotypesData ?? []);
-      const finalDrugsData = serverOk ? serverYd.drugsData : (yearsData.drugsData ?? []);
+      const finalDrugsData = (yearsData.drugsData ?? []);
       const finalUniqueGenotypes = serverOk ? serverYd.uniqueGenotypes : (yearsData.uniqueGenotypes ?? []);
 
       // Dispatch map data
