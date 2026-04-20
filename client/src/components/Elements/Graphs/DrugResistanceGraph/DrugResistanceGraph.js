@@ -159,9 +159,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       drugs = drugsSP;
     }
 
-    if (drugsYearData.length > 0) {
-      drugs = drugs.filter(drug => drugsYearData.some(yearData => yearData[drug] > 0));
-    }
+    // if (drugsYearData.length > 0) {
+    //   drugs = drugs.filter(drug => drugsYearData.some(yearData => yearData[drug] > 0));
+    // }
 
     return drugs;
   }

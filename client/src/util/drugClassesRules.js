@@ -1348,7 +1348,7 @@ export const statKeysECOLI = (() => {
     name: 'Ampicillin',
     resistanceView: true,
     rules: [
-      { column: 'Beta-lactam', value: 'BETA-LACTAM', equal: false },
+      { column: 'Beta-lactam', value: '-', equal: false },
     ],
     every: true,
   });
