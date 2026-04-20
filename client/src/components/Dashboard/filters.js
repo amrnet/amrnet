@@ -2362,6 +2362,8 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
       resistantCount = dataToFilter.filter(x => countMarkers(x['Quinolone']) >= 1).length;
     } else if (drugKey === 'CipR') {
       resistantCount = dataToFilter.filter(x => countMarkers(x['Quinolone']) >= 2).length;
+    }else if (drugKey === 'Ampicillin') {
+      resistantCount = dataToFilter.filter(x => countMarkers(x['Beta-lactam']) !== '-').length;
     }
     drugClass['None'] = dataToFilter.length - resistantCount;
     drugClass.resistantCount = resistantCount;
