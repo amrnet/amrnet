@@ -311,3 +311,4 @@ $RECYCLE.BIN/
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+CODE_REVIEW_STAGING.md
