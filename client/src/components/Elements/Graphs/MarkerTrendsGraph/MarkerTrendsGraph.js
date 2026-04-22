@@ -402,8 +402,13 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                   stroke={'rgb(31, 187, 211)'}
                   startIndex={allYears.findIndex(x => x === '2000') || 0}
                   onChange={brushRange => {
-                    dispatch(setStarttimeRDT(slicedData[brushRange.startIndex]?.name));
-                    dispatch(setEndtimeRDT(slicedData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                    // Ignore clicks that collapse the brush to a single year.
+                    if (brushRange == null || brushRange.startIndex === brushRange.endIndex) return;
+                    const startYear = data[brushRange.startIndex]?.name;
+                    const endYear = data[brushRange.endIndex]?.name;
+                    if (!startYear || !endYear) return;
+                    dispatch(setStarttimeRDT(startYear));
+                    dispatch(setEndtimeRDT(endYear));
                   }}
                 />
               )}
