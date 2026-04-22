@@ -395,8 +395,15 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                   height={20}
                   stroke={'rgb(31, 187, 211)'}
                   onChange={brushRange => {
-                    dispatch(setStarttimeRDT(slicedData[brushRange.startIndex]?.name));
-                    dispatch(setEndtimeRDT(slicedData[brushRange.endIndex]?.name)); // if using state genotypesYearData[start]?.name
+                    // Ignore synthetic onChange fired on chart clicks (Recharts bug):
+                    // when the user clicks a data point, Recharts fires onChange with
+                    // startIndex === endIndex, collapsing the brush to one year.
+                    if (brushRange == null || brushRange.startIndex === brushRange.endIndex) return;
+                    const startYear = slicedData[brushRange.startIndex]?.name;
+                    const endYear = slicedData[brushRange.endIndex]?.name;
+                    if (!startYear || !endYear) return;
+                    dispatch(setStarttimeRDT(startYear));
+                    dispatch(setEndtimeRDT(endYear));
                   }}
                 />
               )}
