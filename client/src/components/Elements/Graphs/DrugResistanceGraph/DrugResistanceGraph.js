@@ -421,9 +421,25 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                     startIndex={brushStartIndex}
                     endIndex={brushEndIndex}
                     onChange={brushRange => {
+                      // Ignore synthetic onChange fired on chart clicks (Recharts bug):
+                      // a real drag always spans ≥1 index and changes at least one side.
+                      if (
+                        brushRange == null ||
+                        brushRange.startIndex === brushRange.endIndex ||
+                        (brushRange.startIndex === brushStartIndex && brushRange.endIndex === brushEndIndex)
+                      ) {
+                        return;
+                      }
+                      // Use allYears (continuous range) so indices match what the Brush sees,
+                      // not drugsYearData (which may skip empty years).
+                      const startYear = allYears[brushRange.startIndex];
+                      const endYear = allYears[brushRange.endIndex];
+                      if (!startYear || !endYear) return;
                       setCurrentTooltip(null);
-                      dispatch(setStarttimeDRT(drugsYearData[brushRange.startIndex]?.name));
-                      dispatch(setEndtimeDRT(drugsYearData[brushRange.endIndex]?.name));
+                      setBrushStartIndex(brushRange.startIndex);
+                      setBrushEndIndex(brushRange.endIndex);
+                      dispatch(setStarttimeDRT(startYear));
+                      dispatch(setEndtimeDRT(endYear));
                     }}
                   />
                 )}
