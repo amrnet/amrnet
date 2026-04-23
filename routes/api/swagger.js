@@ -49,8 +49,16 @@ If you use AMRnet data in your research, please cite:
   },
   servers: [
     {
+      url: 'https://api.amrnet.org/api/v1',
+      description: 'Production',
+    },
+    {
+      url: 'https://dev.amrnet.org/api/v1',
+      description: 'Development',
+    },
+    {
       url: '/api/v1',
-      description: 'AMRnet API v1',
+      description: 'Current host (relative)',
     },
   ],
   components: {
