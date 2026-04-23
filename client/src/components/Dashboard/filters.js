@@ -44,6 +44,24 @@ import { amrLikeOrganisms } from '../../util/organismsCards';
  * @param {number} chunkSize - Size of each chunk (default 500)
  * @returns {Promise<Array>} - Results from all chunks
  */
+// Ciprofloxacin mechanism patterns — shared across year/genotype/country/
+// drug-class aggregations. Count how many ";"-separated markers in a
+// Quinolone cell look like a QRDR mutation (gyrA/B, parC/E), a qnr gene,
+// or aac(6')-Ib-cr. CipNS = ≥1 marker, CipR = ≥2 markers.
+const _QRDR_RE = /gyr[AB]|par[CE]/i;
+const _QNR_RE = /qnr[A-Z]/i;
+const _AAC_CR_RE = /aac.*Ib.*cr/i;
+function countQuinoloneMarkers(raw) {
+  if (!raw || raw === '-' || raw === 'ND') return 0;
+  let n = 0;
+  String(raw).split(';').forEach(e => {
+    const g = e.trim();
+    if (!g) return;
+    if (_QRDR_RE.test(g) || _QNR_RE.test(g) || _AAC_CR_RE.test(g)) n++;
+  });
+  return n;
+}
+
 /**
  * Evaluate a single statKeysECOLI rule against a record.
  *
@@ -443,7 +461,27 @@ function getMapStatsData({
 
     if (useECOLIRules) {
       const drug = statKeysECOLI.find(d => d.name === statsKey);
-      if (!drug || drug.computed) continue;
+      if (!drug) continue;
+
+      // Computed drugs (Ciprofloxacin NS / Ciprofloxacin R for non-typhoidal
+      // Salmonella) — evaluate via countQuinoloneMarkers against the
+      // Quinolone column. Each matching record contributes a single synthetic
+      // "marker" entry keyed by the drug name so the country-level count is
+      // the number of records passing the threshold.
+      if (drug.computed) {
+        const m = countQuinoloneMarkers(item['Quinolone']);
+        const passes =
+          (statsKey === 'Ciprofloxacin NS' && m >= 1) ||
+          (statsKey === 'Ciprofloxacin R' && m >= 2);
+        if (!passes) continue;
+        resistantGenomeCount++;
+        if (!columnDataMap[statsKey]) {
+          columnDataMap[statsKey] = { count: 0, names: new Set() };
+        }
+        columnDataMap[statsKey].count += 1;
+        columnDataMap[statsKey].names.add(name);
+        continue;
+      }
 
       if (!drugMatchesRules(item, drug)) continue;
 
@@ -1189,19 +1227,25 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           genotypesAndDrugsData[rule.key].push(item);
         });
       } else {
-        // ecoli, decoli, shige — Enterobase data with AMRFinderPlus fields
+        // ecoli, decoli, shige, senterica, sentericaints — Enterobase data
+        // with AMRfinderplus fields.
         statKeysECOLI.forEach(drug => {
-          // Skip computed drugs — handled below
-          if (drug.computed) return;
-
+          if (drug.computed) {
+            // Ciprofloxacin NS (≥1 marker) / Ciprofloxacin R (≥2 markers) for
+            // non-typhoidal Salmonella. ECOLI/Shige/decoli don't have these
+            // entries in their statKeys variant, so this branch is a no-op for
+            // them.
+            if (drug.name === 'Ciprofloxacin NS') {
+              drugStats[drug.name] = yearData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
+            } else if (drug.name === 'Ciprofloxacin R') {
+              drugStats[drug.name] = yearData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
+            }
+            return;
+          }
           drugStats[drug.name] = yearData.filter(x => drugMatchesRules(x, drug)).length;
         });
 
         // Computed drug combinations for E. coli / Shigella / diarrheagenic E. coli
-        const qrdrPatternEC = /gyr[AB]|par[CE]/i;
-        const qnrPatternEC = /qnr[A-Z]/i;
-        const aacCrPatternEC = /aac.*Ib.*cr/i;
-
         // Resistance helpers — resistant if column has a non-empty, non-'-' value
         const hasRes = (x, col) => {
           const v = x[col];
@@ -1210,15 +1254,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         const isResCipEC = x => hasRes(x, 'Quinolone');
         const isResAzmEC = x => hasRes(x, 'Macrolide');
         const isResBetaLactamEC = x => hasRes(x, 'Beta-lactam');
-        const isCipREC = x => {
-          const q = x['Quinolone'];
-          if (!q || q === '-') return false;
-          let n = 0;
-          q.split(';').forEach(e => {
-            if (qrdrPatternEC.test(e) || qnrPatternEC.test(e) || aacCrPatternEC.test(e)) n++;
-          });
-          return n >= 2;
-        };
+        const isCipREC = x => countQuinoloneMarkers(x['Quinolone']) >= 2;
 
         // MDR: at least 2 of {ciprofloxacin, macrolide, beta-lactam}
         const isMDREC = x => {
@@ -1811,9 +1847,22 @@ export function getGenotypesData({
       });
     } else {
       statKeysECOLI.forEach(drug => {
-        // Skip computed drugs — not applicable per-genotype
+        // Computed drugs (Ciprofloxacin NS / Ciprofloxacin R for non-typhoidal
+        // Salmonella) — count ≥1 / ≥2 markers in the Quinolone column.
         if (drug.computed) {
-          response[drug.name] = 0;
+          if (drug.name === 'Ciprofloxacin NS') {
+            response[drug.name] = genotypeData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
+          } else if (drug.name === 'Ciprofloxacin R') {
+            response[drug.name] = genotypeData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
+          } else {
+            response[drug.name] = 0;
+          }
+          // Populate drill-down (gene breakdown) for the heatmap.
+          const drugClass = {
+            ...drugClassResponse,
+            ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: genotypeData }),
+          };
+          genotypesDrugClassesData[drug.name]?.push(drugClass);
           return;
         }
 
@@ -2386,25 +2435,14 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
     return {};
   }
 
-  // Handle computed combination drugs (CipNS, CipR, MDR, XDR)
+  // Handle computed combination drugs (Ciprofloxacin NS / Ciprofloxacin R).
+  // CipNS = ≥1 qnr/QRDR/aac(6')-Ib-cr marker in Quinolone column.
+  // CipR  = ≥2 such markers.
   if (drug.computed) {
-    const qrdrP = /gyr[AB]|par[CE]/i;
-    const qnrP = /qnr[A-Z]/i;
-    const aacP = /aac.*Ib.*cr/i;
-    const countMarkers = q => {
-      if (!q || q === '-') return 0;
-      let n = 0;
-      q.split(';').forEach(e => {
-        if (qrdrP.test(e) || qnrP.test(e) || aacP.test(e)) n++;
-      });
-      return n;
-    };
-    if (drugKey === 'CipNS') {
-      resistantCount = dataToFilter.filter(x => countMarkers(x['Quinolone']) >= 1).length;
-    } else if (drugKey === 'CipR') {
-      resistantCount = dataToFilter.filter(x => countMarkers(x['Quinolone']) >= 2).length;
-    }else if (drugKey === 'Ampicillin') {
-      resistantCount = dataToFilter.filter(x => countMarkers(x['Beta-lactam']) !== '-').length;
+    if (drugKey === 'Ciprofloxacin NS') {
+      resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
+    } else if (drugKey === 'Ciprofloxacin R') {
+      resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
     }
     drugClass['None'] = dataToFilter.length - resistantCount;
     drugClass.resistantCount = resistantCount;
