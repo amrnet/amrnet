@@ -171,16 +171,22 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
       return [];
     }
 
-    // Filter drugResistanceGraphView to only include drugs that have at least one non-zero value across all years
-    const drugsWithData = drugsYearData.length > 0
-      ? Object.keys(drugsYearData[0])
-          .filter(key => !['name', 'count'].includes(key))
-          .filter(drug => drugsYearData.some(yearData => yearData[drug] > 0))
-      : [];
-    const filteredView = drugResistanceGraphView.filter(drug => drugsWithData.includes(drug));
+    // Union keys across ALL year entries — some years (e.g. with count=0) may
+    // be missing drug keys in the filters.js output, so only looking at
+    // drugsYearData[0] loses drugs like Tigecycline whose first year of data
+    // sits later in the series.
+    const allKeys = new Set();
+    drugsYearData.forEach(y => {
+      Object.keys(y || {}).forEach(k => {
+        if (k !== 'name' && k !== 'count') allKeys.add(k);
+      });
+    });
+    const drugsWithData = [...allKeys].filter(drug =>
+      drugsYearData.some(y => (y?.[drug] ?? 0) > 0),
+    );
 
-    return filteredView;
-  } //TODO: check the comment above code duplicate
+    return drugResistanceGraphView.filter(drug => drugsWithData.includes(drug));
+  }
 
   // function getDrugsForLegends() {
   //   if (organism === 'none') {
@@ -323,8 +329,16 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   useEffect(() => {
     // Handle auto-selection for paginated organisms (kpneumo, ecoli, decoli, senterica, sentericaints)
     if (['kpneumo', 'ecoli', 'decoli', 'senterica', 'sentericaints'].includes(organism) && drugsYearData.length > 0) {
-      const dataKeys = Object.keys(drugsYearData[0]).filter(key => !['name', 'count'].includes(key));
-      const availableDrugs = getDrugs().filter(drug => dataKeys.includes(drug));
+      // Union keys across all years, not just the first — the first year may
+      // have count=0 and therefore no drug keys, which used to drop low-prevalence
+      // drugs like Tigecycline from the auto-selection.
+      const dataKeys = new Set();
+      drugsYearData.forEach(y => {
+        Object.keys(y || {}).forEach(k => {
+          if (k !== 'name' && k !== 'count') dataKeys.add(k);
+        });
+      });
+      const availableDrugs = getDrugs().filter(drug => dataKeys.has(drug));
 
       // Auto-select all available drugs that have data
       if (
