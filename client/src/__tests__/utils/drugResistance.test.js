@@ -271,6 +271,74 @@ describe('hasQnr', () => {
 // Guards against the 3201379d bug
 // ─────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────
+// Tests: Beta-lactam gene pattern classification
+// Guards against drugs showing as raw DB columns instead of
+// calculated classes per docs/pathogen.rst AMR definition table.
+// ─────────────────────────────────────────────────────────────
+
+describe('Beta-lactam gene classification', () => {
+  const CARBAPENEMASE_RE = new RegExp('^bla(KPC|NDM|IMP|VIM|GES|SPM|IMI|SME|FRI|OXA-(23|24|40|48|58|72|162|181|204|232|244|252|436|484|517|519|538|681))(\\b|[-_])');
+  const ESBL_RE = new RegExp('^bla(CTX-M|SHV-(2|5|12|14|18|27|28|30|31|32|38|52|55)|CMY|DHA|ACC|FOX|MOX|LAT|MIR|ACT|CFE|OXY-2|OXY-5|PER|VEB|BES|TLA|SFO|BEL)(\\b|[-_])');
+
+  const match = (re, cell) => String(cell).split(';').map(s => s.trim()).some(g => g && re.test(g));
+
+  describe('Carbapenemase pattern', () => {
+    test('detects KPC, NDM, IMP, VIM', () => {
+      expect(match(CARBAPENEMASE_RE, 'blaKPC-4')).toBe(true);
+      expect(match(CARBAPENEMASE_RE, 'blaNDM-5')).toBe(true);
+      expect(match(CARBAPENEMASE_RE, 'blaIMP-1')).toBe(true);
+      expect(match(CARBAPENEMASE_RE, 'blaVIM-2')).toBe(true);
+    });
+
+    test('detects OXA-48-family carbapenemases', () => {
+      expect(match(CARBAPENEMASE_RE, 'blaOXA-48')).toBe(true);
+      expect(match(CARBAPENEMASE_RE, 'blaOXA-181')).toBe(true);
+      expect(match(CARBAPENEMASE_RE, 'blaOXA-232')).toBe(true);
+    });
+
+    test('does NOT match narrow-spectrum OXA (not carbapenemase)', () => {
+      expect(match(CARBAPENEMASE_RE, 'blaOXA-1')).toBe(false);
+      expect(match(CARBAPENEMASE_RE, 'blaOXA-10')).toBe(false);
+    });
+
+    test('does NOT match penicillinases or ESBLs', () => {
+      expect(match(CARBAPENEMASE_RE, 'blaTEM-1')).toBe(false);
+      expect(match(CARBAPENEMASE_RE, 'blaCTX-M-15')).toBe(false);
+      expect(match(CARBAPENEMASE_RE, 'blaSHV-12')).toBe(false);
+    });
+
+    test('handles semicolon lists', () => {
+      expect(match(CARBAPENEMASE_RE, 'blaOXA-1; blaTEM-1')).toBe(false);
+      expect(match(CARBAPENEMASE_RE, 'blaTEM-1; blaNDM-5')).toBe(true);
+    });
+  });
+
+  describe('ESBL pattern', () => {
+    test('detects CTX-M variants', () => {
+      expect(match(ESBL_RE, 'blaCTX-M-15')).toBe(true);
+      expect(match(ESBL_RE, 'blaCTX-M-27')).toBe(true);
+      expect(match(ESBL_RE, 'blaCTX-M')).toBe(true);
+    });
+
+    test('detects SHV ESBLs (not narrow-spectrum SHV-1)', () => {
+      expect(match(ESBL_RE, 'blaSHV-12')).toBe(true);
+      expect(match(ESBL_RE, 'blaSHV-2')).toBe(true);
+      expect(match(ESBL_RE, 'blaSHV-5')).toBe(true);
+    });
+
+    test('detects AmpC genes', () => {
+      expect(match(ESBL_RE, 'blaCMY-4')).toBe(true);
+      expect(match(ESBL_RE, 'blaDHA-1')).toBe(true);
+    });
+
+    test('does NOT match penicillinases', () => {
+      expect(match(ESBL_RE, 'blaTEM-1')).toBe(false);
+      expect(match(ESBL_RE, 'blaOXA-1')).toBe(false);
+    });
+  });
+});
+
 describe('Ampicillin prevalence calculation', () => {
   // Mock dataset: 10 genomes, 3 resistant
   const genomes = [

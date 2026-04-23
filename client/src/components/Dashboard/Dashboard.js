@@ -558,7 +558,7 @@ export const DashboardPage = () => {
     console.time('[getInfoFromData] heavy');
     await Promise.all([
       // Get map data
-      getStoreOrGenerateData(`${organism}_map_v2`, async () =>
+      getStoreOrGenerateData(`${organism}_map_v3`, async () =>
         getMapData({ data: responseData, items: countries, organism }),
       ).then(mapData => {
         dispatch(setMapData(mapData));
@@ -566,7 +566,7 @@ export const DashboardPage = () => {
       }),
 
       // Get regions data
-      getStoreOrGenerateData(`${organism}_map_regions_v2`, async () =>
+      getStoreOrGenerateData(`${organism}_map_regions_v3`, async () =>
         getMapData({ data: responseData, items: ecRegions, organism, type: 'region' }),
       ).then(mapData => {
         dispatch(setMapRegionData(mapData));
@@ -575,7 +575,7 @@ export const DashboardPage = () => {
 
       // Get genotypes data
       // Use versioned key for organisms with marker-level genotype breakdown to bust stale cache
-      getStoreOrGenerateData(`${organism}_genotype_v3`, () => {
+      getStoreOrGenerateData(`${organism}_genotype_v4`, () => {
         const dt = getGenotypesData({
           data: responseData,
           genotypes,
@@ -624,7 +624,7 @@ export const DashboardPage = () => {
       //   : Promise.resolve(),
 
       // Get years data (v2: new drug column format for ecoli-like organisms)
-      getStoreOrGenerateData(`${organism}_years_v2`, () => {
+      getStoreOrGenerateData(`${organism}_years_v3`, () => {
         const dt = getYearsData({
           data: responseData,
           years,
@@ -708,7 +708,7 @@ export const DashboardPage = () => {
       // Use versioned cache key for organisms with marker-level breakdown to bust stale cache
       // !['styphi', 'kpneumo'].includes(organism)
       getStoreOrGenerateData(
-        `${organism}_drugs_countries_v3`,
+        `${organism}_drugs_countries_v4`,
         () => {
           const { drugsData } = getDrugsCountriesData({
             data: responseData,
@@ -725,7 +725,7 @@ export const DashboardPage = () => {
       // Get drugs carb and esbl data for regions
       // ['styphi', 'kpneumo'].includes(organism)
       getStoreOrGenerateData(
-        `${organism}_drugs_regions_v3`,
+        `${organism}_drugs_regions_v4`,
         () => {
           const { drugsData } = getDrugsCountriesData({
             data: responseData,

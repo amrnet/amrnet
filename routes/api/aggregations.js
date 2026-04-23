@@ -75,52 +75,78 @@ const getHyphenFieldFrom = (fieldName, inputExpr) => ({
 // ---------------------------------------------------------------------------
 
 /**
- * Shared drug conditions for ecoli, decoli, shige, senterica, sentericaints.
- * Resistant = column has a non-empty value (not '', '-', null).
+ * Drug conditions for ecoli, decoli, shige, senterica, sentericaints.
+ *
+ * Follows the AMR definitions in docs/pathogen.rst. Beta-lactam and Macrolide
+ * use gene-name regex matching within the semicolon-separated cell value.
  */
-function buildEcoliConditions() {
-  const drugColumns = [
-    'Aminoglycoside',
-    'Beta-lactam',
-    'Sulfonamide',
-    'Tetracycline',
-    'Phenicol',
-    'Quinolone',
-    'Fosfomycin',
-    'Trimethoprim',
-    'Macrolide',
-    'Lincosamide',
-    'Streptothricin',
-    'Rifamycin',
-    'Colistin',
-    'Bleomycin',
-  ];
+// Gene patterns (must match client/src/util/drugClassesRules.js)
+const BL_CARBAPENEMASE = 'bla(KPC|NDM|IMP|VIM|GES|SPM|IMI|SME|FRI|OXA-(23|24|40|48|58|72|162|181|204|232|244|252|436|484|517|519|538|681))';
+const BL_ESBL = 'bla(CTX-M|CMY|DHA|ACC|FOX|MOX|LAT|MIR|ACT|CFE|OXY-2|OXY-5|PER|VEB|BES|TLA|SFO|BEL|SHV-(2|5|12|14|18|27|28|30|31|32|38|52|55))';
+const MACROLIDE_RES = '(mph\\(A\\)|acrB_R717)';
 
-  // Helper: get field expression (Beta-lactam needs $getField due to hyphen)
+function buildEcoliConditions() {
+  // Single-column columns (cell must be non-empty, non-'-')
+  const singleColumnDrugs = {
+    Aminoglycosides: 'Aminoglycoside',
+    Chloramphenicol: 'Phenicol',
+    'Ciprofloxacin NS': 'Quinolone',
+    Colistin: 'Colistin',
+    Fosfomycin: 'Fosfomycin',
+    Tetracycline: 'Tetracycline',
+    Trimethoprim: 'Trimethoprim',
+  };
+
   const fieldExpr = col => (col === 'Beta-lactam' ? { $getField: 'Beta-lactam' } : `$${col}`);
 
-  // Resistant: field is not null, not '', not '-'
   const isResistant = col => ({
-    $and: [{ $ne: [{ $ifNull: [fieldExpr(col), ''] }, ''] }, { $ne: [{ $ifNull: [fieldExpr(col), '-'] }, '-'] }],
+    $and: [
+      { $ne: [{ $ifNull: [fieldExpr(col), ''] }, ''] },
+      { $ne: [{ $ifNull: [fieldExpr(col), '-'] }, '-'] },
+    ],
   });
 
-  // Susceptible: field is null, '', or '-'
   const isSusceptible = col => ({
-    $or: [{ $eq: [{ $ifNull: [fieldExpr(col), ''] }, ''] }, { $eq: [fieldExpr(col), '-'] }],
+    $or: [
+      { $eq: [{ $ifNull: [fieldExpr(col), ''] }, ''] },
+      { $eq: [fieldExpr(col), '-'] },
+    ],
+  });
+
+  // Pattern match for gene names within a semicolon-separated cell
+  const matchesPattern = (col, pattern) => ({
+    $regexMatch: { input: { $ifNull: [fieldExpr(col), ''] }, regex: pattern },
   });
 
   const conditions = {};
-  drugColumns.forEach(col => {
-    conditions[col] = isResistant(col);
+
+  // ── Single-column drugs ──
+  Object.entries(singleColumnDrugs).forEach(([drugName, col]) => {
+    conditions[drugName] = isResistant(col);
   });
 
+  // ── Beta-lactam drugs ──
+  conditions.Ampicillin = isResistant('Beta-lactam');
+  conditions.Carbapenems = matchesPattern('Beta-lactam', BL_CARBAPENEMASE);
+  conditions.ESBL = {
+    $or: [
+      matchesPattern('Beta-lactam', BL_ESBL),
+      matchesPattern('Beta-lactam', BL_CARBAPENEMASE),
+    ],
+  };
+
+  // ── Macrolide: specific genes only ──
+  conditions.Macrolide = matchesPattern('Macrolide', MACROLIDE_RES);
+
+  // ── Multi-column AND rule ──
   conditions['Trimethoprim-Sulfamethoxazole'] = {
     $and: [isResistant('Trimethoprim'), isResistant('Sulfonamide')],
   };
 
-  conditions.Pansusceptible = {
-    $and: drugColumns.map(col => isSusceptible(col)),
-  };
+  // ── Pansusceptible: no markers in any relevant column ──
+  const panColumns = ['Aminoglycoside', 'Phenicol', 'Quinolone', 'Colistin', 'Fosfomycin',
+                      'Tetracycline', 'Trimethoprim', 'Beta-lactam', 'Macrolide', 'Sulfonamide'];
+  conditions.Pansusceptible = { $and: panColumns.map(col => isSusceptible(col)) };
 
   return conditions;
 }
