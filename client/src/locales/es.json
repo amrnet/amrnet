@@ -83,19 +83,7 @@
     }
   },
   "home": {
-    "genomes": "Genomas",
-    "organisms": {
-      "styphi": "<0>Salmonella</0> Typhi",
-      "sentericaints": "<0>Salmonella</0> (invasiva no tifoidea)",
-      "senterica": "<0>Salmonella enterica</0> (no tifoidea)",
-      "ngono": "<0>Neisseria gonorrhoeae</0>",
-      "kpneumo": "<0>Klebsiella pneumoniae</0>",
-      "shige": "<0>Shigella</0> + EIEC",
-      "decoli": "<0>Escherichia coli</0> (diarreogénica)",
-      "ecoli": "<0>Escherichia coli</0>",
-      "saureus": "<0>Staphylococcus aureus</0>",
-      "strepneumo": "<0>Streptococcus pneumoniae</0>"
-    }
+    "genomes": "Genomas"
   },
   "navigation": {
     "home": "Inicio",
@@ -256,6 +244,39 @@
       "pmenClones": "Clones PMEN",
       "cooccurrence": "Co-ocurrencia de RAM",
       "atbCorrelation": "Uso de ATB vs Resistencia"
+    },
+    "gvp": {
+      "compareTooltip": "Compara las predicciones de resistencia derivadas del genoma de AMRnet con los datos de vigilancia fenotípica. Cada punto = un país. Puntos en la diagonal = concordancia perfecta. Barras de error = IC Wilson 95% sobre la estimación genómica.",
+      "phenotypicSource": {
+        "label": "Fuente fenotípica:",
+        "literature": "Literatura de vigilancia publicada (recomendada)",
+        "typhiLiterature": "Literatura específica de Typhi (recomendada)",
+        "downloadCSV": "Descargar datos de la fuente fenotípica como CSV",
+        "downloadCSVGlass": "Descargar datos de la fuente fenotípica como CSV (WHO GLASS)"
+      },
+      "specimenNote": "WHO GLASS 2022 no incluye datos de <em>E. coli</em> basados en heces. Los valores fenotípicos mostrados proceden de aislados de sangre y orina, que pueden diferir de las cepas entéricas (diarreogénicas).",
+      "specimenNoteLabel": "Nota sobre muestras:",
+      "glassCaveat": "WHO GLASS rastrea todos los aislados de <em>Salmonella</em> de torrente sanguíneo — S. Typhi y Salmonella no tifoidea (NTS) <strong>no están separadas</strong>. Las tasas de CipNS difieren sustancialmente entre Typhi y NTS. Esta comparación puede ser engañosa. Considere cambiar a \"Literatura específica de Typhi\".",
+      "glassCaveatLabel": "Advertencia sobre datos GLASS:",
+      "typhiSpecific": "Datos fenotípicos específicos de Typhi de estudios de vigilancia publicados (2008–2022). La cobertura por país es limitada; los rangos de años varían por país. No es un conjunto de datos unificado. Consulte el panel de metodología para ver las fuentes.",
+      "typhiSpecificLabel": "Datos fenotípicos específicos de Typhi",
+      "correlationStatistics": "Estadísticas de correlación",
+      "pearson": "r de Pearson",
+      "regression": "Regresión",
+      "concordance": "Concordancia",
+      "errorMetrics": "Métricas de error",
+      "methodology": "Metodología",
+      "meanAbsDiff": "Diferencia absoluta media",
+      "medianAbsDiff": "Diferencia absoluta mediana",
+      "weightedMAD": "MAD ponderada (por N)",
+      "countriesCompared": "Países comparados",
+      "overestimate": "Sobreestimaciones genómicas",
+      "underestimate": "Subestimaciones genómicas",
+      "errorBars": "Intervalos de confianza de Wilson del 95% sobre la proporción genómica (más precisos que la aproximación normal para N pequeños o proporciones extremas).",
+      "errorBarsLabel": "Barras de error:",
+      "bubbleSize": "Tamaño de la burbuja ∝ número de genomas AMRnet.",
+      "bubbleSizeLabel": "Tamaño de la burbuja",
+      "percentagePoints": "pp"
     }
   },
   "continentGraphs": {
@@ -343,5 +364,84 @@
     "downloadDatabase": "Descargar base de datos (formato TSV)",
     "downloadPDF": "Ver informe",
     "infoAndDefinitions": "Información y Definiciones"
+  },
+  "organisms": {
+    "styphi": {
+      "name": "<i>Salmonella</i> Typhi",
+      "abbr": "S. Typhi"
+    },
+    "sentericaints": {
+      "name": "<i>Salmonella</i> (no tifoidea invasiva)",
+      "abbr": "Salmonella (iNTS)"
+    },
+    "senterica": {
+      "name": "<i>Salmonella enterica</i> (no tifoidea)",
+      "abbr": "S. enterica (NTS)"
+    },
+    "ngono": {
+      "name": "<i>Neisseria gonorrhoeae</i>",
+      "abbr": "N. gonorrhoeae"
+    },
+    "kpneumo": {
+      "name": "<i>Klebsiella pneumoniae</i>",
+      "abbr": "K. pneumoniae"
+    },
+    "shige": {
+      "name": "<i>Shigella</i> + EIEC",
+      "abbr": "Shigella+EIEC"
+    },
+    "decoli": {
+      "name": "<i>Escherichia coli</i> (diarreogénica)",
+      "abbr": "E. coli (diarreogénica)"
+    },
+    "ecoli": {
+      "name": "<i>Escherichia coli</i>",
+      "abbr": "E. coli"
+    },
+    "saureus": {
+      "name": "<i>Staphylococcus aureus</i>",
+      "abbr": "S. aureus"
+    },
+    "strepneumo": {
+      "name": "<i>Streptococcus pneumoniae</i>",
+      "abbr": "S. pneumoniae"
+    }
+  },
+  "selectOrganism": {
+    "placeholder": "Seleccione un organismo"
+  },
+  "common": {
+    "search": "Buscar...",
+    "noDataToShow": "No hay datos para mostrar",
+    "selectRegion": "Seleccionar región",
+    "selectCountry": "Seleccionar país",
+    "selectGenotype": "Seleccionar genotipo",
+    "selectDrugs": "Seleccionar medicamentos",
+    "selectKOType": "Seleccionar tipo K/O",
+    "selectKOOptions": "Seleccionar opciones K/O",
+    "allRegions": "Todas las regiones",
+    "n20RegionsTooltip": "Mostrar solo regiones con N≥20 genomas.",
+    "github": "GitHub",
+    "reset": "Reiniciar aplicación",
+    "recenter": "Recentrar",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar",
+    "downloadData": "Descargar datos",
+    "downloadChart": "Descargar gráfico como PNG",
+    "downloadDataTSV": "Descargar datos (TSV)",
+    "downloadChartPNG": "Descargar gráfico (PNG)",
+    "share": "Compartir",
+    "shareMenu": {
+      "copied": "¡Copiado!",
+      "copyLink": "Copiar enlace",
+      "email": "Correo electrónico"
+    }
+  },
+  "pdf": {
+    "reportInformation": "Información del informe",
+    "geographicComparisons": "Comparaciones geográficas"
+  },
+  "progressive": {
+    "largeDataset": "Conjunto de datos grande de E. coli ({{count}} registros) está cargándose progresivamente para evitar que el navegador se bloquee."
   }
 }

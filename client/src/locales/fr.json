@@ -83,19 +83,7 @@
     }
   },
   "home": {
-    "genomes": "Génomes",
-    "organisms": {
-      "styphi": "<0>Salmonella</0> Typhi",
-      "sentericaints": "<0>Salmonella</0> (invasive non typhoïde)",
-      "senterica": "<0>Salmonella enterica</0> (non typhoïde)",
-      "ngono": "<0>Neisseria gonorrhoeae</0>",
-      "kpneumo": "<0>Klebsiella pneumoniae</0>",
-      "shige": "<0>Shigella</0> + EIEC",
-      "decoli": "<0>Escherichia coli</0> (diarrhéagène)",
-      "ecoli": "<0>Escherichia coli</0>",
-      "saureus": "<0>Staphylococcus aureus</0>",
-      "strepneumo": "<0>Streptococcus pneumoniae</0>"
-    }
+    "genomes": "Génomes"
   },
   "navigation": {
     "home": "Accueil",
@@ -256,6 +244,39 @@
       "pmenClones": "Clones PMEN",
       "cooccurrence": "Co-occurrence RAM",
       "atbCorrelation": "Usage ATB vs Résistance"
+    },
+    "gvp": {
+      "compareTooltip": "Compare les prédictions de résistance dérivées du génome par AMRnet avec les données de surveillance phénotypique. Chaque point = un pays. Points sur la diagonale = concordance parfaite. Barres d’erreur = IC Wilson 95 % sur l’estimation génomique.",
+      "phenotypicSource": {
+        "label": "Source phénotypique :",
+        "literature": "Littérature de surveillance publiée (recommandée)",
+        "typhiLiterature": "Littérature spécifique à Typhi (recommandée)",
+        "downloadCSV": "Télécharger les données de la source phénotypique en CSV",
+        "downloadCSVGlass": "Télécharger les données de la source phénotypique en CSV (WHO GLASS)"
+      },
+      "specimenNote": "WHO GLASS 2022 n’inclut pas de données <em>E. coli</em> basées sur les selles. Les valeurs phénotypiques affichées proviennent d’isolats de sang et d’urine, qui peuvent différer des souches entériques (diarrhéagènes).",
+      "specimenNoteLabel": "Note sur les échantillons :",
+      "glassCaveat": "WHO GLASS suit tous les isolats de <em>Salmonella</em> du sang — S. Typhi et Salmonella non typhoïdique (NTS) ne sont <strong>pas séparées</strong>. Les taux de CipNS diffèrent sensiblement entre Typhi et NTS. Cette comparaison peut être trompeuse. Envisagez de passer à « Littérature spécifique à Typhi ».",
+      "glassCaveatLabel": "Avertissement sur les données GLASS :",
+      "typhiSpecific": "Données phénotypiques spécifiques à Typhi issues d’études de surveillance publiées (2008–2022). La couverture par pays est limitée ; les plages d’années varient selon le pays. Il ne s’agit pas d’un jeu de données unifié. Voir le panneau de méthodologie pour les sources.",
+      "typhiSpecificLabel": "Données phénotypiques spécifiques à Typhi",
+      "correlationStatistics": "Statistiques de corrélation",
+      "pearson": "r de Pearson",
+      "regression": "Régression",
+      "concordance": "Concordance",
+      "errorMetrics": "Métriques d’erreur",
+      "methodology": "Méthodologie",
+      "meanAbsDiff": "Écart absolu moyen",
+      "medianAbsDiff": "Écart absolu médian",
+      "weightedMAD": "MAD pondérée (par N)",
+      "countriesCompared": "Pays comparés",
+      "overestimate": "Surestimations génomiques",
+      "underestimate": "Sous-estimations génomiques",
+      "errorBars": "Intervalles de confiance de Wilson à 95 % sur la proportion génomique (plus précis que l’approximation normale pour N petits ou proportions extrêmes).",
+      "errorBarsLabel": "Barres d’erreur :",
+      "bubbleSize": "Taille de la bulle ∝ nombre de génomes AMRnet.",
+      "bubbleSizeLabel": "Taille de la bulle",
+      "percentagePoints": "pp"
     }
   },
   "continentGraphs": {
@@ -343,5 +364,84 @@
     "downloadDatabase": "Télécharger la base de données (format TSV)",
     "downloadPDF": "Voir le rapport",
     "infoAndDefinitions": "Informations et Définitions"
+  },
+  "organisms": {
+    "styphi": {
+      "name": "<i>Salmonella</i> Typhi",
+      "abbr": "S. Typhi"
+    },
+    "sentericaints": {
+      "name": "<i>Salmonella</i> (non typhoïdique invasive)",
+      "abbr": "Salmonella (iNTS)"
+    },
+    "senterica": {
+      "name": "<i>Salmonella enterica</i> (non typhoïdique)",
+      "abbr": "S. enterica (NTS)"
+    },
+    "ngono": {
+      "name": "<i>Neisseria gonorrhoeae</i>",
+      "abbr": "N. gonorrhoeae"
+    },
+    "kpneumo": {
+      "name": "<i>Klebsiella pneumoniae</i>",
+      "abbr": "K. pneumoniae"
+    },
+    "shige": {
+      "name": "<i>Shigella</i> + EIEC",
+      "abbr": "Shigella+EIEC"
+    },
+    "decoli": {
+      "name": "<i>Escherichia coli</i> (diarrhéagène)",
+      "abbr": "E. coli (diarrhéagène)"
+    },
+    "ecoli": {
+      "name": "<i>Escherichia coli</i>",
+      "abbr": "E. coli"
+    },
+    "saureus": {
+      "name": "<i>Staphylococcus aureus</i>",
+      "abbr": "S. aureus"
+    },
+    "strepneumo": {
+      "name": "<i>Streptococcus pneumoniae</i>",
+      "abbr": "S. pneumoniae"
+    }
+  },
+  "selectOrganism": {
+    "placeholder": "Sélectionnez un organisme"
+  },
+  "common": {
+    "search": "Rechercher...",
+    "noDataToShow": "Aucune donnée à afficher",
+    "selectRegion": "Sélectionner une région",
+    "selectCountry": "Sélectionner un pays",
+    "selectGenotype": "Sélectionner un génotype",
+    "selectDrugs": "Sélectionner des antibiotiques",
+    "selectKOType": "Sélectionner le type K/O",
+    "selectKOOptions": "Sélectionner les options K/O",
+    "allRegions": "Toutes les régions",
+    "n20RegionsTooltip": "Afficher uniquement les régions avec N≥20 génomes.",
+    "github": "GitHub",
+    "reset": "Réinitialiser l’application",
+    "recenter": "Recentrer",
+    "zoomIn": "Zoom avant",
+    "zoomOut": "Zoom arrière",
+    "downloadData": "Télécharger les données",
+    "downloadChart": "Télécharger le graphique en PNG",
+    "downloadDataTSV": "Télécharger les données (TSV)",
+    "downloadChartPNG": "Télécharger le graphique (PNG)",
+    "share": "Partager",
+    "shareMenu": {
+      "copied": "Copié !",
+      "copyLink": "Copier le lien",
+      "email": "E-mail"
+    }
+  },
+  "pdf": {
+    "reportInformation": "Informations du rapport",
+    "geographicComparisons": "Comparaisons géographiques"
+  },
+  "progressive": {
+    "largeDataset": "Le grand jeu de données E. coli ({{count}} enregistrements) se charge progressivement pour éviter le blocage du navigateur."
   }
 }

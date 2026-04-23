@@ -52,11 +52,13 @@ import {
   markersDrugsKP,
 } from '../../../util/drugs';
 // import { getNgmastData } from '../../Dashboard/filters';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './ResetButtonMUI';
 import { SwitchColour } from '../SwitchColour/SwitchColour';
 
 export const ResetButton = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
   // const { getItems } = useIndexedDB();
   const matches500 = useMediaQuery('(max-width: 500px)');
 
@@ -168,7 +170,7 @@ export const ResetButton = () => {
   return (
     <div className={classes.resetButton}>
         
-      <Tooltip title="Github" placement="left">
+      <Tooltip title={t('common.github')} placement="left">
         <span>
           <IconButton
             href="https://github.com/amrnet/amrnet"
@@ -180,7 +182,7 @@ export const ResetButton = () => {
           </IconButton>
         </span>
       </Tooltip>
-      <Tooltip title="Reset Application" placement="left">
+      <Tooltip title={t('common.reset')} placement="left">
         <span>
           <Fab
             color="primary"

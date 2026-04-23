@@ -856,7 +856,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       </div>
       {(configuredMapData.length === 0 || yAxisSelected.length === 0) && (
         <Box className={classes.nothingSelected}>
-          <Typography fontWeight={600}>No data to show</Typography>
+          <Typography fontWeight={600}>{t('common.noDataToShow')}</Typography>
         </Box>
       )}
       <Divider className={classes.divider} />

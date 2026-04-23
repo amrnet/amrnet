@@ -12,11 +12,13 @@ import {
   setCanFilterData,
 } from '../../../stores/slices/dashboardSlice';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { InfoOutlined } from '@mui/icons-material';
 // import { useMemo } from 'react';
 
 export const SelectCountry = ({ hideAll = false }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
@@ -127,8 +129,8 @@ export const SelectCountry = ({ hideAll = false }) => {
     // </Card>
     <div className={classes.selectWrapper}>
       <div className={classes.labelWrapper}>
-        <Typography variant="caption">Select region</Typography>
-        <Tooltip title="Only show regions with N≥20 genomes." placement="top">
+        <Typography variant="caption">{t('common.selectRegion')}</Typography>
+        <Tooltip title={t('common.n20RegionsTooltip')} placement="top">
           <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
         </Tooltip>
       </div>
@@ -142,17 +144,17 @@ export const SelectCountry = ({ hideAll = false }) => {
         disabled={organism === 'none'}
         renderValue={(selected) => {
           if (selected === 'All') {
-            return 'All regions';
+            return t('common.allRegions');
           }
           return selected;
         }}
       >
         {hideAll ? (
           <MenuItem value="All" disabled>
-            Select a region
+            {t('common.selectRegion')}
           </MenuItem>
         ) : (
-          <MenuItem value="All">All regions</MenuItem>
+          <MenuItem value="All">{t('common.allRegions')}</MenuItem>
         )}
         {filteredRegions.map((region, index) => {
           return (
@@ -164,7 +166,7 @@ export const SelectCountry = ({ hideAll = false }) => {
       </Select>
       <div style={{ paddingTop: '8px' }}></div>
       <div className={classes.labelWrapper}>
-        <Typography variant="caption">Select country</Typography>
+        <Typography variant="caption">{t('common.selectCountry')}</Typography>
       </div>
       <Select
         value={actualCountry}

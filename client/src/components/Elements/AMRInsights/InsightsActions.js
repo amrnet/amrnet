@@ -13,6 +13,7 @@ import {
 import domtoimage from 'dom-to-image';
 import downloadjs from 'downloadjs';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Convert array of objects to TSV string
@@ -94,6 +95,7 @@ export const InsightsActions = ({
   currentTab = '',
   tabLabel = 'AMR Insights',
 }) => {
+  const { t } = useTranslation();
   const [shareAnchor, setShareAnchor] = useState(null);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [copied, setCopied] = useState(false);
@@ -159,7 +161,7 @@ export const InsightsActions = ({
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Tooltip title="Download data (TSV)" placement="top">
+      <Tooltip title={t('common.downloadDataTSV')} placement="top">
         <span>
           <IconButton color="primary" onClick={handleDownloadCSV} disabled={!csvData || csvData.length === 0} size="small">
             <Download fontSize="small" />
@@ -167,13 +169,13 @@ export const InsightsActions = ({
         </span>
       </Tooltip>
 
-      <Tooltip title="Download chart (PNG)" placement="top">
+      <Tooltip title={t('common.downloadChartPNG')} placement="top">
         <IconButton color="primary" onClick={handleDownloadPNG} size="small">
           <CameraAlt fontSize="small" />
         </IconButton>
       </Tooltip>
 
-      <Tooltip title="Share" placement="top">
+      <Tooltip title={t('common.share')} placement="top">
         <IconButton color="primary" onClick={handleShareClick} size="small">
           <Share fontSize="small" />
         </IconButton>
@@ -182,7 +184,7 @@ export const InsightsActions = ({
       <Menu anchorEl={shareAnchor} open={Boolean(shareAnchor)} onClose={() => setShareAnchor(null)}>
         <MenuItem onClick={handleCopyLink}>
           <ListItemIcon>{copied ? <Check fontSize="small" color="success" /> : <ContentCopy fontSize="small" />}</ListItemIcon>
-          <ListItemText>{copied ? 'Copied!' : 'Copy link'}</ListItemText>
+          <ListItemText>{copied ? t('common.shareMenu.copied') : t('common.shareMenu.copyLink')}</ListItemText>
         </MenuItem>
         <MenuItem onClick={handleShareTwitter}>
           <ListItemIcon><Box component="span" sx={{ fontSize: '18px' }}>𝕏</Box></ListItemIcon>
@@ -198,7 +200,7 @@ export const InsightsActions = ({
         </MenuItem>
         <MenuItem onClick={handleShareEmail}>
           <ListItemIcon><Box component="span" sx={{ fontSize: '16px' }}>📧</Box></ListItemIcon>
-          <ListItemText>Email</ListItemText>
+          <ListItemText>{t('common.shareMenu.email')}</ListItemText>
         </MenuItem>
       </Menu>
 

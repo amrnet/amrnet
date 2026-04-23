@@ -3,6 +3,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Dialog, Divider, IconButton, Typography } from '@mui/material';
 import jsPDF from 'jspdf';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import LogoImg from '../../../assets/img/logo-prod.png';
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -276,6 +277,7 @@ function ReportCard({ title, subtitle, children, accent }) {
 // ─── Main modal ───────────────────────────────────────────────────────────
 
 export function PDFPreviewModal({ open, onClose, data }) {
+  const { t } = useTranslation();
   const [pdfLoading, setPdfLoading] = useState(false);
 
   if (!data) return null;
@@ -381,7 +383,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
 
         {/* Info text */}
         {texts && texts.filter(Boolean).length > 0 && (
-          <ReportCard title="Report Information" accent={accentColor}>
+          <ReportCard title={t('pdf.reportInformation')} accent={accentColor}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
               {texts.filter(Boolean).map((text, i) => {
                 const isWarning = text.startsWith('WARNING');
@@ -428,7 +430,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
 
         {/* Geographic Comparisons */}
         {bgCapture?.dataUrl && (
-          <ReportCard title="Geographic Comparisons" subtitle={metadata.mapView} accent={accentColor}>
+          <ReportCard title={t('pdf.geographicComparisons')} subtitle={metadata.mapView} accent={accentColor}>
             <Box
               component="img"
               src={bgCapture.dataUrl}

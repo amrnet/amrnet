@@ -21,6 +21,7 @@ import shigeCiprofloxacinRaw from '../../../../assets/shigeCiprofloxacin.json';
 import ngonoCiprofloxacinRaw from '../../../../assets/ngonoCiprofloxacin.json';
 import strepneumoCoTrimoxazoleRaw from '../../../../assets/strepneumoCoTrimoxazole.json';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import {
   CartesianGrid,
   ErrorBar,
@@ -196,6 +197,7 @@ const CustomTooltip = ({ active, payload }) => {
 
 export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [glassData, setGlassData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [phenoSource, setPhenoSource] = useState('glass');
@@ -479,27 +481,27 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
         <Typography variant="body2" fontWeight={600}>
           Genomic (AMRnet) vs Phenotypic Resistance
         </Typography>
-        <Tooltip title="Compares AMRnet genome-derived resistance predictions with phenotypic surveillance data. Each point = one country. Points on the diagonal = perfect agreement. Error bars = 95% Wilson score CI on the genomic estimate.">
+        <Tooltip title={t('amrInsights.gvp.compareTooltip')}>
           <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
         </Tooltip>
 
         {/* Phenotypic data source selector — organisms with literature data */}
         {LITERATURE_ORGANISMS.has(organism) && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Typography variant="caption" fontWeight={600} sx={{ whiteSpace: 'nowrap' }}>Phenotypic source:</Typography>
+            <Typography variant="caption" fontWeight={600} sx={{ whiteSpace: 'nowrap' }}>{t('amrInsights.gvp.phenotypicSource.label')}</Typography>
             <Select
               value={phenoSource}
               onChange={e => setPhenoSource(e.target.value)}
               size="small"
               sx={{ fontSize: '12px', minWidth: 240 }}
             >
-              {organism === 'styphi' && <MenuItem value="typhi_literature">Typhi-specific literature (recommended)</MenuItem>}
-              {organism !== 'styphi' && <MenuItem value="literature">Published surveillance literature (recommended)</MenuItem>}
+              {organism === 'styphi' && <MenuItem value="typhi_literature">{t('amrInsights.gvp.phenotypicSource.typhiLiterature')}</MenuItem>}
+              {organism !== 'styphi' && <MenuItem value="literature">{t('amrInsights.gvp.phenotypicSource.literature')}</MenuItem>}
               {organism === 'styphi'
                 ? <MenuItem value="glass">WHO GLASS (Salmonella, includes NTS)</MenuItem>
                 : <MenuItem value="glass">WHO GLASS</MenuItem>}
             </Select>
-            <Tooltip title="Download phenotypic source data as CSV">
+            <Tooltip title={t('amrInsights.gvp.phenotypicSource.downloadCSV')}>
               <span>
                 <IconButton size="small" onClick={downloadPhenoCSV}
                   disabled={phenoSource === 'glass' ? !rawPhenoData?.length : false}>
@@ -514,7 +516,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
         {!loading && glassIndicator && !LITERATURE_ORGANISMS.has(organism) && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Chip label={glassIndicator.label} size="small" variant="outlined" color="primary" />
-            <Tooltip title="Download phenotypic source data as CSV (WHO GLASS)">
+            <Tooltip title={t('amrInsights.gvp.phenotypicSource.downloadCSVGlass')}>
               <span>
                 <IconButton size="small" onClick={downloadPhenoCSV} disabled={!rawPhenoData?.length}>
                   <FileDownload fontSize="small" />
@@ -531,7 +533,8 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
       {/* Decoli specimen caveat */}
       {organism === 'decoli' && (
         <Alert severity="info" sx={{ marginBottom: '8px', fontSize: '12px', padding: '2px 12px' }}>
-          <strong>Specimen note:</strong> WHO GLASS 2022 does not include stool-based <em>E. coli</em> data. Phenotypic values shown are from blood and urine isolates, which may differ from enteric (diarrheagenic) strains.
+          <strong>{t('amrInsights.gvp.specimenNoteLabel')}</strong>{' '}
+          <Trans i18nKey="amrInsights.gvp.specimenNote" components={{ em: <em /> }} />
         </Alert>
       )}
 
@@ -542,12 +545,13 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           icon={<WarningAmber fontSize="small" />}
           sx={{ marginBottom: '8px', fontSize: '12px', padding: '2px 12px' }}
         >
-          <strong>GLASS data caveat:</strong> WHO GLASS tracks all <em>Salmonella</em> bloodstream isolates — S. Typhi and non-typhoidal Salmonella (NTS) are <strong>not separated</strong>. CipNS rates differ substantially between Typhi and NTS. This comparison may be misleading. Consider switching to "Typhi-specific literature".
+          <strong>{t('amrInsights.gvp.glassCaveatLabel')}</strong>{' '}
+          <Trans i18nKey="amrInsights.gvp.glassCaveat" components={{ em: <em />, strong: <strong /> }} />
         </Alert>
       )}
       {organism === 'styphi' && phenoSource === 'typhi_literature' && (
         <Alert severity="info" sx={{ marginBottom: '8px', fontSize: '12px', padding: '2px 12px' }}>
-          <strong>Typhi-specific phenotypic data</strong> from published surveillance studies (2008–2022). Country coverage is limited; year ranges vary per country. Not a single unified dataset. See methodology panel for sources.
+          <strong>{t('amrInsights.gvp.typhiSpecificLabel')}</strong> {t('amrInsights.gvp.typhiSpecific')}
         </Alert>
       )}
 
@@ -641,21 +645,21 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           {stats && correlations && (
             <>
               {/* Correlation Statistics */}
-              <Typography variant="body2" fontWeight={600}>Correlation Statistics</Typography>
+              <Typography variant="body2" fontWeight={600}>{t('amrInsights.gvp.correlationStatistics')}</Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '3px', padding: '4px 0' }}>
                 <Typography variant="caption">
-                  <strong>Pearson r</strong> = {correlations.pearson.r.toFixed(3)} (R² = {correlations.pearson.r2.toFixed(3)}, p {correlations.pearson.p < 0.001 ? '< 0.001' : `≈ ${correlations.pearson.p.toFixed(3)}`})
+                  <strong>{t('amrInsights.gvp.pearson')}</strong> = {correlations.pearson.r.toFixed(3)} (R² = {correlations.pearson.r2.toFixed(3)}, p {correlations.pearson.p < 0.001 ? '< 0.001' : `≈ ${correlations.pearson.p.toFixed(3)}`})
                 </Typography>
                 <Typography variant="caption">
                   <strong>Spearman ρ</strong> = {correlations.spearman.rho.toFixed(3)} (p {correlations.spearman.p < 0.001 ? '< 0.001' : `≈ ${correlations.spearman.p.toFixed(3)}`})
                 </Typography>
                 <Typography variant="caption">
-                  <strong>Regression</strong>: y = {regression.slope.toFixed(2)}x + {regression.intercept.toFixed(1)}
+                  <strong>{t('amrInsights.gvp.regression')}</strong>: y = {regression.slope.toFixed(2)}x + {regression.intercept.toFixed(1)}
                 </Typography>
               </Box>
 
               {/* Concordance */}
-              <Typography variant="body2" fontWeight={600} sx={{ marginTop: '4px' }}>Concordance</Typography>
+              <Typography variant="body2" fontWeight={600} sx={{ marginTop: '4px' }}>{t('amrInsights.gvp.concordance')}</Typography>
               <Box className={classes.statsRow}>
                 <Box className={classes.concordanceBadge} sx={{ backgroundColor: '#e8f5e9', color: '#1b5e20' }}>
                   <CheckCircleOutline sx={{ fontSize: 14 }} />
@@ -665,38 +669,38 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Box sx={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: CONCORDANCE_COLORS.concordant }} />
-                  <Typography variant="caption">Concordant: {stats.concordant}/{stats.total}</Typography>
+                  <Typography variant="caption">{t('amrInsights.gvp.concordance')}: {stats.concordant}/{stats.total}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Box sx={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: CONCORDANCE_COLORS.overestimate }} />
-                  <Typography variant="caption">Genomic overestimates: {stats.overestimate}</Typography>
+                  <Typography variant="caption">{t('amrInsights.gvp.overestimate')}: {stats.overestimate}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Box sx={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: CONCORDANCE_COLORS.underestimate }} />
-                  <Typography variant="caption">Genomic underestimates: {stats.underestimate}</Typography>
+                  <Typography variant="caption">{t('amrInsights.gvp.underestimate')}: {stats.underestimate}</Typography>
                 </Box>
               </Box>
 
               {/* Error metrics */}
-              <Typography variant="body2" fontWeight={600} sx={{ marginTop: '4px' }}>Error Metrics</Typography>
+              <Typography variant="body2" fontWeight={600} sx={{ marginTop: '4px' }}>{t('amrInsights.gvp.errorMetrics')}</Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <Typography variant="caption">Mean absolute diff: <strong>{stats.meanAbsDiff} pp</strong></Typography>
-                <Typography variant="caption">Median absolute diff: <strong>{stats.medianAbsDiff} pp</strong></Typography>
-                <Typography variant="caption">Weighted MAD (by N): <strong>{stats.weightedMAD} pp</strong></Typography>
-                <Typography variant="caption">Countries compared: <strong>{stats.total}</strong></Typography>
+                <Typography variant="caption">{t('amrInsights.gvp.meanAbsDiff')}: <strong>{stats.meanAbsDiff} {t('amrInsights.gvp.percentagePoints')}</strong></Typography>
+                <Typography variant="caption">{t('amrInsights.gvp.medianAbsDiff')}: <strong>{stats.medianAbsDiff} {t('amrInsights.gvp.percentagePoints')}</strong></Typography>
+                <Typography variant="caption">{t('amrInsights.gvp.weightedMAD')}: <strong>{stats.weightedMAD} {t('amrInsights.gvp.percentagePoints')}</strong></Typography>
+                <Typography variant="caption">{t('amrInsights.gvp.countriesCompared')}: <strong>{stats.total}</strong></Typography>
               </Box>
             </>
           )}
 
           {/* Methodology */}
-          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '4px' }}>Methodology</Typography>
+          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '4px' }}>{t('amrInsights.gvp.methodology')}</Typography>
           <Box className={classes.tooltipWrapper}>
             <Typography variant="caption" sx={{ lineHeight: 1.5 }}>
               <strong>Matching:</strong> Countries present in both AMRnet and GLASS (N≥20 AMRnet genomes, N≥10 GLASS isolates tested).
               <br /><br />
               <strong>Concordance:</strong> A country is concordant if the phenotypic value falls within the 95% Wilson score CI of the AMRnet genomic estimate.
               <br /><br />
-              <strong>Error bars:</strong> 95% Wilson score confidence intervals on the genomic proportion (more accurate than normal approximation for small N or extreme proportions).
+              <strong>{t('amrInsights.gvp.errorBarsLabel')}</strong> {t('amrInsights.gvp.errorBars')}
               <br /><br />
               <strong>Correlations:</strong> Pearson r measures linear association. Spearman ρ measures rank correlation (robust to outliers and non-normal distributions).
               <br /><br />
@@ -730,7 +734,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
                 : '(1) Time period mismatch — AMRnet pools across available years, GLASS uses single-year estimates; (2) Sampling bias — public genomes may over-represent resistant isolates; (3) Population differences — GLASS captures clinical specimens, AMRnet captures all public genomes.'
               }
               <br /><br />
-              <strong>Bubble size</strong> ∝ AMRnet genome count.
+              <strong>{t('amrInsights.gvp.bubbleSizeLabel')}</strong> ∝ {t('amrInsights.gvp.bubbleSize').replace(/^.*?∝\s*/, '')}
             </Typography>
           </Box>
         </Box>

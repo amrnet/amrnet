@@ -32,6 +32,8 @@ import { Close, InfoOutlined } from '@mui/icons-material';
 import { drugAcronyms, drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 import { getRange } from '../../../../util/helpers';
 import { setDrugClass, setDrugGene , setColoredOptions} from '../../../../stores/slices/graphSlice';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { useTranslation } from 'react-i18next';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -40,6 +42,7 @@ const dataViewOptions = [
 
 export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -477,7 +480,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
               ) : currentTooltip.count === 'ID' ? (
                 <div className={classes.insufficientData}>Insufficient data</div>
               ) : (
-                <Typography className={classes.noData}>No data to show</Typography>
+                <Typography className={classes.noData}>{t('common.noDataToShow')}</Typography>
               )}
             </div>
           ) : (
@@ -489,14 +492,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <div className={classes.selectsWrapper}>
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>

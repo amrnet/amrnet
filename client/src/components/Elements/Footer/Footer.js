@@ -1,4 +1,5 @@
 import { AppBar, IconButton, Toolbar, Tooltip } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './FooterMUI';
 import { GitHub } from '@mui/icons-material';
 import LSHTMLogoImg from '../../../assets/img/Sponsors/LSHTMLogo2020.jpg';
@@ -6,6 +7,7 @@ import WellcomeTrustLogoImg from '../../../assets/img/Sponsors/Wellcome_Trust_lo
 
 export const Footer = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   function handleClickGithub() {
     window.open('https://github.com/amrnet/amrnet', '_blank');
@@ -41,7 +43,7 @@ export const Footer = () => {
           />
         </div>
         <div className={classes.socialsWrapper}>
-          <Tooltip title="Github" placement="top">
+          <Tooltip title={t('common.github')} placement="top">
             <IconButton onClick={handleClickGithub}>
               <GitHub fontSize="large" />
             </IconButton>
