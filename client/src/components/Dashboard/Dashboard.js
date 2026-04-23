@@ -1880,11 +1880,13 @@ export const DashboardPage = () => {
         dispatch(setCgSTYearData(yearsData.NGMASTData));
       }
 
-      // Dispatch drug countries resistance data
-      if (['styphi', 'kpneumo', 'saureus', 'strepneumo'].includes(organism)) {
-        dispatch(setDrugsCountriesData(drugsCountriesData.drugsData));
-        dispatch(setDrugsRegionsData(drugsRegionsData.drugsData));
-      }
+      // Dispatch drug countries resistance data for all organisms.
+      // Without this, ecoli/decoli/shige/senterica/sentericaints were stuck
+      // on the initial-load snapshot (computed from the raw unfiltered data),
+      // so time / dataset / lineage filter changes never reached the
+      // Geographic Comparisons / Radar / ATB-correlation plots.
+      dispatch(setDrugsCountriesData(drugsCountriesData.drugsData));
+      dispatch(setDrugsRegionsData(drugsRegionsData.drugsData));
     }
 
     dispatch(setCanFilterData(false));
