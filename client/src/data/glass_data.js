@@ -269,12 +269,12 @@ export function getGLASSIndicatorForOrganism(organism) {
     // E. coli — GHO API has bloodstream 3GC resistance; drugsCountriesData key = 'ESBL'
     case 'ecoli':
       return { code: 'AMR_INFECT_ECOLI', label: 'E. coli bloodstream 3GC resistance (GLASS)', drug: 'ESBL', source: 'gho' };
-    // Diarrheagenic E. coli — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Ciprofloxacin'
+    // Diarrheagenic E. coli — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Ciprofloxacin NS'
     case 'decoli':
-      return { code: 'GLASS_CSV', label: 'E. coli ciprofloxacin resistance - blood+urine (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin' };
-    // Shigella — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Ciprofloxacin'
+      return { code: 'GLASS_CSV', label: 'E. coli ciprofloxacin resistance - blood+urine (GLASS)', drug: 'Ciprofloxacin NS', source: 'csv', pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin' };
+    // Shigella — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Ciprofloxacin NS'
     case 'shige':
-      return { code: 'GLASS_CSV', label: 'Shigella ciprofloxacin resistance (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Shigella', antibiotic: 'Ciprofloxacin' };
+      return { code: 'GLASS_CSV', label: 'Shigella ciprofloxacin resistance (GLASS)', drug: 'Ciprofloxacin NS', source: 'csv', pathogen: 'Shigella', antibiotic: 'Ciprofloxacin' };
     // K. pneumoniae — GLASS CSV meropenem; drugsCountriesData key = 'Carbapenems'
     case 'kpneumo':
       return { code: 'GLASS_CSV', label: 'K. pneumoniae meropenem resistance - blood (GLASS)', drug: 'Carbapenems', source: 'csv', pathogen: 'Klebsiella pneumoniae', antibiotic: 'Meropenem', specimen: 'BLOOD' };

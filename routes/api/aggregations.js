@@ -248,9 +248,10 @@ function buildEcoliConditions(cipro = 'single') {
 
 const DRUG_CONDITIONS = {
   // Shigella / E. coli: single 'Ciprofloxacin' aggregate.
-  ecoli: buildEcoliConditions('single'),
-  decoli: buildEcoliConditions('single'),
-  shige: buildEcoliConditions('single'),
+  // All ECOLI-family: CipNS (≥1) + CipR (≥2) computed from Quinolone column.
+  ecoli: buildEcoliConditions('salmonella'),
+  decoli: buildEcoliConditions('salmonella'),
+  shige: buildEcoliConditions('salmonella'),
 
   // Non-typhoidal Salmonella: separate 'Ciprofloxacin NS' (≥1) and
   // 'Ciprofloxacin R' (≥2) drugs computed from Quinolone column markers.

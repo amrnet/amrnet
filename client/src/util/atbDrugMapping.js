@@ -36,7 +36,7 @@ export const atbToAmrnetMapping = {
     'Sulfonamides+Trimethoprim': ['Sulfonamides'],
   },
   ecoli: {
-    'Fluoroquinolones': ['Ciprofloxacin'],
+    'Fluoroquinolones': ['Ciprofloxacin NS'],
     'Cephalosporins': ['ESBL'],
     'Carbapenems': ['Carbapenems'],
     'Aminoglycosides': ['Aminoglycosides'],
@@ -46,7 +46,7 @@ export const atbToAmrnetMapping = {
     'Macrolides': ['Macrolide'],
   },
   decoli: {
-    'Fluoroquinolones': ['Ciprofloxacin'],
+    'Fluoroquinolones': ['Ciprofloxacin NS'],
     'Cephalosporins': ['ESBL'],
     'Carbapenems': ['Carbapenems'],
     'Aminoglycosides': ['Aminoglycosides'],
@@ -56,7 +56,7 @@ export const atbToAmrnetMapping = {
     'Macrolides': ['Macrolide'],
   },
   shige: {
-    'Fluoroquinolones': ['Ciprofloxacin'],
+    'Fluoroquinolones': ['Ciprofloxacin NS'],
     'Cephalosporins': ['ESBL'],
     'Carbapenems': ['Carbapenems'],
     'Macrolides': ['Macrolide'],

@@ -1364,24 +1364,24 @@ const ECOLI_PAN_RULE = {
   every: true,
 };
 
-// Shigella / E. coli / diarrheagenic E. coli:
-// - "Ciprofloxacin" = ≥1 marker in Quinolone column (single aggregated category).
-export const statKeysEcoliShige = [
-  ...ECOLI_COMMON_RULES,
-  { name: 'Ciprofloxacin', resistanceView: true, rules: [{ column: 'Quinolone', value: '-', equal: false }], every: true },
-  ECOLI_PAN_RULE,
-].sort((a, b) => a.name.localeCompare(b.name));
-
-// Non-typhoidal Salmonella (senterica, sentericaints):
-// - CipNS (non-susceptible) = ≥1 qnr gene OR ≥1 QRDR (gyrA/B/parC) mutation OR aac(6')-Ib-cr
+// All ECOLI-family organisms (ecoli / decoli / shige / senterica /
+// sentericaints) share the same Ciprofloxacin definition — the Quinolone
+// column is parsed gene-by-gene via countQuinoloneMarkers:
+// - CipNS (non-susceptible) = ≥1 qnr gene OR ≥1 QRDR (gyrA/B/parC) mutation
+//   OR aac(6')-Ib-cr
 // - CipR  (resistant)       = ≥2 such markers (multiple mechanisms)
-// Both are computed per-record in getECOLIDrugClassData via countMarkers(Quinolone).
+// Both are computed per-record in getECOLIDrugClassData via that helper.
 export const statKeysSalmonella = [
   ...ECOLI_COMMON_RULES,
   { name: 'Ciprofloxacin NS', resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
   { name: 'Ciprofloxacin R',  resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
   ECOLI_PAN_RULE,
 ].sort((a, b) => a.name.localeCompare(b.name));
+
+// Shigella / E. coli / diarrheagenic E. coli use the same list — prior
+// divergence (a single "Ciprofloxacin" drug using `Quinolone !== '-'`) let
+// non-specific markers slip through. Aliased for clarity at import sites.
+export const statKeysEcoliShige = statKeysSalmonella;
 
 // Backwards-compatible alias: `statKeysECOLI` used to be the only list.
 // Default to the Salmonella-flavoured one (superset of the Shige/E. coli one);
