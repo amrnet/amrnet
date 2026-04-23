@@ -509,7 +509,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                   {organism === 'kpneumo' && (
                     <div className={classes.selectWrapper}>
                       <div className={classes.labelWrapper}>
-                        <Typography variant=\"caption\">{t('common.selectGenotype')}</Typography>
+                        <Typography variant="caption">{t('common.selectGenotype')}</Typography>
                       </div>
                       <Select
                         value={bubbleHeatmapGraphVariable}
