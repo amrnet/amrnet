@@ -905,7 +905,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   </div>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select countries/regions</Typography>
+                      <Typography variant="caption">{t('common.selectCountriesRegions')}</Typography>
                       <Tooltip title="Navigate by typing the first letter of the country/region." placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
@@ -945,7 +945,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Columns</Typography>
+                      <Typography variant="caption">{t('common.columns')}</Typography>
                     </div>
                     <Select
                       value={yAxisType}
@@ -1018,7 +1018,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           {yAxisSelected.length === filteredYAxisOptions.length ||
                           yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
                             ? 'Clear All'
-                            : 'Select 20'}
+                            : t('common.select20')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}

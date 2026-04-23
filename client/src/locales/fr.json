@@ -435,7 +435,30 @@
       "copied": "Copié !",
       "copyLink": "Copier le lien",
       "email": "E-mail"
-    }
+    },
+    "startYear": "Année de début",
+    "endYear": "Année de fin",
+    "datasetAll": "Tous",
+    "datasetLocal": "Local",
+    "datasetTravel": "Voyage",
+    "changeYAxisScale": "Modifier l’échelle de l’axe Y",
+    "adjustYRange": "Ajuster la plage de l’axe Y (Min-Max)",
+    "dataZoomTooltip": "Fonctions de zoom sur les données",
+    "select20": "Sélectionner 20",
+    "selectDrug": "Sélectionner un antibiotique",
+    "selectMarkers": "Sélectionner des marqueurs",
+    "selectDrugsClasses": "Sélectionner des antibiotiques/classes à afficher",
+    "selectDrugsClassesTooltip": "Les fréquences de résistance ne sont affichées que pour les années avec N≥10 génomes. Quand les données annuelles sont insuffisantes pour calculer les fréquences annuelles, il n’y a pas de points de données à afficher.",
+    "selectCountriesRegions": "Sélectionner des pays/régions",
+    "selectCountriesRegionsDisplay": "Sélectionner des pays/régions à afficher",
+    "selectCountriesCompare": "Sélectionner des pays (jusqu’à 5)",
+    "selectCountriesCompareTooltip": "Sélectionnez jusqu’à 5 pays pour comparer leurs profils de RAM. Seules les localisations avec N≥20 sont affichées.",
+    "selectCountriesToCompare": "Sélectionnez des pays pour comparer les profils de RAM",
+    "selectLocationsToCompare": "Sélectionnez des localisations pour voir la comparaison",
+    "compareBy": "Comparer par",
+    "columns": "Colonnes",
+    "resistanceMarker": "Marqueur de résistance",
+    "selectedOf": "{{selected}} sur {{total}} sélectionnés"
   },
   "pdf": {
     "reportInformation": "Informations du rapport",
@@ -443,5 +466,18 @@
   },
   "progressive": {
     "largeDataset": "Le grand jeu de données E. coli ({{count}} enregistrements) se charge progressivement pour éviter le blocage du navigateur."
+  },
+  "drugs": {
+    "MDR": "Multirésistant (MDR)",
+    "XDR": "Extensivement résistant (XDR)",
+    "PDR": "Pan-résistant (PDR)",
+    "Pansusceptible": "Pansensible",
+    "CipNS": "Ciprofloxacine (non sensible)",
+    "CipR": "Ciprofloxacine (résistante)",
+    "Ciprofloxacin NS": "Ciprofloxacine (non sensible)",
+    "Ciprofloxacin R": "Ciprofloxacine (résistante)",
+    "Ciprofloxacin": "Ciprofloxacine",
+    "Susceptible": "Sensible aux antibiotiques cat I/II",
+    "Susceptible to cat I/II drugs": "Sensible aux antibiotiques cat I/II"
   }
 }

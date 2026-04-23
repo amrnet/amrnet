@@ -137,7 +137,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
               <ToggleButtonGroup value={dataset} exclusive size="small" onChange={handleChangeST}>
                 {datasetOptions.map((option, index) => (
                   <ToggleButton key={`dataset-${index}`} value={option} color="primary">
-                    {option}
+                    {t(`common.dataset${option}`, option)}
                   </ToggleButton>
                 ))}
               </ToggleButtonGroup>
@@ -147,7 +147,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
             <div className={classes.datasetWrapper}>
               <ToggleButtonGroup value={datasetKP} exclusive size="small" onChange={handleChangeKP}>
                 <ToggleButton value="All" color="primary">
-                  ALL
+                  {t('common.datasetAll').toUpperCase()}
                 </ToggleButton>
                 <ToggleButton value="ESBL" color="primary">
                   ESBL+
@@ -241,7 +241,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
                     exclusive
                   >
                     <ToggleButton value="all" color="primary" className={classes.toggleButton}>
-                      All
+                      {t('common.datasetAll')}
                     </ToggleButton>
                     {pathovar.map((option, index) => (
                       <ToggleButton
@@ -261,7 +261,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
           <div className={classes.yearsWrapper}>
             <div className={classes.yearWrapper}>
               <Typography gutterBottom variant="caption">
-                Start year
+                {t('common.startYear')}
               </Typography>
               <Select
                 variant="standard"
@@ -291,7 +291,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
             <Divider orientation="vertical" flexItem />
             <div className={classes.yearWrapper}>
               <Typography gutterBottom variant="caption">
-                End year
+                {t('common.endYear')}
               </Typography>
               <Select
                 variant="standard"

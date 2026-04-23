@@ -435,7 +435,30 @@
       "copied": "Copied!",
       "copyLink": "Copy link",
       "email": "Email"
-    }
+    },
+    "startYear": "Start year",
+    "endYear": "End year",
+    "datasetAll": "All",
+    "datasetLocal": "Local",
+    "datasetTravel": "Travel",
+    "changeYAxisScale": "Change the y-axis scale",
+    "adjustYRange": "Adjust Y-axis Range (Min-Max)",
+    "dataZoomTooltip": "Data zoom-in features",
+    "select20": "Select 20",
+    "selectDrug": "Select drug",
+    "selectMarkers": "Select markers",
+    "selectDrugsClasses": "Select drugs/classes to display",
+    "selectDrugsClassesTooltip": "The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficient per year to calculate annual frequencies, there are no data points to show.",
+    "selectCountriesRegions": "Select countries/regions",
+    "selectCountriesRegionsDisplay": "Select countries/regions to display",
+    "selectCountriesCompare": "Select countries (up to 5)",
+    "selectCountriesCompareTooltip": "Select up to 5 countries to compare their AMR profiles. Only locations with N≥20 are shown.",
+    "selectCountriesToCompare": "Select countries to compare AMR profiles",
+    "selectLocationsToCompare": "Select locations to see comparison",
+    "compareBy": "Compare by",
+    "columns": "Columns",
+    "resistanceMarker": "Resistance marker",
+    "selectedOf": "{{selected}} of {{total}} selected"
   },
   "pdf": {
     "reportInformation": "Report Information",
@@ -443,5 +466,18 @@
   },
   "progressive": {
     "largeDataset": "Large E. coli dataset ({{count}} records) is loading progressively to prevent browser freezing."
+  },
+  "drugs": {
+    "MDR": "Multidrug resistant (MDR)",
+    "XDR": "Extensively drug resistant (XDR)",
+    "PDR": "Pan-drug resistant (PDR)",
+    "Pansusceptible": "Pansusceptible",
+    "CipNS": "Ciprofloxacin (non-susceptible)",
+    "CipR": "Ciprofloxacin (resistant)",
+    "Ciprofloxacin NS": "Ciprofloxacin (non-susceptible)",
+    "Ciprofloxacin R": "Ciprofloxacin (resistant)",
+    "Ciprofloxacin": "Ciprofloxacin",
+    "Susceptible": "Susceptible to cat I/II drugs",
+    "Susceptible to cat I/II drugs": "Susceptible to cat I/II drugs"
   }
 }

@@ -50,6 +50,7 @@ import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { getColorForDrug } from '../graphColorHelper';
 import { useStyles } from './DrugResistanceGraphMUI';
 import { SliderSizes } from '../../Slider';
+import { useTranslation } from 'react-i18next';
 
 /**
  * DrugResistanceGraph - Interactive line chart for visualizing drug resistance trends
@@ -76,6 +77,7 @@ import { SliderSizes } from '../../Slider';
  */
 export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [chartData, setChartData] = useState([]);
   const [allYears, setAllYears] = useState([]);
@@ -477,23 +479,25 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                             if (dataKey === 'XDR') {
                               dataKeyElement = (
                                 <Tooltip title={getXDRDefinition()} placement="top">
-                                  <span>{drugAcronymsOpposite['XDR']}</span>
+                                  <span>{t('drugs.XDR', drugAcronymsOpposite['XDR'])}</span>
                                 </Tooltip>
                               );
                             } else if (dataKey === 'MDR') {
                               dataKeyElement = (
                                 <Tooltip title={getMDRDefinition()} placement="top">
-                                  <span>{drugAcronymsOpposite['MDR']}</span>
+                                  <span>{t('drugs.MDR', drugAcronymsOpposite['MDR'])}</span>
                                 </Tooltip>
                               );
                             } else if (dataKey === 'Susceptible to cat I/II drugs' && organism === 'ngono') {
                               dataKeyElement = (
                                 <Tooltip title={getSusceptibleDefinition()} placement="top">
-                                  <span>Susceptible to cat I/II drugs</span>
+                                  <span>{t('drugs.Susceptible to cat I/II drugs')}</span>
                                 </Tooltip>
                               );
+                            } else if (dataKey === 'Pansusceptible') {
+                              dataKeyElement = t('drugs.Pansusceptible');
                             } else {
-                              dataKeyElement = ciproAcronyms[dataKey] || dataKey;
+                              dataKeyElement = t(`drugs.${dataKey}`, ciproAcronyms[dataKey] || dataKey);
                             }
                             return (
                               <div key={`drug-resistance-legend-${index}`} className={classes.legendItemWrapper}>
@@ -567,9 +571,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
               <FormControlLabel
               label={
                 <Box display="flex" alignItems="center" gap={0.5}>
-                 Change the y-axis scale <Typography variant="caption">
+                 {t('common.changeYAxisScale')} <Typography variant="caption">
                   </Typography>
-                  <Tooltip title="Data zoom-in features" placement="top">
+                  <Tooltip title={t('common.dataZoomTooltip')} placement="top">
                     <InfoOutlined color="action" fontSize="small" />
                   </Tooltip>
                 </Box>
@@ -579,7 +583,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
             </FormGroup>
             {logScale ? (
               <>
-                <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+                <Typography variant="caption">{t('common.adjustYRange')}</Typography>
                 <Slider
                   value={yAxisSliderValue}
                   onChange={handleSliderChangeDataView}
@@ -658,9 +662,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
               <SelectCountry />
               <div className={classes.selectWrapper}>
                 <div className={classes.labelWrapper}>
-                  <Typography variant="caption">Select drugs/classes to display</Typography>
+                  <Typography variant="caption">{t('common.selectDrugsClasses')}</Typography>
                   <Tooltip
-                    title="The resistance frequencies are only shown for years with N≥10 genomes. When the data is insufficient per year to calculate annual frequencies, there are no data points to show."
+                    title={t('common.selectDrugsClassesTooltip')}
                     placement="top"
                   >
                     <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />

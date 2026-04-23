@@ -638,7 +638,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                             ? // || xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
                               'Clear All'
                             : /* 'Select All' for Styphi*/
-                              'Select 20'}
+                              t('common.select20')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
@@ -685,7 +685,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select drug</Typography>
+                      <Typography variant="caption">{t('common.selectDrug')}</Typography>
                     </div>
                     <Select
                       value={bubbleMarkersYAxisType}
@@ -703,7 +703,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                   </div>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select markers</Typography>
+                      <Typography variant="caption">{t('common.selectMarkers')}</Typography>
                       <Tooltip title="Only the first 20 options are shown at a time" placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
@@ -730,7 +730,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                           {yAxisSelected.length === filteredYAxisOptions.length ||
                           yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
                             ? 'Clear All'
-                            : 'Select 20'}
+                            : t('common.select20')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}

@@ -435,7 +435,30 @@
       "copied": "Copiado!",
       "copyLink": "Copiar link",
       "email": "Email"
-    }
+    },
+    "startYear": "Ano inicial",
+    "endYear": "Ano final",
+    "datasetAll": "Todos",
+    "datasetLocal": "Local",
+    "datasetTravel": "Viagem",
+    "changeYAxisScale": "Alterar a escala do eixo Y",
+    "adjustYRange": "Ajustar intervalo do eixo Y (Mín-Máx)",
+    "dataZoomTooltip": "Recursos de zoom nos dados",
+    "select20": "Selecionar 20",
+    "selectDrug": "Selecionar medicamento",
+    "selectMarkers": "Selecionar marcadores",
+    "selectDrugsClasses": "Selecionar medicamentos/classes para exibir",
+    "selectDrugsClassesTooltip": "As frequências de resistência são exibidas apenas para anos com N≥10 genomas. Quando os dados por ano são insuficientes para calcular frequências anuais, não há pontos de dados para exibir.",
+    "selectCountriesRegions": "Selecionar países/regiões",
+    "selectCountriesRegionsDisplay": "Selecionar países/regiões para exibir",
+    "selectCountriesCompare": "Selecionar países (até 5)",
+    "selectCountriesCompareTooltip": "Selecione até 5 países para comparar seus perfis de AMR. Apenas locais com N≥20 são mostrados.",
+    "selectCountriesToCompare": "Selecione países para comparar perfis de AMR",
+    "selectLocationsToCompare": "Selecione locais para ver a comparação",
+    "compareBy": "Comparar por",
+    "columns": "Colunas",
+    "resistanceMarker": "Marcador de resistência",
+    "selectedOf": "{{selected}} de {{total}} selecionados"
   },
   "pdf": {
     "reportInformation": "Informações do relatório",
@@ -443,5 +466,18 @@
   },
   "progressive": {
     "largeDataset": "Conjunto de dados grande de E. coli ({{count}} registros) está carregando progressivamente para evitar travamento do navegador."
+  },
+  "drugs": {
+    "MDR": "Multirresistente (MDR)",
+    "XDR": "Extensivamente resistente (XDR)",
+    "PDR": "Pan-resistente (PDR)",
+    "Pansusceptible": "Pansuscetível",
+    "CipNS": "Ciprofloxacino (não suscetível)",
+    "CipR": "Ciprofloxacino (resistente)",
+    "Ciprofloxacin NS": "Ciprofloxacino (não suscetível)",
+    "Ciprofloxacin R": "Ciprofloxacino (resistente)",
+    "Ciprofloxacin": "Ciprofloxacino",
+    "Susceptible": "Suscetível aos medicamentos cat I/II",
+    "Susceptible to cat I/II drugs": "Suscetível aos medicamentos cat I/II"
   }
 }

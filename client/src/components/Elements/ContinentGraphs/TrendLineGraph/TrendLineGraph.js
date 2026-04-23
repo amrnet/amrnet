@@ -555,7 +555,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                   </div>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select countries/regions to display</Typography>
+                      <Typography variant="caption">{t('common.selectCountriesRegionsDisplay')}</Typography>
                       <Tooltip
                         title="Navigate by typing the first letter of the country/region. The data is only shown for years with N≥10 genomes. When the data is insufficient per year to calculate annual info, there are no data points to show."
                         placement="top"

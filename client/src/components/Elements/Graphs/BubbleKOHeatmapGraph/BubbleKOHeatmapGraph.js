@@ -480,7 +480,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                           {xAxisSelected.length === filteredXAxisOptions.length ||
                           xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
                             ? 'Clear All'
-                            : 'Select 20'}
+                            : t('common.select20')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
@@ -559,7 +559,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                           disabled={organism === 'none'}
                           color={yAxisSelected.length === 20 ? 'error' : 'primary'}
                         >
-                          {yAxisSelected.length === 20 ? 'Clear All' : 'Select 20'}
+                          {yAxisSelected.length === 20 ? 'Clear All' : t('common.select20')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}

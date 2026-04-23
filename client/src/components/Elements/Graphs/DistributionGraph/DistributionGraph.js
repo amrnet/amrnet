@@ -50,6 +50,7 @@ import { SliderSizes } from '../../Slider/SliderSizes';
 import GenotypePatternRect, { sanitizeId } from '../GenotypePatternRect.js';
 import { useStyles } from './DistributionGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { useTranslation } from 'react-i18next';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -58,6 +59,7 @@ const dataViewOptions = [
 
 export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
   const [logScale, setLogScale] = useState(false);
@@ -581,9 +583,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
             <FormControlLabel
               label={
                 <Box display="flex" alignItems="center" gap={0.5}>
-                 Change the y-axis scale <Typography variant="caption">
+                 {t('common.changeYAxisScale')} <Typography variant="caption">
                   </Typography>
-                  <Tooltip title="Data zoom-in features" placement="top">
+                  <Tooltip title={t('common.dataZoomTooltip')} placement="top">
                     <InfoOutlined color="action" fontSize="small" />
                   </Tooltip>
                 </Box>
@@ -593,7 +595,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           </FormGroup>
           {logScale ? (
             <>
-              <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+              <Typography variant="caption">{t('common.adjustYRange')}</Typography>
               <Slider
                 value={yAxisSliderValue}
                 onChange={handleSliderChangeDataView}
