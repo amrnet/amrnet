@@ -65,6 +65,7 @@ export const ContinentGraphs = () => {
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
   const dataset = useAppSelector(state => state.map.dataset);
+  const datasetKP = useAppSelector(state => state.map.datasetKP);
   const globalOverviewLabel = useAppSelector(state => state.dashboard.globalOverviewLabel);
   const actualGenomes = useAppSelector(state => state.dashboard.actualGenomes);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
@@ -223,10 +224,15 @@ export const ContinentGraphs = () => {
           case 'shige':
             return `Selected Pathotypes : ${selectedLineages.join(', ')}`;
           case 'sentericaints':
-          case 'kpneumo':
             return `Selected Serotypes : ${selectedLineages.join(', ')}`;
-          // case 'ecoli':
-          //   return `Selected Genotypes : ${selectedLineages.join(', ')}`;
+          case 'kpneumo': {
+            // K. pneumoniae: resistance-based dataset filter, not serotypes.
+            const label =
+              datasetKP === 'ESBL' ? 'ESBL+'
+              : datasetKP === 'CARB' ? 'Carbapenemase+'
+              : 'All';
+            return `Selected Data : ${label}`;
+          }
           default:
             return '';
         }

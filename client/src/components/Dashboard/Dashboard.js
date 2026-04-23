@@ -1798,15 +1798,16 @@ export const DashboardPage = () => {
               })(),
             )
           : Promise.resolve({ data: [], colourVariables: [] }),
-        // ['styphi', 'kpneumo'].includes(organism)
-        //   ?
-        Promise.resolve(getDrugsCountriesData({ data: filteredData, items: countriesForFilter, organism })),
-        // : Promise.resolve({ drugsData: [] }),
-        // ['styphi', 'kpneumo'].includes(organism)
-        // ?
+        // Geographic Comparisons (BubbleGeographicGraph), RadarProfile, and the
+        // ATB correlation plot compare countries/regions against each other and
+        // must always see the FULL set of countries — not just those inside the
+        // summary plots' geo selection. Use `filters.data` here (which applies
+        // time/dataset/datasetKP/lineages filters) instead of `filteredData`
+        // (which additionally restricts to actualCountry / actualRegion).
+        Promise.resolve(getDrugsCountriesData({ data: filters.data, items: countriesForFilter, organism })),
         Promise.resolve(
-          getDrugsCountriesData({ data: filteredData, items: economicRegions, type: 'region', organism }),
-        ), // : Promise.resolve({ drugsData: [] }),
+          getDrugsCountriesData({ data: filters.data, items: economicRegions, type: 'region', organism }),
+        ),
       ]);
 
       // Prefer server results for drugsData / genotypesData / uniqueGenotypes when valid.

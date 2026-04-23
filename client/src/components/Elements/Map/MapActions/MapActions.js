@@ -17,6 +17,7 @@ export const MapActions = () => {
   const organism = useAppSelector(state => state.dashboard.organism);
   const mapView = useAppSelector(state => state.map.mapView);
   const dataset = useAppSelector(state => state.map.dataset);
+  const datasetKP = useAppSelector(state => state.map.datasetKP);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
   const globalOverviewLabel = useAppSelector(state => state.dashboard.globalOverviewLabel);
@@ -39,6 +40,7 @@ export const MapActions = () => {
       organism,
       mapView,
       dataset,
+      datasetKP,
       actualTimeInitial,
       actualTimeFinal,
       globalOverviewLabel,
