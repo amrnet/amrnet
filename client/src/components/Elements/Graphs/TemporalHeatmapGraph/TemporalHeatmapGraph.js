@@ -11,6 +11,7 @@ import { useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
 import { drugAcronyms, drugsECOLI, drugsKP, drugsNG, drugsSA, drugsSP, drugsST } from '../../../../util/drugs';
 import { useStyles } from './TemporalHeatmapGraphMUI';
+import { useTranslation } from 'react-i18next';
 
 const MIN_SAMPLES_PER_CELL = 10;
 const MIN_SAMPLES_PER_COUNTRY = 20;
@@ -49,6 +50,7 @@ function getDrugsForOrganism(organism) {
 
 export const TemporalHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [selectedDrug, setSelectedDrug] = useState('');
   const [sortBy, setSortBy] = useState('prevalence');
 
@@ -149,7 +151,7 @@ export const TemporalHeatmapGraph = ({ showFilter, setShowFilter }) => {
       <Box sx={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
         <Box className={classes.selectWrapper}>
           <Box className={classes.labelWrapper}>
-            <Typography variant="body2" fontWeight={600}>Select drug</Typography>
+            <Typography variant="body2" fontWeight={600}>{t('common.selectDrug')}</Typography>
             <Tooltip title="Shows resistance prevalence across countries for the selected drug. Colors represent each country's overall resistance rate.">
               <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
             </Tooltip>

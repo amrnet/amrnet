@@ -32,6 +32,7 @@ import { arraysEqual, getRange } from '../../../../util/helpers';
 import { setCaptureKOT, setKOForFilterSelected, setColorPalleteKO } from '../../../../stores/slices/dashboardSlice';
 import GenotypePatternRect from '../GenotypePatternRect.js';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { useTranslation } from 'react-i18next';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -46,6 +47,7 @@ const plotOptions = [
 
 export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [currentEventSelected, setCurrentEventSelected] = useState([]);
   const [yAxisSliderValue, setYAxisSliderValue] = useState([0, 100]);
@@ -563,9 +565,9 @@ return (
               <FormControlLabel
               label={
                 <Box display="flex" alignItems="center" gap={0.5}>
-                 Change the y-axis scale <Typography variant="caption">
+                 {t('common.changeYAxisScale')} <Typography variant="caption">
                   </Typography>
-                  <Tooltip title="Data zoom-in features" placement="top">
+                  <Tooltip title={t('common.dataZoomTooltip')} placement="top">
                     <InfoOutlined color="action" fontSize="small" />
                   </Tooltip>
                 </Box>
@@ -575,7 +577,7 @@ return (
             </FormGroup>
             {logScale ? (
               <>
-                <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+                <Typography variant="caption">{t('common.adjustYRange')}</Typography>
                 <Slider
                   value={yAxisSliderValue}
                   onChange={handleSliderChangeDataView}

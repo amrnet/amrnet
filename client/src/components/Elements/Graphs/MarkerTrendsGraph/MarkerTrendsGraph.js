@@ -44,6 +44,7 @@ import { SelectCountry } from '../../SelectCountry';
 import { SliderSizes } from '../../Slider';
 import { useStyles } from './MarkerTrendsGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { useTranslation } from 'react-i18next';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -52,6 +53,7 @@ const dataViewOptions = [
 
 export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [logScale, setLogScale] = useState(false);
@@ -525,9 +527,9 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
             <FormControlLabel
               label={
                 <Box display="flex" alignItems="center" gap={0.5}>
-                 Change the y-axis scale <Typography variant="caption">
+                 {t('common.changeYAxisScale')} <Typography variant="caption">
                   </Typography>
-                  <Tooltip title="Data zoom-in features" placement="top">
+                  <Tooltip title={t('common.dataZoomTooltip')} placement="top">
                     <InfoOutlined color="action" fontSize="small" />
                   </Tooltip>
                 </Box>
@@ -537,7 +539,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
           </FormGroup>
           {logScale ? (
             <>
-              <Typography variant="caption">Adjust Y-axis Range (Min-Max)</Typography>
+              <Typography variant="caption">{t('common.adjustYRange')}</Typography>
               <Slider
                 value={yAxisSliderValue}
                 onChange={handleSliderChangeDataView}

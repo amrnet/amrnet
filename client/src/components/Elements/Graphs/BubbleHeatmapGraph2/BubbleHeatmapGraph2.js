@@ -587,7 +587,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                           {xAxisSelected.length === filteredXAxisOptions.length ||
                           xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
                             ? 'Clear All'
-                            : 'Select 20'}
+                            : t('common.select20')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
@@ -634,7 +634,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select drug</Typography>
+                      <Typography variant="caption">{t('common.selectDrug')}</Typography>
                     </div>
                     <Select
                       multiple

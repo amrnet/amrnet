@@ -1,6 +1,7 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, CardContent, Checkbox, Chip, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Tooltip as ChartTooltip,
   PolarAngleAxis,
@@ -49,6 +50,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [xAxisType, setXAxisType] = useState('country');
 
@@ -166,7 +168,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
       <Box className={classes.selectWrapper}>
         <Box className={classes.labelWrapper}>
           <Typography variant="body2" fontWeight={600}>
-            Compare by
+            {t('common.compareBy')}
           </Typography>
         </Box>
         <Select
@@ -175,18 +177,18 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
           size="small"
           sx={{ maxWidth: 200, fontSize: '14px' }}
         >
-          <MenuItem value="country">Country</MenuItem>
-          <MenuItem value="region">Region</MenuItem>
+          <MenuItem value="country">{t('common.selectCountry')}</MenuItem>
+          <MenuItem value="region">{t('common.selectRegion')}</MenuItem>
         </Select>
       </Box>
 
       <Box className={classes.selectWrapper}>
         <Box className={classes.labelWrapper}>
           <Typography variant="body2" fontWeight={600}>
-            Select {xAxisType === 'country' ? 'countries' : 'regions'} (up to {MAX_COUNTRIES})
+            {t('common.selectCountriesCompare')}
           </Typography>
           <Tooltip
-            title={`Select up to ${MAX_COUNTRIES} ${xAxisType === 'country' ? 'countries' : 'regions'} to compare their AMR profiles. Only locations with N≥20 are shown.`}
+            title={t('common.selectCountriesCompareTooltip')}
           >
             <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
           </Tooltip>
@@ -237,7 +239,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
           {selectedCountries.length === 0 ? (
             <Box className={classes.noSelection}>
               <Typography variant="body2" color="textSecondary">
-                Select {xAxisType === 'country' ? 'countries' : 'regions'} to compare AMR profiles
+                {t('common.selectCountriesToCompare')}
               </Typography>
             </Box>
           ) : radarData.length === 0 ? (
