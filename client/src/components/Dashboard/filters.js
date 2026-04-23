@@ -44,6 +44,46 @@ import { amrLikeOrganisms } from '../../util/organismsCards';
  * @param {number} chunkSize - Size of each chunk (default 500)
  * @returns {Promise<Array>} - Results from all chunks
  */
+/**
+ * Evaluate a single statKeysECOLI rule against a record.
+ *
+ * Rule types:
+ *   { column, value, equal: true }   → exact match (empty cell treated as '-')
+ *   { column, value, equal: false }  → cell has any non-empty content other than value
+ *   { column, match: '<regex>' }     → cell contains ≥1 gene whose name matches regex
+ *                                      (splits on ';', trims each entry)
+ *
+ * Returns true/false. Returns false for 'ND' cells.
+ */
+function evaluateECOLIRule(item, rule) {
+  const raw = item[rule.column];
+  if (raw === 'ND') return false;
+
+  // Pattern-match rule: split cell into genes and test each
+  if (rule.match) {
+    if (raw == null || raw === '' || raw === '-') return false;
+    const re = new RegExp(rule.match);
+    return String(raw)
+      .split(';')
+      .map(s => s.trim())
+      .some(gene => gene && re.test(gene));
+  }
+
+  // Value-comparison rule
+  const isEmpty = raw == null || raw === '' || raw === '-';
+  return rule.equal ? isEmpty : !isEmpty;
+}
+
+/**
+ * Evaluate all rules for a statKeysECOLI drug entry.
+ * drug.every: true → AND   drug.every: false → OR
+ */
+function drugMatchesRules(item, drug) {
+  if (!drug || !Array.isArray(drug.rules) || drug.rules.length === 0) return false;
+  const results = drug.rules.map(r => evaluateECOLIRule(item, r));
+  return drug.every ? results.every(Boolean) : results.some(Boolean);
+}
+
 async function processInChunks(array, processor, chunkSize = 500) {
   const results = [];
   for (let i = 0; i < array.length; i += chunkSize) {
@@ -383,16 +423,7 @@ function getMapStatsData({
       const drug = statKeysECOLI.find(d => d.name === statsKey);
       if (!drug || drug.computed) continue;
 
-      // Evaluate each rule for this item
-      const ruleResults = drug.rules.map(rule => {
-        const raw = item[rule.column];
-        if (raw === 'ND') return false;
-        const isEmpty = raw == null || raw === '' || raw === '-';
-        return rule.equal ? isEmpty : !isEmpty;
-      });
-
-      const passes = drug.every ? ruleResults.every(Boolean) : ruleResults.some(Boolean);
-      if (!passes) continue;
+      if (!drugMatchesRules(item, drug)) continue;
 
       // Collect the actual column values from rules to build gene list
       rawValues = drug.rules.map(r => item[r.column]).filter(v => v && v !== '-' && v !== 'ND');
@@ -1140,19 +1171,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           // Skip computed drugs — handled below
           if (drug.computed) return;
 
-          const drugData = yearData.filter(x => {
-            const results = drug.rules.map(rule => {
-              const raw = x[rule.column];
-              const isEmpty = raw == null || raw === '' || raw === '-';
-              // equal: true → check if value IS the sentinel (susceptible check)
-              // equal: false → check if value has actual content (resistance check)
-              return rule.equal ? isEmpty : !isEmpty;
-            });
-
-            return drug.every ? results.every(Boolean) : results.some(Boolean);
-          });
-
-          drugStats[drug.name] = drugData.length;
+          drugStats[drug.name] = yearData.filter(x => drugMatchesRules(x, drug)).length;
         });
 
         // Computed drug combinations for E. coli / Shigella / diarrheagenic E. coli
@@ -1773,15 +1792,7 @@ export function getGenotypesData({
           return;
         }
 
-        const drugData = genotypeData.filter(x => {
-          const results = drug.rules.map(rule => {
-            const raw = x[rule.column];
-            const isEmpty = raw == null || raw === '' || raw === '-';
-            return rule.equal ? isEmpty : !isEmpty;
-          });
-
-          return drug.every ? results.every(Boolean) : results.some(Boolean);
-        });
+        const drugData = genotypeData.filter(x => drugMatchesRules(x, drug));
 
         response[drug.name] = drugData.length;
 
@@ -2370,29 +2381,31 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
     return drugClass;
   }
 
+  // Build gene-filter patterns so that pattern-based rules (e.g. Carbapenems,
+  // ESBL, Macrolide) only report the genes that triggered the match, not
+  // every gene in the source column.
+  const genePatterns = drug.rules
+    .filter(r => r.match)
+    .map(r => new RegExp(r.match));
+
   dataToFilter.forEach(x => {
-    // Evaluate each rule
-    const ruleResults = drug.rules.map(rule => {
-      const raw = x[rule.column];
-      if (raw === 'ND') return false;
-      const isEmpty = raw == null || raw === '' || raw === '-';
-      return rule.equal ? isEmpty : !isEmpty;
-    });
+    if (!drugMatchesRules(x, drug)) return;
+    resistantCount++;
 
-    const passes = drug.every ? ruleResults.every(Boolean) : ruleResults.some(Boolean);
-
-    if (!passes) return;
-
-    // Collect values from all relevant columns
-    const columnsValues = drug.rules
+    // Collect raw cell values from all relevant columns
+    const cells = drug.rules
       .map(rule => x[rule.column])
       .filter(val => val != null && val !== '' && val !== '-' && val !== 'ND');
 
-    if (columnsValues.length === 0) return;
+    if (cells.length === 0) return;
 
-    const genes = removeChars(columnsValues.join(splitChar).split(splitChar));
+    // Split into individual genes
+    let genes = removeChars(cells.join(splitChar).split(splitChar));
 
-    resistantCount++;
+    // If this drug uses pattern matching, only keep genes that matched
+    if (genePatterns.length > 0) {
+      genes = genes.filter(g => genePatterns.some(re => re.test(g)));
+    }
 
     genes.forEach(gene => {
       drugClass[gene] = (drugClass[gene] || 0) + 1;
