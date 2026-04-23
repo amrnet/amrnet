@@ -35,7 +35,7 @@ import { getAxisLabel } from '../../../../util/genotypes';
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
-import { HEATMAP_WHITE_TEXT_THRESHOLD, heatmapLegendGradient, mixColorScale } from '../../Map/mapColorHelper';
+import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './BubbleKOHeatmapGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
@@ -371,7 +371,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                               textAnchor="middle"
                               fontSize={15}
                               fontWeight={600}
-                              fill={value > HEATMAP_WHITE_TEXT_THRESHOLD ? '#fff' : '#000'}
+                              fill={heatmapTextColor(value)}
                               pointerEvents="none"
                             >
                               {value}
