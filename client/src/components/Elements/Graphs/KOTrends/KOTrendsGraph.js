@@ -31,6 +31,7 @@ import { SelectCountry } from '../../SelectCountry';
 import { arraysEqual, getRange } from '../../../../util/helpers';
 import { setCaptureKOT, setKOForFilterSelected, setColorPalleteKO } from '../../../../stores/slices/dashboardSlice';
 import GenotypePatternRect from '../GenotypePatternRect.js';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -649,14 +650,7 @@ return (
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <SelectCountry />
               <div className={classes.selectWrapper}>
                 <div className={classes.labelWrapper}>

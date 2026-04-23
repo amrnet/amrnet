@@ -38,10 +38,10 @@ export const HomePage = () => {
   }
 
   const renderOrganismTitle = organism => {
-    const translationKey = `home.organisms.${organism.value}`;
+    const translationKey = `organisms.${organism.value}.name`;
 
     if (i18n.exists(translationKey)) {
-      return <Trans components={[<i key="italic" />]} i18nKey={translationKey} />;
+      return <Trans i18nKey={translationKey} components={{ i: <i /> }} />;
     }
 
     return organism.label;
@@ -73,7 +73,7 @@ export const HomePage = () => {
                     >
                       <CardMedia
                         component="img"
-                        alt={`${organism.stringLabel} image`}
+                        alt={t(`organisms.${organism.value}.abbr`, organism.stringLabel)}
                         height={matches600 ? 'auto' : '320px'}
                         style={{ width: matches600 ? '100px' : undefined }}
                         image={organism.img}

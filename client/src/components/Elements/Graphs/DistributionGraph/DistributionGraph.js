@@ -49,6 +49,7 @@ import { SelectCountry } from '../../SelectCountry';
 import { SliderSizes } from '../../Slider/SliderSizes';
 import GenotypePatternRect, { sanitizeId } from '../GenotypePatternRect.js';
 import { useStyles } from './DistributionGraphMUI';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 
 const dataViewOptions = [
   { label: 'Number per year', value: 'number' },
@@ -667,14 +668,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <SelectCountry />
               <div className={classes.selectWrapper}>
                 <div className={classes.labelWrapper}>

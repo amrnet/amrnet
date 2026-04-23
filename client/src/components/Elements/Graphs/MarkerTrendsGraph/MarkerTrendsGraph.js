@@ -43,6 +43,7 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
 import { SliderSizes } from '../../Slider';
 import { useStyles } from './MarkerTrendsGraphMUI';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -610,14 +611,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectPreWrapper}>

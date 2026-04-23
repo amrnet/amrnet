@@ -793,7 +793,7 @@ export const Graphs = () => {
                 <span>
                   {currentTab !== 'RDWG' && currentTab !== 'BAMRH'  && currentTab !== 'BKOH' && currentTab !== 'HSG2' && (<SwitchColour />)}
                 </span>
-                <Tooltip title="Download Data" placement="top">
+                <Tooltip title={t('continentGraphs.tooltip.downloadData')} placement="top">
                   <IconButton
                     className={classes.actionButton}
                     color="primary"
@@ -803,7 +803,7 @@ export const Graphs = () => {
                     <DownloadMapViewData fontSize="inherit" value={currentCard?.id} />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Download Chart as PNG" placement="top">
+                <Tooltip title={t('continentGraphs.tooltip.downloadChart')} placement="top">
                   <span>
                     <IconButton
                       color="primary"

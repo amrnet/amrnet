@@ -15,6 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Cell,
   Tooltip as ChartTooltip,
@@ -37,9 +38,11 @@ import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { HEATMAP_WHITE_TEXT_THRESHOLD, heatmapLegendGradient, mixColorScale } from '../../Map/mapColorHelper';
 import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './BubbleKOHeatmapGraphMUI';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 
 export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [genotypeSearch, setGenotypeSearch] = useState('');
@@ -397,7 +400,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
       </div>
       {yAxisSelected.length === 0 && (
         <Box className={classes.nothingSelected}>
-          <Typography fontWeight={600}>No data to show</Typography>
+          <Typography fontWeight={600}>{t('common.noDataToShow')}</Typography>
         </Box>
       )}
       <Divider className={classes.divider} />
@@ -416,20 +419,13 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select genotype</Typography>
+                      <Typography variant="caption">{t('common.selectGenotype')}</Typography>
                     </div>
                     <Select
                       value={bubbleKOHeatmapGraphVariable}
@@ -531,7 +527,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select K/O type</Typography>
+                      <Typography variant="caption">{t('common.selectKOType')}</Typography>
                     </div>
                     <Select
                       value={bubbleKOYAxisType}
@@ -547,7 +543,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
                   </div>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select K/O options</Typography>
+                      <Typography variant="caption">{t('common.selectKOOptions')}</Typography>
                     </div>
                     <Select
                       multiple

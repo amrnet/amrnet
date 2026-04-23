@@ -44,9 +44,11 @@ import { HEATMAP_WHITE_TEXT_THRESHOLD, heatmapLegendGradient, mixColorScale } fr
 import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useStyles } from './BubbleMarkersHeatmapGraphMUI';
+import { useTranslation } from 'react-i18next';
 
 export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [xAxisSelected, setXAxisSelected] = useState([]);
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [genotypeSearch, setGenotypeSearch] = useState('');
@@ -531,7 +533,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
       </div>
       {yAxisSelected.length === 0 && (
         <Box className={classes.nothingSelected}>
-          <Typography fontWeight={600}>No data to show</Typography>
+          <Typography fontWeight={600}>{t('common.noDataToShow')}</Typography>
         </Box>
       )}
       <Divider className={classes.divider} />
@@ -557,7 +559,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                   {organism === 'kpneumo' ? (
                     <div className={classes.selectWrapper}>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select genotype</Typography>
+                        <Typography variant=\"caption\">{t('common.selectGenotype')}</Typography>
                       </div>
                       <Select
                         value={bubbleMarkersHeatmapGraphVariable}

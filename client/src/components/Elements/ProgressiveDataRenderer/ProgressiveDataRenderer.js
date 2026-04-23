@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Progressive Data Renderer - Prevents browser freezing with large datasets
@@ -83,6 +84,7 @@ export const ProgressiveDataRenderer = ({
  * Handles the E. coli dataset with special considerations for its large size
  */
 export const EcoliDataWrapper = ({ data, children }) => {
+  const { t } = useTranslation();
   const [dataStrategy, setDataStrategy] = useState('progressive');
 
   // Automatically choose strategy based on data size
@@ -106,7 +108,7 @@ export const EcoliDataWrapper = ({ data, children }) => {
           marginBottom: '16px'
         }}>
           <strong>🚀 Performance Mode Active</strong>
-          <div>Large E. coli dataset ({data.length.toLocaleString()} records) is loading progressively to prevent browser freezing.</div>
+          <div>{t('progressive.largeDataset', { count: data.length.toLocaleString() })}</div>
         </div>
 
         <ProgressiveDataRenderer

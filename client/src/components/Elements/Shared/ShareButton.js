@@ -9,19 +9,16 @@ import {
   Box,
 } from '@mui/material';
 import { useState } from 'react';
-
-const ORGANISM_NAMES = {
-  styphi: 'Salmonella Typhi', kpneumo: 'Klebsiella pneumoniae', ngono: 'Neisseria gonorrhoeae',
-  ecoli: 'Escherichia coli', decoli: 'E. coli (diarrheagenic)', shige: 'Shigella + EIEC',
-  senterica: 'Salmonella enterica', sentericaints: 'Salmonella (invasive)',
-  saureus: 'Staphylococcus aureus', strepneumo: 'Streptococcus pneumoniae',
-};
+import { useTranslation } from 'react-i18next';
 
 export const ShareButton = ({ organism = '', section = '', size = 'small' }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
-  const name = ORGANISM_NAMES[organism] || organism;
+  // Use the localised abbreviation (e.g. 'S. Typhi', 'K. pneumoniae') as the
+  // share-text label; falls back to the raw organism code if the key is missing.
+  const name = t(`organisms.${organism}.abbr`, organism);
   const siteURL = 'https://www.amrnet.org';
   const shareText = `Check out ${section} for ${name} on AMRnet — interactive genome-derived AMR surveillance.\n\n`;
 
@@ -57,7 +54,7 @@ export const ShareButton = ({ organism = '', section = '', size = 'small' }) => 
 
   return (
     <>
-      <Tooltip title="Share" placement="top">
+      <Tooltip title={t('common.share')} placement="top">
         <IconButton color="primary" onClick={handleClick} size={size}>
           <Share fontSize={size === 'small' ? 'small' : 'medium'} />
         </IconButton>
@@ -65,7 +62,7 @@ export const ShareButton = ({ organism = '', section = '', size = 'small' }) => 
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={handleCopy}>
           <ListItemIcon>{copied ? <Check fontSize="small" color="success" /> : <ContentCopy fontSize="small" />}</ListItemIcon>
-          <ListItemText>{copied ? 'Copied!' : 'Copy link'}</ListItemText>
+          <ListItemText>{copied ? t('common.shareMenu.copied') : t('common.shareMenu.copyLink')}</ListItemText>
         </MenuItem>
         <MenuItem onClick={handleTwitter}>
           <ListItemIcon><Box component="span" sx={{ fontSize: '18px' }}>𝕏</Box></ListItemIcon>
@@ -81,7 +78,7 @@ export const ShareButton = ({ organism = '', section = '', size = 'small' }) => 
         </MenuItem>
         <MenuItem onClick={handleEmail}>
           <ListItemIcon><Box component="span" sx={{ fontSize: '16px' }}>📧</Box></ListItemIcon>
-          <ListItemText>Email</ListItemText>
+          <ListItemText>{t('common.shareMenu.email')}</ListItemText>
         </MenuItem>
       </Menu>
     </>

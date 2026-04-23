@@ -1,11 +1,13 @@
 import { AddCircle, FilterCenterFocus, RemoveCircle } from '@mui/icons-material';
 import { IconButton, Tooltip, Zoom } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './BottomLeftControlsMUI';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setPosition } from '../../../../stores/slices/mapSlice';
 
 export const BottomLeftControls = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const position = useAppSelector((state) => state.map.position);
   const organism = useAppSelector((state) => state.dashboard.organism);
@@ -38,20 +40,20 @@ export const BottomLeftControls = () => {
   return (
     <div className={classes.bottomLeftControls}>
       <Zoom in={position.zoom !== 1 || position.coordinates.some((coordinate) => coordinate !== 0)}>
-        <Tooltip title="Recenter" placement="right">
+        <Tooltip title={t('common.recenter')} placement="right">
           <IconButton onClick={handleRecenter}>
             <FilterCenterFocus fontSize="large" color="primary" />
           </IconButton>
         </Tooltip>
       </Zoom>
-      <Tooltip title="Zoom In" placement="right">
+      <Tooltip title={t('common.zoomIn')} placement="right">
         <span>
           <IconButton color="primary" onClick={handleZoomIn} disabled={organism === 'none'}>
             <AddCircle fontSize="large" />
           </IconButton>
         </span>
       </Tooltip>
-      <Tooltip title="Zoom Out" placement="right">
+      <Tooltip title={t('common.zoomOut')} placement="right">
         <span>
           <IconButton color="primary" onClick={handleZoomOut} disabled={organism === 'none'}>
             <RemoveCircle fontSize="large" />

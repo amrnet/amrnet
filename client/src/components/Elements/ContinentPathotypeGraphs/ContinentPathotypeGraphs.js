@@ -226,7 +226,7 @@ export const ContinentPathotypeGraphs = () => {
           <div className={classes.actionsWrapper}>
             {collapses['continentP'] && (
               <>
-                <Tooltip title="Download Data" placement="top">
+                <Tooltip title={t('continentGraphs.tooltip.downloadData')} placement="top">
                   <IconButton
                     className={classes.actionButton}
                     color="primary"
@@ -235,7 +235,7 @@ export const ContinentPathotypeGraphs = () => {
                     <DownloadMapViewData fontSize="inherit" value={currentTab} />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Download Chart as PNG" placement="top">
+                <Tooltip title={t('continentGraphs.tooltip.downloadChart')} placement="top">
                   <span>
                     <IconButton
                       color="primary"

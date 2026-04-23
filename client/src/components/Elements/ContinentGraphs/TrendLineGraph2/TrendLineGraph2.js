@@ -30,9 +30,11 @@ import { drugAcronyms, getDrugClasses } from '../../../../util/drugs';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useStyles } from './TrendLineGraphMUI';
+import { useTranslation } from 'react-i18next';
 
 export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [geoType, setGeoType] = useState('country');
@@ -357,7 +359,7 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
                   })}
                 </div>
               ) : (
-                <Typography className={classes.noData}>No data to show</Typography>
+                <Typography className={classes.noData}>{t('common.noDataToShow')}</Typography>
               )}
             </div>
           ) : (

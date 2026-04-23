@@ -39,6 +39,8 @@ import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { HEATMAP_WHITE_TEXT_THRESHOLD, heatmapLegendGradient, mixColorScale } from '../../Map/mapColorHelper';
 import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './BubbleHeatmapGraphMUI';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { useTranslation } from 'react-i18next';
 
 const xOptionsByOrganism = [
   {
@@ -55,6 +57,7 @@ const xOptionsByOrganism = [
 
 export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [xAxisType, setXAxisType] = useState('');
   const [yAxisType /*setYAxisType*/] = useState('resistance');
   const [xAxisSelected, setXAxisSelected] = useState([]);
@@ -480,7 +483,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
       </div>
       {yAxisSelected.length === 0 && (
         <Box className={classes.nothingSelected}>
-          <Typography fontWeight={600}>No data to show</Typography>
+          <Typography fontWeight={600}>{t('common.noDataToShow')}</Typography>
         </Box>
       )}
       <Divider className={classes.divider} />
@@ -499,21 +502,14 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
-              <div className={classes.titleWrapper}>
-                <Typography variant="h6">Plotting options</Typography>
-                <Tooltip title="Hide plotting options" placement="top">
-                  <IconButton onClick={() => setShowFilter(false)}>
-                    <Close fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
               <div className={classes.selectsWrapper}>
                 <SelectCountry />
                 <div className={classes.selectPreWrapper}>
                   {organism === 'kpneumo' && (
                     <div className={classes.selectWrapper}>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select genotype</Typography>
+                        <Typography variant=\"caption\">{t('common.selectGenotype')}</Typography>
                       </div>
                       <Select
                         value={bubbleHeatmapGraphVariable}

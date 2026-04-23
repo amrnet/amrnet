@@ -82,21 +82,8 @@
       "hPrevalence": "H prevalence"
     }
   },
-
   "home": {
-    "genomes": "Genomes",
-    "organisms": {
-      "styphi": "<0>Salmonella</0> Typhi",
-      "sentericaints": "<0>Salmonella</0> (invasive non-typhoidal)",
-      "senterica": "<0>Salmonella enterica</0> (non-typhoidal)",
-      "ngono": "<0>Neisseria gonorrhoeae</0>",
-      "kpneumo": "<0>Klebsiella pneumoniae</0>",
-      "shige": "<0>Shigella</0> + EIEC",
-      "decoli": "<0>Escherichia coli</0> (diarrheagenic)",
-      "ecoli": "<0>Escherichia coli</0>",
-      "saureus": "<0>Staphylococcus aureus</0>",
-      "strepneumo": "<0>Streptococcus pneumoniae</0>"
-    }
+    "genomes": "Genomes"
   },
   "navigation": {
     "home": "Home",
@@ -280,6 +267,39 @@
       "pmenClones": "PMEN Clones",
       "cooccurrence": "AMR Co-occurrence",
       "atbCorrelation": "ATB Usage vs Resistance"
+    },
+    "gvp": {
+      "compareTooltip": "Compares AMRnet genome-derived resistance predictions with phenotypic surveillance data. Each point = one country. Points on the diagonal = perfect agreement. Error bars = 95% Wilson score CI on the genomic estimate.",
+      "phenotypicSource": {
+        "label": "Phenotypic source:",
+        "literature": "Published surveillance literature (recommended)",
+        "typhiLiterature": "Typhi-specific literature (recommended)",
+        "downloadCSV": "Download phenotypic source data as CSV",
+        "downloadCSVGlass": "Download phenotypic source data as CSV (WHO GLASS)"
+      },
+      "specimenNote": "WHO GLASS 2022 does not include stool-based <em>E. coli</em> data. Phenotypic values shown are from blood and urine isolates, which may differ from enteric (diarrheagenic) strains.",
+      "specimenNoteLabel": "Specimen note:",
+      "glassCaveat": "WHO GLASS tracks all <em>Salmonella</em> bloodstream isolates — S. Typhi and non-typhoidal Salmonella (NTS) are <strong>not separated</strong>. CipNS rates differ substantially between Typhi and NTS. This comparison may be misleading. Consider switching to \"Typhi-specific literature\".",
+      "glassCaveatLabel": "GLASS data caveat:",
+      "typhiSpecific": "Typhi-specific phenotypic data from published surveillance studies (2008–2022). Country coverage is limited; year ranges vary per country. Not a single unified dataset. See methodology panel for sources.",
+      "typhiSpecificLabel": "Typhi-specific phenotypic data",
+      "correlationStatistics": "Correlation Statistics",
+      "pearson": "Pearson r",
+      "regression": "Regression",
+      "concordance": "Concordance",
+      "errorMetrics": "Error Metrics",
+      "methodology": "Methodology",
+      "meanAbsDiff": "Mean absolute diff",
+      "medianAbsDiff": "Median absolute diff",
+      "weightedMAD": "Weighted MAD (by N)",
+      "countriesCompared": "Countries compared",
+      "overestimate": "Genomic overestimates",
+      "underestimate": "Genomic underestimates",
+      "errorBars": "95% Wilson score confidence intervals on the genomic proportion (more accurate than normal approximation for small N or extreme proportions).",
+      "errorBarsLabel": "Error bars:",
+      "bubbleSize": "Bubble size ∝ AMRnet genome count.",
+      "bubbleSizeLabel": "Bubble size",
+      "percentagePoints": "pp"
     }
   },
   "continentGraphs": {
@@ -344,5 +364,84 @@
     "downloadDatabase": "Download database (TSV format)",
     "downloadPDF": "Report view",
     "infoAndDefinitions": "Info and Definitions"
+  },
+  "organisms": {
+    "styphi": {
+      "name": "<i>Salmonella</i> Typhi",
+      "abbr": "S. Typhi"
+    },
+    "sentericaints": {
+      "name": "<i>Salmonella</i> (invasive non-typhoidal)",
+      "abbr": "Salmonella (iNTS)"
+    },
+    "senterica": {
+      "name": "<i>Salmonella enterica</i> (non-typhoidal)",
+      "abbr": "S. enterica (NTS)"
+    },
+    "ngono": {
+      "name": "<i>Neisseria gonorrhoeae</i>",
+      "abbr": "N. gonorrhoeae"
+    },
+    "kpneumo": {
+      "name": "<i>Klebsiella pneumoniae</i>",
+      "abbr": "K. pneumoniae"
+    },
+    "shige": {
+      "name": "<i>Shigella</i> + EIEC",
+      "abbr": "Shigella+EIEC"
+    },
+    "decoli": {
+      "name": "<i>Escherichia coli</i> (diarrheagenic)",
+      "abbr": "E. coli (diarrheagenic)"
+    },
+    "ecoli": {
+      "name": "<i>Escherichia coli</i>",
+      "abbr": "E. coli"
+    },
+    "saureus": {
+      "name": "<i>Staphylococcus aureus</i>",
+      "abbr": "S. aureus"
+    },
+    "strepneumo": {
+      "name": "<i>Streptococcus pneumoniae</i>",
+      "abbr": "S. pneumoniae"
+    }
+  },
+  "selectOrganism": {
+    "placeholder": "Select an organism"
+  },
+  "common": {
+    "search": "Search...",
+    "noDataToShow": "No data to show",
+    "selectRegion": "Select region",
+    "selectCountry": "Select country",
+    "selectGenotype": "Select genotype",
+    "selectDrugs": "Select drugs",
+    "selectKOType": "Select K/O type",
+    "selectKOOptions": "Select K/O options",
+    "allRegions": "All regions",
+    "n20RegionsTooltip": "Only show regions with N≥20 genomes.",
+    "github": "GitHub",
+    "reset": "Reset Application",
+    "recenter": "Recenter",
+    "zoomIn": "Zoom In",
+    "zoomOut": "Zoom Out",
+    "downloadData": "Download Data",
+    "downloadChart": "Download Chart as PNG",
+    "downloadDataTSV": "Download data (TSV)",
+    "downloadChartPNG": "Download chart (PNG)",
+    "share": "Share",
+    "shareMenu": {
+      "copied": "Copied!",
+      "copyLink": "Copy link",
+      "email": "Email"
+    }
+  },
+  "pdf": {
+    "reportInformation": "Report Information",
+    "geographicComparisons": "Geographic Comparisons"
+  },
+  "progressive": {
+    "largeDataset": "Large E. coli dataset ({{count}} records) is loading progressively to prevent browser freezing."
   }
 }

@@ -83,19 +83,7 @@
     }
   },
   "home": {
-    "genomes": "Genomas",
-    "organisms": {
-      "styphi": "<0>Salmonella</0> Typhi",
-      "sentericaints": "<0>Salmonella</0> (invasiva não tifóide)",
-      "senterica": "<0>Salmonella enterica</0> (não tifóide)",
-      "ngono": "<0>Neisseria gonorrhoeae</0>",
-      "kpneumo": "<0>Klebsiella pneumoniae</0>",
-      "shige": "<0>Shigella</0> + EIEC",
-      "decoli": "<0>Escherichia coli</0> (diarreogênico)",
-      "ecoli": "<0>Escherichia coli</0>",
-      "saureus": "<0>Staphylococcus aureus</0>",
-      "strepneumo": "<0>Streptococcus pneumoniae</0>"
-    }
+    "genomes": "Genomas"
   },
   "navigation": {
     "home": "Início",
@@ -256,6 +244,39 @@
       "pmenClones": "Clones PMEN",
       "cooccurrence": "Co-ocorrência de RAM",
       "atbCorrelation": "Uso de ATB vs Resistência"
+    },
+    "gvp": {
+      "compareTooltip": "Compara previsões de resistência derivadas do genoma do AMRnet com dados de vigilância fenotípica. Cada ponto = um país. Pontos na diagonal = concordância perfeita. Barras de erro = IC Wilson 95% na estimativa genômica.",
+      "phenotypicSource": {
+        "label": "Fonte fenotípica:",
+        "literature": "Literatura de vigilância publicada (recomendada)",
+        "typhiLiterature": "Literatura específica para Typhi (recomendada)",
+        "downloadCSV": "Baixar dados da fonte fenotípica em CSV",
+        "downloadCSVGlass": "Baixar dados da fonte fenotípica em CSV (WHO GLASS)"
+      },
+      "specimenNote": "WHO GLASS 2022 não inclui dados de <em>E. coli</em> baseados em fezes. Os valores fenotípicos mostrados são de isolados de sangue e urina, que podem diferir das cepas entéricas (diarreogênicas).",
+      "specimenNoteLabel": "Nota sobre amostras:",
+      "glassCaveat": "WHO GLASS rastreia todos os isolados de <em>Salmonella</em> da corrente sanguínea — S. Typhi e Salmonella não tifoide (NTS) <strong>não são separadas</strong>. As taxas de CipNS diferem substancialmente entre Typhi e NTS. Esta comparação pode ser enganosa. Considere mudar para \"Literatura específica para Typhi\".",
+      "glassCaveatLabel": "Advertência sobre dados GLASS:",
+      "typhiSpecific": "Dados fenotípicos específicos para Typhi de estudos de vigilância publicados (2008–2022). A cobertura por país é limitada; os intervalos de anos variam por país. Não é um conjunto de dados unificado. Consulte o painel de metodologia para ver as fontes.",
+      "typhiSpecificLabel": "Dados fenotípicos específicos para Typhi",
+      "correlationStatistics": "Estatísticas de correlação",
+      "pearson": "r de Pearson",
+      "regression": "Regressão",
+      "concordance": "Concordância",
+      "errorMetrics": "Métricas de erro",
+      "methodology": "Metodologia",
+      "meanAbsDiff": "Diferença absoluta média",
+      "medianAbsDiff": "Diferença absoluta mediana",
+      "weightedMAD": "MAD ponderada (por N)",
+      "countriesCompared": "Países comparados",
+      "overestimate": "Superestimativas genômicas",
+      "underestimate": "Subestimativas genômicas",
+      "errorBars": "Intervalos de confiança de Wilson 95% sobre a proporção genômica (mais precisos do que a aproximação normal para N pequeno ou proporções extremas).",
+      "errorBarsLabel": "Barras de erro:",
+      "bubbleSize": "Tamanho da bolha ∝ número de genomas AMRnet.",
+      "bubbleSizeLabel": "Tamanho da bolha",
+      "percentagePoints": "pp"
     }
   },
   "continentGraphs": {
@@ -343,5 +364,84 @@
     "downloadDatabase": "Baixar base de dados (formato TSV)",
     "downloadPDF": "Visualizar relatório",
     "infoAndDefinitions": "Informações e Definições"
+  },
+  "organisms": {
+    "styphi": {
+      "name": "<i>Salmonella</i> Typhi",
+      "abbr": "S. Typhi"
+    },
+    "sentericaints": {
+      "name": "<i>Salmonella</i> (não tifoide invasiva)",
+      "abbr": "Salmonella (iNTS)"
+    },
+    "senterica": {
+      "name": "<i>Salmonella enterica</i> (não tifoide)",
+      "abbr": "S. enterica (NTS)"
+    },
+    "ngono": {
+      "name": "<i>Neisseria gonorrhoeae</i>",
+      "abbr": "N. gonorrhoeae"
+    },
+    "kpneumo": {
+      "name": "<i>Klebsiella pneumoniae</i>",
+      "abbr": "K. pneumoniae"
+    },
+    "shige": {
+      "name": "<i>Shigella</i> + EIEC",
+      "abbr": "Shigella+EIEC"
+    },
+    "decoli": {
+      "name": "<i>Escherichia coli</i> (diarreogênica)",
+      "abbr": "E. coli (diarreogênica)"
+    },
+    "ecoli": {
+      "name": "<i>Escherichia coli</i>",
+      "abbr": "E. coli"
+    },
+    "saureus": {
+      "name": "<i>Staphylococcus aureus</i>",
+      "abbr": "S. aureus"
+    },
+    "strepneumo": {
+      "name": "<i>Streptococcus pneumoniae</i>",
+      "abbr": "S. pneumoniae"
+    }
+  },
+  "selectOrganism": {
+    "placeholder": "Selecione um organismo"
+  },
+  "common": {
+    "search": "Pesquisar...",
+    "noDataToShow": "Sem dados para exibir",
+    "selectRegion": "Selecionar região",
+    "selectCountry": "Selecionar país",
+    "selectGenotype": "Selecionar genótipo",
+    "selectDrugs": "Selecionar medicamentos",
+    "selectKOType": "Selecionar tipo K/O",
+    "selectKOOptions": "Selecionar opções K/O",
+    "allRegions": "Todas as regiões",
+    "n20RegionsTooltip": "Mostrar apenas regiões com N≥20 genomas.",
+    "github": "GitHub",
+    "reset": "Redefinir aplicação",
+    "recenter": "Recentralizar",
+    "zoomIn": "Aumentar zoom",
+    "zoomOut": "Diminuir zoom",
+    "downloadData": "Baixar dados",
+    "downloadChart": "Baixar gráfico como PNG",
+    "downloadDataTSV": "Baixar dados (TSV)",
+    "downloadChartPNG": "Baixar gráfico (PNG)",
+    "share": "Compartilhar",
+    "shareMenu": {
+      "copied": "Copiado!",
+      "copyLink": "Copiar link",
+      "email": "Email"
+    }
+  },
+  "pdf": {
+    "reportInformation": "Informações do relatório",
+    "geographicComparisons": "Comparações geográficas"
+  },
+  "progressive": {
+    "largeDataset": "Conjunto de dados grande de E. coli ({{count}} registros) está carregando progressivamente para evitar travamento do navegador."
   }
 }

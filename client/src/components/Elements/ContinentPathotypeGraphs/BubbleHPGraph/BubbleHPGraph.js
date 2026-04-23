@@ -428,7 +428,7 @@ useEffect(() => {
       </div>
       {yAxisSelected.length === 0 && (
         <Box className={classes.nothingSelected}>
-          <Typography fontWeight={600}>No data to show</Typography>
+          <Typography fontWeight={600}>{t('common.noDataToShow')}</Typography>
         </Box>
       )}
       <Divider className={classes.divider} />
@@ -459,8 +459,8 @@ useEffect(() => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select region</Typography>
-                      <Tooltip title="Only show regions with N≥20 genomes." placement="top">
+                      <Typography variant="caption">{t('common.selectRegion')}</Typography>
+                      <Tooltip title={t('common.n20RegionsTooltip')} placement="top">
                         <InfoOutlined
                           color="action"
                           fontSize="small"
@@ -478,12 +478,12 @@ useEffect(() => {
                       disabled={organism === 'none'}
                       renderValue={(selected) => {
                         if (selected === 'All') {
-                          return 'All regions';
+                          return t('common.allRegions');
                         }
                         return selected;
                       }}
                     >
-                      <MenuItem value="All">All regions</MenuItem>
+                      <MenuItem value="All">{t('common.allRegions')}</MenuItem>
                       {filteredRegions.map((region, index) => {
                         return (
                           <MenuItem key={index + 'mapview'} value={region.name}>
@@ -495,7 +495,7 @@ useEffect(() => {
                   </div>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select country</Typography>
+                      <Typography variant="caption">{t('common.selectCountry')}</Typography>
                     </div>
                     <Select
                       value={countrySelected}
@@ -569,7 +569,7 @@ useEffect(() => {
                       >
                         <TextField
                           variant="standard"
-                          placeholder="Search..."
+                          placeholder={t('common.search')}
                           fullWidth
                           value={genotypeSearch}
                           onChange={hangleChangeSearch}
@@ -596,7 +596,7 @@ useEffect(() => {
                   </div>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select drugs</Typography>
+                      <Typography variant="caption">{t('common.selectDrugs')}</Typography>
                     </div>
                     <Select
                       multiple

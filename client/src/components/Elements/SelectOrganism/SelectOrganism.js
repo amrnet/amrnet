@@ -5,11 +5,20 @@ import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { organismsCards } from '../../../util/organismsCards';
 import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
+
+// Render the organism's localised scientific name with <i>…</i> for the
+// Latin binomial. The translation string (e.g. `<i>Salmonella</i> Typhi`)
+// embeds an `<i>` tag that Trans maps to an actual React <i>.
+const OrganismName = ({ value }) => (
+  <Trans i18nKey={`organisms.${value}.name`} components={{ i: <i /> }} />
+);
 
 export const SelectOrganism = () => {
   const classes = useStyles();
   const matches1050 = useMediaQuery('(max-width: 1050px)');
   const matches650 = useMediaQuery('(max-width: 650px)');
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector((state) => state.dashboard.organism);
@@ -19,18 +28,20 @@ export const SelectOrganism = () => {
     () => organismsCards.slice().sort((a, b) => a.disabled - b.disabled || a.stringLabel.localeCompare(b.stringLabel)),
     [],
   );
-  // const activeOrganismsCards = useMemo(() => sortedOrganismsCards.filter((x) => !x.disabled), [sortedOrganismsCards]);
 
   useEffect(() => {
     if (organism !== '') {
       const currentOrganism = sortedOrganismsCards.find((x) => x.value === organism);
       if (currentOrganism) {
-        document.title = `AMRnet - ${currentOrganism.abbr}`;
+        // Document title uses localised abbreviation; stringLabel (English,
+        // plain text) is kept for exported PNG filenames/captions where
+        // filename portability matters more than localisation.
+        document.title = `AMRnet - ${t(`organisms.${currentOrganism.value}.abbr`)}`;
         dispatch(setGlobalOverviewLabel({ label: currentOrganism.label, stringLabel: currentOrganism.stringLabel }));
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [organism]);
+  }, [organism, t]);
 
   // function handleChange(event) {
   //   const value = event.target.value;
@@ -73,7 +84,7 @@ export const SelectOrganism = () => {
         disabled={loadingData}
       >
         <MenuItem value="none" disabled>
-          Select an organism
+          {t('selectOrganism.placeholder')}
         </MenuItem>
         {sortedOrganismsCards.map((item, index) => (
           <MenuItem
@@ -84,7 +95,7 @@ export const SelectOrganism = () => {
             to={`/dashboard?organism=${item.value}`}
             target="_blank"
           >
-            {matches1050 ? item.abbr : item.label}
+            {matches1050 ? t(`organisms.${item.value}.abbr`) : <OrganismName value={item.value} />}
           </MenuItem>
         ))}
       </Select>
