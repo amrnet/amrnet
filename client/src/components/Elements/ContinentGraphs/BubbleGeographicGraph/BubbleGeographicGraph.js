@@ -43,7 +43,7 @@ import {
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
-import { HEATMAP_WHITE_TEXT_THRESHOLD, heatmapLegendGradient, mixColorScale } from '../../Map/mapColorHelper';
+import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { useStyles } from './BubbleGeographicGraphMUI';
 
 // Dynamic trend options generator
@@ -816,7 +816,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                               textAnchor="middle"
                               fontSize={15}
                               fontWeight={600}
-                              fill={value > HEATMAP_WHITE_TEXT_THRESHOLD ? '#fff' : '#000'}
+                              fill={heatmapTextColor(value)}
                               pointerEvents="none"
                             >
                               {value}

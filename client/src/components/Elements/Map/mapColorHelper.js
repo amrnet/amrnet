@@ -27,12 +27,11 @@ export const redColorScale = (percentage) => {
     return '#FAAD8F';
   }
 };
-// Heatmap cell palette. Sequential YlOrRd (4-class ColorBrewer):
-// warm tan → orange → red → deep red. Starts at a saturation level that
-// stays visible against white page backgrounds (avoids the near-white dead
-// zone the previous ramp had around 0–15%), and text contrast is handled
-// via a threshold in the heatmap components.
-const HEATMAP_STOPS = ['#FDCC8A', '#FC8D59', '#E34A33', '#B30000'];
+// Heatmap cell palette: Magma (matplotlib / viridis family).
+// Colour-blind safe, perceptually uniform, prints well in greyscale.
+// Low values → near-black / deep purple (white text needed);
+// high values → pink / peach / cream (black text needed).
+const HEATMAP_STOPS = ['#000004', '#3B0F70', '#8C2981', '#DE4968', '#FE9F6D', '#FCFDBF'];
 
 const HEATMAP_SCALE = chroma.scale(HEATMAP_STOPS).mode('lab');
 
@@ -42,11 +41,18 @@ export const mixColorScale = percentage => {
 };
 
 /**
- * Threshold above which cell text should be white (darker red background).
- * Values at/below get black text for contrast against the lighter tan/orange.
- * Keep this in sync with the palette stops above.
+ * Return '#fff' or '#000' based on the luminance of the palette at this
+ * percentage. Components shouldn't need to know whether the current palette
+ * runs dark→light (Magma) or light→dark (YlOrRd) — this helper always picks
+ * the contrasting text colour.
  */
-export const HEATMAP_WHITE_TEXT_THRESHOLD = 60;
+export const heatmapTextColor = percentage => {
+  if (percentage === 0) return '#000'; // cell is rendered as darkGrey — black reads fine
+  const hex = mixColorScale(percentage);
+  const [r, g, b] = chroma(hex).rgb();
+  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+  return luminance < 140 ? '#fff' : '#000';
+};
 
 /**
  * CSS linear-gradient string for the heatmap legend bar. Kept in sync with
