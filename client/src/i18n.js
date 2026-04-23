@@ -28,13 +28,18 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en', // default language
+    // Do NOT set `lng` — that would override the LanguageDetector and force
+    // English on every page load. Let the detector pick from localStorage
+    // first (persisted choice), then the browser language, then the HTML
+    // tag, falling back to English if none matches.
     fallbackLng: 'en',
+    supportedLngs: ['en', 'fr', 'pt', 'es'],
     debug: false,
 
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage']
+      lookupLocalStorage: 'i18nextLng',
+      caches: ['localStorage'],
     },
 
     interpolation: {
