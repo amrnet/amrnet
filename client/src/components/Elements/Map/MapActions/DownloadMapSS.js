@@ -13,6 +13,7 @@ export const DownloadMapSS = async ({
   organism,
   mapView,
   dataset,
+  datasetKP,
   actualTimeInitial,
   actualTimeFinal,
   globalOverviewLabel,
@@ -81,11 +82,19 @@ export const DownloadMapSS = async ({
         switch (organism) {
           case 'decoli':
           case 'shige':
-            return `Selected Pathotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')} `; //improve heading with Selected Pathotypes and Organism for Screenshots
+            return `Selected Pathotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')} `;
           case 'sentericaints':
             return `Selected Serotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')}`;
-          case 'kpneumo':
-            return `Selected data : ${ dataset === 'All'? "All": selectedLineages.join(', ')}`;
+          case 'kpneumo': {
+            // K. pneumoniae uses a resistance-based dataset filter (datasetKP),
+            // not serotypes or lineages. Values: 'All', 'ESBL' (→ ESBL+),
+            // 'CARB' (→ Carbapenemase+).
+            const label =
+              datasetKP === 'ESBL' ? 'ESBL+'
+              : datasetKP === 'CARB' ? 'Carbapenemase+'
+              : 'All';
+            return `Selected Data : ${label}`;
+          }
           default:
             return ``;
         }
