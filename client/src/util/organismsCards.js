@@ -1,6 +1,11 @@
 import { decoli, ecoli, ints, kleb, ngono, saureus, senterica, shig, strepneumo, typhi } from '../assets/organisms';
+import { isProduction } from './env';
 
-export const organismsCards = [
+// Organisms hidden from the production selector until validated.
+// They remain available on dev.amrnet.org.
+const DEV_ONLY_ORGANISMS = ['saureus', 'strepneumo'];
+
+const allOrganismsCards = [
   {
     label: (
       <span>
@@ -113,6 +118,10 @@ export const organismsCards = [
     img: strepneumo,
   },
 ];
+
+export const organismsCards = isProduction()
+  ? allOrganismsCards.filter(card => !DEV_ONLY_ORGANISMS.includes(card.value))
+  : allOrganismsCards;
 
 export const amrLikeOrganisms = ['decoli', 'ecoli', 'shige', 'sentericaints', 'senterica'];
 

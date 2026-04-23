@@ -5,7 +5,8 @@
 //   styphi:       Object.keys(drugClassesRulesST) = Ampicillin/Amoxicillin, Azithromycin, Ceftriaxone, Ciprofloxacin, Chloramphenicol, Sulfonamides, Tetracycline, Trimethoprim
 //   kpneumo:      markersDrugsKP = Aminoglycosides, Carbapenems, Ciprofloxacin R, Colistin, ESBL, Fosfomycin, Chloramphenicol, Sulfonamides, Tetracycline, Tigecycline, Trimethoprim, ...
 //   ngono:        Object.keys(drugClassesRulesNG) = Azithromycin, Ceftriaxone, Ciprofloxacin, Sulfonamides, Tetracycline, Cefixime, Benzylpenicillin, Spectinomycin
-//   senterica/ints/ecoli/decoli/shige: statKeysECOLI.map(d => d.name) = Aminoglycoside, Beta-lactam, Sulfonamide, Tetracycline, Phenicol, Quinolone, Fosfomycin, Trimethoprim, Macrolide, Lincosamide, Streptothricin, Rifamycin, Colistin, Bleomycin, Trimethoprim-Sulfamethoxazole, Pansusceptible
+//   ecoli/decoli/shige (statKeysEcoliShige):   Aminoglycosides, Ampicillin, Carbapenems, Chloramphenicol, Ciprofloxacin, Colistin, ESBL, Fosfomycin, Macrolide, Pansusceptible, Tetracycline, Trimethoprim, Trimethoprim-Sulfamethoxazole
+//   senterica/sentericaints (statKeysSalmonella): same as above PLUS 'Ciprofloxacin NS' and 'Ciprofloxacin R' (computed, disjoint categories)
 //   saureus:      statKeysSA.map(d => d.name) = Amikacin, Gentamicin, Tobramycin, Kanamycin, Methicillin, Penicillin, Fusidic Acid, Vancomycin, Clindamycin, Erythromycin, Mupirocin, Linezolid, Tetracycline, Trimethoprim, Daptomycin, Rifampicin, Ciprofloxacin, Moxifloxacin, Teicoplanin
 //   strepneumo:   statKeysSP.map(d => d.name) = Chloramphenicol, Clindamycin, Erythromycin, Fluoroquinolone, Kanamycin, Linezolid, Tetracycline, Trimethoprim, Sulfamethoxazole, Co-Trimoxazole
 
@@ -35,47 +36,52 @@ export const atbToAmrnetMapping = {
     'Sulfonamides+Trimethoprim': ['Sulfonamides'],
   },
   ecoli: {
-    'Fluoroquinolones': ['Quinolone'],
-    'Cephalosporins': ['Beta-lactam'],
-    'Aminoglycosides': ['Aminoglycoside'],
+    'Fluoroquinolones': ['Ciprofloxacin'],
+    'Cephalosporins': ['ESBL'],
+    'Carbapenems': ['Carbapenems'],
+    'Aminoglycosides': ['Aminoglycosides'],
     'Tetracyclines': ['Tetracycline'],
     'Sulfonamides+Trimethoprim': ['Trimethoprim-Sulfamethoxazole'],
-    'Penicillins': ['Beta-lactam'],
+    'Penicillins': ['Ampicillin'],
     'Macrolides': ['Macrolide'],
   },
   decoli: {
-    'Fluoroquinolones': ['Quinolone'],
-    'Cephalosporins': ['Beta-lactam'],
-    'Aminoglycosides': ['Aminoglycoside'],
+    'Fluoroquinolones': ['Ciprofloxacin'],
+    'Cephalosporins': ['ESBL'],
+    'Carbapenems': ['Carbapenems'],
+    'Aminoglycosides': ['Aminoglycosides'],
     'Tetracyclines': ['Tetracycline'],
     'Sulfonamides+Trimethoprim': ['Trimethoprim-Sulfamethoxazole'],
-    'Penicillins': ['Beta-lactam'],
+    'Penicillins': ['Ampicillin'],
     'Macrolides': ['Macrolide'],
   },
   shige: {
-    'Fluoroquinolones': ['Quinolone'],
-    'Cephalosporins': ['Beta-lactam'],
+    'Fluoroquinolones': ['Ciprofloxacin'],
+    'Cephalosporins': ['ESBL'],
+    'Carbapenems': ['Carbapenems'],
     'Macrolides': ['Macrolide'],
     'Tetracyclines': ['Tetracycline'],
     'Sulfonamides+Trimethoprim': ['Trimethoprim-Sulfamethoxazole'],
-    'Penicillins': ['Beta-lactam'],
+    'Penicillins': ['Ampicillin'],
   },
   senterica: {
-    'Fluoroquinolones': ['Quinolone'],
-    'Cephalosporins': ['Beta-lactam'],
-    'Aminoglycosides': ['Aminoglycoside'],
+    'Fluoroquinolones': ['Ciprofloxacin NS'],
+    'Cephalosporins': ['ESBL'],
+    'Carbapenems': ['Carbapenems'],
+    'Aminoglycosides': ['Aminoglycosides'],
     'Tetracyclines': ['Tetracycline'],
     'Sulfonamides+Trimethoprim': ['Trimethoprim'],
-    'Penicillins': ['Beta-lactam'],
+    'Penicillins': ['Ampicillin'],
     'Macrolides': ['Macrolide'],
   },
   sentericaints: {
-    'Fluoroquinolones': ['Quinolone'],
-    'Cephalosporins': ['Beta-lactam'],
-    'Aminoglycosides': ['Aminoglycoside'],
+    'Fluoroquinolones': ['Ciprofloxacin NS'],
+    'Cephalosporins': ['ESBL'],
+    'Carbapenems': ['Carbapenems'],
+    'Aminoglycosides': ['Aminoglycosides'],
     'Tetracyclines': ['Tetracycline'],
     'Sulfonamides+Trimethoprim': ['Trimethoprim'],
-    'Penicillins': ['Beta-lactam'],
+    'Penicillins': ['Ampicillin'],
     'Macrolides': ['Macrolide'],
   },
   saureus: {

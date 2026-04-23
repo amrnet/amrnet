@@ -325,7 +325,7 @@ export const {
   setKOForFilterSelected,
   setLoadingPDF,
   setAvailableDrugs,
-  setColourPattern
+  setColourPattern,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

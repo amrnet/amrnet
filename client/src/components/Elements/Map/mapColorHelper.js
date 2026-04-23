@@ -27,21 +27,37 @@ export const redColorScale = (percentage) => {
     return '#FAAD8F';
   }
 };
-export const mixColorScale = (percentage) => {
+// Heatmap cell palette. Sequential YlOrRd (4-class ColorBrewer):
+// warm tan → orange → red → deep red. Starts at a saturation level that
+// stays visible against white page backgrounds (avoids the near-white dead
+// zone the previous ramp had around 0–15%), and text contrast is handled
+// via a threshold in the heatmap components.
+const HEATMAP_STOPS = ['#FDCC8A', '#FC8D59', '#E34A33', '#B30000'];
+
+const HEATMAP_SCALE = chroma.scale(HEATMAP_STOPS).mode('lab');
+
+export const mixColorScale = percentage => {
   const p = Math.max(0, Math.min(percentage, 100)); // Clamp between 0–100
+  return HEATMAP_SCALE(p / 100).hex();
+};
 
-  // Define custom color bands and transition points
-  const domain = [0, 20, 100];
-  const colors = [
-    '#0288D1', // deep blue
-    '#FFE0B2', // light orange
-    '#DD2C24', // red
-  ];
+/**
+ * Threshold above which cell text should be white (darker red background).
+ * Values at/below get black text for contrast against the lighter tan/orange.
+ * Keep this in sync with the palette stops above.
+ */
+export const HEATMAP_WHITE_TEXT_THRESHOLD = 60;
 
-  // Create a continuous interpolated color scale
-  const colorScale = chroma.scale(colors).domain(domain).mode('lab');
-
-  return colorScale(p).hex();
+/**
+ * CSS linear-gradient string for the heatmap legend bar. Kept in sync with
+ * `mixColorScale` so the legend never drifts from cell colors.
+ */
+export const heatmapLegendGradient = () => {
+  const parts = HEATMAP_STOPS.map(
+    (c, i) => `${c} ${Math.round((i / (HEATMAP_STOPS.length - 1)) * 100)}%`,
+  );
+  // Leading grey sliver shows "no data" at the very start of the bar.
+  return `linear-gradient(to right, #D3D3D3 0%, ${parts.join(', ')})`;
 };
 
 export const differentColorScale = (percentage, colour, maxValue = 100) => {

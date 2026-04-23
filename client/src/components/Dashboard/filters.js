@@ -71,7 +71,29 @@ function evaluateECOLIRule(item, rule) {
 
   // Value-comparison rule
   const isEmpty = raw == null || raw === '' || raw === '-';
-  return rule.equal ? isEmpty : !isEmpty;
+
+  // Optional `excludeGenes` list lets us ignore known wildtype SNPs
+  // (e.g. glpT_E448K for Fosfomycin) that AMRfinderplus reports but which
+  // do not confer resistance.
+  if (rule.equal) {
+    // Susceptible: cell is empty OR contains only excluded (wildtype) markers.
+    if (isEmpty) return true;
+    if (!rule.excludeGenes?.length) return false;
+    const excluded = new Set(rule.excludeGenes);
+    return String(raw)
+      .split(';')
+      .map(s => s.trim())
+      .every(gene => !gene || excluded.has(gene));
+  }
+
+  // rule.equal === false: resistant if ≥1 non-excluded marker is present.
+  if (isEmpty) return false;
+  if (!rule.excludeGenes?.length) return true;
+  const excluded = new Set(rule.excludeGenes);
+  return String(raw)
+    .split(';')
+    .map(s => s.trim())
+    .some(gene => gene && !excluded.has(gene));
 }
 
 /**
@@ -999,9 +1021,10 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           drugStats[rule.key] = drugData.length;
 
           if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin') {
-            const cipRCount = yearData.filter(x => x[rule.columnID] === 'CipR').length;
-            drugStats['Ciprofloxacin R'] = cipRCount;
-            drugStats['Ciprofloxacin'] += cipRCount;
+            // rule.values already contains ['CipNS','CipR'], so drugStats['Ciprofloxacin']
+            // already counts both. Only set the disjoint 'Ciprofloxacin R' key here;
+            // do NOT increment 'Ciprofloxacin' (would double-count CipR records).
+            drugStats['Ciprofloxacin R'] = yearData.filter(x => x[rule.columnID] === 'CipR').length;
           }
         });
 
@@ -1660,8 +1683,10 @@ export function getGenotypesData({
         response[rule.key] = drugData.length;
 
         if (rule.key === 'Ciprofloxacin') {
+          // rule.values is ['CipNS','CipR']; response['Ciprofloxacin'] already
+          // counts both disjoint categories. Only split out 'Ciprofloxacin R'
+          // here — do NOT add it back into 'Ciprofloxacin' (would double-count).
           response['Ciprofloxacin R'] = genotypeData.filter(x => x[rule.columnID] === 'CipR').length;
-          response['Ciprofloxacin'] = response['Ciprofloxacin'] + response['Ciprofloxacin R'];
         }
 
         // Only process drug classes if the rule key exists in drugClassesRulesST
@@ -2246,15 +2271,20 @@ export function getConvergenceData({ data, groupVariable, colourVariable }) {
 
 // Define Replace function
 function removeChars(genes) {
-  return genes.map(gene => {
-    if (gene.includes(':')) {
-      return gene;
-    }
+  return genes
+    .map(gene => {
+      // Trim whitespace first so "qnrB19" and " qnrB19" (split off "a; b")
+      // do not become distinct heatmap columns for the same marker.
+      const trimmed = String(gene ?? '').trim();
+      if (trimmed.includes(':')) {
+        return trimmed;
+      }
 
-    return gene
-      .replace(/\..*$/, '') // Remove from . onward
-      .replace(/[\^*?$]/g, ''); // Remove ^, *, ?, and $
-  });
+      return trimmed
+        .replace(/\..*$/, '') // Remove from . onward
+        .replace(/[\^*?$]/g, ''); // Remove ^, *, ?, and $
+    })
+    .filter(Boolean);
 }
 
 function getKPDrugClassData({ drugKey, dataToFilter }) {
@@ -2388,6 +2418,11 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
     .filter(r => r.match)
     .map(r => new RegExp(r.match));
 
+  // Collect excludeGenes across all rules (e.g. glpT_E448K for Fosfomycin).
+  const excludedGenes = new Set(
+    drug.rules.flatMap(r => r.excludeGenes || []),
+  );
+
   dataToFilter.forEach(x => {
     if (!drugMatchesRules(x, drug)) return;
     resistantCount++;
@@ -2405,6 +2440,10 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
     // If this drug uses pattern matching, only keep genes that matched
     if (genePatterns.length > 0) {
       genes = genes.filter(g => genePatterns.some(re => re.test(g)));
+    }
+
+    if (excludedGenes.size > 0) {
+      genes = genes.filter(g => !excludedGenes.has(g));
     }
 
     genes.forEach(gene => {

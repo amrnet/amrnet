@@ -111,6 +111,7 @@ import {
   markersDrugsKP,
   markersDrugsSH,
 } from '../../util/drugs';
+import { isProduction } from '../../util/env';
 import { getContinentGraphCard } from '../../util/graphCards';
 import { AMRInsights } from '../Elements/AMRInsights';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
@@ -1938,7 +1939,8 @@ export const DashboardPage = () => {
         {/* <SelectCountry /> */}
         <Graphs />
         <ContinentGraphs />
-        <AMRInsights />
+        {/* AMR Insights tab is dev-only until validated for production. */}
+        {!isProduction() && <AMRInsights />}
         {/* <ContinentPathotypeGraphs /> */}
         <DownloadData />
         {/* <Footer /> */}
