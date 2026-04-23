@@ -266,15 +266,15 @@ export function getGLASSIndicatorForATBClass(organism, atbClass) {
  */
 export function getGLASSIndicatorForOrganism(organism) {
   switch (organism) {
-    // E. coli — GHO API has bloodstream 3GC resistance; drugsCountriesData key = 'Beta-lactam'
+    // E. coli — GHO API has bloodstream 3GC resistance; drugsCountriesData key = 'ESBL'
     case 'ecoli':
-      return { code: 'AMR_INFECT_ECOLI', label: 'E. coli bloodstream 3GC resistance (GLASS)', drug: 'Beta-lactam', source: 'gho' };
-    // Diarrheagenic E. coli — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Quinolone'
+      return { code: 'AMR_INFECT_ECOLI', label: 'E. coli bloodstream 3GC resistance (GLASS)', drug: 'ESBL', source: 'gho' };
+    // Diarrheagenic E. coli — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Ciprofloxacin'
     case 'decoli':
-      return { code: 'GLASS_CSV', label: 'E. coli ciprofloxacin resistance - blood+urine (GLASS)', drug: 'Quinolone', source: 'csv', pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin' };
-    // Shigella — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Quinolone'
+      return { code: 'GLASS_CSV', label: 'E. coli ciprofloxacin resistance - blood+urine (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Escherichia coli', antibiotic: 'Ciprofloxacin' };
+    // Shigella — GLASS CSV ciprofloxacin; drugsCountriesData key = 'Ciprofloxacin'
     case 'shige':
-      return { code: 'GLASS_CSV', label: 'Shigella ciprofloxacin resistance (GLASS)', drug: 'Quinolone', source: 'csv', pathogen: 'Shigella', antibiotic: 'Ciprofloxacin' };
+      return { code: 'GLASS_CSV', label: 'Shigella ciprofloxacin resistance (GLASS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Shigella', antibiotic: 'Ciprofloxacin' };
     // K. pneumoniae — GLASS CSV meropenem; drugsCountriesData key = 'Carbapenems'
     case 'kpneumo':
       return { code: 'GLASS_CSV', label: 'K. pneumoniae meropenem resistance - blood (GLASS)', drug: 'Carbapenems', source: 'csv', pathogen: 'Klebsiella pneumoniae', antibiotic: 'Meropenem', specimen: 'BLOOD' };
@@ -287,12 +287,12 @@ export function getGLASSIndicatorForOrganism(organism) {
     // S. Typhi — GLASS CSV Salmonella blood; drugsCountriesData key = 'Ciprofloxacin'
     case 'styphi':
       return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance - blood (GLASS, includes NTS)', drug: 'Ciprofloxacin', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', specimen: 'BLOOD' };
-    // Non-typhoidal Salmonella — GLASS CSV; drugsCountriesData key = 'Quinolone'
+    // Non-typhoidal Salmonella — GLASS CSV; drugsCountriesData key = 'Ciprofloxacin NS'
     case 'senterica':
-      return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance (GLASS, includes Typhi)', drug: 'Quinolone', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin' };
-    // Invasive NTS — GLASS CSV blood; drugsCountriesData key = 'Quinolone'
+      return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance (GLASS, includes Typhi)', drug: 'Ciprofloxacin NS', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin' };
+    // Invasive NTS — GLASS CSV blood; drugsCountriesData key = 'Ciprofloxacin NS'
     case 'sentericaints':
-      return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance - blood (GLASS)', drug: 'Quinolone', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', specimen: 'BLOOD' };
+      return { code: 'GLASS_CSV', label: 'Salmonella CIP resistance - blood (GLASS)', drug: 'Ciprofloxacin NS', source: 'csv', pathogen: 'Salmonella', antibiotic: 'Ciprofloxacin', specimen: 'BLOOD' };
     // S. pneumoniae — GLASS CSV SXT; drugsCountriesData key = 'Co-Trimoxazole'
     case 'strepneumo':
       return { code: 'GLASS_CSV', label: 'S. pneumoniae SXT resistance (GLASS)', drug: 'Co-Trimoxazole', source: 'csv', pathogen: 'Streptococcus pneumoniae', antibiotic: 'Trimethoprim/sulfamethoxazole' };

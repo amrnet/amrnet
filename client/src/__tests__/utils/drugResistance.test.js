@@ -372,3 +372,97 @@ describe('Ampicillin prevalence calculation', () => {
     expect(resistant).toBeLessThan(genomes.length);
   });
 });
+
+// ─────────────────────────────────────────────────────────────
+// Tests: removeChars must trim whitespace so the same marker does not
+// produce duplicated heatmap columns (e.g. "qnrB19" vs " qnrB19")
+// ─────────────────────────────────────────────────────────────
+
+/** Mirrors filters.js removeChars — keep in sync. */
+function removeCharsLocal(genes) {
+  return genes
+    .map(gene => {
+      const trimmed = String(gene ?? '').trim();
+      if (trimmed.includes(':')) return trimmed;
+      return trimmed.replace(/\..*$/, '').replace(/[\^*?$]/g, '');
+    })
+    .filter(Boolean);
+}
+
+describe('removeChars: marker deduplication for heatmap columns', () => {
+  test('trims leading whitespace from genes split on ";"', () => {
+    const raw = 'qnrB19; qnrS1; gyrA_S83L';
+    const genes = removeCharsLocal(raw.split(';'));
+    expect(genes).toEqual(['qnrB19', 'qnrS1', 'gyrA_S83L']);
+  });
+
+  test('same marker with/without leading space collapses to one key', () => {
+    const genesA = removeCharsLocal('qnrB19; qnrS1'.split(';')); // "qnrB19", " qnrS1"
+    const genesB = removeCharsLocal('qnrS1; qnrB19'.split(';')); // "qnrS1",  " qnrB19"
+    const counts = {};
+    [...genesA, ...genesB].forEach(g => { counts[g] = (counts[g] || 0) + 1; });
+    expect(Object.keys(counts).sort()).toEqual(['qnrB19', 'qnrS1']);
+    expect(counts.qnrB19).toBe(2);
+    expect(counts.qnrS1).toBe(2);
+  });
+
+  test('filters out empty strings so "-" or stray semicolons do not leak', () => {
+    expect(removeCharsLocal(['', '  ', 'qnrB19'])).toEqual(['qnrB19']);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────
+// Tests: Fosfomycin — glpT_E448K is wildtype, must NOT count as resistant
+// ─────────────────────────────────────────────────────────────
+
+/** Mirrors evaluateECOLIRule's excludeGenes logic for the equal=false branch. */
+function isResistantExcluding(raw, excludeGenes) {
+  if (raw == null || raw === '' || raw === '-') return false;
+  const excluded = new Set(excludeGenes);
+  return String(raw)
+    .split(';')
+    .map(s => s.trim())
+    .some(gene => gene && !excluded.has(gene));
+}
+
+describe('Fosfomycin: glpT_E448K wildtype exclusion', () => {
+  const EXCLUDE = ['glpT_E448K'];
+
+  test('genome with only glpT_E448K is NOT resistant', () => {
+    expect(isResistantExcluding('glpT_E448K', EXCLUDE)).toBe(false);
+  });
+
+  test('genome with glpT_E448K plus whitespace is NOT resistant', () => {
+    expect(isResistantExcluding(' glpT_E448K ', EXCLUDE)).toBe(false);
+    expect(isResistantExcluding('glpT_E448K;', EXCLUDE)).toBe(false);
+  });
+
+  test('genome with glpT_E448K AND a real marker IS resistant', () => {
+    expect(isResistantExcluding('glpT_E448K; fosA3', EXCLUDE)).toBe(true);
+    expect(isResistantExcluding('fosA3; glpT_E448K', EXCLUDE)).toBe(true);
+  });
+
+  test('genome with a real fosA marker alone IS resistant', () => {
+    expect(isResistantExcluding('fosA3', EXCLUDE)).toBe(true);
+    expect(isResistantExcluding('fosA7', EXCLUDE)).toBe(true);
+  });
+
+  test('empty / "-" / null Fosfomycin column is NOT resistant', () => {
+    expect(isResistantExcluding('', EXCLUDE)).toBe(false);
+    expect(isResistantExcluding('-', EXCLUDE)).toBe(false);
+    expect(isResistantExcluding(null, EXCLUDE)).toBe(false);
+  });
+
+  test('dataset prevalence: glpT_E448K-only rows are NOT counted', () => {
+    const genomes = [
+      { Fosfomycin: 'glpT_E448K' },          // wildtype only — susceptible
+      { Fosfomycin: 'glpT_E448K' },          // wildtype only — susceptible
+      { Fosfomycin: 'fosA3' },               // resistant
+      { Fosfomycin: 'fosA3; glpT_E448K' },   // resistant
+      { Fosfomycin: '-' },                   // susceptible
+      { Fosfomycin: '' },                    // susceptible
+    ];
+    const resistant = genomes.filter(x => isResistantExcluding(x.Fosfomycin, EXCLUDE)).length;
+    expect(resistant).toBe(2);
+  });
+});

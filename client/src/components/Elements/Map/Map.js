@@ -158,12 +158,15 @@ export const Map = () => {
               percentCounterNG += genotype?.count ?? 0;
             });
             tooltip.total = percentCounterNG;
-            genotypesNG.forEach(genotype => {
-              if (customDropdownMapViewNG.includes(genotype?.name)) {
-                const pct = percentCounterNG ? ((genotype?.count ?? 0) / percentCounterNG) * 100 : 0;
-                tooltip.content[genotype?.name ?? 'Unknown'] = `${genotype?.count ?? 0} (${pct.toFixed(2)}%)`;
-              }
-            });
+            // N≥20 rule: suppress percentage frequencies for low-N countries.
+            if ((countryData?.count ?? 0) >= 20) {
+              genotypesNG.forEach(genotype => {
+                if (customDropdownMapViewNG.includes(genotype?.name)) {
+                  const pct = percentCounterNG ? ((genotype?.count ?? 0) / percentCounterNG) * 100 : 0;
+                  tooltip.content[genotype?.name ?? 'Unknown'] = `${genotype?.count ?? 0} (${pct.toFixed(2)}%)`;
+                }
+              });
+            }
           }
           break;
         case 'Genotype prevalence':
@@ -177,17 +180,17 @@ export const Map = () => {
           const totalSum = countryStats[mapViewColumn]?.sum || 0;
           tooltip.total = totalSum;
 
-          const selectedGenotypes = genotypesPre.filter(g => prevalenceMapViewOptionsSelected.includes(g.name));
+          // N≥20 rule: suppress percentage frequencies for low-N countries.
+          if ((countryData?.count ?? 0) >= 20) {
+            const selectedGenotypes = genotypesPre.filter(g => prevalenceMapViewOptionsSelected.includes(g.name));
 
-          selectedGenotypes.slice(0, 10).forEach(genotype => {
-            const percent = ((genotype.count / totalSum) * 100).toFixed(2);
-            tooltip.content[genotype.name] = `${genotype.count} (${percent}%)`;
-          });
+            selectedGenotypes.slice(0, 10).forEach(genotype => {
+              const percent = ((genotype.count / totalSum) * 100).toFixed(2);
+              tooltip.content[genotype.name] = `${genotype.count} (${percent}%)`;
+            });
 
-          if (selectedGenotypes.length > 0) {
-            const sumCount = selectedGenotypes.reduce((acc, g) => acc + g.count, 0);
-
-            if (countryData.count >= 20 && selectedGenotypes.length > 1) {
+            if (selectedGenotypes.length > 1) {
+              const sumCount = selectedGenotypes.reduce((acc, g) => acc + g.count, 0);
               const percentSum = ((sumCount / totalSum) * 100).toFixed(2);
               tooltip.content['All selected items'] = `${sumCount} (${percentSum}%)`;
             }
@@ -195,25 +198,28 @@ export const Map = () => {
           break;
         case 'Resistance prevalence':
           tooltip.total = countryData?.count ?? 0;
-          if (prevalenceMapViewOptionsSelected.length === 1) {
-            const drug = prevalenceMapViewOptionsSelected[0];
-            const drugLabel = ngonoSusceptibleRule(drug, organism) || drugAcronymsOpposite2[drug] || drug;
-            const count = countryStats?.[drug]?.count ?? 0;
-            const percentage = countryStats?.[drug]?.percentage ?? 0;
-            tooltip.content[drugLabel] = `${count} (${percentage}%)`;
-          } else {
-            const names = prevalenceMapViewOptionsSelected.reduce((acc, key, index) => {
-              const list = countryStats?.[key]?.names || [];
-              if (index === 0) return new Set(list);
-              return new Set(list.filter(name => acc.has(name)));
-            }, new Set());
+          // N≥20 rule: suppress percentage frequencies for low-N countries.
+          if ((countryData?.count ?? 0) >= 20) {
+            if (prevalenceMapViewOptionsSelected.length === 1) {
+              const drug = prevalenceMapViewOptionsSelected[0];
+              const drugLabel = ngonoSusceptibleRule(drug, organism) || drugAcronymsOpposite2[drug] || drug;
+              const count = countryStats?.[drug]?.count ?? 0;
+              const percentage = countryStats?.[drug]?.percentage ?? 0;
+              tooltip.content[drugLabel] = `${count} (${percentage}%)`;
+            } else {
+              const names = prevalenceMapViewOptionsSelected.reduce((acc, key, index) => {
+                const list = countryStats?.[key]?.names || [];
+                if (index === 0) return new Set(list);
+                return new Set(list.filter(name => acc.has(name)));
+              }, new Set());
 
-            const labels = prevalenceMapViewOptionsSelected
-              .map(x => ngonoSusceptibleRule(x, organism) || drugAcronymsOpposite2[x] || x)
-              .join(' + ');
+              const labels = prevalenceMapViewOptionsSelected
+                .map(x => ngonoSusceptibleRule(x, organism) || drugAcronymsOpposite2[x] || x)
+                .join(' + ');
 
-            const pct = tooltip.total ? Number(((names.size / tooltip.total) * 100).toFixed(2)) : 0;
-            tooltip.content[labels] = `${names.size} (${pct}%)`;
+              const pct = tooltip.total ? Number(((names.size / tooltip.total) * 100).toFixed(2)) : 0;
+              tooltip.content[labels] = `${names.size} (${pct}%)`;
+            }
           }
           break;
         case 'H58 / Non-H58':

@@ -180,9 +180,13 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
         case 'ecoli':
         case 'decoli':
         case 'shige':
+          // Shigella / E. coli: single 'Ciprofloxacin' (≥1 marker in Quinolone).
+          dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin']));
+          break;
         case 'senterica':
         case 'sentericaints':
-          dispatch(setPrevalenceMapViewOptionsSelected(['Quinolone']));
+          // Non-typhoidal Salmonella: CipNS (≥1) vs CipR (≥2) distinct. Default to NS.
+          dispatch(setPrevalenceMapViewOptionsSelected(['Ciprofloxacin NS']));
           break;
         case 'strepneumo':
           dispatch(setPrevalenceMapViewOptionsSelected(['Co-Trimoxazole']));

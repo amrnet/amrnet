@@ -85,14 +85,41 @@ const BL_CARBAPENEMASE = 'bla(KPC|NDM|IMP|VIM|GES|SPM|IMI|SME|FRI|OXA-(23|24|40|
 const BL_ESBL = 'bla(CTX-M|CMY|DHA|ACC|FOX|MOX|LAT|MIR|ACT|CFE|OXY-2|OXY-5|PER|VEB|BES|TLA|SFO|BEL|SHV-(2|5|12|14|18|27|28|30|31|32|38|52|55))';
 const MACROLIDE_RES = '(mph\\(A\\)|acrB_R717)';
 
-function buildEcoliConditions() {
+// Count ciprofloxacin resistance markers in a ';'-separated Quinolone cell.
+// Matches QRDR mutations (gyr[AB], par[CE]), qnr genes, and aac(6')-Ib-cr.
+// Returned as a MongoDB expression evaluating to the integer marker count.
+function quinoloneMarkerCountExpr() {
+  return {
+    $size: {
+      $filter: {
+        input: { $split: [{ $ifNull: ['$Quinolone', ''] }, ';'] },
+        as: 'g',
+        cond: {
+          $regexMatch: {
+            input: { $trim: { input: '$$g' } },
+            regex: '(gyr[AB])|(par[CE])|(qnr[A-Z])|(aac.*Ib.*cr)',
+            options: 'i',
+          },
+        },
+      },
+    },
+  };
+}
+
+/**
+ * Shared pieces used by both the Shige/E. coli and Salmonella variants.
+ * The two organisms groups differ only in how ciprofloxacin is surfaced:
+ *   - Shige/E. coli: single 'Ciprofloxacin' drug (≥1 marker in Quinolone)
+ *   - Salmonella:   CipNS (≥1) and CipR (≥2) as two distinct drugs
+ */
+function buildEcoliConditions(cipro = 'single') {
   // Single-column columns (cell must be non-empty, non-'-')
+  // Fosfomycin is handled separately because glpT_E448K is a wildtype SNP
+  // that must be excluded from the resistance count.
   const singleColumnDrugs = {
     Aminoglycosides: 'Aminoglycoside',
     Chloramphenicol: 'Phenicol',
-    'Ciprofloxacin NS': 'Quinolone',
     Colistin: 'Colistin',
-    Fosfomycin: 'Fosfomycin',
     Tetracycline: 'Tetracycline',
     Trimethoprim: 'Trimethoprim',
   };
@@ -106,10 +133,57 @@ function buildEcoliConditions() {
     ],
   });
 
+  // Resistant if the cell has ≥1 gene that is not in `excluded` and not empty.
+  // Splits on ';', trims each entry. Used for Fosfomycin to drop glpT_E448K.
+  const isResistantExcluding = (col, excluded) => ({
+    $gt: [
+      {
+        $size: {
+          $filter: {
+            input: { $split: [{ $ifNull: [fieldExpr(col), ''] }, ';'] },
+            as: 'g',
+            cond: {
+              $and: [
+                { $ne: [{ $trim: { input: '$$g' } }, ''] },
+                { $ne: [{ $trim: { input: '$$g' } }, '-'] },
+                ...excluded.map(gene => ({ $ne: [{ $trim: { input: '$$g' } }, gene] })),
+              ],
+            },
+          },
+        },
+      },
+      0,
+    ],
+  });
+
   const isSusceptible = col => ({
     $or: [
       { $eq: [{ $ifNull: [fieldExpr(col), ''] }, ''] },
       { $eq: [fieldExpr(col), '-'] },
+    ],
+  });
+
+  // Susceptible variant for columns where some values are known wildtype SNPs.
+  // Treats a cell as susceptible if, after trimming and filtering out the
+  // excluded genes, no real markers remain.
+  const isSusceptibleExcluding = (col, excluded) => ({
+    $eq: [
+      {
+        $size: {
+          $filter: {
+            input: { $split: [{ $ifNull: [fieldExpr(col), ''] }, ';'] },
+            as: 'g',
+            cond: {
+              $and: [
+                { $ne: [{ $trim: { input: '$$g' } }, ''] },
+                { $ne: [{ $trim: { input: '$$g' } }, '-'] },
+                ...excluded.map(gene => ({ $ne: [{ $trim: { input: '$$g' } }, gene] })),
+              ],
+            },
+          },
+        },
+      },
+      0,
     ],
   });
 
@@ -124,6 +198,20 @@ function buildEcoliConditions() {
   Object.entries(singleColumnDrugs).forEach(([drugName, col]) => {
     conditions[drugName] = isResistant(col);
   });
+
+  // ── Fosfomycin: exclude glpT_E448K (wildtype SNP) ──
+  conditions.Fosfomycin = isResistantExcluding('Fosfomycin', ['glpT_E448K']);
+
+  // ── Ciprofloxacin: differs between Shige/E. coli and Salmonella ──
+  if (cipro === 'salmonella') {
+    // CipNS: ≥1 marker (qnr / QRDR mutation / aac(6')-Ib-cr)
+    conditions['Ciprofloxacin NS'] = { $gte: [quinoloneMarkerCountExpr(), 1] };
+    // CipR: ≥2 markers (multiple mechanisms)
+    conditions['Ciprofloxacin R']  = { $gte: [quinoloneMarkerCountExpr(), 2] };
+  } else {
+    // Shige / E. coli: single 'Ciprofloxacin' (≥1 marker in Quinolone column)
+    conditions.Ciprofloxacin = isResistant('Quinolone');
+  }
 
   // ── Beta-lactam drugs ──
   conditions.Ampicillin = isResistant('Beta-lactam');
@@ -144,21 +232,30 @@ function buildEcoliConditions() {
   };
 
   // ── Pansusceptible: no markers in any relevant column ──
-  const panColumns = ['Aminoglycoside', 'Phenicol', 'Quinolone', 'Colistin', 'Fosfomycin',
+  // Fosfomycin uses the excluding variant so that rows containing only
+  // glpT_E448K (a wildtype SNP) still count as susceptible.
+  const panColumns = ['Aminoglycoside', 'Phenicol', 'Quinolone', 'Colistin',
                       'Tetracycline', 'Trimethoprim', 'Beta-lactam', 'Macrolide', 'Sulfonamide'];
-  conditions.Pansusceptible = { $and: panColumns.map(col => isSusceptible(col)) };
+  conditions.Pansusceptible = {
+    $and: [
+      ...panColumns.map(col => isSusceptible(col)),
+      isSusceptibleExcluding('Fosfomycin', ['glpT_E448K']),
+    ],
+  };
 
   return conditions;
 }
 
 const DRUG_CONDITIONS = {
-  // Ecoli, DEcoli, Shige all use identical statKeysECOLI logic
-  ecoli: buildEcoliConditions(),
-  decoli: buildEcoliConditions(),
-  shige: buildEcoliConditions(),
+  // Shigella / E. coli: single 'Ciprofloxacin' aggregate.
+  ecoli: buildEcoliConditions('single'),
+  decoli: buildEcoliConditions('single'),
+  shige: buildEcoliConditions('single'),
 
-  senterica: buildEcoliConditions(),
-  sentericaints: buildEcoliConditions(),
+  // Non-typhoidal Salmonella: separate 'Ciprofloxacin NS' (≥1) and
+  // 'Ciprofloxacin R' (≥2) drugs computed from Quinolone column markers.
+  senterica: buildEcoliConditions('salmonella'),
+  sentericaints: buildEcoliConditions('salmonella'),
 
   // K. pneumoniae — drugRulesKP (any column != '-' = resistant)
   kpneumo: {

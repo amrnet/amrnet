@@ -1323,43 +1323,71 @@ export const BETA_LACTAM_CARBAPENEMASE_RE = '^bla(KPC|NDM|IMP|VIM|GES|SPM|IMI|SM
 export const BETA_LACTAM_ESBL_RE = '^bla(CTX-M|SHV-(2|5|12|14|18|27|28|30|31|32|33|38|52|55|56|57|60|73|76|79|106|115|120|128|129|133|137|148|180)|TEM-(3|4|5|6|7|8|9|10|11|12|15|16|17|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|91|92|93|94|95|96|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122|123|124|125|126|127|128|129|130|131|132|133|134|135|136|137|138|139|140|141|142|143|144|145|146|147|148|149|150|151|152|153|154|155|156|157|158|159|160|161|162|163|164|165|166|167|168|169|170|171|172|173|174|175|176|177|178|179|180|181|182|183|184|185|186|187|188|189|190|191|192|193|194|195|196|197|198|199|200)|CMY|DHA|ACC|FOX|MOX|LAT|MIR|ACT|CFE|OXY-2|OXY-5|PER|VEB|BES|TLA|SFO|BEL)(\\b|[-_])';
 export const MACROLIDE_RESISTANCE_RE = '^(mph\\(A\\)|acrB_R717)';
 
-export const statKeysECOLI = (() => {
-  const items = [
-    // ── Single-column "≥1 marker" drugs ──
-    { name: 'Aminoglycosides',   resistanceView: true, rules: [{ column: 'Aminoglycoside', value: '-', equal: false }], every: true },
-    { name: 'Chloramphenicol',   resistanceView: true, rules: [{ column: 'Phenicol',       value: '-', equal: false }], every: true },
-    { name: 'Ciprofloxacin NS',  resistanceView: true, rules: [{ column: 'Quinolone',      value: '-', equal: false }], every: true },
-    { name: 'Colistin',          resistanceView: true, rules: [{ column: 'Colistin',       value: '-', equal: false }], every: true },
-    { name: 'Fosfomycin',        resistanceView: true, rules: [{ column: 'Fosfomycin',     value: '-', equal: false }], every: true },
-    { name: 'Tetracycline',      resistanceView: true, rules: [{ column: 'Tetracycline',   value: '-', equal: false }], every: true },
-    { name: 'Trimethoprim',      resistanceView: true, rules: [{ column: 'Trimethoprim',   value: '-', equal: false }], every: true },
+// Shared "≥1 marker in column" drug rules used by both Shigella/E. coli
+// and non-typhoidal Salmonella (senterica / sentericaints).
+const ECOLI_COMMON_RULES = [
+  { name: 'Aminoglycosides',   resistanceView: true, rules: [{ column: 'Aminoglycoside', value: '-', equal: false }], every: true },
+  { name: 'Chloramphenicol',   resistanceView: true, rules: [{ column: 'Phenicol',       value: '-', equal: false }], every: true },
+  { name: 'Colistin',          resistanceView: true, rules: [{ column: 'Colistin',       value: '-', equal: false }], every: true },
+  // glpT_E448K is wildtype and does NOT confer fosfomycin resistance —
+  // exclude it from the marker count even though AMRfinderplus reports it.
+  { name: 'Fosfomycin',        resistanceView: true, rules: [{ column: 'Fosfomycin',     value: '-', equal: false, excludeGenes: ['glpT_E448K'] }], every: true },
+  { name: 'Tetracycline',      resistanceView: true, rules: [{ column: 'Tetracycline',   value: '-', equal: false }], every: true },
+  { name: 'Trimethoprim',      resistanceView: true, rules: [{ column: 'Trimethoprim',   value: '-', equal: false }], every: true },
 
-    // ── Beta-lactam drugs (parse gene names in the Beta-lactam column) ──
-    { name: 'Ampicillin',        resistanceView: true, rules: [{ column: 'Beta-lactam',    value: '-', equal: false }], every: true },
-    { name: 'Carbapenems',       resistanceView: true, rules: [{ column: 'Beta-lactam',    match: BETA_LACTAM_CARBAPENEMASE_RE }], every: true },
-    { name: 'ESBL',              resistanceView: true, rules: [{ column: 'Beta-lactam',    match: BETA_LACTAM_ESBL_RE }, { column: 'Beta-lactam', match: BETA_LACTAM_CARBAPENEMASE_RE }], every: false },
+  // ── Beta-lactam drugs (parse gene names in the Beta-lactam column) ──
+  { name: 'Ampicillin',        resistanceView: true, rules: [{ column: 'Beta-lactam',    value: '-', equal: false }], every: true },
+  { name: 'Carbapenems',       resistanceView: true, rules: [{ column: 'Beta-lactam',    match: BETA_LACTAM_CARBAPENEMASE_RE }], every: true },
+  { name: 'ESBL',              resistanceView: true, rules: [{ column: 'Beta-lactam',    match: BETA_LACTAM_ESBL_RE }, { column: 'Beta-lactam', match: BETA_LACTAM_CARBAPENEMASE_RE }], every: false },
 
-    // ── Macrolide: specific genes only (mph(A) or acrB_R717) ──
-    { name: 'Macrolide',         resistanceView: true, rules: [{ column: 'Macrolide',      match: MACROLIDE_RESISTANCE_RE }], every: true },
+  // ── Macrolide: specific genes only (mph(A) or acrB_R717) ──
+  { name: 'Macrolide',         resistanceView: true, rules: [{ column: 'Macrolide',      match: MACROLIDE_RESISTANCE_RE }], every: true },
 
-    // ── Multi-column AND rule ──
-    { name: 'Trimethoprim-Sulfamethoxazole', resistanceView: true, rules: [
-      { column: 'Trimethoprim', value: '-', equal: false },
-      { column: 'Sulfonamide',  value: '-', equal: false },
-    ], every: true },
-  ];
+  // ── Multi-column AND rule ──
+  { name: 'Trimethoprim-Sulfamethoxazole', resistanceView: true, rules: [
+    { column: 'Trimethoprim', value: '-', equal: false },
+    { column: 'Sulfonamide',  value: '-', equal: false },
+  ], every: true },
+];
 
-  // Pansusceptible: no markers in any AMR column used above
-  const panColumns = ['Aminoglycoside', 'Phenicol', 'Quinolone', 'Colistin', 'Fosfomycin', 'Tetracycline', 'Trimethoprim', 'Beta-lactam', 'Macrolide', 'Sulfonamide'];
-  items.push({
-    name: 'Pansusceptible',
-    resistanceView: true,
-    rules: panColumns.map(col => ({ column: col, value: '-', equal: true })),
-    every: true,
-  });
+// Pansusceptible: no AMR markers in any column.
+// Fosfomycin excludes the wildtype SNP glpT_E448K so rows containing only
+// that marker still count as susceptible.
+const ECOLI_PAN_RULE = {
+  name: 'Pansusceptible',
+  resistanceView: true,
+  rules: [
+    ...['Aminoglycoside', 'Phenicol', 'Quinolone', 'Colistin', 'Tetracycline', 'Trimethoprim', 'Beta-lactam', 'Macrolide', 'Sulfonamide']
+      .map(col => ({ column: col, value: '-', equal: true })),
+    { column: 'Fosfomycin', value: '-', equal: true, excludeGenes: ['glpT_E448K'] },
+  ],
+  every: true,
+};
 
-  return items.sort((a, b) => a.name.localeCompare(b.name));
-})();
+// Shigella / E. coli / diarrheagenic E. coli:
+// - "Ciprofloxacin" = ≥1 marker in Quinolone column (single aggregated category).
+export const statKeysEcoliShige = [
+  ...ECOLI_COMMON_RULES,
+  { name: 'Ciprofloxacin', resistanceView: true, rules: [{ column: 'Quinolone', value: '-', equal: false }], every: true },
+  ECOLI_PAN_RULE,
+].sort((a, b) => a.name.localeCompare(b.name));
+
+// Non-typhoidal Salmonella (senterica, sentericaints):
+// - CipNS (non-susceptible) = ≥1 qnr gene OR ≥1 QRDR (gyrA/B/parC) mutation OR aac(6')-Ib-cr
+// - CipR  (resistant)       = ≥2 such markers (multiple mechanisms)
+// Both are computed per-record in getECOLIDrugClassData via countMarkers(Quinolone).
+export const statKeysSalmonella = [
+  ...ECOLI_COMMON_RULES,
+  { name: 'Ciprofloxacin NS', resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
+  { name: 'Ciprofloxacin R',  resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
+  ECOLI_PAN_RULE,
+].sort((a, b) => a.name.localeCompare(b.name));
+
+// Backwards-compatible alias: `statKeysECOLI` used to be the only list.
+// Default to the Salmonella-flavoured one (superset of the Shige/E. coli one);
+// getECOLIDrugClassData already handles `computed` entries, and the extra
+// CipNS/CipR rules only surface on organisms whose statKeys map points here.
+export const statKeysECOLI = statKeysSalmonella;
 
 export const statKeysOthers = [
   { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0' },
@@ -1410,11 +1438,13 @@ export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
   kpneumo: statKeysKP,
-  sentericaints: statKeysECOLI,
-  shige: statKeysECOLI,
-  senterica: statKeysECOLI,
-  ecoli: statKeysECOLI,
-  decoli: statKeysECOLI,
+  // Non-typhoidal Salmonella: CipNS (≥1) and CipR (≥2) mechanisms distinct.
+  sentericaints: statKeysSalmonella,
+  senterica: statKeysSalmonella,
+  // Shigella / E. coli: single "Ciprofloxacin" (≥1 marker in Quinolone col).
+  shige: statKeysEcoliShige,
+  ecoli: statKeysEcoliShige,
+  decoli: statKeysEcoliShige,
   saureus: statKeysSA,
   strepneumo: statKeysSP,
   others: statKeysOthers,

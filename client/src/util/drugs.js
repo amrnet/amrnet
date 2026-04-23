@@ -166,10 +166,8 @@ export const drugAcronyms = {
   Quinolone: 'QNL',
   Phenicol: 'PHE',
   Macrolide: 'MLS',
-  Lincosamide: 'LIN',
-  Streptothricin: 'STN',
-  Rifamycin: 'RIF',
-  Bleomycin: 'BLE',
+  // Bleomycin, Lincosamide, Rifamycin, Streptothricin removed from the
+  // dashboard (commit d98a4afc) per docs/pathogen.rst AMR definitions.
   'Ciprofloxacin R': 'CipR',
   CipNS: 'CipNS',
   CipR: 'CipR',

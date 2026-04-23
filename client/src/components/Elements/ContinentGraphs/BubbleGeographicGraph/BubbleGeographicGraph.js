@@ -43,7 +43,7 @@ import {
 import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
-import { mixColorScale } from '../../Map/mapColorHelper';
+import { HEATMAP_WHITE_TEXT_THRESHOLD, heatmapLegendGradient, mixColorScale } from '../../Map/mapColorHelper';
 import { useStyles } from './BubbleGeographicGraphMUI';
 
 // Dynamic trend options generator
@@ -816,7 +816,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                               textAnchor="middle"
                               fontSize={15}
                               fontWeight={600}
-                              fill={value === 0 || value > 10 ?  '#000' : '#fff'}
+                              fill={value > HEATMAP_WHITE_TEXT_THRESHOLD ? '#fff' : '#000'}
                               pointerEvents="none"
                             >
                               {value}
@@ -867,7 +867,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         </div>
         <div className={classes.legend}>
           <Typography fontSize="0.75rem">1%</Typography>
-          <Box className={classes.gradientBox} />
+          <Box className={classes.gradientBox} style={{ backgroundImage: heatmapLegendGradient() }} />
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>

@@ -127,15 +127,22 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     }
 
     return drugsDataPercentages.map(item => {
-      const keys = Object.keys(item).filter(x => !exclusions.includes(x));
+      const name = typeof item.name === 'number' ? item.name.toString() : item.name;
 
+      // N≥10 rule: drop drug values for years with insufficient genomes so
+      // nothing plots at that x-position. We keep the name (and count) so the
+      // year still appears on the axis and the click handler can show
+      // "Insufficient data" in the tooltip.
+      if ((item.count ?? 0) < 10) {
+        return { name, count: item.count ?? 0 };
+      }
+
+      const keys = Object.keys(item).filter(x => !exclusions.includes(x));
       keys.forEach(key => {
         item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
       });
 
-      if (typeof item.name === 'number') {
-        item.name = item.name.toString();
-      }
+      item.name = name;
       return item;
     });
   }, [drugsYearData]);
