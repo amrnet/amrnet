@@ -1231,11 +1231,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         // with AMRfinderplus fields.
         statKeysECOLI.forEach(drug => {
           if (drug.computed) {
-            // Ciprofloxacin NS (≥1 marker) / Ciprofloxacin R (≥2 markers) for
-            // non-typhoidal Salmonella. ECOLI/Shige/decoli don't have these
-            // entries in their statKeys variant, so this branch is a no-op for
-            // them.
-            if (drug.name === 'Ciprofloxacin NS') {
+            // Ciprofloxacin NS (≥1 marker) / Ciprofloxacin R (≥2 markers) are
+            // kept separate for prevalence views; a combined Ciprofloxacin
+            // (≥1 marker, i.e. same threshold as NS but labelled without the
+            // NS/R split) is also emitted for marker views.
+            if (drug.name === 'Ciprofloxacin NS' || drug.name === 'Ciprofloxacin') {
               drugStats[drug.name] = yearData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
             } else if (drug.name === 'Ciprofloxacin R') {
               drugStats[drug.name] = yearData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
@@ -1847,10 +1847,10 @@ export function getGenotypesData({
       });
     } else {
       statKeysECOLI.forEach(drug => {
-        // Computed drugs (Ciprofloxacin NS / Ciprofloxacin R for non-typhoidal
-        // Salmonella) — count ≥1 / ≥2 markers in the Quinolone column.
+        // Computed drugs — NS (≥1 marker), R (≥2 markers), and combined
+        // Ciprofloxacin (≥1 marker) for marker-oriented views.
         if (drug.computed) {
-          if (drug.name === 'Ciprofloxacin NS') {
+          if (drug.name === 'Ciprofloxacin NS' || drug.name === 'Ciprofloxacin') {
             response[drug.name] = genotypeData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
           } else if (drug.name === 'Ciprofloxacin R') {
             response[drug.name] = genotypeData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
@@ -2435,11 +2435,12 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
     return {};
   }
 
-  // Handle computed combination drugs (Ciprofloxacin NS / Ciprofloxacin R).
-  // CipNS = ≥1 qnr/QRDR/aac(6')-Ib-cr marker in Quinolone column.
-  // CipR  = ≥2 such markers.
+  // Handle computed combination drugs.
+  //   CipNS         = ≥1 qnr/QRDR/aac(6')-Ib-cr marker in Quinolone column
+  //   CipR          = ≥2 such markers
+  //   Ciprofloxacin = ≥1 marker (combined label, used by marker-oriented views)
   if (drug.computed) {
-    if (drugKey === 'Ciprofloxacin NS') {
+    if (drugKey === 'Ciprofloxacin NS' || drugKey === 'Ciprofloxacin') {
       resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
     } else if (drugKey === 'Ciprofloxacin R') {
       resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;

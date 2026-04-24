@@ -100,6 +100,14 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
     { label: 'Percentage of Genomes', value: 'percentage' },
   ];
 
+  // For ecoli-family organisms the marker view collapses
+  // 'Ciprofloxacin NS' + 'Ciprofloxacin R' into a single 'Ciprofloxacin'
+  // (≥1 marker in Quinolone). Prevalence views (AMR Trends, main map legend,
+  // BubbleGeographicGraph resistance mode) keep the split — they consume
+  // different drug lists.
+  const collapseCiproForMarkers = list =>
+    list.filter(d => d !== 'Ciprofloxacin NS' && d !== 'Ciprofloxacin R');
+
   function getDrugClasses() {
     if (organism === 'none') {
       return [];
@@ -111,7 +119,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       return drugClassesST.filter(x => x !== 'Trimethoprim-sulfamethoxazole' && x !== 'XDR' && x !== 'MDR');
     }
     if (organism === 'shige' || organism === 'decoli' || organism === 'ecoli') {
-      return markersDrugsSH;
+      return collapseCiproForMarkers(markersDrugsSH);
     }
     if (organism === 'ngono') {
       return drugClassesNG;
@@ -123,7 +131,8 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       return drugsSP.filter(x => x !== 'Pansusceptible');
     }
 
-    return drugsECOLI.filter(item => item !== 'Pansusceptible'); // Default fallback
+    // Fallback covers senterica and sentericaints.
+    return collapseCiproForMarkers(drugsECOLI).filter(item => item !== 'Pansusceptible');
   }
 
  function getDomain(max = null) {
