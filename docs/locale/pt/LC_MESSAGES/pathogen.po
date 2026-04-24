@@ -25,7 +25,7 @@ msgstr ""
 #: ../../pathogen.rst:101
 #:
 msgid "Escherichia coli"
-msgstr "Esclerichia coli"
+msgstr "Escherichia coli"
 
 #: ../../pathogen.rst:101
 #:
@@ -80,7 +80,7 @@ msgstr "Selecione um agente patogênico abaixo para ver os detalhes:"
 #: ../../pathogen.rst:12
 #: d0127f0606b5454690c255ff5df86c91
 msgid "*Escherichia coli*"
-msgstr "*Esclerichia coli*"
+msgstr "*Escherichia coli*"
 
 #: ../../pathogen.rst:13
 #: 66bfe8193f084c3eac952c4b53c8187e
@@ -110,12 +110,28 @@ msgstr "*Salmonella* (não tifoide)"
 #: ../../pathogen.rst:18
 #: b40bec1919ef43f8ac2c12827bc31e66
 msgid "*Salmonella* (invasive non-typhoidal)"
-msgstr "*Salmonela* (não tifoide invasiva)"
+msgstr "*Salmonella* (não tifoide invasiva)"
 
 #: ../../pathogen.rst:19
 #: e3d4224331734049bf4aa8e4db41c4b4
 msgid "*Salmonella* Typhi"
 msgstr "*Salmonella* Typhi"
+
+#: ../../pathogen.rst:20
+msgid "*Staphylococcus aureus* (in preparation)"
+msgstr "*Staphylococcus aureus* (em preparação)"
+
+#: ../../pathogen.rst:21
+msgid "*Streptococcus pneumoniae* (in preparation)"
+msgstr "*Streptococcus pneumoniae* (em preparação)"
+
+#: ../../pathogen.rst:113
+msgid "Staphylococcus aureus"
+msgstr "Staphylococcus aureus"
+
+#: ../../pathogen.rst:113
+msgid "Streptococcus pneumoniae"
+msgstr "Streptococcus pneumoniae"
 
 #: ../../pathogen.rst:21
 #: 0bc168000ee74791aa403844967ec399
