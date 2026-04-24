@@ -61,6 +61,15 @@ const createTrendOptions = (organism, drugs, labelMap = {}) => {
     .sort((a, b) => a.key.localeCompare(b.key));
 };
 
+// ecoli-family organisms: the 'Resistance marker' view collapses
+// 'Ciprofloxacin NS'/'Ciprofloxacin R' into a single 'Ciprofloxacin' entry
+// (≥1 marker in Quinolone). The 'Resistance prevalence' view keeps them split
+// because it reads `resistanceOptions` (statKeys filtered by resistanceView)
+// rather than this organismConfig.drugs list.
+const markersDrugsSHSimpleCipro = markersDrugsSH.filter(
+  d => d !== 'Ciprofloxacin NS' && d !== 'Ciprofloxacin R',
+);
+
 const organismConfig = {
   kpneumo: {
     drugs: markersDrugsKP,
@@ -75,23 +84,23 @@ const organismConfig = {
     labelMap: {},
   },
   shige: {
-    drugs: markersDrugsSH,
+    drugs: markersDrugsSHSimpleCipro,
     labelMap: {},
   },
   ecoli: {
-    drugs: markersDrugsSH,
+    drugs: markersDrugsSHSimpleCipro,
     labelMap: {},
   },
   decoli: {
-    drugs: markersDrugsSH,
+    drugs: markersDrugsSHSimpleCipro,
     labelMap: {},
   },
   senterica: {
-    drugs: markersDrugsSH,
+    drugs: markersDrugsSHSimpleCipro,
     labelMap: {},
   },
   sentericaints: {
-    drugs: markersDrugsSH,
+    drugs: markersDrugsSHSimpleCipro,
     labelMap: {},
   },
   saureus: {
