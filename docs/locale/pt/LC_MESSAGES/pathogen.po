@@ -23,42 +23,42 @@ msgstr ""
 "Language: pt_PT\n"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Escherichia coli"
 msgstr "Esclerichia coli"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Escherichia coli diarrheagenic"
-msgstr "Diarreia entre cores"
+msgstr "Escherichia coli diarreica"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Shigella + EIEC"
 msgstr "Shigella + EIEC"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Klebsiella pneumoniae"
 msgstr "Klebsiella pneumoniae"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Neisseria gonorrhoeae"
 msgstr "Neisseria gonorrhoeae"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Salmonella (non-typhoidal)"
-msgstr "Salmonela (não tufão)"
+msgstr "Salmonela (não tifoide)"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Salmonella (invasive non-typhoidal)"
-msgstr "Salmonela (invasiva não-tufão)"
+msgstr "Salmonela (não tifoide invasiva)"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Salmonella Typhi"
 msgstr "Salmonella Typhi"
 
@@ -85,7 +85,7 @@ msgstr "*Esclerichia coli*"
 #: ../../pathogen.rst:13
 #: 66bfe8193f084c3eac952c4b53c8187e
 msgid "*Escherichia coli* (diarrheagenic)"
-msgstr "*Isquihia coli* (diarreia)"
+msgstr "*Escherichia coli* (diarreica)"
 
 #: ../../pathogen.rst:14
 #: fdf80be18d1044cd9f309beaf02739fb
@@ -105,12 +105,12 @@ msgstr "*Neisseria gonorrhoeae*"
 #: ../../pathogen.rst:17
 #: 0736547abaf7475985d0340b82824964
 msgid "*Salmonella* (non-typhoidal)"
-msgstr "*Salmonella* (non-typhoidal)"
+msgstr "*Salmonella* (não tifoide)"
 
 #: ../../pathogen.rst:18
 #: b40bec1919ef43f8ac2c12827bc31e66
 msgid "*Salmonella* (invasive non-typhoidal)"
-msgstr "*Salmonela* (invasivo não-typhoidal)"
+msgstr "*Salmonela* (não tifoide invasiva)"
 
 #: ../../pathogen.rst:19
 #: e3d4224331734049bf4aa8e4db41c4b4
@@ -149,13 +149,13 @@ msgstr "Enterobase coluna/s"
 
 #: ../../pathogen.rst:38
 #: 779e00a9ad0e41c7b2ed3b4690947dde
-msgid "Drawn from AMRFinderPlus Class/Subclass"
-msgstr "Desenhado da Classe AMRFinderPlus/Subclasse"
+msgid "AMRFinderPlus Class/Subclass"
+msgstr "AMRFinderPlus Classe/Subclasse"
 
 #: ../../pathogen.rst:39
 #: 754ecc28d99e4d4e82d3523d6c028574
 msgid "Ampicillin"
-msgstr "Ampicillin"
+msgstr "Ampicilina"
 
 #: ../../pathogen.rst:40
 #: ../../pathogen.rst:64
@@ -167,17 +167,17 @@ msgstr "≥ 1 marcador de qualquer coluna"
 #: ../../pathogen.rst:41
 #: 7a48ecf5c7b149fd9c1d35b9dd0eac7a
 msgid "Penicillin, Carbapenemase, ESBL"
-msgstr "Penicillin, Carbapenemente, ESBL"
+msgstr "Penicilina, Carbapenemase, ESBL"
 
 #: ../../pathogen.rst:42
 #: fdc712d68bb74dec8fa738bc01f26d1f
 msgid "Subclass: BETA-LACTAM"
-msgstr "Subclass: BETA-LACTAM"
+msgstr "Subclasse: BETA-LACTÂMICO"
 
 #: ../../pathogen.rst:43
 #: c7de9366655145a1b58d09d058a9ad32
 msgid "Aminoglycosides"
-msgstr "Aminoglicosides"
+msgstr "Aminoglicosídeos"
 
 #: ../../pathogen.rst:44
 #: ../../pathogen.rst:48
@@ -203,47 +203,47 @@ msgstr "≥ 1 marcador"
 #: ../../pathogen.rst:45
 #: a09cda9cacb44bcca0ea7c019d8b2796
 msgid "Aminoglycoside"
-msgstr "Aminoglicoside"
+msgstr "Aminoglicosídeo"
 
 #: ../../pathogen.rst:46
 #: a4bc1d2ea99f4fb081fa8b3908b2bb10
 msgid "Class: AMINOGLYCOSIDE"
-msgstr "Classe: AMINOGLYCOSIDE"
+msgstr "Classe: AMINOGLICOSÍDEO"
 
 #: ../../pathogen.rst:47
 #: 6ec0d284bd784dcbb023295ab370cc79
 msgid "Carbapenems"
-msgstr "CarbaplosInimigos"
+msgstr "Carbapenêmicos"
 
 #: ../../pathogen.rst:49
 #: bd97449a37954ce99479fefa192d9c42
 msgid "Carbapenemase"
-msgstr "Inimigo"
+msgstr "Carbapenemase"
 
 #: ../../pathogen.rst:50
 #: 1659517499b545eeb9360f653feb36ff
 msgid "Subclass: CARBAPENEM"
-msgstr "Subclasse: CARBAPENEM"
+msgstr "Subclasse: CARBAPENÊMICO"
 
 #: ../../pathogen.rst:51
 #: 761844f561fe43c9bc3459e12af187aa
 msgid "Ciprofloxacin (non-susceptible)"
-msgstr "Ciprofloxacin (non-susceptible)"
+msgstr "Ciprofloxacino (não suscetível)"
 
 #: ../../pathogen.rst:53
 #: 4c79d46cd1fb48cea386b97d81332a00
 msgid "Quinolone"
-msgstr "Quinolone"
+msgstr "Quinolona"
 
 #: ../../pathogen.rst:54
 #: 20bfcbfc5a734ef6819100b94dc47aa3
 msgid "Class: QUINOLONE"
-msgstr "Classe: QUINOLONE"
+msgstr "Classe: QUINOLONA"
 
 #: ../../pathogen.rst:55
 #: a05c0576aac14e33b990486bf3c500d0
 msgid "Chloramphenicol"
-msgstr "Cloramenififíco"
+msgstr "Cloranfenicol"
 
 #: ../../pathogen.rst:57
 #: ea7e4188206a4f3d8e5a866a73c21446
@@ -260,39 +260,39 @@ msgstr "Classe: PHENICOL"
 #: 1e47f59bf88b4cb48cf950d81980ef8d
 #: 8f2d3fb489d34ba0a96f098b73b8b05f
 msgid "Colistin"
-msgstr "Colistinha"
+msgstr "Colistina"
 
 #: ../../pathogen.rst:62
 #: c4eec6ef924a491ab4e381078197276e
 msgid "Class: COLISTIN"
-msgstr "Classe: COLISTIN"
+msgstr "Classe: COLISTINA"
 
 #: ../../pathogen.rst:63
 #: f171fb67a82d43f79f11b56bde0869fa
 msgid "ESBL"
-msgstr "ESCÓRIA"
+msgstr "ESBL"
 
 #: ../../pathogen.rst:65
 #: 527c9dfe9a154df7955823c4dcb8dab8
 msgid "ESBL, Carbapenemase"
-msgstr "ESBL, Carbapdo"
+msgstr "ESBL, Carbapenemase"
 
 #: ../../pathogen.rst:66
 #: 19f38b0048324ebd9aaa3864aa80e0d0
 msgid "Subclass: CEPHALOSPORIN"
-msgstr "Subclass: CEPHALOSPORIN"
+msgstr "Subclass: CEFALOSPORINA"
 
 #: ../../pathogen.rst:67
 #: ../../pathogen.rst:69
 #: df902b33d42d4fab8f2dca6fe07f119e
 #: 3e2666ba5f374904935f056e34d55df9
 msgid "Fosfomycin"
-msgstr "Fosfomycin"
+msgstr "Fosfomicina"
 
 #: ../../pathogen.rst:70
 #: 94d91de2524b48e3a632333d78512e83
 msgid "Class: FOSFOMYCIN"
-msgstr "Class: FOSFOMYCIN"
+msgstr "Class: FOSFOMICINA"
 
 #: ../../pathogen.rst:71
 #: ../../pathogen.rst:73
@@ -309,7 +309,7 @@ msgstr "mph(A) ou acrB_R717"
 #: ../../pathogen.rst:74
 #: ce78a4ea4cc64a749f8b5a89b5a71749
 msgid "Class: MACROLIDE"
-msgstr "Classe: MACROLIDE"
+msgstr "Classe: MACROLÍDEO"
 
 #: ../../pathogen.rst:75
 #: ../../pathogen.rst:77
@@ -321,39 +321,39 @@ msgstr "Tetrícline"
 #: ../../pathogen.rst:78
 #: e6fc9f67c7764e6d92b27d32667db493
 msgid "Class: TETRACYCLINE"
-msgstr "Classe: TETRACYCLINE"
+msgstr "Classe: TETRACICLINA"
 
 #: ../../pathogen.rst:79
 #: 350a2885360f48759d8244d9b92e9eda
 msgid "Tigecycline"
-msgstr "Tigre"
+msgstr "Tigeciclina"
 
 #: ../../pathogen.rst:81
 #: 751e1d924d864cb29f55f32f3335efc5
 msgid "Other Classes: Tigecycline"
-msgstr "Outras aulas: Tigecycline"
+msgstr "Outras aulas: Tigeciclina"
 
 #: ../../pathogen.rst:82
 #: 3f2c9fe8d6284b3da37791833ff11eee
 msgid "Subclass: TIGECYCLINE"
-msgstr "Subclasse: TIGECYCLINE"
+msgstr "Subclasse: TIGECICLINA"
 
 #: ../../pathogen.rst:83
 #: ../../pathogen.rst:85
 #: a13e975535cc44d2aebf777a2245d852
 #: 687533e658464f9ca290addef2a65007
 msgid "Trimethoprim"
-msgstr "Trimetrô"
+msgstr "Trimetoprima"
 
 #: ../../pathogen.rst:86
 #: f6735d3da183415297cec255d955c5bc
 msgid "Class: TRIMETHOPRIM"
-msgstr "Classe: TRIMETHOPRIM"
+msgstr "Classe: TRIMETOPRIMA"
 
 #: ../../pathogen.rst:87
 #: a1d5c76af89d4b869de279ffccb5cfd6
 msgid "Trimethoprim-Sulfamethoxazole"
-msgstr "Trimetioprim-Sulfamethoxazole"
+msgstr "Trimetoprima-Sulfametoxazol"
 
 #: ../../pathogen.rst:88
 #: 966c3f82f4284165ad4218ca6494ed6e
@@ -363,12 +363,12 @@ msgstr "≥ 1 marcador de cada coluna"
 #: ../../pathogen.rst:89
 #: abdecfc53cfd469892de10fcbb9e9c6e
 msgid "Trimethoprim, Sulfonamide"
-msgstr "Trimetioprim, Sulfonamide"
+msgstr "Trimetoprima, Sulfonamida"
 
 #: ../../pathogen.rst:90
 #: 5820a6027e754f039b98b97af13e66a2
 msgid "Class: TRIMETHOPRIM, SULFONAMIDE"
-msgstr "Class: TRIMETHOPRIM, SULFONAMIDE"
+msgstr "Class: TRIMETOPRIMA, SULFONAMIDA"
 
 #: ../../pathogen.rst:91
 #: 232c605890704c9ea3a51e782d3c2f8f
@@ -383,10 +383,9 @@ msgstr "0 marcadores"
 #: ../../pathogen.rst:93
 #: 1db09a7e5162440badf95a17ccb4feeb
 msgid "all AMR columns"
-msgstr "todas as colunas AMR"
+msgstr "todas as colunas RAM"
 
 #: ../../pathogen.rst:94
 #: 41667b0031894250a4dd4d282db05da2
 msgid "—"
 msgstr "—"
-
