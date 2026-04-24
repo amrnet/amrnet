@@ -1,7 +1,7 @@
 import { AppBar, IconButton, Toolbar, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './FooterMUI';
-import { GitHub } from '@mui/icons-material';
+import { GitHub, Api } from '@mui/icons-material';
 import LSHTMLogoImg from '../../../assets/img/Sponsors/LSHTMLogo2020.jpg';
 import WellcomeTrustLogoImg from '../../../assets/img/Sponsors/Wellcome_Trust_logo.png';
 
@@ -11,6 +11,10 @@ export const Footer = () => {
 
   function handleClickGithub() {
     window.open('https://github.com/amrnet/amrnet', '_blank');
+  }
+
+  function handleClickApi() {
+    window.open('https://api.amrnet.org', '_blank');
   }
 
   function handleClickLSHTM() {
@@ -43,6 +47,11 @@ export const Footer = () => {
           />
         </div>
         <div className={classes.socialsWrapper}>
+          <Tooltip title="API documentation (api.amrnet.org)" placement="top">
+            <IconButton onClick={handleClickApi}>
+              <Api fontSize="large" />
+            </IconButton>
+          </Tooltip>
           <Tooltip title={t('common.github')} placement="top">
             <IconButton onClick={handleClickGithub}>
               <GitHub fontSize="large" />

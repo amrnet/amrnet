@@ -337,26 +337,26 @@ development branch → deploy to dev → researchers validate → promote to mai
 AMRnet provides a public REST API with Swagger documentation for programmatic access to all data.
 
 **🔗 API Links:**
-[📖 Swagger Docs](https://www.amrnet.org/api-docs) |
-[🔑 Register for API Key](https://www.amrnet.org/api-register)
+[📖 Swagger Docs](https://api.amrnet.org/api-docs) |
+[🔑 Register for API Key](https://api.amrnet.org/api-register)
 
 ### Quick Examples
 
 ```bash
-# Register for an API key at https://www.amrnet.org/api-register
+# Register for an API key at https://api.amrnet.org/api-register
 # Then use it in all requests:
 
 # List all organisms
-curl -H "X-API-Key: YOUR_KEY" https://www.amrnet.org/api/v1/organisms
+curl -H "X-API-Key: YOUR_KEY" https://api.amrnet.org/api/v1/organisms
 
 # Get resistance summary for Salmonella
-curl -H "X-API-Key: YOUR_KEY" "https://www.amrnet.org/api/v1/organisms/senterica/resistance?country=Brazil"
+curl -H "X-API-Key: YOUR_KEY" "https://api.amrnet.org/api/v1/organisms/senterica/resistance?country=Brazil"
 
 # Get per-country genome counts
-curl -H "X-API-Key: YOUR_KEY" https://www.amrnet.org/api/v1/organisms/ecoli/countries
+curl -H "X-API-Key: YOUR_KEY" https://api.amrnet.org/api/v1/organisms/ecoli/countries
 
 # Download full dataset as CSV
-curl -H "X-API-Key: YOUR_KEY" "https://www.amrnet.org/api/v1/organisms/styphi/download?format=csv" -o styphi.csv
+curl -H "X-API-Key: YOUR_KEY" "https://api.amrnet.org/api/v1/organisms/styphi/download?format=csv" -o styphi.csv
 ```
 
 ### Python Integration
@@ -366,7 +366,7 @@ import requests
 import pandas as pd
 
 API_KEY = "your-api-key-here"
-BASE = "https://www.amrnet.org/api/v1"
+BASE = "https://api.amrnet.org/api/v1"
 HEADERS = {"X-API-Key": API_KEY}
 
 # Get resistance data for E. coli filtered by country and year
