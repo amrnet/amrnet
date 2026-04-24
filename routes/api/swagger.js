@@ -36,10 +36,10 @@ Genomic data sourced from Enterobase, Pathogenwatch, PubMLST, NCBI and WHO GLASS
 
 ### Citation
 If you use AMRnet data in your research, please cite:
-> Cerdeira L, et al. AMRnet: a global genomic surveillance platform for antimicrobial resistance. (2026) [https://doi.org/10.1093/nar/gkaf1101](https://doi.org/10.1093/nar/gkaf1101)
+> [Cerdeira L, et al. AMRnet: a global genomic surveillance platform for antimicrobial resistance. (2026)](https://doi.org/10.1093/nar/gkaf1101)
     `,
     contact: {
-      name: 'AMRnet Team — LSHTM',
+      name: 'Contact - AMRnet Team',
       url: 'https://amrnet.org',
     },
     license: {
@@ -185,7 +185,10 @@ If you use AMRnet data in your research, please cite:
               },
             },
           },
-          401: { description: 'Authentication required', content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } } },
+          401: {
+            description: 'Authentication required',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } },
+          },
         },
       },
     },
@@ -193,16 +196,63 @@ If you use AMRnet data in your research, please cite:
       get: {
         tags: ['Resistance'],
         summary: 'Get resistance prevalence summary',
-        description: 'Returns drug resistance prevalence for a given organism, optionally filtered by country and year range. Each drug shows the number and percentage of resistant genomes.',
+        description:
+          'Returns drug resistance prevalence for a given organism, optionally filtered by country and year range. Each drug shows the number and percentage of resistant genomes.',
         parameters: [
-          { name: 'organism', in: 'path', required: true, schema: { type: 'string', enum: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'decoli', 'shige', 'senterica', 'sentericaints', 'saureus', 'strepneumo'] }, description: 'Organism identifier' },
-          { name: 'country', in: 'query', schema: { type: 'string' }, description: 'Filter by country name (e.g., Brazil, United Kingdom)', example: 'Brazil' },
-          { name: 'year_from', in: 'query', schema: { type: 'integer' }, description: 'Start year (inclusive)', example: 2015 },
-          { name: 'year_to', in: 'query', schema: { type: 'integer' }, description: 'End year (inclusive)', example: 2023 },
-          { name: 'limit', in: 'query', schema: { type: 'integer', default: 50000 }, description: 'Max genomes to sample (default 50000, max 100000)' },
+          {
+            name: 'organism',
+            in: 'path',
+            required: true,
+            schema: {
+              type: 'string',
+              enum: [
+                'styphi',
+                'kpneumo',
+                'ngono',
+                'ecoli',
+                'decoli',
+                'shige',
+                'senterica',
+                'sentericaints',
+                'saureus',
+                'strepneumo',
+              ],
+            },
+            description: 'Organism identifier',
+          },
+          {
+            name: 'country',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Filter by country name (e.g., Brazil, United Kingdom)',
+            example: 'Brazil',
+          },
+          {
+            name: 'year_from',
+            in: 'query',
+            schema: { type: 'integer' },
+            description: 'Start year (inclusive)',
+            example: 2015,
+          },
+          {
+            name: 'year_to',
+            in: 'query',
+            schema: { type: 'integer' },
+            description: 'End year (inclusive)',
+            example: 2023,
+          },
+          {
+            name: 'limit',
+            in: 'query',
+            schema: { type: 'integer', default: 50000 },
+            description: 'Max genomes to sample (default 50000, max 100000)',
+          },
         ],
         responses: {
-          200: { description: 'Resistance summary', content: { 'application/json': { schema: { $ref: '#/components/schemas/ResistanceSummary' } } } },
+          200: {
+            description: 'Resistance summary',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/ResistanceSummary' } } },
+          },
           404: { description: 'Unknown organism' },
           401: { description: 'Authentication required' },
         },
@@ -212,18 +262,52 @@ If you use AMRnet data in your research, please cite:
       get: {
         tags: ['Genomes'],
         summary: 'Get individual genome records',
-        description: 'Returns paginated individual genome records with genotype, country, year, and drug resistance columns. Use for detailed analysis and data mining.',
+        description:
+          'Returns paginated individual genome records with genotype, country, year, and drug resistance columns. Use for detailed analysis and data mining.',
         parameters: [
-          { name: 'organism', in: 'path', required: true, schema: { type: 'string', enum: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'decoli', 'shige', 'senterica', 'sentericaints', 'saureus', 'strepneumo'] } },
+          {
+            name: 'organism',
+            in: 'path',
+            required: true,
+            schema: {
+              type: 'string',
+              enum: [
+                'styphi',
+                'kpneumo',
+                'ngono',
+                'ecoli',
+                'decoli',
+                'shige',
+                'senterica',
+                'sentericaints',
+                'saureus',
+                'strepneumo',
+              ],
+            },
+          },
           { name: 'country', in: 'query', schema: { type: 'string' }, description: 'Filter by country' },
-          { name: 'genotype', in: 'query', schema: { type: 'string' }, description: 'Filter by genotype (regex match)', example: 'ST131' },
+          {
+            name: 'genotype',
+            in: 'query',
+            schema: { type: 'string' },
+            description: 'Filter by genotype (regex match)',
+            example: 'ST131',
+          },
           { name: 'year_from', in: 'query', schema: { type: 'integer' }, example: 2020 },
           { name: 'year_to', in: 'query', schema: { type: 'integer' }, example: 2024 },
           { name: 'page', in: 'query', schema: { type: 'integer', default: 1 }, description: 'Page number' },
-          { name: 'limit', in: 'query', schema: { type: 'integer', default: 100, maximum: 1000 }, description: 'Records per page (max 1000)' },
+          {
+            name: 'limit',
+            in: 'query',
+            schema: { type: 'integer', default: 100, maximum: 1000 },
+            description: 'Records per page (max 1000)',
+          },
         ],
         responses: {
-          200: { description: 'Paginated genome data', content: { 'application/json': { schema: { $ref: '#/components/schemas/GenomePage' } } } },
+          200: {
+            description: 'Paginated genome data',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/GenomePage' } } },
+          },
           404: { description: 'Unknown organism' },
           401: { description: 'Authentication required' },
         },
@@ -233,14 +317,37 @@ If you use AMRnet data in your research, please cite:
       get: {
         tags: ['Geographic'],
         summary: 'Get per-country genome summary',
-        description: 'Returns a summary of genome counts per country for the given organism, including the years covered.',
+        description:
+          'Returns a summary of genome counts per country for the given organism, including the years covered.',
         parameters: [
-          { name: 'organism', in: 'path', required: true, schema: { type: 'string', enum: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'decoli', 'shige', 'senterica', 'sentericaints', 'saureus', 'strepneumo'] } },
+          {
+            name: 'organism',
+            in: 'path',
+            required: true,
+            schema: {
+              type: 'string',
+              enum: [
+                'styphi',
+                'kpneumo',
+                'ngono',
+                'ecoli',
+                'decoli',
+                'shige',
+                'senterica',
+                'sentericaints',
+                'saureus',
+                'strepneumo',
+              ],
+            },
+          },
           { name: 'year_from', in: 'query', schema: { type: 'integer' } },
           { name: 'year_to', in: 'query', schema: { type: 'integer' } },
         ],
         responses: {
-          200: { description: 'Country summary', content: { 'application/json': { schema: { $ref: '#/components/schemas/CountrySummary' } } } },
+          200: {
+            description: 'Country summary',
+            content: { 'application/json': { schema: { $ref: '#/components/schemas/CountrySummary' } } },
+          },
           404: { description: 'Unknown organism' },
           401: { description: 'Authentication required' },
         },
@@ -250,10 +357,35 @@ If you use AMRnet data in your research, please cite:
       get: {
         tags: ['Download'],
         summary: 'Download full dataset',
-        description: 'Download the complete dataset for an organism in JSON or CSV format. Large datasets may take time to generate.',
+        description:
+          'Download the complete dataset for an organism in JSON or CSV format. Large datasets may take time to generate.',
         parameters: [
-          { name: 'organism', in: 'path', required: true, schema: { type: 'string', enum: ['styphi', 'kpneumo', 'ngono', 'ecoli', 'decoli', 'shige', 'senterica', 'sentericaints', 'saureus', 'strepneumo'] } },
-          { name: 'format', in: 'query', schema: { type: 'string', enum: ['json', 'csv'], default: 'json' }, description: 'Output format' },
+          {
+            name: 'organism',
+            in: 'path',
+            required: true,
+            schema: {
+              type: 'string',
+              enum: [
+                'styphi',
+                'kpneumo',
+                'ngono',
+                'ecoli',
+                'decoli',
+                'shige',
+                'senterica',
+                'sentericaints',
+                'saureus',
+                'strepneumo',
+              ],
+            },
+          },
+          {
+            name: 'format',
+            in: 'query',
+            schema: { type: 'string', enum: ['json', 'csv'], default: 'json' },
+            description: 'Output format',
+          },
         ],
         responses: {
           200: { description: 'Full dataset file' },
