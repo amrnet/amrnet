@@ -35,7 +35,7 @@ Prerequisites
     - **npm**: Latest version (comes with Node.js)
     - **Python**: v3.8+ (for data processing components)
     - **Git**: Latest version for version control
-    - **MongoDB**: v6.0+ (local installation or MongoDB Atlas cloud database)
+    - **MongoDB**: v6.0+ (local installation; production runs MongoDB on the application EC2 host and exposes it via SSH tunnel)
 
     You can check your installed versions with:
 
@@ -143,11 +143,8 @@ Environment Variables
 
         # Database configuration
         MONGODB_URI=mongodb://localhost:27017/amrnet
-        # Or for MongoDB Atlas:
-        # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/amrnet
-
-        # Optional: Fixie proxy for Heroku deployment
-        # FIXIE_URL=socks5://username:password@proxy-host:port
+        # Production hosts MongoDB on the application EC2 instance (bound to
+        # 127.0.0.1). Use ssh -L 27018:127.0.0.1:27017 to reach it from Compass.
 
 Production Build
 ----------------
@@ -190,7 +187,7 @@ Troubleshooting
     1. **Node version mismatch**: Use ``nvm use`` to switch to the correct version
     2. **Package conflicts**: Delete ``node_modules`` and run ``npm install`` again
     3. **Port conflicts**: Make sure ports 3000 and 8080 are available
-    4. **MongoDB connection**: Verify your MongoDB service is running or Atlas credentials are correct
+    4. **MongoDB connection**: Verify the MongoDB service is running locally, or that the SSH tunnel to the EC2 host is open
 
     **Getting Help:**
 

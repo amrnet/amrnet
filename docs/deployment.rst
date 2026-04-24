@@ -95,7 +95,9 @@ Heroku Deployment
         # Create new app
         heroku create your-app-name
 
-        # Add MongoDB Atlas add-on (or use existing Atlas cluster)
+        # Provision MongoDB (e.g., mLab sandbox or an external managed cluster).
+        # AMRnet production itself runs MongoDB on the same EC2 host as the app;
+        # Heroku is shown here as an alternative hosting path.
         heroku addons:create mongolab:sandbox
 
     **2. Environment Configuration:**
@@ -104,7 +106,7 @@ Heroku Deployment
 
         # Set environment variables
         heroku config:set NODE_ENV=production
-        heroku config:set MONGODB_URI="your-mongodb-atlas-uri"
+        heroku config:set MONGODB_URI="your-mongodb-connection-string"
         heroku config:set REACT_APP_API_URL="https://your-app-name.herokuapp.com/api/"
 
     **3. Deployment:**
@@ -137,26 +139,37 @@ Heroku Deployment
           }
         }
 
-MongoDB Atlas Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MongoDB on EC2 Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container:: justify-text
 
-    For production database deployment:
+    AMRnet production runs MongoDB locally on the application EC2 instance
+    (bound to ``127.0.0.1`` — no public listener). This keeps the data plane
+    off the public internet and avoids the cost and IP-allowlist maintenance
+    of a managed Atlas cluster.
 
-    **1. Atlas Cluster Setup:**
+    **1. Host Setup:**
 
-    - Create MongoDB Atlas account
-    - Create new cluster (M0 free tier for testing)
-    - Configure network access (whitelist your IPs)
-    - Create database user with read/write permissions
+    - Install MongoDB 6.0+ on the EC2 instance
+    - Keep ``bindIp: 127.0.0.1`` in ``/etc/mongod.conf``
+    - Enable authentication and create a read/write user for AMRnet
+    - Store the URI in ``/opt/amrnet/.credentials`` with ``chmod 600``
 
     **2. Connection Configuration:**
 
     .. code-block:: bash
 
-        # Atlas connection string format
-        MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/amrnet?retryWrites=true&w=majority
+        # Production .env (EC2) — loopback only
+        MONGODB_URI=mongodb://amrnet_user:password@127.0.0.1:27017/amrnet?authSource=admin
+
+    **3. MongoDB Compass access (developer laptops):**
+
+    .. code-block:: bash
+
+        # Open an SSH tunnel, then point Compass at localhost:27018
+        ssh -L 27018:127.0.0.1:27017 ec2-user@<host>
+        # See deploy/mongo-tunnel.sh for the wrapper script
 
     **3. Production Optimizations:**
 
@@ -488,11 +501,11 @@ Database Backups
 
 .. container:: justify-text
 
-    **MongoDB Atlas Automated Backups:**
+    **EC2 Snapshot + mongodump Strategy:**
 
-    - Atlas provides automated backups with point-in-time recovery
-    - Configure backup schedule and retention policies
-    - Test backup restoration procedures regularly
+    - Take AWS EBS snapshots of the MongoDB data volume on a schedule
+    - Run periodic ``mongodump`` to an S3 bucket for logical backups
+    - Test restoration into a staging instance regularly
 
     **Manual Backup Scripts:**
 

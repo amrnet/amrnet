@@ -1,6 +1,5 @@
 version: 2
 
-# Specify os and python version
 build:
   os: "ubuntu-24.04"
   tools:
@@ -13,10 +12,16 @@ build:
       - UV_PROJECT_ENVIRONMENT=$READTHEDOCS_VIRTUALENV_PATH uv sync --all-extras --group docs
     install:
       - "true"
+    pre_build:
+      - |
+        if [ -n "$READTHEDOCS_LANGUAGE" ] && [ "$READTHEDOCS_LANGUAGE" != "en" ]; then
+          cd docs && find "locale/$READTHEDOCS_LANGUAGE" -name '*.po' -exec msgfmt {} -o {}.mo \; || true
+        fi
 
-# Build documentation in the docs/ directory with Sphinx
 sphinx:
   configuration: docs/conf.py
+  fail_on_warning: false
 
-# Optionally build your docs in additional formats such as PDF and ePub
-# formats: all
+formats:
+  - pdf
+  - htmlzip
