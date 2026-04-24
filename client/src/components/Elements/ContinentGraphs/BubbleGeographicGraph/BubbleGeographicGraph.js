@@ -914,7 +914,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">{t('common.selectCountriesRegions')}</Typography>
-                      <Tooltip title=t('common.navigateByLetter') placement="top">
+                      <Tooltip title={t('common.navigateByLetter')} placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
                     </div>
