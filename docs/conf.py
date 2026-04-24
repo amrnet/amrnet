@@ -6,18 +6,9 @@ project = "AMRnet"
 copyright = "2023, The AMRnet Team"
 author = "The AMRnet Team" # noqa: A001
 
-# internationalization
-# Check for language-specific environment variables first, then fallback to generic ones
-language = 'en'  # default
-if os.environ.get('SPHINX_LANGUAGE_ES'):
-    language = 'es'
-elif os.environ.get('SPHINX_LANGUAGE_FR'):
-    language = 'fr'
-elif os.environ.get('SPHINX_LANGUAGE_PT'):
-    language = 'pt'
-else:
-    # Fallback to generic variables
-    language = os.environ.get('SPHINX_LANGUAGE', os.environ.get('READTHEDOCS_LANGUAGE', 'en'))
+# internationalization — ReadTheDocs sets READTHEDOCS_LANGUAGE per translation project.
+# Locally, override with SPHINX_LANGUAGE=pt/es/fr.
+language = os.environ.get('SPHINX_LANGUAGE', os.environ.get('READTHEDOCS_LANGUAGE', 'en'))
 
 locale_dirs = ['locale/']
 gettext_compact = False
