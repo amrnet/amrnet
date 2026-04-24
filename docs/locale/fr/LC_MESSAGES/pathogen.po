@@ -117,6 +117,22 @@ msgstr "*Salmonella* (invasive non typhoïde)"
 msgid "*Salmonella* Typhi"
 msgstr "*Salmonella* Typhi"
 
+#: ../../pathogen.rst:20
+msgid "*Staphylococcus aureus* (in preparation)"
+msgstr "*Staphylococcus aureus* (en préparation)"
+
+#: ../../pathogen.rst:21
+msgid "*Streptococcus pneumoniae* (in preparation)"
+msgstr "*Streptococcus pneumoniae* (en préparation)"
+
+#: ../../pathogen.rst:113
+msgid "Staphylococcus aureus"
+msgstr "Staphylococcus aureus"
+
+#: ../../pathogen.rst:113
+msgid "Streptococcus pneumoniae"
+msgstr "Streptococcus pneumoniae"
+
 #: ../../pathogen.rst:21
 #: 0bc168000ee74791aa403844967ec399
 msgid "A list of all upstream databases and tools, with links and citations, is available on the :ref:`Source data & tools <source>` page."
