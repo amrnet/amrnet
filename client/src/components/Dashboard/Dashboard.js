@@ -1211,13 +1211,17 @@ export const DashboardPage = () => {
         dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         break;
       case 'shige':
-        // if (!isPaginated) {
-          // Don't set drug selection for paginated organisms - let auto-selection effect handle it
+        // For paginated organisms the DrugResistanceGraph's own useEffect
+        // populates defaults once data arrives. Skipping the synchronous
+        // dispatch here avoids a double-set / flicker race. Matches the
+        // pattern already used for kpneumo / ecoli / decoli / senterica /
+        // sentericaints above.
+        if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(drugsECOLI));
           dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
           dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
           dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
-        // }
+        }
         break;
       case 'saureus':
         dispatch(setDrugResistanceGraphView(drugsSA));
@@ -1816,7 +1820,11 @@ export const DashboardPage = () => {
       const serverOk = Array.isArray(serverYd?.drugsData) && serverYd.drugsData.length > 0;
 
       const finalGenotypesData = serverOk ? serverYd.genotypesData : (yearsData.genotypesData ?? []);
-      const finalDrugsData = (yearsData.drugsData ?? []);
+      // Prefer server drugsData when available (matches the fallback pattern
+      // used for genotypesData / uniqueGenotypes above). The server-side
+      // MongoDB aggregation is substantially faster than client-side yearly
+      // aggregation for large organisms (senterica 500k+ genomes, ecoli 300k+).
+      const finalDrugsData = serverOk ? serverYd.drugsData : (yearsData.drugsData ?? []);
       const finalUniqueGenotypes = serverOk ? serverYd.uniqueGenotypes : (yearsData.uniqueGenotypes ?? []);
 
       // Dispatch map data
