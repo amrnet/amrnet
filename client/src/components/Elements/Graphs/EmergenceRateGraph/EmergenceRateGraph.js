@@ -32,6 +32,7 @@ import {
 } from '../../../../util/drugs';
 import { getColorForDrug } from '../graphColorHelper';
 import { useStyles } from './EmergenceRateGraphMUI';
+import { useTranslation } from 'react-i18next';
 
 function getDrugsForOrganism(organism) {
   const exclusions = ['Pansusceptible'];
@@ -73,6 +74,7 @@ const CustomTooltip = ({ active, payload }) => {
 
 export const EmergenceRateGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [selectedDrugs, setSelectedDrugs] = useState([]);
 
   const organism = useAppSelector(state => state.dashboard.organism);

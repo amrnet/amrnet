@@ -45,6 +45,7 @@ import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { SliderSizes } from '../../Slider';
 import { useStyles } from './TrendsGraphMUI';
+import { useTranslation } from 'react-i18next';
 
 const dataViewOptions = [
   { label: 'Number of genomes', value: 'number' },
@@ -53,6 +54,7 @@ const dataViewOptions = [
 
 export const TrendsGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [tooltipTab, setTooltipTab] = useState('genes');
@@ -589,7 +591,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
                 )}
               </div>
             ) : (
-              <div className={classes.noYearSelected}>No year selected</div>
+              <div className={classes.noYearSelected}>{t('common.noYearSelected')}</div>
             )}
           </div>
         </div>

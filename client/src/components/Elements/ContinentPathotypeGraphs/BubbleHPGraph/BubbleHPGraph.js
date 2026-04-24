@@ -549,8 +549,7 @@ useEffect(() => {
                           }
                         >
                           {xAxisSelected?.length === xAxisOptions?.length
-                            ? 'Clear All'
-                            : 'Select All'}
+                            ? t('common.clearAll') : t('common.selectAll')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
@@ -559,7 +558,7 @@ useEffect(() => {
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
                       renderValue={(selected) => (
-                        <div>{`${selected?.length} of ${xAxisOptions?.length} selected`}</div>
+                        <div>{`${t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: xAxisOptions?.length ?? 0 })}`}</div>
                       )}
                     >
                       <Box
@@ -615,8 +614,7 @@ useEffect(() => {
                           }
                         >
                           {yAxisSelected?.length === yAxisOptions?.length
-                            ? 'Clear All'
-                            : 'Select All'}
+                            ? t('common.clearAll') : t('common.selectAll')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
