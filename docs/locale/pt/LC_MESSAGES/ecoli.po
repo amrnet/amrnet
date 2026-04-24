@@ -25,7 +25,7 @@ msgstr ""
 #: ../../ecoli.rst:2
 #: fccfe78e82714ab984ed39b2fc2efef2
 msgid "*Escherichia coli*"
-msgstr "*Esclerichia coli*"
+msgstr "*Escherichia coli*"
 
 #: ../../ecoli.rst:6
 #: b058d2126c24459e90bffe764059b1d3
