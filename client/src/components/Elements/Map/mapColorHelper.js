@@ -27,11 +27,13 @@ export const redColorScale = (percentage) => {
     return '#FAAD8F';
   }
 };
-// Heatmap cell palette: Magma (matplotlib / viridis family).
+// Heatmap cell palette: Viridis (matplotlib default).
 // Colour-blind safe, perceptually uniform, prints well in greyscale.
-// Low values → near-black / deep purple (white text needed);
-// high values → pink / peach / cream (black text needed).
-const HEATMAP_STOPS = ['#000004', '#3B0F70', '#8C2981', '#DE4968', '#FE9F6D', '#FCFDBF'];
+// Low values → deep purple (white text needed);
+// high values → yellow (black text needed).
+// Less "heavy" at the low end than Magma — starts at L=30 (deep purple)
+// rather than L=0 (near-black).
+const HEATMAP_STOPS = ['#440154', '#3B528B', '#21918C', '#5EC962', '#FDE725'];
 
 const HEATMAP_SCALE = chroma.scale(HEATMAP_STOPS).mode('lab');
 
