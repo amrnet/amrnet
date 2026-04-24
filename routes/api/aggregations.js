@@ -574,7 +574,10 @@ router.get('/agg/:organism/yearly', async (req, res) => {
           ...baseStages,
           { $group: { _id: '$GENOTYPE', count: { $sum: 1 } } },
           { $sort: { count: -1 } },
-          // { $limit: 30 },
+          // Cap at 50 — organisms like senterica have thousands of unique
+          // genotypes and the client only renders the top ~20 on most charts.
+          // Matches the limit used by the companion /genotypes pipeline.
+          { $limit: 50 },
         ])
         .toArray(),
 
