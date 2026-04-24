@@ -1,4 +1,4 @@
-import { GitHub, RestartAlt } from '@mui/icons-material';
+import { Api, GitHub, RestartAlt } from '@mui/icons-material';
 import { Fab, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 // import { useIndexedDB } from '../../../context/IndexedDBContext';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -170,6 +170,18 @@ export const ResetButton = () => {
   return (
     <div className={classes.resetButton}>
         
+      <Tooltip title="API documentation (api.amrnet.org)" placement="left">
+        <span>
+          <IconButton
+            href="https://api.amrnet.org"
+            target="_blank"
+            disabled={organism === 'none' || loadingData || loadingMap}
+            sx={{ padding: 0 }}
+          >
+            <Api sx={{ color: '#000', fontSize: '32px' }} />
+          </IconButton>
+        </span>
+      </Tooltip>
       <Tooltip title={t('common.github')} placement="left">
         <span>
           <IconButton
