@@ -27,13 +27,14 @@ export const redColorScale = (percentage) => {
     return '#FAAD8F';
   }
 };
-// Heatmap cell palette: Viridis (matplotlib default).
-// Colour-blind safe, perceptually uniform, prints well in greyscale.
-// Low values → deep purple (white text needed);
-// high values → yellow (black text needed).
-// Less "heavy" at the low end than Magma — starts at L=30 (deep purple)
-// rather than L=0 (near-black).
-const HEATMAP_STOPS = ['#440154', '#3B528B', '#21918C', '#5EC962', '#FDE725'];
+// Heatmap cell palette: custom blue → red diverging that skips the
+// near-white midpoint classical RdBu / Coolwarm palettes pass through.
+// Low values  → blue  (0%  = #2166AC deep blue)
+// Middle      → muted terracotta (50% = ~#B5A4A4, no pale dead zone)
+// High values → red  (100% = #6B0000 deep red)
+// `heatmapTextColor()` evaluates luminance at each % so text contrast
+// stays correct despite the non-monotonic luminance curve.
+const HEATMAP_STOPS = ['#2166AC', '#5B97C9', '#92C5DE', '#C5826D', '#9E2B1F', '#6B0000'];
 
 const HEATMAP_SCALE = chroma.scale(HEATMAP_STOPS).mode('lab');
 
