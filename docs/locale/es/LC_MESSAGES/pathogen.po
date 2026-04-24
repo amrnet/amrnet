@@ -23,42 +23,42 @@ msgstr ""
 "Language: es_ES\n"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Escherichia coli"
 msgstr ""
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Escherichia coli diarrheagenic"
 msgstr ""
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Shigella + EIEC"
 msgstr ""
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Klebsiella pneumoniae"
 msgstr "Klebsiella pneumoniae"
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Neisseria gonorrhoeae"
 msgstr ""
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Salmonella (non-typhoidal)"
 msgstr ""
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Salmonella (invasive non-typhoidal)"
 msgstr ""
 
 #: ../../pathogen.rst:101
-#: 
+#:
 msgid "Salmonella Typhi"
 msgstr ""
 
@@ -149,7 +149,7 @@ msgstr ""
 
 #: ../../pathogen.rst:38
 #: 779e00a9ad0e41c7b2ed3b4690947dde
-msgid "Drawn from AMRFinderPlus Class/Subclass"
+msgid "AMRFinderPlus Class/Subclass"
 msgstr ""
 
 #: ../../pathogen.rst:39
@@ -389,4 +389,3 @@ msgstr ""
 #: 41667b0031894250a4dd4d282db05da2
 msgid "—"
 msgstr ""
-

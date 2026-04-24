@@ -5,7 +5,7 @@ Individual pathogen details
 
 .. container:: justify-text
 
-    Each dashboard is populated a bit differently, from different sources and with different inclusion criteria, using AMR genotyping and lineage definitions specific to the pathogen. 
+    Each dashboard is populated a bit differently, from different sources and with different inclusion criteria, using AMR genotyping and lineage definitions specific to the pathogen.
 
     Select a pathogen below to see the details:
 
@@ -30,14 +30,14 @@ AMR definitions based on Enterobase/AMRfinderplus data
 These definitions are used in the *E. coli*, *Shigella*, and non-typhoidal *Salmonella* dashboards, where data are populated from `Enterobase <https://enterobase.warwick.ac.uk/>`_ which uses `AMRfinderplus <https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/>`_ to identify AMR determinants from genome assemblies. For other organisms, populated from Pathogenwatch, see the pathogen-specific pages above for details of how AMR is detected/defined.
 
 
-.. list-table::   
+.. list-table::
    :widths: 50 40 60 70
    :header-rows: 1
 
    * - Resistance indicator variable
      - Definition
      - Enterobase column/s
-     - Drawn from AMRFinderPlus Class/Subclass
+     - AMRFinderPlus Class/Subclass
    * - Ampicillin
      - ≥1 marker from any column
      - Penicillin, Carbapenemase, ESBL
@@ -114,4 +114,3 @@ These definitions are used in the *E. coli*, *Shigella*, and non-typhoidal *Salm
     Salmonella Typhi <styphi>
     Staphylococcus aureus <saureus>
     Streptococcus pneumoniae <strepneumo>
-
