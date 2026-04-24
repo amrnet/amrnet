@@ -141,40 +141,48 @@ const trendOptionsMap = {
   strepneumo: strepneumoTrendOptions,
 };
 
+// labelKey entries are translated at render time via t(); `label` kept as
+// the English fallback used for sorting and for older code paths.
 const yOptions = [
   {
     value: 'genotype',
     label: 'Genotype prevalence',
+    labelKey: 'dashboard.mapViews.genotypePrevalence',
     organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'senterica'].includes(x)),
   },
   {
     value: 'genotype',
     label: 'Lineage prevalence (ST)',
+    labelKey: 'dashboard.mapViews.lineagePrevalence',
     organisms: ['sentericaints', 'senterica'],
   },
   {
     value: 'resistance',
     label: 'Resistance prevalence',
+    labelKey: 'dashboard.mapViews.resistancePrevalence',
   },
   {
     value: 'determinant',
     label: 'Resistance marker',
-    // Adding market for all organisms
+    labelKey: 'common.resistanceMarker',
     organisms: ['styphi', 'kpneumo', 'ngono', 'shige', 'ecoli', 'decoli', 'senterica', 'sentericaints', 'saureus', 'strepneumo'],
   },
   {
     value: 'pathotype',
     label: 'Pathotype prevalence',
+    labelKey: 'dashboard.mapViews.pathotypePrevalence',
     organisms: ['shige', 'decoli'],
   },
   {
     value: 'serotype',
     label: 'Serotype prevalence',
+    labelKey: 'dashboard.mapViews.serotypePrevalence',
     organisms: ['sentericaints', 'senterica'],
   },
   {
     value: 'ngmast',
     label: 'NG-MAST prevalence',
+    labelKey: 'dashboard.mapViews.ngMastPrevalence',
     organisms: ['ngono'],
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
@@ -887,7 +895,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select region/country</Typography>
+                      <Typography variant="caption">{t('common.selectRegionCountry')}</Typography>
                       <Tooltip title="Only show regions with N≥20 genomes." placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
@@ -906,7 +914,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">{t('common.selectCountriesRegions')}</Typography>
-                      <Tooltip title="Navigate by typing the first letter of the country/region." placement="top">
+                      <Tooltip title=t('common.navigateByLetter') placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
                     </div>
@@ -924,14 +932,14 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                           disabled={organism === 'none'}
                           color={xAxisSelected.length === xAxisOptions.length ? 'error' : 'primary'}
                         >
-                          {xAxisSelected.length === xAxisOptions.length ? 'Clear All' : 'Select All'}
+                          {xAxisSelected.length === xAxisOptions.length ? t('common.clearAll') : t('common.selectAll')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
                       MenuProps={{
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={selected => <div>{`${selected.length} of ${xAxisOptions.length} selected`}</div>}
+                      renderValue={selected => <div>{t('common.selectedOfTotal', { selected: selected.length, total: xAxisOptions.length })}</div>}
                     >
                       {xAxisOptions.map((option, index) => (
                         <MenuItem key={`geo-x-axis-option-${index}`} value={option.name}>
@@ -958,7 +966,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         .filter(option => !option.organisms || option.organisms.includes(organism))
                         .map((option, index) => (
                           <MenuItem key={`y-col-option-${index}`} value={option.value}>
-                            {option.label}
+                            {option.labelKey ? t(option.labelKey) : option.label}
                           </MenuItem>
                         ))}
                     </Select>
@@ -966,7 +974,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   {yAxisType === 'determinant' && (
                     <div className={classes.selectWrapper}>
                       <div className={classes.labelWrapper}>
-                        <Typography variant="caption">Select drugs</Typography>
+                        <Typography variant="caption">{t('common.selectDrugs')}</Typography>
                       </div>
                       <Select
                         value={yAxisTypeTrend}
@@ -1017,7 +1025,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                         >
                           {yAxisSelected.length === filteredYAxisOptions.length ||
                           yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
-                            ? 'Clear All'
+                            ? t('common.clearAll')
                             : t('common.select20')}
                         </Button>
                       }
@@ -1029,7 +1037,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       renderValue={selected => (
                         <div>
                           {Array.isArray(selected) && selected.length > 0
-                            ? `${selected.length} of ${yAxisOptions.length} selected`
+                            ? t('common.selectedOfTotal', { selected: selected.length, total: yAxisOptions.length })
                             : 'No options selected'}
                         </div>
                       )}

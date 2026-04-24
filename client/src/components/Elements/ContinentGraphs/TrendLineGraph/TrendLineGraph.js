@@ -484,7 +484,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
               )}
             </div>
           ) : (
-            <div className={classes.noYearSelected}>No year selected</div>
+            <div className={classes.noYearSelected}>{t('common.noYearSelected')}</div>
           )}
         </div>
       </div>
@@ -581,7 +581,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                           disabled={organism === 'none'}
                           color={geoSelected.length === geoOptions.length ? 'error' : 'primary'}
                         >
-                          {geoSelected.length === geoOptions.length ? 'Clear All' : 'Select All'}
+                          {geoSelected.length === geoOptions.length ? t('common.clearAll') : t('common.selectAll')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
@@ -589,7 +589,7 @@ export const TrendLineGraph = ({ showFilter, setShowFilter }) => {
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
                       renderValue={(selected) => (
-                        <div>{`${selected.length} of ${geoOptions.length} selected`}</div>
+                        <div>{t('common.selectedOfTotal', { selected: selected.length, total: geoOptions.length })}</div>
                       )}
                     >
                       {geoOptions.map((option, index) => (

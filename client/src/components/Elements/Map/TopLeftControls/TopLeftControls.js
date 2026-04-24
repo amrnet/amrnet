@@ -86,8 +86,15 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
     dispatch(setCanFilterData(true));
   }
 
+  // Stable sentinel tokens for the two "meta" autocomplete rows; displayed
+  // via renderOption so we can translate them with t() at render time
+  // instead of hard-coding English in the options array (which would also
+  // break state equality when the user switches language).
+  const CLEAR_ALL_TOKEN = '__clear_all__';
+  const SELECT_ALL_TOKEN = '__select_all__';
+
   function isAllOption(option) {
-    return ['Clear All', 'Select All'].includes(option);
+    return option === CLEAR_ALL_TOKEN || option === SELECT_ALL_TOKEN;
   }
 
   function handleChangeMultiLineages(event, value) {
@@ -95,17 +102,17 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
       return;
     }
 
-    if (!value.includes('Clear All') && !value.includes('Select All')) {
+    if (!value.includes(CLEAR_ALL_TOKEN) && !value.includes(SELECT_ALL_TOKEN)) {
       setCurrentSelectedLineages(value);
       return;
     }
 
-    if (value.includes('Clear All')) {
+    if (value.includes(CLEAR_ALL_TOKEN)) {
       setCurrentSelectedLineages([]);
       return;
     }
 
-    if (value.includes('Select All')) {
+    if (value.includes(SELECT_ALL_TOKEN)) {
       setCurrentSelectedLineages(pathovar);
     }
   }
@@ -172,8 +179,8 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
                   value={currentSelectedLineages}
                   options={
                     currentSelectedLineages.length === pathovar.length
-                      ? ['Clear All', ...pathovar]
-                      : ['Select All', ...pathovar]
+                      ? [CLEAR_ALL_TOKEN, ...pathovar]
+                      : [SELECT_ALL_TOKEN, ...pathovar]
                   }
                   onChange={handleChangeMultiLineages}
                   onClose={handleCloseLineages}
@@ -204,7 +211,11 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
                             checked={selected}
                           />
                         )}
-                        {option}
+                        {option === CLEAR_ALL_TOKEN
+                          ? t('common.clearAll')
+                          : option === SELECT_ALL_TOKEN
+                            ? t('common.selectAll')
+                            : option}
                       </li>
                     );
                   }}

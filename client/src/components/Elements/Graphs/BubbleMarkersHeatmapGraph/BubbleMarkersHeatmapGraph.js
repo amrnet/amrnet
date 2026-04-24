@@ -636,8 +636,8 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                         >
                           {xAxisSelected.length === filteredXAxisOptions.length
                             ? // || xAxisSelected.some(x => !xAxisOptions.slice(0, 20).includes(x))
-                              'Clear All'
-                            : /* 'Select All' for Styphi*/
+                              t('common.clearAll')
+                            : /* t('common.selectAll') for Styphi*/
                               t('common.select20')}
                         </Button>
                       }
@@ -646,7 +646,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                         disableAutoFocusItem: true,
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={selected => <div>{`${selected?.length} of ${xAxisOptions?.length} selected`}</div>}
+                      renderValue={selected => <div>{`${t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: xAxisOptions?.length ?? 0 })}`}</div>}
                       onClose={clearSearch}
                     >
                       <Box
@@ -729,7 +729,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                         >
                           {yAxisSelected.length === filteredYAxisOptions.length ||
                           yAxisSelected.some(x => !yAxisOptions.slice(0, 20).includes(x))
-                            ? 'Clear All'
+                            ? t('common.clearAll')
                             : t('common.select20')}
                         </Button>
                       }

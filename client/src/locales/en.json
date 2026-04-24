@@ -79,7 +79,9 @@
       "serotypePrevalence": "Serotype prevalence",
       "pathotypePrevalence": "Pathotype prevalence",
       "oPrevalence": "O prevalence",
-      "hPrevalence": "H prevalence"
+      "hPrevalence": "H prevalence",
+      "ngMastPrevalence": "NG-MAST prevalence",
+      "dominantGenotype": "Dominant Genotype"
     }
   },
   "home": {
@@ -458,7 +460,19 @@
     "compareBy": "Compare by",
     "columns": "Columns",
     "resistanceMarker": "Resistance marker",
-    "selectedOf": "{{selected}} of {{total}} selected"
+    "selectedOf": "{{selected}} of {{total}} selected",
+    "selectAll": "Select All",
+    "clearAll": "Clear All",
+    "selectedOfTotal": "{{selected}} of {{total}} selected",
+    "noYearSelected": "No year selected",
+    "noDrugSelected": "No drug selected",
+    "navigateByLetter": "Navigate by typing the first letter of the country/region.",
+    "allSelectedItems": "All selected items",
+    "selectRegionCountry": "Select region/country",
+    "resistancePrevalence": "Resistance prevalence",
+    "ngMastPrevalence": "NG-MAST prevalence",
+    "dominantGenotype": "Dominant Genotype",
+    "selectDrugsToCompare": "Select drugs to compare"
   },
   "pdf": {
     "reportInformation": "Report Information",

@@ -39,9 +39,11 @@ import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { getColorForDrug } from '../graphColorHelper';
 import { useStyles } from './FrequenciesGraphMUI';
+import { useTranslation } from 'react-i18next';
 
 export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
   const [searchValue2, setSearchValue2] = useState('');

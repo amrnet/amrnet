@@ -79,7 +79,9 @@
       "serotypePrevalence": "Prévalence des sérotypes",
       "pathotypePrevalence": "Prévalence des pathotypes",
       "oPrevalence": "Prévalence O",
-      "hPrevalence": "Prévalence H"
+      "hPrevalence": "Prévalence H",
+      "ngMastPrevalence": "Prévalence NG-MAST",
+      "dominantGenotype": "Génotype dominant"
     }
   },
   "home": {
@@ -458,7 +460,19 @@
     "compareBy": "Comparer par",
     "columns": "Colonnes",
     "resistanceMarker": "Marqueur de résistance",
-    "selectedOf": "{{selected}} sur {{total}} sélectionnés"
+    "selectedOf": "{{selected}} sur {{total}} sélectionnés",
+    "selectAll": "Tout sélectionner",
+    "clearAll": "Tout effacer",
+    "selectedOfTotal": "{{selected}} sur {{total}} sélectionnés",
+    "noYearSelected": "Aucune année sélectionnée",
+    "noDrugSelected": "Aucun antibiotique sélectionné",
+    "navigateByLetter": "Naviguez en tapant la première lettre du pays/de la région.",
+    "allSelectedItems": "Tous les éléments sélectionnés",
+    "selectRegionCountry": "Sélectionner région/pays",
+    "resistancePrevalence": "Prévalence de résistance",
+    "ngMastPrevalence": "Prévalence NG-MAST",
+    "dominantGenotype": "Génotype dominant",
+    "selectDrugsToCompare": "Sélectionner des antibiotiques à comparer"
   },
   "pdf": {
     "reportInformation": "Informations du rapport",

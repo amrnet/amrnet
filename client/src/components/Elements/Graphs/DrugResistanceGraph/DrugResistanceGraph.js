@@ -336,8 +336,8 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   // Effect to ensure all drugs are selected by default for paginated organisms
   useEffect(() => {
-    // Handle auto-selection for paginated organisms (kpneumo, ecoli, decoli, senterica, sentericaints)
-    if (['kpneumo', 'ecoli', 'decoli', 'senterica', 'sentericaints'].includes(organism) && drugsYearData.length > 0) {
+    // Handle auto-selection for paginated organisms (kpneumo, ecoli, decoli, shige, senterica, sentericaints)
+    if (['kpneumo', 'ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism) && drugsYearData.length > 0) {
       // Union keys across all years, not just the first — the first year may
       // have count=0 and therefore no drug keys, which used to drop low-prevalence
       // drugs like Tigecycline from the auto-selection.
@@ -684,7 +684,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                       disabled={organism === 'none'}
                       color={drugResistanceGraphView.length === getDrugs()?.length ? 'error' : 'primary'}
                     >
-                      {drugResistanceGraphView.length === getDrugs()?.length ? 'Clear All' : 'Select All'}
+                      {drugResistanceGraphView.length === getDrugs()?.length ? t('common.clearAll') : t('common.selectAll')}
                     </Button>
                   }
                   inputProps={{ className: classes.selectInput }}

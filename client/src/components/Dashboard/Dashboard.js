@@ -1211,16 +1211,18 @@ export const DashboardPage = () => {
         dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         break;
       case 'shige':
-        // For paginated organisms the DrugResistanceGraph's own useEffect
-        // populates defaults once data arrives. Skipping the synchronous
-        // dispatch here avoids a double-set / flicker race. Matches the
-        // pattern already used for kpneumo / ecoli / decoli / senterica /
-        // sentericaints above.
+        // Default drug-class pickers for the AMR Markers / AMR by Genotype
+        // panels need to fire unconditionally — those panels have no
+        // auto-selection useEffect, so without this they'd render empty
+        // when the user lands on shige. Same pattern as kpneumo above.
+        dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
+        dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
+        dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
+        // The AMR Trends line chart has its own auto-select effect for
+        // paginated organisms — skip the synchronous drug-list dispatch
+        // for shige when paginated to avoid a double-set / flicker race.
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(drugsECOLI));
-          dispatch(setDeterminantsGraphDrugClass('Aminoglycosides'));
-          dispatch(setTrendsGraphDrugClass('Aminoglycosides'));
-          dispatch(setBubbleMarkersYAxisType(markersDrugsSH[0]));
         }
         break;
       case 'saureus':

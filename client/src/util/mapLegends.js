@@ -35,7 +35,7 @@ export const mapLegends = [
   //   organisms: [ ...amrLikeOrganisms],
   // },
   // { value: 'Pansusceptible', label: 'Pansusceptible', organisms: ['ngono'] },
-  { value: 'Dominant Genotype', label: 'Dominant Genotype', organisms: [] },
+  { value: 'Dominant Genotype', label: 'Dominant Genotype', labelKey: 'dashboard.mapViews.dominantGenotype', organisms: [] },
   {
     value: 'Resistance prevalence',
     label: 'Resistance prevalence',
@@ -61,7 +61,7 @@ export const mapLegends = [
     organisms: ['sentericaints', 'senterica'],
   },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
-  { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', organisms: ['ngono'] },
+  { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', labelKey: 'dashboard.mapViews.ngMastPrevalence', organisms: ['ngono'] },
   {
     value: 'Serotype prevalence',
     label: 'ST Prevalence (7-locus MLST)',

@@ -604,7 +604,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                 )}
               </div>
             ) : (
-              <div className={classes.noYearSelected}>No year selected</div>
+              <div className={classes.noYearSelected}>{t('common.noYearSelected')}</div>
             )}
           </div>
         </div>
