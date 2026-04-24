@@ -100,10 +100,10 @@ html_theme_options = {
     "source_directory": "docs/",
     "announcement": (
         "🌐 <b>Language:</b> "
-        "<a href='/en/latest/'>English</a> · "
-        "<a href='/es/latest/'>Español</a> · "
-        "<a href='/fr/latest/'>Français</a> · "
-        "<a href='/pt/latest/'>Português</a>"
+        "<a href='https://amrnet.readthedocs.io/en/latest/'>English</a> · "
+        "<a href='https://amrnet-es.readthedocs.io/es/latest/'>Español</a> · "
+        "<a href='https://amrnet-fr.readthedocs.io/fr/latest/'>Français</a> · "
+        "<a href='https://amrnet-pt.readthedocs.io/pt/latest/'>Português</a>"
     ),
     "footer_icons": [
         {
