@@ -62,6 +62,22 @@ function countQuinoloneMarkers(raw) {
   return n;
 }
 
+// Return the list of Quinolone-resistance markers in a Quinolone cell —
+// same matching logic as countQuinoloneMarkers, but returns the gene names
+// instead of a count. Used by the marker-oriented Ciprofloxacin aggregate
+// so per-gene breakdowns work in MarkerTrendsGraph / BubbleMarkersHeatmapGraph
+// / BubbleGeographicGraph (determinant mode).
+function extractQuinoloneMarkers(raw) {
+  if (!raw || raw === '-' || raw === 'ND') return [];
+  const out = [];
+  String(raw).split(';').forEach(e => {
+    const g = e.trim();
+    if (!g) return;
+    if (_QRDR_RE.test(g) || _QNR_RE.test(g) || _AAC_CR_RE.test(g)) out.push(g);
+  });
+  return out;
+}
+
 /**
  * Evaluate a single statKeysECOLI rule against a record.
  *
@@ -2440,7 +2456,19 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
   //   CipR          = ≥2 such markers
   //   Ciprofloxacin = ≥1 marker (combined label, used by marker-oriented views)
   if (drug.computed) {
-    if (drugKey === 'Ciprofloxacin NS' || drugKey === 'Ciprofloxacin') {
+    if (drugKey === 'Ciprofloxacin') {
+      // Marker-oriented aggregate: populate per-gene breakdown so
+      // MarkerTrendsGraph, BubbleMarkersHeatmapGraph, and
+      // BubbleGeographicGraph (determinant mode) have something to plot.
+      dataToFilter.forEach(x => {
+        const markers = extractQuinoloneMarkers(x['Quinolone']);
+        if (markers.length === 0) return;
+        resistantCount++;
+        markers.forEach(g => {
+          drugClass[g] = (drugClass[g] || 0) + 1;
+        });
+      });
+    } else if (drugKey === 'Ciprofloxacin NS') {
       resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
     } else if (drugKey === 'Ciprofloxacin R') {
       resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
