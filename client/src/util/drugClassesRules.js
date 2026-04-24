@@ -1375,6 +1375,13 @@ export const statKeysSalmonella = [
   ...ECOLI_COMMON_RULES,
   { name: 'Ciprofloxacin NS', resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
   { name: 'Ciprofloxacin R',  resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
+  // Combined Ciprofloxacin (≥1 marker in Quinolone col). Intentionally omits
+  // `resistanceView` so the prevalence-oriented views (main map legend,
+  // BubbleGeographicGraph in 'resistance' mode, CooccurrenceGraph, etc.) keep
+  // showing CipNS and CipR separately. The marker-oriented views
+  // (MarkerTrendsGraph, BubbleHeatmapGraph2, RadarProfileGraph, and the
+  // 'determinant' mode of BubbleGeographicGraph) opt in to this single entry.
+  { name: 'Ciprofloxacin', computed: true, rules: [{ column: 'Quinolone' }], every: true },
   ECOLI_PAN_RULE,
 ].sort((a, b) => a.name.localeCompare(b.name));
 

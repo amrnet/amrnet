@@ -94,13 +94,19 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
       .sort();
   }, [drugsData]);
 
-  // Get all drug names from the data
+  // Get all drug names from the data. For ecoli-family organisms the Radar is
+  // a marker-oriented view, so collapse 'Ciprofloxacin NS'/'Ciprofloxacin R'
+  // into the single 'Ciprofloxacin' aggregate (≥1 marker in Quinolone) that
+  // filters.js also emits alongside them.
   const drugNames = useMemo(() => {
     if (!drugsData || typeof drugsData !== 'object') return [];
-    return Object.keys(drugsData).filter(
-      d => !['MDR', 'XDR', 'Pansusceptible', 'Susceptible', 'Susceptible to cat I/II drugs'].includes(d),
-    );
-  }, [drugsData]);
+    const EXCLUDED = new Set(['MDR', 'XDR', 'Pansusceptible', 'Susceptible', 'Susceptible to cat I/II drugs']);
+    if (['ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism)) {
+      EXCLUDED.add('Ciprofloxacin NS');
+      EXCLUDED.add('Ciprofloxacin R');
+    }
+    return Object.keys(drugsData).filter(d => !EXCLUDED.has(d));
+  }, [drugsData, organism]);
 
   // Build radar chart data: one entry per drug, with values per country
   const radarData = useMemo(() => {

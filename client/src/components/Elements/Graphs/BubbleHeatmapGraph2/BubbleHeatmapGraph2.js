@@ -93,10 +93,19 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
 
   const resistanceOptions = useMemo(() => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
-    const resistance = options.filter(option => option.resistanceView).map(option => option.name);
+    let resistance = options.filter(option => option.resistanceView).map(option => option.name);
 
     if (organism === 'ngono') {
       resistance.splice(5, 0, ...['XDR', 'MDR']);
+    }
+
+    // ecoli-family organisms: collapse the CipNS / CipR pair into a single
+    // 'Ciprofloxacin' entry for this marker-oriented view. Prevalence views
+    // (main map, BubbleGeographicGraph resistance mode) keep the split.
+    if (['ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism)) {
+      resistance = resistance.filter(d => d !== 'Ciprofloxacin NS' && d !== 'Ciprofloxacin R');
+      if (!resistance.includes('Ciprofloxacin')) resistance.push('Ciprofloxacin');
+      resistance.sort();
     }
 
     const drugs = {};
