@@ -101,7 +101,7 @@ const REGISTRATION_PAGE = `<!DOCTYPE html>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+      background: linear-gradient(135deg, #640c61 0%, #950da1 50%, #01579b 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -117,7 +117,7 @@ const REGISTRATION_PAGE = `<!DOCTYPE html>
       overflow: hidden;
     }
     .header {
-      background: #1a237e;
+      background: #640c61;
       color: white;
       padding: 32px;
       text-align: center;
@@ -152,7 +152,7 @@ const REGISTRATION_PAGE = `<!DOCTYPE html>
     button {
       width: 100%;
       padding: 14px;
-      background: #1a237e;
+      background: #640c61;
       color: white;
       border: none;
       border-radius: 8px;
@@ -161,7 +161,7 @@ const REGISTRATION_PAGE = `<!DOCTYPE html>
       cursor: pointer;
       transition: background 0.2s;
     }
-    button:hover { background: #0d47a1; }
+    button:hover { background: #950da1; }
     button:disabled { background: #9e9e9e; cursor: not-allowed; }
 
     .result {
@@ -272,9 +272,7 @@ const REGISTRATION_PAGE = `<!DOCTYPE html>
         <button type="submit" id="submitBtn">Request API Key</button>
       </form>
       <p class="note">
-        By requesting an API key you agree to cite AMRnet in any publications using this data:<br>
-        <em>Cerdeira L, et al. (2026) Nucleic Acids Research.</em>
-        <a href="https://doi.org/10.1093/nar/gkaf1101" target="_blank">DOI: 10.1093/nar/gkaf1101</a>
+        By requesting an API key you agree to cite AMRnet in any publications using this data: <a href="https://doi.org/10.1093/nar/gkaf1101" target="_blank">Cerdeira L, et al. (2026) Nucleic Acids Research</a><br>
       </p>
     </div>
 

@@ -1,5 +1,3 @@
-# AMRnet
-
 <!-- markdownlint-disable MD033 -->
 <img src="assets/img/logo-prod.png" width="150" alt="AMRnet logo">
 <!-- markdownlint-enable MD033 -->
@@ -12,7 +10,9 @@
 
 **Making genome-derived AMR surveillance data accessible worldwide.**
 
-**Quick links** — [Dashboard](https://www.amrnet.org) · [API](https://api.amrnet.org) · [Docs](https://amrnet.readthedocs.io) · [GitHub](https://github.com/amrnet/amrnet)
+**Quick links** — [Dashboard](https://www.amrnet.org) ·
+[API](https://api.amrnet.org) · [Docs](https://amrnet.readthedocs.io) ·
+[GitHub](https://github.com/amrnet/amrnet)
 
 ---
 
@@ -20,9 +20,9 @@
 
 AMRnet is a web platform that turns publicly deposited bacterial genome data
 into interactive national-level estimates of antimicrobial resistance (AMR)
-prevalence. Source data are curated by the AMRnet team and the community;
-AMR determinants are called by [Pathogenwatch](https://pathogen.watch)
-and [Enterobase](https://enterobase.warwick.ac.uk) / AMRfinderplus. We do not
+prevalence. Source data are curated by the AMRnet team and the community; AMR
+determinants are called by [Pathogenwatch](https://pathogen.watch) and
+[Enterobase](https://enterobase.warwick.ac.uk) / AMRfinderplus. We do not
 generate sequence data — we make existing public data easier to use for
 surveillance.
 
@@ -32,19 +32,19 @@ The UI is available in English, Português (BR), Español and Français.
 
 | Code            | Organism                              | Source        |
 | --------------- | ------------------------------------- | ------------- |
-| `styphi`        | *Salmonella* Typhi                    | Pathogenwatch |
-| `senterica`     | *Salmonella enterica* (non-typhoidal) | Enterobase    |
-| `sentericaints` | *Salmonella* (invasive non-typhoidal) | Enterobase    |
-| `kpneumo`       | *Klebsiella pneumoniae*               | Pathogenwatch |
-| `ngono`         | *Neisseria gonorrhoeae*               | Pathogenwatch |
-| `ecoli`         | *Escherichia coli*                    | Enterobase    |
-| `decoli`        | *E. coli* (diarrheagenic)             | Enterobase    |
-| `shige`         | *Shigella* + EIEC                     | Enterobase    |
-| `saureus`       | *Staphylococcus aureus*               | Pathogenwatch |
-| `strepneumo`    | *Streptococcus pneumoniae*            | Pathogenwatch |
+| `styphi`        | _Salmonella_ Typhi                    | Pathogenwatch |
+| `senterica`     | _Salmonella enterica_ (non-typhoidal) | Enterobase    |
+| `sentericaints` | _Salmonella_ (invasive non-typhoidal) | Enterobase    |
+| `kpneumo`       | _Klebsiella pneumoniae_               | Pathogenwatch |
+| `ngono`         | _Neisseria gonorrhoeae_               | Pathogenwatch |
+| `ecoli`         | _Escherichia coli_                    | Enterobase    |
+| `decoli`        | _E. coli_ (diarrheagenic)             | Enterobase    |
+| `shige`         | _Shigella_ + EIEC                     | Enterobase    |
+| `saureus`       | _Staphylococcus aureus_               | Pathogenwatch |
+| `strepneumo`    | _Streptococcus pneumoniae_            | Pathogenwatch |
 
-*S. aureus and S. pneumoniae are currently dashboard-dev only while curation
-is validated.*
+_S. aureus and S. pneumoniae are currently dashboard-dev only while curation is
+validated._
 
 ## Using the dashboard
 
@@ -71,7 +71,8 @@ curl -H "X-API-Key: $API_KEY" \
   "https://api.amrnet.org/api/v1/organisms/ecoli/download?format=csv" -o ecoli.csv
 ```
 
-Full interactive docs at [api.amrnet.org/api-docs](https://api.amrnet.org/api-docs).
+Full interactive docs at
+[api.amrnet.org/api-docs](https://api.amrnet.org/api-docs).
 
 ### Python
 
@@ -99,13 +100,13 @@ df <- fromJSON(content(r, "text"))$data
 
 ### Endpoints
 
-| Endpoint                                | Description                                                |
-| --------------------------------------- | ---------------------------------------------------------- |
-| `GET /api/v1/organisms`                 | List organisms + current genome counts                     |
-| `GET /api/v1/organisms/{id}/resistance` | Resistance prevalence by drug (filters: country, year)     |
-| `GET /api/v1/organisms/{id}/genomes`    | Paginated per-genome records                               |
-| `GET /api/v1/organisms/{id}/countries`  | Per-country summary                                        |
-| `GET /api/v1/organisms/{id}/download`   | Full dataset (`format=csv` or `json`)                      |
+| Endpoint                                | Description                                            |
+| --------------------------------------- | ------------------------------------------------------ |
+| `GET /api/v1/organisms`                 | List organisms + current genome counts                 |
+| `GET /api/v1/organisms/{id}/resistance` | Resistance prevalence by drug (filters: country, year) |
+| `GET /api/v1/organisms/{id}/genomes`    | Paginated per-genome records                           |
+| `GET /api/v1/organisms/{id}/countries`  | Per-country summary                                    |
+| `GET /api/v1/organisms/{id}/download`   | Full dataset (`format=csv` or `json`)                  |
 
 ### Rate limits
 
@@ -113,8 +114,8 @@ df <- fromJSON(content(r, "text"))$data
 - `/api/v1/*/download` — 2 req/s per IP, bursts of 5
 
 For bulk data, prefer the **S3 snapshots** described in
-[data access docs](https://amrnet.readthedocs.io/en/latest/data.html).
-No key, no rate limit.
+[data access docs](https://amrnet.readthedocs.io/en/latest/data.html). No key,
+no rate limit.
 
 ## Running locally
 
@@ -134,8 +135,8 @@ The dev server proxies API calls to the backend on port 8080.
 ## Deployment
 
 Production (`main`) runs on AWS EC2 t3.xlarge with MongoDB 7 co-hosted, nginx
-reverse-proxying to a Node 22 process, CloudFront CDN at the edge, and daily
-S3 backups. Dev (`development`) runs on a separate t3.large at
+reverse-proxying to a Node 22 process, CloudFront CDN at the edge, and daily S3
+backups. Dev (`development`) runs on a separate t3.large at
 [dev.amrnet.org](https://dev.amrnet.org).
 
 ```bash
@@ -143,8 +144,8 @@ S3 backups. Dev (`development`) runs on a separate t3.large at
 ./deploy/deploy-production.sh       # main → www.amrnet.org
 ```
 
-The build sets `REACT_APP_ENVIRONMENT` so features can be gated per
-environment (e.g. organisms still in curation are visible on dev only).
+The build sets `REACT_APP_ENVIRONMENT` so features can be gated per environment
+(e.g. organisms still in curation are visible on dev only).
 
 ## Project structure
 
@@ -161,30 +162,31 @@ scripts/         Pre-commit hooks, maintenance scripts
 
 ## Contributing
 
-Bug reports and pull requests welcome.
-See [CONTRIBUTING.md](CONTRIBUTING.md) and the
+Bug reports and pull requests welcome. See [CONTRIBUTING.md](CONTRIBUTING.md)
+and the
 [developer guide on ReadTheDocs](https://amrnet.readthedocs.io/en/latest/contributing.html).
 Quick version: fork, branch, commit, PR.
 
 Data / curation questions are best raised on
-[GitHub Discussions](https://github.com/amrnet/amrnet/discussions) or emailed
-to `amrnetdashboard@gmail.com`.
+[GitHub Discussions](https://github.com/amrnet/amrnet/discussions) or emailed to
+`amrnetdashboard@gmail.com`.
 
 ## Citation
 
 > Cerdeira LT, Dyson ZA, Sharma V, et al. **AMRnet: a data visualization
 > platform to interactively explore pathogen variants and antimicrobial
-> resistance.** *Nucleic Acids Research* 2025.
+> resistance.** _Nucleic Acids Research_ 2025.
 > doi:[10.1093/nar/gkaf1101](https://doi.org/10.1093/nar/gkaf1101)
 
 Please also cite the upstream data sources (Pathogenwatch, Enterobase, WHO
-GLASS, etc.) relevant to the organism(s) you queried — listed on each
-pathogen page and the [sources page](https://amrnet.readthedocs.io/en/latest/source.html).
+GLASS, etc.) relevant to the organism(s) you queried — listed on each pathogen
+page and the
+[sources page](https://amrnet.readthedocs.io/en/latest/source.html).
 
 ## License
 
-GPL-3.0 — see [LICENSE](LICENSE). Commercial use is permitted; derivative
-works must remain GPL-3.0 and publish source.
+GPL-3.0 — see [LICENSE](LICENSE). Commercial use is permitted; derivative works
+must remain GPL-3.0 and publish source.
 
 ## Funding & acknowledgements
 
@@ -196,5 +198,6 @@ works must remain GPL-3.0 and publish source.
 ---
 
 [Dashboard](https://www.amrnet.org) • [API](https://api.amrnet.org) •
-[Docs](https://amrnet.readthedocs.io) • [GitHub](https://github.com/amrnet/amrnet) •
+[Docs](https://amrnet.readthedocs.io) •
+[GitHub](https://github.com/amrnet/amrnet) •
 [amrnetdashboard@gmail.com](mailto:amrnetdashboard@gmail.com)
