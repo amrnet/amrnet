@@ -577,19 +577,23 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                           </div>
                         )}
                       >
-                        {resistanceOptions.map((option, index) => (
-                          <MenuItem key={index + 'resistance-option'} value={option}>
-                            <Checkbox checked={prevalenceMapViewOptionsSelected.indexOf(option) > -1} />
-                            <ListItemText
-                              primary={
-                                ciproAcronyms[option] ||
-                                ngonoSusceptibleRule(option, organism) ||
-                                drugAcronymsOpposite2[option] ||
-                                option
-                              }
-                            />
-                          </MenuItem>
-                        ))}
+                        {resistanceOptions.map((option, index) => {
+                          // Resolve to canonical English label first, then
+                          // localize via the drugs.* namespace (falls back
+                          // to the canonical English when a locale hasn't
+                          // translated the drug yet).
+                          const canonical =
+                            ciproAcronyms[option] ||
+                            ngonoSusceptibleRule(option, organism) ||
+                            drugAcronymsOpposite2[option] ||
+                            option;
+                          return (
+                            <MenuItem key={index + 'resistance-option'} value={option}>
+                              <Checkbox checked={prevalenceMapViewOptionsSelected.indexOf(option) > -1} />
+                              <ListItemText primary={t(`drugs.${option}`, canonical)} />
+                            </MenuItem>
+                          );
+                        })}
                       </Select>
                     </>
                   ) : (

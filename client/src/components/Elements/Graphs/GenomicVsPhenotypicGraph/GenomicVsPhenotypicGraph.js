@@ -479,7 +479,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
     <CardContent className={classes.genomicVsPhenotypicGraph}>
       <Box className={classes.controlsRow}>
         <Typography variant="body2" fontWeight={600}>
-          Genomic (AMRnet) vs Phenotypic Resistance
+          {t('amrInsights.gvp.title')}
         </Typography>
         <Tooltip title={t('amrInsights.gvp.compareTooltip')}>
           <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
@@ -600,17 +600,17 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
                 <XAxis type="number" dataKey="x" domain={[0, 100]}>
                   <Label
                     value={
-                      phenoSource === 'typhi_literature' ? 'Phenotypic CipNS — Literature (%)' :
-                      phenoSource === 'literature' && organism === 'ngono' ? 'Phenotypic CIP Resistance — WHO GASP/Literature (%)' :
-                      phenoSource === 'literature' && organism === 'strepneumo' ? 'Phenotypic SXT Resistance — Literature (%)' :
-                      phenoSource === 'literature' ? 'Phenotypic Resistance — Literature (%)' :
-                      'Phenotypic Resistance — WHO GLASS (%)'
+                      phenoSource === 'typhi_literature' ? t('amrInsights.gvp.xAxisTyphiLiterature') :
+                      phenoSource === 'literature' && organism === 'ngono' ? t('amrInsights.gvp.xAxisLiteratureNgono') :
+                      phenoSource === 'literature' && organism === 'strepneumo' ? t('amrInsights.gvp.xAxisLiteratureStrepneumo') :
+                      phenoSource === 'literature' ? t('amrInsights.gvp.xAxisLiteratureDefault') :
+                      t('amrInsights.gvp.xAxisGlass')
                     }
                     position="bottom" offset={20} style={{ fontSize: 12 }}
                   />
                 </XAxis>
                 <YAxis type="number" dataKey="y" domain={[0, 100]}>
-                  <Label value="Genomic Resistance — AMRnet (%)" angle={-90} position="insideLeft" offset={10} style={{ fontSize: 12, textAnchor: 'middle' }} />
+                  <Label value={t('amrInsights.gvp.yAxis')} angle={-90} position="insideLeft" offset={10} style={{ fontSize: 12, textAnchor: 'middle' }} />
                 </YAxis>
                 <ZAxis type="number" dataKey="genomes" range={[40, 300]} name="Genomes" />
                 <ChartTooltip content={<CustomTooltip />} />
@@ -621,7 +621,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
                   stroke="#333"
                   strokeDasharray="5 5"
                   strokeWidth={1}
-                  label={{ value: 'Perfect agreement', position: 'end', fontSize: 10, fill: '#666' }}
+                  label={{ value: t('amrInsights.gvp.perfectAgreement'), position: 'end', fontSize: 10, fill: '#666' }}
                 />
                 <Scatter data={scatterData}>
                   {scatterData.map((entry, i) => (
@@ -696,17 +696,17 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           <Typography variant="body2" fontWeight={600} sx={{ marginTop: '4px' }}>{t('amrInsights.gvp.methodology')}</Typography>
           <Box className={classes.tooltipWrapper}>
             <Typography variant="caption" sx={{ lineHeight: 1.5 }}>
-              <strong>Matching:</strong> Countries present in both AMRnet and GLASS (N≥20 AMRnet genomes, N≥10 GLASS isolates tested).
+              <strong>{t('amrInsights.gvp.matchingLabel')}</strong> {t('amrInsights.gvp.matching')}
               <br /><br />
-              <strong>Concordance:</strong> A country is concordant if the phenotypic value falls within the 95% Wilson score CI of the AMRnet genomic estimate.
+              <strong>{t('amrInsights.gvp.concordanceLabel')}</strong> {t('amrInsights.gvp.concordanceText')}
               <br /><br />
               <strong>{t('amrInsights.gvp.errorBarsLabel')}</strong> {t('amrInsights.gvp.errorBars')}
               <br /><br />
-              <strong>Correlations:</strong> Pearson r measures linear association. Spearman ρ measures rank correlation (robust to outliers and non-normal distributions).
+              <strong>{t('amrInsights.gvp.correlationsLabel')}</strong> {t('amrInsights.gvp.correlations')}
               <br /><br />
-              <strong>Drug mapping:</strong>{' '}
+              <strong>{t('amrInsights.gvp.drugMappingLabel')}</strong>{' '}
               {phenoSource === 'typhi_literature'
-                ? 'Phenotypic = CipNS (I+R) from country-specific literature. Genomic = Ciprofloxacin NS markers (AMRnet). CipNS defined as ≥1 QRDR mutation (gyrA/parC) or acquired fluoroquinolone resistance gene.'
+                ? t('amrInsights.gvp.drugMappingTyphiLiterature')
                 : phenoSource === 'literature' && organism === 'ecoli'
                 ? 'Phenotypic = 3GC non-susceptibility (ESBL proxy) from ECDC EARS-Net 2021 / national reports. Genomic = ESBL gene carriage (AMRnet).'
                 : phenoSource === 'literature' && organism === 'kpneumo'
@@ -726,12 +726,12 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
                 : `${glassIndicator?.label || '—'}. AMRnet = genome-derived (${glassIndicator?.drug || '—'}). Note: genotypic and phenotypic definitions may differ.`
               }
               <br /><br />
-              <strong>Caveats:</strong>{' '}
+              <strong>{t('amrInsights.gvp.caveatsLabel')}</strong>{' '}
               {phenoSource === 'typhi_literature'
-                ? '(1) Literature data uses different year ranges per country — not a single snapshot; (2) Most studies are hospital-based and may overestimate resistance vs community burden; (3) Genomic CipNS (QRDR mutations) may slightly overestimate phenotypic CipNS MIC ≥0.06 breakpoints; (4) AMRnet public genomes may over-represent resistant isolates.'
+                ? t('amrInsights.gvp.caveatsTyphiLiterature')
                 : phenoSource === 'literature'
-                ? '(1) Literature data uses different year ranges per country — not a single unified dataset; (2) ECDC EARS-Net covers EU/EEA only; non-EU data sourced from multiple national programs with different methodologies; (3) AMRnet public genomes may over-represent resistant isolates from outbreak investigations; (4) Genotypic and phenotypic breakpoints may differ slightly.'
-                : '(1) Time period mismatch — AMRnet pools across available years, GLASS uses single-year estimates; (2) Sampling bias — public genomes may over-represent resistant isolates; (3) Population differences — GLASS captures clinical specimens, AMRnet captures all public genomes.'
+                ? t('amrInsights.gvp.caveatsLiterature')
+                : t('amrInsights.gvp.caveatsGlass')
               }
               <br /><br />
               <strong>{t('amrInsights.gvp.bubbleSizeLabel')}</strong> ∝ {t('amrInsights.gvp.bubbleSize').replace(/^.*?∝\s*/, '')}

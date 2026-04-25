@@ -647,7 +647,7 @@ export const Map = () => {
                           />
                         )}
                         <span className={classes.keyInfo} key={`info-${index}`}>
-                          <span>{key}:</span>
+                          <span>{t(`drugs.${key}`, key)}:</span>
                           {showPercentage() ? (
                             <span>{` ${tooltipContent.content[key].count} (${tooltipContent.content[key].percentage})`}</span>
                           ) : (

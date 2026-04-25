@@ -472,7 +472,10 @@
     "resistancePrevalence": "Prévalence de résistance",
     "ngMastPrevalence": "Prévalence NG-MAST",
     "dominantGenotype": "Génotype dominant",
-    "selectDrugsToCompare": "Sélectionner des antibiotiques à comparer"
+    "selectDrugsToCompare": "Sélectionner des antibiotiques à comparer",
+    "allCountries": "Tous les pays",
+    "allCountriesInRegion": "Tous les pays de la région",
+    "selectACountry": "Sélectionner un pays"
   },
   "pdf": {
     "reportInformation": "Informations du rapport",

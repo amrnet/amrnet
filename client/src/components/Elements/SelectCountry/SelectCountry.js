@@ -179,18 +179,18 @@ export const SelectCountry = ({ hideAll = false }) => {
         disabled={organism === 'none'}
         renderValue={(selected) => {
           if (selected === 'All') {
-            return actualRegion !== 'All' ? 'All countries in region' : 'All countries';
+            return actualRegion !== 'All' ? t('common.allCountriesInRegion') : t('common.allCountries');
           }
           return getLocalizedCountryName(selected, i18n.language);
         }}
       >
         {hideAll ? (
           <MenuItem value="All" disabled>
-            Select a country
+            {t('common.selectACountry')}
           </MenuItem>
         ) : (
           <MenuItem value="All">
-            {actualRegion !== 'All' ? 'All countries in region' : 'All countries'}
+            {actualRegion !== 'All' ? t('common.allCountriesInRegion') : t('common.allCountries')}
           </MenuItem>
         )}
         {filteredCountries.map((country, index) => {

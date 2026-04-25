@@ -14,6 +14,7 @@ import {
 import { useAppSelector } from '../../../../stores/hooks';
 import { drugRulesST } from '../../../../util/drugClassesRules';
 import { drugAcronyms } from '../../../../util/drugs';
+import { getLocalizedCountryName } from '../../../../util/countryLocalization';
 import { useStyles } from './RadarProfileGraphMUI';
 
 // Direct column lookups for styphi — avoids the getDrugClassData resistantCount bug
@@ -50,7 +51,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [xAxisType, setXAxisType] = useState('country');
 
@@ -208,7 +209,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
               {selected.map(value => (
                 <Chip
                   key={value}
-                  label={value}
+                  label={xAxisType === 'country' ? getLocalizedCountryName(value, i18n.language) : value}
                   size="small"
                   onDelete={() => handleRemoveCountry(value)}
                   onMouseDown={e => e.stopPropagation()}
@@ -233,7 +234,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
               disabled={selectedCountries.length >= MAX_COUNTRIES && !selectedCountries.includes(loc)}
             >
               <Checkbox checked={selectedCountries.includes(loc)} size="small" />
-              <ListItemText primary={loc} />
+              <ListItemText primary={xAxisType === 'country' ? getLocalizedCountryName(loc, i18n.language) : loc} />
             </MenuItem>
           ))}
         </Select>
