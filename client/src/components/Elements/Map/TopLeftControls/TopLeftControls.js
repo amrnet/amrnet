@@ -25,7 +25,7 @@ import {
   setCanFilterData,
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
-import { setDataset, setDatasetKP, setDatasetNTS } from '../../../../stores/slices/mapSlice.ts';
+import { setDataset, setDatasetKP } from '../../../../stores/slices/mapSlice.ts';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { useStyles } from './TopLeftControlsMUI';
 
@@ -40,7 +40,6 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
   const dispatch = useAppDispatch();
   const dataset = useAppSelector(state => state.map.dataset);
   const datasetKP = useAppSelector(state => state.map.datasetKP);
-  const datasetNTS = useAppSelector(state => state.map.datasetNTS);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
   const yearsCompleteListToShowInGlobalFilter = useAppSelector(
@@ -64,13 +63,6 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
   function handleChangeKP(_event, newValue) {
     if (newValue !== null) {
       dispatch(setDatasetKP(newValue));
-      dispatch(setCanFilterData(true));
-    }
-  }
-
-  function handleChangeNTS(_event, newValue) {
-    if (newValue !== null) {
-      dispatch(setDatasetNTS(newValue));
       dispatch(setCanFilterData(true));
     }
   }
@@ -169,18 +161,6 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
                 </ToggleButton>
                 <ToggleButton value="Carbapenems" color="primary">
                   CARB+
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-          )}
-          {organism !== 'senterica' && organism !== 'sentericaints' ? null : (
-            <div className={classes.datasetWrapper}>
-              <ToggleButtonGroup value={datasetNTS} exclusive size="small" onChange={handleChangeNTS}>
-                <ToggleButton value="All" color="primary">
-                  {t('common.datasetAll').toUpperCase()}
-                </ToggleButton>
-                <ToggleButton value="acrB_R717+" color="primary">
-                  acrB_R717+
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
