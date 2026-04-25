@@ -649,18 +649,21 @@ export const DownloadData = () => {
       };
       const [firstName, secondName] = nameMap[organism] ?? ['Unknown', 'organism'];
 
-      // Resolve info texts for PDF info page
+      // Resolve info texts for PDF info page. The get*Texts() functions
+      // now read the `report.<organism>` arrays from i18next, so the PDF
+      // copy follows the user's selected dashboard language (with English
+      // fallback for any locale that hasn't been translated yet).
       const textsMap = {
-        styphi: () => getSalmonellaTexts(formatDate(new Date())),
-        kpneumo: getKlebsiellaTexts,
-        ngono: getNgonoTexts,
-        shige: getShigeTexts,
-        senterica: getSentericaintsTexts,
-        ecoli: getEcoliTexts,
-        decoli: getDEcoliTexts,
-        sentericaints: getIntsTexts,
-        saureus: getSaureusTexts,
-        strepneumo: getStrepneumoTexts,
+        styphi: () => getSalmonellaTexts(t),
+        kpneumo: () => getKlebsiellaTexts(t),
+        ngono: () => getNgonoTexts(t),
+        shige: () => getShigeTexts(t),
+        senterica: () => getSentericaintsTexts(t),
+        ecoli: () => getEcoliTexts(t),
+        decoli: () => getDEcoliTexts(t),
+        sentericaints: () => getIntsTexts(t),
+        saureus: () => getSaureusTexts(t),
+        strepneumo: () => getStrepneumoTexts(t),
       };
       const texts = textsMap[organism]?.() ?? [];
 
