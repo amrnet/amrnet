@@ -7,9 +7,8 @@ const swaggerDocument = {
   openapi: '3.0.3',
   info: {
     title: 'AMRnet Public API',
-    version: '1.0.0',
+    version: '1.4.0',
     description: `
-## AMRnet — Antimicrobial Resistance Surveillance API
 
 AMRnet is a global genomic surveillance platform for antimicrobial resistance (AMR) tracking.
 This API provides programmatic access to AMR genomic data across multiple bacterial pathogens.
@@ -36,16 +35,17 @@ Genomic data sourced from Enterobase, Pathogenwatch, PubMLST, NCBI and WHO GLASS
 
 ### Citation
 If you use AMRnet data in your research, please cite:
-> [Cerdeira L, et al. AMRnet: a global genomic surveillance platform for antimicrobial resistance. (2026)](https://doi.org/10.1093/nar/gkaf1101)
+>
+[Cerdeira L, et al. AMRnet: a global genomic surveillance platform for antimicrobial resistance. (2026)](https://doi.org/10.1093/nar/gkaf1101)
     `,
     contact: {
       name: 'Contact - AMRnet Team',
-      url: 'https://amrnet.org',
+      url: 'https://amrnet.org/#/about#team-section',
     },
-    license: {
-      name: 'GPL-3.0',
-      url: 'https://www.gnu.org/licenses/gpl-3.0.html',
-    },
+    // license: {
+    //   name: 'GPL-3.0',
+    //   url: 'https://www.gnu.org/licenses/gpl-3.0.html',
+    // },
   },
   servers: [
     {
@@ -400,11 +400,24 @@ If you use AMRnet data in your research, please cite:
 // Custom Swagger UI options
 const swaggerOptions = {
   customCss: `
-    .swagger-ui .topbar { background-color: #1a237e; }
-    .swagger-ui .info .title { color: #1a237e; }
+    .swagger-ui .topbar { background-color: #eed7f9; }
+    .swagger-ui .info .title { color: #601a7e; }
+    /* Replace the default Swagger UI logo with AMRnet's */
+    .swagger-ui .topbar-wrapper a img,
+    .swagger-ui .topbar-wrapper svg { display: none; }
+    .swagger-ui .topbar-wrapper a::before {
+      content: '';
+      display: inline-block;
+      width: 140px;
+      height: 40px;
+      background-image: url('/amrnet-icon.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left center;
+    }
   `,
   customSiteTitle: 'AMRnet API Documentation',
-  customfavIcon: '/favicon.ico',
+  customfavIcon: '/amrnet-icon.png',
   swaggerOptions: {
     persistAuthorization: true,
     defaultModelsExpandDepth: -1,
