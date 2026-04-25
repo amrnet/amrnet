@@ -422,8 +422,13 @@ const DRUG_CONDITIONS = {
 function buildMatchStage(organism, query) {
   const { dateFrom, dateTo, dataset, pathotype, serotype, datasetKP, countries } = query;
 
+  // All organism collections store exactly 'include' / 'exclude' in this
+  // field (verified across all 10 amrnetdb_* collections in production).
+  // Exact match is btree-indexable; the previous case-insensitive regex
+  // forced a less-efficient plan and bypassed the dashboard_view_date
+  // compound index.
   const match = {
-    'dashboard view': { $regex: /^include$/i },
+    'dashboard view': 'include',
   };
 
   // GENOTYPE null filter (same as existing paginated endpoints)

@@ -337,7 +337,7 @@ router.get('/map/:organism', async (req, res) => {
   }
 
   try {
-    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const query = { 'dashboard view': 'include' };
 
     // Apply filters if provided
     if (filters) {
@@ -377,7 +377,7 @@ router.get('/genotypes/:organism', async (req, res) => {
   }
 
   try {
-    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const query = { 'dashboard view': 'include' };
 
     if (filters) {
       const parsedFilters = JSON.parse(filters);
@@ -415,7 +415,7 @@ router.get('/resistance/:organism', async (req, res) => {
   }
 
   try {
-    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const query = { 'dashboard view': 'include' };
 
     if (filters) {
       const parsedFilters = JSON.parse(filters);
@@ -453,7 +453,7 @@ router.get('/trends/:organism', async (req, res) => {
   }
 
   try {
-    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const query = { 'dashboard view': 'include' };
 
     if (filters) {
       const parsedFilters = JSON.parse(filters);
@@ -492,7 +492,7 @@ router.get('/convergence/:organism', async (req, res) => {
   const dbAndCollection = dbAndCollectionNames[organism];
 
   try {
-    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const query = { 'dashboard view': 'include' };
 
     if (filters) {
       const parsedFilters = JSON.parse(filters);
@@ -535,7 +535,7 @@ router.get('/filters/:organism', async (req, res) => {
   try {
     const pipeline = [
       {
-        $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } },
+        $match: { 'dashboard view': 'include' },
       },
     ];
 
@@ -597,7 +597,7 @@ router.get('/filters/:organism/options', async (req, res) => {
     // Get unique values for filter options
     const pipeline = [
       {
-        $match: { 'dashboard view': { $regex: /^include$/, $options: 'i' } },
+        $match: { 'dashboard view': 'include' },
       },
       {
         $group: {
@@ -648,7 +648,7 @@ router.get('/paginated/:organism', async (req, res) => {
   }
 
   try {
-    const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const query = { 'dashboard view': 'include' };
 
     if (organism === 'kpneumo') query.GENOTYPE = { $ne: null };
 
@@ -722,7 +722,7 @@ router.get('/summary/:organism', async (req, res) => {
   }
 
   try {
-    const baseQuery = { 'dashboard view': { $regex: /^include$/, $options: 'i' } };
+    const baseQuery = { 'dashboard view': 'include' };
 
     if (filters) {
       const parsedFilters = JSON.parse(filters);
@@ -821,7 +821,7 @@ router.get('/getDataForEcoli', async function (req, res) {
   const page = parseInt(req.query.page, 10) || 1;
   const pageSize = parseInt(req.query.limit, 10) || 3000;
   const skip = (page - 1) * pageSize;
-  const query = { 'dashboard view': { $regex: /^include$/, $options: 'i' }, GENOTYPE: { $ne: null } };
+  const query = { 'dashboard view': 'include', GENOTYPE: { $ne: null } };
 
   try {
     const connectedClient = await getConnectedClient();

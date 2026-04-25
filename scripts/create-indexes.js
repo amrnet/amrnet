@@ -40,12 +40,21 @@ async function main() {
           console.warn(`  ⚠️  Could not ensure index (may already exist): ${indexErr.message}`);
         }
       } else {
-        // Compound index aligning with common queries and projections
-        // Filters used: { 'dashboard view': /include/i, GENOTYPE: { $ne: null } }
-        // Projections frequently include COUNTRY_ONLY, DATE
+        // Compound index for the genotype/country breakdown pipelines.
+        // Used by /api/agg/:organism/genotypes and the per-year genotype
+        // breakdown stage of /yearly.
         await coll.createIndex(
           { 'dashboard view': 1, GENOTYPE: 1, COUNTRY_ONLY: 1, DATE: 1 },
           { name: 'dash_genotype_country_date' },
+        );
+
+        // Compound index for the yearly aggregation. The leading
+        // `dashboard view: 'include'` equality + DATE range cover the
+        // hot $match for /api/agg/:organism/yearly without forcing a
+        // FETCH-back to filter out the 71% of rows marked 'exclude'.
+        await coll.createIndex(
+          { 'dashboard view': 1, DATE: 1 },
+          { name: 'dash_date' },
         );
 
         // Helpful single-field indexes used in aggregations/filters

@@ -96,7 +96,7 @@ router.get('/organisms/:organism/resistance', async (req, res) => {
   }
 
   const { db, collection } = DB_MAP[organism];
-  const match = { 'dashboard view': { $regex: /^include$/i } };
+  const match = { 'dashboard view': 'include' };
 
   if (country) match.COUNTRY_ONLY = { $regex: new RegExp(`^${country}$`, 'i') };
   if (year_from || year_to) {
@@ -168,7 +168,7 @@ router.get('/organisms/:organism/genomes', async (req, res) => {
   }
 
   const { db, collection } = DB_MAP[organism];
-  const match = { 'dashboard view': { $regex: /^include$/i } };
+  const match = { 'dashboard view': 'include' };
 
   if (country) match.COUNTRY_ONLY = { $regex: new RegExp(`^${country}$`, 'i') };
   if (genotype) match.GENOTYPE = { $regex: new RegExp(genotype, 'i') };
@@ -214,7 +214,7 @@ router.get('/organisms/:organism/countries', async (req, res) => {
   }
 
   const { db, collection } = DB_MAP[organism];
-  const match = { 'dashboard view': { $regex: /^include$/i } };
+  const match = { 'dashboard view': 'include' };
 
   if (year_from || year_to) {
     match.$expr = { $and: [] };
@@ -268,7 +268,7 @@ router.get('/organisms/:organism/download', async (req, res) => {
   }
 
   const { db, collection } = DB_MAP[organism];
-  const match = { 'dashboard view': { $regex: /^include$/i } };
+  const match = { 'dashboard view': 'include' };
 
   try {
     const client = await connectDB();
