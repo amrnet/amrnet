@@ -49,6 +49,7 @@ interface MapState {
   tooltipContent: Object | null;
   dataset: string;
   datasetKP: string;
+  datasetNTS: string;
   mapData: Array<MapDataModel>;
   mapRegionData: Array<MapDataModel>;
   mapColoredBy: string;
@@ -68,6 +69,7 @@ const initialState: MapState = {
   tooltipContent: null,
   dataset: '',
   datasetKP: 'All',
+  datasetNTS: 'All',
   mapData: [],
   mapRegionData: [],
   mapColoredBy: 'country',
@@ -99,6 +101,9 @@ export const mapSlice = createSlice({
     setDatasetKP: (state, action: PayloadAction<string>) => {
       state.datasetKP = action.payload;
     },
+    setDatasetNTS: (state, action: PayloadAction<string>) => {
+      state.datasetNTS = action.payload;
+    },
     setMapData: (state, action: PayloadAction<Array<any>>) => {
       state.mapData = action.payload;
     },
@@ -129,6 +134,7 @@ export const {
   setTooltipContent,
   setDataset,
   setDatasetKP,
+  setDatasetNTS,
   setLoadingMap,
   setMapData,
   setMapRegionData,

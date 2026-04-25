@@ -33,6 +33,7 @@ import {
   statKeysECOLI,
   statKeysKP,
   statKeysKPOnlyMarkers,
+  statKeysNTS,
 } from '../../util/drugClassesRules';
 import { drugsSA, drugsSP, markersDrugsKP, markersDrugsSH } from '../../util/drugs';
 import { amrLikeOrganisms } from '../../util/organismsCards';
@@ -174,6 +175,7 @@ export function filterData({
   data,
   dataset,
   datasetKP,
+  datasetNTS,
   actualTimeInitial,
   actualTimeFinal,
   organism,
@@ -189,6 +191,21 @@ export function filterData({
     const columnID = statKeysKP.find(x => x.name === datasetKP).column;
     if (Array.isArray(columnID)) return columnID.some(x => item[x] !== '-');
     return item[columnID] !== '-';
+  };
+  // NTS subset toggle (senterica / sentericaints). `datasetNTS === 'All'`
+  // is a no-op; any other value looks up the rule in statKeysNTS and keeps
+  // only records whose `column` cell contains a gene matching the rule's
+  // regex (e.g. acrB_R717L / acrB_R717Q in the Macrolide column).
+  const checkDatasetNTS = item => {
+    if (!datasetNTS || datasetNTS === 'All') return true;
+    const rule = statKeysNTS.find(x => x.name === datasetNTS);
+    if (!rule) return true;
+    const cell = item[rule.column];
+    if (!cell || cell === '-' || cell === 'ND') return false;
+    return String(cell)
+      .split(';')
+      .map(s => s.trim())
+      .some(gene => gene && rule.match.test(gene));
   };
   const checkTime = item => {
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
@@ -215,7 +232,9 @@ export function filterData({
   let listPMID = [];
 
   // Filter
-  const newData = data.filter(x => checkDataset(x) && checkDatasetKP(x) && checkTime(x) && checkLineages(x));
+  const newData = data.filter(
+    x => checkDataset(x) && checkDatasetKP(x) && checkDatasetNTS(x) && checkTime(x) && checkLineages(x),
+  );
 
   // Set genotypes, genomes and PMID
   if (actualRegion !== 'All') {

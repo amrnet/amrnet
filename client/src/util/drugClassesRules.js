@@ -1441,6 +1441,19 @@ export const statKeysSP = [
   { name: 'Pansusceptible', column: 'amr_gene_count', key: '0', resistanceView: true, pansusceptible: true },
 ];
 
+// Non-typhoidal Salmonella subset toggle — analogous to ESBL/CARB for KP.
+// Each entry's `match` is a regex applied to the cell at `column`; a record
+// passes if any gene in the cell (";"-separated) matches. Used by
+// checkDatasetNTS in filters.js to filter the dashboard to the selected
+// subset while keeping the overall statKeys/resistance-view wiring intact.
+export const statKeysNTS = [
+  {
+    name: 'acrB_R717+',
+    column: 'Macrolide',
+    match: /acrB_R717[LQ]/i,
+  },
+];
+
 export const statKeys = {
   styphi: statKeysST,
   ngono: statKeysNG,
