@@ -347,18 +347,37 @@ export function PDFPreviewModal({ open, onClose, data }) {
       >
         {/* Cover card */}
         <ReportCard>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              mb: 2,
+              marginTop: 8,
+              marginRight: 8,
+              marginBottom: 8,
+              marginLeft: 8,
+            }}
+          >
             <Box>
-              <Typography variant="overline" color="text.secondary" sx={{ letterSpacing: 2 }}>
+              <Typography
+                variant="overline"
+                color="text.secondary"
+                sx={{ letterSpacing: 2, marginTop: 8, marginRight: 8, marginBottom: 8, marginLeft: 8 }}
+              >
                 AMRnet Report
               </Typography>
               <Typography variant="h4" fontWeight={800} lineHeight={1.1} sx={{ mt: 0.5 }}>
-                {firstName}
+                <i>
+                  {firstName} {secondName}
+                </i>
               </Typography>
-              <Typography variant="h5" fontStyle="italic" color="text.secondary" lineHeight={1.2}>
-                {secondName}
-              </Typography>
-              <Typography variant="caption" color="text.disabled" sx={{ mt: 1, display: 'block' }}>
+              {/* <Typography variant="h5" fontStyle="italic" color="text.secondary" lineHeight={1.2}></Typography> */}
+              <Typography
+                variant="caption"
+                color="text.disabled"
+                sx={{ mt: 1, marginTop: 8, marginRight: 8, marginBottom: 8, marginLeft: 8, display: 'block' }}
+              >
                 Generated {new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
               </Typography>
             </Box>
