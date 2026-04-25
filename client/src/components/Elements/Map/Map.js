@@ -28,6 +28,7 @@ import { MapActions } from './MapActions/MapActions';
 import { differentColorScale, redColorScale, samplesColorScale, sensitiveColorScale } from './mapColorHelper';
 import { MapFilters } from './MapFilters/MapFilters';
 import { useStyles } from './MapMUI';
+import { getLocalizedCountryName } from '../../../util/countryLocalization';
 
 const statKey = {
   MDR: 'MDR',
@@ -49,7 +50,7 @@ export const Map = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
   const [showFilter, setShowFilter] = useState(!matches500);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const dispatch = useAppDispatch();
   const position = useAppSelector(state => state.map.position);
@@ -624,7 +625,7 @@ export const Map = () => {
           <ReactTooltip>
             {tooltipContent && (
               <div className={classes.tooltipMap}>
-                <span className={classes.country}>{tooltipContent.name}</span>
+                <span className={classes.country}>{getLocalizedCountryName(tooltipContent.name, i18n.language)}</span>
                 {tooltipContent.total !== null && (
                   <>
                     <span className={classes.total}>

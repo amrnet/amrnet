@@ -45,6 +45,7 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { useStyles } from './BubbleGeographicGraphMUI';
+import { getLocalizedCountryName } from '../../../../util/countryLocalization';
 
 // Dynamic trend options generator
 const createTrendOptions = (organism, drugs, labelMap = {}) => {
@@ -203,7 +204,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   const [yAxisSelected, setYAxisSelected] = useState([]);
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const [plotChart, setPlotChart] = useState(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const dispatch = useAppDispatch();
   const organism = useAppSelector(state => state.dashboard.organism);
@@ -585,7 +586,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
             return (
               <Typography fontSize="12px" key={`country-tooltip-${index}`}>
                 <Typography component="span" fontWeight={500} fontSize="12px" display="inline">
-                  {x.countryName}
+                  {xAxisType === 'country' ? getLocalizedCountryName(x.countryName, i18n.language) : x.countryName}
                 </Typography>
                 {`: ${x.itemCount}/${x.countryCount} (${x.percentage}%)`}
               </Typography>

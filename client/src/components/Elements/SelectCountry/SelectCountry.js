@@ -14,11 +14,12 @@ import {
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { InfoOutlined } from '@mui/icons-material';
+import { getLocalizedCountryName } from '../../../util/countryLocalization';
 // import { useMemo } from 'react';
 
 export const SelectCountry = ({ hideAll = false }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const actualCountry = useAppSelector((state) => state.dashboard.actualCountry);
   const actualRegion = useAppSelector((state) => state.dashboard.actualRegion);
@@ -180,7 +181,7 @@ export const SelectCountry = ({ hideAll = false }) => {
           if (selected === 'All') {
             return actualRegion !== 'All' ? 'All countries in region' : 'All countries';
           }
-          return selected;
+          return getLocalizedCountryName(selected, i18n.language);
         }}
       >
         {hideAll ? (
@@ -193,9 +194,11 @@ export const SelectCountry = ({ hideAll = false }) => {
           </MenuItem>
         )}
         {filteredCountries.map((country, index) => {
+          // value stays English (it's the data key into mapData / aggregations);
+          // the visible label is localized.
           return (
             <MenuItem key={index + 'mapview'} value={country.name}>
-              {country.name} (total N={country.count})
+              {getLocalizedCountryName(country.name, i18n.language)} (total N={country.count})
             </MenuItem>
           );
         })}
