@@ -26,9 +26,24 @@ This API provides programmatic access to AMR genomic data across multiple bacter
 - **strepneumo** — *Streptococcus pneumoniae*
 
 ### Authentication
-All endpoints require an API key. Pass it via:
-- **Header:** \`X-API-Key: your-api-key\`
-- **Query parameter:** \`?api_key=your-api-key\`
+All endpoints require an API key.
+
+**🔑 Request an API key** &mdash; visit the [self-serve registration page](/api-register).
+Fill in your name, email, institution, and intended use; the key is generated immediately
+in the format \`amrnet_<40-hex-chars>\`. Save it — the same email returns the same key
+if you lose it.
+
+Pass the key with every request, either as a header:
+\`\`\`
+X-API-Key: amrnet_your-key-here
+\`\`\`
+or as a query parameter:
+\`\`\`
+?api_key=amrnet_your-key-here
+\`\`\`
+
+To try the endpoints below from this page, click the **Authorize** button (top right)
+and paste your key into either \`ApiKeyHeader\` or \`ApiKeyQuery\`.
 
 ### Data Sources
 Genomic data sourced from Enterobase, Pathogenwatch, PubMLST, NCBI and WHO GLASS.
