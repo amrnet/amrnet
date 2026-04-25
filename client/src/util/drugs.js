@@ -197,6 +197,7 @@ export const drugAcronymsOpposite2 = {
   CIP: 'Ciprofloxacin',
   AZM: 'Azithromycin',
   // ESBL: 'Extended-Spectrum Beta-Lactamase',
+  CipNS: 'Ciprofloxacin (non-susceptible)',
   CipR: 'Ciprofloxacin (resistant)',
   MDR: 'Multidrug resistant (MDR)',
   XDR: 'Extensively drug resistant (XDR)',

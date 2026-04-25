@@ -694,7 +694,17 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                       MenuProps={{ classes: { list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                     >
-                      {getDrugClasses(organism).map((option, index) => (
+                      {getDrugClasses(organism)
+                        .filter(opt =>
+                          // ecoli-family organisms: hide CipNS/CipR — the
+                          // marker-oriented view uses the combined
+                          // 'Ciprofloxacin' aggregate. Prevalence views
+                          // (AMR Trends, main map legend, etc.) still show
+                          // both CipNS and CipR separately.
+                          !['ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism) ||
+                          (opt !== 'Ciprofloxacin NS' && opt !== 'Ciprofloxacin R'),
+                        )
+                        .map((option, index) => (
                         <MenuItem key={`bubbler-markers-y-axis-type-${index}`} value={option}>
                           {drugAcronymsOpposite[drugAcronyms[option] ?? option] ?? option}
                         </MenuItem>
