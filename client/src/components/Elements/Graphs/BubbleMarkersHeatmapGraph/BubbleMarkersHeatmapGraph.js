@@ -210,9 +210,14 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [xAxisOptions]);
 
   useEffect(() => {
-    setSavedSelection(xAxisOptions?.slice(0, 10));
-    setXAxisSelected(xAxisOptions?.slice(0, 10));
-  }, [bubbleMarkersYAxisType]);
+    // ngono NG-MAST is far more granular than 7-locus MLST — there are
+    // hundreds of distinct types per dataset, so a 10-item default makes
+    // the heatmap look almost empty. Bump to 20 for that view only.
+    const defaultLimit =
+      organism === 'ngono' && bubbleMarkersHeatmapGraphVariable === 'NG-MAST TYPE' ? 20 : 10;
+    setSavedSelection(xAxisOptions?.slice(0, defaultLimit));
+    setXAxisSelected(xAxisOptions?.slice(0, defaultLimit));
+  }, [bubbleMarkersYAxisType, bubbleMarkersHeatmapGraphVariable, organism, xAxisOptions]);
 
   useEffect(() => {
     setYAxisSelected(yAxisOptions?.slice(0, 10));

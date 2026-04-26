@@ -2540,7 +2540,7 @@ function getDrugClassData({ columnID, dataToFilter, drugClassesRules }) {
   let resistantCount = 0;
 
   dataToFilter.forEach(x => {
-    let anyGenePassed = false;
+    let anyResistanceGenePassed = false;
     genes.forEach(gene => {
       // Each gene has a set of rules that must ALL pass
       const rulePassed = gene.rules.every(rule => {
@@ -2551,11 +2551,19 @@ function getDrugClassData({ columnID, dataToFilter, drugClassesRules }) {
       if (rulePassed) {
         const name = gene.name;
         drugClass[name] = (drugClass[name] || 0) + 1;
-        anyGenePassed = true;
+        // Only resistance markers (susceptible !== true) count toward
+        // resistantCount. ngono's drugClassesRulesNG includes a "None"
+        // sentinel gene with susceptible: true that fires when every
+        // resistance marker column is "0"; counting it here would make
+        // resistantCount === dataToFilter.length for every record, which
+        // broke the Radar Profile (every cell rendered as 100%).
+        if (gene.susceptible !== true) {
+          anyResistanceGenePassed = true;
+        }
       }
     });
 
-    if (anyGenePassed) {
+    if (anyResistanceGenePassed) {
       resistantCount++;
     }
   });
