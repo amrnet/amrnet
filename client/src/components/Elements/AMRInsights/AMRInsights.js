@@ -24,6 +24,7 @@ import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
 import { QRDRPathwayGraph } from '../Graphs/QRDRPathwayGraph';
 import { SerotypeResistanceGraph } from '../Graphs/SerotypeResistanceGraph';
 import { PMENCloneGraph } from '../Graphs/PMENCloneGraph/PMENCloneGraph';
+import { StratifiedResistanceGraph } from '../Graphs/StratifiedResistanceGraph';
 import { useStyles } from './AMRInsightsMUI';
 
 const TABS = [
@@ -62,6 +63,18 @@ const TABS = [
     value: 'PMEN',
     component: <PMENCloneGraph />,
     onlyFor: ['strepneumo'],
+  },
+  {
+    labelKey: 'amrInsights.tabs.oneHealthSource',
+    value: 'OHS',
+    component: <StratifiedResistanceGraph mode="source" />,
+    onlyFor: ['senterica', 'sentericaints', 'ecoli', 'decoli', 'shige'],
+  },
+  {
+    labelKey: 'amrInsights.tabs.linCode',
+    value: 'LIN',
+    component: <StratifiedResistanceGraph mode="lin" />,
+    onlyFor: ['ecoli', 'decoli', 'shige'],
   },
   {
     labelKey: 'amrInsights.tabs.cooccurrence',

@@ -268,7 +268,9 @@
       "serotypeResistance": "Vaccine Coverage",
       "pmenClones": "PMEN Clones",
       "cooccurrence": "AMR Co-occurrence",
-      "atbCorrelation": "ATB Usage vs Resistance"
+      "atbCorrelation": "ATB Usage vs Resistance",
+      "oneHealthSource": "One Health source",
+      "linCode": "LIN code lineages"
     },
     "gvp": {
       "compareTooltip": "Compares AMRnet genome-derived resistance predictions with phenotypic surveillance data. Each point = one country. Points on the diagonal = perfect agreement. Error bars = 95% Wilson score CI on the genomic estimate.",
@@ -322,6 +324,24 @@
       "caveatsTyphiLiterature": "(1) Literature data uses different year ranges per country — not a single snapshot; (2) Most studies are hospital-based and may overestimate resistance vs community burden; (3) Genomic CipNS (QRDR mutations) may slightly overestimate phenotypic CipNS MIC ≥0.06 breakpoints; (4) AMRnet public genomes may over-represent resistant isolates.",
       "caveatsLiterature": "(1) Literature data uses different year ranges per country — not a single unified dataset; (2) ECDC EARS-Net covers EU/EEA only; non-EU data sourced from multiple national programs with different methodologies; (3) AMRnet public genomes may over-represent resistant isolates from outbreak investigations; (4) Genotypic and phenotypic breakpoints may differ slightly.",
       "caveatsGlass": "(1) Time period mismatch — AMRnet pools across available years, GLASS uses single-year estimates; (2) Sampling bias — public genomes may over-represent resistant isolates; (3) Population differences — GLASS captures clinical specimens, AMRnet captures all public genomes."
+    },
+    "stratified": {
+      "drugLabel": "Drug",
+      "stratifyByLabel": "Stratify by",
+      "minNLabel": "Min N",
+      "topNLabel": "Top N",
+      "fields": {
+        "source_niche": "source_niche (broad: Human / Animal / Environment / …)",
+        "source_type": "source_type (specific: Bovine / Avian / …)",
+        "LINcode_3": "LINcode_3 (broad clusters)",
+        "LINcode_5": "LINcode_5 (medium)",
+        "LINcode_7": "LINcode_7 (fine)"
+      },
+      "empty": "No strata of {{field}} have ≥{{minN}} records. Lower the Min-N threshold or pick a broader stratum.",
+      "coverageLabel": "Coverage:",
+      "coverage": "{{withField}} of {{total}} genomes ({{pct}}%) have a populated {{field}} value. Records lacking metadata are excluded from the chart.",
+      "suppressLabel": "Suppression:",
+      "suppress": "Strata with N<{{minN}} are hidden to keep prevalence estimates statistically meaningful."
     }
   },
   "continentGraphs": {

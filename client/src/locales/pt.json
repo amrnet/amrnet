@@ -245,7 +245,9 @@
       "serotypeResistance": "Cobertura Vacinal",
       "pmenClones": "Clones PMEN",
       "cooccurrence": "Co-ocorrência de RAM",
-      "atbCorrelation": "Uso de ATB vs Resistência"
+      "atbCorrelation": "Uso de ATB vs Resistência",
+      "oneHealthSource": "Fontes One Health",
+      "linCode": "Linhagens LIN code"
     },
     "gvp": {
       "compareTooltip": "Compara previsões de resistência derivadas do genoma do AMRnet com dados de vigilância fenotípica. Cada ponto = um país. Pontos na diagonal = concordância perfeita. Barras de erro = IC Wilson 95% na estimativa genômica.",
@@ -299,6 +301,24 @@
       "caveatsTyphiLiterature": "(1) Os dados da literatura usam diferentes intervalos de anos por país — não é um único instantâneo; (2) A maioria dos estudos é hospitalar e pode superestimar a resistência em relação à carga comunitária; (3) CipNS genômico (mutações QRDR) pode superestimar ligeiramente os pontos de corte fenotípicos CipNS MIC ≥0,06; (4) Os genomas públicos do AMRnet podem sobrerrepresentar isolados resistentes.",
       "caveatsLiterature": "(1) Os dados da literatura usam diferentes intervalos de anos por país — não é um único conjunto unificado; (2) O ECDC EARS-Net cobre apenas a UE/EEE; dados não-UE provêm de vários programas nacionais com metodologias distintas; (3) Os genomas públicos do AMRnet podem sobrerrepresentar isolados resistentes provenientes de investigações de surtos; (4) Os pontos de corte genotípicos e fenotípicos podem diferir ligeiramente.",
       "caveatsGlass": "(1) Discrepância de período temporal — o AMRnet agrega ao longo dos anos disponíveis, enquanto o GLASS usa estimativas de um único ano; (2) Viés de amostragem — genomas públicos podem sobrerrepresentar isolados resistentes; (3) Diferenças populacionais — o GLASS captura amostras clínicas, enquanto o AMRnet captura todos os genomas públicos."
+    },
+    "stratified": {
+      "drugLabel": "Fármaco",
+      "stratifyByLabel": "Estratificar por",
+      "minNLabel": "N mínimo",
+      "topNLabel": "Top N",
+      "fields": {
+        "source_niche": "source_niche (amplo: Humano / Animal / Ambiente / …)",
+        "source_type": "source_type (específico: Bovino / Aviário / …)",
+        "LINcode_3": "LINcode_3 (clusters amplos)",
+        "LINcode_5": "LINcode_5 (médio)",
+        "LINcode_7": "LINcode_7 (fino)"
+      },
+      "empty": "Nenhum estrato de {{field}} possui ≥{{minN}} registos. Reduza o limiar Min-N ou escolha um estrato mais amplo.",
+      "coverageLabel": "Cobertura:",
+      "coverage": "{{withField}} de {{total}} genomas ({{pct}}%) têm um valor de {{field}} preenchido. Registos sem metadados são excluídos do gráfico.",
+      "suppressLabel": "Supressão:",
+      "suppress": "Estratos com N<{{minN}} são ocultados para manter estimativas de prevalência estatisticamente significativas."
     }
   },
   "continentGraphs": {
