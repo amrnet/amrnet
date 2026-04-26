@@ -324,7 +324,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
           loading={pdfLoading}
           startIcon={<FileDownload />}
           onClick={() => generatePDF(data, setPdfLoading)}
-          sx={{ bgcolor: '#b31aeb', '&:hover': { bgcolor: '#b31aeb' }, textTransform: 'none', fontWeight: 700 }}
+          sx={{ bgcolor: '#e2acf6', '&:hover': { bgcolor: '#cc6fee' }, textTransform: 'none', fontWeight: 700 }}
         >
           Download PDF
         </LoadingButton>
@@ -501,7 +501,15 @@ export function PDFPreviewModal({ open, onClose, data }) {
             <a href="https://amrnet.org" target="_blank" rel="noreferrer" style={{ color: 'inherit' }}>
               amrnet.org
             </a>
-            {' · '}Cerdeira et al., Nucleic Acids Res, 2026 · doi: 10.1093/nar/gkaf1101
+            ·{' '}
+            <a
+              href="https://doi.org/10.1093/nar/gkaf1101"
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: 'inherit' }}
+            >
+              Cerdeira et al., Nucleic Acids Res, 2026
+            </a>
           </Typography>
         </Box>
       </Box>
