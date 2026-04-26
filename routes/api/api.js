@@ -181,7 +181,10 @@ router.get('/getDataForEcoli', async function (req, res) {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5000;
     const skip = (page - 1) * limit;
-    // Projection: only return needed fields
+    // Projection: only return needed fields. source_niche/source_type are
+    // One Health stratification axes used by the AMR Insights Stratified
+    // Resistance tab; LINcode_3/_5/_7 are the Enterobase lineage clusters
+    // used by the LIN code tab.
     const projection = {
       Name: 1,
       GENOTYPE: 1,
@@ -206,6 +209,11 @@ router.get('/getDataForEcoli', async function (req, res) {
       Bleomycin: 1,
       'O Antigen': 1,
       'H Antigen': 1,
+      source_niche: 1,
+      source_type: 1,
+      LINcode_3: 1,
+      LINcode_5: 1,
+      LINcode_7: 1,
       'dashboard view': 1,
     };
     // Query
@@ -279,6 +287,8 @@ router.get('/getDataForDEcoli', async function (req, res) {
     const limit = parseInt(req.query.limit) || 5000;
     const skip = (page - 1) * limit;
     // Projection: only return needed fields
+    // source_niche/source_type/LINcode_* added for AMR Insights
+    // Stratified Resistance tabs.
     const projection = {
       Name: 1,
       GENOTYPE: 1,
@@ -303,6 +313,11 @@ router.get('/getDataForDEcoli', async function (req, res) {
       Bleomycin: 1,
       'O Antigen': 1,
       'H Antigen': 1,
+      source_niche: 1,
+      source_type: 1,
+      LINcode_3: 1,
+      LINcode_5: 1,
+      LINcode_7: 1,
       'dashboard view': 1,
     };
     // Query
@@ -393,7 +408,10 @@ router.get('/getDataForSenterica', async function (req, res) {
     // Only count on page 1
     const totalDocuments = page === 1 ? await collection.countDocuments(query) : null;
 
-    // Use aggregation for projection so we can compute GENOTYPE similarly to previous implementation
+    // Use aggregation for projection so we can compute GENOTYPE similarly to previous implementation.
+    // source_niche/source_type added for the AMR Insights One Health
+    // Stratified Resistance tab. (LIN code is not assigned to senterica
+    // by Enterobase, so no LINcode_* fields here.)
     const projectStage = {
       $project: {
         GENOTYPE: {
@@ -422,6 +440,8 @@ router.get('/getDataForSenterica', async function (req, res) {
         Rifamycin: 1,
         Colistin: 1,
         Bleomycin: 1,
+        source_niche: 1,
+        source_type: 1,
       },
     };
 
@@ -507,7 +527,9 @@ router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req
     const client = await connectDB();
     const collection = client.db(dbAndCollection.dbName).collection(dbAndCollection.collectionName);
 
-    // Only count on page 1
+    // Only count on page 1.
+    // source_niche/source_type added for the AMR Insights One Health
+    // Stratified Resistance tab. iNTS doesn't carry LIN codes.
     const projection = {
       NAME: 1,
       GENOTYPE: 1,
@@ -530,6 +552,8 @@ router.get('/getDataForSentericaints', sentericaintsLimiter, async function (req
       Rifamycin: 1,
       Colistin: 1,
       Bleomycin: 1,
+      source_niche: 1,
+      source_type: 1,
       'dashboard view': 1,
     };
 
