@@ -25,6 +25,7 @@ import { QRDRPathwayGraph } from '../Graphs/QRDRPathwayGraph';
 import { SerotypeResistanceGraph } from '../Graphs/SerotypeResistanceGraph';
 import { PMENCloneGraph } from '../Graphs/PMENCloneGraph/PMENCloneGraph';
 import { StratifiedResistanceGraph } from '../Graphs/StratifiedResistanceGraph';
+import { LINcodeGenotypeGraph } from '../Graphs/LINcodeGenotypeGraph/LINcodeGenotypeGraph';
 import { useStyles } from './AMRInsightsMUI';
 
 const TABS = [
@@ -74,6 +75,12 @@ const TABS = [
     labelKey: 'amrInsights.tabs.linCode',
     value: 'LIN',
     component: <StratifiedResistanceGraph mode="lin" />,
+    onlyFor: ['ecoli', 'decoli', 'shige'],
+  },
+  {
+    labelKey: 'amrInsights.tabs.linGenotype',
+    value: 'LGT',
+    component: <LINcodeGenotypeGraph />,
     onlyFor: ['ecoli', 'decoli', 'shige'],
   },
   {

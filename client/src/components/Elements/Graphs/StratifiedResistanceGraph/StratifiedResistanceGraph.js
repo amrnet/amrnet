@@ -11,12 +11,33 @@
 //   lin mode    → ecoli, decoli, shige   (Enterobase only assigns LIN codes
 //                                          for these three)
 
-import { Box, CardContent, MenuItem, Select, Typography } from '@mui/material';
+import { Box, CardContent, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../../../stores/hooks';
 import { useStyles } from './StratifiedResistanceGraphMUI';
 import { mixColorScale } from '../../Map/mapColorHelper';
+import SHIGE_LINCODE_LOOKUP from '../../../../data/lincode_shigella_lookup.json';
+
+// Per-species typing scheme labels shown in the legend and tooltips.
+const SHIGE_TYPING_SCHEME = {
+  Sf: 'FlexIt (Hawkey et al., in prep)',
+  Ss: 'Hawkey 2021 genotypes',
+  Sd: 'Serotype (Enterobase)',
+  Sb: 'Serotype (Enterobase)',
+};
+
+// Returns the lookup entry for a raw Shigella LINcode prefix, or null.
+function getShigeEntry(rawValue) {
+  return SHIGE_LINCODE_LOOKUP[rawValue] ?? null;
+}
+
+// Returns display label: "SpeciesCode lineage" (e.g. "Sf 2.3.5"). Falls back to raw.
+function translateShigeLINcode(rawValue) {
+  const entry = getShigeEntry(rawValue);
+  if (!entry) return rawValue;
+  return entry.speciesCode ? `${entry.speciesCode} ${entry.lineage}` : entry.lineage;
+}
 
 // Quinolone marker regexes (mirrors filters.js — kept local to avoid an
 // extra cross-component import dependency).
@@ -113,9 +134,11 @@ const SOURCE_FIELDS = [
   { value: 'source_type', labelKey: 'amrInsights.stratified.fields.source_type' },
 ];
 const LIN_FIELDS = [
-  { value: 'LINcode_3', labelKey: 'amrInsights.stratified.fields.LINcode_3' },
-  { value: 'LINcode_5', labelKey: 'amrInsights.stratified.fields.LINcode_5' },
-  { value: 'LINcode_7', labelKey: 'amrInsights.stratified.fields.LINcode_7' },
+  { value: 'LINcode_3',  labelKey: 'amrInsights.stratified.fields.LINcode_3'  },
+  { value: 'LINcode_5',  labelKey: 'amrInsights.stratified.fields.LINcode_5'  },
+  { value: 'LINcode_7',  labelKey: 'amrInsights.stratified.fields.LINcode_7'  },
+  { value: 'LINcode_9',  labelKey: 'amrInsights.stratified.fields.LINcode_9'  },
+  { value: 'LINcode_11', labelKey: 'amrInsights.stratified.fields.LINcode_11' },
 ];
 
 const MIN_N_OPTIONS_SOURCE = [20, 50, 200, 500];
@@ -139,6 +162,8 @@ export const StratifiedResistanceGraph = ({ mode = 'source' }) => {
   const fieldOptions = mode === 'lin' ? LIN_FIELDS : SOURCE_FIELDS;
   const minNOptions = mode === 'lin' ? MIN_N_OPTIONS_LIN : MIN_N_OPTIONS_SOURCE;
 
+  const isShige = organism === 'shige';
+
   // Group + compute %
   const { rows, totalRecords, recordsWithField } = useMemo(() => {
     if (!Array.isArray(rawData) || rawData.length === 0) {
@@ -150,7 +175,10 @@ export const StratifiedResistanceGraph = ({ mode = 'source' }) => {
       const v = item[field];
       if (EMPTY_VALUES.has(v)) return;
       withField++;
-      if (!groups[v]) groups[v] = { name: v, total: 0, resistant: 0 };
+      if (!groups[v]) {
+        const label = (mode === 'lin' && isShige) ? translateShigeLINcode(v) : v;
+        groups[v] = { name: v, label, total: 0, resistant: 0 };
+      }
       groups[v].total++;
       if (isResistant(item, drug)) groups[v].resistant++;
     });
@@ -232,11 +260,35 @@ export const StratifiedResistanceGraph = ({ mode = 'source' }) => {
           <>
             {rows.map(r => {
               const color = mixColorScale(r.pct, false);
+              const entry = mode === 'lin' && isShige ? getShigeEntry(r.name) : null;
+              const tooltipContent = entry ? (
+                <Box sx={{ fontSize: 12, lineHeight: 1.6 }}>
+                  <div><strong>LINcode:</strong> {r.name}</div>
+                  <div><strong>Typing:</strong> {SHIGE_TYPING_SCHEME[entry.speciesCode] ?? '—'}</div>
+                  {entry.serotype && entry.serotype !== r.label && (
+                    <div><strong>Serotype:</strong> {entry.serotype}</div>
+                  )}
+                  <div><strong>Purity:</strong> {(entry.purity * 100).toFixed(0)}%</div>
+                </Box>
+              ) : r.name;
+
+              const labelEl = (
+                <Box className={classes.label}>
+                  {mode === 'lin' ? <code>{r.label ?? r.name}</code> : r.name}
+                </Box>
+              );
+
               return (
                 <Box key={r.name} className={classes.row}>
-                  <Box className={classes.label} title={r.name}>
-                    {mode === 'lin' ? <code>{r.name}</code> : r.name}
-                  </Box>
+                  {entry ? (
+                    <Tooltip title={tooltipContent} arrow placement="right" enterDelay={300}>
+                      {labelEl}
+                    </Tooltip>
+                  ) : (
+                    <Box className={classes.label} title={r.name}>
+                      {mode === 'lin' ? <code>{r.label ?? r.name}</code> : r.name}
+                    </Box>
+                  )}
                   <Box className={classes.barWrap}>
                     <Box
                       className={classes.bar}
@@ -280,6 +332,13 @@ export const StratifiedResistanceGraph = ({ mode = 'source' }) => {
         <br />
         <strong>{t('amrInsights.stratified.suppressLabel')}</strong>{' '}
         {t('amrInsights.stratified.suppress', { minN })}
+        {mode === 'lin' && isShige && (
+          <>
+            <br />
+            <strong>{t('amrInsights.stratified.typingSchemeLabel')}</strong>{' '}
+            {t('amrInsights.stratified.typingSchemeShige')}
+          </>
+        )}
       </Typography>
     </CardContent>
   );

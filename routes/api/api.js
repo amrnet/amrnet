@@ -214,6 +214,8 @@ router.get('/getDataForEcoli', async function (req, res) {
       LINcode_3: 1,
       LINcode_5: 1,
       LINcode_7: 1,
+      LINcode_9: 1,
+      LINcode_11: 1,
       'dashboard view': 1,
     };
     // Query
@@ -318,6 +320,8 @@ router.get('/getDataForDEcoli', async function (req, res) {
       LINcode_3: 1,
       LINcode_5: 1,
       LINcode_7: 1,
+      LINcode_9: 1,
+      LINcode_11: 1,
       'dashboard view': 1,
     };
     // Query

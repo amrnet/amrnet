@@ -270,7 +270,16 @@
       "cooccurrence": "AMR Co-occurrence",
       "atbCorrelation": "ATB Usage vs Resistance",
       "oneHealthSource": "One Health source",
-      "linCode": "LIN code lineages"
+      "linCode": "LIN code lineages",
+      "linGenotype": "LINcode × Genotype"
+    },
+    "linGenotype": {
+      "linField": "LIN code field",
+      "xField": "Genotype field",
+      "topNLineages": "Top lineages",
+      "topNGenotypes": "Top genotypes",
+      "empty": "No records with both a LINcode and genotype value. Select a different field or check that data has loaded.",
+      "footer": "{{n}} isolates with both fields populated shown. Top rows and columns by isolate count."
     },
     "gvp": {
       "compareTooltip": "Compares AMRnet genome-derived resistance predictions with phenotypic surveillance data. Each point = one country. Points on the diagonal = perfect agreement. Error bars = 95% Wilson score CI on the genomic estimate.",
@@ -335,13 +344,17 @@
         "source_type": "source_type (specific: Bovine / Avian / …)",
         "LINcode_3": "LINcode_3 (broad clusters)",
         "LINcode_5": "LINcode_5 (medium)",
-        "LINcode_7": "LINcode_7 (fine)"
+        "LINcode_7": "LINcode_7 (fine)",
+        "LINcode_9": "LINcode_9 (high resolution)",
+        "LINcode_11": "LINcode_11 (finest)"
       },
       "empty": "No strata of {{field}} have ≥{{minN}} records. Lower the Min-N threshold or pick a broader stratum.",
       "coverageLabel": "Coverage:",
       "coverage": "{{withField}} of {{total}} genomes ({{pct}}%) have a populated {{field}} value. Records lacking metadata are excluded from the chart.",
       "suppressLabel": "Suppression:",
-      "suppress": "Strata with N<{{minN}} are hidden to keep prevalence estimates statistically meaningful."
+      "suppress": "Strata with N<{{minN}} are hidden to keep prevalence estimates statistically meaningful.",
+      "typingSchemeLabel": "Typing schemes:",
+      "typingSchemeShige": "S. flexneri — FlexIt (Hawkey et al., in prep) · S. sonnei — Hawkey 2021 genotypes · S. dysenteriae / S. boydii — Serotype (Enterobase annotation). Hover a label for details."
     }
   },
   "continentGraphs": {

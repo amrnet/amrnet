@@ -1,0 +1,653 @@
+{
+  "0-6-0-1-0-1-2-0-1-2-0": {
+    "lineage": "Sb20",
+    "serotype": "Sb20",
+    "speciesCode": "Sb",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-6-0-0-1-0-6-1-4-0-5": {
+    "lineage": "Sb2",
+    "serotype": "Sb2",
+    "speciesCode": "Sb",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-12-0-1-0": {
+    "lineage": "Sb9",
+    "serotype": "Sb9",
+    "speciesCode": "Sb",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-6-0-1-3": {
+    "lineage": "Sb3",
+    "serotype": "Sb3",
+    "speciesCode": "Sb",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 0.923
+  },
+  "0-12-0-0-2": {
+    "lineage": "Sb15",
+    "serotype": "Sb15",
+    "speciesCode": "Sb",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 0.917
+  },
+  "0-3-0-6-0-0-0": {
+    "lineage": "Sb22",
+    "serotype": "Sb22",
+    "speciesCode": "Sb",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 0.902
+  },
+  "0-6-0-1-0-1-3-5-0": {
+    "lineage": "Sb18",
+    "serotype": "Sb18",
+    "speciesCode": "Sb",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-6-0-1-0-1-4-0-2": {
+    "lineage": "Sb1",
+    "serotype": "Sb1",
+    "speciesCode": "Sb",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-36-0-0-0-6-0-0-0-0-0": {
+    "lineage": "linA",
+    "serotype": "Sd_unknown",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-6-1-0-3-0-2-0-2-0-0": {
+    "lineage": "Sd16",
+    "serotype": "Sd16",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 0.9
+  },
+  "0-0-4": {
+    "lineage": "8",
+    "serotype": "8",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-6-1-0-0-0-1": {
+    "lineage": "Sd13",
+    "serotype": "Sd13",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-36-0-0-0-3-1-1-6": {
+    "lineage": "Sd1",
+    "serotype": "Sd1",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-6-1-0-3-0-3-1-0": {
+    "lineage": "Sd12",
+    "serotype": "Sd12",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-12-0-0-1-0-0-0-3": {
+    "lineage": "Sd prov. BEDP 02-5104",
+    "serotype": "Sd prov. BEDP 02-5104",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-6-1-0-2-0-0-0-0": {
+    "lineage": "Sd4",
+    "serotype": "Sd4",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 1.0
+  },
+  "0-12-0-0-1-0-1-0-1": {
+    "lineage": "Sd2",
+    "serotype": "Sd2",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 0.944
+  },
+  "0-6-1-0-3-0-0-0-0": {
+    "lineage": "Sd3",
+    "serotype": "Sd3",
+    "speciesCode": "Sd",
+    "typingScheme": "Serotype (Enterobase)",
+    "purity": 0.917
+  },
+  "0-3-0-3-1": {
+    "lineage": "4.2",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-3-0": {
+    "lineage": "4.4",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-5-0": {
+    "lineage": "5.2",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-2-0": {
+    "lineage": "7.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-2-2": {
+    "lineage": "7.2",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-6-0": {
+    "lineage": "9",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-2-2-0": {
+    "lineage": "1.1.5.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-1-0-5": {
+    "lineage": "1.2.2.2",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-0-0-4": {
+    "lineage": "2.1.2",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-0-0-3": {
+    "lineage": "2.1.2.4",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-1-4-0": {
+    "lineage": "2.3.3.3",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-1-0-0": {
+    "lineage": "2.3.5",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-1-2-0": {
+    "lineage": "2.3.6.2",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-1-2": {
+    "lineage": "3.1.1.3",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-26": {
+    "lineage": "3.2.1.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-6": {
+    "lineage": "3.2.1.4",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-4-0-0-0": {
+    "lineage": "6.3.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-2-1-0-0": {
+    "lineage": "7.3.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-2-1-1-0": {
+    "lineage": "7.3.2",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-1-1-0": {
+    "lineage": "2.3.8.3",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 0.982
+  },
+  "0-3-0-0-1-0-2": {
+    "lineage": "1.2.2.4",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 0.926
+  },
+  "0-3-0-0-1-0-0-1-0": {
+    "lineage": "1.2.2.5",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-1-0-0-87-0": {
+    "lineage": "1.2.2.5.11",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-1-0-0-32-0": {
+    "lineage": "1.2.2.5.12",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-1-0-0-6-2": {
+    "lineage": "1.2.2.5.4",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-1-0-0-7-0": {
+    "lineage": "1.2.2.5.6",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-1-0-0-19-2": {
+    "lineage": "1.2.2.5.9",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-0-0-1-0-0": {
+    "lineage": "2.1.2.2",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-0-0-2-1-0": {
+    "lineage": "2.1.2.5",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-0-0-2-0-0": {
+    "lineage": "2.1.2.6",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-0-0-0-0-0": {
+    "lineage": "2.1.2.7",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-1-0-0-0-1-0": {
+    "lineage": "2.1.2.7.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-1-0-0-0": {
+    "lineage": "3.1.1.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-0-1-0": {
+    "lineage": "3.2.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-1-19-1": {
+    "lineage": "3.2.1.3",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-1-0-0": {
+    "lineage": "3.2.1.3.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-0-0-0": {
+    "lineage": "3.2.1.5",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-0-155-1": {
+    "lineage": "3.2.1.5.3",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-0-0-1": {
+    "lineage": "3.2.1.5.5",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-3-0-0-0-0-0-2-0": {
+    "lineage": "3.2.1.5.5.1",
+    "serotype": null,
+    "speciesCode": "Sf",
+    "typingScheme": "FlexIt (Hawkey et al., in prep)",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-1-0-150-1": {
+    "lineage": "CipR.SEA",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-1-0-1-0": {
+    "lineage": "CipR.MSM5",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-1-0-1": {
+    "lineage": "OJC",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-2": {
+    "lineage": "Korea II",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-6-0": {
+    "lineage": "Lineage III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-2": {
+    "lineage": "3.1 (CipR clade)",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-0-0": {
+    "lineage": "Latin America IIa",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-0-1": {
+    "lineage": "Latin America IIb",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-0-29": {
+    "lineage": "Latin America IIb",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-0-2": {
+    "lineage": "Latin America IIb",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-0-30": {
+    "lineage": "2.7.1",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-0-27": {
+    "lineage": "2.7.3",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-0-26": {
+    "lineage": "2.7.4",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-3": {
+    "lineage": "Latin America III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-10": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-4": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-1-0-3": {
+    "lineage": "Latin America IIb",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 0.913
+  },
+  "0-2-0-0-0-0-0-1-5": {
+    "lineage": "CipR_parent",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-1-2": {
+    "lineage": "Central Asia III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-1-1": {
+    "lineage": "Central Asia III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-1-52": {
+    "lineage": "Central Asia III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-120": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-130": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-14": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-113": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-21": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-17": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-5": {
+    "lineage": "3.7.23",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-4": {
+    "lineage": "3.7.25 (CipR clade)",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-158": {
+    "lineage": "VN2.KH1.Aus",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-132": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-138": {
+    "lineage": "Middle East III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-7": {
+    "lineage": "Israel III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-59": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 1.0
+  },
+  "0-2-0-0-0-0-0-0-3": {
+    "lineage": "Global III",
+    "serotype": null,
+    "speciesCode": "Ss",
+    "typingScheme": "Hawkey 2021 genotypes",
+    "purity": 0.996
+  }
+}
