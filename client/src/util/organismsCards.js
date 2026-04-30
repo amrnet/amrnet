@@ -3,7 +3,7 @@ import { isProduction } from './env';
 
 // Organisms hidden from the production selector until validated.
 // They remain available on dev.amrnet.org.
-const DEV_ONLY_ORGANISMS = ['saureus', 'strepneumo'];
+export const DEV_ONLY_ORGANISMS = ['saureus', 'strepneumo'];
 
 const allOrganismsCards = [
   {

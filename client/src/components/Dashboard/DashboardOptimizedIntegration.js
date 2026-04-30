@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { setOrganism } from '../../stores/slices/dashboardSlice';
 import { useOptimizedDataLoading } from './OptimizedDashboard';
+import { isProduction } from '../../util/env';
+import { DEV_ONLY_ORGANISMS } from '../../util/organismsCards';
 
 // Import original components (these would be your existing components)
 import MainLayout from '../Elements/MainLayout/MainLayout';
@@ -43,6 +45,10 @@ export const DashboardOptimizedIntegration = () => {
     };
 
     const organismParam = getURLparam('organism');
+    // Block dev-only organisms from being deep-linked on the production build.
+    if (organismParam && isProduction() && DEV_ONLY_ORGANISMS.includes(organismParam)) {
+      return;
+    }
     if (organismParam && organismParam !== organism) {
       dispatch(setOrganism(organismParam));
     }

@@ -113,6 +113,7 @@ import {
 } from '../../util/drugs';
 import { isProduction } from '../../util/env';
 import { getContinentGraphCard } from '../../util/graphCards';
+import { DEV_ONLY_ORGANISMS } from '../../util/organismsCards';
 import { AMRInsights } from '../Elements/AMRInsights';
 import { ContinentGraphs } from '../Elements/ContinentGraphs';
 import { FloatingGlobalFilters } from '../Elements/FloatingGlobalFilters';
@@ -1548,6 +1549,10 @@ export const DashboardPage = () => {
       }
     } else {
       const organismParam = getURLparam('organism');
+      // Block dev-only organisms from being deep-linked on the production build.
+      if (organismParam && isProduction() && DEV_ONLY_ORGANISMS.includes(organismParam)) {
+        return;
+      }
       if (organismParam) {
         dispatch(setOrganism(organismParam));
       }
