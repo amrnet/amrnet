@@ -443,7 +443,7 @@
     "datasetAll": "Tous",
     "datasetLocal": "Local",
     "datasetTravel": "Voyage",
-    "changeYAxisScale": "Modifier l’échelle de l’axe Y",
+    "changeYAxisLimits": "Modifier l’échelle de l’axe Y",
     "adjustYRange": "Ajuster la plage de l’axe Y (Min-Max)",
     "dataZoomTooltip": "Fonctions de zoom sur les données",
     "select20": "Sélectionner 20",
