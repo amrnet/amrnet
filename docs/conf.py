@@ -49,6 +49,24 @@ highlight_options = {
 # Suppress syntax highlighting warnings for better build output
 suppress_warnings = ['misc.highlighting_failure']
 
+# Build-mode tagging — gates dev-only organism pages (saureus, strepneumo).
+# A "dev" build is triggered by any of:
+#   * sphinx-build -t dev                  (local preview)
+#   * AMRNET_DOCS_DEV=1                    (env override)
+#   * RTD building the development branch  (READTHEDOCS_VERSION_NAME=development)
+_dev_build = (
+    tags.has('dev')
+    or os.environ.get('AMRNET_DOCS_DEV') == '1'
+    or os.environ.get('READTHEDOCS_VERSION_NAME', '') in ('development', 'dev')
+)
+if _dev_build:
+    tags.add('dev')
+else:
+    exclude_patterns.extend(['saureus.rst', 'strepneumo.rst'])
+    # toctree refs inside `.. only:: dev` are parsed even when hidden — silence
+    # the false-positive "excluded document" warnings on the prod build.
+    suppress_warnings.append('toc.excluded')
+
 # autodoc config
 autodoc_member_order = "bysource"
 autodoc_typehints = "both"

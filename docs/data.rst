@@ -127,9 +127,16 @@ Data access
    * - ``GET /api/v1/organisms/{id}/download``
      - Full dataset download (``?format=csv`` or ``?format=json``)
 
-    Supported ``{id}`` values: ``styphi``, ``senterica``, ``sentericaints``,
-    ``ecoli``, ``decoli``, ``shige``, ``kpneumo``, ``ngono``, ``saureus``,
-    ``strepneumo``.
+    .. only:: not dev
+
+       Supported ``{id}`` values: ``styphi``, ``senterica``, ``sentericaints``,
+       ``ecoli``, ``decoli``, ``shige``, ``kpneumo``, ``ngono``.
+
+    .. only:: dev
+
+       Supported ``{id}`` values: ``styphi``, ``senterica``, ``sentericaints``,
+       ``ecoli``, ``decoli``, ``shige``, ``kpneumo``, ``ngono``, ``saureus``,
+       ``strepneumo``.
 
 3.4 Quick start — ``curl``
 **************************

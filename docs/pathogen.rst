@@ -17,8 +17,11 @@ Individual pathogen details
     - *Salmonella* (non-typhoidal)
     - *Salmonella* (invasive non-typhoidal)
     - *Salmonella* Typhi
-    - *Staphylococcus aureus* (in preparation)
-    - *Streptococcus pneumoniae* (in preparation)
+
+    .. only:: dev
+
+       - *Staphylococcus aureus* (in preparation)
+       - *Streptococcus pneumoniae* (in preparation)
 
     A list of all upstream databases and tools, with links and citations, is available on the :ref:`Source data & tools <source>` page.
 
@@ -112,5 +115,12 @@ These definitions are used in the *E. coli*, *Shigella*, and non-typhoidal *Salm
     Salmonella (non-typhoidal) <senterica>
     Salmonella (invasive non-typhoidal) <sentericaints>
     Salmonella Typhi <styphi>
-    Staphylococcus aureus <saureus>
-    Streptococcus pneumoniae <strepneumo>
+
+.. only:: dev
+
+   .. toctree::
+       :maxdepth: 2
+       :hidden:
+
+       Staphylococcus aureus <saureus>
+       Streptococcus pneumoniae <strepneumo>
