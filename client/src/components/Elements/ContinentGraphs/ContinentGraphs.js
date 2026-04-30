@@ -29,6 +29,7 @@ import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { BubbleGeographicGraph } from './BubbleGeographicGraph';
 import { useStyles } from './ContinentGraphsMUI';
 import { RadarProfileGraph } from '../Graphs/RadarProfileGraph/RadarProfileGraph';
+import { isProduction } from '../../../util/env';
 
 const TABS = [
   {
@@ -38,13 +39,18 @@ const TABS = [
     component: <BubbleGeographicGraph />,
     notShow: [],
   },
-  {
-    labelKey: 'continentGraphs.tabs.radarProfile',
-    value: 'RAD',
-    disabled: false,
-    component: <RadarProfileGraph />,
-    notShow: [],
-  },
+  // AMR Radar Profile is hidden in production until validated.
+  ...(isProduction()
+    ? []
+    : [
+        {
+          labelKey: 'continentGraphs.tabs.radarProfile',
+          value: 'RAD',
+          disabled: false,
+          component: <RadarProfileGraph />,
+          notShow: [],
+        },
+      ]),
 ];
 
 export const ContinentGraphs = () => {
