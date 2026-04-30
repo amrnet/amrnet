@@ -298,17 +298,17 @@ const DRUG_CONDITIONS = {
   // Salmonella Typhi — drugRulesST (column must equal specific values)
   // blaTEM-1D has a hyphen: must use $getField
   styphi: {
-    'Ampicillin/Amoxicillin': { $eq: [getHyphenField('blaTEM-1D'), '1'] },
+    'Ampicillin/Amoxicillin': { $eq: [getHyphenField('blaTEM-1D'), 1] },
     Azithromycin: { $eq: ['$azith_pred_pheno', 'AzithR'] },
     Chloramphenicol: { $eq: ['$chloramphenicol_category', 'ChlR'] },
-    'Trimethoprim-sulfamethoxazole': { $eq: ['$co_trim', '1'] },
+    'Trimethoprim-sulfamethoxazole': { $eq: ['$co_trim', 1] },
     Ceftriaxone: { $eq: ['$ESBL_category', 'ESBL'] },
     'Ciprofloxacin NS': { $eq: ['$cip_pred_pheno', 'CipNS'] },
     'Ciprofloxacin R': { $eq: ['$cip_pred_pheno', 'CipR'] },
     Ciprofloxacin: { $in: ['$cip_pred_pheno', ['CipNS', 'CipR']] },
-    Sulfonamides: { $eq: ['$sul_any', '1'] },
+    Sulfonamides: { $eq: ['$sul_any', 1] },
     Tetracycline: { $eq: ['$tetracycline_category', 'TetR'] },
-    Trimethoprim: { $eq: ['$dfra_any', '1'] },
+    Trimethoprim: { $eq: ['$dfra_any', 1] },
     MDR: { $eq: ['$MDR', 'MDR'] },
     XDR: { $eq: ['$XDR', 'XDR'] },
     Pansusceptible: { $eq: ['$amr_category', 'No AMR detected'] },
