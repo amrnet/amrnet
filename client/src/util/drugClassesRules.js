@@ -34,13 +34,13 @@ export const statKeysST = [
   { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
   { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
   { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR', resistanceView: true },
-  { name: 'XDR', column: 'XDR', key: 'XDR', resistanceView: true },
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
-  { name: 'MDR', column: 'MDR', key: 'MDR', resistanceView: true },
   { name: 'Sulfonamides', column: 'sul_any', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'tetracycline_category', key: 'TetR', resistanceView: true },
   { name: 'Trimethoprim', column: 'dfra_any', key: '1', resistanceView: true },
   { name: 'Trimethoprim-sulfamethoxazole', column: 'co_trim', key: '1', resistanceView: true },
+  { name: 'MDR', column: 'MDR', key: 'MDR', resistanceView: true },
+  { name: 'XDR', column: 'XDR', key: 'XDR', resistanceView: true },
   { name: 'Pansusceptible', column: 'amr_category', key: 'No AMR detected', resistanceView: true },
 ];
 

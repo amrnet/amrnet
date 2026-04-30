@@ -17,12 +17,12 @@ export const drugsST = [
   'Chloramphenicol',
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
-  'XDR',
-  'MDR',
   'Sulfonamides',
   'Tetracycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
+  'MDR',
+  'XDR',
   'Pansusceptible',
 ];
 
