@@ -496,7 +496,7 @@
     "datasetAll": "All",
     "datasetLocal": "Local",
     "datasetTravel": "Travel",
-    "changeYAxisScale": "Change the y-axis scale",
+    "changeYAxisLimits": "Change the y-axis limit",
     "adjustYRange": "Adjust Y-axis Range (Min-Max)",
     "dataZoomTooltip": "Data zoom-in features",
     "select20": "Select 20",

@@ -443,7 +443,7 @@
     "datasetAll": "Todos",
     "datasetLocal": "Local",
     "datasetTravel": "Viaje",
-    "changeYAxisScale": "Cambiar la escala del eje Y",
+    "changeYAxisLimits": "Cambiar la escala del eje Y",
     "adjustYRange": "Ajustar el rango del eje Y (Mín-Máx)",
     "dataZoomTooltip": "Funciones de acercamiento de datos",
     "select20": "Seleccionar 20",

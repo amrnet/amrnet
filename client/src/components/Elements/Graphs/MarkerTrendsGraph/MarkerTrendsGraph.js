@@ -536,7 +536,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
             <FormControlLabel
               label={
                 <Box display="flex" alignItems="center" gap={0.5}>
-                 {t('common.changeYAxisScale')} <Typography variant="caption">
+                 {t('common.changeYAxisLimits')} <Typography variant="caption">
                   </Typography>
                   <Tooltip title={t('common.dataZoomTooltip')} placement="top">
                     <InfoOutlined color="action" fontSize="small" />
