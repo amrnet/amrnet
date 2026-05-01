@@ -10,9 +10,19 @@ import { Trans, useTranslation } from 'react-i18next';
 // Render the organism's localised scientific name with <i>…</i> for the
 // Latin binomial. The translation string (e.g. `<i>Salmonella</i> Typhi`)
 // embeds an `<i>` tag that Trans maps to an actual React <i>.
-const OrganismName = ({ value }) => (
-  <Trans i18nKey={`organisms.${value}.name`} components={{ i: <i /> }} />
-);
+const OrganismName = ({ value }) => {
+  const { t } = useTranslation();
+
+  const genus = t(`organisms.${value}.genus`);
+  const species = t(`organisms.${value}.species`);
+
+  return (
+    <span>
+      <i>{genus}</i>{" "}
+      {species}
+    </span>
+  );
+};
 
 export const SelectOrganism = () => {
   const classes = useStyles();

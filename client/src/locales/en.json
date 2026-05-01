@@ -422,43 +422,53 @@
   },
   "organisms": {
     "styphi": {
-      "name": "<i>Salmonella</i> Typhi",
+      "genus": "Salmonella",
+      "species": "Typhi",
       "abbr": "S. Typhi"
     },
     "sentericaints": {
-      "name": "<i>Salmonella</i> (invasive non-typhoidal)",
+      "genus": "Salmonella",
+      "species": "(invasive non-typhoidal)",
       "abbr": "Salmonella (iNTS)"
     },
     "senterica": {
-      "name": "<i>Salmonella enterica</i> (non-typhoidal)",
+      "genus": "Salmonella enterica",
+      "species": "(non-typhoidal)",
       "abbr": "S. enterica (NTS)"
     },
     "ngono": {
-      "name": "<i>Neisseria gonorrhoeae</i>",
+      "genus": "Neisseria gonorrhoeae",
+      "species": "",
       "abbr": "N. gonorrhoeae"
     },
     "kpneumo": {
-      "name": "<i>Klebsiella pneumoniae</i>",
+      "genus": "Klebsiella pneumoniae",
+      "species": "",
       "abbr": "K. pneumoniae"
     },
     "shige": {
-      "name": "<i>Shigella</i> + EIEC",
+      "genus": "Shigella",
+      "species": "+ EIEC",
       "abbr": "Shigella+EIEC"
     },
     "decoli": {
-      "name": "<i>Escherichia coli</i> (diarrheagenic)",
+      "genus": "Escherichia coli",
+      "species": "(diarrheagenic)",
       "abbr": "E. coli (diarrheagenic)"
     },
     "ecoli": {
-      "name": "<i>Escherichia coli</i>",
+      "genus": "Escherichia coli",
+      "species": "",
       "abbr": "E. coli"
     },
     "saureus": {
-      "name": "<i>Staphylococcus aureus</i>",
+      "genus": "Staphylococcus aureus",
+      "species": "",
       "abbr": "S. aureus"
     },
     "strepneumo": {
-      "name": "<i>Streptococcus pneumoniae</i>",
+      "genus": "Streptococcus pneumoniae",
+      "species": "",
       "abbr": "S. pneumoniae"
     }
   },
@@ -496,7 +506,7 @@
     "datasetAll": "All",
     "datasetLocal": "Local",
     "datasetTravel": "Travel",
-    "changeYAxisScale": "Change the y-axis scale",
+    "changeYAxisLimits": "Change the y-axis limit",
     "adjustYRange": "Adjust Y-axis Range (Min-Max)",
     "dataZoomTooltip": "Data zoom-in features",
     "select20": "Select 20",

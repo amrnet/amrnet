@@ -409,43 +409,53 @@
   },
   "organisms": {
     "styphi": {
-      "name": "<i>Salmonella</i> Typhi",
+      "genus": "Salmonella",
+      "species": "Typhi",
       "abbr": "S. Typhi"
     },
     "sentericaints": {
-      "name": "<i>Salmonella</i> (não tifoide invasiva)",
+      "genus": "Salmonella",
+      "species": "(não tifoide invasiva)",
       "abbr": "Salmonella (iNTS)"
     },
     "senterica": {
-      "name": "<i>Salmonella enterica</i> (não tifoide)",
+      "genus": "Salmonella",
+      "species": "(não tifoide)",
       "abbr": "S. enterica (NTS)"
     },
     "ngono": {
-      "name": "<i>Neisseria gonorrhoeae</i>",
+      "genus": "Neisseria gonorrhoeae",
+      "species": "",
       "abbr": "N. gonorrhoeae"
     },
     "kpneumo": {
-      "name": "<i>Klebsiella pneumoniae</i>",
+      "genus": "Klebsiella pneumoniae",
+      "species": "",
       "abbr": "K. pneumoniae"
     },
     "shige": {
-      "name": "<i>Shigella</i> + EIEC",
+      "genus": "Shigella",
+      "species": "+ EIEC",
       "abbr": "Shigella+EIEC"
     },
     "decoli": {
-      "name": "<i>Escherichia coli</i> (diarreogênica)",
+      "genus": "Escherichia coli",
+      "species": "(diarreogênica)",
       "abbr": "E. coli (diarreogênica)"
     },
     "ecoli": {
-      "name": "<i>Escherichia coli</i>",
+      "genus": "Escherichia coli",
+      "species": "",
       "abbr": "E. coli"
     },
     "saureus": {
-      "name": "<i>Staphylococcus aureus</i>",
+      "genus": "Staphylococcus aureus",
+      "species": "",
       "abbr": "S. aureus"
     },
     "strepneumo": {
-      "name": "<i>Streptococcus pneumoniae</i>",
+      "genus": "Streptococcus pneumoniae",
+      "species": "",
       "abbr": "S. pneumoniae"
     }
   },
@@ -483,7 +493,7 @@
     "datasetAll": "Todos",
     "datasetLocal": "Local",
     "datasetTravel": "Viagem",
-    "changeYAxisScale": "Alterar a escala do eixo Y",
+    "changeYAxisLimits": "Alterar a escala do eixo Y",
     "adjustYRange": "Ajustar intervalo do eixo Y (Mín-Máx)",
     "dataZoomTooltip": "Recursos de zoom nos dados",
     "select20": "Selecionar 20",
