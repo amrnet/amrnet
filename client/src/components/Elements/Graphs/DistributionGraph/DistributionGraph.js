@@ -579,11 +579,11 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         <div className={classes.rightSide}>
           {/* <SliderSizes callBackValue={ updateSlider} sx={{margin: '0px 10px 0px 10px'}}/> */}
           <SliderSizes value={'GD'} style={{ width: '100%' }} label={sliderLabel} />
-          <FormGroup className={classes.formGroup}>
+          {/* <FormGroup className={classes.formGroup}>
             <FormControlLabel
               label={
                 <Box display="flex" alignItems="center" gap={0.5}>
-                 {t('common.changeYAxisScale')} <Typography variant="caption">
+                 {t('common.changeYAxisLimits')} <Typography variant="caption">
                   </Typography>
                   <Tooltip title={t('common.dataZoomTooltip')} placement="top">
                     <InfoOutlined color="action" fontSize="small" />
@@ -601,11 +601,11 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                 onChange={handleSliderChangeDataView}
                 step={1}
                 min={0}
-                max={distributionGraphView === 'number' ? maxDataValue : 100}
+                max={distributionGraphView === 'number' ? maxDataValue : 10}
                 valueLabelDisplay="auto"
               />
             </>
-          ) : null}
+          ) : null} */}
           <div className={classes.tooltipWrapper}>
             {currentTooltip ? (
               <div className={classes.tooltip}>
