@@ -15,7 +15,8 @@ export const drugsST = [
   'Azithromycin',
   'Ceftriaxone',
   'Chloramphenicol',
-  'Ciprofloxacin NS',
+  // 'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'Sulfonamides',
   'Tetracycline',
@@ -45,7 +46,7 @@ export const drugsSTLegendsOnly = [
 export const defaultDrugsForDrugResistanceGraphST = [
   'Azithromycin',
   'Ceftriaxone',
-  'Ciprofloxacin NS',
+  'Ciprofloxacin',
   'Ciprofloxacin R',
   'XDR',
   'MDR',
