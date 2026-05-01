@@ -1160,9 +1160,9 @@ export const DashboardPage = () => {
         if (!isPaginated) {
           dispatch(setDrugResistanceGraphView(markersDrugsKP));
           dispatch(setTrendsGraphView('percentage'));
-          dispatch(setConvergenceGroupVariable('cgST'));
-          dispatch(setConvergenceColourVariable('cgST'));
-          dispatch(setCurrentConvergenceGroupVariable('cgST'));
+          dispatch(setConvergenceGroupVariable('Sublineage'));
+          dispatch(setConvergenceColourVariable('Sublineage'));
+          dispatch(setCurrentConvergenceGroupVariable('Sublineage'));
           dispatch(setBubbleMarkersYAxisType(markersDrugsKP[0]));
         }
         dispatch(setTrendsGraphDrugClass('ESBL'));
@@ -1636,7 +1636,7 @@ export const DashboardPage = () => {
       setCurrentConvergenceGroupVariable(convergenceGroupVariable);
 
       const convergenceData = await getStoreOrGenerateData(
-        `${organism}_convergence`,
+        `${organism}_convergence_${convergenceGroupVariable}`,
         async () => {
           const dt = getConvergenceData({
             data: storeData,
