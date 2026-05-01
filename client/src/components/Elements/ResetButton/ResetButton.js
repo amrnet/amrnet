@@ -113,8 +113,8 @@ export const ResetButton = () => {
       dispatch(setTrendsGraphDrugClass('ESBL'));
       dispatch(setTrendsGraphView('percentage'));
       dispatch(setKODiversityGraphView('K_locus'));
-      dispatch(setConvergenceGroupVariable('cgST'));
-      dispatch(setConvergenceColourVariable('cgST'));
+      dispatch(setConvergenceGroupVariable('Sublineage'));
+      dispatch(setConvergenceColourVariable('Sublineage'));
       dispatch(setConvergenceColourPallete({}));
       dispatch(setCurrentSliderValueCM(20));
       dispatch(setCurrentSliderValue(20));
