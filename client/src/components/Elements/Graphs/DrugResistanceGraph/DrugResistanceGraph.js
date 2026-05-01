@@ -299,9 +299,9 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
         const count = currentData[key];
 
-        if (count === 0) {
-          return;
-        }
+        // if (count === 0) {
+        //   return;
+        // }
 
         value.drugs.push({
           label: ciproAcronyms[key] || key,
