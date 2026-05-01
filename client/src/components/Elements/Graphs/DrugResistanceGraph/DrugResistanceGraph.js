@@ -175,37 +175,35 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
     return drugs;
   }
 
-  function getDrugsForLegends() {
-    if (organism === 'none') {
-      return [];
-    }
-
-    // Union keys across ALL year entries — some years (e.g. with count=0) may
-    // be missing drug keys in the filters.js output, so only looking at
-    // drugsYearData[0] loses drugs like Tigecycline whose first year of data
-    // sits later in the series.
-    const allKeys = new Set();
-    drugsYearData.forEach(y => {
-      Object.keys(y || {}).forEach(k => {
-        if (k !== 'name' && k !== 'count') allKeys.add(k);
-      });
-    });
-    const drugsWithData = [...allKeys].filter(drug =>
-      drugsYearData.some(y => (y?.[drug] ?? 0) > 0),
-    );
-
-    return drugResistanceGraphView.filter(drug => drugsWithData.includes(drug));
-  }
-
   // function getDrugsForLegends() {
   //   if (organism === 'none') {
   //     return [];
   //   }
-  //   // if (organism === 'typhi') {
-  //     return drugResistanceGraphView;
-  //   // }
-  //   // return drugsKP;
+
+  //   // Union keys across ALL year entries — some years (e.g. with count=0) may
+  //   // be missing drug keys in the filters.js output, so only looking at
+  //   // drugsYearData[0] loses drugs like Tigecycline whose first year of data
+  //   // sits later in the series.
+  //   const allKeys = new Set();
+  //   drugsYearData.forEach(y => {
+  //     Object.keys(y || {}).forEach(k => {
+  //       if (k !== 'name' && k !== 'count') allKeys.add(k);
+  //     });
+  //   });
+  //   const drugsWithData = [...allKeys].filter(drug =>
+  //     drugsYearData.some(y => (y?.[drug] ?? 0) > 0),
+  //   );
+
+  //   return drugResistanceGraphView.filter(drug => drugsWithData.includes(drug));
   // }
+
+  function getDrugsForLegends() {
+    if (organism === 'none') return [];
+
+    return drugResistanceGraphView.filter(drug =>
+      chartData.some(d => d?.[drug] != null)
+    );
+  }
 
   function handleSwitchScale(event) {
     setCurrentTooltip(null);
