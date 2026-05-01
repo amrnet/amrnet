@@ -308,9 +308,9 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       Object.keys(currentData).forEach(key => {
         const count = currentData[key];
 
-        if (count === 0) {
-          return;
-        }
+        // if (count === 0) {
+        //   return;
+        // }
 
         const item = {
           label: key,
