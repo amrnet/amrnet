@@ -13,7 +13,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setCustomDropdownMapViewNG, setPrevalenceMapViewOptionsSelected } from '../../../../stores/slices/graphSlice';
@@ -70,6 +70,8 @@ const INFO_ICON_TEXT_KEYS = {
 export const MapFilters = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [genotypeSearch, setGenotypeSearch] = useState('');
+  const prevMapViewRef = useRef(null);
+  const prevOrganismRef = useRef(null);
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -169,6 +171,18 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   ]);
 
   useEffect(() => {
+    const mapViewChanged = prevMapViewRef.current !== mapView;
+    const organismChanged = prevOrganismRef.current !== organism;
+
+    prevMapViewRef.current = mapView;
+    prevOrganismRef.current = organism;
+
+    // Only reset plotting options when the view type or organism changes,
+    // not when the underlying data changes (e.g. global filters, country click).
+    if (!mapViewChanged && !organismChanged) {
+      return;
+    }
+
     if (isResPrevalence) {
       switch (organism) {
         case 'kpneumo':
@@ -204,7 +218,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     dispatch(setPrevalenceMapViewOptionsSelected(nonResistanceOptions[0] ? [nonResistanceOptions[0]] : []));
-  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions, organism]);
+  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions, organism, mapView]);
 
   const currentMapLegends = useMemo(() => {
     return mapLegends.filter(legend => legend.organisms.includes(organism));
