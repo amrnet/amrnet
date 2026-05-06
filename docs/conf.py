@@ -24,7 +24,16 @@ language_map = {
 
 # sphinx config
 templates_path = ["_templates"]
-exclude_patterns = ["_build", "locale"]
+exclude_patterns = [
+    "_build",
+    "locale",
+    # Internal-only .md files kept in docs/ for convenience but not part
+    # of the published site. Without this, myst_parser would pick them up
+    # and emit "document isn't included in any toctree" warnings.
+    "readthedocs-translation-guide.md",
+    "translation_status.md",
+    "tutorial-integration-guide.md",
+]
 html_static_path = ["_static"]
 
 extensions = [
@@ -35,10 +44,16 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "matplotlib.sphinxext.plot_directive",
+    "myst_parser",
     "nbsphinx",
     "sphinx_copybutton",
     "sphinxext.opengraph",
 ]
+# Tell Sphinx which file extensions to treat as source.
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".md": "markdown",
+}
 
 # Pygments style configuration
 highlight_language = 'python'
@@ -62,10 +77,16 @@ _dev_build = (
 if _dev_build:
     tags.add('dev')
 else:
-    exclude_patterns.extend(['saureus.rst', 'strepneumo.rst'])
+    exclude_patterns.extend([
+        'saureus.rst',
+        'strepneumo.rst',
+        'AMR_drug_data_model.md',  # internal developer reference, dev-only
+    ])
     # toctree refs inside `.. only:: dev` are parsed even when hidden — silence
-    # the false-positive "excluded document" warnings on the prod build.
-    suppress_warnings.append('toc.excluded')
+    # the false-positive "excluded document" / "nonexisting document" warnings
+    # on the prod build. (Different warning categories are emitted for .rst vs .md
+    # excluded files, so suppress the umbrella `toc` category.)
+    suppress_warnings.extend(['toc.excluded', 'toc.not_readable', 'toc'])
 
 # autodoc config
 autodoc_member_order = "bysource"
