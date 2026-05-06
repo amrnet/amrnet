@@ -268,7 +268,7 @@
       "serotypeResistance": "Vaccine Coverage",
       "pmenClones": "PMEN Clones",
       "cooccurrence": "AMR Co-occurrence",
-      "atbCorrelation": "ATB Usage vs Resistance",
+      "atbCorrelation": "AM Usage vs Resistance",
       "oneHealthSource": "One Health source",
       "linCode": "LIN code lineages",
       "linGenotype": "LINcode × Genotype"
