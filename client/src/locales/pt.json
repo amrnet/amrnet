@@ -590,5 +590,12 @@
     "Beta-lactam": "Beta-lactâmico",
     "Phenicol": "Fenicol",
     "Carbapenem": "Carbapenem"
+  },
+  "globalOverview": {
+    "tabs": {
+      "map": "Mapa",
+      "barplot": "Gráfico de barras",
+      "barplotNoData": "Não há dados de fontes One Health disponíveis para este organismo."
+    }
   }
 }
