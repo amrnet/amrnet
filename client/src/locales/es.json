@@ -233,7 +233,9 @@
     "temporalHeatmap": "Mapa de Calor Temporal",
     "temporalHeatmapDescription": "Prevalencia de resistencia por país a lo largo del tiempo para un antibiótico seleccionado",
     "emergenceRate": "Tasa de Emergencia de Resistencia",
-    "emergenceRateDescription": "Cambio anual promedio en la prevalencia de resistencia (%/año) — identifica resistencias en aceleración"
+    "emergenceRateDescription": "Cambio anual promedio en la prevalencia de resistencia (%/año) — identifica resistencias en aceleración",
+    "qrdrMutations": "Mutaciones QRDR",
+    "vaccineCoverage": "Cobertura de vacunas"
   },
   "amrInsights": {
     "title": "Análisis de RAM",
