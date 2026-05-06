@@ -71,7 +71,7 @@ const CustomTooltip = ({ active, payload }) => {
   return (
     <Box sx={{ backgroundColor: '#fff', padding: '8px 12px', border: '1px solid rgba(0,0,0,0.2)', borderRadius: '4px' }}>
       <Typography variant="body2" fontWeight={600}>{data.country}</Typography>
-      <Typography variant="caption" display="block">ATB consumption: {data.x?.toFixed(2)} DDD/1000/day ({data.consumptionYear})</Typography>
+      <Typography variant="caption" display="block">AM consumption: {data.x?.toFixed(2)} DDD/1000/day ({data.consumptionYear})</Typography>
       <Typography variant="caption" display="block">Resistance: {data.y?.toFixed(1)}% ({data.resistanceYear || ''})</Typography>
       {data.genomes > 0 && <Typography variant="caption" display="block">Samples tested: {data.genomes}</Typography>}
       <Typography variant="caption" display="block" color="textSecondary">Region: {data.region}</Typography>
@@ -311,7 +311,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
               <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" dataKey="x" domain={['auto', 'auto']}>
-                  <Label value="ATB Consumption (DDD/1000 inhabitants/day)" position="bottom" offset={20} style={{ fontSize: 12 }} />
+                  <Label value="AM Consumption (DDD/1000 inhabitants/day)" position="bottom" offset={20} style={{ fontSize: 12 }} />
                 </XAxis>
                 <YAxis type="number" dataKey="y" domain={[0, 100]}>
                   <Label value="Genomic Resistance — WHO GLASS (%)" angle={-90} position="insideLeft" offset={10} style={{ fontSize: 11, textAnchor: 'middle' }} />
@@ -366,7 +366,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
           <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>Data Sources</Typography>
           <Box className={classes.tooltipWrapper}>
             <Typography variant="caption" sx={{ lineHeight: 1.5 }}>
-              <strong>ATB Consumption:</strong> {dataSource === 'glass'
+              <strong>AM Consumption:</strong> {dataSource === 'glass'
                 ? `WHO GLASS-AMC via GHO OData API (${glassData?.consumption?.length || 0} country-year records, 2016-2023). Total antibiotic consumption as DDD/1000/day.`
                 : 'Static dataset adapted from WHO GLASS AMC/AMU report and ECDC ESAC-Net (16 countries, 2020).'}
               <br /><br />

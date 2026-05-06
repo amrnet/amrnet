@@ -245,7 +245,7 @@
       "serotypeResistance": "Cobertura Vacinal",
       "pmenClones": "Clones PMEN",
       "cooccurrence": "Co-ocorrência de RAM",
-      "atbCorrelation": "Uso de ATB vs Resistência",
+      "atbCorrelation": "Uso de AM vs Resistência",
       "oneHealthSource": "Fontes One Health",
       "linCode": "Linhagens LIN code"
     },
