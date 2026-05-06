@@ -245,7 +245,7 @@
       "serotypeResistance": "Cobertura Vacinal",
       "pmenClones": "Clones PMEN",
       "cooccurrence": "Co-ocorrência de RAM",
-      "atbCorrelation": "Uso de ATB vs Resistência",
+      "atbCorrelation": "Uso de AM vs Resistência",
       "oneHealthSource": "Fontes One Health",
       "linCode": "Linhagens LIN code"
     },
@@ -590,5 +590,12 @@
     "Beta-lactam": "Beta-lactâmico",
     "Phenicol": "Fenicol",
     "Carbapenem": "Carbapenem"
+  },
+  "globalOverview": {
+    "tabs": {
+      "map": "Mapa",
+      "barplot": "Gráfico de barras",
+      "barplotNoData": "Não há dados de fontes One Health disponíveis para este organismo."
+    }
   }
 }

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { loadOrganismQuickly } from '../../utils/quickPaginationFix';
 import { DownloadData } from '../Elements/DownloadData';
-import { Map } from '../Elements/Map';
+import { GlobalOverviewTabs } from '../Elements/GlobalOverviewTabs';
 import { Note } from '../Elements/Note';
 import { MainLayout } from '../Layout';
 // import optimizedDataService from '../../services/optimizedDataService'; // Unused import
@@ -1953,7 +1953,7 @@ export const DashboardPage = () => {
     <>
       <MainLayout>
         <Note />
-        <Map />
+        <GlobalOverviewTabs />
         {/* <SelectCountry /> */}
         <Graphs />
         <ContinentGraphs />

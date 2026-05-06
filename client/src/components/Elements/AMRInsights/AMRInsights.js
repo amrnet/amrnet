@@ -23,7 +23,6 @@ import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
 import { QRDRPathwayGraph } from '../Graphs/QRDRPathwayGraph';
 import { SerotypeResistanceGraph } from '../Graphs/SerotypeResistanceGraph';
-import { PMENCloneGraph } from '../Graphs/PMENCloneGraph/PMENCloneGraph';
 import { StratifiedResistanceGraph } from '../Graphs/StratifiedResistanceGraph';
 import { LINcodeGenotypeGraph } from '../Graphs/LINcodeGenotypeGraph/LINcodeGenotypeGraph';
 import { useStyles } from './AMRInsightsMUI';
@@ -58,18 +57,6 @@ const TABS = [
     value: 'SRT',
     component: <SerotypeResistanceGraph />,
     onlyFor: ['strepneumo'],
-  },
-  {
-    labelKey: 'amrInsights.tabs.pmenClones',
-    value: 'PMEN',
-    component: <PMENCloneGraph />,
-    onlyFor: ['strepneumo'],
-  },
-  {
-    labelKey: 'amrInsights.tabs.oneHealthSource',
-    value: 'OHS',
-    component: <StratifiedResistanceGraph mode="source" />,
-    onlyFor: ['senterica', 'sentericaints', 'ecoli', 'decoli', 'shige'],
   },
   {
     labelKey: 'amrInsights.tabs.linCode',

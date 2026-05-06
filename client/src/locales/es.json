@@ -245,7 +245,7 @@
       "serotypeResistance": "Cobertura Vacunal",
       "pmenClones": "Clones PMEN",
       "cooccurrence": "Co-ocurrencia de RAM",
-      "atbCorrelation": "Uso de ATB vs Resistencia"
+      "atbCorrelation": "Uso de AM vs Resistencia"
     },
     "gvp": {
       "compareTooltip": "Compara las predicciones de resistencia derivadas del genoma de AMRnet con los datos de vigilancia fenotípica. Cada punto = un país. Puntos en la diagonal = concordancia perfecta. Barras de error = IC Wilson 95% sobre la estimación genómica.",
@@ -506,5 +506,12 @@
     "Ciprofloxacin": "Ciprofloxacino",
     "Susceptible": "Susceptible a medicamentos cat I/II",
     "Susceptible to cat I/II drugs": "Susceptible a medicamentos cat I/II"
+  },
+  "globalOverview": {
+    "tabs": {
+      "map": "Mapa",
+      "barplot": "Gráfico de barras",
+      "barplotNoData": "No hay datos de fuentes One Health disponibles para este organismo."
+    }
   }
 }
