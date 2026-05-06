@@ -74,6 +74,7 @@ docs = [
     "nbconvert==7.16.6",
     "sphinx-copybutton==0.5.2",
     "sphinxext-opengraph==0.10.0",
+    "myst-parser>=4.0.0",  # enables Markdown sources (e.g. AMR_drug_data_model.md)
 ]
 
 [tool.uv]
