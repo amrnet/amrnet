@@ -73,3 +73,11 @@ Disclaimer
     :hidden:
 
     Developer Guide <installation>
+
+.. only:: dev
+
+   .. toctree::
+       :caption: Internal references (dev only)
+       :hidden:
+
+       AMR drug data model <AMR_drug_data_model>
