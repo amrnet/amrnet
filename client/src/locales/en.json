@@ -233,7 +233,9 @@
     "topGenotypesUpTo10": "Top Genotypes (up to 10)",
     "topGenotypesUpTo30": "Top Genotypes (up to 30)",
     "emergenceRate": "Resistance Emergence Rate",
-    "emergenceRateDescription": "Average annual change in resistance prevalence (%/year) — identifies accelerating resistance"
+    "emergenceRateDescription": "Average annual change in resistance prevalence (%/year) — identifies accelerating resistance",
+    "qrdrMutations": "QRDR Mutations",
+    "vaccineCoverage": "Vaccine Coverage"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",

@@ -21,8 +21,6 @@ import { CooccurrenceGraph } from '../Graphs/CooccurrenceGraph';
 import { ConvergenceMapGraph } from '../Graphs/ConvergenceMapGraph';
 import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
-import { QRDRPathwayGraph } from '../Graphs/QRDRPathwayGraph';
-import { SerotypeResistanceGraph } from '../Graphs/SerotypeResistanceGraph';
 import { StratifiedResistanceGraph } from '../Graphs/StratifiedResistanceGraph';
 import { LINcodeGenotypeGraph } from '../Graphs/LINcodeGenotypeGraph/LINcodeGenotypeGraph';
 import { useStyles } from './AMRInsightsMUI';
@@ -45,18 +43,6 @@ const TABS = [
     value: 'GMP',
     component: <GeneMapGraph />,
     onlyFor: [],
-  },
-  {
-    labelKey: 'amrInsights.tabs.qrdrPathway',
-    value: 'QRDR',
-    component: <QRDRPathwayGraph />,
-    onlyFor: ['styphi', 'ngono', 'senterica', 'sentericaints'],
-  },
-  {
-    labelKey: 'amrInsights.tabs.serotypeResistance',
-    value: 'SRT',
-    component: <SerotypeResistanceGraph />,
-    onlyFor: ['strepneumo'],
   },
   {
     labelKey: 'amrInsights.tabs.linCode',
@@ -147,8 +133,6 @@ export const AMRInsights = () => {
         return Array.isArray(drugsCountriesData[firstKey]) ? drugsCountriesData[firstKey] : [];
       }
       case 'GMP': // Gene map — export raw kpneumo data with gene fields
-      case 'QRDR': // QRDR — export raw styphi data
-      case 'SRT': // Serotype — export raw strepneumo data
       case 'CVM': // Convergence map — export raw kpneumo data
         return Array.isArray(rawOrganismData) ? rawOrganismData.slice(0, 5000) : []; // Cap at 5k rows for CSV
       default:
