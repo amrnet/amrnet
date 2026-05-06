@@ -59,12 +59,6 @@ const TABS = [
     onlyFor: ['strepneumo'],
   },
   {
-    labelKey: 'amrInsights.tabs.oneHealthSource',
-    value: 'OHS',
-    component: <StratifiedResistanceGraph mode="source" />,
-    onlyFor: ['senterica', 'sentericaints', 'ecoli', 'decoli', 'shige'],
-  },
-  {
     labelKey: 'amrInsights.tabs.linCode',
     value: 'LIN',
     component: <StratifiedResistanceGraph mode="lin" />,

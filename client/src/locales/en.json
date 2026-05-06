@@ -879,5 +879,12 @@
       ")",
       "4. Ciprofloxacin R, ciprofloxacin resistant (MIC >=0.5 mg/L, due to presence of multiple mutations and/or genes, see Carey et al, 2023 https://doi.org/10.7554/eLife.85867)"
     ]
+  },
+  "globalOverview": {
+    "tabs": {
+      "map": "Map",
+      "barplot": "Bar plot",
+      "barplotNoData": "No One Health source data available for this organism."
+    }
   }
 }

@@ -506,5 +506,12 @@
     "Ciprofloxacin": "Ciprofloxacine",
     "Susceptible": "Sensible aux antibiotiques cat I/II",
     "Susceptible to cat I/II drugs": "Sensible aux antibiotiques cat I/II"
+  },
+  "globalOverview": {
+    "tabs": {
+      "map": "Carte",
+      "barplot": "Graphique à barres",
+      "barplotNoData": "Aucune donnée de source One Health disponible pour cet organisme."
+    }
   }
 }
