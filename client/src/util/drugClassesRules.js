@@ -49,11 +49,11 @@ export const statKeysST = [
 export const drugRulesKP = [
   { key: 'Aminoglycosides', columnIDs: ['AGly_acquired'] },
   { key: 'Carbapenems', columnIDs: ['Bla_Carb_acquired'] },
-  { key: 'ESBL', columnIDs: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'] },
+  { key: 'Chloramphenicol', columnIDs: ['Phe_acquired'] },
   { key: 'Ciprofloxacin R', columnIDs: ['Flq_acquired', 'Flq_mutations'] },
   { key: 'Colistin', columnIDs: ['Col_acquired', 'Col_mutations'] },
+  { key: 'ESBL', columnIDs: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'] },
   { key: 'Fosfomycin', columnIDs: ['Fcyn_acquired'] },
-  { key: 'Chloramphenicol', columnIDs: ['Phe_acquired'] },
   { key: 'Sulfonamides', columnIDs: ['Sul_acquired'] },
   { key: 'Tetracycline', columnIDs: ['Tet_acquired'] },
   { key: 'Tigecycline', columnIDs: ['Tgc_acquired'] },
@@ -69,8 +69,9 @@ export const drugRulesKPOnlyMarkers = [
 export const statKeysKP = [
   { name: 'Aminoglycosides', column: 'AGly_acquired', key: '-', resistanceView: true },
   { name: 'Carbapenems', column: 'Bla_Carb_acquired', key: '-', resistanceView: true },
-  { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
+  { name: 'Chloramphenicol', column: 'Phe_acquired', key: '-', resistanceView: true },
   { name: 'Ciprofloxacin R', column: ['Flq_acquired', 'Flq_mutations'], key: '-', resistanceView: true },
+  { name: 'Colistin', column: ['Col_acquired', 'Col_mutations'], key: '-', resistanceView: true },
   {
     name: 'ESBL',
     column: ['Bla_ESBL_acquired', 'Bla_Carb_acquired', 'Bla_ESBL_inhR_acquired'],
@@ -78,7 +79,6 @@ export const statKeysKP = [
     resistanceView: true,
   },
   { name: 'Fosfomycin', column: 'Fcyn_acquired', key: '-', resistanceView: true },
-  { name: 'Chloramphenicol', column: 'Phe_acquired', key: '-', resistanceView: true },
   { name: 'Sulfonamides', column: 'Sul_acquired', key: '-', resistanceView: true },
   { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
