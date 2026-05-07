@@ -1418,12 +1418,12 @@ export const statKeysSA = [
   { name: 'Mupirocin', column: 'Mupirocin', key: '1', resistanceView: true },
   { name: 'Linezolid', column: 'Linezolid', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
-  { name: 'Trimethoprim', column: 'Trimethoprim', key: '1', resistanceView: true },
+  // { name: 'Trimethoprim', column: 'Trimethoprim', key: '1', resistanceView: true },
   { name: 'Daptomycin', column: 'Daptomycin', key: '1', resistanceView: true },
   { name: 'Rifampicin', column: 'Rifampicin', key: '1', resistanceView: true },
   { name: 'Ciprofloxacin', column: 'Ciprofloxacin', key: '1', resistanceView: true },
   { name: 'Moxifloxacin', column: 'Moxifloxacin', key: '1', resistanceView: true },
-  { name: 'Teicoplanin', column: 'Teicoplanin', key: '1', resistanceView: true },
+  // { name: 'Teicoplanin', column: 'Teicoplanin', key: '1', resistanceView: true },
   { name: 'Pansusceptible', column: null, key: null, resistanceView: true, pansusceptible: true },
 ];
 
@@ -1474,12 +1474,12 @@ export const drugRulesSA = [
   { key: 'Mupirocin', columnID: 'Mupirocin', values: ['1'] },
   { key: 'Linezolid', columnID: 'Linezolid', values: ['1'] },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
-  { key: 'Trimethoprim', columnID: 'Trimethoprim', values: ['1'] },
+  // { key: 'Trimethoprim', columnID: 'Trimethoprim', values: ['1'] },
   { key: 'Daptomycin', columnID: 'Daptomycin', values: ['1'] },
   { key: 'Rifampicin', columnID: 'Rifampicin', values: ['1'] },
   { key: 'Ciprofloxacin', columnID: 'Ciprofloxacin', values: ['1'] },
   { key: 'Moxifloxacin', columnID: 'Moxifloxacin', values: ['1'] },
-  { key: 'Teicoplanin', columnID: 'Teicoplanin', values: ['1'] },
+  // { key: 'Teicoplanin', columnID: 'Teicoplanin', values: ['1'] },
   { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
 ];
 
@@ -1572,12 +1572,12 @@ export const markerRulesSA = {
     acquired: ['ileS-2', 'mupB'],
     variants: ['ileS-1_H67Q', 'ileS-1_F563L', 'ileS-1_V588F', 'ileS-1_G593V', 'ileS-1_V631F', 'ileS-1_R816C'],
   },
-  Trimethoprim: {
-    acquired: ['dfrK', 'dfrA', 'dfrG'],
-    variants: ['dfrB_L21V', 'dfrB_H31N', 'dfrB_L41F', 'dfrB_F99S', 'dfrB_F99Y', 'dfrB_F99I', 'dfrB_H150R'],
-  },
+  // Trimethoprim: {
+  //   acquired: ['dfrK', 'dfrA', 'dfrG'],
+  //   variants: ['dfrB_L21V', 'dfrB_H31N', 'dfrB_L41F', 'dfrB_F99S', 'dfrB_F99Y', 'dfrB_F99I', 'dfrB_H150R'],
+  // },
   Vancomycin: { acquired: ['vanA', 'vanZ'], variants: [] },
-  Teicoplanin: { acquired: ['vanA', 'vanZ'], variants: [] },
+  // Teicoplanin: { acquired: ['vanA', 'vanZ'], variants: [] },
   Ciprofloxacin: {
     acquired: [],
     variants: [
