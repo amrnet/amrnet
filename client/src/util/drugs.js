@@ -33,12 +33,12 @@ export const drugsSTLegendsOnly = [
   'Chloramphenicol',
   'Ciprofloxacin (non-susceptible)',
   'Ciprofloxacin (resistant)',
-  'Extensively drug resistant (XDR)',
-  'Multidrug resistant (MDR)',
   'Sulfonamides',
   'Tetracycline',
   'Trimethoprim',
   'Trimethoprim-sulfamethoxazole',
+  'Multidrug resistant (MDR)',
+  'Extensively drug resistant (XDR)',
   'Pansusceptible',
 ];
 
@@ -47,9 +47,9 @@ export const defaultDrugsForDrugResistanceGraphST = [
   'Ceftriaxone',
   'Ciprofloxacin NS',
   'Ciprofloxacin R',
-  'XDR',
-  'MDR',
   'Trimethoprim-sulfamethoxazole',
+  'MDR',
+  'XDR',
   'Pansusceptible',
 ];
 

@@ -1372,7 +1372,8 @@ const ECOLI_PAN_RULE = {
 // - CipR  (resistant)       = ≥2 such markers (multiple mechanisms)
 // Both are computed per-record in getECOLIDrugClassData via that helper.
 export const statKeysSalmonella = [
-  ...ECOLI_COMMON_RULES,
+  ...[
+    ...ECOLI_COMMON_RULES,
   { name: 'Ciprofloxacin NS', resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
   { name: 'Ciprofloxacin R',  resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
   // Combined Ciprofloxacin (≥1 marker in Quinolone col). Intentionally omits
@@ -1382,8 +1383,9 @@ export const statKeysSalmonella = [
   // (MarkerTrendsGraph, BubbleHeatmapGraph2, RadarProfileGraph, and the
   // 'determinant' mode of BubbleGeographicGraph) opt in to this single entry.
   { name: 'Ciprofloxacin', computed: true, rules: [{ column: 'Quinolone' }], every: true },
+  ].sort((a, b) => a.name.localeCompare(b.name)),
   ECOLI_PAN_RULE,
-].sort((a, b) => a.name.localeCompare(b.name));
+];
 
 // Shigella / E. coli / diarrheagenic E. coli use the same list — prior
 // divergence (a single "Ciprofloxacin" drug using `Quinolone !== '-'`) let
