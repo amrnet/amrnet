@@ -1435,8 +1435,8 @@ export const statKeysSP = [
   { name: 'Kanamycin', column: 'Kanamycin', key: '1', resistanceView: true },
   // { name: 'Linezolid', column: 'Linezolid', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
-  { name: 'Trimethoprim', column: 'Trimethoprim', key: '1', resistanceView: true },
-  { name: 'Sulfamethoxazole', column: 'Sulfamethoxazole', key: '1', resistanceView: true },
+  // { name: 'Trimethoprim', column: 'Trimethoprim', key: '1', resistanceView: true },
+  // { name: 'Sulfamethoxazole', column: 'Sulfamethoxazole', key: '1', resistanceView: true },
   { name: 'Co-Trimoxazole', column: 'Co-Trimoxazole', key: '1', resistanceView: true },
   { name: 'Pansusceptible', column: 'amr_gene_count', key: '0', resistanceView: true, pansusceptible: true },
 ];
@@ -1494,8 +1494,8 @@ export const drugRulesSP = [
   { key: 'Kanamycin', columnID: 'Kanamycin', values: ['1'] },
   // { key: 'Linezolid', columnID: 'Linezolid', values: ['1'] },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
-  { key: 'Trimethoprim', columnID: 'Trimethoprim', values: ['1'] },
-  { key: 'Sulfamethoxazole', columnID: 'Sulfamethoxazole', values: ['1'] },
+  // { key: 'Trimethoprim', columnID: 'Trimethoprim', values: ['1'] },
+  // { key: 'Sulfamethoxazole', columnID: 'Sulfamethoxazole', values: ['1'] },
   { key: 'Co-Trimoxazole', columnID: 'Co-Trimoxazole', values: ['1'] },
   { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
 ];
@@ -1750,7 +1750,7 @@ export const markerRulesSP = {
     ],
     variants: [],
   },
-  Trimethoprim: { acquired: [], variants: ['folA_I100L'] },
-  Sulfamethoxazole: { acquired: [], variants: ['folP_aa_insert_57-70'] },
+  // Trimethoprim: { acquired: [], variants: ['folA_I100L'] },
+  // Sulfamethoxazole: { acquired: [], variants: ['folP_aa_insert_57-70'] },
   'Co-Trimoxazole': { acquired: [], variants: ['folP_aa_insert_57-70', 'folA_I100L'] },
 };
