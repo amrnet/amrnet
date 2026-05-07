@@ -141,7 +141,21 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
 
       const keys = Object.keys(item).filter(x => !exclusions.includes(x));
       keys.forEach(key => {
-        item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
+        const v = item[key];
+        // Drugs that have no entry for this year produce undefined here;
+        // dividing undefined by count yields NaN and crashes Recharts'
+        // tick generator (`getNiceTickValues`). Skip them so Recharts
+        // sees a missing data point instead of a NaN.
+        if (v == null || !Number.isFinite(item.count) || item.count <= 0) {
+          delete item[key];
+          return;
+        }
+        const pct = Number(((v / item.count) * 100).toFixed(2));
+        if (!Number.isFinite(pct)) {
+          delete item[key];
+          return;
+        }
+        item[key] = pct;
       });
 
       item.name = name;
