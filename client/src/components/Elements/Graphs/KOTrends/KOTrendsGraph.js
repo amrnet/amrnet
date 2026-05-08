@@ -237,17 +237,7 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
       .map(item => {
         const keys = Object.keys(item).filter(k => !exclusions.includes(k));
         keys.forEach(key => {
-          const v = item[key];
-          if (v == null || !Number.isFinite(item.count) || item.count <= 0) {
-            delete item[key];
-            return;
-          }
-          const pct = Number(((v / item.count) * 100).toFixed(2));
-          if (!Number.isFinite(pct)) {
-            delete item[key];
-            return;
-          }
-          item[key] = pct;
+          item[key] = Number(((item[key] / item.count) * 100).toFixed(2));
         });
         return item;
       })
