@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { Circles } from 'react-loader-spinner';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { ChartErrorBoundary } from '../Shared/ChartErrorBoundary';
 import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import { colorForDrugClassesNG, colorForDrugClassesST, colorForMarkers } from '../../../util/colorHelper';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
@@ -888,7 +889,11 @@ export const Graphs = () => {
                         }),
                   }}
                 >
-                  {shouldRender && cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  {shouldRender && (
+                    <ChartErrorBoundary label={`Graphs:${card.id}:${card.component.type?.name || 'Chart'}`}>
+                      {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                    </ChartErrorBoundary>
+                  )}
                 </Box>
               );
             })}
