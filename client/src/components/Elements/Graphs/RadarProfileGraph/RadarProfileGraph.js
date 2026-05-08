@@ -29,7 +29,7 @@ const RADAR_COLORS = ['#006cde', '#cd3cbe', '#00ac35', '#e65c00', '#785EF0'];
 const MAX_COUNTRIES = 5;
 
 const DEFAULT_X_AXIS_TYPE = 'region';
-const DEFAULT_REGIONS = ['Eastern Africa', 'Western Africa', 'South Asia', 'South-eastern Asia'];
+const DEFAULT_REGIONS = ['Eastern Africa', 'Western Africa', 'Southern Asia', 'South-eastern Asia'];
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
