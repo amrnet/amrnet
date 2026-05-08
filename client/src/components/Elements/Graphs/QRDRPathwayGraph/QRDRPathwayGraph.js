@@ -1,7 +1,6 @@
 import { InfoOutlined } from '@mui/icons-material';
 import {
   Box,
-  Card,
   CardContent,
   Tooltip,
   Typography,
@@ -21,8 +20,6 @@ import {
   ComposedChart,
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
-import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
-import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './QRDRPathwayGraphMUI';
 
 // All QRDR mutation fields in S. Typhi
@@ -183,25 +180,7 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
 
   const organism = useAppSelector(state => state.dashboard.organism);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
-  const rawDataAll = useAppSelector(state => state.graph.rawOrganismData);
-  const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
-  const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
-  const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
-
-  // Filter rawData by selected country / region. The dropdown for these
-  // selections lives in the floating plotting-options panel below.
-  const rawData = useMemo(() => {
-    if (!Array.isArray(rawDataAll) || rawDataAll.length === 0) return [];
-    if (actualCountry && actualCountry !== 'All') {
-      return rawDataAll.filter(item => item.COUNTRY_ONLY === actualCountry);
-    }
-    if (actualRegion && actualRegion !== 'All') {
-      const regionCountries = economicRegions?.[actualRegion] ?? [];
-      const inRegion = new Set(regionCountries);
-      return rawDataAll.filter(item => inRegion.has(item.COUNTRY_ONLY));
-    }
-    return rawDataAll;
-  }, [rawDataAll, actualCountry, actualRegion, economicRegions]);
+  const rawData = useAppSelector(state => state.graph.rawOrganismData);
 
   const isSalmonella = organism === 'senterica' || organism === 'sentericaints';
 
@@ -528,20 +507,6 @@ export const QRDRPathwayGraph = ({ showFilter, setShowFilter }) => {
           </Box>
         </Box>
       </Box>
-
-      {showFilter && (
-        <Box className={classes.floatingFilter}>
-          <Card elevation={3}>
-            <CardContent>
-              <PlottingOptionsHeader
-                onClose={() => setShowFilter && setShowFilter(false)}
-                className={classes.titleWrapper}
-              />
-              <SelectCountry />
-            </CardContent>
-          </Card>
-        </Box>
-      )}
     </CardContent>
   );
 };
