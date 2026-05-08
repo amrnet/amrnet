@@ -114,34 +114,6 @@ const useStyles = makeStyles((_theme) => ({
     alignItems: 'flex-end',
     paddingTop: '8px',
   },
-  // ── Floating plotting-options panel (matches DrugResistanceGraph pattern) ──
-  floatingFilter: {
-    position: 'absolute',
-    top: 16,
-    right: -(280 + 16),
-    width: '280px',
-    zIndex: 1,
-
-    '@media (max-width: 1900px)': {
-      right: 16,
-    },
-  },
-  titleWrapper: {
-    paddingBottom: '8px',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  panelSelectWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: '8px',
-  },
-  panelLabel: {
-    fontWeight: 600,
-    paddingBottom: '4px',
-  },
 }));
 
 export { useStyles };
