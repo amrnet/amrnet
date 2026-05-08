@@ -253,7 +253,13 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       let count = 0;
 
       for (const key in item) {
-        if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
+        // For "Other" category, we want to sum up the counts of all genotypes that are NOT in the topXGenotype list
+        // if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
+        //   count += item[key];
+        // }
+
+        // For the main categories (those in topXGenotype)
+        if (topXGenotype.includes(key)) {
           count += item[key];
         }
 
@@ -262,7 +268,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         }
       }
 
-      return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: count };
+      return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: item.count - count }; // Add an "Other" field that sums up the counts of genotypes not in the topXGenotype list
     });
     // .filter(x => x.count >= 10);
 
