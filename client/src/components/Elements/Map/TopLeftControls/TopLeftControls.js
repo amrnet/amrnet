@@ -104,6 +104,11 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
     }
 
     dispatch(setSelectedLineages(newValue === 'all' ? pathovar : [newValue]));
+    // Same year-range fix as dataset toggles: changing the lineage filter
+    // (sentericaints / shige / decoli) narrows the visible year range,
+    // which then sticks when toggling back to "all". Reset to the full
+    // organism range so Total genomes is correct.
+    resetYearRangeToFull();
     dispatch(setCanFilterData(true));
   }
 
@@ -144,6 +149,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
       currentSelectedLineages.some(item => !selectedLineages.includes(item))
     ) {
       dispatch(setSelectedLineages(currentSelectedLineages));
+      resetYearRangeToFull();
       dispatch(setCanFilterData(true));
     }
   }
