@@ -507,11 +507,14 @@ function buildMatchStage(organism, query) {
  * Drug columns are now in new format (Aminoglycoside, Beta-lactam, etc.) for all organisms.
  */
 function getPrepipelineStages(organism) {
+  const normaliseDateStage = { $addFields: { DATE: { $toInt: '$DATE' } } };
+
   switch (organism) {
     case 'senterica':
       return [
         {
           $addFields: {
+            DATE: { $toInt: '$DATE' },
             GENOTYPE: {
               $cond: {
                 if: { $ne: ['$GENOTYPE', null] },
@@ -525,10 +528,10 @@ function getPrepipelineStages(organism) {
 
     case 'sentericaints':
       // Drug columns are now directly in amrnetdb_ints — no $lookup needed
-      return [];
+      return [normaliseDateStage];
 
     default:
-      return [];
+      return [normaliseDateStage];
   }
 }
 
