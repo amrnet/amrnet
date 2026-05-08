@@ -329,12 +329,19 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
       const pheno = phenoByCountry[country] || phenoNormalized[normalize(country)];
 
       if (pheno && entry.count >= 20) {
+        // Guard: pheno.value can be null / undefined / non-numeric during
+        // dataset-state transitions (Local ↔ Travel ↔ All / Reset). If we
+        // build a scatter point with a NaN x or y, the `<ErrorBar>` reads
+        // a NaN range and Recharts' getNiceTickValues crashes the whole
+        // tree. Skip the country in that case.
+        const phenoValueNum = Number(pheno.value);
+        if (!Number.isFinite(phenoValueNum)) return;
         const resistant = organism === 'styphi'
           ? (styphiCipNSByCountry[normalize(country)]?.cipNS ?? 0)
           : entry.resistantCount || 0;
         const total = entry.count;
         const genomicPct = total > 0 ? (resistant / total) * 100 : 0;
-        const diff = genomicPct - pheno.value;
+        const diff = genomicPct - phenoValueNum;
 
         // Wilson score 95% CI for genomic estimate
         const ci = wilsonCI(resistant, total);
@@ -348,16 +355,24 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           : `Limited (${phenoSourceLabel} ${phenoYearDisplay}, AMRnet ${amrnetRange})`;
 
         // Concordance: phenotypic value falls within the genomic 95% Wilson CI
-        const ciConcordant = pheno.value >= ci.lower && pheno.value <= ci.upper;
+        const ciConcordant = phenoValueNum >= ci.lower && phenoValueNum <= ci.upper;
         const category = ciConcordant ? 'concordant' : diff > 0 ? 'overestimate' : 'underestimate';
 
         const yVal = Number(genomicPct.toFixed(1));
         const ciLower = Number(ci.lower.toFixed(1));
         const ciUpper = Number(ci.upper.toFixed(1));
+        const xVal = Number(phenoValueNum.toFixed(1));
+
+        // Final defensive check on every numeric chart field — drop the
+        // point if any of them isn't finite (else <ErrorBar> domain NaNs).
+        if (!Number.isFinite(xVal) || !Number.isFinite(yVal) ||
+            !Number.isFinite(ciLower) || !Number.isFinite(ciUpper)) {
+          return;
+        }
 
         points.push({
           country,
-          x: Number(pheno.value.toFixed(1)),
+          x: xVal,
           y: yVal,
           yError: [yVal - ciLower, ciUpper - yVal],
           genomes: total,
