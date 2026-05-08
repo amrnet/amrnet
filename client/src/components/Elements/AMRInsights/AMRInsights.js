@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
 import { isTouchDevice } from '../../../util/isTouchDevice';
+import { ChartErrorBoundary } from '../Graphs/../Shared/ChartErrorBoundary';
 import { InsightsActions } from './InsightsActions';
 import { ATBCorrelationGraph } from '../Graphs/ATBCorrelationGraph';
 import { CooccurrenceGraph } from '../Graphs/CooccurrenceGraph';
@@ -210,7 +211,9 @@ export const AMRInsights = () => {
                 }}
                 zIndex={currentTab === card.value ? 1 : -100}
               >
-                {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                <ChartErrorBoundary label={`AMRInsights:${card.value}:${card.component.type?.name || 'Tab'}`}>
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                </ChartErrorBoundary>
               </Box>
             ))}
           </Box>

@@ -29,6 +29,7 @@ import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { BubbleGeographicGraph } from './BubbleGeographicGraph';
 import { useStyles } from './ContinentGraphsMUI';
 import { RadarProfileGraph } from '../Graphs/RadarProfileGraph/RadarProfileGraph';
+import { ChartErrorBoundary } from '../Shared/ChartErrorBoundary';
 import { isProduction } from '../../../util/env';
 
 const TABS = [
@@ -373,7 +374,9 @@ export const ContinentGraphs = () => {
                   }}
                   zIndex={currentTab === card.value ? 1 : -100}
                 >
-                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  <ChartErrorBoundary label={`ContinentGraphs:${card.value}:${card.component.type?.name || 'Tab'}`}>
+                    {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  </ChartErrorBoundary>
                 </Box>
               );
             })}
