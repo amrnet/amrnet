@@ -1,6 +1,6 @@
 import { InfoOutlined } from '@mui/icons-material';
 import { Box, CardContent, Checkbox, Chip, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Tooltip as ChartTooltip,
@@ -28,6 +28,9 @@ const RADAR_COLORS = ['#006cde', '#cd3cbe', '#00ac35', '#e65c00', '#785EF0'];
 
 const MAX_COUNTRIES = 5;
 
+const DEFAULT_X_AXIS_TYPE = 'region';
+const DEFAULT_REGIONS = ['Eastern Africa', 'Western Africa', 'South Asia', 'South-eastern Asia'];
+
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
@@ -53,13 +56,14 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
   const [selectedCountries, setSelectedCountries] = useState([]);
-  const [xAxisType, setXAxisType] = useState('country');
+  const [xAxisType, setXAxisType] = useState(DEFAULT_X_AXIS_TYPE);
 
   const organism = useAppSelector(state => state.dashboard.organism);
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
   const drugsRegionsData = useAppSelector(state => state.graph.drugsRegionsData);
   const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const resetBool = useAppSelector(state => state.graph.resetBool);
 
   const drugsData = useMemo(() => {
     return xAxisType === 'country' ? drugsCountriesData : drugsRegionsData;
@@ -148,6 +152,24 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
       return entry;
     });
   }, [drugsData, selectedCountries, drugNames, styphiRawResistance]);
+
+  useEffect(() => {
+    if (resetBool) {
+      setXAxisType(DEFAULT_X_AXIS_TYPE);
+      setSelectedCountries([]);
+    }
+  }, [resetBool]);
+
+  useEffect(() => {
+    if (availableLocations.length > 0 && selectedCountries.length === 0) {
+      if (xAxisType === DEFAULT_X_AXIS_TYPE) {
+        const defaults = DEFAULT_REGIONS.filter(r => availableLocations.includes(r));
+        setSelectedCountries(defaults.length > 0 ? defaults : availableLocations.slice(0, MAX_COUNTRIES));
+      } else {
+        setSelectedCountries(availableLocations.slice(0, MAX_COUNTRIES));
+      }
+    }
+  }, [availableLocations, xAxisType]);
 
   const handleCountrySelect = event => {
     const value = event.target.value;
