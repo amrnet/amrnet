@@ -187,7 +187,17 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
         dispatch(setSliderList(keys.length));
 
         keys.forEach(key => {
-          item[key] = Number(((item[key] / item.totalCount) * 100).toFixed(2));
+          const v = item[key];
+          if (v == null || !Number.isFinite(item.totalCount) || item.totalCount <= 0) {
+            delete item[key];
+            return;
+          }
+          const pct = Number(((v / item.totalCount) * 100).toFixed(2));
+          if (!Number.isFinite(pct)) {
+            delete item[key];
+            return;
+          }
+          item[key] = pct;
         });
 
         return item;
