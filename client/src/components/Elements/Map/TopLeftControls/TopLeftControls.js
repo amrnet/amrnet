@@ -53,9 +53,29 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
     setCurrentSelectedLineages(selectedLineages);
   }, [selectedLineages]);
 
+  // When the dataset filter changes (e.g. styphi ALL ↔ LOCAL ↔ TRAVEL,
+  // or kpneumo / sentericaints ALL ↔ ESBL+/CARBA+/ENTERITIDIS/...),
+  // the year range filter must be expanded back to the organism's full
+  // year range. Otherwise toggling to a narrow subset and back to ALL
+  // leaves actualTimeInitial / actualTimeFinal stuck at the narrow
+  // subset's year range, silently dropping records outside that
+  // window — the "Total genomes off by N" bug. (RESET button does the
+  // same reset, which is why RESET works while toggle-and-back doesn't.)
+  function resetYearRangeToFull() {
+    if (yearsCompleteListToShowInGlobalFilter.length > 0) {
+      dispatch(setActualTimeInitial(yearsCompleteListToShowInGlobalFilter[0]));
+      dispatch(
+        setActualTimeFinal(
+          yearsCompleteListToShowInGlobalFilter[yearsCompleteListToShowInGlobalFilter.length - 1],
+        ),
+      );
+    }
+  }
+
   function handleChangeST(_event, newValue) {
     if (newValue !== null) {
       dispatch(setDataset(newValue));
+      resetYearRangeToFull();
       dispatch(setCanFilterData(true));
     }
   }
@@ -63,6 +83,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
   function handleChangeKP(_event, newValue) {
     if (newValue !== null) {
       dispatch(setDatasetKP(newValue));
+      resetYearRangeToFull();
       dispatch(setCanFilterData(true));
     }
   }
@@ -83,6 +104,11 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
     }
 
     dispatch(setSelectedLineages(newValue === 'all' ? pathovar : [newValue]));
+    // Same year-range fix as dataset toggles: changing the lineage filter
+    // (sentericaints / shige / decoli) narrows the visible year range,
+    // which then sticks when toggling back to "all". Reset to the full
+    // organism range so Total genomes is correct.
+    resetYearRangeToFull();
     dispatch(setCanFilterData(true));
   }
 
@@ -123,6 +149,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
       currentSelectedLineages.some(item => !selectedLineages.includes(item))
     ) {
       dispatch(setSelectedLineages(currentSelectedLineages));
+      resetYearRangeToFull();
       dispatch(setCanFilterData(true));
     }
   }
