@@ -94,21 +94,21 @@ export const statKeysKPOnlyMarkers = [
 
 export const drugRulesNG = [
   { key: 'Azithromycin', columnID: ['Azithromycin'], values: ['1'] },
+  { key: 'Benzylpenicillin', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
   { key: 'Ceftriaxone', columnID: ['CefR1'], values: ['1'] },
   { key: 'Ciprofloxacin', columnID: ['Ciprofloxacin'], values: ['1'] },
+  { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
   { key: 'Sulfonamides', columnID: ['Sulfonamides'], values: ['1'] },
   { key: 'Tetracycline', columnID: ['Tetracycline'], values: ['1'] },
-  { key: 'Cefixime', columnID: ['Cefixime'], values: ['1'] },
-  { key: 'Benzylpenicillin', columnID: ['Penicillin'], values: ['1'] },
+  { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
+  { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
   {
     key: 'Susceptible to cat I/II drugs',
     columnID: ['Susceptible'],
     values: ['1'],
     legends: 'Susceptible to cat I/II drugs',
   },
-  { key: 'Spectinomycin', columnID: ['Spectinomycin'], values: ['1'] },
-  { key: 'MDR', columnID: 'MDR', values: ['1'], legends: 'Multidrug resistant (MDR)' },
-  { key: 'XDR', columnID: 'XDR', values: ['1'], legends: 'Extensively drug resistant (XDR)' },
 ];
 
 export const drugRulesMDRXDR_NG = {
@@ -144,11 +144,11 @@ export const statKeysNG = [
   { name: 'Cefixime', column: 'Cefixime', key: '1', resistanceView: true },
   { name: 'Ceftriaxone', column: 'CefR1', key: '1', resistanceView: true },
   { name: 'Ciprofloxacin', column: 'Ciprofloxacin', key: '1', resistanceView: true },
-  { name: 'XDR', column: 'XDR', key: '1', resistanceView: true },
-  { name: 'MDR', column: 'MDR', key: '1', resistanceView: true },
   { name: 'Spectinomycin', column: 'Spectinomycin', key: '1', resistanceView: true },
   { name: 'Sulfonamides', column: 'Sulfonamides', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
+  { name: 'MDR', column: 'MDR', key: '1', resistanceView: true },
+  { name: 'XDR', column: 'XDR', key: '1', resistanceView: true },
   { name: 'Susceptible', column: 'Susceptible', key: '1', resistanceView: true },
 ];
 
@@ -874,212 +874,6 @@ export const drugClassesRulesNG = {
       ],
     },
   ],
-  Ceftriaxone: [
-    {
-      name: 'penA.A501P',
-      susceptible: false,
-      rules: [{ columnID: 'penA.A501P', value: '1' }],
-    },
-    {
-      name: 'penA.G545T',
-      susceptible: false,
-      rules: [{ columnID: 'penA.G545T', value: '1' }],
-    },
-    {
-      name: 'penA.I312M',
-      susceptible: false,
-      rules: [{ columnID: 'penA.I312M', value: '1' }],
-    },
-    {
-      name: 'penA.V316T',
-      susceptible: false,
-      rules: [{ columnID: 'penA.V316T', value: '1' }],
-    },
-    {
-      name: 'penA.A501V',
-      susceptible: false,
-      rules: [{ columnID: 'penA.A501V', value: '1' }],
-    },
-    {
-      name: 'penA.G542S',
-      susceptible: false,
-      rules: [{ columnID: 'penA.G542S', value: '1' }],
-    },
-    {
-      name: 'penA.insV346D',
-      susceptible: false,
-      rules: [{ columnID: 'penA.insV346D', value: '1' }],
-    },
-    {
-      name: 'penA_G545S',
-      susceptible: false,
-      rules: [{ columnID: 'penA_G545S', value: '1' }],
-    },
-    {
-      name: 'penA_T483S',
-      susceptible: false,
-      rules: [{ columnID: 'penA_T483S', value: '1' }],
-    },
-    {
-      name: 'None',
-      susceptible: true,
-      rules: [
-        { columnID: 'penA.A501P', value: '0' },
-        { columnID: 'penA.G545S', value: '0' },
-        { columnID: 'penA.I312M', value: '0' },
-        { columnID: 'penA.V316T', value: '0' },
-        { columnID: 'penA.A501V', value: '0' },
-        { columnID: 'penA.G542S', value: '0' },
-        { columnID: 'penA.insV346D', value: '0' },
-        { columnID: 'penA_G545S', value: '0' },
-        { columnID: 'penA_T483S', value: '0' },
-      ],
-    },
-  ],
-  Cefixime: [
-    {
-      name: 'penA.A501P',
-      susceptible: false,
-      rules: [{ columnID: 'penA.A501P', value: '1' }],
-    },
-    {
-      name: 'penA.A311V',
-      susceptible: false,
-      rules: [{ columnID: 'penA.A311V', value: '1' }],
-    },
-    {
-      name: 'penA.G545S',
-      susceptible: false,
-      rules: [{ columnID: 'penA.G545S', value: '1' }],
-    },
-    {
-      name: 'penA.I312M',
-      susceptible: false,
-      rules: [{ columnID: 'penA.I312M', value: '1' }],
-    },
-    {
-      name: 'penA.P551S',
-      susceptible: false,
-      rules: [{ columnID: 'penA.P551S', value: '1' }],
-    },
-    {
-      name: 'penA.V316T',
-      susceptible: false,
-      rules: [{ columnID: 'penA.V316T', value: '1' }],
-    },
-    {
-      name: 'mtrR.G45D',
-      susceptible: false,
-      rules: [{ columnID: 'mtrR.G45D', value: '1' }],
-    },
-    {
-      name: 'mtrR.A39T',
-      susceptible: false,
-      rules: [{ columnID: 'mtrR.A39T', value: '1' }],
-    },
-    {
-      name: 'penA_T483S',
-      susceptible: false,
-      rules: [{ columnID: 'penA_T483S', value: '1' }],
-    },
-    {
-      name: 'penA_V316P',
-      susceptible: false,
-      rules: [{ columnID: 'penA_V316P', value: '1' }],
-    },
-    {
-      name: 'None',
-      susceptible: true,
-      rules: [
-        { columnID: 'penA.A501P', value: '0' },
-        { columnID: 'penA.G545S', value: '0' },
-        { columnID: 'penA.I312M', value: '0' },
-        { columnID: 'penA.V316T', value: '0' },
-        { columnID: 'penA.P551S', value: '0' },
-        { columnID: 'mtrR.G45D', value: '0' },
-        { columnID: 'mtrR.A39T', value: '0' },
-        { columnID: 'penA.A311V', value: '0' },
-        { columnID: 'penA_T483S', value: '0' },
-        { columnID: 'penA_V316P', value: '0' },
-      ],
-    },
-  ],
-  Ciprofloxacin: [
-    {
-      name: 'gyrA_D95G',
-      susceptible: false,
-      rules: [{ columnID: 'gyrA_D95G', value: '1' }],
-    },
-    {
-      name: 'parC_S87I',
-      susceptible: false,
-      rules: [{ columnID: 'parC_S87I', value: '1' }],
-    },
-    {
-      name: 'gyrA_S91F',
-      susceptible: false,
-      rules: [{ columnID: 'gyrA_S91F', value: '1' }],
-    },
-    {
-      name: 'gyrA_D95N',
-      susceptible: false,
-      rules: [{ columnID: 'gyrA_D95N', value: '1' }],
-    },
-    {
-      name: 'parC_S87R',
-      susceptible: false,
-      rules: [{ columnID: 'parC_S87R', value: '1' }],
-    },
-    {
-      name: 'parC_S88P',
-      susceptible: false,
-      rules: [{ columnID: 'parC_S88P', value: '1' }],
-    },
-    {
-      name: 'None',
-      susceptible: true,
-      rules: [
-        { columnID: 'gyrA_D95G', value: '0' },
-        { columnID: 'parC_S87I', value: '0' },
-        { columnID: 'gyrA_S91F', value: '0' },
-        { columnID: 'gyrA_D95N', value: '0' },
-        { columnID: 'parC_S87R', value: '0' },
-        { columnID: 'parC_S88P', value: '0' },
-      ],
-    },
-  ],
-  Sulfonamides: [
-    {
-      name: 'folP_R228S',
-      susceptible: false,
-      rules: [{ columnID: 'folP_R228S', value: '1' }],
-    },
-    {
-      name: 'None',
-      susceptible: true,
-      rules: [{ columnID: 'folP_R228S', value: '0' }],
-    },
-  ],
-  Spectinomycin: [
-    {
-      name: '16S_rDNA_c1184t',
-      susceptible: false,
-      rules: [{ columnID: '16S_rDNA_c1184t', value: '1' }],
-    },
-    {
-      name: 'rpsE_T24P',
-      susceptible: false,
-      rules: [{ columnID: 'rpsE_T24P', value: '1' }],
-    },
-    {
-      name: 'None',
-      susceptible: true,
-      rules: [
-        { columnID: '16S_rDNA_c1184t', value: '0' },
-        { columnID: 'rpsE_T24P', value: '0' },
-      ],
-    },
-  ],
   Benzylpenicillin: [
     {
       name: 'mtrR_promoter_a-57del',
@@ -1170,6 +964,212 @@ export const drugClassesRulesNG = {
         { columnID: 'penA_I312M', value: '0' },
         { columnID: 'penA_V316T', value: '0' },
       ],
+    },
+  ],
+  Cefixime: [
+    {
+      name: 'penA.A501P',
+      susceptible: false,
+      rules: [{ columnID: 'penA.A501P', value: '1' }],
+    },
+    {
+      name: 'penA.A311V',
+      susceptible: false,
+      rules: [{ columnID: 'penA.A311V', value: '1' }],
+    },
+    {
+      name: 'penA.G545S',
+      susceptible: false,
+      rules: [{ columnID: 'penA.G545S', value: '1' }],
+    },
+    {
+      name: 'penA.I312M',
+      susceptible: false,
+      rules: [{ columnID: 'penA.I312M', value: '1' }],
+    },
+    {
+      name: 'penA.P551S',
+      susceptible: false,
+      rules: [{ columnID: 'penA.P551S', value: '1' }],
+    },
+    {
+      name: 'penA.V316T',
+      susceptible: false,
+      rules: [{ columnID: 'penA.V316T', value: '1' }],
+    },
+    {
+      name: 'mtrR.G45D',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR.G45D', value: '1' }],
+    },
+    {
+      name: 'mtrR.A39T',
+      susceptible: false,
+      rules: [{ columnID: 'mtrR.A39T', value: '1' }],
+    },
+    {
+      name: 'penA_T483S',
+      susceptible: false,
+      rules: [{ columnID: 'penA_T483S', value: '1' }],
+    },
+    {
+      name: 'penA_V316P',
+      susceptible: false,
+      rules: [{ columnID: 'penA_V316P', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: 'penA.A501P', value: '0' },
+        { columnID: 'penA.G545S', value: '0' },
+        { columnID: 'penA.I312M', value: '0' },
+        { columnID: 'penA.V316T', value: '0' },
+        { columnID: 'penA.P551S', value: '0' },
+        { columnID: 'mtrR.G45D', value: '0' },
+        { columnID: 'mtrR.A39T', value: '0' },
+        { columnID: 'penA.A311V', value: '0' },
+        { columnID: 'penA_T483S', value: '0' },
+        { columnID: 'penA_V316P', value: '0' },
+      ],
+    },
+  ],
+  Ceftriaxone: [
+    {
+      name: 'penA.A501P',
+      susceptible: false,
+      rules: [{ columnID: 'penA.A501P', value: '1' }],
+    },
+    {
+      name: 'penA.G545T',
+      susceptible: false,
+      rules: [{ columnID: 'penA.G545T', value: '1' }],
+    },
+    {
+      name: 'penA.I312M',
+      susceptible: false,
+      rules: [{ columnID: 'penA.I312M', value: '1' }],
+    },
+    {
+      name: 'penA.V316T',
+      susceptible: false,
+      rules: [{ columnID: 'penA.V316T', value: '1' }],
+    },
+    {
+      name: 'penA.A501V',
+      susceptible: false,
+      rules: [{ columnID: 'penA.A501V', value: '1' }],
+    },
+    {
+      name: 'penA.G542S',
+      susceptible: false,
+      rules: [{ columnID: 'penA.G542S', value: '1' }],
+    },
+    {
+      name: 'penA.insV346D',
+      susceptible: false,
+      rules: [{ columnID: 'penA.insV346D', value: '1' }],
+    },
+    {
+      name: 'penA_G545S',
+      susceptible: false,
+      rules: [{ columnID: 'penA_G545S', value: '1' }],
+    },
+    {
+      name: 'penA_T483S',
+      susceptible: false,
+      rules: [{ columnID: 'penA_T483S', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: 'penA.A501P', value: '0' },
+        { columnID: 'penA.G545S', value: '0' },
+        { columnID: 'penA.I312M', value: '0' },
+        { columnID: 'penA.V316T', value: '0' },
+        { columnID: 'penA.A501V', value: '0' },
+        { columnID: 'penA.G542S', value: '0' },
+        { columnID: 'penA.insV346D', value: '0' },
+        { columnID: 'penA_G545S', value: '0' },
+        { columnID: 'penA_T483S', value: '0' },
+      ],
+    },
+  ],
+  Ciprofloxacin: [
+    {
+      name: 'gyrA_D95G',
+      susceptible: false,
+      rules: [{ columnID: 'gyrA_D95G', value: '1' }],
+    },
+    {
+      name: 'parC_S87I',
+      susceptible: false,
+      rules: [{ columnID: 'parC_S87I', value: '1' }],
+    },
+    {
+      name: 'gyrA_S91F',
+      susceptible: false,
+      rules: [{ columnID: 'gyrA_S91F', value: '1' }],
+    },
+    {
+      name: 'gyrA_D95N',
+      susceptible: false,
+      rules: [{ columnID: 'gyrA_D95N', value: '1' }],
+    },
+    {
+      name: 'parC_S87R',
+      susceptible: false,
+      rules: [{ columnID: 'parC_S87R', value: '1' }],
+    },
+    {
+      name: 'parC_S88P',
+      susceptible: false,
+      rules: [{ columnID: 'parC_S88P', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: 'gyrA_D95G', value: '0' },
+        { columnID: 'parC_S87I', value: '0' },
+        { columnID: 'gyrA_S91F', value: '0' },
+        { columnID: 'gyrA_D95N', value: '0' },
+        { columnID: 'parC_S87R', value: '0' },
+        { columnID: 'parC_S88P', value: '0' },
+      ],
+    },
+  ],
+  Spectinomycin: [
+    {
+      name: '16S_rDNA_c1184t',
+      susceptible: false,
+      rules: [{ columnID: '16S_rDNA_c1184t', value: '1' }],
+    },
+    {
+      name: 'rpsE_T24P',
+      susceptible: false,
+      rules: [{ columnID: 'rpsE_T24P', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [
+        { columnID: '16S_rDNA_c1184t', value: '0' },
+        { columnID: 'rpsE_T24P', value: '0' },
+      ],
+    },
+  ],
+  Sulfonamides: [
+    {
+      name: 'folP_R228S',
+      susceptible: false,
+      rules: [{ columnID: 'folP_R228S', value: '1' }],
+    },
+    {
+      name: 'None',
+      susceptible: true,
+      rules: [{ columnID: 'folP_R228S', value: '0' }],
     },
   ],
   Tetracycline: [

@@ -55,10 +55,10 @@ export const defaultDrugsForDrugResistanceGraphST = [
 
 export const drugsNG = [
   'Azithromycin',
+  'Benzylpenicillin',
   'Cefixime',
   'Ceftriaxone',
   'Ciprofloxacin',
-  'Benzylpenicillin',
   'Spectinomycin',
   'Sulfonamides',
   'Tetracycline',
@@ -66,13 +66,13 @@ export const drugsNG = [
 
 export const defaultDrugsForDrugResistanceGraphNG = [
   'Azithromycin',
+  'Benzylpenicillin',
   'Cefixime',
   'Ceftriaxone',
   'Ciprofloxacin',
-  'XDR',
-  'MDR',
-  'Benzylpenicillin',
   'Spectinomycin',
+  'MDR',
+  'XDR',
   'Susceptible to cat I/II drugs',
 ];
 
