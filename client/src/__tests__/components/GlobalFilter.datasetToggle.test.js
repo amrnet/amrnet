@@ -124,3 +124,75 @@ describe('Global filter — dataset toggle does not silently shrink Total genome
     expect(back.genomesCount).toBe(FIXTURES.length);
   });
 });
+
+// ── Same regression for lineage filter (sentericaints / shige / decoli) ──
+// These organisms use selectedLineages instead of TRAVEL/datasetKP, but
+// the year-range narrowing bug pattern is identical: filtering to a subset
+// narrows the visible year range, which then sticks when returning to ALL.
+const LINEAGE_FIXTURES = [
+  { GENOTYPE: 'L1', DATE: '2018', COUNTRY_ONLY: 'UK',     TRAVEL: 'all', PMID: 'lp1', Pathovar: 'EnteritidisXYZ' }, // edge year
+  { GENOTYPE: 'L1', DATE: '2019', COUNTRY_ONLY: 'UK',     TRAVEL: 'all', PMID: 'lp2', Pathovar: 'EnteritidisXYZ' },
+  { GENOTYPE: 'L2', DATE: '2020', COUNTRY_ONLY: 'France', TRAVEL: 'all', PMID: 'lp3', Pathovar: 'TyphimuriumXYZ' },
+  { GENOTYPE: 'L2', DATE: '2021', COUNTRY_ONLY: 'France', TRAVEL: 'all', PMID: 'lp4', Pathovar: 'TyphimuriumXYZ' },
+  { GENOTYPE: 'L1', DATE: '2022', COUNTRY_ONLY: 'India',  TRAVEL: 'all', PMID: 'lp5', Pathovar: 'EnteritidisXYZ' },
+  { GENOTYPE: 'L3', DATE: '2023', COUNTRY_ONLY: 'India',  TRAVEL: 'all', PMID: 'lp6', Pathovar: 'OtherXYZ' },         // edge year
+];
+const LINEAGE_ALL_YEARS = ['2018', '2019', '2020', '2021', '2022', '2023'];
+const ENTERITIDIS_ONLY_YEARS = ['2018', '2019', '2022']; // years where only Enteritidis lives
+
+describe('Global filter — lineage toggle does not silently shrink Total genomes', () => {
+  function callFilterData({ selectedLineages, actualTimeInitial, actualTimeFinal }) {
+    return filterData({
+      data: LINEAGE_FIXTURES,
+      dataset: 'All',
+      datasetKP: 'All',
+      actualTimeInitial,
+      actualTimeFinal,
+      organism: 'sentericaints',
+      actualCountry: 'All',
+      actualRegion: 'All',
+      economicRegions: {},
+      selectedLineages,
+    });
+  }
+
+  test('all lineages selected with full year range returns all records', () => {
+    const result = callFilterData({
+      selectedLineages: [], // empty → no filter (per filters.js checkLineages)
+      actualTimeInitial: LINEAGE_ALL_YEARS[0],
+      actualTimeFinal: LINEAGE_ALL_YEARS[LINEAGE_ALL_YEARS.length - 1],
+    });
+    expect(result.genomesCount).toBe(LINEAGE_FIXTURES.length); // 6
+  });
+
+  test('Enteritidis only correctly subsets records by Pathovar', () => {
+    const result = callFilterData({
+      selectedLineages: ['Enteritidis'],
+      actualTimeInitial: LINEAGE_ALL_YEARS[0],
+      actualTimeFinal: LINEAGE_ALL_YEARS[LINEAGE_ALL_YEARS.length - 1],
+    });
+    expect(result.genomesCount).toBe(3); // 3 Enteritidis records
+  });
+
+  test('REGRESSION: switching lineage Enteritidis → all-lineages while year range is still pinned to Enteritidis-only years drops edge-year records', () => {
+    // Buggy state: lineages cleared (acts as "all") but year range still
+    // narrowed to only the Enteritidis years. The 2020/2021 records (only
+    // present for Typhimurium) drop out because they're in-range, but the
+    // 2023 'OtherXYZ' record drops because 2023 isn't in ENTERITIDIS_ONLY_YEARS.
+    const buggyResult = callFilterData({
+      selectedLineages: [], // user cleared the filter
+      actualTimeInitial: ENTERITIDIS_ONLY_YEARS[0],     // '2018' — narrow start
+      actualTimeFinal: ENTERITIDIS_ONLY_YEARS[ENTERITIDIS_ONLY_YEARS.length - 1], // '2022' — narrow end
+    });
+    expect(buggyResult.genomesCount).toBeLessThan(LINEAGE_FIXTURES.length);
+    expect(buggyResult.genomesCount).toBe(5); // 2023 record dropped
+
+    // Fixed state: lineages cleared AND year range reset to full range.
+    const fixedResult = callFilterData({
+      selectedLineages: [],
+      actualTimeInitial: LINEAGE_ALL_YEARS[0],
+      actualTimeFinal: LINEAGE_ALL_YEARS[LINEAGE_ALL_YEARS.length - 1],
+    });
+    expect(fixedResult.genomesCount).toBe(LINEAGE_FIXTURES.length); // 6 — correct
+  });
+});
