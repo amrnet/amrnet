@@ -57,8 +57,17 @@ function linearRegression(data) {
   if (n < 2) return { slope: 0, intercept: 0, r2: 0 };
   let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
   data.forEach(d => { sumX += d.x; sumY += d.y; sumXY += d.x * d.y; sumX2 += d.x * d.x; });
-  const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+  // Guard against zero denominator (all x values equal) and any NaN/Infinity
+  // that could otherwise propagate into the chart and crash Recharts.
+  const denom = n * sumX2 - sumX * sumX;
+  if (!Number.isFinite(denom) || denom === 0) {
+    return { slope: 0, intercept: sumY / n, r2: 0 };
+  }
+  const slope = (n * sumXY - sumX * sumY) / denom;
   const intercept = (sumY - slope * sumX) / n;
+  if (!Number.isFinite(slope) || !Number.isFinite(intercept)) {
+    return { slope: 0, intercept: 0, r2: 0 };
+  }
   const ssRes = data.reduce((s, d) => s + Math.pow(d.y - (slope * d.x + intercept), 2), 0);
   const ssTot = data.reduce((s, d) => s + Math.pow(d.y - sumY / n, 2), 0);
   return { slope, intercept, r2: ssTot > 0 ? 1 - ssRes / ssTot : 0 };
@@ -193,11 +202,17 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
     Object.entries(resistanceByCountry).forEach(([country, res]) => {
       const consumption = consumptionByCountry[country];
       if (consumption && res.value != null) {
+        const x = Number(consumption.value);
+        const y = Number(Number(res.value).toFixed(1));
+        // Drop points whose coordinates aren't finite — otherwise the
+        // XAxis (`domain={['auto','auto']}`) auto-domain reduces to NaN
+        // and Recharts' getNiceTickValues crashes.
+        if (!Number.isFinite(x) || !Number.isFinite(y)) return;
         const region = countryToRegion[country] || 'Unknown';
         points.push({
           country,
-          x: consumption.value,
-          y: Number(Number(res.value).toFixed(1)),
+          x,
+          y,
           genomes: res.tested || 0,
           region,
           color: regionColors[region] || regionColors['Unknown'],
@@ -238,6 +253,14 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
   const xMax = scatterData.length > 0 ? Math.max(...scatterData.map(d => d.x)) * 1.05 : 10;
   const trendY1 = Math.max(0, Math.min(100, regression.slope * xMin + regression.intercept));
   const trendY2 = Math.max(0, Math.min(100, regression.slope * xMax + regression.intercept));
+  // Only render the trend line when every coordinate is finite — passing
+  // NaN to a ReferenceLine forces Recharts to recompute axis ticks with a
+  // bad domain, which crashes the categorical chart with a DecimalError.
+  const trendLineFinite =
+    Number.isFinite(xMin) &&
+    Number.isFinite(xMax) &&
+    Number.isFinite(trendY1) &&
+    Number.isFinite(trendY2);
 
   return (
     <CardContent className={classes.atbCorrelationGraph}>
@@ -323,7 +346,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
                     <Cell key={`cell-${i}`} fill={entry.color} />
                   ))}
                 </Scatter>
-                {showTrendLine && scatterData.length >= 2 && (
+                {showTrendLine && scatterData.length >= 2 && trendLineFinite && (
                   <ReferenceLine
                     segment={[
                       { x: xMin, y: trendY1 },
