@@ -229,17 +229,7 @@ export const TrendsGraph = ({ showFilter, setShowFilter }) => {
       const keys = Object.keys(item).filter(x => !exclusions.includes(x));
 
       keys.forEach(key => {
-        const v = item[key];
-        if (v == null || !Number.isFinite(item.totalCount) || item.totalCount <= 0) {
-          delete item[key];
-          return;
-        }
-        const pct = Number(((v / item.totalCount) * 100).toFixed(2));
-        if (!Number.isFinite(pct)) {
-          delete item[key];
-          return;
-        }
-        item[key] = pct;
+        item[key] = Number(((item[key] / item.totalCount) * 100).toFixed(2));
       });
 
       return item;
