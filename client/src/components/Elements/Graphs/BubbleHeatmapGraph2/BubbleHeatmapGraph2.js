@@ -197,9 +197,14 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
     setYAxisSelected(yAxisOptions);
   }, [yAxisOptions]);
 
+  const formatDrugLabel = useCallback(
+    name => (yAxisType === 'resistance' ? drugAcronymsOpposite[drugAcronyms[name] ?? name] ?? name : name),
+    [yAxisType],
+  );
+
   const yAxisWidth = useMemo(() => {
-    return longestVisualWidth(xAxisSelected ?? []);
-  }, [xAxisSelected]);
+    return longestVisualWidth((yAxisSelected ?? []).map(formatDrugLabel));
+  }, [yAxisSelected, formatDrugLabel]);
 
   const getOptionLabel = useCallback(
     item => {
@@ -279,67 +284,80 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   }, []);
 
   const configuredMapData = useMemo(() => {
-    if (!selectedCRData || yAxisSelected.length === 0) {
+    if (!selectedCRData || yAxisSelected.length === 0 || xAxisSelected.length === 0) {
       return [];
     }
 
-    return selectedCRData?.stats[statColumn]?.items
-      ?.filter(item => xAxisSelected?.includes(item.name))
-      .map(item => {
-        const itemData = { name: item.name, items: [] };
+    const matchingItems =
+      selectedCRData?.stats[statColumn]?.items?.filter(item => xAxisSelected?.includes(item.name)) ?? [];
 
-        if (yAxisType === 'resistance') {
-          Object.entries(item.drugs).forEach(([key, value]) => {
-            if (yAxisSelected.includes(key)) {
-              const pct = item.count ? Number((((value?.count || 0) / item.count) * 100).toFixed(2)) : 0;
-              itemData.items.push({
-                itemName: drugAcronyms[key] ?? key,
-                percentage: pct,
-                count: value?.count || 0,
-                index: 1,
-                typeName: item.name, //typeName: ['senterica'].includes(organism) ? `ST ${item.name}` : item.name,
-                total: item.count,
-              });
-            }
+    if (yAxisType === 'resistance') {
+      const drugRows = yAxisSelected.map(drug => {
+        const row = { name: drug, items: [] };
+
+        matchingItems.forEach(item => {
+          const drugCount = item.drugs[drug]?.count ?? 0;
+          const pct = item.count ? Number(((drugCount / item.count) * 100).toFixed(2)) : 0;
+          row.items.push({
+            itemName: item.name,
+            percentage: pct,
+            count: drugCount,
+            index: 1,
+            typeName: item.name,
+            total: item.count,
+            drug,
           });
+        });
 
-          itemData.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
-
-          const moveToStart = name => {
-            const i = itemData.items.findIndex(x => x.itemName === name);
-            if (i >= 0) itemData.items.unshift(...itemData.items.splice(i, 1));
-          };
-
-          const moveToEnd = name => {
-            const i = itemData.items.findIndex(x => x.itemName === name);
-            if (i >= 0) itemData.items.push(...itemData.items.splice(i, 1));
-          };
-
-          if (['styphi', 'sentericaints'].includes(organism)) {
-            ['CRO', 'CipR', 'CipNS'].forEach(moveToStart);
-          }
-
-          ['MDR', 'XDR', 'PAN', 'SUS'].forEach(moveToEnd);
-        }
-
-        if (yAxisType.includes('markers')) {
-          const drugGenes = item?.drugs[yAxisType.includes('esbl') ? 'ESBL' : 'Carbapenems']?.items;
-
-          yAxisSelected.forEach(gene => {
-            const currentGene = drugGenes.find(dg => dg.name === gene);
-
-            itemData.items.push({
-              itemName: (currentGene?.name ?? gene).replace(' + ', '/'),
-              percentage: currentGene?.percentage ?? 0,
-              index: 1,
-              typeName: item.name,
-              total: item.count,
-            });
-          });
-        }
-
-        return itemData;
+        return row;
       });
+
+      // Ordering rules previously applied to the drug column axis now apply
+      // to the drug row axis. Match by acronym so we stay consistent with the
+      // existing styphi/sentericaints rules (CRO/CipR/CipNS first) and the
+      // global rules (MDR/XDR/PAN/SUS last).
+      const acronymOf = name => drugAcronyms[name] ?? name;
+      drugRows.sort((a, b) => acronymOf(a.name).localeCompare(acronymOf(b.name)));
+
+      const moveToStart = acronym => {
+        const i = drugRows.findIndex(x => acronymOf(x.name) === acronym);
+        if (i >= 0) drugRows.unshift(...drugRows.splice(i, 1));
+      };
+
+      const moveToEnd = acronym => {
+        const i = drugRows.findIndex(x => acronymOf(x.name) === acronym);
+        if (i >= 0) drugRows.push(...drugRows.splice(i, 1));
+      };
+
+      if (['styphi', 'sentericaints'].includes(organism)) {
+        ['CRO', 'CipR', 'CipNS'].forEach(moveToStart);
+      }
+      ['MDR', 'XDR', 'PAN', 'SUS'].forEach(moveToEnd);
+
+      return drugRows;
+    }
+
+    if (yAxisType.includes('markers')) {
+      const drugKey = yAxisType.includes('esbl') ? 'ESBL' : 'Carbapenems';
+      return yAxisSelected.map(gene => {
+        const row = { name: gene.replace(' + ', '/'), items: [] };
+        matchingItems.forEach(item => {
+          const drugGenes = item?.drugs[drugKey]?.items ?? [];
+          const currentGene = drugGenes.find(dg => dg.name === gene);
+          row.items.push({
+            itemName: item.name,
+            percentage: currentGene?.percentage ?? 0,
+            index: 1,
+            typeName: item.name,
+            total: item.count,
+            drug: gene,
+          });
+        });
+        return row;
+      });
+    }
+
+    return [];
   }, [organism, selectedCRData, statColumn, xAxisSelected, yAxisSelected, yAxisType]);
 
   useEffect(() => {
@@ -351,7 +369,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
               return (
                 <ResponsiveContainer
                   key={`heatmap-graph-${index}`}
-                  width={yAxisWidth + 65 * yAxisSelected.length}
+                  width={yAxisWidth + 65 * xAxisSelected.length}
                   height={index === 0 ? 105 : 65}
                   style={{ paddingTop: index === 0 ? 40 : 0 }}
                 >
@@ -397,7 +415,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                       tickLine={false}
                       axisLine={false}
                       domain={[1, 1]}
-                      label={{ value: item.name, position: 'insideRight' }}
+                      label={{ value: formatDrugLabel(item.name), position: 'insideRight' }}
                       width={yAxisWidth}
                     />
 
@@ -409,7 +427,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                       offset={40}
                       content={({ payload, active }) => {
                         if (payload !== null && active) {
-                          const title = getTitle(payload[0]?.payload.itemName);
+                          const title = getTitle(payload[0]?.payload.drug ?? payload[0]?.payload.itemName);
                           return (
                             <div
                               className={classes.chartTooltipLabel}
