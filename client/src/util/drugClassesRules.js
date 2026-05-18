@@ -941,11 +941,6 @@ export const drugClassesRulesNG = {
       rules: [{ columnID: 'blaTEM', value: '1' }],
     },
     {
-      name: 'penA_V316T',
-      susceptible: false,
-      rules: [{ columnID: 'penA_V316T', value: '1' }],
-    },
-    {
       name: 'None',
       susceptible: true,
       rules: [
@@ -962,7 +957,6 @@ export const drugClassesRulesNG = {
         { columnID: 'mtrR_G45D', value: '0' },
         { columnID: 'penA_G545S', value: '0' },
         { columnID: 'penA_I312M', value: '0' },
-        { columnID: 'penA_V316T', value: '0' },
       ],
     },
   ],
@@ -1423,9 +1417,7 @@ export const statKeysSA = [
   { name: 'Penicillin', column: 'Penicillin', key: '1', resistanceView: true },
   { name: 'Rifampicin', column: 'Rifampicin', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
-  // { name: 'Teicoplanin', column: 'Teicoplanin', key: '1', resistanceView: true },
   { name: 'Tobramycin', column: 'Tobramycin', key: '1', resistanceView: true },
-  // { name: 'Trimethoprim', column: 'Trimethoprim', key: '1', resistanceView: true },
   { name: 'Vancomycin', column: 'Vancomycin', key: '1', resistanceView: true },
 ];
 
@@ -1438,8 +1430,6 @@ export const statKeysSP = [
   { name: 'Kanamycin', column: 'Kanamycin', key: '1', resistanceView: true },
   // { name: 'Linezolid', column: 'Linezolid', key: '1', resistanceView: true },
   { name: 'Tetracycline', column: 'Tetracycline', key: '1', resistanceView: true },
-  // { name: 'Trimethoprim', column: 'Trimethoprim', key: '1', resistanceView: true },
-  // { name: 'Sulfamethoxazole', column: 'Sulfamethoxazole', key: '1', resistanceView: true },
   { name: 'Pansusceptible', column: 'amr_gene_count', key: '0', resistanceView: true, pansusceptible: true },
 ];
 
@@ -1479,9 +1469,7 @@ export const drugRulesSA = [
   { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
   { key: 'Rifampicin', columnID: 'Rifampicin', values: ['1'] },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
-  // { key: 'Teicoplanin', columnID: 'Teicoplanin', values: ['1'] },
   { key: 'Tobramycin', columnID: 'Tobramycin', values: ['1'] },
-  // { key: 'Trimethoprim', columnID: 'Trimethoprim', values: ['1'] },
   { key: 'Vancomycin', columnID: 'Vancomycin', values: ['1'] },
 ];
 
@@ -1497,9 +1485,7 @@ export const drugRulesSP = [
   { key: 'Kanamycin', columnID: 'Kanamycin', values: ['1'] },
   // { key: 'Linezolid', columnID: 'Linezolid', values: ['1'] },
   { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
-  // { key: 'Sulfamethoxazole', columnID: 'Sulfamethoxazole', values: ['1'] },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
-  // { key: 'Trimethoprim', columnID: 'Trimethoprim', values: ['1'] },
 ];
 
 // ---------------------------------------------------------------------------
@@ -1647,14 +1633,7 @@ export const markerRulesSA = {
 
   Tetracycline: { acquired: ['tetK', 'tetM', 'tetL', 'tetO'], variants: [] },
 
-  // Teicoplanin: { acquired: ['vanA', 'vanZ'], variants: [] },
-
   Tobramycin: { acquired: ['aphA-3', 'aadD', 'aacA-aphD'], variants: [] },
-
-  // Trimethoprim: {
-  //   acquired: ['dfrK', 'dfrA', 'dfrG'],
-  //   variants: ['dfrB_L21V', 'dfrB_H31N', 'dfrB_L41F', 'dfrB_F99S', 'dfrB_F99Y', 'dfrB_F99I', 'dfrB_H150R'],
-  // },
 
   Vancomycin: { acquired: ['vanA', 'vanZ'], variants: [] },
 };
@@ -1771,6 +1750,4 @@ export const markerRulesSP = {
     ],
     variants: [],
   },
-  // Trimethoprim: { acquired: [], variants: ['folA_I100L'] },
-  // Sulfamethoxazole: { acquired: [], variants: ['folP_aa_insert_57-70'] },
 };

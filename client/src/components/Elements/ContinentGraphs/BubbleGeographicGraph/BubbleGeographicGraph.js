@@ -374,8 +374,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     return filteredOptions;
   }, [yAxisOptions, yAxisType, organismHasLotsOfGenotypes, genotypeSearch]);
 
-  console.log("filteredOptions", filteredYAxisOptions, );
-
   useEffect(() => {
     setXAxisSelected(
       (xAxisType === 'country'
