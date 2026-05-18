@@ -1,4 +1,4 @@
-import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule, Science, Vaccines } from '@mui/icons-material';
+import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule, Vaccines } from '@mui/icons-material';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
@@ -8,13 +8,11 @@ import { DistributionGraph } from '../components/Elements/Graphs/DistributionGra
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
 import { KOTrendsGraph } from '../components/Elements/Graphs/KOTrends';
 import { MarkerTrendsGraph } from '../components/Elements/Graphs/MarkerTrendsGraph';
-import { QRDRPathwayGraph } from '../components/Elements/Graphs/QRDRPathwayGraph';
 import { SerotypeResistanceGraph } from '../components/Elements/Graphs/SerotypeResistanceGraph';
 import { TemporalHeatmapGraph } from '../components/Elements/Graphs/TemporalHeatmapGraph';
 import { EmergenceRateGraph } from '../components/Elements/Graphs/EmergenceRateGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
-import { isProduction } from './env';
 import { useTranslation } from 'react-i18next';
 import { t } from 'react-i18next';
 
@@ -169,17 +167,6 @@ export function getGraphCards(t){
       id: 'BHP',
       organisms: ['senterica'],
       component: <BubbleHPGraph />,
-    },
-    {
-      title: t('graphs.qrdrMutations'),
-      description: [''],
-      icon: <Science color="primary" />,
-      id: 'QRDR',
-      // Dev-only: collapsing the organism list to [] in production hides
-      // the tab via the existing `card.organisms.includes(organism)` filter
-      // in Graphs.js. Same gating philosophy as the Radar Profile tab.
-      organisms: isProduction() ? [] : ['styphi', 'ngono', 'senterica', 'sentericaints'],
-      component: <QRDRPathwayGraph />,
     },
     {
       title: t('graphs.vaccineCoverage'),
