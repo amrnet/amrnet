@@ -40,7 +40,7 @@ import {
   markersDrugsSH,
   markersDrugsKP,
 } from '../../../../util/drugs';
-import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
+import { longestVisualWidth } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
@@ -508,18 +508,10 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   }
 
   function getSpace() {
-    switch (organism) {
-      case 'shige':
-      case 'sentericaints':
-      case 'decoli':
-      case 'ecoli':
-      case 'kpneumo':
-      case 'styphi':
-      case 'ngono':
-        return 70;
-      default:
-        return 50;
-    }
+    // Location-column labels are now drawn in full (no truncateWord) and may
+    // include long names like "Latin America and the Caribbean". Reserve more
+    // top space than the previous 50-70px so the -45deg rotated labels fit.
+    return 150;
   }
 
   const getTitle = useCallback(value => {
@@ -734,7 +726,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   className={classes.graphContainer}
                   key={`bubble-graph-${index}`}
                   width={yAxisWidth + 65 * xAxisSelected.length}
-                  height={index === 0 ? 105 : 65}
+                  height={index === 0 ? 180 : 65}
                   style={{ paddingTop: index === 0 ? getSpace() : 0 }}
                 >
                   <ScatterChart
@@ -763,7 +755,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                                     transform={`rotate(-45, ${props.x}, ${props.y})`}
                                     fill="rgb(128,128,128)"
                                   >
-                                    {truncateWord(props.payload.value)}
+                                    {props.payload.value}
                                   </text>
                                 </Tooltip>
                               );
@@ -866,7 +858,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     canGetData,
     classes,
     getTitle,
-    truncateWord,
     hoverColor,
     mixColorScale,
     countriesTooltipForRegion,

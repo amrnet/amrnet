@@ -408,8 +408,8 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                 <ResponsiveContainer
                   key={`heatmap-graph-${index}`}
                   width={yAxisWidth + 65 * yAxisSelected.length}
-                  height={index === 0 ? 105 : 65}
-                  style={{ paddingTop: index === 0 ? 70 : 0 }}
+                  height={index === 0 ? 180 : 65}
+                  style={{ paddingTop: index === 0 ? 130 : 0 }}
                 >
                   <ScatterChart
                     cursor={isTouchDevice() ? 'default' : 'pointer'}
@@ -471,7 +471,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                             <div
                               className={classes.chartTooltipLabel}
                               style={{
-                                marginTop: index + 1 === configuredMapData.length ? -40 : index === 0 ? 40 : 0,
+                                marginTop: index + 1 === configuredMapData.length ? -40 : index === 0 ? 130 : 0,
                               }}
                             >
                               <Typography variant="body1" fontWeight="500">
