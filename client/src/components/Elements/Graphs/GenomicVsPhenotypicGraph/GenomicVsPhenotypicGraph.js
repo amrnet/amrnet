@@ -37,8 +37,21 @@ import {
   Cell,
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
-import { fetchGLASSData, getGLASSIndicatorForOrganism, getGLASSPhenotypicByOrganismDrug } from '../../../../data/glass_data';
+import {
+  fetchGLASSData,
+  getGLASSIndicatorForATBClass,
+  getGLASSIndicatorForOrganism,
+  getGLASSPhenotypicByOrganismDrug,
+} from '../../../../data/glass_data';
+import { atbToAmrnetMapping, getAmrnetDrugsForATBClass } from '../../../../util/atbDrugMapping';
 import { useStyles } from './GenomicVsPhenotypicGraphMUI';
+
+// Public-facing source landing pages used by the Data Sources panel.
+const SOURCE_URLS = {
+  glass: 'https://www.who.int/data/gho/data/themes/topics/global-antimicrobial-resistance-and-use-surveillance-system-glass-database',
+  ecdc: 'https://www.ecdc.europa.eu/en/antimicrobial-resistance/surveillance-and-disease-data/data-ecdc',
+  amrnet: 'https://amrnet.readthedocs.io',
+};
 
 // Organisms that have bundled literature surveillance data
 const LITERATURE_ORGANISMS = new Set([
@@ -200,21 +213,89 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
   const { t } = useTranslation();
   const [glassData, setGlassData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [phenoSource, setPhenoSource] = useState('glass');
 
   const organism = useAppSelector(state => state.dashboard.organism);
-
-  // Reset phenoSource when organism changes
-  useEffect(() => {
-    setPhenoSource(defaultPhenoSource(organism));
-  }, [organism]);
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
   const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
   const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
   const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
 
-  const glassIndicator = useMemo(() => getGLASSIndicatorForOrganism(organism), [organism]);
+  // Enumerate every (drug, phenotype-source) pair for which we have BOTH
+  // an AMRnet genomic record (drugsCountriesData entry) AND a phenotypic
+  // source (WHO GLASS indicator or bundled literature dataset). This drives
+  // the explicit Drug selector below — previously the drug was hardcoded
+  // per organism and there was no visible indicator of what was being
+  // plotted.
+  const availableDrugs = useMemo(() => {
+    const list = [];
+
+    // GLASS-backed entries: one per ATB class with an indicator + an AMRnet
+    // drug mapping. For most organisms this yields multiple options
+    // (kpneumo: Carbapenems, Fluoroquinolones, Cephalosporins, …).
+    const atbClasses = Object.keys(atbToAmrnetMapping[organism] || {});
+    atbClasses.forEach(cls => {
+      const indicator = getGLASSIndicatorForATBClass(organism, cls);
+      const amrnetDrugs = getAmrnetDrugsForATBClass(organism, cls);
+      if (indicator && amrnetDrugs.length > 0) {
+        list.push({
+          id: `glass:${cls}`,
+          label: `${amrnetDrugs[0]} — WHO GLASS (${cls})`,
+          source: 'glass',
+          atbClass: cls,
+          amrnetDrug: amrnetDrugs[0],
+          indicator,
+        });
+      }
+    });
+
+    // Literature-backed entry (currently 1 per organism — the bundled JSON).
+    // Surfaced as a separate row so the user can compare GLASS pheno vs
+    // literature pheno for the same AMRnet drug.
+    if (LITERATURE_ORGANISMS.has(organism)) {
+      const primaryIndicator = getGLASSIndicatorForOrganism(organism);
+      if (primaryIndicator) {
+        list.push({
+          id: 'literature',
+          label: `${primaryIndicator.drug} — Literature`,
+          source: organism === 'styphi' ? 'typhi_literature' : 'literature',
+          atbClass: null,
+          amrnetDrug: primaryIndicator.drug,
+          indicator: primaryIndicator,
+        });
+      }
+    }
+
+    return list;
+  }, [organism]);
+
+  // Default selection: literature for organisms that have it (matches
+  // previous defaultPhenoSource behaviour), otherwise the first GLASS row.
+  const [selectedDrugId, setSelectedDrugId] = useState(null);
+  useEffect(() => {
+    if (availableDrugs.length === 0) {
+      setSelectedDrugId(null);
+      return;
+    }
+    const defaultId = LITERATURE_ORGANISMS.has(organism)
+      ? (availableDrugs.find(d => d.id === 'literature')?.id ?? availableDrugs[0].id)
+      : availableDrugs[0].id;
+    setSelectedDrugId(defaultId);
+  }, [organism, availableDrugs]);
+
+  const selectedDrug = useMemo(
+    () => availableDrugs.find(d => d.id === selectedDrugId) ?? availableDrugs[0] ?? null,
+    [availableDrugs, selectedDrugId],
+  );
+
+  // phenoSource / glassIndicator are now derived from the selected entry so
+  // the rest of the component (which switches on phenoSource string values)
+  // doesn't need to change.
+  const phenoSource = selectedDrug?.source ?? defaultPhenoSource(organism);
+  const glassIndicator = useMemo(
+    () => selectedDrug?.indicator ?? getGLASSIndicatorForOrganism(organism),
+    [selectedDrug, organism],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -500,21 +581,23 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
         </Tooltip>
 
-        {/* Phenotypic data source selector — organisms with literature data */}
-        {LITERATURE_ORGANISMS.has(organism) && (
+        {/* Drug + phenotype-source selector — populated from availableDrugs.
+            Replaces the previous LITERATURE_ORGANISMS-only toggle and makes
+            the drug currently being plotted explicit. */}
+        {availableDrugs.length > 0 && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Typography variant="caption" fontWeight={600} sx={{ whiteSpace: 'nowrap' }}>{t('amrInsights.gvp.phenotypicSource.label')}</Typography>
+            <Typography variant="caption" fontWeight={600} sx={{ whiteSpace: 'nowrap' }}>
+              Drug
+            </Typography>
             <Select
-              value={phenoSource}
-              onChange={e => setPhenoSource(e.target.value)}
+              value={selectedDrugId ?? availableDrugs[0].id}
+              onChange={e => setSelectedDrugId(e.target.value)}
               size="small"
-              sx={{ fontSize: '12px', minWidth: 240 }}
+              sx={{ fontSize: '12px', minWidth: 280 }}
             >
-              {organism === 'styphi' && <MenuItem value="typhi_literature">{t('amrInsights.gvp.phenotypicSource.typhiLiterature')}</MenuItem>}
-              {organism !== 'styphi' && <MenuItem value="literature">{t('amrInsights.gvp.phenotypicSource.literature')}</MenuItem>}
-              {organism === 'styphi'
-                ? <MenuItem value="glass">WHO GLASS (Salmonella, includes NTS)</MenuItem>
-                : <MenuItem value="glass">WHO GLASS</MenuItem>}
+              {availableDrugs.map(d => (
+                <MenuItem key={d.id} value={d.id}>{d.label}</MenuItem>
+              ))}
             </Select>
             <Tooltip title={t('amrInsights.gvp.phenotypicSource.downloadCSV')}>
               <span>
@@ -527,20 +610,8 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           </Box>
         )}
 
-        {loading && (!LITERATURE_ORGANISMS.has(organism) || phenoSource === 'glass') && <CircularProgress size={16} />}
-        {!loading && glassIndicator && !LITERATURE_ORGANISMS.has(organism) && (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Chip label={glassIndicator.label} size="small" variant="outlined" color="primary" />
-            <Tooltip title={t('amrInsights.gvp.phenotypicSource.downloadCSVGlass')}>
-              <span>
-                <IconButton size="small" onClick={downloadPhenoCSV} disabled={!rawPhenoData?.length}>
-                  <FileDownload fontSize="small" />
-                </IconButton>
-              </span>
-            </Tooltip>
-          </Box>
-        )}
-        {!loading && !glassIndicator && (
+        {loading && phenoSource === 'glass' && <CircularProgress size={16} />}
+        {!loading && availableDrugs.length === 0 && (
           <Chip label="No phenotypic data available for this organism" size="small" variant="outlined" color="warning" />
         )}
       </Box>
@@ -750,6 +821,44 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
               }
               <br /><br />
               <strong>{t('amrInsights.gvp.bubbleSizeLabel')}</strong> ∝ {t('amrInsights.gvp.bubbleSize').replace(/^.*?∝\s*/, '')}
+            </Typography>
+          </Box>
+
+          {/* Data Sources panel — clickable citations for the current pheno source
+              and the AMRnet genomic side. Per-organism literature curators are
+              named where the JSON metadata supplies them. */}
+          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>Data Sources</Typography>
+          <Box className={classes.tooltipWrapper}>
+            <Typography variant="caption" sx={{ lineHeight: 1.5 }} component="div">
+              <strong>Phenotypic (X):</strong>{' '}
+              {phenoSource === 'glass' || phenoSource === 'typhi_literature' && organism !== 'styphi' ? (
+                <>
+                  <a href={SOURCE_URLS.glass} target="_blank" rel="noopener noreferrer">
+                    WHO GLASS
+                  </a> — {glassIndicator?.label || 'Global Antimicrobial Resistance and Use Surveillance System'}.
+                </>
+              ) : (
+                <>
+                  Bundled surveillance literature (ECDC EARS-Net 2021 + national reports / WHO GASP / GEMS, depending on
+                  the organism). The JSON metadata files in {' '}
+                  <code>client/src/assets/</code> carry per-source citations (year ranges, breakpoints, specimen) and a{' '}
+                  <code>doi_or_url</code> field for each entry. The download button above exports the full JSON as a CSV.
+                  {' '}
+                  <a href={SOURCE_URLS.ecdc} target="_blank" rel="noopener noreferrer">
+                    See ECDC AMR data hub
+                  </a> for primary EARS-Net releases.
+                </>
+              )}
+              <br /><br />
+              <strong>Genomic (Y):</strong>{' '}
+              <a href={SOURCE_URLS.amrnet} target="_blank" rel="noopener noreferrer">AMRnet</a> genome-derived call
+              for <em>{glassIndicator?.drug || '—'}</em> using the standard AMRnet drug-rules engine. Per-country %R is
+              computed across genomes that pass the dashboard's current global filters; the matching N is reported in
+              each tooltip.
+              <br /><br />
+              <strong>Caveat:</strong> phenotypic and genotypic resistance definitions are not always identical (e.g.
+              EUCAST clinical breakpoints vs gene-presence calls), and time periods may not overlap perfectly. See the
+              year-overlap line in each tooltip.
             </Typography>
           </Box>
         </Box>
