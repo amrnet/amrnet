@@ -597,7 +597,7 @@
     "tabs": {
       "map": "Mapa",
       "barplot": "Gráfico de barras",
-      "barplotNoData": "Não há dados de fontes One Health disponíveis para este organismo."
+      "barplotNoData": "Não há dados disponíveis para este organismo."
     }
   }
 }

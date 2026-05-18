@@ -22,15 +22,25 @@ import { CooccurrenceGraph } from '../Graphs/CooccurrenceGraph';
 import { ConvergenceMapGraph } from '../Graphs/ConvergenceMapGraph';
 import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
-import { StratifiedResistanceGraph } from '../Graphs/StratifiedResistanceGraph';
-import { LINcodeGenotypeGraph } from '../Graphs/LINcodeGenotypeGraph/LINcodeGenotypeGraph';
 import { useStyles } from './AMRInsightsMUI';
 
 const TABS = [
   {
+    labelKey: 'amrInsights.tabs.cooccurrence',
+    value: 'COO',
+    component: <CooccurrenceGraph />,
+    onlyFor: null,
+  },
+  {
     labelKey: 'amrInsights.tabs.genomicVsPhenotypic',
     value: 'GVP',
     component: <GenomicVsPhenotypicGraph />,
+    onlyFor: null,
+  },
+  {
+    labelKey: 'amrInsights.tabs.atbCorrelation',
+    value: 'ATB',
+    component: <ATBCorrelationGraph />,
     onlyFor: null,
   },
   {
@@ -45,36 +55,12 @@ const TABS = [
     component: <GeneMapGraph />,
     onlyFor: [],
   },
-  {
-    labelKey: 'amrInsights.tabs.linCode',
-    value: 'LIN',
-    component: <StratifiedResistanceGraph mode="lin" />,
-    onlyFor: ['ecoli', 'decoli', 'shige'],
-  },
-  {
-    labelKey: 'amrInsights.tabs.linGenotype',
-    value: 'LGT',
-    component: <LINcodeGenotypeGraph />,
-    onlyFor: ['ecoli', 'decoli', 'shige'],
-  },
-  {
-    labelKey: 'amrInsights.tabs.cooccurrence',
-    value: 'COO',
-    component: <CooccurrenceGraph />,
-    onlyFor: null,
-  },
-  {
-    labelKey: 'amrInsights.tabs.atbCorrelation',
-    value: 'ATB',
-    component: <ATBCorrelationGraph />,
-    onlyFor: null,
-  },
 ];
 
 export const AMRInsights = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
-  const [currentTab, setCurrentTab] = useState('GVP');
+  const [currentTab, setCurrentTab] = useState('COO');
   const [showFilter, setShowFilter] = useState(!matches500);
   const { t } = useTranslation();
 
@@ -97,7 +83,7 @@ export const AMRInsights = () => {
   // Reset to first visible tab when organism changes and current tab is no longer visible
   useEffect(() => {
     if (!filteredTabs.find(tab => tab.value === currentTab)) {
-      setCurrentTab(filteredTabs[0]?.value ?? 'GVP');
+      setCurrentTab(filteredTabs[0]?.value ?? 'COO');
     }
   }, [filteredTabs, currentTab]);
 
