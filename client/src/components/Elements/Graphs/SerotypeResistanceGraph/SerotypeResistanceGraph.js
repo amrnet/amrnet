@@ -1,8 +1,10 @@
 import { InfoOutlined } from '@mui/icons-material';
-import { Box, CardContent, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { Box, Card, CardContent, MenuItem, Select, Tooltip, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
 import { drugsSP } from '../../../../util/drugs';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './SerotypeResistanceGraphMUI';
 
 const MIN_SEROTYPE_COUNT = 10;
@@ -78,7 +80,26 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
 
   const organism = useAppSelector(state => state.dashboard.organism);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
-  const rawData = useAppSelector(state => state.graph.rawOrganismData);
+  const rawDataAll = useAppSelector(state => state.graph.rawOrganismData);
+  const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
+  const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
+  const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
+
+  // Filter rawData by selected country / region from the floating
+  // plotting-options panel. The SelectCountry component writes
+  // actualCountry / actualRegion into Redux on user selection.
+  const rawData = useMemo(() => {
+    if (!Array.isArray(rawDataAll) || rawDataAll.length === 0) return [];
+    if (actualCountry && actualCountry !== 'All') {
+      return rawDataAll.filter(item => item.COUNTRY_ONLY === actualCountry);
+    }
+    if (actualRegion && actualRegion !== 'All') {
+      const regionCountries = economicRegions?.[actualRegion] ?? [];
+      const inRegion = new Set(regionCountries);
+      return rawDataAll.filter(item => inRegion.has(item.COUNTRY_ONLY));
+    }
+    return rawDataAll;
+  }, [rawDataAll, actualCountry, actualRegion, economicRegions]);
 
   const drugs = useMemo(() => drugsSP.filter(d => d !== 'Pansusceptible'), []);
 
@@ -198,43 +219,8 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
             </Tooltip>
           </Box>
         </Box>
-
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="caption" fontWeight={600}>
-            Vaccine filter
-          </Typography>
-          <Select
-            value={vaccineFilter}
-            onChange={e => setVaccineFilter(e.target.value)}
-            size="small"
-            sx={{ minWidth: 150, fontSize: '13px' }}
-          >
-            <MenuItem value="all">All serotypes</MenuItem>
-            <MenuItem value="pcv7">PCV7 only</MenuItem>
-            <MenuItem value="pcv10">PCV10 only</MenuItem>
-            <MenuItem value="pcv13">PCV13 only</MenuItem>
-            <MenuItem value="pcv15">PCV15 only</MenuItem>
-            <MenuItem value="pcv20">PCV20 only</MenuItem>
-            <MenuItem value="non-vaccine">Non-vaccine types</MenuItem>
-          </Select>
-        </Box>
-
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="caption" fontWeight={600}>
-            Sort by
-          </Typography>
-          <Select
-            value={sortBy}
-            onChange={e => setSortBy(e.target.value)}
-            size="small"
-            sx={{ minWidth: 150, fontSize: '13px' }}
-          >
-            <MenuItem value="count">Sample count</MenuItem>
-            <MenuItem value="resistance">Avg. resistance</MenuItem>
-            <MenuItem value="mdr">MDR rate</MenuItem>
-            <MenuItem value="alphabetical">Alphabetical</MenuItem>
-          </Select>
-        </Box>
+        {/* Vaccine filter and Sort by dropdowns moved to the right-hand
+            floating plotting-options panel (see end of return). */}
       </Box>
 
       {/* Legend */}
@@ -440,6 +426,57 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
           </Box>
         </Box>
       </Box>
+
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <PlottingOptionsHeader
+                onClose={() => setShowFilter && setShowFilter(false)}
+                className={classes.titleWrapper}
+              />
+              <SelectCountry />
+              <Box className={classes.panelSelectWrapper}>
+                <Typography variant="caption" className={classes.panelLabel}>
+                  Vaccine filter
+                </Typography>
+                <Select
+                  value={vaccineFilter}
+                  onChange={e => setVaccineFilter(e.target.value)}
+                  size="small"
+                  fullWidth
+                  sx={{ fontSize: '13px' }}
+                >
+                  <MenuItem value="all">All serotypes</MenuItem>
+                  <MenuItem value="pcv7">PCV7 only</MenuItem>
+                  <MenuItem value="pcv10">PCV10 only</MenuItem>
+                  <MenuItem value="pcv13">PCV13 only</MenuItem>
+                  <MenuItem value="pcv15">PCV15 only</MenuItem>
+                  <MenuItem value="pcv20">PCV20 only</MenuItem>
+                  <MenuItem value="non-vaccine">Non-vaccine types</MenuItem>
+                </Select>
+              </Box>
+              <Box className={classes.panelSelectWrapper}>
+                <Typography variant="caption" className={classes.panelLabel}>
+                  Sort by
+                </Typography>
+                <Select
+                  value={sortBy}
+                  onChange={e => setSortBy(e.target.value)}
+                  size="small"
+                  fullWidth
+                  sx={{ fontSize: '13px' }}
+                >
+                  <MenuItem value="count">Sample count</MenuItem>
+                  <MenuItem value="resistance">Avg. resistance</MenuItem>
+                  <MenuItem value="mdr">MDR rate</MenuItem>
+                  <MenuItem value="alphabetical">Alphabetical</MenuItem>
+                </Select>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

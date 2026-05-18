@@ -513,7 +513,7 @@
     "tabs": {
       "map": "Carte",
       "barplot": "Graphique à barres",
-      "barplotNoData": "Aucune donnée de source One Health disponible pour cet organisme."
+      "barplotNoData": "Aucune donnée disponible pour cet organisme."
     }
   }
 }
