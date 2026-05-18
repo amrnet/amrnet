@@ -1,5 +1,5 @@
 import { InfoOutlined } from '@mui/icons-material';
-import { Box, CardContent, Slider, Tooltip, Typography } from '@mui/material';
+import { Box, CardContent, FormControlLabel, Slider, Switch, Tooltip, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
 import {
@@ -10,11 +10,30 @@ import {
   drugRulesST,
   statKeysECOLI,
 } from '../../../../util/drugClassesRules';
-import { drugAcronyms } from '../../../../util/drugs';
+import { getCountryDisplayName } from '../../../Dashboard/filters';
 import { useStyles } from './CooccurrenceGraphMUI';
 
-const CELL_SIZE = 36;
-const LABEL_WIDTH = 120;
+// Cells are wider than the original 36px so the diagonal column labels (now
+// rendered as full drug names like 'Trimethoprim-sulfamethoxazole') get more
+// spacing between baselines at -45deg and stop colliding with their
+// neighbors. LABEL_WIDTH is sized so the longest horizontal row label and the
+// longest rotated column label both fit.
+const CELL_SIZE = 48;
+const LABEL_WIDTH = 260;
+
+// Per-organism lineage column used by the (lineage × country × year) dedup
+// option. kpneumo and ecoli/decoli/shige expose more granular lineage clusters
+// than the bare GENOTYPE column, so we prefer them when they're populated and
+// fall back to GENOTYPE otherwise.
+function getLineageKey(genome, organism) {
+  if (organism === 'kpneumo' && genome.Sublineage && genome.Sublineage !== '-') {
+    return genome.Sublineage;
+  }
+  if (['ecoli', 'decoli', 'shige'].includes(organism) && genome.LINcode_7 && genome.LINcode_7 !== '-') {
+    return genome.LINcode_7;
+  }
+  return genome.GENOTYPE;
+}
 const EXCLUSIONS = [
   'MDR',
   'XDR',
@@ -116,24 +135,71 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
   const [hoveredCell, setHoveredCell] = useState(null);
   const [minThreshold, setMinThreshold] = useState(5);
+  const [dedup, setDedup] = useState(true);
 
   const organism = useAppSelector(state => state.dashboard.organism);
   const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
+  const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
+  const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
+  const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
+
+  // Apply the dashboard's country / region / year-range filters to the raw
+  // genome data so this plot stays in sync with the rest of Summary Plots.
+  // Then, if dedup is on, collapse repeat isolates by (lineage, country, year)
+  // — lineage prefers organism-specific clusters where available.
+  const filteredGenomes = useMemo(() => {
+    if (!Array.isArray(rawOrganismData) || rawOrganismData.length === 0) return [];
+
+    const inDateRange = g => g.DATE >= actualTimeInitial && g.DATE <= actualTimeFinal;
+    const inLocation = g => {
+      if (actualCountry !== 'All') return getCountryDisplayName(g.COUNTRY_ONLY) === actualCountry;
+      if (actualRegion !== 'All') {
+        const countries = economicRegions?.[actualRegion] ?? [];
+        return countries.includes(getCountryDisplayName(g.COUNTRY_ONLY));
+      }
+      return true;
+    };
+
+    const filtered = rawOrganismData.filter(g => inDateRange(g) && inLocation(g));
+    if (!dedup) return filtered;
+
+    const seen = new Set();
+    const result = [];
+    filtered.forEach(g => {
+      const key = `${getLineageKey(g, organism)}|${g.COUNTRY_ONLY}|${g.DATE}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        result.push(g);
+      }
+    });
+    return result;
+  }, [
+    rawOrganismData,
+    organism,
+    actualCountry,
+    actualRegion,
+    actualTimeInitial,
+    actualTimeFinal,
+    economicRegions,
+    dedup,
+  ]);
 
   // Compute REAL per-genome co-occurrence matrix
   const { drugNames, matrix, totalGenomes } = useMemo(() => {
-    if (!Array.isArray(rawOrganismData) || rawOrganismData.length === 0) {
+    if (filteredGenomes.length === 0) {
       return { drugNames: [], matrix: {}, totalGenomes: 0 };
     }
 
-    const total = rawOrganismData.length;
+    const total = filteredGenomes.length;
 
     // Count per-drug resistance and per-pair co-occurrence
     const drugCount = {}; // drug → count of resistant genomes
     const pairCount = {}; // "drugA|||drugB" → count of genomes resistant to both
 
-    rawOrganismData.forEach(genome => {
+    filteredGenomes.forEach(genome => {
       const resistantDrugs = getResistantDrugs(genome, organism);
       const drugs = [...resistantDrugs];
 
@@ -193,7 +259,7 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
     });
 
     return { drugNames: allDrugs, matrix: mat, totalGenomes: total };
-  }, [rawOrganismData, organism]);
+  }, [filteredGenomes, organism]);
 
   // Filter drugs by prevalence threshold
   const filteredDrugs = useMemo(() => {
@@ -204,7 +270,12 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
     });
   }, [drugNames, matrix, minThreshold, totalGenomes]);
 
-  const svgWidth = LABEL_WIDTH + filteredDrugs.length * CELL_SIZE + 20;
+  // Column labels render rotated -45deg with textAnchor='start' so they extend
+  // UP-AND-TO-THE-RIGHT from each column. That means the last column's label
+  // overhangs the right edge of the cell grid; svgWidth reserves extra space
+  // (~longest label width * cos(45)) so it isn't clipped.
+  const COLUMN_LABEL_OVERHANG = 160;
+  const svgWidth = LABEL_WIDTH + filteredDrugs.length * CELL_SIZE + COLUMN_LABEL_OVERHANG;
   const svgHeight = LABEL_WIDTH + filteredDrugs.length * CELL_SIZE + 20;
 
   if (!canGetData) return null;
@@ -231,9 +302,33 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
             sx={{ width: 200 }}
           />
         </Box>
+        <Box className={classes.selectWrapper}>
+          <Box className={classes.labelWrapper}>
+            <Typography variant="body2" fontWeight={600}>
+              Dedup repeat isolates
+            </Typography>
+            <Tooltip
+              title={
+                organism === 'kpneumo'
+                  ? 'Keep one isolate per (Sublineage, country, year) where Sublineage is available; otherwise GENOTYPE.'
+                  : ['ecoli', 'decoli', 'shige'].includes(organism)
+                    ? 'Keep one isolate per (LINcode_7, country, year) where LIN code is available; otherwise GENOTYPE.'
+                    : 'Keep one isolate per (GENOTYPE, country, year). Reduces over-counting of closely-related repeat isolates.'
+              }
+            >
+              <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
+            </Tooltip>
+          </Box>
+          <FormControlLabel
+            control={<Switch checked={dedup} onChange={(_, val) => setDedup(val)} size="small" />}
+            label={<Typography variant="caption">{dedup ? 'On' : 'Off'}</Typography>}
+            sx={{ marginLeft: 0 }}
+          />
+        </Box>
         {totalGenomes > 0 && (
           <Typography variant="caption" sx={{ color: '#666', paddingBottom: '4px' }}>
-            Computed from {totalGenomes.toLocaleString()} genomes (per-genome analysis)
+            Computed from {totalGenomes.toLocaleString()} {dedup ? 'unique isolates' : 'genomes'} (per-genome analysis,
+            respects current country / region / year filters)
           </Typography>
         )}
       </Box>
@@ -258,23 +353,31 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
           {filteredDrugs.length === 0 ? (
             <Box className={classes.noSelection}>
               <Typography variant="body2" color="textSecondary">
-                {rawOrganismData.length === 0 ? 'Loading genome data...' : `No drugs with prevalence ≥${minThreshold}%`}
+                {filteredGenomes.length === 0
+                  ? rawOrganismData.length === 0
+                    ? 'Loading genome data...'
+                    : 'No genomes match the current country / region / year filters.'
+                  : `No drugs with prevalence ≥${minThreshold}%`}
               </Typography>
             </Box>
           ) : (
             <svg width={svgWidth} height={svgHeight}>
-              {/* Column labels */}
+              {/* Column labels — anchor at the bottom-left of the rotated text
+                  so each label extends UP-AND-RIGHT from just above its
+                  column. With textAnchor='end' (the previous behaviour) the
+                  rotated text instead extended DOWN-LEFT and overlapped the
+                  first row of cells. */}
               {filteredDrugs.map((drug, i) => (
                 <text
                   key={`col-${drug}`}
                   x={LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}
-                  y={LABEL_WIDTH - 20}
-                  textAnchor="end"
+                  y={LABEL_WIDTH - 8}
+                  textAnchor="start"
                   fontSize="10"
                   fontWeight="600"
-                  transform={`rotate(-45, ${LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}, ${LABEL_WIDTH - 20})`}
+                  transform={`rotate(-45, ${LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}, ${LABEL_WIDTH - 8})`}
                 >
-                  {drugAcronyms[drug] || drug.substring(0, 6)}
+                  {drug}
                 </text>
               ))}
               {/* Rows */}
@@ -287,7 +390,7 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
                     fontSize="10"
                     fontWeight="600"
                   >
-                    {drugAcronyms[drugRow] || drugRow.substring(0, 8)}
+                    {drugRow}
                   </text>
                   {filteredDrugs.map((drugCol, colIdx) => {
                     const cellData = matrix[drugRow]?.[drugCol];
@@ -313,9 +416,9 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
                         {value > 0 && CELL_SIZE >= 30 && (
                           <text
                             x={LABEL_WIDTH + colIdx * CELL_SIZE + CELL_SIZE / 2 - 0.5}
-                            y={LABEL_WIDTH + rowIdx * CELL_SIZE + CELL_SIZE / 2 + 3.5}
+                            y={LABEL_WIDTH + rowIdx * CELL_SIZE + CELL_SIZE / 2 + 4}
                             textAnchor="middle"
-                            fontSize="9"
+                            fontSize="11"
                             fill={getTextColorForBg(value)}
                             pointerEvents="none"
                           >
@@ -408,20 +511,13 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
                 clonal expansion, or shared selective pressures.
                 <br />
                 <br />
-                <strong>Method:</strong> Per-genome analysis. For each genome, resistance is determined using the same
-                rules as AMR Trends. Then all pairwise co-occurrences are counted.
+                <strong>Method:</strong> Genome-only. For each genome, resistance is determined using the same rules as
+                AMR Trends, then all pairwise co-occurrences are counted. The plot respects the dashboard's current
+                country / region / year-range filters. When the dedup toggle is on, the input is collapsed to one
+                isolate per (lineage, country, year) — lineage uses Sublineage for kpneumo and LINcode_7 for
+                ecoli/decoli/shige when available, falling back to GENOTYPE otherwise.
               </Typography>
             )}
-          </Box>
-          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>
-            Drug abbreviations
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px', maxHeight: '200px', overflowY: 'auto' }}>
-            {filteredDrugs.map(drug => (
-              <Typography key={drug} variant="caption" sx={{ lineHeight: 1.4 }}>
-                <strong>{drugAcronyms[drug] || drug.substring(0, 6)}</strong>: {drug}
-              </Typography>
-            ))}
           </Box>
         </Box>
       </Box>

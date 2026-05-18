@@ -40,7 +40,7 @@ import {
   markersDrugsSH,
   markersDrugsKP,
 } from '../../../../util/drugs';
-import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
+import { longestVisualWidth } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
@@ -395,9 +395,17 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     );
   }, [yAxisOptions, yAxisType, organism]);
 
+  // Drugs are full names in yAxisSelected; expand 'CipR'/'MDR'/etc. to their
+  // human-readable label via drugAcronymsOpposite so the row label on the chart
+  // matches what the user picked in the Select-drug dropdown.
+  const formatYLabel = useCallback(
+    name => (yAxisType === 'resistance' ? drugAcronymsOpposite[drugAcronyms[name] ?? name] ?? name : name),
+    [yAxisType],
+  );
+
   const yAxisWidth = useMemo(() => {
-    return longestVisualWidth((xAxisSelected ?? []).map(x => (x === 'United States of America' ? 'USA' : x)));
-  }, [xAxisSelected]);
+    return longestVisualWidth((yAxisSelected ?? []).map(formatYLabel));
+  }, [yAxisSelected, formatYLabel]);
 
   const getOptionLabel = useCallback(
     item => {
@@ -499,20 +507,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     setGenotypeSearch('');
   }
 
-  function getSpace() {
-    switch (organism) {
-      case 'shige':
-      case 'sentericaints':
-      case 'decoli':
-      case 'ecoli':
-      case 'kpneumo':
-      case 'styphi':
-      case 'ngono':
-        return 70;
-      default:
-        return 50;
-    }
-  }
+  // Top axis area reserved for the rotated column labels on the first chart.
+  // Allocated via XAxis height so the cell row stays at the bottom of the
+  // first chart (immediately adjacent to row 2 below it) instead of being
+  // pushed into the middle by extra container padding.
+  const FIRST_ROW_AXIS_HEIGHT = 150;
 
   const getTitle = useCallback(value => {
     return drugAcronymsOpposite[value] ?? Object.keys(drugAcronyms).find(key => drugAcronyms[key] === value) ?? value;
@@ -599,110 +598,109 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
   );
 
   const configuredMapData = useMemo(() => {
-    if (yAxisSelected.length === 0) {
+    if (yAxisSelected.length === 0 || xAxisSelected.length === 0) {
       return [];
     }
 
-    return (xAxisType === 'country' ? mapData : mapRegionData)
-      .filter(item => item && xAxisSelected.includes(item.name))
-      .map(item => {
-        const data = {
-          name: item.name === 'United States of America' ? 'USA' : item.name,
-          items: [],
-        };
+    const locationItems = (xAxisType === 'country' ? mapData : mapRegionData).filter(
+      item => item && xAxisSelected.includes(item.name),
+    );
 
-        if (yAxisType === 'resistance') {
-          Object.entries(item.stats).forEach(([key, value]) => {
-            if (resistanceOptions.includes(key) && yAxisSelected.includes(key)) {
-              data.items.push({
-                itemName: drugAcronyms[key] ?? key,
-                percentage: value.percentage,
-                count: value.count || 0,
-                index: 1,
-                typeName: item.name,
-                total: item.count,
-              });
-            }
-          });
+    const displayLocation = name => (name === 'United States of America' ? 'USA' : name);
 
-          data.items.sort((a, b) => a.itemName.localeCompare(b.itemName));
-
-          const moveToStart = name => {
-            const i = data.items.findIndex(x => x.itemName === name);
-            if (i >= 0) data.items.unshift(...data.items.splice(i, 1));
-          };
-
-          const moveToEnd = name => {
-            const i = data.items.findIndex(x => x.itemName === name);
-            if (i >= 0) data.items.push(...data.items.splice(i, 1));
-          };
-
-          if (['styphi', 'sentericaints'].includes(organism)) {
-            ['CRO', 'CipR', 'CipNS'].forEach(moveToStart);
-          }
-
-          ['MDR', 'XDR', 'PAN', 'SUS'].forEach(moveToEnd);
-        }
-
-        if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
-          yAxisSelected.forEach(selected => {
-            const gen = item?.stats?.[GLPSColumn]?.items?.find(g => g && g.name === selected);
-
-            data.items.push({
-              itemName: selected,
-              percentage: gen ? Number(((gen.count / item.count) * 100).toFixed(2)) : 0,
+    if (yAxisType === 'resistance') {
+      const drugRows = yAxisSelected
+        .filter(drug => resistanceOptions.includes(drug))
+        .map(drug => {
+          const row = { name: drug, items: [] };
+          locationItems.forEach(loc => {
+            const value = loc.stats?.[drug];
+            row.items.push({
+              itemName: displayLocation(loc.name),
+              percentage: value?.percentage ?? 0,
+              count: value?.count ?? 0,
               index: 1,
-              typeName: item?.name,
-              count: gen?.count || 0,
-              total: item.count,
+              typeName: loc.name,
+              total: loc.count,
+              drug,
             });
           });
-        }
+          return row;
+        });
 
-        if (yAxisType === 'determinant') {
-          const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
-          const drugKey = organismTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
+      // Preserve previous drug-axis ordering rules on the row axis. Compare by
+      // acronym so the styphi/sentericaints rules (CRO/CipR/CipNS first) and
+      // the global rules (MDR/XDR/PAN/SUS last) still apply.
+      const acronymOf = name => drugAcronyms[name] ?? name;
+      drugRows.sort((a, b) => acronymOf(a.name).localeCompare(acronymOf(b.name)));
 
-          if (!drugKey) return; // Early exit if no drugKey found
+      const moveToStart = acronym => {
+        const i = drugRows.findIndex(x => acronymOf(x.name) === acronym);
+        if (i >= 0) drugRows.unshift(...drugRows.splice(i, 1));
+      };
 
-          // Helper function to calculate percentage
-          const calculatePercentage = (count, total) =>
-            count && total ? Number(((count / total) * 100).toFixed(2)) : 0;
+      const moveToEnd = acronym => {
+        const i = drugRows.findIndex(x => acronymOf(x.name) === acronym);
+        if (i >= 0) drugRows.push(...drugRows.splice(i, 1));
+      };
 
-          // Helper function to create item object
-          const createItem = (drug, count, total, typeName) => ({
-            itemName: drug.replaceAll(' + ', '/'),
+      if (['styphi', 'sentericaints'].includes(organism)) {
+        ['CRO', 'CipR', 'CipNS'].forEach(moveToStart);
+      }
+      ['MDR', 'XDR', 'PAN', 'SUS'].forEach(moveToEnd);
+
+      return drugRows;
+    }
+
+    if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
+      return yAxisSelected.map(selected => {
+        const row = { name: selected, items: [] };
+        locationItems.forEach(loc => {
+          const gen = loc?.stats?.[GLPSColumn]?.items?.find(g => g && g.name === selected);
+          row.items.push({
+            itemName: displayLocation(loc.name),
+            percentage: gen ? Number(((gen.count / loc.count) * 100).toFixed(2)) : 0,
+            index: 1,
+            typeName: loc.name,
+            count: gen?.count || 0,
+            total: loc.count,
+            drug: selected,
+          });
+        });
+        return row;
+      });
+    }
+
+    if (yAxisType === 'determinant') {
+      const organismTrendOptions = getAllTrendOptionsForOrganism(organism);
+      const drugKey = organismTrendOptions?.find(x => x.value === yAxisTypeTrend)?.key;
+      if (!drugKey) return [];
+
+      const calculatePercentage = (count, total) =>
+        count && total ? Number(((count / total) * 100).toFixed(2)) : 0;
+
+      return yAxisSelected.map(drug => {
+        const row = { name: drug.replaceAll(' + ', '/'), items: [] };
+        locationItems.forEach(loc => {
+          const locationData = drugsData?.[drugKey]?.find(x => x.name === loc.name);
+          const count = locationData?.[drug] || 0;
+          const total = locationData?.totalCount || 0;
+          row.items.push({
+            itemName: displayLocation(loc.name),
             percentage: calculatePercentage(count, total),
             index: 1,
-            typeName,
-            count: count || 0,
-            total: total || 0,
+            typeName: loc.name,
+            count,
+            total,
             parent: drugKey,
+            drug,
           });
+        });
+        return row;
+      });
+    }
 
-          // Data extraction strategies
-          const getDataForOrganism = () => {
-            const locationData = drugsData?.[drugKey]?.find(x => x.name === item.name);
-            return {
-              getData: drug => locationData?.[drug] || 0,
-              getTotal: () => locationData?.totalCount || 0,
-            };
-          };
-
-          // Select appropriate strategy
-          const { getData, getTotal } = getDataForOrganism();
-          const totalCount = getTotal();
-
-          // Process all drugs with single loop
-          yAxisSelected.forEach(drug => {
-            const drugCount = getData(drug);
-            data.items.push(createItem(drug, drugCount, totalCount, item.name));
-          });
-        }
-
-        return data;
-      })
-      .filter(Boolean);
+    return [];
   }, [
     GLPSColumn,
     drugsData,
@@ -726,20 +724,15 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                 <ResponsiveContainer
                   className={classes.graphContainer}
                   key={`bubble-graph-${index}`}
-                  width={yAxisWidth + 65 * yAxisSelected.length}
-                  height={index === 0 ? 105 : 65}
-                  style={{ paddingTop: index === 0 ? getSpace() : 0 }}
+                  width={yAxisWidth + 65 * xAxisSelected.length}
+                  height={index === 0 ? 65 + FIRST_ROW_AXIS_HEIGHT : 65}
                 >
-                  <ScatterChart
-                    cursor={isTouchDevice() ? 'default' : 'pointer'}
-                    margin={{ bottom: index === 0 ? -20 : 20 }}
-                  >
-                    {/* For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer
-                    for rotated, truncated labels. // For other charts, no custom tick renderer is used. */}
+                  <ScatterChart cursor={isTouchDevice() ? 'default' : 'pointer'} margin={{ top: 0, bottom: 0 }}>
                     <XAxis
                       type="category"
                       dataKey="itemName"
                       interval={0}
+                      height={index === 0 ? FIRST_ROW_AXIS_HEIGHT : 0}
                       tick={
                         index === 0
                           ? props => {
@@ -756,7 +749,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                                     transform={`rotate(-45, ${props.x}, ${props.y})`}
                                     fill="rgb(128,128,128)"
                                   >
-                                    {truncateWord(props.payload.value)}
+                                    {props.payload.value}
                                   </text>
                                 </Tooltip>
                               );
@@ -774,7 +767,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       tickLine={false}
                       axisLine={false}
                       domain={[1, 1]}
-                      label={{ value: item?.name ?? '', position: 'insideRight' }}
+                      label={{ value: formatYLabel(item?.name ?? ''), position: 'insideRight' }}
                       width={yAxisWidth}
                     />
                     <ZAxis type="number" dataKey="percentage" range={[3500, 3500]} />
@@ -784,14 +777,15 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                       offset={40}
                       content={({ payload, active }) => {
                         if (payload !== null && active) {
-                          const title = getTitle(payload[0]?.payload.itemName);
+                          const drug = payload[0]?.payload.drug ?? payload[0]?.payload.itemName;
+                          const title = getTitle(drug);
                           const isRegion = payload[0]?.payload.count > 0;
 
                           return (
                             <div
                               className={classes.chartTooltipLabel}
                               style={{
-                                marginTop: index + 1 === configuredMapData.length ? -40 : index === 0 ? 40 : 0,
+                                marginTop: index + 1 === configuredMapData.length ? -40 : 0,
                               }}
                             >
                               <Typography variant="body1" fontWeight="500">
@@ -805,8 +799,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                               </Typography>
                               {isRegion &&
                                 countriesTooltipForRegion(
-                                  payload[1]?.payload.typeName,
-                                  payload[0]?.payload.itemName,
+                                  payload[0]?.payload.typeName,
+                                  drug,
                                   payload[0]?.payload.parent,
                                 )}
                             </div>
@@ -858,7 +852,6 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     canGetData,
     classes,
     getTitle,
-    truncateWord,
     hoverColor,
     mixColorScale,
     countriesTooltipForRegion,
