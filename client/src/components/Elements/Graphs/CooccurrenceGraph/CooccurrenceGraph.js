@@ -270,7 +270,12 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
     });
   }, [drugNames, matrix, minThreshold, totalGenomes]);
 
-  const svgWidth = LABEL_WIDTH + filteredDrugs.length * CELL_SIZE + 20;
+  // Column labels render rotated -45deg with textAnchor='start' so they extend
+  // UP-AND-TO-THE-RIGHT from each column. That means the last column's label
+  // overhangs the right edge of the cell grid; svgWidth reserves extra space
+  // (~longest label width * cos(45)) so it isn't clipped.
+  const COLUMN_LABEL_OVERHANG = 160;
+  const svgWidth = LABEL_WIDTH + filteredDrugs.length * CELL_SIZE + COLUMN_LABEL_OVERHANG;
   const svgHeight = LABEL_WIDTH + filteredDrugs.length * CELL_SIZE + 20;
 
   if (!canGetData) return null;
@@ -357,16 +362,20 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
             </Box>
           ) : (
             <svg width={svgWidth} height={svgHeight}>
-              {/* Column labels */}
+              {/* Column labels — anchor at the bottom-left of the rotated text
+                  so each label extends UP-AND-RIGHT from just above its
+                  column. With textAnchor='end' (the previous behaviour) the
+                  rotated text instead extended DOWN-LEFT and overlapped the
+                  first row of cells. */}
               {filteredDrugs.map((drug, i) => (
                 <text
                   key={`col-${drug}`}
                   x={LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}
-                  y={LABEL_WIDTH - 20}
-                  textAnchor="end"
+                  y={LABEL_WIDTH - 8}
+                  textAnchor="start"
                   fontSize="10"
                   fontWeight="600"
-                  transform={`rotate(-45, ${LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}, ${LABEL_WIDTH - 20})`}
+                  transform={`rotate(-45, ${LABEL_WIDTH + i * CELL_SIZE + CELL_SIZE / 2}, ${LABEL_WIDTH - 8})`}
                 >
                   {drug}
                 </text>
