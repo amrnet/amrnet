@@ -236,9 +236,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     const options = statKeys[organism] ? statKeys[organism] : statKeys['others'];
     const resistance = options.filter(option => option.resistanceView).map(option => option.name);
 
-    if (organism === 'ngono') {
-      resistance.splice(5, 0, ...['XDR', 'MDR']);
-    }
+    // if (organism === 'ngono') {
+    //   resistance.splice(5, 0, ...['XDR', 'MDR']);
+    // }
 
     const drugs = {};
 
