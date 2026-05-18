@@ -1,6 +1,7 @@
 import { InfoOutlined, Warning } from '@mui/icons-material';
 import {
   Box,
+  Card,
   CardContent,
   MenuItem,
   Select,
@@ -10,6 +11,8 @@ import {
 import { useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
 import { getCountryDisplayName } from '../../../Dashboard/filters';
+import { SelectCountry } from '../../SelectCountry';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useStyles } from './ConvergenceMapGraphMUI';
 
 const MIN_SAMPLES = 20;
@@ -74,17 +77,23 @@ export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
   const rawData = useAppSelector(state => state.graph.rawOrganismData);
   const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
+  const actualRegion = useAppSelector(state => state.dashboard.actualRegion);
+  const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
 
   const { locationStats, locations, globalStats } = useMemo(() => {
     if (!Array.isArray(rawData) || rawData.length === 0 || organism !== 'kpneumo') {
       return { locationStats: {}, locations: [], globalStats: null };
     }
 
-    // Build country-to-region map with normalized key lookup
+    // Build country-to-region map with normalized key lookup. Always build it
+    // (not just for xAxisType==='region') so we can also apply the dashboard's
+    // actualRegion filter regardless of how the user is grouping the chart.
     const countryToRegion = {};
     const normalizedRegionLookup = {};
     const normalize = s => s?.toLowerCase().replace(/[^a-z]/g, '') || '';
-    if (xAxisType === 'region' && economicRegions) {
+    if (economicRegions) {
       Object.entries(economicRegions).forEach(([region, countries]) => {
         if (Array.isArray(countries)) countries.forEach(c => {
           countryToRegion[c] = region;
@@ -92,6 +101,19 @@ export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
         });
       });
     }
+
+    const resolveRegion = country =>
+      countryToRegion[country] || normalizedRegionLookup[normalize(country)] || FALLBACK_REGIONS[country];
+
+    // Apply the dashboard's global filters (country / region / year range)
+    // before aggregating. Keeps the plot in sync with the rest of Summary
+    // Plots — same data subset the rest of the dashboard sees.
+    const inDateRange = item => item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
+    const inLocation = (country, region) => {
+      if (actualCountry !== 'All') return country === actualCountry;
+      if (actualRegion !== 'All') return region === actualRegion;
+      return true;
+    };
 
     // Group by location
     const byLocation = {};
@@ -101,9 +123,12 @@ export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
       const vir = parseFloat(item.virulence_score);
       const res = parseInt(item.num_resistance_classes);
       if (isNaN(vir) || isNaN(res)) return;
+      if (!inDateRange(item)) return;
 
       const country = getCountryDisplayName(item.COUNTRY_ONLY);
-      const region = countryToRegion[country] || normalizedRegionLookup[normalize(country)] || FALLBACK_REGIONS[country];
+      const region = resolveRegion(country);
+      if (!inLocation(country, region)) return;
+
       const loc = xAxisType === 'region' ? (region || 'Unknown') : (country || 'Unknown');
 
       if (!byLocation[loc]) byLocation[loc] = { total: 0, convergent: 0, highVir: 0, highRes: 0 };
@@ -144,41 +169,23 @@ export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
     } : null;
 
     return { locationStats: stats, locations: sorted, globalStats: gStats };
-  }, [rawData, organism, virThreshold, resThreshold, xAxisType, economicRegions]);
+  }, [
+    rawData,
+    organism,
+    virThreshold,
+    resThreshold,
+    xAxisType,
+    economicRegions,
+    actualCountry,
+    actualRegion,
+    actualTimeInitial,
+    actualTimeFinal,
+  ]);
 
   if (!canGetData || organism !== 'kpneumo') return null;
 
   return (
     <CardContent className={classes.convergenceMapGraph}>
-      <Box className={classes.controlsRow}>
-        <Box>
-          <Typography variant="caption" fontWeight={600}>Virulence threshold</Typography>
-          <Select value={virThreshold} onChange={e => setVirThreshold(e.target.value)} size="small" sx={{ minWidth: 200, fontSize: '13px', display: 'block' }}>
-            {VIRULENCE_THRESHOLDS.map(t => (
-              <MenuItem key={t.value} value={t.value}>{t.label}</MenuItem>
-            ))}
-          </Select>
-        </Box>
-        <Box>
-          <Typography variant="caption" fontWeight={600}>Resistance threshold</Typography>
-          <Select value={resThreshold} onChange={e => setResThreshold(e.target.value)} size="small" sx={{ minWidth: 200, fontSize: '13px', display: 'block' }}>
-            {RESISTANCE_THRESHOLDS.map(t => (
-              <MenuItem key={t.value} value={t.value}>{t.label}</MenuItem>
-            ))}
-          </Select>
-        </Box>
-        <Box>
-          <Typography variant="caption" fontWeight={600}>Group by</Typography>
-          <Select value={xAxisType} onChange={e => setXAxisType(e.target.value)} size="small" sx={{ minWidth: 120, fontSize: '13px', display: 'block' }}>
-            <MenuItem value="country">Country</MenuItem>
-            <MenuItem value="region">Region</MenuItem>
-          </Select>
-        </Box>
-        <Tooltip title="Shows the percentage of K. pneumoniae isolates that are BOTH hypervirulent AND multidrug-resistant. These convergent strains are the most clinically dangerous.">
-          <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)', marginBottom: '8px' }} />
-        </Tooltip>
-      </Box>
-
       {/* Legend */}
       <Box className={classes.legendBar}>
         <Typography variant="caption">0%</Typography>
@@ -291,6 +298,74 @@ export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
           </Box>
         </Box>
       </Box>
+
+      {/* Floating plotting-options panel — mirrors BubbleHeatmapGraph2 /
+          SerotypeResistanceGraph. Pairs the dashboard's global country /
+          region selector with the chart-local virulence / resistance
+          thresholds and the Country-vs-Region grouping toggle. */}
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
+
+              <SelectCountry />
+
+              <Box className={classes.panelSelectWrapper}>
+                <Typography variant="caption" className={classes.panelLabel}>
+                  Virulence threshold
+                </Typography>
+                <Select
+                  value={virThreshold}
+                  onChange={e => setVirThreshold(e.target.value)}
+                  size="small"
+                  fullWidth
+                >
+                  {VIRULENCE_THRESHOLDS.map(t => (
+                    <MenuItem key={t.value} value={t.value}>{t.label}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box className={classes.panelSelectWrapper}>
+                <Typography variant="caption" className={classes.panelLabel}>
+                  Resistance threshold
+                </Typography>
+                <Select
+                  value={resThreshold}
+                  onChange={e => setResThreshold(e.target.value)}
+                  size="small"
+                  fullWidth
+                >
+                  {RESISTANCE_THRESHOLDS.map(t => (
+                    <MenuItem key={t.value} value={t.value}>{t.label}</MenuItem>
+                  ))}
+                </Select>
+              </Box>
+
+              <Box className={classes.panelSelectWrapper}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Typography variant="caption" className={classes.panelLabel}>
+                    Group by
+                  </Typography>
+                  <Tooltip title="Shows the percentage of K. pneumoniae isolates that are BOTH hypervirulent AND multidrug-resistant. These convergent strains are the most clinically dangerous.">
+                    <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
+                  </Tooltip>
+                </Box>
+                <Select
+                  value={xAxisType}
+                  onChange={e => setXAxisType(e.target.value)}
+                  size="small"
+                  fullWidth
+                >
+                  <MenuItem value="country">Country</MenuItem>
+                  <MenuItem value="region">Region</MenuItem>
+                </Select>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

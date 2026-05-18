@@ -5,6 +5,7 @@ const useStyles = makeStyles((_theme) => ({
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    position: 'relative',
   },
   controlsRow: {
     display: 'flex',
@@ -80,6 +81,35 @@ const useStyles = makeStyles((_theme) => ({
     paddingRight: '8px',
     textAlign: 'right',
     flexShrink: 0,
+  },
+  // Floating plotting-options panel (matches DrugResistanceGraph /
+  // BubbleHeatmapGraph2 / SerotypeResistanceGraph pattern).
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(280 + 16),
+    width: '280px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  panelSelectWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: '8px',
+  },
+  panelLabel: {
+    fontWeight: 600,
+    paddingBottom: '4px',
   },
 }));
 
