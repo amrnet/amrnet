@@ -507,12 +507,11 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     setGenotypeSearch('');
   }
 
-  function getSpace() {
-    // Location-column labels are now drawn in full (no truncateWord) and may
-    // include long names like "Latin America and the Caribbean". Reserve more
-    // top space than the previous 50-70px so the -45deg rotated labels fit.
-    return 150;
-  }
+  // Top axis area reserved for the rotated column labels on the first chart.
+  // Allocated via XAxis height so the cell row stays at the bottom of the
+  // first chart (immediately adjacent to row 2 below it) instead of being
+  // pushed into the middle by extra container padding.
+  const FIRST_ROW_AXIS_HEIGHT = 150;
 
   const getTitle = useCallback(value => {
     return drugAcronymsOpposite[value] ?? Object.keys(drugAcronyms).find(key => drugAcronyms[key] === value) ?? value;
@@ -726,19 +725,14 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                   className={classes.graphContainer}
                   key={`bubble-graph-${index}`}
                   width={yAxisWidth + 65 * xAxisSelected.length}
-                  height={index === 0 ? 180 : 65}
-                  style={{ paddingTop: index === 0 ? getSpace() : 0 }}
+                  height={index === 0 ? 65 + FIRST_ROW_AXIS_HEIGHT : 65}
                 >
-                  <ScatterChart
-                    cursor={isTouchDevice() ? 'default' : 'pointer'}
-                    margin={{ bottom: index === 0 ? -20 : 20 }}
-                  >
-                    {/* For the first chart (index === 0), use interval={0} to show all labels and a custom tick renderer
-                    for rotated, truncated labels. // For other charts, no custom tick renderer is used. */}
+                  <ScatterChart cursor={isTouchDevice() ? 'default' : 'pointer'} margin={{ top: 0, bottom: 0 }}>
                     <XAxis
                       type="category"
                       dataKey="itemName"
                       interval={0}
+                      height={index === 0 ? FIRST_ROW_AXIS_HEIGHT : 0}
                       tick={
                         index === 0
                           ? props => {
@@ -791,7 +785,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
                             <div
                               className={classes.chartTooltipLabel}
                               style={{
-                                marginTop: index + 1 === configuredMapData.length ? -40 : index === 0 ? 40 : 0,
+                                marginTop: index + 1 === configuredMapData.length ? -40 : 0,
                               }}
                             >
                               <Typography variant="body1" fontWeight="500">

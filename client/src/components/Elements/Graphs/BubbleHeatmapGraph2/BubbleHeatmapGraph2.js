@@ -42,6 +42,11 @@ import { useStyles } from './BubbleHeatmapGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useTranslation } from 'react-i18next';
 
+// Top axis area reserved for the rotated -45deg column labels on the first
+// chart. Allocated via XAxis height so the cell row stays at the bottom of
+// the first chart, immediately adjacent to row 2 below it.
+const FIRST_ROW_AXIS_HEIGHT = 150;
+
 const xOptionsByOrganism = [
   {
     label: 'Genotype',
@@ -370,17 +375,14 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                 <ResponsiveContainer
                   key={`heatmap-graph-${index}`}
                   width={yAxisWidth + 65 * xAxisSelected.length}
-                  height={index === 0 ? 180 : 65}
-                  style={{ paddingTop: index === 0 ? 100 : 0 }}
+                  height={index === 0 ? 65 + FIRST_ROW_AXIS_HEIGHT : 65}
                 >
-                  <ScatterChart
-                    cursor={isTouchDevice() ? 'default' : 'pointer'}
-                    margin={{ bottom: index === 0 ? -20 : 20 }}
-                  >
+                  <ScatterChart cursor={isTouchDevice() ? 'default' : 'pointer'} margin={{ top: 0, bottom: 0 }}>
                     <XAxis
                       type="category"
                       dataKey="itemName"
                       interval={0}
+                      height={index === 0 ? FIRST_ROW_AXIS_HEIGHT : 0}
                       tick={
                         index === 0
                           ? props => {
@@ -432,7 +434,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                             <div
                               className={classes.chartTooltipLabel}
                               style={{
-                                marginTop: index + 1 === configuredMapData.length ? -40 : index === 0 ? 100 : 0,
+                                marginTop: index + 1 === configuredMapData.length ? -40 : 0,
                               }}
                             >
                               <Typography variant="body1" fontWeight="500">
