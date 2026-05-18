@@ -886,7 +886,7 @@
     "tabs": {
       "map": "Map",
       "barplot": "Bar plot",
-      "barplotNoData": "No One Health source data available for this organism."
+      "barplotNoData": "No data available for this organism."
     }
   }
 }
