@@ -18,19 +18,12 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { ChartErrorBoundary } from '../Graphs/../Shared/ChartErrorBoundary';
 import { InsightsActions } from './InsightsActions';
 import { ATBCorrelationGraph } from '../Graphs/ATBCorrelationGraph';
-import { CooccurrenceGraph } from '../Graphs/CooccurrenceGraph';
 import { ConvergenceMapGraph } from '../Graphs/ConvergenceMapGraph';
 import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
 import { useStyles } from './AMRInsightsMUI';
 
 const TABS = [
-  {
-    labelKey: 'amrInsights.tabs.cooccurrence',
-    value: 'COO',
-    component: <CooccurrenceGraph />,
-    onlyFor: null,
-  },
   {
     labelKey: 'amrInsights.tabs.genomicVsPhenotypic',
     value: 'GVP',
@@ -60,7 +53,7 @@ const TABS = [
 export const AMRInsights = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
-  const [currentTab, setCurrentTab] = useState('COO');
+  const [currentTab, setCurrentTab] = useState('GVP');
   const [showFilter, setShowFilter] = useState(!matches500);
   const { t } = useTranslation();
 
@@ -83,7 +76,7 @@ export const AMRInsights = () => {
   // Reset to first visible tab when organism changes and current tab is no longer visible
   useEffect(() => {
     if (!filteredTabs.find(tab => tab.value === currentTab)) {
-      setCurrentTab(filteredTabs[0]?.value ?? 'COO');
+      setCurrentTab(filteredTabs[0]?.value ?? 'GVP');
     }
   }, [filteredTabs, currentTab]);
 
@@ -105,14 +98,11 @@ export const AMRInsights = () => {
   const currentTabLabel = currentTabConfig ? t(currentTabConfig.labelKey) : 'AMR Insights';
 
   // Build CSV data from available Redux data based on current tab
-  const drugsYearData = useAppSelector(state => state.graph.drugsYearData);
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
   const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
 
   const csvData = useMemo(() => {
     switch (currentTab) {
-      case 'COO': // Co-occurrence — export drugsYearData
-        return Array.isArray(drugsYearData) ? drugsYearData : [];
       case 'ATB': // ATB correlation — export drugsCountriesData for first available drug
       case 'GVP': { // Genomic vs Phenotypic
         if (!drugsCountriesData || typeof drugsCountriesData !== 'object') return [];
@@ -125,7 +115,7 @@ export const AMRInsights = () => {
       default:
         return [];
     }
-  }, [currentTab, drugsYearData, drugsCountriesData, rawOrganismData]);
+  }, [currentTab, drugsCountriesData, rawOrganismData]);
 
   if (organism === 'none') return null;
 

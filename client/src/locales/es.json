@@ -235,7 +235,8 @@
     "emergenceRate": "Tasa de Emergencia de Resistencia",
     "emergenceRateDescription": "Cambio anual promedio en la prevalencia de resistencia (%/año) — identifica resistencias en aceleración",
     "qrdrMutations": "Mutaciones QRDR",
-    "vaccineCoverage": "Cobertura de vacunas"
+    "vaccineCoverage": "Cobertura de vacunas",
+    "amrCooccurrence": "Co-ocurrencia de RAM"
   },
   "amrInsights": {
     "title": "Análisis de RAM",

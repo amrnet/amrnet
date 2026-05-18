@@ -235,7 +235,8 @@
     "emergenceRate": "Resistance Emergence Rate",
     "emergenceRateDescription": "Average annual change in resistance prevalence (%/year) — identifies accelerating resistance",
     "qrdrMutations": "QRDR Mutations",
-    "vaccineCoverage": "Vaccine Coverage"
+    "vaccineCoverage": "Vaccine Coverage",
+    "amrCooccurrence": "AMR Co-occurrence"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",
