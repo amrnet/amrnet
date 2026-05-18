@@ -27,9 +27,15 @@ import {
   Cell,
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
-import { fetchGLASSData, getGLASSIndicatorForATBClass, getGLASSPhenotypicByOrganismDrug } from '../../../../data/glass_data';
+import { fetchGLASSData } from '../../../../data/glass_data';
 import { getATBClassesForOrganism, getAmrnetDrugsForATBClass } from '../../../../util/atbDrugMapping';
+import { getResistantDrugs } from '../../../../util/resistance';
+import { getCountryDisplayName } from '../../../Dashboard/filters';
 import { useStyles } from './ATBCorrelationGraphMUI';
+
+// WHO GLASS public-facing landing pages — used for the Data Sources panel.
+const GLASS_AMU_URL = 'https://www.who.int/data/gho/data/themes/topics/global-antimicrobial-resistance-and-use-surveillance-system-glass-database';
+const AMRNET_DOCS_URL = 'https://amrnet.readthedocs.io';
 
 // Dynamic color palette for regions (AMRnet uses UN sub-regions from UNR data)
 const REGION_COLOR_PALETTE = [
@@ -80,11 +86,18 @@ const CustomTooltip = ({ active, payload }) => {
   return (
     <Box sx={{ backgroundColor: '#fff', padding: '8px 12px', border: '1px solid rgba(0,0,0,0.2)', borderRadius: '4px' }}>
       <Typography variant="body2" fontWeight={600}>{data.country}</Typography>
-      <Typography variant="caption" display="block">AM consumption: {data.x?.toFixed(2)} DDD/1000/day ({data.consumptionYear})</Typography>
-      <Typography variant="caption" display="block">Resistance: {data.y?.toFixed(1)}% ({data.resistanceYear || ''})</Typography>
-      {data.genomes > 0 && <Typography variant="caption" display="block">Samples tested: {data.genomes}</Typography>}
+      <Typography variant="caption" display="block">
+        AM consumption (WHO GLASS): {data.x?.toFixed(2)} DDD/1000/day ({data.consumptionYear})
+      </Typography>
+      <Typography variant="caption" display="block">
+        Genomic %R (AMRnet): {data.y?.toFixed(1)}% — {data.resistant}/{data.genomes} genomes
+      </Typography>
+      {data.classDrugs?.length > 0 && (
+        <Typography variant="caption" display="block" color="textSecondary">
+          Aggregated over: {data.classDrugs.join(', ')}
+        </Typography>
+      )}
       <Typography variant="caption" display="block" color="textSecondary">Region: {data.region}</Typography>
-      <Typography variant="caption" display="block" color="textSecondary">Source: {data.source}</Typography>
     </Box>
   );
 };
@@ -98,9 +111,11 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
   const [dataSource, setDataSource] = useState('glass');
 
   const organism = useAppSelector(state => state.dashboard.organism);
-  const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
+  const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
   const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
 
   // Build country→region lookup from AMRnet's own region mapping
   const countryToRegion = useMemo(() => buildCountryToRegion(economicRegions), [economicRegions]);
@@ -115,8 +130,13 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
   }, [countryToRegion]);
 
   const atbClasses = useMemo(() => {
-    // Only show ATB classes that have GLASS resistance data
-    return getATBClassesForOrganism(organism).filter(cls => getGLASSIndicatorForATBClass(organism, cls));
+    // Show every ATB class that has an AMRnet drug mapping for this organism.
+    // Previously this filter only kept classes with a matching GLASS pheno
+    // indicator; the Y-axis now uses AMRnet genomic data so the filter no
+    // longer needs to gate on GLASS pheno coverage.
+    return getATBClassesForOrganism(organism).filter(
+      cls => getAmrnetDrugsForATBClass(organism, cls).length > 0,
+    );
   }, [organism]);
 
   // Reset selected class when organism changes
@@ -146,9 +166,11 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
     return () => { cancelled = true; };
   }, []);
 
-  // Build scatter data
+  // Build scatter data — Y axis is AMRnet genomic %R per ATB class
+  // (computed from rawOrganismData using the same drug-rules engine the
+  // rest of AMRnet uses). X axis stays as WHO GLASS AM consumption.
   const { scatterData, regression } = useMemo(() => {
-    if (!drugsCountriesData || typeof drugsCountriesData !== 'object' || !selectedATBClass) {
+    if (!selectedATBClass) {
       return { scatterData: [], regression: { slope: 0, intercept: 0, r2: 0 } };
     }
 
@@ -157,83 +179,106 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
       return { scatterData: [], regression: { slope: 0, intercept: 0, r2: 0 } };
     }
 
-    // ── X-axis: WHO GLASS consumption ──
-    const consumptionByCountry = {};
+    // Fuzzy country-name matching: GLASS uses one set of country labels and
+    // AMRnet uses another. Build both keyed by a normalized form so a country
+    // that appears in both datasets matches even if the label is slightly
+    // different (e.g. "Korea, Republic of" vs "South Korea").
+    const normalize = s => s?.toLowerCase().replace(/[^a-z]/g, '') || '';
+
+    // ── X-axis: WHO GLASS consumption (latest year per country) ──
+    const consumptionByKey = {};
     if (glassData?.consumption) {
-      const byCountry = {};
       glassData.consumption.forEach(r => {
-        if (!byCountry[r.country] || r.year > byCountry[r.country].year) {
-          byCountry[r.country] = r;
+        const key = normalize(r.country);
+        if (!consumptionByKey[key] || r.year > consumptionByKey[key].year) {
+          consumptionByKey[key] = { value: r.value, year: r.year, displayName: r.country };
         }
-      });
-      Object.values(byCountry).forEach(r => {
-        consumptionByCountry[r.country] = { value: r.value, year: r.year };
       });
     }
 
-    // ── Y-axis: WHO GLASS resistance (per ATB class) ──
-    const indicator = getGLASSIndicatorForATBClass(organism, selectedATBClass);
-    const resistanceByCountry = {};
-
-    if (indicator && glassData) {
-      if (indicator.source === 'csv') {
-        const phenoData = getGLASSPhenotypicByOrganismDrug(
-          glassData, indicator.pathogen, indicator.antibiotic, indicator.specimen,
-        );
-        phenoData.forEach(r => {
-          if (!resistanceByCountry[r.country] || r.year > resistanceByCountry[r.country].year) {
-            resistanceByCountry[r.country] = { value: r.value, year: r.year, tested: r.tested };
+    // ── Y-axis: AMRnet genomic %R per class, per country ──
+    // Per country: count genomes resistant to ANY drug in the class (union
+    // semantics) over total genomes in the year range. This matches
+    // intuitive "class resistance" — i.e. resistance to at least one drug
+    // in the class — and is computed identically to how the rest of the
+    // dashboard derives per-class flags.
+    const classDrugSet = new Set(amrnetDrugs);
+    const amrnetByKey = {};
+    if (Array.isArray(rawOrganismData)) {
+      rawOrganismData.forEach(genome => {
+        const date = genome.DATE;
+        if (date && (date < actualTimeInitial || date > actualTimeFinal)) return;
+        const country = getCountryDisplayName(genome.COUNTRY_ONLY);
+        if (!country) return;
+        const key = normalize(country);
+        if (!amrnetByKey[key]) amrnetByKey[key] = { total: 0, resistant: 0, displayName: country };
+        amrnetByKey[key].total++;
+        const resistantSet = getResistantDrugs(genome, organism);
+        for (const drug of classDrugSet) {
+          if (resistantSet.has(drug)) {
+            amrnetByKey[key].resistant++;
+            break;
           }
-        });
-      } else if (indicator.source === 'gho') {
-        const ghoKey = indicator.ghoKey;
-        if (ghoKey && glassData.resistance?.[ghoKey]) {
-          glassData.resistance[ghoKey].forEach(r => {
-            if (!resistanceByCountry[r.country] || r.year > resistanceByCountry[r.country].year) {
-              resistanceByCountry[r.country] = { value: r.value, year: r.year, tested: 0 };
-            }
-          });
         }
-      }
+      });
     }
 
-    // ── Build scatter points: match countries with both consumption + resistance ──
+    // ── Build scatter points: countries with both AMRnet genomes (N>=20) and GLASS consumption ──
     const points = [];
-    Object.entries(resistanceByCountry).forEach(([country, res]) => {
-      const consumption = consumptionByCountry[country];
-      if (consumption && res.value != null) {
-        const x = Number(consumption.value);
-        const y = Number(Number(res.value).toFixed(1));
-        // Drop points whose coordinates aren't finite — otherwise the
-        // XAxis (`domain={['auto','auto']}`) auto-domain reduces to NaN
-        // and Recharts' getNiceTickValues crashes.
-        if (!Number.isFinite(x) || !Number.isFinite(y)) return;
-        const region = countryToRegion[country] || 'Unknown';
-        points.push({
-          country,
-          x,
-          y,
-          genomes: res.tested || 0,
-          region,
-          color: regionColors[region] || regionColors['Unknown'],
-          consumptionYear: consumption.year,
-          resistanceYear: res.year,
-          source: 'WHO GLASS',
-        });
-      }
+    Object.entries(amrnetByKey).forEach(([key, agg]) => {
+      if (agg.total < 20) return; // same min-N gate used elsewhere in the dashboard
+      const consumption = consumptionByKey[key];
+      if (!consumption) return;
+      const x = Number(consumption.value);
+      const y = Number(((agg.resistant / agg.total) * 100).toFixed(1));
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+      const country = agg.displayName;
+      const region = countryToRegion[country] || 'Unknown';
+      points.push({
+        country,
+        x,
+        y,
+        genomes: agg.total,
+        resistant: agg.resistant,
+        classDrugs: amrnetDrugs,
+        region,
+        color: regionColors[region] || regionColors['Unknown'],
+        consumptionYear: consumption.year,
+      });
     });
 
     return { scatterData: points, regression: linearRegression(points) };
-  }, [selectedATBClass, organism, glassData, countryToRegion, regionColors]);
+  }, [
+    selectedATBClass,
+    organism,
+    rawOrganismData,
+    glassData,
+    countryToRegion,
+    regionColors,
+    actualTimeInitial,
+    actualTimeFinal,
+  ]);
 
   const downloadCSV = useCallback(() => {
     if (!scatterData.length) return;
     const amrnetDrugs = getAmrnetDrugsForATBClass(organism, selectedATBClass);
     const escape = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-    const headers = ['country', 'region', 'atb_class', 'amrnet_drug', 'consumption_ddd_per_1000_day', 'consumption_year', 'consumption_source', 'resistance_pct', 'n_genomes'];
+    const headers = [
+      'country',
+      'region',
+      'atb_class',
+      'amrnet_class_drugs',
+      'consumption_ddd_per_1000_day',
+      'consumption_year',
+      'consumption_source',
+      'genomic_resistance_pct',
+      'n_genomes_resistant',
+      'n_genomes_total',
+      'genomic_source',
+    ];
     const rows = scatterData.map(d => [
       d.country, d.region, selectedATBClass, amrnetDrugs.join(';'),
-      d.x, d.consumptionYear, d.source, d.y, d.genomes,
+      d.x, d.consumptionYear, 'WHO GLASS', d.y, d.resistant, d.genomes, 'AMRnet',
     ]);
     const csv = [headers, ...rows].map(r => r.map(escape).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -302,12 +347,14 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
           {loadingGlass ? (
             <Chip label="Loading GLASS data..." size="small" icon={<CircularProgress size={12} />} />
           ) : (
-            <Chip
-              label={`WHO GLASS — consumption + resistance (${scatterData.length} countries)`}
-              size="small"
-              color="success"
-              variant="outlined"
-            />
+            <Tooltip title="X: WHO GLASS antimicrobial consumption (DDD/1000/day). Y: AMRnet genomic %R, computed per ATB class by aggregating the resistance calls for every AMRnet drug in that class (union — resistant to ≥1 drug). Click for source links in the Data Sources panel.">
+              <Chip
+                label={`WHO GLASS × AMRnet — ${scatterData.length} countries`}
+                size="small"
+                color="success"
+                variant="outlined"
+              />
+            </Tooltip>
           )}
           <Tooltip title={`Download plotted data as CSV (${scatterData.length} countries, ${selectedATBClass})`}>
             <span>
@@ -324,9 +371,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
           {scatterData.length === 0 ? (
             <Box className={classes.noSelection}>
               <Typography variant="body2" color="textSecondary">
-                No matching data between WHO GLASS consumption and resistance for this selection.
-                <br />
-                No countries have both consumption and resistance data available for this antibiotic class. Try selecting a different class.
+                No countries have both WHO GLASS consumption and ≥20 AMRnet genomes for this antibiotic class. Try a different class or widen the dashboard's year range.
               </Typography>
             </Box>
           ) : (
@@ -337,7 +382,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
                   <Label value="AM Consumption (DDD/1000 inhabitants/day)" position="bottom" offset={20} style={{ fontSize: 12 }} />
                 </XAxis>
                 <YAxis type="number" dataKey="y" domain={[0, 100]}>
-                  <Label value="Genomic Resistance — WHO GLASS (%)" angle={-90} position="insideLeft" offset={10} style={{ fontSize: 11, textAnchor: 'middle' }} />
+                  <Label value="Genomic Resistance — AMRnet (%)" angle={-90} position="insideLeft" offset={10} style={{ fontSize: 11, textAnchor: 'middle' }} />
                 </YAxis>
                 <ZAxis type="number" dataKey="genomes" range={[60, 400]} />
                 <ChartTooltip content={<CustomTooltip />} />
@@ -388,16 +433,20 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
 
           <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>Data Sources</Typography>
           <Box className={classes.tooltipWrapper}>
-            <Typography variant="caption" sx={{ lineHeight: 1.5 }}>
-              <strong>AM Consumption:</strong> {dataSource === 'glass'
-                ? `WHO GLASS-AMC via GHO OData API (${glassData?.consumption?.length || 0} country-year records, 2016-2023). Total antibiotic consumption as DDD/1000/day.`
-                : 'Static dataset adapted from WHO GLASS AMC/AMU report and ECDC ESAC-Net (16 countries, 2020).'}
+            <Typography variant="caption" sx={{ lineHeight: 1.5 }} component="div">
+              <strong>AM Consumption (X):</strong>{' '}
+              <a href={GLASS_AMU_URL} target="_blank" rel="noopener noreferrer">WHO GLASS-AMC via GHO OData API</a>{' '}
+              ({dataSource === 'glass'
+                ? `${glassData?.consumption?.length || 0} country-year records, 2016–2023`
+                : 'static fallback, 16 countries, 2020'}). Total antibiotic consumption in DDD/1000 inhabitants/day. GLASS publishes TOTAL consumption, not per-class — so the X value is the same for every ATB class for a given country.
               <br /><br />
-              <strong>Resistance:</strong> WHO GLASS phenotypic resistance surveillance data ({selectedATBClass}).
+              <strong>Genomic Resistance (Y):</strong>{' '}
+              <a href={AMRNET_DOCS_URL} target="_blank" rel="noopener noreferrer">AMRnet</a> genome-derived call. Per country: count of genomes resistant to <em>any</em> AMRnet drug in the selected ATB class
+              {' '}({getAmrnetDrugsForATBClass(organism, selectedATBClass).join(', ') || '—'}), divided by total genomes (year range respects the dashboard filter). Countries with &lt;20 genomes are excluded.
               <br /><br />
-              <strong>Matching:</strong> N={scatterData.length} countries with both consumption AND resistance data from WHO GLASS.
+              <strong>Matching:</strong> N={scatterData.length} countries with both GLASS consumption AND ≥20 AMRnet genomes. Country names are matched on a normalized lowercase-alpha form to bridge WHO/AMRnet label differences.
               <br /><br />
-              <strong>Note:</strong> Ecological correlation — does not imply causation. GLASS provides TOTAL antibiotic consumption (not per class), so the X-axis values are the same across all antibiotic classes.
+              <strong>Caveat:</strong> ecological correlation — does not imply causation. Different ATB classes share the same X (total consumption); the Y value is what changes per class.
             </Typography>
           </Box>
         </Box>
