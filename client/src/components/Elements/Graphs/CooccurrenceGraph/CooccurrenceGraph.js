@@ -13,8 +13,13 @@ import {
 import { getCountryDisplayName } from '../../../Dashboard/filters';
 import { useStyles } from './CooccurrenceGraphMUI';
 
-const CELL_SIZE = 36;
-const LABEL_WIDTH = 220;
+// Cells are wider than the original 36px so the diagonal column labels (now
+// rendered as full drug names like 'Trimethoprim-sulfamethoxazole') get more
+// spacing between baselines at -45deg and stop colliding with their
+// neighbors. LABEL_WIDTH is sized so the longest horizontal row label and the
+// longest rotated column label both fit.
+const CELL_SIZE = 48;
+const LABEL_WIDTH = 260;
 
 // Per-organism lineage column used by the (lineage × country × year) dedup
 // option. kpneumo and ecoli/decoli/shige expose more granular lineage clusters
@@ -402,9 +407,9 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
                         {value > 0 && CELL_SIZE >= 30 && (
                           <text
                             x={LABEL_WIDTH + colIdx * CELL_SIZE + CELL_SIZE / 2 - 0.5}
-                            y={LABEL_WIDTH + rowIdx * CELL_SIZE + CELL_SIZE / 2 + 3.5}
+                            y={LABEL_WIDTH + rowIdx * CELL_SIZE + CELL_SIZE / 2 + 4}
                             textAnchor="middle"
-                            fontSize="9"
+                            fontSize="11"
                             fill={getTextColorForBg(value)}
                             pointerEvents="none"
                           >

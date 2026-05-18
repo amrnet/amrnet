@@ -1,9 +1,8 @@
-import { BubbleChart, GridOn, Hub, ShowChart, StackedBarChart, Timeline, ViewModule, Vaccines } from '@mui/icons-material';
+import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule, Vaccines } from '@mui/icons-material';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
-import { CooccurrenceGraph } from '../components/Elements/Graphs/CooccurrenceGraph';
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
 import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
@@ -178,14 +177,6 @@ export function getGraphCards(t){
       // unreachable on production regardless of the gate above.
       organisms: ['strepneumo'],
       component: <SerotypeResistanceGraph />,
-    },
-    {
-      title: t('graphs.amrCooccurrence'),
-      description: [''],
-      icon: <Hub color="primary" />,
-      id: 'COOC',
-      organisms: organismsCards.map(x => x.value),
-      component: <CooccurrenceGraph />,
     },
   ];
 };
