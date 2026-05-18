@@ -1,5 +1,16 @@
 import { InfoOutlined } from '@mui/icons-material';
-import { Box, CardContent, Checkbox, Chip, ListItemText, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Checkbox,
+  Chip,
+  ListItemText,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -13,8 +24,8 @@ import {
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
 import { drugRulesST } from '../../../../util/drugClassesRules';
-import { drugAcronyms } from '../../../../util/drugs';
 import { getLocalizedCountryName } from '../../../../util/countryLocalization';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useStyles } from './RadarProfileGraphMUI';
 
 // Direct column lookups for styphi — avoids the getDrugClassData resistantCount bug
@@ -192,75 +203,6 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
 
   return (
     <CardContent className={classes.radarProfileGraph}>
-      {/* Controls */}
-      <Box className={classes.selectWrapper}>
-        <Box className={classes.labelWrapper}>
-          <Typography variant="body2" fontWeight={600}>
-            {t('common.compareBy')}
-          </Typography>
-        </Box>
-        <Select
-          value={xAxisType}
-          onChange={handleXAxisTypeChange}
-          size="small"
-          sx={{ maxWidth: 200, fontSize: '14px' }}
-        >
-          <MenuItem value="country">{t('common.selectCountry')}</MenuItem>
-          <MenuItem value="region">{t('common.selectRegion')}</MenuItem>
-        </Select>
-      </Box>
-
-      <Box className={classes.selectWrapper}>
-        <Box className={classes.labelWrapper}>
-          <Typography variant="body2" fontWeight={600}>
-            {t('common.selectCountriesCompare')}
-          </Typography>
-          <Tooltip
-            title={t('common.selectCountriesCompareTooltip')}
-          >
-            <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
-          </Tooltip>
-        </Box>
-        <Select
-          multiple
-          value={selectedCountries}
-          onChange={handleCountrySelect}
-          renderValue={selected => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map(value => (
-                <Chip
-                  key={value}
-                  label={xAxisType === 'country' ? getLocalizedCountryName(value, i18n.language) : value}
-                  size="small"
-                  onDelete={() => handleRemoveCountry(value)}
-                  onMouseDown={e => e.stopPropagation()}
-                  sx={{
-                    backgroundColor: RADAR_COLORS[selected.indexOf(value) % RADAR_COLORS.length],
-                    color: '#fff',
-                    '& .MuiChip-deleteIcon': { color: 'rgba(255,255,255,0.7)' },
-                  }}
-                />
-              ))}
-            </Box>
-          )}
-          size="small"
-          MenuProps={{ PaperProps: { className: classes.menuPaper } }}
-          className={classes.selectMenu}
-          disabled={availableLocations.length === 0}
-        >
-          {availableLocations.map(loc => (
-            <MenuItem
-              key={loc}
-              value={loc}
-              disabled={selectedCountries.length >= MAX_COUNTRIES && !selectedCountries.includes(loc)}
-            >
-              <Checkbox checked={selectedCountries.includes(loc)} size="small" />
-              <ListItemText primary={xAxisType === 'country' ? getLocalizedCountryName(loc, i18n.language) : loc} />
-            </MenuItem>
-          ))}
-        </Select>
-      </Box>
-
       {/* Chart area */}
       <Box className={classes.graphWrapper}>
         <Box className={classes.graph}>
@@ -301,9 +243,9 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
           )}
         </Box>
 
-        {/* Right side: Legend + details */}
+        {/* Right side: Legend */}
         <Box className={classes.rightSide}>
-          {selectedCountries.length > 0 && (
+          {selectedCountries.length > 0 ? (
             <>
               <Typography variant="body2" fontWeight={600} sx={{ paddingBottom: '4px' }}>
                 Legend
@@ -315,27 +257,14 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
                       className={classes.colorCircle}
                       style={{ backgroundColor: RADAR_COLORS[index % RADAR_COLORS.length] }}
                     />
-                    <Typography variant="caption">{country}</Typography>
+                    <Typography variant="caption">
+                      {xAxisType === 'country' ? getLocalizedCountryName(country, i18n.language) : country}
+                    </Typography>
                   </Box>
                 ))}
               </Box>
-
-              <Typography variant="body2" fontWeight={600} sx={{ paddingTop: '8px', paddingBottom: '4px' }}>
-                Drug abbreviations
-              </Typography>
-              <Box className={classes.tooltipWrapper}>
-                <Box sx={{ padding: '8px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  {drugNames.map(drug => (
-                    <Typography key={drug} variant="caption" sx={{ lineHeight: 1.4 }}>
-                      <strong>{drugAcronyms[drug] || drug.substring(0, 6)}</strong>: {drug}
-                    </Typography>
-                  ))}
-                </Box>
-              </Box>
             </>
-          )}
-
-          {selectedCountries.length === 0 && (
+          ) : (
             <Box className={classes.tooltipWrapper}>
               <Box className={classes.noSelection}>
                 <Typography variant="body2" color="textSecondary">
@@ -346,6 +275,80 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
           )}
         </Box>
       </Box>
+
+      {/* Floating plotting-options panel — mirrors BubbleHeatmapGraph2 / SerotypeResistanceGraph */}
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
+              <Box className={classes.selectWrapper}>
+                <Box className={classes.labelWrapper}>
+                  <Typography variant="caption">{t('common.compareBy')}</Typography>
+                </Box>
+                <Select
+                  value={xAxisType}
+                  onChange={handleXAxisTypeChange}
+                  size="small"
+                  inputProps={{ className: classes.selectInput }}
+                >
+                  <MenuItem value="country">{t('common.selectCountry')}</MenuItem>
+                  <MenuItem value="region">{t('common.selectRegion')}</MenuItem>
+                </Select>
+              </Box>
+
+              <Box className={classes.selectWrapper}>
+                <Box className={classes.labelWrapper}>
+                  <Typography variant="caption">{t('common.selectCountriesCompare')}</Typography>
+                  <Tooltip title={t('common.selectCountriesCompareTooltip')}>
+                    <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
+                  </Tooltip>
+                </Box>
+                <Select
+                  multiple
+                  value={selectedCountries}
+                  onChange={handleCountrySelect}
+                  renderValue={selected => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map(value => (
+                        <Chip
+                          key={value}
+                          label={xAxisType === 'country' ? getLocalizedCountryName(value, i18n.language) : value}
+                          size="small"
+                          onDelete={() => handleRemoveCountry(value)}
+                          onMouseDown={e => e.stopPropagation()}
+                          sx={{
+                            backgroundColor: RADAR_COLORS[selected.indexOf(value) % RADAR_COLORS.length],
+                            color: '#fff',
+                            '& .MuiChip-deleteIcon': { color: 'rgba(255,255,255,0.7)' },
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  )}
+                  size="small"
+                  MenuProps={{ PaperProps: { className: classes.menuPaper } }}
+                  className={classes.selectMenu}
+                  disabled={availableLocations.length === 0}
+                >
+                  {availableLocations.map(loc => (
+                    <MenuItem
+                      key={loc}
+                      value={loc}
+                      disabled={selectedCountries.length >= MAX_COUNTRIES && !selectedCountries.includes(loc)}
+                    >
+                      <Checkbox checked={selectedCountries.includes(loc)} size="small" />
+                      <ListItemText
+                        primary={xAxisType === 'country' ? getLocalizedCountryName(loc, i18n.language) : loc}
+                      />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };
