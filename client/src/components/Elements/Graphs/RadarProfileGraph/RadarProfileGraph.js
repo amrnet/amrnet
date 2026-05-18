@@ -120,7 +120,6 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
     return drugNames.map(drug => {
       const entry = {
         drug,
-        shortDrug: drugAcronyms[drug] || drug.substring(0, 6),
       };
 
       selectedCountries.forEach(country => {
@@ -281,7 +280,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
                 <PolarGrid stroke="#ccc" />
-                <PolarAngleAxis dataKey="shortDrug" tick={{ fontSize: 11, fill: '#333' }} />
+                <PolarAngleAxis dataKey="drug" tick={{ fontSize: 10, fill: '#333' }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10 }} tickCount={6} />
                 {selectedCountries.map((country, index) => (
                   <Radar
