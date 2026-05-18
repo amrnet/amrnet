@@ -18,7 +18,6 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { ChartErrorBoundary } from '../Graphs/../Shared/ChartErrorBoundary';
 import { InsightsActions } from './InsightsActions';
 import { ATBCorrelationGraph } from '../Graphs/ATBCorrelationGraph';
-import { ConvergenceMapGraph } from '../Graphs/ConvergenceMapGraph';
 import { CooccurrenceGraph } from '../Graphs/CooccurrenceGraph';
 import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
@@ -42,12 +41,6 @@ const TABS = [
     value: 'ATB',
     component: <ATBCorrelationGraph />,
     onlyFor: null,
-  },
-  {
-    labelKey: 'amrInsights.tabs.convergenceMap',
-    value: 'CVM',
-    component: <ConvergenceMapGraph />,
-    onlyFor: ['kpneumo'],
   },
   {
     labelKey: 'amrInsights.tabs.geneMap',
@@ -120,7 +113,6 @@ export const AMRInsights = () => {
         return Array.isArray(drugsCountriesData[firstKey]) ? drugsCountriesData[firstKey] : [];
       }
       case 'GMP': // Gene map — export raw kpneumo data with gene fields
-      case 'CVM': // Convergence map — export raw kpneumo data
         return Array.isArray(rawOrganismData) ? rawOrganismData.slice(0, 5000) : []; // Cap at 5k rows for CSV
       default:
         return [];
