@@ -253,12 +253,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
       let count = 0;
 
       for (const key in item) {
-        // For "Other" category, we want to sum up the counts of all genotypes that are NOT in the topXGenotype list
-        // if (!topXGenotype.includes(key) && !exclusions.includes(key)) {
-        //   count += item[key];
-        // }
-
-        // For the main categories (those in topXGenotype)
+        // Sum the counts of the top-N genotypes; "Other" is the
+        // complement (item.count − count), which guarantees the stacked
+        // bar always totals 100% per year.
         if (topXGenotype.includes(key)) {
           count += item[key];
         }
@@ -268,9 +265,13 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
         }
       }
 
-      return { name: item.name, count: item.count, ...(organism === 'styphi' ? item : filteredItems), Other: item.count - count }; // Add an "Other" field that sums up the counts of genotypes not in the topXGenotype list
+      return {
+        name: item.name,
+        count: item.count,
+        ...(organism === 'styphi' ? item : filteredItems),
+        Other: item.count - count,
+      };
     });
-    // .filter(x => x.count >= 10);
 
     const percentageArray = structuredClone(baseArray).map(item => {
       const keys = Object.keys(item).filter(k => !exclusions.includes(k));
