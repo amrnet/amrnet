@@ -1,8 +1,9 @@
-import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule, Vaccines } from '@mui/icons-material';
+import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule, Vaccines, Coronavirus } from '@mui/icons-material';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
+import { ConvergenceMapGraph } from '../components/Elements/Graphs/ConvergenceMapGraph';
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
 import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
@@ -111,6 +112,14 @@ export function getGraphCards(t){
       id: 'convergence-graph',
       organisms: ['kpneumo'],
       component: <ConvergenceGraph />,
+    },
+    {
+      title: t('graphs.convergenceMap'),
+      description: [''],
+      icon: <Coronavirus color="primary" />,
+      id: 'CVM',
+      organisms: ['kpneumo'],
+      component: <ConvergenceMapGraph />,
     },
     {
       title: t('graphs.genotypeTrends'),
