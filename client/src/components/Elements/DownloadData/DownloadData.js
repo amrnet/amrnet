@@ -6,6 +6,7 @@ import { useStyles } from './DownloadDataMUI';
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-const */
 import { PictureAsPdf, Storage, TableChart } from '@mui/icons-material';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -784,7 +785,7 @@ export const DownloadData = () => {
         variant="contained"
         onClick={handleClickDownloadPDF}
         loading={loadingPDF}
-        startIcon={<PictureAsPdf />}
+        startIcon={<LibraryBooksIcon />}
         loadingPosition="start"
         // disabled={['ecoli'].includes(organism)} //'styphi', 'kpneumo', 'ngono', 'sentericaints', 'senterica'
       >
