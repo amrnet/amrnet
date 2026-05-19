@@ -5,6 +5,7 @@ const useStyles = makeStyles((_theme) => ({
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    position: 'relative',
   },
   controlsRow: {
     display: 'flex',
@@ -88,6 +89,30 @@ const useStyles = makeStyles((_theme) => ({
     gap: '8px',
     flexWrap: 'wrap',
     padding: '4px 0',
+  },
+  // Floating reference panel — Methodology + Data Sources content. Keeps
+  // the inline right panel focused on the live stats (Correlation,
+  // Concordance, Error metrics) so the dense explanatory text doesn't push
+  // them off-screen.
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(360 + 16),
+    width: '360px',
+    maxHeight: '70vh',
+    overflowY: 'auto',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }));
 

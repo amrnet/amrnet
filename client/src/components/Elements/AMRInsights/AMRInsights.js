@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, TipsAndUpdates } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, FilterList, FilterListOff, TipsAndUpdates } from '@mui/icons-material';
 import {
   Box,
   Card,
@@ -7,6 +7,7 @@ import {
   IconButton,
   Tab,
   Tabs,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from '@mui/material';
@@ -29,24 +30,28 @@ const TABS = [
     value: 'COO',
     component: <CooccurrenceGraph />,
     onlyFor: null,
+    hasFilter: false,
   },
   {
     labelKey: 'amrInsights.tabs.genomicVsPhenotypic',
     value: 'GVP',
     component: <GenomicVsPhenotypicGraph />,
     onlyFor: null,
+    hasFilter: true,
   },
   {
     labelKey: 'amrInsights.tabs.atbCorrelation',
     value: 'ATB',
     component: <ATBCorrelationGraph />,
     onlyFor: null,
+    hasFilter: true,
   },
   {
     labelKey: 'amrInsights.tabs.geneMap',
     value: 'GMP',
     component: <GeneMapGraph />,
     onlyFor: [],
+    hasFilter: false,
   },
 ];
 
@@ -163,6 +168,17 @@ export const AMRInsights = () => {
                 currentTab={currentTab}
                 tabLabel={currentTabLabel}
               />
+            )}
+            {/* Filter / Plotting Options toggle — only shown for tabs that
+                actually render a floating panel (ATB and GVP today). Without
+                it, once a user closed the panel via its X there was no way
+                to re-open it. */}
+            {isExpanded && currentTabConfig?.hasFilter && (
+              <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
+                <IconButton onClick={handleClickFilter}>
+                  {showFilter ? <FilterListOff /> : <FilterList />}
+                </IconButton>
+              </Tooltip>
             )}
             <IconButton>{isExpanded ? <ExpandLess /> : <ExpandMore />}</IconButton>
           </div>
