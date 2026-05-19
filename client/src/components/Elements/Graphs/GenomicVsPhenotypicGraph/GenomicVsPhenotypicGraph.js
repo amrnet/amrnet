@@ -5,9 +5,11 @@ import {
   CardContent,
   Chip,
   CircularProgress,
+  FormControlLabel,
   IconButton,
   MenuItem,
   Select,
+  Switch,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -219,7 +221,22 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
   const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
   const timeInitial = useAppSelector(state => state.dashboard.timeInitial);
   const timeFinal = useAppSelector(state => state.dashboard.timeFinal);
+  const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
+  const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
+
+  // Default ON: only consider phenotypic rows whose year falls inside the
+  // dashboard's current genomic year range. Without this it's possible to
+  // unknowingly compare 15-year-pooled genomic %R against a single 2021
+  // phenotype point. The toggle lives in the controls row.
+  const [restrictByYear, setRestrictByYear] = useState(true);
+
+  // The dashboard's applied year range is what the genomic side actually uses
+  // (drugsCountriesData is aggregated against actualTimeInitial..actualTimeFinal).
+  // Cast to integers up front so the per-record year comparisons aren't
+  // string-vs-number.
+  const genoYearStart = Number(actualTimeInitial ?? timeInitial) || 0;
+  const genoYearEnd = Number(actualTimeFinal ?? timeFinal) || 9999;
 
   // Enumerate every (drug, phenotype-source) pair for which we have BOTH
   // an AMRnet genomic record (drugsCountriesData entry) AND a phenotypic
@@ -370,9 +387,22 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
 
     if (phenoData.length === 0) return empty;
 
-    // Build phenotypic lookup: latest year per country
+    // Build phenotypic lookup: latest year per country. When the
+    // 'Restrict pheno to genomic year range' toggle is on, drop pheno rows
+    // whose year falls outside [genoYearStart, genoYearEnd] BEFORE picking
+    // the latest — so the chart only ever compares time-aligned data.
+    // Note: pheno rows may carry either a single `year` (GLASS) or a
+    // `yearRange` (literature). For year-range rows we already extract the
+    // end-year into `r.year` upstream, so a single comparison works for
+    // both shapes.
+    let phenoExcludedCount = 0;
     const phenoByCountry = {};
     phenoData.forEach(r => {
+      const ry = Number(r.year);
+      if (restrictByYear && Number.isFinite(ry) && (ry < genoYearStart || ry > genoYearEnd)) {
+        phenoExcludedCount++;
+        return;
+      }
       if (!phenoByCountry[r.country] || r.year > phenoByCountry[r.country].year) {
         phenoByCountry[r.country] = r;
       }
@@ -427,17 +457,22 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
         // Wilson score 95% CI for genomic estimate
         const ci = wilsonCI(resistant, total);
 
-        // Assess temporal overlap
+        // Assess temporal overlap. When restrictByYear is on the build step
+        // above has already dropped out-of-range pheno rows, so anything
+        // that survives is in-range; with the toggle off we still want to
+        // surface mismatched points so they're not invisible.
         const phenoYear = pheno.year;
         const phenoYearDisplay = pheno.yearRange || String(phenoYear);
-        const amrnetRange = `${timeInitial || '?'}–${timeFinal || '?'}`;
-        const yearOverlap = (phenoYear >= (timeInitial || 0) && phenoYear <= (timeFinal || 9999))
+        const amrnetRange = `${genoYearStart}–${genoYearEnd}`;
+        const inRange = Number.isFinite(Number(phenoYear)) && phenoYear >= genoYearStart && phenoYear <= genoYearEnd;
+        const yearOverlap = inRange
           ? `Yes (${phenoYearDisplay} within ${amrnetRange})`
-          : `Limited (${phenoSourceLabel} ${phenoYearDisplay}, AMRnet ${amrnetRange})`;
+          : `No — pheno ${phenoSourceLabel} ${phenoYearDisplay}, genomic ${amrnetRange}`;
 
         // Concordance: phenotypic value falls within the genomic 95% Wilson CI
         const ciConcordant = phenoValueNum >= ci.lower && phenoValueNum <= ci.upper;
         const category = ciConcordant ? 'concordant' : diff > 0 ? 'overestimate' : 'underestimate';
+        const timeMismatch = !inRange;
 
         const yVal = Number(genomicPct.toFixed(1));
         const ciLower = Number(ci.lower.toFixed(1));
@@ -469,11 +504,12 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           ciConcordant,
           color: CONCORDANCE_COLORS[category],
           yearOverlap,
+          timeMismatch,
         });
       }
     });
 
-    if (points.length < 2) return { ...empty, scatterData: points };
+    if (points.length < 2) return { ...empty, scatterData: points, stats: { phenoExcludedCount, total: points.length } };
 
     // Compute statistics — all counts derived from the same `category` field (CI overlap only)
     const concordant = points.filter(p => p.category === 'concordant').length;
@@ -507,18 +543,57 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
         meanAbsDiff: meanAbsDiff.toFixed(1),
         medianAbsDiff: medianAbsDiff.toFixed(1),
         weightedMAD: weightedMAD.toFixed(1),
+        phenoExcludedCount,
       },
       correlations: {
         pearson: pears,
         spearman: spear,
       },
     };
-  }, [glassData, glassIndicator, drugsCountriesData, rawOrganismData, organism, timeInitial, timeFinal, phenoSource]);
+  }, [
+    glassData,
+    glassIndicator,
+    drugsCountriesData,
+    rawOrganismData,
+    organism,
+    timeInitial,
+    timeFinal,
+    phenoSource,
+    restrictByYear,
+    genoYearStart,
+    genoYearEnd,
+  ]);
 
   const downloadPhenoCSV = useCallback(() => {
     const escape = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    // Prepend a header block of '#'-prefixed comment lines that name the
+    // primary source and reproduce its attribution. Most CSV readers (Excel,
+    // pandas with comment='#', R with comment.char='#') treat these as
+    // comments — but they're also human-readable when the file is opened in
+    // a plain editor. Per-organism citations live alongside each row in the
+    // 'source' and 'doi_or_url' columns.
+    const buildAttribution = () => {
+      const ts = new Date().toISOString().slice(0, 10);
+      if (phenoSource === 'glass') {
+        return [
+          '# Phenotypic resistance data: WHO Global Antimicrobial Resistance and Use Surveillance System (GLASS).',
+          '# Redistributed via AMRnet under WHO data terms — attribution required. Source:',
+          '#   https://www.who.int/data/gho/data/themes/topics/global-antimicrobial-resistance-and-use-surveillance-system-glass-database',
+          `# Indicator: ${glassIndicator?.label || '—'}`,
+          `# Downloaded via amrnet.org on ${ts}.`,
+          '#',
+        ].join('\n');
+      }
+      return [
+        '# Phenotypic resistance data: aggregated from published surveillance literature',
+        '# (ECDC EARS-Net, WHO GASP/GLASS, national reports, GEMS, etc. — see per-row `source` and `doi_or_url`).',
+        '# Re-use must cite the original publication(s) listed in each row, not AMRnet.',
+        `# Downloaded via amrnet.org on ${ts}.`,
+        '#',
+      ].join('\n');
+    };
     const toCSV = (headers, rows) =>
-      [headers, ...rows].map(r => r.map(escape).join(',')).join('\n');
+      buildAttribution() + '\n' + [headers, ...rows].map(r => r.map(escape).join(',')).join('\n');
 
     let csv, filename;
 
@@ -614,7 +689,36 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
         {!loading && availableDrugs.length === 0 && (
           <Chip label="No phenotypic data available for this organism" size="small" variant="outlined" color="warning" />
         )}
+
+        {/* Time-alignment guard: default ON. When ON, only phenotypic
+            records whose year falls inside the dashboard's genomic year
+            range are considered. Prevents accidentally comparing a single
+            2021 pheno point against a 2010–2025-pooled geno %R. */}
+        <FormControlLabel
+          control={<Switch checked={restrictByYear} onChange={(_, val) => setRestrictByYear(val)} size="small" />}
+          label={<Typography variant="caption">Restrict pheno to genomic year range</Typography>}
+          sx={{ marginLeft: '8px' }}
+        />
+        <Tooltip title="When on, phenotypic rows outside the dashboard's current year range are dropped before the latest-year row per country is chosen. When off, the chart falls back to the latest available pheno row per country, which may be from a very different period than the genomic data.">
+          <InfoOutlined fontSize="small" sx={{ cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }} />
+        </Tooltip>
       </Box>
+
+      {/* Period summary — make the comparison's time alignment visible at a
+          glance. Without this it's not obvious what year the pheno value
+          comes from versus what years the geno %R was computed over. */}
+      {availableDrugs.length > 0 && (
+        <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', paddingTop: '2px', paddingBottom: '4px' }}>
+          <strong>Genomic period:</strong> {genoYearStart}–{genoYearEnd} (dashboard year filter) ·{' '}
+          <strong>Phenotypic:</strong>{' '}
+          {restrictByYear
+            ? `latest available row per country within ${genoYearStart}–${genoYearEnd}`
+            : 'latest available row per country (any year) — time mismatch possible'}
+          {stats?.phenoExcludedCount > 0 && (
+            <> · <em>{stats.phenoExcludedCount} pheno row(s) dropped as out-of-range</em></>
+          )}
+        </Typography>
+      )}
 
       {/* Decoli specimen caveat */}
       {organism === 'decoli' && (
@@ -711,7 +815,14 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
                 />
                 <Scatter data={scatterData}>
                   {scatterData.map((entry, i) => (
-                    <Cell key={`cell-${i}`} fill={entry.color} fillOpacity={0.8} />
+                    <Cell
+                      key={`cell-${i}`}
+                      fill={entry.color}
+                      fillOpacity={entry.timeMismatch ? 0.35 : 0.8}
+                      stroke={entry.timeMismatch ? '#d32f2f' : 'none'}
+                      strokeWidth={entry.timeMismatch ? 1.5 : 0}
+                      strokeDasharray={entry.timeMismatch ? '3 2' : undefined}
+                    />
                   ))}
                   {/* 95% CI error bars on genomic estimate (Y-axis) */}
                   <ErrorBar
