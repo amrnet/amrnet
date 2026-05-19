@@ -5,6 +5,7 @@ const useStyles = makeStyles((_theme) => ({
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    position: 'relative',
   },
   controlsRow: {
     display: 'flex',
@@ -77,6 +78,26 @@ const useStyles = makeStyles((_theme) => ({
     alignItems: 'center',
     gap: '8px',
     padding: '8px 0',
+  },
+  // Floating reference panel — Data Sources content lives here so the
+  // chart area stays focused on the live stats (R², region legend).
+  floatingFilter: {
+    position: 'absolute',
+    top: 16,
+    right: -(320 + 16),
+    width: '320px',
+    zIndex: 1,
+
+    '@media (max-width: 1900px)': {
+      right: 16,
+    },
+  },
+  titleWrapper: {
+    paddingBottom: '8px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }));
 
