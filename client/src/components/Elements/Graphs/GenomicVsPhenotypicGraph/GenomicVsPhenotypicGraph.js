@@ -2,6 +2,7 @@ import { InfoOutlined, CheckCircleOutline, WarningAmber, FileDownload } from '@m
 import {
   Alert,
   Box,
+  Card,
   CardContent,
   Chip,
   CircularProgress,
@@ -46,6 +47,7 @@ import {
   getGLASSPhenotypicByOrganismDrug,
 } from '../../../../data/glass_data';
 import { atbToAmrnetMapping, getAmrnetDrugsForATBClass } from '../../../../util/atbDrugMapping';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useStyles } from './GenomicVsPhenotypicGraphMUI';
 
 // Public-facing source landing pages used by the Data Sources panel.
@@ -889,91 +891,105 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
             </>
           )}
 
-          {/* Methodology */}
-          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '4px' }}>{t('amrInsights.gvp.methodology')}</Typography>
-          <Box className={classes.tooltipWrapper}>
-            <Typography variant="caption" sx={{ lineHeight: 1.5 }}>
-              <strong>{t('amrInsights.gvp.matchingLabel')}</strong> {t('amrInsights.gvp.matching')}
-              <br /><br />
-              <strong>{t('amrInsights.gvp.concordanceLabel')}</strong> {t('amrInsights.gvp.concordanceText')}
-              <br /><br />
-              <strong>{t('amrInsights.gvp.errorBarsLabel')}</strong> {t('amrInsights.gvp.errorBars')}
-              <br /><br />
-              <strong>{t('amrInsights.gvp.correlationsLabel')}</strong> {t('amrInsights.gvp.correlations')}
-              <br /><br />
-              <strong>{t('amrInsights.gvp.drugMappingLabel')}</strong>{' '}
-              {phenoSource === 'typhi_literature'
-                ? t('amrInsights.gvp.drugMappingTyphiLiterature')
-                : phenoSource === 'literature' && organism === 'ecoli'
-                ? 'Phenotypic = 3GC non-susceptibility (ESBL proxy) from ECDC EARS-Net 2021 / national reports. Genomic = ESBL gene carriage (AMRnet).'
-                : phenoSource === 'literature' && organism === 'kpneumo'
-                ? 'Phenotypic = Carbapenem non-susceptibility from ECDC EARS-Net 2021 / national reports. Genomic = Carbapenemase gene carriage (AMRnet).'
-                : phenoSource === 'literature' && organism === 'saureus'
-                ? 'Phenotypic = MRSA (mecA/mecC or phenotypic oxacillin resistance) from ECDC EARS-Net 2021 / national reports. Genomic = mecA/mecC gene carriage (AMRnet Methicillin).'
-                : phenoSource === 'literature' && (organism === 'senterica' || organism === 'sentericaints')
-                ? 'Phenotypic = Salmonella ciprofloxacin non-susceptibility from WHO GLASS 2022 / ECDC EARS-Net 2021 / national reports. Genomic = Ciprofloxacin resistance markers (AMRnet).'
-                : phenoSource === 'literature' && organism === 'decoli'
-                ? 'Phenotypic = E. coli ciprofloxacin resistance from community/enteric studies (WHO GLASS, GEMS). Genomic = Ciprofloxacin resistance markers (AMRnet). Note: phenotypic data not specific to diarrheagenic pathotypes.'
-                : phenoSource === 'literature' && organism === 'shige'
-                ? 'Phenotypic = Shigella ciprofloxacin non-susceptibility from WHO GLASS 2022 / GEMS studies / CHINET. Genomic = Ciprofloxacin resistance markers (AMRnet).'
-                : phenoSource === 'literature' && organism === 'ngono'
-                ? 'Phenotypic = N. gonorrhoeae ciprofloxacin resistance (MIC ≥1 mg/L) from WHO GASP / ECDC GASP / CDC GISP. Genomic = Ciprofloxacin resistance markers — primarily GyrA/ParC QRDR mutations (AMRnet).'
-                : phenoSource === 'literature' && organism === 'strepneumo'
-                ? 'Phenotypic = S. pneumoniae co-trimoxazole (SXT) non-susceptibility from ECDC EARS-Net 2021 / WHO GLASS 2022 / national reports. Genomic = Co-Trimoxazole resistance markers — folP/folA variants (AMRnet).'
-                : `${glassIndicator?.label || '—'}. AMRnet = genome-derived (${glassIndicator?.drug || '—'}). Note: genotypic and phenotypic definitions may differ.`
-              }
-              <br /><br />
-              <strong>{t('amrInsights.gvp.caveatsLabel')}</strong>{' '}
-              {phenoSource === 'typhi_literature'
-                ? t('amrInsights.gvp.caveatsTyphiLiterature')
-                : phenoSource === 'literature'
-                ? t('amrInsights.gvp.caveatsLiterature')
-                : t('amrInsights.gvp.caveatsGlass')
-              }
-              <br /><br />
-              <strong>{t('amrInsights.gvp.bubbleSizeLabel')}</strong> ∝ {t('amrInsights.gvp.bubbleSize').replace(/^.*?∝\s*/, '')}
-            </Typography>
-          </Box>
-
-          {/* Data Sources panel — clickable citations for the current pheno source
-              and the AMRnet genomic side. Per-organism literature curators are
-              named where the JSON metadata supplies them. */}
-          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>Data Sources</Typography>
-          <Box className={classes.tooltipWrapper}>
-            <Typography variant="caption" sx={{ lineHeight: 1.5 }} component="div">
-              <strong>Phenotypic (X):</strong>{' '}
-              {phenoSource === 'glass' || phenoSource === 'typhi_literature' && organism !== 'styphi' ? (
-                <>
-                  <a href={SOURCE_URLS.glass} target="_blank" rel="noopener noreferrer">
-                    WHO GLASS
-                  </a> — {glassIndicator?.label || 'Global Antimicrobial Resistance and Use Surveillance System'}.
-                </>
-              ) : (
-                <>
-                  Bundled surveillance literature (ECDC EARS-Net 2021 + national reports / WHO GASP / GEMS, depending on
-                  the organism). The JSON metadata files in {' '}
-                  <code>client/src/assets/</code> carry per-source citations (year ranges, breakpoints, specimen) and a{' '}
-                  <code>doi_or_url</code> field for each entry. The download button above exports the full JSON as a CSV.
-                  {' '}
-                  <a href={SOURCE_URLS.ecdc} target="_blank" rel="noopener noreferrer">
-                    See ECDC AMR data hub
-                  </a> for primary EARS-Net releases.
-                </>
-              )}
-              <br /><br />
-              <strong>Genomic (Y):</strong>{' '}
-              <a href={SOURCE_URLS.amrnet} target="_blank" rel="noopener noreferrer">AMRnet</a> genome-derived call
-              for <em>{glassIndicator?.drug || '—'}</em> using the standard AMRnet drug-rules engine. Per-country %R is
-              computed across genomes that pass the dashboard's current global filters; the matching N is reported in
-              each tooltip.
-              <br /><br />
-              <strong>Caveat:</strong> phenotypic and genotypic resistance definitions are not always identical (e.g.
-              EUCAST clinical breakpoints vs gene-presence calls), and time periods may not overlap perfectly. See the
-              year-overlap line in each tooltip.
-            </Typography>
-          </Box>
         </Box>
       </Box>
+
+      {/* Floating reference panel — Methodology + Data Sources. The inline
+          right-side block keeps the live stats (Correlation, Concordance,
+          Error Metrics) so they always show alongside the chart. The dense
+          reference text lives here, toggled by the showFilter prop the
+          parent AMRInsights wires in. */}
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
+
+              {/* Methodology */}
+              <Typography variant="body2" fontWeight={600}>{t('amrInsights.gvp.methodology')}</Typography>
+              <Box className={classes.tooltipWrapper} sx={{ marginTop: '4px' }}>
+                <Typography variant="caption" sx={{ lineHeight: 1.5 }}>
+                  <strong>{t('amrInsights.gvp.matchingLabel')}</strong> {t('amrInsights.gvp.matching')}
+                  <br /><br />
+                  <strong>{t('amrInsights.gvp.concordanceLabel')}</strong> {t('amrInsights.gvp.concordanceText')}
+                  <br /><br />
+                  <strong>{t('amrInsights.gvp.errorBarsLabel')}</strong> {t('amrInsights.gvp.errorBars')}
+                  <br /><br />
+                  <strong>{t('amrInsights.gvp.correlationsLabel')}</strong> {t('amrInsights.gvp.correlations')}
+                  <br /><br />
+                  <strong>{t('amrInsights.gvp.drugMappingLabel')}</strong>{' '}
+                  {phenoSource === 'typhi_literature'
+                    ? t('amrInsights.gvp.drugMappingTyphiLiterature')
+                    : phenoSource === 'literature' && organism === 'ecoli'
+                    ? 'Phenotypic = 3GC non-susceptibility (ESBL proxy) from ECDC EARS-Net 2021 / national reports. Genomic = ESBL gene carriage (AMRnet).'
+                    : phenoSource === 'literature' && organism === 'kpneumo'
+                    ? 'Phenotypic = Carbapenem non-susceptibility from ECDC EARS-Net 2021 / national reports. Genomic = Carbapenemase gene carriage (AMRnet).'
+                    : phenoSource === 'literature' && organism === 'saureus'
+                    ? 'Phenotypic = MRSA (mecA/mecC or phenotypic oxacillin resistance) from ECDC EARS-Net 2021 / national reports. Genomic = mecA/mecC gene carriage (AMRnet Methicillin).'
+                    : phenoSource === 'literature' && (organism === 'senterica' || organism === 'sentericaints')
+                    ? 'Phenotypic = Salmonella ciprofloxacin non-susceptibility from WHO GLASS 2022 / ECDC EARS-Net 2021 / national reports. Genomic = Ciprofloxacin resistance markers (AMRnet).'
+                    : phenoSource === 'literature' && organism === 'decoli'
+                    ? 'Phenotypic = E. coli ciprofloxacin resistance from community/enteric studies (WHO GLASS, GEMS). Genomic = Ciprofloxacin resistance markers (AMRnet). Note: phenotypic data not specific to diarrheagenic pathotypes.'
+                    : phenoSource === 'literature' && organism === 'shige'
+                    ? 'Phenotypic = Shigella ciprofloxacin non-susceptibility from WHO GLASS 2022 / GEMS studies / CHINET. Genomic = Ciprofloxacin resistance markers (AMRnet).'
+                    : phenoSource === 'literature' && organism === 'ngono'
+                    ? 'Phenotypic = N. gonorrhoeae ciprofloxacin resistance (MIC ≥1 mg/L) from WHO GASP / ECDC GASP / CDC GISP. Genomic = Ciprofloxacin resistance markers — primarily GyrA/ParC QRDR mutations (AMRnet).'
+                    : phenoSource === 'literature' && organism === 'strepneumo'
+                    ? 'Phenotypic = S. pneumoniae co-trimoxazole (SXT) non-susceptibility from ECDC EARS-Net 2021 / WHO GLASS 2022 / national reports. Genomic = Co-Trimoxazole resistance markers — folP/folA variants (AMRnet).'
+                    : `${glassIndicator?.label || '—'}. AMRnet = genome-derived (${glassIndicator?.drug || '—'}). Note: genotypic and phenotypic definitions may differ.`
+                  }
+                  <br /><br />
+                  <strong>{t('amrInsights.gvp.caveatsLabel')}</strong>{' '}
+                  {phenoSource === 'typhi_literature'
+                    ? t('amrInsights.gvp.caveatsTyphiLiterature')
+                    : phenoSource === 'literature'
+                    ? t('amrInsights.gvp.caveatsLiterature')
+                    : t('amrInsights.gvp.caveatsGlass')
+                  }
+                  <br /><br />
+                  <strong>{t('amrInsights.gvp.bubbleSizeLabel')}</strong> ∝ {t('amrInsights.gvp.bubbleSize').replace(/^.*?∝\s*/, '')}
+                </Typography>
+              </Box>
+
+              {/* Data Sources */}
+              <Typography variant="body2" fontWeight={600} sx={{ marginTop: '12px' }}>Data Sources</Typography>
+              <Box className={classes.tooltipWrapper} sx={{ marginTop: '4px' }}>
+                <Typography variant="caption" sx={{ lineHeight: 1.5 }} component="div">
+                  <strong>Phenotypic (X):</strong>{' '}
+                  {phenoSource === 'glass' || phenoSource === 'typhi_literature' && organism !== 'styphi' ? (
+                    <>
+                      <a href={SOURCE_URLS.glass} target="_blank" rel="noopener noreferrer">
+                        WHO GLASS
+                      </a> — {glassIndicator?.label || 'Global Antimicrobial Resistance and Use Surveillance System'}.
+                    </>
+                  ) : (
+                    <>
+                      Bundled surveillance literature (ECDC EARS-Net 2021 + national reports / WHO GASP / GEMS, depending on
+                      the organism). The JSON metadata files in {' '}
+                      <code>client/src/assets/</code> carry per-source citations (year ranges, breakpoints, specimen) and a{' '}
+                      <code>doi_or_url</code> field for each entry. The download button above exports the full JSON as a CSV.
+                      {' '}
+                      <a href={SOURCE_URLS.ecdc} target="_blank" rel="noopener noreferrer">
+                        See ECDC AMR data hub
+                      </a> for primary EARS-Net releases.
+                    </>
+                  )}
+                  <br /><br />
+                  <strong>Genomic (Y):</strong>{' '}
+                  <a href={SOURCE_URLS.amrnet} target="_blank" rel="noopener noreferrer">AMRnet</a> genome-derived call
+                  for <em>{glassIndicator?.drug || '—'}</em> using the standard AMRnet drug-rules engine. Per-country %R is
+                  computed across genomes that pass the dashboard's current global filters; the matching N is reported in
+                  each tooltip.
+                  <br /><br />
+                  <strong>Caveat:</strong> phenotypic and genotypic resistance definitions are not always identical (e.g.
+                  EUCAST clinical breakpoints vs gene-presence calls), and time periods may not overlap perfectly. See the
+                  year-overlap line in each tooltip.
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };

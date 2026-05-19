@@ -1,6 +1,7 @@
 import { InfoOutlined, FileDownload } from '@mui/icons-material';
 import {
   Box,
+  Card,
   CardContent,
   Chip,
   CircularProgress,
@@ -12,6 +13,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   CartesianGrid,
@@ -431,26 +433,40 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
               ))}
           </Box>
 
-          <Typography variant="body2" fontWeight={600} sx={{ marginTop: '8px' }}>Data Sources</Typography>
-          <Box className={classes.tooltipWrapper}>
-            <Typography variant="caption" sx={{ lineHeight: 1.5 }} component="div">
-              <strong>AM Consumption (X):</strong>{' '}
-              <a href={GLASS_AMU_URL} target="_blank" rel="noopener noreferrer">WHO GLASS-AMC via GHO OData API</a>{' '}
-              ({dataSource === 'glass'
-                ? `${glassData?.consumption?.length || 0} country-year records, 2016–2023`
-                : 'static fallback, 16 countries, 2020'}). Total antibiotic consumption in DDD/1000 inhabitants/day. GLASS publishes TOTAL consumption, not per-class — so the X value is the same for every ATB class for a given country.
-              <br /><br />
-              <strong>Genomic Resistance (Y):</strong>{' '}
-              <a href={AMRNET_DOCS_URL} target="_blank" rel="noopener noreferrer">AMRnet</a> genome-derived call. Per country: count of genomes resistant to <em>any</em> AMRnet drug in the selected ATB class
-              {' '}({getAmrnetDrugsForATBClass(organism, selectedATBClass).join(', ') || '—'}), divided by total genomes (year range respects the dashboard filter). Countries with &lt;20 genomes are excluded.
-              <br /><br />
-              <strong>Matching:</strong> N={scatterData.length} countries with both GLASS consumption AND ≥20 AMRnet genomes. Country names are matched on a normalized lowercase-alpha form to bridge WHO/AMRnet label differences.
-              <br /><br />
-              <strong>Caveat:</strong> ecological correlation — does not imply causation. Different ATB classes share the same X (total consumption); the Y value is what changes per class.
-            </Typography>
-          </Box>
         </Box>
       </Box>
+
+      {/* Floating reference panel — Data Sources content. The inline right
+          panel keeps the live chart stats (R², Region Legend) so the dense
+          attribution text doesn't compete with them for vertical space. */}
+      {showFilter && (
+        <Box className={classes.floatingFilter}>
+          <Card elevation={3}>
+            <CardContent>
+              <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
+
+              <Typography variant="body2" fontWeight={600}>Data Sources</Typography>
+              <Box className={classes.tooltipWrapper} sx={{ marginTop: '4px' }}>
+                <Typography variant="caption" sx={{ lineHeight: 1.5 }} component="div">
+                  <strong>AM Consumption (X):</strong>{' '}
+                  <a href={GLASS_AMU_URL} target="_blank" rel="noopener noreferrer">WHO GLASS-AMC via GHO OData API</a>{' '}
+                  ({dataSource === 'glass'
+                    ? `${glassData?.consumption?.length || 0} country-year records, 2016–2023`
+                    : 'static fallback, 16 countries, 2020'}). Total antibiotic consumption in DDD/1000 inhabitants/day. GLASS publishes TOTAL consumption, not per-class — so the X value is the same for every ATB class for a given country.
+                  <br /><br />
+                  <strong>Genomic Resistance (Y):</strong>{' '}
+                  <a href={AMRNET_DOCS_URL} target="_blank" rel="noopener noreferrer">AMRnet</a> genome-derived call. Per country: count of genomes resistant to <em>any</em> AMRnet drug in the selected ATB class
+                  {' '}({getAmrnetDrugsForATBClass(organism, selectedATBClass).join(', ') || '—'}), divided by total genomes (year range respects the dashboard filter). Countries with &lt;20 genomes are excluded.
+                  <br /><br />
+                  <strong>Matching:</strong> N={scatterData.length} countries with both GLASS consumption AND ≥20 AMRnet genomes. Country names are matched on a normalized lowercase-alpha form to bridge WHO/AMRnet label differences.
+                  <br /><br />
+                  <strong>Caveat:</strong> ecological correlation — does not imply causation. Different ATB classes share the same X (total consumption); the Y value is what changes per class.
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      )}
     </CardContent>
   );
 };
