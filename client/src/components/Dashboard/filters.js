@@ -1074,7 +1074,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           drugStats[rule.key] = drugData.length;
 
-          if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin') {
+          if (!amrLikeOrganisms.includes(organism) && (rule.key === 'Ciprofloxacin NS' || rule.key === 'Ciprofloxacin')) {
             // rule.values already contains ['CipNS','CipR'], so drugStats['Ciprofloxacin']
             // already counts both. Only set the disjoint 'Ciprofloxacin R' key here;
             // do NOT increment 'Ciprofloxacin' (would double-count CipR records).
