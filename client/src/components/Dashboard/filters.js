@@ -1945,6 +1945,48 @@ export function getGenotypesData({
     genotypesDrugClassesData[key].forEach(item => delete item['None']);
   });
 
+  // Pathotype-level marker data for ecoli-like organisms (shige, decoli, ecoli, senterica, sentericaints)
+  const pathotypesDrugClassesData = {};
+  const pathotypeOrganisms = ['shige', 'decoli', 'ecoli', 'senterica', 'sentericaints']; // senterica/sentericaints use seqsero2 (serotypes)
+  if (pathotypeOrganisms.includes(organism)) {
+    const pathotypeConfig = organismDrugMap[organism];
+    if (pathotypeConfig) {
+      pathotypeConfig.list.forEach(item => {
+        const key = pathotypeConfig.keyFn(item);
+        pathotypesDrugClassesData[key] = [];
+      });
+    }
+
+    const pathotypeCol = ['sentericaints', 'senterica'].includes(organism) ? 'seqsero2' : 'Pathovar';
+    const dataByPathotype = {};
+    data.forEach(x => {
+      const pKey = x[pathotypeCol]?.toString();
+      if (pKey && pKey !== 'NA' && pKey !== '-' && pKey !== '') {
+        if (!dataByPathotype[pKey]) dataByPathotype[pKey] = [];
+        dataByPathotype[pKey].push(x);
+      }
+    });
+
+    Object.keys(dataByPathotype).forEach(pathotype => {
+      const pathotypeData = dataByPathotype[pathotype];
+      const drugClassResponse = { name: pathotype, totalCount: pathotypeData.length, resistantCount: 0 };
+
+      statKeysECOLI.forEach(drug => {
+        if (!pathotypesDrugClassesData[drug.name]) return;
+        const drugClass = {
+          ...drugClassResponse,
+          ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: pathotypeData }),
+        };
+        pathotypesDrugClassesData[drug.name].push(drugClass);
+      });
+    });
+
+    Object.keys(pathotypesDrugClassesData).forEach(key => {
+      pathotypesDrugClassesData[key].sort((a, b) => b.totalCount - a.totalCount);
+      pathotypesDrugClassesData[key].forEach(item => delete item['None']);
+    });
+  }
+
   // Years
   // years.forEach(year => {
   //   const yearData = (dataForGeographic || data).filter(x => x.DATE.toString() === year.toString());
@@ -2056,6 +2098,7 @@ export function getGenotypesData({
     countriesDrugClassesData,
     regionsDrugClassesData,
     ngMastDrugClassesData,
+    pathotypesDrugClassesData,
   };
 }
 

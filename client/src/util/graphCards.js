@@ -2,6 +2,7 @@ import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule, 
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
+import { BubbleMarkersPathotypeHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersPathotypeHeatmapGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { ConvergenceMapGraph } from '../components/Elements/Graphs/ConvergenceMapGraph';
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
@@ -182,8 +183,16 @@ export function getGraphCards(t){
       description: [''],
       icon: <ViewModule color="primary" />,
       id: 'BHPS',
-      organisms: ['shige'],
+      organisms: ['shige', 'decoli', 'ecoli'],
       component: <BubbleHPGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByPathotype'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BAMRPH',
+      organisms: ['shige', 'decoli', 'ecoli'],
+      component: <BubbleMarkersPathotypeHeatmapGraph />,
     },
     {
       title: t('graphs.vaccineCoverage'),

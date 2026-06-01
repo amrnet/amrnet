@@ -75,6 +75,7 @@ import {
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
+  setPathotypesDrugClassesData,
   setGenotypesDrugsData,
   setGenotypesYearData,
   setKODiversityData,
@@ -577,7 +578,7 @@ export const DashboardPage = () => {
 
       // Get genotypes data
       // Use versioned key for organisms with marker-level genotype breakdown to bust stale cache
-      getStoreOrGenerateData(`${organism}_genotype_v4`, () => {
+      getStoreOrGenerateData(`${organism}_genotype_v5`, () => {
         const dt = getGenotypesData({
           data: responseData,
           genotypes,
@@ -595,6 +596,7 @@ export const DashboardPage = () => {
           dt.countriesDrugClassesData,
           dt.regionsDrugClassesData,
           dt.ngMastDrugClassesData,
+          dt.pathotypesDrugClassesData,
         ];
       }).then(
         ([
@@ -603,6 +605,7 @@ export const DashboardPage = () => {
           countriesDrugClassesData,
           regionsDrugClassesData,
           ngMastDrugClassesData,
+          pathotypesDrugClassesData,
         ]) => {
           const safeGenotypesDrugsData = Array.isArray(genotypesDrugsData) ? genotypesDrugsData : [];
           dispatch(setGenotypesDrugsData(safeGenotypesDrugsData));
@@ -611,6 +614,7 @@ export const DashboardPage = () => {
           dispatch(setCountriesYearData(countriesDrugClassesData));
           dispatch(setRegionsYearData(regionsDrugClassesData));
           dispatch(setNgMastDrugClassesData(ngMastDrugClassesData));
+          dispatch(setPathotypesDrugClassesData(pathotypesDrugClassesData ?? {}));
         },
       ),
 
@@ -1459,6 +1463,7 @@ export const DashboardPage = () => {
         // dispatch(setDrugsYearData([]));
         dispatch(setGenotypesDrugsData([]));
         dispatch(setGenotypesDrugClassesData([]));
+        dispatch(setPathotypesDrugClassesData({}));
         // dispatch(setGenotypesAndDrugsYearData({}));
         dispatch(setKODiversityData([]));
         dispatch(setConvergenceData([]));
@@ -1861,6 +1866,7 @@ export const DashboardPage = () => {
       dispatch(setCountriesYearData(genotypesData.countriesDrugClassesData));
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
       dispatch(setNgMastDrugClassesData(genotypesData.ngMastDrugClassesData));
+      dispatch(setPathotypesDrugClassesData(genotypesData.pathotypesDrugClassesData ?? {}));
 
       // Dispatch yearly trends data (server preferred, client fallback)
       dispatch(setGenotypesYearData(finalGenotypesData));
