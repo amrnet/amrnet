@@ -84,6 +84,7 @@ import {
   setKOYearsData,
   setMaxSliderValueCM,
   setRawOrganismData,
+  setAllOrganismData,
   setRegionsYearData,
   setSublineagesYearData,
   setTrendsGraphDrugClass,
@@ -1908,6 +1909,7 @@ export const DashboardPage = () => {
       // Geographic Comparisons / Radar / ATB-correlation plots.
       dispatch(setDrugsCountriesData(drugsCountriesData.drugsData));
       dispatch(setDrugsRegionsData(drugsRegionsData.drugsData));
+      dispatch(setAllOrganismData(filters.data));
     }
 
     dispatch(setCanFilterData(false));

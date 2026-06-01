@@ -74,7 +74,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   const organism = useAppSelector(state => state.dashboard.organism);
   const drugsCountriesData = useAppSelector(state => state.graph.drugsCountriesData);
   const drugsRegionsData = useAppSelector(state => state.graph.drugsRegionsData);
-  const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
+  const rawOrganismData = useAppSelector(state => state.graph.allOrganismData);
   const economicRegions = useAppSelector(state => state.dashboard.economicRegions);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
   const resetBool = useAppSelector(state => state.graph.resetBool);
