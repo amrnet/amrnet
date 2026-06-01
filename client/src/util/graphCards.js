@@ -178,6 +178,14 @@ export function getGraphCards(t){
       component: <BubbleHPGraph />,
     },
     {
+      title: t('graphs.amrbypathotype'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BHPS',
+      organisms: ['shige'],
+      component: <BubbleHPGraph />,
+    },
+    {
       title: t('graphs.vaccineCoverage'),
       description: [''],
       icon: <Vaccines color="primary" />,
