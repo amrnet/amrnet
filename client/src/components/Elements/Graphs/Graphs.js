@@ -441,7 +441,7 @@ export const Graphs = () => {
       const originalOverflow = graph.style.overflow;
       const originalWidth = graph.style.width;
 
-      if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id)) {
+      if (['HSG2', 'BKOH', 'BAMRH', 'BAMRPH'].includes(currentCard.id)) {
         // Temporarily expand the graph to its full scrollable width
         graph.style.overflow = 'visible';
         graph.style.width = graph.scrollWidth + 'px';
@@ -456,7 +456,7 @@ export const Graphs = () => {
 
       await graphImgPromise;
 
-      if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id)) {
+      if (['HSG2', 'BKOH', 'BAMRH', 'BAMRPH'].includes(currentCard.id)) {
         // Restore original styles
         graph.style.overflow = originalOverflow;
         graph.style.width = originalWidth;
@@ -488,7 +488,7 @@ export const Graphs = () => {
         // BG is replaced from CVM for BubbleGeographicGraph
       }
       ///TODO: improve the code below as its hardcode
-      if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id))
+      if (['HSG2', 'BKOH', 'BAMRH', 'BAMRPH'].includes(currentCard.id))
         canvas.width = graphImg.width < 670 ? 922 : graphImg.width + 100;
       else canvas.width = 922;
       // console.log('canvas.width', canvas.width, graphImg.width);
@@ -507,9 +507,9 @@ export const Graphs = () => {
       legendImg.src = '/legends/HeatMapLegend.png';
       await legendPromise;
       ctx.drawImage(logo, 10, 10, 155, 80);
-      if (['HSG2', 'BKOH', 'BAMRH'].includes(currentCard.id)){
+      if (['HSG2', 'BKOH', 'BAMRH', 'BAMRPH'].includes(currentCard.id)){
         ctx.drawImage(graphImg, 40, 220);
-        ctx.drawImage(legendImg, canvas.width/1.5, 200);        
+        ctx.drawImage(legendImg, canvas.width/1.5, 200);
       }
       else ctx.drawImage(graphImg, canvas.width / 2 - graphImg.width / 2, 220);
 
@@ -792,7 +792,7 @@ export const Graphs = () => {
             {collapses['all'] && currentTab !== 'HSG' && (
               <>
                 <span>
-                  {currentTab !== 'RDWG' && currentTab !== 'BAMRH'  && currentTab !== 'BKOH' && currentTab !== 'HSG2' && (<SwitchColour />)}
+                  {currentTab !== 'RDWG' && currentTab !== 'BAMRH' && currentTab !== 'BAMRPH' && currentTab !== 'BKOH' && currentTab !== 'HSG2' && (<SwitchColour />)}
                 </span>
                 <Tooltip title={t('continentGraphs.tooltip.downloadData')} placement="top">
                   <IconButton

@@ -227,6 +227,7 @@
     "pathotypeComparisons": "Pathotype Comparisons",
     "amrbyserotype": "AMR by serotype",
     "amrbypathotype": "AMR by Pathotype",
+    "amrMarkerByPathotype": "AMR Marker by Pathotype",
     "radarProfile": "AMR Radar Profile",
     "radarProfileDescription": "Compare multi-drug resistance profiles between countries/regions (N≥20)",
     "temporalHeatmap": "Temporal Emergence Heatmap",
