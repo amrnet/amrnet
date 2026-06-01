@@ -17,7 +17,7 @@ import html2canvas from 'html2canvas';
 import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
-import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
+import { setCollapse, setCollapses, setDownload } from '../../../stores/slices/graphSlice';
 import { drugAcronymsOpposite, drugsKP, drugsNG, drugsST, ngonoSusceptibleRule } from '../../../util/drugs';
 import { getGraphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
@@ -786,6 +786,113 @@ export const DownloadData = () => {
       }
       dispatch(setDownload(false));
 
+      // ── Capture AMR Insights tabs ──────────────────────────────────────────
+      const INSIGHTS_TABS = [
+        { value: 'COO', label: t('amrInsights.tabs.cooccurrence') },
+        { value: 'GVP', label: t('amrInsights.tabs.genomicVsPhenotypic') },
+        { value: 'ATB', label: t('amrInsights.tabs.atbCorrelation') },
+        { value: 'GMP', label: t('amrInsights.tabs.geneMap') },
+      ];
+
+      dispatch(setCollapse({ key: 'insights', value: true }));
+      await new Promise(r => setTimeout(r, 700));
+
+      const capturedInsights = [];
+      const insightsContainer = document.getElementById('amr-insights-content');
+
+      if (insightsContainer) {
+        for (const tab of INSIGHTS_TABS) {
+          const tabEl = document.getElementById(`amr-insights-${tab.value}`);
+          if (!tabEl) continue;
+
+          const tabWrappers = Array.from(insightsContainer.children);
+          const savedTabStyles = tabWrappers.map(el => ({
+            position: el.style.position,
+            zIndex: el.style.zIndex,
+            visibility: el.style.visibility,
+          }));
+
+          tabWrappers.forEach(el => {
+            if (el === tabEl) {
+              el.style.position = 'relative';
+              el.style.zIndex = '1';
+              el.style.visibility = 'visible';
+            } else {
+              el.style.position = 'absolute';
+              el.style.visibility = 'hidden';
+            }
+          });
+
+          await new Promise(r => setTimeout(r, 300));
+
+          const insightCanvas = await html2canvas(insightsContainer, {
+            backgroundColor: 'white',
+            scale: 2,
+            useCORS: true,
+            scrollX: 0,
+            scrollY: -window.scrollY,
+          });
+
+          tabWrappers.forEach((el, i) => {
+            el.style.position = savedTabStyles[i].position;
+            el.style.zIndex = savedTabStyles[i].zIndex;
+            el.style.visibility = savedTabStyles[i].visibility;
+          });
+
+          capturedInsights.push({
+            tab: tab.value,
+            label: tab.label,
+            dataUrl: insightCanvas.toDataURL('image/png'),
+            width: insightCanvas.width / 2,
+            height: insightCanvas.height / 2,
+          });
+        }
+      }
+
+      dispatch(setCollapse({ key: 'insights', value: false }));
+
+      // ── Capture Radar Profile tab ──────────────────────────────────────────
+      let radarCapture = null;
+      const radarTabEl = document.getElementById('continent-tab-RAD');
+      if (radarTabEl) {
+        const bgTabEl = document.getElementById('continent-tab-BG');
+
+        const savedRadarPos = radarTabEl.style.position;
+        const savedRadarZ = radarTabEl.style.zIndex;
+        const savedBgVisibility = bgTabEl?.style?.visibility;
+        const savedBgPos = bgTabEl?.style?.position;
+
+        radarTabEl.style.position = 'relative';
+        radarTabEl.style.zIndex = '1';
+        if (bgTabEl) {
+          bgTabEl.style.position = 'absolute';
+          bgTabEl.style.visibility = 'hidden';
+        }
+
+        await new Promise(r => setTimeout(r, 300));
+
+        const radarCanvas = await html2canvas(radarTabEl, {
+          backgroundColor: 'white',
+          scale: 2,
+          useCORS: true,
+          scrollX: 0,
+          scrollY: -window.scrollY,
+        });
+
+        radarTabEl.style.position = savedRadarPos;
+        radarTabEl.style.zIndex = savedRadarZ;
+        if (bgTabEl) {
+          bgTabEl.style.position = savedBgPos;
+          bgTabEl.style.visibility = savedBgVisibility;
+        }
+
+        radarCapture = {
+          dataUrl: radarCanvas.toDataURL('image/png'),
+          width: radarCanvas.width / 2,
+          height: radarCanvas.height / 2,
+        };
+      }
+
       setCapturedReportData({
         organism,
         firstName,
@@ -804,6 +911,8 @@ export const DownloadData = () => {
         bgCapture,
         bhpCapture,
         graphs: capturedGraphs,
+        insightsCaptures: capturedInsights,
+        radarCapture,
       });
       setPreviewOpen(true);
     } catch (error) {

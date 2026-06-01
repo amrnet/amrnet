@@ -365,6 +365,7 @@ export const ContinentGraphs = () => {
               return (
                 <Box
                   key={`card-${card.value}`}
+                  id={`continent-tab-${card.value}`}
                   sx={{
                     // visibility: currentTab === card.value ? 'visible' : 'hidden',
                     position: currentTab === card.value ? 'relative' : 'absolute',

@@ -127,7 +127,7 @@ function renderTextBlocksPDF(doc, blocks, margin, contentW, yStart, pageHeight, 
 async function generatePDF(data, setLoading) {
   setLoading(true);
   try {
-    const { firstName, secondName, texts, metadata, mapImage, bgCapture, bhpCapture, graphs, organism } = data;
+    const { firstName, secondName, texts, metadata, mapImage, bgCapture, bhpCapture, graphs, organism, insightsCaptures, radarCapture } = data;
 
     const doc        = new jsPDF({ unit: 'px', format: 'a4' });
     const pageWidth  = doc.internal.pageSize.getWidth();
@@ -215,6 +215,15 @@ async function generatePDF(data, setLoading) {
       ].filter(Boolean).join('\n'), imageDataUrl: graph.image, imgW: graph.width, imgH: graph.height, pageWidth, pageHeight, pageNumRef });
     }
 
+    for (const insight of (insightsCaptures ?? [])) {
+      if (!insight.dataUrl) continue;
+      addImagePage({ doc, logo, title: insight.label, subtitle: 'AMR Insights', imageDataUrl: insight.dataUrl, imgW: insight.width, imgH: insight.height, pageWidth, pageHeight, pageNumRef });
+    }
+
+    if (radarCapture?.dataUrl) {
+      addImagePage({ doc, logo, title: 'AMR Radar Profile', subtitle: 'Drug resistance profiles by country / region', imageDataUrl: radarCapture.dataUrl, imgW: radarCapture.width, imgH: radarCapture.height, pageWidth, pageHeight, pageNumRef });
+    }
+
     doc.save(`AMRnet - ${firstName} ${secondName} Report.pdf`);
   } finally {
     setLoading(false);
@@ -281,7 +290,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
   const [pdfLoading, setPdfLoading] = useState(false);
   if (!data) return null;
 
-  const { firstName, secondName, texts, metadata, mapImage, bgCapture, bhpCapture, graphs, organism } = data;
+  const { firstName, secondName, texts, metadata, mapImage, bgCapture, bhpCapture, graphs, organism, insightsCaptures, radarCapture } = data;
   const accentColor = '#1565c0';
 
   const metaChips = [
@@ -377,6 +386,20 @@ export function PDFPreviewModal({ open, onClose, data }) {
             <Box component="img" src={g.image} alt={g.title} sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
           </ReportCard>
         ))}
+
+        {/* AMR Insights tabs */}
+        {(insightsCaptures ?? []).filter(c => c.dataUrl).map((c, i) => (
+          <ReportCard key={`insight-${i}`} title={c.label} subtitle="AMR Insights" accent={accentColor}>
+            <Box component="img" src={c.dataUrl} alt={c.label} sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
+          </ReportCard>
+        ))}
+
+        {/* Radar Profile */}
+        {radarCapture?.dataUrl && (
+          <ReportCard title="AMR Radar Profile" subtitle="Drug resistance profiles by country / region" accent={accentColor}>
+            <Box component="img" src={radarCapture.dataUrl} alt="AMR Radar Profile" sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
+          </ReportCard>
+        )}
 
         {/* Citation */}
         <Box sx={{ textAlign: 'center', pb: 2 }}>
