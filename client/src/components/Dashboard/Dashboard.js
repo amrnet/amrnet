@@ -103,6 +103,7 @@ import {
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import {
   defaultDrugsForDrugResistanceGraphNG,
+  defaultDrugsForDrugResistanceGraphSA,
   defaultDrugsForDrugResistanceGraphST,
   drugClassesNG,
   drugsECOLI,
@@ -542,7 +543,7 @@ export const DashboardPage = () => {
       ecoli: drugsECOLI,
       decoli: drugsECOLI,
       shige: drugsECOLI,
-      saureus: drugsSA,
+      saureus: defaultDrugsForDrugResistanceGraphSA,
       strepneumo: drugsSP,
     };
 
@@ -1232,7 +1233,7 @@ export const DashboardPage = () => {
         }
         break;
       case 'saureus':
-        dispatch(setDrugResistanceGraphView(drugsSA));
+        dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphSA));
         dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
         dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
         dispatch(setBubbleMarkersYAxisType(drugsSA.filter(x => x !== 'Pansusceptible')[0]));
@@ -1544,7 +1545,7 @@ export const DashboardPage = () => {
         ecoli: drugsECOLI,
         decoli: drugsECOLI,
         shige: drugsECOLI,
-        saureus: drugsSA,
+        saureus: defaultDrugsForDrugResistanceGraphSA,
         strepneumo: drugsSP,
       };
 

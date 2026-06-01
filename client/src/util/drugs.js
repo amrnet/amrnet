@@ -108,6 +108,17 @@ export const drugClassesNG = Object.keys(drugClassesRulesNG).sort();
 // S. aureus drug list
 export const drugsSA = drugRulesSA.map(x => x.key);
 
+export const defaultDrugsForDrugResistanceGraphSA = [
+  'Methicillin',
+  'Daptomycin',
+  'Fusidic Acid',
+  'Linezolid',
+  'Moxifloxacin',
+  'Mupirocin',
+  'Vancomycin',
+  'Pansusceptible',
+];
+
 // S. pneumoniae drug list
 export const drugsSP = drugRulesSP.map(x => x.key);
 
