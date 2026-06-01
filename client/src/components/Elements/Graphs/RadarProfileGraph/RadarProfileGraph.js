@@ -24,6 +24,7 @@ import {
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
 import { drugRulesST } from '../../../../util/drugClassesRules';
+import { drugAcronyms, defaultDrugsForDrugResistanceGraphST } from '../../../../util/drugs';
 import { getLocalizedCountryName } from '../../../../util/countryLocalization';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useStyles } from './RadarProfileGraphMUI';
@@ -32,13 +33,15 @@ import { useStyles } from './RadarProfileGraphMUI';
 const STYPHI_DRUG_RULES = Object.fromEntries(
   drugRulesST.map(r => [r.key, { columnID: r.columnID, values: r.values }]),
 );
-
+// When 'Ciprofloxacin NS' is absent from drugsData, 'Ciprofloxacin' (NS+R combined) is the fallback
+const DEFAULT_DRUG_FALLBACKS = { 'Ciprofloxacin NS': 'Ciprofloxacin',};
 const RADAR_COLORS = ['#006cde', '#cd3cbe', '#00ac35', '#e65c00', '#785EF0'];
 
 const MAX_COUNTRIES = 5;
 
 const DEFAULT_X_AXIS_TYPE = 'region';
 const DEFAULT_REGIONS = ['Eastern Africa', 'Western Africa', 'Southern Asia', 'South-eastern Asia'];
+const DEFAULT_RADAR_DRUGS_ST = defaultDrugsForDrugResistanceGraphST;
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -186,12 +189,24 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   // All selectable drug options
   const allDrugOptions = useMemo(() => [...drugNames, ...extraDrugOptions], [drugNames, extraDrugOptions]);
 
-  // Effective drugs shown on the radar (selectedDrugs=null means all options including extras)
+  // Default selection: styphi matches AMR trends defaults; other organisms show all
+  const defaultDrugs = useMemo(() => {
+    if (organism === 'styphi') {
+      const seen = new Set();
+      const hits = DEFAULT_RADAR_DRUGS_ST
+        .map(d => (allDrugOptions.includes(d) ? d : (DEFAULT_DRUG_FALLBACKS[d] && allDrugOptions.includes(DEFAULT_DRUG_FALLBACKS[d]) ? DEFAULT_DRUG_FALLBACKS[d] : null)))
+        .filter(d => d && !seen.has(d) && seen.add(d));
+      return hits.length > 0 ? hits : allDrugOptions;
+    }
+    return allDrugOptions;
+  }, [organism, allDrugOptions]);
+
+  // Effective drugs shown on the radar (selectedDrugs=null means use defaultDrugs)
   const displayedDrugs = useMemo(() => {
-    if (!selectedDrugs) return allDrugOptions;
+    if (!selectedDrugs) return defaultDrugs;
     const valid = selectedDrugs.filter(d => allDrugOptions.includes(d));
-    return valid.length > 0 ? valid : allDrugOptions;
-  }, [selectedDrugs, allDrugOptions]);
+    return valid.length > 0 ? valid : defaultDrugs;
+  }, [selectedDrugs, defaultDrugs, allDrugOptions]);
 
   // Build radar chart data: one entry per drug, with values per location
   const radarData = useMemo(() => {
@@ -285,13 +300,13 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   };
 
   const handleRemoveDrug = drugToRemove => {
-    const current = selectedDrugs ?? allDrugOptions;
+    const current = selectedDrugs ?? defaultDrugs;
     setSelectedDrugs(current.filter(d => d !== drugToRemove));
   };
 
   if (!canGetData) return null;
 
-  const activeDrugsForSelector = selectedDrugs ?? allDrugOptions;
+  const activeDrugsForSelector = selectedDrugs ?? defaultDrugs;
 
   return (
     <CardContent className={classes.radarProfileGraph}>
