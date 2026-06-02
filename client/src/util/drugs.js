@@ -109,10 +109,10 @@ export const drugClassesNG = Object.keys(drugClassesRulesNG).sort();
 export const drugsSA = drugRulesSA.map(x => x.key);
 
 export const defaultDrugsForDrugResistanceGraphSA = [
-  'Methicillin',
   'Daptomycin',
   'Fusidic Acid',
   'Linezolid',
+  'Methicillin',
   'Moxifloxacin',
   'Mupirocin',
   'Vancomycin',
