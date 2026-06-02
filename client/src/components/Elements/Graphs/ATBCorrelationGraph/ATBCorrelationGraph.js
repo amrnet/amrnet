@@ -118,6 +118,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
 
   // Build country→region lookup from AMRnet's own region mapping
   const countryToRegion = useMemo(() => buildCountryToRegion(economicRegions), [economicRegions]);
@@ -439,7 +440,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
       {/* Floating reference panel — Data Sources content. The inline right
           panel keeps the live chart stats (R², Region Legend) so the dense
           attribution text doesn't compete with them for vertical space. */}
-      {showFilter && (
+      {showFilter && !loadingPDF && (
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>

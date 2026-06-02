@@ -226,6 +226,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
 
   // Default ON: only consider phenotypic rows whose year falls inside the
   // dashboard's current genomic year range. Without this it's possible to
@@ -899,7 +900,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           Error Metrics) so they always show alongside the chart. The dense
           reference text lives here, toggled by the showFilter prop the
           parent AMRInsights wires in. */}
-      {showFilter && (
+      {showFilter && !loadingPDF && (
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>

@@ -75,6 +75,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   const rawOrganismData = useAppSelector(state => state.graph.rawOrganismData);
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
   const resetBool = useAppSelector(state => state.graph.resetBool);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
 
   const drugsData = useMemo(() => {
     return xAxisType === 'country' ? drugsCountriesData : drugsRegionsData;
@@ -204,8 +205,14 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   return (
     <CardContent className={classes.radarProfileGraph}>
       {/* Chart area */}
-      <Box className={classes.graphWrapper}>
-        <Box className={classes.graph}>
+      <Box
+        className={classes.graphWrapper}
+        sx={loadingPDF ? { flexDirection: 'row !important', height: '560px !important' } : {}}
+      >
+        <Box
+          className={classes.graph}
+          sx={loadingPDF ? { width: '70% !important', height: '100% !important' } : {}}
+        >
           {selectedCountries.length === 0 ? (
             <Box className={classes.noSelection}>
               <Typography variant="body2" color="textSecondary">
@@ -222,7 +229,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
                 <PolarGrid stroke="#ccc" />
-                <PolarAngleAxis dataKey="drug" tick={{ fontSize: 10, fill: '#333' }} />
+                <PolarAngleAxis dataKey="drug" tick={{ fontSize: loadingPDF ? 8 : 10, fill: '#333' }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10 }} tickCount={6} />
                 {selectedCountries.map((country, index) => (
                   <Radar
@@ -244,7 +251,10 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
         </Box>
 
         {/* Right side: Legend */}
-        <Box className={classes.rightSide}>
+        <Box
+          className={classes.rightSide}
+          sx={loadingPDF ? { width: '30% !important' } : {}}
+        >
           {selectedCountries.length > 0 ? (
             <>
               <Typography variant="body2" fontWeight={600} sx={{ paddingBottom: '4px' }}>
@@ -277,7 +287,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
       </Box>
 
       {/* Floating plotting-options panel — mirrors BubbleHeatmapGraph2 / SerotypeResistanceGraph */}
-      {showFilter && (
+      {showFilter && !loadingPDF && (
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>

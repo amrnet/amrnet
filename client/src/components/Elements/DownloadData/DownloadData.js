@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { setPosition } from '../../../stores/slices/mapSlice';
 // import EUFlagImg from '../../../assets/img/eu_flag.jpg';
-import html2canvas from 'html2canvas';
 import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
@@ -699,30 +698,53 @@ export const DownloadData = () => {
 
         if (isHeatmap) {
           const originalOverflow = el.style.overflow;
-          const originalWidth = el.style.width;
+          const originalWidth    = el.style.width;
+          const originalHeight   = el.style.height;
 
           el.style.overflow = 'visible';
-          el.style.width = el.scrollWidth + 'px';
-          await new Promise(r => setTimeout(r, 200));
+          // Extra 200px width so the rightmost column's rotated header (which
+          // extends beyond the SVG edge) falls inside the capture area.
+          el.style.width  = (el.scrollWidth  + 200) + 'px';
+          el.style.height = (el.scrollHeight + 100) + 'px';
 
+          // Set overflow:visible on all SVGs so rotated text outside the SVG
+          // viewBox can paint into the extra space above/beside the chart.
+          const savedSvgOverflows = [];
+          el.querySelectorAll('svg').forEach(svg => {
+            savedSvgOverflows.push({ node: svg, overflow: svg.style.overflow });
+            svg.style.overflow = 'visible';
+          });
+
+          await new Promise(r => setTimeout(r, 200));
           const dataUrl = await domtoimage.toPng(el, { bgcolor: 'white' });
 
           el.style.overflow = originalOverflow;
-          el.style.width = originalWidth;
+          el.style.width    = originalWidth;
+          el.style.height   = originalHeight;
+          savedSvgOverflows.forEach(s => { s.node.style.overflow = s.overflow; });
 
           const img = new Image();
           await new Promise(r => { img.onload = r; img.src = dataUrl; });
           return { dataUrl, width: img.naturalWidth / 2, height: img.naturalHeight / 2 };
         }
 
-        const canvas = await html2canvas(el, {
-          backgroundColor: 'white',
-          scale: 2,
-          useCORS: true,
-          scrollX: 0,
-          scrollY: -window.scrollY,
-        });
-        return { dataUrl: canvas.toDataURL('image/png'), width: canvas.width / 2, height: canvas.height / 2 };
+        // Force minimum dimensions so recharts re-renders at the desktop layout size.
+        // min-width overrides the viewport-based media query width; min-height overrides
+        // the small-screen fixed height (e.g. 460px) since inline > class specificity.
+        const savedMinWidth  = el.style.minWidth;
+        const savedMinHeight = el.style.minHeight;
+        el.style.minWidth  = '1000px';
+        el.style.minHeight = '560px';
+        await new Promise(r => setTimeout(r, 300));
+        const restore = expandForCapture(el);
+        await new Promise(r => setTimeout(r, 150));
+        const dataUrl = await domtoimage.toPng(el, { bgcolor: '#ffffff' });
+        restore();
+        el.style.minWidth  = savedMinWidth;
+        el.style.minHeight = savedMinHeight;
+        const img = new Image();
+        await new Promise(r => { img.onload = r; img.src = dataUrl; });
+        return { dataUrl, width: img.naturalWidth / 2, height: img.naturalHeight / 2 };
       }
 
       // Helper: capture a DOM element as { dataUrl, width, height }
@@ -786,6 +808,60 @@ export const DownloadData = () => {
       }
       dispatch(setDownload(false));
 
+      // ── Helper: expand all overflow-constrained descendants so domtoimage
+      //    captures the full content regardless of screen size. Returns a
+      //    restore function that reverts every inline-style change.
+      function expandForCapture(el) {
+        const saved = [];
+
+        // HTML: expand any element whose scroll dimensions exceed its visible box
+        const walk = node => {
+          if (!(node instanceof HTMLElement)) return;
+          const hasScrollX = node.scrollWidth > node.clientWidth + 2;
+          const hasScrollY = node.scrollHeight > node.clientHeight + 2;
+          if (hasScrollX || hasScrollY) {
+            const cs = window.getComputedStyle(node);
+            if (cs.overflowX !== 'visible' || cs.overflowY !== 'visible') {
+              saved.push({ node, overflowX: node.style.overflowX, overflowY: node.style.overflowY, width: node.style.width, height: node.style.height });
+              if (hasScrollX) { node.style.overflowX = 'visible'; node.style.width  = node.scrollWidth  + 'px'; }
+              if (hasScrollY) { node.style.overflowY = 'visible'; node.style.height = node.scrollHeight + 'px'; }
+            }
+          }
+          Array.from(node.children).forEach(walk);
+        };
+        walk(el);
+
+        // SVG: scrollWidth/scrollHeight do not reflect overflow for SVG content,
+        // so always set overflow:visible so polar/axis labels outside the viewBox
+        // are rendered (recharts PolarAngleAxis ticks can exceed the SVG bounds).
+        el.querySelectorAll('svg').forEach(svg => {
+          const cs = window.getComputedStyle(svg);
+          if (cs.overflow !== 'visible') {
+            saved.push({ node: svg, isSvg: true, savedOverflow: svg.style.overflow });
+            svg.style.overflow = 'visible';
+          }
+        });
+
+        return () => saved.forEach(s => {
+          if (s.isSvg) {
+            s.node.style.overflow = s.savedOverflow;
+          } else {
+            s.node.style.overflowX = s.overflowX;
+            s.node.style.overflowY = s.overflowY;
+            s.node.style.width  = s.width;
+            s.node.style.height = s.height;
+          }
+        });
+      }
+
+      // ── Helper: domtoimage capture → { dataUrl, width, height } ───────────
+      async function captureWithDomtoimage(el) {
+        const dataUrl = await domtoimage.toPng(el, { bgcolor: '#ffffff' });
+        const img = new Image();
+        await new Promise(r => { img.onload = r; img.src = dataUrl; });
+        return { dataUrl, width: img.naturalWidth / 2, height: img.naturalHeight / 2 };
+      }
+
       // ── Capture AMR Insights tabs ──────────────────────────────────────────
       const INSIGHTS_TABS = [
         { value: 'COO', label: t('amrInsights.tabs.cooccurrence') },
@@ -805,13 +881,13 @@ export const DownloadData = () => {
           const tabEl = document.getElementById(`amr-insights-${tab.value}`);
           if (!tabEl) continue;
 
+          // Show only this tab; hide all others
           const tabWrappers = Array.from(insightsContainer.children);
           const savedTabStyles = tabWrappers.map(el => ({
             position: el.style.position,
             zIndex: el.style.zIndex,
             visibility: el.style.visibility,
           }));
-
           tabWrappers.forEach(el => {
             if (el === tabEl) {
               el.style.position = 'relative';
@@ -823,29 +899,24 @@ export const DownloadData = () => {
             }
           });
 
+          // Force minimum width so recharts re-renders at a wider size before capture
+          const savedTabMinWidth = tabEl.style.minWidth;
+          tabEl.style.minWidth = '1000px';
           await new Promise(r => setTimeout(r, 300));
+          const restoreExpand = expandForCapture(tabEl);
+          await new Promise(r => setTimeout(r, 150));
 
-          const insightCanvas = await html2canvas(insightsContainer, {
-            backgroundColor: 'white',
-            scale: 2,
-            useCORS: true,
-            scrollX: 0,
-            scrollY: -window.scrollY,
-          });
+          const { dataUrl, width, height } = await captureWithDomtoimage(tabEl);
 
+          restoreExpand();
+          tabEl.style.minWidth = savedTabMinWidth;
           tabWrappers.forEach((el, i) => {
             el.style.position = savedTabStyles[i].position;
-            el.style.zIndex = savedTabStyles[i].zIndex;
+            el.style.zIndex   = savedTabStyles[i].zIndex;
             el.style.visibility = savedTabStyles[i].visibility;
           });
 
-          capturedInsights.push({
-            tab: tab.value,
-            label: tab.label,
-            dataUrl: insightCanvas.toDataURL('image/png'),
-            width: insightCanvas.width / 2,
-            height: insightCanvas.height / 2,
-          });
+          capturedInsights.push({ tab: tab.value, label: tab.label, dataUrl, width, height });
         }
       }
 
@@ -856,41 +927,31 @@ export const DownloadData = () => {
       const radarTabEl = document.getElementById('continent-tab-RAD');
       if (radarTabEl) {
         const bgTabEl = document.getElementById('continent-tab-BG');
-
         const savedRadarPos = radarTabEl.style.position;
-        const savedRadarZ = radarTabEl.style.zIndex;
-        const savedBgVisibility = bgTabEl?.style?.visibility;
-        const savedBgPos = bgTabEl?.style?.position;
+        const savedRadarZ   = radarTabEl.style.zIndex;
+        const savedBgPos    = bgTabEl?.style?.position;
+        const savedBgVis    = bgTabEl?.style?.visibility;
 
         radarTabEl.style.position = 'relative';
-        radarTabEl.style.zIndex = '1';
-        if (bgTabEl) {
-          bgTabEl.style.position = 'absolute';
-          bgTabEl.style.visibility = 'hidden';
-        }
+        radarTabEl.style.zIndex   = '1';
+        if (bgTabEl) { bgTabEl.style.position = 'absolute'; bgTabEl.style.visibility = 'hidden'; }
 
+        // Force minimum width so the RadarChart re-renders at a wider size,
+        // giving PolarAngleAxis labels room to fit without SVG clipping.
+        const savedRadarMinWidth = radarTabEl.style.minWidth;
+        radarTabEl.style.minWidth = '1000px';
         await new Promise(r => setTimeout(r, 300));
+        const restoreRadar = expandForCapture(radarTabEl);
+        await new Promise(r => setTimeout(r, 150));
 
-        const radarCanvas = await html2canvas(radarTabEl, {
-          backgroundColor: 'white',
-          scale: 2,
-          useCORS: true,
-          scrollX: 0,
-          scrollY: -window.scrollY,
-        });
+        const radarResult = await captureWithDomtoimage(radarTabEl);
+        radarCapture = radarResult;
 
+        restoreRadar();
+        radarTabEl.style.minWidth = savedRadarMinWidth;
         radarTabEl.style.position = savedRadarPos;
-        radarTabEl.style.zIndex = savedRadarZ;
-        if (bgTabEl) {
-          bgTabEl.style.position = savedBgPos;
-          bgTabEl.style.visibility = savedBgVisibility;
-        }
-
-        radarCapture = {
-          dataUrl: radarCanvas.toDataURL('image/png'),
-          width: radarCanvas.width / 2,
-          height: radarCanvas.height / 2,
-        };
+        radarTabEl.style.zIndex   = savedRadarZ;
+        if (bgTabEl) { bgTabEl.style.position = savedBgPos; bgTabEl.style.visibility = savedBgVis; }
       }
 
       setCapturedReportData({
