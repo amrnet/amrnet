@@ -155,6 +155,9 @@ export const ResetButton = () => {
     }
     if (organism === 'saureus') {
       dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphSA));
+      dispatch(setDeterminantsGraphDrugClass('Methicillin'));
+      dispatch(setTrendsGraphDrugClass('Methicillin'));
+      dispatch(setBubbleMarkersYAxisType('Methicillin'));
     }
     if (organism === 'strepneumo') {
       dispatch(setDrugResistanceGraphView(drugsSP));
