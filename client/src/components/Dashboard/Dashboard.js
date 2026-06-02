@@ -1234,9 +1234,9 @@ export const DashboardPage = () => {
         break;
       case 'saureus':
         dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphSA));
-        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setBubbleMarkersYAxisType(drugsSA.filter(x => x !== 'Pansusceptible')[0]));
+        dispatch(setDeterminantsGraphDrugClass('Methicillin'));
+        dispatch(setTrendsGraphDrugClass('Methicillin'));
+        dispatch(setBubbleMarkersYAxisType('Methicillin'));
         break;
       case 'strepneumo':
         dispatch(setDrugResistanceGraphView(drugsSP));
