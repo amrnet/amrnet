@@ -1466,11 +1466,12 @@ export const drugRulesSA = [
   { key: 'Moxifloxacin', columnID: 'Moxifloxacin', values: ['1'] },
   { key: 'Mupirocin', columnID: 'Mupirocin', values: ['1'] },
   { key: 'Penicillin', columnID: 'Penicillin', values: ['1'] },
-  { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
   { key: 'Rifampicin', columnID: 'Rifampicin', values: ['1'] },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
   { key: 'Tobramycin', columnID: 'Tobramycin', values: ['1'] },
   { key: 'Vancomycin', columnID: 'Vancomycin', values: ['1'] },
+  { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
+
 ];
 
 // ---------------------------------------------------------------------------
@@ -1484,8 +1485,9 @@ export const drugRulesSP = [
   { key: 'Fluoroquinolones', columnID: 'Fluoroquinolones', values: ['1'] },
   { key: 'Kanamycin', columnID: 'Kanamycin', values: ['1'] },
   // { key: 'Linezolid', columnID: 'Linezolid', values: ['1'] },
-  { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
+  { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
+
 ];
 
 // ---------------------------------------------------------------------------
