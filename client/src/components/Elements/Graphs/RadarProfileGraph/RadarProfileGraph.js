@@ -24,7 +24,12 @@ import {
 } from 'recharts';
 import { useAppSelector } from '../../../../stores/hooks';
 import { drugRulesST } from '../../../../util/drugClassesRules';
-import { drugAcronyms, defaultDrugsForDrugResistanceGraphST } from '../../../../util/drugs';
+import {
+  drugAcronyms,
+  defaultDrugsForDrugResistanceGraphSA,
+  defaultDrugsForDrugResistanceGraphST,
+  drugsST,
+} from '../../../../util/drugs';
 import { getLocalizedCountryName } from '../../../../util/countryLocalization';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { useStyles } from './RadarProfileGraphMUI';
@@ -186,10 +191,13 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
     });
   }, [organism, drugsData, drugNames]);
 
-  // All selectable drug options
-  const allDrugOptions = useMemo(() => [...drugNames, ...extraDrugOptions], [drugNames, extraDrugOptions]);
+  // All selectable drug options — for styphi use the same list as the DRT plot (drugsST)
+  const allDrugOptions = useMemo(() => {
+    if (organism === 'styphi') return drugsST;
+    return [...drugNames, ...extraDrugOptions];
+  }, [drugNames, extraDrugOptions, organism]);
 
-  // Default selection: styphi matches AMR trends defaults; other organisms show all
+  // Default selection mirrors the DRT plot defaults per organism
   const defaultDrugs = useMemo(() => {
     if (organism === 'styphi') {
       const seen = new Set();
@@ -197,6 +205,10 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
         .map(d => (allDrugOptions.includes(d) ? d : (DEFAULT_DRUG_FALLBACKS[d] && allDrugOptions.includes(DEFAULT_DRUG_FALLBACKS[d]) ? DEFAULT_DRUG_FALLBACKS[d] : null)))
         .filter(d => d && !seen.has(d) && seen.add(d));
       return hits.length > 0 ? hits : allDrugOptions;
+    }
+    if (organism === 'saureus') {
+      const defaults = defaultDrugsForDrugResistanceGraphSA.filter(d => allDrugOptions.includes(d));
+      return defaults.length > 0 ? defaults : allDrugOptions;
     }
     return allDrugOptions;
   }, [organism, allDrugOptions]);
