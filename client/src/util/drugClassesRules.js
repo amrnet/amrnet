@@ -4,7 +4,6 @@ export const drugRulesST = [
   { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
-  { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
   {
     key: 'Ciprofloxacin NS',
@@ -22,6 +21,7 @@ export const drugRulesST = [
   { key: 'Sulfonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracycline', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
+  { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'MDR', columnID: 'MDR', values: ['MDR'], legends: 'Multidrug resistant (MDR)' },
   { key: 'XDR', columnID: 'XDR', values: ['XDR'], legends: 'Extensively drug resistant (XDR)' },
   { key: 'Pansusceptible', columnID: 'amr_category', values: ['No AMR detected'] },
