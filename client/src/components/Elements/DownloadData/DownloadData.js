@@ -735,9 +735,14 @@ export const DownloadData = () => {
         const savedMinHeight = el.style.minHeight;
         el.style.minWidth  = '1000px';
         el.style.minHeight = '560px';
+        // Wait longer so Recharts fully re-renders at the new size before we
+        // touch anything else (shorter wait caused bar/axis misalignment).
+        await new Promise(r => setTimeout(r, 500));
+        // Skip SVG overflow: bar/line chart SVGs don't need it (overflow:visible
+        // on Recharts SVGs can shift the dom-to-image capture boundary, causing
+        // bars to appear misaligned with year ticks). Only radar charts need it.
+        const restore = expandForCapture(el, { skipSvgOverflow: true });
         await new Promise(r => setTimeout(r, 300));
-        const restore = expandForCapture(el);
-        await new Promise(r => setTimeout(r, 150));
         const dataUrl = await domtoimage.toPng(el, { bgcolor: '#ffffff' });
         restore();
         el.style.minWidth  = savedMinWidth;
@@ -811,7 +816,12 @@ export const DownloadData = () => {
       // ── Helper: expand all overflow-constrained descendants so domtoimage
       //    captures the full content regardless of screen size. Returns a
       //    restore function that reverts every inline-style change.
-      function expandForCapture(el) {
+      //
+      //    skipSvgOverflow: pass true for bar/line charts. Setting overflow:visible
+      //    on Recharts SVGs shifts the dom-to-image capture boundary for those chart
+      //    types and causes bars to appear misaligned with axis tick labels. Only
+      //    radar/polar charts (PolarAngleAxis) genuinely need SVG overflow:visible.
+      function expandForCapture(el, { skipSvgOverflow = false } = {}) {
         const saved = [];
 
         // HTML: expand any element whose scroll dimensions exceed its visible box
@@ -831,16 +841,18 @@ export const DownloadData = () => {
         };
         walk(el);
 
-        // SVG: scrollWidth/scrollHeight do not reflect overflow for SVG content,
-        // so always set overflow:visible so polar/axis labels outside the viewBox
-        // are rendered (recharts PolarAngleAxis ticks can exceed the SVG bounds).
-        el.querySelectorAll('svg').forEach(svg => {
-          const cs = window.getComputedStyle(svg);
-          if (cs.overflow !== 'visible') {
-            saved.push({ node: svg, isSvg: true, savedOverflow: svg.style.overflow });
-            svg.style.overflow = 'visible';
-          }
-        });
+        // SVG: only set overflow:visible when needed for polar/radar charts whose
+        // PolarAngleAxis tick labels extend outside the SVG viewBox. Skip for
+        // bar/line charts to avoid shifting the capture boundary.
+        if (!skipSvgOverflow) {
+          el.querySelectorAll('svg').forEach(svg => {
+            const cs = window.getComputedStyle(svg);
+            if (cs.overflow !== 'visible') {
+              saved.push({ node: svg, isSvg: true, savedOverflow: svg.style.overflow });
+              svg.style.overflow = 'visible';
+            }
+          });
+        }
 
         return () => saved.forEach(s => {
           if (s.isSvg) {
