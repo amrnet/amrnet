@@ -889,6 +889,20 @@ export const DownloadData = () => {
       const insightsContainer = document.getElementById('amr-insights-content');
 
       if (insightsContainer) {
+        // On small screens the MUI Collapse may not have finished its animation
+        // (or may still have overflow:hidden / height:0 inline styles) by the
+        // time we reach here, causing domtoimage to capture zero-height images
+        // because getBoundingClientRect() is clipped by the overflow ancestor.
+        // Force every overflow-hidden ancestor (up to the Collapse root) to be
+        // fully visible before we start capturing.
+        const collapseRoot = insightsContainer.closest('.MuiCollapse-root');
+        const savedCollapseHeight   = collapseRoot?.style?.height;
+        const savedCollapseOverflow = collapseRoot?.style?.overflow;
+        if (collapseRoot) {
+          collapseRoot.style.height   = 'auto';
+          collapseRoot.style.overflow = 'visible';
+        }
+
         for (const tab of INSIGHTS_TABS) {
           const tabEl = document.getElementById(`amr-insights-${tab.value}`);
           if (!tabEl) continue;
@@ -911,24 +925,35 @@ export const DownloadData = () => {
             }
           });
 
-          // Force minimum width so recharts re-renders at a wider size before capture
-          const savedTabMinWidth = tabEl.style.minWidth;
-          tabEl.style.minWidth = '1000px';
-          await new Promise(r => setTimeout(r, 300));
+          // Force minimum dimensions so Recharts re-renders at desktop size.
+          // minHeight is especially important on small screens where the chart
+          // container collapses due to viewport-based media queries.
+          const savedTabMinWidth  = tabEl.style.minWidth;
+          const savedTabMinHeight = tabEl.style.minHeight;
+          tabEl.style.minWidth  = '1000px';
+          tabEl.style.minHeight = '600px';
+          await new Promise(r => setTimeout(r, 400));
           const restoreExpand = expandForCapture(tabEl);
-          await new Promise(r => setTimeout(r, 150));
+          await new Promise(r => setTimeout(r, 200));
 
           const { dataUrl, width, height } = await captureWithDomtoimage(tabEl);
 
           restoreExpand();
-          tabEl.style.minWidth = savedTabMinWidth;
+          tabEl.style.minWidth  = savedTabMinWidth;
+          tabEl.style.minHeight = savedTabMinHeight;
           tabWrappers.forEach((el, i) => {
-            el.style.position = savedTabStyles[i].position;
-            el.style.zIndex   = savedTabStyles[i].zIndex;
+            el.style.position   = savedTabStyles[i].position;
+            el.style.zIndex     = savedTabStyles[i].zIndex;
             el.style.visibility = savedTabStyles[i].visibility;
           });
 
           capturedInsights.push({ tab: tab.value, label: tab.label, dataUrl, width, height });
+        }
+
+        // Restore Collapse root styles
+        if (collapseRoot) {
+          collapseRoot.style.height   = savedCollapseHeight;
+          collapseRoot.style.overflow = savedCollapseOverflow;
         }
       }
 
