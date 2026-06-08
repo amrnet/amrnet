@@ -242,6 +242,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
                     strokeWidth={2}
                     dot={{ r: 3, fill: RADAR_COLORS[index % RADAR_COLORS.length] }}
                     connectNulls
+                    isAnimationActive={!loadingPDF}
                   />
                 ))}
                 <ChartTooltip content={<CustomTooltip />} />

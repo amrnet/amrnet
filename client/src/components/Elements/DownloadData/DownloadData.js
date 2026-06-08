@@ -973,19 +973,24 @@ export const DownloadData = () => {
         radarTabEl.style.zIndex   = '1';
         if (bgTabEl) { bgTabEl.style.position = 'absolute'; bgTabEl.style.visibility = 'hidden'; }
 
-        // Force minimum width so the RadarChart re-renders at a wider size,
-        // giving PolarAngleAxis labels room to fit without SVG clipping.
-        const savedRadarMinWidth = radarTabEl.style.minWidth;
-        radarTabEl.style.minWidth = '1000px';
-        await new Promise(r => setTimeout(r, 300));
-        const restoreRadar = expandForCapture(radarTabEl);
-        await new Promise(r => setTimeout(r, 150));
+        // Force minimum width/height so the RadarChart re-renders at desktop
+        // size. isAnimationActive={!loadingPDF} disables Recharts animation so
+        // the polygon positions are final before capture. 500ms ensures the
+        // ResizeObserver-triggered re-render fully commits even on slow devices.
+        const savedRadarMinWidth  = radarTabEl.style.minWidth;
+        const savedRadarMinHeight = radarTabEl.style.minHeight;
+        radarTabEl.style.minWidth  = '1000px';
+        radarTabEl.style.minHeight = '620px';
+        await new Promise(r => setTimeout(r, 500));
+        const restoreRadar = expandForCapture(radarTabEl, { skipSvgOverflow: true });
+        await new Promise(r => setTimeout(r, 200));
 
         const radarResult = await captureWithDomtoimage(radarTabEl);
         radarCapture = radarResult;
 
         restoreRadar();
-        radarTabEl.style.minWidth = savedRadarMinWidth;
+        radarTabEl.style.minWidth  = savedRadarMinWidth;
+        radarTabEl.style.minHeight = savedRadarMinHeight;
         radarTabEl.style.position = savedRadarPos;
         radarTabEl.style.zIndex   = savedRadarZ;
         if (bgTabEl) { bgTabEl.style.position = savedBgPos; bgTabEl.style.visibility = savedBgVis; }
