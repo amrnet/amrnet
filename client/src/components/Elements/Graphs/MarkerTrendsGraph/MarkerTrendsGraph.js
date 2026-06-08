@@ -84,6 +84,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const topGenesSlice = useAppSelector(state => state.graph.topGenesSlice);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   
 
   useEffect(() => {
@@ -512,6 +513,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                     connectNulls
                     type="monotone"
                     activeDot={timeInitial === timeFinal ? true : false}
+                    isAnimationActive={!loadingPDF}
                   />
                 );
               })}
@@ -521,7 +523,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale, colourPattern, lineStyle, yAxisSliderValue]);
+  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale, colourPattern, lineStyle, yAxisSliderValue, loadingPDF]);
 
   return (
     <CardContent className={classes.markerTrendsGraph}>

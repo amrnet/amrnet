@@ -104,6 +104,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
   const organism = useAppSelector(state => state.dashboard.organism);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
 
   useEffect(() => {
     setCurrentTooltip(null);
@@ -544,6 +545,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
                       connectNulls
                       type="monotone"
                       activeDot={timeInitial === timeFinal}
+                      isAnimationActive={!loadingPDF}
                     />
                   );
                 })}
