@@ -277,6 +277,14 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
     }
   }, [resetBool]);
 
+  // Reset selections when organism changes so stale country/region choices
+  // from a previous organism don't persist.
+  useEffect(() => {
+    setXAxisType(DEFAULT_X_AXIS_TYPE);
+    setSelectedCountries([]);
+    setSelectedDrugs(null);
+  }, [organism]);
+
   useEffect(() => {
     if (availableLocations.length > 0 && selectedCountries.length === 0) {
       if (xAxisType === DEFAULT_X_AXIS_TYPE) {
