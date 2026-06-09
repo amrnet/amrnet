@@ -306,10 +306,10 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
             {currentTooltip ? (
               <div className={classes.tooltip}>
                 <div className={classes.tooltipTitle}>
-                  <Typography variant="h5" fontWeight="600">
+                  <Typography fontSize="15px" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
-                  <Typography variant="subtitle1">{'N = ' + currentTooltip.z}</Typography>
+                  <Typography fontSize="13px">{'N = ' + currentTooltip.z}</Typography>
                 </div>
                 <div className={classes.tooltipContent}>
                   <div className={classes.tooltipItemWrapper}>
@@ -320,10 +320,10 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                       }}
                     />
                     <div className={classes.tooltipItemStats}>
-                      <Typography variant="body2" fontWeight="500">
+                      <Typography fontSize="11px" fontWeight="500" noWrap sx={{ flex: 1, minWidth: 0 }}>
                         Mean virulence score
                       </Typography>
-                      <Typography variant="caption" noWrap>
+                      <Typography fontSize="11px" noWrap sx={{ whiteSpace: 'nowrap' }}>
                         {currentTooltip.x}
                       </Typography>
                     </div>
@@ -336,10 +336,10 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
                       }}
                     />
                     <div className={classes.tooltipItemStats}>
-                      <Typography variant="body2" fontWeight="500">
+                      <Typography fontSize="11px" fontWeight="500" noWrap sx={{ flex: 1, minWidth: 0 }}>
                         Mean resistance score
                       </Typography>
-                      <Typography variant="caption" noWrap>
+                      <Typography fontSize="11px" noWrap sx={{ whiteSpace: 'nowrap' }}>
                         {currentTooltip.y}
                       </Typography>
                     </div>

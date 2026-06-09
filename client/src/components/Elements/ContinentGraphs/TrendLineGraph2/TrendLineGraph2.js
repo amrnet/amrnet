@@ -324,10 +324,10 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
             <div className={classes.tooltip}>
               <div className={classes.tooltipTitle}>
                 <div className={classes.tooltipInfo}>
-                  <Typography variant="h5" fontWeight="600">
+                  <Typography fontSize="15px" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
-                  <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                  <Typography fontSize="13px">{'N = ' + currentTooltip.count}</Typography>
                 </div>
                 <Typography fontWeight={400} variant="subtitle2">
                   {drugClass}
@@ -348,11 +348,11 @@ export const TrendLineGraph2 = ({ showFilter, setShowFilter }) => {
                           }}
                         />
                         <div className={classes.tooltipItemStats}>
-                          <Typography variant="body2" fontWeight="500">
+                          <Typography fontSize="11px" fontWeight="500" noWrap sx={{ flex: 1, minWidth: 0 }}>
                             {itemLabel}
                           </Typography>
-                          <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                          <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                          <Typography fontSize="11px" noWrap sx={{ whiteSpace: 'nowrap' }}>{`N=${item.count}`}</Typography>
+                          <Typography fontSize="11px" sx={{ whiteSpace: 'nowrap' }}>{`${item.percentage}%`}</Typography>
                         </div>
                       </div>
                     );
