@@ -26,6 +26,8 @@ import { useAppSelector } from '../../../../stores/hooks';
 import { drugRulesST } from '../../../../util/drugClassesRules';
 import {
   drugAcronyms,
+  drugAcronymsOpposite,
+  ciproAcronyms,
   defaultDrugsForDrugResistanceGraphSA,
   defaultDrugsForDrugResistanceGraphST,
   drugsST,
@@ -355,7 +357,11 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
                 <PolarGrid stroke="#ccc" />
-                <PolarAngleAxis dataKey="drug" tick={{ fontSize: loadingPDF ? 8 : 10, fill: '#333' }} />
+                <PolarAngleAxis
+                  dataKey="drug"
+                  tick={{ fontSize: 10, fill: '#333' }}
+                  tickFormatter={drug => drugAcronymsOpposite[drug] || ciproAcronyms[drug] || drug}
+                />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10 }} tickCount={6} />
                 {selectedCountries.map((country, index) => (
                   <Radar
@@ -522,7 +528,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
                     {allDrugOptions.map(drug => (
                       <MenuItem key={drug} value={drug}>
                         <Checkbox checked={activeDrugsForSelector.includes(drug)} size="small" />
-                        <ListItemText primary={drug} />
+                        <ListItemText primary={drugAcronymsOpposite[drug] || ciproAcronyms[drug] || drug} />
                       </MenuItem>
                     ))}
                   </Select>
