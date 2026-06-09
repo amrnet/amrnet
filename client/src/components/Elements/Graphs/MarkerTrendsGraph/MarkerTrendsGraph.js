@@ -307,11 +307,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       delete currentData.resistantCount;
 
       Object.keys(currentData).forEach(key => {
-        const count = currentData[key];
+        if (!topGenesSlice.includes(key)) {
+          return;
+        }
 
-        // if (count === 0) {
-        //   return;
-        // }
+        const count = currentData[key];
 
         const item = {
           label: key,
