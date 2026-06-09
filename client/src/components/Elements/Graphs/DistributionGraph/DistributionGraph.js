@@ -533,9 +533,16 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
           <ChartTooltip
             cursor={currentData !== 0 ? { fill: hoverColor } : false}
-            content={({ payload, active, label }) =>
-              active && payload ? <div className={classes.chartTooltipLabel}>{label}</div> : null
-            }
+            content={({ payload, active, label }) => {
+              if (!active || !payload?.length) return null;
+              const count = payload[0]?.payload?.count;
+              return (
+                <div className={classes.chartTooltipLabel}>
+                  <Typography variant="body2" fontWeight={600}>{label}</Typography>
+                  {count != null && <Typography variant="caption">N = {count}</Typography>}
+                </div>
+              );
+            }}
           />
 
           {topXGenotype.map((genotype, i) => {
