@@ -478,10 +478,14 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
               <ChartTooltip
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active, label }) => {
-                  if (payload !== null && active) {
-                    return <div className={classes.chartTooltipLabel}>{label}</div>;
-                  }
-                  return null;
+                  if (!active || !payload?.length) return null;
+                  const count = payload[0]?.payload?.totalCount;
+                  return (
+                    <div className={classes.chartTooltipLabel}>
+                      <Typography variant="body2" fontWeight={600}>{label}</Typography>
+                      {count != null && <Typography variant="caption">N = {count}</Typography>}
+                    </div>
+                  );
                 }}
               />
 

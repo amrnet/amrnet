@@ -260,10 +260,15 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
               <ChartTooltip
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active }) => {
-                  if (payload !== null && active) {
-                    return <div className={classes.chartTooltipLabel}>{payload[0]?.payload.name}</div>;
-                  }
-                  return null;
+                  if (!active || !payload?.length) return null;
+                  const name = payload[0]?.payload?.name;
+                  const count = payload[0]?.payload?.z;
+                  return (
+                    <div className={classes.chartTooltipLabel}>
+                      <Typography variant="body2" fontWeight={600}>{name}</Typography>
+                      {count != null && <Typography variant="caption">N = {count}</Typography>}
+                    </div>
+                  );
                 }}
               />
 
