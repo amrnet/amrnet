@@ -349,10 +349,10 @@ async function generatePDF(data, setLoading) {
       addImagePage({ doc, logo, title: `Global Overview — ${metadata.mapView}`, subtitle: metadata.organism, imageDataUrl: mapImage, imgW: 1200, imgH: 600, pageWidth, pageHeight, pageNumRef, colorLegend: getMapColorLegend(metadata.mapViewValue) });
     }
     if (bgCapture?.dataUrl) {
-      addImagePage({ doc, logo, title: 'Geographic Comparisons', subtitle: metadata.mapView, imageDataUrl: bgCapture.dataUrl, imgW: bgCapture.width, imgH: bgCapture.height, pageWidth, pageHeight, pageNumRef });
+      addImagePage({ doc, logo, title: 'Geographic Comparisons', subtitle: metadata.mapView, imageDataUrl: bgCapture.dataUrl, imgW: bgCapture.width, imgH: bgCapture.height, pageWidth, pageHeight, pageNumRef, colorLegend: HEATMAP_COLOR_LEGEND });
     }
     if (bhpCapture?.dataUrl) {
-      addImagePage({ doc, logo, title: organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons', subtitle: metadata.mapView, imageDataUrl: bhpCapture.dataUrl, imgW: bhpCapture.width, imgH: bhpCapture.height, pageWidth, pageHeight, pageNumRef });
+      addImagePage({ doc, logo, title: organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons', subtitle: metadata.mapView, imageDataUrl: bhpCapture.dataUrl, imgW: bhpCapture.width, imgH: bhpCapture.height, pageWidth, pageHeight, pageNumRef, colorLegend: HEATMAP_COLOR_LEGEND });
     }
     for (const graph of graphs) {
       if (!graph.image) continue;
@@ -561,6 +561,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
               alt="Geographic Comparisons"
               sx={{ width: '100%', borderRadius: 1, display: 'block' }}
             />
+            <ColorLegendPreview colorLegend={HEATMAP_COLOR_LEGEND} />
           </ReportCard>
         )}
 
@@ -568,6 +569,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
         {bhpCapture?.dataUrl && (
           <ReportCard title={organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons'} subtitle={metadata.mapView} accent={accentColor}>
             <Box component="img" src={bhpCapture.dataUrl} alt="Comparisons" sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
+            <ColorLegendPreview colorLegend={HEATMAP_COLOR_LEGEND} />
           </ReportCard>
         )}
 
