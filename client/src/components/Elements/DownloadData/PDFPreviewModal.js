@@ -13,6 +13,150 @@ const PDF_HEADER      = [255, 246, 246];
 const PDF_PURPLE_LITE = [243, 229, 245];
 const PDF_MARGIN      = 24;
 
+// ─── Colour-legend constants ─────────────────────────────────────────────────
+
+// Views where the map uses a continuous orange→dark-red gradient (not stepped)
+const GRADIENT_MAP_VIEWS = [
+  'Genotype prevalence', 'Serotype prevalence', 'Pathotype prevalence',
+  'O prevalence', 'H prevalence', 'ST prevalence', 'NG-MAST prevalence',
+  'Lineage prevalence (ST)',
+];
+
+// Heatmap graph IDs (BubbleHeatmapGraph2, BubbleMarkersHeatmapGraph, BubbleKOHeatmapGraph)
+const HEATMAP_GRAPH_IDS = ['HSG2', 'BAMRH', 'BKOH'];
+
+// Heatmap blue→red diverging gradient (matches mapColorHelper HEATMAP_STOPS)
+const HEATMAP_COLOR_LEGEND = {
+  type: 'gradient',
+  title: '% Resistance',
+  noDataColor: '#727272',
+  noDataLabel: 'No data (0%)',
+  stops: [
+    [0, '#2166AC'], [0.2, '#5B97C9'], [0.4, '#92C5DE'],
+    [0.6, '#C5826D'], [0.8, '#9E2B1F'], [1, '#6B0000'],
+  ],
+  startLabel: '0%',
+  endLabel: '100%',
+};
+
+function hexToRgbArr(hex) {
+  const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return r ? [parseInt(r[1], 16), parseInt(r[2], 16), parseInt(r[3], 16)] : [180, 180, 180];
+}
+
+function createGradientDataUrl(stops, w = 360, h = 40) {
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  const g = ctx.createLinearGradient(0, 0, w, 0);
+  stops.forEach(([pos, color]) => g.addColorStop(pos, color));
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, w, h);
+  return canvas.toDataURL('image/png');
+}
+
+// colorLegend: { type, title, noDataColor?, noDataLabel?, stops?, startLabel?, endLabel?, items? }
+function drawColorLegendInPDF(doc, colorLegend, margin, _contentW, y) {
+  const { type, title, noDataColor, noDataLabel, stops, startLabel, endLabel, items } = colorLegend;
+  const FS = 6.5;
+  const BOX = 8;
+  doc.setFontSize(FS).setFont(undefined, 'normal');
+
+  // Title label
+  doc.setTextColor(90);
+  const titleText = `${title}:`;
+  doc.text(titleText, margin, y + FS - 0.5);
+  let lx = margin + doc.getTextWidth(titleText) + 5;
+
+  // "No data" swatch
+  if (noDataColor) {
+    doc.setFillColor(...hexToRgbArr(noDataColor));
+    doc.setDrawColor(160); doc.setLineWidth(0.3);
+    doc.rect(lx, y, BOX, BOX, 'FD');
+    lx += BOX + 2;
+    doc.setTextColor(70);
+    doc.text(noDataLabel || 'No data', lx, y + FS - 0.5);
+    lx += doc.getTextWidth(noDataLabel || 'No data') + 8;
+  }
+
+  if (type === 'gradient') {
+    const BAR_W = 170;
+    const BAR_H = BOX;
+
+    if (startLabel) {
+      doc.setTextColor(70);
+      doc.text(startLabel, lx, y + FS - 0.5);
+      lx += doc.getTextWidth(startLabel) + 3;
+    }
+
+    const gradDataUrl = createGradientDataUrl(stops, 360, 40);
+    doc.addImage(gradDataUrl, 'PNG', lx, y, BAR_W, BAR_H, undefined, 'FAST');
+    doc.setDrawColor(160); doc.setLineWidth(0.3);
+    doc.rect(lx, y, BAR_W, BAR_H);
+    lx += BAR_W + 3;
+
+    if (endLabel) {
+      doc.setTextColor(70);
+      doc.text(endLabel, lx, y + FS - 0.5);
+    }
+
+  } else if (type === 'steps') {
+    items.forEach(({ color, label }) => {
+      doc.setFillColor(...hexToRgbArr(color));
+      doc.setDrawColor(160); doc.setLineWidth(0.3);
+      doc.rect(lx, y, BOX, BOX, 'FD');
+      lx += BOX + 2;
+      doc.setTextColor(70);
+      doc.text(label, lx, y + FS - 0.5);
+      lx += doc.getTextWidth(label) + 8;
+    });
+  }
+
+  doc.setTextColor(0).setDrawColor(0).setLineWidth(0.2);
+}
+
+function getMapColorLegend(mapViewValue) {
+  if (!mapViewValue || mapViewValue === 'Dominant Genotype') return null;
+
+  if (mapViewValue === 'No. Samples') {
+    return {
+      type: 'steps',
+      title: 'No. Samples',
+      noDataColor: '#D3D3D3', noDataLabel: 'Insufficient data',
+      items: [
+        { color: '#4575B4', label: '1-9' },
+        { color: '#91BFDB', label: '10-19' },
+        { color: '#ADDD8E', label: '20-99' },
+        { color: '#FEE090', label: '100-299' },
+        { color: '#FC8D59', label: '>=300' },
+      ],
+    };
+  }
+
+  if (GRADIENT_MAP_VIEWS.includes(mapViewValue)) {
+    return {
+      type: 'gradient',
+      title: 'Prevalence',
+      noDataColor: '#D3D3D3', noDataLabel: 'No data (N<20)',
+      stops: [[0, '#FAAD8F'], [0.33, '#FA694A'], [0.67, '#DD2C24'], [1, '#A20F17']],
+      startLabel: '1%', endLabel: '100%',
+    };
+  }
+
+  // Resistance prevalence and all other percentage-based map views
+  return {
+    type: 'steps',
+    title: '% Resistance',
+    noDataColor: '#D3D3D3', noDataLabel: 'No data (N<20)',
+    items: [
+      { color: '#FAAD8F', label: '>0-2%' },
+      { color: '#FA694A', label: '>2-10%' },
+      { color: '#DD2C24', label: '>10-50%' },
+      { color: '#A20F17', label: '>50%' },
+    ],
+  };
+}
+
 function drawPDFHeader(doc, logo, pageWidth) {
   doc.setFillColor(...PDF_HEADER);
   doc.rect(0, 0, pageWidth, 32, 'F');
@@ -34,7 +178,7 @@ function drawPDFFooter(doc, pageNum, pageWidth, pageHeight) {
   doc.setTextColor(0).setDrawColor(0);
 }
 
-function addImagePage({ doc, logo, title, subtitle, imageDataUrl, imgW, imgH, pageWidth, pageHeight, pageNumRef }) {
+function addImagePage({ doc, logo, title, subtitle, imageDataUrl, imgW, imgH, pageWidth, pageHeight, pageNumRef, colorLegend }) {
   doc.addPage();
   drawPDFHeader(doc, logo, pageWidth);
   drawPDFFooter(doc, pageNumRef.current++, pageWidth, pageHeight);
@@ -51,7 +195,8 @@ function addImagePage({ doc, logo, title, subtitle, imageDataUrl, imgW, imgH, pa
     y += lines.length * 10 + 8;
     doc.setTextColor(0);
   }
-  const availH = pageHeight - y - 32;
+  const LEGEND_H = colorLegend ? 24 : 0;
+  const availH = pageHeight - y - 32 - LEGEND_H;
   const ratio  = imgW && imgH ? imgW / imgH : 16 / 9;
   let w = contentW, h = w / ratio;
   if (h > availH) { h = availH; w = h * ratio; }
@@ -60,6 +205,9 @@ function addImagePage({ doc, logo, title, subtitle, imageDataUrl, imgW, imgH, pa
     doc.setFillColor(...PDF_PURPLE_LITE);
     doc.roundedRect(imgX - 4, y - 4, w + 8, h + 8, 3, 3, 'F');
     doc.addImage(imageDataUrl, 'PNG', imgX, y, w, h, undefined, 'FAST');
+  }
+  if (colorLegend) {
+    drawColorLegendInPDF(doc, colorLegend, margin, contentW, y + h + 10);
   }
 }
 
@@ -198,7 +346,7 @@ async function generatePDF(data, setLoading) {
 
     // ── Image pages ────────────────────────────────────────────────────────
     if (mapImage) {
-      addImagePage({ doc, logo, title: `Global Overview — ${metadata.mapView}`, subtitle: metadata.organism, imageDataUrl: mapImage, imgW: 1200, imgH: 600, pageWidth, pageHeight, pageNumRef });
+      addImagePage({ doc, logo, title: `Global Overview — ${metadata.mapView}`, subtitle: metadata.organism, imageDataUrl: mapImage, imgW: 1200, imgH: 600, pageWidth, pageHeight, pageNumRef, colorLegend: getMapColorLegend(metadata.mapViewValue) });
     }
     if (bgCapture?.dataUrl) {
       addImagePage({ doc, logo, title: 'Geographic Comparisons', subtitle: metadata.mapView, imageDataUrl: bgCapture.dataUrl, imgW: bgCapture.width, imgH: bgCapture.height, pageWidth, pageHeight, pageNumRef });
@@ -212,7 +360,7 @@ async function generatePDF(data, setLoading) {
         graph.description?.filter(Boolean).join(' / ').replaceAll('≥', '>='),
         graph.subtitle,
         graph.drugInfo,
-      ].filter(Boolean).join('\n'), imageDataUrl: graph.image, imgW: graph.width, imgH: graph.height, pageWidth, pageHeight, pageNumRef });
+      ].filter(Boolean).join('\n'), imageDataUrl: graph.image, imgW: graph.width, imgH: graph.height, pageWidth, pageHeight, pageNumRef, colorLegend: HEATMAP_GRAPH_IDS.includes(graph.id) ? HEATMAP_COLOR_LEGEND : null });
     }
 
     for (const insight of (insightsCaptures ?? [])) {
@@ -228,6 +376,48 @@ async function generatePDF(data, setLoading) {
   } finally {
     setLoading(false);
   }
+}
+
+// ─── Preview: colour-legend strip ────────────────────────────────────────────
+function ColorLegendPreview({ colorLegend }) {
+  if (!colorLegend) return null;
+  const { type, title, noDataColor, noDataLabel, stops, startLabel, endLabel, items } = colorLegend;
+
+  const swatchStyle = color => ({
+    width: 12, height: 12, background: color,
+    border: '1px solid rgba(0,0,0,0.15)', borderRadius: 2, flexShrink: 0,
+  });
+
+  const gradientCss = stops
+    ? `linear-gradient(to right, ${stops.map(([p, c]) => `${c} ${(p * 100).toFixed(0)}%`).join(', ')})`
+    : '';
+
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1, px: 2, pt: 1, pb: 1.5, borderTop: '1px solid #f0f0f0' }}>
+      <Box component="span" sx={{ fontSize: '0.7rem', color: 'text.secondary', fontWeight: 600, mr: 0.5 }}>
+        {title}:
+      </Box>
+      {noDataColor && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Box sx={swatchStyle(noDataColor)} />
+          <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>{noDataLabel || 'No data'}</Box>
+        </Box>
+      )}
+      {type === 'gradient' && stops && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          {startLabel && <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>{startLabel}</Box>}
+          <Box sx={{ width: 120, height: 12, background: gradientCss, border: '1px solid rgba(0,0,0,0.12)', borderRadius: 1 }} />
+          {endLabel && <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>{endLabel}</Box>}
+        </Box>
+      )}
+      {type === 'steps' && items && items.map(({ color, label }, i) => (
+        <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Box sx={swatchStyle(color)} />
+          <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>{label}</Box>
+        </Box>
+      ))}
+    </Box>
+  );
 }
 
 // ─── Preview: single block ────────────────────────────────────────────────────
@@ -358,6 +548,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
         {mapImage && (
           <ReportCard title={`Global Overview — ${metadata.mapView}`} subtitle={metadata.organism} accent={accentColor}>
             <Box component="img" src={mapImage} alt="Global Map" sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
+            <ColorLegendPreview colorLegend={getMapColorLegend(metadata.mapViewValue)} />
           </ReportCard>
         )}
 
@@ -384,6 +575,7 @@ export function PDFPreviewModal({ open, onClose, data }) {
         {graphs.filter(g => g.image).map((g, i) => (
           <ReportCard key={i} title={g.title} subtitle={g.description?.filter(Boolean).join(' / ')} subtitle2={[g.subtitle, g.drugInfo].filter(Boolean).join(' | ')} accent={accentColor}>
             <Box component="img" src={g.image} alt={g.title} sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
+            {HEATMAP_GRAPH_IDS.includes(g.id) && <ColorLegendPreview colorLegend={HEATMAP_COLOR_LEGEND} />}
           </ReportCard>
         ))}
 

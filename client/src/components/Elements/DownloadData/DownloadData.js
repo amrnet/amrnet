@@ -1009,6 +1009,7 @@ export const DownloadData = () => {
           genomes: actualGenomes,
           dataset,
           mapView: actualMapView,
+          mapViewValue: mapView,
         },
         mapImage,
         bgCapture,
