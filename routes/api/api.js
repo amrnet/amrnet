@@ -65,13 +65,38 @@ const readCsvFallback = (filePath, res) => {
     });
 };
 
+// Personal / quasi-identifier fields stored on styphi records that are NOT used
+// by any dashboard graph or filter. Excluded from the API payload so they are
+// never shipped to the browser, the public REST API, or the S3 export.
+// NOTE: keep `TRAVEL` (the local/travel/community category) — it drives the
+// dataset filter. These are the patient-level free-text / metadata fields only.
+const STYPHI_PERSONAL_FIELDS_EXCLUSION = {
+  AGE: 0,
+  CONTACT: 0,
+  LAB: 0,
+  'SYMPTOM STATUS': 0,
+  'TRAVEL COUNTRY': 0,
+  'TRAVEL ASSOCIATED': 0,
+  TRAVEL_LOCATION: 0,
+  LOCATION: 0,
+  REGION_IN_COUNTRY: 0,
+  'COUNTRY OF ORIGIN': 0,
+  LATITUDE: 0,
+  LONGITUDE: 0,
+};
+
 // Main organism data endpoints
 router.get('/getDataForSTyphi', async function (_req, res) {
   const dbAndCollection = dbAndCollectionNames['styphi'];
   try {
-    const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
-      'dashboard view': { $regex: /^include$/, $options: 'i' },
-    });
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      {
+        'dashboard view': { $regex: /^include$/, $options: 'i' },
+      },
+      STYPHI_PERSONAL_FIELDS_EXCLUSION,
+    );
 
     console.log(`[STyphi API] Found ${result.length} documents for STyphi.`);
 
