@@ -787,10 +787,10 @@ export const DownloadData = () => {
         if (id.includes('convergence-graph')) return `Convergence group: ${convergenceGroupVariable}`;
         if (id.includes('BKOH'))   return `Genotype: ${organism === 'ngono'
                   ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
-                  : variablesOptions.find(option => option.value === distributionGraphVariable)?.label} | K/O Type: ${bubbleKOYAxisType}`;
+                  : variablesOptions.find(option => option.value === bubbleKOHeatmapGraphVariable)?.label} | K/O Type: ${bubbleKOYAxisType}`;
         if (id.includes('HSG2'))   return `Genotype: ${organism === 'ngono'
                   ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
-                  : organism === 'kpneumo' ? bubbleHeatmapGraphVariable.find(option => option.value === distributionGraphVariable)?.label : null}`;
+                  : organism === 'kpneumo' ? variablesOptions.find(option => option.value === bubbleHeatmapGraphVariable)?.label : null}`;
         if (id.includes('GD'))   return `Genotype: ${organism === 'ngono'
                   ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
                   : organism === 'kpneumo' ? variablesOptions.find(option => option.value === distributionGraphVariable)?.label : null}`;
