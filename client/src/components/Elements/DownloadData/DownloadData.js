@@ -45,7 +45,7 @@ import {
 } from '../../../util/reportInfoTexts';
 import { getColorForDrug } from '../Graphs/graphColorHelper';
 import { PDFPreviewModal } from './PDFPreviewModal';
-import domtoimage from 'dom-to-image';
+import domtoimage from 'dom-to-image-more';
 
 let columnsToRemove = [
   'azith_pred_pheno',

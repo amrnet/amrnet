@@ -15,7 +15,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import domtoimage from 'dom-to-image';
+import domtoimage from 'dom-to-image-more';
 import download from 'downloadjs';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
