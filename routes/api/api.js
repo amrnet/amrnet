@@ -3,6 +3,7 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import fs from 'fs';
 import connectDB, { getCollectionCountWithTimeout, getDataWithTimeout } from '../../config/db.js';
+import { STYPHI_PERSONAL_FIELDS_EXCLUSION, stripPersonalFields } from '../../config/personalFields.js';
 
 const router = express.Router();
 
@@ -59,30 +60,10 @@ const readCsvFallback = (filePath, res) => {
       return res.json([]);
     })
     .pipe(csv())
-    .on('data', data => results.push(data))
+    .on('data', data => results.push(stripPersonalFields(data)))
     .on('end', () => {
       return res.json(results);
     });
-};
-
-// Personal / quasi-identifier fields stored on styphi records that are NOT used
-// by any dashboard graph or filter. Excluded from the API payload so they are
-// never shipped to the browser, the public REST API, or the S3 export.
-// NOTE: keep `TRAVEL` (the local/travel/community category) — it drives the
-// dataset filter. These are the patient-level free-text / metadata fields only.
-const STYPHI_PERSONAL_FIELDS_EXCLUSION = {
-  AGE: 0,
-  CONTACT: 0,
-  LAB: 0,
-  'SYMPTOM STATUS': 0,
-  'TRAVEL COUNTRY': 0,
-  'TRAVEL ASSOCIATED': 0,
-  TRAVEL_LOCATION: 0,
-  LOCATION: 0,
-  REGION_IN_COUNTRY: 0,
-  'COUNTRY OF ORIGIN': 0,
-  LATITUDE: 0,
-  LONGITUDE: 0,
 };
 
 // Main organism data endpoints

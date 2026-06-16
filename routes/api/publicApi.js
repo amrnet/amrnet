@@ -1,5 +1,6 @@
 import express from 'express';
 import connectDB from '../../config/db.js';
+import { STYPHI_PERSONAL_FIELDS_EXCLUSION } from '../../config/personalFields.js';
 
 const router = express.Router();
 
@@ -188,7 +189,12 @@ router.get('/organisms/:organism/genomes', async (req, res) => {
     const col = client.db(db).collection(collection);
     const [total, data] = await Promise.all([
       col.countDocuments(match),
-      col.find(match).project({ _id: 0, 'dashboard view': 0 }).skip(skip).limit(limit).toArray(),
+      col
+        .find(match)
+        .project({ _id: 0, 'dashboard view': 0, ...STYPHI_PERSONAL_FIELDS_EXCLUSION })
+        .skip(skip)
+        .limit(limit)
+        .toArray(),
     ]);
 
     res.json({
@@ -273,7 +279,10 @@ router.get('/organisms/:organism/download', async (req, res) => {
   try {
     const client = await connectDB();
     const col = client.db(db).collection(collection);
-    const data = await col.find(match).project({ _id: 0, 'dashboard view': 0 }).toArray();
+    const data = await col
+      .find(match)
+      .project({ _id: 0, 'dashboard view': 0, ...STYPHI_PERSONAL_FIELDS_EXCLUSION })
+      .toArray();
 
     if (format === 'csv') {
       if (data.length === 0) return res.status(204).send();
