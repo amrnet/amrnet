@@ -770,9 +770,9 @@ export const DownloadData = () => {
       // Capture Geographic Comparisons
       const bgCapture = await captureElement('BG');
 
-      // Capture Pathotype / Serotype graph (for shige, decoli, sentericaints)
+      // Capture Pathotype / Serotype graph (for shige, decoli, ecoli, sentericaints)
       let bhpCapture = null;
-      if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
+      if (['sentericaints', 'decoli', 'shige', 'ecoli'].includes(organism)) {
         bhpCapture = await captureElement('BHP');
       }
 

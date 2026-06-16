@@ -28,6 +28,7 @@ import {
   drugAcronyms,
   drugAcronymsOpposite,
   ciproAcronyms,
+  defaultDrugsForDrugResistanceGraphNG,
   defaultDrugsForDrugResistanceGraphSA,
   defaultDrugsForDrugResistanceGraphST,
   drugsST,
@@ -175,7 +176,9 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
   // filters.js also emits alongside them.
   const drugNames = useMemo(() => {
     if (!drugsData || typeof drugsData !== 'object') return [];
-    const EXCLUDED = new Set([]); // removed 'MDR', 'XDR', 'Pansusceptible', 'Susceptible', 'Susceptible to cat I/II drugs'
+    // Susceptible categories are never meaningful as resistance axes — always exclude them.
+    // MDR/XDR/Pansusceptible stay in drugNames and appear via extraDrugOptions so they remain selectable.
+    const EXCLUDED = new Set(['Susceptible', 'Susceptible to cat I/II drugs']);
     if (['ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism)) {
       EXCLUDED.add('Ciprofloxacin NS');
       EXCLUDED.add('Ciprofloxacin R');
@@ -207,6 +210,10 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
         .map(d => (allDrugOptions.includes(d) ? d : (DEFAULT_DRUG_FALLBACKS[d] && allDrugOptions.includes(DEFAULT_DRUG_FALLBACKS[d]) ? DEFAULT_DRUG_FALLBACKS[d] : null)))
         .filter(d => d && !seen.has(d) && seen.add(d));
       return hits.length > 0 ? hits : allDrugOptions;
+    }
+    if (organism === 'ngono') {
+      const defaults = defaultDrugsForDrugResistanceGraphNG.filter(d => allDrugOptions.includes(d));
+      return defaults.length > 0 ? defaults : allDrugOptions;
     }
     if (organism === 'saureus') {
       const defaults = defaultDrugsForDrugResistanceGraphSA.filter(d => allDrugOptions.includes(d));
