@@ -21,6 +21,12 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# The repo's root .npmrc sets legacy-peer-deps=true, but npm run from client/
+# doesn't read the parent .npmrc, and this dependency tree has peer conflicts
+# (e.g. rodal vs react 18). Set it here so installs resolve like they do locally.
+env:
+  NPM_CONFIG_LEGACY_PEER_DEPS: 'true'
+
 jobs:
   build:
     name: Client build
