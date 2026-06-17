@@ -25,7 +25,6 @@ import {
 import { useAppSelector } from '../../../../stores/hooks';
 import { drugRulesST } from '../../../../util/drugClassesRules';
 import {
-  drugAcronyms,
   drugAcronymsOpposite,
   ciproAcronyms,
   defaultDrugsForDrugResistanceGraphNG,

@@ -48,7 +48,6 @@ import {
   defaultDrugsForDrugResistanceGraphST,
   drugsECOLI,
   drugsKP,
-  drugsSA,
   drugsSP,
   markersDrugsKP,
 } from '../../../util/drugs';

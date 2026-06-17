@@ -368,11 +368,13 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                       MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                       renderValue={selected =>
-                        selected === 'All' ? (regionSelected !== 'All' ? 'All countries in region' : 'All countries') : selected
+                        selected === 'All'
+                          ? (regionSelected !== 'All' ? t('common.allCountriesInRegion') : t('common.allCountries'))
+                          : selected
                       }
                     >
                       <MenuItem value="All">
-                        {regionSelected !== 'All' ? 'All countries in region' : 'All countries'}
+                        {regionSelected !== 'All' ? t('common.allCountriesInRegion') : t('common.allCountries')}
                       </MenuItem>
                       {filteredCountries.map((country, i) => (
                         <MenuItem key={i + 'cty'} value={country.name}>{country.name} (total N={country.count})</MenuItem>
@@ -383,7 +385,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">Select pathotype</Typography>
+                      <Typography variant="caption">{t('common.selectPathotype')}</Typography>
                       <Tooltip title="If there are too many pathotypes, only the first 20 are shown" placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
@@ -416,7 +418,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                       <Box className={classes.selectSearch} onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>
                         <TextField
                           variant="standard"
-                          placeholder="Search..."
+                          placeholder={t('common.search')}
                           fullWidth
                           value={pathotypeSearch}
                           onChange={e => { e.stopPropagation(); setPathotypeSearch(e.target.value); }}
@@ -497,13 +499,13 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                         disableAutoFocusItem: true,
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={selected => <div>{`${selected?.length} of ${yAxisOptions.length} selected`}</div>}
+                      renderValue={selected => <div>{`${t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: yAxisOptions?.length ?? 0 })}`}</div>}
                       onClose={() => setMarkerSearch('')}
                     >
                       <Box className={classes.selectSearch} onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>
                         <TextField
                           variant="standard"
-                          placeholder="Search..."
+                          placeholder={t('common.search')}
                           fullWidth
                           value={markerSearch}
                           onChange={e => { e.stopPropagation(); setMarkerSearch(e.target.value); }}

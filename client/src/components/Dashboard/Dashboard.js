@@ -108,7 +108,6 @@ import {
   drugClassesNG,
   drugsECOLI,
   drugsKP,
-  drugsSA,
   drugsSP,
   getDrugClasses,
   markersDrugsKP,

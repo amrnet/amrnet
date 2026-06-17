@@ -92,7 +92,7 @@ interface GraphState {
   drugGene: string;
   coloredOptions: Array<any>;
   bubbleMarkersHeatmapGraphData: Array<any>;
-  pathotypesDrugClassesData: Array<any>;
+  pathotypesDrugClassesData: { [drugClass: string]: any };
   rawOrganismData: Array<any>;
   allOrganismData: Array<any>;
 }
@@ -182,7 +182,7 @@ const initialState: GraphState = {
   drugGene: '',
   coloredOptions: [],
   bubbleMarkersHeatmapGraphData: [],
-  pathotypesDrugClassesData: [],
+  pathotypesDrugClassesData: {},
   rawOrganismData: [],
   allOrganismData: [],
 };
