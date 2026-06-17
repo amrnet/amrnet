@@ -53,15 +53,26 @@ import { useStyles } from './GenomicVsPhenotypicGraphMUI';
 // Public-facing source landing pages used by the Data Sources panel.
 const SOURCE_URLS = {
   glass: 'https://www.who.int/data/gho/data/themes/topics/global-antimicrobial-resistance-and-use-surveillance-system-glass-database',
+  whoTerms: 'https://www.who.int/about/policies/publishing/data-policy/terms-and-conditions',
   ecdc: 'https://www.ecdc.europa.eu/en/antimicrobial-resistance/surveillance-and-disease-data/data-ecdc',
   amrnet: 'https://amrnet.readthedocs.io',
 };
 
+// Data-governance hold: the bundled "literature" phenotypic AMR datasets are
+// disabled in the dashboard until an agreed identification/aggregation protocol
+// exists (how each value was found, breakpoint harmonisation, per-value
+// provenance, and how a user can verify a number). Blindly combining phenotypic
+// AMR from heterogeneous literature is not yet methodologically signed off.
+// Flip to `true` to re-enable once that protocol is in place. The JSON files and
+// all rendering code are kept intact so this is a one-line reversal.
+const LITERATURE_ENABLED = false;
+
 // Organisms that have bundled literature surveillance data
-const LITERATURE_ORGANISMS = new Set([
-  'styphi', 'ecoli', 'kpneumo', 'saureus',
-  'senterica', 'sentericaints', 'decoli', 'shige', 'ngono', 'strepneumo',
-]);
+const LITERATURE_ORGANISMS = new Set(
+  LITERATURE_ENABLED
+    ? ['styphi', 'ecoli', 'kpneumo', 'saureus', 'senterica', 'sentericaints', 'decoli', 'shige', 'ngono', 'strepneumo']
+    : [],
+);
 
 // Lookup map: organism → raw JSON (null = handled separately for styphi)
 // senterica and sentericaints share the same Salmonella CIP dataset
@@ -79,6 +90,7 @@ const LITERATURE_RAW = {
 
 // Default phenoSource per organism
 function defaultPhenoSource(organism) {
+  if (!LITERATURE_ENABLED) return 'glass';
   if (organism === 'styphi') return 'typhi_literature';
   if (LITERATURE_ORGANISMS.has(organism)) return 'literature';
   return 'glass';
@@ -961,6 +973,10 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
                       <a href={SOURCE_URLS.glass} target="_blank" rel="noopener noreferrer">
                         WHO GLASS
                       </a> — {glassIndicator?.label || 'Global Antimicrobial Resistance and Use Surveillance System'}.
+                      {' '}Obtained directly from WHO (GHO OData API) and used under the{' '}
+                      <a href={SOURCE_URLS.whoTerms} target="_blank" rel="noopener noreferrer">
+                        WHO data terms and conditions
+                      </a>.
                     </>
                   ) : (
                     <>
