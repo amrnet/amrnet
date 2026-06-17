@@ -5,6 +5,7 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import zlib from 'zlib';
 import { client } from '../../config/db.js';
+import { STYPHI_PERSONAL_FIELDS_EXCLUSION } from '../../config/personalFields.js';
 import * as Tools from '../../services/services.js';
 
 const { createObjectCsvWriter: createCsvWriter } = pkg;
@@ -44,7 +45,10 @@ router.post('/download', async function (req, res, next) {
   }
   let data;
   try {
-    data = await collection.find({}).toArray();
+    // Exclude styphi patient-level fields from the export (no-op for other
+    // organisms, which do not carry these fields).
+    const findOptions = organism === 'styphi' ? { projection: STYPHI_PERSONAL_FIELDS_EXCLUSION } : {};
+    data = await collection.find({}, findOptions).toArray();
     console.log('2', data.length, 'documents found');
   } catch (err) {
     console.error('Error querying MongoDB:', err);
@@ -170,7 +174,9 @@ router.get('/generate/:organism', async function (req, res, next) {
   }
 
   try {
-    const queryResult = await collection.find().toArray();
+    // Exclude styphi patient-level fields (no-op for other organisms).
+    const findOptions = organism === 'styphi' ? { projection: STYPHI_PERSONAL_FIELDS_EXCLUSION } : {};
+    const queryResult = await collection.find({}, findOptions).toArray();
     if (queryResult.length > 0) {
       // Remove the '_id' field from each document
       const sanitizedData = queryResult.map(doc => {
@@ -244,10 +250,12 @@ router.get('/clean/:organism', async function (req, res, next) {
   }
 
   try {
+    // Exclude styphi patient-level fields (no-op for other organisms).
+    const findOptions = organism === 'styphi' ? { projection: STYPHI_PERSONAL_FIELDS_EXCLUSION } : {};
     const queryResult = await client
       .db(`${database}`)
       .collection(`merge_rawdata_${collection_ext}`)
-      .find({ 'dashboard view': 'Include' })
+      .find({ 'dashboard view': 'Include' }, findOptions)
       .toArray();
     console.log('queryResult', queryResult.length);
     if (queryResult.length > 0) {
