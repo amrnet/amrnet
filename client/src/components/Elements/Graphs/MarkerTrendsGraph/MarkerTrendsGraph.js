@@ -84,6 +84,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
   const topGenesSlice = useAppSelector(state => state.graph.topGenesSlice);
   const canFilterData = useAppSelector(state => state.dashboard.canFilterData);
   const colourPattern = useAppSelector((state) => state.dashboard.colourPattern);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
   
 
   useEffect(() => {
@@ -306,11 +307,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       delete currentData.resistantCount;
 
       Object.keys(currentData).forEach(key => {
-        const count = currentData[key];
+        if (!topGenesSlice.includes(key)) {
+          return;
+        }
 
-        // if (count === 0) {
-        //   return;
-        // }
+        const count = currentData[key];
 
         const item = {
           label: key,
@@ -478,10 +479,14 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
               <ChartTooltip
                 cursor={{ fill: hoverColor }}
                 content={({ payload, active, label }) => {
-                  if (payload !== null && active) {
-                    return <div className={classes.chartTooltipLabel}>{label}</div>;
-                  }
-                  return null;
+                  if (!active || !payload?.length) return null;
+                  const count = payload[0]?.payload?.totalCount;
+                  return (
+                    <div className={classes.chartTooltipLabel}>
+                      <Typography variant="body2" fontWeight={600}>{label}</Typography>
+                      {count != null && <Typography variant="caption">N = {count}</Typography>}
+                    </div>
+                  );
                 }}
               />
 
@@ -512,6 +517,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                     connectNulls
                     type="monotone"
                     activeDot={timeInitial === timeFinal ? true : false}
+                    isAnimationActive={!loadingPDF}
                   />
                 );
               })}
@@ -521,7 +527,7 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale, colourPattern, lineStyle, yAxisSliderValue]);
+  }, [yearsData, trendsGraphView, trendsGraphDrugClass, currentSliderValueKP_GE, slicedData, topGenesSlice, logScale, colourPattern, lineStyle, yAxisSliderValue, loadingPDF]);
 
   return (
     <CardContent className={classes.markerTrendsGraph}>
@@ -563,11 +569,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
             {currentTooltip ? (
               <div className={classes.tooltip}>
                 <div className={classes.tooltipTitle}>
-                  <Typography variant="h5" fontWeight="600">
+                  <Typography fontSize="15px" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
                   {currentTooltip.count !== 'ID' && (
-                    <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                    <Typography fontSize="13px">{'N = ' + currentTooltip.count}</Typography>
                   )}
                 </div>
                 {currentTooltip.count === 'ID' ? (
@@ -600,11 +606,11 @@ export const MarkerTrendsGraph = ({ showFilter, setShowFilter }) => {
                           })()} 
 
                           <div className={classes.tooltipItemStats}>
-                            <Typography variant="body2" fontWeight="500">
+                            <Typography fontSize="11px" fontWeight="500" noWrap sx={{ flex: 1, minWidth: 0 }}>
                               {item.label}
                             </Typography>
-                            <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                            <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                            <Typography fontSize="11px" noWrap sx={{ whiteSpace: 'nowrap' }}>{`N=${item.count}`}</Typography>
+                            <Typography fontSize="11px" sx={{ whiteSpace: 'nowrap' }}>{`${item.percentage}%`}</Typography>
                           </div>
                         </div>
                       );

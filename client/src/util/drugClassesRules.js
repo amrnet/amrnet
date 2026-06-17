@@ -4,7 +4,6 @@ export const drugRulesST = [
   { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
-  { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
   {
     key: 'Ciprofloxacin NS',
@@ -22,6 +21,7 @@ export const drugRulesST = [
   { key: 'Sulfonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracycline', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
+  { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'MDR', columnID: 'MDR', values: ['MDR'], legends: 'Multidrug resistant (MDR)' },
   { key: 'XDR', columnID: 'XDR', values: ['XDR'], legends: 'Extensively drug resistant (XDR)' },
   { key: 'Pansusceptible', columnID: 'amr_category', values: ['No AMR detected'] },
@@ -1466,11 +1466,12 @@ export const drugRulesSA = [
   { key: 'Moxifloxacin', columnID: 'Moxifloxacin', values: ['1'] },
   { key: 'Mupirocin', columnID: 'Mupirocin', values: ['1'] },
   { key: 'Penicillin', columnID: 'Penicillin', values: ['1'] },
-  { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
   { key: 'Rifampicin', columnID: 'Rifampicin', values: ['1'] },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
   { key: 'Tobramycin', columnID: 'Tobramycin', values: ['1'] },
   { key: 'Vancomycin', columnID: 'Vancomycin', values: ['1'] },
+  { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
+
 ];
 
 // ---------------------------------------------------------------------------
@@ -1484,8 +1485,9 @@ export const drugRulesSP = [
   { key: 'Fluoroquinolones', columnID: 'Fluoroquinolones', values: ['1'] },
   { key: 'Kanamycin', columnID: 'Kanamycin', values: ['1'] },
   // { key: 'Linezolid', columnID: 'Linezolid', values: ['1'] },
-  { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
+  { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
+
 ];
 
 // ---------------------------------------------------------------------------

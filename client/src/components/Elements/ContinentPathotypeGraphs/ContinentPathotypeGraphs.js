@@ -23,7 +23,7 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { ExpandLess, ExpandMore, FilterList, FilterListOff, CameraAlt } from '@mui/icons-material';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
-import domtoimage from 'dom-to-image';
+import domtoimage from 'dom-to-image-more';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { BubbleHPGraph } from './BubbleHPGraph';

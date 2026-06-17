@@ -226,6 +226,8 @@
     "serotypeComparisons": "Comparações por Sorotipo",
     "pathotypeComparisons": "Comparações por Patótipo",
     "amrbyserotype": "RAM por sorotipo",
+    "amrbypathotype": "RAM por Patótipo",
+    "amrMarkerByPathotype": "Marcador RAM por Patótipo",
     "topGenotypesUpTo10": "Principais Genótipos (até 10)",
     "topGenotypesUpTo30": "Principais Genótipos (até 30)",
     "radarProfile": "Perfil Radar de RAM",

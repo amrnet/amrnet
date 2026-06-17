@@ -75,6 +75,7 @@ import {
   setFrequenciesGraphView,
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
+  setPathotypesDrugClassesData,
   setGenotypesDrugsData,
   setGenotypesYearData,
   setKODiversityData,
@@ -83,6 +84,7 @@ import {
   setKOYearsData,
   setMaxSliderValueCM,
   setRawOrganismData,
+  setAllOrganismData,
   setRegionsYearData,
   setSublineagesYearData,
   setTrendsGraphDrugClass,
@@ -101,11 +103,11 @@ import {
 import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import {
   defaultDrugsForDrugResistanceGraphNG,
+  defaultDrugsForDrugResistanceGraphSA,
   defaultDrugsForDrugResistanceGraphST,
   drugClassesNG,
   drugsECOLI,
   drugsKP,
-  drugsSA,
   drugsSP,
   getDrugClasses,
   markersDrugsKP,
@@ -166,6 +168,12 @@ export const DashboardPage = () => {
   // In-memory cache of the full organism dataset. Populated by getInfoFromData so that
   // updateDataOnFilters can skip the IndexedDB read on every filter change.
   const cachedOrganismData = useRef({ key: null, data: [] });
+  // Tracks the last filter key that affected geographic comparison data
+  // (organism|timeInitial|timeFinal|dataset|datasetKP|lineages). When only
+  // actualCountry/actualRegion changes, this key stays the same and we skip
+  // recomputing/dispatching drugsCountriesData, drugsRegionsData, allOrganismData
+  // so the Radar and BubbleGeographicGraph don't re-render unnecessarily.
+  const prevGeoFilterKey = useRef('');
   const { t } = useTranslation();
 
   const { hasItems, bulkAddItems, getItems } = useIndexedDB();
@@ -305,6 +313,10 @@ export const DashboardPage = () => {
 
     // Store raw data in Redux for AMR Insights graphs (GeneMap, QRDR, Serotype)
     dispatch(setRawOrganismData(Array.isArray(responseData) ? responseData : []));
+    // Seed allOrganismData with the full unfiltered dataset so geographic-comparison
+    // plots (RadarProfile, ATB correlation) have data before updateDataOnFilters runs.
+    // updateDataOnFilters will overwrite this with time/dataset/lineage-filtered data.
+    dispatch(setAllOrganismData(Array.isArray(responseData) ? responseData : []));
 
     console.timeLog && console.timeLog('[getInfoFromData] total', 'start');
     dispatch(setTotalGenomes(dataLength));
@@ -540,7 +552,7 @@ export const DashboardPage = () => {
       ecoli: drugsECOLI,
       decoli: drugsECOLI,
       shige: drugsECOLI,
-      saureus: drugsSA,
+      saureus: defaultDrugsForDrugResistanceGraphSA,
       strepneumo: drugsSP,
     };
 
@@ -577,7 +589,7 @@ export const DashboardPage = () => {
 
       // Get genotypes data
       // Use versioned key for organisms with marker-level genotype breakdown to bust stale cache
-      getStoreOrGenerateData(`${organism}_genotype_v4`, () => {
+      getStoreOrGenerateData(`${organism}_genotype_v5`, () => {
         const dt = getGenotypesData({
           data: responseData,
           genotypes,
@@ -595,6 +607,7 @@ export const DashboardPage = () => {
           dt.countriesDrugClassesData,
           dt.regionsDrugClassesData,
           dt.ngMastDrugClassesData,
+          dt.pathotypesDrugClassesData,
         ];
       }).then(
         ([
@@ -603,6 +616,7 @@ export const DashboardPage = () => {
           countriesDrugClassesData,
           regionsDrugClassesData,
           ngMastDrugClassesData,
+          pathotypesDrugClassesData,
         ]) => {
           const safeGenotypesDrugsData = Array.isArray(genotypesDrugsData) ? genotypesDrugsData : [];
           dispatch(setGenotypesDrugsData(safeGenotypesDrugsData));
@@ -611,6 +625,7 @@ export const DashboardPage = () => {
           dispatch(setCountriesYearData(countriesDrugClassesData));
           dispatch(setRegionsYearData(regionsDrugClassesData));
           dispatch(setNgMastDrugClassesData(ngMastDrugClassesData));
+          dispatch(setPathotypesDrugClassesData(pathotypesDrugClassesData ?? {}));
         },
       ),
 
@@ -710,7 +725,7 @@ export const DashboardPage = () => {
       // Use versioned cache key for organisms with marker-level breakdown to bust stale cache
       // !['styphi', 'kpneumo'].includes(organism)
       getStoreOrGenerateData(
-        `${organism}_drugs_countries_v4`,
+        `${organism}_drugs_countries_v5`,
         () => {
           const { drugsData } = getDrugsCountriesData({
             data: responseData,
@@ -727,7 +742,7 @@ export const DashboardPage = () => {
       // Get drugs carb and esbl data for regions
       // ['styphi', 'kpneumo'].includes(organism)
       getStoreOrGenerateData(
-        `${organism}_drugs_regions_v4`,
+        `${organism}_drugs_regions_v5`,
         () => {
           const { drugsData } = getDrugsCountriesData({
             data: responseData,
@@ -1227,10 +1242,10 @@ export const DashboardPage = () => {
         }
         break;
       case 'saureus':
-        dispatch(setDrugResistanceGraphView(drugsSA));
-        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setBubbleMarkersYAxisType(drugsSA.filter(x => x !== 'Pansusceptible')[0]));
+        dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphSA));
+        dispatch(setDeterminantsGraphDrugClass('Methicillin'));
+        dispatch(setTrendsGraphDrugClass('Methicillin'));
+        dispatch(setBubbleMarkersYAxisType('Methicillin'));
         break;
       case 'strepneumo':
         dispatch(setDrugResistanceGraphView(drugsSP));
@@ -1459,6 +1474,7 @@ export const DashboardPage = () => {
         // dispatch(setDrugsYearData([]));
         dispatch(setGenotypesDrugsData([]));
         dispatch(setGenotypesDrugClassesData([]));
+        dispatch(setPathotypesDrugClassesData({}));
         // dispatch(setGenotypesAndDrugsYearData({}));
         dispatch(setKODiversityData([]));
         dispatch(setConvergenceData([]));
@@ -1538,7 +1554,7 @@ export const DashboardPage = () => {
         ecoli: drugsECOLI,
         decoli: drugsECOLI,
         shige: drugsECOLI,
-        saureus: drugsSA,
+        saureus: defaultDrugsForDrugResistanceGraphSA,
         strepneumo: drugsSP,
       };
 
@@ -1747,8 +1763,6 @@ export const DashboardPage = () => {
         koData,
         // koDiversityData,
         convergenceData,
-        drugsCountriesData,
-        drugsRegionsData,
       ] = await Promise.all([
         Promise.resolve(getMapData({ data: filters.data, items: countriesForFilter, organism })),
         Promise.resolve(getMapData({ data: filters.data, items: economicRegions, organism, type: 'region' })),
@@ -1809,16 +1823,6 @@ export const DashboardPage = () => {
               })(),
             )
           : Promise.resolve({ data: [], colourVariables: [] }),
-        // Geographic Comparisons (BubbleGeographicGraph), RadarProfile, and the
-        // ATB correlation plot compare countries/regions against each other and
-        // must always see the FULL set of countries — not just those inside the
-        // summary plots' geo selection. Use `filters.data` here (which applies
-        // time/dataset/datasetKP/lineages filters) instead of `filteredData`
-        // (which additionally restricts to actualCountry / actualRegion).
-        Promise.resolve(getDrugsCountriesData({ data: filters.data, items: countriesForFilter, organism })),
-        Promise.resolve(
-          getDrugsCountriesData({ data: filters.data, items: economicRegions, type: 'region', organism }),
-        ),
       ]);
 
       // Prefer server results for drugsData / genotypesData / uniqueGenotypes when valid.
@@ -1861,6 +1865,7 @@ export const DashboardPage = () => {
       dispatch(setCountriesYearData(genotypesData.countriesDrugClassesData));
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
       dispatch(setNgMastDrugClassesData(genotypesData.ngMastDrugClassesData));
+      dispatch(setPathotypesDrugClassesData(genotypesData.pathotypesDrugClassesData ?? {}));
 
       // Dispatch yearly trends data (server preferred, client fallback)
       dispatch(setGenotypesYearData(finalGenotypesData));
@@ -1895,13 +1900,34 @@ export const DashboardPage = () => {
         dispatch(setCgSTYearData(yearsData.NGMASTData));
       }
 
-      // Dispatch drug countries resistance data for all organisms.
-      // Without this, ecoli/decoli/shige/senterica/sentericaints were stuck
-      // on the initial-load snapshot (computed from the raw unfiltered data),
-      // so time / dataset / lineage filter changes never reached the
-      // Geographic Comparisons / Radar / ATB-correlation plots.
-      dispatch(setDrugsCountriesData(drugsCountriesData.drugsData));
-      dispatch(setDrugsRegionsData(drugsRegionsData.drugsData));
+      // Geographic Comparisons (BubbleGeographicGraph), RadarProfile, and the
+      // ATB correlation plot compare countries/regions against each other and
+      // must always see the FULL set of countries — not just those inside the
+      // summary plots' geo selection. These values are only affected by organism,
+      // time range, dataset, and lineage filters — NOT by actualCountry/actualRegion.
+      // Skip recomputing and dispatching when only the country/region selection
+      // changed to prevent unnecessary radar re-renders and chart re-animations.
+      const currentGeoKey = [
+        organism,
+        actualTimeInitial,
+        actualTimeFinal,
+        dataset,
+        datasetKP,
+        effectiveLineages.join(','),
+      ].join('|');
+      if (currentGeoKey !== prevGeoFilterKey.current) {
+        prevGeoFilterKey.current = currentGeoKey;
+        const drugsCountriesData = getDrugsCountriesData({ data: filters.data, items: countriesForFilter, organism });
+        const drugsRegionsData = getDrugsCountriesData({
+          data: filters.data,
+          items: economicRegions,
+          type: 'region',
+          organism,
+        });
+        dispatch(setDrugsCountriesData(drugsCountriesData.drugsData));
+        dispatch(setDrugsRegionsData(drugsRegionsData.drugsData));
+        dispatch(setAllOrganismData(filters.data));
+      }
     }
 
     dispatch(setCanFilterData(false));

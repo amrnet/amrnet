@@ -197,6 +197,7 @@ export const AMRInsights = () => {
             {filteredTabs.map(card => (
               <Box
                 key={`insights-card-${card.value}`}
+                id={`amr-insights-${card.value}`}
                 sx={{
                   position: currentTab === card.value ? 'relative' : 'absolute',
                   top: 0,

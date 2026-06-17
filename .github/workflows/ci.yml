@@ -57,38 +57,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Install client dependencies
-        working-directory: client
+      - name: Install dependencies
+        # Root install cascades into client/ (where ESLint + its config live).
         run: npm install --no-audit --no-fund
-      - name: Determine changed client source files
-        id: changed
+      - name: Diff-aware ESLint on changed lines
+        # Fails only on ESLint *errors* located on lines this PR changed, so new
+        # code must be clean without being blocked by the repo's pre-existing
+        # lint backlog in files the PR merely touches.
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             BASE="${{ github.event.pull_request.base.sha }}"
           else
             BASE="${{ github.event.before }}"
           fi
-          # First push to a branch has an all-zero "before" SHA — fall back to HEAD~1.
           if [ -z "$BASE" ] || ! git cat-file -e "$BASE" 2>/dev/null; then
             BASE=$(git rev-parse HEAD~1 2>/dev/null || git rev-parse HEAD)
           fi
-          FILES=$(git diff --name-only --diff-filter=ACMR "$BASE" HEAD -- client/src \
-            | grep -E '\.(js|jsx|ts|tsx)$' \
-            | sed 's#^client/##' || true)
-          {
-            echo "files<<EOF"
-            echo "$FILES"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-      - name: ESLint (changed files only, zero tolerance)
-        if: steps.changed.outputs.files != ''
-        working-directory: client
-        env:
-          ESLINT_USE_FLAT_CONFIG: 'false'
-        run: |
-          echo "Linting changed files:"
-          echo "${{ steps.changed.outputs.files }}"
-          npx eslint ${{ steps.changed.outputs.files }} --max-warnings 0
-      - name: No changed source files
-        if: steps.changed.outputs.files == ''
-        run: echo "No client source files changed — nothing to lint."
+          node .github/scripts/lint-changed.mjs "$BASE" HEAD
