@@ -536,7 +536,10 @@
     "allCountries": "Todos os países",
     "allCountriesInRegion": "Todos os países da região",
     "selectACountry": "Selecionar um país",
-    "selectPathotypes": "Selecionar patotipos"
+    "selectPathotype": "Selecionar patotipo",
+    "total": "Total: {{total}}",
+    "pathotypeTooltip": "Se houver muitos patotipos, apenas os primeiros 20 são mostrados",
+    "markersTooltip": "Apenas as primeiras 20 opções são mostradas de cada vez"
   },
   "pdf": {
     "reportInformation": "Informações do relatório",

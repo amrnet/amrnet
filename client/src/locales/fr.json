@@ -496,7 +496,10 @@
     "allCountries": "Tous les pays",
     "allCountriesInRegion": "Tous les pays de la région",
     "selectACountry": "Sélectionner un pays",
-    "selectPathotypes": "Sélectionner les pathotypes"
+    "selectPathotype": "Sélectionner un pathotype",
+    "total": "Total : {{total}}",
+    "pathotypeTooltip": "Si trop de pathotypes sont présents, seuls les 20 premiers sont affichés",
+    "markersTooltip": "Seules les 20 premières options sont affichées à la fois"
   },
   "pdf": {
     "reportInformation": "Informations du rapport",
