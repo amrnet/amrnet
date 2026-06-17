@@ -531,9 +531,16 @@ export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
 
           <ChartTooltip
             cursor={currentData !== 0 ? { fill: hoverColor } : false}
-            content={({ payload, active, label }) =>
-              active && payload ? <div className={classes.chartTooltipLabel}>{label}</div> : null
-            }
+            content={({ payload, active, label }) => {
+              if (!active || !payload?.length) return null;
+              const count = payload[0]?.payload?.count;
+              return (
+                <div className={classes.chartTooltipLabel}>
+                  <Typography variant="body2" fontWeight={600}>{label}</Typography>
+                  {count != null && <Typography variant="caption">N = {count}</Typography>}
+                </div>
+              );
+            }}
           />
 
           {topXKO
@@ -593,11 +600,11 @@ return (
             {currentTooltip ? (
               <div className={classes.tooltip}>
                 <div className={classes.tooltipTitle}>
-                  <Typography variant="h5" fontWeight="600">
+                  <Typography fontSize="15px" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
                   {currentTooltip.count !== 'ID' && (
-                    <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                    <Typography fontSize="13px">{'N = ' + currentTooltip.count}</Typography>
                   )}
                 </div>
                 {currentTooltip.count === 'ID' ? (
@@ -630,11 +637,11 @@ return (
                             />
                           )}
                           <div className={classes.tooltipItemStats}>
-                            <Typography variant="body2" fontWeight="500">
+                            <Typography fontSize="11px" fontWeight="500" noWrap sx={{ flex: 1, minWidth: 0 }}>
                               {item.label}
                             </Typography>
-                            <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                            <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                            <Typography fontSize="11px" noWrap sx={{ whiteSpace: 'nowrap' }}>{`N=${item.count}`}</Typography>
+                            <Typography fontSize="11px" sx={{ whiteSpace: 'nowrap' }}>{`${item.percentage}%`}</Typography>
                           </div>
                         </div>
                       );

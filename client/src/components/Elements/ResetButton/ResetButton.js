@@ -44,6 +44,7 @@ import {
 import { setDataset, setDatasetKP, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import {
   defaultDrugsForDrugResistanceGraphNG,
+  defaultDrugsForDrugResistanceGraphSA,
   defaultDrugsForDrugResistanceGraphST,
   drugsECOLI,
   drugsKP,
@@ -153,7 +154,10 @@ export const ResetButton = () => {
       dispatch(setDeterminantsGraphDrugClass('Azithromycin'));
     }
     if (organism === 'saureus') {
-      dispatch(setDrugResistanceGraphView(drugsSA));
+      dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphSA));
+      dispatch(setDeterminantsGraphDrugClass('Methicillin'));
+      dispatch(setTrendsGraphDrugClass('Methicillin'));
+      dispatch(setBubbleMarkersYAxisType('Methicillin'));
     }
     if (organism === 'strepneumo') {
       dispatch(setDrugResistanceGraphView(drugsSP));
