@@ -492,7 +492,11 @@
     "selectDrugsToCompare": "Seleccionar medicamentos para comparar",
     "allCountries": "Todos los países",
     "allCountriesInRegion": "Todos los países de la región",
-    "selectACountry": "Seleccionar un país"
+    "selectACountry": "Seleccionar un país",
+    "selectPathotype": "Seleccionar patotipo",
+    "total": "Total: {{total}}",
+    "pathotypeTooltip": "Si hay demasiados patotipos, solo se muestran los primeros 20",
+    "markersTooltip": "Solo se muestran las primeras 20 opciones a la vez"
   },
   "pdf": {
     "reportInformation": "Información del informe",
