@@ -31,20 +31,21 @@ jobs:
   build:
     name: Client build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: client
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Install client dependencies
+      - name: Install dependencies
+        # Install at the repo root. The root `install` script cascades into
+        # client/, and several client imports (compress-json, jspdf, papaparse,
+        # downloadjs, …) live in the ROOT package.json and resolve via Node's
+        # walk-up to root node_modules — same as local dev and Heroku.
         run: npm install --no-audit --no-fund
       - name: Build client
         # CI=false: don't treat (pre-existing) warnings as errors; we still fail
         # on real build errors (missing modules, syntax, undefined references).
-        run: CI=false npm run build
+        run: cd client && CI=false npm run build
 
   lint-changed:
     name: Lint changed files
