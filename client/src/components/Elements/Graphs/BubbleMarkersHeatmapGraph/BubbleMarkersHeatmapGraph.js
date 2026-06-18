@@ -33,7 +33,11 @@ import {
   setBubbleMarkersYAxisType,
 } from '../../../../stores/slices/graphSlice';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
-import { variableGraphOptions, variablesOptionsNG } from '../../../../util/convergenceVariablesOptions';
+import {
+  variableGraphOptions,
+  variableGraphOptionsShige,
+  variablesOptionsNG,
+} from '../../../../util/convergenceVariablesOptions';
 import { drugClassesRulesST } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 import { getAxisLabel } from '../../../../util/genotypes';
@@ -93,10 +97,15 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   }, [bubbleMarkersHeatmapGraphVariable, genotypesDrugClassesData, ngMastDrugClassesData, organism]);
 
   const statColumn = useMemo(() => {
-    const foundOption = (organism === 'kpneumo' ? variableGraphOptions : variablesOptionsNG).find(
-      x => x.value === bubbleMarkersHeatmapGraphVariable,
-    );
-    return foundOption?.mapValue || null;
+    // shige: ST (GENOTYPE) / Lincode (LINCODE_NUM) / Lincode alias (LINCODE_ALIAS)
+    const optionList =
+      organism === 'shige'
+        ? variableGraphOptionsShige
+        : organism === 'kpneumo'
+          ? variableGraphOptions
+          : variablesOptionsNG;
+    const foundOption = optionList.find(x => x.value === bubbleMarkersHeatmapGraphVariable);
+    return foundOption?.mapValue || (organism === 'shige' ? 'GENOTYPE' : null);
   }, [bubbleMarkersHeatmapGraphVariable, organism]);
 
   // Fix for BubbleMarkersHeatmapGraph - replace the yAxisOptions useMemo
@@ -602,6 +611,28 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                         disabled={organism === 'none'}
                       >
                         {variablesOptionsNG.map((option, index) => {
+                          return (
+                            <MenuItem key={index + 'bubble-heatmap-variable'} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  ) : null}
+                  {organism === 'shige' ? (
+                    <div className={classes.selectWrapper}>
+                      <div className={classes.labelWrapper}>
+                        <Typography variant="caption">{t('common.selectGenotype')}</Typography>
+                      </div>
+                      <Select
+                        value={bubbleMarkersHeatmapGraphVariable}
+                        onChange={handleChangeVariable}
+                        inputProps={{ className: classes.selectInput }}
+                        MenuProps={{ classes: { list: classes.selectMenu } }}
+                        disabled={organism === 'none'}
+                      >
+                        {variableGraphOptionsShige.map((option, index) => {
                           return (
                             <MenuItem key={index + 'bubble-heatmap-variable'} value={option.value}>
                               {option.label}
