@@ -24,6 +24,26 @@ function hasPathovar(pathovar) {
 }
 
 /**
+ * Resolve the best available LINcode string from a genome record.
+ *
+ * The data does not carry a single `LINcode` field; it carries the LINcode
+ * truncated at fixed levels (`LINcode_11`, `LINcode_9`, ...). We prefer the
+ * finest (most segments) available so the most specific lineage entry can
+ * match, falling back to coarser levels when the finer ones are missing.
+ *
+ * @param {object} item - a genome record
+ * @returns {string|null} the dash-joined LINcode, or null if none present
+ */
+export function resolveShigeLincode(item) {
+  if (!item) return null;
+  const candidates = [item.LINcode_11, item.LINcode_9, item.LINcode_7, item.LINcode_5, item.LINcode_3, item.LINcode];
+  for (const c of candidates) {
+    if (c && c !== '-') return c;
+  }
+  return null;
+}
+
+/**
  * Derive the numeric LINcode lineage and the named alias for a genome.
  *
  * The named alias (e.g. "Global III", "CipR.SEA") is only assigned when the

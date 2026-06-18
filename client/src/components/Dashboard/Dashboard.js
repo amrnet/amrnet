@@ -114,7 +114,7 @@ import {
   markersDrugsSH,
 } from '../../util/drugs';
 import { isProduction } from '../../util/env';
-import { deriveShigeLincode } from '../../util/shigeLincode';
+import { deriveShigeLincode, resolveShigeLincode } from '../../util/shigeLincode';
 import { getContinentGraphCard } from '../../util/graphCards';
 import { DEV_ONLY_ORGANISMS } from '../../util/organismsCards';
 import { AMRInsights } from '../Elements/AMRInsights';
@@ -314,7 +314,7 @@ export const DashboardPage = () => {
     // 'Lincode prevalence' map views can group/aggregate by them.
     if (organism === 'shige' && Array.isArray(responseData)) {
       responseData = responseData.map(item => {
-        const { numeric, alias } = deriveShigeLincode(item.LINcode, item.Pathovar);
+        const { numeric, alias } = deriveShigeLincode(resolveShigeLincode(item), item.Pathovar);
         // null (not '-') so unmatched genomes are skipped by the stats grouping
         // (which ignores falsy values) rather than forming a spurious '-' group.
         return { ...item, lincodeNumeric: numeric ?? null, lincodeAlias: alias ?? null };
@@ -1658,10 +1658,22 @@ export const DashboardPage = () => {
     isApplyingFilters.current = true;
     console.debug('[Dashboard] updateDataOnFilters: start');
     // Use in-memory cache when available — avoids reading all records from IndexedDB on every filter change.
-    const storeData =
+    let storeData =
       cachedOrganismData.current.key === organism && cachedOrganismData.current.data.length > 0
         ? cachedOrganismData.current.data
         : await getItems(organism);
+
+    // shige: the IndexedDB path returns the original records without the LINcode
+    // lineage fields derived in getInfoFromData, so the 'Lincode prevalence' map
+    // views and dropdowns would have nothing to group by. Derive them here too
+    // (idempotent — skips records that already carry the fields).
+    if (organism === 'shige') {
+      storeData = storeData.map(item => {
+        if (item.lincodeNumeric !== undefined) return item;
+        const { numeric, alias } = deriveShigeLincode(resolveShigeLincode(item), item.Pathovar);
+        return { ...item, lincodeNumeric: numeric ?? null, lincodeAlias: alias ?? null };
+      });
+    }
 
     if (organism === 'kpneumo' && convergenceGroupVariable !== currentConvergenceGroupVariable) {
       setCurrentConvergenceGroupVariable(convergenceGroupVariable);

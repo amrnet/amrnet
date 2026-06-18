@@ -39,6 +39,8 @@ const excludedViews = [
   'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
+  'Lincode prevalence',
+  'Lincode alias prevalence',
   // 'Resistance prevalence',
 ];
 const mapViewsWithZeroPercentOption = [
@@ -57,6 +59,8 @@ const mapViewsWithZeroPercentOption = [
   'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
+  'Lincode prevalence',
+  'Lincode alias prevalence',
   'Resistance prevalence',
 ];
 
@@ -93,6 +97,9 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   );
   const isOPrevalence = useMemo(() => mapView === 'O prevalence', [mapView]);
   const isOHPrevalence = useMemo(() => mapView === 'H prevalence', [mapView]);
+  // shige LINcode lineage views: numeric (all species) and named alias (S. sonnei only).
+  const isLincodePrevalence = useMemo(() => mapView === 'Lincode prevalence', [mapView]);
+  const isLincodeAliasPrevalence = useMemo(() => mapView === 'Lincode alias prevalence', [mapView]);
 
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
@@ -105,7 +112,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
           ? 'O_PREV'
           : isOHPrevalence
             ? 'OH_PREV'
-            : 'GENOTYPE';
+            : isLincodePrevalence
+              ? 'LINCODE_NUM'
+              : isLincodeAliasPrevalence
+                ? 'LINCODE_ALIAS'
+                : 'GENOTYPE';
     const items = {};
 
     mapData.forEach(obj => {
@@ -122,7 +133,15 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     });
 
     return items;
-  }, [isNGMASTPrevalence, isPathSerPrevalence, isOPrevalence, isOHPrevalence, mapData]);
+  }, [
+    isNGMASTPrevalence,
+    isPathSerPrevalence,
+    isOPrevalence,
+    isOHPrevalence,
+    isLincodePrevalence,
+    isLincodeAliasPrevalence,
+    mapData,
+  ]);
 
   const optionsSelected = useMemo(() => {
     return isNGMASTPrevalence ? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
@@ -241,6 +260,8 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       case 'Pathotype prevalence':
       case 'O prevalence':
       case 'Lineage prevalence (ST)':
+      case 'Lincode prevalence':
+      case 'Lincode alias prevalence':
         return gradientStyle;
       case '':
         return [];
@@ -288,6 +309,10 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       return 'NGMAST';
     }
 
+    if (isLincodePrevalence || isLincodeAliasPrevalence) {
+      return 'lineages';
+    }
+
     if (['sentericaints', 'senterica'].includes(organism)) {
       return 'STs';
     }
@@ -296,7 +321,15 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     return 'genotypes';
-  }, [isOPrevalence, isOHPrevalence, isPathSerPrevalence, isNGMASTPrevalence, organism]);
+  }, [
+    isOPrevalence,
+    isOHPrevalence,
+    isPathSerPrevalence,
+    isNGMASTPrevalence,
+    isLincodePrevalence,
+    isLincodeAliasPrevalence,
+    organism,
+  ]);
 
   const nonResPrevalenceLabel = t(`dashboard.filters.plotOptions.labels.${nonResPrevalenceLabelKey}`);
 
