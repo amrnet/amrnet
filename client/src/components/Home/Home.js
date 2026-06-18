@@ -13,7 +13,7 @@ import { useStyles } from './HomeMUI';
 
 // Vote-for-next-pathogen tile target. Set this to the team's Google Form / poll
 // URL; while empty the tile renders but is non-clickable.
-const NEXT_PATHOGEN_FORM_URL = '';
+const NEXT_PATHOGEN_FORM_URL = 'https://forms.gle/BPw8JMzpvhQzs7Y98';
 
 export const HomePage = () => {
   const classes = useStyles();
