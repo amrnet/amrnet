@@ -44,20 +44,26 @@ import { amrLikeOrganisms } from '../../util/organismsCards';
  * @param {number} chunkSize - Size of each chunk (default 500)
  * @returns {Promise<Array>} - Results from all chunks
  */
-// Ciprofloxacin mechanism patterns — shared across year/genotype/country/
-// drug-class aggregations. Count how many ";"-separated markers in a
-// Quinolone cell look like a QRDR mutation (gyrA/B, parC/E), a qnr gene,
-// or aac(6')-Ib-cr. CipNS = ≥1 marker, CipR = ≥2 markers.
+// Ciprofloxacin mechanism patterns (E. coli / Shigella / Salmonella), genotype
+// equivalent of the ECOFF NWT threshold — shared across year/genotype/country/
+// drug-class aggregations. Count how many ";"-separated quinolone-resistance
+// determinants a Quinolone cell carries: a QRDR mutation (gyrA/B, parC/E) or a
+// qnr gene (qnrA/B/C/D/S, any variant). CipNS = ≥1 determinant, CipR = ≥2
+// determinants from different loci (two gyrA mutations at different codons
+// count as two).
+//
+// aac(6')-Ib-cr is deliberately EXCLUDED: on its own it does not meet the
+// non-susceptibility threshold (classified wildtype + S, ECO1001), so it must
+// not contribute to CipNS or CipR.
 const _QRDR_RE = /gyr[AB]|par[CE]/i;
 const _QNR_RE = /qnr[A-Z]/i;
-const _AAC_CR_RE = /aac.*Ib.*cr/i;
 function countQuinoloneMarkers(raw) {
   if (!raw || raw === '-' || raw === 'ND') return 0;
   let n = 0;
   String(raw).split(';').forEach(e => {
     const g = e.trim();
     if (!g) return;
-    if (_QRDR_RE.test(g) || _QNR_RE.test(g) || _AAC_CR_RE.test(g)) n++;
+    if (_QRDR_RE.test(g) || _QNR_RE.test(g)) n++;
   });
   return n;
 }
@@ -73,7 +79,8 @@ function extractQuinoloneMarkers(raw) {
   String(raw).split(';').forEach(e => {
     const g = e.trim();
     if (!g) return;
-    if (_QRDR_RE.test(g) || _QNR_RE.test(g) || _AAC_CR_RE.test(g)) out.push(g);
+    // aac(6')-Ib-cr excluded — not a Ciprofloxacin-NS/R determinant (see above).
+    if (_QRDR_RE.test(g) || _QNR_RE.test(g)) out.push(g);
   });
   return out;
 }
@@ -2582,9 +2589,10 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
   }
 
   // Handle computed combination drugs.
-  //   CipNS         = ≥1 qnr/QRDR/aac(6')-Ib-cr marker in Quinolone column
-  //   CipR          = ≥2 such markers
-  //   Ciprofloxacin = ≥1 marker (combined label, used by marker-oriented views)
+  //   CipNS         = ≥1 quinolone determinant (QRDR gyrA/B,parC/E mutation OR
+  //                   qnr gene) in the Quinolone column; aac(6')-Ib-cr excluded
+  //   CipR          = ≥2 such determinants (from different loci)
+  //   Ciprofloxacin = ≥1 determinant (combined label, used by marker-oriented views)
   if (drug.computed) {
     if (drugKey === 'Ciprofloxacin') {
       // Marker-oriented aggregate: populate per-gene breakdown so

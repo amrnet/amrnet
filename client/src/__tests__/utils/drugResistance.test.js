@@ -26,15 +26,18 @@ function isResistant(record, column) {
   return !isEmpty(record[column]);
 }
 
-/** Count ciprofloxacin resistance markers in a Quinolone field. */
+/**
+ * Count ciprofloxacin resistance determinants in a Quinolone field.
+ * aac(6')-Ib-cr is excluded — on its own it does not meet the CipNS threshold
+ * (wildtype + S, ECO1001), so it counts toward neither CipNS nor CipR.
+ */
 function countMarkers(quinoloneField) {
   if (!quinoloneField || quinoloneField === '-' || quinoloneField === '') return 0;
   const qrdrPattern = /gyr[AB]|par[CE]/i;
   const qnrPattern = /qnr[A-Z]/i;
-  const aacCrPattern = /aac.*Ib.*cr/i;
   let n = 0;
   quinoloneField.split(';').map(e => e.trim()).forEach(entry => {
-    if (qrdrPattern.test(entry) || qnrPattern.test(entry) || aacCrPattern.test(entry)) n++;
+    if (qrdrPattern.test(entry) || qnrPattern.test(entry)) n++;
   });
   return n;
 }
@@ -173,8 +176,10 @@ describe('countMarkers (generic Quinolone detection)', () => {
     expect(countMarkers('qnrB4; qnrS1')).toBe(2);
   });
 
-  test('counts aac(6\')-Ib-cr', () => {
-    expect(countMarkers("aac(6')-Ib-cr")).toBe(1);
+  test('excludes aac(6\')-Ib-cr (wildtype + S, not a CipNS/R determinant)', () => {
+    expect(countMarkers("aac(6')-Ib-cr")).toBe(0);
+    // aac(6')-Ib-cr alongside a real QRDR mutation: only the QRDR counts → CipNS, not CipR.
+    expect(countMarkers("aac(6')-Ib-cr; gyrA_S83F")).toBe(1);
   });
 
   test('counts parC and parE mutations', () => {
