@@ -33,7 +33,8 @@ function isResistant(record, column) {
  */
 function countMarkers(quinoloneField) {
   if (!quinoloneField || quinoloneField === '-' || quinoloneField === '') return 0;
-  const qrdrPattern = /gyr[AB]|par[CE]/i;
+  // Only gyrA/parC QRDR mutations count (not gyrB/parE), per reviewer logic.
+  const qrdrPattern = /gyrA|parC/i;
   const qnrPattern = /qnr[A-Z]/i;
   let n = 0;
   quinoloneField.split(';').map(e => e.trim()).forEach(entry => {
@@ -182,9 +183,10 @@ describe('countMarkers (generic Quinolone detection)', () => {
     expect(countMarkers("aac(6')-Ib-cr; gyrA_S83F")).toBe(1);
   });
 
-  test('counts parC and parE mutations', () => {
+  test('counts parC but not parE/gyrB (only gyrA/parC QRDR per reviewer logic)', () => {
     expect(countMarkers('parC_S80I')).toBe(1);
-    expect(countMarkers('parE_D420N')).toBe(1);
+    expect(countMarkers('parE_D420N')).toBe(0);
+    expect(countMarkers('gyrB_S464F')).toBe(0);
   });
 
   test('ignores unrelated genes', () => {

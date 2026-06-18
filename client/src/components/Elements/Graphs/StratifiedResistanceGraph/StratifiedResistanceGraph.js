@@ -40,9 +40,10 @@ function translateShigeLINcode(rawValue) {
 }
 
 // Quinolone marker regexes (mirrors filters.js — kept local to avoid an
-// extra cross-component import dependency). aac(6')-Ib-cr is excluded: on its
-// own it does not meet the CipNS threshold (wildtype + S, ECO1001).
-const QRDR_RE = /gyr[AB]|par[CE]/i;
+// extra cross-component import dependency). Only gyrA/parC QRDR mutations count
+// (not gyrB/parE); aac(6')-Ib-cr is excluded: on its own it does not meet the
+// CipNS threshold (wildtype + S, ECO1001).
+const QRDR_RE = /gyrA|parC/i;
 const QNR_RE = /qnr[A-Z]/i;
 function countQuinoloneMarkers(raw) {
   if (!raw || raw === '-' || raw === 'ND') return 0;

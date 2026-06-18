@@ -47,15 +47,16 @@ import { amrLikeOrganisms } from '../../util/organismsCards';
 // Ciprofloxacin mechanism patterns (E. coli / Shigella / Salmonella), genotype
 // equivalent of the ECOFF NWT threshold — shared across year/genotype/country/
 // drug-class aggregations. Count how many ";"-separated quinolone-resistance
-// determinants a Quinolone cell carries: a QRDR mutation (gyrA/B, parC/E) or a
+// determinants a Quinolone cell carries: a gyrA or parC QRDR mutation, or a
 // qnr gene (qnrA/B/C/D/S, any variant). CipNS = ≥1 determinant, CipR = ≥2
 // determinants from different loci (two gyrA mutations at different codons
 // count as two).
 //
-// aac(6')-Ib-cr is deliberately EXCLUDED: on its own it does not meet the
-// non-susceptibility threshold (classified wildtype + S, ECO1001), so it must
-// not contribute to CipNS or CipR.
-const _QRDR_RE = /gyr[AB]|par[CE]/i;
+// Per the reviewer's genotype-only logic, only gyrA and parC QRDR mutations
+// count (not gyrB/parE), and aac(6')-Ib-cr is EXCLUDED: on its own it does not
+// meet the non-susceptibility threshold (wildtype + S, ECO1001), so it must not
+// contribute to CipNS or CipR.
+const _QRDR_RE = /gyrA|parC/i;
 const _QNR_RE = /qnr[A-Z]/i;
 function countQuinoloneMarkers(raw) {
   if (!raw || raw === '-' || raw === 'ND') return 0;
