@@ -74,7 +74,15 @@ app.get('/api/glass-mongodb', async (req, res) => {
     const col = client.db('amrnet_admin').collection('glass_data');
     const count = await col.estimatedDocumentCount();
     if (count === 0) {
-      return res.status(404).json({ error: 'No GLASS data in MongoDB. Run: node scripts/check-glass-data.js' });
+      // Not populated yet — return 200 with an empty payload (not 404) so the
+      // client cleanly falls through to the live GHO proxy without logging a
+      // console error. Populate with: node scripts/check-glass-data.js
+      return res.json({
+        consumption: [],
+        resistance: { ecoli_3gc: [], mrsa: [], ng_ciprofloxacin: [], ng_azithromycin: [], ng_ceftriaxone: [], ng_cefixime: [] },
+        phenotypic: [],
+        source: 'none',
+      });
     }
 
     const ghoRecords = await col.find({ source: 'GHO_API' }).toArray();
@@ -98,21 +106,58 @@ app.get('/api/glass-mongodb', async (req, res) => {
   }
 });
 
-// GHO OData API proxy (avoids CORS issues with WHO API)
-app.get('/api/gho/:indicator', async (req, res) => {
-  try {
-    const indicator = req.params.indicator;
-    // Whitelist allowed indicators to prevent abuse
-    const allowed = ['GLASSAMC_TC', 'GLASSAMC_AWARE', 'AMR_INFECT_ECOLI', 'AMR_INFECT_MRSA', 'GASPRSCIP', 'GASPRSAZM', 'GASPRSCRO', 'GASPRSCFM', 'GASPRSESC'];
-    if (!allowed.includes(indicator)) {
-      return res.status(400).json({ error: 'Invalid indicator' });
+// GHO OData API proxy (avoids CORS issues with WHO API).
+//
+// The WHO GHO OData endpoint (ghoapi.azureedge.net) is the documented source
+// and still active, but WHO has signalled a migration to a new OData
+// implementation and the endpoint occasionally returns transient 5xx. To keep
+// the dashboard resilient we (a) cache successful responses in memory for a day
+// and (b) retry once with a timeout before giving up. The durable fix is to
+// pre-load the data into MongoDB (scripts/check-glass-data.js) so this live
+// proxy is only a fallback. See also the new WHO GLASS dashboard, which offers
+// the underlying AMR/AMU data for direct download.
+const GHO_CACHE = new Map(); // indicator -> { ts, data }
+const GHO_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
+async function fetchGhoIndicator(indicator, { timeoutMs = 15000, retries = 1 } = {}) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(`https://ghoapi.azureedge.net/api/${indicator}`, { signal: controller.signal });
+      if (!response.ok) throw new Error(`GHO API returned ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      if (attempt === retries) throw err;
+    } finally {
+      clearTimeout(timer);
     }
-    const response = await fetch(`https://ghoapi.azureedge.net/api/${indicator}`);
-    if (!response.ok) throw new Error(`GHO API returned ${response.status}`);
-    const data = await response.json();
+  }
+}
+
+app.get('/api/gho/:indicator', async (req, res) => {
+  const indicator = req.params.indicator;
+  // Whitelist allowed indicators to prevent abuse
+  const allowed = ['GLASSAMC_TC', 'GLASSAMC_AWARE', 'AMR_INFECT_ECOLI', 'AMR_INFECT_MRSA', 'GASPRSCIP', 'GASPRSAZM', 'GASPRSCRO', 'GASPRSCFM', 'GASPRSESC'];
+  if (!allowed.includes(indicator)) {
+    return res.status(400).json({ error: 'Invalid indicator' });
+  }
+
+  const cached = GHO_CACHE.get(indicator);
+  if (cached && Date.now() - cached.ts < GHO_CACHE_TTL_MS) {
+    return res.json(cached.data);
+  }
+
+  try {
+    const data = await fetchGhoIndicator(indicator);
+    GHO_CACHE.set(indicator, { ts: Date.now(), data });
     res.json(data);
   } catch (error) {
-    console.error('[GHO Proxy]', error.message);
+    console.error('[GHO Proxy]', indicator, error.message);
+    // Serve stale cache if we have it, rather than failing the widget.
+    if (cached) {
+      return res.json(cached.data);
+    }
     res.status(502).json({ error: 'Failed to fetch from WHO GHO API' });
   }
 });
