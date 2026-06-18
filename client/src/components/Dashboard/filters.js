@@ -2030,6 +2030,48 @@ export function getGenotypesData({
     });
   }
 
+  // shige: LINcode lineage marker data for the BAMRH heatmap. Mirrors the
+  // pathotype block but groups by the two derived LINcode dimensions so the
+  // 'AMR marker by genotype' heatmap can plot markers per lineage.
+  const lincodeDrugClassesData = {};
+  const lincodeAliasDrugClassesData = {};
+  if (organism === 'shige') {
+    const buildLincodeDrugClasses = (groupField, target) => {
+      statKeysECOLI.forEach(drug => {
+        if (drug.name !== 'Pansusceptible') target[drug.name] = [];
+      });
+
+      const byGroup = {};
+      data.forEach(x => {
+        const k = x[groupField]?.toString();
+        if (k && k !== 'NA' && k !== '-' && k !== '') {
+          if (!byGroup[k]) byGroup[k] = [];
+          byGroup[k].push(x);
+        }
+      });
+
+      Object.keys(byGroup).forEach(name => {
+        const groupData = byGroup[name];
+        const drugClassResponse = { name, totalCount: groupData.length, resistantCount: 0 };
+        statKeysECOLI.forEach(drug => {
+          if (!target[drug.name]) return;
+          target[drug.name].push({
+            ...drugClassResponse,
+            ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: groupData }),
+          });
+        });
+      });
+
+      Object.keys(target).forEach(key => {
+        target[key].sort((a, b) => b.totalCount - a.totalCount);
+        target[key].forEach(item => delete item['None']);
+      });
+    };
+
+    buildLincodeDrugClasses('lincodeNumeric', lincodeDrugClassesData);
+    buildLincodeDrugClasses('lincodeAlias', lincodeAliasDrugClassesData);
+  }
+
   // Years
   // years.forEach(year => {
   //   const yearData = (dataForGeographic || data).filter(x => x.DATE.toString() === year.toString());
@@ -2142,6 +2184,8 @@ export function getGenotypesData({
     regionsDrugClassesData,
     ngMastDrugClassesData,
     pathotypesDrugClassesData,
+    lincodeDrugClassesData,
+    lincodeAliasDrugClassesData,
   };
 }
 

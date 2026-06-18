@@ -81,6 +81,8 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
   const genotypesDrugClassesData = useAppSelector(state => state.graph.genotypesDrugClassesData);
   const ngMastDrugClassesData = useAppSelector(state => state.graph.ngMastDrugClassesData);
+  const lincodeDrugClassesData = useAppSelector(state => state.graph.lincodeDrugClassesData);
+  const lincodeAliasDrugClassesData = useAppSelector(state => state.graph.lincodeAliasDrugClassesData);
   const determinantsGraphDrugClass = useAppSelector(state => state.graph.determinantsGraphDrugClass);
 
   const selectedCRData = useMemo(() => {
@@ -93,8 +95,20 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     if (organism === 'ngono' && bubbleMarkersHeatmapGraphVariable === 'NG-MAST TYPE') {
       return ngMastDrugClassesData;
     }
+    // shige: marker breakdown grouped by the selected LINcode dimension.
+    if (organism === 'shige') {
+      if (bubbleMarkersHeatmapGraphVariable === 'lincodeNumeric') return lincodeDrugClassesData;
+      if (bubbleMarkersHeatmapGraphVariable === 'lincodeAlias') return lincodeAliasDrugClassesData;
+    }
     return genotypesDrugClassesData;
-  }, [bubbleMarkersHeatmapGraphVariable, genotypesDrugClassesData, ngMastDrugClassesData, organism]);
+  }, [
+    bubbleMarkersHeatmapGraphVariable,
+    genotypesDrugClassesData,
+    ngMastDrugClassesData,
+    lincodeDrugClassesData,
+    lincodeAliasDrugClassesData,
+    organism,
+  ]);
 
   const statColumn = useMemo(() => {
     // shige: ST (GENOTYPE) / Lincode (LINCODE_NUM) / Lincode alias (LINCODE_ALIAS)
