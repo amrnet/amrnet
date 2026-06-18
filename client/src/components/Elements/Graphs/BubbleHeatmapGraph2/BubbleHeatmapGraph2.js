@@ -29,7 +29,11 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { setBubbleHeatmapGraphVariable } from '../../../../stores/slices/graphSlice';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
-import { variableGraphOptions, variableGraphOptionsNG } from '../../../../util/convergenceVariablesOptions';
+import {
+  variableGraphOptions,
+  variableGraphOptionsNG,
+  variableGraphOptionsShige,
+} from '../../../../util/convergenceVariablesOptions';
 import { statKeys } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite } from '../../../../util/drugs';
 import { getAxisLabel } from '../../../../util/genotypes';
@@ -160,6 +164,11 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
           }
           return variableOption.mapValue;
         }
+        if (organism === 'shige') {
+          // ST (GENOTYPE) / Lincode (LINCODE_NUM) / Lincode alias (LINCODE_ALIAS)
+          const variableOption = variableGraphOptionsShige.find(x => x.value === bubbleHeatmapGraphVariable);
+          return variableOption?.mapValue ?? 'GENOTYPE';
+        }
         return 'GENOTYPE';
       case 'pathotype':
         return 'PATHOTYPE';
@@ -203,7 +212,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
   }, [yAxisOptions]);
 
   const formatDrugLabel = useCallback(
-    name => (yAxisType === 'resistance' ? drugAcronymsOpposite[drugAcronyms[name] ?? name] ?? name : name),
+    name => (yAxisType === 'resistance' ? (drugAcronymsOpposite[drugAcronyms[name] ?? name] ?? name) : name),
     [yAxisType],
   );
 
@@ -570,6 +579,28 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                       </Select>
                     </div>
                   )}
+                  {organism === 'shige' && (
+                    <div className={classes.selectWrapper}>
+                      <div className={classes.labelWrapper}>
+                        <Typography variant="caption">{t('common.selectGenotype')}</Typography>
+                      </div>
+                      <Select
+                        value={bubbleHeatmapGraphVariable}
+                        onChange={handleChangeVariable}
+                        inputProps={{ className: classes.selectInput }}
+                        MenuProps={{ classes: { list: classes.selectMenu } }}
+                        disabled={organism === 'none'}
+                      >
+                        {variableGraphOptionsShige.map((option, index) => {
+                          return (
+                            <MenuItem key={index + 'bubble-heatmap-variable'} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  )}
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">
@@ -615,7 +646,9 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                         disableAutoFocusItem: true,
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={selected => <div>{`${t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: xAxisOptions?.length ?? 0 })}`}</div>}
+                      renderValue={selected => (
+                        <div>{`${t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: xAxisOptions?.length ?? 0 })}`}</div>
+                      )}
                       onClose={clearSearch}
                     >
                       <Box
@@ -670,7 +703,9 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
                           disabled={organism === 'none'}
                           color={yAxisSelected?.length === yAxisOptions?.length ? 'error' : 'primary'}
                         >
-                          {yAxisSelected?.length === yAxisOptions?.length ? t('common.clearAll') : t('common.selectAll')}
+                          {yAxisSelected?.length === yAxisOptions?.length
+                            ? t('common.clearAll')
+                            : t('common.selectAll')}
                         </Button>
                       }
                       inputProps={{ className: classes.multipleSelectInput }}
