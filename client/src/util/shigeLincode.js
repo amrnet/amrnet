@@ -19,16 +19,31 @@ function truncateLincode(lincode, level) {
   return segments.length >= level ? segments.slice(0, level).join('-') : null;
 }
 
+function hasPathovar(pathovar) {
+  return pathovar != null && pathovar !== '' && pathovar !== '-';
+}
+
 /**
- * Derive the numeric LINcode lineage and the named alias for a genome's LINcode.
+ * Derive the numeric LINcode lineage and the named alias for a genome.
+ *
+ * The named alias (e.g. "Global III", "CipR.SEA") is only assigned when the
+ * genome has a pathotype (Pathovar) on record — per the rule that every lincode
+ * alias must carry pathotype information. The numeric LINcode lineage is not
+ * gated on pathovar.
+ *
  * @param {string} lincode - the genome's full LINcode (LINcode field)
+ * @param {string} [pathovar] - the genome's Pathovar (pathotype)
  * @returns {{ numeric: string|null, alias: string|null, species: string|null }}
  */
-export function deriveShigeLincode(lincode) {
+export function deriveShigeLincode(lincode, pathovar) {
   if (!lincode || lincode === '-') return { numeric: null, alias: null, species: null };
   for (const entry of LINEAGES) {
     if (truncateLincode(lincode, entry.level) === entry.prefix) {
-      return { numeric: entry.numeric, alias: entry.alias, species: entry.species };
+      return {
+        numeric: entry.numeric,
+        alias: hasPathovar(pathovar) ? entry.alias : null,
+        species: entry.species,
+      };
     }
   }
   return { numeric: null, alias: null, species: null };
