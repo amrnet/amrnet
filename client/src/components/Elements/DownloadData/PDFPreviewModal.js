@@ -19,7 +19,7 @@ const PDF_MARGIN      = 24;
 const GRADIENT_MAP_VIEWS = [
   'Genotype prevalence', 'Serotype prevalence', 'Pathotype prevalence',
   'O prevalence', 'H prevalence', 'ST prevalence', 'NG-MAST prevalence',
-  'Lineage prevalence (ST)',
+  'Lineage prevalence (ST)', 'Lincode prevalence', 'Lincode alias prevalence',
 ];
 
 // Heatmap graph IDs (BubbleHeatmapGraph2, BubbleMarkersHeatmapGraph, BubbleKOHeatmapGraph)

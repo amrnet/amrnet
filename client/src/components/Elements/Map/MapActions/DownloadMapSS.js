@@ -105,6 +105,8 @@ export const DownloadMapSS = async ({
         'Genotype prevalence',
         'Lineage prevalence (ST)',
         'ST prevalence',
+        'Lincode prevalence',
+        'Lincode alias prevalence',
         'Sublineage prevalence',
         'Pathotype prevalence',
         'Serotype prevalence',
@@ -182,6 +184,8 @@ export const DownloadMapSS = async ({
         case 'Genotype prevalence':
         case 'Lineage prevalence (ST)':
         case 'ST prevalence':
+        case 'Lincode prevalence':
+        case 'Lincode alias prevalence':
         case 'Sublineage prevalence':
           legendImg.src = 'legends/MapView_prevalence.png';
           break;
