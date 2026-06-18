@@ -1,5 +1,4 @@
-import { CasinoOutlined } from '@mui/icons-material';
-import { Card, CardContent, CardMedia, CircularProgress, Grid, Typography, useMediaQuery } from '@mui/material';
+import { Card, CardContent, CardMedia, CircularProgress, Grid, SvgIcon, Typography, useMediaQuery } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -14,6 +13,18 @@ import { useStyles } from './HomeMUI';
 // Vote-for-next-pathogen tile target. Set this to the team's Google Form / poll
 // URL; while empty the tile renders but is non-clickable.
 const NEXT_PATHOGEN_FORM_URL = 'https://forms.gle/BPw8JMzpvhQzs7Y98';
+
+// DNA double-helix icon (MUI has no DNA glyph), drawn as two crossing strands
+// with connecting rungs. Uses currentColor so `sx={{ color }}` applies.
+const DnaIcon = props => (
+  <SvgIcon {...props} viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+      <path d="M8 2c0 5 8 5 8 10s-8 5-8 10" />
+      <path d="M16 2c0 5-8 5-8 10s8 5 8 10" />
+      <path d="M8.6 5h6.8M7.2 9h9.6M7.2 15h9.6M8.6 19h6.8" />
+    </g>
+  </SvgIcon>
+);
 
 export const HomePage = () => {
   const classes = useStyles();
@@ -160,7 +171,7 @@ export const HomePage = () => {
                       background: 'linear-gradient(135deg, #1b1b2f 0%, #0f3460 100%)',
                     }}
                   >
-                    <CasinoOutlined sx={{ fontSize: matches600 ? 36 : 72, color: 'rgba(255, 255, 255, 0.9)' }} />
+                    <DnaIcon sx={{ fontSize: matches600 ? 36 : 72, color: 'rgba(255, 255, 255, 0.9)' }} />
                   </div>
                   <div
                     className={classes.organismLegend}
