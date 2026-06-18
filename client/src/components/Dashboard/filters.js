@@ -174,6 +174,7 @@ export function filterData({
   data,
   dataset,
   datasetKP,
+  datasetSA = 'All',
   actualTimeInitial,
   actualTimeFinal,
   organism,
@@ -189,6 +190,13 @@ export function filterData({
     const columnID = statKeysKP.find(x => x.name === datasetKP).column;
     if (Array.isArray(columnID)) return columnID.some(x => item[x] !== '-');
     return item[columnID] !== '-';
+  };
+  // S. aureus dataset filter: 'MRSA' keeps only genomes carrying the mecA gene
+  // (listed in the comma-separated `Acquired` field). Inert for other organisms.
+  const checkDatasetSA = item => {
+    if (datasetSA === 'All' || organism !== 'saureus') return true;
+    if (datasetSA === 'MRSA') return typeof item.Acquired === 'string' && /(^|,)\s*mecA\b/.test(item.Acquired);
+    return true;
   };
   const checkTime = item => {
     return item.DATE >= actualTimeInitial && item.DATE <= actualTimeFinal;
@@ -215,7 +223,9 @@ export function filterData({
   let listPMID = [];
 
   // Filter
-  const newData = data.filter(x => checkDataset(x) && checkDatasetKP(x) && checkTime(x) && checkLineages(x));
+  const newData = data.filter(
+    x => checkDataset(x) && checkDatasetKP(x) && checkDatasetSA(x) && checkTime(x) && checkLineages(x),
+  );
 
   // Set genotypes, genomes and PMID
   if (actualRegion !== 'All') {
