@@ -280,6 +280,8 @@ export const Map = () => {
       'H prevalence',
       'Pathotype prevalence',
       'ST prevalence',
+      'Lincode prevalence',
+      'Lincode alias prevalence',
       'Resistance prevalence',
       'No. Samples',
       'NG-MAST prevalence',
