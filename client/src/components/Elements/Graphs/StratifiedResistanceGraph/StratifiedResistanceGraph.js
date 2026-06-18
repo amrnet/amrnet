@@ -40,20 +40,27 @@ function translateShigeLINcode(rawValue) {
 }
 
 // Quinolone marker regexes (mirrors filters.js — kept local to avoid an
-// extra cross-component import dependency). Only gyrA/parC QRDR mutations count
-// (not gyrB/parE); aac(6')-Ib-cr is excluded: on its own it does not meet the
-// CipNS threshold (wildtype + S, ECO1001).
-const QRDR_RE = /gyrA|parC/i;
+// extra cross-component import dependency). For E. coli / Shigella / decoli the
+// reviewer's strict rule applies: only gyrA/parC QRDR mutations + qnr genes
+// count (gyrB/parE and aac(6')-Ib-cr excluded). Salmonella (senterica /
+// sentericaints), which also reaches this graph, keeps the prior broader
+// matcher until a Salmonella-specific spec is provided.
+const QRDR_STRICT_RE = /gyrA|parC/i;
+const QRDR_LEGACY_RE = /gyr[AB]|par[CE]/i;
+const AAC_CR_RE = /aac.*Ib.*cr/i;
 const QNR_RE = /qnr[A-Z]/i;
-function countQuinoloneMarkers(raw) {
+const STRICT_CIP_ORGANISMS = ['ecoli', 'shige', 'decoli'];
+function countQuinoloneMarkers(raw, organism) {
   if (!raw || raw === '-' || raw === 'ND') return 0;
+  const strict = STRICT_CIP_ORGANISMS.includes(organism);
   let n = 0;
   String(raw)
     .split(';')
     .forEach(e => {
       const g = e.trim();
       if (!g) return;
-      if (QRDR_RE.test(g) || QNR_RE.test(g)) n++;
+      if (QNR_RE.test(g)) n++;
+      else if (strict ? QRDR_STRICT_RE.test(g) : QRDR_LEGACY_RE.test(g) || AAC_CR_RE.test(g)) n++;
     });
   return n;
 }
@@ -66,13 +73,13 @@ function hasResColumn(item, col) {
 
 // Resistance evaluator for the ECOLI-family Enterobase schema. Keys match
 // the canonical drug names exposed by statKeysSalmonella.
-function isResistant(item, drugKey) {
+function isResistant(item, drugKey, organism) {
   switch (drugKey) {
     case 'Ciprofloxacin':
     case 'Ciprofloxacin NS':
-      return countQuinoloneMarkers(item['Quinolone']) >= 1;
+      return countQuinoloneMarkers(item['Quinolone'], organism) >= 1;
     case 'Ciprofloxacin R':
-      return countQuinoloneMarkers(item['Quinolone']) >= 2;
+      return countQuinoloneMarkers(item['Quinolone'], organism) >= 2;
     case 'Aminoglycosides':
       return hasResColumn(item, 'Aminoglycoside');
     case 'Carbapenems':
@@ -181,7 +188,7 @@ export const StratifiedResistanceGraph = ({ mode = 'source' }) => {
         groups[v] = { name: v, label, total: 0, resistant: 0 };
       }
       groups[v].total++;
-      if (isResistant(item, drug)) groups[v].resistant++;
+      if (isResistant(item, drug, organism)) groups[v].resistant++;
     });
 
     const allRows = Object.values(groups)

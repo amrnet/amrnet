@@ -44,27 +44,40 @@ import { amrLikeOrganisms } from '../../util/organismsCards';
  * @param {number} chunkSize - Size of each chunk (default 500)
  * @returns {Promise<Array>} - Results from all chunks
  */
-// Ciprofloxacin mechanism patterns (E. coli / Shigella / Salmonella), genotype
-// equivalent of the ECOFF NWT threshold — shared across year/genotype/country/
-// drug-class aggregations. Count how many ";"-separated quinolone-resistance
-// determinants a Quinolone cell carries: a gyrA or parC QRDR mutation, or a
-// qnr gene (qnrA/B/C/D/S, any variant). CipNS = ≥1 determinant, CipR = ≥2
-// determinants from different loci (two gyrA mutations at different codons
-// count as two).
+// Ciprofloxacin mechanism patterns, genotype equivalent of the ECOFF NWT
+// threshold — shared across year/genotype/country/drug-class aggregations.
+// Count how many ";"-separated quinolone-resistance determinants a Quinolone
+// cell carries. CipNS = ≥1 determinant, CipR = ≥2 determinants from different
+// loci (two gyrA mutations at different codons count as two).
 //
-// Per the reviewer's genotype-only logic, only gyrA and parC QRDR mutations
-// count (not gyrB/parE), and aac(6')-Ib-cr is EXCLUDED: on its own it does not
-// meet the non-susceptibility threshold (wildtype + S, ECO1001), so it must not
-// contribute to CipNS or CipR.
-const _QRDR_RE = /gyrA|parC/i;
+// The reviewer's genotype-only logic applies to **E. coli / Shigella / decoli
+// only**: count gyrA and parC QRDR mutations (not gyrB/parE) and any qnr gene
+// (qnrA/B/C/D/S); aac(6')-Ib-cr is EXCLUDED — on its own it does not meet the
+// non-susceptibility threshold (wildtype + S, ECO1001).
+//
+// Other organisms sharing the ECOLI rule set (non-typhoidal Salmonella:
+// senterica / sentericaints) keep the prior broader matcher (gyrA/B + parC/E +
+// aac(6')-Ib-cr) until a Salmonella-specific spec is provided. The `organism`
+// argument selects which matcher applies.
+const _QRDR_STRICT_RE = /gyrA|parC/i; // ecoli/shige/decoli (reviewer)
+const _QRDR_LEGACY_RE = /gyr[AB]|par[CE]/i; // salmonella (unchanged)
+const _AAC_CR_RE = /aac.*Ib.*cr/i; // legacy matcher only
 const _QNR_RE = /qnr[A-Z]/i;
-function countQuinoloneMarkers(raw) {
+const _STRICT_CIP_ORGANISMS = ['ecoli', 'shige', 'decoli'];
+
+function _isQuinoloneMarker(gene, strict) {
+  if (_QNR_RE.test(gene)) return true;
+  if (strict) return _QRDR_STRICT_RE.test(gene);
+  return _QRDR_LEGACY_RE.test(gene) || _AAC_CR_RE.test(gene);
+}
+
+function countQuinoloneMarkers(raw, organism) {
   if (!raw || raw === '-' || raw === 'ND') return 0;
+  const strict = _STRICT_CIP_ORGANISMS.includes(organism);
   let n = 0;
   String(raw).split(';').forEach(e => {
     const g = e.trim();
-    if (!g) return;
-    if (_QRDR_RE.test(g) || _QNR_RE.test(g)) n++;
+    if (g && _isQuinoloneMarker(g, strict)) n++;
   });
   return n;
 }
@@ -74,14 +87,14 @@ function countQuinoloneMarkers(raw) {
 // instead of a count. Used by the marker-oriented Ciprofloxacin aggregate
 // so per-gene breakdowns work in MarkerTrendsGraph / BubbleMarkersHeatmapGraph
 // / BubbleGeographicGraph (determinant mode).
-function extractQuinoloneMarkers(raw) {
+function extractQuinoloneMarkers(raw, organism) {
   if (!raw || raw === '-' || raw === 'ND') return [];
+  const strict = _STRICT_CIP_ORGANISMS.includes(organism);
   const out = [];
   String(raw).split(';').forEach(e => {
     const g = e.trim();
-    if (!g) return;
-    // aac(6')-Ib-cr excluded — not a Ciprofloxacin-NS/R determinant (see above).
-    if (_QRDR_RE.test(g) || _QNR_RE.test(g)) out.push(g);
+    // For ecoli/shige/decoli aac(6')-Ib-cr and gyrB/parE are excluded (see above).
+    if (g && _isQuinoloneMarker(g, strict)) out.push(g);
   });
   return out;
 }
@@ -503,7 +516,7 @@ function getMapStatsData({
       // "marker" entry keyed by the drug name so the country-level count is
       // the number of records passing the threshold.
       if (drug.computed) {
-        const m = countQuinoloneMarkers(item['Quinolone']);
+        const m = countQuinoloneMarkers(item['Quinolone'], organism);
         const passes =
           (statsKey === 'Ciprofloxacin NS' && m >= 1) ||
           (statsKey === 'Ciprofloxacin R' && m >= 2);
@@ -1300,9 +1313,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             // (≥1 marker, i.e. same threshold as NS but labelled without the
             // NS/R split) is also emitted for marker views.
             if (drug.name === 'Ciprofloxacin NS' || drug.name === 'Ciprofloxacin') {
-              drugStats[drug.name] = yearData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
+              drugStats[drug.name] = yearData.filter(x => countQuinoloneMarkers(x['Quinolone'], organism) >= 1).length;
             } else if (drug.name === 'Ciprofloxacin R') {
-              drugStats[drug.name] = yearData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
+              drugStats[drug.name] = yearData.filter(x => countQuinoloneMarkers(x['Quinolone'], organism) >= 2).length;
             }
             return;
           }
@@ -1318,7 +1331,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         const isResCipEC = x => hasRes(x, 'Quinolone');
         const isResAzmEC = x => hasRes(x, 'Macrolide');
         const isResBetaLactamEC = x => hasRes(x, 'Beta-lactam');
-        const isCipREC = x => countQuinoloneMarkers(x['Quinolone']) >= 2;
+        const isCipREC = x => countQuinoloneMarkers(x['Quinolone'], organism) >= 2;
 
         // MDR: at least 2 of {ciprofloxacin, macrolide, beta-lactam}
         const isMDREC = x => {
@@ -1349,7 +1362,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
 
           genotypesAndDrugsDataUniqueGenotypes[key].push(...Object.keys(filteredGenotypes));
 
-          const drugClass = getECOLIDrugClassData({ drugKey: key, dataToFilter: yearData });
+          const drugClass = getECOLIDrugClassData({ drugKey: key, dataToFilter: yearData, organism });
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
           delete item.count;
 
@@ -1596,7 +1609,7 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
             }),
           );
         } else if (['senterica', 'sentericaints'].includes(organism)) {
-          Object.assign(drugClassData, getECOLIDrugClassData({ drugKey: key, dataToFilter: itemData }));
+          Object.assign(drugClassData, getECOLIDrugClassData({ drugKey: key, dataToFilter: itemData, organism }));
         } else if (organism === 'saureus') {
           const rule = drugRulesSA.find(r => r.key === key);
           if (rule) {
@@ -1637,7 +1650,7 @@ export function getDrugsCountriesData({ data, items, organism, type = 'country' 
           }
         } else {
           // For ecoli, decoli, shige
-          Object.assign(drugClassData, getECOLIDrugClassData({ drugKey: key, dataToFilter: itemData }));
+          Object.assign(drugClassData, getECOLIDrugClassData({ drugKey: key, dataToFilter: itemData, organism }));
         }
 
         drugsData[key].push(drugClassData);
@@ -1918,16 +1931,16 @@ export function getGenotypesData({
         // Ciprofloxacin (≥1 marker) for marker-oriented views.
         if (drug.computed) {
           if (drug.name === 'Ciprofloxacin NS' || drug.name === 'Ciprofloxacin') {
-            response[drug.name] = genotypeData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
+            response[drug.name] = genotypeData.filter(x => countQuinoloneMarkers(x['Quinolone'], organism) >= 1).length;
           } else if (drug.name === 'Ciprofloxacin R') {
-            response[drug.name] = genotypeData.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
+            response[drug.name] = genotypeData.filter(x => countQuinoloneMarkers(x['Quinolone'], organism) >= 2).length;
           } else {
             response[drug.name] = 0;
           }
           // Populate drill-down (gene breakdown) for the heatmap.
           const drugClass = {
             ...drugClassResponse,
-            ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: genotypeData }),
+            ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: genotypeData, organism }),
           };
           genotypesDrugClassesData[drug.name]?.push(drugClass);
           return;
@@ -1940,7 +1953,7 @@ export function getGenotypesData({
         if (drug.name !== 'Pansusceptible') {
           const drugClass = {
             ...drugClassResponse,
-            ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: genotypeData }),
+            ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: genotypeData, organism }),
           };
           genotypesDrugClassesData[drug.name].push(drugClass);
         }
@@ -2026,7 +2039,7 @@ export function getGenotypesData({
         if (!pathotypesDrugClassesData[drug.name]) return;
         const drugClass = {
           ...drugClassResponse,
-          ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: pathotypeData }),
+          ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: pathotypeData, organism }),
         };
         pathotypesDrugClassesData[drug.name].push(drugClass);
       });
@@ -2065,7 +2078,7 @@ export function getGenotypesData({
           if (!target[drug.name]) return;
           target[drug.name].push({
             ...drugClassResponse,
-            ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: groupData }),
+            ...getECOLIDrugClassData({ drugKey: drug.name, dataToFilter: groupData, organism }),
           });
         });
       });
@@ -2578,7 +2591,7 @@ function getMarkerDrugClassData({ drugKey, dataToFilter, markerRules, fallbackDr
   return drugClass;
 }
 
-function getECOLIDrugClassData({ drugKey, dataToFilter }) {
+function getECOLIDrugClassData({ drugKey, dataToFilter, organism }) {
   const drugClass = {};
   const splitChar = ';'; // genes are separated by "; " (e.g. "aadA2; aph(3'')-Ib")
   const drug = statKeysECOLI.find(x => x.name === drugKey);
@@ -2589,9 +2602,10 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
     return {};
   }
 
-  // Handle computed combination drugs.
-  //   CipNS         = ≥1 quinolone determinant (QRDR gyrA/B,parC/E mutation OR
-  //                   qnr gene) in the Quinolone column; aac(6')-Ib-cr excluded
+  // Handle computed combination drugs (Ciprofloxacin). The matcher is
+  // organism-scoped: ecoli/shige/decoli use the reviewer's strict rule (gyrA/parC
+  // + qnr, no aac(6')-Ib-cr); Salmonella keeps the prior broader matcher.
+  //   CipNS         = ≥1 quinolone determinant
   //   CipR          = ≥2 such determinants (from different loci)
   //   Ciprofloxacin = ≥1 determinant (combined label, used by marker-oriented views)
   if (drug.computed) {
@@ -2600,7 +2614,7 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
       // MarkerTrendsGraph, BubbleMarkersHeatmapGraph, and
       // BubbleGeographicGraph (determinant mode) have something to plot.
       dataToFilter.forEach(x => {
-        const markers = extractQuinoloneMarkers(x['Quinolone']);
+        const markers = extractQuinoloneMarkers(x['Quinolone'], organism);
         if (markers.length === 0) return;
         resistantCount++;
         markers.forEach(g => {
@@ -2608,9 +2622,9 @@ function getECOLIDrugClassData({ drugKey, dataToFilter }) {
         });
       });
     } else if (drugKey === 'Ciprofloxacin NS') {
-      resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 1).length;
+      resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone'], organism) >= 1).length;
     } else if (drugKey === 'Ciprofloxacin R') {
-      resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone']) >= 2).length;
+      resistantCount = dataToFilter.filter(x => countQuinoloneMarkers(x['Quinolone'], organism) >= 2).length;
     }
     drugClass['None'] = dataToFilter.length - resistantCount;
     drugClass.resistantCount = resistantCount;
