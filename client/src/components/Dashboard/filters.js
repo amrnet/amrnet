@@ -1074,10 +1074,11 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           });
           drugStats[rule.key] = drugData.length;
 
-          if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin') {
-            // rule.values already contains ['CipNS','CipR'], so drugStats['Ciprofloxacin']
-            // already counts both. Only set the disjoint 'Ciprofloxacin R' key here;
-            // do NOT increment 'Ciprofloxacin' (would double-count CipR records).
+          if (!amrLikeOrganisms.includes(organism) && rule.key === 'Ciprofloxacin NS') {
+            // 'Ciprofloxacin NS' rule.values is ['CipNS','CipR'], so
+            // drugStats['Ciprofloxacin NS'] already counts both (non-susceptible
+            // = NS + R). Only set the disjoint 'Ciprofloxacin R' key here; do NOT
+            // add it back into the NS total (would double-count CipR records).
             drugStats['Ciprofloxacin R'] = yearData.filter(x => x[rule.columnID] === 'CipR').length;
           }
         });
@@ -1734,10 +1735,11 @@ export function getGenotypesData({
         const drugData = genotypeData.filter(x => rule.values.map(String).includes(String(x[rule.columnID])));
         response[rule.key] = drugData.length;
 
-        if (rule.key === 'Ciprofloxacin') {
-          // rule.values is ['CipNS','CipR']; response['Ciprofloxacin'] already
-          // counts both disjoint categories. Only split out 'Ciprofloxacin R'
-          // here — do NOT add it back into 'Ciprofloxacin' (would double-count).
+        if (rule.key === 'Ciprofloxacin NS') {
+          // 'Ciprofloxacin NS' rule.values is ['CipNS','CipR']; response['Ciprofloxacin NS']
+          // already counts both disjoint categories (non-susceptible = NS + R).
+          // Only split out 'Ciprofloxacin R' here — do NOT add it back into the
+          // NS total (would double-count).
           response['Ciprofloxacin R'] = genotypeData.filter(x => x[rule.columnID] === 'CipR').length;
         }
 
