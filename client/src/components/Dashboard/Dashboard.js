@@ -76,6 +76,8 @@ import {
   setGenotypesAndDrugsYearData,
   setGenotypesDrugClassesData,
   setPathotypesDrugClassesData,
+  setLincodeDrugClassesData,
+  setLincodeAliasDrugClassesData,
   setGenotypesDrugsData,
   setGenotypesYearData,
   setKODiversityData,
@@ -623,6 +625,8 @@ export const DashboardPage = () => {
           dt.regionsDrugClassesData,
           dt.ngMastDrugClassesData,
           dt.pathotypesDrugClassesData,
+          dt.lincodeDrugClassesData,
+          dt.lincodeAliasDrugClassesData,
         ];
       }).then(
         ([
@@ -632,6 +636,8 @@ export const DashboardPage = () => {
           regionsDrugClassesData,
           ngMastDrugClassesData,
           pathotypesDrugClassesData,
+          lincodeDrugClassesData,
+          lincodeAliasDrugClassesData,
         ]) => {
           const safeGenotypesDrugsData = Array.isArray(genotypesDrugsData) ? genotypesDrugsData : [];
           dispatch(setGenotypesDrugsData(safeGenotypesDrugsData));
@@ -641,6 +647,8 @@ export const DashboardPage = () => {
           dispatch(setRegionsYearData(regionsDrugClassesData));
           dispatch(setNgMastDrugClassesData(ngMastDrugClassesData));
           dispatch(setPathotypesDrugClassesData(pathotypesDrugClassesData ?? {}));
+          dispatch(setLincodeDrugClassesData(lincodeDrugClassesData ?? {}));
+          dispatch(setLincodeAliasDrugClassesData(lincodeAliasDrugClassesData ?? {}));
         },
       ),
 
@@ -1499,6 +1507,8 @@ export const DashboardPage = () => {
         dispatch(setGenotypesDrugsData([]));
         dispatch(setGenotypesDrugClassesData([]));
         dispatch(setPathotypesDrugClassesData({}));
+        dispatch(setLincodeDrugClassesData({}));
+        dispatch(setLincodeAliasDrugClassesData({}));
         // dispatch(setGenotypesAndDrugsYearData({}));
         dispatch(setKODiversityData([]));
         dispatch(setConvergenceData([]));
@@ -1903,6 +1913,8 @@ export const DashboardPage = () => {
       dispatch(setRegionsYearData(genotypesData.regionsDrugClassesData));
       dispatch(setNgMastDrugClassesData(genotypesData.ngMastDrugClassesData));
       dispatch(setPathotypesDrugClassesData(genotypesData.pathotypesDrugClassesData ?? {}));
+      dispatch(setLincodeDrugClassesData(genotypesData.lincodeDrugClassesData ?? {}));
+      dispatch(setLincodeAliasDrugClassesData(genotypesData.lincodeAliasDrugClassesData ?? {}));
 
       // Dispatch yearly trends data (server preferred, client fallback)
       dispatch(setGenotypesYearData(finalGenotypesData));
