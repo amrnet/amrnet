@@ -282,7 +282,7 @@ export const graphSlice = createSlice({
     setLincodeAliasDrugClassesData: (state, action: PayloadAction<{ [drugClass: string]: any }>) => {
       state.lincodeAliasDrugClassesData = action.payload ?? {};
     },
-    setPathotypesDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
+    setPathotypesDrugClassesData: (state, action: PayloadAction<Record<string, any[]>>) => {
       state.pathotypesDrugClassesData = action.payload;
     },
     setGenotypesAndDrugsYearData: (state, action: PayloadAction<any>) => {
