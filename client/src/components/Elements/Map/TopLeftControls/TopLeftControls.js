@@ -25,7 +25,7 @@ import {
   setCanFilterData,
   setSelectedLineages,
 } from '../../../../stores/slices/dashboardSlice';
-import { setDataset, setDatasetKP } from '../../../../stores/slices/mapSlice.ts';
+import { setDataset, setDatasetKP, setDatasetSA } from '../../../../stores/slices/mapSlice.ts';
 import { amrLikeOrganisms } from '../../../../util/organismsCards';
 import { useStyles } from './TopLeftControlsMUI';
 
@@ -40,6 +40,7 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
   const dispatch = useAppDispatch();
   const dataset = useAppSelector(state => state.map.dataset);
   const datasetKP = useAppSelector(state => state.map.datasetKP);
+  const datasetSA = useAppSelector(state => state.map.datasetSA);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
   const yearsCompleteListToShowInGlobalFilter = useAppSelector(
@@ -83,6 +84,14 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
   function handleChangeKP(_event, newValue) {
     if (newValue !== null) {
       dispatch(setDatasetKP(newValue));
+      resetYearRangeToFull();
+      dispatch(setCanFilterData(true));
+    }
+  }
+
+  function handleChangeSA(_event, newValue) {
+    if (newValue !== null) {
+      dispatch(setDatasetSA(newValue));
       resetYearRangeToFull();
       dispatch(setCanFilterData(true));
     }
@@ -188,6 +197,18 @@ export const TopLeftControls = ({ style, closeButton = null, title }) => {
                 </ToggleButton>
                 <ToggleButton value="Carbapenems" color="primary">
                   CARB+
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </div>
+          )}
+          {organism !== 'saureus' ? null : (
+            <div className={classes.datasetWrapper}>
+              <ToggleButtonGroup value={datasetSA} exclusive size="small" onChange={handleChangeSA}>
+                <ToggleButton value="All" color="primary">
+                  {t('common.datasetAll').toUpperCase()}
+                </ToggleButton>
+                <ToggleButton value="MRSA" color="primary">
+                  MRSA
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>

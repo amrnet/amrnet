@@ -46,19 +46,38 @@ export const mapLegends = [
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
     labelKey: 'dashboard.mapViews.genotypePrevalence',
-    organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'kpneumo', 'senterica'].includes(x)),
+    // shige uses 'ST prevalence' instead (its GENOTYPE field is the 7-locus ST).
+    organisms: organismsCards
+      .map(x => x.value)
+      .filter(x => !['sentericaints', 'kpneumo', 'senterica', 'shige'].includes(x)),
   },
   {
     value: 'ST prevalence',
     label: 'ST prevalence',
     labelKey: 'dashboard.mapViews.stPrevalence',
-    organisms: ['kpneumo'],
+    // shige's GENOTYPE is the 7-locus MLST ST, so it shows 'ST prevalence'
+    // (same GENOTYPE-column rendering as kpneumo).
+    organisms: ['kpneumo', 'shige'],
   },
   {
     value: 'Lineage prevalence (ST)',
     label: 'Lineage prevalence (ST)',
     labelKey: 'dashboard.mapViews.lineagePrevalence',
     organisms: ['sentericaints', 'senterica'],
+  },
+  {
+    // shige: numeric LINcode lineage (all species)
+    value: 'Lincode prevalence',
+    label: 'Lincode prevalence',
+    labelKey: 'dashboard.mapViews.lincodePrevalence',
+    organisms: ['shige'],
+  },
+  {
+    // shige: named LINcode alias (populated for S. sonnei only)
+    value: 'Lincode alias prevalence',
+    label: 'Lincode alias prevalence',
+    labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
+    organisms: ['shige'],
   },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', labelKey: 'dashboard.mapViews.ngMastPrevalence', organisms: ['ngono'] },
