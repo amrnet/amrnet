@@ -46,13 +46,18 @@ export const mapLegends = [
     value: 'Genotype prevalence',
     label: 'Genotype prevalence',
     labelKey: 'dashboard.mapViews.genotypePrevalence',
-    organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'kpneumo', 'senterica'].includes(x)),
+    // shige uses 'ST prevalence' instead (its GENOTYPE field is the 7-locus ST).
+    organisms: organismsCards
+      .map(x => x.value)
+      .filter(x => !['sentericaints', 'kpneumo', 'senterica', 'shige'].includes(x)),
   },
   {
     value: 'ST prevalence',
     label: 'ST prevalence',
     labelKey: 'dashboard.mapViews.stPrevalence',
-    organisms: ['kpneumo'],
+    // shige's GENOTYPE is the 7-locus MLST ST, so it shows 'ST prevalence'
+    // (same GENOTYPE-column rendering as kpneumo).
+    organisms: ['kpneumo', 'shige'],
   },
   {
     value: 'Lineage prevalence (ST)',

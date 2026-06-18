@@ -41,7 +41,7 @@ import {
   setTrendsGraphDrugClass,
   setTrendsGraphView,
 } from '../../../stores/slices/graphSlice';
-import { setDataset, setDatasetKP, setMapView, setPosition } from '../../../stores/slices/mapSlice';
+import { setDataset, setDatasetKP, setDatasetSA, setMapView, setPosition } from '../../../stores/slices/mapSlice';
 import {
   defaultDrugsForDrugResistanceGraphNG,
   defaultDrugsForDrugResistanceGraphSA,
@@ -81,6 +81,7 @@ export const ResetButton = () => {
 
     dispatch(setDataset('All'));
     dispatch(setDatasetKP('All'));
+    dispatch(setDatasetSA('All'));
     dispatch(setActualTimeInitial(yearsCompleteListToShowInGlobalFilter[0]));
     dispatch(
       setActualTimeFinal(yearsCompleteListToShowInGlobalFilter[yearsCompleteListToShowInGlobalFilter.length - 1]),

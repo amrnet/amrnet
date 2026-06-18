@@ -184,6 +184,7 @@ export const DashboardPage = () => {
   const organism = useAppSelector(state => state.dashboard.organism);
   const dataset = useAppSelector(state => state.map.dataset);
   const datasetKP = useAppSelector(state => state.map.datasetKP);
+  const datasetSA = useAppSelector(state => state.map.datasetSA);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
   const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
@@ -1704,6 +1705,7 @@ export const DashboardPage = () => {
         data: storeData,
         dataset,
         datasetKP,
+        datasetSA,
         actualTimeInitial,
         actualTimeFinal,
         organism,
@@ -1927,6 +1929,7 @@ export const DashboardPage = () => {
         actualTimeFinal,
         dataset,
         datasetKP,
+        datasetSA,
         effectiveLineages.join(','),
       ].join('|');
       if (currentGeoKey !== prevGeoFilterKey.current) {
