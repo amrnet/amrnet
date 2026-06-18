@@ -466,6 +466,8 @@ export const Map = () => {
                           case 'Genotype prevalence':
                           case 'Lineage prevalence (ST)':
                           case 'ST prevalence':
+                          case 'Lincode prevalence':
+                          case 'Lincode alias prevalence':
                           case 'Serotype prevalence':
                           case 'Pathotype prevalence':
                           case 'O prevalence':
