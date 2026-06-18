@@ -125,27 +125,20 @@ export const HomePage = () => {
               </Grid>
             ))}
 
-            {/* Surprise me! — same size as an organism card, no image, opens a random dashboard. */}
+            {/* Surprise me! — same size/style as an organism card (dark media +
+                bottom legend), opens a random active dashboard. Uses <Link> so the
+                HashRouter URL (#/dashboard?organism=…) is generated correctly. */}
             <Grid item xs={12} sm={4} md={3} style={{ padding: matches600 ? '2px 16px' : '' }}>
-              <a
+              <Link
                 className={classes.organismLink}
-                href={surpriseHref}
+                to={surpriseHref}
                 target="_blank"
-                rel="noopener noreferrer"
                 onClick={() => setSurpriseHref(randomDashboardHref())}
               >
                 <Card
                   className={`${classes.organismCard} ${matches600 ? classes.mobile : ''}`}
                   sx={{
                     position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    height: matches600 ? 'auto' : '320px',
-                    minHeight: matches600 ? '72px' : undefined,
-                    padding: 2,
-                    backgroundColor: '#f6f6fa',
                     transition: 'transform 0.2s, box-shadow 0.2s',
                     zIndex: 1,
                     '&:hover': {
@@ -156,17 +149,36 @@ export const HomePage = () => {
                   }}
                   elevation={matches600 ? 3 : 1}
                 >
-                  <div>
-                    <CasinoOutlined sx={{ fontSize: matches600 ? 32 : 56, color: 'rgba(0, 0, 0, 0.45)' }} />
-                    <Typography fontWeight="600" sx={{ fontSize: 'small', mt: 1 }}>
+                  <div
+                    style={{
+                      height: matches600 ? 'auto' : '320px',
+                      minHeight: matches600 ? '72px' : undefined,
+                      width: matches600 ? '100px' : '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'linear-gradient(135deg, #1b1b2f 0%, #0f3460 100%)',
+                    }}
+                  >
+                    <CasinoOutlined sx={{ fontSize: matches600 ? 36 : 72, color: 'rgba(255, 255, 255, 0.9)' }} />
+                  </div>
+                  <div
+                    className={classes.organismLegend}
+                    style={{
+                      position: matches600 ? '' : 'absolute',
+                      backgroundColor: matches600 ? 'white' : 'rgba(0, 0, 0, 0.6)',
+                      color: matches600 ? 'black' : 'white',
+                    }}
+                  >
+                    <Typography fontWeight="600" sx={{ fontSize: 'small' }}>
                       {t('home.placeholders.surprise', 'Surprise me!')}
                     </Typography>
-                    <Typography sx={{ fontSize: 'smaller', color: 'rgba(0, 0, 0, 0.6)' }}>
+                    <Typography sx={{ fontSize: 'smaller' }}>
                       {t('home.placeholders.surpriseSub', 'Open a random dashboard')}
                     </Typography>
                   </div>
                 </Card>
-              </a>
+              </Link>
             </Grid>
 
             {/* What pathogen next? — P. aeruginosa background, organism-style label/legend, links to the vote form. */}
