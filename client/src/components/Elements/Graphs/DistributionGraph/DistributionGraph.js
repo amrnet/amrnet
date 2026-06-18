@@ -42,7 +42,11 @@ import {
   setTopXGenotype,
 } from '../../../../stores/slices/graphSlice.ts';
 import { generatePalleteForGenotypes, hoverColor, lightGrey } from '../../../../util/colorHelper';
-import { variableGraphOptions, variableGraphOptionsNG } from '../../../../util/convergenceVariablesOptions';
+import {
+  variableGraphOptions,
+  variableGraphOptionsNG,
+  variableGraphOptionsShige,
+} from '../../../../util/convergenceVariablesOptions';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -83,6 +87,15 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
   const currentData = useMemo(() => {
     const base = (() => {
+      if (organism === 'shige') {
+        // ST (GENOTYPE) trends, or the LINcode dimensions stored in the
+        // cgST/sublineage trend slots (numeric → cgST, alias → sublineage).
+        return distributionGraphVariable === 'lincodeNumeric'
+          ? cgSTYearData
+          : distributionGraphVariable === 'lincodeAlias'
+            ? sublineagesYearData
+            : genotypesYearData;
+      }
       if (organism !== 'kpneumo' && organism !== 'ngono') {
         return genotypesYearData;
       }
@@ -706,7 +719,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   })}
                 </Select>
               </div>
-              {(organism === 'kpneumo' || organism === 'ngono') && (
+              {(organism === 'kpneumo' || organism === 'ngono' || organism === 'shige') && (
                 <div className={classes.selectWrapper}>
                   <div className={classes.labelWrapper}>
                     <Typography variant="caption">Select variable</Typography>
@@ -718,21 +731,18 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                     MenuProps={{ classes: { list: classes.selectMenu } }}
                     disabled={organism === 'none'}
                   >
-                    {organism === 'ngono'
-                      ? variableGraphOptionsNG.map((option, index) => {
-                          return (
-                            <MenuItem key={index + 'distribution-variable'} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          );
-                        })
-                      : variableGraphOptions.map((option, index) => {
-                          return (
-                            <MenuItem key={index + 'distribution-variable'} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          );
-                        })}
+                    {(organism === 'ngono'
+                      ? variableGraphOptionsNG
+                      : organism === 'shige'
+                        ? variableGraphOptionsShige
+                        : variableGraphOptions
+                    ).map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'distribution-variable'} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </div>
               )}
