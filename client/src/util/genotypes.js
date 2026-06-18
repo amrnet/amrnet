@@ -108,6 +108,10 @@ export function getAxisLabel(organism, variable = null) {
       return 'genotypes';
     case 'saureus':
       return 'genotypes';
+    case 'shige':
+      // ST (7-locus MLST) vs the two LINcode lineage dimensions
+      if (variable === 'lincodeNumeric' || variable === 'lincodeAlias') return 'lineages';
+      return 'STs';
     default:
       return 'genotypes';
   }
