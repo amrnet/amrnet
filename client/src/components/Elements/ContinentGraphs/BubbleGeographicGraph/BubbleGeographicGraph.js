@@ -158,13 +158,31 @@ const yOptions = [
     value: 'genotype',
     label: 'Genotype prevalence',
     labelKey: 'dashboard.mapViews.genotypePrevalence',
-    organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'senterica'].includes(x)),
+    // shige shows 'ST (7-locus MLST) prevalence' + the two LINcode dimensions instead.
+    organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'senterica', 'shige'].includes(x)),
   },
   {
     value: 'genotype',
     label: 'Lineage prevalence (ST)',
     labelKey: 'dashboard.mapViews.lineagePrevalence',
     organisms: ['sentericaints', 'senterica'],
+  },
+  {
+    value: 'genotype',
+    label: 'ST (7-locus MLST) prevalence',
+    organisms: ['shige'],
+  },
+  {
+    value: 'lincode',
+    label: 'Lincode prevalence',
+    labelKey: 'dashboard.mapViews.lincodePrevalence',
+    organisms: ['shige'],
+  },
+  {
+    value: 'lincodeAlias',
+    label: 'Lincode alias prevalence',
+    labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
+    organisms: ['shige'],
   },
   {
     value: 'resistance',
@@ -310,6 +328,12 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     if (yAxisType === 'ngmast') {
       return 'NGMAST';
     }
+    if (yAxisType === 'lincode') {
+      return 'LINCODE_NUM';
+    }
+    if (yAxisType === 'lincodeAlias') {
+      return 'LINCODE_ALIAS';
+    }
 
     return 'GENOTYPE';
   }, [yAxisType]);
@@ -366,7 +390,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
     if (
       ['serotype', 'determinant'].includes(yAxisType) ||
-      (['genotype', 'ngmast'].includes(yAxisType) && organismHasLotsOfGenotypes)
+      (['genotype', 'ngmast', 'lincode', 'lincodeAlias'].includes(yAxisType) && organismHasLotsOfGenotypes)
     ) {
       return filteredOptions.slice(0, 20);
     }
@@ -389,7 +413,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     setYAxisSelected(
-      ['genotype', 'serotype', 'ngmast'].includes(yAxisType) || (yAxisType === 'determinant' && organism === 'kpneumo')
+      ['genotype', 'serotype', 'ngmast', 'lincode', 'lincodeAlias'].includes(yAxisType) ||
+      (yAxisType === 'determinant' && organism === 'kpneumo')
         ? yAxisOptions.slice(0, 10)
         : yAxisOptions,
     );
@@ -409,7 +434,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   const getOptionLabel = useCallback(
     item => {
-      if (!['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
+      if (!['genotype', 'serotype', 'pathotype', 'ngmast', 'lincode', 'lincodeAlias'].includes(yAxisType)) {
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 
@@ -426,8 +451,15 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         return 'markers';
       case 'ngmast':
         return 'ng-mast';
+      case 'lincode':
+      case 'lincodeAlias':
+        return 'lineages';
       case 'genotype':
-        return ['sentericaints', 'senterica'].includes(organism) ? 'lineages (ST)' : 'genotypes';
+        return ['sentericaints', 'senterica'].includes(organism)
+          ? 'lineages (ST)'
+          : organism === 'shige'
+            ? 'STs'
+            : 'genotypes';
       default:
         return organism === 'sentericaints' ? 'serotypes' : 'pathotypes';
     }
@@ -553,7 +585,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           }
         }
 
-        if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
+        if (['genotype', 'serotype', 'pathotype', 'ngmast', 'lincode', 'lincodeAlias'].includes(yAxisType)) {
           const gen = x.stats?.[GLPSColumn]?.items?.find(g => g && g.name === item);
 
           if (gen?.count > 0) {
@@ -652,7 +684,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       return drugRows;
     }
 
-    if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
+    if (['genotype', 'serotype', 'pathotype', 'ngmast', 'lincode', 'lincodeAlias'].includes(yAxisType)) {
       return yAxisSelected.map(selected => {
         const row = { name: selected, items: [] };
         locationItems.forEach(loc => {
