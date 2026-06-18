@@ -17,6 +17,7 @@ import { amrLikeOrganisms, organismsCards } from './organismsCards';
 import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
 import { useTranslation } from 'react-i18next';
 import { t } from 'react-i18next';
+import { isProduction } from './env';
 
 function getHeatMapsTitle(organism, t) {
   switch (organism) {
@@ -119,7 +120,9 @@ export function getGraphCards(t){
       description: [''],
       icon: <Coronavirus color="primary" />,
       id: 'CVM',
-      organisms: ['kpneumo'],
+      // 'Virulence × Resistance Convergence' map: kept in dev, hidden in production
+      // (empty organisms in prod → no organism matches → card not rendered).
+      organisms: isProduction() ? [] : ['kpneumo'],
       component: <ConvergenceMapGraph />,
     },
     {
