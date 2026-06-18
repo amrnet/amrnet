@@ -6,18 +6,16 @@ export const drugRulesST = [
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
   {
+    // Ciprofloxacin non-susceptible (CipNS) = intermediate + resistant, per the
+    // WHO/CLSI convention that "non-susceptible" includes the resistant subset.
+    // This is the headline ciprofloxacin metric (TyphiNET terminology). The
+    // separate 'Ciprofloxacin' rule was removed as redundant with this.
     key: 'Ciprofloxacin NS',
     columnID: 'cip_pred_pheno',
-    values: ['CipNS'],
+    values: ['CipNS', 'CipR'],
     legends: 'Ciprofloxacin (non-susceptible)',
   },
   { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)' },
-  {
-    key: 'Ciprofloxacin',
-    columnID: 'cip_pred_pheno',
-    values: ['CipNS', 'CipR'],
-    legends: 'Ciprofloxacin',
-  },
   { key: 'Sulfonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracycline', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
@@ -32,7 +30,10 @@ export const statKeysST = [
   { name: 'Azithromycin', column: 'azith_pred_pheno', key: 'AzithR', resistanceView: true },
   { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true },
   { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
-  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
+  // CipNS here must equal NS + R (see drugRulesST). The statKeys format matches a
+  // single key, which can't express "CipNS OR CipR" on cip_pred_pheno, so read
+  // the precomputed boolean `CipNS` column (1 = non-susceptible, i.e. NS or R).
+  { name: 'CipNS', column: 'CipNS', key: 1, resistanceView: true },
   { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR', resistanceView: true },
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
   { name: 'Sulfonamides', column: 'sul_any', key: '1', resistanceView: true },
