@@ -114,6 +114,7 @@ import {
   markersDrugsSH,
 } from '../../util/drugs';
 import { isProduction } from '../../util/env';
+import { deriveShigeLincode } from '../../util/shigeLincode';
 import { getContinentGraphCard } from '../../util/graphCards';
 import { DEV_ONLY_ORGANISMS } from '../../util/organismsCards';
 import { AMRInsights } from '../Elements/AMRInsights';
@@ -306,6 +307,19 @@ export const DashboardPage = () => {
    */
   async function getInfoFromData(responseData, regions) {
     console.time('[getInfoFromData] total');
+
+    // shige: derive per-genome LINcode lineage fields (numeric + sonnei alias)
+    // from the LINcode + Pathovar, so the genotype dropdowns and the
+    // 'Lincode prevalence' map views can group/aggregate by them.
+    if (organism === 'shige' && Array.isArray(responseData)) {
+      responseData = responseData.map(item => {
+        const { numeric, alias } = deriveShigeLincode(item.LINcode, item.Pathovar);
+        // null (not '-') so unmatched genomes are skipped by the stats grouping
+        // (which ignores falsy values) rather than forming a spurious '-' group.
+        return { ...item, lincodeNumeric: numeric ?? null, lincodeAlias: alias ?? null };
+      });
+    }
+
     const dataLength = Array.isArray(responseData) ? responseData.length : 0;
 
     // Cache the full dataset so updateDataOnFilters can avoid re-reading IndexedDB.

@@ -881,6 +881,16 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       generateStats(itemData, stats, organism, 'PATHOTYPE', col);
     }
 
+    if (organism === 'shige') {
+      // LINcode lineage dimensions (derived per-genome in Dashboard.getInfoFromData):
+      // numeric label (all species) + named alias (S. sonnei only). Genomes with
+      // no match carry null and are skipped by generateStats' grouping.
+      stats['LINCODE_NUM'] = { items: [], count: 0 };
+      generateStats(itemData, stats, organism, 'LINCODE_NUM', 'lincodeNumeric');
+      stats['LINCODE_ALIAS'] = { items: [], count: 0 };
+      generateStats(itemData, stats, organism, 'LINCODE_ALIAS', 'lincodeAlias');
+    }
+
     statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key, pansusceptible }) => {
       if (pansusceptible && (organism === 'saureus' || organism === 'strepneumo')) {
         const drugRules = organism === 'saureus' ? drugRulesSA : drugRulesSP;
