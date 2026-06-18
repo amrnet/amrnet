@@ -995,6 +995,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   const NGMASTData = [];
   const cgSTData = [];
   const sublineageData = [];
+  // shige LINcode lineage trends (numeric = all species, alias = S. sonnei)
+  const lincodeNumericData = [];
+  const lincodeAliasData = [];
 
   // Initialize data structures based on organism type
   const initializeDataStructures = rules => {
@@ -1067,6 +1070,22 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         return acc;
       }, {});
       NGMASTData.push({ ...response, ...NGMASTStats });
+    } else if (organism === 'shige') {
+      // Per-year counts for each LINcode lineage dimension. Falsy values
+      // (unmatched genomes) are skipped so they don't form a spurious group.
+      const lincodeNumericStats = yearData.reduce((acc, x) => {
+        const lin = x.lincodeNumeric;
+        if (lin) acc[lin] = (acc[lin] || 0) + 1;
+        return acc;
+      }, {});
+      lincodeNumericData.push({ ...response, ...lincodeNumericStats });
+
+      const lincodeAliasStats = yearData.reduce((acc, x) => {
+        const alias = x.lincodeAlias;
+        if (alias) acc[alias] = (acc[alias] || 0) + 1;
+        return acc;
+      }, {});
+      lincodeAliasData.push({ ...response, ...lincodeAliasStats });
     }
 
     // Initialize drugStats
@@ -1405,6 +1424,8 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     genotypesAndDrugsData,
     cgSTData,
     sublineageData,
+    lincodeNumericData: lincodeNumericData.filter(x => x.count > 0),
+    lincodeAliasData: lincodeAliasData.filter(x => x.count > 0),
     uniqueCgST,
     uniqueSublineages,
     uniqueNGMAST,

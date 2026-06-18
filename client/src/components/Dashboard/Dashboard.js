@@ -674,6 +674,8 @@ export const DashboardPage = () => {
           dt.uniqueSublineages,
           dt.uniqueNGMAST,
           dt.NGMASTData,
+          dt.lincodeNumericData,
+          dt.lincodeAliasData,
         ];
       }).then(
         ([
@@ -687,6 +689,8 @@ export const DashboardPage = () => {
           uniqueSublineages,
           uniqueNGMAST,
           NGMASTData,
+          lincodeNumericData,
+          lincodeAliasData,
         ]) => {
           const safeGenotypesData = Array.isArray(genotypesData) ? genotypesData : [];
           const safeDrugsData = Array.isArray(drugsData) ? drugsData : [];
@@ -716,6 +720,11 @@ export const DashboardPage = () => {
           } else if (organism === 'ngono') {
             dispatch(setCgSTYearData(NGMASTData));
             // dispatch(setColorPalleteCgST(generatePalleteForGenotypes(uniqueNGMAST)));
+          } else if (organism === 'shige') {
+            // Reuse the cgST/sublineage trend slots for the two LINcode
+            // lineage dimensions (DistributionGraph reads them for shige).
+            dispatch(setCgSTYearData(lincodeNumericData ?? []));
+            dispatch(setSublineagesYearData(lincodeAliasData ?? []));
           }
         },
       ),
@@ -1926,6 +1935,11 @@ export const DashboardPage = () => {
         }
       } else if (organism === 'ngono') {
         dispatch(setCgSTYearData(yearsData.NGMASTData));
+      } else if (organism === 'shige') {
+        // Reuse the cgST/sublineage trend slots for the two LINcode lineage
+        // dimensions (DistributionGraph reads them for shige).
+        dispatch(setCgSTYearData(yearsData.lincodeNumericData ?? []));
+        dispatch(setSublineagesYearData(yearsData.lincodeAliasData ?? []));
       }
 
       // Geographic Comparisons (BubbleGeographicGraph), RadarProfile, and the
