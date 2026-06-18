@@ -1891,9 +1891,10 @@ export function getGenotypesData({
 
         const drugClass = {
           ...drugClassResponse,
+          totalCount: drugData.length,
           ...getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: genotypeData,
+            dataToFilter: drugData,
             markerRules: markerRulesSA,
             fallbackDrugRules: drugRulesSA,
           }),
@@ -1916,9 +1917,10 @@ export function getGenotypesData({
 
         const drugClass = {
           ...drugClassResponse,
+          totalCount: drugData.length,
           ...getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: genotypeData,
+            dataToFilter: drugData,
             markerRules: markerRulesSP,
             fallbackDrugRules: drugRulesSP,
           }),
