@@ -13,10 +13,38 @@
 
 import LINEAGES from '../data/lincode_shigella_lineages.json';
 
-function truncateLincode(lincode, level) {
+// Index the lineage table for fast lookup: instead of scanning all ~93 entries
+// (each doing a string split) per genome, group entries by level and key them
+// by prefix. To match a genome we truncate its LINcode at each distinct level
+// (only a handful) and do an O(1) Map lookup. Levels are visited most-specific
+// first so the finest match wins (mirrors the original longest-level-first scan).
+const LEVELS = [...new Set(LINEAGES.map(e => e.level))].sort((a, b) => b - a);
+const BY_LEVEL = new Map(LEVELS.map(lvl => [lvl, new Map()]));
+for (const entry of LINEAGES) {
+  const m = BY_LEVEL.get(entry.level);
+  if (!m.has(entry.prefix)) m.set(entry.prefix, entry);
+}
+
+// Memoize the matched entry per LINcode string. The same prefixes recur across
+// thousands of genomes (and across every filter re-derivation), so the cache
+// turns repeated work into O(1) hits.
+const matchCache = new Map();
+
+function matchEntry(lincode) {
   if (!lincode || lincode === '-') return null;
+  if (matchCache.has(lincode)) return matchCache.get(lincode);
   const segments = lincode.split('-');
-  return segments.length >= level ? segments.slice(0, level).join('-') : null;
+  let found = null;
+  for (const lvl of LEVELS) {
+    if (segments.length < lvl) continue;
+    const entry = BY_LEVEL.get(lvl).get(segments.slice(0, lvl).join('-'));
+    if (entry) {
+      found = entry;
+      break;
+    }
+  }
+  matchCache.set(lincode, found);
+  return found;
 }
 
 function hasPathovar(pathovar) {
@@ -56,15 +84,12 @@ export function resolveShigeLincode(item) {
  * @returns {{ numeric: string|null, alias: string|null, species: string|null }}
  */
 export function deriveShigeLincode(lincode, pathovar) {
-  if (!lincode || lincode === '-') return { numeric: null, alias: null, species: null };
-  for (const entry of LINEAGES) {
-    if (truncateLincode(lincode, entry.level) === entry.prefix) {
-      return {
-        numeric: entry.numeric,
-        alias: hasPathovar(pathovar) ? entry.alias : null,
-        species: entry.species,
-      };
-    }
-  }
-  return { numeric: null, alias: null, species: null };
+  const entry = matchEntry(lincode);
+  if (!entry) return { numeric: null, alias: null, species: null };
+  return {
+    numeric: entry.numeric,
+    // alias gated on pathovar (S. sonnei named lineages only)
+    alias: hasPathovar(pathovar) ? entry.alias : null,
+    species: entry.species,
+  };
 }
