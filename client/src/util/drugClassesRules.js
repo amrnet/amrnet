@@ -1360,16 +1360,18 @@ const ECOLI_PAN_RULE = {
 };
 
 // All ECOLI-family organisms (ecoli / decoli / shige / senterica /
-// sentericaints) share the same Ciprofloxacin definition — the Quinolone
+// sentericaints) share this Ciprofloxacin definition list — the Quinolone
 // column is parsed gene-by-gene via countQuinoloneMarkers:
-// - CipNS (non-susceptible) = ≥1 quinolone determinant: a gyrA or parC QRDR
-//   mutation OR any qnr gene (qnrA/B/C/D/S). Genotype equivalent of the ECOFF
-//   NWT threshold; a single determinant is enough.
+// - CipNS (non-susceptible) = ≥1 quinolone determinant (QRDR mutation OR qnr).
+//   Genotype equivalent of the ECOFF NWT threshold; one determinant is enough.
 // - CipR  (resistant)       = ≥2 determinants from different loci (e.g. gyrA+parC,
 //   two gyrA mutations at different codons, gyrA+qnr).
-// Only gyrA/parC QRDR mutations count (not gyrB/parE), per the reviewer's
-// genotype-only logic. aac(6')-Ib-cr is EXCLUDED — alone it does not meet the
-// threshold (wildtype + S, ECO1001), so it counts toward neither CipNS nor CipR.
+// IMPORTANT — the determinant matcher is organism-scoped (in countQuinoloneMarkers):
+//   • E. coli / Shigella / decoli (reviewer's strict rule): count gyrA & parC QRDR
+//     mutations + qnr genes; gyrB/parE and aac(6')-Ib-cr are EXCLUDED (aac(6')-Ib-cr
+//     alone is wildtype + S, ECO1001).
+//   • Salmonella (senterica / sentericaints): unchanged broader matcher (gyrA/B +
+//     parC/E + aac(6')-Ib-cr) until a Salmonella-specific spec is provided.
 // Both are computed per-record in getECOLIDrugClassData via that helper.
 export const statKeysSalmonella = [
   ...[
