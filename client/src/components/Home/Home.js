@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../stores/hooks';
 import { removeOrganism } from '../../stores/slices/dashboardSlice';
 import { organismsCards } from '../../util/organismsCards';
+import { abaumannii, paeruginosa, vibriocholerae } from '../../assets/organisms';
 import { MainLayout } from '../Layout';
 import { useStyles } from './HomeMUI';
 
@@ -18,6 +19,39 @@ const NEXT_PATHOGEN_FORM_URL = '';
 // grid row. `surprise` opens a randomly chosen dashboard; `vote` links to the
 // next-pathogen poll; `image` is a purely decorative bacteria tile.
 function PlaceholderTile({ tile, classes, matches600 }) {
+  // Decorative candidate-pathogen tile — looks like an organism card (image +
+  // caption) but is not clickable. Images are public domain (CDC PHIL / Dartmouth).
+  if (tile.kind === 'candidate') {
+    return (
+      <Card
+        className={`${classes.organismCard} ${matches600 ? classes.mobile : ''}`}
+        sx={{ position: 'relative', cursor: 'default', filter: 'grayscale(0.15)' }}
+        elevation={matches600 ? 3 : 1}
+      >
+        <CardMedia
+          component="img"
+          alt={tile.alt}
+          height={matches600 ? 'auto' : '320px'}
+          style={{ width: matches600 ? '100px' : undefined }}
+          image={tile.img}
+        />
+        <div
+          className={classes.organismLegend}
+          style={{
+            position: matches600 ? '' : 'absolute',
+            backgroundColor: matches600 ? 'white' : 'rgba(0, 0, 0, 0.6)',
+            color: matches600 ? 'black' : 'white',
+          }}
+        >
+          <Typography fontWeight="600" sx={{ fontSize: 'small' }}>
+            {tile.title}
+          </Typography>
+          {tile.subtitle && <Typography sx={{ fontSize: 'smaller' }}>{tile.subtitle}</Typography>}
+        </div>
+      </Card>
+    );
+  }
+
   const clickable = tile.kind !== 'image' && !!tile.onClick;
   const inner = (
     <Card
@@ -144,10 +178,28 @@ export const HomePage = () => {
       href: NEXT_PATHOGEN_FORM_URL,
     },
     {
-      key: 'image',
-      kind: 'image',
-      icon: <BiotechOutlined sx={iconSx} />,
-      title: t('home.placeholders.more', 'More organisms coming soon'),
+      key: 'cand-abaumannii',
+      kind: 'candidate',
+      img: abaumannii,
+      alt: 'Acinetobacter baumannii',
+      title: <i>Acinetobacter baumannii</i>,
+      subtitle: t('home.placeholders.candidate', 'Candidate — vote above'),
+    },
+    {
+      key: 'cand-paeruginosa',
+      kind: 'candidate',
+      img: paeruginosa,
+      alt: 'Pseudomonas aeruginosa',
+      title: <i>Pseudomonas aeruginosa</i>,
+      subtitle: t('home.placeholders.candidate', 'Candidate — vote above'),
+    },
+    {
+      key: 'cand-vibriocholerae',
+      kind: 'candidate',
+      img: vibriocholerae,
+      alt: 'Vibrio cholerae',
+      title: <i>Vibrio cholerae</i>,
+      subtitle: t('home.placeholders.candidate', 'Candidate — vote above'),
     },
   ];
 
