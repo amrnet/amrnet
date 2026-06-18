@@ -5,6 +5,7 @@ import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleM
 import { BubbleMarkersPathotypeHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersPathotypeHeatmapGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { ConvergenceMapGraph } from '../components/Elements/Graphs/ConvergenceMapGraph';
+import { CooccurrenceGraph } from '../components/Elements/Graphs/CooccurrenceGraph';
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
 import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
@@ -48,6 +49,20 @@ export function getGraphCards(t){
       id: 'DRT',
       organisms: organismsCards.map(x => x.value),
       component: <DrugResistanceGraph />,
+    },
+    {
+      // Moved here from AMR Insights: it is a genome-only plot (not genomic-vs-
+      // other-data), computed from all genomes passing the current filters
+      // (including country) — so it belongs with the summary plots.
+      title: t('amrInsights.tabs.cooccurrence'),
+      description: [
+        'Genome-only: pairwise co-occurrence of resistances across all genomes passing the current filters (including country). Repeat-isolate de-duplication can be toggled in the plot.',
+      ],
+      icon: <GridOn color="primary" />,
+      id: 'COO',
+      // Dev-only until validated — hidden in production.
+      organisms: isProduction() ? [] : organismsCards.map(x => x.value),
+      component: <CooccurrenceGraph />,
     },
     {
       title: t('graphs.temporalHeatmap'),
