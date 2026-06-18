@@ -15,3 +15,12 @@ export const variablesOptionsNG = [
   { label: 'Genotype', value: 'GENOTYPE', graph: true, mapValue: 'GENOTYPE' },
 ];
 export const variableGraphOptionsNG = variablesOptionsNG.filter(x => x.graph);
+
+// shige: ST (= GENOTYPE field), plus two LINcode lineage dimensions derived in
+// Dashboard.getInfoFromData. 'Lincode alias' is populated only for S. sonnei.
+export const variablesOptionsShige = [
+  { label: 'ST (7-locus MLST)', value: 'GENOTYPE', graph: true, mapValue: 'GENOTYPE' },
+  { label: 'Lincode', value: 'lincodeNumeric', graph: true, mapValue: 'LINCODE_NUM' },
+  { label: 'Lincode alias', value: 'lincodeAlias', graph: true, mapValue: 'LINCODE_ALIAS' },
+];
+export const variableGraphOptionsShige = variablesOptionsShige.filter(x => x.graph);

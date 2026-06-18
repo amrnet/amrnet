@@ -75,6 +75,8 @@
       "genotypePrevalence": "Prevalencia de genotipos",
       "stPrevalence": "Prevalencia de ST",
       "lineagePrevalence": "Prevalencia de linajes",
+      "lincodePrevalence": "Prevalencia de Lincode",
+      "lincodeAliasPrevalence": "Prevalencia de alias Lincode",
       "ngmastPrevalence": "Prevalencia NG-MAST",
       "serotypePrevalence": "Prevalencia de serotipos",
       "pathotypePrevalence": "Prevalencia de patotipos",

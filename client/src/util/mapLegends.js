@@ -65,6 +65,20 @@ export const mapLegends = [
     labelKey: 'dashboard.mapViews.lineagePrevalence',
     organisms: ['sentericaints', 'senterica'],
   },
+  {
+    // shige: numeric LINcode lineage (all species)
+    value: 'Lincode prevalence',
+    label: 'Lincode prevalence',
+    labelKey: 'dashboard.mapViews.lincodePrevalence',
+    organisms: ['shige'],
+  },
+  {
+    // shige: named LINcode alias (populated for S. sonnei only)
+    value: 'Lincode alias prevalence',
+    label: 'Lincode alias prevalence',
+    labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
+    organisms: ['shige'],
+  },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', labelKey: 'dashboard.mapViews.ngMastPrevalence', organisms: ['ngono'] },
   {
