@@ -54,6 +54,7 @@ import { SliderSizes } from '../../Slider/SliderSizes';
 import GenotypePatternRect, { sanitizeId } from '../GenotypePatternRect.js';
 import { useStyles } from './DistributionGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useTranslation } from 'react-i18next';
 
 const dataViewOptions = [
@@ -693,8 +694,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           </div>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -748,8 +748,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               )}
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

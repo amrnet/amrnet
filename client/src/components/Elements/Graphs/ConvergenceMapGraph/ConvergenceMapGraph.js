@@ -13,6 +13,7 @@ import { useAppSelector } from '../../../../stores/hooks';
 import { getCountryDisplayName } from '../../../Dashboard/filters';
 import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useStyles } from './ConvergenceMapGraphMUI';
 
 const MIN_SAMPLES = 20;
@@ -303,8 +304,7 @@ export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
           SerotypeResistanceGraph. Pairs the dashboard's global country /
           region selector with the chart-local virulence / resistance
           thresholds and the Country-vs-Region grouping toggle. */}
-      {showFilter && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -364,8 +364,7 @@ export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
               </Box>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };
