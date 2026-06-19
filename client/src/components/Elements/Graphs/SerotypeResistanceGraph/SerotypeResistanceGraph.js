@@ -35,6 +35,8 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
+import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './SerotypeResistanceGraphMUI';
 
 // Top axis area reserved for the rotated -45deg serotype column labels on the
@@ -340,8 +342,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
         </div>
       </div>
 
-      {showFilter && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader
@@ -421,8 +422,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

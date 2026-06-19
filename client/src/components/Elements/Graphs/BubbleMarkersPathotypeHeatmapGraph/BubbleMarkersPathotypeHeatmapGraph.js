@@ -34,6 +34,7 @@ import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useStyles } from '../BubbleMarkersHeatmapGraph/BubbleMarkersHeatmapGraphMUI';
 import { useTranslation } from 'react-i18next';
 
@@ -329,8 +330,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -526,8 +526,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };
