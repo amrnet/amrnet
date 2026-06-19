@@ -47,6 +47,7 @@ import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { getColorForDrug } from '../graphColorHelper';
 import { useStyles } from './DrugResistanceGraphMUI';
 import { SliderSizes } from '../../Slider';
@@ -667,8 +668,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
           </div>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -716,8 +716,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

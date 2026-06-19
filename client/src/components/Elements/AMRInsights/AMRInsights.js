@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, FilterList, FilterListOff, TipsAndUpdates } from '@mui/icons-material';
+import { Edit, ExpandLess, ExpandMore, TipsAndUpdates } from '@mui/icons-material';
 import {
   Box,
   Card,
@@ -151,6 +151,18 @@ export const AMRInsights = () => {
                 </Typography>
               )}
             </div>
+            {isExpanded && currentTabConfig?.hasFilter && (
+              <Tooltip title="Edit plotting options" placement="top">
+                <IconButton
+                  size="small"
+                  color={showFilter ? 'primary' : 'default'}
+                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+                  sx={{ borderRadius: '50%' }}
+                >
+                  <Edit fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
           <div className={classes.actionsWrapper}>
             {isExpanded && (
@@ -163,17 +175,6 @@ export const AMRInsights = () => {
                 currentTab={currentTab}
                 tabLabel={currentTabLabel}
               />
-            )}
-            {/* Filter / Plotting Options toggle — only shown for tabs that
-                actually render a floating panel (ATB and GVP today). Without
-                it, once a user closed the panel via its X there was no way
-                to re-open it. */}
-            {isExpanded && currentTabConfig?.hasFilter && (
-              <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
-                <IconButton onClick={handleClickFilter}>
-                  {showFilter ? <FilterListOff /> : <FilterList />}
-                </IconButton>
-              </Tooltip>
             )}
             <IconButton>{isExpanded ? <ExpandLess /> : <ExpandMore />}</IconButton>
           </div>

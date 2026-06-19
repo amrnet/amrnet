@@ -1,4 +1,4 @@
-import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
+import { CameraAlt, Edit, ExpandLess, ExpandMore, StackedBarChart } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -787,6 +787,18 @@ export const Graphs = () => {
                 </Typography>
               )}
             </div>
+            {collapses['all'] && (
+              <Tooltip title="Edit plotting options" placement="top">
+                <IconButton
+                  size="small"
+                  color={showFilter ? 'primary' : 'default'}
+                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+                  sx={{ borderRadius: '50%' }}
+                >
+                  <Edit fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['all'] && currentTab !== 'HSG' && (
@@ -818,16 +830,7 @@ export const Graphs = () => {
               </>
             )}
             {collapses['all'] && (
-              <>
-                <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
-                  <span>
-                    <IconButton color="primary" onClick={event => handleClickFilter(event)}>
-                      {showFilter ? <FilterListOff /> : <FilterList />}
-                    </IconButton>
-                  </span>
-                </Tooltip>
-                <ShareButton organism={organism} section={`Summary Plots — ${currentCard?.title || ''}`} />
-              </>
+              <ShareButton organism={organism} section={`Summary Plots — ${currentCard?.title || ''}`} />
             )}
             <IconButton>{collapses['all'] ? <ExpandLess /> : <ExpandMore />}</IconButton>
           </div>

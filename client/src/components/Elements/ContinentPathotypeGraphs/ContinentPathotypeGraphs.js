@@ -20,7 +20,7 @@ import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 // import { getContinentPGraphCard } from '../../../util/graphCards';
-import { ExpandLess, ExpandMore, FilterList, FilterListOff, CameraAlt } from '@mui/icons-material';
+import { CameraAlt, Edit, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
 import domtoimage from 'dom-to-image-more';
@@ -222,6 +222,18 @@ export const ContinentPathotypeGraphs = () => {
                 </Typography>
               )}
             </div>
+            {collapses['continentP'] && (
+              <Tooltip title="Edit plotting options" placement="top">
+                <IconButton
+                  size="small"
+                  color={showFilter ? 'primary' : 'default'}
+                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+                  sx={{ borderRadius: '50%' }}
+                >
+                  <Edit fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['continentP'] && (
@@ -243,13 +255,6 @@ export const ContinentPathotypeGraphs = () => {
                       disabled={organism === 'none'}
                     >
                       {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
-                    </IconButton>
-                  </span>
-                </Tooltip>
-                <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
-                  <span>
-                    <IconButton color="primary" onClick={(event) => handleClickFilter(event)}>
-                      {showFilter ? <FilterListOff /> : <FilterList />}
                     </IconButton>
                   </span>
                 </Tooltip>
