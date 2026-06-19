@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useAppSelector } from '../../../../stores/hooks';
 import { drugsSP } from '../../../../util/drugs';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './SerotypeResistanceGraphMUI';
 
@@ -427,8 +428,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
         </Box>
       </Box>
 
-      {showFilter && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader
@@ -475,8 +475,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
               </Box>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

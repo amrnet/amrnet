@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   CartesianGrid,
@@ -441,8 +442,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
       {/* Floating reference panel — Data Sources content. The inline right
           panel keeps the live chart stats (R², Region Legend) so the dense
           attribution text doesn't compete with them for vertical space. */}
-      {showFilter && !loadingPDF && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !loadingPDF} className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -468,8 +468,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
               </Box>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };
