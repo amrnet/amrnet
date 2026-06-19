@@ -16,7 +16,7 @@ import {
 import { useStyles } from './ContinentPathotypeGraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 // import { getContinentPGraphCard } from '../../../util/graphCards';
@@ -41,6 +41,7 @@ const TABS = [
 export const ContinentPathotypeGraphs = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
+  const editButtonRef = useRef(null);
   const [showAlert, setShowAlert] = useState(false);
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
   const [showFilter, setShowFilter] = useState(!matches500);
@@ -225,6 +226,7 @@ export const ContinentPathotypeGraphs = () => {
             {collapses['continentP'] && (
               <Tooltip title="Edit plotting options" placement="top">
                 <IconButton
+                  ref={editButtonRef}
                   size="small"
                   color={showFilter ? 'primary' : 'default'}
                   onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
@@ -293,7 +295,7 @@ export const ContinentPathotypeGraphs = () => {
                     width: '100%',
                   }}
                 >
-                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter, filterButtonRef: editButtonRef })}
                 </Box>
               );
             })}

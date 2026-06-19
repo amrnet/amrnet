@@ -225,7 +225,7 @@ const CustomTooltip = ({ active, payload }) => {
   );
 };
 
-export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
+export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [glassData, setGlassData] = useState(null);
@@ -913,7 +913,7 @@ export const GenomicVsPhenotypicGraph = ({ showFilter, setShowFilter }) => {
           Error Metrics) so they always show alongside the chart. The dense
           reference text lives here, toggled by the showFilter prop the
           parent AMRInsights wires in. */}
-      <PlottingOptionsPanel show={showFilter && !loadingPDF} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !loadingPDF} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />

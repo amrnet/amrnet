@@ -62,7 +62,7 @@ const dataViewOptions = [
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
-export const DistributionGraph = ({ showFilter, setShowFilter }) => {
+export const DistributionGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
@@ -690,7 +690,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           </div>
         </div>
       </div>
-      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />

@@ -76,7 +76,7 @@ function normalizeSerotype(st) {
   return st.toString().trim().replace(/^0+(\d)/, '$1');
 }
 
-export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
+export const SerotypeResistanceGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [drugsSelected, setDrugsSelected] = useState([]);
@@ -342,7 +342,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
         </div>
       </div>
 
-      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader

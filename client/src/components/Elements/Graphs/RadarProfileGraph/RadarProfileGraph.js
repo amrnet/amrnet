@@ -72,7 +72,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   );
 };
 
-export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
+export const RadarProfileGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
   const [selectedCountries, setSelectedCountries] = useState([]);
@@ -427,7 +427,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
       </Box>
 
       {/* Floating plotting-options panel — mirrors BubbleHeatmapGraph2 / SerotypeResistanceGraph */}
-      <PlottingOptionsPanel show={showFilter && !loadingPDF} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !loadingPDF} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />

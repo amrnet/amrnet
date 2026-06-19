@@ -52,7 +52,7 @@ const dataViewOptions = [
   },
 ];
 
-export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
+export const DeterminantsGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   // const [topXGenotypes, setTopXGenotypes] = useState([]);
@@ -396,7 +396,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
           </div>
         </div>
       </div>
-      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />

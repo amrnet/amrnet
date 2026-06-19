@@ -11,7 +11,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
@@ -53,6 +53,7 @@ const TABS = [
 export const AMRInsights = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
+  const editButtonRef = useRef(null);
   const [currentTab, setCurrentTab] = useState('GVP');
   const [showFilter, setShowFilter] = useState(!matches500);
   const { t } = useTranslation();
@@ -154,6 +155,7 @@ export const AMRInsights = () => {
             {isExpanded && currentTabConfig?.hasFilter && (
               <Tooltip title="Edit plotting options" placement="top">
                 <IconButton
+                  ref={editButtonRef}
                   size="small"
                   color={showFilter ? 'primary' : 'default'}
                   onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
@@ -203,7 +205,7 @@ export const AMRInsights = () => {
                 zIndex={currentTab === card.value ? 1 : -100}
               >
                 <ChartErrorBoundary label={`AMRInsights:${card.value}:${card.component.type?.name || 'Tab'}`}>
-                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter, filterButtonRef: editButtonRef })}
                 </ChartErrorBoundary>
               </Box>
             ))}
