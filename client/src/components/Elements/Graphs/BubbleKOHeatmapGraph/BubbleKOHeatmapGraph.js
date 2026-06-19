@@ -39,6 +39,7 @@ import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Ma
 import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './BubbleKOHeatmapGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 
 export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const classes = useStyles();
@@ -415,8 +416,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -580,8 +580,7 @@ export const BubbleKOHeatmapGraph = ({ showFilter, setShowFilter }) => {
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };
