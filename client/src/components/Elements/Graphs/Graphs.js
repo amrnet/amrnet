@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import domtoimage from 'dom-to-image-more';
 import download from 'downloadjs';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Circles } from 'react-loader-spinner';
 import LogoImg from '../../../assets/img/logo-prod.png';
@@ -39,6 +39,7 @@ import { variableGraphOptions, variableGraphOptionsNG } from '../../../util/conv
 export const Graphs = () => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const editButtonRef = useRef(null);
   const matches1000 = useMediaQuery('(max-width:1000px)');
   // const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
@@ -790,6 +791,7 @@ export const Graphs = () => {
             {collapses['all'] && (
               <Tooltip title="Edit plotting options" placement="top">
                 <IconButton
+                  ref={editButtonRef}
                   size="small"
                   color={showFilter ? 'primary' : 'default'}
                   onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
@@ -894,7 +896,7 @@ export const Graphs = () => {
                 >
                   {shouldRender && (
                     <ChartErrorBoundary label={`Graphs:${card.id}:${card.component.type?.name || 'Chart'}`}>
-                      {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                      {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter, filterButtonRef: editButtonRef })}
                     </ChartErrorBoundary>
                   )}
                 </Box>

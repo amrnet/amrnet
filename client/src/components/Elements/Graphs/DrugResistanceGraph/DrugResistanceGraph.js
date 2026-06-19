@@ -76,7 +76,7 @@ import { useTranslation } from 'react-i18next';
  *   />
  * )
  */
-export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
+export const DrugResistanceGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
@@ -668,7 +668,7 @@ export const DrugResistanceGraph = ({ showFilter, setShowFilter }) => {
           </div>
         </div>
       </div>
-      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
