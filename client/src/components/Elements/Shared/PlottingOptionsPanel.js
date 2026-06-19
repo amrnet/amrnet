@@ -1,9 +1,69 @@
-import { Box, Grow } from '@mui/material';
+import { Box } from '@mui/material';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-export const PlottingOptionsPanel = ({ show, className, children }) => (
-  <Grow in={show} timeout={{ enter: 300, exit: 200 }} unmountOnExit mountOnEnter>
-    <Box className={className} style={{ transformOrigin: 'top center' }}>
+const OPEN_MS  = 320;
+const CLOSE_MS = 240;
+
+/**
+ * anchorRef — ref to the Edit button. Used to compute transform-origin so the
+ * panel appears to grow out of / collapse back into the button.
+ */
+export const PlottingOptionsPanel = ({ show, className, children, anchorRef }) => {
+  const [mounted, setMounted]           = useState(show);
+  const [active, setActive]             = useState(show);
+  const [transformOrigin, setOrigin]    = useState('top center');
+
+  const panelRef = useRef(null);
+  const raf1     = useRef(null);
+  const raf2     = useRef(null);
+  const timer    = useRef(null);
+
+  const computeOrigin = useCallback(() => {
+    if (!anchorRef?.current || !panelRef.current) return;
+    const btn   = anchorRef.current.getBoundingClientRect();
+    const panel = panelRef.current.getBoundingClientRect();
+    // Button centre relative to the panel's top-left corner
+    const x = btn.left + btn.width  / 2 - panel.left;
+    const y = btn.top  + btn.height / 2 - panel.top;
+    setOrigin(`${x}px ${y}px`);
+  }, [anchorRef]);
+
+  useEffect(() => {
+    if (show) {
+      setMounted(true);
+      // First rAF: panel is in the DOM (scale(0)), measure button position.
+      // Second rAF: browser has painted; start the enter transition.
+      raf1.current = requestAnimationFrame(() => {
+        computeOrigin();
+        raf2.current = requestAnimationFrame(() => setActive(true));
+      });
+    } else {
+      setActive(false);
+      timer.current = setTimeout(() => setMounted(false), CLOSE_MS + 30);
+    }
+    return () => {
+      cancelAnimationFrame(raf1.current);
+      cancelAnimationFrame(raf2.current);
+      clearTimeout(timer.current);
+    };
+  }, [show, computeOrigin]);
+
+  if (!mounted) return null;
+
+  return (
+    <Box
+      ref={panelRef}
+      className={className}
+      sx={{
+        transformOrigin,
+        transform : active ? 'scale(1)'   : 'scale(0)',
+        opacity   : active ? 1            : 0,
+        transition: active
+          ? `transform ${OPEN_MS}ms cubic-bezier(0.34, 1.15, 0.64, 1), opacity ${OPEN_MS - 60}ms ease-out`
+          : `transform ${CLOSE_MS}ms cubic-bezier(0.4, 0, 0.6, 1), opacity ${CLOSE_MS - 30}ms ease-in`,
+      }}
+    >
       {children}
     </Box>
-  </Grow>
-);
+  );
+};

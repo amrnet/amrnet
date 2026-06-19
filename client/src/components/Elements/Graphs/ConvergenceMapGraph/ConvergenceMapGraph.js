@@ -68,7 +68,7 @@ function getTextColor(pct) {
   return pct >= 10 ? '#fff' : '#333';
 }
 
-export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
+export const ConvergenceMapGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const [virThreshold, setVirThreshold] = useState(3);
   const [resThreshold, setResThreshold] = useState(3);
@@ -304,7 +304,7 @@ export const ConvergenceMapGraph = ({ showFilter, setShowFilter }) => {
           SerotypeResistanceGraph. Pairs the dashboard's global country /
           region selector with the chart-local virulence / resistance
           thresholds and the Country-vs-Region grouping toggle. */}
-      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />

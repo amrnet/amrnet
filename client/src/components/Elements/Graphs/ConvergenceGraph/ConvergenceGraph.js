@@ -34,7 +34,7 @@ const GRADIENT_COLORS = {
   DARK_GREY: 30, // #1e1e1e - darker for better contrast
 };
 
-export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
+export const ConvergenceGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   const [plotChart, setPlotChart] = useState(() => {});
@@ -353,7 +353,7 @@ export const ConvergenceGraph = ({ showFilter, setShowFilter }) => {
           </div>
         </div>
       </div>
-      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
