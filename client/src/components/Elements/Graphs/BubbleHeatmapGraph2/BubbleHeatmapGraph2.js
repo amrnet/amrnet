@@ -65,7 +65,7 @@ const xOptionsByOrganism = [
   },
 ];
 
-export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
+export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [xAxisType, setXAxisType] = useState('');
@@ -528,7 +528,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />

@@ -38,7 +38,7 @@ import {setResetBool} from '../../../../stores/slices/graphSlice';
 import { useTranslation } from 'react-i18next';
 import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 
-export const BubbleHPGraph = ({ showFilter, setShowFilter }) => {
+export const BubbleHPGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const [xAxisSelected, setXAxisSelected] = useState([]);
@@ -444,7 +444,7 @@ useEffect(() => {
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>

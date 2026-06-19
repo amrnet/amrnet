@@ -106,7 +106,7 @@ const CustomTooltip = ({ active, payload }) => {
   );
 };
 
-export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
+export const ATBCorrelationGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const [selectedATBClass, setSelectedATBClass] = useState('Fluoroquinolones');
   const [showTrendLine, setShowTrendLine] = useState(true);
@@ -442,7 +442,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
       {/* Floating reference panel — Data Sources content. The inline right
           panel keeps the live chart stats (R², Region Legend) so the dense
           attribution text doesn't compete with them for vertical space. */}
-      <PlottingOptionsPanel show={showFilter && !loadingPDF} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !loadingPDF} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
