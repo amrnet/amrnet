@@ -1263,13 +1263,22 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return;
           }
 
+          const saMarkers = markerRulesSA[rule.key];
+          const hasMarkersSA = saMarkers && (saMarkers.acquired.length > 0 || saMarkers.variants.length > 0);
+          const drugData = hasMarkersSA
+            ? yearData.filter(x => {
+                if (!rule.values.some(val => x[rule.columnID]?.toString() === val.toString())) return false;
+                return saMarkers.acquired.some(g => x.Acquired?.includes(g)) || saMarkers.variants.some(v => x.Variants?.includes(v));
+              })
+            : yearData.filter(x => rule.values.some(val => x[rule.columnID]?.toString() === val.toString()));
+
           const drugClass = getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: yearData,
+            dataToFilter: drugData,
             markerRules: markerRulesSA,
             fallbackDrugRules: drugRulesSA,
           });
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
+          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: drugData.length };
           delete item.count;
 
           genotypesAndDrugsData[rule.key].push(item);
@@ -2566,12 +2575,12 @@ function getMarkerDrugClassData({ drugKey, dataToFilter, markerRules, fallbackDr
 
   dataToFilter.forEach(record => {
     const acquiredGenes = record.Acquired
-      ? record.Acquired.split(';')
+      ? record.Acquired.split(',')
           .map(s => s.trim())
           .filter(Boolean)
       : [];
     const variantsList = record.Variants
-      ? record.Variants.split(';')
+      ? record.Variants.split(',')
           .map(s => s.trim())
           .filter(Boolean)
       : [];
