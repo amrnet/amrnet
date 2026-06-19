@@ -56,6 +56,7 @@ export const Graphs = () => {
   const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
   const determinantsGraphDrugClass = useAppSelector(state => state.graph.determinantsGraphDrugClass);
   const trendsGraphDrugClass = useAppSelector(state => state.graph.trendsGraphDrugClass);
+  const bubbleMarkersYAxisType = useAppSelector(state => state.graph.bubbleMarkersYAxisType);
   const KODiversityGraphView = useAppSelector(state => state.graph.KODiversityGraphView);
   const globalOverviewLabel = useAppSelector(state => state.dashboard.globalOverviewLabel);
   const genotypesForFilter = useAppSelector(state => state.dashboard.genotypesForFilter);
@@ -779,6 +780,21 @@ export const Graphs = () => {
                   : actualRegion === 'All'
                     ? 'All Regions'
                     : actualRegion}
+                {collapses['all'] && currentTab === 'RDT' && trendsGraphDrugClass && (
+                  <Typography component="span" fontSize="18px" fontWeight="400" color="text.secondary">
+                    {' — '}{trendsGraphDrugClass}
+                  </Typography>
+                )}
+                {collapses['all'] && currentTab === 'RDWG' && determinantsGraphDrugClass && (
+                  <Typography component="span" fontSize="18px" fontWeight="400" color="text.secondary">
+                    {' — '}{determinantsGraphDrugClass}
+                  </Typography>
+                )}
+                {collapses['all'] && currentTab === 'BAMRH' && bubbleMarkersYAxisType && (
+                  <Typography component="span" fontSize="18px" fontWeight="400" color="text.secondary">
+                    {' — '}{bubbleMarkersYAxisType}
+                  </Typography>
+                )}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
