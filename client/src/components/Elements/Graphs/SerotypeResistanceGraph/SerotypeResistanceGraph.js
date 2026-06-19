@@ -74,7 +74,7 @@ function getTextColor(value) {
   return value > 30 ? '#fff' : '#333';
 }
 
-export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
+export const SerotypeResistanceGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const [sortBy, setSortBy] = useState('count');
   const [vaccineFilter, setVaccineFilter] = useState('all');
@@ -428,7 +428,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
         </Box>
       </Box>
 
-      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader

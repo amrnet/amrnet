@@ -38,7 +38,7 @@ import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useStyles } from '../BubbleMarkersHeatmapGraph/BubbleMarkersHeatmapGraphMUI';
 import { useTranslation } from 'react-i18next';
 
-export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }) => {
+export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -330,7 +330,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />

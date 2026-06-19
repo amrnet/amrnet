@@ -42,7 +42,7 @@ import { getColorForDrug } from '../graphColorHelper';
 import { useStyles } from './FrequenciesGraphMUI';
 import { useTranslation } from 'react-i18next';
 
-export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
+export const FrequenciesGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
@@ -396,7 +396,7 @@ export const FrequenciesGraph = ({ showFilter, setShowFilter }) => {
           )}
         </div>
       </div>
-      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
