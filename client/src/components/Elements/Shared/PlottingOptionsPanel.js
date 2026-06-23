@@ -20,8 +20,14 @@ export const PlottingOptionsPanel = ({ show, className, children, anchorRef }) =
 
   const computeOrigin = useCallback(() => {
     if (!anchorRef?.current || !panelRef.current) return;
-    const btn   = anchorRef.current.getBoundingClientRect();
-    const panel = panelRef.current.getBoundingClientRect();
+    const btn = anchorRef.current.getBoundingClientRect();
+    const el  = panelRef.current;
+    // Temporarily suppress the scale transform so getBoundingClientRect returns
+    // the natural layout position rather than the collapsed (scale-0) point.
+    const saved = el.style.transform;
+    el.style.transform = 'none';
+    const panel = el.getBoundingClientRect();
+    el.style.transform = saved;
     // Button centre relative to the panel's top-left corner
     const x = btn.left + btn.width  / 2 - panel.left;
     const y = btn.top  + btn.height / 2 - panel.top;
@@ -38,6 +44,11 @@ export const PlottingOptionsPanel = ({ show, className, children, anchorRef }) =
         raf2.current = requestAnimationFrame(() => setActive(true));
       });
     } else {
+      // Recompute origin just before closing so the panel collapses back toward
+      // the current button position. This is critical when the button was null
+      // during the initial open (e.g. AMRInsights expanded on a non-filter tab)
+      // and the stored origin is still the default 'top center'.
+      computeOrigin();
       setActive(false);
       timer.current = setTimeout(() => setMounted(false), CLOSE_MS + 30);
     }
