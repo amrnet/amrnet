@@ -66,8 +66,8 @@ export const ContinentPathotypeGraphs = () => {
   }, [organism]);
 
   const showFilterFull = useMemo(() => {
-    return showFilter && !loadingData && !loadingMap;
-  }, [loadingData, loadingMap, showFilter]);
+    return !!collapses['continentP'] && showFilter && !loadingData && !loadingMap;
+  }, [collapses, loadingData, loadingMap, showFilter]);
 
   const filteredTABS = useMemo(
     () => TABS.filter((tab) => !tab.notShow.includes(organism)),

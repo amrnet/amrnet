@@ -67,8 +67,8 @@ export const AMRInsights = () => {
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
 
   const showFilterFull = useMemo(() => {
-    return showFilter && !loadingData && !loadingMap;
-  }, [loadingData, loadingMap, showFilter]);
+    return !!(collapses['insights'] ?? false) && showFilter && !loadingData && !loadingMap;
+  }, [collapses, loadingData, loadingMap, showFilter]);
 
   const filteredTabs = useMemo(() => {
     return TABS.filter(tab => tab.onlyFor === null || tab.onlyFor.includes(organism));
