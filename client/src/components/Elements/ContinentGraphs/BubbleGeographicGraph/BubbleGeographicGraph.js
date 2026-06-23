@@ -45,6 +45,7 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { organismsCards, organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { useStyles } from './BubbleGeographicGraphMUI';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { getLocalizedCountryName } from '../../../../util/countryLocalization';
 
 // Dynamic trend options generator
@@ -211,7 +212,7 @@ const yOptions = [
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
-export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
+export const BubbleGeographicGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const [xAxisType, setXAxisType] = useState('country');
   const [xAxisSelected, setXAxisSelected] = useState([]);
@@ -906,8 +907,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      {showFilter && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <div className={classes.titleWrapper}>
@@ -1110,8 +1110,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+      </PlottingOptionsPanel>
     </CardContent>
   );
 };

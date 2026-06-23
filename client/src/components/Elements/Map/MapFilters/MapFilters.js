@@ -1,4 +1,5 @@
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import {
   Box,
   Button,
@@ -71,7 +72,7 @@ const INFO_ICON_TEXT_KEYS = {
   sentericaints: 'dashboard.filters.plotOptions.info.sentericaints',
 };
 
-export const MapFilters = ({ showFilter, setShowFilter }) => {
+export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
   const classes = useStyles();
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const prevMapViewRef = useRef(null);
@@ -496,12 +497,8 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     setGenotypeSearch('');
   }
 
-  if (!showFilter || loadingMap || loadingData) {
-    return null;
-  }
-
   return (
-    <Box className={classes.floatingFilter}>
+    <PlottingOptionsPanel show={showFilter && !loadingMap && !loadingData} className={classes.floatingFilter} anchorRef={anchorRef}>
       <Card elevation={3}>
         <CardContent>
           <div className={classes.titleWrapper}>
@@ -748,6 +745,6 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
           </div>
         </CardContent>
       </Card>
-    </Box>
+    </PlottingOptionsPanel>
   );
 };
