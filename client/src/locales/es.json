@@ -496,7 +496,8 @@
     "selectPathotype": "Seleccionar patotipo",
     "total": "Total: {{total}}",
     "pathotypeTooltip": "Si hay demasiados patotipos, solo se muestran los primeros 20",
-    "markersTooltip": "Solo se muestran las primeras 20 opciones a la vez"
+    "markersTooltip": "Solo se muestran las primeras 20 opciones a la vez",
+    "editPlottingOptions": "Editar opciones de gráfico"
   },
   "pdf": {
     "reportInformation": "Información del informe",

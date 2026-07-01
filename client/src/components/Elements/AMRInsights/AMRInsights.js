@@ -1,4 +1,4 @@
-import { Edit, ExpandLess, ExpandMore, TipsAndUpdates } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, TipsAndUpdates } from '@mui/icons-material';
 import {
   Box,
   Card,
@@ -7,7 +7,6 @@ import {
   IconButton,
   Tab,
   Tabs,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from '@mui/material';
@@ -21,6 +20,7 @@ import { InsightsActions } from './InsightsActions';
 import { ATBCorrelationGraph } from '../Graphs/ATBCorrelationGraph';
 import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
+import { PlottingOptionsEditButton } from '../Shared/PlottingOptionsEditButton';
 import { useStyles } from './AMRInsightsMUI';
 
 // NOTE: AMR Co-occurrence was moved to the Summary Plots section (it is a
@@ -153,17 +153,11 @@ export const AMRInsights = () => {
               )}
             </div>
             {isExpanded && currentTabConfig?.hasFilter && (
-              <Tooltip title="Edit plotting options" placement="top">
-                <IconButton
-                  ref={editButtonRef}
-                  size="small"
-                  color={showFilter ? 'primary' : 'default'}
-                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
-                  sx={{ borderRadius: '50%' }}
-                >
-                  <Edit fontSize="small" />
-                </IconButton>
-              </Tooltip>
+              <PlottingOptionsEditButton
+                ref={editButtonRef}
+                active={showFilter}
+                onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+              />
             )}
           </div>
           <div className={classes.actionsWrapper}>

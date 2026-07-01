@@ -549,7 +549,8 @@
     "selectPathotype": "Select pathotype",
     "total": "Total: {{total}}",
     "pathotypeTooltip": "If there are too many pathotypes, only the first 20 are shown",
-    "markersTooltip": "Only the first 20 options are shown at a time"
+    "markersTooltip": "Only the first 20 options are shown at a time",
+    "editPlottingOptions": "Edit plotting options"
   },
   "pdf": {
     "reportInformation": "Report Information",
