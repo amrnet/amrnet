@@ -1,4 +1,4 @@
-import { Edit, ExpandLess, ExpandMore, Public } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, Public } from '@mui/icons-material';
 import { ShareButton } from '../Shared/ShareButton';
 import {
   Card,
@@ -27,6 +27,7 @@ import { BottomLeftControls } from './BottomLeftControls';
 import { MapActions } from './MapActions/MapActions';
 import { differentColorScale, redColorScale, samplesColorScale, sensitiveColorScale } from './mapColorHelper';
 import { MapFilters } from './MapFilters/MapFilters';
+import { PlottingOptionsEditButton } from '../Shared/PlottingOptionsEditButton';
 import { useStyles } from './MapMUI';
 import { getLocalizedCountryName } from '../../../util/countryLocalization';
 
@@ -358,17 +359,11 @@ export const Map = () => {
             )}
           </div>
           {collapses['map'] && (
-            <Tooltip title="Edit plotting options" placement="top">
-              <IconButton
-                ref={editButtonRef}
-                size="small"
-                color={showFilter ? 'primary' : 'default'}
-                onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
-                sx={{ borderRadius: '50%' }}
-              >
-                <Edit fontSize="small" />
-              </IconButton>
-            </Tooltip>
+            <PlottingOptionsEditButton
+              ref={editButtonRef}
+              active={showFilter}
+              onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+            />
           )}
         </div>
         <div className={classes.actionsWrapper}>

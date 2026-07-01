@@ -1,4 +1,4 @@
-import { CameraAlt, Edit, ExpandLess, ExpandMore } from '@mui/icons-material';
+import { CameraAlt, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { ShareButton } from '../Shared/ShareButton';
 import {
   Alert,
@@ -27,6 +27,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { BubbleGeographicGraph } from './BubbleGeographicGraph';
+import { PlottingOptionsEditButton } from '../Shared/PlottingOptionsEditButton';
 import { useStyles } from './ContinentGraphsMUI';
 import { RadarProfileGraph } from '../Graphs/RadarProfileGraph/RadarProfileGraph';
 import { ChartErrorBoundary } from '../Shared/ChartErrorBoundary';
@@ -306,17 +307,11 @@ export const ContinentGraphs = () => {
               )}
             </div>
             {collapses['continent'] && (
-              <Tooltip title="Edit plotting options" placement="top">
-                <IconButton
-                  ref={editButtonRef}
-                  size="small"
-                  color={showFilter ? 'primary' : 'default'}
-                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
-                  sx={{ borderRadius: '50%' }}
-                >
-                  <Edit fontSize="small" />
-                </IconButton>
-              </Tooltip>
+              <PlottingOptionsEditButton
+                ref={editButtonRef}
+                active={showFilter}
+                onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+              />
             )}
           </div>
           <div className={classes.actionsWrapper}>

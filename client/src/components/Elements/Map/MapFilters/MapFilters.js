@@ -196,6 +196,9 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
   ]);
 
   useEffect(() => {
+    // Don't reset while the panel is hidden (including during the close animation).
+    if (!showFilter) return;
+
     const mapViewChanged = prevMapViewRef.current !== mapView;
     const organismChanged = prevOrganismRef.current !== organism;
 
@@ -243,7 +246,7 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     }
 
     dispatch(setPrevalenceMapViewOptionsSelected(nonResistanceOptions[0] ? [nonResistanceOptions[0]] : []));
-  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions, organism, mapView]);
+  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions, organism, mapView, showFilter]);
 
   const currentMapLegends = useMemo(() => {
     return mapLegends.filter(legend => legend.organisms.includes(organism));

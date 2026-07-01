@@ -67,8 +67,9 @@ export const PlottingOptionsPanel = ({ show, className, children, anchorRef }) =
       className={className}
       sx={{
         transformOrigin,
-        transform : active ? 'scale(1)'   : 'scale(0)',
-        opacity   : active ? 1            : 0,
+        transform    : active ? 'scale(1)'   : 'scale(0)',
+        opacity      : active ? 1            : 0,
+        pointerEvents: active ? 'auto'       : 'none',
         transition: active
           ? `transform ${OPEN_MS}ms cubic-bezier(0.34, 1.15, 0.64, 1), opacity ${OPEN_MS - 60}ms ease-out`
           : `transform ${CLOSE_MS}ms cubic-bezier(0.4, 0, 0.6, 1), opacity ${CLOSE_MS - 30}ms ease-in`,

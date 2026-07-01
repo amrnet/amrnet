@@ -497,7 +497,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter, 
                         disableAutoFocusItem: true,
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={selected => <div>{t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: yAxisOptions.length })}</div>}
+                      renderValue={selected => <div>{t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: yAxisOptions.length ?? 0 })}</div>}
                       onClose={() => setMarkerSearch('')}
                     >
                       <Box className={classes.selectSearch} onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>

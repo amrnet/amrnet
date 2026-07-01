@@ -1,4 +1,4 @@
-import { CameraAlt, Edit, ExpandLess, ExpandMore, StackedBarChart } from '@mui/icons-material';
+import { CameraAlt, ExpandLess, ExpandMore, StackedBarChart } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -23,6 +23,7 @@ import { Circles } from 'react-loader-spinner';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { ChartErrorBoundary } from '../Shared/ChartErrorBoundary';
+import { PlottingOptionsEditButton } from '../Shared/PlottingOptionsEditButton';
 import { setCollapse, setDownload } from '../../../stores/slices/graphSlice';
 import { colorForDrugClassesNG, colorForDrugClassesST, colorForMarkers } from '../../../util/colorHelper';
 import { variablesOptions } from '../../../util/convergenceVariablesOptions';
@@ -805,17 +806,11 @@ export const Graphs = () => {
               )}
             </div>
             {collapses['all'] && (
-              <Tooltip title="Edit plotting options" placement="top">
-                <IconButton
-                  ref={editButtonRef}
-                  size="small"
-                  color={showFilter ? 'primary' : 'default'}
-                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
-                  sx={{ borderRadius: '50%' }}
-                >
-                  <Edit fontSize="small" />
-                </IconButton>
-              </Tooltip>
+              <PlottingOptionsEditButton
+                ref={editButtonRef}
+                active={showFilter}
+                onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+              />
             )}
           </div>
           <div className={classes.actionsWrapper}>

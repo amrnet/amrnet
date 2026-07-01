@@ -1262,7 +1262,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           const drugData = hasMarkersSA
             ? yearData.filter(x => {
                 if (!rule.values.some(val => x[rule.columnID]?.toString() === val.toString())) return false;
-                return saMarkers.acquired.some(g => x.Acquired?.includes(g)) || saMarkers.variants.some(v => x.Variants?.includes(v));
+                const acq = x.Acquired ? x.Acquired.split(',').map(s => s.trim()) : [];
+                const vrt = x.Variants ? x.Variants.split(',').map(s => s.trim()) : [];
+                return saMarkers.acquired.some(g => acq.includes(g)) || saMarkers.variants.some(v => vrt.includes(v));
               })
             : yearData.filter(x => rule.values.some(val => x[rule.columnID]?.toString() === val.toString()));
 
@@ -1305,9 +1307,7 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return;
           }
 
-          const drugData = yearData.filter(x =>
-            rule.values.some(val => x[rule.columnID]?.toString() === val.toString()),
-          );
+          const drugData = yearData.filter(x => rule.values.some(val => x[rule.columnID]?.toString() === val.toString()));
           const drugClass = getMarkerDrugClassData({
             drugKey: rule.key,
             dataToFilter: drugData,
@@ -1910,7 +1910,6 @@ export function getGenotypesData({
 
         const drugClass = {
           ...drugClassResponse,
-          totalCount: drugData.length,
           ...getMarkerDrugClassData({
             drugKey: rule.key,
             dataToFilter: drugData,
@@ -1937,7 +1936,6 @@ export function getGenotypesData({
 
         const drugClass = {
           ...drugClassResponse,
-          totalCount: drugData.length,
           ...getMarkerDrugClassData({
             drugKey: rule.key,
             dataToFilter: drugData,
