@@ -71,7 +71,7 @@ export const mapLegends = [
     // 'Lincode prevalence' because it keys the LINCODE_NUM stats column.
     value: 'Lincode prevalence',
     label: 'Genotype prevalence',
-    labelKey: 'dashboard.mapViews.genotypePrevalence',
+    labelKey: 'dashboard.mapViews.lincodePrevalence',
     organisms: ['shige'],
   },
   {
