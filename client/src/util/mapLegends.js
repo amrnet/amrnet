@@ -68,7 +68,7 @@ export const mapLegends = [
   {
     // shige: numeric LINcode lineage (all species)
     value: 'Lincode prevalence',
-    label: 'Lincode prevalence',
+    label: 'Genotype prevalence',
     labelKey: 'dashboard.mapViews.lincodePrevalence',
     organisms: ['shige'],
   },
