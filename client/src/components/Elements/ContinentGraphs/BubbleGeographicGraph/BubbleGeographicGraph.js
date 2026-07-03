@@ -183,7 +183,7 @@ const yOptions = [
     value: 'lincodeAlias',
     label: 'Lincode alias prevalence',
     labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
-    organisms: ['shige'],
+    organisms: [],
   },
   {
     value: 'resistance',

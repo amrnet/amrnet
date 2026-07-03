@@ -77,7 +77,7 @@ export const mapLegends = [
     value: 'Lincode alias prevalence',
     label: 'Lincode alias prevalence',
     labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
-    organisms: ['shige'],
+    organisms: [''],
   },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', labelKey: 'dashboard.mapViews.ngMastPrevalence', organisms: ['ngono'] },
