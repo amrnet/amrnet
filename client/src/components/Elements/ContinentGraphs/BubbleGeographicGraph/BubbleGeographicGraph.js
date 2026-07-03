@@ -177,9 +177,15 @@ const yOptions = [
     // genotype mapped from the LINcode (not the LINcode itself), shown as
     // 'Genotype prevalence' per review. The named alias column was removed.
     value: 'lincode',
-    label: 'Genotype prevalence',
-    labelKey: 'dashboard.mapViews.genotypePrevalence',
+    label: 'Lincode prevalence',
+    labelKey: 'dashboard.mapViews.lincodePrevalence',
     organisms: ['shige'],
+  },
+  {
+    value: 'lincodeAlias',
+    label: 'Lincode alias prevalence',
+    labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
+    organisms: [],
   },
   {
     value: 'resistance',
