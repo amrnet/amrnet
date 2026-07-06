@@ -23,6 +23,7 @@ export const variableGraphOptionsNG = variablesOptionsNG.filter(x => x.graph);
 // 'Genotype prevalence' view (LINCODE_NUM).
 export const variablesOptionsShige = [
   { label: 'ST (7-locus MLST)', value: 'GENOTYPE', graph: true, mapValue: 'GENOTYPE' },
-  { label: 'Genotype', value: 'lincodeNumeric', graph: true, mapValue: 'LINCODE_NUM' },
+  { label: 'Lincode', value: 'lincodeNumeric', graph: true, mapValue: 'LINCODE_NUM' },
+  // { label: 'Lincode alias', value: 'lincodeAlias', graph: true, mapValue: 'LINCODE_ALIAS' },
 ];
 export const variableGraphOptionsShige = variablesOptionsShige.filter(x => x.graph);
