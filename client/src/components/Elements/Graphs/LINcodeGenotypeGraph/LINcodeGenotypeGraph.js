@@ -30,7 +30,8 @@ function getLINLabel(rawValue, organism) {
   if (organism !== 'shige') return rawValue;
   const entry = SHIGE_LINCODE_LOOKUP[rawValue];
   if (!entry) return rawValue;
-  return entry.speciesCode ? `${entry.speciesCode} ${entry.lineage}` : entry.lineage;
+  if (!entry.speciesCode || entry.lineage.startsWith(entry.speciesCode)) return entry.lineage;
+  return `${entry.speciesCode}${entry.lineage}`;
 }
 
 // Interpolate from white (#fff) to a teal-ish color based on 0–1 intensity.

@@ -47,6 +47,29 @@ function matchEntry(lincode) {
   return found;
 }
 
+function hasPathovar(pathovar) {
+  return pathovar != null && pathovar !== '' && pathovar !== '-';
+}
+
+// Species abbreviation prepended to the numeric lineage label so genotype
+// labels read unambiguously across all four Shigella species wherever they
+// appear (plots, dropdowns, tables, downloads).
+const SPECIES_PREFIX = {
+  'Shigella sonnei': 'Ss',
+  'Shigella flexneri': 'Sf',
+  'S. dysenteriae': 'Sd',
+  'S. boydii': 'Sb',
+};
+
+function withSpeciesPrefix(numeric, species) {
+  const prefix = SPECIES_PREFIX[species];
+  if (!numeric || !prefix) return numeric;
+  // Some raw lineage labels (boydii/dysenteriae) already carry the prefix
+  // (e.g. "Sb20"); don't double it up.
+  if (numeric.startsWith(prefix)) return numeric;
+  return `${prefix}${numeric}`;
+}
+
 /**
  * Resolve the best available LINcode string from a genome record.
  *
@@ -77,55 +100,13 @@ export function resolveShigeLincode(item) {
  */
 export function deriveShigeLincode(lincode) {
   const entry = matchEntry(lincode);
-  if (!entry) return { numeric: null, species: null };
-  return { numeric: entry.numeric, species: entry.species };
-}
-
-// Two-letter species code from the Pathovar field, per Kat's July 2026 review
-// ('Ss 3.7.25', and EIEC lineages keyed by ST). Shigella species map to
-// Ss/Sf/Sb/Sd; enteroinvasive E. coli maps to EIEC. Other pathotypes and
-// non-target genomes return '' (no lineage label).
-const SPECIES_CODES = [
-  [/sonnei/i, 'Ss'],
-  [/flexneri/i, 'Sf'],
-  [/boydii/i, 'Sb'],
-  [/dysenteriae/i, 'Sd'],
-  [/EIEC/i, 'EIEC'],
-];
-export function shigeSpeciesCode(pathovar) {
-  if (!pathovar) return '';
-  for (const [re, code] of SPECIES_CODES) {
-    if (re.test(pathovar)) return code;
-  }
-  return '';
-}
-
-/**
- * Lineage label for the 'Genotype prevalence' dimension, per the July 2026
- * review:
- *   - Shigella with a LINcode-mapped genotype -> species-prefixed genotype
- *     ('Ss 3.7.25'); labels that already carry the species code (e.g. 'Sb20')
- *     are left as-is to avoid doubling.
- *   - EIEC -> always an ST-based alias ('EIEC ST270'), since the LINcode
- *     genotype scheme is Shigella-centric and EIEC/Shigella share prefixes.
- *   - Shigella without a genotype match -> species-prefixed ST fallback.
- * Returns null for non-target genomes (no lineage label).
- *
- * @param {object} item - a genome record (needs Pathovar, GENOTYPE, LINcode*)
- * @returns {string|null}
- */
-export function shigeGenotypeLabel(item) {
-  if (!item) return null;
-  const code = shigeSpeciesCode(item.Pathovar);
-  const st = item.GENOTYPE && item.GENOTYPE !== '-' ? item.GENOTYPE : null;
-
-  if (code === 'EIEC') return st ? `EIEC ${st}` : null;
-
-  const { numeric } = deriveShigeLincode(resolveShigeLincode(item));
-  if (numeric) {
-    if (!code) return numeric;
-    return numeric.toLowerCase().startsWith(code.toLowerCase()) ? numeric : `${code} ${numeric}`;
-  }
-  // Shigella species with no genotype match — fall back to the species-prefixed ST.
-  return code && st ? `${code} ${st}` : null;
+  if (!entry) return { numeric: null, alias: null, species: null };
+  return {
+    // species-prefixed (e.g. "Ss 3.7.25", "Sf 1.2.2.5") so the label is
+    // unambiguous across all four Shigella species wherever it's displayed
+    numeric: withSpeciesPrefix(entry.numeric, entry.species),
+    // alias gated on pathovar (S. sonnei named lineages only)
+    alias: hasPathovar(pathovar) ? entry.alias : null,
+    species: entry.species,
+  };
 }
