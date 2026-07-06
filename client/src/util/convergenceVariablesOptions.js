@@ -21,6 +21,6 @@ export const variableGraphOptionsNG = variablesOptionsNG.filter(x => x.graph);
 export const variablesOptionsShige = [
   { label: 'ST (7-locus MLST)', value: 'GENOTYPE', graph: true, mapValue: 'GENOTYPE' },
   { label: 'Lincode', value: 'lincodeNumeric', graph: true, mapValue: 'LINCODE_NUM' },
-  { label: 'Lincode alias', value: 'lincodeAlias', graph: true, mapValue: 'LINCODE_ALIAS' },
+  // { label: 'Lincode alias', value: 'lincodeAlias', graph: true, mapValue: 'LINCODE_ALIAS' },
 ];
 export const variableGraphOptionsShige = variablesOptionsShige.filter(x => x.graph);
