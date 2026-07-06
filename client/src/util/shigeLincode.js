@@ -51,6 +51,25 @@ function hasPathovar(pathovar) {
   return pathovar != null && pathovar !== '' && pathovar !== '-';
 }
 
+// Species abbreviation prepended to the numeric lineage label so genotype
+// labels read unambiguously across all four Shigella species wherever they
+// appear (plots, dropdowns, tables, downloads).
+const SPECIES_PREFIX = {
+  'Shigella sonnei': 'Ss',
+  'Shigella flexneri': 'Sf',
+  'S. dysenteriae': 'Sd',
+  'S. boydii': 'Sb',
+};
+
+function withSpeciesPrefix(numeric, species) {
+  const prefix = SPECIES_PREFIX[species];
+  if (!numeric || !prefix) return numeric;
+  // Some raw lineage labels (boydii/dysenteriae) already carry the prefix
+  // (e.g. "Sb20"); don't double it up.
+  if (numeric.startsWith(prefix)) return numeric;
+  return `${prefix}${numeric}`;
+}
+
 /**
  * Resolve the best available LINcode string from a genome record.
  *
@@ -87,7 +106,9 @@ export function deriveShigeLincode(lincode, pathovar) {
   const entry = matchEntry(lincode);
   if (!entry) return { numeric: null, alias: null, species: null };
   return {
-    numeric: entry.numeric,
+    // species-prefixed (e.g. "Ss 3.7.25", "Sf 1.2.2.5") so the label is
+    // unambiguous across all four Shigella species wherever it's displayed
+    numeric: withSpeciesPrefix(entry.numeric, entry.species),
     // alias gated on pathovar (S. sonnei named lineages only)
     alias: hasPathovar(pathovar) ? entry.alias : null,
     species: entry.species,
