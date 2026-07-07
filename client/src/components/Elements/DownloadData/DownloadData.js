@@ -123,6 +123,14 @@ let columnsToRemoveNonTyphi = [
   'Subspecies',
   'source_niche',
   'Source Niche',
+  'source_type',
+  'source_details',
+  'LINcode_3',
+  'LINcode_5',
+  'LINcode_7',
+  'LINcode_9',
+  'LINcode_11',
+  'LINcode_S',
   'AbST',
   'Aerobactin',
   'Alternative sample name 1',
@@ -308,12 +316,16 @@ export const DownloadData = () => {
 
       const lines = parsed.data;
 
+      // GENOTYPE holds a real genotype/lineage name for most organisms, but for
+      // kpneumo and shige it's the 7-locus MLST Sequence Type (see mapLegends.js
+      // 'ST prevalence' entry), so only those two get relabelled here.
+      const isSequenceTypeOrganism = organism === 'kpneumo' || organism === 'shige';
+
       const replacements = {
         COUNTRY_ONLY: 'Country',
         NAME: 'Name',
-        DATE: 'Date',
-        GENOTYPE: 'Genotype',
-        source_type: 'Source_type',
+        DATE: 'Year',
+        GENOTYPE: isSequenceTypeOrganism ? 'Sequence type' : 'Genotype',
         accession: 'Accession',
         ACCESSION: 'Accession',
         'dashboard view': 'Dashboard view',

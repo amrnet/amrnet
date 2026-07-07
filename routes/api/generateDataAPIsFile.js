@@ -48,7 +48,12 @@ router.post('/download', async function (req, res, next) {
     // Exclude styphi patient-level fields from the export (no-op for other
     // organisms, which do not carry these fields).
     const findOptions = organism === 'styphi' ? { projection: STYPHI_PERSONAL_FIELDS_EXCLUSION } : {};
-    data = await collection.find({}, findOptions).toArray();
+    // Only export genomes curated for dashboard display, matching every other
+    // read endpoint (routes/api/api.js) - without this, the export pulled in
+    // every raw record in the collection, including genomes not identified/
+    // curated as belonging to this organism's dashboard.
+    const query = { 'dashboard view': { $regex: /^include$/i } };
+    data = await collection.find(query, findOptions).toArray();
     console.log('2', data.length, 'documents found');
   } catch (err) {
     console.error('Error querying MongoDB:', err);
@@ -58,8 +63,13 @@ router.post('/download', async function (req, res, next) {
   let csvString;
 
   if (data.length > 0) {
-    const header = Object.keys(data[0]);
-    const headerList = [...header];
+    // Union of keys across all documents - MongoDB is schemaless, so relying on
+    // just data[0] silently dropped any field absent from the first record even
+    // when populated on other rows (e.g. resistance marker columns).
+    const headerList = [...data.reduce((keys, doc) => {
+      Object.keys(doc).forEach(key => keys.add(key));
+      return keys;
+    }, new Set())];
     let nameField = organism === 'shige' || organism === 'decoli' ? 'Name' : 'NAME';
 
     const filteredHeaderList = headerList.filter(
