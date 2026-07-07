@@ -49,7 +49,8 @@
           "NGMAST": "NG-MAST",
           "lineages": "lignées",
           "STs": "STs",
-          "genotypes": "génotypes"
+          "genotypes": "génotypes",
+          "sequenceType": "type de séquence"
         },
         "definitions": {
           "XDR": {
