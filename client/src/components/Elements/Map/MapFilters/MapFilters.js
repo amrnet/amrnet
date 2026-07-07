@@ -337,6 +337,11 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     if (['kpneumo'].includes(organism)) {
       return 'STs';
     }
+    // shige's GENOTYPE field is the 7-locus MLST Sequence Type, not a true
+    // genotype/lineage (see mapLegends.js 'ST prevalence' entry).
+    if (organism === 'shige') {
+      return 'sequenceType';
+    }
 
     return 'genotypes';
   }, [
