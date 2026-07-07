@@ -97,13 +97,13 @@ export const mapLegends = [
     value: 'O prevalence',
     label: 'O prevalence',
     labelKey: 'dashboard.mapViews.oPrevalence',
-    organisms: ['ecoli', 'decoli', 'shige'],
+    organisms: ['ecoli', 'decoli'],
   },
   {
     value: 'H prevalence',
     label: 'H prevalence',
     labelKey: 'dashboard.mapViews.hPrevalence',
-    organisms: ['ecoli', 'decoli', 'shige'],
+    organisms: ['ecoli', 'decoli'],
   },
   {
     value: 'No. Samples',
