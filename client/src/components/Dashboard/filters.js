@@ -491,13 +491,21 @@ function getMapStatsData({
   const allDashNames = [];
   let resistantGenomeCount = 0; // direct count of genomes passing resistance check
 
-  for (const item of itemData) {
+  for (const [idx, item] of itemData.entries()) {
+    // Stable per-genome identifier. The fallback MUST be deterministic for a
+    // given record: the map combines multiple drugs by intersecting these name
+    // sets, and getMapStatsData is called once per drug over the same itemData.
+    // The previous fallback (`g${resistantGenomeCount}`) was a running counter,
+    // so the same genome got a different id under each drug and the
+    // intersection was meaningless — e.g. CipR + CipNS did not return CipR even
+    // though CipR is a subset of CipNS. Using the array index keeps the id
+    // stable across drugs.
     const name =
       item.Uberstrain ||
       item.Name ||
       item.NAME ||
       item['Genome Name'] ||
-      String(item._id || `g${resistantGenomeCount}`);
+      String(item._id ?? `g${idx}`);
 
     // Special handling for ECOLI-like organisms which use rule sets instead of
     // direct column values. In those cases `statsKey` is the rule name and
