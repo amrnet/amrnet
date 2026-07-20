@@ -49,7 +49,8 @@
           "NGMAST": "NG-MAST",
           "lineages": "linajes",
           "STs": "STs",
-          "genotypes": "genotipos"
+          "genotypes": "genotipos",
+          "sequenceType": "tipo de secuencia"
         },
         "definitions": {
           "XDR": {
@@ -492,7 +493,8 @@
     "selectDrugsToCompare": "Seleccionar medicamentos para comparar",
     "allCountries": "Todos los países",
     "allCountriesInRegion": "Todos los países de la región",
-    "selectACountry": "Seleccionar un país"
+    "selectACountry": "Seleccionar un país",
+    "selectPathotypes": "Seleccionar patotipos"
   },
   "pdf": {
     "reportInformation": "Información del informe",

@@ -313,6 +313,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       return 'lineages';
     }
 
+    // 'ST prevalence' plots the 7-locus MLST sequence type — say so explicitly.
+    if (mapView === 'ST prevalence') {
+      return 'sequenceType';
+    }
+
     if (['sentericaints', 'senterica'].includes(organism)) {
       return 'STs';
     }
@@ -328,6 +333,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     isNGMASTPrevalence,
     isLincodePrevalence,
     isLincodeAliasPrevalence,
+    mapView,
     organism,
   ]);
 
