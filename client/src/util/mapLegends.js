@@ -66,10 +66,12 @@ export const mapLegends = [
     organisms: ['sentericaints', 'senterica'],
   },
   {
-    // shige: numeric LINcode lineage (all species)
+    // shige: the genotype mapped from the LINcode (not the LINcode itself), so
+    // it is presented as 'Genotype prevalence'. The internal value is kept as
+    // 'Lincode prevalence' because it keys the LINCODE_NUM stats column.
     value: 'Lincode prevalence',
-    label: 'Lincode prevalence',
-    labelKey: 'dashboard.mapViews.lincodePrevalence',
+    label: 'Genotype prevalence',
+    labelKey: 'dashboard.mapViews.genotypePrevalence',
     organisms: ['shige'],
   },
   {
@@ -94,16 +96,17 @@ export const mapLegends = [
     organisms: ['ecoli', 'decoli'],
   },
   {
+    // shige removed per review — O/H prevalence are not shown on the Shigella map.
     value: 'O prevalence',
     label: 'O prevalence',
     labelKey: 'dashboard.mapViews.oPrevalence',
-    organisms: ['ecoli', 'decoli', 'shige'],
+    organisms: ['ecoli', 'decoli'],
   },
   {
     value: 'H prevalence',
     label: 'H prevalence',
     labelKey: 'dashboard.mapViews.hPrevalence',
-    organisms: ['ecoli', 'decoli', 'shige'],
+    organisms: ['ecoli', 'decoli'],
   },
   {
     value: 'No. Samples',

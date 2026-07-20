@@ -385,7 +385,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                 <div className={classes.selectPreWrapper}>
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
-                      <Typography variant="caption">{t('common.selectPathotype')}</Typography>
+                      <Typography variant="caption">{t('common.selectPathotypes')}</Typography>
                       <Tooltip title="If there are too many pathotypes, only the first 20 are shown" placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>

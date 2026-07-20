@@ -18,7 +18,7 @@ const NEXT_PATHOGEN_FORM_URL = 'https://forms.gle/BPw8JMzpvhQzs7Y98';
 // with connecting rungs. Uses currentColor so `sx={{ color }}` applies.
 const DnaIcon = props => (
   <SvgIcon {...props} viewBox="0 0 24 24">
-    <g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+    <g fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
       <path d="M8 2c0 5 8 5 8 10s-8 5-8 10" />
       <path d="M16 2c0 5-8 5-8 10s8 5 8 10" />
       <path d="M8.6 5h6.8M7.2 9h9.6M7.2 15h9.6M8.6 19h6.8" />
@@ -171,7 +171,7 @@ export const HomePage = () => {
                       background: 'linear-gradient(135deg, #1b1b2f 0%, #0f3460 100%)',
                     }}
                   >
-                    <DnaIcon sx={{ fontSize: matches600 ? 36 : 72, color: 'rgba(255, 255, 255, 0.9)' }} />
+                    <DnaIcon sx={{ fontSize: matches600 ? 40 : 80, color: '#ffffff' }} />
                   </div>
                   <div
                     className={classes.organismLegend}
