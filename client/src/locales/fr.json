@@ -497,7 +497,8 @@
     "selectPathotypes": "Sélectionner les pathotypes",
     "total": "Total : {{total}}",
     "pathotypeTooltip": "Si trop de pathotypes sont présents, seuls les 20 premiers sont affichés",
-    "markersTooltip": "Seules les 20 premières options sont affichées à la fois"
+    "markersTooltip": "Seules les 20 premières options sont affichées à la fois",
+    "editPlottingOptions": "Modifier les options de tracé"
   },
   "pdf": {
     "reportInformation": "Informations du rapport",

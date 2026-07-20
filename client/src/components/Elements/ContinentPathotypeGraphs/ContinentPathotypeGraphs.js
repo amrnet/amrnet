@@ -20,12 +20,13 @@ import { cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 // import { getContinentPGraphCard } from '../../../util/graphCards';
-import { CameraAlt, Edit, ExpandLess, ExpandMore } from '@mui/icons-material';
+import { CameraAlt, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
 import domtoimage from 'dom-to-image-more';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
+import { PlottingOptionsEditButton } from '../Shared/PlottingOptionsEditButton';
 import { BubbleHPGraph } from './BubbleHPGraph';
 
 const TABS = [
@@ -224,17 +225,11 @@ export const ContinentPathotypeGraphs = () => {
               )}
             </div>
             {collapses['continentP'] && (
-              <Tooltip title="Edit plotting options" placement="top">
-                <IconButton
-                  ref={editButtonRef}
-                  size="small"
-                  color={showFilter ? 'primary' : 'default'}
-                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
-                  sx={{ borderRadius: '50%' }}
-                >
-                  <Edit fontSize="small" />
-                </IconButton>
-              </Tooltip>
+              <PlottingOptionsEditButton
+                ref={editButtonRef}
+                active={showFilter}
+                onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+              />
             )}
           </div>
           <div className={classes.actionsWrapper}>
