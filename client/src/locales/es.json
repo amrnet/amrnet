@@ -37,10 +37,12 @@
         "showTooltip": "Mostrar opciones de gráficos",
         "search": "Buscar...",
         "searchMore": "Buscar más...",
+        "searchLinCodePrefix": "Buscar por prefijo, ej.: 0-1-6...",
         "clearAll": "Borrar todo",
         "selectAll": "Seleccionar todo",
         "selectedCount": "{{count}} de {{total}} seleccionados",
         "nonResTooltip": "Si el total de {{label}} es demasiado grande, solo se muestran las primeras 20 opciones a la vez",
+        "linCodeTooltip": "La búsqueda encuentra los códigos LIN que comienzan con el texto ingresado, no los que lo contienen en cualquier posición, ya que los códigos LIN solo tienen sentido leídos de izquierda a derecha. Si no se ingresa ninguna búsqueda, se muestran las primeras 20 opciones.",
         "labels": {
           "O": "O",
           "H": "H",
@@ -51,7 +53,7 @@
           "STs": "STs",
           "genotypes": "genotipos",
           "sequenceType": "tipo de secuencia",
-          "linCodes": "LIN codes"
+          "linCodes": "códigos LIN"
         },
         "definitions": {
           "XDR": {
@@ -78,6 +80,8 @@
       "stPrevalence": "Prevalencia de ST",
       "lineagePrevalence": "Prevalencia de linajes",
       "lincodePrevalence": "Prevalencia de Lincode",
+      "lincodeAliasPrevalence": "Prevalencia de alias Lincode",
+      "linCodePrevalence": "Prevalencia de código LIN",
       "ngmastPrevalence": "Prevalencia NG-MAST",
       "serotypePrevalence": "Prevalencia de serotipos",
       "pathotypePrevalence": "Prevalencia de patotipos",

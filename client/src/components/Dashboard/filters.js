@@ -924,10 +924,12 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       // no match carry null and are skipped by generateStats' grouping.
       stats['LINCODE_NUM'] = { items: [], count: 0 };
       generateStats(itemData, stats, organism, 'LINCODE_NUM', 'lincodeNumeric');
-      // The actual LINcode barcode (full 13-number string in the `LINcode`
-      // field) for the 'LIN code prevalence' map view — grouped verbatim.
-      stats['LINCODE_FULL'] = { items: [], count: 0 };
-      generateStats(itemData, stats, organism, 'LINCODE_FULL', 'LINcode');
+      stats['LINCODE_ALIAS'] = { items: [], count: 0 };
+      generateStats(itemData, stats, organism, 'LINCODE_ALIAS', 'lincodeAlias');
+      // Exact, un-derived LINcode barcode (e.g. "0-2-0-0-0-0-0-1-0-1-0"), grouped
+      // directly off the raw field rather than a lineage/alias lookup.
+      stats['LINCODE_RAW'] = { items: [], count: 0 };
+      generateStats(itemData, stats, organism, 'LINCODE_RAW', 'LINcode');
     }
 
     statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key, pansusceptible }) => {

@@ -81,6 +81,14 @@ export const mapLegends = [
     labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
     organisms: [''],
   },
+  {
+    // shige: the exact, un-derived LINcode barcode (e.g. "0-2-0-0-0-0-0-1-0-1-0"),
+    // as opposed to the lineage/alias labels derived from it above.
+    value: 'LIN code prevalence',
+    label: 'LIN code prevalence',
+    labelKey: 'dashboard.mapViews.linCodePrevalence',
+    organisms: ['shige'],
+  },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', labelKey: 'dashboard.mapViews.ngMastPrevalence', organisms: ['ngono'] },
   {

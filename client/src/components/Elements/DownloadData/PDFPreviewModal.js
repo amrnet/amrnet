@@ -17,16 +17,9 @@ const PDF_MARGIN = 24;
 
 // Views where the map uses a continuous orange→dark-red gradient (not stepped)
 const GRADIENT_MAP_VIEWS = [
-  'Genotype prevalence',
-  'Serotype prevalence',
-  'Pathotype prevalence',
-  'O prevalence',
-  'H prevalence',
-  'ST prevalence',
-  'NG-MAST prevalence',
-  'Lineage prevalence (ST)',
-  'Lincode prevalence',
-  'LIN code prevalence',
+  'Genotype prevalence', 'Serotype prevalence', 'Pathotype prevalence',
+  'O prevalence', 'H prevalence', 'ST prevalence', 'NG-MAST prevalence',
+  'Lineage prevalence (ST)', 'Lincode prevalence', 'Lincode alias prevalence', 'LIN code prevalence',
 ];
 
 // Heatmap graph IDs (BubbleHeatmapGraph2, BubbleMarkersHeatmapGraph, BubbleKOHeatmapGraph)

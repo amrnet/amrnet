@@ -5,6 +5,7 @@ export const mapViewToTranslationKey = {
   'ST prevalence': 'stPrevalence',
   'Lineage prevalence (ST)': 'lineagePrevalence',
   'Lincode prevalence': 'lincodePrevalence',
+  'Lincode alias prevalence': 'lincodeAliasPrevalence',
   'LIN code prevalence': 'linCodePrevalence',
   'NG-MAST prevalence': 'ngmastPrevalence',
   'Serotype prevalence': 'serotypePrevalence',

@@ -85,7 +85,8 @@ export const DownloadMapViewData = ({ value }) => {
     const isOPrevLikeView = mapView === 'O prevalence';
     const isOHPrevLikeView = mapView === 'H prevalence';
     const isLincodeView = mapView === 'Lincode prevalence';
-    const isLinCodeFullView = mapView === 'LIN code prevalence';
+    const isLincodeAliasView = mapView === 'Lincode alias prevalence';
+    const isRawLincodeView = mapView === 'LIN code prevalence';
     // const isGenotypeLikeView = [
     //   'Genotype prevalence',
     //   'ST prevalence',
@@ -141,9 +142,11 @@ export const DownloadMapViewData = ({ value }) => {
                   ? stats.OH_PREV
                   : isLincodeView
                     ? stats.LINCODE_NUM
-                    : isLinCodeFullView
-                      ? stats.LINCODE_FULL
-                      : stats.GENOTYPE;
+                    : isLincodeAliasView
+                      ? stats.LINCODE_ALIAS
+                      : isRawLincodeView
+                        ? stats.LINCODE_RAW
+                        : stats.GENOTYPE;
         const items = data?.items || [];
         const sum = data?.sum || 0;
         const foundGenotypes = items.map(x => x.name);

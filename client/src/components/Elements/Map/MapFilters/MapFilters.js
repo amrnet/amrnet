@@ -41,6 +41,7 @@ const excludedViews = [
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
   'Lincode prevalence',
+  'Lincode alias prevalence',
   'LIN code prevalence',
   // 'Resistance prevalence',
 ];
@@ -61,6 +62,7 @@ const mapViewsWithZeroPercentOption = [
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
   'Lincode prevalence',
+  'Lincode alias prevalence',
   'LIN code prevalence',
   'Resistance prevalence',
 ];
@@ -100,8 +102,10 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
   const isOHPrevalence = useMemo(() => mapView === 'H prevalence', [mapView]);
   // shige LINcode lineage views: numeric (all species) and named alias (S. sonnei only).
   const isLincodePrevalence = useMemo(() => mapView === 'Lincode prevalence', [mapView]);
-  // shige: the actual LINcode barcode view — searched by 'starts with'.
-  const isLinCodePrevalence = useMemo(() => mapView === 'LIN code prevalence', [mapView]);
+  const isLincodeAliasPrevalence = useMemo(() => mapView === 'Lincode alias prevalence', [mapView]);
+  // shige raw LINcode barcode view: the exact, un-derived LINcode field (e.g. "0-2-0-0-0-0-0-1-0-1-0"),
+  // as opposed to the lineage/alias labels derived from it above.
+  const isRawLincodePrevalence = useMemo(() => mapView === 'LIN code prevalence', [mapView]);
 
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
@@ -116,9 +120,11 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
             ? 'OH_PREV'
             : isLincodePrevalence
               ? 'LINCODE_NUM'
-              : isLinCodePrevalence
-                ? 'LINCODE_FULL'
-                : 'GENOTYPE';
+              : isLincodeAliasPrevalence
+                ? 'LINCODE_ALIAS'
+                : isRawLincodePrevalence
+                  ? 'LINCODE_RAW'
+                  : 'GENOTYPE';
     const items = {};
 
     mapData.forEach(obj => {
@@ -141,7 +147,8 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     isOPrevalence,
     isOHPrevalence,
     isLincodePrevalence,
-    isLinCodePrevalence,
+    isLincodeAliasPrevalence,
+    isRawLincodePrevalence,
     mapData,
   ]);
 
@@ -169,16 +176,21 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
   }, [GLNPSEntries]);
 
   const filteredNonResistanceOptions = useMemo(() => {
-    const search = genotypeSearch.toLowerCase();
-    // LIN codes are only meaningful read left-to-right, so the LIN code view
-    // matches by 'starts with' rather than 'contains'.
+    // Raw LINcode barcodes are only meaningful read left-to-right, so search
+    // matches by prefix ("starts with") rather than substring ("contains").
     const filteredOptions = nonResistanceOptions.filter(option =>
-      isLinCodePrevalence ? option.toLowerCase().startsWith(search) : option.toLowerCase().includes(search),
+      isRawLincodePrevalence
+        ? option.toLowerCase().startsWith(genotypeSearch.toLowerCase())
+        : option.toLowerCase().includes(genotypeSearch.toLowerCase()),
     );
 
     if (
       (isPathSerPrevalence && organism !== 'senterica') ||
-      (!organismHasLotsOfGenotypes && !isOPrevalence && !isOHPrevalence)
+      (!organismHasLotsOfGenotypes && !isOPrevalence && !isOHPrevalence) ||
+      // Once a prefix has been entered, show every matching barcode rather
+      // than just the top 20 by sample count - otherwise a genuine prefix
+      // match could be hidden simply for being less common.
+      (isRawLincodePrevalence && genotypeSearch !== '')
     ) {
       return filteredOptions;
     }
@@ -189,7 +201,7 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     isOHPrevalence,
     isOPrevalence,
     isPathSerPrevalence,
-    isLinCodePrevalence,
+    isRawLincodePrevalence,
     nonResistanceOptions,
     organism,
     organismHasLotsOfGenotypes,
@@ -270,6 +282,7 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
       case 'O prevalence':
       case 'Lineage prevalence (ST)':
       case 'Lincode prevalence':
+      case 'Lincode alias prevalence':
       case 'LIN code prevalence':
         return gradientStyle;
       case '':
@@ -326,9 +339,8 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
       return 'lineages';
     }
 
-    // 'ST prevalence' plots the 7-locus MLST sequence type — say so explicitly.
-    if (mapView === 'ST prevalence') {
-      return 'sequenceType';
+    if (isRawLincodePrevalence) {
+      return 'linCodes';
     }
 
     if (['sentericaints', 'senterica'].includes(organism)) {
@@ -350,14 +362,18 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     isPathSerPrevalence,
     isNGMASTPrevalence,
     isLincodePrevalence,
-    isLinCodePrevalence,
-    mapView,
+    isLincodeAliasPrevalence,
+    isRawLincodePrevalence,
     organism,
   ]);
 
   const nonResPrevalenceLabel = t(`dashboard.filters.plotOptions.labels.${nonResPrevalenceLabelKey}`);
 
   const nonResPrevalenceTooltip = useMemo(() => {
+    if (isRawLincodePrevalence) {
+      return t('dashboard.filters.plotOptions.linCodeTooltip');
+    }
+
     const baseTooltip = t('dashboard.filters.plotOptions.nonResTooltip', {
       label: nonResPrevalenceLabel,
     });
@@ -369,7 +385,7 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     }
 
     return baseTooltip;
-  }, [isOHPrevalence, isOPrevalence, nonResPrevalenceLabel, organism, t]);
+  }, [isOHPrevalence, isOPrevalence, isRawLincodePrevalence, nonResPrevalenceLabel, organism, t]);
 
   const getGenotypeColor = useCallback(
     genotype => {
@@ -718,9 +734,11 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
                           <TextField
                             variant="standard"
                             placeholder={
-                              organismHasLotsOfGenotypes
-                                ? t('dashboard.filters.plotOptions.searchMore')
-                                : t('dashboard.filters.plotOptions.search')
+                              isRawLincodePrevalence
+                                ? t('dashboard.filters.plotOptions.searchLinCodePrefix')
+                                : organismHasLotsOfGenotypes
+                                  ? t('dashboard.filters.plotOptions.searchMore')
+                                  : t('dashboard.filters.plotOptions.search')
                             }
                             fullWidth
                             value={genotypeSearch}
