@@ -50,7 +50,8 @@
           "lineages": "lineages",
           "STs": "STs",
           "genotypes": "genotypes",
-          "sequenceType": "sequence type"
+          "sequenceType": "sequence type",
+          "linCodes": "LIN codes"
         },
         "definitions": {
           "XDR": {
@@ -84,7 +85,8 @@
       "oPrevalence": "O prevalence",
       "hPrevalence": "H prevalence",
       "ngMastPrevalence": "NG-MAST prevalence",
-      "dominantGenotype": "Dominant Genotype"
+      "dominantGenotype": "Dominant Genotype",
+      "linCodePrevalence": "LIN code prevalence"
     }
   },
   "home": {
