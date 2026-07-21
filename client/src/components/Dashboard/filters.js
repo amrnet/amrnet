@@ -212,11 +212,12 @@ export function filterData({
     if (Array.isArray(columnID)) return columnID.some(x => item[x] !== '-');
     return item[columnID] !== '-';
   };
-  // S. aureus dataset filter: 'MRSA' keeps only genomes carrying the mecA gene
-  // (listed in the comma-separated `Acquired` field). Inert for other organisms.
+  // S. aureus dataset filter: 'MRSA' keeps only genomes carrying a methicillin
+  // resistance gene — mecA or mecC (listed in the comma-separated `Acquired`
+  // field), per the MRSA definition. Inert for other organisms.
   const checkDatasetSA = item => {
     if (datasetSA === 'All' || organism !== 'saureus') return true;
-    if (datasetSA === 'MRSA') return typeof item.Acquired === 'string' && /(^|,)\s*mecA\b/.test(item.Acquired);
+    if (datasetSA === 'MRSA') return typeof item.Acquired === 'string' && /(^|,)\s*mec[AC]\b/.test(item.Acquired);
     return true;
   };
   const checkTime = item => {
