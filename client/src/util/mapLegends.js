@@ -74,13 +74,8 @@ export const mapLegends = [
     labelKey: 'dashboard.mapViews.genotypePrevalence',
     organisms: ['shige'],
   },
-  {
-    // shige: named LINcode alias (populated for S. sonnei only)
-    value: 'Lincode alias prevalence',
-    label: 'Lincode alias prevalence',
-    labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
-    organisms: ['shige'],
-  },
+  // The named LINcode alias map view was removed per review — only the LIN code
+  // and the genotype mapped from the LIN code are shown for shige.
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', labelKey: 'dashboard.mapViews.ngMastPrevalence', organisms: ['ngono'] },
   {

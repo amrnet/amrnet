@@ -16,11 +16,13 @@ export const variablesOptionsNG = [
 ];
 export const variableGraphOptionsNG = variablesOptionsNG.filter(x => x.graph);
 
-// shige: ST (= GENOTYPE field), plus two LINcode lineage dimensions derived in
-// Dashboard.getInfoFromData. 'Lincode alias' is populated only for S. sonnei.
+// shige: the 7-locus ST (GENOTYPE field) and the genotype mapped from the
+// LINcode (lincodeNumeric, derived in Dashboard.getInfoFromData). Per the review
+// the named alias dimension was removed — only the LIN code and the genotype
+// mapped from the LIN code are shown. 'Genotype' here mirrors the map's
+// 'Genotype prevalence' view (LINCODE_NUM).
 export const variablesOptionsShige = [
   { label: 'ST (7-locus MLST)', value: 'GENOTYPE', graph: true, mapValue: 'GENOTYPE' },
-  { label: 'Lincode', value: 'lincodeNumeric', graph: true, mapValue: 'LINCODE_NUM' },
-  { label: 'Lincode alias', value: 'lincodeAlias', graph: true, mapValue: 'LINCODE_ALIAS' },
+  { label: 'Genotype', value: 'lincodeNumeric', graph: true, mapValue: 'LINCODE_NUM' },
 ];
 export const variableGraphOptionsShige = variablesOptionsShige.filter(x => x.graph);
