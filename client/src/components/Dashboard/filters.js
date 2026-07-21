@@ -929,6 +929,10 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       generateStats(itemData, stats, organism, 'LINCODE_NUM', 'lincodeNumeric');
       stats['LINCODE_ALIAS'] = { items: [], count: 0 };
       generateStats(itemData, stats, organism, 'LINCODE_ALIAS', 'lincodeAlias');
+      // The actual LINcode barcode (full 13-number string in the `LINcode`
+      // field) for the 'LIN code prevalence' map view — grouped verbatim.
+      stats['LINCODE_FULL'] = { items: [], count: 0 };
+      generateStats(itemData, stats, organism, 'LINCODE_FULL', 'LINcode');
     }
 
     statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key, pansusceptible }) => {

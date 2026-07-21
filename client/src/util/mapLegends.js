@@ -76,6 +76,15 @@ export const mapLegends = [
   },
   // The named LINcode alias map view was removed per review — only the LIN code
   // and the genotype mapped from the LIN code are shown for shige.
+  {
+    // shige: the actual LINcode barcode (full 13-number string). Searchable by
+    // 'starts with' in MapFilters, since LINcodes are only meaningful read
+    // left-to-right.
+    value: 'LIN code prevalence',
+    label: 'LIN code prevalence',
+    labelKey: 'dashboard.mapViews.linCodePrevalence',
+    organisms: ['shige'],
+  },
   // { value: 'H58 / Non-H58', label: 'H58 genotype', organisms: [''] },
   { value: 'NG-MAST prevalence', label: 'NG-MAST prevalence', labelKey: 'dashboard.mapViews.ngMastPrevalence', organisms: ['ngono'] },
   {
