@@ -50,7 +50,8 @@
           "lineages": "linhagens",
           "STs": "STs",
           "genotypes": "genótipos",
-          "sequenceType": "tipo de sequência"
+          "sequenceType": "tipo de sequência",
+          "linCodes": "LIN codes"
         },
         "definitions": {
           "XDR": {
@@ -84,7 +85,8 @@
       "oPrevalence": "Prevalência O",
       "hPrevalence": "Prevalência H",
       "ngMastPrevalence": "Prevalência NG-MAST",
-      "dominantGenotype": "Genótipo dominante"
+      "dominantGenotype": "Genótipo dominante",
+      "linCodePrevalence": "Prevalência de LIN code"
     }
   },
   "home": {
