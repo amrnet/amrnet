@@ -1268,13 +1268,15 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return;
           }
 
+          const drugData = getSAMarkerGatedData(yearData, rule);
+
           const drugClass = getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: yearData,
+            dataToFilter: drugData,
             markerRules: markerRulesSA,
             fallbackDrugRules: drugRulesSA,
           });
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
+          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: drugData.length };
           delete item.count;
 
           genotypesAndDrugsData[rule.key].push(item);
@@ -1305,13 +1307,14 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return;
           }
 
+          const drugData = yearData.filter(x => rule.values.some(val => x[rule.columnID]?.toString() === val.toString()));
           const drugClass = getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: yearData,
+            dataToFilter: drugData,
             markerRules: markerRulesSP,
             fallbackDrugRules: drugRulesSP,
           });
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
+          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: drugData.length };
           delete item.count;
 
           genotypesAndDrugsData[rule.key].push(item);
@@ -1897,19 +1900,24 @@ export function getGenotypesData({
           genotypesDrugClassesData[rule.key].push({ ...drugClassResponse, None: panCount, resistantCount: 0 });
           return;
         }
-        const drugData = genotypeData.filter(x =>
+        const phenotypeResistantCount = genotypeData.filter(x =>
           rule.values.some(val => x[rule.columnID]?.toString() === val.toString()),
-        );
-        response[rule.key] = drugData.length;
+        ).length;
+        response[rule.key] = phenotypeResistantCount;
+
+        // Marker-gated subset (phenotype-resistant AND carries a known marker gene),
+        // matching getYearsData so the two "AMR marker" plots agree.
+        const drugData = getSAMarkerGatedData(genotypeData, rule);
 
         const drugClass = {
           ...drugClassResponse,
           ...getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: genotypeData,
+            dataToFilter: drugData,
             markerRules: markerRulesSA,
             fallbackDrugRules: drugRulesSA,
           }),
+          totalCount: drugData.length,
         };
         genotypesDrugClassesData[rule.key].push(drugClass);
       });
@@ -1931,10 +1939,11 @@ export function getGenotypesData({
           ...drugClassResponse,
           ...getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: genotypeData,
+            dataToFilter: drugData,
             markerRules: markerRulesSP,
             fallbackDrugRules: drugRulesSP,
           }),
+          totalCount: drugData.length,
         };
         genotypesDrugClassesData[rule.key].push(drugClass);
       });
@@ -2552,6 +2561,31 @@ function getKPDrugClassData({ drugKey, dataToFilter }) {
   return drugClass;
 }
 
+// S. aureus: population that the marker-composition breakdown (getMarkerDrugClassData)
+// attributes genes over, and the totalCount denominator for the "AMR marker by
+// genotype"/"AMR marker trends" plots. For drugs with defined markers (mecA-family
+// etc.), phenotype-resistant records are further gated to those that also carry a
+// known marker gene in Acquired/Variants — records that are phenotype-resistant
+// but have no recognized marker are excluded from the composition view (they still
+// count toward the plain phenotype-resistant totals computed elsewhere, e.g.
+// drugStats/response[rule.key], which are intentionally left untouched by this).
+// Used identically by getYearsData and getGenotypesData so the two plots agree.
+function getSAMarkerGatedData(data, rule) {
+  const phenotypeResistant = data.filter(x =>
+    rule.values.some(val => x[rule.columnID]?.toString() === val.toString()),
+  );
+
+  const saMarkers = markerRulesSA[rule.key];
+  const hasMarkersSA = saMarkers && (saMarkers.acquired.length > 0 || saMarkers.variants.length > 0);
+  if (!hasMarkersSA) return phenotypeResistant;
+
+  return phenotypeResistant.filter(x => {
+    const acq = x.Acquired ? x.Acquired.split(',').map(s => s.trim()) : [];
+    const vrt = x.Variants ? x.Variants.split(',').map(s => s.trim()) : [];
+    return saMarkers.acquired.some(g => acq.includes(g)) || saMarkers.variants.some(v => vrt.includes(v));
+  });
+}
+
 // Parses the 'Acquired' and 'Variants' fields (semicolon-separated) and counts
 // occurrences of each marker for the given drug, using the provided markerRules.
 // Falls back to simple binary count if no markers are defined for the drug.
@@ -2569,12 +2603,12 @@ function getMarkerDrugClassData({ drugKey, dataToFilter, markerRules, fallbackDr
 
   dataToFilter.forEach(record => {
     const acquiredGenes = record.Acquired
-      ? record.Acquired.split(';')
+      ? record.Acquired.split(',')
           .map(s => s.trim())
           .filter(Boolean)
       : [];
     const variantsList = record.Variants
-      ? record.Variants.split(';')
+      ? record.Variants.split(',')
           .map(s => s.trim())
           .filter(Boolean)
       : [];
