@@ -106,6 +106,7 @@ import { generatePalleteForGenotypes } from '../../util/colorHelper';
 import {
   defaultDrugsForDrugResistanceGraphNG,
   defaultDrugsForDrugResistanceGraphSA,
+  defaultDrugsForDrugResistanceGraphSP,
   defaultDrugsForDrugResistanceGraphST,
   drugClassesNG,
   drugsECOLI,
@@ -1280,10 +1281,12 @@ export const DashboardPage = () => {
         dispatch(setBubbleMarkersYAxisType('Methicillin'));
         break;
       case 'strepneumo':
-        dispatch(setDrugResistanceGraphView(drugsSP));
-        dispatch(setDeterminantsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setTrendsGraphDrugClass(getDrugClasses(organism)[0]));
-        dispatch(setBubbleMarkersYAxisType(drugsSP.filter(x => x !== 'Pansusceptible')[0]));
+        // Per review: 'AMR trends' and 'AMR marker by genotype' should open on
+        // Erythromycin for S. pneumoniae.
+        dispatch(setDrugResistanceGraphView(defaultDrugsForDrugResistanceGraphSP));
+        dispatch(setDeterminantsGraphDrugClass('Erythromycin'));
+        dispatch(setTrendsGraphDrugClass('Erythromycin'));
+        dispatch(setBubbleMarkersYAxisType('Erythromycin'));
         break;
       default:
         break;
