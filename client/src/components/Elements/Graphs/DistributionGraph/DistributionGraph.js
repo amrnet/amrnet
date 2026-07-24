@@ -88,13 +88,9 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
   const currentData = useMemo(() => {
     const base = (() => {
       if (organism === 'shige') {
-        // ST (GENOTYPE) trends, or the LINcode dimensions stored in the
-        // cgST/sublineage trend slots (numeric → cgST, alias → sublineage).
-        return distributionGraphVariable === 'lincodeNumeric'
-          ? cgSTYearData
-          : distributionGraphVariable === 'lincodeAlias'
-            ? sublineagesYearData
-            : genotypesYearData;
+        // ST (GENOTYPE) trends, or the LINcode-derived genotype trends stored
+        // in the cgST trend slot.
+        return distributionGraphVariable === 'lincodeNumeric' ? cgSTYearData : genotypesYearData;
       }
       if (organism !== 'kpneumo' && organism !== 'ngono') {
         return genotypesYearData;

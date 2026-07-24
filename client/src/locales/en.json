@@ -78,7 +78,6 @@
       "stPrevalence": "ST prevalence",
       "lineagePrevalence": "Lineage prevalence (ST)",
       "lincodePrevalence": "Lincode prevalence",
-      "lincodeAliasPrevalence": "Lincode alias prevalence",
       "ngmastPrevalence": "NG-MAST prevalence",
       "serotypePrevalence": "Serotype prevalence",
       "pathotypePrevalence": "Pathotype prevalence",

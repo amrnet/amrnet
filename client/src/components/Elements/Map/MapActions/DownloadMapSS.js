@@ -82,17 +82,14 @@ export const DownloadMapSS = async ({
         switch (organism) {
           case 'decoli':
           case 'shige':
-            return `Selected Pathotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')} `;
+            return `Selected Pathotypes : ${dataset === 'All' ? 'All' : selectedLineages.join(', ')} `;
           case 'sentericaints':
-            return `Selected Serotypes : ${ dataset === 'All'? "All": selectedLineages.join(', ')}`;
+            return `Selected Serotypes : ${dataset === 'All' ? 'All' : selectedLineages.join(', ')}`;
           case 'kpneumo': {
             // K. pneumoniae uses a resistance-based dataset filter (datasetKP),
             // not serotypes or lineages. Values: 'All', 'ESBL' (→ ESBL+),
             // 'CARB' (→ Carbapenemase+).
-            const label =
-              datasetKP === 'ESBL' ? 'ESBL+'
-              : datasetKP === 'CARB' ? 'Carbapenemase+'
-              : 'All';
+            const label = datasetKP === 'ESBL' ? 'ESBL+' : datasetKP === 'CARB' ? 'Carbapenemase+' : 'All';
             return `Selected Data : ${label}`;
           }
           default:
@@ -106,7 +103,6 @@ export const DownloadMapSS = async ({
         'Lineage prevalence (ST)',
         'ST prevalence',
         'Lincode prevalence',
-        'Lincode alias prevalence',
         'LIN code prevalence',
         'Sublineage prevalence',
         'Pathotype prevalence',
@@ -186,7 +182,6 @@ export const DownloadMapSS = async ({
         case 'Lineage prevalence (ST)':
         case 'ST prevalence':
         case 'Lincode prevalence':
-        case 'Lincode alias prevalence':
         case 'LIN code prevalence':
         case 'Sublineage prevalence':
           legendImg.src = 'legends/MapView_prevalence.png';
