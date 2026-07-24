@@ -13,6 +13,69 @@ const { createObjectCsvStringifier: createCsvStringifier } = pkg;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
 
+// ---------------------------------------------------------------------------
+// Shigella/EIEC export shaping (July 2026 review)
+//
+// The shige collection is the whole Enterobase E. coli set (~168k genomes); the
+// dashboard and its download are about Shigella + EIEC only, so the export is
+// restricted to those Pathovar values (~59k). Redundant/unused columns are
+// dropped, the truncated LINcode levels are dropped in favour of the full
+// `LINcode`, and two columns are renamed for clarity.
+// ---------------------------------------------------------------------------
+const SHIGE_PATHOVAR_FILTER = /shigella|EIEC/i;
+
+// Columns kept in the Shigella/EIEC export, in output order. Resistance marker
+// columns are listed explicitly so they are always present even though they are
+// sparsely populated (see the header-union fix below).
+const SHIGE_EXPORT_COLUMNS = [
+  // identity / provenance
+  'Name',
+  'sample_accession',
+  'DATE',
+  'COUNTRY_ONLY',
+  // typing
+  'GENOTYPE',
+  'Pathovar',
+  'species',
+  'LINcode',
+  'O Antigen',
+  'H Antigen',
+  'Serotype',
+  // virulence / pathotype determinants used by the dashboard
+  'ipaH',
+  'pInv',
+  'stx1',
+  'stx2',
+  'eae',
+  'ST_toxin',
+  'LT_toxin',
+  // AMR — the point of the download
+  'amr_gene_count',
+  'Aminoglycoside',
+  'Beta-lactam',
+  'Colistin',
+  'Fosfomycin',
+  'Fosmidomycin',
+  'Lincosamide',
+  'Macrolide',
+  'Nitrofuran',
+  'Phenicol',
+  'Quaternary_ammonium',
+  'Quinolone',
+  'Rifamycin',
+  'Streptothricin',
+  'Sulfonamide',
+  'Tetracycline',
+  'Trimethoprim',
+];
+
+// Header renames requested in the review.
+const SHIGE_COLUMN_RENAMES = {
+  DATE: 'Year',
+  GENOTYPE: 'Sequence type',
+  COUNTRY_ONLY: 'Country',
+};
+
 // Download clean as spreadsheet with compression
 router.post('/download', async function (req, res, next) {
   const organism = req.body.organism;
@@ -48,7 +111,10 @@ router.post('/download', async function (req, res, next) {
     // Exclude styphi patient-level fields from the export (no-op for other
     // organisms, which do not carry these fields).
     const findOptions = organism === 'styphi' ? { projection: STYPHI_PERSONAL_FIELDS_EXCLUSION } : {};
-    data = await collection.find({}, findOptions).toArray();
+    // shige: the collection holds all Enterobase E. coli — the download must
+    // only contain the genomes identified as Shigella/EIEC.
+    const findQuery = organism === 'shige' ? { Pathovar: SHIGE_PATHOVAR_FILTER } : {};
+    data = await collection.find(findQuery, findOptions).toArray();
     console.log('2', data.length, 'documents found');
   } catch (err) {
     console.error('Error querying MongoDB:', err);
@@ -58,27 +124,39 @@ router.post('/download', async function (req, res, next) {
   let csvString;
 
   if (data.length > 0) {
-    const header = Object.keys(data[0]);
+    // Header must be the UNION of keys across all documents, not just the first
+    // one: sparse columns (notably the AMR marker columns, which are only set on
+    // genomes carrying that class) were being dropped from the entire export
+    // whenever the first document happened to lack them.
+    const header = [...new Set(data.flatMap(doc => Object.keys(doc)))];
     const headerList = [...header];
     let nameField = organism === 'shige' || organism === 'decoli' ? 'Name' : 'NAME';
 
-    const filteredHeaderList = headerList.filter(
-      fieldName =>
-        fieldName !== nameField &&
-        fieldName !== 'DATE' &&
-        fieldName !== 'COUNTRY' &&
-        fieldName !== 'COUNTRY_ONLY' &&
-        fieldName !== 'PMID' &&
-        fieldName !== 'GENOTYPE',
-    );
-    const rearrangedHeaderList =
-      organism === 'styphi' || organism === 'ngono'
-        ? [nameField, 'DATE', 'COUNTRY_ONLY', 'PMID', 'GENOTYPE', ...filteredHeaderList]
-        : [nameField, 'DATE', 'COUNTRY_ONLY', 'GENOTYPE', ...filteredHeaderList];
+    let rearrangedHeaderList;
+    if (organism === 'shige') {
+      // Curated column set — only the variables the dashboard uses, with the
+      // redundant truncated LINcode levels and unused source_* fields dropped.
+      rearrangedHeaderList = SHIGE_EXPORT_COLUMNS.filter(f => header.includes(f));
+    } else {
+      const filteredHeaderList = headerList.filter(
+        fieldName =>
+          fieldName !== nameField &&
+          fieldName !== 'DATE' &&
+          fieldName !== 'COUNTRY' &&
+          fieldName !== 'COUNTRY_ONLY' &&
+          fieldName !== 'PMID' &&
+          fieldName !== 'GENOTYPE',
+      );
+      rearrangedHeaderList =
+        organism === 'styphi' || organism === 'ngono'
+          ? [nameField, 'DATE', 'COUNTRY_ONLY', 'PMID', 'GENOTYPE', ...filteredHeaderList]
+          : [nameField, 'DATE', 'COUNTRY_ONLY', 'GENOTYPE', ...filteredHeaderList];
+    }
 
+    const renames = organism === 'shige' ? SHIGE_COLUMN_RENAMES : {};
     const headerL = rearrangedHeaderList.map(fieldName => ({
       id: fieldName,
-      title: fieldName,
+      title: renames[fieldName] ?? fieldName,
     }));
 
     const csvStringifier = createCsvStringifier({ header: headerL });
