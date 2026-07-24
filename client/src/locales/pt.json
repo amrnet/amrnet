@@ -243,7 +243,8 @@
     "emergenceRateDescription": "Mudança anual média na prevalência de resistência (%/ano) — identifica resistência em aceleração",
     "qrdrMutations": "Mutações QRDR",
     "vaccineCoverage": "Cobertura vacinal",
-    "convergenceMap": "Convergência virulência × resistência"
+    "convergenceMap": "Convergência virulência × resistência",
+    "amrBySerotype": "RAM por sorotipo"
   },
   "amrInsights": {
     "title": "Análises de RAM",
