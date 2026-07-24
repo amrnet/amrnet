@@ -77,7 +77,6 @@ import {
   setGenotypesDrugClassesData,
   setPathotypesDrugClassesData,
   setLincodeDrugClassesData,
-  setLincodeAliasDrugClassesData,
   setGenotypesDrugsData,
   setGenotypesYearData,
   setKODiversityData,
@@ -316,10 +315,10 @@ export const DashboardPage = () => {
     // 'Lincode prevalence' map views can group/aggregate by them.
     if (organism === 'shige' && Array.isArray(responseData)) {
       responseData = responseData.map(item => {
-        const { numeric, alias } = deriveShigeLincode(resolveShigeLincode(item), item.Pathovar);
+        const { numeric } = deriveShigeLincode(resolveShigeLincode(item));
         // null (not '-') so unmatched genomes are skipped by the stats grouping
         // (which ignores falsy values) rather than forming a spurious '-' group.
-        return { ...item, lincodeNumeric: numeric ?? null, lincodeAlias: alias ?? null };
+        return { ...item, lincodeNumeric: numeric ?? null };
       });
     }
 
@@ -626,7 +625,6 @@ export const DashboardPage = () => {
           dt.ngMastDrugClassesData,
           dt.pathotypesDrugClassesData,
           dt.lincodeDrugClassesData,
-          dt.lincodeAliasDrugClassesData,
         ];
       }).then(
         ([
@@ -637,7 +635,6 @@ export const DashboardPage = () => {
           ngMastDrugClassesData,
           pathotypesDrugClassesData,
           lincodeDrugClassesData,
-          lincodeAliasDrugClassesData,
         ]) => {
           const safeGenotypesDrugsData = Array.isArray(genotypesDrugsData) ? genotypesDrugsData : [];
           dispatch(setGenotypesDrugsData(safeGenotypesDrugsData));
@@ -648,7 +645,6 @@ export const DashboardPage = () => {
           dispatch(setNgMastDrugClassesData(ngMastDrugClassesData));
           dispatch(setPathotypesDrugClassesData(pathotypesDrugClassesData ?? {}));
           dispatch(setLincodeDrugClassesData(lincodeDrugClassesData ?? {}));
-          dispatch(setLincodeAliasDrugClassesData(lincodeAliasDrugClassesData ?? {}));
         },
       ),
 
@@ -683,7 +679,6 @@ export const DashboardPage = () => {
           dt.uniqueNGMAST,
           dt.NGMASTData,
           dt.lincodeNumericData,
-          dt.lincodeAliasData,
         ];
       }).then(
         ([
@@ -698,7 +693,6 @@ export const DashboardPage = () => {
           uniqueNGMAST,
           NGMASTData,
           lincodeNumericData,
-          lincodeAliasData,
         ]) => {
           const safeGenotypesData = Array.isArray(genotypesData) ? genotypesData : [];
           const safeDrugsData = Array.isArray(drugsData) ? drugsData : [];
@@ -732,7 +726,6 @@ export const DashboardPage = () => {
             // Reuse the cgST/sublineage trend slots for the two LINcode
             // lineage dimensions (DistributionGraph reads them for shige).
             dispatch(setCgSTYearData(lincodeNumericData ?? []));
-            dispatch(setSublineagesYearData(lincodeAliasData ?? []));
           }
         },
       ),
@@ -756,35 +749,29 @@ export const DashboardPage = () => {
       // Get drugs carb and esbl data for countries
       // Use versioned cache key for organisms with marker-level breakdown to bust stale cache
       // !['styphi', 'kpneumo'].includes(organism)
-      getStoreOrGenerateData(
-        `${organism}_drugs_countries_v5`,
-        () => {
-          const { drugsData } = getDrugsCountriesData({
-            data: responseData,
-            items: countries,
-            organism,
-          });
-          return [drugsData];
-        },
-      ).then(([drugsData]) => {
+      getStoreOrGenerateData(`${organism}_drugs_countries_v5`, () => {
+        const { drugsData } = getDrugsCountriesData({
+          data: responseData,
+          items: countries,
+          organism,
+        });
+        return [drugsData];
+      }).then(([drugsData]) => {
         dispatch(setDrugsCountriesData(drugsData));
       }),
       // : Promise.resolve(),
 
       // Get drugs carb and esbl data for regions
       // ['styphi', 'kpneumo'].includes(organism)
-      getStoreOrGenerateData(
-        `${organism}_drugs_regions_v5`,
-        () => {
-          const { drugsData } = getDrugsCountriesData({
-            data: responseData,
-            items: ecRegions,
-            type: 'region',
-            organism,
-          });
-          return [drugsData];
-        },
-      ).then(([drugsData]) => {
+      getStoreOrGenerateData(`${organism}_drugs_regions_v5`, () => {
+        const { drugsData } = getDrugsCountriesData({
+          data: responseData,
+          items: ecRegions,
+          type: 'region',
+          organism,
+        });
+        return [drugsData];
+      }).then(([drugsData]) => {
         dispatch(setDrugsRegionsData(drugsData));
       }),
       // : Promise.resolve(),
@@ -1508,7 +1495,6 @@ export const DashboardPage = () => {
         dispatch(setGenotypesDrugClassesData([]));
         dispatch(setPathotypesDrugClassesData({}));
         dispatch(setLincodeDrugClassesData({}));
-        dispatch(setLincodeAliasDrugClassesData({}));
         // dispatch(setGenotypesAndDrugsYearData({}));
         dispatch(setKODiversityData([]));
         dispatch(setConvergenceData([]));
@@ -1689,8 +1675,8 @@ export const DashboardPage = () => {
     if (organism === 'shige') {
       storeData = storeData.map(item => {
         if (item.lincodeNumeric !== undefined) return item;
-        const { numeric, alias } = deriveShigeLincode(resolveShigeLincode(item), item.Pathovar);
-        return { ...item, lincodeNumeric: numeric ?? null, lincodeAlias: alias ?? null };
+        const { numeric } = deriveShigeLincode(resolveShigeLincode(item));
+        return { ...item, lincodeNumeric: numeric ?? null };
       });
     }
 
@@ -1914,7 +1900,6 @@ export const DashboardPage = () => {
       dispatch(setNgMastDrugClassesData(genotypesData.ngMastDrugClassesData));
       dispatch(setPathotypesDrugClassesData(genotypesData.pathotypesDrugClassesData ?? {}));
       dispatch(setLincodeDrugClassesData(genotypesData.lincodeDrugClassesData ?? {}));
-      dispatch(setLincodeAliasDrugClassesData(genotypesData.lincodeAliasDrugClassesData ?? {}));
 
       // Dispatch yearly trends data (server preferred, client fallback)
       dispatch(setGenotypesYearData(finalGenotypesData));
@@ -1951,7 +1936,6 @@ export const DashboardPage = () => {
         // Reuse the cgST/sublineage trend slots for the two LINcode lineage
         // dimensions (DistributionGraph reads them for shige).
         dispatch(setCgSTYearData(yearsData.lincodeNumericData ?? []));
-        dispatch(setSublineagesYearData(yearsData.lincodeAliasData ?? []));
       }
 
       // Geographic Comparisons (BubbleGeographicGraph), RadarProfile, and the
