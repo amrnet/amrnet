@@ -80,3 +80,52 @@ export function deriveShigeLincode(lincode) {
   if (!entry) return { numeric: null, species: null };
   return { numeric: entry.numeric, species: entry.species };
 }
+
+// Two-letter species code from the Pathovar field, per Kat's July 2026 review
+// ('Ss 3.7.25', and EIEC lineages keyed by ST). Shigella species map to
+// Ss/Sf/Sb/Sd; enteroinvasive E. coli maps to EIEC. Other pathotypes and
+// non-target genomes return '' (no lineage label).
+const SPECIES_CODES = [
+  [/sonnei/i, 'Ss'],
+  [/flexneri/i, 'Sf'],
+  [/boydii/i, 'Sb'],
+  [/dysenteriae/i, 'Sd'],
+  [/EIEC/i, 'EIEC'],
+];
+export function shigeSpeciesCode(pathovar) {
+  if (!pathovar) return '';
+  for (const [re, code] of SPECIES_CODES) {
+    if (re.test(pathovar)) return code;
+  }
+  return '';
+}
+
+/**
+ * Lineage label for the 'Genotype prevalence' dimension, per the July 2026
+ * review:
+ *   - Shigella with a LINcode-mapped genotype -> species-prefixed genotype
+ *     ('Ss 3.7.25'); labels that already carry the species code (e.g. 'Sb20')
+ *     are left as-is to avoid doubling.
+ *   - EIEC -> always an ST-based alias ('EIEC ST270'), since the LINcode
+ *     genotype scheme is Shigella-centric and EIEC/Shigella share prefixes.
+ *   - Shigella without a genotype match -> species-prefixed ST fallback.
+ * Returns null for non-target genomes (no lineage label).
+ *
+ * @param {object} item - a genome record (needs Pathovar, GENOTYPE, LINcode*)
+ * @returns {string|null}
+ */
+export function shigeGenotypeLabel(item) {
+  if (!item) return null;
+  const code = shigeSpeciesCode(item.Pathovar);
+  const st = item.GENOTYPE && item.GENOTYPE !== '-' ? item.GENOTYPE : null;
+
+  if (code === 'EIEC') return st ? `EIEC ${st}` : null;
+
+  const { numeric } = deriveShigeLincode(resolveShigeLincode(item));
+  if (numeric) {
+    if (!code) return numeric;
+    return numeric.toLowerCase().startsWith(code.toLowerCase()) ? numeric : `${code} ${numeric}`;
+  }
+  // Shigella species with no genotype match — fall back to the species-prefixed ST.
+  return code && st ? `${code} ${st}` : null;
+}
