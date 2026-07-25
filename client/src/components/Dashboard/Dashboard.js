@@ -116,7 +116,7 @@ import {
   markersDrugsSH,
 } from '../../util/drugs';
 import { isProduction } from '../../util/env';
-import { deriveShigeLincode, resolveShigeLincode } from '../../util/shigeLincode';
+import { shigeGenotypeLabel } from '../../util/shigeLincode';
 import { getContinentGraphCard } from '../../util/graphCards';
 import { DEV_ONLY_ORGANISMS } from '../../util/organismsCards';
 import { AMRInsights } from '../Elements/AMRInsights';
@@ -316,10 +316,10 @@ export const DashboardPage = () => {
     // 'Lincode prevalence' map views can group/aggregate by them.
     if (organism === 'shige' && Array.isArray(responseData)) {
       responseData = responseData.map(item => {
-        const { numeric } = deriveShigeLincode(resolveShigeLincode(item));
-        // null (not '-') so unmatched genomes are skipped by the stats grouping
-        // (which ignores falsy values) rather than forming a spurious '-' group.
-        return { ...item, lincodeNumeric: numeric ?? null };
+        // Species-prefixed lineage label ('Ss 3.7.25'); EIEC keyed by ST
+        // ('EIEC ST270'). null (not '-') so unmatched genomes are skipped by
+        // the stats grouping rather than forming a spurious '-' group.
+        return { ...item, lincodeNumeric: shigeGenotypeLabel(item) ?? null };
       });
     }
 
@@ -1678,8 +1678,7 @@ export const DashboardPage = () => {
     if (organism === 'shige') {
       storeData = storeData.map(item => {
         if (item.lincodeNumeric !== undefined) return item;
-        const { numeric } = deriveShigeLincode(resolveShigeLincode(item));
-        return { ...item, lincodeNumeric: numeric ?? null };
+        return { ...item, lincodeNumeric: shigeGenotypeLabel(item) ?? null };
       });
     }
 
