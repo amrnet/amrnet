@@ -47,10 +47,6 @@ function matchEntry(lincode) {
   return found;
 }
 
-function hasPathovar(pathovar) {
-  return pathovar != null && pathovar !== '' && pathovar !== '-';
-}
-
 // Species abbreviation prepended to the numeric lineage label so genotype
 // labels read unambiguously across all four Shigella species wherever they
 // appear (plots, dropdowns, tables, downloads).
@@ -100,13 +96,22 @@ export function resolveShigeLincode(item) {
  */
 export function deriveShigeLincode(lincode) {
   const entry = matchEntry(lincode);
-  if (!entry) return { numeric: null, alias: null, species: null };
+  if (!entry) return { numeric: null, species: null };
   return {
     // species-prefixed (e.g. "Ss 3.7.25", "Sf 1.2.2.5") so the label is
     // unambiguous across all four Shigella species wherever it's displayed
     numeric: withSpeciesPrefix(entry.numeric, entry.species),
-    // alias gated on pathovar (S. sonnei named lineages only)
-    alias: hasPathovar(pathovar) ? entry.alias : null,
     species: entry.species,
   };
+}
+
+/**
+ * Convenience wrapper combining lincode resolution and lineage derivation:
+ * the species-prefixed numeric label for a genome record, or null.
+ *
+ * @param {object} item - a genome record
+ * @returns {string|null}
+ */
+export function shigeGenotypeLabel(item) {
+  return deriveShigeLincode(resolveShigeLincode(item)).numeric;
 }

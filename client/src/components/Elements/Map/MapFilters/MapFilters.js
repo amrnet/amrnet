@@ -331,10 +331,6 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
       return 'NGMAST';
     }
 
-    if (isLinCodePrevalence) {
-      return 'linCodes';
-    }
-
     if (isLincodePrevalence) {
       return 'lineages';
     }

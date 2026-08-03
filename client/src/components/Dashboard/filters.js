@@ -1273,11 +1273,9 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
           const drugClass = getMarkerDrugClassData({
             drugKey: rule.key,
             dataToFilter: drugData,
-            dataToFilter: drugData,
             markerRules: markerRulesSA,
             fallbackDrugRules: drugRulesSA,
           });
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: drugData.length };
           const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: drugData.length };
           delete item.count;
 

@@ -161,6 +161,12 @@ import {
  *   <DashboardPage />
  * )
  */
+// Dedupes concurrent getStoreOrGenerateData calls for the same store. React.StrictMode
+// (App.js) double-invokes mount effects in development, and the organism-load effect has
+// no other guard against re-fetching, so on a cold IndexedDB cache both invocations would
+// otherwise race into two identical network requests for the same organism dataset.
+const inFlightStoreRequests = new Map();
+
 export const DashboardPage = () => {
   const [data, setData] = useState([]);
   const [currentConvergenceGroupVariable, setCurrentConvergenceGroupVariable] = useState('cgST');
@@ -249,29 +255,45 @@ export const DashboardPage = () => {
 
     // NOTE: getInfoFromIndexedDB is implemented as a top-level helper below
 
-    const organismData = await handleGetData();
-
-    // If the handler already processed & stored pages into IndexedDB, it returns a sentinel
-    // so we must NOT call bulkAddItems again with that sentinel.
-    if (organismData === '__PROCESSED_FROM_IDB__') {
-      return organismData;
+    // Dedupe concurrent callers for the same store (e.g. React.StrictMode's double effect
+    // invocation in dev): if a fetch is already in flight, await that one instead of firing
+    // a second identical network request.
+    if (inFlightStoreRequests.has(storeName)) {
+      return inFlightStoreRequests.get(storeName);
     }
 
-    const writePayload = storeName.includes('convergence') ? [organismData] : organismData;
-    if (backgroundWrite) {
-      // Fire-and-forget: don't block the caller. Cross-session cache will be populated in background.
-      bulkAddItems(storeName, writePayload, clearStore).catch(e =>
-        console.warn(`[IDB] background write failed for ${storeName}:`, e),
-      );
-    } else {
-      try {
-        await bulkAddItems(storeName, writePayload, clearStore);
-      } catch (e) {
-        console.warn(`[IDB] bulkAddItems failed for ${storeName}:`, e);
+    const fetchPromise = (async () => {
+      const organismData = await handleGetData();
+
+      // If the handler already processed & stored pages into IndexedDB, it returns a sentinel
+      // so we must NOT call bulkAddItems again with that sentinel.
+      if (organismData === '__PROCESSED_FROM_IDB__') {
+        return organismData;
       }
-    }
 
-    return organismData;
+      const writePayload = storeName.includes('convergence') ? [organismData] : organismData;
+      if (backgroundWrite) {
+        // Fire-and-forget: don't block the caller. Cross-session cache will be populated in background.
+        bulkAddItems(storeName, writePayload, clearStore).catch(e =>
+          console.warn(`[IDB] background write failed for ${storeName}:`, e),
+        );
+      } else {
+        try {
+          await bulkAddItems(storeName, writePayload, clearStore);
+        } catch (e) {
+          console.warn(`[IDB] bulkAddItems failed for ${storeName}:`, e);
+        }
+      }
+
+      return organismData;
+    })();
+
+    inFlightStoreRequests.set(storeName, fetchPromise);
+    try {
+      return await fetchPromise;
+    } finally {
+      inFlightStoreRequests.delete(storeName);
+    }
   }
 
   // Helper to process organism data already stored in IndexedDB (used by paginated handlers)

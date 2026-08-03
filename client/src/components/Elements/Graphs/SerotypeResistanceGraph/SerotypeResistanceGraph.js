@@ -36,7 +36,6 @@ import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Ma
 import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
 import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
-import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './SerotypeResistanceGraphMUI';
 
 // Top axis area reserved for the rotated -45deg serotype column labels on the
