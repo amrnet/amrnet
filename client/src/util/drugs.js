@@ -122,6 +122,9 @@ export const defaultDrugsForDrugResistanceGraphSA = [
 // S. pneumoniae drug list
 export const drugsSP = drugRulesSP.map(x => x.key);
 
+// Per review, the S. pneumoniae AMR trends plot opens on Erythromycin.
+export const defaultDrugsForDrugResistanceGraphSP = ['Erythromycin'];
+
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMX',
   Ampicillin: 'AMP',

@@ -50,7 +50,8 @@
           "lineages": "lignées",
           "STs": "STs",
           "genotypes": "génotypes",
-          "sequenceType": "type de séquence"
+          "sequenceType": "type de séquence",
+          "linCodes": "LIN codes"
         },
         "definitions": {
           "XDR": {
@@ -77,14 +78,14 @@
       "stPrevalence": "Prévalence des ST",
       "lineagePrevalence": "Prévalence des lignées",
       "lincodePrevalence": "Prévalence Lincode",
-      "lincodeAliasPrevalence": "Prévalence alias Lincode",
       "ngmastPrevalence": "Prévalence NG-MAST",
       "serotypePrevalence": "Prévalence des sérotypes",
       "pathotypePrevalence": "Prévalence des pathotypes",
       "oPrevalence": "Prévalence O",
       "hPrevalence": "Prévalence H",
       "ngMastPrevalence": "Prévalence NG-MAST",
-      "dominantGenotype": "Génotype dominant"
+      "dominantGenotype": "Génotype dominant",
+      "linCodePrevalence": "Prévalence du LIN code"
     }
   },
   "home": {
@@ -241,7 +242,8 @@
     "emergenceRateDescription": "Changement annuel moyen de la prévalence de résistance (%/an) — identifie les résistances en accélération",
     "qrdrMutations": "Mutations QRDR",
     "vaccineCoverage": "Couverture vaccinale",
-    "convergenceMap": "Convergence virulence × résistance"
+    "convergenceMap": "Convergence virulence × résistance",
+    "amrBySerotype": "RAM par sérotype"
   },
   "amrInsights": {
     "title": "Analyses RAM",

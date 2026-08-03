@@ -8,18 +8,25 @@ import LogoImg from '../../../assets/img/logo-prod.png';
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
-const PDF_PURPLE      = [74, 20, 140];
-const PDF_HEADER      = [255, 246, 246];
+const PDF_PURPLE = [74, 20, 140];
+const PDF_HEADER = [255, 246, 246];
 const PDF_PURPLE_LITE = [243, 229, 245];
-const PDF_MARGIN      = 24;
+const PDF_MARGIN = 24;
 
 // ─── Colour-legend constants ─────────────────────────────────────────────────
 
 // Views where the map uses a continuous orange→dark-red gradient (not stepped)
 const GRADIENT_MAP_VIEWS = [
-  'Genotype prevalence', 'Serotype prevalence', 'Pathotype prevalence',
-  'O prevalence', 'H prevalence', 'ST prevalence', 'NG-MAST prevalence',
-  'Lineage prevalence (ST)', 'Lincode prevalence', 'Lincode alias prevalence',
+  'Genotype prevalence',
+  'Serotype prevalence',
+  'Pathotype prevalence',
+  'O prevalence',
+  'H prevalence',
+  'ST prevalence',
+  'NG-MAST prevalence',
+  'Lineage prevalence (ST)',
+  'Lincode prevalence',
+  'LIN code prevalence',
 ];
 
 // Heatmap graph IDs (BubbleHeatmapGraph2, BubbleMarkersHeatmapGraph, BubbleKOHeatmapGraph)
@@ -32,8 +39,12 @@ const HEATMAP_COLOR_LEGEND = {
   noDataColor: '#727272',
   noDataLabel: 'No data (0%)',
   stops: [
-    [0, '#2166AC'], [0.2, '#5B97C9'], [0.4, '#92C5DE'],
-    [0.6, '#C5826D'], [0.8, '#9E2B1F'], [1, '#6B0000'],
+    [0, '#2166AC'],
+    [0.2, '#5B97C9'],
+    [0.4, '#92C5DE'],
+    [0.6, '#C5826D'],
+    [0.8, '#9E2B1F'],
+    [1, '#6B0000'],
   ],
   startLabel: '0%',
   endLabel: '100%',
@@ -46,7 +57,8 @@ function hexToRgbArr(hex) {
 
 function createGradientDataUrl(stops, w = 360, h = 40) {
   const canvas = document.createElement('canvas');
-  canvas.width = w; canvas.height = h;
+  canvas.width = w;
+  canvas.height = h;
   const ctx = canvas.getContext('2d');
   const g = ctx.createLinearGradient(0, 0, w, 0);
   stops.forEach(([pos, color]) => g.addColorStop(pos, color));
@@ -71,7 +83,8 @@ function drawColorLegendInPDF(doc, colorLegend, margin, _contentW, y) {
   // "No data" swatch
   if (noDataColor) {
     doc.setFillColor(...hexToRgbArr(noDataColor));
-    doc.setDrawColor(160); doc.setLineWidth(0.3);
+    doc.setDrawColor(160);
+    doc.setLineWidth(0.3);
     doc.rect(lx, y, BOX, BOX, 'FD');
     lx += BOX + 2;
     doc.setTextColor(70);
@@ -91,7 +104,8 @@ function drawColorLegendInPDF(doc, colorLegend, margin, _contentW, y) {
 
     const gradDataUrl = createGradientDataUrl(stops, 360, 40);
     doc.addImage(gradDataUrl, 'PNG', lx, y, BAR_W, BAR_H, undefined, 'FAST');
-    doc.setDrawColor(160); doc.setLineWidth(0.3);
+    doc.setDrawColor(160);
+    doc.setLineWidth(0.3);
     doc.rect(lx, y, BAR_W, BAR_H);
     lx += BAR_W + 3;
 
@@ -99,11 +113,11 @@ function drawColorLegendInPDF(doc, colorLegend, margin, _contentW, y) {
       doc.setTextColor(70);
       doc.text(endLabel, lx, y + FS - 0.5);
     }
-
   } else if (type === 'steps') {
     items.forEach(({ color, label }) => {
       doc.setFillColor(...hexToRgbArr(color));
-      doc.setDrawColor(160); doc.setLineWidth(0.3);
+      doc.setDrawColor(160);
+      doc.setLineWidth(0.3);
       doc.rect(lx, y, BOX, BOX, 'FD');
       lx += BOX + 2;
       doc.setTextColor(70);
@@ -122,7 +136,8 @@ function getMapColorLegend(mapViewValue) {
     return {
       type: 'steps',
       title: 'No. Samples',
-      noDataColor: '#D3D3D3', noDataLabel: 'Insufficient data',
+      noDataColor: '#D3D3D3',
+      noDataLabel: 'Insufficient data',
       items: [
         { color: '#4575B4', label: '1-9' },
         { color: '#91BFDB', label: '10-19' },
@@ -137,9 +152,16 @@ function getMapColorLegend(mapViewValue) {
     return {
       type: 'gradient',
       title: 'Prevalence',
-      noDataColor: '#D3D3D3', noDataLabel: 'No data (N<20)',
-      stops: [[0, '#FAAD8F'], [0.33, '#FA694A'], [0.67, '#DD2C24'], [1, '#A20F17']],
-      startLabel: '1%', endLabel: '100%',
+      noDataColor: '#D3D3D3',
+      noDataLabel: 'No data (N<20)',
+      stops: [
+        [0, '#FAAD8F'],
+        [0.33, '#FA694A'],
+        [0.67, '#DD2C24'],
+        [1, '#A20F17'],
+      ],
+      startLabel: '1%',
+      endLabel: '100%',
     };
   }
 
@@ -147,7 +169,8 @@ function getMapColorLegend(mapViewValue) {
   return {
     type: 'steps',
     title: '% Resistance',
-    noDataColor: '#D3D3D3', noDataLabel: 'No data (N<20)',
+    noDataColor: '#D3D3D3',
+    noDataLabel: 'No data (N<20)',
     items: [
       { color: '#FAAD8F', label: '>0-2%' },
       { color: '#FA694A', label: '>2-10%' },
@@ -172,20 +195,36 @@ function drawPDFFooter(doc, pageNum, pageWidth, pageHeight) {
   doc.setFontSize(7).setFont(undefined, 'normal').setTextColor(100);
   doc.text(
     'AMRnet · amrnet.org · Cerdeira et al., Nucleic Acids Res, 2026 · doi: 10.1093/nar/gkaf1101',
-    PDF_MARGIN, pageHeight - 10,
+    PDF_MARGIN,
+    pageHeight - 10,
   );
   doc.text(String(pageNum), pageWidth - PDF_MARGIN, pageHeight - 10, { align: 'right' });
   doc.setTextColor(0).setDrawColor(0);
 }
 
-function addImagePage({ doc, logo, title, subtitle, imageDataUrl, imgW, imgH, pageWidth, pageHeight, pageNumRef, colorLegend }) {
+function addImagePage({
+  doc,
+  logo,
+  title,
+  subtitle,
+  imageDataUrl,
+  imgW,
+  imgH,
+  pageWidth,
+  pageHeight,
+  pageNumRef,
+  colorLegend,
+}) {
   doc.addPage();
   drawPDFHeader(doc, logo, pageWidth);
   drawPDFFooter(doc, pageNumRef.current++, pageWidth, pageHeight);
-  const margin   = PDF_MARGIN;
+  const margin = PDF_MARGIN;
   const contentW = pageWidth - 2 * margin;
   let y = 44;
-  doc.setFontSize(13).setFont(undefined, 'bold').setTextColor(...PDF_PURPLE);
+  doc
+    .setFontSize(13)
+    .setFont(undefined, 'bold')
+    .setTextColor(...PDF_PURPLE);
   doc.text(title, margin, y);
   y += 14;
   if (subtitle) {
@@ -197,9 +236,13 @@ function addImagePage({ doc, logo, title, subtitle, imageDataUrl, imgW, imgH, pa
   }
   const LEGEND_H = colorLegend ? 24 : 0;
   const availH = pageHeight - y - 32 - LEGEND_H;
-  const ratio  = imgW && imgH ? imgW / imgH : 16 / 9;
-  let w = contentW, h = w / ratio;
-  if (h > availH) { h = availH; w = h * ratio; }
+  const ratio = imgW && imgH ? imgW / imgH : 16 / 9;
+  let w = contentW,
+    h = w / ratio;
+  if (h > availH) {
+    h = availH;
+    w = h * ratio;
+  }
   const imgX = margin + (contentW - w) / 2;
   if (imageDataUrl) {
     doc.setFillColor(...PDF_PURPLE_LITE);
@@ -230,7 +273,10 @@ function renderTextBlocksPDF(doc, blocks, margin, contentW, yStart, pageHeight, 
 
     if (type === 'heading') {
       y += 4;
-      doc.setFontSize(11).setFont(undefined, 'bold').setTextColor(...PDF_PURPLE);
+      doc
+        .setFontSize(11)
+        .setFont(undefined, 'bold')
+        .setTextColor(...PDF_PURPLE);
       doc.text(text, margin, y);
       y += 3;
       doc.setDrawColor(...PDF_PURPLE);
@@ -246,7 +292,7 @@ function renderTextBlocksPDF(doc, blocks, margin, contentW, yStart, pageHeight, 
     } else if (type === 'warning') {
       doc.setFontSize(8.5).setFont(undefined, 'bold');
       const lines = doc.splitTextToSize(`WARNING: ${text}`, contentW - 14);
-      const bh    = lines.length * 10 + 10;
+      const bh = lines.length * 10 + 10;
       doc.setFillColor(255, 253, 175);
       doc.roundedRect(margin, y - 3, contentW, bh, 2, 2, 'F');
       doc.setFillColor(230, 168, 23);
@@ -275,18 +321,33 @@ function renderTextBlocksPDF(doc, blocks, margin, contentW, yStart, pageHeight, 
 async function generatePDF(data, setLoading) {
   setLoading(true);
   try {
-    const { firstName, secondName, texts, metadata, mapImage, bgCapture, bhpCapture, graphs, organism, insightsCaptures, radarCapture } = data;
+    const {
+      firstName,
+      secondName,
+      texts,
+      metadata,
+      mapImage,
+      bgCapture,
+      bhpCapture,
+      graphs,
+      organism,
+      insightsCaptures,
+      radarCapture,
+    } = data;
 
-    const doc        = new jsPDF({ unit: 'px', format: 'a4' });
-    const pageWidth  = doc.internal.pageSize.getWidth();
+    const doc = new jsPDF({ unit: 'px', format: 'a4' });
+    const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
-    const margin     = 16;
-    const contentW   = pageWidth - 2 * margin;
+    const margin = 16;
+    const contentW = pageWidth - 2 * margin;
     const pageNumRef = { current: 1 };
 
     const logo = new Image();
     logo.src = LogoImg;
-    await new Promise(r => { logo.onload = r; logo.onerror = r; });
+    await new Promise(r => {
+      logo.onload = r;
+      logo.onerror = r;
+    });
 
     // ── Page 1: Cover ─────────────────────────────────────────────────────
     drawPDFHeader(doc, logo, pageWidth);
@@ -305,7 +366,9 @@ async function generatePDF(data, setLoading) {
     doc.setFontSize(9).setFont(undefined, 'normal').setTextColor(120);
     doc.text(
       new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }),
-      pageWidth / 2, y, { align: 'center' },
+      pageWidth / 2,
+      y,
+      { align: 'center' },
     );
     y += 16;
     doc.setDrawColor(220);
@@ -314,19 +377,22 @@ async function generatePDF(data, setLoading) {
 
     // Metadata grid
     const metaItems = [
-      ['Country',       metadata.country],
-      ['Time Period',   `${metadata.timeInitial} – ${metadata.timeFinal}`],
+      ['Country', metadata.country],
+      ['Time Period', `${metadata.timeInitial} – ${metadata.timeFinal}`],
       ['Total Genomes', String(metadata.genomes ?? '')],
-      ['Dataset',       metadata.dataset],
+      ['Dataset', metadata.dataset],
       // ['Map View',      metadata.mapView],
       // ['Organism',      metadata.organism],
     ].filter(([, v]) => v);
 
-    const cellW = contentW / 2, cellH = 22;
+    const cellW = contentW / 2,
+      cellH = 22;
     doc.setFontSize(8);
     metaItems.forEach(([label, value], i) => {
-      const col = i % 2, row = Math.floor(i / 2);
-      const cx = margin + col * cellW, cy = y + row * cellH;
+      const col = i % 2,
+        row = Math.floor(i / 2);
+      const cx = margin + col * cellW,
+        cy = y + row * cellH;
       doc.setFillColor(248, 249, 250);
       doc.rect(cx, cy, cellW - 3, cellH - 1, 'F');
       doc.setFont(undefined, 'normal').setTextColor(130);
@@ -346,30 +412,98 @@ async function generatePDF(data, setLoading) {
 
     // ── Image pages ────────────────────────────────────────────────────────
     if (mapImage) {
-      addImagePage({ doc, logo, title: `Global Overview — ${metadata.mapView}`, subtitle: metadata.organism, imageDataUrl: mapImage, imgW: 1200, imgH: 600, pageWidth, pageHeight, pageNumRef, colorLegend: getMapColorLegend(metadata.mapViewValue) });
+      addImagePage({
+        doc,
+        logo,
+        title: `Global Overview — ${metadata.mapView}`,
+        subtitle: metadata.organism,
+        imageDataUrl: mapImage,
+        imgW: 1200,
+        imgH: 600,
+        pageWidth,
+        pageHeight,
+        pageNumRef,
+        colorLegend: getMapColorLegend(metadata.mapViewValue),
+      });
     }
     if (bgCapture?.dataUrl) {
-      addImagePage({ doc, logo, title: 'Geographic Comparisons', subtitle: metadata.mapView, imageDataUrl: bgCapture.dataUrl, imgW: bgCapture.width, imgH: bgCapture.height, pageWidth, pageHeight, pageNumRef, colorLegend: HEATMAP_COLOR_LEGEND });
+      addImagePage({
+        doc,
+        logo,
+        title: 'Geographic Comparisons',
+        subtitle: metadata.mapView,
+        imageDataUrl: bgCapture.dataUrl,
+        imgW: bgCapture.width,
+        imgH: bgCapture.height,
+        pageWidth,
+        pageHeight,
+        pageNumRef,
+        colorLegend: HEATMAP_COLOR_LEGEND,
+      });
     }
     if (bhpCapture?.dataUrl) {
-      addImagePage({ doc, logo, title: organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons', subtitle: metadata.mapView, imageDataUrl: bhpCapture.dataUrl, imgW: bhpCapture.width, imgH: bhpCapture.height, pageWidth, pageHeight, pageNumRef, colorLegend: HEATMAP_COLOR_LEGEND });
+      addImagePage({
+        doc,
+        logo,
+        title: organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons',
+        subtitle: metadata.mapView,
+        imageDataUrl: bhpCapture.dataUrl,
+        imgW: bhpCapture.width,
+        imgH: bhpCapture.height,
+        pageWidth,
+        pageHeight,
+        pageNumRef,
+        colorLegend: HEATMAP_COLOR_LEGEND,
+      });
     }
     for (const graph of graphs) {
       if (!graph.image) continue;
-      addImagePage({ doc, logo, title: graph.title, subtitle: [
-        graph.description?.filter(Boolean).join(' / ').replaceAll('≥', '>='),
-        graph.subtitle,
-        graph.drugInfo,
-      ].filter(Boolean).join('\n'), imageDataUrl: graph.image, imgW: graph.width, imgH: graph.height, pageWidth, pageHeight, pageNumRef, colorLegend: HEATMAP_GRAPH_IDS.includes(graph.id) ? HEATMAP_COLOR_LEGEND : null });
+      addImagePage({
+        doc,
+        logo,
+        title: graph.title,
+        subtitle: [graph.description?.filter(Boolean).join(' / ').replaceAll('≥', '>='), graph.subtitle, graph.drugInfo]
+          .filter(Boolean)
+          .join('\n'),
+        imageDataUrl: graph.image,
+        imgW: graph.width,
+        imgH: graph.height,
+        pageWidth,
+        pageHeight,
+        pageNumRef,
+        colorLegend: HEATMAP_GRAPH_IDS.includes(graph.id) ? HEATMAP_COLOR_LEGEND : null,
+      });
     }
 
-    for (const insight of (insightsCaptures ?? [])) {
+    for (const insight of insightsCaptures ?? []) {
       if (!insight.dataUrl) continue;
-      addImagePage({ doc, logo, title: insight.label, subtitle: 'AMR Insights', imageDataUrl: insight.dataUrl, imgW: insight.width, imgH: insight.height, pageWidth, pageHeight, pageNumRef });
+      addImagePage({
+        doc,
+        logo,
+        title: insight.label,
+        subtitle: 'AMR Insights',
+        imageDataUrl: insight.dataUrl,
+        imgW: insight.width,
+        imgH: insight.height,
+        pageWidth,
+        pageHeight,
+        pageNumRef,
+      });
     }
 
     if (radarCapture?.dataUrl) {
-      addImagePage({ doc, logo, title: 'AMR Radar Profile', subtitle: 'Drug resistance profiles by country / region', imageDataUrl: radarCapture.dataUrl, imgW: radarCapture.width, imgH: radarCapture.height, pageWidth, pageHeight, pageNumRef });
+      addImagePage({
+        doc,
+        logo,
+        title: 'AMR Radar Profile',
+        subtitle: 'Drug resistance profiles by country / region',
+        imageDataUrl: radarCapture.dataUrl,
+        imgW: radarCapture.width,
+        imgH: radarCapture.height,
+        pageWidth,
+        pageHeight,
+        pageNumRef,
+      });
     }
 
     doc.save(`AMRnet - ${firstName} ${secondName} Report.pdf`);
@@ -384,8 +518,12 @@ function ColorLegendPreview({ colorLegend }) {
   const { type, title, noDataColor, noDataLabel, stops, startLabel, endLabel, items } = colorLegend;
 
   const swatchStyle = color => ({
-    width: 12, height: 12, background: color,
-    border: '1px solid rgba(0,0,0,0.15)', borderRadius: 2, flexShrink: 0,
+    width: 12,
+    height: 12,
+    background: color,
+    border: '1px solid rgba(0,0,0,0.15)',
+    borderRadius: 2,
+    flexShrink: 0,
   });
 
   const gradientCss = stops
@@ -393,29 +531,62 @@ function ColorLegendPreview({ colorLegend }) {
     : '';
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1, px: 2, pt: 1, pb: 1.5, borderTop: '1px solid #f0f0f0' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: 1,
+        px: 2,
+        pt: 1,
+        pb: 1.5,
+        borderTop: '1px solid #f0f0f0',
+      }}
+    >
       <Box component="span" sx={{ fontSize: '0.7rem', color: 'text.secondary', fontWeight: 600, mr: 0.5 }}>
         {title}:
       </Box>
       {noDataColor && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <Box sx={swatchStyle(noDataColor)} />
-          <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>{noDataLabel || 'No data'}</Box>
+          <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>
+            {noDataLabel || 'No data'}
+          </Box>
         </Box>
       )}
       {type === 'gradient' && stops && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          {startLabel && <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>{startLabel}</Box>}
-          <Box sx={{ width: 120, height: 12, background: gradientCss, border: '1px solid rgba(0,0,0,0.12)', borderRadius: 1 }} />
-          {endLabel && <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>{endLabel}</Box>}
+          {startLabel && (
+            <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>
+              {startLabel}
+            </Box>
+          )}
+          <Box
+            sx={{
+              width: 120,
+              height: 12,
+              background: gradientCss,
+              border: '1px solid rgba(0,0,0,0.12)',
+              borderRadius: 1,
+            }}
+          />
+          {endLabel && (
+            <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>
+              {endLabel}
+            </Box>
+          )}
         </Box>
       )}
-      {type === 'steps' && items && items.map(({ color, label }, i) => (
-        <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <Box sx={swatchStyle(color)} />
-          <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>{label}</Box>
-        </Box>
-      ))}
+      {type === 'steps' &&
+        items &&
+        items.map(({ color, label }, i) => (
+          <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Box sx={swatchStyle(color)} />
+            <Box component="span" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>
+              {label}
+            </Box>
+          </Box>
+        ))}
     </Box>
   );
 }
@@ -425,31 +596,50 @@ function PreviewBlock({ block }) {
   if (!block?.text) return null;
   const { type, text } = block;
 
-  if (type === 'heading') return (
-    <Box sx={{ mt: 2, mb: 0.5 }}>
-      <Typography sx={{ fontWeight: 800, color: '#4a148c', letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: '0.72rem' }}>
-        {text}
-      </Typography>
-      <Box sx={{ height: '2px', bgcolor: '#4a148c', borderRadius: 1, mt: 0.3, opacity: 0.2 }} />
-    </Box>
-  );
+  if (type === 'heading')
+    return (
+      <Box sx={{ mt: 2, mb: 0.5 }}>
+        <Typography
+          sx={{
+            fontWeight: 800,
+            color: '#4a148c',
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            fontSize: '0.72rem',
+          }}
+        >
+          {text}
+        </Typography>
+        <Box sx={{ height: '2px', bgcolor: '#4a148c', borderRadius: 1, mt: 0.3, opacity: 0.2 }} />
+      </Box>
+    );
 
-  if (type === 'subheading') return (
-    <Typography sx={{ fontWeight: 700, color: '#333', mt: 1, fontSize: '0.8rem' }}>{text}</Typography>
-  );
+  if (type === 'subheading')
+    return <Typography sx={{ fontWeight: 700, color: '#333', mt: 1, fontSize: '0.8rem' }}>{text}</Typography>;
 
-  if (type === 'warning') return (
-    <Box sx={{ bgcolor: '#fff9c4', borderLeft: '4px solid #f9a825', px: 1.5, py: 0.85, borderRadius: '0 4px 4px 0', my: 0.75 }}>
-      <Typography sx={{ fontWeight: 700, color: '#5d4037', fontSize: '0.8rem' }}>⚠ WARNING: {text}</Typography>
-    </Box>
-  );
+  if (type === 'warning')
+    return (
+      <Box
+        sx={{
+          bgcolor: '#fff9c4',
+          borderLeft: '4px solid #f9a825',
+          px: 1.5,
+          py: 0.85,
+          borderRadius: '0 4px 4px 0',
+          my: 0.75,
+        }}
+      >
+        <Typography sx={{ fontWeight: 700, color: '#5d4037', fontSize: '0.8rem' }}>⚠ WARNING: {text}</Typography>
+      </Box>
+    );
 
-  if (type === 'bullet') return (
-    <Box sx={{ display: 'flex', gap: 1, pl: 1 }}>
-      <Typography sx={{ color: '#4a148c', fontWeight: 700, flexShrink: 0, fontSize: '0.8rem' }}>•</Typography>
-      <Typography sx={{ color: '#333', fontSize: '0.8rem', lineHeight: 1.6 }}>{text}</Typography>
-    </Box>
-  );
+  if (type === 'bullet')
+    return (
+      <Box sx={{ display: 'flex', gap: 1, pl: 1 }}>
+        <Typography sx={{ color: '#4a148c', fontWeight: 700, flexShrink: 0, fontSize: '0.8rem' }}>•</Typography>
+        <Typography sx={{ color: '#333', fontSize: '0.8rem', lineHeight: 1.6 }}>{text}</Typography>
+      </Box>
+    );
 
   // body
   return <Typography sx={{ color: '#444', fontSize: '0.8rem', lineHeight: 1.65 }}>{text}</Typography>;
@@ -463,9 +653,22 @@ function ReportCard({ title, subtitle, subtitle2, children, accent }) {
         <Box sx={{ px: 3, py: 2, borderBottom: '1px solid #f0f0f0', display: 'flex', alignItems: 'center', gap: 1.5 }}>
           {accent && <Box sx={{ width: 4, height: 24, bgcolor: accent, borderRadius: 1 }} />}
           <Box>
-            {title    && <Typography variant="subtitle1" fontWeight={700} lineHeight={1.2}>{title}</Typography>}
-            {subtitle && <Typography variant="caption" color="text.secondary">{subtitle}</Typography>}
-            {subtitle2 && <Typography variant="caption" color="text.secondary" display="block">{subtitle2}</Typography>}  {/* ← add this */}
+            {title && (
+              <Typography variant="subtitle1" fontWeight={700} lineHeight={1.2}>
+                {title}
+              </Typography>
+            )}
+            {subtitle && (
+              <Typography variant="caption" color="text.secondary">
+                {subtitle}
+              </Typography>
+            )}
+            {subtitle2 && (
+              <Typography variant="caption" color="text.secondary" display="block">
+                {subtitle2}
+              </Typography>
+            )}{' '}
+            {/* ← add this */}
           </Box>
         </Box>
       )}
@@ -480,44 +683,92 @@ export function PDFPreviewModal({ open, onClose, data }) {
   const [pdfLoading, setPdfLoading] = useState(false);
   if (!data) return null;
 
-  const { firstName, secondName, texts, metadata, mapImage, bgCapture, bhpCapture, graphs, organism, insightsCaptures, radarCapture } = data;
+  const {
+    firstName,
+    secondName,
+    texts,
+    metadata,
+    mapImage,
+    bgCapture,
+    bhpCapture,
+    graphs,
+    organism,
+    insightsCaptures,
+    radarCapture,
+  } = data;
   const accentColor = '#1565c0';
 
   const metaChips = [
-    { label: 'Country',     value: metadata.country },
+    { label: 'Country', value: metadata.country },
     { label: 'Time Period', value: `${metadata.timeInitial} – ${metadata.timeFinal}` },
-    { label: 'Genomes',     value: Number(metadata.genomes ?? 0).toLocaleString() },
-    { label: 'Dataset',     value: metadata.dataset },
-    { label: 'Map View',    value: metadata.mapView },
+    { label: 'Genomes', value: Number(metadata.genomes ?? 0).toLocaleString() },
+    { label: 'Dataset', value: metadata.dataset },
+    { label: 'Map View', value: metadata.mapView },
   ].filter(x => x.value && x.value !== 'undefined');
 
   return (
     <Dialog fullScreen open={open} onClose={onClose} PaperProps={{ sx: { bgcolor: '#eef0f4' } }}>
       {/* Toolbar */}
-      <Box sx={{ position: 'sticky', top: 0, zIndex: 200, bgcolor: '#fff', display: 'flex', alignItems: 'center', px: 2, py: 1, gap: 2, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+      <Box
+        sx={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 200,
+          bgcolor: '#fff',
+          display: 'flex',
+          alignItems: 'center',
+          px: 2,
+          py: 1,
+          gap: 2,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+        }}
+      >
         <Box component="img" src={LogoImg} alt="AMRnet" sx={{ height: 34 }} />
         <Typography variant="h6" fontWeight={700} sx={{ flex: 1, fontSize: 16 }}>
-          Report Preview — <em>{firstName} {secondName}</em>
+          Report Preview —{' '}
+          <em>
+            {firstName} {secondName}
+          </em>
         </Typography>
-        <LoadingButton variant="contained" loading={pdfLoading} startIcon={<FileDownload />}
+        <LoadingButton
+          variant="contained"
+          loading={pdfLoading}
+          startIcon={<FileDownload />}
           onClick={() => generatePDF(data, setPdfLoading)}
           sx={{ bgcolor: '#e2acf6', '&:hover': { bgcolor: '#cc6fee' }, textTransform: 'none', fontWeight: 700 }}
         >
           Download PDF
         </LoadingButton>
-        <IconButton onClick={onClose} size="small"><Close /></IconButton>
+        <IconButton onClick={onClose} size="small">
+          <Close />
+        </IconButton>
       </Box>
 
       {/* Body */}
-      <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 960, mx: 'auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 3 }}>
-
+      <Box
+        sx={{
+          p: { xs: 2, md: 4 },
+          maxWidth: 960,
+          mx: 'auto',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3,
+        }}
+      >
         {/* Cover */}
         <ReportCard>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
             <Box sx={{ flex: 1, textAlign: 'center' }}>
-              <Typography variant="overline" color="text.secondary" sx={{ letterSpacing: 2 }}>AMRnet Report</Typography>
-              <Typography variant="h4" fontWeight={800} lineHeight={1.1} sx={{ mt: 0.5 }}>{firstName}</Typography>
-              <Typography variant="h5" fontStyle="italic" color="text.secondary" lineHeight={1.2}>{secondName}</Typography>
+              <Typography variant="overline" color="text.secondary" sx={{ letterSpacing: 2 }}>
+                AMRnet Report
+              </Typography>
+              <Typography variant="h4" fontWeight={800} lineHeight={1.1} sx={{ mt: 0.5 }}>
+                {firstName}
+              </Typography>
+              <Typography variant="h5" fontStyle="italic" color="text.secondary" lineHeight={1.2}>
+                {secondName}
+              </Typography>
               <Typography variant="caption" color="text.disabled" sx={{ mt: 1, display: 'block' }}>
                 Generated {new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
               </Typography>
@@ -528,8 +779,12 @@ export function PDFPreviewModal({ open, onClose, data }) {
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {metaChips.map(({ label, value }) => (
               <Box key={label} sx={{ px: 2, py: 1, bgcolor: '#f5f7fa', borderRadius: 1.5, minWidth: 130 }}>
-                <Typography variant="caption" color="text.secondary" display="block">{label}</Typography>
-                <Typography variant="body2" fontWeight={700}>{value}</Typography>
+                <Typography variant="caption" color="text.secondary" display="block">
+                  {label}
+                </Typography>
+                <Typography variant="body2" fontWeight={700}>
+                  {value}
+                </Typography>
               </Box>
             ))}
           </Box>
@@ -539,7 +794,9 @@ export function PDFPreviewModal({ open, onClose, data }) {
         {texts && texts.filter(b => b?.text).length > 0 && (
           <ReportCard title={t('pdf.reportInformation')} accent={accentColor}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-              {texts.map((block, i) => <PreviewBlock key={i} block={block} />)}
+              {texts.map((block, i) => (
+                <PreviewBlock key={i} block={block} />
+              ))}
             </Box>
           </ReportCard>
         )}
@@ -547,7 +804,12 @@ export function PDFPreviewModal({ open, onClose, data }) {
         {/* Map */}
         {mapImage && (
           <ReportCard title={`Global Overview — ${metadata.mapView}`} subtitle={metadata.organism} accent={accentColor}>
-            <Box component="img" src={mapImage} alt="Global Map" sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
+            <Box
+              component="img"
+              src={mapImage}
+              alt="Global Map"
+              sx={{ width: '100%', borderRadius: 1, display: 'block' }}
+            />
             <ColorLegendPreview colorLegend={getMapColorLegend(metadata.mapViewValue)} />
           </ReportCard>
         )}
@@ -567,31 +829,69 @@ export function PDFPreviewModal({ open, onClose, data }) {
 
         {/* Pathotype / Serotype */}
         {bhpCapture?.dataUrl && (
-          <ReportCard title={organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons'} subtitle={metadata.mapView} accent={accentColor}>
-            <Box component="img" src={bhpCapture.dataUrl} alt="Comparisons" sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
+          <ReportCard
+            title={organism === 'sentericaints' ? 'Serotype Comparisons' : 'Pathotype Comparisons'}
+            subtitle={metadata.mapView}
+            accent={accentColor}
+          >
+            <Box
+              component="img"
+              src={bhpCapture.dataUrl}
+              alt="Comparisons"
+              sx={{ width: '100%', borderRadius: 1, display: 'block' }}
+            />
             <ColorLegendPreview colorLegend={HEATMAP_COLOR_LEGEND} />
           </ReportCard>
         )}
 
         {/* Graphs */}
-        {graphs.filter(g => g.image).map((g, i) => (
-          <ReportCard key={i} title={g.title} subtitle={g.description?.filter(Boolean).join(' / ')} subtitle2={[g.subtitle, g.drugInfo].filter(Boolean).join(' | ')} accent={accentColor}>
-            <Box component="img" src={g.image} alt={g.title} sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
-            {HEATMAP_GRAPH_IDS.includes(g.id) && <ColorLegendPreview colorLegend={HEATMAP_COLOR_LEGEND} />}
-          </ReportCard>
-        ))}
+        {graphs
+          .filter(g => g.image)
+          .map((g, i) => (
+            <ReportCard
+              key={i}
+              title={g.title}
+              subtitle={g.description?.filter(Boolean).join(' / ')}
+              subtitle2={[g.subtitle, g.drugInfo].filter(Boolean).join(' | ')}
+              accent={accentColor}
+            >
+              <Box
+                component="img"
+                src={g.image}
+                alt={g.title}
+                sx={{ width: '100%', borderRadius: 1, display: 'block' }}
+              />
+              {HEATMAP_GRAPH_IDS.includes(g.id) && <ColorLegendPreview colorLegend={HEATMAP_COLOR_LEGEND} />}
+            </ReportCard>
+          ))}
 
         {/* AMR Insights tabs */}
-        {(insightsCaptures ?? []).filter(c => c.dataUrl).map((c, i) => (
-          <ReportCard key={`insight-${i}`} title={c.label} subtitle="AMR Insights" accent={accentColor}>
-            <Box component="img" src={c.dataUrl} alt={c.label} sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
-          </ReportCard>
-        ))}
+        {(insightsCaptures ?? [])
+          .filter(c => c.dataUrl)
+          .map((c, i) => (
+            <ReportCard key={`insight-${i}`} title={c.label} subtitle="AMR Insights" accent={accentColor}>
+              <Box
+                component="img"
+                src={c.dataUrl}
+                alt={c.label}
+                sx={{ width: '100%', borderRadius: 1, display: 'block' }}
+              />
+            </ReportCard>
+          ))}
 
         {/* Radar Profile */}
         {radarCapture?.dataUrl && (
-          <ReportCard title="AMR Radar Profile" subtitle="Drug resistance profiles by country / region" accent={accentColor}>
-            <Box component="img" src={radarCapture.dataUrl} alt="AMR Radar Profile" sx={{ width: '100%', borderRadius: 1, display: 'block' }} />
+          <ReportCard
+            title="AMR Radar Profile"
+            subtitle="Drug resistance profiles by country / region"
+            accent={accentColor}
+          >
+            <Box
+              component="img"
+              src={radarCapture.dataUrl}
+              alt="AMR Radar Profile"
+              sx={{ width: '100%', borderRadius: 1, display: 'block' }}
+            />
           </ReportCard>
         )}
 

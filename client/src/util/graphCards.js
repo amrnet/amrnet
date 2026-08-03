@@ -213,7 +213,10 @@ export function getGraphCards(t){
       component: <BubbleMarkersPathotypeHeatmapGraph />,
     },
     {
-      title: t('graphs.vaccineCoverage'),
+      // Renamed from 'Vaccine coverage' per review. The heatmap restyle
+      // (serotypes as columns, rows ordered by vaccine coverage, PCV selector)
+      // was explicitly deferred by Kat so as not to delay the first release.
+      title: t('graphs.amrBySerotype'),
       description: [''],
       icon: <Vaccines color="primary" />,
       id: 'VAC',

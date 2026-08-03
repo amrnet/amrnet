@@ -166,7 +166,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter, filterButtonRef
           return variableOption.mapValue;
         }
         if (organism === 'shige') {
-          // ST (GENOTYPE) / Lincode (LINCODE_NUM) / Lincode alias (LINCODE_ALIAS)
+          // ST (GENOTYPE) / Genotype from LINcode (LINCODE_NUM)
           const variableOption = variableGraphOptionsShige.find(x => x.value === bubbleHeatmapGraphVariable);
           return variableOption?.mapValue ?? 'GENOTYPE';
         }

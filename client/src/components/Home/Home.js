@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../stores/hooks';
 import { removeOrganism } from '../../stores/slices/dashboardSlice';
 import { organismsCards } from '../../util/organismsCards';
+import { isProduction } from '../../util/env';
 import { paeruginosa } from '../../assets/organisms';
 import { MainLayout } from '../Layout';
 import { useStyles } from './HomeMUI';
@@ -136,6 +137,11 @@ export const HomePage = () => {
               </Grid>
             ))}
 
+            {/* Filler tiles (Surprise me! / next-pathogen vote) are dev-only for now:
+                per the review the new landing must not go live until Staph & Strep are
+                public. In production the grid shows only the organism cards. */}
+            {!isProduction() && (
+              <>
             {/* Surprise me! — same size/style as an organism card (dark media +
                 bottom legend), opens a random active dashboard. Uses <Link> so the
                 HashRouter URL (#/dashboard?organism=…) is generated correctly. */}
@@ -212,6 +218,8 @@ export const HomePage = () => {
                 )
               )}
             </Grid>
+              </>
+            )}
           </Grid>
         </CardContent>
       </Card>

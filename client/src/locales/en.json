@@ -50,7 +50,8 @@
           "lineages": "lineages",
           "STs": "STs",
           "genotypes": "genotypes",
-          "sequenceType": "sequence type"
+          "sequenceType": "sequence type",
+          "linCodes": "LIN codes"
         },
         "definitions": {
           "XDR": {
@@ -77,14 +78,14 @@
       "stPrevalence": "ST prevalence",
       "lineagePrevalence": "Lineage prevalence (ST)",
       "lincodePrevalence": "Lincode prevalence",
-      "lincodeAliasPrevalence": "Lincode alias prevalence",
       "ngmastPrevalence": "NG-MAST prevalence",
       "serotypePrevalence": "Serotype prevalence",
       "pathotypePrevalence": "Pathotype prevalence",
       "oPrevalence": "O prevalence",
       "hPrevalence": "H prevalence",
       "ngMastPrevalence": "NG-MAST prevalence",
-      "dominantGenotype": "Dominant Genotype"
+      "dominantGenotype": "Dominant Genotype",
+      "linCodePrevalence": "LIN code prevalence"
     }
   },
   "home": {
@@ -241,7 +242,8 @@
     "emergenceRateDescription": "Average annual change in resistance prevalence (%/year) — identifies accelerating resistance",
     "qrdrMutations": "QRDR Mutations",
     "vaccineCoverage": "Vaccine Coverage",
-    "convergenceMap": "Virulence × Resistance Convergence"
+    "convergenceMap": "Virulence × Resistance Convergence",
+    "amrBySerotype": "AMR by serotype"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",

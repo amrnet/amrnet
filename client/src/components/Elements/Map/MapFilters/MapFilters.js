@@ -41,7 +41,7 @@ const excludedViews = [
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
   'Lincode prevalence',
-  'Lincode alias prevalence',
+  'LIN code prevalence',
   // 'Resistance prevalence',
 ];
 const mapViewsWithZeroPercentOption = [
@@ -61,7 +61,7 @@ const mapViewsWithZeroPercentOption = [
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
   'Lincode prevalence',
-  'Lincode alias prevalence',
+  'LIN code prevalence',
   'Resistance prevalence',
 ];
 
@@ -100,7 +100,8 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
   const isOHPrevalence = useMemo(() => mapView === 'H prevalence', [mapView]);
   // shige LINcode lineage views: numeric (all species) and named alias (S. sonnei only).
   const isLincodePrevalence = useMemo(() => mapView === 'Lincode prevalence', [mapView]);
-  const isLincodeAliasPrevalence = useMemo(() => mapView === 'Lincode alias prevalence', [mapView]);
+  // shige: the actual LINcode barcode view — searched by 'starts with'.
+  const isLinCodePrevalence = useMemo(() => mapView === 'LIN code prevalence', [mapView]);
 
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
@@ -115,8 +116,8 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
             ? 'OH_PREV'
             : isLincodePrevalence
               ? 'LINCODE_NUM'
-              : isLincodeAliasPrevalence
-                ? 'LINCODE_ALIAS'
+              : isLinCodePrevalence
+                ? 'LINCODE_FULL'
                 : 'GENOTYPE';
     const items = {};
 
@@ -140,7 +141,7 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     isOPrevalence,
     isOHPrevalence,
     isLincodePrevalence,
-    isLincodeAliasPrevalence,
+    isLinCodePrevalence,
     mapData,
   ]);
 
@@ -168,8 +169,11 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
   }, [GLNPSEntries]);
 
   const filteredNonResistanceOptions = useMemo(() => {
+    const search = genotypeSearch.toLowerCase();
+    // LIN codes are only meaningful read left-to-right, so the LIN code view
+    // matches by 'starts with' rather than 'contains'.
     const filteredOptions = nonResistanceOptions.filter(option =>
-      option.toLowerCase().includes(genotypeSearch.toLowerCase()),
+      isLinCodePrevalence ? option.toLowerCase().startsWith(search) : option.toLowerCase().includes(search),
     );
 
     if (
@@ -185,6 +189,7 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     isOHPrevalence,
     isOPrevalence,
     isPathSerPrevalence,
+    isLinCodePrevalence,
     nonResistanceOptions,
     organism,
     organismHasLotsOfGenotypes,
@@ -265,7 +270,7 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
       case 'O prevalence':
       case 'Lineage prevalence (ST)':
       case 'Lincode prevalence':
-      case 'Lincode alias prevalence':
+      case 'LIN code prevalence':
         return gradientStyle;
       case '':
         return [];
@@ -313,7 +318,11 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
       return 'NGMAST';
     }
 
-    if (isLincodePrevalence || isLincodeAliasPrevalence) {
+    if (isLinCodePrevalence) {
+      return 'linCodes';
+    }
+
+    if (isLincodePrevalence) {
       return 'lineages';
     }
 
@@ -336,7 +345,7 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     isPathSerPrevalence,
     isNGMASTPrevalence,
     isLincodePrevalence,
-    isLincodeAliasPrevalence,
+    isLinCodePrevalence,
     mapView,
     organism,
   ]);

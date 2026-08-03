@@ -75,10 +75,12 @@ function countQuinoloneMarkers(raw, organism) {
   if (!raw || raw === '-' || raw === 'ND') return 0;
   const strict = _STRICT_CIP_ORGANISMS.includes(organism);
   let n = 0;
-  String(raw).split(';').forEach(e => {
-    const g = e.trim();
-    if (g && _isQuinoloneMarker(g, strict)) n++;
-  });
+  String(raw)
+    .split(';')
+    .forEach(e => {
+      const g = e.trim();
+      if (g && _isQuinoloneMarker(g, strict)) n++;
+    });
   return n;
 }
 
@@ -91,11 +93,13 @@ function extractQuinoloneMarkers(raw, organism) {
   if (!raw || raw === '-' || raw === 'ND') return [];
   const strict = _STRICT_CIP_ORGANISMS.includes(organism);
   const out = [];
-  String(raw).split(';').forEach(e => {
-    const g = e.trim();
-    // For ecoli/shige/decoli aac(6')-Ib-cr and gyrB/parE are excluded (see above).
-    if (g && _isQuinoloneMarker(g, strict)) out.push(g);
-  });
+  String(raw)
+    .split(';')
+    .forEach(e => {
+      const g = e.trim();
+      // For ecoli/shige/decoli aac(6')-Ib-cr and gyrB/parE are excluded (see above).
+      if (g && _isQuinoloneMarker(g, strict)) out.push(g);
+    });
   return out;
 }
 
@@ -212,11 +216,12 @@ export function filterData({
     if (Array.isArray(columnID)) return columnID.some(x => item[x] !== '-');
     return item[columnID] !== '-';
   };
-  // S. aureus dataset filter: 'MRSA' keeps only genomes carrying the mecA gene
-  // (listed in the comma-separated `Acquired` field). Inert for other organisms.
+  // S. aureus dataset filter: 'MRSA' keeps only genomes carrying a methicillin
+  // resistance gene — mecA or mecC (listed in the comma-separated `Acquired`
+  // field), per the MRSA definition. Inert for other organisms.
   const checkDatasetSA = item => {
     if (datasetSA === 'All' || organism !== 'saureus') return true;
-    if (datasetSA === 'MRSA') return typeof item.Acquired === 'string' && /(^|,)\s*mecA\b/.test(item.Acquired);
+    if (datasetSA === 'MRSA') return typeof item.Acquired === 'string' && /(^|,)\s*mec[AC]\b/.test(item.Acquired);
     return true;
   };
   const checkTime = item => {
@@ -500,12 +505,7 @@ function getMapStatsData({
     // intersection was meaningless — e.g. CipR + CipNS did not return CipR even
     // though CipR is a subset of CipNS. Using the array index keeps the id
     // stable across drugs.
-    const name =
-      item.Uberstrain ||
-      item.Name ||
-      item.NAME ||
-      item['Genome Name'] ||
-      String(item._id ?? `g${idx}`);
+    const name = item.Uberstrain || item.Name || item.NAME || item['Genome Name'] || String(item._id ?? `g${idx}`);
 
     // Special handling for ECOLI-like organisms which use rule sets instead of
     // direct column values. In those cases `statsKey` is the rule name and
@@ -525,9 +525,7 @@ function getMapStatsData({
       // the number of records passing the threshold.
       if (drug.computed) {
         const m = countQuinoloneMarkers(item['Quinolone'], organism);
-        const passes =
-          (statsKey === 'Ciprofloxacin NS' && m >= 1) ||
-          (statsKey === 'Ciprofloxacin R' && m >= 2);
+        const passes = (statsKey === 'Ciprofloxacin NS' && m >= 1) || (statsKey === 'Ciprofloxacin R' && m >= 2);
         if (!passes) continue;
         resistantGenomeCount++;
         if (!columnDataMap[statsKey]) {
@@ -926,8 +924,10 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       // no match carry null and are skipped by generateStats' grouping.
       stats['LINCODE_NUM'] = { items: [], count: 0 };
       generateStats(itemData, stats, organism, 'LINCODE_NUM', 'lincodeNumeric');
-      stats['LINCODE_ALIAS'] = { items: [], count: 0 };
-      generateStats(itemData, stats, organism, 'LINCODE_ALIAS', 'lincodeAlias');
+      // The actual LINcode barcode (full 13-number string in the `LINcode`
+      // field) for the 'LIN code prevalence' map view — grouped verbatim.
+      stats['LINCODE_FULL'] = { items: [], count: 0 };
+      generateStats(itemData, stats, organism, 'LINCODE_FULL', 'LINcode');
     }
 
     statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key, pansusceptible }) => {
@@ -1024,9 +1024,8 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
   const NGMASTData = [];
   const cgSTData = [];
   const sublineageData = [];
-  // shige LINcode lineage trends (numeric = all species, alias = S. sonnei)
+  // shige LINcode lineage trends (genotype mapped from the LINcode)
   const lincodeNumericData = [];
-  const lincodeAliasData = [];
 
   // Initialize data structures based on organism type
   const initializeDataStructures = rules => {
@@ -1108,13 +1107,6 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
         return acc;
       }, {});
       lincodeNumericData.push({ ...response, ...lincodeNumericStats });
-
-      const lincodeAliasStats = yearData.reduce((acc, x) => {
-        const alias = x.lincodeAlias;
-        if (alias) acc[alias] = (acc[alias] || 0) + 1;
-        return acc;
-      }, {});
-      lincodeAliasData.push({ ...response, ...lincodeAliasStats });
     }
 
     // Initialize drugStats
@@ -1263,13 +1255,15 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return;
           }
 
+          const drugData = getSAMarkerGatedData(yearData, rule);
+
           const drugClass = getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: yearData,
+            dataToFilter: drugData,
             markerRules: markerRulesSA,
             fallbackDrugRules: drugRulesSA,
           });
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
+          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: drugData.length };
           delete item.count;
 
           genotypesAndDrugsData[rule.key].push(item);
@@ -1300,13 +1294,16 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
             return;
           }
 
+          const drugData = yearData.filter(x =>
+            rule.values.some(val => x[rule.columnID]?.toString() === val.toString()),
+          );
           const drugClass = getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: yearData,
+            dataToFilter: drugData,
             markerRules: markerRulesSP,
             fallbackDrugRules: drugRulesSP,
           });
-          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: count };
+          const item = { ...response, ...filteredGenotypes, ...drugClass, totalCount: drugData.length };
           delete item.count;
 
           genotypesAndDrugsData[rule.key].push(item);
@@ -1454,7 +1451,6 @@ export function getYearsData({ data, years, organism, getUniqueGenotypes = false
     cgSTData,
     sublineageData,
     lincodeNumericData: lincodeNumericData.filter(x => x.count > 0),
-    lincodeAliasData: lincodeAliasData.filter(x => x.count > 0),
     uniqueCgST,
     uniqueSublineages,
     uniqueNGMAST,
@@ -1892,19 +1888,24 @@ export function getGenotypesData({
           genotypesDrugClassesData[rule.key].push({ ...drugClassResponse, None: panCount, resistantCount: 0 });
           return;
         }
-        const drugData = genotypeData.filter(x =>
+        const phenotypeResistantCount = genotypeData.filter(x =>
           rule.values.some(val => x[rule.columnID]?.toString() === val.toString()),
-        );
-        response[rule.key] = drugData.length;
+        ).length;
+        response[rule.key] = phenotypeResistantCount;
+
+        // Marker-gated subset (phenotype-resistant AND carries a known marker gene),
+        // matching getYearsData so the two "AMR marker" plots agree.
+        const drugData = getSAMarkerGatedData(genotypeData, rule);
 
         const drugClass = {
           ...drugClassResponse,
           ...getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: genotypeData,
+            dataToFilter: drugData,
             markerRules: markerRulesSA,
             fallbackDrugRules: drugRulesSA,
           }),
+          totalCount: drugData.length,
         };
         genotypesDrugClassesData[rule.key].push(drugClass);
       });
@@ -1926,10 +1927,11 @@ export function getGenotypesData({
           ...drugClassResponse,
           ...getMarkerDrugClassData({
             drugKey: rule.key,
-            dataToFilter: genotypeData,
+            dataToFilter: drugData,
             markerRules: markerRulesSP,
             fallbackDrugRules: drugRulesSP,
           }),
+          totalCount: drugData.length,
         };
         genotypesDrugClassesData[rule.key].push(drugClass);
       });
@@ -2060,10 +2062,9 @@ export function getGenotypesData({
   }
 
   // shige: LINcode lineage marker data for the BAMRH heatmap. Mirrors the
-  // pathotype block but groups by the two derived LINcode dimensions so the
+  // pathotype block but groups by the LINcode-derived genotype so the
   // 'AMR marker by genotype' heatmap can plot markers per lineage.
   const lincodeDrugClassesData = {};
-  const lincodeAliasDrugClassesData = {};
   if (organism === 'shige') {
     const buildLincodeDrugClasses = (groupField, target) => {
       statKeysECOLI.forEach(drug => {
@@ -2098,7 +2099,6 @@ export function getGenotypesData({
     };
 
     buildLincodeDrugClasses('lincodeNumeric', lincodeDrugClassesData);
-    buildLincodeDrugClasses('lincodeAlias', lincodeAliasDrugClassesData);
   }
 
   // Years
@@ -2214,7 +2214,6 @@ export function getGenotypesData({
     ngMastDrugClassesData,
     pathotypesDrugClassesData,
     lincodeDrugClassesData,
-    lincodeAliasDrugClassesData,
   };
 }
 
@@ -2547,6 +2546,29 @@ function getKPDrugClassData({ drugKey, dataToFilter }) {
   return drugClass;
 }
 
+// S. aureus: population that the marker-composition breakdown (getMarkerDrugClassData)
+// attributes genes over, and the totalCount denominator for the "AMR marker by
+// genotype"/"AMR marker trends" plots. For drugs with defined markers (mecA-family
+// etc.), phenotype-resistant records are further gated to those that also carry a
+// known marker gene in Acquired/Variants — records that are phenotype-resistant
+// but have no recognized marker are excluded from the composition view (they still
+// count toward the plain phenotype-resistant totals computed elsewhere, e.g.
+// drugStats/response[rule.key], which are intentionally left untouched by this).
+// Used identically by getYearsData and getGenotypesData so the two plots agree.
+function getSAMarkerGatedData(data, rule) {
+  const phenotypeResistant = data.filter(x => rule.values.some(val => x[rule.columnID]?.toString() === val.toString()));
+
+  const saMarkers = markerRulesSA[rule.key];
+  const hasMarkersSA = saMarkers && (saMarkers.acquired.length > 0 || saMarkers.variants.length > 0);
+  if (!hasMarkersSA) return phenotypeResistant;
+
+  return phenotypeResistant.filter(x => {
+    const acq = x.Acquired ? x.Acquired.split(',').map(s => s.trim()) : [];
+    const vrt = x.Variants ? x.Variants.split(',').map(s => s.trim()) : [];
+    return saMarkers.acquired.some(g => acq.includes(g)) || saMarkers.variants.some(v => vrt.includes(v));
+  });
+}
+
 // Parses the 'Acquired' and 'Variants' fields (semicolon-separated) and counts
 // occurrences of each marker for the given drug, using the provided markerRules.
 // Falls back to simple binary count if no markers are defined for the drug.
@@ -2564,12 +2586,12 @@ function getMarkerDrugClassData({ drugKey, dataToFilter, markerRules, fallbackDr
 
   dataToFilter.forEach(record => {
     const acquiredGenes = record.Acquired
-      ? record.Acquired.split(';')
+      ? record.Acquired.split(',')
           .map(s => s.trim())
           .filter(Boolean)
       : [];
     const variantsList = record.Variants
-      ? record.Variants.split(';')
+      ? record.Variants.split(',')
           .map(s => s.trim())
           .filter(Boolean)
       : [];
@@ -2642,14 +2664,10 @@ function getECOLIDrugClassData({ drugKey, dataToFilter, organism }) {
   // Build gene-filter patterns so that pattern-based rules (e.g. Carbapenems,
   // ESBL, Macrolide) only report the genes that triggered the match, not
   // every gene in the source column.
-  const genePatterns = drug.rules
-    .filter(r => r.match)
-    .map(r => new RegExp(r.match));
+  const genePatterns = drug.rules.filter(r => r.match).map(r => new RegExp(r.match));
 
   // Collect excludeGenes across all rules (e.g. glpT_E448K for Fosfomycin).
-  const excludedGenes = new Set(
-    drug.rules.flatMap(r => r.excludeGenes || []),
-  );
+  const excludedGenes = new Set(drug.rules.flatMap(r => r.excludeGenes || []));
 
   dataToFilter.forEach(x => {
     if (!drugMatchesRules(x, drug)) return;

@@ -76,7 +76,7 @@ export const Map = () => {
     if (mapView === 'O prevalence') return 'O_PREV';
     if (mapView === 'H prevalence') return 'OH_PREV';
     if (mapView === 'Lincode prevalence') return 'LINCODE_NUM';
-    if (mapView === 'Lincode alias prevalence') return 'LINCODE_ALIAS';
+    if (mapView === 'LIN code prevalence') return 'LINCODE_FULL';
     if (['Serotype prevalence', 'Pathotype prevalence'].includes(mapView)) return 'PATHOTYPE';
     return 'GENOTYPE';
   }, [mapView]);
@@ -175,7 +175,7 @@ export const Map = () => {
         case 'ST prevalence':
         case 'Lineage prevalence (ST)':
         case 'Lincode prevalence':
-        case 'Lincode alias prevalence':
+        case 'LIN code prevalence':
         case 'Serotype prevalence':
         case 'O prevalence':
         case 'H prevalence':
@@ -283,7 +283,7 @@ export const Map = () => {
       'Pathotype prevalence',
       'ST prevalence',
       'Lincode prevalence',
-      'Lincode alias prevalence',
+      'LIN code prevalence',
       'Resistance prevalence',
       'No. Samples',
       'NG-MAST prevalence',
@@ -468,7 +468,7 @@ export const Map = () => {
                           case 'Lineage prevalence (ST)':
                           case 'ST prevalence':
                           case 'Lincode prevalence':
-                          case 'Lincode alias prevalence':
+                          case 'LIN code prevalence':
                           case 'Serotype prevalence':
                           case 'Pathotype prevalence':
                           case 'O prevalence':

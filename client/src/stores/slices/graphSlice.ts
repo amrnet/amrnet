@@ -42,7 +42,6 @@ interface GraphState {
   genotypesDrugClassesData: Array<any>;
   ngMastDrugClassesData: Array<any>;
   lincodeDrugClassesData: { [drugClass: string]: any };
-  lincodeAliasDrugClassesData: { [drugClass: string]: any };
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
   trendsGraphDrugClass: string;
@@ -117,7 +116,6 @@ const initialState: GraphState = {
   genotypesDrugClassesData: [],
   ngMastDrugClassesData: [],
   lincodeDrugClassesData: {},
-  lincodeAliasDrugClassesData: {},
   genotypesAndDrugsYearData: [],
   countriesYearData: [],
   regionsYearData: [],
@@ -279,10 +277,7 @@ export const graphSlice = createSlice({
     setLincodeDrugClassesData: (state, action: PayloadAction<{ [drugClass: string]: any }>) => {
       state.lincodeDrugClassesData = action.payload ?? {};
     },
-    setLincodeAliasDrugClassesData: (state, action: PayloadAction<{ [drugClass: string]: any }>) => {
-      state.lincodeAliasDrugClassesData = action.payload ?? {};
-    },
-    setPathotypesDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
+    setPathotypesDrugClassesData: (state, action: PayloadAction<Record<string, any[]>>) => {
       state.pathotypesDrugClassesData = action.payload;
     },
     setGenotypesAndDrugsYearData: (state, action: PayloadAction<any>) => {
@@ -477,7 +472,6 @@ export const {
   setGenotypesDrugClassesData,
   setNgMastDrugClassesData,
   setLincodeDrugClassesData,
-  setLincodeAliasDrugClassesData,
   setPathotypesDrugClassesData,
   setGenotypesAndDrugsYearData,
   setTrendsGraphDrugClass,

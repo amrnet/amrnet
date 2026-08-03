@@ -47,24 +47,20 @@ function matchEntry(lincode) {
   return found;
 }
 
-function hasPathovar(pathovar) {
-  return pathovar != null && pathovar !== '' && pathovar !== '-';
-}
-
 /**
  * Resolve the best available LINcode string from a genome record.
  *
- * The data does not carry a single `LINcode` field; it carries the LINcode
- * truncated at fixed levels (`LINcode_11`, `LINcode_9`, ...). We prefer the
- * finest (most segments) available so the most specific lineage entry can
- * match, falling back to coarser levels when the finer ones are missing.
+ * Records carry the full barcode in `LINcode` plus copies truncated at fixed
+ * levels (`LINcode_11`, `LINcode_9`, ...). Prefer the finest (most segments)
+ * available so the most specific lineage entry can match, falling back to
+ * coarser levels when the finer ones are missing.
  *
  * @param {object} item - a genome record
  * @returns {string|null} the dash-joined LINcode, or null if none present
  */
 export function resolveShigeLincode(item) {
   if (!item) return null;
-  const candidates = [item.LINcode_11, item.LINcode_9, item.LINcode_7, item.LINcode_5, item.LINcode_3, item.LINcode];
+  const candidates = [item.LINcode, item.LINcode_11, item.LINcode_9, item.LINcode_7, item.LINcode_5, item.LINcode_3];
   for (const c of candidates) {
     if (c && c !== '-') return c;
   }
@@ -72,24 +68,64 @@ export function resolveShigeLincode(item) {
 }
 
 /**
- * Derive the numeric LINcode lineage and the named alias for a genome.
+ * Derive the LINcode lineage (the genotype mapped from the LINcode) for a
+ * genome. The named alias dimension was removed in the July 2026 review — only
+ * the LIN code and the genotype mapped from it are shown.
  *
- * The named alias (e.g. "Global III", "CipR.SEA") is only assigned when the
- * genome has a pathotype (Pathovar) on record — per the rule that every lincode
- * alias must carry pathotype information. The numeric LINcode lineage is not
- * gated on pathovar.
- *
- * @param {string} lincode - the genome's full LINcode (LINcode field)
- * @param {string} [pathovar] - the genome's Pathovar (pathotype)
- * @returns {{ numeric: string|null, alias: string|null, species: string|null }}
+ * @param {string} lincode - the genome's LINcode
+ * @returns {{ numeric: string|null, species: string|null }}
  */
-export function deriveShigeLincode(lincode, pathovar) {
+export function deriveShigeLincode(lincode) {
   const entry = matchEntry(lincode);
-  if (!entry) return { numeric: null, alias: null, species: null };
-  return {
-    numeric: entry.numeric,
-    // alias gated on pathovar (S. sonnei named lineages only)
-    alias: hasPathovar(pathovar) ? entry.alias : null,
-    species: entry.species,
-  };
+  if (!entry) return { numeric: null, species: null };
+  return { numeric: entry.numeric, species: entry.species };
+}
+
+// Two-letter species code from the Pathovar field, per Kat's July 2026 review
+// ('Ss 3.7.25', and EIEC lineages keyed by ST). Shigella species map to
+// Ss/Sf/Sb/Sd; enteroinvasive E. coli maps to EIEC. Other pathotypes and
+// non-target genomes return '' (no lineage label).
+const SPECIES_CODES = [
+  [/sonnei/i, 'Ss'],
+  [/flexneri/i, 'Sf'],
+  [/boydii/i, 'Sb'],
+  [/dysenteriae/i, 'Sd'],
+  [/EIEC/i, 'EIEC'],
+];
+export function shigeSpeciesCode(pathovar) {
+  if (!pathovar) return '';
+  for (const [re, code] of SPECIES_CODES) {
+    if (re.test(pathovar)) return code;
+  }
+  return '';
+}
+
+/**
+ * Lineage label for the 'Genotype prevalence' dimension, per the July 2026
+ * review:
+ *   - Shigella with a LINcode-mapped genotype -> species-prefixed genotype
+ *     ('Ss 3.7.25'); labels that already carry the species code (e.g. 'Sb20')
+ *     are left as-is to avoid doubling.
+ *   - EIEC -> always an ST-based alias ('EIEC ST270'), since the LINcode
+ *     genotype scheme is Shigella-centric and EIEC/Shigella share prefixes.
+ *   - Shigella without a genotype match -> species-prefixed ST fallback.
+ * Returns null for non-target genomes (no lineage label).
+ *
+ * @param {object} item - a genome record (needs Pathovar, GENOTYPE, LINcode*)
+ * @returns {string|null}
+ */
+export function shigeGenotypeLabel(item) {
+  if (!item) return null;
+  const code = shigeSpeciesCode(item.Pathovar);
+  const st = item.GENOTYPE && item.GENOTYPE !== '-' ? item.GENOTYPE : null;
+
+  if (code === 'EIEC') return st ? `EIEC ${st}` : null;
+
+  const { numeric } = deriveShigeLincode(resolveShigeLincode(item));
+  if (numeric) {
+    if (!code) return numeric;
+    return numeric.toLowerCase().startsWith(code.toLowerCase()) ? numeric : `${code} ${numeric}`;
+  }
+  // Shigella species with no genotype match — fall back to the species-prefixed ST.
+  return code && st ? `${code} ${st}` : null;
 }
