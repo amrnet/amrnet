@@ -44,6 +44,7 @@ import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Ma
 import { SelectCountry } from '../../SelectCountry';
 import { useStyles } from './BubbleHeatmapGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useTranslation } from 'react-i18next';
 
 // Top axis area reserved for the rotated -45deg column labels on the first
@@ -64,7 +65,7 @@ const xOptionsByOrganism = [
   },
 ];
 
-export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
+export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [xAxisType, setXAxisType] = useState('');
@@ -527,8 +528,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -726,8 +726,7 @@ export const BubbleHeatmapGraph2 = ({ showFilter, setShowFilter }) => {
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

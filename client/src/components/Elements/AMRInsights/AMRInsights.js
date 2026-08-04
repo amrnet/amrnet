@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, FilterList, FilterListOff, TipsAndUpdates } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, TipsAndUpdates } from '@mui/icons-material';
 import {
   Box,
   Card,
@@ -7,11 +7,10 @@ import {
   IconButton,
   Tab,
   Tabs,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
@@ -21,6 +20,7 @@ import { InsightsActions } from './InsightsActions';
 import { ATBCorrelationGraph } from '../Graphs/ATBCorrelationGraph';
 import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
+import { PlottingOptionsEditButton } from '../Shared/PlottingOptionsEditButton';
 import { useStyles } from './AMRInsightsMUI';
 
 // NOTE: AMR Co-occurrence was moved to the Summary Plots section (it is a
@@ -53,6 +53,7 @@ const TABS = [
 export const AMRInsights = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
+  const editButtonRef = useRef(null);
   const [currentTab, setCurrentTab] = useState('GVP');
   const [showFilter, setShowFilter] = useState(!matches500);
   const { t } = useTranslation();
@@ -66,8 +67,8 @@ export const AMRInsights = () => {
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
 
   const showFilterFull = useMemo(() => {
-    return showFilter && !loadingData && !loadingMap;
-  }, [loadingData, loadingMap, showFilter]);
+    return !!(collapses['insights'] ?? false) && showFilter && !loadingData && !loadingMap;
+  }, [collapses, loadingData, loadingMap, showFilter]);
 
   const filteredTabs = useMemo(() => {
     return TABS.filter(tab => tab.onlyFor === null || tab.onlyFor.includes(organism));
@@ -151,6 +152,13 @@ export const AMRInsights = () => {
                 </Typography>
               )}
             </div>
+            {isExpanded && currentTabConfig?.hasFilter && (
+              <PlottingOptionsEditButton
+                ref={editButtonRef}
+                active={showFilter}
+                onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+              />
+            )}
           </div>
           <div className={classes.actionsWrapper}>
             {isExpanded && (
@@ -163,17 +171,6 @@ export const AMRInsights = () => {
                 currentTab={currentTab}
                 tabLabel={currentTabLabel}
               />
-            )}
-            {/* Filter / Plotting Options toggle — only shown for tabs that
-                actually render a floating panel (ATB and GVP today). Without
-                it, once a user closed the panel via its X there was no way
-                to re-open it. */}
-            {isExpanded && currentTabConfig?.hasFilter && (
-              <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
-                <IconButton onClick={handleClickFilter}>
-                  {showFilter ? <FilterListOff /> : <FilterList />}
-                </IconButton>
-              </Tooltip>
             )}
             <IconButton>{isExpanded ? <ExpandLess /> : <ExpandMore />}</IconButton>
           </div>
@@ -202,7 +199,7 @@ export const AMRInsights = () => {
                 zIndex={currentTab === card.value ? 1 : -100}
               >
                 <ChartErrorBoundary label={`AMRInsights:${card.value}:${card.component.type?.name || 'Tab'}`}>
-                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter, filterButtonRef: editButtonRef })}
                 </ChartErrorBoundary>
               </Box>
             ))}

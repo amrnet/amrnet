@@ -34,10 +34,11 @@ import { longestVisualWidth, truncateWord } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useStyles } from '../BubbleMarkersHeatmapGraph/BubbleMarkersHeatmapGraphMUI';
 import { useTranslation } from 'react-i18next';
 
-export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }) => {
+export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -235,7 +236,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                         }}
                       >
                         <Typography variant="body1" fontWeight="500">{payload[0]?.payload.typeName}</Typography>
-                        <Typography variant="caption" fontWeight="500">Total: {payload[0]?.payload.total}</Typography>
+                        <Typography variant="caption" fontWeight="500">{t('common.total', { total: payload[0]?.payload.total })}</Typography>
                         <Typography variant="body2">{`${title}: ${payload[0]?.payload.count} (${payload[0]?.payload.percentage}%)`}</Typography>
                       </div>
                     );
@@ -329,8 +330,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -368,9 +368,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                       MenuProps={{ classes: { paper: classes.menuPaper, list: classes.selectMenu } }}
                       disabled={organism === 'none'}
                       renderValue={selected =>
-                        selected === 'All'
-                          ? (regionSelected !== 'All' ? t('common.allCountriesInRegion') : t('common.allCountries'))
-                          : selected
+                        selected === 'All' ? (regionSelected !== 'All' ? t('common.allCountriesInRegion') : t('common.allCountries')) : selected
                       }
                     >
                       <MenuItem value="All">
@@ -386,7 +384,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">{t('common.selectPathotypes')}</Typography>
-                      <Tooltip title="If there are too many pathotypes, only the first 20 are shown" placement="top">
+                      <Tooltip title={t('common.pathotypeTooltip')} placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
                     </div>
@@ -465,7 +463,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                   <div className={classes.selectWrapper}>
                     <div className={classes.labelWrapper}>
                       <Typography variant="caption">{t('common.selectMarkers')}</Typography>
-                      <Tooltip title="Only the first 20 options are shown at a time" placement="top">
+                      <Tooltip title={t('common.markersTooltip')} placement="top">
                         <InfoOutlined color="action" fontSize="small" className={classes.labelTooltipIcon} />
                       </Tooltip>
                     </div>
@@ -499,7 +497,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
                         disableAutoFocusItem: true,
                         classes: { paper: classes.menuPaper, list: classes.selectMenu },
                       }}
-                      renderValue={selected => <div>{`${t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: yAxisOptions?.length ?? 0 })}`}</div>}
+                      renderValue={selected => <div>{t('common.selectedOfTotal', { selected: selected?.length ?? 0, total: yAxisOptions.length ?? 0 })}</div>}
                       onClose={() => setMarkerSearch('')}
                     >
                       <Box className={classes.selectSearch} onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>
@@ -528,8 +526,7 @@ export const BubbleMarkersPathotypeHeatmapGraph = ({ showFilter, setShowFilter }
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

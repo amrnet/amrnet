@@ -54,6 +54,7 @@ import { SliderSizes } from '../../Slider/SliderSizes';
 import GenotypePatternRect, { sanitizeId } from '../GenotypePatternRect.js';
 import { useStyles } from './DistributionGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useTranslation } from 'react-i18next';
 
 const dataViewOptions = [
@@ -61,7 +62,7 @@ const dataViewOptions = [
   { label: 'Percentage per year', value: 'percentage' },
 ];
 
-export const DistributionGraph = ({ showFilter, setShowFilter }) => {
+export const DistributionGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
@@ -689,8 +690,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
           </div>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -744,8 +744,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
               )}
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

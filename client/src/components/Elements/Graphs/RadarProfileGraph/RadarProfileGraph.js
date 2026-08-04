@@ -34,6 +34,7 @@ import {
 } from '../../../../util/drugs';
 import { getLocalizedCountryName } from '../../../../util/countryLocalization';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useStyles } from './RadarProfileGraphMUI';
 
 // Column lookups for all styphi drugs (including MDR/XDR/Pansusceptible)
@@ -71,7 +72,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   );
 };
 
-export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
+export const RadarProfileGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
   const [selectedCountries, setSelectedCountries] = useState([]);
@@ -426,8 +427,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
       </Box>
 
       {/* Floating plotting-options panel — mirrors BubbleHeatmapGraph2 / SerotypeResistanceGraph */}
-      {showFilter && !loadingPDF && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !loadingPDF} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -542,8 +542,7 @@ export const RadarProfileGraph = ({ showFilter, setShowFilter }) => {
               )}
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

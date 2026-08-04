@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, FilterList, FilterListOff, Public } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, Public } from '@mui/icons-material';
 import { ShareButton } from '../Shared/ShareButton';
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup } from 'react-simple-maps';
 import ReactTooltip from 'react-tooltip';
@@ -27,6 +27,7 @@ import { BottomLeftControls } from './BottomLeftControls';
 import { MapActions } from './MapActions/MapActions';
 import { differentColorScale, redColorScale, samplesColorScale, sensitiveColorScale } from './mapColorHelper';
 import { MapFilters } from './MapFilters/MapFilters';
+import { PlottingOptionsEditButton } from '../Shared/PlottingOptionsEditButton';
 import { useStyles } from './MapMUI';
 import { getLocalizedCountryName } from '../../../util/countryLocalization';
 
@@ -50,6 +51,7 @@ export const Map = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
   const [showFilter, setShowFilter] = useState(!matches500);
+  const editButtonRef = useRef(null);
   const { t, i18n } = useTranslation();
 
   const dispatch = useAppDispatch();
@@ -356,21 +358,18 @@ export const Map = () => {
               </Typography>
             )}
           </div>
+          {collapses['map'] && (
+            <PlottingOptionsEditButton
+              ref={editButtonRef}
+              active={showFilter}
+              onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+            />
+          )}
         </div>
         <div className={classes.actionsWrapper}>
           {collapses['map'] && (
             <>
               <MapActions />
-              <Tooltip
-                title={t(showFilter ? 'dashboard.tooltip.hideFilters' : 'dashboard.tooltip.showFilters')}
-                placement="top"
-              >
-                <span>
-                  <IconButton color="primary" onClick={event => handleClickFilter(event)}>
-                    {showFilter ? <FilterListOff /> : <FilterList />}
-                  </IconButton>
-                </span>
-              </Tooltip>
               <ShareButton organism={organism} section="Global Overview" />
             </>
           )}
@@ -673,7 +672,7 @@ export const Map = () => {
               </div>
             )}
           </ReactTooltip>
-          <MapFilters showFilter={showFilter} setShowFilter={setShowFilter} />
+          <MapFilters showFilter={showFilter} setShowFilter={setShowFilter} anchorRef={editButtonRef} />
         </CardContent>
       </Collapse>
     </Card>

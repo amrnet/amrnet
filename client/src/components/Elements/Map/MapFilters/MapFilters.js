@@ -1,4 +1,5 @@
 import { Clear, Close, InfoOutlined } from '@mui/icons-material';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import {
   Box,
   Button,
@@ -71,7 +72,7 @@ const INFO_ICON_TEXT_KEYS = {
   sentericaints: 'dashboard.filters.plotOptions.info.sentericaints',
 };
 
-export const MapFilters = ({ showFilter, setShowFilter }) => {
+export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
   const classes = useStyles();
   const [genotypeSearch, setGenotypeSearch] = useState('');
   const prevMapViewRef = useRef(null);
@@ -195,6 +196,9 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   ]);
 
   useEffect(() => {
+    // Don't reset while the panel is hidden (including during the close animation).
+    if (!showFilter) return;
+
     const mapViewChanged = prevMapViewRef.current !== mapView;
     const organismChanged = prevOrganismRef.current !== organism;
 
@@ -242,7 +246,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     dispatch(setPrevalenceMapViewOptionsSelected(nonResistanceOptions[0] ? [nonResistanceOptions[0]] : []));
-  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions, organism, mapView]);
+  }, [dispatch, isNGMASTPrevalence, isResPrevalence, nonResistanceOptions, resistanceOptions, organism, mapView, showFilter]);
 
   const currentMapLegends = useMemo(() => {
     return mapLegends.filter(legend => legend.organisms.includes(organism));
@@ -509,12 +513,8 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     setGenotypeSearch('');
   }
 
-  if (!showFilter || loadingMap || loadingData) {
-    return null;
-  }
-
   return (
-    <Box className={classes.floatingFilter}>
+    <PlottingOptionsPanel show={showFilter && !loadingMap && !loadingData} className={classes.floatingFilter} anchorRef={anchorRef}>
       <Card elevation={3}>
         <CardContent>
           <div className={classes.titleWrapper}>
@@ -763,6 +763,6 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
           </div>
         </CardContent>
       </Card>
-    </Box>
+    </PlottingOptionsPanel>
   );
 };

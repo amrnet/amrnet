@@ -37,6 +37,7 @@ import { SelectCountry } from '../../SelectCountry';
 import { SliderSizes } from '../../Slider/SliderSizes';
 import { useStyles } from './DeterminantsGraphMUI';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 
 const dataViewOptions = [
   {
@@ -51,7 +52,7 @@ const dataViewOptions = [
   },
 ];
 
-export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
+export const DeterminantsGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const [currentTooltip, setCurrentTooltip] = useState(null);
   // const [topXGenotypes, setTopXGenotypes] = useState([]);
@@ -395,8 +396,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
           </div>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -445,8 +445,7 @@ export const DeterminantsGraph = ({ showFilter, setShowFilter }) => {
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

@@ -1,4 +1,4 @@
-import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff } from '@mui/icons-material';
+import { CameraAlt, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { ShareButton } from '../Shared/ShareButton';
 import {
   Alert,
@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import domtoimage from 'dom-to-image-more';
 import download from 'downloadjs';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
@@ -27,6 +27,7 @@ import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 import { DownloadMapViewData } from '../Map/MapActions/DownloadMapViewData';
 import { BubbleGeographicGraph } from './BubbleGeographicGraph';
+import { PlottingOptionsEditButton } from '../Shared/PlottingOptionsEditButton';
 import { useStyles } from './ContinentGraphsMUI';
 import { RadarProfileGraph } from '../Graphs/RadarProfileGraph/RadarProfileGraph';
 import { ChartErrorBoundary } from '../Shared/ChartErrorBoundary';
@@ -60,6 +61,7 @@ export const ContinentGraphs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
   const [showFilter, setShowFilter] = useState(!matches500);
+  const editButtonRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const matches1000 = useMediaQuery('(max-width:1000px)');
   const { t } = useTranslation();
@@ -87,8 +89,8 @@ export const ContinentGraphs = () => {
   }, [organism]);
 
   const showFilterFull = useMemo(() => {
-    return showFilter && !loadingData && !loadingMap;
-  }, [loadingData, loadingMap, showFilter]);
+    return !!collapses['continent'] && showFilter && !loadingData && !loadingMap;
+  }, [collapses, loadingData, loadingMap, showFilter]);
 
   const filteredTABS = useMemo(() => TABS.filter(tab => !tab.notShow.includes(organism)), [organism]);
 
@@ -304,6 +306,13 @@ export const ContinentGraphs = () => {
                 </Typography>
               )}
             </div>
+            {collapses['continent'] && (
+              <PlottingOptionsEditButton
+                ref={editButtonRef}
+                active={showFilter}
+                onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+              />
+            )}
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['continent'] && (
@@ -322,18 +331,6 @@ export const ContinentGraphs = () => {
                   <span>
                     <IconButton color="primary" onClick={event => handleClick(event)} disabled={organism === 'none'}>
                       {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
-                    </IconButton>
-                  </span>
-                </Tooltip>
-                <Tooltip
-                  title={
-                    showFilter ? t('continentGraphs.tooltip.hideFilters') : t('continentGraphs.tooltip.showFilters')
-                  }
-                  placement="top"
-                >
-                  <span>
-                    <IconButton color="primary" onClick={event => handleClickFilter(event)}>
-                      {showFilter ? <FilterListOff /> : <FilterList />}
                     </IconButton>
                   </span>
                 </Tooltip>
@@ -376,7 +373,7 @@ export const ContinentGraphs = () => {
                   zIndex={currentTab === card.value ? 1 : -100}
                 >
                   <ChartErrorBoundary label={`ContinentGraphs:${card.value}:${card.component.type?.name || 'Tab'}`}>
-                    {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                    {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter, filterButtonRef: editButtonRef })}
                   </ChartErrorBoundary>
                 </Box>
               );
