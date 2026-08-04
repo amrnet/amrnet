@@ -457,6 +457,21 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     [filteredNonResistanceOptions, nonResistanceOptions, organismHasLotsOfGenotypes],
   );
 
+  // For the 'LIN code prevalence' view, "Select all" targets every LIN code that
+  // matches the current prefix search (all of them, not just the 20 shown), so
+  // the user can colour a whole prefix at once (Kat's request). For other views
+  // it keeps the previous behaviour (the full option set).
+  const selectAllOptions = useMemo(() => {
+    if (!isLinCodePrevalence) return currentOptions;
+    const s = genotypeSearch.toLowerCase();
+    return nonResistanceOptions.filter(o => o.toLowerCase().startsWith(s));
+  }, [isLinCodePrevalence, genotypeSearch, nonResistanceOptions, currentOptions]);
+
+  const allTargetSelected = useMemo(
+    () => selectAllOptions.length > 0 && selectAllOptions.every(o => optionsSelected.includes(o)),
+    [selectAllOptions, optionsSelected],
+  );
+
   function handleNonResistanceChange({ event = null, all = false }) {
     const value = event?.target.value;
 
@@ -474,16 +489,14 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    if (currentOptions.length === optionsSelected.length) {
-      dispatch(isNGMASTPrevalence ? setCustomDropdownMapViewNG([]) : setPrevalenceMapViewOptionsSelected([]));
-      return;
-    }
+    // "Select all" toggle: if the whole target set is already selected, remove
+    // it; otherwise add it (union with the existing selection, so multiple
+    // prefixes can be accumulated on the LIN code view).
+    const next = allTargetSelected
+      ? optionsSelected.filter(o => !selectAllOptions.includes(o))
+      : [...new Set([...optionsSelected, ...selectAllOptions])];
 
-    dispatch(
-      isNGMASTPrevalence
-        ? setCustomDropdownMapViewNG(currentOptions)
-        : setPrevalenceMapViewOptionsSelected(currentOptions),
-    );
+    dispatch(isNGMASTPrevalence ? setCustomDropdownMapViewNG(next) : setPrevalenceMapViewOptionsSelected(next));
   }
 
   function hangleChangeSearch(event) {
@@ -683,11 +696,13 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                             className={classes.selectButton}
                             onClick={() => handleNonResistanceChange({ all: true })}
                             disabled={organism === 'none'}
-                            color={currentOptions.length === optionsSelected.length ? 'error' : 'primary'}
+                            color={allTargetSelected ? 'error' : 'primary'}
                           >
-                            {currentOptions.length === optionsSelected.length
+                            {allTargetSelected
                               ? t('dashboard.filters.plotOptions.clearAll')
-                              : t('dashboard.filters.plotOptions.selectAll')}
+                              : isLinCodePrevalence && genotypeSearch
+                                ? t('dashboard.filters.plotOptions.selectAllMatching', 'Select all matching')
+                                : t('dashboard.filters.plotOptions.selectAll')}
                           </Button>
                         }
                         inputProps={{ className: classes.multipleSelectInput }}
