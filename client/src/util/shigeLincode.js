@@ -117,15 +117,16 @@ export function shigeSpeciesCode(pathovar) {
 export function shigeGenotypeLabel(item) {
   if (!item) return null;
   const code = shigeSpeciesCode(item.Pathovar);
-  const st = item.GENOTYPE && item.GENOTYPE !== '-' ? item.GENOTYPE : null;
+  // EIEC has no fine genotype in the (Shigella-centric) LINcode scheme — it is
+  // shown by ST in the 'ST prevalence' view, not here.
+  if (code === 'EIEC') return null;
 
-  if (code === 'EIEC') return st ? `EIEC ${st}` : null;
-
+  // 'Genotype prevalence' shows genotypes only — never an ST. Genomes with no
+  // LINcode-mapped genotype are simply absent from this view (they appear under
+  // 'ST prevalence'); we do NOT fall back to a species+ST label, which would
+  // mix STs and genotypes in the same dropdown.
   const { numeric } = deriveShigeLincode(resolveShigeLincode(item));
-  if (numeric) {
-    if (!code) return numeric;
-    return numeric.toLowerCase().startsWith(code.toLowerCase()) ? numeric : `${code} ${numeric}`;
-  }
-  // Shigella species with no genotype match — fall back to the species-prefixed ST.
-  return code && st ? `${code} ${st}` : null;
+  if (!numeric) return null;
+  if (!code) return numeric;
+  return numeric.toLowerCase().startsWith(code.toLowerCase()) ? numeric : `${code} ${numeric}`;
 }
