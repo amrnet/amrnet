@@ -700,9 +700,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                           >
                             {allTargetSelected
                               ? t('dashboard.filters.plotOptions.clearAll')
-                              : isLinCodePrevalence && genotypeSearch
-                                ? t('dashboard.filters.plotOptions.selectAllMatching', 'Select all matching')
-                                : t('dashboard.filters.plotOptions.selectAll')}
+                              : t('dashboard.filters.plotOptions.selectAll')}
                           </Button>
                         }
                         inputProps={{ className: classes.multipleSelectInput }}

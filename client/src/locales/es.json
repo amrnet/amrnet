@@ -68,8 +68,7 @@
           "kpneumo": "Los tipos de secuencia se etiquetan como MLST de 7 loci",
           "shige": "Los linajes se etiquetan como Especie + clúster HC400",
           "sentericaints": "Los linajes se etiquetan como MLST de 7 loci y clúster HC150(305,1547,48,9882,728,12675,2452)"
-        },
-        "selectAllMatching": "Seleccionar todos los coincidentes"
+        }
       }
     },
     "mapViews": {
