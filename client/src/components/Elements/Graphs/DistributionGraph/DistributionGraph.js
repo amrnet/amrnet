@@ -42,7 +42,11 @@ import {
   setTopXGenotype,
 } from '../../../../stores/slices/graphSlice.ts';
 import { generatePalleteForGenotypes, hoverColor, lightGrey } from '../../../../util/colorHelper';
-import { variableGraphOptions, variableGraphOptionsNG } from '../../../../util/convergenceVariablesOptions';
+import {
+  variableGraphOptions,
+  variableGraphOptionsNG,
+  variableGraphOptionsShige,
+} from '../../../../util/convergenceVariablesOptions';
 import { getRange } from '../../../../util/helpers';
 import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { SelectCountry } from '../../SelectCountry';
@@ -83,6 +87,11 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
   const currentData = useMemo(() => {
     const base = (() => {
+      if (organism === 'shige') {
+        // ST (GENOTYPE) trends, or the LINcode-derived genotype trends stored
+        // in the cgST trend slot.
+        return distributionGraphVariable === 'lincodeNumeric' ? cgSTYearData : genotypesYearData;
+      }
       if (organism !== 'kpneumo' && organism !== 'ngono') {
         return genotypesYearData;
       }
@@ -533,9 +542,16 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
 
           <ChartTooltip
             cursor={currentData !== 0 ? { fill: hoverColor } : false}
-            content={({ payload, active, label }) =>
-              active && payload ? <div className={classes.chartTooltipLabel}>{label}</div> : null
-            }
+            content={({ payload, active, label }) => {
+              if (!active || !payload?.length) return null;
+              const count = payload[0]?.payload?.count;
+              return (
+                <div className={classes.chartTooltipLabel}>
+                  <Typography variant="body2" fontWeight={600}>{label}</Typography>
+                  {count != null && <Typography variant="caption">N = {count}</Typography>}
+                </div>
+              );
+            }}
           />
 
           {topXGenotype.map((genotype, i) => {
@@ -617,11 +633,11 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
             {currentTooltip ? (
               <div className={classes.tooltip}>
                 <div className={classes.tooltipTitle}>
-                  <Typography variant="h5" fontWeight="600">
+                  <Typography fontSize="15px" fontWeight="600">
                     {currentTooltip.name}
                   </Typography>
                   {currentTooltip.count !== 'ID' && (
-                    <Typography variant="subtitle1">{'N = ' + currentTooltip.count}</Typography>
+                    <Typography fontSize="13px">{'N = ' + currentTooltip.count}</Typography>
                   )}
                 </div>
                 {currentTooltip.count === 'ID' ? (
@@ -655,11 +671,11 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                           )}
 
                           <div className={classes.tooltipItemStats}>
-                            <Typography variant="body2" fontWeight="500">
+                            <Typography fontSize="11px" fontWeight="500" noWrap sx={{ flex: 1, minWidth: 0 }}>
                               {item.label}
                             </Typography>
-                            <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                            <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                            <Typography fontSize="11px" noWrap sx={{ whiteSpace: 'nowrap' }}>{`N=${item.count}`}</Typography>
+                            <Typography fontSize="11px" sx={{ whiteSpace: 'nowrap' }}>{`${item.percentage}%`}</Typography>
                           </div>
                         </div>
                       );
@@ -699,7 +715,7 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                   })}
                 </Select>
               </div>
-              {(organism === 'kpneumo' || organism === 'ngono') && (
+              {(organism === 'kpneumo' || organism === 'ngono' || organism === 'shige') && (
                 <div className={classes.selectWrapper}>
                   <div className={classes.labelWrapper}>
                     <Typography variant="caption">Select variable</Typography>
@@ -711,21 +727,18 @@ export const DistributionGraph = ({ showFilter, setShowFilter }) => {
                     MenuProps={{ classes: { list: classes.selectMenu } }}
                     disabled={organism === 'none'}
                   >
-                    {organism === 'ngono'
-                      ? variableGraphOptionsNG.map((option, index) => {
-                          return (
-                            <MenuItem key={index + 'distribution-variable'} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          );
-                        })
-                      : variableGraphOptions.map((option, index) => {
-                          return (
-                            <MenuItem key={index + 'distribution-variable'} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          );
-                        })}
+                    {(organism === 'ngono'
+                      ? variableGraphOptionsNG
+                      : organism === 'shige'
+                        ? variableGraphOptionsShige
+                        : variableGraphOptions
+                    ).map((option, index) => {
+                      return (
+                        <MenuItem key={index + 'distribution-variable'} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </div>
               )}

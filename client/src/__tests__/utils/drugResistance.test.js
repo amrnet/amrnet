@@ -26,15 +26,25 @@ function isResistant(record, column) {
   return !isEmpty(record[column]);
 }
 
-/** Count ciprofloxacin resistance markers in a Quinolone field. */
-function countMarkers(quinoloneField) {
+/**
+ * Count ciprofloxacin resistance determinants in a Quinolone field.
+ * Organism-scoped, mirroring filters.js:
+ *  - ecoli/shige/decoli (reviewer strict): gyrA & parC QRDR + qnr; gyrB/parE and
+ *    aac(6')-Ib-cr excluded (aac alone is wildtype + S, ECO1001).
+ *  - salmonella (senterica/sentericaints): broader legacy matcher (gyrA/B +
+ *    parC/E + aac(6')-Ib-cr), unchanged.
+ */
+const STRICT_CIP_ORGANISMS = ['ecoli', 'shige', 'decoli'];
+function countMarkers(quinoloneField, organism) {
   if (!quinoloneField || quinoloneField === '-' || quinoloneField === '') return 0;
-  const qrdrPattern = /gyr[AB]|par[CE]/i;
-  const qnrPattern = /qnr[A-Z]/i;
-  const aacCrPattern = /aac.*Ib.*cr/i;
+  const strict = STRICT_CIP_ORGANISMS.includes(organism);
+  const qrdr = strict ? /gyrA|parC/i : /gyr[AB]|par[CE]/i;
+  const qnr = /qnr[A-Z]/i;
+  const aacCr = /aac.*Ib.*cr/i;
   let n = 0;
   quinoloneField.split(';').map(e => e.trim()).forEach(entry => {
-    if (qrdrPattern.test(entry) || qnrPattern.test(entry) || aacCrPattern.test(entry)) n++;
+    if (qnr.test(entry)) n++;
+    else if (strict ? qrdr.test(entry) : qrdr.test(entry) || aacCr.test(entry)) n++;
   });
   return n;
 }
@@ -155,36 +165,59 @@ describe('Gene list splitting', () => {
 // Tests: Ciprofloxacin marker counting
 // ─────────────────────────────────────────────────────────────
 
-describe('countMarkers (generic Quinolone detection)', () => {
+describe('countMarkers — E. coli / Shigella / decoli (reviewer strict rule)', () => {
+  const ORG = 'shige'; // any of ecoli/shige/decoli
   test('returns 0 for empty fields', () => {
-    expect(countMarkers('')).toBe(0);
-    expect(countMarkers('-')).toBe(0);
-    expect(countMarkers(null)).toBe(0);
-    expect(countMarkers(undefined)).toBe(0);
+    expect(countMarkers('', ORG)).toBe(0);
+    expect(countMarkers('-', ORG)).toBe(0);
+    expect(countMarkers(null, ORG)).toBe(0);
+    expect(countMarkers(undefined, ORG)).toBe(0);
   });
 
   test('counts gyrA mutations', () => {
-    expect(countMarkers('gyrA_S83F')).toBe(1);
-    expect(countMarkers('gyrA_S83F; gyrA_D87N')).toBe(2);
+    expect(countMarkers('gyrA_S83F', ORG)).toBe(1);
+    expect(countMarkers('gyrA_S83F; gyrA_D87N', ORG)).toBe(2);
   });
 
   test('counts qnr genes', () => {
-    expect(countMarkers('qnrS1')).toBe(1);
-    expect(countMarkers('qnrB4; qnrS1')).toBe(2);
+    expect(countMarkers('qnrS1', ORG)).toBe(1);
+    expect(countMarkers('qnrB4; qnrS1', ORG)).toBe(2);
   });
 
-  test('counts aac(6\')-Ib-cr', () => {
-    expect(countMarkers("aac(6')-Ib-cr")).toBe(1);
+  test('excludes aac(6\')-Ib-cr (wildtype + S, not a CipNS/R determinant)', () => {
+    expect(countMarkers("aac(6')-Ib-cr", ORG)).toBe(0);
+    // aac(6')-Ib-cr alongside a real QRDR mutation: only the QRDR counts → CipNS, not CipR.
+    expect(countMarkers("aac(6')-Ib-cr; gyrA_S83F", ORG)).toBe(1);
   });
 
-  test('counts parC and parE mutations', () => {
-    expect(countMarkers('parC_S80I')).toBe(1);
-    expect(countMarkers('parE_D420N')).toBe(1);
+  test('counts parC but not parE/gyrB (only gyrA/parC QRDR per reviewer logic)', () => {
+    expect(countMarkers('parC_S80I', ORG)).toBe(1);
+    expect(countMarkers('parE_D420N', ORG)).toBe(0);
+    expect(countMarkers('gyrB_S464F', ORG)).toBe(0);
+  });
+
+  test('CipR combos count 2', () => {
+    expect(countMarkers('gyrA_S83L; parC_S80I', ORG)).toBe(2);
+    expect(countMarkers('gyrA_S83F; qnrB19', ORG)).toBe(2);
   });
 
   test('ignores unrelated genes', () => {
-    expect(countMarkers('aadA2')).toBe(0); // aminoglycoside, not quinolone
-    expect(countMarkers('blaTEM-1')).toBe(0); // beta-lactam
+    expect(countMarkers('aadA2', ORG)).toBe(0); // aminoglycoside, not quinolone
+    expect(countMarkers('blaTEM-1', ORG)).toBe(0); // beta-lactam
+  });
+});
+
+describe('countMarkers — Salmonella (legacy broader matcher, unchanged)', () => {
+  const ORG = 'senterica'; // also sentericaints
+  test('still counts gyrB / parE / aac(6\')-Ib-cr (not restricted like ecoli/shige)', () => {
+    expect(countMarkers('gyrB_S464F', ORG)).toBe(1);
+    expect(countMarkers('parE_D420N', ORG)).toBe(1);
+    expect(countMarkers("aac(6')-Ib-cr", ORG)).toBe(1);
+  });
+  test('counts gyrA/parC/qnr like before', () => {
+    expect(countMarkers('gyrA_S83F', ORG)).toBe(1);
+    expect(countMarkers('gyrA_S83L; parC_S80I', ORG)).toBe(2);
+    expect(countMarkers('qnrS1', ORG)).toBe(1);
   });
 });
 

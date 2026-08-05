@@ -41,6 +41,7 @@ interface GraphState {
   genotypesDrugsData: Array<any>;
   genotypesDrugClassesData: Array<any>;
   ngMastDrugClassesData: Array<any>;
+  lincodeDrugClassesData: { [drugClass: string]: any };
   determinantsGraphView: string;
   determinantsGraphDrugClass: string;
   trendsGraphDrugClass: string;
@@ -92,7 +93,9 @@ interface GraphState {
   drugGene: string;
   coloredOptions: Array<any>;
   bubbleMarkersHeatmapGraphData: Array<any>;
+  pathotypesDrugClassesData: { [drugClass: string]: any };
   rawOrganismData: Array<any>;
+  allOrganismData: Array<any>;
 }
 
 const initialState: GraphState = {
@@ -112,6 +115,7 @@ const initialState: GraphState = {
   genotypesDrugsData: [],
   genotypesDrugClassesData: [],
   ngMastDrugClassesData: [],
+  lincodeDrugClassesData: {},
   genotypesAndDrugsYearData: [],
   countriesYearData: [],
   regionsYearData: [],
@@ -180,7 +184,9 @@ const initialState: GraphState = {
   drugGene: '',
   coloredOptions: [],
   bubbleMarkersHeatmapGraphData: [],
+  pathotypesDrugClassesData: {},
   rawOrganismData: [],
+  allOrganismData: [],
 };
 
 export const graphSlice = createSlice({
@@ -267,6 +273,12 @@ export const graphSlice = createSlice({
     },
     setNgMastDrugClassesData: (state, action: PayloadAction<Array<any>>) => {
       state.ngMastDrugClassesData = action.payload;
+    },
+    setLincodeDrugClassesData: (state, action: PayloadAction<{ [drugClass: string]: any }>) => {
+      state.lincodeDrugClassesData = action.payload ?? {};
+    },
+    setPathotypesDrugClassesData: (state, action: PayloadAction<Record<string, any[]>>) => {
+      state.pathotypesDrugClassesData = action.payload;
     },
     setGenotypesAndDrugsYearData: (state, action: PayloadAction<any>) => {
       const payloadObj = action.payload && typeof action.payload === 'object' ? action.payload : ({} as any);
@@ -435,6 +447,9 @@ export const graphSlice = createSlice({
     setRawOrganismData: (state, action: PayloadAction<Array<any>>) => {
       state.rawOrganismData = action.payload;
     },
+    setAllOrganismData: (state, action: PayloadAction<Array<any>>) => {
+      state.allOrganismData = action.payload;
+    },
   },
 });
 
@@ -456,6 +471,8 @@ export const {
   setDeterminantsGraphDrugClass,
   setGenotypesDrugClassesData,
   setNgMastDrugClassesData,
+  setLincodeDrugClassesData,
+  setPathotypesDrugClassesData,
   setGenotypesAndDrugsYearData,
   setTrendsGraphDrugClass,
   setTrendsGraphView,
@@ -519,6 +536,7 @@ export const {
   setColoredOptions,
   setBubbleMarkersHeatmapGraphData,
   setRawOrganismData,
+  setAllOrganismData,
 } = graphSlice.actions;
 
 export default graphSlice.reducer;

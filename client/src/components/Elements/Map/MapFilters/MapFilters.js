@@ -39,6 +39,8 @@ const excludedViews = [
   'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
+  'Lincode prevalence',
+  'LIN code prevalence',
   // 'Resistance prevalence',
 ];
 const mapViewsWithZeroPercentOption = [
@@ -57,6 +59,8 @@ const mapViewsWithZeroPercentOption = [
   'ST prevalence',
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
+  'Lincode prevalence',
+  'LIN code prevalence',
   'Resistance prevalence',
 ];
 
@@ -93,6 +97,10 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   );
   const isOPrevalence = useMemo(() => mapView === 'O prevalence', [mapView]);
   const isOHPrevalence = useMemo(() => mapView === 'H prevalence', [mapView]);
+  // shige LINcode lineage views: numeric (all species) and named alias (S. sonnei only).
+  const isLincodePrevalence = useMemo(() => mapView === 'Lincode prevalence', [mapView]);
+  // shige: the actual LINcode barcode view — searched by 'starts with'.
+  const isLinCodePrevalence = useMemo(() => mapView === 'LIN code prevalence', [mapView]);
 
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
 
@@ -105,7 +113,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
           ? 'O_PREV'
           : isOHPrevalence
             ? 'OH_PREV'
-            : 'GENOTYPE';
+            : isLincodePrevalence
+              ? 'LINCODE_NUM'
+              : isLinCodePrevalence
+                ? 'LINCODE_FULL'
+                : 'GENOTYPE';
     const items = {};
 
     mapData.forEach(obj => {
@@ -122,7 +134,15 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     });
 
     return items;
-  }, [isNGMASTPrevalence, isPathSerPrevalence, isOPrevalence, isOHPrevalence, mapData]);
+  }, [
+    isNGMASTPrevalence,
+    isPathSerPrevalence,
+    isOPrevalence,
+    isOHPrevalence,
+    isLincodePrevalence,
+    isLinCodePrevalence,
+    mapData,
+  ]);
 
   const optionsSelected = useMemo(() => {
     return isNGMASTPrevalence ? customDropdownMapViewNG : prevalenceMapViewOptionsSelected;
@@ -148,8 +168,11 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
   }, [GLNPSEntries]);
 
   const filteredNonResistanceOptions = useMemo(() => {
+    const search = genotypeSearch.toLowerCase();
+    // LIN codes are only meaningful read left-to-right, so the LIN code view
+    // matches by 'starts with' rather than 'contains'.
     const filteredOptions = nonResistanceOptions.filter(option =>
-      option.toLowerCase().includes(genotypeSearch.toLowerCase()),
+      isLinCodePrevalence ? option.toLowerCase().startsWith(search) : option.toLowerCase().includes(search),
     );
 
     if (
@@ -165,6 +188,7 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     isOHPrevalence,
     isOPrevalence,
     isPathSerPrevalence,
+    isLinCodePrevalence,
     nonResistanceOptions,
     organism,
     organismHasLotsOfGenotypes,
@@ -241,6 +265,8 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       case 'Pathotype prevalence':
       case 'O prevalence':
       case 'Lineage prevalence (ST)':
+      case 'Lincode prevalence':
+      case 'LIN code prevalence':
         return gradientStyle;
       case '':
         return [];
@@ -288,6 +314,19 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       return 'NGMAST';
     }
 
+    if (isLinCodePrevalence) {
+      return 'linCodes';
+    }
+
+    if (isLincodePrevalence) {
+      return 'lineages';
+    }
+
+    // 'ST prevalence' plots the 7-locus MLST sequence type — say so explicitly.
+    if (mapView === 'ST prevalence') {
+      return 'sequenceType';
+    }
+
     if (['sentericaints', 'senterica'].includes(organism)) {
       return 'STs';
     }
@@ -296,7 +335,16 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     }
 
     return 'genotypes';
-  }, [isOPrevalence, isOHPrevalence, isPathSerPrevalence, isNGMASTPrevalence, organism]);
+  }, [
+    isOPrevalence,
+    isOHPrevalence,
+    isPathSerPrevalence,
+    isNGMASTPrevalence,
+    isLincodePrevalence,
+    isLinCodePrevalence,
+    mapView,
+    organism,
+  ]);
 
   const nonResPrevalenceLabel = t(`dashboard.filters.plotOptions.labels.${nonResPrevalenceLabelKey}`);
 
@@ -409,6 +457,21 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
     [filteredNonResistanceOptions, nonResistanceOptions, organismHasLotsOfGenotypes],
   );
 
+  // For the 'LIN code prevalence' view, "Select all" targets every LIN code that
+  // matches the current prefix search (all of them, not just the 20 shown), so
+  // the user can colour a whole prefix at once (Kat's request). For other views
+  // it keeps the previous behaviour (the full option set).
+  const selectAllOptions = useMemo(() => {
+    if (!isLinCodePrevalence) return currentOptions;
+    const s = genotypeSearch.toLowerCase();
+    return nonResistanceOptions.filter(o => o.toLowerCase().startsWith(s));
+  }, [isLinCodePrevalence, genotypeSearch, nonResistanceOptions, currentOptions]);
+
+  const allTargetSelected = useMemo(
+    () => selectAllOptions.length > 0 && selectAllOptions.every(o => optionsSelected.includes(o)),
+    [selectAllOptions, optionsSelected],
+  );
+
   function handleNonResistanceChange({ event = null, all = false }) {
     const value = event?.target.value;
 
@@ -426,16 +489,14 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
       return;
     }
 
-    if (currentOptions.length === optionsSelected.length) {
-      dispatch(isNGMASTPrevalence ? setCustomDropdownMapViewNG([]) : setPrevalenceMapViewOptionsSelected([]));
-      return;
-    }
+    // "Select all" toggle: if the whole target set is already selected, remove
+    // it; otherwise add it (union with the existing selection, so multiple
+    // prefixes can be accumulated on the LIN code view).
+    const next = allTargetSelected
+      ? optionsSelected.filter(o => !selectAllOptions.includes(o))
+      : [...new Set([...optionsSelected, ...selectAllOptions])];
 
-    dispatch(
-      isNGMASTPrevalence
-        ? setCustomDropdownMapViewNG(currentOptions)
-        : setPrevalenceMapViewOptionsSelected(currentOptions),
-    );
+    dispatch(isNGMASTPrevalence ? setCustomDropdownMapViewNG(next) : setPrevalenceMapViewOptionsSelected(next));
   }
 
   function hangleChangeSearch(event) {
@@ -635,9 +696,9 @@ export const MapFilters = ({ showFilter, setShowFilter }) => {
                             className={classes.selectButton}
                             onClick={() => handleNonResistanceChange({ all: true })}
                             disabled={organism === 'none'}
-                            color={currentOptions.length === optionsSelected.length ? 'error' : 'primary'}
+                            color={allTargetSelected ? 'error' : 'primary'}
                           >
-                            {currentOptions.length === optionsSelected.length
+                            {allTargetSelected
                               ? t('dashboard.filters.plotOptions.clearAll')
                               : t('dashboard.filters.plotOptions.selectAll')}
                           </Button>

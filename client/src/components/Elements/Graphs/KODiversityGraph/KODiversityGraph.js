@@ -282,7 +282,7 @@ export const KODiversityGraph = () => {
               className={classes.tooltipTitle}
               style={{ justifyContent: 'center', textAlign: 'center', width: '100%' }}
             >
-              <Typography variant="h5" fontWeight="600" align="center" sx={{ width: '100%' }}>
+              <Typography fontSize="15px" fontWeight="600" align="center" sx={{ width: '100%' }}>
                 {currentTooltip.type === 'K_locus' ? 'K locus' : 'O locus'}: {currentTooltip.name}
               </Typography>
             </div>
@@ -303,11 +303,11 @@ export const KODiversityGraph = () => {
                     }}
                   />
                   <div className={classes.tooltipItemStats}>
-                    <Typography variant="body2" fontWeight="500">
+                    <Typography fontSize="11px" fontWeight="500" noWrap sx={{ flex: 1, minWidth: 0 }}>
                       {item.label}
                     </Typography>
-                    <Typography variant="caption" noWrap>{`N = ${item.count}`}</Typography>
-                    <Typography fontSize="10px">{`${item.percentage}%`}</Typography>
+                    <Typography fontSize="11px" noWrap sx={{ whiteSpace: 'nowrap' }}>{`N=${item.count}`}</Typography>
+                    <Typography fontSize="11px" sx={{ whiteSpace: 'nowrap' }}>{`${item.percentage}%`}</Typography>
                   </div>
                 </div>
               ))}

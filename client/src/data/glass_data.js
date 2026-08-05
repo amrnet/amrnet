@@ -129,16 +129,11 @@ export async function fetchGLASSData() {
 
   lastFetchTime = now;
 
-  // Also fetch the compiled GLASS phenotypic CSV
-  try {
-    const phenoResponse = await fetch('/api/glass-phenotypic');
-    if (phenoResponse.ok) {
-      glassDataCache.phenotypic = await phenoResponse.json();
-    }
-  } catch (err) {
-    console.warn('[GLASS] Failed to fetch phenotypic CSV:', err.message);
-    glassDataCache.phenotypic = [];
-  }
+  // The compiled GLASS phenotypic CSV (scraped from the qleclerc/GLASS2022 repo)
+  // was removed on data-governance grounds. Phenotypic AMR now comes only from
+  // the WHO GHO OData indicators above (data.resistance). Kept as an empty array
+  // so downstream consumers (getGLASSPhenotypicByOrganismDrug) stay safe.
+  glassDataCache.phenotypic = [];
 
   return glassDataCache;
 }

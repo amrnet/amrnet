@@ -108,8 +108,22 @@ export const drugClassesNG = Object.keys(drugClassesRulesNG).sort();
 // S. aureus drug list
 export const drugsSA = drugRulesSA.map(x => x.key);
 
+export const defaultDrugsForDrugResistanceGraphSA = [
+  'Daptomycin',
+  'Fusidic Acid',
+  'Linezolid',
+  'Methicillin',
+  'Moxifloxacin',
+  'Mupirocin',
+  'Vancomycin',
+  'Pansusceptible',
+];
+
 // S. pneumoniae drug list
 export const drugsSP = drugRulesSP.map(x => x.key);
+
+// Per review, the S. pneumoniae AMR trends plot opens on Erythromycin.
+export const defaultDrugsForDrugResistanceGraphSP = ['Erythromycin'];
 
 export const drugAcronyms = {
   'Ampicillin/Amoxicillin': 'AMP/AMX',

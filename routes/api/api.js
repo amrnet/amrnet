@@ -3,6 +3,7 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import fs from 'fs';
 import connectDB, { getCollectionCountWithTimeout, getDataWithTimeout } from '../../config/db.js';
+import { STYPHI_PERSONAL_FIELDS_EXCLUSION, stripPersonalFields } from '../../config/personalFields.js';
 
 const router = express.Router();
 
@@ -59,7 +60,7 @@ const readCsvFallback = (filePath, res) => {
       return res.json([]);
     })
     .pipe(csv())
-    .on('data', data => results.push(data))
+    .on('data', data => results.push(stripPersonalFields(data)))
     .on('end', () => {
       return res.json(results);
     });
@@ -69,9 +70,14 @@ const readCsvFallback = (filePath, res) => {
 router.get('/getDataForSTyphi', async function (_req, res) {
   const dbAndCollection = dbAndCollectionNames['styphi'];
   try {
-    const result = await getDataWithTimeout(dbAndCollection.dbName, dbAndCollection.collectionName, {
-      'dashboard view': { $regex: /^include$/, $options: 'i' },
-    });
+    const result = await getDataWithTimeout(
+      dbAndCollection.dbName,
+      dbAndCollection.collectionName,
+      {
+        'dashboard view': { $regex: /^include$/, $options: 'i' },
+      },
+      STYPHI_PERSONAL_FIELDS_EXCLUSION,
+    );
 
     console.log(`[STyphi API] Found ${result.length} documents for STyphi.`);
 

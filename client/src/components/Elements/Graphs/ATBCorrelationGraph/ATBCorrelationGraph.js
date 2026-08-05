@@ -37,6 +37,7 @@ import { useStyles } from './ATBCorrelationGraphMUI';
 
 // WHO GLASS public-facing landing pages — used for the Data Sources panel.
 const GLASS_AMU_URL = 'https://www.who.int/data/gho/data/themes/topics/global-antimicrobial-resistance-and-use-surveillance-system-glass-database';
+const WHO_TERMS_URL = 'https://www.who.int/about/policies/publishing/data-policy/terms-and-conditions';
 const AMRNET_DOCS_URL = 'https://amrnet.readthedocs.io';
 
 // Dynamic color palette for regions (AMRnet uses UN sub-regions from UNR data)
@@ -118,6 +119,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
   const canGetData = useAppSelector(state => state.dashboard.canGetData);
   const actualTimeInitial = useAppSelector(state => state.dashboard.actualTimeInitial);
   const actualTimeFinal = useAppSelector(state => state.dashboard.actualTimeFinal);
+  const loadingPDF = useAppSelector(state => state.dashboard.loadingPDF);
 
   // Build country→region lookup from AMRnet's own region mapping
   const countryToRegion = useMemo(() => buildCountryToRegion(economicRegions), [economicRegions]);
@@ -439,7 +441,7 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
       {/* Floating reference panel — Data Sources content. The inline right
           panel keeps the live chart stats (R², Region Legend) so the dense
           attribution text doesn't compete with them for vertical space. */}
-      {showFilter && (
+      {showFilter && !loadingPDF && (
         <Box className={classes.floatingFilter}>
           <Card elevation={3}>
             <CardContent>
@@ -452,7 +454,8 @@ export const ATBCorrelationGraph = ({ showFilter, setShowFilter }) => {
                   <a href={GLASS_AMU_URL} target="_blank" rel="noopener noreferrer">WHO GLASS-AMC via GHO OData API</a>{' '}
                   ({dataSource === 'glass'
                     ? `${glassData?.consumption?.length || 0} country-year records, 2016–2023`
-                    : 'static fallback, 16 countries, 2020'}). Total antibiotic consumption in DDD/1000 inhabitants/day. GLASS publishes TOTAL consumption, not per-class — so the X value is the same for every ATB class for a given country.
+                    : 'static fallback, 16 countries, 2020'}). Total antibiotic consumption in DDD/1000 inhabitants/day. GLASS publishes TOTAL consumption, not per-class — so the X value is the same for every ATB class for a given country. Obtained directly from WHO and used under the{' '}
+                  <a href={WHO_TERMS_URL} target="_blank" rel="noopener noreferrer">WHO data terms and conditions</a>.
                   <br /><br />
                   <strong>Genomic Resistance (Y):</strong>{' '}
                   <a href={AMRNET_DOCS_URL} target="_blank" rel="noopener noreferrer">AMRnet</a> genome-derived call. Per country: count of genomes resistant to <em>any</em> AMRnet drug in the selected ATB class

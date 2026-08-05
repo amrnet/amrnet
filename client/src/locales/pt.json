@@ -49,7 +49,9 @@
           "NGMAST": "NG-MAST",
           "lineages": "linhagens",
           "STs": "STs",
-          "genotypes": "genótipos"
+          "genotypes": "genótipos",
+          "sequenceType": "tipo de sequência",
+          "linCodes": "LIN codes"
         },
         "definitions": {
           "XDR": {
@@ -75,13 +77,15 @@
       "genotypePrevalence": "Prevalência de genótipos",
       "stPrevalence": "Prevalência de ST",
       "lineagePrevalence": "Prevalência de linhagens",
+      "lincodePrevalence": "Prevalência de Lincode",
       "ngmastPrevalence": "Prevalência NG-MAST",
       "serotypePrevalence": "Prevalência de sorotipos",
       "pathotypePrevalence": "Prevalência de patotipos",
       "oPrevalence": "Prevalência O",
       "hPrevalence": "Prevalência H",
       "ngMastPrevalence": "Prevalência NG-MAST",
-      "dominantGenotype": "Genótipo dominante"
+      "dominantGenotype": "Genótipo dominante",
+      "linCodePrevalence": "Prevalência de LIN code"
     }
   },
   "home": {
@@ -226,6 +230,8 @@
     "serotypeComparisons": "Comparações por Sorotipo",
     "pathotypeComparisons": "Comparações por Patótipo",
     "amrbyserotype": "RAM por sorotipo",
+    "amrbypathotype": "RAM por Patótipo",
+    "amrMarkerByPathotype": "Marcador RAM por Patótipo",
     "topGenotypesUpTo10": "Principais Genótipos (até 10)",
     "topGenotypesUpTo30": "Principais Genótipos (até 30)",
     "radarProfile": "Perfil Radar de RAM",
@@ -236,7 +242,8 @@
     "emergenceRateDescription": "Mudança anual média na prevalência de resistência (%/ano) — identifica resistência em aceleração",
     "qrdrMutations": "Mutações QRDR",
     "vaccineCoverage": "Cobertura vacinal",
-    "convergenceMap": "Convergência virulência × resistência"
+    "convergenceMap": "Convergência virulência × resistência",
+    "amrBySerotype": "RAM por sorotipo"
   },
   "amrInsights": {
     "title": "Análises de RAM",
@@ -528,7 +535,8 @@
     "selectDrugsToCompare": "Selecionar medicamentos para comparar",
     "allCountries": "Todos os países",
     "allCountriesInRegion": "Todos os países da região",
-    "selectACountry": "Selecionar um país"
+    "selectACountry": "Selecionar um país",
+    "selectPathotypes": "Selecionar patotipos"
   },
   "pdf": {
     "reportInformation": "Informações do relatório",

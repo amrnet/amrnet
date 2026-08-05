@@ -19,19 +19,14 @@ import { isTouchDevice } from '../../../util/isTouchDevice';
 import { ChartErrorBoundary } from '../Graphs/../Shared/ChartErrorBoundary';
 import { InsightsActions } from './InsightsActions';
 import { ATBCorrelationGraph } from '../Graphs/ATBCorrelationGraph';
-import { CooccurrenceGraph } from '../Graphs/CooccurrenceGraph';
 import { GeneMapGraph } from '../Graphs/GeneMapGraph';
 import { GenomicVsPhenotypicGraph } from '../Graphs/GenomicVsPhenotypicGraph';
 import { useStyles } from './AMRInsightsMUI';
 
+// NOTE: AMR Co-occurrence was moved to the Summary Plots section (it is a
+// genome-only plot, not a genomic-vs-other-data comparison). See graphCards.js
+// id 'COO'.
 const TABS = [
-  {
-    labelKey: 'amrInsights.tabs.cooccurrence',
-    value: 'COO',
-    component: <CooccurrenceGraph />,
-    onlyFor: null,
-    hasFilter: false,
-  },
   {
     labelKey: 'amrInsights.tabs.genomicVsPhenotypic',
     value: 'GVP',
@@ -58,7 +53,7 @@ const TABS = [
 export const AMRInsights = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
-  const [currentTab, setCurrentTab] = useState('COO');
+  const [currentTab, setCurrentTab] = useState('GVP');
   const [showFilter, setShowFilter] = useState(!matches500);
   const { t } = useTranslation();
 
@@ -81,7 +76,7 @@ export const AMRInsights = () => {
   // Reset to first visible tab when organism changes and current tab is no longer visible
   useEffect(() => {
     if (!filteredTabs.find(tab => tab.value === currentTab)) {
-      setCurrentTab(filteredTabs[0]?.value ?? 'COO');
+      setCurrentTab(filteredTabs[0]?.value ?? 'GVP');
     }
   }, [filteredTabs, currentTab]);
 
@@ -197,6 +192,7 @@ export const AMRInsights = () => {
             {filteredTabs.map(card => (
               <Box
                 key={`insights-card-${card.value}`}
+                id={`amr-insights-${card.value}`}
                 sx={{
                   position: currentTab === card.value ? 'relative' : 'absolute',
                   top: 0,
