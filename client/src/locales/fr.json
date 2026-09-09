@@ -500,7 +500,7 @@
     "allCountries": "Tous les pays",
     "allCountriesInRegion": "Tous les pays de la région",
     "selectACountry": "Sélectionner un pays",
-    "selectPathotype": "Sélectionner un pathotype",
+    "selectPathotype": "Sélectionner des pathotypes",
     "total": "Total : {{total}}",
     "pathotypeTooltip": "Si trop de pathotypes sont présents, seuls les 20 premiers sont affichés",
     "markersTooltip": "Seules les 20 premières options sont affichées à la fois",
