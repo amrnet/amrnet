@@ -930,13 +930,11 @@ export function getMapData({ data, items, organism, type = 'country' }) {
     }
 
     if (organism === 'shige') {
-      // LINcode lineage dimensions (derived per-genome in Dashboard.getInfoFromData):
-      // numeric label (all species) + named alias (S. sonnei only). Genomes with
-      // no match carry null and are skipped by generateStats' grouping.
+      // LINcode lineage dimension (derived per-genome in Dashboard.getInfoFromData):
+      // numeric label, all species. Genomes with no match carry null and are
+      // skipped by generateStats' grouping.
       stats['LINCODE_NUM'] = { items: [], count: 0 };
       generateStats(itemData, stats, organism, 'LINCODE_NUM', 'lincodeNumeric');
-      stats['LINCODE_ALIAS'] = { items: [], count: 0 };
-      generateStats(itemData, stats, organism, 'LINCODE_ALIAS', 'lincodeAlias');
       // Exact, un-derived LINcode barcode (e.g. "0-2-0-0-0-0-0-1-0-1-0"), grouped
       // directly off the raw field rather than a lineage/alias lookup.
       stats['LINCODE_RAW'] = { items: [], count: 0 };

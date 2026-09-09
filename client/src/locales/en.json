@@ -80,7 +80,6 @@
       "stPrevalence": "ST prevalence",
       "lineagePrevalence": "Lineage prevalence (ST)",
       "lincodePrevalence": "Genotype prevalence",
-      "lincodeAliasPrevalence": "Lincode alias prevalence",
       "linCodePrevalence": "LIN code prevalence",
       "ngmastPrevalence": "NG-MAST prevalence",
       "serotypePrevalence": "Serotype prevalence",
@@ -88,8 +87,7 @@
       "oPrevalence": "O prevalence",
       "hPrevalence": "H prevalence",
       "ngMastPrevalence": "NG-MAST prevalence",
-      "dominantGenotype": "Dominant Genotype",
-      "linCodePrevalence": "LIN code prevalence"
+      "dominantGenotype": "Dominant Genotype"
     }
   },
   "home": {

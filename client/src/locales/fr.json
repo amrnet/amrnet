@@ -80,16 +80,14 @@
       "stPrevalence": "Prévalence des ST",
       "lineagePrevalence": "Prévalence des lignées",
       "lincodePrevalence": "Prévalence Lincode",
-      "lincodeAliasPrevalence": "Prévalence alias Lincode",
-      "linCodePrevalence": "Prévalence du code LIN",
+      "linCodePrevalence": "Prévalence du LIN code",
       "ngmastPrevalence": "Prévalence NG-MAST",
       "serotypePrevalence": "Prévalence des sérotypes",
       "pathotypePrevalence": "Prévalence des pathotypes",
       "oPrevalence": "Prévalence O",
       "hPrevalence": "Prévalence H",
       "ngMastPrevalence": "Prévalence NG-MAST",
-      "dominantGenotype": "Génotype dominant",
-      "linCodePrevalence": "Prévalence du LIN code"
+      "dominantGenotype": "Génotype dominant"
     }
   },
   "home": {

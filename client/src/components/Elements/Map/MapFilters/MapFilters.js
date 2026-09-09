@@ -41,7 +41,6 @@ const excludedViews = [
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
   'Lincode prevalence',
-  'Lincode alias prevalence',
   'LIN code prevalence',
   // 'Resistance prevalence',
 ];
@@ -62,7 +61,6 @@ const mapViewsWithZeroPercentOption = [
   'NG-MAST prevalence',
   'Lineage prevalence (ST)',
   'Lincode prevalence',
-  'Lincode alias prevalence',
   'LIN code prevalence',
   'Resistance prevalence',
 ];
@@ -100,9 +98,8 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
   );
   const isOPrevalence = useMemo(() => mapView === 'O prevalence', [mapView]);
   const isOHPrevalence = useMemo(() => mapView === 'H prevalence', [mapView]);
-  // shige LINcode lineage views: numeric (all species) and named alias (S. sonnei only).
+  // shige LINcode lineage view: the genotype/lineage derived from the LINcode.
   const isLincodePrevalence = useMemo(() => mapView === 'Lincode prevalence', [mapView]);
-  const isLincodeAliasPrevalence = useMemo(() => mapView === 'Lincode alias prevalence', [mapView]);
   // shige raw LINcode barcode view: the exact, un-derived LINcode field (e.g. "0-2-0-0-0-0-0-1-0-1-0"),
   // as opposed to the lineage/alias labels derived from it above.
   const isRawLincodePrevalence = useMemo(() => mapView === 'LIN code prevalence', [mapView]);
@@ -120,11 +117,9 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
             ? 'OH_PREV'
             : isLincodePrevalence
               ? 'LINCODE_NUM'
-              : isLincodeAliasPrevalence
-                ? 'LINCODE_ALIAS'
-                : isRawLincodePrevalence
-                  ? 'LINCODE_RAW'
-                  : 'GENOTYPE';
+              : isRawLincodePrevalence
+                ? 'LINCODE_RAW'
+                : 'GENOTYPE';
     const items = {};
 
     mapData.forEach(obj => {
@@ -147,7 +142,6 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     isOPrevalence,
     isOHPrevalence,
     isLincodePrevalence,
-    isLincodeAliasPrevalence,
     isRawLincodePrevalence,
     mapData,
   ]);
@@ -282,7 +276,6 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
       case 'O prevalence':
       case 'Lineage prevalence (ST)':
       case 'Lincode prevalence':
-      case 'Lincode alias prevalence':
       case 'LIN code prevalence':
         return gradientStyle;
       case '':
@@ -358,7 +351,6 @@ export const MapFilters = ({ showFilter, setShowFilter, anchorRef }) => {
     isPathSerPrevalence,
     isNGMASTPrevalence,
     isLincodePrevalence,
-    isLincodeAliasPrevalence,
     isRawLincodePrevalence,
     organism,
   ]);

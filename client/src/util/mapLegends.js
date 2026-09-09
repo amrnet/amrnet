@@ -75,13 +75,6 @@ export const mapLegends = [
     organisms: ['shige'],
   },
   {
-    // shige: named LINcode alias (populated for S. sonnei only)
-    value: 'Lincode alias prevalence',
-    label: 'Lincode alias prevalence',
-    labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
-    organisms: [''],
-  },
-  {
     // shige: the exact, un-derived LINcode barcode (e.g. "0-2-0-0-0-0-0-1-0-1-0"),
     // as opposed to the lineage/alias labels derived from it above.
     value: 'LIN code prevalence',

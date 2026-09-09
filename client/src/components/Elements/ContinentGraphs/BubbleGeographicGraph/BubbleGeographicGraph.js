@@ -182,12 +182,6 @@ const yOptions = [
     organisms: ['shige'],
   },
   {
-    value: 'lincodeAlias',
-    label: 'Lincode alias prevalence',
-    labelKey: 'dashboard.mapViews.lincodeAliasPrevalence',
-    organisms: [],
-  },
-  {
     value: 'resistance',
     label: 'Resistance prevalence',
     labelKey: 'dashboard.mapViews.resistancePrevalence',
