@@ -116,6 +116,12 @@ router.post('/download', async function (req, res, next) {
     // every raw record in the collection, including genomes not identified/
     // curated as belonging to this organism's dashboard.
     const query = { 'dashboard view': { $regex: /^include$/i } };
+    // The shige collection holds the whole Enterobase E. coli set; restrict to
+    // Shigella/EIEC pathovars (see SHIGE_PATHOVAR_FILTER above) so the export
+    // matches the dashboard instead of exporting every E. coli genome too.
+    if (organism === 'shige') {
+      query.Pathovar = SHIGE_PATHOVAR_FILTER;
+    }
     data = await collection.find(query, findOptions).toArray();
     console.log('2', data.length, 'documents found');
   } catch (err) {
