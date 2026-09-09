@@ -487,6 +487,7 @@ function getMapStatsData({
   noItems = false,
   addNames = false,
   isPan = false,
+  every = false,
 }) {
   const totalLength = itemData.length;
   const columnKeys = Array.isArray(columnKey) ? columnKey : [columnKey];
@@ -497,15 +498,19 @@ function getMapStatsData({
   let resistantGenomeCount = 0; // direct count of genomes passing resistance check
 
   for (const [idx, item] of itemData.entries()) {
-    // Stable per-genome identifier. The fallback MUST be deterministic for a
-    // given record: the map combines multiple drugs by intersecting these name
-    // sets, and getMapStatsData is called once per drug over the same itemData.
-    // The previous fallback (`g${resistantGenomeCount}`) was a running counter,
-    // so the same genome got a different id under each drug and the
-    // intersection was meaningless — e.g. CipR + CipNS did not return CipR even
-    // though CipR is a subset of CipNS. Using the array index keeps the id
-    // stable across drugs.
-    const name = item.Uberstrain || item.Name || item.NAME || item['Genome Name'] || String(item._id ?? `g${idx}`);
+    // Stable, guaranteed-unique per-genome identifier. The map combines multiple
+    // drugs by intersecting these name sets, and getMapStatsData is called once
+    // per drug over the same itemData, so the id must be deterministic AND
+    // collision-free across records. It's used purely for internal set
+    // arithmetic — never rendered — so the array index (stable across drugs
+    // since itemData order is unchanged between calls) is used unconditionally.
+    // A real field like `Name`/`Uberstrain` is NOT safe here: those can repeat
+    // across genuinely different genomes (confirmed duplicates in shige data),
+    // which silently deduplicated the resistant count in one drug's name Set
+    // but not in another's plain counter — e.g. selecting CipR alone reported a
+    // different count than CipR appeared in a CipR+CipNS intersection, even
+    // though CipR is a subset of CipNS.
+    const name = String(idx);
 
     // Special handling for ECOLI-like organisms which use rule sets instead of
     // direct column values. In those cases `statsKey` is the rule name and
@@ -548,7 +553,12 @@ function getMapStatsData({
       }
     } else if (['kpneumo'].includes(organism)) {
       rawValues = columnKeys.map(k => item[k]);
-      if (rawValues.every(val => val === '-')) {
+      // Multi-column rules default to ANY column matching (OR, e.g. Colistin's
+      // acquired/mutations columns). `every: true` (e.g. co-trimoxazole, which
+      // needs both a trimethoprim AND a sulfonamide marker) requires ALL columns
+      // to match instead.
+      const isResistant = every ? rawValues.every(val => val !== '-') : rawValues.some(val => val !== '-');
+      if (!isResistant) {
         if (isPan) {
           allDashCount += 1;
           allDashNames.push(name);
@@ -742,7 +752,7 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
       const sKeys = organism === 'kpneumo' ? statKeys[orgKey].concat(statKeysKPOnlyMarkers) : statKeys[orgKey];
 
       for (const statKeyItem of sKeys) {
-        const { name, column, key, pansusceptible, computed } = statKeyItem;
+        const { name, column, key, pansusceptible, computed, every } = statKeyItem;
         // Skip computed combination drugs (MDR, XDR, CipNS, CipR, PDR) — they don't map to DB columns
         if (computed) continue;
         if (pansusceptible && (organism === 'saureus' || organism === 'strepneumo')) {
@@ -768,6 +778,7 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
           statsKey: ['ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism) ? name : key, // use name for ECOLI rules
           noItems,
           organism,
+          every,
         });
       }
 
@@ -932,7 +943,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       generateStats(itemData, stats, organism, 'LINCODE_RAW', 'LINcode');
     }
 
-    statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key, pansusceptible }) => {
+    statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key, pansusceptible, every }) => {
       if (pansusceptible && (organism === 'saureus' || organism === 'strepneumo')) {
         const drugRules = organism === 'saureus' ? drugRulesSA : drugRulesSP;
         const nonPanRules = drugRules.filter(r => !r.pansusceptible);
@@ -951,6 +962,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
         noItems: name === 'Pansusceptible',
         isPan: name === 'Pansusceptible' && amrLikeOrganisms.includes(organism),
         organism,
+        every,
       });
     });
 

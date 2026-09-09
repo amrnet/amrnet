@@ -84,7 +84,19 @@ export const statKeysKP = [
   { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
-  { name: 'Trimethoprim-sulfamethoxazole', column: ['Tmt_acquired', 'Sul_acquired'], key: '-', resistanceView: true },
+  // Co-trimoxazole needs BOTH determinants (matches drugRulesKP's `every: true`
+  // for this drug): a genome with only a trimethoprim OR only a sulfonamide
+  // marker is not co-trimoxazole resistant. Without `every` here, getMapStatsData
+  // treated any one of the two columns as sufficient, making the map's
+  // "Trimethoprim-sulfamethoxazole" a superset of "Trimethoprim" instead of a
+  // subset — selecting both together did not collapse to the smaller set.
+  {
+    name: 'Trimethoprim-sulfamethoxazole',
+    column: ['Tmt_acquired', 'Sul_acquired'],
+    key: '-',
+    resistanceView: true,
+    every: true,
+  },
   { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0', resistanceView: true },
 ];
 
