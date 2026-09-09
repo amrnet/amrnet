@@ -139,7 +139,7 @@ router.post('/download', async function (req, res, next) {
     if (organism === 'shige') {
       // Curated column set — only the variables the dashboard uses, with the
       // redundant truncated LINcode levels and unused source_* fields dropped.
-      rearrangedHeaderList = SHIGE_EXPORT_COLUMNS.filter(f => header.includes(f));
+      rearrangedHeaderList = SHIGE_EXPORT_COLUMNS.filter(f => headerList.includes(f));
     } else {
       const filteredHeaderList = headerList.filter(
         fieldName =>
