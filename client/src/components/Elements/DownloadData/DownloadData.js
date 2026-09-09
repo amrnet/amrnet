@@ -694,7 +694,7 @@ export const DownloadData = () => {
         const el = document.getElementById(id);
         if (!el) return null;
 
-        const isHeatmap = ['BAMRH', 'HSG2', 'BKOH', 'BG', 'BHP'].includes(id);
+        const isHeatmap = ['BAMRH', 'BAMRPH', 'HSG2', 'BKOH', 'BG', 'BHP'].includes(id);
 
         if (isHeatmap) {
           const originalOverflow = el.style.overflow;
