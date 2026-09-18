@@ -487,6 +487,7 @@ function getMapStatsData({
   noItems = false,
   addNames = false,
   isPan = false,
+  every = false,
 }) {
   const totalLength = itemData.length;
   const columnKeys = Array.isArray(columnKey) ? columnKey : [columnKey];
@@ -548,7 +549,11 @@ function getMapStatsData({
       }
     } else if (['kpneumo'].includes(organism)) {
       rawValues = columnKeys.map(k => item[k]);
-      if (rawValues.every(val => val === '-')) {
+      // Multi-column drugs default to ANY column present (OR). `every: true`
+      // (co-trimoxazole: needs a trimethoprim AND a sulfonamide marker) requires
+      // ALL columns present instead, so it stays a subset of Trimethoprim.
+      const isResistant = every ? rawValues.every(val => val !== '-') : rawValues.some(val => val !== '-');
+      if (!isResistant) {
         if (isPan) {
           allDashCount += 1;
           allDashNames.push(name);
@@ -742,7 +747,7 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
       const sKeys = organism === 'kpneumo' ? statKeys[orgKey].concat(statKeysKPOnlyMarkers) : statKeys[orgKey];
 
       for (const statKeyItem of sKeys) {
-        const { name, column, key, pansusceptible, computed } = statKeyItem;
+        const { name, column, key, pansusceptible, computed, every } = statKeyItem;
         // Skip computed combination drugs (MDR, XDR, CipNS, CipR, PDR) — they don't map to DB columns
         if (computed) continue;
         if (pansusceptible && (organism === 'saureus' || organism === 'strepneumo')) {
@@ -768,6 +773,7 @@ const generateStats = (itemData, stats, organism, statKey, dataKey = 'GENOTYPE',
           statsKey: ['ecoli', 'decoli', 'shige', 'senterica', 'sentericaints'].includes(organism) ? name : key, // use name for ECOLI rules
           noItems,
           organism,
+          every,
         });
       }
 
@@ -930,7 +936,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
       generateStats(itemData, stats, organism, 'LINCODE_FULL', 'LINcode');
     }
 
-    statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key, pansusceptible }) => {
+    statKeys[organism in statKeys ? organism : 'others'].forEach(({ name, column, key, pansusceptible, every }) => {
       if (pansusceptible && (organism === 'saureus' || organism === 'strepneumo')) {
         const drugRules = organism === 'saureus' ? drugRulesSA : drugRulesSP;
         const nonPanRules = drugRules.filter(r => !r.pansusceptible);
@@ -949,6 +955,7 @@ export function getMapData({ data, items, organism, type = 'country' }) {
         noItems: name === 'Pansusceptible',
         isPan: name === 'Pansusceptible' && amrLikeOrganisms.includes(organism),
         organism,
+        every,
       });
     });
 
