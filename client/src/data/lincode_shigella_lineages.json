@@ -1,0 +1,653 @@
+[
+  {
+    "prefix": "0-6-0-1-0-1-2-0-1-2-0",
+    "level": 11,
+    "species": "S. boydii",
+    "numeric": "Sb20",
+    "alias": null
+  },
+  {
+    "prefix": "0-6-0-0-1-0-6-1-4-0-5",
+    "level": 11,
+    "species": "S. boydii",
+    "numeric": "Sb2",
+    "alias": null
+  },
+  {
+    "prefix": "0-36-0-0-0-6-0-0-0-0-0",
+    "level": 11,
+    "species": "S. dysenteriae",
+    "numeric": "linA",
+    "alias": null
+  },
+  {
+    "prefix": "0-6-1-0-3-0-2-0-2-0-0",
+    "level": 11,
+    "species": "S. dysenteriae",
+    "numeric": "Sd16",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-1-0-150-1",
+    "level": 11,
+    "species": "Shigella sonnei",
+    "numeric": "3.6.1.1.1",
+    "alias": "CipR.SEA"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-1-0-1-0",
+    "level": 11,
+    "species": "Shigella sonnei",
+    "numeric": "3.6.1.1.2",
+    "alias": "CipR.MSM5"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-1-0-1",
+    "level": 11,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "OJC"
+  },
+  {
+    "prefix": "0-6-0-1-0-1-3-5-0",
+    "level": 9,
+    "species": "S. boydii",
+    "numeric": "Sb18",
+    "alias": null
+  },
+  {
+    "prefix": "0-6-0-1-0-1-4-0-2",
+    "level": 9,
+    "species": "S. boydii",
+    "numeric": "Sb1",
+    "alias": null
+  },
+  {
+    "prefix": "0-36-0-0-0-3-1-1-6",
+    "level": 9,
+    "species": "S. dysenteriae",
+    "numeric": "Sd1",
+    "alias": null
+  },
+  {
+    "prefix": "0-6-1-0-3-0-3-1-0",
+    "level": 9,
+    "species": "S. dysenteriae",
+    "numeric": "Sd12",
+    "alias": null
+  },
+  {
+    "prefix": "0-12-0-0-1-0-0-0-3",
+    "level": 9,
+    "species": "S. dysenteriae",
+    "numeric": "Sd prov. BEDP 02-5104",
+    "alias": null
+  },
+  {
+    "prefix": "0-6-1-0-2-0-0-0-0",
+    "level": 9,
+    "species": "S. dysenteriae",
+    "numeric": "Sd4",
+    "alias": null
+  },
+  {
+    "prefix": "0-12-0-0-1-0-1-0-1",
+    "level": 9,
+    "species": "S. dysenteriae",
+    "numeric": "Sd2",
+    "alias": null
+  },
+  {
+    "prefix": "0-6-1-0-3-0-0-0-0",
+    "level": 9,
+    "species": "S. dysenteriae",
+    "numeric": "Sd3",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-1-0-0-1-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "1.2.2.5",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-1-0-0-87-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "1.2.2.5.11",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-1-0-0-32-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "1.2.2.5.12",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-1-0-0-6-2",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "1.2.2.5.4",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-1-0-0-7-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "1.2.2.5.6",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-1-0-0-19-2",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "1.2.2.5.9",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-0-0-1-0-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "2.1.2.2",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-0-0-2-1-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "2.1.2.5",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-0-0-2-0-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "2.1.2.6",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-0-0-0-0-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "2.1.2.7",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-0-0-0-1-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "2.1.2.7.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-1-0-0-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "3.1.1.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-0-1-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-1-19-1",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1.3",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-1-0-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1.3.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-0-0-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1.5",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-0-155-1",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1.5.3",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-0-0-1",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1.5.5",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-0-2-0",
+    "level": 9,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1.5.5.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-1-5",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.6.1",
+    "alias": "CipR_parent"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-1-2",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "Central Asia III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-1-1",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.6.3",
+    "alias": "Central Asia III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-1-52",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "Central Asia III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-120",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-130",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.10",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-14",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.11",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-113",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.16",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-21",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.21",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-17",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.22",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-5",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.23",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-4",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.25",
+    "alias": "MSM4"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-158",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "VN2.KH1.Aus"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-132",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.3",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-138",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.30.1",
+    "alias": "Middle East III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-7",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.30.4",
+    "alias": "Israel III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-59",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.4",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-0-3",
+    "level": 9,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.18",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-1-0-0",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "Latin America IIa"
+  },
+  {
+    "prefix": "0-2-0-0-0-1-0-1",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "Latin America IIb"
+  },
+  {
+    "prefix": "0-2-0-0-0-1-0-29",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": "2.11.4",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-1-0-2",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "Latin America IIb"
+  },
+  {
+    "prefix": "0-2-0-0-0-1-0-30",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": "2.7.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-1-0-27",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": "2.7.3",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-1-0-26",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": "2.7.4",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-3",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": "3.4.1",
+    "alias": "Latin America III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-10",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.28",
+    "alias": "Global III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-0-4",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": "3.7.7",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-1-0-3",
+    "level": 8,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "Latin America IIb"
+  },
+  {
+    "prefix": "0-3-0-6-0-0-0",
+    "level": 7,
+    "species": "S. boydii",
+    "numeric": "Sb22",
+    "alias": null
+  },
+  {
+    "prefix": "0-6-1-0-0-0-1",
+    "level": 7,
+    "species": "S. dysenteriae",
+    "numeric": "Sd13",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-2-2-0",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "1.1.5.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-1-0-5",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "1.2.2.2",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-0-0-4",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "2.1.2",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-0-0-3",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "2.1.2.4",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-1-4-0",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "2.3.3.3",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-1-0-0",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "2.3.5",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-1-2-0",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "2.3.6.2",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-1-2",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "3.1.1.3",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-26",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-0-0-6",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "3.2.1.4",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-4-0-0-0",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "6.3.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-2-1-0-0",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "7.3.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-2-1-1-0",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "7.3.2",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-1-1-1-0",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "2.3.8.3",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-0-1-0-2",
+    "level": 7,
+    "species": "Shigella flexneri",
+    "numeric": "1.2.2.4",
+    "alias": null
+  },
+  {
+    "prefix": "0-2-0-0-0-1-2",
+    "level": 7,
+    "species": "Shigella sonnei",
+    "numeric": null,
+    "alias": "Korea II"
+  },
+  {
+    "prefix": "0-2-0-0-0-6-0",
+    "level": 7,
+    "species": "Shigella sonnei",
+    "numeric": "3",
+    "alias": "Lineage III"
+  },
+  {
+    "prefix": "0-2-0-0-0-0-2",
+    "level": 7,
+    "species": "Shigella sonnei",
+    "numeric": "3.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-12-0-1-0",
+    "level": 5,
+    "species": "S. boydii",
+    "numeric": "Sb9",
+    "alias": null
+  },
+  {
+    "prefix": "0-6-0-1-3",
+    "level": 5,
+    "species": "S. boydii",
+    "numeric": "Sb3",
+    "alias": null
+  },
+  {
+    "prefix": "0-12-0-0-2",
+    "level": 5,
+    "species": "S. boydii",
+    "numeric": "Sb15",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-3-1",
+    "level": 5,
+    "species": "Shigella flexneri",
+    "numeric": "4.2",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-3-0",
+    "level": 5,
+    "species": "Shigella flexneri",
+    "numeric": "4.4",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-5-0",
+    "level": 5,
+    "species": "Shigella flexneri",
+    "numeric": "5.2",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-2-0",
+    "level": 5,
+    "species": "Shigella flexneri",
+    "numeric": "7.1",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-2-2",
+    "level": 5,
+    "species": "Shigella flexneri",
+    "numeric": "7.2",
+    "alias": null
+  },
+  {
+    "prefix": "0-3-0-6-0",
+    "level": 5,
+    "species": "Shigella flexneri",
+    "numeric": "9",
+    "alias": null
+  },
+  {
+    "prefix": "0-0-4",
+    "level": 3,
+    "species": "S. dysenteriae",
+    "numeric": "8",
+    "alias": null
+  }
+]

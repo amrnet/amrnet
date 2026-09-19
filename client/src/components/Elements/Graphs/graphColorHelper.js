@@ -22,12 +22,19 @@ const dynamicColors = [
   '#aa8a5b',
   '#DC227F',
   // Extended palette for saureus / strepneumo
-  '#1a6b8a', // 19 - Vancomycin / Teicoplanin (glycopeptides)
+  '#1a6b8a', // 19 - Vancomycin
   '#e65c00', // 20 - Fusidic Acid
   '#7b2fa0', // 21 - Mupirocin
   '#1abc9c', // 22 - Linezolid
   '#6d4c1f', // 23 - Daptomycin
   '#c0392b', // 24 - Rifampicin
+  '#FF6B6B', // 25 - Erythromycin (distinct from Clindamycin)
+  '#00CED1', // 26 - Moxifloxacin (distinct from Ciprofloxacin)
+  '#FF8C00', // 27 - Teicoplanin (distinct from Vancomycin)
+  '#708090', // 28 - slate gray
+  '#556B2F', // 29 - dark olive green
+  '#4169E1', // 30 - royal blue
+  '#BA55D3', // 31 - medium orchid
 ];
 
 // Safe colors for colorblind users - high contrast and distinguishable
@@ -51,14 +58,20 @@ const safeColors = [
   '#d788d5',
   '#a44739',
   '#c75a92',
-  '#9b3b5b',
   // Extended palette for saureus / strepneumo
-  '#1a6b8a', // 19 - Vancomycin / Teicoplanin
+  '#1a6b8a', // 19 - Vancomycin
   '#e65c00', // 20 - Fusidic Acid
   '#7b2fa0', // 21 - Mupirocin
   '#1abc9c', // 22 - Linezolid
   '#6d4c1f', // 23 - Daptomycin
   '#c0392b', // 24 - Rifampicin
+  '#009E73', // 25 - Erythromycin (CVD-safe green, distinct from Clindamycin)
+  '#D55E00', // 26 - Moxifloxacin (CVD-safe vermillion, distinct from Ciprofloxacin)
+  '#E69F00', // 27 - Teicoplanin (CVD-safe orange, distinct from Vancomycin)
+  '#56B4E9', // 28 - sky blue 
+  '#F0E442', // 29 - yellow 
+  '#0072B2', // 30 - blue 
+  '#CC79A7', // 31 - reddish purple 
 ];
 
 const drugColorMap = {
@@ -109,21 +122,21 @@ const drugColorMap = {
   Bleomycin: 15,
   // S. aureus drugs
   Amikacin: 1,       // aminoglycoside
-  Gentamicin: 1,     // aminoglycoside
-  Tobramycin: 1,     // aminoglycoside
-  Kanamycin: 1,      // aminoglycoside
+  Gentamicin: 28,     // aminoglycoside
+  Tobramycin: 29,     // aminoglycoside
+  Kanamycin: 30,      // aminoglycoside
   Methicillin: 0,    // beta-lactam
-  Penicillin: 0,     // beta-lactam
+  Penicillin: 31,     // beta-lactam
   'Fusidic Acid': 20,
   Vancomycin: 19,    // glycopeptide
-  Clindamycin: 13,   // lincosamide (grouped with macrolides)
-  Erythromycin: 13,  // macrolide
+  Clindamycin: 13,   // lincosamide
+  Erythromycin: 25,  // macrolide (distinct index from Clindamycin)
   Mupirocin: 21,
   Linezolid: 22,
   Daptomycin: 23,
   Rifampicin: 24,
-  Moxifloxacin: 8,   // fluoroquinolone
-  Teicoplanin: 19,   // glycopeptide
+  Moxifloxacin: 26,  // fluoroquinolone (distinct index from Ciprofloxacin)
+  Teicoplanin: 27,   // glycopeptide (distinct index from Vancomycin)
   // S. pneumoniae drugs
   Fluoroquinolone: 8,
   Fluoroquinolones: 8,

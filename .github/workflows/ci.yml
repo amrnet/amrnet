@@ -1,0 +1,76 @@
+name: CI
+
+# Runs on every PR into development/main and on pushes to those branches.
+# Two gates:
+#   1. build         — compiles the client (catches missing deps, broken imports,
+#                      syntax/undefined errors — e.g. an undeclared dom-to-image).
+#   2. lint-changed  — runs ESLint ONLY on the source files changed in the PR, so
+#                      new problems (unused imports, etc.) fail the check without
+#                      drowning in the repo's pre-existing lint backlog.
+#
+# Note: no lockfile is committed (package-lock.json / yarn.lock are gitignored),
+# so we use `npm install` rather than `npm ci`.
+
+on:
+  pull_request:
+    branches: [development, main]
+  push:
+    branches: [development, main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# The repo's root .npmrc sets legacy-peer-deps=true, but npm run from client/
+# doesn't read the parent .npmrc, and this dependency tree has peer conflicts
+# (e.g. rodal vs react 18). Set it here so installs resolve like they do locally.
+env:
+  NPM_CONFIG_LEGACY_PEER_DEPS: 'true'
+
+jobs:
+  build:
+    name: Client build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        # Install at the repo root. The root `install` script cascades into
+        # client/, and several client imports (compress-json, jspdf, papaparse,
+        # downloadjs, …) live in the ROOT package.json and resolve via Node's
+        # walk-up to root node_modules — same as local dev and Heroku.
+        run: npm install --no-audit --no-fund
+      - name: Build client
+        # CI=false: don't treat (pre-existing) warnings as errors; we still fail
+        # on real build errors (missing modules, syntax, undefined references).
+        run: cd client && CI=false npm run build
+
+  lint-changed:
+    name: Lint changed files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        # Root install cascades into client/ (where ESLint + its config live).
+        run: npm install --no-audit --no-fund
+      - name: Diff-aware ESLint on changed lines
+        # Fails only on ESLint *errors* located on lines this PR changed, so new
+        # code must be clean without being blocked by the repo's pre-existing
+        # lint backlog in files the PR merely touches.
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+          fi
+          if [ -z "$BASE" ] || ! git cat-file -e "$BASE" 2>/dev/null; then
+            BASE=$(git rev-parse HEAD~1 2>/dev/null || git rev-parse HEAD)
+          fi
+          node .github/scripts/lint-changed.mjs "$BASE" HEAD

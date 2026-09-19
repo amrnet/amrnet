@@ -1,0 +1,116 @@
+species	lineage_label	serotype	prefix	level	n_correct	n_prefix_total	purity
+S. boydii	Sb20	Sb20	0-6-0-1-0-1-2-0-1-2-0	l11	8	8	1
+S. boydii	Sb2	Sb2	0-6-0-0-1-0-6-1-4-0-5	l11	7	7	1
+S. boydii	Sb9	Sb9	0-12-0-1-0	l5	5	5	1
+S. boydii	Sb3	Sb3	0-6-0-1-3	l5	12	13	0.923
+S. boydii	Sb15	Sb15	0-12-0-0-2	l5	11	12	0.917
+S. boydii	Sb22	Sb22	0-3-0-6-0-0-0	l7	37	41	0.902
+S. boydii	Sb18	Sb18	0-6-0-1-0-1-3-5-0	l9	9	9	1
+S. boydii	Sb1	Sb1	0-6-0-1-0-1-4-0-2	l9	6	6	1
+S. dysenteriae	linA	Sd_unknown	0-36-0-0-0-6-0-0-0-0-0	l11	5	5	1
+S. dysenteriae	Sd16	Sd16	0-6-1-0-3-0-2-0-2-0-0	l11	9	10	0.9
+S. dysenteriae	8	8	0-0-4	l3	10	10	1
+S. dysenteriae	Sd13	Sd13	0-6-1-0-0-0-1	l7	7	7	1
+S. dysenteriae	Sd1	Sd1	0-36-0-0-0-3-1-1-6	l9	29	29	1
+S. dysenteriae	Sd12	Sd12	0-6-1-0-3-0-3-1-0	l9	14	14	1
+S. dysenteriae	Sd prov. BEDP 02-5104	Sd prov. BEDP 02-5104	0-12-0-0-1-0-0-0-3	l9	7	7	1
+S. dysenteriae	Sd4	Sd4	0-6-1-0-2-0-0-0-0	l9	5	5	1
+S. dysenteriae	Sd2	Sd2	0-12-0-0-1-0-1-0-1	l9	17	18	0.944
+S. dysenteriae	Sd3	Sd3	0-6-1-0-3-0-0-0-0	l9	11	12	0.917
+Shigella flexneri	4.2	NA	0-3-0-3-1	l5	16	16	1
+Shigella flexneri	4.4	NA	0-3-0-3-0	l5	28	28	1
+Shigella flexneri	5.2	NA	0-3-0-5-0	l5	14	14	1
+Shigella flexneri	7.1	NA	0-3-0-2-0	l5	50	50	1
+Shigella flexneri	7.2	NA	0-3-0-2-2	l5	28	28	1
+Shigella flexneri	9	NA	0-3-0-6-0	l5	14	14	1
+Shigella flexneri	1.1.5.1	NA	0-3-0-0-2-2-0	l7	14	14	1
+Shigella flexneri	1.2.2.2	NA	0-3-0-0-1-0-5	l7	10	10	1
+Shigella flexneri	2.1.2	NA	0-3-0-1-0-0-4	l7	12	12	1
+Shigella flexneri	2.1.2.4	NA	0-3-0-1-0-0-3	l7	10	10	1
+Shigella flexneri	2.3.3.3	NA	0-3-0-1-1-4-0	l7	14	14	1
+Shigella flexneri	2.3.5	NA	0-3-0-1-1-0-0	l7	407	407	1
+Shigella flexneri	2.3.6.2	NA	0-3-0-1-1-2-0	l7	17	17	1
+Shigella flexneri	3.1.1.3	NA	0-3-0-0-0-1-2	l7	13	13	1
+Shigella flexneri	3.2.1.1	NA	0-3-0-0-0-0-26	l7	13	13	1
+Shigella flexneri	3.2.1.4	NA	0-3-0-0-0-0-6	l7	29	29	1
+Shigella flexneri	6.3.1	NA	0-3-0-4-0-0-0	l7	14	14	1
+Shigella flexneri	7.3.1	NA	0-3-0-2-1-0-0	l7	19	19	1
+Shigella flexneri	7.3.2	NA	0-3-0-2-1-1-0	l7	65	65	1
+Shigella flexneri	2.3.8.3	NA	0-3-0-1-1-1-0	l7	55	56	0.982
+Shigella flexneri	1.2.2.4	NA	0-3-0-0-1-0-2	l7	25	27	0.926
+Shigella flexneri	1.2.2.5	NA	0-3-0-0-1-0-0-1-0	l9	48	48	1
+Shigella flexneri	1.2.2.5.11	NA	0-3-0-0-1-0-0-87-0	l9	17	17	1
+Shigella flexneri	1.2.2.5.12	NA	0-3-0-0-1-0-0-32-0	l9	56	56	1
+Shigella flexneri	1.2.2.5.4	NA	0-3-0-0-1-0-0-6-2	l9	37	37	1
+Shigella flexneri	1.2.2.5.6	NA	0-3-0-0-1-0-0-7-0	l9	109	109	1
+Shigella flexneri	1.2.2.5.9	NA	0-3-0-0-1-0-0-19-2	l9	44	44	1
+Shigella flexneri	2.1.2.2	NA	0-3-0-1-0-0-1-0-0	l9	35	35	1
+Shigella flexneri	2.1.2.5	NA	0-3-0-1-0-0-2-1-0	l9	14	14	1
+Shigella flexneri	2.1.2.6	NA	0-3-0-1-0-0-2-0-0	l9	17	17	1
+Shigella flexneri	2.1.2.7	NA	0-3-0-1-0-0-0-0-0	l9	12	12	1
+Shigella flexneri	2.1.2.7.1	NA	0-3-0-1-0-0-0-1-0	l9	11	11	1
+Shigella flexneri	3.1.1.1	NA	0-3-0-0-0-1-0-0-0	l9	50	50	1
+Shigella flexneri	3.2.1	NA	0-3-0-0-0-0-0-1-0	l9	85	85	1
+Shigella flexneri	3.2.1.3	NA	0-3-0-0-0-0-1-19-1	l9	13	13	1
+Shigella flexneri	3.2.1.3.1	NA	0-3-0-0-0-0-1-0-0	l9	639	639	1
+Shigella flexneri	3.2.1.5	NA	0-3-0-0-0-0-0-0-0	l9	138	138	1
+Shigella flexneri	3.2.1.5.3	NA	0-3-0-0-0-0-0-155-1	l9	32	32	1
+Shigella flexneri	3.2.1.5.5	NA	0-3-0-0-0-0-0-0-1	l9	18	18	1
+Shigella flexneri	3.2.1.5.5.1	NA	0-3-0-0-0-0-0-2-0	l9	104	104	1
+Shigella sonnei	CipR.SEA	NA	0-2-0-0-0-0-0-1-0-150-1	l11	28	28	1
+Shigella sonnei	3.6.1.1.1	NA	0-2-0-0-0-0-0-1-0-150-1	l11	28	28	1
+Shigella sonnei	CipR.MSM5	NA	0-2-0-0-0-0-0-1-0-1-0	l11	690	690	1
+Shigella sonnei	3.6.1.1.2	NA	0-2-0-0-0-0-0-1-0-1-0	l11	690	690	1
+Shigella sonnei	OJC	NA	0-2-0-0-0-0-0-0-1-0-1	l11	66	66	1
+Shigella sonnei	Global III OJC	NA	0-2-0-0-0-0-0-0-1-0-1	l11	66	66	1
+Shigella sonnei	Korea II	NA	0-2-0-0-0-1-2	l7	10	10	1
+Shigella sonnei	3	NA	0-2-0-0-0-6-0	l7	10	10	1
+Shigella sonnei	Lineage III	NA	0-2-0-0-0-6-0	l7	10	10	1
+Shigella sonnei	3.1	NA	0-2-0-0-0-0-2	l7	16	16	1
+Shigella sonnei	3.1 (CipR clade)	NA	0-2-0-0-0-0-2	l7	16	16	1
+Shigella sonnei	Latin America IIa	NA	0-2-0-0-0-1-0-0	l8	60	60	1
+Shigella sonnei	Latin America IIb	NA	0-2-0-0-0-1-0-1	l8	26	26	1
+Shigella sonnei	2.11.4	NA	0-2-0-0-0-1-0-29	l8	15	15	1
+Shigella sonnei	Latin America IIb	NA	0-2-0-0-0-1-0-2	l8	20	20	1
+Shigella sonnei	2.7.1	NA	0-2-0-0-0-1-0-30	l8	10	10	1
+Shigella sonnei	2.7.3	NA	0-2-0-0-0-1-0-27	l8	16	16	1
+Shigella sonnei	2.7.4	NA	0-2-0-0-0-1-0-26	l8	12	12	1
+Shigella sonnei	Latin America III	NA	0-2-0-0-0-0-0-3	l8	126	126	1
+Shigella sonnei	3.4.1	NA	0-2-0-0-0-0-0-3	l8	126	126	1
+Shigella sonnei	3.7.28	NA	0-2-0-0-0-0-0-10	l8	11	11	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-10	l8	11	11	1
+Shigella sonnei	3.7.7	NA	0-2-0-0-0-0-0-4	l8	27	27	1
+Shigella sonnei	Latin America IIb	NA	0-2-0-0-0-1-0-3	l8	21	23	0.913
+Shigella sonnei	CipR_parent	NA	0-2-0-0-0-0-0-1-5	l9	173	173	1
+Shigella sonnei	3.6.1	NA	0-2-0-0-0-0-0-1-5	l9	173	173	1
+Shigella sonnei	Central Asia III	NA	0-2-0-0-0-0-0-1-2	l9	127	127	1
+Shigella sonnei	Central Asia III	NA	0-2-0-0-0-0-0-1-1	l9	356	356	1
+Shigella sonnei	3.6.3	NA	0-2-0-0-0-0-0-1-1	l9	356	356	1
+Shigella sonnei	Central Asia III	NA	0-2-0-0-0-0-0-1-52	l9	54	54	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-120	l9	11	11	1
+Shigella sonnei	3.7	NA	0-2-0-0-0-0-0-0-120	l9	11	11	1
+Shigella sonnei	3.7.10	NA	0-2-0-0-0-0-0-0-130	l9	41	41	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-130	l9	41	41	1
+Shigella sonnei	3.7.11	NA	0-2-0-0-0-0-0-0-14	l9	21	21	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-14	l9	21	21	1
+Shigella sonnei	3.7.16	NA	0-2-0-0-0-0-0-0-113	l9	38	38	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-113	l9	38	38	1
+Shigella sonnei	3.7.21	NA	0-2-0-0-0-0-0-0-21	l9	45	45	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-21	l9	45	45	1
+Shigella sonnei	3.7.22	NA	0-2-0-0-0-0-0-0-17	l9	10	10	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-17	l9	10	10	1
+Shigella sonnei	3.7.23	NA	0-2-0-0-0-0-0-0-5	l9	33	33	1
+Shigella sonnei	3.7.25	NA	0-2-0-0-0-0-0-0-4	l9	277	277	1
+Shigella sonnei	3.7.25 (CipR clade)	NA	0-2-0-0-0-0-0-0-4	l9	277	277	1
+Shigella sonnei	MSM4	NA	0-2-0-0-0-0-0-0-4	l9	277	277	1
+Shigella sonnei	VN2.KH1.Aus	NA	0-2-0-0-0-0-0-0-158	l9	37	37	1
+Shigella sonnei	3.7.3	NA	0-2-0-0-0-0-0-0-132	l9	28	28	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-132	l9	28	28	1
+Shigella sonnei	Middle East III	NA	0-2-0-0-0-0-0-0-138	l9	22	22	1
+Shigella sonnei	3.7.30.1	NA	0-2-0-0-0-0-0-0-138	l9	22	22	1
+Shigella sonnei	Israel III	NA	0-2-0-0-0-0-0-0-7	l9	145	145	1
+Shigella sonnei	3.7.30.4	NA	0-2-0-0-0-0-0-0-7	l9	145	145	1
+Shigella sonnei	3.7.4	NA	0-2-0-0-0-0-0-0-59	l9	15	15	1
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-59	l9	15	15	1
+Shigella sonnei	3.7.18	NA	0-2-0-0-0-0-0-0-3	l9	238	239	0.996
+Shigella sonnei	Global III	NA	0-2-0-0-0-0-0-0-3	l9	238	239	0.996

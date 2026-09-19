@@ -158,13 +158,27 @@ const yOptions = [
     value: 'genotype',
     label: 'Genotype prevalence',
     labelKey: 'dashboard.mapViews.genotypePrevalence',
-    organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'senterica'].includes(x)),
+    // shige shows 'ST (7-locus MLST) prevalence' + the two LINcode dimensions instead.
+    organisms: organismsCards.map(x => x.value).filter(x => !['sentericaints', 'senterica', 'shige'].includes(x)),
   },
   {
     value: 'genotype',
     label: 'Lineage prevalence (ST)',
     labelKey: 'dashboard.mapViews.lineagePrevalence',
     organisms: ['sentericaints', 'senterica'],
+  },
+  {
+    value: 'genotype',
+    label: 'ST (7-locus MLST) prevalence',
+    organisms: ['shige'],
+  },
+  {
+    // genotype mapped from the LINcode (not the LINcode itself), shown as
+    // 'Genotype prevalence' per review. The named alias column was removed.
+    value: 'lincode',
+    label: 'Genotype prevalence',
+    labelKey: 'dashboard.mapViews.genotypePrevalence',
+    organisms: ['shige'],
   },
   {
     value: 'resistance',
@@ -310,6 +324,9 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
     if (yAxisType === 'ngmast') {
       return 'NGMAST';
     }
+    if (yAxisType === 'lincode') {
+      return 'LINCODE_NUM';
+    }
 
     return 'GENOTYPE';
   }, [yAxisType]);
@@ -366,7 +383,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
     if (
       ['serotype', 'determinant'].includes(yAxisType) ||
-      (['genotype', 'ngmast'].includes(yAxisType) && organismHasLotsOfGenotypes)
+      (['genotype', 'ngmast', 'lincode'].includes(yAxisType) && organismHasLotsOfGenotypes)
     ) {
       return filteredOptions.slice(0, 20);
     }
@@ -389,7 +406,8 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   useEffect(() => {
     setYAxisSelected(
-      ['genotype', 'serotype', 'ngmast'].includes(yAxisType) || (yAxisType === 'determinant' && organism === 'kpneumo')
+      ['genotype', 'serotype', 'ngmast', 'lincode'].includes(yAxisType) ||
+      (yAxisType === 'determinant' && organism === 'kpneumo')
         ? yAxisOptions.slice(0, 10)
         : yAxisOptions,
     );
@@ -409,7 +427,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
 
   const getOptionLabel = useCallback(
     item => {
-      if (!['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
+      if (!['genotype', 'serotype', 'pathotype', 'ngmast', 'lincode'].includes(yAxisType)) {
         return drugAcronymsOpposite[drugAcronyms[item] ?? item] ?? item;
       }
 
@@ -426,8 +444,14 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
         return 'markers';
       case 'ngmast':
         return 'ng-mast';
+      case 'lincode':
+        return 'genotypes';
       case 'genotype':
-        return ['sentericaints', 'senterica'].includes(organism) ? 'lineages (ST)' : 'genotypes';
+        return ['sentericaints', 'senterica'].includes(organism)
+          ? 'lineages (ST)'
+          : organism === 'shige'
+            ? 'STs'
+            : 'genotypes';
       default:
         return organism === 'sentericaints' ? 'serotypes' : 'pathotypes';
     }
@@ -553,7 +577,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
           }
         }
 
-        if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
+        if (['genotype', 'serotype', 'pathotype', 'ngmast', 'lincode'].includes(yAxisType)) {
           const gen = x.stats?.[GLPSColumn]?.items?.find(g => g && g.name === item);
 
           if (gen?.count > 0) {
@@ -652,7 +676,7 @@ export const BubbleGeographicGraph = ({ showFilter, setShowFilter }) => {
       return drugRows;
     }
 
-    if (['genotype', 'serotype', 'pathotype', 'ngmast'].includes(yAxisType)) {
+    if (['genotype', 'serotype', 'pathotype', 'ngmast', 'lincode'].includes(yAxisType)) {
       return yAxisSelected.map(selected => {
         const row = { name: selected, items: [] };
         locationItems.forEach(loc => {

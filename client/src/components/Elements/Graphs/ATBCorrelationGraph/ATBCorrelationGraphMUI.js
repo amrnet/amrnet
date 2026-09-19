@@ -34,7 +34,7 @@ const useStyles = makeStyles((_theme) => ({
 
     '@media (max-width: 1000px)': {
       flexDirection: 'column',
-      height: '100%',
+      height: 'auto',
     },
   },
   graph: {

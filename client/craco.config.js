@@ -29,6 +29,15 @@ module.exports = {
         buffer: require.resolve('buffer'), // fixed here
       };
 
+      // Some node_modules (e.g. dompurify) ship source maps pointing at .ts
+      // files that aren't included in their npm package, which webpack can
+      // never resolve. Silence just that warning instead of disabling source
+      // maps for the whole build.
+      webpackConfig.ignoreWarnings = [
+        ...(webpackConfig.ignoreWarnings || []),
+        /Failed to parse source map/,
+      ];
+
       return webpackConfig;
     },
   },

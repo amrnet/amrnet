@@ -18,7 +18,8 @@
     "db:indexes": "node scripts/create-indexes.js",
     "lint:check": "cd client && npm run lint:check",
     "lint": "cd client && npm run lint",
-    "lint:fix": "cd client && npm run lint:fix"
+    "lint:fix": "cd client && npm run lint:fix",
+    "prepare": "husky install || true"
   },
   "license": "GPL-3.0",
   "dependencies": {
@@ -107,6 +108,7 @@
     "browser-sync": "^3.0.4",
     "concurrently": "^9.2.0",
     "cz-conventional-changelog": "3.0.1",
+    "husky": "^8.0.3",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.5",

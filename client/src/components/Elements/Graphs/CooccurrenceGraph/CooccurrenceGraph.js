@@ -193,7 +193,8 @@ export const CooccurrenceGraph = ({ showFilter, setShowFilter }) => {
   if (!canGetData) return null;
 
   return (
-    <CardContent className={classes.cooccurrenceGraph}>
+    // id used by the Summary Plots PNG capture (graphCards.js id 'COO').
+    <CardContent id="COO" className={classes.cooccurrenceGraph}>
       <Box className={classes.controlsRow}>
         <Box className={classes.selectWrapper}>
           <Box className={classes.labelWrapper}>

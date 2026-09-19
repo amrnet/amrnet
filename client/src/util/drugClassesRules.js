@@ -4,24 +4,22 @@ export const drugRulesST = [
   { key: 'Ampicillin/Amoxicillin', columnID: 'blaTEM-1D', values: ['1'] },
   { key: 'Azithromycin', columnID: 'azith_pred_pheno', values: ['AzithR'] },
   { key: 'Chloramphenicol', columnID: 'chloramphenicol_category', values: ['ChlR'] },
-  { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'Ceftriaxone', columnID: 'ESBL_category', values: ['ESBL'] },
   {
+    // Ciprofloxacin non-susceptible (CipNS) = intermediate + resistant, per the
+    // WHO/CLSI convention that "non-susceptible" includes the resistant subset.
+    // This is the headline ciprofloxacin metric (TyphiNET terminology). The
+    // separate 'Ciprofloxacin' rule was removed as redundant with this.
     key: 'Ciprofloxacin NS',
     columnID: 'cip_pred_pheno',
-    values: ['CipNS'],
+    values: ['CipNS', 'CipR'],
     legends: 'Ciprofloxacin (non-susceptible)',
   },
   { key: 'Ciprofloxacin R', columnID: 'cip_pred_pheno', values: ['CipR'], legends: 'Ciprofloxacin (resistant)' },
-  {
-    key: 'Ciprofloxacin',
-    columnID: 'cip_pred_pheno',
-    values: ['CipNS', 'CipR'],
-    legends: 'Ciprofloxacin',
-  },
   { key: 'Sulfonamides', columnID: 'sul_any', values: ['1'] },
   { key: 'Tetracycline', columnID: 'tetracycline_category', values: ['TetR'] },
   { key: 'Trimethoprim', columnID: 'dfra_any', values: ['1'] },
+  { key: 'Trimethoprim-sulfamethoxazole', columnID: 'co_trim', values: ['1'] },
   { key: 'MDR', columnID: 'MDR', values: ['MDR'], legends: 'Multidrug resistant (MDR)' },
   { key: 'XDR', columnID: 'XDR', values: ['XDR'], legends: 'Extensively drug resistant (XDR)' },
   { key: 'Pansusceptible', columnID: 'amr_category', values: ['No AMR detected'] },
@@ -32,7 +30,10 @@ export const statKeysST = [
   { name: 'Azithromycin', column: 'azith_pred_pheno', key: 'AzithR', resistanceView: true },
   { name: 'Ceftriaxone', column: 'ESBL_category', key: 'ESBL', resistanceView: true },
   { name: 'Chloramphenicol', column: 'chloramphenicol_category', key: 'ChlR', resistanceView: true },
-  { name: 'CipNS', column: 'cip_pred_pheno', key: 'CipNS', resistanceView: true },
+  // CipNS here must equal NS + R (see drugRulesST). The statKeys format matches a
+  // single key, which can't express "CipNS OR CipR" on cip_pred_pheno, so read
+  // the precomputed boolean `CipNS` column (1 = non-susceptible, i.e. NS or R).
+  { name: 'CipNS', column: 'CipNS', key: 1, resistanceView: true },
   { name: 'CipR', column: 'cip_pred_pheno', key: 'CipR', resistanceView: true },
   { name: 'H58', column: 'GENOTYPE_SIMPLE', key: 'H58' },
   { name: 'Sulfonamides', column: 'sul_any', key: '1', resistanceView: true },
@@ -83,7 +84,20 @@ export const statKeysKP = [
   { name: 'Tetracycline', column: 'Tet_acquired', key: '-', resistanceView: true },
   { name: 'Tigecycline', column: 'Tgc_acquired', key: '-', resistanceView: true },
   { name: 'Trimethoprim', column: 'Tmt_acquired', key: '-', resistanceView: true },
-  { name: 'Trimethoprim-sulfamethoxazole', column: ['Tmt_acquired', 'Sul_acquired'], key: '-', resistanceView: true },
+  // Co-trimoxazole needs BOTH determinants (mirrors markerRulesKP's `every: true`
+  // for this drug): a genome with only a trimethoprim OR only a sulfonamide
+  // marker is not co-trimoxazole resistant. Without `every` here, getMapStatsData
+  // treated either column as sufficient (OR), making the map's
+  // 'Trimethoprim-sulfamethoxazole' a superset of 'Trimethoprim' instead of a
+  // subset — so selecting both together on the map did not collapse to the
+  // smaller set (the same class of bug as the CipR ⊄ CipNS combination).
+  {
+    name: 'Trimethoprim-sulfamethoxazole',
+    column: ['Tmt_acquired', 'Sul_acquired'],
+    key: '-',
+    resistanceView: true,
+    every: true,
+  },
   { name: 'Pansusceptible', column: 'num_resistance_classes', key: '0', resistanceView: true },
 ];
 
@@ -1313,35 +1327,90 @@ export const drugClassesRulesNG = {
 
 // Gene name patterns used for within-column classification of the shared
 // `Beta-lactam` column (which merges Penicillin/Carbapenemase/ESBL).
-export const BETA_LACTAM_CARBAPENEMASE_RE = '^bla(KPC|NDM|IMP|VIM|GES|SPM|IMI|SME|FRI|OXA-(23|24|40|48|58|72|162|181|204|232|244|252|436|484|517|519|538|538a|681))(\\b|[-_])';
-export const BETA_LACTAM_ESBL_RE = '^bla(CTX-M|SHV-(2|5|12|14|18|27|28|30|31|32|33|38|52|55|56|57|60|73|76|79|106|115|120|128|129|133|137|148|180)|TEM-(3|4|5|6|7|8|9|10|11|12|15|16|17|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|91|92|93|94|95|96|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122|123|124|125|126|127|128|129|130|131|132|133|134|135|136|137|138|139|140|141|142|143|144|145|146|147|148|149|150|151|152|153|154|155|156|157|158|159|160|161|162|163|164|165|166|167|168|169|170|171|172|173|174|175|176|177|178|179|180|181|182|183|184|185|186|187|188|189|190|191|192|193|194|195|196|197|198|199|200)|CMY|DHA|ACC|FOX|MOX|LAT|MIR|ACT|CFE|OXY-2|OXY-5|PER|VEB|BES|TLA|SFO|BEL)(\\b|[-_])';
+export const BETA_LACTAM_CARBAPENEMASE_RE =
+  '^bla(KPC|NDM|IMP|VIM|GES|SPM|IMI|SME|FRI|OXA-(23|24|40|48|58|72|162|181|204|232|244|252|436|484|517|519|538|538a|681))(\\b|[-_])';
+export const BETA_LACTAM_ESBL_RE =
+  '^bla(CTX-M|SHV-(2|5|12|14|18|27|28|30|31|32|33|38|52|55|56|57|60|73|76|79|106|115|120|128|129|133|137|148|180)|TEM-(3|4|5|6|7|8|9|10|11|12|15|16|17|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|91|92|93|94|95|96|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122|123|124|125|126|127|128|129|130|131|132|133|134|135|136|137|138|139|140|141|142|143|144|145|146|147|148|149|150|151|152|153|154|155|156|157|158|159|160|161|162|163|164|165|166|167|168|169|170|171|172|173|174|175|176|177|178|179|180|181|182|183|184|185|186|187|188|189|190|191|192|193|194|195|196|197|198|199|200)|CMY|DHA|ACC|FOX|MOX|LAT|MIR|ACT|CFE|OXY-2|OXY-5|PER|VEB|BES|TLA|SFO|BEL)(\\b|[-_])';
 export const MACROLIDE_RESISTANCE_RE = '^(mph\\(A\\)|acrB_R717)';
 
 // Shared "≥1 marker in column" drug rules used by both Shigella/E. coli
 // and non-typhoidal Salmonella (senterica / sentericaints).
 const ECOLI_COMMON_RULES = [
-  { name: 'Aminoglycosides',   resistanceView: true, rules: [{ column: 'Aminoglycoside', value: '-', equal: false }], every: true },
-  { name: 'Chloramphenicol',   resistanceView: true, rules: [{ column: 'Phenicol',       value: '-', equal: false }], every: true },
-  { name: 'Colistin',          resistanceView: true, rules: [{ column: 'Colistin',       value: '-', equal: false }], every: true },
+  {
+    name: 'Aminoglycosides',
+    resistanceView: true,
+    rules: [{ column: 'Aminoglycoside', value: '-', equal: false }],
+    every: true,
+  },
+  {
+    name: 'Chloramphenicol',
+    resistanceView: true,
+    rules: [{ column: 'Phenicol', value: '-', equal: false }],
+    every: true,
+  },
+  { name: 'Colistin', resistanceView: true, rules: [{ column: 'Colistin', value: '-', equal: false }], every: true },
   // glpT_E448K is wildtype and does NOT confer fosfomycin resistance —
   // exclude it from the marker count even though AMRfinderplus reports it.
-  { name: 'Fosfomycin',        resistanceView: true, rules: [{ column: 'Fosfomycin',     value: '-', equal: false, excludeGenes: ['glpT_E448K'] }], every: true },
-  { name: 'Tetracycline',      resistanceView: true, rules: [{ column: 'Tetracycline',   value: '-', equal: false }], every: true },
-  { name: 'Trimethoprim',      resistanceView: true, rules: [{ column: 'Trimethoprim',   value: '-', equal: false }], every: true },
+  {
+    name: 'Fosfomycin',
+    resistanceView: true,
+    rules: [{ column: 'Fosfomycin', value: '-', equal: false, excludeGenes: ['glpT_E448K'] }],
+    every: true,
+  },
+  {
+    name: 'Tetracycline',
+    resistanceView: true,
+    rules: [{ column: 'Tetracycline', value: '-', equal: false }],
+    every: true,
+  },
+  {
+    name: 'Trimethoprim',
+    resistanceView: true,
+    rules: [{ column: 'Trimethoprim', value: '-', equal: false }],
+    every: true,
+  },
 
   // ── Beta-lactam drugs (parse gene names in the Beta-lactam column) ──
-  { name: 'Ampicillin',        resistanceView: true, rules: [{ column: 'Beta-lactam',    value: '-', equal: false }], every: true },
-  { name: 'Carbapenems',       resistanceView: true, rules: [{ column: 'Beta-lactam',    match: BETA_LACTAM_CARBAPENEMASE_RE }], every: true },
-  { name: 'ESBL',              resistanceView: true, rules: [{ column: 'Beta-lactam',    match: BETA_LACTAM_ESBL_RE }, { column: 'Beta-lactam', match: BETA_LACTAM_CARBAPENEMASE_RE }], every: false },
+  {
+    name: 'Ampicillin',
+    resistanceView: true,
+    rules: [{ column: 'Beta-lactam', value: '-', equal: false }],
+    every: true,
+  },
+  {
+    name: 'Carbapenems',
+    resistanceView: true,
+    rules: [{ column: 'Beta-lactam', match: BETA_LACTAM_CARBAPENEMASE_RE }],
+    every: true,
+  },
+  {
+    name: 'ESBL',
+    resistanceView: true,
+    rules: [
+      { column: 'Beta-lactam', match: BETA_LACTAM_ESBL_RE },
+      { column: 'Beta-lactam', match: BETA_LACTAM_CARBAPENEMASE_RE },
+    ],
+    every: false,
+  },
 
   // ── Macrolide: specific genes only (mph(A) or acrB_R717) ──
-  { name: 'Macrolide',         resistanceView: true, rules: [{ column: 'Macrolide',      match: MACROLIDE_RESISTANCE_RE }], every: true },
+  {
+    name: 'Macrolide',
+    resistanceView: true,
+    rules: [{ column: 'Macrolide', match: MACROLIDE_RESISTANCE_RE }],
+    every: true,
+  },
 
   // ── Multi-column AND rule ──
-  { name: 'Trimethoprim-Sulfamethoxazole', resistanceView: true, rules: [
-    { column: 'Trimethoprim', value: '-', equal: false },
-    { column: 'Sulfonamide',  value: '-', equal: false },
-  ], every: true },
+  {
+    name: 'Trimethoprim-Sulfamethoxazole',
+    resistanceView: true,
+    rules: [
+      { column: 'Trimethoprim', value: '-', equal: false },
+      { column: 'Sulfonamide', value: '-', equal: false },
+    ],
+    every: true,
+  },
 ];
 
 // Pansusceptible: no AMR markers in any column.
@@ -1351,32 +1420,48 @@ const ECOLI_PAN_RULE = {
   name: 'Pansusceptible',
   resistanceView: true,
   rules: [
-    ...['Aminoglycoside', 'Phenicol', 'Quinolone', 'Colistin', 'Tetracycline', 'Trimethoprim', 'Beta-lactam', 'Macrolide', 'Sulfonamide']
-      .map(col => ({ column: col, value: '-', equal: true })),
+    ...[
+      'Aminoglycoside',
+      'Phenicol',
+      'Quinolone',
+      'Colistin',
+      'Tetracycline',
+      'Trimethoprim',
+      'Beta-lactam',
+      'Macrolide',
+      'Sulfonamide',
+    ].map(col => ({ column: col, value: '-', equal: true })),
     { column: 'Fosfomycin', value: '-', equal: true, excludeGenes: ['glpT_E448K'] },
   ],
   every: true,
 };
 
 // All ECOLI-family organisms (ecoli / decoli / shige / senterica /
-// sentericaints) share the same Ciprofloxacin definition — the Quinolone
+// sentericaints) share this Ciprofloxacin definition list — the Quinolone
 // column is parsed gene-by-gene via countQuinoloneMarkers:
-// - CipNS (non-susceptible) = ≥1 qnr gene OR ≥1 QRDR (gyrA/B/parC) mutation
-//   OR aac(6')-Ib-cr
-// - CipR  (resistant)       = ≥2 such markers (multiple mechanisms)
+// - CipNS (non-susceptible) = ≥1 quinolone determinant (QRDR mutation OR qnr).
+//   Genotype equivalent of the ECOFF NWT threshold; one determinant is enough.
+// - CipR  (resistant)       = ≥2 determinants from different loci (e.g. gyrA+parC,
+//   two gyrA mutations at different codons, gyrA+qnr).
+// IMPORTANT — the determinant matcher is organism-scoped (in countQuinoloneMarkers):
+//   • E. coli / Shigella / decoli (reviewer's strict rule): count gyrA & parC QRDR
+//     mutations + qnr genes; gyrB/parE and aac(6')-Ib-cr are EXCLUDED (aac(6')-Ib-cr
+//     alone is wildtype + S, ECO1001).
+//   • Salmonella (senterica / sentericaints): unchanged broader matcher (gyrA/B +
+//     parC/E + aac(6')-Ib-cr) until a Salmonella-specific spec is provided.
 // Both are computed per-record in getECOLIDrugClassData via that helper.
 export const statKeysSalmonella = [
   ...[
     ...ECOLI_COMMON_RULES,
-  { name: 'Ciprofloxacin NS', resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
-  { name: 'Ciprofloxacin R',  resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
-  // Combined Ciprofloxacin (≥1 marker in Quinolone col). Intentionally omits
-  // `resistanceView` so the prevalence-oriented views (main map legend,
-  // BubbleGeographicGraph in 'resistance' mode, CooccurrenceGraph, etc.) keep
-  // showing CipNS and CipR separately. The marker-oriented views
-  // (MarkerTrendsGraph, BubbleHeatmapGraph2, RadarProfileGraph, and the
-  // 'determinant' mode of BubbleGeographicGraph) opt in to this single entry.
-  { name: 'Ciprofloxacin', computed: true, rules: [{ column: 'Quinolone' }], every: true },
+    { name: 'Ciprofloxacin NS', resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
+    { name: 'Ciprofloxacin R', resistanceView: true, computed: true, rules: [{ column: 'Quinolone' }], every: true },
+    // Combined Ciprofloxacin (≥1 marker in Quinolone col). Intentionally omits
+    // `resistanceView` so the prevalence-oriented views (main map legend,
+    // BubbleGeographicGraph in 'resistance' mode, CooccurrenceGraph, etc.) keep
+    // showing CipNS and CipR separately. The marker-oriented views
+    // (MarkerTrendsGraph, BubbleHeatmapGraph2, RadarProfileGraph, and the
+    // 'determinant' mode of BubbleGeographicGraph) opt in to this single entry.
+    { name: 'Ciprofloxacin', computed: true, rules: [{ column: 'Quinolone' }], every: true },
   ].sort((a, b) => a.name.localeCompare(b.name)),
   ECOLI_PAN_RULE,
 ];
@@ -1466,11 +1551,11 @@ export const drugRulesSA = [
   { key: 'Moxifloxacin', columnID: 'Moxifloxacin', values: ['1'] },
   { key: 'Mupirocin', columnID: 'Mupirocin', values: ['1'] },
   { key: 'Penicillin', columnID: 'Penicillin', values: ['1'] },
-  { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
   { key: 'Rifampicin', columnID: 'Rifampicin', values: ['1'] },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
   { key: 'Tobramycin', columnID: 'Tobramycin', values: ['1'] },
   { key: 'Vancomycin', columnID: 'Vancomycin', values: ['1'] },
+  { key: 'Pansusceptible', columnID: null, values: [], pansusceptible: true },
 ];
 
 // ---------------------------------------------------------------------------
@@ -1484,8 +1569,8 @@ export const drugRulesSP = [
   { key: 'Fluoroquinolones', columnID: 'Fluoroquinolones', values: ['1'] },
   { key: 'Kanamycin', columnID: 'Kanamycin', values: ['1'] },
   // { key: 'Linezolid', columnID: 'Linezolid', values: ['1'] },
-  { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
   { key: 'Tetracycline', columnID: 'Tetracycline', values: ['1'] },
+  { key: 'Pansusceptible', columnID: 'amr_gene_count', values: ['0'], pansusceptible: true },
 ];
 
 // ---------------------------------------------------------------------------

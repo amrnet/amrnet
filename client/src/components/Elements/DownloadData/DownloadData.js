@@ -13,15 +13,15 @@ import { useTranslation } from 'react-i18next';
 import LogoImg from '../../../assets/img/logo-prod.png';
 import { setPosition } from '../../../stores/slices/mapSlice';
 // import EUFlagImg from '../../../assets/img/eu_flag.jpg';
-import html2canvas from 'html2canvas';
 import moment from 'moment';
 import { svgAsPngUri } from 'save-svg-as-png';
 import { setLoadingPDF } from '../../../stores/slices/dashboardSlice';
-import { setCollapses, setDownload } from '../../../stores/slices/graphSlice';
+import { setCollapse, setCollapses, setDownload } from '../../../stores/slices/graphSlice';
 import { drugAcronymsOpposite, drugsKP, drugsNG, drugsST, ngonoSusceptibleRule } from '../../../util/drugs';
 import { getGraphCards } from '../../../util/graphCards';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import { mapLegends } from '../../../util/mapLegends';
+import { variableGraphOptions, variableGraphOptionsNG } from '../../../util/convergenceVariablesOptions';
 // import { drugsKP, drugsST, drugsNG } from '../../../util/drugs';
 import Papa from 'papaparse/papaparse.js';
 import {
@@ -45,6 +45,7 @@ import {
 } from '../../../util/reportInfoTexts';
 import { getColorForDrug } from '../Graphs/graphColorHelper';
 import { PDFPreviewModal } from './PDFPreviewModal';
+import domtoimage from 'dom-to-image-more';
 
 let columnsToRemove = [
   'azith_pred_pheno',
@@ -239,6 +240,9 @@ export const DownloadData = () => {
   const starttimeRDT = useAppSelector(state => state.graph.starttimeRDT);
   const endtimeRDT = useAppSelector(state => state.graph.endtimeRDT);
   const actualGenomesRDT = useAppSelector(state => state.graph.actualGenomesRDT);
+  const endTimeKOT = useAppSelector(state => state.graph.endTimeKOT);
+  const startTimeKOT = useAppSelector(state => state.graph.startTimeKOT);
+  const actualGenomesKOT = useAppSelector(state => state.graph.actualGenomesKOT);
   const selectedLineages = useAppSelector(state => state.dashboard.selectedLineages);
   const coloredOptions = useAppSelector(state => state.graph.coloredOptions);
   const drugClass = useAppSelector(state => state.graph.drugClass); // Drug class selected in the graph for PDF
@@ -256,6 +260,10 @@ export const DownloadData = () => {
   const colourPattern = useAppSelector(state => state.dashboard.colourPattern);
   const convergenceData = useAppSelector(state => state.graph.convergenceData);
   const currentSliderValueCM = useAppSelector(state => state.graph.currentSliderValueCM);
+  const bubbleMarkersYAxisType = useAppSelector(state => state.graph.bubbleMarkersYAxisType);
+  const bubbleHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleHeatmapGraphVariable);
+  const bubbleKOHeatmapGraphVariable = useAppSelector(state => state.graph.bubbleKOHeatmapGraphVariable);
+  const bubbleKOYAxisType = useAppSelector(state => state.graph.bubbleKOYAxisType);
 
   async function handleClickDownloadDatabase() {
     let firstName, secondName;
@@ -682,33 +690,311 @@ export const DownloadData = () => {
         mapImage = await svgAsPngUri(mapEl, { backgroundColor: 'white', width: 1200, left: -200 });
       }
 
-      // Helper: capture a DOM element as { dataUrl, width, height }
       async function captureElement(id) {
         const el = document.getElementById(id);
         if (!el) return null;
-        const canvas = await html2canvas(el, { backgroundColor: 'white', scale: 2, useCORS: true });
-        return { dataUrl: canvas.toDataURL('image/png'), width: canvas.width / 2, height: canvas.height / 2 };
+
+        const isHeatmap = ['BAMRH', 'HSG2', 'BKOH', 'BG', 'BHP'].includes(id);
+
+        if (isHeatmap) {
+          const originalOverflow = el.style.overflow;
+          const originalWidth    = el.style.width;
+          const originalHeight   = el.style.height;
+
+          el.style.overflow = 'visible';
+          // Extra 200px width so the rightmost column's rotated header (which
+          // extends beyond the SVG edge) falls inside the capture area.
+          el.style.width  = (el.scrollWidth  + 200) + 'px';
+          el.style.height = (el.scrollHeight + 100) + 'px';
+
+          // Set overflow:visible on all SVGs so rotated text outside the SVG
+          // viewBox can paint into the extra space above/beside the chart.
+          const savedSvgOverflows = [];
+          el.querySelectorAll('svg').forEach(svg => {
+            savedSvgOverflows.push({ node: svg, overflow: svg.style.overflow });
+            svg.style.overflow = 'visible';
+          });
+
+          await new Promise(r => setTimeout(r, 200));
+          const dataUrl = await domtoimage.toPng(el, { bgcolor: 'white' });
+
+          el.style.overflow = originalOverflow;
+          el.style.width    = originalWidth;
+          el.style.height   = originalHeight;
+          savedSvgOverflows.forEach(s => { s.node.style.overflow = s.overflow; });
+
+          const img = new Image();
+          await new Promise(r => { img.onload = r; img.src = dataUrl; });
+          return { dataUrl, width: img.naturalWidth / 2, height: img.naturalHeight / 2 };
+        }
+
+        // Force minimum dimensions so recharts re-renders at the desktop layout size.
+        // min-width overrides the viewport-based media query width; min-height overrides
+        // the small-screen fixed height (e.g. 460px) since inline > class specificity.
+        const savedMinWidth  = el.style.minWidth;
+        const savedMinHeight = el.style.minHeight;
+        el.style.minWidth  = '1000px';
+        el.style.minHeight = '560px';
+        // Wait longer so Recharts fully re-renders at the new size before we
+        // touch anything else (shorter wait caused bar/axis misalignment).
+        await new Promise(r => setTimeout(r, 500));
+        // Skip SVG overflow: bar/line chart SVGs don't need it (overflow:visible
+        // on Recharts SVGs can shift the dom-to-image capture boundary, causing
+        // bars to appear misaligned with year ticks). Only radar charts need it.
+        const restore = expandForCapture(el, { skipSvgOverflow: true });
+        await new Promise(r => setTimeout(r, 300));
+        const dataUrl = await domtoimage.toPng(el, { bgcolor: '#ffffff' });
+        restore();
+        el.style.minWidth  = savedMinWidth;
+        el.style.minHeight = savedMinHeight;
+        const img = new Image();
+        await new Promise(r => { img.onload = r; img.src = dataUrl; });
+        return { dataUrl, width: img.naturalWidth / 2, height: img.naturalHeight / 2 };
       }
+
+      // Helper: capture a DOM element as { dataUrl, width, height }
+      // async function captureElement(id) {
+      //   const el = document.getElementById(id);
+      //   if (!el) return null;
+      //   // const target = id === 'BAMRH' ? (el.parentElement ?? el) : el;
+      //   const canvas = await html2canvas(el, {
+      //     backgroundColor: 'white',
+      //     scale: 2,
+      //     useCORS: true,
+      //     scrollX: 0,
+      //     scrollY: 0,
+      //   });
+      //   return { dataUrl: canvas.toDataURL('image/png'), width: canvas.width / 2, height: canvas.height / 2 };
+      // }
 
       // Capture Geographic Comparisons
       const bgCapture = await captureElement('BG');
 
-      // Capture Pathotype / Serotype graph (for shige, decoli, sentericaints)
+      // Capture Pathotype / Serotype graph (for shige, decoli, ecoli, sentericaints)
       let bhpCapture = null;
-      if (['sentericaints', 'decoli', 'shige'].includes(organism)) {
+      if (['sentericaints', 'decoli', 'shige', 'ecoli'].includes(organism)) {
         bhpCapture = await captureElement('BHP');
       }
 
       // Capture each organism graph card
       const cards = getOrganismCards();
       const capturedGraphs = [];
+      const drugInfo = (id) => {
+        if (id.includes('BAMRH')) return `Genotype: ${organism === 'ngono'
+                  ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+                  : organism === 'kpneumo' ? variablesOptions.find(option => option.value === distributionGraphVariable)?.label : null} | Drug: ${bubbleMarkersYAxisType}`;
+        if (id.includes('RDT'))   return `Drug class: ${trendsGraphDrugClass}`;
+        if (id.includes('convergence-graph')) return `Convergence group: ${convergenceGroupVariable}`;
+        if (id.includes('BKOH'))   return `Genotype: ${organism === 'ngono'
+                  ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+                  : variablesOptions.find(option => option.value === bubbleKOHeatmapGraphVariable)?.label} | K/O Type: ${bubbleKOYAxisType}`;
+        if (id.includes('HSG2'))   return `Genotype: ${organism === 'ngono'
+                  ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+                  : organism === 'kpneumo' ? variablesOptions.find(option => option.value === bubbleHeatmapGraphVariable)?.label : null}`;
+        if (id.includes('GD'))   return `Genotype: ${organism === 'ngono'
+                  ? variableGraphOptionsNG.find(option => option.value === distributionGraphVariable)?.label
+                  : organism === 'kpneumo' ? variablesOptions.find(option => option.value === distributionGraphVariable)?.label : null}`;
+        if (id.includes('KOT'))   return `K/O Type: ${bubbleKOYAxisType}`;
+        return null;
+      };
+
       for (const card of cards) {
         dispatch(setDownload(true));
         const capture = await captureElement(card.id);
         if (!capture) continue;
-        capturedGraphs.push({ ...card, image: capture.dataUrl, width: capture.width, height: capture.height });
+        capturedGraphs.push({
+          ...card,
+          image:    capture.dataUrl,
+          width:    capture.width,
+          height:   capture.height,
+          subtitle: buildCardSubtitle(card.id),
+          drugInfo: drugInfo(card.id),
+        });
       }
       dispatch(setDownload(false));
+
+      // ── Helper: expand all overflow-constrained descendants so domtoimage
+      //    captures the full content regardless of screen size. Returns a
+      //    restore function that reverts every inline-style change.
+      //
+      //    skipSvgOverflow: pass true for bar/line charts. Setting overflow:visible
+      //    on Recharts SVGs shifts the dom-to-image capture boundary for those chart
+      //    types and causes bars to appear misaligned with axis tick labels. Only
+      //    radar/polar charts (PolarAngleAxis) genuinely need SVG overflow:visible.
+      function expandForCapture(el, { skipSvgOverflow = false } = {}) {
+        const saved = [];
+
+        // HTML: expand any element whose scroll dimensions exceed its visible box
+        const walk = node => {
+          if (!(node instanceof HTMLElement)) return;
+          const hasScrollX = node.scrollWidth > node.clientWidth + 2;
+          const hasScrollY = node.scrollHeight > node.clientHeight + 2;
+          if (hasScrollX || hasScrollY) {
+            const cs = window.getComputedStyle(node);
+            if (cs.overflowX !== 'visible' || cs.overflowY !== 'visible') {
+              saved.push({ node, overflowX: node.style.overflowX, overflowY: node.style.overflowY, width: node.style.width, height: node.style.height });
+              if (hasScrollX) { node.style.overflowX = 'visible'; node.style.width  = node.scrollWidth  + 'px'; }
+              if (hasScrollY) { node.style.overflowY = 'visible'; node.style.height = node.scrollHeight + 'px'; }
+            }
+          }
+          Array.from(node.children).forEach(walk);
+        };
+        walk(el);
+
+        // SVG: only set overflow:visible when needed for polar/radar charts whose
+        // PolarAngleAxis tick labels extend outside the SVG viewBox. Skip for
+        // bar/line charts to avoid shifting the capture boundary.
+        if (!skipSvgOverflow) {
+          el.querySelectorAll('svg').forEach(svg => {
+            const cs = window.getComputedStyle(svg);
+            if (cs.overflow !== 'visible') {
+              saved.push({ node: svg, isSvg: true, savedOverflow: svg.style.overflow });
+              svg.style.overflow = 'visible';
+            }
+          });
+        }
+
+        return () => saved.forEach(s => {
+          if (s.isSvg) {
+            s.node.style.overflow = s.savedOverflow;
+          } else {
+            s.node.style.overflowX = s.overflowX;
+            s.node.style.overflowY = s.overflowY;
+            s.node.style.width  = s.width;
+            s.node.style.height = s.height;
+          }
+        });
+      }
+
+      // ── Helper: domtoimage capture → { dataUrl, width, height } ───────────
+      async function captureWithDomtoimage(el) {
+        const dataUrl = await domtoimage.toPng(el, { bgcolor: '#ffffff' });
+        const img = new Image();
+        await new Promise(r => { img.onload = r; img.src = dataUrl; });
+        return { dataUrl, width: img.naturalWidth / 2, height: img.naturalHeight / 2 };
+      }
+
+      // ── Capture AMR Insights tabs ──────────────────────────────────────────
+      const INSIGHTS_TABS = [
+        { value: 'COO', label: t('amrInsights.tabs.cooccurrence') },
+        { value: 'GVP', label: t('amrInsights.tabs.genomicVsPhenotypic') },
+        { value: 'ATB', label: t('amrInsights.tabs.atbCorrelation') },
+        { value: 'GMP', label: t('amrInsights.tabs.geneMap') },
+      ];
+
+      dispatch(setCollapse({ key: 'insights', value: true }));
+      await new Promise(r => setTimeout(r, 700));
+
+      const capturedInsights = [];
+      const insightsContainer = document.getElementById('amr-insights-content');
+
+      if (insightsContainer) {
+        // On small screens the MUI Collapse may not have finished its animation
+        // (or may still have overflow:hidden / height:0 inline styles) by the
+        // time we reach here, causing domtoimage to capture zero-height images
+        // because getBoundingClientRect() is clipped by the overflow ancestor.
+        // Force every overflow-hidden ancestor (up to the Collapse root) to be
+        // fully visible before we start capturing.
+        const collapseRoot = insightsContainer.closest('.MuiCollapse-root');
+        const savedCollapseHeight   = collapseRoot?.style?.height;
+        const savedCollapseOverflow = collapseRoot?.style?.overflow;
+        if (collapseRoot) {
+          collapseRoot.style.height   = 'auto';
+          collapseRoot.style.overflow = 'visible';
+        }
+
+        for (const tab of INSIGHTS_TABS) {
+          const tabEl = document.getElementById(`amr-insights-${tab.value}`);
+          if (!tabEl) continue;
+
+          // Show only this tab; hide all others
+          const tabWrappers = Array.from(insightsContainer.children);
+          const savedTabStyles = tabWrappers.map(el => ({
+            position: el.style.position,
+            zIndex: el.style.zIndex,
+            visibility: el.style.visibility,
+          }));
+          tabWrappers.forEach(el => {
+            if (el === tabEl) {
+              el.style.position = 'relative';
+              el.style.zIndex = '1';
+              el.style.visibility = 'visible';
+            } else {
+              el.style.position = 'absolute';
+              el.style.visibility = 'hidden';
+            }
+          });
+
+          // Force minimum dimensions so Recharts re-renders at desktop size.
+          // minHeight is especially important on small screens where the chart
+          // container collapses due to viewport-based media queries.
+          const savedTabMinWidth  = tabEl.style.minWidth;
+          const savedTabMinHeight = tabEl.style.minHeight;
+          tabEl.style.minWidth  = '1000px';
+          tabEl.style.minHeight = '600px';
+          await new Promise(r => setTimeout(r, 400));
+          const restoreExpand = expandForCapture(tabEl);
+          await new Promise(r => setTimeout(r, 200));
+
+          const { dataUrl, width, height } = await captureWithDomtoimage(tabEl);
+
+          restoreExpand();
+          tabEl.style.minWidth  = savedTabMinWidth;
+          tabEl.style.minHeight = savedTabMinHeight;
+          tabWrappers.forEach((el, i) => {
+            el.style.position   = savedTabStyles[i].position;
+            el.style.zIndex     = savedTabStyles[i].zIndex;
+            el.style.visibility = savedTabStyles[i].visibility;
+          });
+
+          capturedInsights.push({ tab: tab.value, label: tab.label, dataUrl, width, height });
+        }
+
+        // Restore Collapse root styles
+        if (collapseRoot) {
+          collapseRoot.style.height   = savedCollapseHeight;
+          collapseRoot.style.overflow = savedCollapseOverflow;
+        }
+      }
+
+      dispatch(setCollapse({ key: 'insights', value: false }));
+
+      // ── Capture Radar Profile tab ──────────────────────────────────────────
+      let radarCapture = null;
+      const radarTabEl = document.getElementById('continent-tab-RAD');
+      if (radarTabEl) {
+        const bgTabEl = document.getElementById('continent-tab-BG');
+        const savedRadarPos = radarTabEl.style.position;
+        const savedRadarZ   = radarTabEl.style.zIndex;
+        const savedBgPos    = bgTabEl?.style?.position;
+        const savedBgVis    = bgTabEl?.style?.visibility;
+
+        radarTabEl.style.position = 'relative';
+        radarTabEl.style.zIndex   = '1';
+        if (bgTabEl) { bgTabEl.style.position = 'absolute'; bgTabEl.style.visibility = 'hidden'; }
+
+        // Force minimum width/height so the RadarChart re-renders at desktop
+        // size. isAnimationActive={!loadingPDF} disables Recharts animation so
+        // the polygon positions are final before capture. 500ms ensures the
+        // ResizeObserver-triggered re-render fully commits even on slow devices.
+        const savedRadarMinWidth  = radarTabEl.style.minWidth;
+        const savedRadarMinHeight = radarTabEl.style.minHeight;
+        radarTabEl.style.minWidth  = '1000px';
+        radarTabEl.style.minHeight = '620px';
+        await new Promise(r => setTimeout(r, 500));
+        const restoreRadar = expandForCapture(radarTabEl, { skipSvgOverflow: true });
+        await new Promise(r => setTimeout(r, 200));
+
+        const radarResult = await captureWithDomtoimage(radarTabEl);
+        radarCapture = radarResult;
+
+        restoreRadar();
+        radarTabEl.style.minWidth  = savedRadarMinWidth;
+        radarTabEl.style.minHeight = savedRadarMinHeight;
+        radarTabEl.style.position = savedRadarPos;
+        radarTabEl.style.zIndex   = savedRadarZ;
+        if (bgTabEl) { bgTabEl.style.position = savedBgPos; bgTabEl.style.visibility = savedBgVis; }
+      }
 
       setCapturedReportData({
         organism,
@@ -723,11 +1009,14 @@ export const DownloadData = () => {
           genomes: actualGenomes,
           dataset,
           mapView: actualMapView,
+          mapViewValue: mapView,
         },
         mapImage,
         bgCapture,
         bhpCapture,
         graphs: capturedGraphs,
+        insightsCaptures: capturedInsights,
+        radarCapture,
       });
       setPreviewOpen(true);
     } catch (error) {
@@ -765,6 +1054,19 @@ export const DownloadData = () => {
     // console.log('url', url);
     window.open(url, '_blank');
     // window.open('https://amrnet.readthedocs.io/en/latest/', '_blank');
+  }
+
+  function buildCardSubtitle(cardId) {
+    const ds = `${dataset}${dataset === 'All' && organism === 'styphi' ? ' (local + travel)' : ''}`;
+    // Fall back to global time/genome values when card-specific redux state is uninitialised (0 / falsy)
+    const safeGenomes = v => (v && v !== 0) ? v : actualGenomes;
+    const safeStart   = v => (v && v !== 0) ? v : actualTimeInitial;
+    const safeEnd     = v => (v && v !== 0) ? v : actualTimeFinal;
+    if (cardId === 'GD')  return `Total: ${safeGenomes(actualGenomesGD)} genomes | Time period: ${safeStart(starttimeGD)} to ${safeEnd(endtimeGD)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    if (cardId === 'DRT') return `Total: ${safeGenomes(actualGenomesDRT)} genomes | Time period: ${safeStart(starttimeDRT)} to ${safeEnd(endtimeDRT)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    if (cardId === 'RDT') return `Total: ${safeGenomes(actualGenomesRDT)} genomes | Time period: ${safeStart(starttimeRDT)} to ${safeEnd(endtimeRDT)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    if (cardId === 'KOT') return `Total: ${safeGenomes(actualGenomesKOT)} genomes | Time period: ${safeStart(startTimeKOT)} to ${safeEnd(endTimeKOT)} | Country: ${actualCountry} | Dataset: ${ds}`;
+    return `Total: ${actualGenomes} genomes | Time period: ${actualTimeInitial} to ${actualTimeFinal} | Country: ${actualCountry} | Dataset: ${ds}`;
   }
 
   return (

@@ -15,7 +15,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import domtoimage from 'dom-to-image';
+import domtoimage from 'dom-to-image-more';
 import download from 'downloadjs';
 import { cloneElement, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -365,6 +365,7 @@ export const ContinentGraphs = () => {
               return (
                 <Box
                   key={`card-${card.value}`}
+                  id={`continent-tab-${card.value}`}
                   sx={{
                     // visibility: currentTab === card.value ? 'visible' : 'hidden',
                     position: currentTab === card.value ? 'relative' : 'absolute',

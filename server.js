@@ -60,92 +60,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-// Normalize GLASS country names to match AMRnet's getCountryDisplayName format
-function normalizeGLASSCountry(name) {
-  if (!name) return '';
-  const map = {
-    'United Kingdom of Great Britain and Northern Ireland': 'United Kingdom',
-    'United States of America': 'United States of America',
-    'Iran (Islamic Republic of)': 'Iran',
-    'Republic of Korea': 'South Korea',
-    'Republic of Moldova': 'Moldova',
-    'Russian Federation': 'Russia',
-    'Viet Nam': 'Vietnam',
-    'Lao People\'s Democratic Republic': 'Laos',
-    'Syrian Arab Republic': 'Syria',
-    'United Republic of Tanzania': 'Tanzania',
-    'Türkiye': 'Turkey',
-    'Czechia': 'Czechia',
-    'Czech Republic': 'Czechia',
-    'Bolivia (Plurinational State of)': 'Bolivia',
-    'Venezuela (Bolivarian Republic of)': 'Venezuela',
-    'Democratic People\'s Republic of Korea': 'North Korea',
-    'Democratic Republic of the Congo': 'Dem. Rep. Congo',
-    'State of Palestine': 'Palestine',
-    'Congo': 'Congo',
-    'Eswatini': 'Eswatini',
-    'Côte d\'Ivoire': "Côte d'Ivoire",
-    'The Netherlands': 'Netherlands',
-    'The Gambia': 'Gambia',
-    'Dominican Republic': 'Dominican Rep.',
-    'Central African Republic': 'Central African Rep.',
-    'Brunei Darussalam': 'Brunei',
-    'Republic of North Macedonia': 'North Macedonia',
-    'Bosnia and Herzegovina': 'Bosnia and Herzegovina',
-    'United Arab Emirates': 'United Arab Emirates',
-    'Saudi Arabia': 'Saudi Arabia',
-  };
-  return map[name] || name.trim();
-}
-
-// GLASS compiled phenotypic data proxy (from qleclerc/GLASS2022 GitHub repo)
-let glassCSVCache = null;
-let glassCSVCacheTime = 0;
-const GLASS_CSV_CACHE_MS = 24 * 60 * 60 * 1000; // 24 hours
-
-app.get('/api/glass-phenotypic', async (req, res) => {
-  try {
-    const now = Date.now();
-    if (glassCSVCache && (now - glassCSVCacheTime) < GLASS_CSV_CACHE_MS) {
-      return res.json(glassCSVCache);
-    }
-    const csvUrl = 'https://raw.githubusercontent.com/qleclerc/GLASS2022/master/compiled_WHO_GLASS_2022.csv';
-    const response = await fetch(csvUrl);
-    if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
-    const text = await response.text();
-    const lines = text.split('\n').filter(l => l.trim());
-    const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
-    const data = [];
-    for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(',').map(v => v.replace(/"/g, '').trim());
-      if (values.length < headers.length) continue;
-      const row = {};
-      headers.forEach((h, j) => { row[h] = values[j]; });
-      // Include relevant specimen types for different organisms
-      if (['BLOOD', 'STOOL', 'URINE', 'GENITAL'].includes(row.Specimen)) {
-        data.push({
-          country: normalizeGLASSCountry(row.CountryTerritoryArea),
-          iso3: row.Iso3,
-          region: row.WHORegionName,
-          year: parseInt(row.Year),
-          specimen: row.Specimen,
-          pathogen: row.PathogenName,
-          antibiotic: row.AbTargets,
-          tested: parseInt(row.InterpretableAST) || 0,
-          resistant: parseInt(row.Resistant) || 0,
-          percentResistant: parseFloat(row.PercentResistant) || 0,
-        });
-      }
-    }
-    glassCSVCache = data;
-    glassCSVCacheTime = now;
-    console.log(`[GLASS Phenotypic] Parsed ${data.length} records from GLASS CSV`);
-    res.json(data);
-  } catch (error) {
-    console.error('[GLASS Phenotypic]', error.message);
-    res.status(502).json({ error: 'Failed to fetch GLASS phenotypic data' });
-  }
-});
+// NOTE: The /api/glass-phenotypic proxy (which scraped a third-party compiled
+// CSV of the WHO GLASS 2022 report from the qleclerc/GLASS2022 GitHub repo) was
+// removed on data-governance grounds: the provenance/status of PDF-scraped data
+// is unclear, and GLASS data must be obtained directly from WHO and used under
+// the WHO data terms (https://www.who.int/about/policies/publishing/data-policy/terms-and-conditions).
+// GLASS AMU/AMR is now sourced only from the WHO GHO OData API via /api/gho/:indicator.
 
 // GLASS data from MongoDB (populated by scripts/check-glass-data.js)
 app.get('/api/glass-mongodb', async (req, res) => {
@@ -154,7 +74,15 @@ app.get('/api/glass-mongodb', async (req, res) => {
     const col = client.db('amrnet_admin').collection('glass_data');
     const count = await col.estimatedDocumentCount();
     if (count === 0) {
-      return res.status(404).json({ error: 'No GLASS data in MongoDB. Run: node scripts/check-glass-data.js' });
+      // Not populated yet — return 200 with an empty payload (not 404) so the
+      // client cleanly falls through to the live GHO proxy without logging a
+      // console error. Populate with: node scripts/check-glass-data.js
+      return res.json({
+        consumption: [],
+        resistance: { ecoli_3gc: [], mrsa: [], ng_ciprofloxacin: [], ng_azithromycin: [], ng_ceftriaxone: [], ng_cefixime: [] },
+        phenotypic: [],
+        source: 'none',
+      });
     }
 
     const ghoRecords = await col.find({ source: 'GHO_API' }).toArray();
@@ -178,21 +106,58 @@ app.get('/api/glass-mongodb', async (req, res) => {
   }
 });
 
-// GHO OData API proxy (avoids CORS issues with WHO API)
-app.get('/api/gho/:indicator', async (req, res) => {
-  try {
-    const indicator = req.params.indicator;
-    // Whitelist allowed indicators to prevent abuse
-    const allowed = ['GLASSAMC_TC', 'GLASSAMC_AWARE', 'AMR_INFECT_ECOLI', 'AMR_INFECT_MRSA', 'GASPRSCIP', 'GASPRSAZM', 'GASPRSCRO', 'GASPRSCFM', 'GASPRSESC'];
-    if (!allowed.includes(indicator)) {
-      return res.status(400).json({ error: 'Invalid indicator' });
+// GHO OData API proxy (avoids CORS issues with WHO API).
+//
+// The WHO GHO OData endpoint (ghoapi.azureedge.net) is the documented source
+// and still active, but WHO has signalled a migration to a new OData
+// implementation and the endpoint occasionally returns transient 5xx. To keep
+// the dashboard resilient we (a) cache successful responses in memory for a day
+// and (b) retry once with a timeout before giving up. The durable fix is to
+// pre-load the data into MongoDB (scripts/check-glass-data.js) so this live
+// proxy is only a fallback. See also the new WHO GLASS dashboard, which offers
+// the underlying AMR/AMU data for direct download.
+const GHO_CACHE = new Map(); // indicator -> { ts, data }
+const GHO_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
+async function fetchGhoIndicator(indicator, { timeoutMs = 15000, retries = 1 } = {}) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(`https://ghoapi.azureedge.net/api/${indicator}`, { signal: controller.signal });
+      if (!response.ok) throw new Error(`GHO API returned ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      if (attempt === retries) throw err;
+    } finally {
+      clearTimeout(timer);
     }
-    const response = await fetch(`https://ghoapi.azureedge.net/api/${indicator}`);
-    if (!response.ok) throw new Error(`GHO API returned ${response.status}`);
-    const data = await response.json();
+  }
+}
+
+app.get('/api/gho/:indicator', async (req, res) => {
+  const indicator = req.params.indicator;
+  // Whitelist allowed indicators to prevent abuse
+  const allowed = ['GLASSAMC_TC', 'GLASSAMC_AWARE', 'AMR_INFECT_ECOLI', 'AMR_INFECT_MRSA', 'GASPRSCIP', 'GASPRSAZM', 'GASPRSCRO', 'GASPRSCFM', 'GASPRSESC'];
+  if (!allowed.includes(indicator)) {
+    return res.status(400).json({ error: 'Invalid indicator' });
+  }
+
+  const cached = GHO_CACHE.get(indicator);
+  if (cached && Date.now() - cached.ts < GHO_CACHE_TTL_MS) {
+    return res.json(cached.data);
+  }
+
+  try {
+    const data = await fetchGhoIndicator(indicator);
+    GHO_CACHE.set(indicator, { ts: Date.now(), data });
     res.json(data);
   } catch (error) {
-    console.error('[GHO Proxy]', error.message);
+    console.error('[GHO Proxy]', indicator, error.message);
+    // Serve stale cache if we have it, rather than failing the widget.
+    if (cached) {
+      return res.json(cached.data);
+    }
     res.status(502).json({ error: 'Failed to fetch from WHO GHO API' });
   }
 });

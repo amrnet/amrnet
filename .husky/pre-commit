@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# lint-staged config lives in client/package.json; run it from there so only
+# the staged client files are linted/formatted (eslint --fix + prettier).
+cd client && npx lint-staged

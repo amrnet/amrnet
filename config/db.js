@@ -104,7 +104,7 @@ const getValidatedTimeoutMs = (envValue, defaultMs = 60000) => {
 };
 
 // Helper function to get data with timeout protection
-const getDataWithTimeout = async (dbName, collectionName, query) => {
+const getDataWithTimeout = async (dbName, collectionName, query, projection) => {
   try {
     // Ensure client is connected
     const connectedClient = await Promise.race([
@@ -112,9 +112,14 @@ const getDataWithTimeout = async (dbName, collectionName, query) => {
       new Promise((_, reject) => setTimeout(() => reject(new Error('Database connection timeout')), 10000)),
     ]);
 
+    // Optional field projection (e.g. to exclude personal/quasi-identifier
+    // fields from the payload). Backward-compatible: callers that omit it
+    // get the full document as before.
+    const findOptions = projection ? { projection } : {};
+
     // Execute query with timeout
     const result = await Promise.race([
-      connectedClient.db(dbName).collection(collectionName).find(query).toArray(),
+      connectedClient.db(dbName).collection(collectionName).find(query, findOptions).toArray(),
       new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), 100000)),
     ]);
 

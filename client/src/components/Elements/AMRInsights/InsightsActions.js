@@ -10,7 +10,7 @@ import {
   Alert,
   Tooltip,
 } from '@mui/material';
-import domtoimage from 'dom-to-image';
+import domtoimage from 'dom-to-image-more';
 import downloadjs from 'downloadjs';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -33,7 +33,11 @@ import {
   setBubbleMarkersYAxisType,
 } from '../../../../stores/slices/graphSlice';
 import { darkGrey, hoverColor } from '../../../../util/colorHelper';
-import { variableGraphOptions, variablesOptionsNG } from '../../../../util/convergenceVariablesOptions';
+import {
+  variableGraphOptions,
+  variableGraphOptionsShige,
+  variablesOptionsNG,
+} from '../../../../util/convergenceVariablesOptions';
 import { drugClassesRulesST } from '../../../../util/drugClassesRules';
 import { drugAcronyms, drugAcronymsOpposite, getDrugClasses } from '../../../../util/drugs';
 import { getAxisLabel } from '../../../../util/genotypes';
@@ -77,6 +81,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
   const organismHasLotsOfGenotypes = useMemo(() => organismsWithLotsGenotypes.includes(organism), [organism]);
   const genotypesDrugClassesData = useAppSelector(state => state.graph.genotypesDrugClassesData);
   const ngMastDrugClassesData = useAppSelector(state => state.graph.ngMastDrugClassesData);
+  const lincodeDrugClassesData = useAppSelector(state => state.graph.lincodeDrugClassesData);
   const determinantsGraphDrugClass = useAppSelector(state => state.graph.determinantsGraphDrugClass);
 
   const selectedCRData = useMemo(() => {
@@ -89,14 +94,29 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     if (organism === 'ngono' && bubbleMarkersHeatmapGraphVariable === 'NG-MAST TYPE') {
       return ngMastDrugClassesData;
     }
+    // shige: marker breakdown grouped by the genotype mapped from the LINcode.
+    if (organism === 'shige' && bubbleMarkersHeatmapGraphVariable === 'lincodeNumeric') {
+      return lincodeDrugClassesData;
+    }
     return genotypesDrugClassesData;
-  }, [bubbleMarkersHeatmapGraphVariable, genotypesDrugClassesData, ngMastDrugClassesData, organism]);
+  }, [
+    bubbleMarkersHeatmapGraphVariable,
+    genotypesDrugClassesData,
+    ngMastDrugClassesData,
+    lincodeDrugClassesData,
+    organism,
+  ]);
 
   const statColumn = useMemo(() => {
-    const foundOption = (organism === 'kpneumo' ? variableGraphOptions : variablesOptionsNG).find(
-      x => x.value === bubbleMarkersHeatmapGraphVariable,
-    );
-    return foundOption?.mapValue || null;
+    // shige: ST (GENOTYPE) / Genotype from LINcode (LINCODE_NUM)
+    const optionList =
+      organism === 'shige'
+        ? variableGraphOptionsShige
+        : organism === 'kpneumo'
+          ? variableGraphOptions
+          : variablesOptionsNG;
+    const foundOption = optionList.find(x => x.value === bubbleMarkersHeatmapGraphVariable);
+    return foundOption?.mapValue || (organism === 'shige' ? 'GENOTYPE' : null);
   }, [bubbleMarkersHeatmapGraphVariable, organism]);
 
   // Fix for BubbleMarkersHeatmapGraph - replace the yAxisOptions useMemo
@@ -228,9 +248,11 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
     setYAxisSelected(yAxisOptions?.slice(0, 10));
   }, [yAxisOptions]);
 
+  // Transposed layout: rows are markers (yAxisSelected), so the left-hand row
+  // label width is sized to the longest marker name.
   const yAxisWidth = useMemo(() => {
-    return longestVisualWidth(xAxisSelected ?? []);
-  }, [xAxisSelected]);
+    return longestVisualWidth(yAxisSelected ?? []);
+  }, [yAxisSelected]);
 
   const getOptionLabel = useCallback(
     item => {
@@ -329,28 +351,28 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
       return [];
     }
 
-    // For kpneumo, use the original drugs-based structure
+    // For kpneumo, use the original drugs-based structure.
+    // Transposed: one row per marker (yAxisSelected); each row has one cell per
+    // genotype (xAxisSelected) along the X axis.
     if (['kpneumo'].includes(organism)) {
       const itemsData = selectedCRData?.stats[statColumn]?.items || [];
 
-      return xAxisSelected.map(xName => {
-        // Try to find the matching item by name
-        const item = itemsData.find(i => i.name === xName);
+      return yAxisSelected.map(marker => {
+        const itemData = { name: marker, items: [] };
 
-        const itemData = { name: xName, items: [] };
-
-        // Safely access nested drug items, or default to empty array
-        const drugs = item?.drugs?.[bubbleMarkersYAxisType]?.items || [];
-
-        yAxisSelected.forEach(option => {
-          const info = drugs.find(x => x.name === option) || { name: option, count: 0, percentage: 0 };
+        xAxisSelected.forEach(xName => {
+          // Try to find the matching genotype item by name
+          const item = itemsData.find(i => i.name === xName);
+          // Safely access nested drug items, or default to empty array
+          const drugs = item?.drugs?.[bubbleMarkersYAxisType]?.items || [];
+          const info = drugs.find(x => x.name === marker) || { name: marker, count: 0, percentage: 0 };
 
           itemData.items.push({
-            itemName: info.name,
+            itemName: xName,
             percentage: info.percentage,
             count: info.count,
             index: 1,
-            typeName: xName,
+            typeName: marker,
             total: info.count, // No item.totalCount exists here, so fallback to count
           });
         });
@@ -361,31 +383,33 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
 
     // For all other organisms (ngono, styphi, shige, ecoli, decoli, sentrerica, etc.)
     // use genotypesDrugClassesData similar to DeterminantsGraph
+    // Transposed: one row per marker (yAxisSelected); each row has one cell per
+    // genotype (xAxisSelected) along the X axis.
     if (drugClassesData[bubbleMarkersYAxisType]) {
       const data = drugClassesData[bubbleMarkersYAxisType] || [];
 
-      return xAxisSelected.map(xName => {
-        const item = data.find(d => d.name === xName);
+      return yAxisSelected.map(marker => {
+        const itemData = { name: marker, items: [] };
 
-        const itemData = { name: xName, items: [] };
+        xAxisSelected.forEach(xName => {
+          const item = data.find(d => d.name === xName);
 
-        yAxisSelected.forEach(option => {
           let count = 0;
           let percentage = 0;
           let total = 0;
 
           if (item) {
-            count = item[option] || 0;
+            count = item[marker] || 0;
             total = item.totalCount || 0;
             percentage = total ? Number(((count / total) * 100).toFixed(2)) : 0;
           }
 
           itemData.items.push({
-            itemName: option,
+            itemName: xName,
             percentage,
             count,
             index: 1,
-            typeName: xName,
+            typeName: marker,
             total,
           });
         });
@@ -412,7 +436,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
               return (
                 <ResponsiveContainer
                   key={`heatmap-graph-${index}`}
-                  width={yAxisWidth + 65 * yAxisSelected.length}
+                  width={yAxisWidth + 65 * xAxisSelected.length}
                   height={index === 0 ? 65 + FIRST_ROW_AXIS_HEIGHT : 65}
                 >
                   <ScatterChart cursor={isTouchDevice() ? 'default' : 'pointer'} margin={{ top: 0, bottom: 0 }}>
@@ -598,6 +622,28 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
                         disabled={organism === 'none'}
                       >
                         {variablesOptionsNG.map((option, index) => {
+                          return (
+                            <MenuItem key={index + 'bubble-heatmap-variable'} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  ) : null}
+                  {organism === 'shige' ? (
+                    <div className={classes.selectWrapper}>
+                      <div className={classes.labelWrapper}>
+                        <Typography variant="caption">{t('common.selectGenotype')}</Typography>
+                      </div>
+                      <Select
+                        value={bubbleMarkersHeatmapGraphVariable}
+                        onChange={handleChangeVariable}
+                        inputProps={{ className: classes.selectInput }}
+                        MenuProps={{ classes: { list: classes.selectMenu } }}
+                        disabled={organism === 'none'}
+                      >
+                        {variableGraphOptionsShige.map((option, index) => {
                           return (
                             <MenuItem key={index + 'bubble-heatmap-variable'} value={option.value}>
                               {option.label}

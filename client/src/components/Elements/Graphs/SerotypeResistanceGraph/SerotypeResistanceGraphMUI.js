@@ -1,120 +1,139 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((_theme) => ({
+const useStyles = makeStyles(() => ({
   serotypeResistanceGraph: {
     display: 'flex',
     flexDirection: 'column',
     borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    padding: '0px 0px 24px 0px !important',
+  },
+  selectsWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  selectPreWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    width: '100%',
+  },
+  selectWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    width: '100%',
+  },
+  selectInput: {
+    fontSize: '14px !important',
+    fontWeight: '600 !important',
+    padding: '8px 32px 8px 8px !important',
+  },
+  multipleSelectInput: {
+    fontSize: '14px !important',
+    fontWeight: '600 !important',
+    padding: '8px 32px 8px 8px !important',
+    marginRight: '-80px !important',
+  },
+  selectButton: {
+    height: '20px',
+    fontSize: '10px !important',
+    padding: '3px 5px !important',
+    whiteSpace: 'nowrap',
+    position: 'absolute',
+    right: '18px',
+  },
+  menuPaper: {
+    maxHeight: '350px !important',
+  },
+  selectMenu: {
+    '& .MuiMenuItem-root': {
+      fontSize: '14px',
+    },
+    '& .MuiCheckbox-root': {
+      padding: '0px 8px 0px 0px',
+    },
   },
   graphWrapper: {
-    paddingTop: '16px',
+    padding: '16px 16px 0px',
     display: 'flex',
     flexDirection: 'row',
     gap: '16px',
 
     '@media (max-width: 1000px)': {
       flexDirection: 'column',
+      height: '100%',
     },
   },
-  heatmapArea: {
-    flex: 1,
+  graph: {
+    height: '100%',
+    width: '100%',
     overflowX: 'auto',
-    overflowY: 'auto',
-    maxHeight: '550px',
-  },
-  rightSide: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '250px',
-    minWidth: '250px',
-    rowGap: '8px',
+    overflowY: 'hidden',
 
     '@media (max-width: 1000px)': {
       width: '100%',
-      minWidth: 'unset',
+    },
+
+    '@media (max-width: 500px)': {
+      width: '100%',
+    },
+
+    '& .recharts-surface': {
+      overflow: 'visible',
     },
   },
-  headerRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottom: '1px solid #ddd',
-    paddingBottom: '4px',
-    marginBottom: '2px',
-    position: 'sticky',
-    top: 0,
+  chartTooltipLabel: {
     backgroundColor: '#fff',
-    zIndex: 1,
+    padding: '8px',
+    border: 'solid rgba(0, 0, 0, 0.25) 1px',
   },
-  serotypeLabel: {
-    width: '100px',
-    minWidth: '100px',
-    paddingRight: '8px',
-    textAlign: 'right',
-    flexShrink: 0,
-  },
-  drugLabel: {
-    flex: '1 1 0',
-    minWidth: 0,
-    textAlign: 'center',
-  },
-  dataRow: {
+  bottomLegend: {
+    padding: '16px 16px 0px',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-    '&:hover': {
-      backgroundColor: 'rgba(0,0,0,0.03)',
-    },
-  },
-  cell: {
-    flex: '1 1 0',
-    minWidth: 0,
-    height: '24px',
-    display: 'flex',
-    alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 0.5px',
-    borderRadius: '2px',
-    cursor: 'pointer',
-    '&:hover': {
-      opacity: 0.8,
-      outline: '1px solid #333',
-    },
-  },
-  legendBar: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '8px 0',
-  },
-  legendGradient: {
-    width: '160px',
-    height: '14px',
-    borderRadius: '2px',
-    border: '1px solid #ccc',
-  },
-  tooltipWrapper: {
-    borderRadius: '6px',
-    backgroundColor: '#E5E5E5',
-    overflowY: 'auto',
-    padding: '12px',
-    height: '100%',
-  },
-  noSelection: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '120px',
-  },
-  controlsRow: {
-    display: 'flex',
     gap: '16px',
-    flexWrap: 'wrap',
-    alignItems: 'flex-end',
-    paddingTop: '8px',
   },
-  // ── Floating plotting-options panel (matches DrugResistanceGraph pattern) ──
+  legend: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '8px',
+    alignItems: 'center',
+  },
+  singleBox: {
+    height: '15px',
+    width: '15px',
+  },
+  gradientBox: {
+    height: '15px',
+    width: '100px',
+    backgroundImage: `linear-gradient(to right,
+      #D3D3D3 0%,
+      #0288D1 1%,
+      #FFE0B2 20%,
+      #DD2C24 100%)`,
+  },
+  divider: {
+    paddingTop: '16px',
+  },
+  labelWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: '8px',
+    paddingBottom: '4px',
+  },
+  labelTooltipIcon: {
+    cursor: 'pointer',
+  },
+  nothingSelected: {
+    padding: '24px 8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'lightgoldenrodyellow',
+  },
   floatingFilter: {
     position: 'absolute',
     top: 16,
@@ -133,14 +152,8 @@ const useStyles = makeStyles((_theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  panelSelectWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: '8px',
-  },
-  panelLabel: {
-    fontWeight: 600,
-    paddingBottom: '4px',
+  selectSearch: {
+    padding: '0px 16px !important',
   },
 }));
 

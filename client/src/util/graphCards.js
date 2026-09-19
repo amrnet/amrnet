@@ -1,9 +1,20 @@
-import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule, Vaccines, Coronavirus } from '@mui/icons-material';
+import {
+  BubbleChart,
+  GridOn,
+  ShowChart,
+  StackedBarChart,
+  Timeline,
+  ViewModule,
+  Vaccines,
+  Coronavirus,
+} from '@mui/icons-material';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
+import { BubbleMarkersPathotypeHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersPathotypeHeatmapGraph';
 import { ConvergenceGraph } from '../components/Elements/Graphs/ConvergenceGraph';
 import { ConvergenceMapGraph } from '../components/Elements/Graphs/ConvergenceMapGraph';
+import { CooccurrenceGraph } from '../components/Elements/Graphs/CooccurrenceGraph';
 import { DeterminantsGraph } from '../components/Elements/Graphs/DeterminantsGraph';
 import { DistributionGraph } from '../components/Elements/Graphs/DistributionGraph';
 import { DrugResistanceGraph } from '../components/Elements/Graphs/DrugResistanceGraph';
@@ -14,8 +25,7 @@ import { TemporalHeatmapGraph } from '../components/Elements/Graphs/TemporalHeat
 import { EmergenceRateGraph } from '../components/Elements/Graphs/EmergenceRateGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
-import { useTranslation } from 'react-i18next';
-import { t } from 'react-i18next';
+import { isProduction } from './env';
 
 function getHeatMapsTitle(organism, t) {
   switch (organism) {
@@ -28,7 +38,7 @@ function getHeatMapsTitle(organism, t) {
   }
 }
 
-export function getGraphCards(t){
+export function getGraphCards(t) {
   const heatmapCards = organismsCards.map(organismCard => ({
     title: getHeatMapsTitle(organismCard.value, t),
     description: [''],
@@ -46,6 +56,20 @@ export function getGraphCards(t){
       id: 'DRT',
       organisms: organismsCards.map(x => x.value),
       component: <DrugResistanceGraph />,
+    },
+    {
+      // Moved here from AMR Insights: it is a genome-only plot (not genomic-vs-
+      // other-data), computed from all genomes passing the current filters
+      // (including country) — so it belongs with the summary plots.
+      title: t('amrInsights.tabs.cooccurrence'),
+      description: [
+        'Genome-only: pairwise co-occurrence of resistances across all genomes passing the current filters (including country). Repeat-isolate de-duplication can be toggled in the plot.',
+      ],
+      icon: <GridOn color="primary" />,
+      id: 'COO',
+      // Dev-only until validated — hidden in production.
+      organisms: isProduction() ? [] : organismsCards.map(x => x.value),
+      component: <CooccurrenceGraph />,
     },
     {
       title: t('graphs.temporalHeatmap'),
@@ -69,7 +93,18 @@ export function getGraphCards(t){
       description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
       icon: <Timeline color="primary" />,
       id: 'RDT',
-      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints', 'saureus', 'strepneumo'],
+      organisms: [
+        'ngono',
+        'kpneumo',
+        'styphi',
+        'shige',
+        'senterica',
+        'decoli',
+        'ecoli',
+        'sentericaints',
+        'saureus',
+        'strepneumo',
+      ],
       component: <MarkerTrendsGraph />,
     },
     {
@@ -118,7 +153,9 @@ export function getGraphCards(t){
       description: [''],
       icon: <Coronavirus color="primary" />,
       id: 'CVM',
-      organisms: ['kpneumo'],
+      // 'Virulence × Resistance Convergence' map: kept in dev, hidden in production
+      // (empty organisms in prod → no organism matches → card not rendered).
+      organisms: isProduction() ? [] : ['kpneumo'],
       component: <ConvergenceMapGraph />,
     },
     {
@@ -178,7 +215,26 @@ export function getGraphCards(t){
       component: <BubbleHPGraph />,
     },
     {
-      title: t('graphs.vaccineCoverage'),
+      title: t('graphs.amrbypathotype'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BHPS',
+      organisms: ['shige', 'decoli', 'ecoli'],
+      component: <BubbleHPGraph />,
+    },
+    {
+      title: t('graphs.amrMarkerByPathotype'),
+      description: [''],
+      icon: <ViewModule color="primary" />,
+      id: 'BAMRPH',
+      organisms: ['shige', 'decoli', 'ecoli'],
+      component: <BubbleMarkersPathotypeHeatmapGraph />,
+    },
+    {
+      // Renamed from 'Vaccine coverage' per review. The heatmap restyle
+      // (serotypes as columns, rows ordered by vaccine coverage, PCV selector)
+      // was explicitly deferred by Kat so as not to delay the first release.
+      title: t('graphs.amrBySerotype'),
       description: [''],
       icon: <Vaccines color="primary" />,
       id: 'VAC',
@@ -188,57 +244,57 @@ export function getGraphCards(t){
       component: <SerotypeResistanceGraph />,
     },
   ];
-};
-  // {
-  //   title: 'Resistance frequencies within genotypes',
-  //   description: ['Top Genotypes (up to 7)'],
-  //   icon: <BarChart color="primary" />,
-  //   id: 'RFWG',
-  //   organisms: ['styphi', 'kpneumo', 'ngono'],
-  //   component: <FrequenciesGraph />,
-  // },
-  // {
-  //   title: 'Resistance frequencies within lineages',
-  //   description: ['Top Lineages (up to 7)'],
-  //   icon: <BarChart color="primary" />,
-  //   id: 'RFWG',
-  //   organisms: ['sentericaints'],
-  //   component: <FrequenciesGraph />,
-  // },
-  // {
-  //   title: 'Bla trends',
-  //   description: ['Data are plotted for years with N ≥ 10 genomes'],
-  //   icon: <MultilineChart color="primary" />,
-  //   id: 'RDT',
-  //   organisms: ['kpneumo'],
-  //   component: <TrendsGraph />,
-  // },
-  // {
-  //   title: 'Marker trends',
-  //   description: ['Data are plotted for years with N ≥ 10 genomes'],
-  //   icon: <MultilineChart color="primary" />,
-  //   id: 'RDT',
-  //   organisms: ['ngono'],
-  //   component: <TrendsGraph />,
-  // },
-  // {
-  //   title: 'K/O Trends',
-  //   description: ['Top K/O (up to 10)'],
-  //   icon: <StackedBarChart color="primary" />,
-  //   id: 'KO',
-  //   organisms: [],
-  //   component: <TrendsGraph />,
-  // },
+}
+// {
+//   title: 'Resistance frequencies within genotypes',
+//   description: ['Top Genotypes (up to 7)'],
+//   icon: <BarChart color="primary" />,
+//   id: 'RFWG',
+//   organisms: ['styphi', 'kpneumo', 'ngono'],
+//   component: <FrequenciesGraph />,
+// },
+// {
+//   title: 'Resistance frequencies within lineages',
+//   description: ['Top Lineages (up to 7)'],
+//   icon: <BarChart color="primary" />,
+//   id: 'RFWG',
+//   organisms: ['sentericaints'],
+//   component: <FrequenciesGraph />,
+// },
+// {
+//   title: 'Bla trends',
+//   description: ['Data are plotted for years with N ≥ 10 genomes'],
+//   icon: <MultilineChart color="primary" />,
+//   id: 'RDT',
+//   organisms: ['kpneumo'],
+//   component: <TrendsGraph />,
+// },
+// {
+//   title: 'Marker trends',
+//   description: ['Data are plotted for years with N ≥ 10 genomes'],
+//   icon: <MultilineChart color="primary" />,
+//   id: 'RDT',
+//   organisms: ['ngono'],
+//   component: <TrendsGraph />,
+// },
+// {
+//   title: 'K/O Trends',
+//   description: ['Top K/O (up to 10)'],
+//   icon: <StackedBarChart color="primary" />,
+//   id: 'KO',
+//   organisms: [],
+//   component: <TrendsGraph />,
+// },
 // ];
 
-export const getContinentGraphCard = (t) => ({
+export const getContinentGraphCard = t => ({
   title: t('graphs.geographicComparisons'),
   icon: <ViewModule color="primary" />,
   organisms: organismsCards.map(x => x.value),
 });
 
-export const getContinentPGraphCard = (t) => ({
+export const getContinentPGraphCard = t => ({
   title: t('graphs.pathotypeComparisons'),
   icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli','ecoli', 'sentericaints',],
+  organisms: ['shige', 'decoli', 'ecoli', 'sentericaints'],
 });

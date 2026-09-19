@@ -49,7 +49,9 @@
           "NGMAST": "NG-MAST",
           "lineages": "lineages",
           "STs": "STs",
-          "genotypes": "genotypes"
+          "genotypes": "genotypes",
+          "sequenceType": "sequence type",
+          "linCodes": "LIN codes"
         },
         "definitions": {
           "XDR": {
@@ -75,13 +77,15 @@
       "genotypePrevalence": "Genotype prevalence",
       "stPrevalence": "ST prevalence",
       "lineagePrevalence": "Lineage prevalence (ST)",
+      "lincodePrevalence": "Lincode prevalence",
       "ngmastPrevalence": "NG-MAST prevalence",
       "serotypePrevalence": "Serotype prevalence",
       "pathotypePrevalence": "Pathotype prevalence",
       "oPrevalence": "O prevalence",
       "hPrevalence": "H prevalence",
       "ngMastPrevalence": "NG-MAST prevalence",
-      "dominantGenotype": "Dominant Genotype"
+      "dominantGenotype": "Dominant Genotype",
+      "linCodePrevalence": "LIN code prevalence"
     }
   },
   "home": {
@@ -226,6 +230,8 @@
     "serotypeComparisons": "Serotype Comparisons",
     "pathotypeComparisons": "Pathotype Comparisons",
     "amrbyserotype": "AMR by serotype",
+    "amrbypathotype": "AMR by Pathotype",
+    "amrMarkerByPathotype": "AMR Marker by Pathotype",
     "radarProfile": "AMR Radar Profile",
     "radarProfileDescription": "Compare multi-drug resistance profiles between countries/regions (N≥20)",
     "temporalHeatmap": "Temporal Emergence Heatmap",
@@ -236,7 +242,8 @@
     "emergenceRateDescription": "Average annual change in resistance prevalence (%/year) — identifies accelerating resistance",
     "qrdrMutations": "QRDR Mutations",
     "vaccineCoverage": "Vaccine Coverage",
-    "convergenceMap": "Virulence × Resistance Convergence"
+    "convergenceMap": "Virulence × Resistance Convergence",
+    "amrBySerotype": "AMR by serotype"
   },
   "floatingGlobalFilters": {
     "title": "Global Filters",
@@ -541,7 +548,8 @@
     "selectDrugsToCompare": "Select drugs to compare",
     "allCountries": "All countries",
     "allCountriesInRegion": "All countries in region",
-    "selectACountry": "Select a country"
+    "selectACountry": "Select a country",
+    "selectPathotypes": "Select pathotypes"
   },
   "pdf": {
     "reportInformation": "Report Information",
