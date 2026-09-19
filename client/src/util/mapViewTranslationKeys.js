@@ -4,7 +4,9 @@ export const mapViewToTranslationKey = {
   'Genotype prevalence': 'genotypePrevalence',
   'ST prevalence': 'stPrevalence',
   'Lineage prevalence (ST)': 'lineagePrevalence',
-  'Lincode prevalence': 'lincodePrevalence',
+  // shige: the 'Lincode prevalence' view is presented as 'Genotype prevalence'
+  // (it is the genotype mapped from the LINcode) — keep the plot title consistent.
+  'Lincode prevalence': 'genotypePrevalence',
   'LIN code prevalence': 'linCodePrevalence',
   'NG-MAST prevalence': 'ngmastPrevalence',
   'Serotype prevalence': 'serotypePrevalence',

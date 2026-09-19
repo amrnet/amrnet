@@ -1,4 +1,13 @@
-import { BubbleChart, GridOn, ShowChart, StackedBarChart, Timeline, ViewModule, Vaccines, Coronavirus } from '@mui/icons-material';
+import {
+  BubbleChart,
+  GridOn,
+  ShowChart,
+  StackedBarChart,
+  Timeline,
+  ViewModule,
+  Vaccines,
+  Coronavirus,
+} from '@mui/icons-material';
 import { BubbleHeatmapGraph2 } from '../components/Elements/Graphs/BubbleHeatmapGraph2';
 import { BubbleKOHeatmapGraph } from '../components/Elements/Graphs/BubbleKOHeatmapGraph';
 import { BubbleMarkersHeatmapGraph } from '../components/Elements/Graphs/BubbleMarkersHeatmapGraph';
@@ -16,8 +25,6 @@ import { TemporalHeatmapGraph } from '../components/Elements/Graphs/TemporalHeat
 import { EmergenceRateGraph } from '../components/Elements/Graphs/EmergenceRateGraph';
 import { amrLikeOrganisms, organismsCards } from './organismsCards';
 import { BubbleHPGraph } from '../components/Elements/ContinentPathotypeGraphs/BubbleHPGraph/BubbleHPGraph';
-import { useTranslation } from 'react-i18next';
-import { t } from 'react-i18next';
 import { isProduction } from './env';
 
 function getHeatMapsTitle(organism, t) {
@@ -31,7 +38,7 @@ function getHeatMapsTitle(organism, t) {
   }
 }
 
-export function getGraphCards(t){
+export function getGraphCards(t) {
   const heatmapCards = organismsCards.map(organismCard => ({
     title: getHeatMapsTitle(organismCard.value, t),
     description: [''],
@@ -86,7 +93,18 @@ export function getGraphCards(t){
       description: [t('graphs.dataPlottedForYearsWithNGreaterThan10Genomes')],
       icon: <Timeline color="primary" />,
       id: 'RDT',
-      organisms: ['ngono', 'kpneumo', 'styphi', 'shige', 'senterica', 'decoli', 'ecoli', 'sentericaints', 'saureus', 'strepneumo'],
+      organisms: [
+        'ngono',
+        'kpneumo',
+        'styphi',
+        'shige',
+        'senterica',
+        'decoli',
+        'ecoli',
+        'sentericaints',
+        'saureus',
+        'strepneumo',
+      ],
       component: <MarkerTrendsGraph />,
     },
     {
@@ -226,57 +244,57 @@ export function getGraphCards(t){
       component: <SerotypeResistanceGraph />,
     },
   ];
-};
-  // {
-  //   title: 'Resistance frequencies within genotypes',
-  //   description: ['Top Genotypes (up to 7)'],
-  //   icon: <BarChart color="primary" />,
-  //   id: 'RFWG',
-  //   organisms: ['styphi', 'kpneumo', 'ngono'],
-  //   component: <FrequenciesGraph />,
-  // },
-  // {
-  //   title: 'Resistance frequencies within lineages',
-  //   description: ['Top Lineages (up to 7)'],
-  //   icon: <BarChart color="primary" />,
-  //   id: 'RFWG',
-  //   organisms: ['sentericaints'],
-  //   component: <FrequenciesGraph />,
-  // },
-  // {
-  //   title: 'Bla trends',
-  //   description: ['Data are plotted for years with N ≥ 10 genomes'],
-  //   icon: <MultilineChart color="primary" />,
-  //   id: 'RDT',
-  //   organisms: ['kpneumo'],
-  //   component: <TrendsGraph />,
-  // },
-  // {
-  //   title: 'Marker trends',
-  //   description: ['Data are plotted for years with N ≥ 10 genomes'],
-  //   icon: <MultilineChart color="primary" />,
-  //   id: 'RDT',
-  //   organisms: ['ngono'],
-  //   component: <TrendsGraph />,
-  // },
-  // {
-  //   title: 'K/O Trends',
-  //   description: ['Top K/O (up to 10)'],
-  //   icon: <StackedBarChart color="primary" />,
-  //   id: 'KO',
-  //   organisms: [],
-  //   component: <TrendsGraph />,
-  // },
+}
+// {
+//   title: 'Resistance frequencies within genotypes',
+//   description: ['Top Genotypes (up to 7)'],
+//   icon: <BarChart color="primary" />,
+//   id: 'RFWG',
+//   organisms: ['styphi', 'kpneumo', 'ngono'],
+//   component: <FrequenciesGraph />,
+// },
+// {
+//   title: 'Resistance frequencies within lineages',
+//   description: ['Top Lineages (up to 7)'],
+//   icon: <BarChart color="primary" />,
+//   id: 'RFWG',
+//   organisms: ['sentericaints'],
+//   component: <FrequenciesGraph />,
+// },
+// {
+//   title: 'Bla trends',
+//   description: ['Data are plotted for years with N ≥ 10 genomes'],
+//   icon: <MultilineChart color="primary" />,
+//   id: 'RDT',
+//   organisms: ['kpneumo'],
+//   component: <TrendsGraph />,
+// },
+// {
+//   title: 'Marker trends',
+//   description: ['Data are plotted for years with N ≥ 10 genomes'],
+//   icon: <MultilineChart color="primary" />,
+//   id: 'RDT',
+//   organisms: ['ngono'],
+//   component: <TrendsGraph />,
+// },
+// {
+//   title: 'K/O Trends',
+//   description: ['Top K/O (up to 10)'],
+//   icon: <StackedBarChart color="primary" />,
+//   id: 'KO',
+//   organisms: [],
+//   component: <TrendsGraph />,
+// },
 // ];
 
-export const getContinentGraphCard = (t) => ({
+export const getContinentGraphCard = t => ({
   title: t('graphs.geographicComparisons'),
   icon: <ViewModule color="primary" />,
   organisms: organismsCards.map(x => x.value),
 });
 
-export const getContinentPGraphCard = (t) => ({
+export const getContinentPGraphCard = t => ({
   title: t('graphs.pathotypeComparisons'),
   icon: <ViewModule color="primary" />,
-  organisms: ['shige', 'decoli','ecoli', 'sentericaints',],
+  organisms: ['shige', 'decoli', 'ecoli', 'sentericaints'],
 });
