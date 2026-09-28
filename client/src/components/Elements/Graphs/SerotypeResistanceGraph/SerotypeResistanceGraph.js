@@ -35,6 +35,7 @@ import { isTouchDevice } from '../../../../util/isTouchDevice';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useStyles } from './SerotypeResistanceGraphMUI';
 
 // Top axis area reserved for the rotated -45deg serotype column labels on the
@@ -74,7 +75,7 @@ function normalizeSerotype(st) {
   return st.toString().trim().replace(/^0+(\d)/, '$1');
 }
 
-export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
+export const SerotypeResistanceGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [drugsSelected, setDrugsSelected] = useState([]);
@@ -340,8 +341,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
         </div>
       </div>
 
-      {showFilter && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader
@@ -421,8 +421,7 @@ export const SerotypeResistanceGraph = ({ showFilter, setShowFilter }) => {
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

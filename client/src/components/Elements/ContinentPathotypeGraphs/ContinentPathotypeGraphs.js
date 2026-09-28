@@ -16,11 +16,11 @@ import {
 import { useStyles } from './ContinentPathotypeGraphsMUI';
 import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
 import { setCollapse } from '../../../stores/slices/graphSlice';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isTouchDevice } from '../../../util/isTouchDevice';
 // import { getContinentPGraphCard } from '../../../util/graphCards';
-import { ExpandLess, ExpandMore, FilterList, FilterListOff, CameraAlt } from '@mui/icons-material';
+import { CameraAlt, Edit, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { imgOnLoadPromise } from '../../../util/imgOnLoadPromise';
 import download from 'downloadjs';
 import domtoimage from 'dom-to-image-more';
@@ -41,6 +41,7 @@ const TABS = [
 export const ContinentPathotypeGraphs = () => {
   const classes = useStyles();
   const matches500 = useMediaQuery('(max-width:500px)');
+  const editButtonRef = useRef(null);
   const [showAlert, setShowAlert] = useState(false);
   const [currentTab, setCurrentTab] = useState(TABS[0].value);
   const [showFilter, setShowFilter] = useState(!matches500);
@@ -65,8 +66,8 @@ export const ContinentPathotypeGraphs = () => {
   }, [organism]);
 
   const showFilterFull = useMemo(() => {
-    return showFilter && !loadingData && !loadingMap;
-  }, [loadingData, loadingMap, showFilter]);
+    return !!collapses['continentP'] && showFilter && !loadingData && !loadingMap;
+  }, [collapses, loadingData, loadingMap, showFilter]);
 
   const filteredTABS = useMemo(
     () => TABS.filter((tab) => !tab.notShow.includes(organism)),
@@ -222,6 +223,19 @@ export const ContinentPathotypeGraphs = () => {
                 </Typography>
               )}
             </div>
+            {collapses['continentP'] && (
+              <Tooltip title="Edit plotting options" placement="top">
+                <IconButton
+                  ref={editButtonRef}
+                  size="small"
+                  color={showFilter ? 'primary' : 'default'}
+                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+                  sx={{ borderRadius: '50%' }}
+                >
+                  <Edit fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['continentP'] && (
@@ -243,13 +257,6 @@ export const ContinentPathotypeGraphs = () => {
                       disabled={organism === 'none'}
                     >
                       {loading ? <CircularProgress color="primary" size={24} /> : <CameraAlt />}
-                    </IconButton>
-                  </span>
-                </Tooltip>
-                <Tooltip title={showFilter ? 'Hide Filters' : 'Show Filters'} placement="top">
-                  <span>
-                    <IconButton color="primary" onClick={(event) => handleClickFilter(event)}>
-                      {showFilter ? <FilterListOff /> : <FilterList />}
                     </IconButton>
                   </span>
                 </Tooltip>
@@ -288,7 +295,7 @@ export const ContinentPathotypeGraphs = () => {
                     width: '100%',
                   }}
                 >
-                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                  {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter, filterButtonRef: editButtonRef })}
                 </Box>
               );
             })}

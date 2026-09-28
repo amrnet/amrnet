@@ -32,6 +32,7 @@ import { arraysEqual, getRange } from '../../../../util/helpers';
 import { setCaptureKOT, setKOForFilterSelected, setColorPalleteKO } from '../../../../stores/slices/dashboardSlice';
 import GenotypePatternRect from '../GenotypePatternRect.js';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useTranslation } from 'react-i18next';
 
 const dataViewOptions = [
@@ -45,7 +46,7 @@ const plotOptions = [
   { label: 'O_type', value: 'O_type' },
 ];
 
-export const KOTrendsGraph = ({ showFilter, setShowFilter }) => {
+export const KOTrendsGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [currentTooltip, setCurrentTooltip] = useState(null);
@@ -655,8 +656,7 @@ return (
           </div>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -703,8 +703,7 @@ return (
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

@@ -47,6 +47,7 @@ import { organismsWithLotsGenotypes } from '../../../../util/organismsCards';
 import { heatmapLegendGradient, heatmapTextColor, mixColorScale } from '../../Map/mapColorHelper';
 import { SelectCountry } from '../../SelectCountry';
 import { PlottingOptionsHeader } from '../../Shared/PlottingOptionsHeader';
+import { PlottingOptionsPanel } from '../../Shared/PlottingOptionsPanel';
 import { useStyles } from './BubbleMarkersHeatmapGraphMUI';
 import { useTranslation } from 'react-i18next';
 
@@ -55,7 +56,7 @@ import { useTranslation } from 'react-i18next';
 // the first chart, immediately adjacent to row 2 below it.
 const FIRST_ROW_AXIS_HEIGHT = 130;
 
-export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
+export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter, filterButtonRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [xAxisSelected, setXAxisSelected] = useState([]);
@@ -579,8 +580,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
           <Typography fontSize="0.75rem">100%</Typography>
         </div>
       </div>
-      {showFilter && !canFilterData && (
-        <Box className={classes.floatingFilter}>
+      <PlottingOptionsPanel show={showFilter && !canFilterData} className={classes.floatingFilter} anchorRef={filterButtonRef}>
           <Card elevation={3}>
             <CardContent>
               <PlottingOptionsHeader onClose={() => setShowFilter(false)} className={classes.titleWrapper} />
@@ -840,8 +840,7 @@ export const BubbleMarkersHeatmapGraph = ({ showFilter, setShowFilter }) => {
               </div>
             </CardContent>
           </Card>
-        </Box>
-      )}
+        </PlottingOptionsPanel>
     </CardContent>
   );
 };

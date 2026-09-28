@@ -1,4 +1,4 @@
-import { CameraAlt, ExpandLess, ExpandMore, FilterList, FilterListOff, StackedBarChart } from '@mui/icons-material';
+import { CameraAlt, Edit, ExpandLess, ExpandMore, StackedBarChart } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import domtoimage from 'dom-to-image-more';
 import download from 'downloadjs';
-import { cloneElement, useEffect, useMemo, useState } from 'react';
+import { cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Circles } from 'react-loader-spinner';
 import LogoImg from '../../../assets/img/logo-prod.png';
@@ -39,6 +39,7 @@ import { variableGraphOptions, variableGraphOptionsNG } from '../../../util/conv
 export const Graphs = () => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const editButtonRef = useRef(null);
   const matches1000 = useMediaQuery('(max-width:1000px)');
   // const matches500 = useMediaQuery('(max-width:500px)');
   const [showAlert, setShowAlert] = useState(false);
@@ -55,6 +56,7 @@ export const Graphs = () => {
   const actualCountry = useAppSelector(state => state.dashboard.actualCountry);
   const determinantsGraphDrugClass = useAppSelector(state => state.graph.determinantsGraphDrugClass);
   const trendsGraphDrugClass = useAppSelector(state => state.graph.trendsGraphDrugClass);
+  const bubbleMarkersYAxisType = useAppSelector(state => state.graph.bubbleMarkersYAxisType);
   const KODiversityGraphView = useAppSelector(state => state.graph.KODiversityGraphView);
   const globalOverviewLabel = useAppSelector(state => state.dashboard.globalOverviewLabel);
   const genotypesForFilter = useAppSelector(state => state.dashboard.genotypesForFilter);
@@ -778,6 +780,21 @@ export const Graphs = () => {
                   : actualRegion === 'All'
                     ? 'All Regions'
                     : actualRegion}
+                {collapses['all'] && currentTab === 'RDT' && trendsGraphDrugClass && (
+                  <Typography component="span" fontSize="18px" fontWeight="400" color="text.secondary">
+                    {' — '}{trendsGraphDrugClass}
+                  </Typography>
+                )}
+                {collapses['all'] && currentTab === 'RDWG' && determinantsGraphDrugClass && (
+                  <Typography component="span" fontSize="18px" fontWeight="400" color="text.secondary">
+                    {' — '}{determinantsGraphDrugClass}
+                  </Typography>
+                )}
+                {collapses['all'] && currentTab === 'BAMRH' && bubbleMarkersYAxisType && (
+                  <Typography component="span" fontSize="18px" fontWeight="400" color="text.secondary">
+                    {' — '}{bubbleMarkersYAxisType}
+                  </Typography>
+                )}
               </Typography>
               {collapses['all'] && (
                 <Typography fontSize="10px" component="span">
@@ -787,6 +804,19 @@ export const Graphs = () => {
                 </Typography>
               )}
             </div>
+            {collapses['all'] && (
+              <Tooltip title="Edit plotting options" placement="top">
+                <IconButton
+                  ref={editButtonRef}
+                  size="small"
+                  color={showFilter ? 'primary' : 'default'}
+                  onClick={e => { e.stopPropagation(); handleClickFilter(e); }}
+                  sx={{ borderRadius: '50%' }}
+                >
+                  <Edit fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
           <div className={classes.actionsWrapper}>
             {collapses['all'] && currentTab !== 'HSG' && (
@@ -818,16 +848,7 @@ export const Graphs = () => {
               </>
             )}
             {collapses['all'] && (
-              <>
-                <Tooltip title={showFilter ? 'Hide plotting options' : 'Show plotting options'} placement="top">
-                  <span>
-                    <IconButton color="primary" onClick={event => handleClickFilter(event)}>
-                      {showFilter ? <FilterListOff /> : <FilterList />}
-                    </IconButton>
-                  </span>
-                </Tooltip>
-                <ShareButton organism={organism} section={`Summary Plots — ${currentCard?.title || ''}`} />
-              </>
+              <ShareButton organism={organism} section={`Summary Plots — ${currentCard?.title || ''}`} />
             )}
             <IconButton>{collapses['all'] ? <ExpandLess /> : <ExpandMore />}</IconButton>
           </div>
@@ -891,7 +912,7 @@ export const Graphs = () => {
                 >
                   {shouldRender && (
                     <ChartErrorBoundary label={`Graphs:${card.id}:${card.component.type?.name || 'Chart'}`}>
-                      {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter })}
+                      {cloneElement(card.component, { showFilter: showFilterFull, setShowFilter, filterButtonRef: editButtonRef })}
                     </ChartErrorBoundary>
                   )}
                 </Box>
