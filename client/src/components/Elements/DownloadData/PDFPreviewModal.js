@@ -29,8 +29,8 @@ const GRADIENT_MAP_VIEWS = [
   'LIN code prevalence',
 ];
 
-// Heatmap graph IDs (BubbleHeatmapGraph2, BubbleMarkersHeatmapGraph, BubbleKOHeatmapGraph)
-const HEATMAP_GRAPH_IDS = ['HSG2', 'BAMRH', 'BKOH'];
+// Heatmap graph IDs (BubbleHeatmapGraph2, BubbleMarkersHeatmapGraph, BubbleKOHeatmapGraph, BubbleMarkersPathotypeHeatmapGraph)
+const HEATMAP_GRAPH_IDS = ['HSG2', 'BAMRH', 'BKOH', 'BAMRPH'];
 
 // Heatmap blue→red diverging gradient (matches mapColorHelper HEATMAP_STOPS)
 const HEATMAP_COLOR_LEGEND = {
