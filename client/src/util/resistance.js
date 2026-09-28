@@ -71,13 +71,61 @@ export function getResistantDrugs(genome, organism) {
       if (!drug.rules || drug.rules.length === 0) return;
       const matchRule = rule => {
         const raw = genome[rule.column];
+
         const isEmpty = raw == null || raw === '' || raw === '-';
-        // equal: true → susceptible check (value IS empty/'-')
-        // equal: false → resistance check (value has actual gene content)
-        return rule.equal ? isEmpty : !isEmpty;
+
+        // Handle regex-based rules
+        if (rule.match) {
+          if (isEmpty) return false;
+
+          const genes = String(raw)
+            .split(';')
+            .map(gene => gene.trim())
+            .filter(Boolean);
+
+          const regex = new RegExp(rule.match);
+
+          return genes.some(gene => {
+            // Reset lastIndex in case a global regex is ever supplied
+            regex.lastIndex = 0;
+            return regex.test(gene);
+          });
+        }
+
+        // Handle value/presence rules
+        if (rule.equal !== undefined) {
+          if (rule.equal === true) {
+            return isEmpty;
+          }
+
+          if (rule.equal === false) {
+            if (isEmpty) return false;
+
+            const genes = String(raw)
+              .split(';')
+              .map(gene => gene.trim())
+              .filter(Boolean);
+
+            // Exclude specific genes from marker counting
+            if (rule.excludeGenes?.length) {
+              const remainingGenes = genes.filter(
+                gene => !rule.excludeGenes.includes(gene)
+              );
+
+              return remainingGenes.length > 0;
+            }
+
+            return genes.length > 0;
+          }
+        }
+
+        return false;
       };
-      const isResistant = drug.every ? drug.rules.every(matchRule) : drug.rules.some(matchRule);
-      if (isResistant) resistant.add(drug.name);
+
+const isResistant = drug.every ? drug.rules.every(matchRule) : drug.rules.some(matchRule);
+
+
+if (isResistant) resistant.add(drug.name);
     });
   } else if (organism === 'saureus') {
     drugRulesSA.forEach(rule => {
